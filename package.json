@@ -125,6 +125,12 @@
       "react-app"
     ]
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "yarn eslint --fix src",
+      "pre-push": "yarn test --no-watch"
+    }
+  },
   "devDependencies": {
     "eslint": "^6.3.0",
     "eslint-config-airbnb": "^18.0.1",
@@ -133,6 +139,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-prettier": "^3.1.0",
     "eslint-plugin-react": "^7.14.3",
-    "eslint-plugin-react-hooks": "^1.7.0"
+    "eslint-plugin-react-hooks": "^1.7.0",
+    "husky": "^3.0.5"
   }
 }

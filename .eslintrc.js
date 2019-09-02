@@ -26,4 +26,10 @@ module.exports = {
     'prettier/prettier': ['error', { 'singleQuote': true }],
     'react/jsx-filename-extension': ['error', { 'extensions': ['.js', '.jsx'] }]
   },
+  globals: {
+    jest: true,
+    document: true,
+    it: true
+  }
+
 };
