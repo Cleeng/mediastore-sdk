@@ -2,6 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
+    'jest/globals': true
   },
   extends: [
     'airbnb',
@@ -12,6 +13,7 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
   },
+  parser: 'babel-eslint',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -21,15 +23,14 @@ module.exports = {
   },
   plugins: [
     'react',
+    'jest',
   ],
   rules: {
     'prettier/prettier': ['error', { 'singleQuote': true }],
     'react/jsx-filename-extension': ['error', { 'extensions': ['.js', '.jsx'] }]
   },
   globals: {
-    jest: true,
     document: true,
-    it: true,
     ENVIRONMENT_CONFIGURATION: true,
   }
 
