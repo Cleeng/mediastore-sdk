@@ -29,7 +29,8 @@ module.exports = {
   globals: {
     jest: true,
     document: true,
-    it: true
+    it: true,
+    ENVIRONMENT_CONFIGURATION: true,
   }
 
 };

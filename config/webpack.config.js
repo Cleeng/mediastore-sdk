@@ -29,6 +29,8 @@ const eslint = require('eslint');
 
 const postcssNormalize = require('postcss-normalize');
 
+const yargs = require('yargs').argv;
+
 const appPackageJson = require(paths.appPackageJson);
 
 // Source maps are resource heavy and can cause out of memory issue for large source files.
@@ -49,6 +51,10 @@ const cssRegex = /\.css$/;
 const cssModuleRegex = /\.module\.css$/;
 const sassRegex = /\.(scss|sass)$/;
 const sassModuleRegex = /\.module\.(scss|sass)$/;
+
+// Load env variables stored in /environments folder
+const pathToEnvFile = `./environments/${yargs.environment ? yargs.environment : 'development' }.js`;
+const ENV_CONF  = require(pathToEnvFile); // eslint-disable-line import/no-dynamic-require
 
 // This is the production and development configuration.
 // It is focused on developer experience, fast rebuilds, and a minimal bundle.
@@ -630,6 +636,9 @@ module.exports = function(webpackEnv) {
           // The formatter is invoked directly in WebpackDevServerUtils during development
           formatter: isEnvProduction ? typescriptFormatter : undefined,
         }),
+
+        // expose content of env files
+        new webpack.DefinePlugin(ENV_CONF)
     ].filter(Boolean),
     // Some libraries import Node modules but don't use them in the browser.
     // Tell Webpack to provide empty mocks for them so importing them works.
