@@ -1,0 +1,9 @@
+@import './reset.scss';
+@import './normalize.scss';
+@import './fonts.scss';
+@import './global.scss';
+
+iframe {
+   width: 100%;
+   height: 100vh;
+}

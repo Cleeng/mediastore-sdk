@@ -1,0 +1,15 @@
+@mixin defineFont($family, $style, $weight, $path) {
+  @font-face {
+    font-family: $family;
+    font-style: $style;
+    font-weight: $weight;
+    src:
+      url('./../assets/fonts/' + $path + '.ttf') format('truetype'),
+  }
+}
+
+@include defineFont('Open Sans', normal, 300, 'OpenSans/OpenSans-Light');
+@include defineFont('Open Sans', normal, 400, 'OpenSans/OpenSans-Regular');
+@include defineFont('Open Sans', normal, 600, 'OpenSans/OpenSans-SemiBold');
+@include defineFont('Open Sans', normal, 700, 'OpenSans/OpenSans-Bold');
+@include defineFont('Open Sans', normal, 800, 'OpenSans/OpenSans-ExtraBold');
