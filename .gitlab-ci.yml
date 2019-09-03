@@ -1,5 +1,28 @@
 stages:
+  - build
   - test
+  - deploy
+
+
+build_staging:
+  stage: build
+  image: node:8.15-jessie
+  script:
+    - yarn && yarn build
+  cache:
+    paths:
+      - node_modules/
+    key: node_cache
+  artifacts:
+    paths:
+      - build
+    expire_in: 1 hour
+  only:
+    - branches
+  except:
+    - master
+  tags:
+    - test
 
 test:
   stage: test
@@ -16,3 +39,15 @@ test:
   artifacts:
     paths:
       - coverage
+
+deploy_staging:
+  stage: deploy
+  image: python:latest
+  script:
+    - pip install awscli
+    - cd build
+    - aws s3 cp ./ s3://gummybear-staging.cleeng.com/ --recursive
+  only:
+    - stage
+  tags:
+    - staging
