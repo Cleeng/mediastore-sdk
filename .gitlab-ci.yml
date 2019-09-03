@@ -1,0 +1,18 @@
+stages:
+  - test
+
+test:
+  stage: test
+  image: node:8.15-jessie
+  script:
+    - yarn && yarn test --coverage
+  cache:
+    paths:
+      - node_modules/
+  only:
+    - branches
+  tags:
+    - test
+  artifacts:
+    paths:
+      - coverage
