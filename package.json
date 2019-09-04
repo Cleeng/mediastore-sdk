@@ -83,7 +83,6 @@
       "last 1 safari version"
     ]
   },
-  
   "babel": {
     "presets": [
       "react-app"
@@ -91,9 +90,23 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn eslint --fix src",
+      "pre-commit": "lint-staged",
       "pre-push": "yarn test --watchAll=false"
     }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --no-ignore --fix",
+      "git add --force"
+    ],
+    "*.{json,md,graphql}": [
+      "prettier --write",
+      "git add --force"
+    ],
+    "*.{css,less,styl,scss,sass,sss}": [
+      "stylelint",
+      "git add --force"
+    ]
   },
   "devDependencies": {
     "enzyme": "^3.10.0",
@@ -109,6 +122,14 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^1.7.0",
     "husky": "^3.0.5",
+    "lint-staged": "^9.2.5",
+    "stylelint": "^10.1.0",
+    "stylelint-config-recommended": "^2.2.0",
+    "stylelint-config-recommended-scss": "^3.3.0",
+    "stylelint-config-standard": "^18.3.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.8.0",
+    "stylelint-scss": "^3.10.0",
     "yargs": "^14.0.0"
   }
 }
