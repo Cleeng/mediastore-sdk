@@ -1,0 +1,20 @@
+$accentColor: #67bf8f;
+
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root, .App {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: #f5f7f8;
+  font-family: 'Open Sans', 'Roboto', sans-serif !important;
+  letter-spacing: 0.008em;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+}
