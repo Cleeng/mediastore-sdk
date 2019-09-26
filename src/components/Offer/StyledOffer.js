@@ -17,7 +17,7 @@ export const StyledloaderWrapper = styled.div`
   align-items: center;
 `;
 
-export const StyledTitle = styled.div`
+export const StyledPageTitle = styled.div`
   font-family: 'Geomanist';
   font-weight: 600;
   font-size: 25px;
@@ -57,7 +57,7 @@ export const StyledOfferDetailsAndCoupon = styled.div`
   margin-bottom: 12px;
 `;
 
-export const StyledOfferImg = styled.img`
+export const StyledimageUrl = styled.img`
   width: auto;
   height: auto;
   max-height: 300px;
