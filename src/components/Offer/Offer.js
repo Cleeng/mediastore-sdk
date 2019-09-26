@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
-  StyledTitle,
+  StyledPageTitle,
   StyledOfferContent,
-  StyledOfferImg,
+  StyledimageUrl,
   StyledOfferDetailsAndCoupon,
   StyledOfferDetailsWrapper,
   StyledOfferTitle,
@@ -36,13 +36,13 @@ const Offer = ({
 }) => (
   <StyledOfferWrapper>
     <StyledOfferBody>
-      <StyledTitle>Complete your purchase</StyledTitle>
+      <StyledPageTitle>Complete your purchase</StyledPageTitle>
       <StyledOfferContent>
-        <StyledOfferImg src={offerDetails.offerimg} alt="Offer" />
+        <StyledimageUrl src={offerDetails.imageUrl} alt="Offer" />
         <StyledOfferDetailsAndCoupon>
           <StyledOfferDetailsWrapper>
             <StyledOfferTitle>
-              {!error ? offerDetails.offerTitle : 'This is not a valid offer.'}
+              {!error ? offerDetails.title : 'This is not a valid offer.'}
             </StyledOfferTitle>
             <StyledOfferDetails>
               <StyledOfferDescription>
@@ -51,7 +51,7 @@ const Offer = ({
                     {`You will be charged ${offerDetails.customerCurrencySymbol}${price} after ${offerDetails.freePeriods}.`}
                   </StyledTrialDescription>
                 )}
-                {offerDetails.offerDescription}
+                {offerDetails.description}
               </StyledOfferDescription>
               <StyledOfferDetailsPrice>
                 {offerDetails.hasTrial && (
@@ -104,14 +104,14 @@ const Offer = ({
 
 Offer.propTypes = {
   offerDetails: PropTypes.shape({
-    offerimg: PropTypes.string,
-    offerTitle: PropTypes.string,
+    imageUrl: PropTypes.string,
+    title: PropTypes.string,
     customerCurrencySymbol: PropTypes.string,
-    offerPrice: PropTypes.number,
+    price: PropTypes.number,
     freePeriods: PropTypes.number,
     hasTrial: PropTypes.bool,
-    offerPeriod: PropTypes.string,
-    offerDescription: PropTypes.string
+    periodDescription: PropTypes.string,
+    description: PropTypes.string
   }),
   error: PropTypes.string,
   // onCouponApplied: PropTypes.func,
@@ -122,15 +122,14 @@ Offer.propTypes = {
 
 Offer.defaultProps = {
   offerDetails: {
-    offerimg: 'https://webstoresdk.cleeng.com/assets/ff1e5e2f.png',
-    offerTitle: 'Some test offer',
+    imageUrl: 'https://webstoresdk.cleeng.com/assets/ff1e5e2f.png',
+    title: 'Some test offer',
     customerCurrencySymbol: '$',
-    offerPrice: 5,
+    price: 5,
     freePeriods: 2,
     hasTrial: false,
-    offerPeriod: '',
-    offerDescription:
-      'Monthly plan. Renews automatically. Cancel anytime you want.'
+    periodDescription: '',
+    description: 'Monthly plan. Renews automatically. Cancel anytime you want.'
   },
   // onCouponApplied: () => {},
   price: 6,

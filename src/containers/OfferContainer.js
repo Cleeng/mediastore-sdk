@@ -21,8 +21,8 @@ const OfferContainer = ({ offerId }) => {
   return offerDetails ? (
     <Offer
       offerDetails={offerDetails}
-      price={offerDetails.offerPrice}
-      priceBeforeDiscount={offerDetails.offerPrice}
+      price={offerDetails.price}
+      priceBeforeDiscount={offerDetails.price}
       couponApplied={false}
     />
   ) : null;
