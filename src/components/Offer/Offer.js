@@ -48,7 +48,7 @@ const Offer = ({
               <StyledOfferDescription>
                 {offerDetails.hasTrial && (
                   <StyledTrialDescription>
-                    {`You will be charged ${offerDetails.customerCurrencySymbol}${price} after ${offerDetails.freePeriods}.`}
+                    {`You will be charged ${offerDetails.customerCurrencySymbol}${price} after ${offerDetails.freePeriods} ${offerDetails.periodDescription}.`}
                   </StyledTrialDescription>
                 )}
                 {offerDetails.description}
@@ -112,7 +112,7 @@ Offer.propTypes = {
     hasTrial: PropTypes.bool,
     periodDescription: PropTypes.string,
     description: PropTypes.string
-  }),
+  }).isRequired,
   error: PropTypes.string,
   // onCouponApplied: PropTypes.func,
   couponApplied: PropTypes.bool,
@@ -121,19 +121,9 @@ Offer.propTypes = {
 };
 
 Offer.defaultProps = {
-  offerDetails: {
-    imageUrl: 'https://webstoresdk.cleeng.com/assets/ff1e5e2f.png',
-    title: 'Some test offer',
-    customerCurrencySymbol: '$',
-    price: 5,
-    freePeriods: 2,
-    hasTrial: false,
-    periodDescription: '',
-    description: 'Monthly plan. Renews automatically. Cancel anytime you want.'
-  },
   // onCouponApplied: () => {},
-  price: 6,
-  priceBeforeDiscount: 11,
+  price: 0,
+  priceBeforeDiscount: 0,
   couponApplied: false,
   error: ''
 };

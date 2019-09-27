@@ -47,7 +47,7 @@ describe('Offer', () => {
         />
       );
 
-      const trialDescription = `You will be charged ${mockOfferDetails.customerCurrencySymbol}${mockOfferDetails.price} after ${mockOfferDetails.freePeriods}.`;
+      const trialDescription = `You will be charged ${mockOfferDetails.customerCurrencySymbol}${mockOfferDetails.price} after ${mockOfferDetails.freePeriods} ${mockOfferDetails.periodDescription}.`;
 
       expect(wrapper.find(StyledTrial)).toHaveLength(1);
       expect(wrapper.find(StyledTrialDescription).text()).toBe(

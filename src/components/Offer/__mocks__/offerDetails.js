@@ -5,7 +5,7 @@ const offerDetails = {
   price: 12,
   freePeriods: 2,
   hasTrial: false,
-  periodDescription: '',
+  periodDescription: 'months',
   description: 'Monthly plan. Renews automatically. Cancel anytime you want.'
 };
 
