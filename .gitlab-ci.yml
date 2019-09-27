@@ -9,6 +9,8 @@ build_staging:
   image: node:8.15-jessie
   script:
     - yarn && yarn build
+    - yarn build-storybook
+    - mv storybook-static build
   cache:
     paths:
       - node_modules/
