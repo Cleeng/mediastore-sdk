@@ -15,7 +15,14 @@ const App = () => {
 
   return (
     <Router history={history}>
-      <Route path="/" exact render={() => <Redirect to="/login" />} />
+      <Route
+        path="/#:path"
+        render={({
+          match: {
+            params: { path }
+          }
+        }) => <Redirect to={`/${path}`} />}
+      />
       <Route
         path="/login"
         exact
