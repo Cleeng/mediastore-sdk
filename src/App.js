@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Redirect } from 'react-router-dom';
+import { Router, Route } from 'react-router-dom';
 import history from './history';
 import { JWT_TOKEN_LOCAL_STORAGE_KEY } from './util/Constants';
 import OfferContainer from './containers/OfferContainer';
@@ -15,14 +15,6 @@ const App = () => {
 
   return (
     <Router history={history}>
-      <Route
-        path="/#:path"
-        render={({
-          match: {
-            params: { path }
-          }
-        }) => <Redirect to={`/${path}`} />}
-      />
       <Route
         path="/login"
         exact
