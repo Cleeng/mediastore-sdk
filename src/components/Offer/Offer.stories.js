@@ -1,6 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import { withKnobs, number, boolean, text } from '@storybook/addon-knobs';
+import {
+  withKnobs,
+  number,
+  boolean,
+  text,
+  array
+} from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import Offer from './Offer';
 import mockOfferDetails from './__mocks__/offerDetails';
@@ -25,13 +31,34 @@ storiesOf('Offer', module)
           mockOfferDetails.customerCurrencySymbol,
           OFFER_DETAILS_GROUP_ID
         ),
-        price: number('price', mockOfferDetails.price, OFFER_DETAILS_GROUP_ID),
+        price: number(
+          'price',
+          mockOfferDetails.price,
+          {},
+          OFFER_DETAILS_GROUP_ID
+        ),
+        priceBeforeDiscount: number(
+          'priceBeforeDiscount',
+          12,
+          {},
+          OFFER_DETAILS_GROUP_ID
+        ),
+        isCouponApplied: boolean(
+          'couponApplied',
+          false,
+          OFFER_DETAILS_GROUP_ID
+        ),
         freePeriods: number(
           'freePeriods',
           mockOfferDetails.freePeriods,
+          {},
           OFFER_DETAILS_GROUP_ID
         ),
-        hasTrial: boolean('hasTrial', false, OFFER_DETAILS_GROUP_ID),
+        isTrialAllowed: boolean(
+          'isTrialAllowed',
+          false,
+          OFFER_DETAILS_GROUP_ID
+        ),
         periodDescription: text(
           'periodDescription',
           mockOfferDetails.periodDescription,
@@ -41,11 +68,8 @@ storiesOf('Offer', module)
           'description',
           mockOfferDetails.description,
           OFFER_DETAILS_GROUP_ID
-        )
+        ),
+        errors: array('errors', [], ',', OFFER_DETAILS_GROUP_ID)
       }}
-      price={number('price', mockOfferDetails.price)}
-      priceBeforeDiscount={number('priceBeforeDiscount', 12)}
-      couponApplied={boolean('couponApplied', false)}
-      error={text('error', '')}
     />
   ));

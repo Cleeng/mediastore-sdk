@@ -27,38 +27,43 @@ import {
 const roundPrice = value => Math.round(value * 100) / 100;
 
 const Offer = ({
-  offerDetails,
-  error,
-  // onCouponApplied,
-  couponApplied,
-  price,
-  priceBeforeDiscount
+  offerDetails: {
+    title,
+    description,
+    imageUrl,
+    price,
+    priceBeforeDiscount,
+    customerCurrencySymbol,
+    isCouponApplied,
+    isTrialAllowed,
+    freePeriods,
+    periodDescription,
+    errors
+  }
 }) => (
   <StyledOfferWrapper>
     <StyledOfferBody>
       <StyledPageTitle>Complete your purchase</StyledPageTitle>
       <StyledOfferContent>
-        <StyledimageUrl src={offerDetails.imageUrl} alt="Offer" />
+        <StyledimageUrl src={imageUrl} alt="Offer" />
         <StyledOfferDetailsAndCoupon>
           <StyledOfferDetailsWrapper>
             <StyledOfferTitle>
-              {!error ? offerDetails.title : 'This is not a valid offer.'}
+              {!errors.length ? title : 'This is not a valid offer.'}
             </StyledOfferTitle>
             <StyledOfferDetails>
               <StyledOfferDescription>
-                {offerDetails.hasTrial && (
+                {isTrialAllowed && (
                   <StyledTrialDescription>
-                    {`You will be charged ${offerDetails.customerCurrencySymbol}${price} after ${offerDetails.freePeriods} ${offerDetails.periodDescription}.`}
+                    {`You will be charged ${customerCurrencySymbol}${price} after ${freePeriods} ${periodDescription}.`}
                   </StyledTrialDescription>
                 )}
-                {offerDetails.description}
+                {description}
               </StyledOfferDescription>
               <StyledOfferDetailsPrice>
-                {offerDetails.hasTrial && (
-                  <StyledTrial>trial period</StyledTrial>
-                )}
+                {isTrialAllowed && <StyledTrial>trial period</StyledTrial>}
                 <StyledPrice>
-                  {`${offerDetails.customerCurrencySymbol}${price} `}
+                  {`${customerCurrencySymbol}${price} `}
                   <span>exVAT</span>
                 </StyledPrice>
               </StyledOfferDetailsPrice>
@@ -68,19 +73,19 @@ const Offer = ({
         </StyledOfferDetailsAndCoupon>
       </StyledOfferContent>
       <StyledTotalWrapper>
-        {couponApplied && (
+        {isCouponApplied && (
           <>
             <StyledPriceBeforeWrapper>
               <StyledTotalLabel>Price:</StyledTotalLabel>
               <StyledOfferPrice>
-                {`${offerDetails.customerCurrencySymbol}${priceBeforeDiscount} `}
+                {`${customerCurrencySymbol}${priceBeforeDiscount} `}
                 <span>exVAT</span>
               </StyledOfferPrice>
             </StyledPriceBeforeWrapper>
             <StyledCouponDiscountWrapper>
               <StyledTotalLabel>Coupon Discount</StyledTotalLabel>
               <StyledOfferPrice>
-                {`${offerDetails.customerCurrencySymbol}${roundPrice(
+                {`${customerCurrencySymbol}${roundPrice(
                   priceBeforeDiscount - price
                 )}`}
               </StyledOfferPrice>
@@ -90,7 +95,7 @@ const Offer = ({
         <StyledPriceWrapper>
           <StyledTotalLabel>Total</StyledTotalLabel>
           <StyledOfferPrice>
-            {`${offerDetails.customerCurrencySymbol}${price} `}
+            {`${customerCurrencySymbol}${price} `}
             <span>exVAT</span>
           </StyledOfferPrice>
         </StyledPriceWrapper>
@@ -104,28 +109,18 @@ const Offer = ({
 
 Offer.propTypes = {
   offerDetails: PropTypes.shape({
-    imageUrl: PropTypes.string,
     title: PropTypes.string,
-    customerCurrencySymbol: PropTypes.string,
+    description: PropTypes.string,
+    imageUrl: PropTypes.string,
     price: PropTypes.number,
+    priceBeforeDiscount: PropTypes.number,
+    customerCurrencySymbol: PropTypes.string,
+    isCouponApplied: PropTypes.bool,
+    isTrialAllowed: PropTypes.bool,
     freePeriods: PropTypes.number,
-    hasTrial: PropTypes.bool,
     periodDescription: PropTypes.string,
-    description: PropTypes.string
-  }).isRequired,
-  error: PropTypes.string,
-  // onCouponApplied: PropTypes.func,
-  couponApplied: PropTypes.bool,
-  price: PropTypes.number,
-  priceBeforeDiscount: PropTypes.number
-};
-
-Offer.defaultProps = {
-  // onCouponApplied: () => {},
-  price: 0,
-  priceBeforeDiscount: 0,
-  couponApplied: false,
-  error: ''
+    errors: PropTypes.arrayOf(PropTypes.string)
+  }).isRequired
 };
 
 export default Offer;
