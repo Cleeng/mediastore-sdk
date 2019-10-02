@@ -3,10 +3,12 @@ const offerDetails = {
   title: 'Some test offer (ID: S123456789)',
   customerCurrencySymbol: '$',
   price: 12,
+  priceBeforeDiscount: 0,
   freePeriods: 2,
-  hasTrial: false,
+  isTrialAllowed: false,
   periodDescription: 'months',
-  description: 'Monthly plan. Renews automatically. Cancel anytime you want.'
+  description: 'Monthly plan. Renews automatically. Cancel anytime you want.',
+  couponApplied: false,
+  errors: []
 };
-
 export default offerDetails;

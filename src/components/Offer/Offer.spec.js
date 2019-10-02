@@ -16,13 +16,7 @@ import {
 describe('Offer', () => {
   describe('@@render', () => {
     it('displays basic details', () => {
-      const wrapper = shallow(
-        <Offer
-          offerDetails={mockOfferDetails}
-          price={mockOfferDetails.price}
-          priceBeforeDiscount={mockOfferDetails.price}
-        />
-      );
+      const wrapper = shallow(<Offer offerDetails={mockOfferDetails} />);
 
       expect(wrapper.find(StyledTrial)).toHaveLength(0);
       expect(wrapper.find(StyledPriceBeforeWrapper)).toHaveLength(0);
@@ -40,11 +34,7 @@ describe('Offer', () => {
 
     it('displays trial', () => {
       const wrapper = shallow(
-        <Offer
-          offerDetails={{ ...mockOfferDetails, hasTrial: true }}
-          price={mockOfferDetails.price}
-          priceBeforeDiscount={mockOfferDetails.price}
-        />
+        <Offer offerDetails={{ ...mockOfferDetails, isTrialAllowed: true }} />
       );
 
       const trialDescription = `You will be charged ${mockOfferDetails.customerCurrencySymbol}${mockOfferDetails.price} after ${mockOfferDetails.freePeriods} ${mockOfferDetails.periodDescription}.`;
@@ -62,10 +52,11 @@ describe('Offer', () => {
       const priceBeforeDiscount = mockOfferDetails.price + 10;
       const wrapper = shallow(
         <Offer
-          offerDetails={{ ...mockOfferDetails }}
-          price={mockOfferDetails.price}
-          priceBeforeDiscount={priceBeforeDiscount}
-          couponApplied
+          offerDetails={{
+            ...mockOfferDetails,
+            isCouponApplied: true,
+            priceBeforeDiscount
+          }}
         />
       );
 
@@ -101,12 +92,7 @@ describe('Offer', () => {
 
     it('handles error', () => {
       const wrapper = shallow(
-        <Offer
-          offerDetails={mockOfferDetails}
-          price={mockOfferDetails.price}
-          priceBeforeDiscount={mockOfferDetails.price}
-          error="FAIL"
-        />
+        <Offer offerDetails={{ ...mockOfferDetails, errors: ['FAIL'] }} />
       );
 
       expect(wrapper.find(StyledOfferTitle).text()).toBe(

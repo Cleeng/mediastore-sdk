@@ -12,6 +12,10 @@ All the configs defined there can be accessed in code via a global `ENVIRONMENT_
 
 To select a specific environment for run or build, use the `--environment` flag, e.g. `yarn start --environment=production`.
 
+### API Mocks
+
+If some APIs on which the application depends are still in development, use `USE_API_MOCK` field to switch between mock endpoints and actual endpoints.
+
 ## Available Scripts
 
 In the project directory, you can run:

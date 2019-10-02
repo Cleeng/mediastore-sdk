@@ -1,18 +1,16 @@
 import { JWT_TOKEN_LOCAL_STORAGE_KEY } from '../util/Constants';
-import mockOfferDetails from '../components/Offer/__mocks__/offerDetails';
 
-const getOfferDetails = offerId =>
-  new Promise((resolve, reject) => {
-    // eslint-disable-next-line no-unused-vars
-    const token = localStorage.getItem(JWT_TOKEN_LOCAL_STORAGE_KEY) || '';
-    if (token) {
-      resolve({
-        ...mockOfferDetails,
-        title: `Some test offer (ID: ${offerId})`
-      });
-    } else {
-      reject(new Error('Unauthorized'));
+const getOfferDetails = offerId => {
+  const token = localStorage.getItem(JWT_TOKEN_LOCAL_STORAGE_KEY) || '';
+  const url = ENVIRONMENT_CONFIGURATION.USE_API_MOCK
+    ? `https://www.mocky.io/v2/5d935c0f3000006d001b746d?mocky-delay=100ms&offerId=${offerId}`
+    : `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/3.1/offers/${offerId}`;
+
+  return fetch(url, {
+    headers: {
+      Authorization: `Bearer ${token}`
     }
-  });
+  }).then(res => res.json());
+};
 
 export default getOfferDetails;
