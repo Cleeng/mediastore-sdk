@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import history from './history';
 import { JWT_TOKEN_LOCAL_STORAGE_KEY } from './util/Constants';
 import OfferContainer from './containers/OfferContainer';
@@ -13,25 +13,28 @@ const App = () => {
     history.push('/offer/S123456789');
   };
 
+  const path = history.location.hash.slice(1);
+  if (path) {
+    history.push(path);
+  }
+
   return (
     <Router history={history}>
-      <Route
-        path="/login"
-        exact
-        render={() => (
+      <Switch>
+        <Route path="/login">
           <button type="button" onClick={onLoginComplete}>
             Login
           </button>
-        )}
-      />
-      <Route
-        path="/offer/:offerId"
-        render={({
-          match: {
-            params: { offerId }
-          }
-        }) => <OfferContainer offerId={offerId} />}
-      />
+        </Route>
+        <Route
+          path="/offer/:offerId"
+          render={({
+            match: {
+              params: { offerId }
+            }
+          }) => <OfferContainer offerId={offerId} />}
+        />
+      </Switch>
     </Router>
   );
 };
