@@ -15,7 +15,7 @@ const App = () => {
 
   const path = history.location.hash.slice(1);
   if (path) {
-    history.push(path);
+    history.replace(path);
   }
 
   return (
