@@ -8,11 +8,7 @@ const { location, history } = window;
 const path = location.hash.slice(1);
 if (path) {
   location.hash = '';
-  history.replaceState(
-    {},
-    '',
-    `${location.protocol}//${location.host}/${path}`
-  );
+  history.push(`${location.protocol}//${location.host}/${path}`);
 }
 
 ReactDOM.render(<App />, document.getElementById('root'));
