@@ -1,5 +1,5 @@
 import React from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import history from './history';
 import { JWT_TOKEN_LOCAL_STORAGE_KEY } from './util/Constants';
 import OfferContainer from './containers/OfferContainer';
@@ -21,6 +21,9 @@ const App = () => {
   return (
     <Router history={history}>
       <Switch>
+        <Route path="/" exact>
+          <Redirect to="/login" />
+        </Route>
         <Route path="/login">
           <button type="button" onClick={onLoginComplete}>
             Login
