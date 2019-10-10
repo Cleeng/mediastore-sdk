@@ -11,12 +11,22 @@ import {
   StyledOfferPrice,
   StyledPriceBeforeWrapper,
   StyledCouponDiscountWrapper
-} from './StyledOffer';
+} from './OfferStyled';
+import { MESSAGE_TYPE_SUCCESS } from '../Input';
+
+const mockCouponProps = {
+  showMessage: false,
+  message: '',
+  messageType: MESSAGE_TYPE_SUCCESS,
+  onSubmit: jest.fn().mockResolvedValue({})
+};
 
 describe('Offer', () => {
   describe('@@render', () => {
     it('displays basic details', () => {
-      const wrapper = shallow(<Offer offerDetails={mockOfferDetails} />);
+      const wrapper = shallow(
+        <Offer offerDetails={mockOfferDetails} couponProps={mockCouponProps} />
+      );
 
       expect(wrapper.find(StyledTrial)).toHaveLength(0);
       expect(wrapper.find(StyledPriceBeforeWrapper)).toHaveLength(0);
@@ -34,7 +44,10 @@ describe('Offer', () => {
 
     it('displays trial', () => {
       const wrapper = shallow(
-        <Offer offerDetails={{ ...mockOfferDetails, isTrialAllowed: true }} />
+        <Offer
+          offerDetails={{ ...mockOfferDetails, isTrialAllowed: true }}
+          couponProps={mockCouponProps}
+        />
       );
 
       const trialDescription = `You will be charged ${mockOfferDetails.customerCurrencySymbol}${mockOfferDetails.price} after ${mockOfferDetails.freePeriods} ${mockOfferDetails.periodDescription}.`;
@@ -57,6 +70,7 @@ describe('Offer', () => {
             isCouponApplied: true,
             priceBeforeDiscount
           }}
+          couponProps={mockCouponProps}
         />
       );
 
@@ -92,7 +106,10 @@ describe('Offer', () => {
 
     it('handles error', () => {
       const wrapper = shallow(
-        <Offer offerDetails={{ ...mockOfferDetails, errors: ['FAIL'] }} />
+        <Offer
+          offerDetails={{ ...mockOfferDetails, errors: ['FAIL'] }}
+          couponProps={mockCouponProps}
+        />
       );
 
       expect(wrapper.find(StyledOfferTitle).text()).toBe(
