@@ -1,15 +1,20 @@
-import getOfferDetails from './getOfferDetails';
+import applyCoupon from './applyCoupon';
 import { JWT_TOKEN_LOCAL_STORAGE_KEY } from '../util/Constants';
 
-describe('getOfferDetails', () => {
-  it('calls remote endpoint with authorization token', done => {
-    const mockToken = 'TOKEN';
+describe('applyCoupon', () => {
+  it('calls remote endpoint', done => {
+    const mockToken = 'MOCK_TOKEN';
+    const mockCouponCode = 'MOCK_COUPON_CODE';
     const mockResponseData = { price: 9 };
 
     jest.spyOn(global, 'fetch').mockImplementation(
-      async (url, { headers: { Authorization } }) =>
+      async (url, { method, body, headers: { Authorization } }) =>
         new Promise((resolve, reject) => {
-          if (Authorization === `Bearer ${mockToken}`) {
+          if (
+            Authorization === `Bearer ${mockToken}` &&
+            method === 'POST' &&
+            JSON.parse(body).couponCode === mockCouponCode
+          ) {
             resolve({
               json: () => mockResponseData
             });
@@ -20,7 +25,7 @@ describe('getOfferDetails', () => {
     );
 
     localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE_KEY, mockToken);
-    getOfferDetails().then(res => {
+    applyCoupon(mockCouponCode).then(res => {
       expect(res).toEqual(mockResponseData);
       done();
     });
@@ -34,6 +39,6 @@ describe('getOfferDetails', () => {
         })
     );
 
-    getOfferDetails().catch(done);
+    applyCoupon().catch(done);
   });
 });

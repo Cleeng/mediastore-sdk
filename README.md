@@ -43,6 +43,22 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
+## Style Guide
+
+### Files
+
+Each component should have an accompanying `ComponentStyled.js` file which contains `styled-components` objects for this component.
+
+### CSS Property Order
+
+Keep CSS props in the following order, with empty newlines between sections:
+
+- Layout Properties (position, float, clear, display)
+- Box Model Properties (width, height, margin, padding)
+- Visual Properties (color, background, border, box-shadow)
+- Typography Properties (font-size, font-family, text-align, text-transform)
+- Misc Properties (cursor, overflow, z-index)
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).

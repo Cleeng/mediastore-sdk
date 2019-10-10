@@ -8,9 +8,11 @@ import {
   array
 } from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
+import { action } from '@storybook/addon-actions';
 import Offer from './Offer';
 import mockOfferDetails from './__mocks__/offerDetails';
 import '../../styles/index.scss';
+import { MESSAGE_TYPE_SUCCESS } from '../Input';
 
 const OFFER_DETAILS_GROUP_ID = 'Offer Details';
 
@@ -70,6 +72,12 @@ storiesOf('Offer', module)
           OFFER_DETAILS_GROUP_ID
         ),
         errors: array('errors', [], ',', OFFER_DETAILS_GROUP_ID)
+      }}
+      couponProps={{
+        showMessage: false,
+        message: '',
+        messageType: MESSAGE_TYPE_SUCCESS,
+        onSubmit: action('apply-coupon')
       }}
     />
   ));

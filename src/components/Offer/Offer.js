@@ -22,7 +22,9 @@ import {
   StyledOfferPrice,
   StyledCouponDiscountWrapper,
   StyledPriceWrapper
-} from './StyledOffer';
+} from './OfferStyled';
+import CouponInput from '../CouponInput/CouponInput';
+import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../Input';
 
 const roundPrice = value => Math.round(value * 100) / 100;
 
@@ -39,7 +41,8 @@ const Offer = ({
     freePeriods,
     periodDescription,
     errors
-  }
+  },
+  couponProps: { showMessage, message, messageType, onSubmit }
 }) => (
   <StyledOfferWrapper>
     <StyledOfferBody>
@@ -69,7 +72,12 @@ const Offer = ({
               </StyledOfferDetailsPrice>
             </StyledOfferDetails>
           </StyledOfferDetailsWrapper>
-          {/* <CouponInput email={email} onCouponApplied={onCouponApplied} /> */}
+          <CouponInput
+            showMessage={showMessage}
+            message={message}
+            messageType={messageType}
+            onSubmit={onSubmit}
+          />
         </StyledOfferDetailsAndCoupon>
       </StyledOfferContent>
       <StyledTotalWrapper>
@@ -120,7 +128,15 @@ Offer.propTypes = {
     freePeriods: PropTypes.number,
     periodDescription: PropTypes.string,
     errors: PropTypes.arrayOf(PropTypes.string)
-  }).isRequired
+  }).isRequired,
+  couponProps: PropTypes.shape({
+    showMessage: PropTypes.bool,
+    message: PropTypes.node,
+    messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS]),
+    onSubmit: PropTypes.func.isRequired
+  })
 };
+
+Offer.defaultProps = { couponProps: null };
 
 export default Offer;
