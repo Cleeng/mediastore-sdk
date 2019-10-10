@@ -3,6 +3,7 @@ import { Router, Route, Switch, Redirect } from 'react-router-dom';
 import history from './history';
 import { JWT_TOKEN_LOCAL_STORAGE_KEY } from './util/Constants';
 import OfferContainer from './containers/OfferContainer';
+import ThankYouPage from './components/ThankYouPage/ThankYouPage';
 
 const App = () => {
   const onLoginComplete = () => {
@@ -37,6 +38,9 @@ const App = () => {
             }
           }) => <OfferContainer offerId={offerId} />}
         />
+        <Route path="/thankyou">
+          <ThankYouPage />
+        </Route>
       </Switch>
     </Router>
   );
