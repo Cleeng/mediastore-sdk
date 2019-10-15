@@ -79,5 +79,6 @@ storiesOf('Offer', module)
         messageType: MESSAGE_TYPE_SUCCESS,
         onSubmit: action('apply-coupon')
       }}
+      onPaymentComplete={action('onPaymentComplete')}
     />
   ));

@@ -20,11 +20,15 @@ const ButtonStyled = styled.button`
   border-radius: 6px;
   height: 55px;
   font-size: 16px;
-    &:hover,
-    &:focus {
+  ${props =>
+    !props.disabled &&
+    css`
+      &:hover,
+      &:focus {
         cursor: pointer;
         background-color: ${colors.ButtonBorderColor};
-    }
+      }
+    `}
     ${props =>
       (props.variant === 'google' || props.variant === 'fb') &&
       css`
@@ -58,6 +62,26 @@ const ButtonStyled = styled.button`
           content: url(${fbIcon});
         }
       `}
+
+      ${props =>
+        props.variant === 'creditcard' &&
+        css`
+          background-color: white;
+          color: ${colors.FontLightColor};
+
+          ${p =>
+            p.disabled
+              ? css`
+                  filter: opacity(0.5);
+                `
+              : css`
+                  &:hover,
+                  &:focus {
+                    cursor: pointer;
+                    background-color: ${colors.MediumGrey};
+                  }
+                `}
+        `}
 `;
 
 export default ButtonStyled;

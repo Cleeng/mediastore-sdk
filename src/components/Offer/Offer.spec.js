@@ -25,7 +25,11 @@ describe('Offer', () => {
   describe('@@render', () => {
     it('displays basic details', () => {
       const wrapper = shallow(
-        <Offer offerDetails={mockOfferDetails} couponProps={mockCouponProps} />
+        <Offer
+          offerDetails={mockOfferDetails}
+          couponProps={mockCouponProps}
+          onPaymentComplete={jest.fn()}
+        />
       );
 
       expect(wrapper.find(StyledTrial)).toHaveLength(0);
@@ -47,6 +51,7 @@ describe('Offer', () => {
         <Offer
           offerDetails={{ ...mockOfferDetails, isTrialAllowed: true }}
           couponProps={mockCouponProps}
+          onPaymentComplete={jest.fn()}
         />
       );
 
@@ -71,6 +76,7 @@ describe('Offer', () => {
             priceBeforeDiscount
           }}
           couponProps={mockCouponProps}
+          onPaymentComplete={jest.fn()}
         />
       );
 
@@ -109,6 +115,7 @@ describe('Offer', () => {
         <Offer
           offerDetails={{ ...mockOfferDetails, errors: ['FAIL'] }}
           couponProps={mockCouponProps}
+          onPaymentComplete={jest.fn()}
         />
       );
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import CouponInput from '../CouponInput';
+
 import {
   StyledOfferBody,
   StyledOfferWrapper,
@@ -25,6 +25,7 @@ import {
 } from './OfferStyled';
 import CouponInput from '../CouponInput/CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../Input';
+import Payment from '../Payment/Payment';
 
 const roundPrice = value => Math.round(value * 100) / 100;
 
@@ -42,7 +43,8 @@ const Offer = ({
     periodDescription,
     errors
   },
-  couponProps: { showMessage, message, messageType, onSubmit }
+  couponProps: { showMessage, message, messageType, onSubmit },
+  onPaymentComplete
 }) => (
   <StyledOfferWrapper>
     <StyledOfferBody>
@@ -109,9 +111,7 @@ const Offer = ({
         </StyledPriceWrapper>
       </StyledTotalWrapper>
     </StyledOfferBody>
-    {/* <div className={s.offerPayment}>
-      <Payments />
-    </div> */}
+    <Payment onPaymentComplete={onPaymentComplete} />
   </StyledOfferWrapper>
 );
 
@@ -134,7 +134,8 @@ Offer.propTypes = {
     message: PropTypes.node,
     messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS]),
     onSubmit: PropTypes.func.isRequired
-  })
+  }),
+  onPaymentComplete: PropTypes.func.isRequired
 };
 
 Offer.defaultProps = { couponProps: null };

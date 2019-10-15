@@ -4,6 +4,8 @@ import history from './history';
 import { JWT_TOKEN_LOCAL_STORAGE_KEY } from './util/Constants';
 import OfferContainer from './containers/OfferContainer';
 import ThankYouPage from './components/ThankYouPage/ThankYouPage';
+import Login from './components/Login';
+import { AppStyled, AppContentStyled } from './AppStyled';
 
 const App = () => {
   const onLoginComplete = () => {
@@ -21,27 +23,34 @@ const App = () => {
 
   return (
     <Router history={history}>
-      <Switch>
-        <Route path="/" exact>
-          <Redirect to="/login" />
-        </Route>
-        <Route path="/login">
-          <button type="button" onClick={onLoginComplete}>
-            Login
-          </button>
-        </Route>
-        <Route
-          path="/offer/:offerId"
-          render={({
-            match: {
-              params: { offerId }
-            }
-          }) => <OfferContainer offerId={offerId} />}
-        />
-        <Route path="/thankyou">
-          <ThankYouPage />
-        </Route>
-      </Switch>
+      <AppStyled>
+        <AppContentStyled>
+          <Switch>
+            <Route path="/" exact>
+              <Redirect to="/login" />
+            </Route>
+            <Route path="/login">
+              <Login onLoginComplete={onLoginComplete} />
+            </Route>
+            <Route
+              path="/offer/:offerId"
+              render={({
+                match: {
+                  params: { offerId }
+                }
+              }) => (
+                <OfferContainer
+                  offerId={offerId}
+                  onPaymentComplete={() => history.push('/thankyou')}
+                />
+              )}
+            />
+            <Route path="/thankyou">
+              <ThankYouPage />
+            </Route>
+          </Switch>
+        </AppContentStyled>
+      </AppStyled>
     </Router>
   );
 };

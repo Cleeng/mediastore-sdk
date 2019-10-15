@@ -4,6 +4,7 @@ import * as colors from '../../styles/variables';
 export const StyledThankYouPage = styled.div`
   width: 80%;
   margin: 0 auto;
+  padding: 40px 0;
   text-align: center;
   line-height: 1.3em;
   font-size: 15px;

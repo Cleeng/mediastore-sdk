@@ -3,10 +3,7 @@ import * as colors from '../../styles/variables';
 import { media } from '../../styles/BreakPoints';
 
 export const StyledOfferWrapper = styled.div`
-  margin: 0 auto;
-  position: absolute;
   width: 100%;
-  height: 100%;
   background-color: #fff;
 `;
 
