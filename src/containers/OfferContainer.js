@@ -6,7 +6,7 @@ import Offer from '../components/Offer';
 import applyCoupon from '../api/applyCoupon';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from '../components/Input';
 
-const OfferContainer = ({ offerId }) => {
+const OfferContainer = ({ offerId, onPaymentComplete }) => {
   const [offerDetails, setOfferDetails] = useState(null);
   const [couponProps, setCouponProps] = useState(null);
   const [error, setError] = useState(null);
@@ -60,6 +60,7 @@ const OfferContainer = ({ offerId }) => {
           ...couponProps,
           onSubmit: onCouponSubmit
         }}
+        onPaymentComplete={onPaymentComplete}
       />
     );
   }
@@ -67,7 +68,8 @@ const OfferContainer = ({ offerId }) => {
 };
 
 OfferContainer.propTypes = {
-  offerId: PropTypes.string.isRequired
+  offerId: PropTypes.string.isRequired,
+  onPaymentComplete: PropTypes.func.isRequired
 };
 
 export default OfferContainer;
