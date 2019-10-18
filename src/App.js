@@ -6,6 +6,8 @@ import OfferContainer from './containers/OfferContainer';
 import ThankYouPage from './components/ThankYouPage/ThankYouPage';
 import Login from './components/Login';
 import { AppStyled, AppContentStyled } from './AppStyled';
+import PasswordReset from './components/PasswordReset';
+import PasswordResetSuccess from './components/PasswordResetSuccess';
 
 const App = () => {
   const onLoginComplete = () => {
@@ -32,6 +34,24 @@ const App = () => {
             <Route path="/login">
               <Login onLoginComplete={onLoginComplete} />
             </Route>
+            <Route path="/reset-password">
+              <PasswordReset
+                onSuccess={value =>
+                  history.push(
+                    `/password-reset-success/${encodeURIComponent(value)}`
+                  )
+                }
+              />
+            </Route>
+            <Route
+              path="/password-reset-success/:email"
+              render={({ match }) => {
+                const email = decodeURIComponent(
+                  (match && match.params && match.params.email) || ''
+                );
+                return <PasswordResetSuccess email={email} />;
+              }}
+            />
             <Route
               path="/offer/:offerId"
               render={({

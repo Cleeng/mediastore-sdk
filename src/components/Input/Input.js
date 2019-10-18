@@ -96,7 +96,9 @@ class Input extends Component {
       clearMessageOnFocus,
       showMessage,
       message,
-      messageType
+      messageType,
+      value,
+      onChange
     } = this.props;
     const { suppressMessage } = this.state;
 
@@ -129,6 +131,8 @@ class Input extends Component {
             }}
             autoComplete="off"
             type="text"
+            value={value}
+            onChange={event => onChange(event.target.value)}
           />
         </InputElementWrapperStyled>
       </InputComponentStyled>
@@ -145,7 +149,9 @@ Input.propTypes = {
   showMessage: PropTypes.bool,
   message: PropTypes.node,
   messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS]),
-  onSubmit: PropTypes.func.isRequired // should return a promise
+  value: PropTypes.string,
+  onSubmit: PropTypes.func.isRequired, // should return a promise,
+  onChange: PropTypes.func
 };
 
 Input.defaultProps = {
@@ -156,7 +162,9 @@ Input.defaultProps = {
   blurOnSubmit: false,
   showMessage: false,
   messageType: MESSAGE_TYPE_FAIL,
-  message: null
+  message: null,
+  value: '',
+  onChange: () => {}
 };
 
 export default Input;
