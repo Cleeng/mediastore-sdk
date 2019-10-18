@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MainTextColor, LightGrey, Strong } from '../../styles/variables';
+import { MainTextColor, LightGrey, Strong } from 'styles/variables';
 
 export const CouponInputWrapperStyled = styled.div`
   padding: 10px;

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import couponIcon from 'assets/images/input/coupon.svg';
 import Input, { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from '../Input';
-import couponIcon from '../../assets/images/input/coupon.svg';
 
 const CouponInput = ({ showMessage, message, messageType, onSubmit }) => (
   <Input

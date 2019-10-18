@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import getOfferDetails from '../api/getOfferDetails';
-import Offer from '../components/Offer';
-import applyCoupon from '../api/applyCoupon';
-import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from '../components/Input';
+import getOfferDetails from 'api/getOfferDetails';
+import Offer from 'components/Offer';
+import applyCoupon from 'api/applyCoupon';
+import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
 
 const OfferContainer = ({ offerId, onPaymentComplete }) => {
   const [offerDetails, setOfferDetails] = useState(null);

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from 'components/Button/Button';
 import LoginStyled from './LoginStyled';
-import Button from '../Button/Button';
 
 const Login = ({ onLoginComplete }) => (
   <LoginStyled>

@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
-import { MESSAGE_TYPE_SUCCESS } from './InputConstants';
-import failIcon from '../../assets/images/input/fail.svg';
-import successIcon from '../../assets/images/input/success.svg';
+import failIcon from 'assets/images/input/fail.svg';
+import successIcon from 'assets/images/input/success.svg';
 import {
   MainColor,
   LightGrey,
@@ -9,7 +8,8 @@ import {
   MediumGrey,
   PassOffer,
   ErrorOffer
-} from '../../styles/variables';
+} from 'styles/variables';
+import { MESSAGE_TYPE_SUCCESS } from './InputConstants';
 
 export const InputComponentStyled = styled.div`
   display: flex;

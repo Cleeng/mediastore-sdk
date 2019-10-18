@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import createOrder from '../../api/createOrder';
-import submitPayment from '../../api/submitPayment';
+import createOrder from 'api/createOrder';
+import submitPayment from 'api/submitPayment';
+import Button, { BUTTON_TYPE } from 'components/Button/Button';
+import Adyen from 'components/Adyen';
 import {
   PaymentStyled,
   TitleStyled,
   MethodsWrapperStyled
 } from './PaymentStyled';
-import Button, { BUTTON_TYPE } from '../Button/Button';
-import Adyen from '../Adyen';
 
 class Payment extends Component {
   constructor(props) {

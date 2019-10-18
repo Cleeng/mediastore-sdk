@@ -1,8 +1,8 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import Button from 'components/Button/Button';
+import Adyen from 'components/Adyen';
 import Payment from './Payment';
-import Button from '../Button/Button';
-import Adyen from '../Adyen';
 
 describe('Payment', () => {
   it('renders with buttons', () => {

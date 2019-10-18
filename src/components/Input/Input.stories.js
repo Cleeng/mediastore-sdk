@@ -3,11 +3,11 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, text, boolean, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { jsxDecorator } from 'storybook-addon-jsx';
-import Input from './Input';
+import 'styles/index.scss';
+import couponIcon from 'assets/images/input/coupon.svg';
+import emailIcon from 'assets/images/input/email.svg';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from './InputConstants';
-import '../../styles/index.scss';
-import couponIcon from '../../assets/images/input/coupon.svg';
-import emailIcon from '../../assets/images/input/email.svg';
+import Input from './Input';
 
 storiesOf('Input', module)
   .addDecorator(withKnobs)

@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Offer from './Offer';
 import mockOfferDetails from './__mocks__/offerDetails';
 import {
@@ -12,7 +13,6 @@ import {
   StyledPriceBeforeWrapper,
   StyledCouponDiscountWrapper
 } from './OfferStyled';
-import { MESSAGE_TYPE_SUCCESS } from '../Input';
 
 const mockCouponProps = {
   showMessage: false,
@@ -22,7 +22,7 @@ const mockCouponProps = {
 };
 
 describe('Offer', () => {
-  describe('@@render', () => {
+  describe('@render', () => {
     it('displays basic details', () => {
       const wrapper = shallow(
         <Offer
