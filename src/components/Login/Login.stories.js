@@ -4,7 +4,7 @@ import { withKnobs } from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { action } from '@storybook/addon-actions';
 import Login from './Login';
-import '../../styles/index.scss';
+import 'styles/index.scss';
 
 storiesOf('Login', module)
   .addDecorator(withKnobs)

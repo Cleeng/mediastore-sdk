@@ -1,9 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import 'jest-styled-components';
+import Input from 'components/Input';
+import Button from 'components/Button';
 import PasswordReset from './PasswordReset';
-import Input from '../Input';
-import Button from '../Button';
 
 describe('PasswordReset', () => {
   describe('@renders', () => {

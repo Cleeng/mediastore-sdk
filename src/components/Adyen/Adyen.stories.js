@@ -4,7 +4,7 @@ import { withKnobs } from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { action } from '@storybook/addon-actions';
 import Adyen from './Adyen';
-import '../../styles/index.scss';
+import 'styles/index.scss';
 import CreditCardExample from './util/CreditCardExample';
 
 storiesOf('Adyen', module)

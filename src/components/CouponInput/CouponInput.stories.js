@@ -6,7 +6,7 @@ import { action } from '@storybook/addon-actions';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import CouponInput from './CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../Input';
-import '../../styles/index.scss';
+import 'styles/index.scss';
 
 const CouponInputFeedbackWrapper = ({ message, messageType }) => {
   const [showMessage, setShowMessage] = useState(false);

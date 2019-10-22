@@ -3,8 +3,8 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { action } from '@storybook/addon-actions';
+import 'styles/index.scss';
 import PasswordReset from './PasswordReset';
-import '../../styles/index.scss';
 
 storiesOf('PasswordReset', module)
   .addDecorator(withKnobs)

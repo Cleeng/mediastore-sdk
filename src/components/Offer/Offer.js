@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import CouponInput from 'components/CouponInput/CouponInput';
+import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
+import Payment from 'components/Payment/Payment';
 
 import {
   StyledOfferBody,
@@ -23,9 +26,6 @@ import {
   StyledCouponDiscountWrapper,
   StyledPriceWrapper
 } from './OfferStyled';
-import CouponInput from '../CouponInput/CouponInput';
-import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../Input';
-import Payment from '../Payment/Payment';
 
 const roundPrice = value => Math.round(value * 100) / 100;
 

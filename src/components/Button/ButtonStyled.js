@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import * as colors from '../../styles/variables';
+import * as colors from 'styles/variables';
 import googleIcon from './img/google.png';
 import fbIcon from './img/fb.svg';
 

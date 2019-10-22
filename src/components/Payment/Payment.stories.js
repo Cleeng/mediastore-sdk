@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import Payment from './Payment';
-import '../../styles/index.scss';
+import 'styles/index.scss';
 
 storiesOf('Payment', module)
   .addDecorator(withKnobs)

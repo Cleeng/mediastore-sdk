@@ -9,10 +9,10 @@ import {
 } from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { action } from '@storybook/addon-actions';
-import Offer from './Offer';
+import 'styles/index.scss';
+import { MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import mockOfferDetails from './__mocks__/offerDetails';
-import '../../styles/index.scss';
-import { MESSAGE_TYPE_SUCCESS } from '../Input';
+import Offer from './Offer';
 
 const OFFER_DETAILS_GROUP_ID = 'Offer Details';
 
