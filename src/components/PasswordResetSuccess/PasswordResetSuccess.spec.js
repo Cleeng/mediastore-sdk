@@ -9,6 +9,7 @@ describe('PasswordResetSuccess', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
       const MOCK_EMAIL = 'gummybear@cleeng.com';
+      const MOCK_OFFER_ID = 'S123456789';
       const wrapper = mount(
         <Router
           history={{
@@ -17,7 +18,7 @@ describe('PasswordResetSuccess', () => {
             location: { pathname: '' }
           }}
         >
-          <PasswordResetSuccess email={MOCK_EMAIL} />
+          <PasswordResetSuccess email={MOCK_EMAIL} offerId={MOCK_OFFER_ID} />
         </Router>
       );
       const messageComponent = wrapper.find(StyledMessage);

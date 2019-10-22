@@ -34,22 +34,35 @@ const App = () => {
             <Route path="/login">
               <Login onLoginComplete={onLoginComplete} />
             </Route>
-            <Route path="/reset-password">
-              <PasswordReset
-                onSuccess={value =>
-                  history.push(
-                    `/password-reset-success/${encodeURIComponent(value)}`
-                  )
-                }
-              />
-            </Route>
             <Route
-              path="/password-reset-success/:email"
+              path="/reset-password/:offerId"
+              render={({
+                match: {
+                  params: { offerId }
+                }
+              }) => (
+                <PasswordReset
+                  offerId={offerId}
+                  onSuccess={value =>
+                    history.push(
+                      `/password-reset-success/${offerId}/${encodeURIComponent(
+                        value
+                      )}`
+                    )
+                  }
+                />
+              )}
+            />
+            <Route
+              path="/password-reset-success/:offerId/:email"
               render={({ match }) => {
                 const email = decodeURIComponent(
                   (match && match.params && match.params.email) || ''
                 );
-                return <PasswordResetSuccess email={email} />;
+                const {
+                  params: { offerId }
+                } = match;
+                return <PasswordResetSuccess email={email} offerId={offerId} />;
               }}
             />
             <Route

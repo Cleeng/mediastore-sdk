@@ -1,15 +1,15 @@
 import resetPassword from './resetPassword';
-import { JWT_TOKEN_LOCAL_STORAGE_KEY } from '../util/Constants';
 
 describe('resetPassword', () => {
   it('calls remote endpoint', done => {
-    const mockToken = 'MOCK_TOKEN';
+    const mockOfferId = 'mock-offer-id';
+    const mockEmail = 'mock-email';
     const mockResponseData = { errors: [] };
 
     jest.spyOn(global, 'fetch').mockImplementation(
-      async (url, { method, headers: { Authorization } }) =>
+      async (url, { method }) =>
         new Promise((resolve, reject) => {
-          if (Authorization === `Bearer ${mockToken}` && method === 'PUT') {
+          if (method === 'PUT') {
             resolve({
               json: () => mockResponseData
             });
@@ -19,21 +19,28 @@ describe('resetPassword', () => {
         })
     );
 
-    localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE_KEY, mockToken);
-    resetPassword().then(res => {
+    resetPassword(mockOfferId, mockEmail).then(res => {
       expect(res).toEqual(mockResponseData);
       done();
     });
   });
 
   it('fails on remote call error', done => {
+    const mockOfferId = 'mock-offer-id';
+    const mockEmail = 'mock-email';
+    const mockError = 'mock-error';
     jest.spyOn(global, 'fetch').mockImplementation(
       () =>
         new Promise((resolve, reject) => {
-          reject();
+          reject(new Error(mockError));
         })
     );
 
-    resetPassword().catch(done);
+    resetPassword(mockOfferId, mockEmail).then(res => {
+      const { errors } = res;
+      expect(errors).toHaveLength(1);
+      expect(errors[0]).toBe(mockError);
+      done();
+    });
   });
 });

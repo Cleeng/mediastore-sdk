@@ -8,7 +8,9 @@ import PasswordReset from './PasswordReset';
 describe('PasswordReset', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
-      const wrapper = mount(<PasswordReset onSuccess={jest.fn()} />);
+      const wrapper = mount(
+        <PasswordReset onSuccess={jest.fn()} offerId="S123456789" />
+      );
       const inputComponent = wrapper.find(Input);
       expect(inputComponent).toHaveLength(1);
       expect(inputComponent.props().clearMessageAfterDelay).toBe(false);
