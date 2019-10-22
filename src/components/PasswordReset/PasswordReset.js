@@ -25,15 +25,13 @@ class PasswordReset extends Component {
 
   onSubmit = async () => {
     const { value } = this.state;
-    const { onSuccess } = this.props;
+    const { offerId, onSuccess } = this.props;
 
     this.setState({
       showMessage: false
     });
     if (EMAIL_REGEX.test(value)) {
-      const { errors } = await resetPassword({
-        email: value
-      });
+      const { errors } = await resetPassword(offerId, value);
       if (errors.length) {
         this.setState({
           showMessage: true,
@@ -74,7 +72,8 @@ class PasswordReset extends Component {
   }
 }
 PasswordReset.propTypes = {
-  onSuccess: PropTypes.func.isRequired
+  onSuccess: PropTypes.func.isRequired,
+  offerId: PropTypes.string.isRequired
 };
 
 export default PasswordReset;

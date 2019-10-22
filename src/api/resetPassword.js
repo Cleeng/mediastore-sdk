@@ -1,18 +1,24 @@
-import { JWT_TOKEN_LOCAL_STORAGE_KEY } from '../util/Constants';
+const resetPassword = async (offerId, customerEmail) => {
+  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers/passwords`;
 
-const applyCoupon = couponCode => {
-  const token = localStorage.getItem(JWT_TOKEN_LOCAL_STORAGE_KEY) || '';
-  const url = ENVIRONMENT_CONFIGURATION.USE_API_MOCK
-    ? `https://www.mocky.io/v2/5da868b21200004411edaea9?mocky-delay=100ms`
-    : `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers/:customerId/password`;
-
-  return fetch(url, {
-    method: 'PUT',
-    body: JSON.stringify({ couponCode }),
-    headers: {
-      Authorization: `Bearer ${token}`
+  try {
+    const res = await fetch(url, {
+      method: 'PUT',
+      body: JSON.stringify({ offerId, customerEmail })
+    });
+    const json = await res.json();
+    if (json.message) {
+      return {
+        ...json,
+        errors: [json.message]
+      };
     }
-  }).then(res => res.json());
+    return json;
+  } catch (error) {
+    return {
+      errors: [error.message]
+    };
+  }
 };
 
-export default applyCoupon;
+export default resetPassword;

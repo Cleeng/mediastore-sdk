@@ -1,7 +1,7 @@
 module.exports = {
   ENVIRONMENT_CONFIGURATION: {
-    CLEENG_API_JS: JSON.stringify(
-      'https://staging.cleeng.com/js-api/3.0/api.js'
+    GB_API_URL: JSON.stringify(
+      'https://ke4vfe4m32.execute-api.eu-west-1.amazonaws.com/dev'
     ),
     USE_API_MOCK: true,
     GOOGLE_TAG_MANAGER: JSON.stringify('GTM-XXX'),
