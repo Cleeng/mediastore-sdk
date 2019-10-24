@@ -22,6 +22,7 @@ export const InputElementWrapperStyled = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 
   padding: 17px 0 13px;
 
@@ -30,6 +31,11 @@ export const InputElementWrapperStyled = styled.div`
   &:focus-within {
     border-bottom-color: ${MainColor};
   }
+  ${props =>
+    props.error &&
+    css`
+      border-bottom-color: ${ErrorOffer};
+    `}
 
   ${props =>
     props.icon &&
@@ -37,7 +43,7 @@ export const InputElementWrapperStyled = styled.div`
       &::before {
         content: url(${props.icon});
       }
-    `}};
+    `};
 
   ${props =>
     props.showMessage &&
@@ -47,11 +53,12 @@ export const InputElementWrapperStyled = styled.div`
           ? successIcon
           : failIcon});
       }
-    `}}};
+    `};
 `;
 
 export const InputElementStyled = styled.input`
   flex-grow: 1;
+  position: relative;
 
   margin: 0 15px;
 
@@ -74,4 +81,19 @@ export const MessageStyled = styled.div`
 
   opacity: ${props => (props.showMessage ? 1 : 0)};
   transition: opacity 250ms linear;
+`;
+
+export const ErrorWrapper = styled.div`
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+
+  content: '';
+  color: ${ErrorOffer};
+
+  font-family: 'Geomanist';
+  font-size: 12px;
+  font-weight: 300;
+  text-align: left;
 `;

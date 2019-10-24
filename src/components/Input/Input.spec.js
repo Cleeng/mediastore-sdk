@@ -15,7 +15,7 @@ const onSubmit = jest.fn().mockResolvedValue({});
 describe('Input', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
-      const wrapper = shallow(<Input onSubmit={onSubmit} />);
+      const wrapper = shallow(<Input />);
       const inputElement = wrapper.find(InputElementStyled);
       expect(inputElement).toHaveLength(1);
       expect(inputElement.props().type).toBe('text');
@@ -30,6 +30,7 @@ describe('Input', () => {
           showMessage
           message={MOCK_MESSAGE_1}
           messageType={MESSAGE_TYPE_SUCCESS}
+          isCouponInput
         />
       );
 
@@ -44,6 +45,7 @@ describe('Input', () => {
           onSubmit={onSubmit}
           message={MOCK_MESSAGE_1}
           messageType={MESSAGE_TYPE_SUCCESS}
+          isCouponInput
         />
       );
 
@@ -58,7 +60,7 @@ describe('Input', () => {
       onSubmit.mockClear();
       const mockInputValue = 'MOCK_INPUT_VALUE';
 
-      const wrapper = shallow(<Input onSubmit={onSubmit} />);
+      const wrapper = shallow(<Input onSubmit={onSubmit} isCouponInput />);
       const input = wrapper.find(InputElementStyled);
       input.value = mockInputValue;
       input.simulate('keydown', {
@@ -71,7 +73,7 @@ describe('Input', () => {
     it('should not call onSubmit when any other key is pressed', () => {
       onSubmit.mockClear();
 
-      const wrapper = shallow(<Input onSubmit={onSubmit} />);
+      const wrapper = shallow(<Input onSubmit={onSubmit} isCouponInput />);
       const input = wrapper.find(InputElementStyled);
 
       input.simulate('keydown', {
@@ -88,7 +90,9 @@ describe('Input', () => {
     it('should blur on submit when blurOnSubmit=true', () => {
       onSubmit.mockClear();
 
-      const wrapper = mount(<Input onSubmit={onSubmit} blurOnSubmit />);
+      const wrapper = mount(
+        <Input onSubmit={onSubmit} blurOnSubmit isCouponInput />
+      );
       const input = wrapper.find(InputElementStyled);
       const inputEl = wrapper.getDOMNode();
 
@@ -103,7 +107,7 @@ describe('Input', () => {
     it('should not blur on submit when blurOnSubmit=false', () => {
       onSubmit.mockClear();
 
-      const wrapper = mount(<Input onSubmit={onSubmit} />);
+      const wrapper = mount(<Input onSubmit={onSubmit} isCouponInput />);
       const input = wrapper.find(InputElementStyled);
       const inputEl = wrapper.getDOMNode();
 

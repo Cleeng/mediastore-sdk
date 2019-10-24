@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as colors from 'styles/variables';
 
-export const StyledThankYouPage = styled.div`
+export const ThankYouPageStyled = styled.div`
   width: 80%;
   margin: 0 auto;
   padding: 40px 0;
@@ -13,14 +13,14 @@ export const StyledThankYouPage = styled.div`
   font-weight: bold;
 `;
 
-export const StyledTitle = styled.div`
+export const TitleStyled = styled.div`
   font-size: 25px;
   margin-top: 75px;
   margin-bottom: 25px;
   font-weight: 600;
 `;
 
-export const StyledMessage = styled.div`
+export const MessageStyled = styled.div`
   font-family: 'Geomanist';
   font-weight: 300;
   & strong {
@@ -28,7 +28,7 @@ export const StyledMessage = styled.div`
   }
 `;
 
-export const StyledLink = styled.a`
+export const LinkStyled = styled.a`
   font-family: 'Geomanist';
   color: ${colors.MainTextColor};
   padding-left: 4px;
@@ -38,14 +38,14 @@ export const StyledLink = styled.a`
   }
 `;
 
-export const StyledSocials = styled.div`
+export const SocialsStyled = styled.div`
   margin: 0 35px;
   border-top: 1px ${colors.LightGrey} solid;
   padding-top: 20px;
   margin-top: 35px;
 `;
 
-export const StyledButtons = styled.div`
+export const ButtonsStyled = styled.div`
   display: flex;
   justify-content: center;
 
@@ -54,7 +54,7 @@ export const StyledButtons = styled.div`
   }
 `;
 
-export const StyledShare = styled.div`
+export const ShareStyled = styled.div`
   color: ${colors.FontLightColor};
   font-family: 'Geomanist';
   font-weight: 300;

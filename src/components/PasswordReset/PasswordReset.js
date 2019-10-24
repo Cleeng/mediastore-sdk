@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Input, { MESSAGE_TYPE_FAIL } from '../Input';
+import Input from '../Input';
 import Button from '../Button/Button';
+import Header from '../Header/Header';
 import emailIcon from '../../assets/images/input/email.svg';
 import resetPassword from '../../api/resetPassword';
 import {
   PasswordResetPageStyled,
   StyledTitle,
-  StyledMessage
+  StyledMessage,
+  InnerWrapper
 } from './PasswordResetStyled';
 
 // eslint-disable-next-line no-useless-escape
@@ -18,7 +20,6 @@ class PasswordReset extends Component {
     super(props);
     this.state = {
       value: '',
-      showMessage: false,
       message: ''
     };
   }
@@ -27,14 +28,10 @@ class PasswordReset extends Component {
     const { value } = this.state;
     const { offerId, onSuccess } = this.props;
 
-    this.setState({
-      showMessage: false
-    });
     if (EMAIL_REGEX.test(value)) {
       const { errors } = await resetPassword(offerId, value);
       if (errors.length) {
         this.setState({
-          showMessage: true,
           message: errors[0]
         });
       } else {
@@ -42,32 +39,34 @@ class PasswordReset extends Component {
       }
     } else {
       this.setState({
-        showMessage: true,
         message: 'The email address is not properly formatted.'
       });
     }
   };
 
   render() {
-    const { value, showMessage, message } = this.state;
+    const { value, message } = this.state;
     return (
-      <PasswordResetPageStyled>
-        <StyledTitle>Forgot your password?</StyledTitle>
-        <StyledMessage>
-          Just enter your email address below and we will send you a link to
-          reset your password
-        </StyledMessage>
-        <Input
-          icon={emailIcon}
-          showMessage={showMessage}
-          messageType={MESSAGE_TYPE_FAIL}
-          message={message}
-          value={value}
-          onChange={v => this.setState({ value: v })}
-          onSubmit={this.onSubmit}
-        />
-        <Button onClickFn={this.onSubmit}>Reset Password</Button>
-      </PasswordResetPageStyled>
+      <>
+        <Header showBackIcon />
+        <PasswordResetPageStyled>
+          <StyledTitle>Forgot your password?</StyledTitle>
+          <StyledMessage>
+            Just enter your email address below and we will send you a link to
+            reset your password
+          </StyledMessage>
+          <InnerWrapper>
+            <Input
+              icon={emailIcon}
+              error={message}
+              value={value}
+              onChange={v => this.setState({ value: v })}
+              onSubmit={this.onSubmit}
+            />
+            <Button onClickFn={this.onSubmit}>Reset Password</Button>
+          </InnerWrapper>
+        </PasswordResetPageStyled>
+      </>
     );
   }
 }

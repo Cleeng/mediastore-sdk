@@ -1,6 +1,5 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import 'jest-styled-components';
 import CouponInput from './CouponInput';
 import { InputElementStyled } from '../Input/InputStyled';
 import Input from '../Input';

@@ -8,6 +8,8 @@ import couponIcon from 'assets/images/input/coupon.svg';
 import emailIcon from 'assets/images/input/email.svg';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from './InputConstants';
 import Input from './Input';
+import '../../styles/index.scss';
+import passwordIcon from '../../assets/images/input/lock.svg';
 
 storiesOf('Input', module)
   .addDecorator(withKnobs)
@@ -23,7 +25,8 @@ storiesOf('Input', module)
         {
           none: null,
           coupon: couponIcon,
-          email: emailIcon
+          email: emailIcon,
+          password: passwordIcon
         },
         null
       )}

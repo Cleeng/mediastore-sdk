@@ -4,9 +4,12 @@ import ButtonStyled from './ButtonStyled';
 
 export const BUTTON_TYPE = {
   DEFAULT: '',
+  SECONDARY: 'secondary',
   GOOGLE: 'google',
   FB: 'fb',
-  CREDIT_CARD: 'creditcard'
+  CREDIT_CARD: 'creditcard',
+  LINK: 'link',
+  BACK: 'back'
 };
 
 const Button = ({ variant, type, onClickFn, children, disabled }) => (
