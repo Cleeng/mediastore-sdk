@@ -5,18 +5,23 @@ export const PasswordResetPageStyled = styled.div`
   width: 80%;
   margin: 0 auto;
   padding: 40px 0;
+
+  color: ${colors.MainTextColor};
+
   text-align: center;
   line-height: 1.3em;
   font-size: 15px;
-  color: ${colors.MainTextColor};
   font-family: 'Geomanist';
   font-weight: bold;
+  & button {
+    margin-top: 25px;
+  }
 `;
 
 export const StyledTitle = styled.div`
+  margin: 40px 0 25px 0;
+
   font-size: 25px;
-  margin-top: 75px;
-  margin-bottom: 25px;
   font-weight: 600;
 `;
 
@@ -26,4 +31,9 @@ export const StyledMessage = styled.div`
   & strong {
     font-weight: bold;
   }
+`;
+
+export const InnerWrapper = styled.div`
+  width: 80%;
+  margin: 30px auto 0 auto;
 `;

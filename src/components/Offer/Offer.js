@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CouponInput from 'components/CouponInput/CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
@@ -26,94 +26,113 @@ import {
   StyledCouponDiscountWrapper,
   StyledPriceWrapper
 } from './OfferStyled';
+import Header from '../Header/Header';
+import Footer from '../Footer/Footer';
 
 const roundPrice = value => Math.round(value * 100) / 100;
 
-const Offer = ({
-  offerDetails: {
-    title,
-    description,
-    imageUrl,
-    price,
-    priceBeforeDiscount,
-    customerCurrencySymbol,
-    isCouponApplied,
-    isTrialAllowed,
-    freePeriods,
-    periodDescription,
-    errors
-  },
-  couponProps: { showMessage, message, messageType, onSubmit },
-  onPaymentComplete
-}) => (
-  <StyledOfferWrapper>
-    <StyledOfferBody>
-      <StyledPageTitle>Complete your purchase</StyledPageTitle>
-      <StyledOfferContent>
-        <StyledimageUrl src={imageUrl} alt="Offer" />
-        <StyledOfferDetailsAndCoupon>
-          <StyledOfferDetailsWrapper>
-            <StyledOfferTitle>
-              {!errors.length ? title : 'This is not a valid offer.'}
-            </StyledOfferTitle>
-            <StyledOfferDetails>
-              <StyledOfferDescription>
-                {isTrialAllowed && (
-                  <StyledTrialDescription>
-                    {`You will be charged ${customerCurrencySymbol}${price} after ${freePeriods} ${periodDescription}.`}
-                  </StyledTrialDescription>
-                )}
-                {description}
-              </StyledOfferDescription>
-              <StyledOfferDetailsPrice>
-                {isTrialAllowed && <StyledTrial>trial period</StyledTrial>}
-                <StyledPrice>
-                  {`${customerCurrencySymbol}${price} `}
-                  <span>exVAT</span>
-                </StyledPrice>
-              </StyledOfferDetailsPrice>
-            </StyledOfferDetails>
-          </StyledOfferDetailsWrapper>
-          <CouponInput
-            showMessage={showMessage}
-            message={message}
-            messageType={messageType}
-            onSubmit={onSubmit}
-          />
-        </StyledOfferDetailsAndCoupon>
-      </StyledOfferContent>
-      <StyledTotalWrapper>
-        {isCouponApplied && (
-          <>
-            <StyledPriceBeforeWrapper>
-              <StyledTotalLabel>Price:</StyledTotalLabel>
+class Offer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      coupon: ''
+    };
+  }
+
+  render() {
+    const {
+      offerDetails: {
+        title,
+        description,
+        imageUrl,
+        price,
+        priceBeforeDiscount,
+        customerCurrencySymbol,
+        isCouponApplied,
+        isTrialAllowed,
+        freePeriods,
+        periodDescription,
+        errors
+      },
+      couponProps: { showMessage, message, messageType, onSubmit },
+      onPaymentComplete
+    } = this.props;
+    const { coupon } = this.state;
+    return (
+      <StyledOfferWrapper>
+        <StyledOfferBody>
+          <Header />
+          <StyledPageTitle>Complete your purchase</StyledPageTitle>
+          <StyledOfferContent>
+            <StyledimageUrl src={imageUrl} alt="Offer" />
+            <StyledOfferDetailsAndCoupon>
+              <StyledOfferDetailsWrapper>
+                <StyledOfferTitle>
+                  {!errors.length ? title : 'This is not a valid offer.'}
+                </StyledOfferTitle>
+                <StyledOfferDetails>
+                  <StyledOfferDescription>
+                    {isTrialAllowed && (
+                      <StyledTrialDescription>
+                        {`You will be charged ${customerCurrencySymbol}${price} after ${freePeriods} ${periodDescription}.`}
+                      </StyledTrialDescription>
+                    )}
+                    {description}
+                  </StyledOfferDescription>
+                  <StyledOfferDetailsPrice>
+                    {isTrialAllowed && <StyledTrial>trial period</StyledTrial>}
+                    <StyledPrice>
+                      {`${customerCurrencySymbol}${price} `}
+                      <span>exVAT</span>
+                    </StyledPrice>
+                  </StyledOfferDetailsPrice>
+                </StyledOfferDetails>
+              </StyledOfferDetailsWrapper>
+              <CouponInput
+                showMessage={showMessage}
+                message={message}
+                messageType={messageType}
+                onSubmit={onSubmit}
+                value={coupon}
+                onChange={e => this.setState({ coupon: e })}
+              />
+            </StyledOfferDetailsAndCoupon>
+          </StyledOfferContent>
+          <StyledTotalWrapper>
+            {isCouponApplied && (
+              <>
+                <StyledPriceBeforeWrapper>
+                  <StyledTotalLabel>Price:</StyledTotalLabel>
+                  <StyledOfferPrice>
+                    {`${customerCurrencySymbol}${priceBeforeDiscount} `}
+                    <span>exVAT</span>
+                  </StyledOfferPrice>
+                </StyledPriceBeforeWrapper>
+                <StyledCouponDiscountWrapper>
+                  <StyledTotalLabel>Coupon Discount</StyledTotalLabel>
+                  <StyledOfferPrice>
+                    {`${customerCurrencySymbol}${roundPrice(
+                      priceBeforeDiscount - price
+                    )}`}
+                  </StyledOfferPrice>
+                </StyledCouponDiscountWrapper>
+              </>
+            )}
+            <StyledPriceWrapper>
+              <StyledTotalLabel>Total</StyledTotalLabel>
               <StyledOfferPrice>
-                {`${customerCurrencySymbol}${priceBeforeDiscount} `}
+                {`${customerCurrencySymbol}${price} `}
                 <span>exVAT</span>
               </StyledOfferPrice>
-            </StyledPriceBeforeWrapper>
-            <StyledCouponDiscountWrapper>
-              <StyledTotalLabel>Coupon Discount</StyledTotalLabel>
-              <StyledOfferPrice>
-                {`${customerCurrencySymbol}${roundPrice(
-                  priceBeforeDiscount - price
-                )}`}
-              </StyledOfferPrice>
-            </StyledCouponDiscountWrapper>
-          </>
-        )}
-        <StyledPriceWrapper>
-          <StyledTotalLabel>Total</StyledTotalLabel>
-          <StyledOfferPrice>
-            {`${customerCurrencySymbol}${price} `}
-            <span>exVAT</span>
-          </StyledOfferPrice>
-        </StyledPriceWrapper>
-      </StyledTotalWrapper>
-    </StyledOfferBody>
-    <Payment onPaymentComplete={onPaymentComplete} />
-  </StyledOfferWrapper>
-);
+            </StyledPriceWrapper>
+          </StyledTotalWrapper>
+        </StyledOfferBody>
+        <Payment onPaymentComplete={onPaymentComplete} />
+        <Footer />
+      </StyledOfferWrapper>
+    );
+  }
+}
 
 Offer.propTypes = {
   offerDetails: PropTypes.shape({

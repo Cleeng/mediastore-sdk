@@ -4,7 +4,8 @@ import {
   InputComponentStyled,
   InputElementWrapperStyled,
   InputElementStyled,
-  MessageStyled
+  MessageStyled,
+  ErrorWrapper
 } from './InputStyled';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from './InputConstants';
 
@@ -91,6 +92,7 @@ class Input extends Component {
 
   render() {
     const {
+      type,
       placeholder,
       icon,
       clearMessageOnFocus,
@@ -98,19 +100,25 @@ class Input extends Component {
       message,
       messageType,
       value,
-      onChange
+      isCouponInput,
+      onChange,
+      onBlur,
+      error
     } = this.props;
     const { suppressMessage } = this.state;
 
     return (
       <InputComponentStyled>
-        <MessageStyled
-          showMessage={showMessage && !suppressMessage}
-          messageType={messageType}
-        >
-          {message}
-        </MessageStyled>
+        {isCouponInput && (
+          <MessageStyled
+            showMessage={showMessage && !suppressMessage}
+            messageType={messageType}
+          >
+            {message}
+          </MessageStyled>
+        )}
         <InputElementWrapperStyled
+          error={error}
           showMessage={showMessage && !suppressMessage}
           messageType={messageType}
           icon={icon}
@@ -118,7 +126,7 @@ class Input extends Component {
           <InputElementStyled
             placeholder={placeholder}
             onKeyDown={event => {
-              if (event.key === 'Enter') {
+              if (event.key === 'Enter' && isCouponInput) {
                 this.handleSubmit(event);
               }
             }}
@@ -130,10 +138,12 @@ class Input extends Component {
               }
             }}
             autoComplete="off"
-            type="text"
             value={value}
             onChange={event => onChange(event.target.value)}
+            type={type}
+            onBlur={onBlur}
           />
+          {!isCouponInput && <ErrorWrapper>{error}</ErrorWrapper>}
         </InputElementWrapperStyled>
       </InputComponentStyled>
     );
@@ -142,6 +152,7 @@ class Input extends Component {
 
 Input.propTypes = {
   placeholder: PropTypes.string,
+  type: PropTypes.string,
   icon: PropTypes.node,
   clearMessageAfterDelay: PropTypes.bool,
   clearMessageOnFocus: PropTypes.bool,
@@ -150,12 +161,16 @@ Input.propTypes = {
   message: PropTypes.node,
   messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS]),
   value: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired, // should return a promise,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  onSubmit: PropTypes.func,
+  isCouponInput: PropTypes.bool,
+  onBlur: PropTypes.func,
+  error: PropTypes.string
 };
 
 Input.defaultProps = {
   placeholder: '',
+  type: 'text',
   icon: null,
   clearMessageAfterDelay: false,
   clearMessageOnFocus: false,
@@ -163,8 +178,12 @@ Input.defaultProps = {
   showMessage: false,
   messageType: MESSAGE_TYPE_FAIL,
   message: null,
-  value: '',
-  onChange: () => {}
+  onSubmit: () => {},
+  isCouponInput: false,
+  onChange: () => {},
+  onBlur: () => {},
+  error: '',
+  value: ''
 };
 
 export default Input;

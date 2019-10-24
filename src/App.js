@@ -1,13 +1,13 @@
 import React from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
+import { AppStyled, AppContentStyled } from './AppStyled';
 import history from './history';
-import { JWT_TOKEN_LOCAL_STORAGE_KEY } from './util/Constants';
 import OfferContainer from './containers/OfferContainer';
 import ThankYouPage from './components/ThankYouPage/ThankYouPage';
-import Login from './components/Login';
-import { AppStyled, AppContentStyled } from './AppStyled';
+import Login from './components/LoginPage/Login';
 import PasswordReset from './components/PasswordReset';
 import PasswordResetSuccess from './components/PasswordResetSuccess';
+import { JWT_TOKEN_LOCAL_STORAGE_KEY } from './util/Constants';
 
 const App = () => {
   const onLoginComplete = () => {

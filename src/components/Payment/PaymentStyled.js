@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 export const PaymentStyled = styled.div`
-  padding: 40px 35px;
+  padding: 40px 35px 50px 35px;
   width: 100%;
   margin-top: 20px;
 `;

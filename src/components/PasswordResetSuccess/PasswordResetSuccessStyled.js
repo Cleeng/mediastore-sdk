@@ -83,19 +83,18 @@ const animateCheckmark = keyframes`
   `;
 
 export const Checkmark = styled.div`
-    animation-duration: 800ms;
-    animation-timing-function: ease;
-    animation-name: ${animateCheckmark};
-    transform: scaleX(-1) rotate(135deg);
-    opacity: 1;
-    height: 3.5em;
-    width: 1.75em;
-    transform-origin: left top;
-    border-right: 3px solid #5cb85c;
-    border-top: 3px solid #5cb85c;
-    content: '';
-    left: 1.75em;
-    top: 3.5em;
-    position: absolute;
-  }
+  animation-duration: 800ms;
+  animation-timing-function: ease;
+  animation-name: ${animateCheckmark};
+  transform: scaleX(-1) rotate(135deg);
+  opacity: 1;
+  height: 3.5em;
+  width: 1.75em;
+  transform-origin: left top;
+  border-right: 3px solid #5cb85c;
+  border-top: 3px solid #5cb85c;
+  content: '';
+  left: 1.75em;
+  top: 3.5em;
+  position: absolute;
 `;
