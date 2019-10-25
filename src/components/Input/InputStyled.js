@@ -24,7 +24,7 @@ export const InputElementWrapperStyled = styled.div`
   align-items: center;
   position: relative;
 
-  padding: 17px 0 13px;
+  padding: 15px 0 13px;
 
   background: white;
   border-bottom: 1px solid ${LightGrey};
@@ -67,6 +67,7 @@ export const InputElementStyled = styled.input`
   outline: none;
 
   font-size: 15px;
+  line-height: 1.3;
 `;
 
 export const MessageStyled = styled.div`
@@ -85,7 +86,7 @@ export const MessageStyled = styled.div`
 
 export const ErrorWrapper = styled.div`
   position: absolute;
-  top: 60px;
+  top: 57px;
   left: 0;
   width: 100%;
 
