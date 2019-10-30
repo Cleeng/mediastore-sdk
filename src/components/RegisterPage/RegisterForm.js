@@ -89,6 +89,7 @@ class RegisterForm extends Component {
           onChange={e => this.setState({ password: e })}
           onBlur={this.validatePassword}
           error={errors.password}
+          showVisibilityIcon
           showPassword={showPassword}
           handleClickShowPassword={this.handleClickShowPassword}
         />

@@ -8,6 +8,7 @@ const PasswordInput = ({
   onChange,
   onBlur,
   error,
+  showVisibilityIcon,
   showPassword,
   handleClickShowPassword
 }) => (
@@ -20,7 +21,7 @@ const PasswordInput = ({
       onChange={onChange}
       onBlur={onBlur}
       error={error}
-      showVisibilityIcon
+      showVisibilityIcon={showVisibilityIcon}
       handleClickShowPassword={handleClickShowPassword}
       showPassword={showPassword}
     />
@@ -32,6 +33,7 @@ PasswordInput.propTypes = {
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
   error: PropTypes.string,
+  showVisibilityIcon: PropTypes.bool,
   showPassword: PropTypes.bool,
   handleClickShowPassword: PropTypes.func
 };
@@ -41,6 +43,7 @@ PasswordInput.defaultProps = {
   onChange: () => {},
   onBlur: () => {},
   error: '',
+  showVisibilityIcon: false,
   showPassword: false,
   handleClickShowPassword: () => {}
 };
