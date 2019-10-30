@@ -7,7 +7,8 @@ import {
   MainTextColor,
   MediumGrey,
   PassOffer,
-  ErrorOffer
+  ErrorOffer,
+  TextFieldBorderFilter
 } from 'styles/variables';
 import { MESSAGE_TYPE_SUCCESS } from './InputConstants';
 
@@ -97,4 +98,36 @@ export const ErrorWrapper = styled.div`
   font-size: 12px;
   font-weight: 300;
   text-align: left;
+`;
+
+export const StyledPasswordVisibility = styled.img`
+  height: 20px;
+  width: 20px;
+  filter: ${TextFieldBorderFilter};
+`;
+export const StyledButton = styled.button`
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  padding: 0;
+  position: relative;
+  margin-right: 5px;
+  &::after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: scale(1.5);
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.08);
+    z-index: 0;
+    content: '';
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  &:hover::after {
+    opacity: 1;
+  }
 `;

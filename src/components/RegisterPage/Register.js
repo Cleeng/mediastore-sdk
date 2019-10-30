@@ -1,42 +1,33 @@
 import React from 'react';
-import PropType from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
   ContentWrapperStyled,
   SocialStyled,
   SeparatorStyled
-} from './LoginStyled';
+} from '../LoginPage/LoginStyled';
 import Button from '../Button/Button';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-import LoginForm from './LoginForm';
+import RegisterForm from './RegisterForm';
 
-const Login = ({ onLoginComplete }) => {
+const Register = () => {
   return (
     <>
-      <Header />
+      <Header showBackIcon />
       <ContentWrapperStyled>
-        <LoginForm onLoginComplete={onLoginComplete} />
-        <Link to="/register">
-          <Button variant="secondary">Go to register</Button>
+        <RegisterForm />
+        <Link to="/login">
+          <Button variant="secondary">Have an account?</Button>
         </Link>
         <SocialStyled>
           <SeparatorStyled>Or</SeparatorStyled>
           <Button variant="google">Sing up with Google</Button>
           <Button variant="fb">Sing up with Facebook</Button>
-          <Link to="/reset-password/S562365660_RU">
-            <Button variant="link">Forgot password?</Button>
-          </Link>
         </SocialStyled>
       </ContentWrapperStyled>
       <Footer />
     </>
   );
 };
-Login.propTypes = {
-  onLoginComplete: PropType.func
-};
-Login.defaultProps = {
-  onLoginComplete: () => {}
-};
-export default Login;
+
+export default Register;
