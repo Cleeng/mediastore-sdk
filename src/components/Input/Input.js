@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import visibility from 'assets/images/visibility.svg';
+import visibilityOff from 'assets/images/visibilityOff.svg';
 import {
   InputComponentStyled,
   InputElementWrapperStyled,
   InputElementStyled,
   MessageStyled,
-  ErrorWrapper
+  ErrorWrapper,
+  StyledButton,
+  StyledPasswordVisibility
 } from './InputStyled';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from './InputConstants';
 
@@ -103,7 +107,10 @@ class Input extends Component {
       isCouponInput,
       onChange,
       onBlur,
-      error
+      error,
+      showVisibilityIcon,
+      handleClickShowPassword,
+      showPassword
     } = this.props;
     const { suppressMessage } = this.state;
 
@@ -143,6 +150,18 @@ class Input extends Component {
             type={type}
             onBlur={onBlur}
           />
+          {showVisibilityIcon && (
+            <StyledButton
+              onClick={handleClickShowPassword}
+              aria-label="toggle password visibility"
+            >
+              {showPassword ? (
+                <StyledPasswordVisibility src={visibilityOff} />
+              ) : (
+                <StyledPasswordVisibility src={visibility} />
+              )}
+            </StyledButton>
+          )}
           {!isCouponInput && <ErrorWrapper>{error}</ErrorWrapper>}
         </InputElementWrapperStyled>
       </InputComponentStyled>
@@ -165,7 +184,10 @@ Input.propTypes = {
   onSubmit: PropTypes.func,
   isCouponInput: PropTypes.bool,
   onBlur: PropTypes.func,
-  error: PropTypes.string
+  error: PropTypes.string,
+  showVisibilityIcon: PropTypes.bool,
+  handleClickShowPassword: PropTypes.func,
+  showPassword: PropTypes.bool
 };
 
 Input.defaultProps = {
@@ -183,7 +205,10 @@ Input.defaultProps = {
   onChange: () => {},
   onBlur: () => {},
   error: '',
-  value: ''
+  value: '',
+  showVisibilityIcon: false,
+  handleClickShowPassword: () => {},
+  showPassword: false
 };
 
 export default Input;

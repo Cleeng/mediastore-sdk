@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import PropType from 'prop-types';
-import { FromStyled, FormErrorStyled } from './LoginStyled';
+import { FromStyled, FormErrorStyled } from '../LoginPage/LoginStyled';
 import Button from '../Button/Button';
 import EmailInput from '../EmailInput/EmailInput';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import validateEmailField from '../EmailInput/EmailHelper';
-import { validatePasswordField } from '../PasswordInput/PasswordHelper';
+import { validateRegisterPassword } from '../PasswordInput/PasswordHelper';
 
-class LoginForm extends Component {
+class RegisterForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,9 +16,15 @@ class LoginForm extends Component {
         email: '',
         password: ''
       },
-      loginError: ''
+      generalError: '',
+      showPassword: false
     };
   }
+
+  handleClickShowPassword = () => {
+    const { showPassword } = this.state;
+    this.setState({ showPassword: !showPassword });
+  };
 
   validateEmail = () => {
     const { email, errors } = this.state;
@@ -34,7 +39,7 @@ class LoginForm extends Component {
 
   validatePassword = () => {
     const { password, errors } = this.state;
-    const message = validatePasswordField(password);
+    const message = validateRegisterPassword(password);
     this.setState(() => ({
       errors: {
         ...errors,
@@ -47,7 +52,7 @@ class LoginForm extends Component {
     const { email, password } = this.state;
     const errorFields = {
       email: validateEmailField(email),
-      password: validatePasswordField(password)
+      password: validateRegisterPassword(password)
     };
     this.setState({ errors: errorFields });
     return !Object.keys(errorFields).find(key => errorFields[key] !== '');
@@ -56,25 +61,23 @@ class LoginForm extends Component {
   handleSubmit = event => {
     event.preventDefault();
     if (this.validateFields()) {
-      this.login();
+      this.register();
     }
   };
 
-  login = async () => {
-    const { onLoginComplete } = this.props;
-    onLoginComplete();
-    // TODO: login logic after pass validation
-    // if not successful login
+  register = async () => {
+    // TODO: register logic after pass validation
+    // if not successful register
     // this.setState({
-    //   loginError: 'Wrong username or password.'
+    //   generalError: 'Wrong data'
     // });
   };
 
   render() {
-    const { email, password, errors, loginError } = this.state;
+    const { email, password, errors, generalError, showPassword } = this.state;
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
-        <FormErrorStyled>{loginError}</FormErrorStyled>
+        <FormErrorStyled>{generalError}</FormErrorStyled>
         <EmailInput
           value={email}
           onChange={e => this.setState({ email: e })}
@@ -86,18 +89,14 @@ class LoginForm extends Component {
           onChange={e => this.setState({ password: e })}
           onBlur={this.validatePassword}
           error={errors.password}
+          showVisibilityIcon
+          showPassword={showPassword}
+          handleClickShowPassword={this.handleClickShowPassword}
         />
-        <Button type="submit">Log in</Button>
+        <Button type="submit">Register</Button>
       </FromStyled>
     );
   }
 }
 
-LoginForm.propTypes = {
-  onLoginComplete: PropType.func
-};
-LoginForm.defaultProps = {
-  onLoginComplete: () => {}
-};
-
-export default LoginForm;
+export default RegisterForm;

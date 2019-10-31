@@ -1,5 +1,6 @@
 import React from 'react';
 import { Router, Route, Switch, Redirect } from 'react-router-dom';
+import Register from 'components/RegisterPage/Register';
 import { AppStyled, AppContentStyled } from './AppStyled';
 import history from './history';
 import OfferContainer from './containers/OfferContainer';
@@ -33,6 +34,9 @@ const App = () => {
             </Route>
             <Route path="/login">
               <Login onLoginComplete={onLoginComplete} />
+            </Route>
+            <Route path="/register">
+              <Register />
             </Route>
             <Route
               path="/reset-password/:offerId"
