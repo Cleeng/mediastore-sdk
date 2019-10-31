@@ -20,7 +20,7 @@ const wrapper = mount(
   </Router>
 );
 
-describe('LoRegistergin', () => {
+describe('Register Page', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
       expect(wrapper.find(Header)).toHaveLength(1);
