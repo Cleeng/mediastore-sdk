@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import {
   ContentWrapperStyled,
   SocialStyled,
@@ -10,12 +11,12 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import RegisterForm from './RegisterForm';
 
-const Register = () => {
+const Register = ({ onRegistrationComplete }) => {
   return (
     <>
       <Header showBackIcon />
       <ContentWrapperStyled>
-        <RegisterForm />
+        <RegisterForm onRegistrationComplete={onRegistrationComplete} />
         <Link to="/login">
           <Button variant="secondary">Have an account?</Button>
         </Link>
@@ -28,6 +29,13 @@ const Register = () => {
       <Footer />
     </>
   );
+};
+Register.propTypes = {
+  onRegistrationComplete: PropTypes.func
+};
+
+Register.defaultProps = {
+  onRegistrationComplete: () => {}
 };
 
 export default Register;

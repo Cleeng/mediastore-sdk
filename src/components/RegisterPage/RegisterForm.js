@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Consent, { validateConsentsField } from '../Consents';
 import { FromStyled, FormErrorStyled } from '../LoginPage/LoginStyled';
 import Button from '../Button/Button';
@@ -14,6 +15,7 @@ class RegisterForm extends Component {
       email: '',
       password: '',
       consents: [],
+      offerId: 'S192849285_NL',
       errors: {
         email: '',
         password: '',
@@ -82,11 +84,45 @@ class RegisterForm extends Component {
   };
 
   register = async () => {
-    // TODO: register logic after pass validation
-    // if not successful register
-    // this.setState({
-    //   generalError: 'Wrong data'
-    // });
+    const { email, password, offerId } = this.state;
+    const { onRegistrationComplete } = this.props;
+
+    const result = await fetch(
+      `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers`,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          email,
+          password,
+          offerId,
+          consents: []
+        })
+      }
+    );
+
+    if (result.status === 422) {
+      this.setState({
+        generalError: 'Customer already exists.'
+      });
+    } else if (result.status !== 200) {
+      this.setState({
+        generalError: 'An error occured.'
+      });
+    } else if (result.status === 200) {
+      const json = await result.json();
+      const data = {
+        email,
+        jwt: json.jwt
+      };
+
+      localStorage.setItem('cleengUserData', JSON.stringify(data));
+      onRegistrationComplete();
+    }
+    return false;
   };
 
   render() {
@@ -118,5 +154,13 @@ class RegisterForm extends Component {
     );
   }
 }
+
+RegisterForm.propTypes = {
+  onRegistrationComplete: PropTypes.func
+};
+
+RegisterForm.defaultProps = {
+  onRegistrationComplete: () => {}
+};
 
 export default RegisterForm;
