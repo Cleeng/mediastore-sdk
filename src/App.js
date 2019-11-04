@@ -16,7 +16,7 @@ const App = () => {
       JWT_TOKEN_LOCAL_STORAGE_KEY,
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvZmZlcklkIjoiUzEyMzQ1Njc4OSJ9.VkXuGOeMZD6fXT4ebWuEL0Iat3nmbzMDNOrEJYetORM'
     );
-    history.push('/offer/S123456789');
+    history.push('/offer/S192849285_NL');
   };
 
   const path = history.location.hash.slice(1);
@@ -36,7 +36,11 @@ const App = () => {
               <Login onLoginComplete={onLoginComplete} />
             </Route>
             <Route path="/register">
-              <Register />
+              <Register
+                onRegistrationComplete={() =>
+                  history.push(`/offer/S192849285_NL`)
+                }
+              />
             </Route>
             <Route
               path="/reset-password/:offerId"
