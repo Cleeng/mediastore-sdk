@@ -7,3 +7,9 @@ export function validatePassword(password) {
   const re = /[0-9]+/;
   return re.test(password);
 }
+
+export function validateConsents(value, consentDefinitions) {
+  return consentDefinitions.every(
+    (consent, index) => !(consent.required && !value[index])
+  );
+}

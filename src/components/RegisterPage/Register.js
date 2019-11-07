@@ -21,8 +21,8 @@ const Register = () => {
         </Link>
         <SocialStyled>
           <SeparatorStyled>Or</SeparatorStyled>
-          <Button variant="google">Sing up with Google</Button>
-          <Button variant="fb">Sing up with Facebook</Button>
+          <Button variant="google">Sign up with Google</Button>
+          <Button variant="fb">Sign up with Facebook</Button>
         </SocialStyled>
       </ContentWrapperStyled>
       <Footer />

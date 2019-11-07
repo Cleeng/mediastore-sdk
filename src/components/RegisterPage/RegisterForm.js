@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Consent, { validateConsentsField } from '../Consents';
 import { FromStyled, FormErrorStyled } from '../LoginPage/LoginStyled';
 import Button from '../Button/Button';
 import EmailInput from '../EmailInput/EmailInput';
@@ -12,12 +13,15 @@ class RegisterForm extends Component {
     this.state = {
       email: '',
       password: '',
+      consents: [],
       errors: {
         email: '',
-        password: ''
+        password: '',
+        consents: ''
       },
       generalError: '',
-      showPassword: false
+      showPassword: false,
+      consentDefinitions: []
     };
   }
 
@@ -49,13 +53,25 @@ class RegisterForm extends Component {
   };
 
   validateFields = () => {
-    const { email, password } = this.state;
+    const { email, password, consents, consentDefinitions } = this.state;
     const errorFields = {
       email: validateEmailField(email),
-      password: validateRegisterPassword(password)
+      password: validateRegisterPassword(password),
+      consents: validateConsentsField(consents, consentDefinitions)
     };
     this.setState({ errors: errorFields });
     return !Object.keys(errorFields).find(key => errorFields[key] !== '');
+  };
+
+  handleConsentsChange = (value, consentDefinitions) => {
+    this.setState(prev => ({
+      consents: value,
+      consentDefinitions,
+      errors: {
+        ...prev.errors,
+        consents: ''
+      }
+    }));
   };
 
   handleSubmit = event => {
@@ -92,6 +108,10 @@ class RegisterForm extends Component {
           showVisibilityIcon
           showPassword={showPassword}
           handleClickShowPassword={this.handleClickShowPassword}
+        />
+        <Consent
+          error={errors.consents}
+          onChangeFn={this.handleConsentsChange}
         />
         <Button type="submit">Register</Button>
       </FromStyled>
