@@ -43,6 +43,7 @@ const App = () => {
                 }
               }) => (
                 <Register
+                  offerId={offerId}
                   onRegistrationComplete={() =>
                     history.push(`/offer/${offerId}`)
                   }

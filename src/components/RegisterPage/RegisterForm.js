@@ -105,7 +105,6 @@ class RegisterForm extends Component {
         })
       }
     );
-
     if (response.status === 200) {
       const json = await response.json();
       localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE_KEY, json.jwt);
