@@ -7,6 +7,7 @@ import EmailInput from '../EmailInput/EmailInput';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import validateEmailField from '../EmailInput/EmailHelper';
 import { validateRegisterPassword } from '../PasswordInput/PasswordHelper';
+import { JWT_TOKEN_LOCAL_STORAGE_KEY } from '../../util/Constants';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -27,7 +28,8 @@ class RegisterForm extends Component {
     };
   }
 
-  handleClickShowPassword = () => {
+  handleClickShowPassword = e => {
+    e.preventDefault();
     const { showPassword } = this.state;
     this.setState({ showPassword: !showPassword });
   };
@@ -87,7 +89,7 @@ class RegisterForm extends Component {
     const { email, password, offerId } = this.state;
     const { onRegistrationComplete } = this.props;
 
-    const result = await fetch(
+    const response = await fetch(
       `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers`,
       {
         headers: {
@@ -104,25 +106,16 @@ class RegisterForm extends Component {
       }
     );
 
-    if (result.status === 422) {
-      this.setState({
-        generalError: 'Customer already exists.'
-      });
-    } else if (result.status !== 200) {
+    if (response.status === 200) {
+      const json = await response.json();
+      localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE_KEY, json.jwt);
+      onRegistrationComplete();
+    } else {
       this.setState({
         generalError: 'An error occured.'
       });
-    } else if (result.status === 200) {
-      const json = await result.json();
-      const data = {
-        email,
-        jwt: json.jwt
-      };
-
-      localStorage.setItem('cleengUserData', JSON.stringify(data));
-      onRegistrationComplete();
     }
-    return false;
+    return true;
   };
 
   render() {
