@@ -5,28 +5,35 @@ import getOfferDetails from 'api/getOfferDetails';
 import Offer from 'components/Offer';
 import applyCoupon from 'api/applyCoupon';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
+import ErrorPage from 'components/ErrorPage';
+import saveOfferId from '../util/offerIdHelper';
 
-const OfferContainer = ({ offerId, onPaymentComplete }) => {
+const OfferContainer = ({ onPaymentComplete, urlProps }) => {
   const [offerDetails, setOfferDetails] = useState(null);
   const [couponProps, setCouponProps] = useState(null);
   const [error, setError] = useState(null);
+  const [offerId, setOfferId] = useState('');
+  const [isMounted, setIsMounted] = useState(true);
 
   useEffect(() => {
-    let isMounted = true;
-    getOfferDetails(offerId)
-      .then(offerDetailsResponse => {
-        if (isMounted) {
-          setOfferDetails(offerDetailsResponse);
-        }
-      })
-      .catch(err => {
-        if (isMounted) {
-          setError(err);
-        }
-      });
-    return () => {
-      isMounted = false;
-    };
+    if (offerId) {
+      getOfferDetails(offerId)
+        .then(offerDetailsResponse => {
+          if (isMounted) {
+            setOfferDetails(offerDetailsResponse);
+          }
+        })
+        .catch(err => {
+          if (isMounted) {
+            setError(err);
+          }
+        });
+      setIsMounted(false);
+    }
+  }, [offerId]);
+
+  useEffect(() => {
+    saveOfferId(urlProps.location, setOfferId);
   }, []);
 
   const onCouponSubmit = couponCode =>
@@ -52,24 +59,28 @@ const OfferContainer = ({ offerId, onPaymentComplete }) => {
     return <Redirect to="/login" />;
   }
 
-  if (offerDetails) {
-    return (
-      <Offer
-        offerDetails={offerDetails}
-        couponProps={{
-          ...couponProps,
-          onSubmit: onCouponSubmit
-        }}
-        onPaymentComplete={onPaymentComplete}
-      />
-    );
-  }
-  return null;
+  return offerDetails ? (
+    <Offer
+      offerDetails={offerDetails}
+      couponProps={{
+        ...couponProps,
+        onSubmit: onCouponSubmit
+      }}
+      onPaymentComplete={onPaymentComplete}
+    />
+  ) : (
+    isMounted && <ErrorPage type="offerNotExist" />
+  );
 };
 
 OfferContainer.propTypes = {
-  offerId: PropTypes.string.isRequired,
-  onPaymentComplete: PropTypes.func.isRequired
+  onPaymentComplete: PropTypes.func.isRequired,
+  urlProps: PropTypes.shape({
+    location: PropTypes.shape({ search: PropTypes.string })
+  })
+};
+OfferContainer.defaultProps = {
+  urlProps: {}
 };
 
 export default OfferContainer;

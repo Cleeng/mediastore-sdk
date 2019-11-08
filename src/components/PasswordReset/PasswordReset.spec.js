@@ -6,6 +6,10 @@ import Input from 'components/Input';
 import PasswordReset from './PasswordReset';
 import Button from '../Button';
 
+const mockUrlProps = {
+  location: { search: '?offer=123123' }
+};
+
 describe('PasswordReset', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
@@ -17,7 +21,7 @@ describe('PasswordReset', () => {
             location: { pathname: '' }
           }}
         >
-          <PasswordReset onSuccess={jest.fn()} offerId="S123456789" />
+          <PasswordReset onSuccess={jest.fn()} urlProps={mockUrlProps} />
         </Router>
       );
       const inputComponent = wrapper.find(Input);

@@ -5,6 +5,8 @@ import Button from '../Button/Button';
 import Header from '../Header/Header';
 import emailIcon from '../../assets/images/input/email.svg';
 import resetPassword from '../../api/resetPassword';
+import saveOfferId from '../../util/offerIdHelper';
+
 import {
   PasswordResetPageStyled,
   StyledTitle,
@@ -19,14 +21,22 @@ class PasswordReset extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      offerId: '',
       value: '',
       message: ''
     };
   }
 
+  componentDidMount() {
+    const { urlProps } = this.props;
+    saveOfferId(urlProps.location, this.setOfferId);
+  }
+
+  setOfferId = value => this.setState({ offerId: value });
+
   onSubmit = async () => {
-    const { value } = this.state;
-    const { offerId, onSuccess } = this.props;
+    const { value, offerId } = this.state;
+    const { onSuccess } = this.props;
 
     if (EMAIL_REGEX.test(value)) {
       const { errors } = await resetPassword(offerId, value);
@@ -70,9 +80,15 @@ class PasswordReset extends Component {
     );
   }
 }
+
 PasswordReset.propTypes = {
   onSuccess: PropTypes.func.isRequired,
-  offerId: PropTypes.string.isRequired
+  urlProps: PropTypes.shape({
+    location: PropTypes.shape({ search: PropTypes.string })
+  })
+};
+PasswordReset.defaultProps = {
+  urlProps: {}
 };
 
 export default PasswordReset;

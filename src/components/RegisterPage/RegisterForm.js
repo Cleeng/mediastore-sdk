@@ -16,7 +16,6 @@ class RegisterForm extends Component {
       email: '',
       password: '',
       consents: [],
-      offerId: 'S192849285_NL',
       errors: {
         email: '',
         password: '',
@@ -86,8 +85,8 @@ class RegisterForm extends Component {
   };
 
   register = async () => {
-    const { email, password, offerId, consents } = this.state;
-    const { onRegistrationComplete } = this.props;
+    const { email, password, consents } = this.state;
+    const { onRegistrationComplete, offerId } = this.props;
 
     const response = await fetch(
       `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers`,
@@ -123,6 +122,8 @@ class RegisterForm extends Component {
 
   render() {
     const { email, password, errors, generalError, showPassword } = this.state;
+    const { offerId } = this.props;
+
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
         <FormErrorStyled>{generalError}</FormErrorStyled>
@@ -142,6 +143,7 @@ class RegisterForm extends Component {
           handleClickShowPassword={this.handleClickShowPassword}
         />
         <Consent
+          offerId={offerId}
           error={errors.consents}
           onChangeFn={this.handleConsentsChange}
         />
@@ -152,11 +154,13 @@ class RegisterForm extends Component {
 }
 
 RegisterForm.propTypes = {
-  onRegistrationComplete: PropTypes.func
+  onRegistrationComplete: PropTypes.func,
+  offerId: PropTypes.string
 };
 
 RegisterForm.defaultProps = {
-  onRegistrationComplete: () => {}
+  onRegistrationComplete: () => {},
+  offerId: ''
 };
 
 export default RegisterForm;

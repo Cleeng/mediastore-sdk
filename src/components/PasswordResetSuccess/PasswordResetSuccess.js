@@ -11,7 +11,7 @@ import {
   Checkmark
 } from './PasswordResetSuccessStyled';
 
-const PasswordResetSuccess = ({ email, offerId }) => (
+const PasswordResetSuccess = ({ email }) => (
   <PasswordResetSuccessPageStyled>
     <Loader>
       <Checkmark />
@@ -22,15 +22,14 @@ const PasswordResetSuccess = ({ email, offerId }) => (
     </StyledMessage>
     <NoteStyled>
       Not sure that was the right email address?{' '}
-      <Link to={`/reset-password/${offerId}`}>
+      <Link to="/reset-password">
         <StyledLink>Try again.</StyledLink>
       </Link>
     </NoteStyled>
   </PasswordResetSuccessPageStyled>
 );
 PasswordResetSuccess.propTypes = {
-  email: PropTypes.string.isRequired,
-  offerId: PropTypes.string.isRequired
+  email: PropTypes.string.isRequired
 };
 
 export default PasswordResetSuccess;

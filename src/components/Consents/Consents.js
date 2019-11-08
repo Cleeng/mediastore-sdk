@@ -16,15 +16,19 @@ export class Consents extends React.Component {
     };
   }
 
-  componentDidMount() {
-    this.getConsents().then(() => {
-      this.validateConsents();
-    });
+  componentDidUpdate(prevProps) {
+    const { offerId } = this.props;
+
+    if (prevProps.offerId !== offerId) {
+      this.getConsents(offerId).then(() => {
+        this.validateConsents();
+      });
+    }
   }
 
-  getConsents = async () => {
+  getConsents = async offerId => {
     try {
-      const consentsIncome = await getConsentsRequest('E441609609_PL');
+      const consentsIncome = await getConsentsRequest(offerId);
       if (consentsIncome.consents) {
         const consentsDetails = consentsIncome.consents.map(element => {
           return {
@@ -95,11 +99,13 @@ export class Consents extends React.Component {
 }
 
 Consents.propTypes = {
+  offerId: PropTypes.string,
   error: PropTypes.string,
   onChangeFn: PropTypes.func
 };
 
 Consents.defaultProps = {
+  offerId: '',
   error: '',
   onChangeFn: () => {}
 };
