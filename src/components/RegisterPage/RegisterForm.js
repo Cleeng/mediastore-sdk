@@ -86,7 +86,7 @@ class RegisterForm extends Component {
   };
 
   register = async () => {
-    const { email, password, offerId } = this.state;
+    const { email, password, offerId, consents } = this.state;
     const { onRegistrationComplete } = this.props;
 
     const response = await fetch(
@@ -101,7 +101,7 @@ class RegisterForm extends Component {
           email,
           password,
           offerId,
-          consents: []
+          consents
         })
       }
     );
@@ -109,6 +109,10 @@ class RegisterForm extends Component {
       const json = await response.json();
       localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE_KEY, json.jwt);
       onRegistrationComplete();
+    } else if (response.status === 422) {
+      this.setState({
+        generalError: 'Customer already exists.'
+      });
     } else {
       this.setState({
         generalError: 'An error occured.'
@@ -127,6 +131,7 @@ class RegisterForm extends Component {
           onChange={e => this.setState({ email: e })}
           onBlur={this.validateEmail}
           error={errors.email}
+          required
         />
         <PasswordInput
           value={password}
@@ -136,6 +141,7 @@ class RegisterForm extends Component {
           showVisibilityIcon
           showPassword={showPassword}
           handleClickShowPassword={this.handleClickShowPassword}
+          required
         />
         <Consent
           error={errors.consents}
