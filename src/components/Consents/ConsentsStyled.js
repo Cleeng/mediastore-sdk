@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ErrorOffer } from 'styles/variables';
+import { ErrorOffer, MainTextColor } from 'styles/variables';
 
 export const ConsentsWrapperStyled = styled.div`
   position: relative;
@@ -7,6 +7,7 @@ export const ConsentsWrapperStyled = styled.div`
   font-weight: 300;
   font-size: 13px;
   margin-top: 30px;
+  color: ${MainTextColor};
 
   & button {
     margin-top: 35px;

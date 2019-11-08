@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Consent, { validateConsentsField } from '../Consents';
 import { FromStyled, FormErrorStyled } from '../LoginPage/LoginStyled';
 import Button from '../Button/Button';
@@ -6,6 +7,7 @@ import EmailInput from '../EmailInput/EmailInput';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import validateEmailField from '../EmailInput/EmailHelper';
 import { validateRegisterPassword } from '../PasswordInput/PasswordHelper';
+import { JWT_TOKEN_LOCAL_STORAGE_KEY } from '../../util/Constants';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -14,6 +16,7 @@ class RegisterForm extends Component {
       email: '',
       password: '',
       consents: [],
+      offerId: 'S192849285_NL',
       errors: {
         email: '',
         password: '',
@@ -25,7 +28,8 @@ class RegisterForm extends Component {
     };
   }
 
-  handleClickShowPassword = () => {
+  handleClickShowPassword = e => {
+    e.preventDefault();
     const { showPassword } = this.state;
     this.setState({ showPassword: !showPassword });
   };
@@ -82,11 +86,39 @@ class RegisterForm extends Component {
   };
 
   register = async () => {
-    // TODO: register logic after pass validation
-    // if not successful register
-    // this.setState({
-    //   generalError: 'Wrong data'
-    // });
+    const { email, password, offerId, consents } = this.state;
+    const { onRegistrationComplete } = this.props;
+
+    const response = await fetch(
+      `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers`,
+      {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify({
+          email,
+          password,
+          offerId,
+          consents
+        })
+      }
+    );
+    if (response.status === 200) {
+      const json = await response.json();
+      localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE_KEY, json.jwt);
+      onRegistrationComplete();
+    } else if (response.status === 422) {
+      this.setState({
+        generalError: 'Customer already exists.'
+      });
+    } else {
+      this.setState({
+        generalError: 'An error occured.'
+      });
+    }
+    return true;
   };
 
   render() {
@@ -118,5 +150,13 @@ class RegisterForm extends Component {
     );
   }
 }
+
+RegisterForm.propTypes = {
+  onRegistrationComplete: PropTypes.func
+};
+
+RegisterForm.defaultProps = {
+  onRegistrationComplete: () => {}
+};
 
 export default RegisterForm;

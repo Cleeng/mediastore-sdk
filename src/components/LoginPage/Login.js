@@ -24,7 +24,7 @@ const Login = ({ onLoginComplete }) => {
           <SeparatorStyled>Or</SeparatorStyled>
           <Button variant="google">Sign up with Google</Button>
           <Button variant="fb">Sign up with Facebook</Button>
-          <Link to="/reset-password/S562365660_RU">
+          <Link to={`/reset-password/${ENVIRONMENT_CONFIGURATION.OFFER_ID}`}>
             <Button variant="link">Forgot password?</Button>
           </Link>
         </SocialStyled>
