@@ -202,5 +202,79 @@ describe('RegisterForm', () => {
         done();
       });
     });
+
+    it('should update state on show password icon', () => {
+      const registerWrapper = mount(<RegisterForm />);
+      const instance = registerWrapper.instance();
+
+      instance.handleClickShowPassword({ preventDefault: jest.fn() });
+      expect(instance.state.showPassword).toBe(true);
+    });
+
+    it('should call onSubmit callback', done => {
+      global.fetch = jest.fn().mockImplementation(() =>
+        Promise.resolve({
+          status: 200,
+          json: jest
+            .fn()
+            .mockImplementation(() => Promise.resolve({ jwt: jwtMock }))
+        })
+      );
+
+      onSubmitMock.mockClear();
+      const wrapper = shallow(
+        <RegisterForm onRegistrationComplete={onSubmitMock} />
+      );
+      const instance = wrapper.instance();
+      const preventDefaultMock = jest.fn();
+
+      instance.setState({
+        email: 'john@example.com',
+        password: 'testtest123',
+        offerId: 'S705970293_NL'
+      });
+
+      expect(onSubmitMock).not.toHaveBeenCalled();
+      wrapper.simulate('submit', { preventDefault: preventDefaultMock });
+
+      expect(preventDefaultMock).toHaveBeenCalledTimes(1);
+      setImmediate(() => {
+        expect(instance.state.errors.email).toBe('');
+        expect(instance.state.errors.password).toBe('');
+        expect(instance.state.generalError).toBe('');
+        expect(localStorage.setItem).toHaveBeenCalled();
+        expect(localStorage.setItem).toHaveBeenCalledWith(
+          '-checkout-auth-token',
+          jwtMock
+        );
+        expect(onSubmitMock).toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should set generalError when request faild', done => {
+      global.fetch = jest.fn().mockImplementation(() =>
+        Promise.resolve({
+          status: 423
+        })
+      );
+      const wrapper = shallow(
+        <RegisterForm onRegistrationComplete={onSubmitMock} />
+      );
+      const instance = wrapper.instance();
+
+      instance.setState({
+        email: 'john@example.com',
+        password: 'testtest123',
+        offerId: 'S705970293_NL'
+      });
+
+      const preventDefaultMock = jest.fn();
+      wrapper.simulate('submit', { preventDefault: preventDefaultMock });
+      setImmediate(() => {
+        expect(instance.state.generalError).toBe('An error occured.');
+        done();
+      });
+    });
   });
 });
