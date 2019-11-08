@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropType from 'prop-types';
 import { Link } from 'react-router-dom';
+import saveOfferId from '../../util/offerIdHelper';
+
 import {
   ContentWrapperStyled,
   SocialStyled,
@@ -11,7 +13,12 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import LoginForm from './LoginForm';
 
-const Login = ({ onLoginComplete }) => {
+const Login = ({ onLoginComplete, urlProps }) => {
+  const [, setOfferId] = useState('');
+  useEffect(() => {
+    saveOfferId(urlProps.location, setOfferId);
+  }, []);
+
   return (
     <>
       <Header />
@@ -24,7 +31,7 @@ const Login = ({ onLoginComplete }) => {
           <SeparatorStyled>Or</SeparatorStyled>
           <Button variant="google">Sign up with Google</Button>
           <Button variant="fb">Sign up with Facebook</Button>
-          <Link to={`/reset-password/${ENVIRONMENT_CONFIGURATION.OFFER_ID}`}>
+          <Link to="/reset-password">
             <Button variant="link">Forgot password?</Button>
           </Link>
         </SocialStyled>
@@ -34,9 +41,13 @@ const Login = ({ onLoginComplete }) => {
   );
 };
 Login.propTypes = {
-  onLoginComplete: PropType.func
+  onLoginComplete: PropType.func,
+  urlProps: PropType.shape({
+    location: PropType.shape({ search: PropType.string })
+  })
 };
 Login.defaultProps = {
-  onLoginComplete: () => {}
+  onLoginComplete: () => {},
+  urlProps: {}
 };
 export default Login;

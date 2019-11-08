@@ -23,6 +23,7 @@ const mockConsentDefinitions = [
   }
 ];
 const mockConsentsLabels = ['<a>Terms</a>'];
+const mockOfferId = '123123_PL';
 
 jest.mock('../../api/getConsents');
 const mockConsentsFetch = jest.fn();
@@ -74,7 +75,10 @@ describe('<Consents/>', () => {
         getConsentsRequest.mockImplementationOnce(
           mockConsentsFetch.mockResolvedValue({ consents: mockConsent })
         );
-        const wrapper = mount(<ConsentsComponent />);
+        // simulate offerId setup with delay
+        const wrapper = mount(<ConsentsComponent offerId="" />);
+        wrapper.setProps({ offerId: mockOfferId });
+        wrapper.update();
         expect(getConsentsRequest).toHaveBeenCalled();
         setImmediate(() => {
           expect(wrapper.state().consentDefinitions).toEqual(

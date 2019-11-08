@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import saveOfferId from '../../util/offerIdHelper';
+
 import {
   ContentWrapperStyled,
   SocialStyled,
@@ -11,12 +13,20 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import RegisterForm from './RegisterForm';
 
-const Register = ({ onRegistrationComplete }) => {
+const Register = ({ onRegistrationComplete, urlProps }) => {
+  const [offerId, setOfferId] = useState(undefined);
+  useEffect(() => {
+    saveOfferId(urlProps.location, setOfferId);
+  }, []);
+
   return (
     <>
       <Header showBackIcon />
       <ContentWrapperStyled>
-        <RegisterForm onRegistrationComplete={onRegistrationComplete} />
+        <RegisterForm
+          offerId={offerId}
+          onRegistrationComplete={onRegistrationComplete}
+        />
         <Link to="/login">
           <Button variant="secondary">Have an account?</Button>
         </Link>
@@ -31,11 +41,15 @@ const Register = ({ onRegistrationComplete }) => {
   );
 };
 Register.propTypes = {
-  onRegistrationComplete: PropTypes.func
+  onRegistrationComplete: PropTypes.func,
+  urlProps: PropTypes.shape({
+    location: PropTypes.shape({ search: PropTypes.string })
+  })
 };
 
 Register.defaultProps = {
-  onRegistrationComplete: () => {}
+  onRegistrationComplete: () => {},
+  urlProps: {}
 };
 
 export default Register;

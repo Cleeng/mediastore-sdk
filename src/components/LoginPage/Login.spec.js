@@ -8,6 +8,10 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import { ContentWrapperStyled } from './LoginStyled';
 
+const mockUrlProps = {
+  location: { search: '?offer=123123' }
+};
+
 const wrapper = mount(
   <Router
     history={{
@@ -16,7 +20,7 @@ const wrapper = mount(
       location: { pathname: '' }
     }}
   >
-    <Login />
+    <Login urlProps={mockUrlProps} />
   </Router>
 );
 
