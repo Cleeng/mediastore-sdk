@@ -131,7 +131,6 @@ class RegisterForm extends Component {
           onChange={e => this.setState({ email: e })}
           onBlur={this.validateEmail}
           error={errors.email}
-          required
         />
         <PasswordInput
           value={password}
@@ -141,7 +140,6 @@ class RegisterForm extends Component {
           showVisibilityIcon
           showPassword={showPassword}
           handleClickShowPassword={this.handleClickShowPassword}
-          required
         />
         <Consent
           error={errors.consents}
