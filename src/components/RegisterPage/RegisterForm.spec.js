@@ -25,12 +25,6 @@ const mockConsentDefinitions = [
 const jwtMock =
   'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNjkwNjI0MjU1IiwicHVibGlzaGVySWQiOjEyMDM1NTU1OX0.EvaMwJ1ZtGR4TNujmROVxiXhiHxzTOp0vgCJPoScXW2bBSroAGsm8kLe-ivnqQ9xoiHJWtDRYZGLKSGASFVuo0bqJT2ZzVEohvCPRwMke0R87p_eaTztWvAUjhbUP0Dk9xo8_AeDvEIDmGln_NXJvTTn6EqU_Xk2Zq3W29_WtbEOjfPplCp49gerR_VpnWA36yTUhfF2sWA1ir0F2HymsDvoQ_6dc8t7nENdslJY08kW-_mSQgj4SbOf4uXgiKAlPU8x3LWzUbO9uFF-eAND7hrJGM-FIWcJreW92DRXmuUMBfe_ws9KXzv-F5gKVcuz7qOpyykkJtZSBvFQJtKMaw';
 
-const onRegistrationCompleteMock = jest.fn().mockImplementation(() => {
-  return new Promise(resolve => {
-    resolve(false);
-  });
-});
-
 jest.spyOn(window.localStorage.__proto__, 'setItem'); // eslint-disable-line
 
 describe('RegisterForm', () => {
@@ -153,9 +147,9 @@ describe('RegisterForm', () => {
         })
       );
 
-      onRegistrationCompleteMock.mockClear();
+      onSubmitMock.mockClear();
       const wrapper = shallow(
-        <RegisterForm onRegistrationComplete={onRegistrationCompleteMock} />
+        <RegisterForm onRegistrationComplete={onSubmitMock} />
       );
       const instance = wrapper.instance();
       const preventDefaultMock = jest.fn();
@@ -166,7 +160,7 @@ describe('RegisterForm', () => {
         offerId: 'S705970293_NL'
       });
 
-      expect(onRegistrationCompleteMock).not.toHaveBeenCalled();
+      expect(onSubmitMock).not.toHaveBeenCalled();
       wrapper.simulate('submit', { preventDefault: preventDefaultMock });
 
       expect(preventDefaultMock).toHaveBeenCalledTimes(1);
@@ -179,7 +173,7 @@ describe('RegisterForm', () => {
           '-checkout-auth-token',
           jwtMock
         );
-        expect(onRegistrationCompleteMock).toHaveBeenCalled();
+        expect(onSubmitMock).toHaveBeenCalled();
         done();
       });
     });
@@ -191,7 +185,7 @@ describe('RegisterForm', () => {
         })
       );
       const wrapper = shallow(
-        <RegisterForm onRegistrationComplete={onRegistrationCompleteMock} />
+        <RegisterForm onRegistrationComplete={onSubmitMock} />
       );
       const instance = wrapper.instance();
 
