@@ -16,12 +16,6 @@ const onSubmitMock = jest.fn().mockImplementation(() => {
   });
 });
 
-const onRegistrationCompleteMock = jest.fn().mockImplementation(() => {
-  return new Promise(resolve => {
-    resolve(false);
-  });
-});
-
 jest.spyOn(window.localStorage.__proto__, 'setItem'); // eslint-disable-line
 
 describe('RegisterForm', () => {
@@ -113,9 +107,9 @@ describe('RegisterForm', () => {
         })
       );
 
-      onRegistrationCompleteMock.mockClear();
+      onSubmitMock.mockClear();
       const wrapper = shallow(
-        <RegisterForm onRegistrationComplete={onRegistrationCompleteMock} />
+        <RegisterForm onRegistrationComplete={onSubmitMock} />
       );
       const instance = wrapper.instance();
       const preventDefaultMock = jest.fn();
@@ -126,7 +120,7 @@ describe('RegisterForm', () => {
         offerId: 'S705970293_NL'
       });
 
-      expect(onRegistrationCompleteMock).not.toHaveBeenCalled();
+      expect(onSubmitMock).not.toHaveBeenCalled();
       wrapper.simulate('submit', { preventDefault: preventDefaultMock });
 
       expect(preventDefaultMock).toHaveBeenCalledTimes(1);
@@ -139,7 +133,7 @@ describe('RegisterForm', () => {
           '-checkout-auth-token',
           jwtMock
         );
-        expect(onRegistrationCompleteMock).toHaveBeenCalled();
+        expect(onSubmitMock).toHaveBeenCalled();
         done();
       });
     });
@@ -151,7 +145,7 @@ describe('RegisterForm', () => {
         })
       );
       const wrapper = shallow(
-        <RegisterForm onRegistrationComplete={onRegistrationCompleteMock} />
+        <RegisterForm onRegistrationComplete={onSubmitMock} />
       );
       const instance = wrapper.instance();
 
