@@ -29,7 +29,7 @@ export class Consents extends React.Component {
   getConsents = async offerId => {
     try {
       const consentsIncome = await getConsentsRequest(offerId);
-      if (consentsIncome.responseData) {
+      if (consentsIncome.responseData && consentsIncome.responseData.consents) {
         const consentsDetails = consentsIncome.responseData.consents.map(
           element => {
             return {
