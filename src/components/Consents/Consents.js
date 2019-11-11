@@ -29,15 +29,19 @@ export class Consents extends React.Component {
   getConsents = async offerId => {
     try {
       const consentsIncome = await getConsentsRequest(offerId);
-      if (consentsIncome.consents) {
-        const consentsDetails = consentsIncome.consents.map(element => {
-          return {
-            name: element.name,
-            version: element.version,
-            required: element.required
-          };
-        });
-        const labels = consentsIncome.consents.map(element => element.label);
+      if (consentsIncome.responseData && consentsIncome.responseData.consents) {
+        const consentsDetails = consentsIncome.responseData.consents.map(
+          element => {
+            return {
+              name: element.name,
+              version: element.version,
+              required: element.required
+            };
+          }
+        );
+        const labels = consentsIncome.responseData.consents.map(
+          element => element.label
+        );
         const initArray = new Array(consentsDetails.length).fill(false);
         this.setState({
           consentDefinitions: consentsDetails,

@@ -73,7 +73,9 @@ describe('<Consents/>', () => {
     describe('componentDidMount', () => {
       it('should get consents definitions and init values', done => {
         getConsentsRequest.mockImplementationOnce(
-          mockConsentsFetch.mockResolvedValue({ consents: mockConsent })
+          mockConsentsFetch.mockResolvedValue({
+            responseData: { consents: mockConsent }
+          })
         );
         // simulate offerId setup with delay
         const wrapper = mount(<ConsentsComponent offerId="" />);
