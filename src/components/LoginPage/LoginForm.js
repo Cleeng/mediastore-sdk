@@ -137,7 +137,8 @@ class LoginForm extends Component {
       );
       if (response.status === 200) {
         const json = await response.json();
-        localStorage.setItem('CLEENG_LOGIN_DATA', json.responseData.jwt);
+        localStorage.setItem('CLEENG_AUTH_TOKEN', json.responseData.jwt);
+        localStorage.setItem('CLEENG_CUSTOMER_EMAIL', email);
         onLoginComplete();
       } else if (response.status === 422) {
         this.checkCaptcha();

@@ -167,7 +167,7 @@ describe('LoginForm', () => {
         expect(instance.state.errors.password).toBe('');
         expect(instance.state.generalError).toBe('');
         expect(localStorage.setItem).toHaveBeenCalledWith(
-          'CLEENG_LOGIN_DATA',
+          'CLEENG_AUTH_TOKEN',
           jwtMock
         );
         expect(onSubmitMock).toHaveBeenCalled();

@@ -110,6 +110,7 @@ class RegisterForm extends Component {
     if (response.status === 200) {
       const json = await response.json();
       localStorage.setItem('CLEENG_AUTH_TOKEN', json.jwt);
+      localStorage.setItem('CLEENG_CUSTOMER_EMAIL', email);
       onRegistrationComplete();
     } else if (response.status === 422) {
       this.setState({

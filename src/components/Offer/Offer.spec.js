@@ -109,19 +109,5 @@ describe('Offer', () => {
         `${mockOfferDetails.customerCurrencySymbol}${mockOfferDetails.price} exVAT`
       );
     });
-
-    it('handles error', () => {
-      const wrapper = shallow(
-        <Offer
-          offerDetails={{ ...mockOfferDetails, errors: ['FAIL'] }}
-          couponProps={mockCouponProps}
-          onPaymentComplete={jest.fn()}
-        />
-      );
-
-      expect(wrapper.find(StyledOfferTitle).text()).toBe(
-        'This is not a valid offer.'
-      );
-    });
   });
 });

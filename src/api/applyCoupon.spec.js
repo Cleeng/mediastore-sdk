@@ -1,5 +1,4 @@
 import applyCoupon from './applyCoupon';
-import { JWT_TOKEN_LOCAL_STORAGE_KEY } from '../util/Constants';
 
 describe('applyCoupon', () => {
   it('calls remote endpoint', done => {
@@ -24,7 +23,7 @@ describe('applyCoupon', () => {
         })
     );
 
-    localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE_KEY, mockToken);
+    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
     applyCoupon(mockCouponCode).then(res => {
       expect(res).toEqual(mockResponseData);
       done();

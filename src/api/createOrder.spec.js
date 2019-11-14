@@ -1,5 +1,4 @@
 import createOrder from './createOrder';
-import { JWT_TOKEN_LOCAL_STORAGE_KEY } from '../util/Constants';
 
 describe('createOrder', () => {
   it('calls remote endpoint with authorization token', done => {
@@ -19,7 +18,7 @@ describe('createOrder', () => {
         })
     );
 
-    localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE_KEY, mockToken);
+    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
     createOrder().then(res => {
       expect(res).toEqual(mockResponse);
       done();

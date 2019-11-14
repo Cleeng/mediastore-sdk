@@ -1,5 +1,4 @@
 import submitPayment from './submitPayment';
-import { JWT_TOKEN_LOCAL_STORAGE_KEY } from '../util/Constants';
 
 describe('submitPayment', () => {
   it('calls remote endpoint with authorization token', done => {
@@ -18,7 +17,7 @@ describe('submitPayment', () => {
         })
     );
 
-    localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE_KEY, mockToken);
+    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
     submitPayment().then(res => {
       expect(res).toBe(true);
       done();
