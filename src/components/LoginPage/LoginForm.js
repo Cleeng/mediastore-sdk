@@ -8,6 +8,7 @@ import {
   StyledRecaptcha,
   StyledErrorDiv
 } from './LoginStyled';
+import Loader from '../Loader/Loader';
 import Button from '../Button/Button';
 import EmailInput from '../EmailInput/EmailInput';
 import PasswordInput from '../PasswordInput/PasswordInput';
@@ -27,7 +28,8 @@ class LoginForm extends Component {
         captcha: ''
       },
       generalError: '',
-      showCaptcha: false
+      showCaptcha: false,
+      processing: false
     };
     this.recaptchaRef = React.createRef();
   }
@@ -112,6 +114,9 @@ class LoginForm extends Component {
 
   login = async () => {
     if (this.validateFields()) {
+      this.setState({
+        processing: true
+      });
       const { email, password, captcha } = this.state;
       const { onLoginComplete, offerId } = this.props;
       const response = await fetch(
@@ -137,11 +142,13 @@ class LoginForm extends Component {
       } else if (response.status === 422) {
         this.checkCaptcha();
         this.setState({
+          processing: false,
           generalError: 'Wrong email or password'
         });
       } else {
         this.checkCaptcha();
         this.setState({
+          processing: false,
           generalError: 'An error occurred.'
         });
       }
@@ -150,7 +157,14 @@ class LoginForm extends Component {
   };
 
   render() {
-    const { email, password, errors, generalError, showCaptcha } = this.state;
+    const {
+      email,
+      password,
+      errors,
+      generalError,
+      showCaptcha,
+      processing
+    } = this.state;
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
         <FormErrorStyled>{generalError}</FormErrorStyled>
@@ -180,7 +194,9 @@ class LoginForm extends Component {
             )}
           </>
         )}
-        <Button type="submit">Log in</Button>
+        <Button type="submit" disabled={processing}>
+          {processing ? <Loader buttonLoader /> : 'Log in'}
+        </Button>
       </FromStyled>
     );
   }

@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, { keyframes, css } from 'styled-components';
 
 export const LoaderKeyframeStyled = keyframes`
   0%,
@@ -99,4 +99,10 @@ export const LoaderStyled = styled.div`
     top: 41px;
     left: 50px;
   }
+
+  ${props =>
+    props.buttonLoader &&
+    css`
+      transform: scale(0.6) translateY(-12px);
+    `}
 `;
