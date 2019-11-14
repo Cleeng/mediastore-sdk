@@ -11,6 +11,6 @@ module.exports = {
         'pub.v2.7814375173870120.aHR0cHM6Ly9ndW1teWJlYXItc3RhZ2luZy5jbGVlbmcuY29t.T9omOG5PPfYe0dkMnWB1pmS5TJ1H4UIkCZEyw7d7IEY'
       )
     },
-    WEB_API: JSON.stringify('https://cleeng.com')
+    WEB_API: JSON.stringify('https://cleengtest:cl33test!@staging.cleeng.com')
   }
 };

@@ -6,7 +6,9 @@ import LoginForm from './LoginForm';
 import PasswordInput from '../PasswordInput/PasswordInput';
 
 jest.mock('axios', () => ({
-  get: jest.fn().mockImplementation(() => Promise.resolve({ required: false }))
+  get: jest
+    .fn()
+    .mockImplementation(() => Promise.resolve({ data: { required: false } }))
 }));
 const mockInputValue = 'MOCK_INPUT_VALUE';
 const mockEmailValue = 'mockmail@mock.com';
@@ -120,7 +122,9 @@ describe('LoginForm', () => {
     });
 
     it('sholud update state if captcha is required', done => {
-      axios.get.mockImplementation(() => Promise.resolve({ required: true }));
+      axios.get.mockImplementation(() =>
+        Promise.resolve({ data: { required: true } })
+      );
       const wrapper = mount(<LoginForm offerId="S649095045_PL" />);
       setImmediate(() => {
         expect(wrapper.state().showCaptcha).toBe(true);
