@@ -14,7 +14,7 @@ import Footer from '../Footer/Footer';
 import LoginForm from './LoginForm';
 
 const Login = ({ onLoginComplete, urlProps }) => {
-  const [, setOfferId] = useState('');
+  const [offerId, setOfferId] = useState('');
   useEffect(() => {
     saveOfferId(urlProps.location, setOfferId);
   }, []);
@@ -23,7 +23,7 @@ const Login = ({ onLoginComplete, urlProps }) => {
     <>
       <Header />
       <ContentWrapperStyled>
-        <LoginForm onLoginComplete={onLoginComplete} />
+        <LoginForm onLoginComplete={onLoginComplete} offerId={offerId} />
         <Link to="/register">
           <Button variant="secondary">Go to register</Button>
         </Link>

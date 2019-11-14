@@ -9,16 +9,9 @@ import Login from './components/LoginPage/Login';
 import PasswordReset from './components/PasswordReset';
 import PasswordResetSuccess from './components/PasswordResetSuccess';
 import RedirectWithQuery from './components/RedirectWithQuery';
-import { JWT_TOKEN_LOCAL_STORAGE_KEY } from './util/Constants';
 
 const App = () => {
-  const onLoginComplete = () => {
-    localStorage.setItem(
-      JWT_TOKEN_LOCAL_STORAGE_KEY,
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvZmZlcklkIjoiUzEyMzQ1Njc4OSJ9.VkXuGOeMZD6fXT4ebWuEL0Iat3nmbzMDNOrEJYetORM'
-    );
-    history.push('/offer');
-  };
+  const onLoginComplete = () => history.push(`/offer/`);
 
   const onRegistrationComplete = () => history.push(`/offer`);
 
