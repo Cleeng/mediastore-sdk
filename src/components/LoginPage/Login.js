@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropType from 'prop-types';
 import { Link } from 'react-router-dom';
+import ErrorPage from 'components/ErrorPage';
 import saveOfferId from '../../util/offerIdHelper';
 
 import {
@@ -15,15 +16,26 @@ import LoginForm from './LoginForm';
 
 const Login = ({ onLoginComplete, urlProps }) => {
   const [offerId, setOfferId] = useState('');
+  const [isOfferError, setOfferError] = useState(false);
   useEffect(() => {
     saveOfferId(urlProps.location, setOfferId);
   }, []);
 
-  return (
+  const loginCallback = () => {
+    if (offerId) {
+      onLoginComplete();
+    } else {
+      setOfferError(true);
+    }
+  };
+
+  return isOfferError ? (
+    <ErrorPage type="offerNotExist" />
+  ) : (
     <>
       <Header />
       <ContentWrapperStyled>
-        <LoginForm onLoginComplete={onLoginComplete} offerId={offerId} />
+        <LoginForm onLoginComplete={loginCallback} offerId={offerId} />
         <Link to="/register">
           <Button variant="secondary">Go to register</Button>
         </Link>

@@ -12,23 +12,19 @@ const OfferContainer = ({ onPaymentComplete, urlProps }) => {
   const [offerDetails, setOfferDetails] = useState(null);
   const [couponProps, setCouponProps] = useState(null);
   const [error, setError] = useState(null);
-  const [offerId, setOfferId] = useState('');
-  const [isMounted, setIsMounted] = useState(true);
+  const [offerId, setOfferId] = useState(null);
 
   useEffect(() => {
     if (offerId) {
-      getOfferDetails(offerId)
-        .then(offerDetailsResponse => {
-          if (isMounted) {
-            setOfferDetails(offerDetailsResponse);
-          }
-        })
-        .catch(err => {
-          if (isMounted) {
-            setError(err);
-          }
-        });
-      setIsMounted(false);
+      getOfferDetails(offerId).then(offerDetailsResponse => {
+        if (offerDetailsResponse.errors.length) {
+          setError(offerDetailsResponse.errors[0]);
+        } else {
+          setOfferDetails(offerDetailsResponse);
+        }
+      });
+    } else if (offerId === '') {
+      setError('Offer not set');
     }
   }, [offerId]);
 
@@ -56,20 +52,33 @@ const OfferContainer = ({ onPaymentComplete, urlProps }) => {
       });
 
   if (error) {
+    if (error.includes('Offer is blocked for country')) {
+      return <ErrorPage type="cannotPurchase" />;
+    }
+    if (
+      error.includes('does not exist.') ||
+      error.includes('Invalid param offerId') ||
+      error.includes('Offer not set')
+    ) {
+      return <ErrorPage type="offerNotExist" />;
+    }
+    if (error.includes('already have an access')) {
+      return <ErrorPage type="alreadyHaveAccess" />;
+    }
     return <Redirect to="/login" />;
   }
 
-  return offerDetails ? (
-    <Offer
-      offerDetails={offerDetails}
-      couponProps={{
-        ...couponProps,
-        onSubmit: onCouponSubmit
-      }}
-      onPaymentComplete={onPaymentComplete}
-    />
-  ) : (
-    isMounted && <ErrorPage type="offerNotExist" />
+  return (
+    offerDetails && (
+      <Offer
+        offerDetails={offerDetails}
+        couponProps={{
+          ...couponProps,
+          onSubmit: onCouponSubmit
+        }}
+        onPaymentComplete={onPaymentComplete}
+      />
+    )
   );
 };
 
