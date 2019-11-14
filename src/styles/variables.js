@@ -22,3 +22,4 @@ export const ErrorOffer = '#cb4477';
 export const PassOffer = '#5db98f';
 export const TextFieldBorderFilter =
   'invert(87%) sepia(14%) saturate(243%) hue-rotate(213deg) brightness(96%) contrast(80%)';
+export const TextFieldBorder = '#CBC6DB';

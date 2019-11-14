@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
-import { FromStyled, FormErrorStyled } from './LoginStyled';
+import ReCAPTCHA from 'react-google-recaptcha';
+import axios from 'axios';
+import {
+  FromStyled,
+  FormErrorStyled,
+  StyledRecaptcha,
+  StyledErrorDiv
+} from './LoginStyled';
 import Button from '../Button/Button';
 import EmailInput from '../EmailInput/EmailInput';
 import PasswordInput from '../PasswordInput/PasswordInput';
@@ -13,12 +20,20 @@ class LoginForm extends Component {
     this.state = {
       email: '',
       password: '',
+      captcha: '',
       errors: {
         email: '',
-        password: ''
+        password: '',
+        captcha: ''
       },
-      loginError: ''
+      generalError: '',
+      showCaptcha: false
     };
+    this.recaptchaRef = React.createRef();
+  }
+
+  componentDidMount() {
+    this.checkCaptcha();
   }
 
   validateEmail = () => {
@@ -43,13 +58,48 @@ class LoginForm extends Component {
     }));
   };
 
+  validateCaptchaField = () => {
+    const { captcha, showCaptcha } = this.state;
+    let message = '';
+    if (showCaptcha && captcha === '') {
+      message = 'Please complete the CAPTCHA to complete your login.';
+    }
+    return message;
+  };
+
+  onCaptchaChange = () => {
+    const { errors } = this.state;
+    const recaptchaValue = this.recaptchaRef.current.getValue();
+    this.setState({
+      captcha: recaptchaValue,
+      errors: {
+        ...errors,
+        captcha: ''
+      }
+    });
+  };
+
+  checkCaptcha = () => {
+    axios
+      .get(
+        `${ENVIRONMENT_CONFIGURATION.WEB_API}/form/is-captcha-required/customer-login`
+      )
+      .then(() => {
+        this.setState({
+          showCaptcha: true
+        });
+      })
+      .catch();
+  };
+
   validateFields = () => {
     const { email, password } = this.state;
     const errorFields = {
       email: validateEmailField(email),
-      password: validatePasswordField(password)
+      password: validatePasswordField(password),
+      captcha: this.validateCaptchaField()
     };
-    this.setState({ errors: errorFields });
+    this.setState({ errors: errorFields, generalError: '' });
     return !Object.keys(errorFields).find(key => errorFields[key] !== '');
   };
 
@@ -61,20 +111,49 @@ class LoginForm extends Component {
   };
 
   login = async () => {
-    const { onLoginComplete } = this.props;
-    onLoginComplete();
-    // TODO: login logic after pass validation
-    // if not successful login
-    // this.setState({
-    //   loginError: 'Wrong username or password.'
-    // });
+    if (this.validateFields()) {
+      const { email, password, captcha } = this.state;
+      const { onLoginComplete, offerId } = this.props;
+      const response = await fetch(
+        `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/auths`,
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json'
+          },
+          method: 'POST',
+          body: JSON.stringify({
+            email,
+            password,
+            offerId,
+            captcha
+          })
+        }
+      );
+      if (response.status === 200) {
+        const json = await response.json();
+        localStorage.setItem('CLEENG_LOGIN_DATA', json.responseData.jwt);
+        onLoginComplete();
+      } else if (response.status === 422) {
+        this.checkCaptcha();
+        this.setState({
+          generalError: 'Wrong email or password'
+        });
+      } else {
+        this.checkCaptcha();
+        this.setState({
+          generalError: 'An error occurred.'
+        });
+      }
+    }
+    return true;
   };
 
   render() {
-    const { email, password, errors, loginError } = this.state;
+    const { email, password, errors, generalError, showCaptcha } = this.state;
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
-        <FormErrorStyled>{loginError}</FormErrorStyled>
+        <FormErrorStyled>{generalError}</FormErrorStyled>
         <EmailInput
           value={email}
           onChange={e => this.setState({ email: e })}
@@ -87,6 +166,20 @@ class LoginForm extends Component {
           onBlur={this.validatePassword}
           error={errors.password}
         />
+        {showCaptcha && (
+          <>
+            <StyledRecaptcha>
+              <ReCAPTCHA
+                ref={this.recaptchaRef}
+                sitekey="6LcJ_QsUAAAAANPDxN_HZUJs_5Zabd5UoEIeyLtu"
+                onChange={this.onCaptchaChange}
+              />
+            </StyledRecaptcha>
+            {errors.captcha !== '' && (
+              <StyledErrorDiv lowestPos>{errors.captcha}</StyledErrorDiv>
+            )}
+          </>
+        )}
         <Button type="submit">Log in</Button>
       </FromStyled>
     );
@@ -94,6 +187,7 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
+  offerId: PropType.string.isRequired,
   onLoginComplete: PropType.func
 };
 LoginForm.defaultProps = {

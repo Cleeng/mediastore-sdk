@@ -29,6 +29,9 @@ const jwtMock =
 jest.spyOn(window.localStorage.__proto__, 'setItem'); // eslint-disable-line
 
 describe('RegisterForm', () => {
+  afterEach(() => {
+    delete global.__mobxInstanceCount; // eslint-disable-line
+  });
   describe('@events', () => {
     it('should update state on input change', () => {
       const wrapper = shallow(<RegisterForm />);

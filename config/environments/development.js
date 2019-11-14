@@ -13,6 +13,7 @@ module.exports = {
       'http://dev.cleeng.com:3003': JSON.stringify(
         'pub.v2.7814375173870120.aHR0cDovL2Rldi5jbGVlbmcuY29tOjMwMDM.eqa5FUKA4GhqEd5aQdNLQQpUm6VLusOh9m5HcFQ2gwY'
       )
-    }
+    },
+    WEB_API: JSON.stringify('http://dev.cleeng.com/webapi')
   }
 };
