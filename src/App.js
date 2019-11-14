@@ -7,6 +7,7 @@ import OfferContainer from './containers/OfferContainer';
 import ThankYouPage from './components/ThankYouPage/ThankYouPage';
 import Login from './components/LoginPage/Login';
 import PasswordReset from './components/PasswordReset';
+import ErrorPage from './components/ErrorPage';
 import PasswordResetSuccess from './components/PasswordResetSuccess';
 import RedirectWithQuery from './components/RedirectWithQuery';
 
@@ -70,6 +71,12 @@ const App = () => {
             <Route path="/thankyou">
               <ThankYouPage />
             </Route>
+            <Route
+              path="*"
+              render={() => {
+                return <ErrorPage type="generalError" />;
+              }}
+            />
           </Switch>
         </AppContentStyled>
       </AppStyled>
