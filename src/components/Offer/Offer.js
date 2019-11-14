@@ -51,8 +51,7 @@ class Offer extends Component {
         isCouponApplied,
         isTrialAllowed,
         freePeriods,
-        periodDescription,
-        errors
+        periodDescription
       },
       couponProps: { showMessage, message, messageType, onSubmit },
       onPaymentComplete
@@ -67,9 +66,7 @@ class Offer extends Component {
             <StyledimageUrl src={imageUrl} alt="Offer" />
             <StyledOfferDetailsAndCoupon>
               <StyledOfferDetailsWrapper>
-                <StyledOfferTitle>
-                  {!errors.length ? title : 'This is not a valid offer.'}
-                </StyledOfferTitle>
+                <StyledOfferTitle>{title}</StyledOfferTitle>
                 <StyledOfferDetails>
                   <StyledOfferDescription>
                     {isTrialAllowed && (

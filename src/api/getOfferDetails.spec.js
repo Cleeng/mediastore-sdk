@@ -1,5 +1,4 @@
 import getOfferDetails from './getOfferDetails';
-import { JWT_TOKEN_LOCAL_STORAGE_KEY } from '../util/Constants';
 
 describe('getOfferDetails', () => {
   it('calls remote endpoint with authorization token', done => {
@@ -19,7 +18,7 @@ describe('getOfferDetails', () => {
         })
     );
 
-    localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE_KEY, mockToken);
+    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
     getOfferDetails().then(res => {
       expect(res).toEqual(mockResponseData);
       done();

@@ -20,7 +20,7 @@ const OfferContainer = ({ onPaymentComplete, urlProps }) => {
         if (offerDetailsResponse.errors.length) {
           setError(offerDetailsResponse.errors[0]);
         } else {
-          setOfferDetails(offerDetailsResponse);
+          setOfferDetails(offerDetailsResponse.responseData);
         }
       });
     } else if (offerId === '') {
@@ -62,7 +62,7 @@ const OfferContainer = ({ onPaymentComplete, urlProps }) => {
     ) {
       return <ErrorPage type="offerNotExist" />;
     }
-    if (error.includes('already have an access')) {
+    if (error.includes('Access already granted')) {
       return <ErrorPage type="alreadyHaveAccess" />;
     }
     return <Redirect to="/login" />;

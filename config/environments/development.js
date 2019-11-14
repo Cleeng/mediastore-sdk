@@ -3,7 +3,7 @@ module.exports = {
     GB_API_URL: JSON.stringify(
       'https://ke4vfe4m32.execute-api.eu-west-1.amazonaws.com/dev'
     ),
-    USE_API_MOCK: true,
+    USE_API_MOCK: false,
     GOOGLE_TAG_MANAGER: JSON.stringify('GTM-XXX'),
     OFFER_ID: JSON.stringify('S705970293_NL'),
     ADYEN_PUBLIC_KEY: {
