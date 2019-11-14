@@ -12,7 +12,7 @@ export const BUTTON_TYPE = {
   BACK: 'back'
 };
 
-const Button = ({ variant, type, onClickFn, children, disabled }) => (
+const Button = ({ variant, type, onClickFn, disabled, children }) => (
   <ButtonStyled
     variant={variant}
     type={type}

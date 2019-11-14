@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Consent, { validateConsentsField } from '../Consents';
 import { FromStyled, FormErrorStyled } from '../LoginPage/LoginStyled';
+import Loader from '../Loader/Loader';
 import Button from '../Button/Button';
 import EmailInput from '../EmailInput/EmailInput';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import validateEmailField from '../EmailInput/EmailHelper';
 import { validateRegisterPassword } from '../PasswordInput/PasswordHelper';
-import { JWT_TOKEN_LOCAL_STORAGE_KEY } from '../../util/Constants';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -23,7 +23,8 @@ class RegisterForm extends Component {
       },
       generalError: '',
       showPassword: false,
-      consentDefinitions: []
+      consentDefinitions: [],
+      processing: false
     };
   }
 
@@ -87,7 +88,9 @@ class RegisterForm extends Component {
   register = async () => {
     const { email, password, consents } = this.state;
     const { onRegistrationComplete, offerId } = this.props;
-
+    this.setState({
+      processing: true
+    });
     const response = await fetch(
       `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers`,
       {
@@ -106,22 +109,31 @@ class RegisterForm extends Component {
     );
     if (response.status === 200) {
       const json = await response.json();
-      localStorage.setItem(JWT_TOKEN_LOCAL_STORAGE_KEY, json.jwt);
+      localStorage.setItem('CLEENG_AUTH_TOKEN', json.jwt);
       onRegistrationComplete();
     } else if (response.status === 422) {
       this.setState({
+        processing: false,
         generalError: 'Customer already exists.'
       });
     } else {
       this.setState({
-        generalError: 'An error occured.'
+        processing: false,
+        generalError: 'An error occurred.'
       });
     }
     return true;
   };
 
   render() {
-    const { email, password, errors, generalError, showPassword } = this.state;
+    const {
+      email,
+      password,
+      errors,
+      generalError,
+      showPassword,
+      processing
+    } = this.state;
     const { offerId } = this.props;
 
     return (
@@ -147,7 +159,9 @@ class RegisterForm extends Component {
           error={errors.consents}
           onChangeFn={this.handleConsentsChange}
         />
-        <Button type="submit">Register</Button>
+        <Button type="submit" disabled={processing}>
+          {processing ? <Loader buttonLoader /> : 'Register'}
+        </Button>
       </FromStyled>
     );
   }

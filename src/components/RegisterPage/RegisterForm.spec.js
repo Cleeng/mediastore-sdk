@@ -163,7 +163,7 @@ describe('RegisterForm', () => {
       const preventDefaultMock = jest.fn();
       wrapper.simulate('submit', { preventDefault: preventDefaultMock });
       setImmediate(() => {
-        expect(instance.state.generalError).toBe('An error occured.');
+        expect(instance.state.generalError).toBe('An error occurred.');
         done();
       });
     });
@@ -201,7 +201,7 @@ describe('RegisterForm', () => {
         expect(instance.state.generalError).toBe('');
         expect(localStorage.setItem).toHaveBeenCalled();
         expect(localStorage.setItem).toHaveBeenCalledWith(
-          '-checkout-auth-token',
+          'CLEENG_AUTH_TOKEN',
           jwtMock
         );
         expect(onSubmitMock).toHaveBeenCalled();
