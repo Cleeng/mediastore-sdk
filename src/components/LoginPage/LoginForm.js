@@ -82,11 +82,11 @@ class LoginForm extends Component {
   checkCaptcha = () => {
     axios
       .get(
-        `${ENVIRONMENT_CONFIGURATION.WEB_API}/form/is-captcha-required/customer-login`
+        `${ENVIRONMENT_CONFIGURATION.WEB_API}/webapi/form/is-captcha-required/customer-login`
       )
       .then(response => {
         this.setState({
-          showCaptcha: response.required
+          showCaptcha: response.data.required
         });
       })
       .catch();
