@@ -84,9 +84,9 @@ class LoginForm extends Component {
       .get(
         `${ENVIRONMENT_CONFIGURATION.WEB_API}/form/is-captcha-required/customer-login`
       )
-      .then(() => {
+      .then(response => {
         this.setState({
-          showCaptcha: true
+          showCaptcha: response.required
         });
       })
       .catch();
