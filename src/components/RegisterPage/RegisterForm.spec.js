@@ -174,7 +174,9 @@ describe('RegisterForm', () => {
           status: 200,
           json: jest
             .fn()
-            .mockImplementation(() => Promise.resolve({ jwt: jwtMock }))
+            .mockImplementation(() =>
+              Promise.resolve({ responseData: { jwt: jwtMock } })
+            )
         })
       );
 
