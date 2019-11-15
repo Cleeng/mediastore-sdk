@@ -1,5 +1,5 @@
-const registerCustomer = async (email, password, offerId, consents) => {
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers`;
+const loginCustomer = async (email, password, offerId, captcha) => {
+  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/auths`;
 
   try {
     const resp = await fetch(url, {
@@ -12,7 +12,7 @@ const registerCustomer = async (email, password, offerId, consents) => {
         email,
         password,
         offerId,
-        consents
+        captcha
       })
     });
     const json = await resp.json();
@@ -25,4 +25,4 @@ const registerCustomer = async (email, password, offerId, consents) => {
   }
 };
 
-export default registerCustomer;
+export default loginCustomer;

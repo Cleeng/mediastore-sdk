@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropType from 'prop-types';
 import ReCAPTCHA from 'react-google-recaptcha';
 import axios from 'axios';
+import loginCustomer from '../../api/loginCustomer';
 import {
   FromStyled,
   FormErrorStyled,
@@ -119,25 +120,9 @@ class LoginForm extends Component {
       });
       const { email, password, captcha } = this.state;
       const { onLoginComplete, offerId } = this.props;
-      const response = await fetch(
-        `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/auths`,
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-          },
-          method: 'POST',
-          body: JSON.stringify({
-            email,
-            password,
-            offerId,
-            captcha
-          })
-        }
-      );
+      const response = await loginCustomer(email, password, offerId, captcha);
       if (response.status === 200) {
-        const json = await response.json();
-        localStorage.setItem('CLEENG_AUTH_TOKEN', json.responseData.jwt);
+        localStorage.setItem('CLEENG_AUTH_TOKEN', response.responseData.jwt);
         localStorage.setItem('CLEENG_CUSTOMER_EMAIL', email);
         onLoginComplete();
       } else if (response.status === 422) {
