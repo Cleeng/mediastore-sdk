@@ -6,7 +6,9 @@ import Offer from 'components/Offer';
 import applyCoupon from 'api/applyCoupon';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
 import ErrorPage from 'components/ErrorPage';
-import saveOfferId from '../util/offerIdHelper';
+import Loader from 'components/Loader';
+import saveOfferId from '../../util/offerIdHelper';
+import StyledLoaderContainer from './StyledOfferContainer';
 
 const OfferContainer = ({ onPaymentComplete, urlProps }) => {
   const [offerDetails, setOfferDetails] = useState(null);
@@ -68,17 +70,19 @@ const OfferContainer = ({ onPaymentComplete, urlProps }) => {
     return <Redirect to="/login" />;
   }
 
-  return (
-    offerDetails && (
-      <Offer
-        offerDetails={offerDetails}
-        couponProps={{
-          ...couponProps,
-          onSubmit: onCouponSubmit
-        }}
-        onPaymentComplete={onPaymentComplete}
-      />
-    )
+  return offerDetails ? (
+    <Offer
+      offerDetails={offerDetails}
+      couponProps={{
+        ...couponProps,
+        onSubmit: onCouponSubmit
+      }}
+      onPaymentComplete={onPaymentComplete}
+    />
+  ) : (
+    <StyledLoaderContainer>
+      <Loader />
+    </StyledLoaderContainer>
   );
 };
 
