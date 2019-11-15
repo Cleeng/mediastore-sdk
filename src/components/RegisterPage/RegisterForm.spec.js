@@ -4,7 +4,10 @@ import EmailInput from '../EmailInput/EmailInput';
 import RegisterForm from './RegisterForm';
 import Consent from '../Consents';
 import PasswordInput from '../PasswordInput/PasswordInput';
+import registerCustomerRequest from '../../api/registerCustomer';
 
+jest.mock('../../api/registerCustomer');
+const mockRegisterFetch = jest.fn();
 const mockInputValue = 'MOCK_INPUT_VALUE11';
 const mockEmailValue = 'mockmail@mock.com';
 const mockNotValidEmail = 'mock';
@@ -144,24 +147,27 @@ describe('RegisterForm', () => {
     });
 
     it('should set general error when request failed', done => {
-      global.fetch = jest.fn().mockImplementation(() =>
-        Promise.resolve({
-          status: 500
+      registerCustomerRequest.mockImplementationOnce(
+        mockRegisterFetch.mockResolvedValue({
+          status: 429
         })
       );
+
       const wrapper = shallow(
         <RegisterForm onRegistrationComplete={onSubmitMock} />
       );
       const instance = wrapper.instance();
+      const preventDefaultMock = jest.fn();
 
       instance.setState({
         email: 'john@example.com',
         password: 'testtest123',
         offerId: 'S705970293_NL'
       });
+      wrapper.simulate('submit', {
+        preventDefault: preventDefaultMock
+      });
 
-      const preventDefaultMock = jest.fn();
-      wrapper.simulate('submit', { preventDefault: preventDefaultMock });
       setImmediate(() => {
         expect(instance.state.generalError).toBe('An error occurred.');
         done();
@@ -169,18 +175,16 @@ describe('RegisterForm', () => {
     });
 
     it('should call onSubmit cb when fields valid', done => {
-      global.fetch = jest.fn().mockImplementation(() =>
-        Promise.resolve({
+      registerCustomerRequest.mockImplementationOnce(
+        mockRegisterFetch.mockResolvedValue({
           status: 200,
-          json: jest
-            .fn()
-            .mockImplementation(() =>
-              Promise.resolve({ responseData: { jwt: jwtMock } })
-            )
+          responseData: {
+            jwt: jwtMock
+          }
         })
       );
-
       onSubmitMock.mockClear();
+
       const wrapper = shallow(
         <RegisterForm onRegistrationComplete={onSubmitMock} />
       );
@@ -194,9 +198,12 @@ describe('RegisterForm', () => {
       });
 
       expect(onSubmitMock).not.toHaveBeenCalled();
-      wrapper.simulate('submit', { preventDefault: preventDefaultMock });
+      wrapper.simulate('submit', {
+        preventDefault: preventDefaultMock
+      });
 
       expect(preventDefaultMock).toHaveBeenCalledTimes(1);
+      expect(registerCustomerRequest).toHaveBeenCalled();
       setImmediate(() => {
         expect(instance.state.errors.email).toBe('');
         expect(instance.state.errors.password).toBe('');
@@ -212,8 +219,8 @@ describe('RegisterForm', () => {
     });
 
     it('should set general error when customer already exist', done => {
-      global.fetch = jest.fn().mockImplementation(() =>
-        Promise.resolve({
+      registerCustomerRequest.mockImplementationOnce(
+        mockRegisterFetch.mockResolvedValue({
           status: 422
         })
       );

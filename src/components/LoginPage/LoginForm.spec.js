@@ -4,7 +4,10 @@ import axios from 'axios';
 import EmailInput from '../EmailInput/EmailInput';
 import LoginForm from './LoginForm';
 import PasswordInput from '../PasswordInput/PasswordInput';
+import loginCustomerRequest from '../../api/loginCustomer';
 
+jest.mock('../../api/loginCustomer');
+const mockLoginFetch = jest.fn();
 jest.mock('axios', () => ({
   get: jest
     .fn()
@@ -134,14 +137,10 @@ describe('LoginForm', () => {
   });
   describe('@onSubmit', () => {
     it('should call onSubmit cb when fields valid', done => {
-      global.fetch = jest.fn().mockImplementation(() =>
-        Promise.resolve({
+      loginCustomerRequest.mockImplementationOnce(
+        mockLoginFetch.mockResolvedValue({
           status: 200,
-          json: jest
-            .fn()
-            .mockImplementation(() =>
-              Promise.resolve({ responseData: { jwt: jwtMock } })
-            )
+          responseData: { jwt: jwtMock }
         })
       );
 
@@ -176,8 +175,8 @@ describe('LoginForm', () => {
     });
 
     it('should set general error when customer doesnt exist', done => {
-      global.fetch = jest.fn().mockImplementation(() =>
-        Promise.resolve({
+      loginCustomerRequest.mockImplementationOnce(
+        mockLoginFetch.mockResolvedValue({
           status: 422
         })
       );
@@ -208,8 +207,8 @@ describe('LoginForm', () => {
     });
 
     it('should set general error when error occurred', done => {
-      global.fetch = jest.fn().mockImplementation(() =>
-        Promise.resolve({
+      loginCustomerRequest.mockImplementationOnce(
+        mockLoginFetch.mockResolvedValue({
           status: 500
         })
       );
@@ -235,7 +234,6 @@ describe('LoginForm', () => {
         expect(instance.state.errors.password).toBe('');
         expect(instance.state.generalError).toBe('An error occurred.');
         expect(onSubmitMock).not.toHaveBeenCalled();
-        global.fetch.mockClear();
         done();
       });
     });

@@ -8,6 +8,7 @@ import EmailInput from '../EmailInput/EmailInput';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import validateEmailField from '../EmailInput/EmailHelper';
 import { validateRegisterPassword } from '../PasswordInput/PasswordHelper';
+import registerCustomer from '../../api/registerCustomer';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -91,25 +92,9 @@ class RegisterForm extends Component {
     this.setState({
       processing: true
     });
-    const response = await fetch(
-      `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers`,
-      {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json'
-        },
-        method: 'POST',
-        body: JSON.stringify({
-          email,
-          password,
-          offerId,
-          consents
-        })
-      }
-    );
+    const response = await registerCustomer(email, password, offerId, consents);
     if (response.status === 200) {
-      const json = await response.json();
-      localStorage.setItem('CLEENG_AUTH_TOKEN', json.responseData.jwt);
+      localStorage.setItem('CLEENG_AUTH_TOKEN', response.responseData.jwt);
       localStorage.setItem('CLEENG_CUSTOMER_EMAIL', email);
       onRegistrationComplete();
     } else if (response.status === 422) {
