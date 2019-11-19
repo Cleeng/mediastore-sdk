@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Component } from 'react';
 import PropType from 'prop-types';
 import { Link } from 'react-router-dom';
 import ErrorPage from 'components/ErrorPage';
@@ -14,44 +14,58 @@ import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import LoginForm from './LoginForm';
 
-const Login = ({ onLoginComplete, urlProps }) => {
-  const [offerId, setOfferId] = useState('');
-  const [isOfferError, setOfferError] = useState(false);
-  useEffect(() => {
-    saveOfferId(urlProps.location, setOfferId);
-  }, []);
+class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      offerId: '',
+      isOfferError: false
+    };
+  }
 
-  const loginCallback = () => {
+  componentDidMount() {
+    const { urlProps } = this.props;
+    saveOfferId(urlProps.location, this.setOfferId);
+  }
+
+  setOfferId = value => this.setState({ offerId: value });
+
+  loginCallback = () => {
+    const { offerId } = this.state;
+    const { onLoginComplete } = this.props;
     if (offerId) {
       onLoginComplete();
     } else {
-      setOfferError(true);
+      this.setState({ isOfferError: true });
     }
   };
 
-  return isOfferError ? (
-    <ErrorPage type="offerNotExist" />
-  ) : (
-    <>
-      <Header />
-      <ContentWrapperStyled>
-        <LoginForm onLoginComplete={loginCallback} offerId={offerId} />
-        <Link to="/register">
-          <Button variant="secondary">Go to register</Button>
-        </Link>
-        <SocialStyled>
-          <SeparatorStyled>Or</SeparatorStyled>
-          <Button variant="google">Sign up with Google</Button>
-          <Button variant="fb">Sign up with Facebook</Button>
-          <Link to="/reset-password">
-            <Button variant="link">Forgot password?</Button>
+  render() {
+    const { isOfferError, offerId } = this.state;
+    return isOfferError ? (
+      <ErrorPage type="offerNotExist" />
+    ) : (
+      <>
+        <Header />
+        <ContentWrapperStyled>
+          <LoginForm onLoginComplete={this.loginCallback} offerId={offerId} />
+          <Link to="/register">
+            <Button variant="secondary">Go to register</Button>
           </Link>
-        </SocialStyled>
-      </ContentWrapperStyled>
-      <Footer />
-    </>
-  );
-};
+          <SocialStyled>
+            <SeparatorStyled>Or</SeparatorStyled>
+            <Button variant="google">Sign up with Google</Button>
+            <Button variant="fb">Sign up with Facebook</Button>
+            <Link to="/reset-password">
+              <Button variant="link">Forgot password?</Button>
+            </Link>
+          </SocialStyled>
+        </ContentWrapperStyled>
+        <Footer />
+      </>
+    );
+  }
+}
 Login.propTypes = {
   onLoginComplete: PropType.func,
   urlProps: PropType.shape({

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import getOfferDetails from 'api/getOfferDetails';
@@ -10,81 +10,98 @@ import Loader from 'components/Loader';
 import saveOfferId from '../../util/offerIdHelper';
 import StyledLoaderContainer from './StyledOfferContainer';
 
-const OfferContainer = ({ onPaymentComplete, urlProps }) => {
-  const [offerDetails, setOfferDetails] = useState(null);
-  const [couponProps, setCouponProps] = useState(null);
-  const [error, setError] = useState(null);
-  const [offerId, setOfferId] = useState(null);
+class OfferContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      offerDetails: null,
+      couponProps: null,
+      error: '',
+      offerId: null
+    };
+  }
 
-  useEffect(() => {
-    if (offerId) {
-      getOfferDetails(offerId).then(offerDetailsResponse => {
-        if (offerDetailsResponse.errors.length) {
-          setError(offerDetailsResponse.errors[0]);
-        } else {
-          setOfferDetails(offerDetailsResponse.responseData);
-        }
-      });
-    } else if (offerId === '') {
-      setError('Offer not set');
+  componentDidMount() {
+    const { urlProps } = this.props;
+    saveOfferId(urlProps.location, this.setOfferId);
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { offerId } = this.state;
+    if (offerId !== prevState.offerId) {
+      if (offerId) {
+        getOfferDetails(offerId).then(offerDetailsResponse => {
+          if (offerDetailsResponse.errors.length) {
+            this.setState({ error: offerDetailsResponse.errors[0] });
+          } else {
+            this.setState({ offerDetails: offerDetailsResponse.responseData });
+          }
+        });
+      } else if (offerId === '') {
+        // eslint-disable-next-line react/no-did-update-set-state
+        this.setState({ error: 'Offer not set' });
+      }
     }
-  }, [offerId]);
+  }
 
-  useEffect(() => {
-    saveOfferId(urlProps.location, setOfferId);
-  }, []);
+  setOfferId = value => this.setState({ offerId: value });
 
-  const onCouponSubmit = couponCode =>
+  onCouponSubmit = couponCode => {
+    const { offerDetails } = this.state;
     applyCoupon(couponCode)
       .then(result => {
-        setOfferDetails({ ...offerDetails, ...result });
-        setCouponProps({
+        this.setState({ ...offerDetails, ...result });
+        this.setCouponProps({
           showMessage: true,
           message: 'Your coupon has been applied!',
           messageType: MESSAGE_TYPE_SUCCESS
         });
       })
       .catch(() => {
-        setCouponProps({
+        this.setCouponProps({
           showMessage: true,
           message:
             'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
           messageType: MESSAGE_TYPE_FAIL
         });
       });
+  };
 
-  if (error) {
-    if (error.includes('Offer is blocked for country')) {
-      return <ErrorPage type="cannotPurchase" />;
+  render() {
+    const { error, offerDetails, couponProps } = this.state;
+    const { onPaymentComplete } = this.props;
+    if (error) {
+      if (error.includes('Offer is blocked for country')) {
+        return <ErrorPage type="cannotPurchase" />;
+      }
+      if (
+        error.includes('does not exist.') ||
+        error.includes('Invalid param offerId') ||
+        error.includes('Offer not set')
+      ) {
+        return <ErrorPage type="offerNotExist" />;
+      }
+      if (error.includes('Access already granted')) {
+        return <ErrorPage type="alreadyHaveAccess" />;
+      }
+      return <Redirect to="/login" />;
     }
-    if (
-      error.includes('does not exist.') ||
-      error.includes('Invalid param offerId') ||
-      error.includes('Offer not set')
-    ) {
-      return <ErrorPage type="offerNotExist" />;
-    }
-    if (error.includes('Access already granted')) {
-      return <ErrorPage type="alreadyHaveAccess" />;
-    }
-    return <Redirect to="/login" />;
+    return offerDetails ? (
+      <Offer
+        offerDetails={offerDetails}
+        couponProps={{
+          ...couponProps,
+          onSubmit: this.onCouponSubmit
+        }}
+        onPaymentComplete={onPaymentComplete}
+      />
+    ) : (
+      <StyledLoaderContainer>
+        <Loader />
+      </StyledLoaderContainer>
+    );
   }
-
-  return offerDetails ? (
-    <Offer
-      offerDetails={offerDetails}
-      couponProps={{
-        ...couponProps,
-        onSubmit: onCouponSubmit
-      }}
-      onPaymentComplete={onPaymentComplete}
-    />
-  ) : (
-    <StyledLoaderContainer>
-      <Loader />
-    </StyledLoaderContainer>
-  );
-};
+}
 
 OfferContainer.propTypes = {
   onPaymentComplete: PropTypes.func.isRequired,
