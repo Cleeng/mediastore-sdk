@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, boolean, text, select } from '@storybook/addon-knobs';
@@ -8,17 +8,24 @@ import CouponInput from './CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../Input';
 import 'styles/index.scss';
 
-const CouponInputFeedbackWrapper = ({ message, messageType }) => {
-  const [showMessage, setShowMessage] = useState(false);
-  const [price, setPrice] = useState(20);
+class CouponInputFeedbackWrapper extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showMessage: false,
+      price: 20
+    };
+  }
 
-  const onSubmit = value => {
+  onSubmit = value => {
     action('onSubmit')(value);
+    const { messageType } = this.props;
+    const { price } = this.state;
     return new Promise((resolve, reject) => {
       setTimeout(() => {
-        setShowMessage(true);
+        this.setState({ showMessage: true });
         if (messageType === MESSAGE_TYPE_SUCCESS) {
-          setPrice(Math.max(price - 1, 0));
+          this.setState({ price: Math.max(price - 1, 0) });
           resolve();
         } else {
           reject();
@@ -27,36 +34,40 @@ const CouponInputFeedbackWrapper = ({ message, messageType }) => {
     });
   };
 
-  return (
-    <div
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'flex-end',
-        padding: 20
-      }}
-    >
-      <CouponInput
-        placeholder="Type here"
-        onSubmit={onSubmit}
-        showMessage={showMessage}
-        message={message}
-        messageType={messageType}
-      />
-      <div>
-        Price:{' '}
-        {price < 20 && (
-          <>
-            <span style={{ textDecoration: 'line-through', color: 'red' }}>
-              $20
-            </span>{' '}
-          </>
-        )}
-        ${price}
+  render() {
+    const { messageType, message } = this.props;
+    const { price, showMessage } = this.state;
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          padding: 20
+        }}
+      >
+        <CouponInput
+          placeholder="Type here"
+          onSubmit={this.onSubmit}
+          showMessage={showMessage}
+          message={message}
+          messageType={messageType}
+        />
+        <div>
+          Price:{' '}
+          {price < 20 && (
+            <>
+              <span style={{ textDecoration: 'line-through', color: 'red' }}>
+                $20
+              </span>{' '}
+            </>
+          )}
+          ${price}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 CouponInputFeedbackWrapper.propTypes = {
   message: PropTypes.string.isRequired,
   messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS])

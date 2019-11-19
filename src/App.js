@@ -29,13 +29,18 @@ const App = () => {
             <Route path="/" exact component={RedirectWithQuery} />
             <Route
               path="/login"
-              component={urlProps => Login({ onLoginComplete, urlProps })}
+              component={urlProps => (
+                <Login onLoginComplete={onLoginComplete} urlProps={urlProps} />
+              )}
             />
             <Route
               path="/register"
-              component={urlProps =>
-                Register({ onRegistrationComplete, urlProps })
-              }
+              component={urlProps => (
+                <Register
+                  onRegistrationComplete={onRegistrationComplete}
+                  urlProps={urlProps}
+                />
+              )}
             />
             <Route
               path="/reset-password/"
@@ -61,12 +66,12 @@ const App = () => {
             />
             <Route
               path="/offer"
-              component={urlProps =>
-                OfferContainer({
-                  onPaymentComplete: () => history.push('/thankyou'),
-                  urlProps
-                })
-              }
+              component={urlProps => (
+                <OfferContainer
+                  onPaymentComplete={() => history.push('/thankyou')}
+                  urlProps={urlProps}
+                />
+              )}
             />
             <Route path="/thankyou">
               <ThankYouPage />
