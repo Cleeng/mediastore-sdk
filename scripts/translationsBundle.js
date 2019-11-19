@@ -23,19 +23,19 @@ function mapFilesByLng(files) {
 }
 
 module.exports.run = function(build) {
-  const localePath = build ? 'build/' : '';
+  const localePath = build ? 'build/' : 'public/';
   return new Promise((resolve, reject) => {
     glob('./src/translations/*/*.json', async (err, files) => {
       const concat = mapFilesByLng(files);
       Object.keys(concat).forEach(async key => {
         try {
-          await makeDir(`./${localePath}public/locales/${key}`);
+          await makeDir(`./${localePath}locales/${key}`);
           const translations = concat[key].reduce((acc, arr) => {
             const jsonContent = fs.readFileSync(arr.file);
             return { ...acc, ...JSON.parse(jsonContent) };
           }, {});
           await writeFile(
-            `./${localePath}public/locales/${key}/translations.json`,
+            `./${localePath}locales/${key}/translations.json`,
             JSON.stringify(translations)
           );
         } catch (error) {
