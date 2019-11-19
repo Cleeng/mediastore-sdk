@@ -9,7 +9,7 @@ import {
   StyledOfferWrapper,
   StyledPageTitle,
   StyledOfferContent,
-  StyledimageUrl,
+  StyledImageUrl,
   StyledOfferDetailsAndCoupon,
   StyledOfferDetailsWrapper,
   StyledOfferTitle,
@@ -63,7 +63,7 @@ class Offer extends Component {
           <Header />
           <StyledPageTitle>Complete your purchase</StyledPageTitle>
           <StyledOfferContent>
-            <StyledimageUrl src={imageUrl} alt="Offer" />
+            <StyledImageUrl src={imageUrl} alt="Offer" />
             <StyledOfferDetailsAndCoupon>
               <StyledOfferDetailsWrapper>
                 <StyledOfferTitle>{title}</StyledOfferTitle>

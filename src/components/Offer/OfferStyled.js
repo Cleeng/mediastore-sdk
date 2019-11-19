@@ -54,7 +54,7 @@ export const StyledOfferDetailsAndCoupon = styled.div`
   margin-bottom: 12px;
 `;
 
-export const StyledimageUrl = styled.img`
+export const StyledImageUrl = styled.img`
   width: auto;
   height: auto;
   max-height: 300px;
