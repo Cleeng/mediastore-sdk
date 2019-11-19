@@ -41,31 +41,34 @@ class LoginForm extends Component {
 
   validateEmail = () => {
     const { email, errors } = this.state;
+    const { t } = this.props;
     const message = validateEmailField(email);
     this.setState(() => ({
       errors: {
         ...errors,
-        email: message
+        email: t(message)
       }
     }));
   };
 
   validatePassword = () => {
     const { password, errors } = this.state;
+    const { t } = this.props;
     const message = validatePasswordField(password);
     this.setState(() => ({
       errors: {
         ...errors,
-        password: message
+        password: t(message)
       }
     }));
   };
 
   validateCaptchaField = () => {
     const { captcha, showCaptcha } = this.state;
+    const { t } = this.props;
     let message = '';
     if (showCaptcha && captcha === '') {
-      message = 'Please complete the CAPTCHA to complete your login.';
+      message = t('Please complete the CAPTCHA to complete your login.');
     }
     return message;
   };
@@ -97,9 +100,10 @@ class LoginForm extends Component {
 
   validateFields = () => {
     const { email, password } = this.state;
+    const { t } = this.props;
     const errorFields = {
-      email: validateEmailField(email),
-      password: validatePasswordField(password),
+      email: t(validateEmailField(email)),
+      password: t(validatePasswordField(password)),
       captcha: this.validateCaptchaField()
     };
     this.setState({ errors: errorFields, generalError: '' });
@@ -119,7 +123,7 @@ class LoginForm extends Component {
         processing: true
       });
       const { email, password, captcha } = this.state;
-      const { onLoginComplete, offerId } = this.props;
+      const { onLoginComplete, offerId, t } = this.props;
       const response = await loginCustomer(email, password, offerId, captcha);
       if (response.status === 200) {
         localStorage.setItem('CLEENG_AUTH_TOKEN', response.responseData.jwt);
@@ -129,13 +133,13 @@ class LoginForm extends Component {
         this.checkCaptcha();
         this.setState({
           processing: false,
-          generalError: 'Wrong email or password'
+          generalError: t('Wrong email or password')
         });
       } else {
         this.checkCaptcha();
         this.setState({
           processing: false,
-          generalError: 'An error occurred.'
+          generalError: t('An error occurred.')
         });
       }
     }
@@ -151,6 +155,7 @@ class LoginForm extends Component {
       showCaptcha,
       processing
     } = this.state;
+    const { t } = this.props;
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
         <FormErrorStyled>{generalError}</FormErrorStyled>
@@ -181,7 +186,7 @@ class LoginForm extends Component {
           </>
         )}
         <Button type="submit" disabled={processing}>
-          {processing ? <Loader buttonLoader /> : 'Log in'}
+          {processing ? <Loader buttonLoader /> : t('Log in')}
         </Button>
       </FromStyled>
     );
@@ -190,10 +195,12 @@ class LoginForm extends Component {
 
 LoginForm.propTypes = {
   offerId: PropType.string.isRequired,
-  onLoginComplete: PropType.func
+  onLoginComplete: PropType.func,
+  t: PropType.func
 };
 LoginForm.defaultProps = {
-  onLoginComplete: () => {}
+  onLoginComplete: () => {},
+  t: k => k
 };
 
 export default LoginForm;

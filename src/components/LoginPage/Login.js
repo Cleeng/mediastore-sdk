@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
 import { Link } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
 import saveOfferId from '../../util/offerIdHelper';
+import labeling from '../../containers/labeling';
 
 import {
   ContentWrapperStyled,
@@ -42,22 +44,27 @@ class Login extends Component {
 
   render() {
     const { isOfferError, offerId } = this.state;
+    const { t } = this.props;
     return isOfferError ? (
       <ErrorPage type="offerNotExist" />
     ) : (
       <>
         <Header />
         <ContentWrapperStyled>
-          <LoginForm onLoginComplete={this.loginCallback} offerId={offerId} />
+          <LoginForm
+            t={t}
+            onLoginComplete={this.loginCallback}
+            offerId={offerId}
+          />
           <Link to="/register">
-            <Button variant="secondary">Go to register</Button>
+            <Button variant="secondary">{t('Go to register')}</Button>
           </Link>
           <SocialStyled>
-            <SeparatorStyled>Or</SeparatorStyled>
-            <Button variant="google">Sign up with Google</Button>
-            <Button variant="fb">Sign up with Facebook</Button>
+            <SeparatorStyled>{t('Or')}</SeparatorStyled>
+            <Button variant="google">{t('Sign up with Google')}</Button>
+            <Button variant="fb">{t('Sign up with Facebook')}</Button>
             <Link to="/reset-password">
-              <Button variant="link">Forgot password?</Button>
+              <Button variant="link">{t('Forgot password?')}</Button>
             </Link>
           </SocialStyled>
         </ContentWrapperStyled>
@@ -70,10 +77,12 @@ Login.propTypes = {
   onLoginComplete: PropType.func,
   urlProps: PropType.shape({
     location: PropType.shape({ search: PropType.string })
-  })
+  }),
+  t: PropType.func
 };
 Login.defaultProps = {
   onLoginComplete: () => {},
-  urlProps: {}
+  urlProps: {},
+  t: k => k
 };
-export default Login;
+export default withTranslation()(labeling()(Login));

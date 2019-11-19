@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import Register from 'components/RegisterPage/Register';
 import { AppStyled, AppContentStyled } from './AppStyled';
 import history from './history';
+import './i18NextInit';
 import OfferContainer from './containers/OfferContainer';
 import ThankYouPage from './components/ThankYouPage/ThankYouPage';
 import Login from './components/LoginPage/Login';
@@ -10,6 +11,7 @@ import PasswordReset from './components/PasswordReset';
 import ErrorPage from './components/ErrorPage';
 import PasswordResetSuccess from './components/PasswordResetSuccess';
 import RedirectWithQuery from './components/RedirectWithQuery';
+import Loader from './components/Loader';
 
 const App = () => {
   const onLoginComplete = () => history.push(`/offer/`);
@@ -30,7 +32,12 @@ const App = () => {
             <Route
               path="/login"
               component={urlProps => (
-                <Login onLoginComplete={onLoginComplete} urlProps={urlProps} />
+                <Suspense fallback={<Loader />}>
+                  <Login
+                    onLoginComplete={onLoginComplete}
+                    urlProps={urlProps}
+                  />
+                </Suspense>
               )}
             />
             <Route

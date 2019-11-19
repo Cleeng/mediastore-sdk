@@ -21,8 +21,8 @@ const PasswordResetSuccess = ({ email }) => (
       Please check your inbox {email && `at ${email}`}
     </StyledMessage>
     <NoteStyled>
-      Not sure that was the right email address?{' '}
-      <Link to="/reset-password">
+      Not sure that was the right email address?
+      <Link to="/reset-password/">
         <StyledLink>Try again.</StyledLink>
       </Link>
     </NoteStyled>
