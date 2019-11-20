@@ -118,12 +118,17 @@ class LoginForm extends Component {
   };
 
   login = async () => {
+    const { offerId, setOfferError } = this.props;
+    if (!offerId) {
+      setOfferError(true);
+      return false;
+    }
     if (this.validateFields()) {
       this.setState({
         processing: true
       });
       const { email, password, captcha } = this.state;
-      const { onLoginComplete, offerId, t } = this.props;
+      const { onLoginComplete, t } = this.props;
       const response = await loginCustomer(email, password, offerId, captcha);
       if (response.status === 200) {
         localStorage.setItem('CLEENG_AUTH_TOKEN', response.responseData.jwt);
@@ -196,11 +201,13 @@ class LoginForm extends Component {
 LoginForm.propTypes = {
   offerId: PropType.string.isRequired,
   onLoginComplete: PropType.func,
-  t: PropType.func
+  t: PropType.func,
+  setOfferError: PropType.func
 };
 LoginForm.defaultProps = {
   onLoginComplete: () => {},
-  t: k => k
+  t: k => k,
+  setOfferError: () => {}
 };
 
 export default LoginForm;
