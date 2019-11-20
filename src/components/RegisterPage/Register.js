@@ -30,27 +30,21 @@ class Register extends Component {
 
   setOfferId = value => this.setState({ offerId: value });
 
-  registrationCallback = () => {
-    const { offerId } = this.state;
-    const { onRegistrationComplete } = this.props;
-    if (offerId) {
-      onRegistrationComplete();
-    } else {
-      this.setOfferError(true);
-    }
-  };
+  setOfferError = value => this.setState({ isOfferError: value });
 
   render() {
     const { isOfferError, offerId } = this.state;
+    const { onRegistrationComplete } = this.props;
     return isOfferError ? (
-      <ErrorPage type="offerNotExists" />
+      <ErrorPage type="offerNotExist" />
     ) : (
       <>
         <Header showBackIcon />
         <ContentWrapperStyled>
           <RegisterForm
             offerId={offerId}
-            onRegistrationComplete={this.registrationCallback}
+            onRegistrationComplete={onRegistrationComplete}
+            setOfferError={this.setOfferError}
           />
           <Link to="/login">
             <Button variant="secondary">Have an account?</Button>

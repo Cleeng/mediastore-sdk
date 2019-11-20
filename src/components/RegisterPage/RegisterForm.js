@@ -88,7 +88,11 @@ class RegisterForm extends Component {
 
   register = async () => {
     const { email, password, consents } = this.state;
-    const { onRegistrationComplete, offerId } = this.props;
+    const { onRegistrationComplete, offerId, setOfferError } = this.props;
+    if (!offerId) {
+      setOfferError(true);
+      return false;
+    }
     this.setState({
       processing: true
     });
@@ -155,12 +159,14 @@ class RegisterForm extends Component {
 
 RegisterForm.propTypes = {
   onRegistrationComplete: PropTypes.func,
-  offerId: PropTypes.string
+  offerId: PropTypes.string,
+  setOfferError: PropTypes.func
 };
 
 RegisterForm.defaultProps = {
   onRegistrationComplete: () => {},
-  offerId: ''
+  offerId: '',
+  setOfferError: () => {}
 };
 
 export default RegisterForm;

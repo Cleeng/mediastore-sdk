@@ -154,15 +154,17 @@ describe('RegisterForm', () => {
       );
 
       const wrapper = shallow(
-        <RegisterForm onRegistrationComplete={onSubmitMock} />
+        <RegisterForm
+          onRegistrationComplete={onSubmitMock}
+          offerId="S705970293_NL"
+        />
       );
       const instance = wrapper.instance();
       const preventDefaultMock = jest.fn();
 
       instance.setState({
         email: 'john@example.com',
-        password: 'testtest123',
-        offerId: 'S705970293_NL'
+        password: 'testtest123'
       });
       wrapper.simulate('submit', {
         preventDefault: preventDefaultMock
@@ -186,15 +188,17 @@ describe('RegisterForm', () => {
       onSubmitMock.mockClear();
 
       const wrapper = shallow(
-        <RegisterForm onRegistrationComplete={onSubmitMock} />
+        <RegisterForm
+          onRegistrationComplete={onSubmitMock}
+          offerId="S705970293_NL"
+        />
       );
       const instance = wrapper.instance();
       const preventDefaultMock = jest.fn();
 
       instance.setState({
         email: 'john@example.com',
-        password: 'testtest123',
-        offerId: 'S705970293_NL'
+        password: 'testtest123'
       });
 
       expect(onSubmitMock).not.toHaveBeenCalled();
@@ -225,14 +229,16 @@ describe('RegisterForm', () => {
         })
       );
       const wrapper = shallow(
-        <RegisterForm onRegistrationComplete={onSubmitMock} />
+        <RegisterForm
+          onRegistrationComplete={onSubmitMock}
+          offerId="S705970293_NL"
+        />
       );
       const instance = wrapper.instance();
 
       instance.setState({
         email: 'john@example.com',
-        password: 'testtest123',
-        offerId: 'S705970293_NL'
+        password: 'testtest123'
       });
 
       const preventDefaultMock = jest.fn();

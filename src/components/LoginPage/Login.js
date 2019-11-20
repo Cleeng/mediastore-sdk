@@ -32,19 +32,11 @@ class Login extends Component {
 
   setOfferId = value => this.setState({ offerId: value });
 
-  loginCallback = () => {
-    const { offerId } = this.state;
-    const { onLoginComplete } = this.props;
-    if (offerId) {
-      onLoginComplete();
-    } else {
-      this.setState({ isOfferError: true });
-    }
-  };
+  setOfferError = value => this.setState({ isOfferError: value });
 
   render() {
     const { isOfferError, offerId } = this.state;
-    const { t } = this.props;
+    const { t, onLoginComplete } = this.props;
     return isOfferError ? (
       <ErrorPage type="offerNotExist" />
     ) : (
@@ -53,8 +45,9 @@ class Login extends Component {
         <ContentWrapperStyled>
           <LoginForm
             t={t}
-            onLoginComplete={this.loginCallback}
+            onLoginComplete={onLoginComplete}
             offerId={offerId}
+            setOfferError={this.setOfferError}
           />
           <Link to="/register">
             <Button variant="secondary">{t('Go to register')}</Button>
