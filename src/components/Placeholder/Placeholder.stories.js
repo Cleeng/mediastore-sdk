@@ -8,6 +8,6 @@ import 'styles/index.scss';
 storiesOf('Placeholder', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
-  .add('Welcome Dashboard', () => (
+  .add('Sample placeholder', () => (
     <Placeholder label={text('Label', 'a sample')} />
   ));

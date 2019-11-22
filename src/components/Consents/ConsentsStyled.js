@@ -1,13 +1,11 @@
 import styled from 'styled-components';
-import { ErrorOffer, MainTextColor } from 'styles/variables';
+import { ErrorOffer } from 'styles/variables';
 
 export const ConsentsWrapperStyled = styled.div`
   position: relative;
   font-family: 'Geomanist';
   font-weight: 300;
-  font-size: 13px;
   margin-top: 30px;
-  color: ${MainTextColor};
 
   & button {
     margin-top: 35px;

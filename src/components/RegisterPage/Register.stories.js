@@ -6,28 +6,21 @@ import StoryRouter from 'storybook-react-router';
 import Register from './Register';
 import '../../styles/index.scss';
 
+localStorage.setItem('CLEENG_OFFER_ID', 'S144753252_UA');
+
 storiesOf('RegisterPage', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (
-    <div
-      style={{
-        minHeight: '100vh',
-        padding: '40px 0',
-        background: 'linear-gradient(-21deg, #44b2e7, #595fbb)'
-      }}
-    >
-      <div
-        style={{
-          width: 650,
-          background: 'white',
-          margin: '30px auto',
-          position: 'relative'
-        }}
-      >
-        {story()}
-      </div>
+    <div style={{ width: 700, backgroundColor: 'white', position: 'relative' }}>
+      {story()}
     </div>
   ))
   .addDecorator(StoryRouter())
-  .add('Basic Register', () => <Register />);
+  .add('Basic Register', () => (
+    <Register
+      urlProps={{
+        location: { search: 'http://cleeng.com' }
+      }}
+    />
+  ));

@@ -8,7 +8,10 @@ import 'styles/index.scss';
 storiesOf('ErrorPage', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
-  .add('Welcome Dashboard', () => (
+  .addDecorator(story => (
+    <div style={{ width: 600, backgroundColor: 'white' }}>{story()}</div>
+  ))
+  .add('All options', () => (
     <ErrorPage
       type={select('Types', [
         'offerNotExist',
