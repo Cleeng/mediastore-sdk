@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
 import Input from '../Input/Input';
 import lock from '../../assets/images/input/lock.svg';
 
@@ -146,9 +145,7 @@ PasswordInput.defaultProps = {
   handleClickShowPassword: () => {},
   label: 'Password',
   showPasswordStrength: false,
-  t: () => {}
+  t: k => k
 };
 
-export { PasswordInput as PurePasswordInput };
-
-export default withTranslation()(PasswordInput);
+export default PasswordInput;
