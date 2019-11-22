@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 import Input from '../Input/Input';
 import lock from '../../assets/images/input/lock.svg';
 
@@ -76,13 +77,15 @@ class PasswordInput extends React.Component {
   };
 
   getErrorMessage = msg => {
+    const { t } = this.props;
     const errorLabel = {
-      Weak: 'Weak',
-      Fair: 'Could be stronger',
-      Good: 'Good password',
-      Strong: 'Strong password',
-      NotValid:
+      Weak: t('Weak'),
+      Fair: t('Could be stronger'),
+      Good: t('Good password'),
+      Strong: t('Strong password'),
+      NotValid: t(
         'Your password must contain at least 6 characters, including 1 digit.'
+      )
     };
 
     return errorLabel[msg];
@@ -129,7 +132,8 @@ PasswordInput.propTypes = {
   showPassword: PropTypes.bool,
   handleClickShowPassword: PropTypes.func,
   label: PropTypes.string,
-  showPasswordStrength: PropTypes.bool
+  showPasswordStrength: PropTypes.bool,
+  t: PropTypes.func
 };
 
 PasswordInput.defaultProps = {
@@ -141,7 +145,8 @@ PasswordInput.defaultProps = {
   showPassword: false,
   handleClickShowPassword: () => {},
   label: 'Password',
-  showPasswordStrength: false
+  showPasswordStrength: false,
+  t: () => {}
 };
 
-export default PasswordInput;
+export default withTranslation()(PasswordInput);
