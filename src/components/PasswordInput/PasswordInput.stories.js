@@ -34,5 +34,6 @@ storiesOf('PasswordInput', module)
       onChange={e => wrapperState.set({ value: e })}
       showVisibilityIcon={boolean('showVisibilityIcon', true)}
       showPassword={boolean('showPassword', false)}
+      showPasswordStrength={boolean('showPasswordStrength', false)}
     />
   ));

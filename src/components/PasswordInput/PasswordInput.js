@@ -149,6 +149,6 @@ PasswordInput.defaultProps = {
   t: () => {}
 };
 
-export { PasswordInput };
+export { PasswordInput as PurePasswordInput };
 
 export default withTranslation()(PasswordInput);
