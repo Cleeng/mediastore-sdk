@@ -23,6 +23,8 @@ const mockConsentDefinitions = [
   }
 ];
 const mockConsentsLabels = ['<a>Terms</a>'];
+const mockConsentsLabelsAfterRegex = ['{{htmltag}}Terms{{endhtmltag}}'];
+
 const mockOfferId = '123123_PL';
 
 jest.mock('../../api/getConsents');
@@ -88,7 +90,9 @@ describe('<Consents/>', () => {
           );
           expect(wrapper.state().consentLoaded).toBe(true);
           expect(wrapper.state().checked).toEqual([false]);
-          expect(wrapper.state().consentsLabels).toEqual(mockConsentsLabels);
+          expect(wrapper.state().consentsLabels).toEqual(
+            mockConsentsLabelsAfterRegex
+          );
           done();
         });
       });

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropType from 'prop-types';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
@@ -67,11 +67,11 @@ class Login extends Component {
   }
 }
 Login.propTypes = {
-  onLoginComplete: PropType.func,
-  urlProps: PropType.shape({
-    location: PropType.shape({ search: PropType.string })
+  onLoginComplete: PropTypes.func,
+  urlProps: PropTypes.shape({
+    location: PropTypes.shape({ search: PropTypes.string })
   }),
-  t: PropType.func
+  t: PropTypes.func
 };
 Login.defaultProps = {
   onLoginComplete: () => {},

@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 import React from 'react';
 import { mount } from 'enzyme';
 import { Router } from 'react-router-dom';
@@ -9,6 +11,15 @@ import Button from '../Button';
 const mockUrlProps = {
   location: { search: '?offer=123123' }
 };
+
+jest.mock('containers/labeling', () => () => Component => props => (
+  <Component t={k => k} {...props} />
+));
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => props => (
+    <Component t={k => k} {...props} />
+  )
+}));
 
 describe('PasswordReset', () => {
   describe('@renders', () => {

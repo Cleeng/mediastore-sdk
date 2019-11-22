@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import email from '../../assets/images/input/email.svg';
 
-const EmailInput = ({ value, onChange, onBlur, error }) => (
+const EmailInput = ({ value, onChange, onBlur, error, label }) => (
   <Input
-    placeholder="Email"
+    placeholder={label}
     type="email"
     icon={email}
     value={value}
@@ -19,14 +19,16 @@ EmailInput.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
-  error: PropTypes.string
+  error: PropTypes.string,
+  label: PropTypes.string
 };
 
 EmailInput.defaultProps = {
   value: '',
   onChange: () => {},
   onBlur: () => {},
-  error: ''
+  error: '',
+  label: 'Email'
 };
 
 export default EmailInput;

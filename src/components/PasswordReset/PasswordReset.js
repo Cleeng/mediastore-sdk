@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Input from '../Input';
+import { withTranslation } from 'react-i18next';
+import EmailInput from 'components/EmailInput/EmailInput';
 import Button from '../Button/Button';
 import Header from '../Header/Header';
 import emailIcon from '../../assets/images/input/email.svg';
 import resetPassword from '../../api/resetPassword';
 import saveOfferId from '../../util/offerIdHelper';
+import labeling from '../../containers/labeling';
 
 import {
   PasswordResetPageStyled,
@@ -36,44 +38,47 @@ class PasswordReset extends Component {
 
   onSubmit = async () => {
     const { value, offerId } = this.state;
-    const { onSuccess } = this.props;
+    const { onSuccess, t } = this.props;
 
     if (EMAIL_REGEX.test(value)) {
       const { errors } = await resetPassword(offerId, value);
       if (errors.length) {
         this.setState({
-          message: errors[0]
+          message: t(errors[0])
         });
       } else {
         onSuccess(value);
       }
     } else {
       this.setState({
-        message: 'The email address is not properly formatted.'
+        message: t('The email address is not properly formatted.')
       });
     }
   };
 
   render() {
     const { value, message } = this.state;
+    const { t } = this.props;
     return (
       <>
         <Header showBackIcon />
         <PasswordResetPageStyled>
-          <StyledTitle>Forgot your password?</StyledTitle>
+          <StyledTitle>{t('Forgot your password?')}</StyledTitle>
           <StyledMessage>
-            Just enter your email address below and we will send you a link to
-            reset your password
+            {t(
+              'Just enter your email address below and we will send you a link to reset your password'
+            )}
           </StyledMessage>
           <InnerWrapper>
-            <Input
+            <EmailInput
+              label={t('Email')}
               icon={emailIcon}
               error={message}
               value={value}
               onChange={v => this.setState({ value: v })}
               onSubmit={this.onSubmit}
             />
-            <Button onClickFn={this.onSubmit}>Reset Password</Button>
+            <Button onClickFn={this.onSubmit}>{t('Reset Password')}</Button>
           </InnerWrapper>
         </PasswordResetPageStyled>
       </>
@@ -85,10 +90,12 @@ PasswordReset.propTypes = {
   onSuccess: PropTypes.func.isRequired,
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
-  })
+  }),
+  t: PropTypes.func
 };
 PasswordReset.defaultProps = {
-  urlProps: {}
+  urlProps: {},
+  t: k => k
 };
 
-export default PasswordReset;
+export default withTranslation()(labeling()(PasswordReset));
