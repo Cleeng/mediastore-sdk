@@ -19,7 +19,6 @@ export const ConsentsWrapperStyled = styled.div`
 export const ConsentsErrorStyled = styled.div`
   color: ${ErrorOffer};
   font-family: 'Geomanist';
-  font-weight: 300;
   font-size: 12px;
   width: 100%;
   position: absolute;

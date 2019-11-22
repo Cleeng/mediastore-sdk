@@ -1,15 +1,7 @@
 import styled, { css } from 'styled-components';
 import failIcon from 'assets/images/input/fail.svg';
 import successIcon from 'assets/images/input/success.svg';
-import {
-  MainColor,
-  LightGrey,
-  MainTextColor,
-  MediumGrey,
-  PassOffer,
-  ErrorOffer,
-  TextFieldBorderFilter
-} from 'styles/variables';
+import * as Colors from 'styles/variables';
 import { MESSAGE_TYPE_SUCCESS } from './InputConstants';
 
 export const InputComponentStyled = styled.div`
@@ -28,14 +20,26 @@ export const InputElementWrapperStyled = styled.div`
   padding: 15px 0 13px;
 
   background: white;
-  border-bottom: 1px solid ${LightGrey};
-  &:focus-within {
-    border-bottom-color: ${MainColor};
-  }
+  border-bottom: 1px solid ${Colors.LightGrey};
+  transition: .2s ease-in-out;
+  ${props =>
+    !props.passwordStrength &&
+    css`
+      &:focus-within {
+        border-bottom-color: ${Colors.MainColor};
+      }
+    `}
+
+  ${props =>
+    props.passwordStrength &&
+    css`
+      border-bottom-color: ${Colors[props.passwordStrength]};
+    `}
+
   ${props =>
     props.error &&
     css`
-      border-bottom-color: ${ErrorOffer};
+      border-bottom-color: ${Colors.ErrorOffer};
     `}
 
   ${props =>
@@ -55,6 +59,12 @@ export const InputElementWrapperStyled = styled.div`
           : failIcon});
       }
     `};
+
+  ${props =>
+    props.passwordStrength &&
+    css`
+      border-bottom-color: ${Colors[props.passwordStrength]};
+    `}
 `;
 
 export const InputElementStyled = styled.input`
@@ -63,7 +73,7 @@ export const InputElementStyled = styled.input`
 
   margin: 0 15px;
 
-  color: ${MainTextColor};
+  color: ${Colors.MainTextColor};
   border: none;
   outline: none;
 
@@ -74,9 +84,11 @@ export const InputElementStyled = styled.input`
 export const MessageStyled = styled.div`
   padding: 10px;
 
-  background-color: ${MediumGrey};
+  background-color: ${Colors.MediumGrey};
   color: ${props =>
-    props.messageType === MESSAGE_TYPE_SUCCESS ? PassOffer : ErrorOffer};
+    props.messageType === MESSAGE_TYPE_SUCCESS
+      ? Colors.PassOffer
+      : Colors.ErrorOffer};
   border-radius: 5px;
 
   font-size: 12px;
@@ -92,18 +104,24 @@ export const ErrorWrapper = styled.div`
   width: 100%;
 
   content: '';
-  color: ${ErrorOffer};
+  color: ${Colors.ErrorOffer};
+  transition: 0.2s ease-in-out;
+
+  ${props =>
+    props.passwordStrength &&
+    css`
+      color: ${Colors[props.passwordStrength]};
+    `}
 
   font-family: 'Geomanist';
   font-size: 12px;
-  font-weight: 300;
   text-align: left;
 `;
 
 export const StyledPasswordVisibility = styled.img`
   height: 20px;
   width: 20px;
-  filter: ${TextFieldBorderFilter};
+  filter: ${Colors.TextFieldBorderFilter};
 `;
 export const StyledButton = styled.button`
   background: transparent;

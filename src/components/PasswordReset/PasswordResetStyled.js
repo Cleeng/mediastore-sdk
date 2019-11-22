@@ -14,7 +14,7 @@ export const PasswordResetPageStyled = styled.div`
   font-family: 'Geomanist';
   font-weight: bold;
   & button {
-    margin-top: 25px;
+    margin-top: 30px;
   }
 `;
 

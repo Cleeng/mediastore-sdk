@@ -95,7 +95,6 @@ export const FormErrorStyled = styled.div`
 
   font-size: 12px;
   font-family: 'Geomanist';
-  font-weight: 300;
 `;
 
 export const StyledRecaptcha = styled.div`
