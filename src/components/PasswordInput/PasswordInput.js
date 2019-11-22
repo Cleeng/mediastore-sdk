@@ -71,11 +71,8 @@ class PasswordInput extends React.Component {
       if (score > 24 && score <= 32) {
         return 'Strong';
       }
-    } else {
-      return 'TooShort';
     }
-
-    return '';
+    return 'NotValid';
   };
 
   getErrorMessage = msg => {
@@ -84,7 +81,7 @@ class PasswordInput extends React.Component {
       Fair: 'Could be stronger',
       Good: 'Good password',
       Strong: 'Strong password',
-      TooShort:
+      NotValid:
         'Your password must contain at least 6 characters, including 1 digit.'
     };
 

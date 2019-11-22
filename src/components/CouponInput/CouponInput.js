@@ -41,7 +41,7 @@ CouponInput.defaultProps = {
   showMessage: false,
   message: null,
   messageType: MESSAGE_TYPE_FAIL,
-  onChange: () => ({})
+  onChange: () => {}
 };
 
 export default CouponInput;
