@@ -95,14 +95,15 @@ class PasswordInput extends React.Component {
       error,
       showVisibilityIcon,
       showPassword,
-      handleClickShowPassword
+      handleClickShowPassword,
+      label
     } = this.props;
     const { passError, errorLabel } = this.state;
     const errorMsg = error || passError;
     return (
       <>
         <Input
-          placeholder="Password"
+          placeholder={label}
           type={showPassword ? 'text' : 'password'}
           icon={lock}
           value={value}
