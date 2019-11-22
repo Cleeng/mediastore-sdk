@@ -1,5 +1,8 @@
 import React from 'react';
 import Button from 'components/Button/Button';
+import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
+import labeling from '../../containers/labeling';
 import {
   ThankYouPageStyled,
   TitleStyled,
@@ -15,21 +18,22 @@ const buttonTypes = {
   fb: 'fb'
 };
 
-const ThankYouPage = () => (
+const ThankYouPage = ({ t }) => (
   <ThankYouPageStyled>
-    <TitleStyled>Thank You!</TitleStyled>
+    <TitleStyled>{t('Thank You!')}</TitleStyled>
     <MessageStyled>
-      <strong>You are now a subscriber to our premium package.</strong>
+      <strong>{t('You are now a subscriber to our premium package.')}</strong>
     </MessageStyled>
     <MessageStyled>
-      We hope you love it. If you need help from us with your account, you can
-      always find it
+      {t(
+        'We hope you love it. If you need help from us with your account, you can always find it'
+      )}
       <LinkStyled
         href="https://www.cleeng.com"
         target="_blank"
         rel="noopener noreferrer"
       >
-        here.
+        {t('here')}.
       </LinkStyled>
     </MessageStyled>
     <SocialsStyled>
@@ -38,12 +42,18 @@ const ThankYouPage = () => (
         <Button variant={buttonTypes.fb} />
       </ButtonsStyled>
       <ShareStyled>
-        Have friends who would like to check this out?
+        {t('Have friends who would like to check this out?')}
         <br />
-        Just click to share.
+        {t('Just click to share.')}
       </ShareStyled>
     </SocialsStyled>
   </ThankYouPageStyled>
 );
+ThankYouPage.propTypes = {
+  t: PropTypes.func
+};
+ThankYouPage.defaultProps = {
+  t: k => k
+};
 
-export default ThankYouPage;
+export default withTranslation()(labeling()(ThankYouPage));

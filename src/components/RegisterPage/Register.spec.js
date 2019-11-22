@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Router } from 'react-router-dom';
 import { mount } from 'enzyme';
@@ -9,6 +10,15 @@ import Footer from '../Footer/Footer';
 import { ContentWrapperStyled } from '../LoginPage/LoginStyled';
 
 const urlProps = { location: { search: '?offer=123123' } };
+
+jest.mock('containers/labeling', () => () => Component => props => (
+  <Component t={k => k} {...props} />
+));
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => props => (
+    <Component t={k => k} {...props} />
+  )
+}));
 
 const wrapper = mount(
   <Router

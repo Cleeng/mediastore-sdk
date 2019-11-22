@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
+import labeling from '../../containers/labeling';
 import {
   PasswordResetSuccessPageStyled,
   StyledTitle,
@@ -11,25 +13,31 @@ import {
   Checkmark
 } from './PasswordResetSuccessStyled';
 
-const PasswordResetSuccess = ({ email }) => (
+const PasswordResetSuccess = ({ email, t }) => (
   <PasswordResetSuccessPageStyled>
     <Loader>
       <Checkmark />
     </Loader>
-    <StyledTitle>Password link sent</StyledTitle>
+    <StyledTitle>{t('Password link sent')}</StyledTitle>
     <StyledMessage>
-      Please check your inbox {email && `at ${email}`}
+      {email
+        ? t('Please check your inbox at {{email}}', { email })
+        : t('Please check your inbox')}
     </StyledMessage>
     <NoteStyled>
-      Not sure that was the right email address?
+      {t('Not sure that was the right email address?')}
       <Link to="/reset-password/">
-        <StyledLink>Try again.</StyledLink>
+        <StyledLink>{t('Try again.')}</StyledLink>
       </Link>
     </NoteStyled>
   </PasswordResetSuccessPageStyled>
 );
 PasswordResetSuccess.propTypes = {
-  email: PropTypes.string.isRequired
+  email: PropTypes.string.isRequired,
+  t: PropTypes.func
+};
+PasswordResetSuccess.defaultProps = {
+  t: k => k
 };
 
-export default PasswordResetSuccess;
+export default withTranslation()(labeling()(PasswordResetSuccess));

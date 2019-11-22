@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PropType from 'prop-types';
+import PropTypes from 'prop-types';
 import ReCAPTCHA from 'react-google-recaptcha';
 import axios from 'axios';
 import loginCustomer from '../../api/loginCustomer';
@@ -165,12 +165,14 @@ class LoginForm extends Component {
       <FromStyled onSubmit={this.handleSubmit} noValidate>
         <FormErrorStyled>{generalError}</FormErrorStyled>
         <EmailInput
+          label={t('Email')}
           value={email}
           onChange={e => this.setState({ email: e })}
           onBlur={this.validateEmail}
           error={errors.email}
         />
         <PasswordInput
+          label={t('Password')}
           value={password}
           onChange={e => this.setState({ password: e })}
           onBlur={this.validatePassword}
@@ -199,10 +201,10 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  offerId: PropType.string.isRequired,
-  onLoginComplete: PropType.func,
-  t: PropType.func,
-  setOfferError: PropType.func
+  offerId: PropTypes.string.isRequired,
+  onLoginComplete: PropTypes.func,
+  t: PropTypes.func,
+  setOfferError: PropTypes.func
 };
 LoginForm.defaultProps = {
   onLoginComplete: () => {},

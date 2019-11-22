@@ -10,11 +10,12 @@ const PasswordInput = ({
   error,
   showVisibilityIcon,
   showPassword,
-  handleClickShowPassword
+  handleClickShowPassword,
+  label
 }) => (
   <>
     <Input
-      placeholder="Password"
+      placeholder={label}
       type={showPassword ? 'text' : 'password'}
       icon={lock}
       value={value}
@@ -35,7 +36,8 @@ PasswordInput.propTypes = {
   error: PropTypes.string,
   showVisibilityIcon: PropTypes.bool,
   showPassword: PropTypes.bool,
-  handleClickShowPassword: PropTypes.func
+  handleClickShowPassword: PropTypes.func,
+  label: PropTypes.string
 };
 
 PasswordInput.defaultProps = {
@@ -45,7 +47,8 @@ PasswordInput.defaultProps = {
   error: '',
   showVisibilityIcon: false,
   showPassword: false,
-  handleClickShowPassword: () => {}
+  handleClickShowPassword: () => {},
+  label: 'Password'
 };
 
 export default PasswordInput;

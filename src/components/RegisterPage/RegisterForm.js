@@ -37,32 +37,35 @@ class RegisterForm extends Component {
 
   validateEmail = () => {
     const { email, errors } = this.state;
+    const { t } = this.props;
     const message = validateEmailField(email);
     this.setState(() => ({
       errors: {
         ...errors,
-        email: message
+        email: t(message)
       }
     }));
   };
 
   validatePassword = () => {
     const { password, errors } = this.state;
+    const { t } = this.props;
     const message = validateRegisterPassword(password);
     this.setState(() => ({
       errors: {
         ...errors,
-        password: message
+        password: t(message)
       }
     }));
   };
 
   validateFields = () => {
     const { email, password, consents, consentDefinitions } = this.state;
+    const { t } = this.props;
     const errorFields = {
-      email: validateEmailField(email),
-      password: validateRegisterPassword(password),
-      consents: validateConsentsField(consents, consentDefinitions)
+      email: t(validateEmailField(email)),
+      password: t(validateRegisterPassword(password)),
+      consents: t(validateConsentsField(consents, consentDefinitions))
     };
     this.setState({ errors: errorFields });
     return !Object.keys(errorFields).find(key => errorFields[key] !== '');
@@ -88,7 +91,7 @@ class RegisterForm extends Component {
 
   register = async () => {
     const { email, password, consents } = this.state;
-    const { onRegistrationComplete, offerId, setOfferError } = this.props;
+    const { onRegistrationComplete, offerId, setOfferError, t } = this.props;
     if (!offerId) {
       setOfferError(true);
       return false;
@@ -104,12 +107,12 @@ class RegisterForm extends Component {
     } else if (response.status === 422) {
       this.setState({
         processing: false,
-        generalError: 'Customer already exists.'
+        generalError: t('Customer already exists.')
       });
     } else {
       this.setState({
         processing: false,
-        generalError: 'An error occurred.'
+        generalError: t('An error occurred.')
       });
     }
     return true;
@@ -124,18 +127,20 @@ class RegisterForm extends Component {
       showPassword,
       processing
     } = this.state;
-    const { offerId } = this.props;
+    const { offerId, t } = this.props;
 
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
         <FormErrorStyled>{generalError}</FormErrorStyled>
         <EmailInput
+          label={t('Email')}
           value={email}
           onChange={e => this.setState({ email: e })}
           onBlur={this.validateEmail}
           error={errors.email}
         />
         <PasswordInput
+          label={t('Password')}
           value={password}
           onChange={e => this.setState({ password: e })}
           onBlur={this.validatePassword}
@@ -145,12 +150,13 @@ class RegisterForm extends Component {
           handleClickShowPassword={this.handleClickShowPassword}
         />
         <Consent
+          t={t}
           offerId={offerId}
           error={errors.consents}
           onChangeFn={this.handleConsentsChange}
         />
         <Button type="submit" disabled={processing}>
-          {processing ? <Loader buttonLoader /> : 'Register'}
+          {processing ? <Loader buttonLoader /> : t('Register')}
         </Button>
       </FromStyled>
     );
@@ -160,13 +166,15 @@ class RegisterForm extends Component {
 RegisterForm.propTypes = {
   onRegistrationComplete: PropTypes.func,
   offerId: PropTypes.string,
-  setOfferError: PropTypes.func
+  setOfferError: PropTypes.func,
+  t: PropTypes.func
 };
 
 RegisterForm.defaultProps = {
   onRegistrationComplete: () => {},
   offerId: '',
-  setOfferError: () => {}
+  setOfferError: () => {},
+  t: k => k
 };
 
 export default RegisterForm;

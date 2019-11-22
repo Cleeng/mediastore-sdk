@@ -24,75 +24,75 @@ const App = () => {
   }
 
   return (
-    <Router history={history}>
-      <AppStyled>
-        <AppContentStyled>
-          <Switch>
-            <Route path="/" exact component={RedirectWithQuery} />
-            <Route
-              path="/login"
-              component={urlProps => (
-                <Suspense fallback={<Loader />}>
+    <Suspense fallback={<Loader />}>
+      <Router history={history}>
+        <AppStyled>
+          <AppContentStyled>
+            <Switch>
+              <Route path="/" exact component={RedirectWithQuery} />
+              <Route
+                path="/login"
+                component={urlProps => (
                   <Login
                     onLoginComplete={onLoginComplete}
                     urlProps={urlProps}
                   />
-                </Suspense>
-              )}
-            />
-            <Route
-              path="/register"
-              component={urlProps => (
-                <Register
-                  onRegistrationComplete={onRegistrationComplete}
-                  urlProps={urlProps}
-                />
-              )}
-            />
-            <Route
-              path="/reset-password/"
-              component={urlProps => (
-                <PasswordReset
-                  onSuccess={value =>
-                    history.push(
-                      `/password-reset-success/${encodeURIComponent(value)}`
-                    )
-                  }
-                  urlProps={urlProps}
-                />
-              )}
-            />
-            <Route
-              path="/password-reset-success/:email"
-              render={({ match }) => {
-                const email = decodeURIComponent(
-                  (match && match.params && match.params.email) || ''
-                );
-                return <PasswordResetSuccess email={email} />;
-              }}
-            />
-            <Route
-              path="/offer"
-              component={urlProps => (
-                <OfferContainer
-                  onPaymentComplete={() => history.push('/thankyou')}
-                  urlProps={urlProps}
-                />
-              )}
-            />
-            <Route path="/thankyou">
-              <ThankYouPage />
-            </Route>
-            <Route
-              path="*"
-              render={() => {
-                return <ErrorPage type="generalError" />;
-              }}
-            />
-          </Switch>
-        </AppContentStyled>
-      </AppStyled>
-    </Router>
+                )}
+              />
+              <Route
+                path="/register"
+                component={urlProps => (
+                  <Register
+                    onRegistrationComplete={onRegistrationComplete}
+                    urlProps={urlProps}
+                  />
+                )}
+              />
+              <Route
+                path="/reset-password/"
+                component={urlProps => (
+                  <PasswordReset
+                    onSuccess={value =>
+                      history.push(
+                        `/password-reset-success/${encodeURIComponent(value)}`
+                      )
+                    }
+                    urlProps={urlProps}
+                  />
+                )}
+              />
+              <Route
+                path="/password-reset-success/:email"
+                render={({ match }) => {
+                  const email = decodeURIComponent(
+                    (match && match.params && match.params.email) || ''
+                  );
+                  return <PasswordResetSuccess email={email} />;
+                }}
+              />
+              <Route
+                path="/offer"
+                component={urlProps => (
+                  <OfferContainer
+                    onPaymentComplete={() => history.push('/thankyou')}
+                    urlProps={urlProps}
+                  />
+                )}
+              />
+              <Route path="/thankyou">
+                <ThankYouPage />
+              </Route>
+              <Route
+                path="*"
+                render={() => {
+                  return <ErrorPage type="generalError" />;
+                }}
+              />
+            </Switch>
+          </AppContentStyled>
+        </AppStyled>
+      </Router>
+    </Suspense>
   );
 };
 

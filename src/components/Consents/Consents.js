@@ -5,6 +5,9 @@ import { ConsentsWrapperStyled, ConsentsErrorStyled } from './ConsentsStyled';
 import Loader from '../Loader';
 import Checkbox from '../Checkbox';
 
+const regexHrefOpenTag = new RegExp(/<a(.|\n)*?>/);
+const regexHrefCloseTag = new RegExp(/<\/a(.|\n)*?>/);
+
 export class Consents extends React.Component {
   constructor(props) {
     super(props);
@@ -39,8 +42,8 @@ export class Consents extends React.Component {
             };
           }
         );
-        const labels = consentsIncome.responseData.consents.map(
-          element => element.label
+        const labels = consentsIncome.responseData.consents.map(element =>
+          this.translateConsents(element.label)
         );
         const initArray = new Array(consentsDetails.length).fill(false);
         this.setState({
@@ -69,6 +72,27 @@ export class Consents extends React.Component {
     const { onChangeFn } = this.props;
     const { consentDefinitions, checked } = this.state;
     onChangeFn(checked, consentDefinitions);
+  };
+
+  translateConsents = consentContent => {
+    const { t } = this.props;
+    const openTagContent = regexHrefOpenTag.exec(consentContent);
+    const closeTagContent = regexHrefCloseTag.exec(consentContent);
+    if (openTagContent) {
+      let modifiedConsentContent = consentContent.replace(
+        regexHrefOpenTag,
+        '{{htmltag}}'
+      );
+      modifiedConsentContent = modifiedConsentContent.replace(
+        regexHrefCloseTag,
+        '{{endhtmltag}}'
+      );
+      return `${t(modifiedConsentContent, {
+        htmltag: openTagContent[0],
+        endhtmltag: closeTagContent[0]
+      })}`;
+    }
+    return t(consentContent);
   };
 
   render() {
@@ -105,13 +129,15 @@ export class Consents extends React.Component {
 Consents.propTypes = {
   offerId: PropTypes.string,
   error: PropTypes.string,
-  onChangeFn: PropTypes.func
+  onChangeFn: PropTypes.func,
+  t: PropTypes.func
 };
 
 Consents.defaultProps = {
   offerId: '',
   error: '',
-  onChangeFn: () => {}
+  onChangeFn: () => {},
+  t: k => k
 };
 
 export default Consents;

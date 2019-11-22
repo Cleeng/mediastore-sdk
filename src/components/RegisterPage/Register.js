@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ErrorPage from 'components/ErrorPage';
 import saveOfferId from '../../util/offerIdHelper';
+import labeling from '../../containers/labeling';
 
 import {
   ContentWrapperStyled,
@@ -34,7 +36,7 @@ class Register extends Component {
 
   render() {
     const { isOfferError, offerId } = this.state;
-    const { onRegistrationComplete } = this.props;
+    const { onRegistrationComplete, t } = this.props;
     return isOfferError ? (
       <ErrorPage type="offerNotExist" />
     ) : (
@@ -42,17 +44,18 @@ class Register extends Component {
         <Header showBackIcon />
         <ContentWrapperStyled>
           <RegisterForm
+            t={t}
             offerId={offerId}
             onRegistrationComplete={onRegistrationComplete}
             setOfferError={this.setOfferError}
           />
           <Link to="/login">
-            <Button variant="secondary">Have an account?</Button>
+            <Button variant="secondary">{t('Have an account?')}</Button>
           </Link>
           <SocialStyled>
-            <SeparatorStyled>Or</SeparatorStyled>
-            <Button variant="google">Sign up with Google</Button>
-            <Button variant="fb">Sign up with Facebook</Button>
+            <SeparatorStyled>{t('Or')}</SeparatorStyled>
+            <Button variant="google">{t('Sign up with Google')}</Button>
+            <Button variant="fb">{t('Sign up with Facebook')}</Button>
           </SocialStyled>
         </ContentWrapperStyled>
         <Footer />
@@ -64,12 +67,14 @@ Register.propTypes = {
   onRegistrationComplete: PropTypes.func,
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
-  })
+  }),
+  t: PropTypes.func
 };
 
 Register.defaultProps = {
   onRegistrationComplete: () => {},
-  urlProps: {}
+  urlProps: {},
+  t: k => k
 };
 
-export default Register;
+export default withTranslation()(labeling()(Register));
