@@ -1,10 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
+import { withKnobs } from '@storybook/addon-knobs';
 import Loader from './Loader';
 
 storiesOf('Loader', module)
   .addDecorator(jsxDecorator)
+  .addDecorator(withKnobs)
   .addDecorator(story => (
     <div
       style={{
@@ -16,4 +18,5 @@ storiesOf('Loader', module)
       {story()}
     </div>
   ))
-  .add('All options', () => <Loader />);
+  .add('Default loader', () => <Loader />)
+  .add('Button loader', () => <Loader buttonLoader />);

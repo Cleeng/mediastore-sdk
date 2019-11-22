@@ -1,8 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, select } from '@storybook/addon-knobs';
+import { withKnobs, select, boolean } from '@storybook/addon-knobs';
+import { State, Store } from '@sambego/storybook-state';
 import PasswordInput from './PasswordInput';
+
+const wrapperState = new Store({
+  value: ''
+});
 
 const ERROR_MESSAGES = {
   noError: '',
@@ -19,6 +24,15 @@ storiesOf('PasswordInput', module)
       {story()}
     </div>
   ))
-  .add('All options', () => (
-    <PasswordInput error={select('Error message', ERROR_MESSAGES)} />
+  .addDecorator(story => (
+    <State store={wrapperState}>{state => story(state)}</State>
+  ))
+  .add('All options', state => (
+    <PasswordInput
+      error={select('Error message', ERROR_MESSAGES)}
+      value={state.value}
+      onChange={e => wrapperState.set({ value: e })}
+      showVisibilityIcon={boolean('showVisibilityIcon', true)}
+      showPassword={boolean('showPassword', false)}
+    />
   ));

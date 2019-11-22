@@ -8,4 +8,4 @@ import 'styles/index.scss';
 storiesOf('Payment', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
-  .add('Basic Payment', () => <Payment />);
+  .add('Basic Payment', () => <Payment onPaymentComplete={() => {}} />);

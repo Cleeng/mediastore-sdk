@@ -4,16 +4,22 @@ import { storiesOf } from '@storybook/react';
 import { withKnobs, boolean, text, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { jsxDecorator } from 'storybook-addon-jsx';
+import { State, Store } from '@sambego/storybook-state';
 import CouponInput from './CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../Input';
 import 'styles/index.scss';
+
+const wrapperState = new Store({
+  value: ''
+});
 
 class CouponInputFeedbackWrapper extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showMessage: false,
-      price: 20
+      price: 20,
+      inputValue: ''
     };
   }
 
@@ -36,7 +42,7 @@ class CouponInputFeedbackWrapper extends Component {
 
   render() {
     const { messageType, message } = this.props;
-    const { price, showMessage } = this.state;
+    const { price, showMessage, inputValue } = this.state;
     return (
       <div
         style={{
@@ -52,6 +58,8 @@ class CouponInputFeedbackWrapper extends Component {
           showMessage={showMessage}
           message={message}
           messageType={messageType}
+          value={inputValue}
+          onChange={e => this.setState({ inputValue: e })}
         />
         <div>
           Price:{' '}
@@ -80,10 +88,15 @@ storiesOf('CouponInput', module)
   .addDecorator(story => (
     <div style={{ width: 400, backgroundColor: 'white' }}>{story()}</div>
   ))
-  .add('All options', () => (
+  .addDecorator(story => (
+    <State store={wrapperState}>{state => story(state)}</State>
+  ))
+  .add('All options', state => (
     <CouponInput
+      value={state.value}
+      onChange={e => wrapperState.set({ value: e })}
       showMessage={boolean('showMessage', false)}
-      message={text('message', '')}
+      message={text('message', 'Message')}
       messageType={select(
         'messageType',
         {
@@ -93,6 +106,7 @@ storiesOf('CouponInput', module)
         MESSAGE_TYPE_SUCCESS
       )}
       onSubmit={action('onSubmit')}
+      isCouponInput
     />
   ))
   .add('UC: Accept any code', () => (

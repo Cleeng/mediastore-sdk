@@ -19,6 +19,11 @@ const OFFER_DETAILS_GROUP_ID = 'Offer Details';
 storiesOf('Offer', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
+  .addDecorator(story => (
+    <div style={{ width: 700, backgroundColor: 'white', position: 'relative' }}>
+      {story()}
+    </div>
+  ))
   .add('Basic Offer', () => (
     <Offer
       offerDetails={{

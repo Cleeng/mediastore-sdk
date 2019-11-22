@@ -12,7 +12,8 @@ storiesOf('Button', module)
       style={{
         width: 400,
         backgroundColor: 'white',
-        padding: 20
+        padding: 20,
+        position: 'relative'
       }}
     >
       {story()}
@@ -23,4 +24,5 @@ storiesOf('Button', module)
   .add('Google', () => <Button variant="google" />)
   .add('Fb', () => <Button variant="fb" />)
   .add('CreditCard', () => <Button variant="creditcard">Credit card</Button>)
-  .add('Link', () => <Button variant="link">Link button</Button>);
+  .add('Link', () => <Button variant="link">Link button</Button>)
+  .add('Back', () => <Button variant="back">Back</Button>);

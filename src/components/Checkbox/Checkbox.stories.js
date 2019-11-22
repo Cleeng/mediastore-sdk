@@ -12,7 +12,8 @@ storiesOf('Checkbox', module)
       style={{
         width: 400,
         backgroundColor: 'white',
-        padding: 20
+        padding: 20,
+        position: 'relative'
       }}
     >
       {story()}
@@ -21,9 +22,12 @@ storiesOf('Checkbox', module)
   .add('All options', () => (
     <Checkbox
       checked={boolean('checked', false)}
-      error={text('error', '')}
+      error={text(
+        'consents error',
+        'Please agree on all consents to use this service'
+      )}
       required={boolean('required', false)}
     >
-      {text('consent content', 'Some text to show')}
+      {text('checkbox label', 'Some text to show')}
     </Checkbox>
   ));

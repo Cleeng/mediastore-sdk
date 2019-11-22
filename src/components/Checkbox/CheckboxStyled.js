@@ -7,24 +7,27 @@ export const CheckboxStyled = styled.div`
   width: 100%;
   height: 100%;
   cursor: pointer;
-  align-items: center;
   margin-top: 10px;
+
+  align-items: center;
+  font-size: 13px;
+  color: ${MainTextColor};
 
   &:focus {
     outline: none;
   }
-}`;
+`;
 
 export const ConsentDefinitionStyled = styled.div`
-    padding-left: 10px;
-    margin-top: 0;
-    font-family: 'Geomanist';
-    font-weight: 400;
-    text-align: left;
+  padding-left: 10px;
+  margin-top: 0;
+  font-family: 'Geomanist';
+  font-weight: 400;
+  text-align: left;
 
-    a {
-      color: ${MainTextColor};
-    }
+  a {
+    color: ${MainTextColor};
+    text-decoration: underline;
   }
 `;
 
@@ -42,7 +45,7 @@ export const CheckFrameStyled = styled.div`
     css`
       border-color: ${ErrorOffer};
     `}
-}`;
+`;
 
 export const CheckMarkStyled = styled.div`
   background-image: url(${tickIcon});
@@ -52,7 +55,7 @@ export const CheckMarkStyled = styled.div`
   left: 3px;
   position: absolute;
   background-repeat: no-repeat;
-}`;
+`;
 
 export const ErrorFieldStyled = styled.div`
   color: ${ErrorOffer};
@@ -63,4 +66,4 @@ export const ErrorFieldStyled = styled.div`
   width: 100%;
   margin-top: 10px;
   text-align: center;
-}`;
+`;

@@ -2,7 +2,12 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, select } from '@storybook/addon-knobs';
+import { State, Store } from '@sambego/storybook-state';
 import EmailInput from './EmailInput';
+
+const wrapperState = new Store({
+  value: ''
+});
 
 const ERROR_MESSAGES = {
   noError: '',
@@ -18,6 +23,13 @@ storiesOf('EmailInput', module)
       {story()}
     </div>
   ))
-  .add('All options', () => (
-    <EmailInput error={select('Error message', ERROR_MESSAGES)} />
+  .addDecorator(story => (
+    <State store={wrapperState}>{state => story(state)}</State>
+  ))
+  .add('All options', state => (
+    <EmailInput
+      error={select('Error message', ERROR_MESSAGES)}
+      value={state.value}
+      onChange={e => wrapperState.set({ value: e })}
+    />
   ));
