@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import 'jest-styled-components';
-import PasswordInput from './PasswordInput';
+import { PasswordInput } from './PasswordInput';
 import {
   InputElementStyled,
   ErrorWrapper,
@@ -18,7 +18,7 @@ const ERROR_MESSAGE = 'MOCK_ERROR_MESSAGE';
 describe('PasswordInput', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
-      const wrapper = mount(<PasswordInput />);
+      const wrapper = mount(<PasswordInput t={key => key} />);
       const inputComponent = wrapper.find(Input);
       expect(inputComponent).toHaveLength(1);
       expect(inputComponent.props().value).toBe('');
@@ -32,7 +32,9 @@ describe('PasswordInput', () => {
     });
 
     it('should show error message', () => {
-      const wrapper = mount(<PasswordInput error={ERROR_MESSAGE} />);
+      const wrapper = mount(
+        <PasswordInput t={key => key} error={ERROR_MESSAGE} />
+      );
       const errorWrapper = wrapper.find(ErrorWrapper);
       const messageWrapper = wrapper.find(MessageStyled);
 
@@ -43,7 +45,11 @@ describe('PasswordInput', () => {
 
     it('should call passed function on change', () => {
       const wrapper = mount(
-        <PasswordInput onChange={onChangeMock} showPasswordStrength />
+        <PasswordInput
+          t={key => key}
+          onChange={onChangeMock}
+          showPasswordStrength
+        />
       );
       expect(onChangeMock).not.toHaveBeenCalled();
       wrapper
@@ -55,7 +61,11 @@ describe('PasswordInput', () => {
     });
     it('should set too short error if less than 6 chars and no digit', () => {
       const wrapper = mount(
-        <PasswordInput onChange={onChangeMock} showPasswordStrength />
+        <PasswordInput
+          t={key => key}
+          onChange={onChangeMock}
+          showPasswordStrength
+        />
       );
       wrapper
         .find('Input')
@@ -68,7 +78,11 @@ describe('PasswordInput', () => {
     });
     it('should set weak indicator if only small letters', () => {
       const wrapper = mount(
-        <PasswordInput onChange={onChangeMock} showPasswordStrength />
+        <PasswordInput
+          t={key => key}
+          onChange={onChangeMock}
+          showPasswordStrength
+        />
       );
       wrapper
         .find('Input')
@@ -79,7 +93,11 @@ describe('PasswordInput', () => {
     });
     it('should set fair indicator if small, big letters and digit', () => {
       const wrapper = mount(
-        <PasswordInput onChange={onChangeMock} showPasswordStrength />
+        <PasswordInput
+          t={key => key}
+          onChange={onChangeMock}
+          showPasswordStrength
+        />
       );
       wrapper
         .find('Input')
@@ -90,7 +108,11 @@ describe('PasswordInput', () => {
     });
     it('should set good indicator if small and big letters and numbers', () => {
       const wrapper = mount(
-        <PasswordInput onChange={onChangeMock} showPasswordStrength />
+        <PasswordInput
+          t={key => key}
+          onChange={onChangeMock}
+          showPasswordStrength
+        />
       );
       wrapper
         .find('Input')
@@ -101,7 +123,11 @@ describe('PasswordInput', () => {
     });
     it('should set strong indicator if small and big letters, numbers and special characters', () => {
       const wrapper = mount(
-        <PasswordInput onChange={onChangeMock} showPasswordStrength />
+        <PasswordInput
+          t={key => key}
+          onChange={onChangeMock}
+          showPasswordStrength
+        />
       );
       wrapper
         .find('Input')
