@@ -3,31 +3,124 @@ import PropTypes from 'prop-types';
 import Input from '../Input/Input';
 import lock from '../../assets/images/input/lock.svg';
 
-const PasswordInput = ({
-  value,
-  onChange,
-  onBlur,
-  error,
-  showVisibilityIcon,
-  showPassword,
-  handleClickShowPassword,
-  label
-}) => (
-  <>
-    <Input
-      placeholder={label}
-      type={showPassword ? 'text' : 'password'}
-      icon={lock}
-      value={value}
-      onChange={onChange}
-      onBlur={onBlur}
-      error={error}
-      showVisibilityIcon={showVisibilityIcon}
-      handleClickShowPassword={handleClickShowPassword}
-      showPassword={showPassword}
-    />
-  </>
-);
+class PasswordInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      passError: '',
+      errorLabel: ''
+    };
+  }
+
+  onChangeFunction = value => {
+    const { onChange, showPasswordStrength } = this.props;
+    if (showPasswordStrength) {
+      const passwordStrength = this.validateNewPassword(value);
+      this.setState({
+        passError: this.getErrorMessage(passwordStrength),
+        errorLabel: passwordStrength
+      });
+    }
+    onChange(value);
+  };
+
+  validateNewPassword = pass => {
+    let score = 0;
+    if (pass && pass.length >= 6 && pass.match(/\d+/)) {
+      if (pass.match(/[a-z]/)) {
+        score += 1;
+      }
+      if (pass.match(/[A-Z]/)) {
+        score += 5;
+      }
+      if (pass.match(/\d+/) && !pass.match(/^[0-9]*$/)) {
+        score += 5;
+      }
+      if (pass.match(/(\d.*\d)/)) {
+        score += 5;
+      }
+      if (pass.match(/[!,@#$%^&*?_~]/)) {
+        score += 5;
+      }
+      if (pass.match(/([!,@#$%^&*?_~].*[!,@#$%^&*?_~])/)) {
+        score += 5;
+      }
+      if (pass.match(/[a-z]/) && pass.match(/[A-Z]/)) {
+        score += 2;
+      }
+      if (pass.match(/\d/) && pass.match(/\D/)) {
+        score += 2;
+      }
+      if (
+        pass.match(/[a-z]/) &&
+        pass.match(/[A-Z]/) &&
+        pass.match(/\d/) &&
+        pass.match(/[!,@#$%^&*?_~]/)
+      ) {
+        score += 2;
+      }
+      if (score <= 8) {
+        return 'Weak';
+      }
+      if (score > 8 && score <= 16) {
+        return 'Fair';
+      }
+      if (score > 16 && score <= 24) {
+        return 'Good';
+      }
+      if (score > 24 && score <= 32) {
+        return 'Strong';
+      }
+    } else {
+      return 'TooShort';
+    }
+
+    return '';
+  };
+
+  getErrorMessage = msg => {
+    const errorLabel = {
+      Weak: 'Weak',
+      Fair: 'Could be stronger',
+      Good: 'Good password',
+      Strong: 'Strong password',
+      TooShort:
+        'Your password must contain at least 6 characters, including 1 digit.'
+    };
+
+    return errorLabel[msg];
+  };
+
+  render() {
+    const {
+      value,
+      onBlur,
+      error,
+      showVisibilityIcon,
+      showPassword,
+      handleClickShowPassword
+    } = this.props;
+    const { passError, errorLabel } = this.state;
+    const errorMsg = error || passError;
+    return (
+      <>
+        <Input
+          placeholder="Password"
+          type={showPassword ? 'text' : 'password'}
+          icon={lock}
+          value={value}
+          onChange={this.onChangeFunction}
+          onBlur={onBlur}
+          error={errorMsg}
+          showVisibilityIcon={showVisibilityIcon}
+          handleClickShowPassword={handleClickShowPassword}
+          showPassword={showPassword}
+          passwordStrength={errorLabel}
+        />
+      </>
+    );
+  }
+}
 
 PasswordInput.propTypes = {
   value: PropTypes.string,
@@ -37,7 +130,8 @@ PasswordInput.propTypes = {
   showVisibilityIcon: PropTypes.bool,
   showPassword: PropTypes.bool,
   handleClickShowPassword: PropTypes.func,
-  label: PropTypes.string
+  label: PropTypes.string,
+  showPasswordStrength: PropTypes.bool
 };
 
 PasswordInput.defaultProps = {
@@ -48,7 +142,8 @@ PasswordInput.defaultProps = {
   showVisibilityIcon: false,
   showPassword: false,
   handleClickShowPassword: () => {},
-  label: 'Password'
+  label: 'Password',
+  showPasswordStrength: false
 };
 
 export default PasswordInput;

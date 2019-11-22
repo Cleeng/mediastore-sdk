@@ -110,7 +110,8 @@ class Input extends Component {
       error,
       showVisibilityIcon,
       handleClickShowPassword,
-      showPassword
+      showPassword,
+      passwordStrength
     } = this.props;
     const { suppressMessage } = this.state;
 
@@ -129,6 +130,7 @@ class Input extends Component {
           showMessage={showMessage && !suppressMessage}
           messageType={messageType}
           icon={icon}
+          passwordStrength={passwordStrength}
         >
           <InputElementStyled
             placeholder={placeholder}
@@ -162,7 +164,11 @@ class Input extends Component {
               )}
             </StyledButton>
           )}
-          {!isCouponInput && <ErrorWrapper>{error}</ErrorWrapper>}
+          {!isCouponInput && (
+            <ErrorWrapper passwordStrength={passwordStrength}>
+              {error}
+            </ErrorWrapper>
+          )}
         </InputElementWrapperStyled>
       </InputComponentStyled>
     );
@@ -187,7 +193,8 @@ Input.propTypes = {
   error: PropTypes.string,
   showVisibilityIcon: PropTypes.bool,
   handleClickShowPassword: PropTypes.func,
-  showPassword: PropTypes.bool
+  showPassword: PropTypes.bool,
+  passwordStrength: PropTypes.string
 };
 
 Input.defaultProps = {
@@ -208,7 +215,8 @@ Input.defaultProps = {
   value: '',
   showVisibilityIcon: false,
   handleClickShowPassword: () => {},
-  showPassword: false
+  showPassword: false,
+  passwordStrength: ''
 };
 
 export default Input;

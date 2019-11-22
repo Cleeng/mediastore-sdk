@@ -118,6 +118,17 @@ class RegisterForm extends Component {
     return true;
   };
 
+  handlePasswordChange = value => {
+    const { errors } = this.state;
+    this.setState({
+      password: value,
+      errors: {
+        ...errors,
+        password: ''
+      }
+    });
+  };
+
   render() {
     const {
       email,
@@ -142,12 +153,13 @@ class RegisterForm extends Component {
         <PasswordInput
           label={t('Password')}
           value={password}
-          onChange={e => this.setState({ password: e })}
+          onChange={this.handlePasswordChange}
           onBlur={this.validatePassword}
           error={errors.password}
           showVisibilityIcon
           showPassword={showPassword}
           handleClickShowPassword={this.handleClickShowPassword}
+          showPasswordStrength
         />
         <Consent
           t={t}
