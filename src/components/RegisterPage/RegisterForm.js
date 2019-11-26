@@ -160,6 +160,7 @@ class RegisterForm extends Component {
           showPassword={showPassword}
           handleClickShowPassword={this.handleClickShowPassword}
           showPasswordStrength
+          t={t}
         />
         <Consent
           t={t}

@@ -177,7 +177,6 @@ class LoginForm extends Component {
           onChange={e => this.setState({ password: e })}
           onBlur={this.validatePassword}
           error={errors.password}
-          t={t}
         />
         {showCaptcha && (
           <>
