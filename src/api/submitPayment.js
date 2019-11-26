@@ -13,7 +13,7 @@ const submitPayment = async card => {
     });
     return res.json();
   } catch (e) {
-    return e.json();
+    return e;
   }
 };
 
