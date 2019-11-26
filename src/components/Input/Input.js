@@ -78,20 +78,22 @@ class Input extends Component {
     });
   };
 
-  handleSubmit = event => {
+  handleSubmit = async event => {
     const { blurOnSubmit, onSubmit } = this.props;
     if (blurOnSubmit) {
       event.target.blur();
     }
 
-    const callback = () =>
-      this.setState({
-        suppressMessage: false
-      });
+    // const callback = () => {
+    //   this.setState({
+    //     suppressMessage: false
+    //   });
+    // };
 
-    onSubmit(event.target.value)
-      .then(callback)
-      .catch(callback);
+    await onSubmit(event.target.value);
+    this.setState({
+      suppressMessage: false
+    });
   };
 
   render() {

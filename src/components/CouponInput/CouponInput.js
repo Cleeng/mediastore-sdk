@@ -9,10 +9,11 @@ const CouponInput = ({
   message,
   messageType,
   onSubmit,
-  onChange
+  onChange,
+  t
 }) => (
   <Input
-    placeholder="Redeem coupon"
+    placeholder={t('Redeem coupon')}
     icon={couponIcon}
     clearMessageAfterDelay
     clearMessageOnFocus
@@ -33,7 +34,8 @@ CouponInput.propTypes = {
   message: PropTypes.node,
   messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS]),
   onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  t: PropTypes.func
 };
 
 CouponInput.defaultProps = {
@@ -41,7 +43,8 @@ CouponInput.defaultProps = {
   showMessage: false,
   message: null,
   messageType: MESSAGE_TYPE_FAIL,
-  onChange: () => {}
+  onChange: () => {},
+  t: k => k
 };
 
 export default CouponInput;

@@ -8,7 +8,6 @@ import {
   StyledOfferBody,
   StyledOfferWrapper,
   StyledPageTitle,
-  StyledOfferContent,
   StyledImageUrl,
   StyledOfferDetailsAndCoupon,
   StyledOfferDetailsWrapper,
@@ -24,12 +23,11 @@ import {
   StyledTotalLabel,
   StyledOfferPrice,
   StyledCouponDiscountWrapper,
-  StyledPriceWrapper
+  StyledPriceWrapper,
+  StyledOfferCouponWrapper
 } from './OfferStyled';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
-
-const roundPrice = value => Math.round(value * 100) / 100;
 
 class Offer extends Component {
   constructor(props) {
@@ -42,89 +40,99 @@ class Offer extends Component {
   render() {
     const {
       offerDetails: {
-        title,
-        description,
-        imageUrl,
-        price,
-        priceBeforeDiscount,
+        offerTitle,
         customerCurrencySymbol,
-        isCouponApplied,
-        isTrialAllowed,
+        description,
+        trialAvailable,
         freePeriods,
-        periodDescription
+        periodDescription,
+        imageUrl
+      },
+      orderDetails: {
+        priceBreakdown: { offerPrice, discountedPrice, discountAmount },
+        discount: { applied }
       },
       couponProps: { showMessage, message, messageType, onSubmit },
-      onPaymentComplete
+      onPaymentComplete,
+      t
     } = this.props;
+    const isCouponApplied = applied;
     const { coupon } = this.state;
+    const finalPrice = applied ? discountedPrice : offerPrice;
     return (
       <StyledOfferWrapper>
         <StyledOfferBody>
           <Header />
-          <StyledPageTitle>Complete your purchase</StyledPageTitle>
-          <StyledOfferContent>
-            <StyledImageUrl src={imageUrl} alt="Offer" />
+          <StyledPageTitle>{t('Complete your purchase')}</StyledPageTitle>
+          <div>
+            {imageUrl && <StyledImageUrl src={imageUrl} alt="Offer" />}
             <StyledOfferDetailsAndCoupon>
-              <StyledOfferDetailsWrapper>
-                <StyledOfferTitle>{title}</StyledOfferTitle>
+              <StyledOfferDetailsWrapper withoutImage={!imageUrl}>
+                <StyledOfferTitle>{offerTitle}</StyledOfferTitle>
                 <StyledOfferDetails>
                   <StyledOfferDescription>
-                    {isTrialAllowed && (
+                    {trialAvailable && (
                       <StyledTrialDescription>
-                        {`You will be charged ${customerCurrencySymbol}${price} after ${freePeriods} ${periodDescription}.`}
+                        {t('You will be charged {{price}} after {{period}}.', {
+                          price: `${customerCurrencySymbol}${offerPrice}`,
+                          period: `${freePeriods} ${periodDescription}`
+                        })}
                       </StyledTrialDescription>
                     )}
                     {description}
                   </StyledOfferDescription>
                   <StyledOfferDetailsPrice>
-                    {isTrialAllowed && <StyledTrial>trial period</StyledTrial>}
+                    {trialAvailable && (
+                      <StyledTrial>{t('trial period')}</StyledTrial>
+                    )}
                     <StyledPrice>
-                      {`${customerCurrencySymbol}${price} `}
-                      <span>exVAT</span>
+                      {`${customerCurrencySymbol}${offerPrice} `}
+                      <span>{t('exVAT')}</span>
                     </StyledPrice>
                   </StyledOfferDetailsPrice>
                 </StyledOfferDetails>
               </StyledOfferDetailsWrapper>
-              <CouponInput
-                showMessage={showMessage}
-                message={message}
-                messageType={messageType}
-                onSubmit={onSubmit}
-                value={coupon}
-                onChange={e => this.setState({ coupon: e })}
-              />
+              <StyledOfferCouponWrapper>
+                <CouponInput
+                  showMessage={showMessage}
+                  message={message}
+                  messageType={messageType}
+                  onSubmit={onSubmit}
+                  value={coupon}
+                  onChange={e => this.setState({ coupon: e })}
+                  t={t}
+                />
+              </StyledOfferCouponWrapper>
             </StyledOfferDetailsAndCoupon>
-          </StyledOfferContent>
+          </div>
           <StyledTotalWrapper>
             {isCouponApplied && (
               <>
                 <StyledPriceBeforeWrapper>
-                  <StyledTotalLabel>Price:</StyledTotalLabel>
+                  <StyledTotalLabel>{t('Price')}:</StyledTotalLabel>
                   <StyledOfferPrice>
-                    {`${customerCurrencySymbol}${priceBeforeDiscount} `}
-                    <span>exVAT</span>
+                    {`${customerCurrencySymbol}${offerPrice} `}
+                    <span>{t('exVAT')}</span>
                   </StyledOfferPrice>
                 </StyledPriceBeforeWrapper>
                 <StyledCouponDiscountWrapper>
-                  <StyledTotalLabel>Coupon Discount</StyledTotalLabel>
+                  <StyledTotalLabel>{t('Coupon Discount')}</StyledTotalLabel>
                   <StyledOfferPrice>
-                    {`${customerCurrencySymbol}${roundPrice(
-                      priceBeforeDiscount - price
-                    )}`}
+                    {`${customerCurrencySymbol}${discountAmount}`}
                   </StyledOfferPrice>
                 </StyledCouponDiscountWrapper>
               </>
             )}
             <StyledPriceWrapper>
-              <StyledTotalLabel>Total</StyledTotalLabel>
+              <StyledTotalLabel>{t('Total')}</StyledTotalLabel>
               <StyledOfferPrice>
-                {`${customerCurrencySymbol}${price} `}
-                <span>exVAT</span>
+                {`${customerCurrencySymbol}${finalPrice} `}
+                <span>{t('exVAT')}</span>
               </StyledOfferPrice>
             </StyledPriceWrapper>
           </StyledTotalWrapper>
         </StyledOfferBody>
-        <Payment onPaymentComplete={onPaymentComplete} />
+        <Payment onPaymentComplete={onPaymentComplete} t={t} />
         <Footer />
       </StyledOfferWrapper>
     );
@@ -133,27 +141,50 @@ class Offer extends Component {
 
 Offer.propTypes = {
   offerDetails: PropTypes.shape({
-    title: PropTypes.string,
+    offerTitle: PropTypes.string,
     description: PropTypes.string,
     imageUrl: PropTypes.string,
-    price: PropTypes.number,
-    priceBeforeDiscount: PropTypes.number,
     customerCurrencySymbol: PropTypes.string,
-    isCouponApplied: PropTypes.bool,
-    isTrialAllowed: PropTypes.bool,
+    trialAvailable: PropTypes.bool,
     freePeriods: PropTypes.number,
     periodDescription: PropTypes.string,
+    priceExclTax: PropTypes.number,
+    priceExclTaxBeforeDiscount: PropTypes.number,
     errors: PropTypes.arrayOf(PropTypes.string)
   }).isRequired,
+  orderDetails: PropTypes.shape({
+    priceBreakdown: PropTypes.shape({
+      offerPrice: PropTypes.number,
+      discountedPrice: PropTypes.number,
+      discountAmount: PropTypes.number
+    }),
+    discount: PropTypes.shape({
+      applied: PropTypes.bool
+    })
+  }),
   couponProps: PropTypes.shape({
     showMessage: PropTypes.bool,
     message: PropTypes.node,
     messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS]),
     onSubmit: PropTypes.func.isRequired
   }),
-  onPaymentComplete: PropTypes.func.isRequired
+  onPaymentComplete: PropTypes.func.isRequired,
+  t: PropTypes.func
 };
 
-Offer.defaultProps = { couponProps: null };
+Offer.defaultProps = {
+  orderDetails: {
+    priceBreakdown: {
+      offerPrice: 0,
+      discountedPrice: 0,
+      discountAmount: 0
+    },
+    discount: {
+      applied: false
+    }
+  },
+  couponProps: null,
+  t: k => k
+};
 
 export default Offer;
