@@ -45,14 +45,15 @@ class Adyen extends Component {
     });
 
   renderCheckout = () => {
-    const { onSubmit } = this.props;
+    const { onSubmit, onChange } = this.props;
 
     const configuration = {
       showPayButton: true,
       environment: ENV_TEST,
       originKey:
         ENVIRONMENT_CONFIGURATION.ADYEN_PUBLIC_KEY[window.location.origin],
-      onSubmit
+      onSubmit,
+      onChange
     };
     new window.AdyenCheckout(configuration)
       .create(PAYMENT_METHOD_CARD)
@@ -69,7 +70,12 @@ class Adyen extends Component {
   }
 }
 Adyen.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  onChange: PropTypes.func
+};
+
+Adyen.defaultProps = {
+  onChange: () => {}
 };
 
 export default Adyen;

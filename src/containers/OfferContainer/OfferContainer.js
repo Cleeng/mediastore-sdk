@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
-import getOfferDetails from 'api/getOfferDetails';
 import Offer from 'components/Offer';
-import applyCoupon from 'api/applyCoupon';
+import getOfferDetails from 'api/getOfferDetails';
+import createOrder from 'api/createOrder';
+import updateOrder from 'api/updateOrder';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
 import ErrorPage from 'components/ErrorPage';
 import Loader from 'components/Loader';
@@ -17,7 +18,17 @@ class OfferContainer extends Component {
       offerDetails: null,
       couponProps: null,
       error: '',
-      offerId: null
+      offerId: null,
+      orderDetails: {
+        priceBreakdown: {
+          offerPrice: 0,
+          discountedPrice: 0,
+          discountAmount: 0
+        },
+        discount: {
+          applied: false
+        }
+      }
     };
   }
 
@@ -37,6 +48,17 @@ class OfferContainer extends Component {
             this.setState({ offerDetails: offerDetailsResponse.responseData });
           }
         });
+        createOrder(offerId).then(orderDetailsResponse => {
+          if (!orderDetailsResponse.errors.length) {
+            this.setState({
+              orderDetails: orderDetailsResponse.responseData.order
+            });
+            localStorage.setItem(
+              'CLEENG_ORDER_ID',
+              orderDetailsResponse.responseData.order.id
+            );
+          }
+        });
       } else if (offerId === '') {
         // eslint-disable-next-line react/no-did-update-set-state
         this.setState({ error: 'Offer not set' });
@@ -47,28 +69,36 @@ class OfferContainer extends Component {
   setOfferId = value => this.setState({ offerId: value });
 
   onCouponSubmit = couponCode => {
-    const { offerDetails } = this.state;
-    applyCoupon(couponCode)
-      .then(result => {
-        this.setState({ ...offerDetails, ...result });
-        this.setCouponProps({
-          showMessage: true,
-          message: 'Your coupon has been applied!',
-          messageType: MESSAGE_TYPE_SUCCESS
+    const {
+      orderDetails: { id }
+    } = this.state;
+    updateOrder(id, {
+      couponCode
+    }).then(result => {
+      if (result.errors.length) {
+        this.setState({
+          couponProps: {
+            showMessage: true,
+            message:
+              'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
+            messageType: MESSAGE_TYPE_FAIL
+          }
         });
-      })
-      .catch(() => {
-        this.setCouponProps({
-          showMessage: true,
-          message:
-            'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
-          messageType: MESSAGE_TYPE_FAIL
+      } else {
+        this.setState({
+          orderDetails: result.responseData.order,
+          couponProps: {
+            showMessage: true,
+            message: 'Your coupon has been applied!',
+            messageType: MESSAGE_TYPE_SUCCESS
+          }
         });
-      });
+      }
+    });
   };
 
   render() {
-    const { error, offerDetails, couponProps } = this.state;
+    const { error, offerDetails, couponProps, orderDetails } = this.state;
     const { onPaymentComplete } = this.props;
     if (error) {
       if (error.includes('Offer is blocked for country')) {
@@ -89,6 +119,7 @@ class OfferContainer extends Component {
     return offerDetails ? (
       <Offer
         offerDetails={offerDetails}
+        orderDetails={orderDetails}
         couponProps={{
           ...couponProps,
           onSubmit: this.onCouponSubmit

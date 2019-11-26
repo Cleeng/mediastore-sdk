@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
@@ -25,8 +25,11 @@ export const StyledPageTitle = styled.div`
   text-align: center;
 `;
 
-export const StyledOfferContent = styled.div`
+export const StyledOfferCouponWrapper = styled.div`
+  width: 50%;
+  min-height: 130px;
   display: flex;
+  align-items: flex-end;
 `;
 
 export const StyledCoupon = styled.div`
@@ -43,6 +46,11 @@ export const StyledOfferDetailsWrapper = styled.div`
   padding: 20px;
   width: 88%;
   border-radius: 5px;
+  ${props =>
+    props.withoutImage &&
+    css`
+      width: 100%;
+    `}
 `;
 
 export const StyledOfferDetailsAndCoupon = styled.div`

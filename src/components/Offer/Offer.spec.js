@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Offer from './Offer';
 import mockOfferDetails from './__mocks__/offerDetails';
+import mockOrderDetails from './__mocks__/orderDetails';
 import {
   StyledOfferTitle,
   StyledOfferDescription,
@@ -27,6 +28,7 @@ describe('Offer', () => {
       const wrapper = shallow(
         <Offer
           offerDetails={mockOfferDetails}
+          orderDetails={mockOrderDetails}
           couponProps={mockCouponProps}
           onPaymentComplete={jest.fn()}
         />
@@ -36,26 +38,27 @@ describe('Offer', () => {
       expect(wrapper.find(StyledPriceBeforeWrapper)).toHaveLength(0);
 
       expect(wrapper.find(StyledOfferTitle).text()).toBe(
-        mockOfferDetails.title
+        mockOfferDetails.offerTitle
       );
       expect(wrapper.find(StyledOfferDescription).text()).toBe(
         mockOfferDetails.description
       );
       expect(wrapper.find(StyledOfferPrice).text()).toBe(
-        `${mockOfferDetails.customerCurrencySymbol}${mockOfferDetails.price} exVAT`
+        `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.priceBreakdown.offerPrice} exVAT`
       );
     });
 
     it('displays trial', () => {
       const wrapper = shallow(
         <Offer
-          offerDetails={{ ...mockOfferDetails, isTrialAllowed: true }}
+          offerDetails={{ ...mockOfferDetails, trialAvailable: true }}
+          orderDetails={mockOrderDetails}
           couponProps={mockCouponProps}
           onPaymentComplete={jest.fn()}
         />
       );
 
-      const trialDescription = `You will be charged ${mockOfferDetails.customerCurrencySymbol}${mockOfferDetails.price} after ${mockOfferDetails.freePeriods} ${mockOfferDetails.periodDescription}.`;
+      const trialDescription = `You will be charged ${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.priceBreakdown.offerPrice} after ${mockOfferDetails.freePeriods} ${mockOfferDetails.periodDescription}.`;
 
       expect(wrapper.find(StyledTrial)).toHaveLength(1);
       expect(wrapper.find(StyledTrialDescription).text()).toBe(
@@ -67,13 +70,16 @@ describe('Offer', () => {
     });
 
     it('displays coupon discount', () => {
-      const priceBeforeDiscount = mockOfferDetails.price + 10;
       const wrapper = shallow(
         <Offer
           offerDetails={{
-            ...mockOfferDetails,
-            isCouponApplied: true,
-            priceBeforeDiscount
+            ...mockOfferDetails
+          }}
+          orderDetails={{
+            ...mockOrderDetails,
+            discount: {
+              applied: true
+            }
           }}
           couponProps={mockCouponProps}
           onPaymentComplete={jest.fn()}
@@ -87,7 +93,7 @@ describe('Offer', () => {
           .find(StyledOfferPrice)
           .text()
       ).toBe(
-        `${mockOfferDetails.customerCurrencySymbol}${priceBeforeDiscount} exVAT`
+        `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.priceBreakdown.offerPrice} exVAT`
       );
       expect(wrapper.find(StyledCouponDiscountWrapper)).toHaveLength(1);
       expect(
@@ -96,9 +102,7 @@ describe('Offer', () => {
           .find(StyledOfferPrice)
           .text()
       ).toBe(
-        `${mockOfferDetails.customerCurrencySymbol}${Math.round(
-          (priceBeforeDiscount - mockOfferDetails.price) * 100
-        ) / 100}`
+        `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.priceBreakdown.discountAmount}`
       );
       expect(
         wrapper
@@ -106,8 +110,24 @@ describe('Offer', () => {
           .find(StyledOfferPrice)
           .text()
       ).toBe(
-        `${mockOfferDetails.customerCurrencySymbol}${mockOfferDetails.price} exVAT`
+        `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.priceBreakdown.discountedPrice} exVAT`
       );
+    });
+  });
+  describe('@events', () => {
+    it('should add coupon to state on coupon applied', () => {
+      const couponCode = 'abc';
+      const wrapper = shallow(
+        <Offer
+          offerDetails={mockOfferDetails}
+          orderDetails={mockOrderDetails}
+          couponProps={mockCouponProps}
+          onPaymentComplete={jest.fn()}
+        />
+      );
+
+      wrapper.find('CouponInput').simulate('change', couponCode);
+      expect(wrapper.state().coupon).toBe(couponCode);
     });
   });
 });

@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import createOrder from 'api/createOrder';
+// import createOrder from 'api/createOrder';
+import updateOrder from 'api/updateOrder';
 import submitPayment from 'api/submitPayment';
 import Button, { BUTTON_TYPE } from 'components/Button/Button';
 import Adyen from 'components/Adyen';
 import {
   PaymentStyled,
   TitleStyled,
-  MethodsWrapperStyled
+  MethodsWrapperStyled,
+  PaymentErrorStyled
 } from './PaymentStyled';
 
 class Payment extends Component {
@@ -15,28 +17,52 @@ class Payment extends Component {
     super(props);
     this.state = {
       isPaymentFormDisplayed: false,
-      orderId: ''
+      generalError: ''
     };
-  }
-
-  componentDidMount() {
-    createOrder().then(({ orderId }) => this.setState({ orderId }));
   }
 
   onAdyenSubmit = ({ data: { paymentMethod: card } }) => {
     const { onPaymentComplete } = this.props;
-    const { orderId } = this.state;
-    submitPayment(orderId, card).then(onPaymentComplete);
+    this.setState({
+      generalError: ''
+    });
+    submitPayment(card).then(paymentReponse => {
+      if (paymentReponse.errors.length) {
+        this.setState({
+          generalError: 'The payment failed. Please try again.'
+        });
+      } else {
+        onPaymentComplete();
+      }
+    });
+  };
+
+  clearError = () => {
+    this.setState({
+      generalError: ''
+    });
+  };
+
+  choosePaymentMethod = () => {
+    const orderId = localStorage.getItem('CLEENG_ORDER_ID');
+    if (orderId) {
+      updateOrder(orderId, {
+        paymentMethodId: '828628202'
+      });
+    }
   };
 
   render() {
-    const { isPaymentFormDisplayed } = this.state;
+    const { isPaymentFormDisplayed, generalError } = this.state;
     return (
       <PaymentStyled>
         <TitleStyled>Purchase using</TitleStyled>
         <MethodsWrapperStyled>
           <Button
-            onClickFn={() => this.setState({ isPaymentFormDisplayed: true })}
+            onClickFn={() => {
+              this.setState({ isPaymentFormDisplayed: true });
+              this.choosePaymentMethod();
+            }}
             variant={BUTTON_TYPE.CREDIT_CARD}
           >
             Credit card
@@ -49,7 +75,12 @@ class Payment extends Component {
             PayPal
           </Button>
         </MethodsWrapperStyled>
-        {isPaymentFormDisplayed && <Adyen onSubmit={this.onAdyenSubmit} />}
+        {generalError && (
+          <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
+        )}
+        {isPaymentFormDisplayed && (
+          <Adyen onSubmit={this.onAdyenSubmit} onChange={this.clearError} />
+        )}
       </PaymentStyled>
     );
   }

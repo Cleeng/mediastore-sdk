@@ -9,6 +9,7 @@ export const InputComponentStyled = styled.div`
   flex-direction: column;
 
   padding: 10px;
+  width: 100%;
 `;
 
 export const InputElementWrapperStyled = styled.div`
