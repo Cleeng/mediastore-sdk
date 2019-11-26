@@ -53,10 +53,11 @@ class Payment extends Component {
   };
 
   render() {
+    const { t } = this.props;
     const { isPaymentFormDisplayed, generalError } = this.state;
     return (
       <PaymentStyled>
-        <TitleStyled>Purchase using</TitleStyled>
+        <TitleStyled>{t('Purchase using')}</TitleStyled>
         <MethodsWrapperStyled>
           <Button
             onClickFn={() => {
@@ -85,8 +86,14 @@ class Payment extends Component {
     );
   }
 }
+
 Payment.propTypes = {
-  onPaymentComplete: PropTypes.func.isRequired
+  onPaymentComplete: PropTypes.func.isRequired,
+  t: PropTypes.func
+};
+
+Payment.defaultProps = {
+  t: k => k
 };
 
 export default Payment;

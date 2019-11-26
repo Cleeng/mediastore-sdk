@@ -6,10 +6,12 @@ import getOfferDetails from 'api/getOfferDetails';
 import createOrder from 'api/createOrder';
 import updateOrder from 'api/updateOrder';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
+import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
 import Loader from 'components/Loader';
 import saveOfferId from '../../util/offerIdHelper';
 import StyledLoaderContainer from './StyledOfferContainer';
+import labeling from '../labeling';
 
 class OfferContainer extends Component {
   constructor(props) {
@@ -99,7 +101,7 @@ class OfferContainer extends Component {
 
   render() {
     const { error, offerDetails, couponProps, orderDetails } = this.state;
-    const { onPaymentComplete } = this.props;
+    const { onPaymentComplete, t } = this.props;
     if (error) {
       if (error.includes('Offer is blocked for country')) {
         return <ErrorPage type="cannotPurchase" />;
@@ -125,6 +127,7 @@ class OfferContainer extends Component {
           onSubmit: this.onCouponSubmit
         }}
         onPaymentComplete={onPaymentComplete}
+        t={t}
       />
     ) : (
       <StyledLoaderContainer>
@@ -138,10 +141,12 @@ OfferContainer.propTypes = {
   onPaymentComplete: PropTypes.func.isRequired,
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
-  })
+  }),
+  t: PropTypes.func
 };
 OfferContainer.defaultProps = {
-  urlProps: {}
+  urlProps: {},
+  t: k => k
 };
 
-export default OfferContainer;
+export default withTranslation()(labeling()(OfferContainer));

@@ -53,7 +53,8 @@ class Offer extends Component {
         discount: { applied }
       },
       couponProps: { showMessage, message, messageType, onSubmit },
-      onPaymentComplete
+      onPaymentComplete,
+      t
     } = this.props;
     const isCouponApplied = applied;
     const { coupon } = this.state;
@@ -62,7 +63,7 @@ class Offer extends Component {
       <StyledOfferWrapper>
         <StyledOfferBody>
           <Header />
-          <StyledPageTitle>Complete your purchase</StyledPageTitle>
+          <StyledPageTitle>{t('Complete your purchase')}</StyledPageTitle>
           <div>
             {imageUrl && <StyledImageUrl src={imageUrl} alt="Offer" />}
             <StyledOfferDetailsAndCoupon>
@@ -72,16 +73,21 @@ class Offer extends Component {
                   <StyledOfferDescription>
                     {trialAvailable && (
                       <StyledTrialDescription>
-                        {`You will be charged ${customerCurrencySymbol}${offerPrice} after ${freePeriods} ${periodDescription}.`}
+                        {t('You will be charged {{price}} after {{period}}.', {
+                          price: `${customerCurrencySymbol}${offerPrice}`,
+                          period: `${freePeriods} ${periodDescription}`
+                        })}
                       </StyledTrialDescription>
                     )}
                     {description}
                   </StyledOfferDescription>
                   <StyledOfferDetailsPrice>
-                    {trialAvailable && <StyledTrial>trial period</StyledTrial>}
+                    {trialAvailable && (
+                      <StyledTrial>{t('trial period')}</StyledTrial>
+                    )}
                     <StyledPrice>
                       {`${customerCurrencySymbol}${offerPrice} `}
-                      <span>exVAT</span>
+                      <span>{t('exVAT')}</span>
                     </StyledPrice>
                   </StyledOfferDetailsPrice>
                 </StyledOfferDetails>
@@ -94,6 +100,7 @@ class Offer extends Component {
                   onSubmit={onSubmit}
                   value={coupon}
                   onChange={e => this.setState({ coupon: e })}
+                  t={t}
                 />
               </StyledOfferCouponWrapper>
             </StyledOfferDetailsAndCoupon>
@@ -102,14 +109,14 @@ class Offer extends Component {
             {isCouponApplied && (
               <>
                 <StyledPriceBeforeWrapper>
-                  <StyledTotalLabel>Price:</StyledTotalLabel>
+                  <StyledTotalLabel>{t('Price')}:</StyledTotalLabel>
                   <StyledOfferPrice>
                     {`${customerCurrencySymbol}${offerPrice} `}
-                    <span>exVAT</span>
+                    <span>{t('exVAT')}</span>
                   </StyledOfferPrice>
                 </StyledPriceBeforeWrapper>
                 <StyledCouponDiscountWrapper>
-                  <StyledTotalLabel>Coupon Discount</StyledTotalLabel>
+                  <StyledTotalLabel>{t('Coupon Discount')}</StyledTotalLabel>
                   <StyledOfferPrice>
                     {`${customerCurrencySymbol}${discountAmount}`}
                   </StyledOfferPrice>
@@ -117,15 +124,15 @@ class Offer extends Component {
               </>
             )}
             <StyledPriceWrapper>
-              <StyledTotalLabel>Total</StyledTotalLabel>
+              <StyledTotalLabel>{t('Total')}</StyledTotalLabel>
               <StyledOfferPrice>
                 {`${customerCurrencySymbol}${finalPrice} `}
-                <span>exVAT</span>
+                <span>{t('exVAT')}</span>
               </StyledOfferPrice>
             </StyledPriceWrapper>
           </StyledTotalWrapper>
         </StyledOfferBody>
-        <Payment onPaymentComplete={onPaymentComplete} />
+        <Payment onPaymentComplete={onPaymentComplete} t={t} />
         <Footer />
       </StyledOfferWrapper>
     );
@@ -161,7 +168,8 @@ Offer.propTypes = {
     messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS]),
     onSubmit: PropTypes.func.isRequired
   }),
-  onPaymentComplete: PropTypes.func.isRequired
+  onPaymentComplete: PropTypes.func.isRequired,
+  t: PropTypes.func
 };
 
 Offer.defaultProps = {
@@ -175,7 +183,8 @@ Offer.defaultProps = {
       applied: false
     }
   },
-  couponProps: null
+  couponProps: null,
+  t: k => k
 };
 
 export default Offer;
