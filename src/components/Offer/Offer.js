@@ -52,7 +52,13 @@ class Offer extends Component {
         priceBreakdown: { offerPrice, discountedPrice, discountAmount },
         discount: { applied }
       },
-      couponProps: { showMessage, message, messageType, onSubmit },
+      couponProps: {
+        showMessage,
+        message,
+        messageType,
+        onSubmit,
+        couponLoading
+      },
       onPaymentComplete,
       t
     } = this.props;
@@ -100,6 +106,7 @@ class Offer extends Component {
                   onSubmit={onSubmit}
                   value={coupon}
                   onChange={e => this.setState({ coupon: e })}
+                  couponLoading={couponLoading}
                   t={t}
                 />
               </StyledOfferCouponWrapper>
@@ -166,7 +173,8 @@ Offer.propTypes = {
     showMessage: PropTypes.bool,
     message: PropTypes.node,
     messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS]),
-    onSubmit: PropTypes.func.isRequired
+    onSubmit: PropTypes.func.isRequired,
+    couponLoading: PropTypes.bool
   }),
   onPaymentComplete: PropTypes.func.isRequired,
   t: PropTypes.func

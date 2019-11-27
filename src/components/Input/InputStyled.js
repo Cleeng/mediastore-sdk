@@ -2,6 +2,7 @@ import styled, { css } from 'styled-components';
 import failIcon from 'assets/images/input/fail.svg';
 import successIcon from 'assets/images/input/success.svg';
 import * as Colors from 'styles/variables';
+import { media } from 'styles/BreakPoints';
 import { MESSAGE_TYPE_SUCCESS } from './InputConstants';
 
 export const InputComponentStyled = styled.div`
@@ -71,15 +72,25 @@ export const InputElementWrapperStyled = styled.div`
 export const InputElementStyled = styled.input`
   flex-grow: 1;
   position: relative;
+  width: auto;
 
   margin: 0 15px;
 
   color: ${Colors.MainTextColor};
+  ${props =>
+    props.readOnly &&
+    css`
+      opacity: 0.5;
+    `}
   border: none;
   outline: none;
 
   font-size: 15px;
   line-height: 1.3;
+
+  ${media.small`
+    width: 100%;
+  `}
 `;
 
 export const MessageStyled = styled.div`

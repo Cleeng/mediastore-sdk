@@ -71,16 +71,26 @@ class OfferContainer extends Component {
   setOfferId = value => this.setState({ offerId: value });
 
   onCouponSubmit = couponCode => {
+    this.setState({
+      couponProps: {
+        couponLoading: true
+      }
+    });
     const {
       orderDetails: { id }
     } = this.state;
     updateOrder(id, {
       couponCode,
+<<<<<<< HEAD
       paymentMethodId: ''
+=======
+      paymentMethodId: 828628202
+>>>>>>> [feat/IT-782]: fix coupon input message
     }).then(result => {
       if (result.errors.length) {
         this.setState({
           couponProps: {
+            couponLoading: false,
             showMessage: true,
             message:
               'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
@@ -91,6 +101,7 @@ class OfferContainer extends Component {
         this.setState({
           orderDetails: result.responseData.order,
           couponProps: {
+            couponLoading: false,
             showMessage: true,
             message: 'Your coupon has been applied!',
             messageType: MESSAGE_TYPE_SUCCESS
