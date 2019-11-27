@@ -75,7 +75,8 @@ class OfferContainer extends Component {
       orderDetails: { id }
     } = this.state;
     updateOrder(id, {
-      couponCode
+      couponCode,
+      paymentMethodId: ''
     }).then(result => {
       if (result.errors.length) {
         this.setState({
