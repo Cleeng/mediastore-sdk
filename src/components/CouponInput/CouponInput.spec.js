@@ -18,6 +18,7 @@ describe('CouponInput', () => {
       expect(inputComponent.props().clearMessageOnFocus).toBe(true);
       expect(inputComponent.props().blurOnSubmit).toBe(true);
       expect(inputComponent.props().icon).toBe('test-file-stub');
+      expect(inputComponent.props().couponLoading).toBe(false);
 
       const inputElement = wrapper.find(InputElementStyled);
       expect(inputElement).toHaveLength(1);
