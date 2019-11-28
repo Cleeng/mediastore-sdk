@@ -119,7 +119,7 @@ class OfferContainer extends Component {
       }
       return <Redirect to="/login" />;
     }
-    return offerDetails ? (
+    return offerDetails && orderDetails ? (
       <Offer
         offerDetails={offerDetails}
         orderDetails={orderDetails}

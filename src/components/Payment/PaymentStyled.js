@@ -26,6 +26,12 @@ export const MethodsWrapperStyled = styled.div`
   margin-bottom: 10px;
   font-size: 20px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const ButtonImageStyled = styled.img`
+  max-height: 50%;
+  margin: 0 auto;
 `;

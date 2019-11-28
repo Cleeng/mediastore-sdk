@@ -5,10 +5,12 @@ import updateOrder from 'api/updateOrder';
 import submitPayment from 'api/submitPayment';
 import Button, { BUTTON_TYPE } from 'components/Button/Button';
 import Adyen from 'components/Adyen';
+import getPaymentMethods from 'api/getPaymentMethods';
 import {
   PaymentStyled,
   TitleStyled,
   MethodsWrapperStyled,
+  ButtonImageStyled,
   PaymentErrorStyled
 } from './PaymentStyled';
 
@@ -17,8 +19,23 @@ class Payment extends Component {
     super(props);
     this.state = {
       isPaymentFormDisplayed: false,
+      paymentMethods: [],
       generalError: ''
     };
+  }
+
+  async componentDidMount() {
+    const { t } = this.props;
+    const response = await getPaymentMethods();
+    if (response.responseData && response.responseData.paymentMethods) {
+      this.setState({
+        paymentMethods: response.responseData.paymentMethods
+      });
+    } else {
+      this.setState({
+        generalError: t('Cannot fetch payment methods')
+      });
+    }
   }
 
   onAdyenSubmit = ({ data: { paymentMethod: card } }) => {
@@ -43,38 +60,42 @@ class Payment extends Component {
     });
   };
 
-  choosePaymentMethod = () => {
+  choosePaymentMethod = methodId => {
     const orderId = localStorage.getItem('CLEENG_ORDER_ID');
     if (orderId) {
       updateOrder(orderId, {
-        paymentMethodId: '828628202'
+        paymentMethodId: methodId
       });
     }
   };
 
   render() {
     const { t } = this.props;
-    const { isPaymentFormDisplayed, generalError } = this.state;
+    const { isPaymentFormDisplayed, generalError, paymentMethods } = this.state;
     return (
       <PaymentStyled>
         <TitleStyled>{t('Purchase using')}</TitleStyled>
         <MethodsWrapperStyled>
-          <Button
-            onClickFn={() => {
-              this.setState({ isPaymentFormDisplayed: true });
-              this.choosePaymentMethod();
-            }}
-            variant={BUTTON_TYPE.CREDIT_CARD}
-          >
-            Credit card
-          </Button>
-          <Button
-            onClickFn={() => this.setState({ isPaymentFormDisplayed: true })}
-            variant={BUTTON_TYPE.CREDIT_CARD}
-            disabled
-          >
-            PayPal
-          </Button>
+          {paymentMethods.map(method => (
+            <Button
+              key={method.methodName}
+              onClickFn={() => {
+                this.setState({ isPaymentFormDisplayed: true });
+                this.choosePaymentMethod(method.id);
+              }}
+              variant={BUTTON_TYPE.PAYMENT}
+              disabled={method.methodName === 'paypal'}
+            >
+              {method.logoUrl ? (
+                <ButtonImageStyled
+                  alt={method.methodName}
+                  src={method.logoUrl}
+                />
+              ) : (
+                method.methodName.toUpperCase()
+              )}
+            </Button>
+          ))}
         </MethodsWrapperStyled>
         {generalError && (
           <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
