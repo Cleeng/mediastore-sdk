@@ -8,6 +8,8 @@ build_staging:
   stage: build
   image: node:8.15-jessie
   script:
+    # - cp /home/cleeng-ci/config/gummybear-2/staging.js /home/cleeng-ci/workspace/gummybear-stage.cleeng.com/tmp/gummybear/src/environments/staging.js
+    - pwd
     - yarn && yarn build --environment=staging
     - STORYBOOK_ENV=staging yarn build-storybook
     - mv storybook-static build

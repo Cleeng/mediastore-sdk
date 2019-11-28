@@ -16,10 +16,6 @@ To select a specific environment for run or build, use the `--environment` flag,
 
 Each origin (protocol + domain + port) requires a specific Adyen public key. In case of development environment there are 2 different origins possible for debugging as application and as storybook. Therefore, the `ADYEN_PUBLIC_KEY` should be a map from every origin possible in the given environment to an appropriate key.
 
-### API Mocks
-
-If some APIs on which the application depends are still in development, use `USE_API_MOCK` field to switch between mock endpoints and actual endpoints.
-
 ## Available Scripts
 
 In the project directory, you can run:
