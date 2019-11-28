@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { LoaderStyled } from './LoaderStyled';
 
-const Loader = ({ buttonLoader }) => (
-  <LoaderStyled buttonLoader={buttonLoader}>
+const Loader = ({ buttonLoader, smallLoader }) => (
+  <LoaderStyled buttonLoader={buttonLoader} smallLoader={smallLoader}>
     <div />
     <div />
     <div />
@@ -20,11 +20,13 @@ const Loader = ({ buttonLoader }) => (
 );
 
 Loader.propTypes = {
-  buttonLoader: PropTypes.bool
+  buttonLoader: PropTypes.bool,
+  smallLoader: PropTypes.bool
 };
 
 Loader.defaultProps = {
-  buttonLoader: false
+  buttonLoader: false,
+  smallLoader: false
 };
 
 export default Loader;

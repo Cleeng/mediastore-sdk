@@ -10,6 +10,7 @@ const CouponInput = ({
   messageType,
   onSubmit,
   onChange,
+  couponLoading,
   t
 }) => (
   <Input
@@ -25,6 +26,7 @@ const CouponInput = ({
     value={value}
     onChange={onChange}
     isCouponInput
+    couponLoading={couponLoading}
   />
 );
 
@@ -35,7 +37,8 @@ CouponInput.propTypes = {
   messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS]),
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func,
-  t: PropTypes.func
+  t: PropTypes.func,
+  couponLoading: PropTypes.bool
 };
 
 CouponInput.defaultProps = {
@@ -44,7 +47,8 @@ CouponInput.defaultProps = {
   message: null,
   messageType: MESSAGE_TYPE_FAIL,
   onChange: () => {},
-  t: k => k
+  t: k => k,
+  couponLoading: false
 };
 
 export default CouponInput;

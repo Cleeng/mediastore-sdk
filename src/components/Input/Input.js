@@ -12,6 +12,7 @@ import {
   StyledPasswordVisibility
 } from './InputStyled';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from './InputConstants';
+import Loader from '../Loader';
 
 const FADE_OUT_DELAY = 5000;
 
@@ -83,13 +84,6 @@ class Input extends Component {
     if (blurOnSubmit) {
       event.target.blur();
     }
-
-    // const callback = () => {
-    //   this.setState({
-    //     suppressMessage: false
-    //   });
-    // };
-
     await onSubmit(event.target.value);
     this.setState({
       suppressMessage: false
@@ -113,7 +107,8 @@ class Input extends Component {
       showVisibilityIcon,
       handleClickShowPassword,
       showPassword,
-      passwordStrength
+      passwordStrength,
+      couponLoading
     } = this.props;
     const { suppressMessage } = this.state;
 
@@ -153,6 +148,7 @@ class Input extends Component {
             onChange={event => onChange(event.target.value)}
             type={type}
             onBlur={onBlur}
+            readOnly={couponLoading}
           />
           {showVisibilityIcon && (
             <StyledButton
@@ -166,6 +162,7 @@ class Input extends Component {
               )}
             </StyledButton>
           )}
+          {couponLoading && <Loader smallLoader />}
           {!isCouponInput && (
             <ErrorWrapper passwordStrength={passwordStrength}>
               {error}
@@ -196,7 +193,8 @@ Input.propTypes = {
   showVisibilityIcon: PropTypes.bool,
   handleClickShowPassword: PropTypes.func,
   showPassword: PropTypes.bool,
-  passwordStrength: PropTypes.string
+  passwordStrength: PropTypes.string,
+  couponLoading: PropTypes.bool
 };
 
 Input.defaultProps = {
@@ -218,7 +216,8 @@ Input.defaultProps = {
   showVisibilityIcon: false,
   handleClickShowPassword: () => {},
   showPassword: false,
-  passwordStrength: ''
+  passwordStrength: '',
+  couponLoading: false
 };
 
 export default Input;
