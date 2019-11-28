@@ -16,6 +16,18 @@ To select a specific environment for run or build, use the `--environment` flag,
 
 Each origin (protocol + domain + port) requires a specific Adyen public key. In case of development environment there are 2 different origins possible for debugging as application and as storybook. Therefore, the `ADYEN_PUBLIC_KEY` should be a map from every origin possible in the given environment to an appropriate key.
 
+### API Mocks
+
+If some APIs on which the application depends are still in development, use `USE_API_MOCK` field to switch between mock endpoints and actual endpoints.
+
+### Translations system
+
+Translations are done on react-i18n library, without backend-side features. Therefore the translations bundle for every language is done on build or start dev server. It's always avaliable under url (domain_name)/locales/(language_code)/translations.json.<br>
+
+The translations file for language merge content of any json files in the folder /translations/(language_code), and because of it folders name for languages and code of languages declared in i18n init needs to be consistent.<br>
+
+To connect new page in router with translations, it's important to use both withTranslations() and labeling() higher order components. Labeling is a custom method that dynamically loading translations bundle from public folder for choosen language if bundle not already loaded. You can change language using [languageDetector](https://github.com/i18next/i18next-browser-languageDetector)<br>
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -32,6 +44,11 @@ You will also see any lint errors in the console.
 
 Launches the test runner in the interactive watch mode.<br>
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `yarn storybook`
+
+Launches the storybooks locally on the localhost:6006 port <br>
+On staging storybook will be available on [https://gummybear-staging.cleeng.com/storybook-static](https://gummybear-staging.cleeng.com/storybook-static)
 
 ### `yarn build`
 
