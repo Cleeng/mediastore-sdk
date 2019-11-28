@@ -23,3 +23,7 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# conf files
+/config/environments/staging.js
+/config/environments/development.js
