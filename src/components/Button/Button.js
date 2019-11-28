@@ -7,7 +7,7 @@ export const BUTTON_TYPE = {
   SECONDARY: 'secondary',
   GOOGLE: 'google',
   FB: 'fb',
-  CREDIT_CARD: 'creditcard',
+  PAYMENT: 'paymentmethod',
   LINK: 'link',
   BACK: 'back'
 };

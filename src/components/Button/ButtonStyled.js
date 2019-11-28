@@ -64,10 +64,11 @@ const ButtonStyled = styled.button`
       `}
 
       ${props =>
-        props.variant === 'creditcard' &&
+        props.variant === 'paymentmethod' &&
         css`
           background-color: white;
           color: ${colors.FontLightColor};
+          flex: 1 0 21%;
 
           ${p =>
             p.disabled
