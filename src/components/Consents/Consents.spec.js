@@ -62,7 +62,7 @@ describe('<Consents/>', () => {
       expect(wrapper.find(ConsentsErrorStyled).text()).toEqual(errorValue);
     });
   });
-  xdescribe('@lifecycle', () => {
+  describe('@lifecycle', () => {
     describe('constructor', () => {
       it('should set default state values', () => {
         const wrapper = shallow(<ConsentsComponent />);
