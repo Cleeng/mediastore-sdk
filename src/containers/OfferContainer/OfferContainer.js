@@ -81,11 +81,7 @@ class OfferContainer extends Component {
     } = this.state;
     updateOrder(id, {
       couponCode,
-<<<<<<< HEAD
-      paymentMethodId: ''
-=======
       paymentMethodId: 828628202
->>>>>>> [feat/IT-782]: fix coupon input message
     }).then(result => {
       if (result.errors.length) {
         this.setState({
