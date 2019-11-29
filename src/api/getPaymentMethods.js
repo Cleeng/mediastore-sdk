@@ -1,6 +1,5 @@
-const token = localStorage.getItem('CLEENG_AUTH_TOKEN') || '';
-
 const getPaymentMethods = async () => {
+  const token = localStorage.getItem('CLEENG_AUTH_TOKEN') || '';
   return fetch(`${ENVIRONMENT_CONFIGURATION.GB_API_URL}/payment-methods`, {
     method: 'GET',
     headers: {
