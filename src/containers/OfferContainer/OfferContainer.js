@@ -30,7 +30,8 @@ class OfferContainer extends Component {
         discount: {
           applied: false
         }
-      }
+      },
+      isOrderCreated: false
     };
   }
 
@@ -53,7 +54,8 @@ class OfferContainer extends Component {
         createOrder(offerId).then(orderDetailsResponse => {
           if (!orderDetailsResponse.errors.length) {
             this.setState({
-              orderDetails: orderDetailsResponse.responseData.order
+              orderDetails: orderDetailsResponse.responseData.order,
+              isOrderCreated: true
             });
             localStorage.setItem(
               'CLEENG_ORDER_ID',
@@ -109,7 +111,13 @@ class OfferContainer extends Component {
   };
 
   render() {
-    const { error, offerDetails, couponProps, orderDetails } = this.state;
+    const {
+      error,
+      offerDetails,
+      couponProps,
+      orderDetails,
+      isOrderCreated
+    } = this.state;
     const { onPaymentComplete, t } = this.props;
     if (error) {
       if (error.includes('Offer is blocked for country')) {
@@ -127,7 +135,7 @@ class OfferContainer extends Component {
       }
       return <Redirect to="/login" />;
     }
-    return offerDetails && orderDetails ? (
+    return offerDetails && isOrderCreated ? (
       <Offer
         offerDetails={offerDetails}
         orderDetails={orderDetails}
