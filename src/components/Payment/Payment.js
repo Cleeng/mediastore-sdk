@@ -31,6 +31,10 @@ class Payment extends Component {
       this.setState({
         paymentMethods: response.responseData.paymentMethods
       });
+      localStorage.setItem(
+        'CLEENG_PAYMENT_METHOD_ID',
+        response.responseData.paymentMethods[0].id
+      );
     } else {
       this.setState({
         generalError: t('Cannot fetch payment methods')
@@ -62,6 +66,7 @@ class Payment extends Component {
 
   choosePaymentMethod = methodId => {
     const orderId = localStorage.getItem('CLEENG_ORDER_ID');
+    localStorage.setItem('CLEENG_PAYMENT_METHOD_ID', methodId);
     if (orderId) {
       updateOrder(orderId, {
         paymentMethodId: methodId

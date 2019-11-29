@@ -79,9 +79,10 @@ class OfferContainer extends Component {
     const {
       orderDetails: { id }
     } = this.state;
+    const paymentId = localStorage.getItem('CLEENG_PAYMENT_METHOD_ID');
     updateOrder(id, {
       couponCode,
-      paymentMethodId: 828628202
+      paymentMethodId: Number(paymentId)
     }).then(result => {
       if (result.errors.length) {
         this.setState({
