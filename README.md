@@ -12,6 +12,28 @@ All the configs defined there can be accessed in code via a global `ENVIRONMENT_
 
 To select a specific environment for run or build, use the `--environment` flag, e.g. `yarn start --environment=production`.
 
+Scripts containing setups are in js format. `staging.js` and `development.js` files are not committed and is ignored via `.gitignore`. You will need to create local file and set some variables within it.
+
+Here's an example `production.js` file:
+
+```
+module.exports = {
+  ENVIRONMENT_CONFIGURATION: {
+    GB_API_URL: JSON.stringify(
+      'https://hc0f1jaa70.execute-api.eu-west-1.amazonaws.com/staging'
+    ),
+    ADYEN_PUBLIC_KEY: {
+      'https://example.cleeng.com': JSON.stringify('pub.v2.xxx')
+    },
+    WEB_API: JSON.stringify('https://cleeng.com')
+  }
+};
+```
+
+- **GB_API_URL** identifies the host of REST API
+- **WEB_API** identifies the host of the Cleeng Web API
+- **ADYEN_PUBLIC_KEY** identifies Adyen's Public Key, you can find out more [here](#project-structure).
+
 ### Adyen Public Keys
 
 Each origin (protocol + domain + port) requires a specific Adyen public key. In case of development environment there are 2 different origins possible for debugging as application and as storybook. Therefore, the `ADYEN_PUBLIC_KEY` should be a map from every origin possible in the given environment to an appropriate key.
