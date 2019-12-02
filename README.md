@@ -1,6 +1,10 @@
-# gummybear-2
+# Web Store SDK
 
-This project is the front-end for phase 2 of Web Store SDK aka gummybear.
+An example sign-up process for SVOD using Cleeng API.
+
+This repo contains example app as a set of instructions and code snippets for the web to help implement tailored and custom checkout.
+
+To check Cleeng API documentation, visit [Cleeng Developers](https://developers.cleeng.com/reference).
 
 It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
@@ -32,7 +36,7 @@ module.exports = {
 
 - **GB_API_URL** identifies the host of REST API
 - **WEB_API** identifies the host of the Cleeng Web API
-- **ADYEN_PUBLIC_KEY** identifies Adyen's Public Key, you can find out more [here](#project-structure).
+- **ADYEN_PUBLIC_KEY** identifies Adyen's Public Key, you can find out more below.
 
 ### Adyen Public Keys
 
@@ -127,3 +131,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `yarn build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#yarn-run-build-fails-to-minify
+
+# License
+
+The Cleeng Web Store SDK is open source and available under the BSD 3-Clause License. See the [LICENSE](LICENSE.md) file for more info.
