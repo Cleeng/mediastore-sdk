@@ -8,7 +8,10 @@ build_staging:
   stage: build
   image: node:8.15-jessie
   script:
-    - yarn && yarn build
+    - cp /home/cleeng-ci/config/gummybear-2/staging.js ./config/environments/staging.js
+    - yarn && yarn build --environment=staging
+    - STORYBOOK_ENV=staging yarn build-storybook
+    - mv storybook-static build
   cache:
     paths:
       - node_modules/
@@ -49,5 +52,35 @@ deploy_staging:
     - aws s3 cp ./ s3://gummybear-staging.cleeng.com/ --recursive
   only:
     - stage
+  tags:
+    - staging
+
+build_production:
+  stage: build
+  image: node:8.15-jessie
+  script:
+    - yarn && yarn build --environment=production
+  cache:
+    paths:
+      - node_modules/
+    key: node_cache
+  artifacts:
+    paths:
+      - build
+    expire_in: 1 hour
+  only:
+    - master
+  tags:
+    - test
+
+deploy_production:
+  stage: deploy
+  image: python:latest
+  script:
+    - pip install awscli
+    - cd build
+    - aws s3 cp ./ s3://gummybear-staging.cleeng.com/ --recursive
+  only:
+    - master
   tags:
     - staging

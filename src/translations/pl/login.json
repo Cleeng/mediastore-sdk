@@ -1,0 +1,22 @@
+{
+  "The email address is not properly formatted.": "Email nie jest w poprawnym formacie",
+  "Your password must contain at least 6 characters, including 1 digit.": "Twoje hasło musi zawierać conajmniej 6 znaków, w tym 1 cyfrę",
+  "Please fill out this field.": "Wypełnij to pole",
+  "Incorrect login or password": "Niepoprawny login lub hasło",
+  "Customer already exists.": "Użytkownik juz istnieje",
+  "An error occurred.": "Błąd",
+  "Log in": "Zaloguj się",
+  "Register": "Zarejestruj się",
+  "Please agree on all consents to use this service": "Zaakceptuj wszystkie zgody, aby korzystać z serwisu",
+  "I accept the {{htmltag}}Terms and Conditions{{endhtmltag}} of Cleeng.": "Akceptuję {{htmltag}}regulamin korzystania z serwisu{{endhtmltag}} firmy Cleeng.",
+  "Please complete the CAPTCHA to complete your login.": "Uzupełnij CAPTCHA aby się zalogować",
+  "Go to register": "Przejdź do rejestracji",
+  "Sign up with Google": "Zaloguj przez Google",
+  "Sign up with Facebook": "Zaloguj przez Facebook",
+  "Or": "Lub",
+  "Forgot password?": "Zapomniałeś hasła?",
+  "Wrong email or password": "Błędny email lub hasło",
+  "Have an account?": "Masz już konto?",
+  "Email": "Email",
+  "Password": "Hasło"
+}

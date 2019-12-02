@@ -1,0 +1,21 @@
+{
+  "The email address is not properly formatted.": "The email address is not properly formatted.",
+  "Your password must contain at least 6 characters, including 1 digit.": "Your password must contain at least 6 characters, including 1 digit",
+  "Please fill out this field.": "Please fill out this field.",
+  "Incorrect login or password": "Incorrect login or password",
+  "Customer already exists.": "Customer already exist.",
+  "An error occurred.": "An error occurred.",
+  "Log in": "Log in",
+  "Register": "Register",
+  "Please agree on all consents to use this service": "Please agree on all consents to use this service",
+  "I accept the {{htmltag}}Terms and Conditions{{endhtmltag}} of Cleeng.": "I accept the {{htmltag}}Terms and Conditions{{endhtmltag}} of Cleeng.",
+  "Go to register": "Go to register",
+  "Sign up with Google": "Sign up with Google",
+  "Sign up with Facebook": "Sign up with Facebook",
+  "Or": "Or",
+  "Forgot password?": "Forgot password?",
+  "Wrong email or password": "Wrong email or password",
+  "Have an account?": "Have an account?",
+  "Email": "Email",
+  "Password": "Password"
+}

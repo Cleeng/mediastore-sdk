@@ -1,8 +1,13 @@
 module.exports = {
   ENVIRONMENT_CONFIGURATION: {
-    CLEENG_API_JS: JSON.stringify('https://cleeng.com/js-api/3.0/api.js'),
-    GOOGLE_TAG_MANAGER: JSON.stringify('GTM-XXX'),
-    OFFER_ID: JSON.stringify('S918514207_NL'),
-    PAYMENT_METHOD_ID: JSON.stringify('443287322')
+    GB_API_URL: JSON.stringify(
+      'https://ke4vfe4m32.execute-api.eu-west-1.amazonaws.com/dev'
+    ),
+    ADYEN_PUBLIC_KEY: {
+      'https://gummybear-staging.cleeng.com': JSON.stringify(
+        'pub.v2.7814375173870120.aHR0cHM6Ly9ndW1teWJlYXItc3RhZ2luZy5jbGVlbmcuY29t.T9omOG5PPfYe0dkMnWB1pmS5TJ1H4UIkCZEyw7d7IEY'
+      )
+    },
+    WEB_API: JSON.stringify('https://cleengtest:cl33test!@staging.cleeng.com')
   }
 };

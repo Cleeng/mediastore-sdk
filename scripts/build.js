@@ -26,6 +26,7 @@ const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const printHostingInstructions = require('react-dev-utils/printHostingInstructions');
 const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
 const printBuildError = require('react-dev-utils/printBuildError');
+const translationsBundle = require('./translationsBundle');
 
 const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
@@ -132,6 +133,7 @@ function build(previousFileSizes) {
     console.log();
   }
 
+  translationsBundle.run(true);
   console.log('Creating an optimized production build...');
 
   const compiler = webpack(config);

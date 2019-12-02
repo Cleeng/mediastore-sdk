@@ -1,0 +1,25 @@
+export const ButtonMainColor = '#7c8ca5';
+export const ButtonBorderColor = '#d3dbe6';
+export const ButtonMainFontColor = '#fff';
+export const ButtonCleengGradient1 = '#65bd72';
+export const ButtonCleengGradient2 = '#64bca3';
+export const ButtonSecondary = '#595fbb';
+export const ButtonText = '#fff';
+export const Error = '#ff0954';
+export const MainGradient1 = '#44b2e7';
+export const MainColor = '#5db98f';
+export const Weak = '#cb4477';
+export const Fair = '#efd952';
+export const Good = '#97d3ea';
+export const Strong = '#5db98f';
+export const MainTextColor = '#606376';
+export const LightGrey = '#d3dbe6';
+export const LighterGrey = '#bcc3cd';
+export const MediumGrey = '#f6f7f9';
+export const FontLightColor = '#7c8ca5';
+export const HeaderHeight = '60px';
+export const ErrorOffer = '#cb4477';
+export const PassOffer = '#5db98f';
+export const TextFieldBorderFilter =
+  'invert(87%) sepia(14%) saturate(243%) hue-rotate(213deg) brightness(96%) contrast(80%)';
+export const TextFieldBorder = '#CBC6DB';
