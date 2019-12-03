@@ -15,6 +15,14 @@ const mockConsent = [
     label: '<a>Terms</a>'
   }
 ];
+const mockConsentWithoutTag = [
+  {
+    name: 'name2',
+    version: '2',
+    required: false,
+    label: 'No tags'
+  }
+];
 const mockConsentDefinitions = [
   {
     name: 'name',
@@ -24,6 +32,7 @@ const mockConsentDefinitions = [
 ];
 const mockConsentsLabels = ['<a>Terms</a>'];
 const mockConsentsLabelsAfterRegex = ['{{htmltag}}Terms{{endhtmltag}}'];
+const mockConsentsLabelsAfterRegexWithoutTags = ['No tags'];
 
 const mockOfferId = '123123_PL';
 
@@ -93,6 +102,40 @@ describe('<Consents/>', () => {
           expect(wrapper.state().consentsLabels).toEqual(
             mockConsentsLabelsAfterRegex
           );
+          done();
+        });
+      });
+      it('should translate consents without tags', done => {
+        getConsentsRequest.mockImplementationOnce(
+          mockConsentsFetch.mockResolvedValue({
+            responseData: { consents: mockConsentWithoutTag }
+          })
+        );
+        const wrapper = mount(<ConsentsComponent offerId="" />);
+        wrapper.setProps({ offerId: mockOfferId });
+        wrapper.update();
+        expect(getConsentsRequest).toHaveBeenCalled();
+        setImmediate(() => {
+          expect(wrapper.state().consentLoaded).toBe(true);
+          expect(wrapper.state().checked).toEqual([false]);
+          expect(wrapper.state().consentsLabels).toEqual(
+            mockConsentsLabelsAfterRegexWithoutTags
+          );
+          done();
+        });
+      });
+      it('should catch error when fetch failed', done => {
+        getConsentsRequest.mockImplementationOnce(
+          mockConsentsFetch.mockRejectedValue(new Error('Error'))
+        );
+        const wrapper = mount(<ConsentsComponent offerId="" />);
+        wrapper.setProps({ offerId: mockOfferId });
+        wrapper.update();
+        expect(getConsentsRequest).toHaveBeenCalled();
+        setImmediate(() => {
+          expect(wrapper.state().consentDefinitions).toEqual([]);
+          expect(wrapper.state().consentLoaded).toBe(false);
+          expect(wrapper.state().consentsLabels).toEqual([]);
           done();
         });
       });

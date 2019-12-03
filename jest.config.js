@@ -4,7 +4,10 @@ module.exports = {
     '!src/**/*.(d.ts|stories.js)',
     '!src/**/*Styled.js',
     '!src/**/index.js',
-    '!src/serviceWorker.js'
+    '!src/serviceWorker.js',
+    '!src/containers/labeling.js',
+    '!src/test/testComponentHelper.js',
+    '!src/i18NextInit.js'
   ],
   coverageDirectory: '<rootDir>/coverage',
   resolver: 'jest-pnp-resolver',

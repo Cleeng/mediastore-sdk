@@ -36,6 +36,8 @@ PasswordResetSuccess.propTypes = {
   email: PropTypes.string.isRequired,
   t: PropTypes.func
 };
+
+/* istanbul ignore next */
 PasswordResetSuccess.defaultProps = {
   t: k => k
 };

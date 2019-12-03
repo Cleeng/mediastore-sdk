@@ -3,11 +3,6 @@ export function validateEmail(email) {
   return re.test(String(email).toLowerCase());
 }
 
-export function validatePassword(password) {
-  const re = /[0-9]+/;
-  return re.test(password);
-}
-
 export function validateConsents(value, consentDefinitions) {
   return consentDefinitions.every(
     (consent, index) => !(consent.required && !value[index])

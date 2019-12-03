@@ -78,4 +78,7 @@ Login.defaultProps = {
   urlProps: {},
   t: k => k
 };
+
+export { Login as PureLogin };
+
 export default withTranslation()(labeling()(Login));
