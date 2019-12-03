@@ -222,7 +222,7 @@ describe('RegisterForm', () => {
       });
     });
 
-    it('should set general error when customer already exist', done => {
+    it('should set general error when customer already exists', done => {
       registerCustomerRequest.mockImplementationOnce(
         mockRegisterFetch.mockResolvedValue({
           status: 422
@@ -247,6 +247,25 @@ describe('RegisterForm', () => {
         expect(instance.state.generalError).toBe('Customer already exists.');
         done();
       });
+    });
+
+    it('should submit form on enter', () => {
+      const wrapper = mount(
+        <RegisterForm
+          onRegistrationComplete={onSubmitMock}
+          offerId="S705970293_NL"
+        />
+      );
+      const instance = wrapper.instance();
+
+      instance.setState({
+        email: 'john@example.com',
+        password: 'testtest123'
+      });
+
+      const enterEvent = new KeyboardEvent('keydown', { keyCode: 13 });
+      document.dispatchEvent(enterEvent);
+      expect(onSubmitMock).toHaveBeenCalled();
     });
   });
 });

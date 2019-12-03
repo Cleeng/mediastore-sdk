@@ -1,6 +1,6 @@
 {
-  "name": "gummybear-2",
-  "version": "0.1.0",
+  "name": "webstoresdk",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@babel/core": "7.5.5",
