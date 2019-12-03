@@ -222,7 +222,7 @@ describe('RegisterForm', () => {
       });
     });
 
-    it('should set general error when customer already exist', done => {
+    it('should set general error when customer already exists', done => {
       registerCustomerRequest.mockImplementationOnce(
         mockRegisterFetch.mockResolvedValue({
           status: 422
