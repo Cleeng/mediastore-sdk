@@ -1,11 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import createOrder from 'api/createOrder';
-import updateOrder from 'api/updateOrder';
-import submitPayment from 'api/submitPayment';
+import { getPaymentMethods, submitPayment, updateOrder } from 'api';
 import Button, { BUTTON_TYPE } from 'components/Button/Button';
 import Adyen from 'components/Adyen';
-import getPaymentMethods from 'api/getPaymentMethods';
 import {
   PaymentStyled,
   TitleStyled,

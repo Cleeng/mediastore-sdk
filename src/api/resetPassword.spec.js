@@ -25,6 +25,34 @@ describe('resetPassword', () => {
     });
   });
 
+  it('calls remote endpoint and catch messages', done => {
+    const mockOfferId = 'mock-offer-id';
+    const mockEmail = 'mock-email';
+    const mockResponseData = { message: 'errorMessage' };
+    const mockResponseErrorData = {
+      message: mockResponseData.message,
+      errors: [mockResponseData.message]
+    };
+
+    jest.spyOn(global, 'fetch').mockImplementation(
+      async (url, { method }) =>
+        new Promise((resolve, reject) => {
+          if (method === 'PUT') {
+            resolve({
+              json: () => mockResponseData
+            });
+          } else {
+            reject();
+          }
+        })
+    );
+
+    resetPassword(mockOfferId, mockEmail).then(res => {
+      expect(res).toEqual(mockResponseErrorData);
+      done();
+    });
+  });
+
   it('fails on remote call error', done => {
     const mockOfferId = 'mock-offer-id';
     const mockEmail = 'mock-email';
