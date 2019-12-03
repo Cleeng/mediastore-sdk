@@ -26,7 +26,12 @@ class PasswordInput extends React.Component {
 
   validateNewPassword = pass => {
     let score = 0;
-    if (pass && pass.length >= 6 && pass.match(/\d+/)) {
+    if (
+      pass &&
+      pass.length >= 8 &&
+      pass.match(/\d+/) &&
+      pass.match(/[a-zA-Z]/)
+    ) {
       if (pass.match(/[a-z]/)) {
         score += 1;
       }
@@ -83,7 +88,7 @@ class PasswordInput extends React.Component {
       Good: t('Good password'),
       Strong: t('Strong password'),
       NotValid: t(
-        'Your password must contain at least 6 characters, including 1 digit.'
+        'Your password must contain at least 8 characters, including 1 digit.'
       )
     };
 

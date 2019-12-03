@@ -12,7 +12,7 @@ const wrapperState = new Store({
 const ERROR_MESSAGES = {
   noError: '',
   wrongFormat:
-    'Your password must contain at least 6 characters, including 1 digit.',
+    'Your password must contain at least 8 characters, including 1 digit.',
   fillField: 'Please fill out this field.'
 };
 

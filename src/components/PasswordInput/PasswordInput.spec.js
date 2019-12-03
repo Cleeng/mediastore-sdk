@@ -62,7 +62,7 @@ describe('PasswordInput', () => {
         .props()
         .onChange('sth');
       expect(wrapper.state().passError).toBe(
-        'Your password must contain at least 6 characters, including 1 digit.'
+        'Your password must contain at least 8 characters, including 1 digit.'
       );
       expect(wrapper.state().errorLabel).toBe('NotValid');
     });
