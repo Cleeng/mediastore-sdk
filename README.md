@@ -14,7 +14,7 @@ This ultimate checkout applications is implemented as an full flow for a user, w
 
 1. Authentication - login form, registration form (with consents approval) and ablitity to reset a password
 2. Offer display - offer details display with information about trial, coupon codes application and price breakdown
-3. Payment - dynamically loaded payment methods with Adyen integration (for now)
+3. Payment - dynamically loaded payment methods with Adyen integration (as an example payment integration) and thank you page after successful offer purchase
 
 ### Architecture overview
 
