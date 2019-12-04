@@ -1,6 +1,6 @@
 # Web Store SDK
 
-An example sign-up process for SVOD using Cleeng API.
+An best practices checkout example using Cleeng API. Webstore SDK consists of components that will empower you to build and design a seamless checkout process and help visitors become subscribers to your service in an intuitive and trusted manner.
 
 This repo contains example app as a set of instructions and code snippets for the web to help implement tailored and custom checkout.
 
@@ -8,7 +8,28 @@ To check Cleeng API documentation, visit [Cleeng Developers](https://developers.
 
 It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Environments
+## Features
+
+This ultimate checkout applications is implemented as an full flow for a user, with payment by card (with Adyen). This payment method can be replaced by others. Our checkout flow contains from 3 main blocks:
+
+1. Authentication - login form, registration form (with consents approval) and ablitity to reset a password
+2. Offer display - offer details display with information about trial, coupon codes application and price breakdown
+3. Payment - dynamically loaded payment methods with Adyen integration (for now)
+
+### Architecture overview
+
+This is the Frontend application build with React. It was bootstraped with Create React App. We are using webpack to build it, Jest and Enzyme for testing, Styled Components for styles.
+
+This application is communicating with the backend REST API. All methods available can be found below.
+
+To authenticate - we are using JWT with the payload containing offer id and customer id.
+
+Offer id can be passed to the app in 2 ways:
+
+- In URL as a param `?offer=S1234567` and this is the most important one
+- In local storage as `CLEENG_OFFER_ID`
+
+### Environments
 
 Scripts containing setups for specific environments are in `config/environments` folder.
 
@@ -42,11 +63,9 @@ module.exports = {
 
 Each origin (protocol + domain + port) requires a specific Adyen public key. In case of development environment there are 2 different origins possible for debugging as application and as storybook. Therefore, the `ADYEN_PUBLIC_KEY` should be a map from every origin possible in the given environment to an appropriate key.
 
-### API Mocks
-
-If some APIs on which the application depends are still in development, use `USE_API_MOCK` field to switch between mock endpoints and actual endpoints.
-
 ### Translations system
+
+We provide full flexibility to adjust messaging in the checkout process. All the content in the checkout pages can be translated into 28 languages, but these translations can also be overwritten if you choose so.
 
 Translations are done on react-i18n library, without backend-side features. Therefore the translations bundle for every language is done on build or start dev server. It's always avaliable under url (domain_name)/locales/(language_code)/translations.json.<br>
 
