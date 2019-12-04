@@ -52,6 +52,8 @@ const ThankYouPage = ({ t }) => (
 ThankYouPage.propTypes = {
   t: PropTypes.func
 };
+
+/* istanbul ignore next */
 ThankYouPage.defaultProps = {
   t: k => k
 };

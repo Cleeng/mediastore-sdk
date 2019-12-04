@@ -98,4 +98,6 @@ PasswordReset.defaultProps = {
   t: k => k
 };
 
+export { PasswordReset as PurePasswordReset };
+
 export default withTranslation()(labeling()(PasswordReset));

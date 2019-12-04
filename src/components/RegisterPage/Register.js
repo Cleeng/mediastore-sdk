@@ -77,4 +77,6 @@ Register.defaultProps = {
   t: k => k
 };
 
+export { Register as PureRegister };
+
 export default withTranslation()(labeling()(Register));

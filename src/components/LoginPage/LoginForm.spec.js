@@ -8,6 +8,7 @@ import loginCustomerRequest from '../../api/loginCustomer';
 
 jest.mock('../../api/loginCustomer');
 const mockLoginFetch = jest.fn();
+const setOfferErrorMock = jest.fn();
 jest.mock('axios', () => ({
   get: jest
     .fn()
@@ -234,6 +235,32 @@ describe('LoginForm', () => {
         expect(instance.state.errors.password).toBe('');
         expect(instance.state.generalError).toBe('An error occurred.');
         expect(onSubmitMock).not.toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should return offer error when offerId is not given', done => {
+      const preventDefaultMock = jest.fn();
+      onSubmitMock.mockClear();
+      const wrapper = shallow(
+        <LoginForm
+          offerId=""
+          onLoginComplete={onSubmitMock}
+          setOfferError={setOfferErrorMock}
+        />
+      );
+      const instance = wrapper.instance();
+      instance.setState({
+        email: 'john@example.com',
+        password: 'testtest123',
+        captcha: 'f979c2ff515d921c34af9bd2aee8ef076b719d03'
+      });
+      expect(onSubmitMock).not.toHaveBeenCalled();
+
+      wrapper.simulate('submit', { preventDefault: preventDefaultMock });
+      expect(preventDefaultMock).toHaveBeenCalledTimes(1);
+      setImmediate(() => {
+        expect(setOfferErrorMock).toHaveBeenCalled();
         done();
       });
     });
