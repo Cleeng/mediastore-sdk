@@ -214,5 +214,16 @@ describe('Input', () => {
       wrapper.unmount();
       expect(clearTimeout).toHaveBeenCalledWith(timeoutId);
     });
+
+    it('should call onChange cb when input change', () => {
+      const onChangeMock = jest.fn();
+      const MockInputValue = 'MOCKVALUE';
+      const wrapper = mount(<Input onChange={onChangeMock} />);
+      const input = wrapper.find(InputElementStyled);
+
+      input.simulate('change', { target: { value: MockInputValue } });
+
+      expect(onChangeMock).toHaveBeenCalledWith(MockInputValue);
+    });
   });
 });

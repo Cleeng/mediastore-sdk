@@ -2,13 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import Offer from 'components/Offer';
-import getOfferDetails from 'api/getOfferDetails';
-import createOrder from 'api/createOrder';
-import updateOrder from 'api/updateOrder';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
 import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
 import Loader from 'components/Loader';
+import { getOfferDetails, createOrder, updateOrder } from 'api';
 import saveOfferId from '../../util/offerIdHelper';
 import StyledLoaderContainer from './StyledOfferContainer';
 import labeling from '../labeling';
@@ -165,5 +163,7 @@ OfferContainer.defaultProps = {
   urlProps: {},
   t: k => k
 };
+
+export { OfferContainer as PureOfferContainer };
 
 export default withTranslation()(labeling()(OfferContainer));
