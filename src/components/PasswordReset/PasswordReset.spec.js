@@ -132,5 +132,23 @@ describe('PasswordReset', () => {
         done();
       });
     });
+
+    it('should submit form on Enter', () => {
+      const wrapper = shallow(
+        <PurePasswordReset onSuccess={FuncMock} urlProps={mockUrlProps} />
+      );
+      const instance = wrapper.instance();
+      const onSubmitSpy = jest.spyOn(instance, 'onSubmit');
+
+      wrapper.setState({
+        value: MockEmailValue,
+        offerId: MockOfferId
+      });
+
+      const event = new KeyboardEvent('keydown', { keyCode: 13 });
+      document.dispatchEvent(event);
+
+      expect(onSubmitSpy).toHaveBeenCalled();
+    });
   });
 });

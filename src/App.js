@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React, { Suspense } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import Register from 'components/RegisterPage/Register';
