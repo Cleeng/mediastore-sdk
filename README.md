@@ -1,8 +1,8 @@
 # Web Store SDK
 
-An best practices checkout example using Cleeng API. Webstore SDK consists of components that will empower you to build and design a seamless checkout process and help visitors become subscribers to your service in an intuitive and trusted manner.
+A best practices checkout example using Cleeng API. Webstore SDK consists of components that will empower you to build and design a seamless checkout process and help visitors become subscribers to your service in an intuitive and trusted manner.
 
-This repo contains example app as a set of instructions and code snippets for the web to help implement tailored and custom checkout.
+This repo contains an example app as a set of instructions and code snippets for the web to help implement tailored and custom checkout.
 
 To check Cleeng API documentation, visit [Cleeng Developers](https://developers.cleeng.com/reference).
 
@@ -10,10 +10,10 @@ It was bootstrapped with [Create React App](https://github.com/facebook/create-r
 
 ## Features
 
-This ultimate checkout applications is implemented as an full flow for a user, with payment by card (with Adyen). This payment method can be replaced by others. Our checkout flow contains from 3 main blocks:
+This ultimate checkout application is implemented as a full flow for a user, with payment by card (with Adyen). This payment method can be replaced by others. Our checkout flow contains 3 main blocks:
 
-1. Authentication - login form, registration form (with consents approval) and ablitity to reset a password
-2. Offer display - offer details display with information about trial, coupon codes application and price breakdown
+1. Authentication - login form, the registration form (with consents approval) and ability to reset a password
+2. Offer/Product display - offer details display with information about the trial, coupon codes application and price breakdown
 3. Payment - dynamically loaded payment methods with Adyen integration (as an example payment integration) and thank you page after successful offer purchase
 
 ### Architecture overview
@@ -67,11 +67,11 @@ Each origin (protocol + domain + port) requires a specific Adyen public key. In 
 
 We provide full flexibility to adjust messaging in the checkout process. All the content in the checkout pages can be translated into 28 languages, but these translations can also be overwritten if you choose so.
 
-Translations are done on react-i18n library, without backend-side features. Therefore the translations bundle for every language is done on build or start dev server. It's always avaliable under url (domain_name)/locales/(language_code)/translations.json.<br>
+Translations are done on react-i18n library, without backend-side features. Therefore the translations bundle for every language is done on build or start dev server. It's always available under URL (domain_name)/locales/(language_code)/translations.json.<br>
 
-The translations file for language merge content of any json files in the folder /translations/(language_code), and because of it folders name for languages and code of languages declared in i18n init needs to be consistent.<br>
+The translations file for language merge content of any JSON files in the folder /translations/(language_code), and because of it folders name for languages and code of languages declared in i18n init needs to be consistent.<br>
 
-To connect new page in router with translations, it's important to use both withTranslations() and labeling() higher order components. Labeling is a custom method that dynamically loading translations bundle from public folder for choosen language if bundle not already loaded. You can change language using [languageDetector](https://github.com/i18next/i18next-browser-languageDetector)<br>
+To connect new page in router with translations, it's important to use both withTranslations() and labeling() higher order components. Labeling is a custom method that dynamically loading translations bundle from public folder for chosen language if bundle not already loaded. You can change language using [languageDetector](https://github.com/i18next/i18next-browser-languageDetector)<br>
 
 ## Available Scripts
 
