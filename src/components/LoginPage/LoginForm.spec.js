@@ -207,7 +207,7 @@ describe('LoginForm', () => {
       });
     });
 
-    it('should set general error when customer doesnt exist', done => {
+    it('should set general error captcha info doesnt match', done => {
       loginCustomerRequest.mockImplementationOnce(
         mockLoginFetch.mockResolvedValue({
           status: 429
