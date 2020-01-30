@@ -134,11 +134,19 @@ class LoginForm extends Component {
         localStorage.setItem('CLEENG_AUTH_TOKEN', response.responseData.jwt);
         localStorage.setItem('CLEENG_CUSTOMER_EMAIL', email);
         onLoginComplete();
-      } else if (response.status === 401 || response.status === 422) {
+      } else if (response.status === 401 || response.status === 423) {
         this.checkCaptcha();
         this.setState({
           processing: false,
           generalError: t('Wrong email or password')
+        });
+      } else if (response.status === 429) {
+        this.checkCaptcha();
+        this.setState({
+          processing: false,
+          generalError: t(
+            "Sorry, the captcha information doesn't match. Please try again"
+          )
         });
       } else {
         this.checkCaptcha();
