@@ -36,7 +36,7 @@ class Register extends Component {
 
   render() {
     const { isOfferError, offerId } = this.state;
-    const { onRegistrationComplete, t } = this.props;
+    const { t } = this.props;
     return isOfferError ? (
       <ErrorPage type="offerNotExist" />
     ) : (
@@ -46,7 +46,6 @@ class Register extends Component {
           <RegisterForm
             t={t}
             offerId={offerId}
-            onRegistrationComplete={onRegistrationComplete}
             setOfferError={this.setOfferError}
           />
           <Link to="/login">
@@ -64,7 +63,6 @@ class Register extends Component {
   }
 }
 Register.propTypes = {
-  onRegistrationComplete: PropTypes.func,
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
   }),
@@ -72,7 +70,6 @@ Register.propTypes = {
 };
 
 Register.defaultProps = {
-  onRegistrationComplete: () => {},
   urlProps: {},
   t: k => k
 };

@@ -67,8 +67,8 @@ class Offer extends Component {
     const finalPrice = applied ? discountedPrice : offerPrice;
     return (
       <StyledOfferWrapper>
+        <Header showLogOutButton />
         <StyledOfferBody>
-          <Header />
           <StyledPageTitle>{t('Complete your purchase')}</StyledPageTitle>
           <div>
             {imageUrl && <StyledImageUrl src={imageUrl} alt="Offer" />}

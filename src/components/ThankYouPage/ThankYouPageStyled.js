@@ -2,8 +2,7 @@ import styled from 'styled-components';
 import * as colors from 'styles/variables';
 
 export const ThankYouPageStyled = styled.div`
-  width: 80%;
-  margin: 0 auto;
+  margin: 0 35px;
   padding: 40px 0;
   text-align: center;
   line-height: 1.3em;
@@ -15,8 +14,7 @@ export const ThankYouPageStyled = styled.div`
 
 export const TitleStyled = styled.div`
   font-size: 25px;
-  margin-top: 75px;
-  margin-bottom: 25px;
+  margin: 30px 0;
   font-weight: 600;
 `;
 
@@ -39,10 +37,9 @@ export const LinkStyled = styled.a`
 `;
 
 export const SocialsStyled = styled.div`
-  margin: 0 35px;
   border-top: 1px ${colors.LightGrey} solid;
   padding-top: 20px;
-  margin-top: 35px;
+  margin: 70px 0 20px 0;
 `;
 
 export const ButtonsStyled = styled.div`
