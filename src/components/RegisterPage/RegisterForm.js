@@ -9,6 +9,7 @@ import PasswordInput from '../PasswordInput/PasswordInput';
 import validateEmailField from '../EmailInput/EmailHelper';
 import { validateRegisterPassword } from '../PasswordInput/PasswordHelper';
 import registerCustomer from '../../api/registerCustomer';
+import Auth from '../../services/auth';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -101,7 +102,7 @@ class RegisterForm extends Component {
 
   register = async () => {
     const { email, password, consents } = this.state;
-    const { onRegistrationComplete, offerId, setOfferError, t } = this.props;
+    const { offerId, setOfferError, t } = this.props;
     if (!offerId) {
       setOfferError(true);
       return false;
@@ -111,9 +112,7 @@ class RegisterForm extends Component {
     });
     const response = await registerCustomer(email, password, offerId, consents);
     if (response.status === 200) {
-      localStorage.setItem('CLEENG_AUTH_TOKEN', response.responseData.jwt);
-      localStorage.setItem('CLEENG_CUSTOMER_EMAIL', email);
-      onRegistrationComplete();
+      Auth.login(email, response.responseData.jwt);
     } else if (response.status === 422) {
       this.setState({
         processing: false,
@@ -187,14 +186,12 @@ class RegisterForm extends Component {
 }
 
 RegisterForm.propTypes = {
-  onRegistrationComplete: PropTypes.func,
   offerId: PropTypes.string,
   setOfferError: PropTypes.func,
   t: PropTypes.func
 };
 
 RegisterForm.defaultProps = {
-  onRegistrationComplete: () => {},
   offerId: '',
   setOfferError: () => {},
   t: k => k

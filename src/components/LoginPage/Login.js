@@ -5,6 +5,7 @@ import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
 import saveOfferId from '../../util/offerIdHelper';
 import labeling from '../../containers/labeling';
+import Auth from '../../services/auth';
 
 import {
   ContentWrapperStyled,
@@ -28,6 +29,7 @@ class Login extends Component {
   componentDidMount() {
     const { urlProps } = this.props;
     saveOfferId(urlProps.location, this.setOfferId);
+    Auth.isLogged();
   }
 
   setOfferId = value => this.setState({ offerId: value });
@@ -36,7 +38,7 @@ class Login extends Component {
 
   render() {
     const { isOfferError, offerId } = this.state;
-    const { t, onLoginComplete } = this.props;
+    const { t } = this.props;
     return isOfferError ? (
       <ErrorPage type="offerNotExist" />
     ) : (
@@ -45,7 +47,6 @@ class Login extends Component {
         <ContentWrapperStyled>
           <LoginForm
             t={t}
-            onLoginComplete={onLoginComplete}
             offerId={offerId}
             setOfferError={this.setOfferError}
           />
@@ -67,14 +68,12 @@ class Login extends Component {
   }
 }
 Login.propTypes = {
-  onLoginComplete: PropTypes.func,
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
   }),
   t: PropTypes.func
 };
 Login.defaultProps = {
-  onLoginComplete: () => {},
   urlProps: {},
   t: k => k
 };

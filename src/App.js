@@ -13,12 +13,9 @@ import ErrorPage from './components/ErrorPage';
 import PasswordResetSuccess from './components/PasswordResetSuccess';
 import RedirectWithQuery from './components/RedirectWithQuery';
 import Loader from './components/Loader';
+import PrivateRoute from './services/privateRoute';
 
 const App = () => {
-  const onLoginComplete = () => history.push(`/offer/`);
-
-  const onRegistrationComplete = () => history.push(`/offer`);
-
   const path = history.location.hash.slice(1);
   if (path) {
     history.replace(path);
@@ -33,21 +30,11 @@ const App = () => {
               <Route path="/" exact component={RedirectWithQuery} />
               <Route
                 path="/login"
-                component={urlProps => (
-                  <Login
-                    onLoginComplete={onLoginComplete}
-                    urlProps={urlProps}
-                  />
-                )}
+                component={urlProps => <Login urlProps={urlProps} />}
               />
               <Route
                 path="/register"
-                component={urlProps => (
-                  <Register
-                    onRegistrationComplete={onRegistrationComplete}
-                    urlProps={urlProps}
-                  />
-                )}
+                component={urlProps => <Register urlProps={urlProps} />}
               />
               <Route
                 path="/reset-password/"
@@ -64,14 +51,13 @@ const App = () => {
               />
               <Route
                 path="/password-reset-success/:email"
-                render={({ match }) => {
-                  const email = decodeURIComponent(
-                    (match && match.params && match.params.email) || ''
-                  );
-                  return <PasswordResetSuccess email={email} />;
-                }}
+                component={urlProps => (
+                  <PasswordResetSuccess
+                    email={decodeURIComponent(urlProps.match.params.email)}
+                  />
+                )}
               />
-              <Route
+              <PrivateRoute
                 path="/offer"
                 component={urlProps => (
                   <OfferContainer
@@ -80,9 +66,10 @@ const App = () => {
                   />
                 )}
               />
-              <Route path="/thankyou">
-                <ThankYouPage />
-              </Route>
+              <PrivateRoute
+                path="/thankyou"
+                component={() => <ThankYouPage />}
+              />
               <Route
                 path="*"
                 render={() => {

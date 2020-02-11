@@ -5,6 +5,7 @@ import RegisterForm from './RegisterForm';
 import Consent from '../Consents';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import registerCustomerRequest from '../../api/registerCustomer';
+import Auth from '../../services/auth';
 
 jest.mock('../../api/registerCustomer');
 const mockRegisterFetch = jest.fn();
@@ -208,23 +209,17 @@ describe('RegisterForm', () => {
           }
         })
       );
-      onSubmitMock.mockClear();
 
-      const wrapper = shallow(
-        <RegisterForm
-          onRegistrationComplete={onSubmitMock}
-          offerId="S705970293_NL"
-        />
-      );
+      const wrapper = shallow(<RegisterForm offerId="S705970293_NL" />);
       const instance = wrapper.instance();
       const preventDefaultMock = jest.fn();
-
+      Auth.login = jest.fn();
       instance.setState({
-        email: 'john@example.com',
+        email: mockEmailValue,
         password: 'testtest123'
       });
 
-      expect(onSubmitMock).not.toHaveBeenCalled();
+      expect(Auth.login).not.toHaveBeenCalled();
       wrapper.simulate('submit', {
         preventDefault: preventDefaultMock
       });
@@ -235,12 +230,9 @@ describe('RegisterForm', () => {
         expect(instance.state.errors.email).toBe('');
         expect(instance.state.errors.password).toBe('');
         expect(instance.state.generalError).toBe('');
-        expect(localStorage.setItem).toHaveBeenCalled();
-        expect(localStorage.setItem).toHaveBeenCalledWith(
-          'CLEENG_AUTH_TOKEN',
-          jwtMock
-        );
-        expect(onSubmitMock).toHaveBeenCalled();
+        expect(Auth.login).toHaveBeenCalled();
+        expect(Auth.login).toHaveBeenCalledTimes(1);
+        expect(Auth.login).toHaveBeenCalledWith(mockEmailValue, jwtMock);
         done();
       });
     });
@@ -251,12 +243,7 @@ describe('RegisterForm', () => {
           status: 422
         })
       );
-      const wrapper = shallow(
-        <RegisterForm
-          onRegistrationComplete={onSubmitMock}
-          offerId="S705970293_NL"
-        />
-      );
+      const wrapper = shallow(<RegisterForm offerId="S705970293_NL" />);
       const instance = wrapper.instance();
 
       instance.setState({
@@ -273,14 +260,10 @@ describe('RegisterForm', () => {
     });
 
     it('should submit form on enter', () => {
-      const wrapper = mount(
-        <RegisterForm
-          onRegistrationComplete={onSubmitMock}
-          offerId="S705970293_NL"
-        />
-      );
+      const wrapper = mount(<RegisterForm offerId="S705970293_NL" />);
       const instance = wrapper.instance();
-
+      Auth.login = jest.fn();
+      instance.register = jest.fn();
       instance.setState({
         email: 'john@example.com',
         password: 'testtest123'
@@ -288,7 +271,7 @@ describe('RegisterForm', () => {
 
       const enterEvent = new KeyboardEvent('keydown', { keyCode: 13 });
       document.dispatchEvent(enterEvent);
-      expect(onSubmitMock).toHaveBeenCalled();
+      expect(instance.register).toHaveBeenCalled();
     });
   });
 });
