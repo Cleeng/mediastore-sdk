@@ -16,7 +16,7 @@ export const AppContentStyled = styled.div`
   position: relative;
 
   margin: auto;
-  width: 650px;
+  max-width: 1000px;
 
   background: white;
 

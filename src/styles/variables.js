@@ -19,3 +19,9 @@ export const ButtonHoverColor = '#419a88';
 export const InputText = '#252c2f';
 export const ButtonBorder = '#CBC5DA';
 export const Label = '#5C6889';
+
+// My Account
+export const MyAccountMainColor = '#031a6e';
+export const MyAccountContentColor = '#f8f9fc';
+export const MyAccountTextColor = '#fff';
+export const HeadingColor = '#a9a9bf';
