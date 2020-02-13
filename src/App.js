@@ -14,6 +14,7 @@ import PasswordResetSuccess from './components/PasswordResetSuccess';
 import RedirectWithQuery from './components/RedirectWithQuery';
 import Loader from './components/Loader';
 import PrivateRoute from './services/privateRoute';
+import PublicRoute from './services/publicRoute';
 
 const App = () => {
   const path = history.location.hash.slice(1);
@@ -27,16 +28,16 @@ const App = () => {
         <AppStyled>
           <AppContentStyled>
             <Switch>
-              <Route path="/" exact component={RedirectWithQuery} />
-              <Route
+              <PublicRoute path="/" exact component={RedirectWithQuery} />
+              <PublicRoute
                 path="/login"
                 component={urlProps => <Login urlProps={urlProps} />}
               />
-              <Route
+              <PublicRoute
                 path="/register"
                 component={urlProps => <Register urlProps={urlProps} />}
               />
-              <Route
+              <PublicRoute
                 path="/reset-password/"
                 component={urlProps => (
                   <PasswordReset
@@ -49,7 +50,7 @@ const App = () => {
                   />
                 )}
               />
-              <Route
+              <PublicRoute
                 path="/password-reset-success/:email"
                 component={urlProps => (
                   <PasswordResetSuccess
