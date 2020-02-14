@@ -12,7 +12,7 @@ const Footer = () => (
       </a>
     </ProductByStyled>
     <SecurityStyled>
-      <img src={security} alt="secured" />
+      <img src={security} alt="" />
       Secured checkout
     </SecurityStyled>
   </FooterStyled>

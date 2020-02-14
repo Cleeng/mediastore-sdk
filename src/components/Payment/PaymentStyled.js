@@ -9,7 +9,7 @@ export const PaymentStyled = styled.div`
 
 export const PaymentErrorStyled = styled.div`
   font-size: 15px;
-  color: ${colors.Error};
+  color: ${colors.ErrorColor};
   font-family: 'Geomanist';
   position: absolute;
 `;

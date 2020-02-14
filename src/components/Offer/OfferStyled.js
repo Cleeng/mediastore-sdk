@@ -14,13 +14,13 @@ export const StyledloaderWrapper = styled.div`
   align-items: center;
 `;
 
-export const StyledPageTitle = styled.div`
+export const StyledPageTitle = styled.h1`
   font-family: 'Geomanist';
   font-weight: 600;
   font-size: 25px;
   border-width: 0 0 1px;
   border-style: solid;
-  border-color: ${colors.LightGrey};
+  border-color: ${colors.MediumGrey};
   padding: 20px 0;
   text-align: center;
 `;
@@ -42,7 +42,7 @@ export const StyledCoupon = styled.div`
 `;
 
 export const StyledOfferDetailsWrapper = styled.div`
-  background-color: ${colors.MediumGrey};
+  background-color: ${colors.LightGrey};
   padding: 20px;
   width: 88%;
   border-radius: 5px;
@@ -71,7 +71,7 @@ export const StyledImageUrl = styled.img`
   `}
 `;
 
-export const StyledOfferTitle = styled.div`
+export const StyledOfferTitle = styled.h2`
   font-family: 'Geomanist';
   font-weight: 400;
   font-size: 20px;
@@ -92,7 +92,7 @@ export const StyledOfferDetails = styled.div`
 export const StyledOfferDescription = styled.div`
   font-family: 'Geomanist';
   font-weight: 300;
-  color: ${colors.FontLightColor};
+  color: ${colors.MainTextColor};
   font-size: 15px;
   width: 60%;
 `;
@@ -106,9 +106,9 @@ export const StyledOfferDetailsPrice = styled.div`
 `;
 
 export const StyledTrial = styled.div`
-  color: ${colors.LighterGrey};
+  color: ${colors.MainTextColor};
   text-transform: uppercase;
-  border: 1px ${colors.LighterGrey} solid;
+  border: 1px ${colors.MainTextColor} solid;
   border-radius: 5px;
   padding: 5px;
   background-color: #fff;
@@ -124,7 +124,7 @@ export const StyledTotalLabel = styled.div`
   display: inline-block;
 `;
 
-export const StyledOfferPrice = styled.div`
+export const StyledOfferPrice = styled.h3`
   float: right;
   width: 18%;
 
@@ -148,11 +148,11 @@ export const StyledPrice = styled.div`
 `;
 
 export const StyledTotalWrapper = styled.div`
-  background-color: ${colors.MediumGrey};
+  background-color: ${colors.LightGrey};
   padding: 20px;
   border-width: 1px 0;
   border-style: solid;
-  border-color: ${colors.LightGrey};
+  border-color: ${colors.MediumGrey};
   font-family: 'Geomanist';
   font-weight: 400;
 `;
@@ -164,7 +164,7 @@ export const StyledPriceBeforeWrapper = styled.div`
 
 export const StyledCouponDiscountWrapper = styled.div`
   font-size: 16px;
-  color: ${colors.PassOffer};
+  color: ${colors.MainColor};
   font-family: 'Geomanist';
   font-weight: 300;
   margin-bottom: 14px;

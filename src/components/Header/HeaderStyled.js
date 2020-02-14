@@ -8,7 +8,7 @@ export const HeaderStyled = styled.header`
   padding: 0;
   margin: 0 35px;
 
-  border-bottom: 1px ${colors.LightGrey} solid;
+  border-bottom: 1px ${colors.MediumGrey} solid;
 
   text-align: center;
 `;

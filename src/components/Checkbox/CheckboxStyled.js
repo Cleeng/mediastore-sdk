@@ -1,8 +1,8 @@
 import styled, { css } from 'styled-components';
 import {
   MainTextColor,
-  ErrorOffer,
-  ButtonMainColor,
+  ErrorColor,
+  CheckboxBorderColor,
   FocusColor
 } from 'styles/variables';
 import tickIcon from 'assets/images/input/tick.svg';
@@ -41,7 +41,7 @@ export const ConsentDefinitionStyled = styled.div`
 
 export const CheckFrameStyled = styled.div`
   box-sizing: border-box;
-  border: 1px solid ${ButtonMainColor};
+  border: 1px solid ${CheckboxBorderColor};
   width: 20px;
   min-width: 20px;
   height: 20px;
@@ -53,7 +53,7 @@ export const CheckFrameStyled = styled.div`
   ${props =>
     props.error &&
     css`
-      border-color: ${ErrorOffer};
+      border-color: ${ErrorColor};
     `}
 `;
 
@@ -68,7 +68,7 @@ export const CheckMarkStyled = styled.div`
 `;
 
 export const ErrorFieldStyled = styled.div`
-  color: ${ErrorOffer};
+  color: ${ErrorColor};
   font-size: 12px;
   font-family: 'Geomanist';
   font-weight: 300;
