@@ -30,16 +30,6 @@ class RegisterForm extends Component {
     };
   }
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.submitOnEnter, false);
-  }
-
-  submitOnEnter = e => {
-    if (e.keyCode === 13) {
-      this.handleSubmit(e);
-    }
-  };
-
   handleClickShowPassword = e => {
     e.preventDefault();
     const { showPassword } = this.state;

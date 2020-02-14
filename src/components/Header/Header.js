@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Logout from 'components/Logout/Logout';
 import { HeaderStyled, LogoStyled } from './HeaderStyled';
@@ -9,9 +8,9 @@ import Button from '../Button/Button';
 const Header = ({ showBackIcon, showLogOutButton }) => (
   <HeaderStyled>
     {showBackIcon && (
-      <Link to="/login">
-        <Button variant="back">Back</Button>
-      </Link>
+      <Button isLink to="/login" variant="back">
+        Back
+      </Button>
     )}
     {showLogOutButton && <Logout />}
     <LogoStyled>
