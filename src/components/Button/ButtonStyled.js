@@ -5,7 +5,9 @@ import fbIcon from './img/fb.svg';
 import { media } from '../../styles/BreakPoints';
 
 const ButtonStyled = styled.button`
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   box-sizing: border-box;
   width: 100%;
   outline: 0;
@@ -20,6 +22,13 @@ const ButtonStyled = styled.button`
   border-radius: 6px;
   height: 55px;
   font-size: 16px;
+
+  &:active{
+    outline: none;
+  }
+  &:focus{
+    outline: 2px solid ${colors.FocusColor};
+  }
   ${props =>
     !props.disabled &&
     css`
@@ -167,9 +176,6 @@ const ButtonStyled = styled.button`
         `}
       `}
 
-  & a {
-    color: ${colors.FontLightColor};
-  }
 
 `;
 

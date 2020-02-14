@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ErrorPage from 'components/ErrorPage';
@@ -48,9 +47,9 @@ class Register extends Component {
             offerId={offerId}
             setOfferError={this.setOfferError}
           />
-          <Link to="/login">
-            <Button variant="secondary">{t('Have an account?')}</Button>
-          </Link>
+          <Button isLink to="/login" variant="secondary">
+            {t('Have an account?')}
+          </Button>
           <SocialStyled>
             <SeparatorStyled>{t('Or')}</SeparatorStyled>
             <Button variant="google">{t('Sign up with Google')}</Button>

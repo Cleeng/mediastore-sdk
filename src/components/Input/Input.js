@@ -153,6 +153,7 @@ class Input extends Component {
           {showVisibilityIcon && (
             <StyledButton
               onClick={handleClickShowPassword}
+              tabIndex="0"
               aria-label="toggle password visibility"
             >
               {showPassword ? (

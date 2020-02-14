@@ -54,7 +54,7 @@ describe('PasswordReset', () => {
       expect(inputComponent.props().icon).toBe('test-file-stub');
 
       const buttons = wrapper.find(Button);
-      expect(buttons).toHaveLength(1);
+      expect(buttons).toHaveLength(2);
     });
   });
   describe('@events', () => {
@@ -131,24 +131,6 @@ describe('PasswordReset', () => {
         expect(FuncMock).not.toHaveBeenCalled();
         done();
       });
-    });
-
-    it('should submit form on Enter', () => {
-      const wrapper = shallow(
-        <PurePasswordReset onSuccess={FuncMock} urlProps={mockUrlProps} />
-      );
-      const instance = wrapper.instance();
-      const onSubmitSpy = jest.spyOn(instance, 'onSubmit');
-
-      wrapper.setState({
-        value: MockEmailValue,
-        offerId: MockOfferId
-      });
-
-      const event = new KeyboardEvent('keydown', { keyCode: 13 });
-      document.dispatchEvent(event);
-
-      expect(onSubmitSpy).toHaveBeenCalled();
     });
   });
 });

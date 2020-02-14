@@ -23,3 +23,4 @@ export const PassOffer = '#5db98f';
 export const TextFieldBorderFilter =
   'invert(87%) sepia(14%) saturate(243%) hue-rotate(213deg) brightness(96%) contrast(80%)';
 export const TextFieldBorder = '#CBC6DB';
+export const FocusColor = '#80b4ea';

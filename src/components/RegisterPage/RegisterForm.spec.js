@@ -258,20 +258,5 @@ describe('RegisterForm', () => {
         done();
       });
     });
-
-    it('should submit form on enter', () => {
-      const wrapper = mount(<RegisterForm offerId="S705970293_NL" />);
-      const instance = wrapper.instance();
-      Auth.login = jest.fn();
-      instance.register = jest.fn();
-      instance.setState({
-        email: 'john@example.com',
-        password: 'testtest123'
-      });
-
-      const enterEvent = new KeyboardEvent('keydown', { keyCode: 13 });
-      document.dispatchEvent(enterEvent);
-      expect(instance.register).toHaveBeenCalled();
-    });
   });
 });

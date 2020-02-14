@@ -157,7 +157,8 @@ export const StyledButton = styled.button`
     opacity: 0;
     transition: opacity 0.3s ease;
   }
-  &:hover::after {
+  &:hover::after,
+  &:focus::after {
     opacity: 1;
   }
 `;

@@ -32,14 +32,7 @@ class PasswordReset extends Component {
   componentDidMount() {
     const { urlProps } = this.props;
     saveOfferId(urlProps.location, this.setOfferId);
-    document.addEventListener('keydown', this.submitOnEnter, false);
   }
-
-  submitOnEnter = e => {
-    if (e.keyCode === 13) {
-      this.onSubmit();
-    }
-  };
 
   setOfferId = value => this.setState({ offerId: value });
 
@@ -85,7 +78,9 @@ class PasswordReset extends Component {
               onChange={v => this.setState({ value: v })}
               onSubmit={this.onSubmit}
             />
-            <Button onClickFn={this.onSubmit}>{t('Reset Password')}</Button>
+            <Button type="submit" onClickFn={this.onSubmit}>
+              {t('Reset Password')}
+            </Button>
           </InnerWrapper>
         </PasswordResetPageStyled>
       </>

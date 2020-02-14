@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import ButtonStyled from './ButtonStyled';
 
 export const BUTTON_TYPE = {
@@ -12,10 +13,20 @@ export const BUTTON_TYPE = {
   BACK: 'back'
 };
 
-const Button = ({ variant, type, onClickFn, disabled, children }) => (
+const Button = ({
+  variant,
+  type,
+  onClickFn,
+  disabled,
+  children,
+  isLink,
+  to
+}) => (
   <ButtonStyled
+    as={isLink ? Link : 'button'}
+    to={to}
     variant={variant}
-    type={type}
+    type={isLink ? null : type}
     onClick={onClickFn}
     disabled={disabled}
   >
@@ -30,7 +41,9 @@ Button.propTypes = {
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   type: PropTypes.string,
   onClickFn: PropTypes.func,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  isLink: PropTypes.bool,
+  to: PropTypes.string
 };
 
 Button.defaultProps = {
@@ -38,5 +51,7 @@ Button.defaultProps = {
   children: '',
   type: 'button',
   onClickFn: () => {},
-  disabled: false
+  disabled: false,
+  isLink: false,
+  to: null
 };

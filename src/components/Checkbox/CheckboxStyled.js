@@ -1,5 +1,10 @@
 import styled, { css } from 'styled-components';
-import { MainTextColor, ErrorOffer, ButtonMainColor } from 'styles/variables';
+import {
+  MainTextColor,
+  ErrorOffer,
+  ButtonMainColor,
+  FocusColor
+} from 'styles/variables';
 import tickIcon from 'assets/images/input/tick.svg';
 
 export const CheckboxStyled = styled.div`
@@ -28,6 +33,9 @@ export const ConsentDefinitionStyled = styled.div`
   a {
     color: ${MainTextColor};
     text-decoration: underline;
+    &:focus {
+      outline: 2px solid ${FocusColor};
+    }
   }
 `;
 
@@ -39,7 +47,9 @@ export const CheckFrameStyled = styled.div`
   height: 20px;
   border-radius: 2px;
   position: relative;
-
+  &:focus {
+    outline: 2px solid ${FocusColor};
+  }
   ${props =>
     props.error &&
     css`

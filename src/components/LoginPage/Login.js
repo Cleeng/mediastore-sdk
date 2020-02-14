@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
 import saveOfferId from '../../util/offerIdHelper';
@@ -50,16 +49,16 @@ class Login extends Component {
             offerId={offerId}
             setOfferError={this.setOfferError}
           />
-          <Link to="/register">
-            <Button variant="secondary">{t('Go to register')}</Button>
-          </Link>
+          <Button isLink to="/register" variant="secondary">
+            {t('Go to register')}
+          </Button>
           <SocialStyled>
             <SeparatorStyled>{t('Or')}</SeparatorStyled>
             <Button variant="google">{t('Sign up with Google')}</Button>
             <Button variant="fb">{t('Sign up with Facebook')}</Button>
-            <Link to="/reset-password">
-              <Button variant="link">{t('Forgot password?')}</Button>
-            </Link>
+            <Button isLink to="/reset-password" variant="link">
+              {t('Forgot password?')}
+            </Button>
           </SocialStyled>
         </ContentWrapperStyled>
         <Footer />
