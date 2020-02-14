@@ -40,7 +40,7 @@ export const StyledLink = styled.span`
 export const NoteStyled = styled.div`
   margin: 35px 35px 0;
   padding-top: 20px;
-  border-top: 1px ${colors.LightGrey} solid;
+  border-top: 1px ${colors.MediumGrey} solid;
   font-size: 13px;
 `;
 

@@ -157,9 +157,9 @@ class Input extends Component {
               aria-label="toggle password visibility"
             >
               {showPassword ? (
-                <StyledPasswordVisibility src={visibilityOff} />
+                <StyledPasswordVisibility src={visibilityOff} alt="" />
               ) : (
-                <StyledPasswordVisibility src={visibility} />
+                <StyledPasswordVisibility src={visibility} alt="" />
               )}
             </StyledButton>
           )}

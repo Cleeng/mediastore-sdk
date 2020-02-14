@@ -8,13 +8,19 @@ import Button from '../Button/Button';
 const Header = ({ showBackIcon, showLogOutButton }) => (
   <HeaderStyled>
     {showBackIcon && (
-      <Button isLink to="/login" variant="back">
-        Back
-      </Button>
+      <nav>
+        <Button isLink to="/login" variant="back">
+          Back
+        </Button>
+      </nav>
     )}
-    {showLogOutButton && <Logout />}
+    {showLogOutButton && (
+      <nav>
+        <Logout />
+      </nav>
+    )}
     <LogoStyled>
-      <img src={headerLogo} alt="logo" />
+      <img src={headerLogo} alt="Sport stream" />
     </LogoStyled>
   </HeaderStyled>
 );

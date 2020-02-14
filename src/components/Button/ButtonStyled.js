@@ -17,7 +17,7 @@ const ButtonStyled = styled.button`
   cursor: pointer;
   font-family: 'Geomanist';
   color: ${colors.ButtonMainFontColor};
-  background-color: ${colors.FontLightColor};
+  background-color: ${colors.ButtonBackground};
   border: 1px ${colors.ButtonBorderColor} solid;
   border-radius: 6px;
   height: 55px;
@@ -31,13 +31,25 @@ const ButtonStyled = styled.button`
   }
   ${props =>
     !props.disabled &&
+    !props.variant &&
     css`
       &:hover,
       &:focus {
         cursor: pointer;
-        background-color: ${colors.ButtonBorderColor};
+        background-color: ${colors.ButtonHoverColor};
       }
     `}
+  ${props =>
+    !props.disabled &&
+    props.variant &&
+    css`
+      &:hover,
+      &:focus {
+        cursor: pointer;
+        background-color: ${colors.LightGrey};
+      }
+    `}
+
     ${props =>
       (props.variant === 'google' || props.variant === 'fb') &&
       css`
@@ -47,7 +59,7 @@ const ButtonStyled = styled.button`
         display: flex;
         justify-content: center;
         text-align: center;
-        color: ${colors.FontLightColor};
+        color: ${colors.MainTextColor};
         font-size: 13px;
         position: relative;
         &::before {
@@ -76,7 +88,7 @@ const ButtonStyled = styled.button`
         props.variant === 'paymentmethod' &&
         css`
           background-color: white;
-          color: ${colors.FontLightColor};
+          color: ${colors.MainTextColor};
           flex: 1 0 21%;
 
           ${p =>
@@ -95,8 +107,13 @@ const ButtonStyled = styled.button`
     ${props =>
       props.variant === 'secondary' &&
       css`
-        background-color: ${colors.MediumGrey};
-        color: ${colors.FontLightColor};
+        background-color: ${colors.LightGrey};
+        color: ${colors.MainTextColor};
+        &:hover,
+        &:focus {
+          cursor: pointer;
+          background-color: ${colors.ButtonBorderColor};
+        }
       `}
 
     ${props =>
@@ -111,7 +128,7 @@ const ButtonStyled = styled.button`
         border-radius: none;
         border: none;
         background-color: transparent;
-        color: ${colors.FontLightColor};
+        color: ${colors.MainTextColor};
 
         text-align: center;
         text-decoration: underline;
@@ -144,7 +161,7 @@ const ButtonStyled = styled.button`
         border-radius: none;
 
         background-color: transparent;
-        color: ${colors.FontLightColor};
+        color: ${colors.MainTextColor};
 
         text-align: center;
         text-decoration: none;
@@ -175,7 +192,6 @@ const ButtonStyled = styled.button`
           left: -25px;
         `}
       `}
-
 
 `;
 

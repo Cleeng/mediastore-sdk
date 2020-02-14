@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as colors from 'styles/variables';
 
-export const ThankYouPageStyled = styled.div`
+export const ThankYouPageStyled = styled.main`
   margin: 0 35px;
   padding: 40px 0;
   text-align: center;
@@ -37,7 +37,7 @@ export const LinkStyled = styled.a`
 `;
 
 export const SocialsStyled = styled.div`
-  border-top: 1px ${colors.LightGrey} solid;
+  border-top: 1px ${colors.MediumGrey} solid;
   padding-top: 20px;
   margin: 70px 0 20px 0;
 `;
@@ -52,7 +52,7 @@ export const ButtonsStyled = styled.div`
 `;
 
 export const ShareStyled = styled.div`
-  color: ${colors.FontLightColor};
+  color: ${colors.MainTextColor};
   font-family: 'Geomanist';
   font-weight: 300;
   font-size: 13px;

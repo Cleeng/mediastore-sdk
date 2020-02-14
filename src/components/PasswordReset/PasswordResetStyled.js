@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as colors from 'styles/variables';
 
-export const PasswordResetPageStyled = styled.div`
+export const PasswordResetPageStyled = styled.main`
   width: 80%;
   margin: 0 auto;
   padding: 40px 0;

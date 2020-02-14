@@ -22,7 +22,7 @@ export const InputElementWrapperStyled = styled.div`
   padding: 15px 0 13px;
 
   background: white;
-  border-bottom: 1px solid ${Colors.LightGrey};
+  border-bottom: 1px solid ${Colors.MediumGrey};
   transition: .2s ease-in-out;
   ${props =>
     !props.passwordStrength &&
@@ -41,7 +41,7 @@ export const InputElementWrapperStyled = styled.div`
   ${props =>
     props.error &&
     css`
-      border-bottom-color: ${Colors.ErrorOffer};
+      border-bottom-color: ${Colors.ErrorColor};
     `}
 
   ${props =>
@@ -76,7 +76,7 @@ export const InputElementStyled = styled.input`
 
   margin: 0 15px;
 
-  color: ${Colors.MainTextColor};
+  color: ${Colors.InputText};
   ${props =>
     props.readOnly &&
     css`
@@ -96,11 +96,11 @@ export const InputElementStyled = styled.input`
 export const MessageStyled = styled.div`
   padding: 10px;
 
-  background-color: ${Colors.MediumGrey};
+  background-color: ${Colors.LightGrey};
   color: ${props =>
     props.messageType === MESSAGE_TYPE_SUCCESS
-      ? Colors.PassOffer
-      : Colors.ErrorOffer};
+      ? Colors.MainColor
+      : Colors.ErrorColor};
   border-radius: 5px;
 
   font-size: 12px;
@@ -116,7 +116,7 @@ export const ErrorWrapper = styled.div`
   width: 100%;
 
   content: '';
-  color: ${Colors.ErrorOffer};
+  color: ${Colors.ErrorColor};
   transition: 0.2s ease-in-out;
 
   ${props =>
@@ -126,7 +126,7 @@ export const ErrorWrapper = styled.div`
     `}
 
   font-family: 'Geomanist';
-  font-size: 12px;
+  font-size: 13px;
   text-align: left;
 `;
 

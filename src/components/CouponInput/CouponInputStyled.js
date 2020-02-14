@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MainTextColor, LightGrey, Strong } from 'styles/variables';
+import { MainTextColor, MediumGrey, MainColor } from 'styles/variables';
 
 export const CouponInputWrapperStyled = styled.div`
   padding: 10px;
@@ -12,12 +12,12 @@ export const CouponInputStyled = styled.input`
 
   color: ${MainTextColor};
   border: none;
-  border-bottom: 1px solid ${LightGrey};
+  border-bottom: 1px solid ${MediumGrey};
   outline: none;
 
   font-size: 15px;
 
   &:focus {
-    border-bottom: 1px solid ${Strong};
+    border-bottom: 1px solid ${MainColor};
   }
 `;

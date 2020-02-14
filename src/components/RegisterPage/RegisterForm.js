@@ -168,7 +168,7 @@ class RegisterForm extends Component {
           onChangeFn={this.handleConsentsChange}
         />
         <Button type="submit" disabled={processing}>
-          {processing ? <Loader buttonLoader /> : t('Register')}
+          {processing ? <Loader buttonLoader white /> : t('Register')}
         </Button>
       </FromStyled>
     );

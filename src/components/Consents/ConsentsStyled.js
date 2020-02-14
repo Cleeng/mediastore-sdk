@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ErrorOffer } from 'styles/variables';
+import { ErrorColor } from 'styles/variables';
 
 export const ConsentsWrapperStyled = styled.div`
   position: relative;
@@ -17,9 +17,9 @@ export const ConsentsWrapperStyled = styled.div`
 `;
 
 export const ConsentsErrorStyled = styled.div`
-  color: ${ErrorOffer};
+  color: ${ErrorColor};
   font-family: 'Geomanist';
-  font-size: 12px;
+  font-size: 13px;
   width: 100%;
   position: absolute;
   bottom: -21px;

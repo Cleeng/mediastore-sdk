@@ -24,9 +24,15 @@ export const LoaderStyled = styled.div`
     position: absolute;
     width: 5px;
     height: 5px;
-    background: #eaf0f8;
+    background: #d4d4d4;
     border-radius: 50%;
     animation: ${LoaderKeyframeStyled} 1.2s linear infinite;
+
+    ${props =>
+      props.white &&
+      css`
+        background: #fff;
+      `}
   }
 
   & div:nth-child(1) {
