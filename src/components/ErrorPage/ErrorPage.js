@@ -1,11 +1,17 @@
 /* eslint-disable import/no-dynamic-require */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ErrorPageStyled, MessageStyled, IconStyled } from './ErrorPageStyled';
+import {
+  ErrorPageStyled,
+  MessageStyled,
+  IconStyled,
+  LogoutWrapper
+} from './ErrorPageStyled';
 import close from '../../assets/images/errors/close.svg';
 import deleteCreditCard from '../../assets/images/errors/deleteCreditCard.svg';
 import lock from '../../assets/images/errors/lock.svg';
 import warning from '../../assets/images/errors/warning.svg';
+import Logout from '../Logout/Logout';
 
 const errorTypes = {
   offerNotExist: {
@@ -29,10 +35,15 @@ const errorTypes = {
 const ErrorPage = ({ type, error }) => {
   const typeParams = errorTypes[type];
   return (
-    <ErrorPageStyled>
-      <IconStyled src={typeParams.icon} />
-      <MessageStyled>{error || typeParams.description}</MessageStyled>
-    </ErrorPageStyled>
+    <>
+      <LogoutWrapper>
+        <Logout />
+      </LogoutWrapper>
+      <ErrorPageStyled>
+        <IconStyled src={typeParams.icon} />
+        <MessageStyled>{error || typeParams.description}</MessageStyled>
+      </ErrorPageStyled>
+    </>
   );
 };
 

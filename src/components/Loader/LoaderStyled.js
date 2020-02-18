@@ -1,5 +1,4 @@
 import styled, { keyframes, css } from 'styled-components';
-import { media } from 'styles/BreakPoints';
 
 export const LoaderKeyframeStyled = keyframes`
   0%,
@@ -116,11 +115,12 @@ export const LoaderStyled = styled.div`
   ${props =>
     props.smallLoader &&
     css`
-      height: 21px;
-      width: 21px;
-      transform: translateY(-50%) translateX(-50%) scale(0.5);
-      ${media.small`
-        transform: translateY(-50%) translateX(-100%) scale(0.5);
-      `}
+      position: absolute;
+      right: 0;
+      top: 0;
+
+      height: 11px;
+      width: 13px;
+      transform: translateY(100%) translateX(-100%) scale(0.3);
     `}
 `;

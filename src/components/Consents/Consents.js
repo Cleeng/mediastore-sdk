@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import getConsentsRequest from '../../api/getConsents';
-import { ConsentsWrapperStyled, ConsentsErrorStyled } from './ConsentsStyled';
+import {
+  ConsentsWrapperStyled,
+  ConsentsErrorStyled,
+  InvisibleLegend
+} from './ConsentsStyled';
 import Loader from '../Loader';
 import Checkbox from '../Checkbox';
 
@@ -108,17 +112,20 @@ export class Consents extends React.Component {
         {!consentLoaded ? (
           <Loader />
         ) : (
-          consentDefinitions.map((consent, index) => (
-            <Checkbox
-              onClickFn={() => this.changeConsentState(index)}
-              checked={checked[index]}
-              error={error}
-              key={String(index)}
-              required={consent.required && !checked[index]}
-            >
-              {consentsLabels[index]}
-            </Checkbox>
-          ))
+          <fieldset>
+            <InvisibleLegend>Consents </InvisibleLegend>
+            {consentDefinitions.map((consent, index) => (
+              <Checkbox
+                onClickFn={() => this.changeConsentState(index)}
+                checked={checked[index]}
+                error={error}
+                key={String(index)}
+                required={consent.required && !checked[index]}
+              >
+                {consentsLabels[index]}
+              </Checkbox>
+            ))}
+          </fieldset>
         )}
         {error && <ConsentsErrorStyled>{error}</ConsentsErrorStyled>}
       </ConsentsWrapperStyled>

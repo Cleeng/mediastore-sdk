@@ -54,8 +54,12 @@ class Login extends Component {
           </Button>
           <SocialStyled>
             <SeparatorStyled>{t('Or')}</SeparatorStyled>
-            <Button variant="google">{t('Log in with Google')}</Button>
-            <Button variant="fb">{t('Log in with Facebook')}</Button>
+            <Button variant="google" label="Log in with Google">
+              {t('Log in with Google')}
+            </Button>
+            <Button variant="fb" label="Log in with Facebook">
+              {t('Log in with Facebook')}
+            </Button>
             <Button isLink to="/reset-password" variant="link">
               {t('Forgot password?')}
             </Button>

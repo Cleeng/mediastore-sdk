@@ -26,12 +26,13 @@ export const CheckboxStyled = styled.div`
 export const ConsentDefinitionStyled = styled.div`
   padding-left: 10px;
   margin-top: 0;
+
   font-family: 'Geomanist';
   font-weight: 400;
   text-align: left;
-
   a {
     color: ${MainTextColor};
+
     text-decoration: underline;
     &:focus {
       outline: 2px solid ${FocusColor};
@@ -40,13 +41,15 @@ export const ConsentDefinitionStyled = styled.div`
 `;
 
 export const CheckFrameStyled = styled.div`
+  position: relative;
   box-sizing: border-box;
+
   border: 1px solid ${CheckboxBorderColor};
+  border-radius: 2px;
   width: 20px;
   min-width: 20px;
   height: 20px;
-  border-radius: 2px;
-  position: relative;
+
   &:focus {
     outline: 2px solid ${FocusColor};
   }
@@ -58,22 +61,27 @@ export const CheckFrameStyled = styled.div`
 `;
 
 export const CheckMarkStyled = styled.div`
-  background-image: url(${tickIcon});
+  position: absolute;
+
   width: 13px;
   height: 10px;
   top: 4px;
   left: 3px;
-  position: absolute;
+
+  background-image: url(${tickIcon});
   background-repeat: no-repeat;
 `;
 
 export const ErrorFieldStyled = styled.div`
+  position: relative;
+
+  width: 100%;
+  margin-top: 10px;
+
   color: ${ErrorColor};
+
   font-size: 12px;
   font-family: 'Geomanist';
   font-weight: 300;
-  position: relative;
-  width: 100%;
-  margin-top: 10px;
   text-align: center;
 `;

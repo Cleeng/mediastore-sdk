@@ -111,12 +111,10 @@ export const StyledErrorDiv = styled.div`
   position: relative;
   top: -20px;
   left: 5px;
-  height: 0;  
   width: 100%;  
   color: ${colors.ErrorColor};
   text-align: left;
-  font-size: 11px;
-  font-weight: 300;
+  font-size: 13px;
   font-family: 'Geomanist';
   overflow: visible;
   ${props =>
