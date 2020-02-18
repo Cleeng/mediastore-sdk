@@ -14,6 +14,7 @@ const Checkbox = ({ children, onClickFn, error, checked, required }) => (
     tabIndex="-1"
     aria-checked="false"
     checked={checked}
+    aria-label={children}
   >
     <CheckFrameStyled
       error={error && required && !checked}
@@ -24,10 +25,7 @@ const Checkbox = ({ children, onClickFn, error, checked, required }) => (
     >
       {checked && <CheckMarkStyled />}
     </CheckFrameStyled>
-    <ConsentDefinitionStyled
-      dangerouslySetInnerHTML={{ __html: children }}
-      aria-label={children}
-    />
+    <ConsentDefinitionStyled dangerouslySetInnerHTML={{ __html: children }} />
   </CheckboxStyled>
 );
 

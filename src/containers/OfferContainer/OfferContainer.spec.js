@@ -115,7 +115,7 @@ describe('<OfferContainer/>', () => {
         />
       );
       wrapper.setState({
-        error: 'does not exist.'
+        error: `doesn't exist.`
       });
       expect(wrapper.exists(ErrorPage)).toBe(true);
       expect(wrapper.find(ErrorPage).props().type).toBe('offerNotExist');
@@ -173,6 +173,19 @@ describe('<OfferContainer/>', () => {
         );
         done();
       });
+    });
+    it('should not apply empty coupon on submit', () => {
+      const wrapper = shallow(
+        <PureOfferContainer
+          urlProps={mockUrlProps}
+          onPaymentComplete={jest.fn()}
+        />
+      );
+      wrapper.setState({
+        orderDetails: { id: orderId }
+      });
+      wrapper.instance().onCouponSubmit('');
+      expect(wrapper.state().couponProps).toBe(null);
     });
     it('should not apply invalid coupon on submit', done => {
       updateOrder.mockImplementationOnce(

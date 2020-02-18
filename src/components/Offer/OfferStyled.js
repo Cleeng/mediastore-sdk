@@ -21,15 +21,21 @@ export const StyledPageTitle = styled.h1`
   border-width: 0 0 1px;
   border-style: solid;
   border-color: ${colors.MediumGrey};
-  padding: 20px 0;
+  padding: 20px 0 30px 0;
   text-align: center;
 `;
 
 export const StyledOfferCouponWrapper = styled.div`
-  width: 50%;
-  min-height: 130px;
   display: flex;
-  align-items: flex-end;
+  justify-content: flex-end;
+  flex-direction: column;
+
+  min-height: 170px;
+  width: 60%;
+
+  ${media.smallest`
+    width: 100%;
+  `}
 `;
 
 export const StyledCoupon = styled.div`

@@ -1,9 +1,6 @@
 import styled, { css } from 'styled-components';
-import failIcon from 'assets/images/input/fail.svg';
-import successIcon from 'assets/images/input/success.svg';
 import * as Colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
-import { MESSAGE_TYPE_SUCCESS } from './InputConstants';
 
 export const InputComponentStyled = styled.div`
   display: flex;
@@ -53,16 +50,6 @@ export const InputElementWrapperStyled = styled.div`
     `};
 
   ${props =>
-    props.showMessage &&
-    css`
-      &::after {
-        content: url(${props.messageType === MESSAGE_TYPE_SUCCESS
-          ? successIcon
-          : failIcon});
-      }
-    `};
-
-  ${props =>
     props.passwordStrength &&
     css`
       border-bottom-color: ${Colors[props.passwordStrength]};
@@ -77,11 +64,6 @@ export const InputElementStyled = styled.input`
   margin: 0 15px;
 
   color: ${Colors.InputText};
-  ${props =>
-    props.readOnly &&
-    css`
-      opacity: 0.5;
-    `}
   border: none;
   outline: none;
 
@@ -91,22 +73,6 @@ export const InputElementStyled = styled.input`
   ${media.small`
     width: 100%;
   `}
-`;
-
-export const MessageStyled = styled.div`
-  padding: 10px;
-
-  background-color: ${Colors.LightGrey};
-  color: ${props =>
-    props.messageType === MESSAGE_TYPE_SUCCESS
-      ? Colors.MainColor
-      : Colors.ErrorColor};
-  border-radius: 5px;
-
-  font-size: 12px;
-
-  opacity: ${props => (props.showMessage ? 1 : 0)};
-  transition: opacity 250ms linear;
 `;
 
 export const ErrorWrapper = styled.div`

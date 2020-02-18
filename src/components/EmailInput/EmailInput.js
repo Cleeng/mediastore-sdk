@@ -12,6 +12,8 @@ const EmailInput = ({ value, onChange, onBlur, error, label }) => (
     onChange={onChange}
     onBlur={onBlur}
     error={error}
+    ariaRequired
+    ariaInvalid={!!error}
   />
 );
 

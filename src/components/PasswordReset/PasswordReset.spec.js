@@ -7,6 +7,7 @@ import PasswordReset, { PurePasswordReset } from './PasswordReset';
 import Button from '../Button';
 import EmailInput from '../EmailInput/EmailInput';
 import ResetPasswordRequest from '../../api/resetPassword';
+import { FormStyled } from './PasswordResetStyled';
 
 jest.mock('../../api/resetPassword');
 jest.mock('react-router-dom', () => {
@@ -48,7 +49,6 @@ describe('PasswordReset', () => {
       );
       const inputComponent = wrapper.find(Input);
       expect(inputComponent).toHaveLength(1);
-      expect(inputComponent.props().blurOnSubmit).toBe(false);
       expect(inputComponent.props().error).toBe('');
       expect(inputComponent.props().value).toBe('');
       expect(inputComponent.props().icon).toBe('test-file-stub');
@@ -75,16 +75,16 @@ describe('PasswordReset', () => {
           errors: []
         })
       );
-      const wrapper = shallow(
+      const wrapper = mount(
         <PurePasswordReset onSuccess={FuncMock} urlProps={mockUrlProps} />
       );
-      const buttonComponent = wrapper.find(Button);
+      const formComponent = wrapper.find(FormStyled);
       wrapper.setState({
         value: MockEmailValue,
         offerId: MockOfferId
       });
 
-      buttonComponent.props().onClickFn();
+      formComponent.simulate('submit');
       setImmediate(() => {
         expect(wrapper.state().message).toBe('');
         expect(FuncMock).toHaveBeenCalled();
@@ -98,16 +98,16 @@ describe('PasswordReset', () => {
           errors: MockEmailValue
         })
       );
-      const wrapper = shallow(
+      const wrapper = mount(
         <PurePasswordReset onSuccess={FuncMock} urlProps={mockUrlProps} />
       );
-      const buttonComponent = wrapper.find(Button);
+      const formComponent = wrapper.find(FormStyled);
       wrapper.setState({
         value: MockEmailValue,
         offerId: MockOfferId
       });
 
-      buttonComponent.props().onClickFn();
+      formComponent.simulate('submit');
       setImmediate(() => {
         expect(wrapper.state().message).not.toBe('');
         expect(FuncMock).not.toHaveBeenCalled();
@@ -116,16 +116,16 @@ describe('PasswordReset', () => {
     });
 
     it('should set error when email is not properly formatted', done => {
-      const wrapper = shallow(
+      const wrapper = mount(
         <PurePasswordReset onSuccess={FuncMock} urlProps={mockUrlProps} />
       );
-      const buttonComponent = wrapper.find(Button);
+      const formComponent = wrapper.find(FormStyled);
       wrapper.setState({
         value: MockInvalidEmailValue,
         offerId: MockOfferId
       });
 
-      buttonComponent.props().onClickFn();
+      formComponent.simulate('submit');
       setImmediate(() => {
         expect(wrapper.state().message).not.toBe('');
         expect(FuncMock).not.toHaveBeenCalled();
