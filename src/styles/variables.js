@@ -25,3 +25,5 @@ export const MyAccountMainColor = '#031a6e';
 export const MyAccountContentColor = '#f8f9fc';
 export const MyAccountTextColor = '#fff';
 export const HeadingColor = '#a9a9bf';
+export const CardEditButtonBg = '#415598';
+export const CardSecondaryColor = '#182c7a';

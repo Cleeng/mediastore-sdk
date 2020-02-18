@@ -19,7 +19,11 @@ export const HeadingStyled = styled.div`
 export const ItemsStyled = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
+
+  ${mediaFrom.smallest`
+    justify-content: flex-start;
+  `}
 
   ${mediaFrom.small`
     flex-direction: column;
@@ -62,7 +66,6 @@ export const ItemStyled = styled(NavLink)`
 `;
 
 export const ItemWrapStyled = styled.div`
-  margin-right: 16px;
   ${props =>
     !props.visibleOnDesktop &&
     css`
@@ -77,6 +80,10 @@ export const ItemWrapStyled = styled.div`
       background-color: #182C7A;
   `}
   }
+
+  ${mediaFrom.smallest`
+      margin-right: 16px;
+  `}
 
   ${mediaFrom.small`
     margin-right: 0;

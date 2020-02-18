@@ -1,9 +1,4 @@
 import styled from 'styled-components';
 
+// eslint-disable-next-line import/prefer-default-export
 export const WrapStyled = styled.div``;
-
-export const HeaderStyled = styled.div`
-  font-size: 14px;
-  font-weight: 700;
-  color: #a9a9bf;
-`;
