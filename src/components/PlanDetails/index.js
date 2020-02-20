@@ -1,3 +1,3 @@
-import PlanDetails from './PlanDetails';
+import PlanDetails from './PlanDetails.container';
 
 export default PlanDetails;

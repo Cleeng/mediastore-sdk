@@ -2,7 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import PaymentMehod from 'components/PaymentMethod';
-import PlanDetails from './PlanDetails';
+import PlanDetails from './PlanDetails.component';
 import { getPaymentDetails } from '../../api';
 
 const mockPaymentDetails = [

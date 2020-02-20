@@ -23,36 +23,17 @@ import {
 class PaymentMethod extends PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      paymentDetails: null
-    };
-  }
-
-  componentDidMount() {
-    const { paymentDetails } = this.props;
-    this.setState({
-      paymentDetails
-    });
-  }
-
-  componentDidUpdate(prevProps) {
-    const { paymentDetails } = this.props;
-    if (paymentDetails !== prevProps.paymentDetails) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        paymentDetails
-      });
-    }
+    this.state = {};
   }
 
   render() {
-    const { paymentDetails } = this.state;
+    const { paymentDetails } = this.props;
 
     return (
       <WrapStyled>
-        {paymentDetails ? (
+        {paymentDetails.length ? (
           <PaymentDetailsStyled>
-            {paymentDetails.map(card => {
+            {Array.from(paymentDetails).map(card => {
               const {
                 // variant,
                 lastCardFourDigits,
