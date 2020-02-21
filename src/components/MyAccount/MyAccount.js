@@ -31,8 +31,8 @@ class MyAccount extends Component {
       : `${path}/plan-details`;
 
     return (
-      <Provider store={store}>
-        <OverlayStyled overlay={overlay}>
+      <OverlayStyled overlay={overlay}>
+        <Provider store={store}>
           <WrapperStyled>
             <HeaderStyled>
               <MyAccountUserInfo />
@@ -58,8 +58,8 @@ class MyAccount extends Component {
               </Switch>
             </MyAccountContent>
           </WrapperStyled>
-        </OverlayStyled>
-      </Provider>
+        </Provider>
+      </OverlayStyled>
     );
   }
 }

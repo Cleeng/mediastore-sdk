@@ -17,26 +17,36 @@ class PlanDetails extends Component {
 
   componentDidMount() {
     const { planDetails, setPaymentDetails } = this.props;
+
     if (!planDetails.paymentDetails.length)
-      getPaymentDetails().then(response => {
-        if (response.errors.length) {
+      getPaymentDetails()
+        .then(response => {
+          if (response.errors.length) {
+            this.setState({
+              errors: response.errors
+            });
+          } else {
+            setPaymentDetails(
+              response.responseData.paymentDetails.paymentDetails
+            );
+          }
+        })
+        .catch(err => {
           this.setState({
-            errors: response.errors
+            errors: err
           });
-        } else {
-          setPaymentDetails(
-            response.responseData.paymentDetails.data.paymentDetails
-          );
-        }
-      });
+        });
   }
 
   render() {
     const { planDetails } = this.props;
+
     return (
       <WrapStyled>
         <MyAccountHeading text="Plan Details" />
-        <PaymentMehod paymentDetails={planDetails.paymentDetails} />
+        <PaymentMehod
+          paymentDetails={planDetails ? planDetails.paymentDetails : []}
+        />
         <MyAccountHeading text="Transactions" />
       </WrapStyled>
     );
@@ -51,5 +61,5 @@ PlanDetails.propTypes = {
 };
 
 PlanDetails.defaultProps = {
-  planDetails: null
+  planDetails: { paymentDetails: [] }
 };

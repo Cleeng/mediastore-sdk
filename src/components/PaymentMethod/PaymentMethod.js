@@ -81,5 +81,5 @@ PaymentMethod.propTypes = {
 };
 
 PaymentMethod.defaultProps = {
-  paymentDetails: null
+  paymentDetails: []
 };
