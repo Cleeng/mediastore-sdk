@@ -19,23 +19,17 @@ class PlanDetails extends Component {
     const { planDetails, setPaymentDetails } = this.props;
 
     if (!planDetails.paymentDetails.length)
-      getPaymentDetails()
-        .then(response => {
-          if (response.errors.length) {
-            this.setState({
-              errors: response.errors
-            });
-          } else {
-            setPaymentDetails(
-              response.responseData.paymentDetails.paymentDetails
-            );
-          }
-        })
-        .catch(err => {
+      getPaymentDetails().then(response => {
+        if (response.errors.length) {
           this.setState({
-            errors: err
+            errors: response.errors
           });
-        });
+        } else {
+          setPaymentDetails(
+            response.responseData.paymentDetails.paymentDetails
+          );
+        }
+      });
   }
 
   render() {
