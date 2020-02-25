@@ -33,7 +33,7 @@ class PaymentMethod extends PureComponent {
       <WrapStyled>
         {paymentDetails.length ? (
           <PaymentDetailsStyled>
-            {Array.from(paymentDetails).map(card => {
+            {paymentDetails.map(card => {
               const {
                 // variant,
                 lastCardFourDigits,

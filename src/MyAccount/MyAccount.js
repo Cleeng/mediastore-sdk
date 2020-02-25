@@ -22,8 +22,8 @@ class MyAccount extends Component {
   }
 
   render() {
-    const { match, overlay } = this.props;
-    const { path } = match;
+    const { routeMatch, isOverlay } = this.props;
+    const { path } = routeMatch;
 
     const isMobile = window.innerWidth < breakPoints.small;
     const firstPageUrl = isMobile
@@ -31,12 +31,12 @@ class MyAccount extends Component {
       : `${path}/plan-details`;
 
     return (
-      <OverlayStyled overlay={overlay}>
+      <OverlayStyled isOverlay={isOverlay}>
         <Provider store={store}>
           <WrapperStyled>
             <HeaderStyled>
               <MyAccountUserInfo />
-              <MyAccountMenu match={match} />
+              <MyAccountMenu routeMatch={routeMatch} />
             </HeaderStyled>
             <MyAccountContent>
               <Switch>
@@ -67,11 +67,11 @@ class MyAccount extends Component {
 export default MyAccount;
 
 MyAccount.propTypes = {
-  match: PropTypes.objectOf(PropTypes.any),
-  overlay: PropTypes.bool
+  routeMatch: PropTypes.objectOf(PropTypes.any),
+  isOverlay: PropTypes.bool
 };
 
 MyAccount.defaultProps = {
-  match: {},
-  overlay: false
+  routeMatch: {},
+  isOverlay: false
 };

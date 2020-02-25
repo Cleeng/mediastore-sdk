@@ -29,7 +29,7 @@ export const HeaderStyled = styled.div`
 
 export const OverlayStyled = styled.div`
   ${props =>
-    props.overlay &&
+    props.isOverlay &&
     css`
       position: absolute;
       display: flex;

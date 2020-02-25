@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
-import PaymentMehod from 'components/PaymentMethod';
+import PaymentMethod from 'components/PaymentMethod';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import { getPaymentDetails } from 'api';
 import { PropTypes } from 'prop-types';
@@ -25,9 +25,7 @@ class PlanDetails extends Component {
             errors: response.errors
           });
         } else {
-          setPaymentDetails(
-            response.responseData.paymentDetails.paymentDetails
-          );
+          setPaymentDetails(response.responseData.paymentDetails);
         }
       });
   }
@@ -38,7 +36,7 @@ class PlanDetails extends Component {
     return (
       <WrapStyled>
         <MyAccountHeading text="Plan Details" />
-        <PaymentMehod
+        <PaymentMethod
           paymentDetails={planDetails ? planDetails.paymentDetails : []}
         />
         <MyAccountHeading text="Transactions" />

@@ -20,8 +20,8 @@ class MyAccountMenu extends Component {
   }
 
   render() {
-    const { match } = this.props;
-    const { url } = match;
+    const { routeMatch } = this.props;
+    const { url } = routeMatch;
     return (
       <WrapStyled>
         <HeadingStyled>{MenuTitle}</HeadingStyled>
@@ -48,9 +48,9 @@ class MyAccountMenu extends Component {
 export default MyAccountMenu;
 
 MyAccountMenu.propTypes = {
-  match: PropTypes.objectOf(PropTypes.any)
+  routeMatch: PropTypes.objectOf(PropTypes.any)
 };
 
 MyAccountMenu.defaultProps = {
-  match: {}
+  routeMatch: {}
 };

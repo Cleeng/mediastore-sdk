@@ -15,7 +15,7 @@ import RedirectWithQuery from './components/RedirectWithQuery';
 import Loader from './components/Loader';
 import PrivateRoute from './services/privateRoute';
 import PublicRoute from './services/publicRoute';
-import MyAccount from './components/MyAccount';
+import MyAccount from './MyAccount';
 
 const App = () => {
   const path = history.location.hash.slice(1);
@@ -74,7 +74,7 @@ const App = () => {
               />
               <Route
                 path="/my-account"
-                render={({ match }) => <MyAccount match={match} />}
+                render={({ match }) => <MyAccount routeMatch={match} />}
               />
               <Route
                 path="*"

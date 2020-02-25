@@ -2,13 +2,13 @@ import { connect } from 'react-redux';
 import { setPaymentDetails } from 'redux/planDetails';
 import PlanDetails from './PlanDetails.component';
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   return {
     planDetails: state.planDetails
   };
 };
 
-const mapDispatchToProps = dispatch => {
+export const mapDispatchToProps = dispatch => {
   return {
     setPaymentDetails: newPaymentDetails => {
       dispatch(setPaymentDetails(newPaymentDetails));

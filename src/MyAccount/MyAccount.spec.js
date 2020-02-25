@@ -7,12 +7,12 @@ describe('<MyAccount/>', () => {
 
   describe('@renders', () => {
     it('should render initial state', () => {
-      expect(wrapper.prop('overlay')).toBe(false);
+      expect(wrapper.prop('isOverlay')).toBe(false);
     });
     it('should set overlay prop if passed', () => {
       const overlayValue = true;
-      wrapper.setProps({ overlay: overlayValue });
-      expect(wrapper.prop('overlay')).toBe(overlayValue);
+      wrapper.setProps({ isOverlay: overlayValue });
+      expect(wrapper.prop('isOverlay')).toBe(overlayValue);
     });
   });
 });
