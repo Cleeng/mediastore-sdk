@@ -15,7 +15,7 @@ import RedirectWithQuery from './components/RedirectWithQuery';
 import Loader from './components/Loader';
 import PrivateRoute from './services/privateRoute';
 import PublicRoute from './services/publicRoute';
-import MyAccount from './MyAccount';
+import MyAccount from './containers/MyAccount';
 
 const App = () => {
   const path = history.location.hash.slice(1);

@@ -20,8 +20,10 @@ class MyAccountMenu extends Component {
   }
 
   render() {
-    const { routeMatch } = this.props;
-    const { url } = routeMatch;
+    const {
+      routeMatch: { url }
+    } = this.props;
+
     return (
       <WrapStyled>
         <HeadingStyled>{MenuTitle}</HeadingStyled>
