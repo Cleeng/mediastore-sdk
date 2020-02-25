@@ -21,9 +21,17 @@ export const ButtonBorder = '#CBC5DA';
 export const Label = '#5C6889';
 
 // My Account
-export const MyAccountMainColor = '#031a6e';
+export const MyAccountMainColor = '#ffffff';
+export const MyAccountBlue = '#031a6e';
 export const MyAccountContentColor = '#f8f9fc';
 export const MyAccountTextColor = '#fff';
-export const HeadingColor = '#a9a9bf';
+export const MyAccountTextDark = '#3C3C3C';
+export const MyAccountTextGray = '#7B849D';
+export const MyAccountTextGray2 = '#5C6889';
+export const MyAccountTextLightGray = '#F2F5FC';
+export const MyAccountBorder = '#f2f5fc';
+export const HeadingColor = '#5c6889';
 export const CardEditButtonBg = '#415598';
 export const CardSecondaryColor = '#182c7a';
+export const MyAccountMenu = '#f2f5fc';
+export const MyAccountMenuActive = '#43599c';

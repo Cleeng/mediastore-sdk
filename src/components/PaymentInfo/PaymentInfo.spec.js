@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import PaymentInfo from './PaymentInfo';
+import PaymentInfo from './PaymentInfo.component';
 import { HeaderStyled } from './PaymentInfoStyled';
 
 describe('<PaymentInfo/>', () => {

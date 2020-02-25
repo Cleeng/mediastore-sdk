@@ -9,7 +9,7 @@ import MyAccountUserInfo from 'components/MyAccountUserInfo';
 import MyAccountContent from 'components/MyAccountContent';
 import QuickActions from 'components/QuickActions';
 import PlanDetails from 'components/PlanDetails';
-import PaymentInfo from 'components/PaymentInfo/PaymentInfo';
+import PaymentInfo from 'components/PaymentInfo';
 import UpdateProfile from 'components/UpdateProfile';
 import { breakPoints } from 'styles/BreakPoints';
 

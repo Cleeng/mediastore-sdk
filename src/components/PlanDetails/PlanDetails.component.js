@@ -1,8 +1,8 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
-import PaymentMethod from 'components/PaymentMethod';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
-import { getPaymentDetails } from 'api';
+import CurrentPlan from 'components/CurrentPlan';
+import { getCustomerSubscriptions } from 'api';
 import { PropTypes } from 'prop-types';
 
 import { WrapStyled } from './PlanDetailsStyled';
@@ -16,16 +16,15 @@ class PlanDetails extends Component {
   }
 
   componentDidMount() {
-    const { planDetails, setPaymentDetails } = this.props;
-
-    if (!planDetails.paymentDetails.length)
-      getPaymentDetails().then(response => {
+    const { planDetails, setCurrentPlan } = this.props;
+    if (!planDetails.currentPlan.length)
+      getCustomerSubscriptions().then(response => {
         if (response.errors.length) {
           this.setState({
             errors: response.errors
           });
         } else {
-          setPaymentDetails(response.responseData.paymentDetails);
+          setCurrentPlan(response.responseData.items);
         }
       });
   }
@@ -35,11 +34,9 @@ class PlanDetails extends Component {
 
     return (
       <WrapStyled>
-        <MyAccountHeading text="Plan Details" />
-        <PaymentMethod
-          paymentDetails={planDetails ? planDetails.paymentDetails : []}
-        />
-        <MyAccountHeading text="Transactions" />
+        <MyAccountHeading text="Current Plan" />
+        <CurrentPlan subscriptions={planDetails.currentPlan} />
+        <MyAccountHeading text="Change Plan" />
       </WrapStyled>
     );
   }
@@ -48,7 +45,7 @@ class PlanDetails extends Component {
 export default PlanDetails;
 
 PlanDetails.propTypes = {
-  setPaymentDetails: PropTypes.func.isRequired,
+  setCurrentPlan: PropTypes.func.isRequired,
   planDetails: PropTypes.objectOf(PropTypes.any)
 };
 

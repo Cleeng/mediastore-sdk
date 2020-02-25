@@ -23,7 +23,7 @@ class MyAccountUserInfo extends Component {
         <DetailsStyled>
           <NameStyled>John Doe</NameStyled>
           <MailStyled>john.doe@mail.com</MailStyled>
-          <TextStyled>Monthly Premium with all workouts</TextStyled>
+          <TextStyled>12 Month Premium with all workouts</TextStyled>
         </DetailsStyled>
       </WrapStyled>
     );

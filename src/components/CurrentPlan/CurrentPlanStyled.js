@@ -1,0 +1,92 @@
+import styled from 'styled-components';
+import { mediaFrom } from 'styles/BreakPoints';
+
+export const WrapStyled = styled.div`
+  position: relative;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 3px 50px #0000001f;
+  padding: 18px;
+`;
+
+export const SubscriptionsStyled = styled.div``;
+
+export const SubscriptionStyled = styled.div``;
+
+export const SubscriptionInfoBoxStyled = styled.div`
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 24px;
+`;
+
+export const SubscriptionIcon = styled.div`
+  padding: 14px 10px;
+  margin-right: 10px;
+  border-radius: 8px;
+
+  font-size: 21px;
+  font-weight: 700;
+
+  background-color: ${props => (props.bg ? props.bg : '#edf8f4')};
+  color: ${props => (props.color ? props.color : '#9cd6c9')};
+`;
+
+export const SubscriptionInfoStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  flex-grow: 1;
+`;
+
+export const SubscriptionTitleStyled = styled.div`
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #3d3d3d;
+`;
+
+export const SubscriptionNextPaymentStyled = styled.div`
+  font-size: 11px;
+  line-height: 15px;
+  font-style: italic;
+  color: #7b849d;
+`;
+
+export const SubscriptionPriceStyled = styled.div`
+  margin-left: 10px;
+`;
+
+export const SubscriptionPriceValueStyled = styled.div`
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 4px;
+  color: #8e98b1;
+`;
+
+export const SubscriptionPricePeroidStyled = styled.div`
+  font-size: 9px;
+  color: #8e98b1;
+`;
+
+export const SubscriptionActionsStyled = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    height: 40px;
+    border-radius: 20px;
+    font-weight: 700;
+    width: auto;
+    padding: 0 20px;
+  }
+
+  ${mediaFrom.small`
+    justify-content: flex-end;
+
+    button {
+      margin-left: 8px;
+    }
+  `}
+`;

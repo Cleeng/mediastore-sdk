@@ -1,3 +1,3 @@
-import PaymentInfo from './PaymentInfo';
+import PaymentInfo from './PaymentInfo.container';
 
 export default PaymentInfo;

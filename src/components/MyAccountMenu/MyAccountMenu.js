@@ -9,7 +9,7 @@ import {
   ItemWrapStyled,
   ItemLinkStyled,
   ItemIconWrapStyled,
-  ItemIconStyled,
+  // ItemIconStyled,
   ItemLabelStyled
 } from './MyAccountMenuStyled';
 
@@ -35,7 +35,7 @@ class MyAccountMenu extends Component {
             >
               <ItemLinkStyled to={`${url}/${menuItem.link}`}>
                 <ItemIconWrapStyled>
-                  <ItemIconStyled src={menuItem.icon} />
+                  {menuItem.icon.render()}
                 </ItemIconWrapStyled>
                 <ItemLabelStyled>{menuItem.label}</ItemLabelStyled>
               </ItemLinkStyled>

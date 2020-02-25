@@ -8,10 +8,12 @@ import resetPassword from './resetPassword';
 import submitPayment from './submitPayment';
 import updateOrder from './updateOrder';
 import getPaymentDetails from './getPaymentDetails';
+import getCustomerSubscriptions from './getCustomerSubscriptions';
 
 export {
   getPaymentMethods,
   getPaymentDetails,
+  getCustomerSubscriptions,
   createOrder,
   updateOrder,
   submitPayment,

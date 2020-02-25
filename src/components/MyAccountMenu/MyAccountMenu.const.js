@@ -1,31 +1,31 @@
-import actionsIcon from './icons/q_actions.svg';
-import planIcon from './icons/plan_details.svg';
-import paymentIcon from './icons/payment.svg';
-import updateIcon from './icons/update.svg';
+import { ReactComponent as ActionsIcon } from './icons/q_actions.svg';
+import { ReactComponent as PlanIcon } from './icons/plan_details.svg';
+import { ReactComponent as PaymentIcon } from './icons/payment.svg';
+import { ReactComponent as UpdateIcon } from './icons/update.svg';
 
 export const MenuTitle = 'Category Shortcuts';
 
 export const MenuItems = [
   {
-    icon: actionsIcon,
+    icon: ActionsIcon,
     label: 'Quick Actions',
     link: 'quick-actions',
     visibleOnDesktop: false
   },
   {
-    icon: planIcon,
+    icon: PlanIcon,
     label: 'Plan Details',
     link: 'plan-details',
     visibleOnDesktop: true
   },
   {
-    icon: paymentIcon,
+    icon: PaymentIcon,
     label: 'Payment Info',
     link: 'payment-info',
     visibleOnDesktop: true
   },
   {
-    icon: updateIcon,
+    icon: UpdateIcon,
     label: 'Update Profile',
     link: 'update-profile',
     visibleOnDesktop: true

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { setPaymentDetails } from 'redux/planDetails';
+import { setCurrentPlan } from 'redux/planDetails';
 import PlanDetails from './PlanDetails.component';
 
 export const mapStateToProps = state => {
@@ -10,8 +10,8 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => {
   return {
-    setPaymentDetails: newPaymentDetails => {
-      dispatch(setPaymentDetails(newPaymentDetails));
+    setCurrentPlan: currentPlan => {
+      dispatch(setCurrentPlan(currentPlan));
     }
   };
 };

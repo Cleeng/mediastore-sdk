@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import {
-  MyAccountMainColor,
+  MyAccountBlue,
   MyAccountTextColor,
   CardEditButtonBg,
   HeadingColor,
@@ -27,7 +27,7 @@ export const CardStyled = styled.div`
   height: 0;
   padding-top: 56.25%;
 
-  background-color: ${MyAccountMainColor};
+  background-color: ${MyAccountBlue};
   border-radius: 20px;
 
   overflow: hidden;

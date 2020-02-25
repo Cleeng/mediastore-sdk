@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
-import { MyAccountTextColor } from 'styles/variables';
+import {
+  MyAccountTextDark,
+  MyAccountTextGray,
+  MyAccountTextLightGray,
+  MyAccountBorder
+} from 'styles/variables';
 import portrait from './img/man.png';
 
 export const WrapStyled = styled.header`
@@ -8,7 +13,7 @@ export const WrapStyled = styled.header`
   flex-direction: row;
 
   padding-bottom: 26px;
-  border-bottom: 1px solid rgba(256, 256, 256, 0.3);
+  border-bottom: 1px solid ${MyAccountBorder};
 
   ${mediaFrom.small`
     flex-direction: column;
@@ -40,7 +45,7 @@ export const DetailsStyled = styled.div`
 
   margin-left: 14px;
 
-  color: ${MyAccountTextColor};
+  color: ${MyAccountTextDark};
 
   ${mediaFrom.small`
     align-items: center;
@@ -60,14 +65,18 @@ export const NameStyled = styled.div`
 
 export const MailStyled = styled.div`
   font-size: 9px;
-  font-weight: 700;
-
+  font-weight: 500;
+  color: ${MyAccountTextGray};
   ${mediaFrom.small`
     margin-bottom: 14px;
   `}
 `;
 
 export const TextStyled = styled.div`
+  padding: 5px 10px;
+  background-color: ${MyAccountTextLightGray};
+  border-radius: 10px;
+  color: ${MyAccountTextGray};
   font-size: 9px;
   font-weight: 500;
 `;

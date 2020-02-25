@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import Loader from 'components/Loader';
-import { MyAccountMainColor } from 'styles/variables';
+import { MyAccountMenuActive } from 'styles/variables';
 
 import visaLogo from './img/visa.png';
 
@@ -66,7 +66,7 @@ class PaymentMethod extends PureComponent {
           </PaymentDetailsStyled>
         ) : (
           <StyledLoaderContainer>
-            <Loader color={MyAccountMainColor} />
+            <Loader color={MyAccountMenuActive} />
           </StyledLoaderContainer>
         )}
       </WrapStyled>
