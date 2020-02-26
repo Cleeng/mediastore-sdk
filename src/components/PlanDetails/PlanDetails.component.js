@@ -16,8 +16,9 @@ class PlanDetails extends Component {
   }
 
   componentDidMount() {
-    const { planDetails, setCurrentPlan } = this.props;
-    if (!planDetails.currentPlan.length)
+    const { planDetails, setCurrentPlan, showLoader, hideLoader } = this.props;
+    if (!planDetails.currentPlan.length) {
+      showLoader();
       getCustomerSubscriptions().then(response => {
         if (response.errors.length) {
           this.setState({
@@ -25,18 +26,23 @@ class PlanDetails extends Component {
           });
         } else {
           setCurrentPlan(response.responseData.items);
+          hideLoader();
         }
       });
+    }
   }
 
   render() {
-    const { planDetails } = this.props;
+    const { planDetails, isLoading } = this.props;
 
     return (
       <WrapStyled>
-        <MyAccountHeading text="Current Plan" />
-        <CurrentPlan subscriptions={planDetails.currentPlan} />
-        <MyAccountHeading text="Change Plan" />
+        {!isLoading && (
+          <>
+            <MyAccountHeading text="Current Plan" />
+            <CurrentPlan subscriptions={planDetails.currentPlan} />
+          </>
+        )}
       </WrapStyled>
     );
   }
@@ -46,6 +52,9 @@ export default PlanDetails;
 
 PlanDetails.propTypes = {
   setCurrentPlan: PropTypes.func.isRequired,
+  showLoader: PropTypes.func.isRequired,
+  hideLoader: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   planDetails: PropTypes.objectOf(PropTypes.any)
 };
 

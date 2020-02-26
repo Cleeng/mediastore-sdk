@@ -1,7 +1,5 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import Loader from 'components/Loader';
-import { MyAccountMenuActive } from 'styles/variables';
 
 import visaLogo from './img/visa.png';
 
@@ -16,7 +14,6 @@ import {
   CardExpirationLabel,
   CardExpirationDateStyled,
   // CardEditStyled,
-  StyledLoaderContainer,
   Message
 } from './PaymentMethodStyled';
 
@@ -31,44 +28,38 @@ class PaymentMethod extends PureComponent {
 
     return (
       <WrapStyled>
-        {paymentDetails.length ? (
-          <PaymentDetailsStyled>
-            {paymentDetails.map(card => {
-              const {
-                // variant,
-                lastCardFourDigits,
-                cardExpirationDate
-              } = card.paymentMethodSpecificParams;
-              if (card.paymentMethod === 'card')
-                return (
-                  <CardWrapStyled key={card.id}>
-                    <CardStyled>
-                      <CardTypeStyled src={visaLogo} />
-                      <CardNumberStyled>
-                        **** **** **** {lastCardFourDigits}
-                      </CardNumberStyled>
-                      <CardExpirationStyled>
-                        <CardExpirationLabel>Expire Date</CardExpirationLabel>
-                        <CardExpirationDateStyled>
-                          {cardExpirationDate}
-                        </CardExpirationDateStyled>
-                      </CardExpirationStyled>
-                      {/* <CardEditStyled>Edit</CardEditStyled> */}
-                    </CardStyled>
-                  </CardWrapStyled>
-                );
+        <PaymentDetailsStyled>
+          {paymentDetails.map(card => {
+            const {
+              // variant,
+              lastCardFourDigits,
+              cardExpirationDate
+            } = card.paymentMethodSpecificParams;
+            if (card.paymentMethod === 'card')
               return (
-                <Message key="message">
-                  Payment by {card.paymentMethod} is not supported
-                </Message>
+                <CardWrapStyled key={card.id}>
+                  <CardStyled>
+                    <CardTypeStyled src={visaLogo} />
+                    <CardNumberStyled>
+                      **** **** **** {lastCardFourDigits}
+                    </CardNumberStyled>
+                    <CardExpirationStyled>
+                      <CardExpirationLabel>Expire Date</CardExpirationLabel>
+                      <CardExpirationDateStyled>
+                        {cardExpirationDate}
+                      </CardExpirationDateStyled>
+                    </CardExpirationStyled>
+                    {/* <CardEditStyled>Edit</CardEditStyled> */}
+                  </CardStyled>
+                </CardWrapStyled>
               );
-            })}
-          </PaymentDetailsStyled>
-        ) : (
-          <StyledLoaderContainer>
-            <Loader color={MyAccountMenuActive} />
-          </StyledLoaderContainer>
-        )}
+            return (
+              <Message key="message">
+                Payment by {card.paymentMethod} is not supported
+              </Message>
+            );
+          })}
+        </PaymentDetailsStyled>
       </WrapStyled>
     );
   }

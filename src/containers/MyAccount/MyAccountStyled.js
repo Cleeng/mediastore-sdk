@@ -6,6 +6,7 @@ export const WrapperStyled = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  height: 100%;
 
   padding-top: 54px;
 
@@ -28,6 +29,7 @@ export const HeaderStyled = styled.div`
 `;
 
 export const OverlayStyled = styled.div`
+  height: 100%;
   ${props =>
     props.isOverlay &&
     css`
@@ -53,4 +55,16 @@ export const OverlayStyled = styled.div`
         `}
       }
     `}
+`;
+
+export const StyledLoaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  height: 100%;
+`;
+
+export const MyAccountContentWrap = styled.div`
+  height: 100%;
 `;

@@ -7,7 +7,7 @@ import { PropTypes } from 'prop-types';
 
 import { WrapStyled } from './PaymentInfoStyled';
 
-class PlanDetails extends Component {
+class PaymentInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -16,9 +16,15 @@ class PlanDetails extends Component {
   }
 
   componentDidMount() {
-    const { paymentInfo, setPaymentMethod } = this.props;
+    const {
+      paymentInfo,
+      setPaymentMethod,
+      showLoader,
+      hideLoader
+    } = this.props;
 
-    if (!paymentInfo.paymentMethod.length)
+    if (!paymentInfo.paymentMethod.length) {
+      showLoader();
       getPaymentDetails().then(response => {
         if (response.errors.length) {
           this.setState({
@@ -26,32 +32,43 @@ class PlanDetails extends Component {
           });
         } else {
           setPaymentMethod(response.responseData.paymentDetails);
+          hideLoader();
         }
       });
+    } else {
+      hideLoader();
+    }
   }
 
   render() {
-    const { paymentInfo } = this.props;
+    const { paymentInfo, isLoading } = this.props;
 
     return (
       <WrapStyled>
-        <MyAccountHeading text="Payment Method" />
-        <PaymentMehod
-          paymentDetails={paymentInfo ? paymentInfo.paymentMethod : []}
-        />
-        {/* <MyAccountHeading text="Transactions" /> */}
+        {!isLoading && (
+          <>
+            <MyAccountHeading text="Payment Method" />
+            <PaymentMehod
+              paymentDetails={paymentInfo ? paymentInfo.paymentMethod : []}
+            />
+            <MyAccountHeading text="Transactions" />
+          </>
+        )}
       </WrapStyled>
     );
   }
 }
 
-export default PlanDetails;
+export default PaymentInfo;
 
-PlanDetails.propTypes = {
+PaymentInfo.propTypes = {
   setPaymentMethod: PropTypes.func.isRequired,
+  showLoader: PropTypes.func.isRequired,
+  hideLoader: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool.isRequired,
   paymentInfo: PropTypes.objectOf(PropTypes.any)
 };
 
-PlanDetails.defaultProps = {
+PaymentInfo.defaultProps = {
   paymentInfo: { paymentMethod: [] }
 };

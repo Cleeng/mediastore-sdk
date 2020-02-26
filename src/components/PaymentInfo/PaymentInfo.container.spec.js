@@ -1,5 +1,5 @@
-import { SET_PAYMENT_DETAILS } from 'redux/planDetails';
-import { mapStateToProps, mapDispatchToProps } from './PlanDetails.container';
+import { SET_PAYMENT_METHOD } from 'redux/paymentInfo';
+import { mapStateToProps, mapDispatchToProps } from './PaymentInfo.container';
 
 const planDetailsMock = {
   id: 193925086,
@@ -17,13 +17,13 @@ const planDetailsMock = {
   paymentMethodId: null
 };
 
-describe('<PlanDetails/>', () => {
+describe('<PaymentInfo/>', () => {
   describe('@renders', () => {
     it('should show previously added value', () => {
       const initialState = {
-        planDetails: planDetailsMock
+        paymentInfo: planDetailsMock
       };
-      expect(mapStateToProps(initialState).planDetails).toEqual(
+      expect(mapStateToProps(initialState).paymentInfo).toEqual(
         planDetailsMock
       );
     });
@@ -31,7 +31,7 @@ describe('<PlanDetails/>', () => {
       expect(true).toBe(true);
       const dispatch = jest.fn();
       mapDispatchToProps(dispatch).setPaymentDetails();
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_PAYMENT_DETAILS });
+      expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_PAYMENT_METHOD });
     });
   });
 });

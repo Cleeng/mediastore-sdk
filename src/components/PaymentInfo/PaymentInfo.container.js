@@ -1,17 +1,25 @@
 import { connect } from 'react-redux';
 import { setPaymentMethod } from 'redux/paymentInfo';
+import { showLoader, hideLoader } from 'redux/loader';
 import PaymentInfo from './PaymentInfo.component';
 
-const mapStateToProps = state => {
+export const mapStateToProps = state => {
   return {
-    paymentInfo: state.paymentInfo
+    paymentInfo: state.paymentInfo,
+    isLoading: state.loader.isLoading
   };
 };
 
-const mapDispatchToProps = dispatch => {
+export const mapDispatchToProps = dispatch => {
   return {
     setPaymentMethod: newPaymentDetails => {
       dispatch(setPaymentMethod(newPaymentDetails));
+    },
+    showLoader: () => {
+      dispatch(showLoader());
+    },
+    hideLoader: () => {
+      dispatch(hideLoader());
     }
   };
 };

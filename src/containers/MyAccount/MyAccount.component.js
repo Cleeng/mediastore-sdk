@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import store from 'redux/store';
 
 import MyAccountMenu from 'components/MyAccountMenu';
 import MyAccountUserInfo from 'components/MyAccountUserInfo';
@@ -11,9 +9,17 @@ import QuickActions from 'components/QuickActions';
 import PlanDetails from 'components/PlanDetails';
 import PaymentInfo from 'components/PaymentInfo';
 import UpdateProfile from 'components/UpdateProfile';
+import Loader from 'components/Loader';
+import { MyAccountMenuActive } from 'styles/variables';
 import { breakPoints } from 'styles/BreakPoints';
 
-import { OverlayStyled, WrapperStyled, HeaderStyled } from './MyAccountStyled';
+import {
+  OverlayStyled,
+  WrapperStyled,
+  HeaderStyled,
+  StyledLoaderContainer,
+  MyAccountContentWrap
+} from './MyAccountStyled';
 
 class MyAccount extends Component {
   constructor(props) {
@@ -22,7 +28,7 @@ class MyAccount extends Component {
   }
 
   render() {
-    const { routeMatch, isOverlay } = this.props;
+    const { routeMatch, isOverlay, isLoading } = this.props;
     const { path } = routeMatch;
 
     const isMobile = window.innerWidth < breakPoints.small;
@@ -32,13 +38,13 @@ class MyAccount extends Component {
 
     return (
       <OverlayStyled isOverlay={isOverlay}>
-        <Provider store={store}>
-          <WrapperStyled>
-            <HeaderStyled>
-              <MyAccountUserInfo />
-              <MyAccountMenu routeMatch={routeMatch} />
-            </HeaderStyled>
-            <MyAccountContent>
+        <WrapperStyled>
+          <HeaderStyled>
+            <MyAccountUserInfo />
+            <MyAccountMenu routeMatch={routeMatch} />
+          </HeaderStyled>
+          <MyAccountContent>
+            <MyAccountContentWrap>
               <Switch>
                 <Route exact path={path}>
                   <Redirect to={firstPageUrl} />
@@ -56,9 +62,14 @@ class MyAccount extends Component {
                   <UpdateProfile />
                 </Route>
               </Switch>
-            </MyAccountContent>
-          </WrapperStyled>
-        </Provider>
+              {isLoading && (
+                <StyledLoaderContainer>
+                  <Loader color={MyAccountMenuActive} />
+                </StyledLoaderContainer>
+              )}
+            </MyAccountContentWrap>
+          </MyAccountContent>
+        </WrapperStyled>
       </OverlayStyled>
     );
   }
@@ -68,10 +79,12 @@ export default MyAccount;
 
 MyAccount.propTypes = {
   routeMatch: PropTypes.objectOf(PropTypes.any),
-  isOverlay: PropTypes.bool
+  isOverlay: PropTypes.bool,
+  isLoading: PropTypes.bool
 };
 
 MyAccount.defaultProps = {
   routeMatch: {},
-  isOverlay: false
+  isOverlay: false,
+  isLoading: false
 };

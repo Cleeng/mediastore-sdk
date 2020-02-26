@@ -68,6 +68,7 @@ export const SubscriptionPriceValueStyled = styled.div`
 export const SubscriptionPricePeroidStyled = styled.div`
   font-size: 9px;
   color: #8e98b1;
+  text-align: right;
 `;
 
 export const SubscriptionActionsStyled = styled.div`
@@ -79,8 +80,13 @@ export const SubscriptionActionsStyled = styled.div`
     border-radius: 20px;
     font-weight: 700;
     width: auto;
-    padding: 0 20px;
+    padding: 0 10px;
+    font-size: 14px;
   }
+
+  ${mediaFrom.smallest`
+    padding: 0 20px;
+  `}
 
   ${mediaFrom.small`
     justify-content: flex-end;
