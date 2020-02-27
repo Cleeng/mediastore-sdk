@@ -1,9 +1,17 @@
 import styled from 'styled-components';
+import {
+  CardColor,
+  MyAccountTextGray,
+  MyAccountTextDark2,
+  MyAccountTextLightGray2,
+  SubscriptionIconDefaultBg,
+  SubscriptionIconDefaultColor
+} from 'styles/variables';
 import { mediaFrom } from 'styles/BreakPoints';
 
 export const WrapStyled = styled.div`
   position: relative;
-  background-color: #fff;
+  background-color: ${CardColor};
   border-radius: 12px;
   box-shadow: 0px 3px 50px #0000001f;
   padding: 18px;
@@ -27,8 +35,9 @@ export const SubscriptionIcon = styled.div`
   font-size: 21px;
   font-weight: 700;
 
-  background-color: ${props => (props.bg ? props.bg : '#edf8f4')};
-  color: ${props => (props.color ? props.color : '#9cd6c9')};
+  background-color: ${props =>
+    props.bg ? props.bg : SubscriptionIconDefaultBg};
+  color: ${props => (props.color ? props.color : SubscriptionIconDefaultColor)};
 `;
 
 export const SubscriptionInfoStyled = styled.div`
@@ -44,14 +53,14 @@ export const SubscriptionTitleStyled = styled.div`
   line-height: 17px;
   font-weight: 700;
   margin-bottom: 8px;
-  color: #3d3d3d;
+  color: ${MyAccountTextDark2};
 `;
 
 export const SubscriptionNextPaymentStyled = styled.div`
   font-size: 11px;
   line-height: 15px;
   font-style: italic;
-  color: #7b849d;
+  color: ${MyAccountTextGray};
 `;
 
 export const SubscriptionPriceStyled = styled.div`
@@ -62,12 +71,12 @@ export const SubscriptionPriceValueStyled = styled.div`
   font-size: 14px;
   font-weight: 700;
   margin-bottom: 4px;
-  color: #8e98b1;
+  color: ${MyAccountTextLightGray2};
 `;
 
 export const SubscriptionPricePeroidStyled = styled.div`
   font-size: 9px;
-  color: #8e98b1;
+  color: ${MyAccountTextLightGray2};
   text-align: right;
 `;
 
