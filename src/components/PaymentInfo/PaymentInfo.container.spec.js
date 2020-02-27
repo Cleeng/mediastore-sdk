@@ -1,4 +1,5 @@
 import { SET_PAYMENT_METHOD } from 'redux/paymentInfo';
+import { SHOW_LOADER, HIDE_LOADER } from 'redux/loader';
 import { mapStateToProps, mapDispatchToProps } from './PaymentInfo.container';
 
 const planDetailsMock = {
@@ -17,21 +18,34 @@ const planDetailsMock = {
   paymentMethodId: null
 };
 
+const loaderMock = {
+  isLoading: true
+};
+
 describe('<PaymentInfo/>', () => {
-  describe('@renders', () => {
-    it('should show previously added value', () => {
-      const initialState = {
-        paymentInfo: planDetailsMock
-      };
-      expect(mapStateToProps(initialState).paymentInfo).toEqual(
-        planDetailsMock
-      );
-    });
-    it('should dispatch SET_PAYMENT_DETAILS action', () => {
-      expect(true).toBe(true);
-      const dispatch = jest.fn();
-      mapDispatchToProps(dispatch).setPaymentDetails();
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_PAYMENT_METHOD });
-    });
+  it('should show previously added value', () => {
+    const initialState = {
+      paymentInfo: planDetailsMock,
+      loader: loaderMock
+    };
+    expect(mapStateToProps(initialState).paymentInfo).toEqual(planDetailsMock);
+    expect(mapStateToProps(initialState).isLoading).toEqual(
+      loaderMock.isLoading
+    );
+  });
+  it('should dispatch SET_PAYMENT_METHOD action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).setPaymentMethod();
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_PAYMENT_METHOD });
+  });
+  it('should dispatch SHOW_LOADER action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).showLoader();
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: SHOW_LOADER });
+  });
+  it('should dispatch HIDE_LOADER action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).hideLoader();
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: HIDE_LOADER });
   });
 });

@@ -35,7 +35,7 @@ class MyAccountMenu extends Component {
             >
               <ItemLinkStyled to={`${url}/${menuItem.link}`}>
                 <ItemIconWrapStyled>
-                  {menuItem.icon.render()}
+                  {menuItem.icon ? menuItem.icon.render() : null}
                 </ItemIconWrapStyled>
                 <ItemLabelStyled>{menuItem.label}</ItemLabelStyled>
               </ItemLinkStyled>

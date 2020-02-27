@@ -59,5 +59,5 @@ PlanDetails.propTypes = {
 };
 
 PlanDetails.defaultProps = {
-  planDetails: { paymentDetails: [] }
+  planDetails: { currentPlan: [] }
 };

@@ -1,12 +1,12 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
-import PaymentMehod from 'components/PaymentMethod';
+import CurrentPlan from 'components/CurrentPlan';
 import PlanDetails from './PlanDetails.component';
-import { getPaymentDetails } from '../../api';
+import { getCustomerSubscriptions } from '../../api';
 
 jest.mock('api', () => ({
-  getPaymentDetails: jest
+  getCustomerSubscriptions: jest
     .fn()
     .mockResolvedValue({
       responseData: {
@@ -36,28 +36,53 @@ jest.mock('api', () => ({
       },
       errors: []
     })
-    .mockName('getPaymentDetails')
+    .mockName('getCustomerSubscriptions')
 }));
 
-const setPaymentDetailsMock = jest.fn();
+const setCurrentPlanMock = jest.fn();
+const showLoaderMock = jest.fn();
+const hideLoaderMock = jest.fn();
 
 describe('<PlanDetails/>', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
-      const wrapper = shallow(
-        <PlanDetails setPaymentDetails={setPaymentDetailsMock} />
+      const wrapper = mount(
+        <PlanDetails
+          setCurrentPlan={setCurrentPlanMock}
+          showLoader={showLoaderMock}
+          hideLoader={hideLoaderMock}
+          isLoading={false}
+        />
       );
-      expect(wrapper.find(PaymentMehod)).toHaveLength(1);
-      expect(wrapper.find(MyAccountHeading)).toHaveLength(2);
+      expect(wrapper.find(MyAccountHeading)).toHaveLength(1);
+      expect(wrapper.find(CurrentPlan)).toHaveLength(1);
+    });
+    it('should have no content if isLoading is true', () => {
+      const wrapper = mount(
+        <PlanDetails
+          setCurrentPlan={setCurrentPlanMock}
+          showLoader={showLoaderMock}
+          hideLoader={hideLoaderMock}
+          isLoading
+        />
+      );
+      expect(wrapper.find(MyAccountHeading)).toHaveLength(0);
+      expect(wrapper.find(CurrentPlan)).toHaveLength(0);
     });
     it('should store errors if returned cannot fetch', () => {
       const returnedErrors = ['Some error'];
-      getPaymentDetails.mockResolvedValueOnce({
+      getCustomerSubscriptions.mockResolvedValueOnce({
         errors: returnedErrors
       });
-      const wrapper = shallow(
-        <PlanDetails setPaymentDetails={setPaymentDetailsMock} />
+      const wrapper = mount(
+        <PlanDetails
+          setCurrentPlan={setCurrentPlanMock}
+          showLoader={showLoaderMock}
+          hideLoader={hideLoaderMock}
+          isLoading={false}
+        />
       );
+      expect(true).toBe(true);
       setImmediate(() => {
         expect(wrapper.state('errors')).toBe(returnedErrors);
       });

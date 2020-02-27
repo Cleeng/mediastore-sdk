@@ -7,7 +7,7 @@ export const mapStateToProps = state => {
   };
 };
 
-const MyAccountContainer = connect(
+export const MyAccountContainer = connect(
   mapStateToProps,
   null
 )(MyAccount);

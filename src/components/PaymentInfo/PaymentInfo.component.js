@@ -51,7 +51,6 @@ class PaymentInfo extends Component {
             <PaymentMehod
               paymentDetails={paymentInfo ? paymentInfo.paymentMethod : []}
             />
-            <MyAccountHeading text="Transactions" />
           </>
         )}
       </WrapStyled>
