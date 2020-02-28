@@ -9,7 +9,6 @@ import {
   ItemWrapStyled,
   ItemLinkStyled,
   ItemIconWrapStyled,
-  // ItemIconStyled,
   ItemLabelStyled
 } from './MyAccountMenuStyled';
 

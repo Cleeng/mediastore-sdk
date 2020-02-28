@@ -31,7 +31,6 @@ class PaymentMethod extends PureComponent {
         <PaymentDetailsStyled>
           {paymentDetails.map(card => {
             const {
-              // variant,
               lastCardFourDigits,
               cardExpirationDate
             } = card.paymentMethodSpecificParams;

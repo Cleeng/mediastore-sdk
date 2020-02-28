@@ -52,7 +52,7 @@ const monthArray = [
   'December'
 ];
 
-export function getGetOrdinal(n) {
+export function getOrdinal(n) {
   const s = ['th', 'st', 'nd', 'rd'];
   const v = n % 100;
   return n + (s[(v - 20) % 10] || s[v] || s[0]);
@@ -64,8 +64,6 @@ export function dateFormat(timestamp) {
   const day = date.getDate();
   const year = date.getFullYear();
 
-  const resultString = `${monthArray[monthNumber]} ${getGetOrdinal(
-    day
-  )}, ${year}`;
+  const resultString = `${monthArray[monthNumber]} ${getOrdinal(day)}, ${year}`;
   return resultString;
 }

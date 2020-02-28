@@ -82,7 +82,6 @@ describe('<PlanDetails/>', () => {
           isLoading={false}
         />
       );
-      expect(true).toBe(true);
       setImmediate(() => {
         expect(wrapper.state('errors')).toBe(returnedErrors);
       });
