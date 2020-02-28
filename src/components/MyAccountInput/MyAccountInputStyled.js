@@ -28,6 +28,7 @@ export const InputElementStyled = styled.input`
   border: 1px solid ${InputBorder};
   border-radius: 8px;
   font-size: 13px;
+  line-height: 13px;
 
   &:focus {
     border: 1px solid ${MyAccountTextDark};

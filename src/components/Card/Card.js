@@ -18,7 +18,7 @@ class Card extends Component {
 export default Card;
 
 Card.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+  children: PropTypes.node // oneOfType([PropTypes.string, PropTypes.element])
 };
 
 Card.defaultProps = {

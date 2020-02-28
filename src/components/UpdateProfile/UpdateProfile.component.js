@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import ProfileDetails from 'components/ProfileDetails';
@@ -9,7 +10,9 @@ import { WrapStyled } from './UpdateProfileStyled';
 class UpdateProfile extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      errors: null
+    };
   }
 
   componentDidMount() {
@@ -18,9 +21,9 @@ class UpdateProfile extends Component {
       showLoader();
       getCustomer().then(response => {
         if (response.errors.length) {
-          // this.setState({
-          //   errors: response.errors
-          // });
+          this.setState({
+            errors: response.errors
+          });
         } else {
           setCurrentUser(response.responseData);
           hideLoader();
@@ -67,5 +70,5 @@ UpdateProfile.propTypes = {
 };
 
 UpdateProfile.defaultProps = {
-  userProfile: { user: [] }
+  userProfile: { user: {} }
 };

@@ -25,8 +25,6 @@ class MyAccountInput extends Component {
       disabled
     } = this.props;
 
-    console.log(placeholder, type, value, onChange, onSubmit, disabled);
-
     return (
       <WrapStyled>
         <InputElementWrapperStyled>
@@ -36,6 +34,8 @@ class MyAccountInput extends Component {
             type={type}
             value={value}
             disabled={disabled}
+            onSubmit={onSubmit}
+            onChange={onChange}
           />
         </InputElementWrapperStyled>
       </WrapStyled>

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 import {
   WrapStyled,
@@ -16,13 +17,15 @@ class MyAccountUserInfo extends Component {
   }
 
   render() {
+    const { firstName, lastName, email, subscription } = this.props;
+
     return (
       <WrapStyled>
         <PhotoStyled />
-        <DetailsStyled>
-          <NameStyled>John Doe</NameStyled>
-          <MailStyled>john.doe@mail.com</MailStyled>
-          <TextStyled>12 Month Premium with all workouts</TextStyled>
+        <DetailsStyled isEmpty={!email}>
+          <NameStyled>{`${firstName} ${lastName}`}</NameStyled>
+          <MailStyled>{email}</MailStyled>
+          <TextStyled>{subscription}</TextStyled>
         </DetailsStyled>
       </WrapStyled>
     );
@@ -30,3 +33,17 @@ class MyAccountUserInfo extends Component {
 }
 
 export default MyAccountUserInfo;
+
+MyAccountUserInfo.propTypes = {
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  email: PropTypes.string,
+  subscription: PropTypes.string
+};
+
+MyAccountUserInfo.defaultProps = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  subscription: ''
+};

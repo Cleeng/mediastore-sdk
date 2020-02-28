@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
 import {
   MyAccountTextDark,
@@ -19,7 +19,8 @@ export const WrapStyled = styled.header`
   ${mediaFrom.small`
     flex-direction: column;
     align-items: center;
-  `}
+    
+    `}
 `;
 
 export const PhotoStyled = styled.div`
@@ -39,32 +40,20 @@ export const PhotoStyled = styled.div`
   `}
 `;
 
-export const DetailsStyled = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  margin-left: 14px;
-
-  color: ${MyAccountTextDark};
-
-  ${mediaFrom.small`
-    align-items: center;
-
-    margin-left: 0;
-  `}
-`;
-
 export const NameStyled = styled.div`
   font-size: 24px;
+  line-height: 29px;
   font-weight: 700;
 
   ${mediaFrom.small`
     margin-bottom: 10px;
+    text-align: center;
+
   `}
 `;
 
 export const MailStyled = styled.div`
+  margin-bottom: 4px;
   font-size: 9px;
   font-weight: 500;
   color: ${MyAccountTextGray};
@@ -80,4 +69,43 @@ export const TextStyled = styled.div`
   color: ${MyAccountTextGray};
   font-size: 9px;
   font-weight: 500;
+  min-height: 19px;
+`;
+
+export const DetailsStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  width: 100%;
+  margin-left: 14px;
+
+  color: ${MyAccountTextDark};
+
+  ${props =>
+    props.isEmpty &&
+    css`
+      ${NameStyled} {
+        background-color: ${MyAccountTextLightGray};
+        width: 100%;
+        border-radius: 10px;
+
+        min-height: 24px;
+      }
+      ${MailStyled} {
+        background-color: ${MyAccountTextLightGray};
+        width: 100%;
+        min-height: 9px;
+        border-radius: 5px;
+      }
+      ${TextStyled} {
+        width: 100%;
+      }
+    `}
+
+  ${mediaFrom.small`
+    align-items: center;
+  
+    margin-left: 0;
+  `}
 `;
