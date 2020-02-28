@@ -40,3 +40,8 @@ export const MyAccountMenu = '#f2f5fc';
 export const MyAccountMenuActive = '#43599c';
 export const SubscriptionIconDefaultBg = '#edf8f4';
 export const SubscriptionIconDefaultColor = '#9cd6c9';
+
+export const InputBorder = '#d8ddea';
+export const InputLabelColor = '#838eaa';
+export const DisabledInputBg = '#F4F6FC';
+export const DisabledInputColor = '#838eaa';

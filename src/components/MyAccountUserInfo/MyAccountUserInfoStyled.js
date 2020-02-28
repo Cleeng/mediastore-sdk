@@ -6,7 +6,8 @@ import {
   MyAccountTextLightGray,
   MyAccountBorder
 } from 'styles/variables';
-import portrait from './img/man.png';
+
+import portrait from './img/avatar.svg';
 
 export const WrapStyled = styled.header`
   display: flex;

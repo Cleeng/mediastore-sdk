@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import portrait from './img/man.png';
 
 import {
   WrapStyled,
@@ -19,7 +18,7 @@ class MyAccountUserInfo extends Component {
   render() {
     return (
       <WrapStyled>
-        <PhotoStyled img={portrait} />
+        <PhotoStyled />
         <DetailsStyled>
           <NameStyled>John Doe</NameStyled>
           <MailStyled>john.doe@mail.com</MailStyled>

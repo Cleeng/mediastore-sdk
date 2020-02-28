@@ -9,11 +9,13 @@ import submitPayment from './submitPayment';
 import updateOrder from './updateOrder';
 import getPaymentDetails from './getPaymentDetails';
 import getCustomerSubscriptions from './getCustomerSubscriptions';
+import getCustomer from './getCustomer';
 
 export {
   getPaymentMethods,
   getPaymentDetails,
   getCustomerSubscriptions,
+  getCustomer,
   createOrder,
   updateOrder,
   submitPayment,
