@@ -139,6 +139,6 @@ MyAccount.defaultProps = {
   routeMatch: {},
   isOverlay: false,
   isLoading: false,
-  userProfile: { user: {} },
+  userProfile: { user: null },
   planDetails: { currentPlan: [] }
 };

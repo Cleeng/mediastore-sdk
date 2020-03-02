@@ -70,5 +70,5 @@ UpdateProfile.propTypes = {
 };
 
 UpdateProfile.defaultProps = {
-  userProfile: { user: {} }
+  userProfile: { user: null }
 };
