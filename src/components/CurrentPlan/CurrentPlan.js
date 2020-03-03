@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'components/Button';
+// import Button from 'components/Button';
 
 import { periodMapper, dateFormat, currencyFormat } from './helpers';
 
@@ -15,8 +15,8 @@ import {
   SubscriptionNextPaymentStyled,
   SubscriptionPriceValueStyled,
   SubscriptionPricePeroidStyled,
-  SubscriptionPriceStyled,
-  SubscriptionActionsStyled
+  SubscriptionPriceStyled
+  // SubscriptionActionsStyled
 } from './CurrentPlanStyled';
 
 class CurrentPlan extends Component {
@@ -58,10 +58,10 @@ class CurrentPlan extends Component {
                   </SubscriptionPricePeroidStyled>
                 </SubscriptionPriceStyled>
               </SubscriptionInfoBoxStyled>
-              <SubscriptionActionsStyled>
+              {/* <SubscriptionActionsStyled>
                 <Button variant="secondary">Unsubscribe</Button>
                 <Button>Apply Coupon</Button>
-              </SubscriptionActionsStyled>
+              </SubscriptionActionsStyled> */}
             </SubscriptionStyled>
           ))}
         </SubscriptionsStyled>

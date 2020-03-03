@@ -16,6 +16,7 @@ export const AppStyled = styled.div`
 export const AppContentStyled = styled.div`
   position: relative;
 
+  height: 100%;
   margin: auto;
   max-width: 900px;
 
