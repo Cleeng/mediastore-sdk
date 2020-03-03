@@ -16,6 +16,7 @@ class MyAccountInput extends Component {
 
   render() {
     const {
+      id,
       placeholder,
       type,
       value,
@@ -28,8 +29,9 @@ class MyAccountInput extends Component {
     return (
       <WrapStyled>
         <InputElementWrapperStyled>
-          <InputElementLabelStyled>{label}</InputElementLabelStyled>
+          <InputElementLabelStyled for={id}>{label}</InputElementLabelStyled>
           <InputElementStyled
+            id={id}
             placeholder={placeholder}
             type={type}
             value={value}
@@ -46,6 +48,7 @@ class MyAccountInput extends Component {
 export default MyAccountInput;
 
 MyAccountInput.propTypes = {
+  id: PropTypes.string,
   placeholder: PropTypes.string,
   type: PropTypes.string,
   value: PropTypes.string,
@@ -56,6 +59,7 @@ MyAccountInput.propTypes = {
 };
 
 MyAccountInput.defaultProps = {
+  id: '',
   placeholder: '',
   type: 'text',
   value: '',
