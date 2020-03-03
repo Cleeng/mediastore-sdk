@@ -9,6 +9,7 @@ import PasswordInput from '../PasswordInput/PasswordInput';
 import validateEmailField from '../EmailInput/EmailHelper';
 import { validateRegisterPassword } from '../PasswordInput/PasswordHelper';
 import registerCustomer from '../../api/registerCustomer';
+import getCustomerLocales from '../../api/getCustomerLocales';
 import Auth from '../../services/auth';
 
 class RegisterForm extends Component {
@@ -91,7 +92,7 @@ class RegisterForm extends Component {
   };
 
   register = async () => {
-    const { email, password, consents } = this.state;
+    const { email, password } = this.state;
     const { offerId, setOfferError, t } = this.props;
     if (!offerId) {
       setOfferError(true);
@@ -100,7 +101,16 @@ class RegisterForm extends Component {
     this.setState({
       processing: true
     });
-    const response = await registerCustomer(email, password, offerId, consents);
+    const localesResponse = await getCustomerLocales();
+    const locales = localesResponse.responseData;
+    const response = await registerCustomer(
+      email,
+      password,
+      offerId,
+      locales.locale,
+      locales.country,
+      locales.currency
+    );
     if (response.status === 200) {
       Auth.login(email, response.responseData.jwt);
     } else if (response.status === 422) {

@@ -1,4 +1,11 @@
-const registerCustomer = async (email, password, offerId, consents) => {
+const registerCustomer = async (
+  email,
+  password,
+  offerId,
+  locale,
+  country,
+  currency
+) => {
   const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers`;
 
   try {
@@ -12,7 +19,9 @@ const registerCustomer = async (email, password, offerId, consents) => {
         email,
         password,
         offerId,
-        consents
+        locale,
+        country,
+        currency
       })
     });
     const json = await resp.json();
