@@ -40,6 +40,8 @@ class MyAccount extends Component {
       setCurrentUser
     } = this.props;
 
+    document.title = 'My Account';
+
     if (!planDetails.currentPlan.length) {
       getCustomerSubscriptions().then(response => {
         if (response.errors.length) {

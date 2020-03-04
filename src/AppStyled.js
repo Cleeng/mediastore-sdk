@@ -3,7 +3,7 @@ import { media } from './styles/BreakPoints';
 
 export const AppStyled = styled.div`
   min-height: 100vh;
-  max-height: 100vh;
+  height: 100vh;
   padding: 40px 0;
 
   background: linear-gradient(-21deg, #44b2e7, #595fbb);
