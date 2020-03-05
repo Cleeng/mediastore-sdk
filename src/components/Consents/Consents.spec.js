@@ -34,7 +34,7 @@ const mockConsentsLabels = ['<a>Terms</a>'];
 const mockConsentsLabelsAfterRegex = ['{{htmltag}}Terms{{endhtmltag}}'];
 const mockConsentsLabelsAfterRegexWithoutTags = ['No tags'];
 
-const mockPublisherId = '123123_PL';
+const mockPublisherId = '123456789';
 
 jest.mock('../../api/getConsents');
 const mockConsentsFetch = jest.fn();
