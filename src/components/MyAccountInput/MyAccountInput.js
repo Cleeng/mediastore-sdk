@@ -29,7 +29,9 @@ class MyAccountInput extends Component {
     return (
       <WrapStyled>
         <InputElementWrapperStyled>
-          <InputElementLabelStyled for={id}>{label}</InputElementLabelStyled>
+          <InputElementLabelStyled htmlFor={id}>
+            {label}
+          </InputElementLabelStyled>
           <InputElementStyled
             id={id}
             placeholder={placeholder}
