@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import submitConsents from 'api/submitConsents';
 import Consent, { validateConsentsField } from '../Consents';
 import { FromStyled, FormErrorStyled } from '../LoginPage/LoginStyled';
 import Loader from '../Loader/Loader';
@@ -92,7 +93,7 @@ class RegisterForm extends Component {
   };
 
   register = async () => {
-    const { email, password } = this.state;
+    const { email, password, consents, consentDefinitions } = this.state;
     const { offerId, setOfferError, t } = this.props;
     if (!offerId) {
       setOfferError(true);
@@ -102,6 +103,13 @@ class RegisterForm extends Component {
       processing: true
     });
     const localesResponse = await getCustomerLocales();
+    if (!localesResponse.responseData) {
+      this.setState({
+        processing: false,
+        generalError: t('An error occurred.')
+      });
+      return false;
+    }
     const locales = localesResponse.responseData;
     const response = await registerCustomer(
       email,
@@ -112,7 +120,10 @@ class RegisterForm extends Component {
       locales.currency
     );
     if (response.status === 200) {
-      Auth.login(email, response.responseData.jwt);
+      Auth.login(email, response.responseData.jwt, submitConsents, [
+        consents,
+        consentDefinitions
+      ]);
     } else if (response.status === 422) {
       this.setState({
         processing: false,
@@ -147,7 +158,7 @@ class RegisterForm extends Component {
       showPassword,
       processing
     } = this.state;
-    const { offerId, t } = this.props;
+    const { publisherId, t } = this.props;
 
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
@@ -173,7 +184,7 @@ class RegisterForm extends Component {
         />
         <Consent
           t={t}
-          offerId={offerId}
+          publisherId={publisherId}
           error={errors.consents}
           onChangeFn={this.handleConsentsChange}
         />
@@ -187,12 +198,14 @@ class RegisterForm extends Component {
 
 RegisterForm.propTypes = {
   offerId: PropTypes.string,
+  publisherId: PropTypes.string,
   setOfferError: PropTypes.func,
   t: PropTypes.func
 };
 
 RegisterForm.defaultProps = {
   offerId: '',
+  publisherId: '',
   setOfferError: () => {},
   t: k => k
 };

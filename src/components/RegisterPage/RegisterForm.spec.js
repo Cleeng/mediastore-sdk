@@ -5,10 +5,15 @@ import RegisterForm from './RegisterForm';
 import Consent from '../Consents';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import registerCustomerRequest from '../../api/registerCustomer';
+import getCustomerLocalesRequest from '../../api/getCustomerLocales';
+import submitConsentsRequest from '../../api/submitConsents';
 import Auth from '../../services/auth';
 
 jest.mock('../../api/registerCustomer');
+jest.mock('../../api/getCustomerLocales');
+jest.mock('../../api/submitConsents');
 const mockRegisterFetch = jest.fn();
+const mockLocalesFetch = jest.fn();
 const mockInputValue = 'MOCK_INPUT_VALUE11';
 const mockEmailValue = 'mockmail@mock.com';
 const mockNotValidEmail = 'mock';
@@ -171,6 +176,15 @@ describe('RegisterForm', () => {
     });
 
     it('should set general error when request failed', done => {
+      getCustomerLocalesRequest.mockImplementationOnce(
+        mockLocalesFetch.mockResolvedValue({
+          responseData: {
+            locale: 'pl_PL',
+            country: 'PL',
+            currency: 'EUR'
+          }
+        })
+      );
       registerCustomerRequest.mockImplementationOnce(
         mockRegisterFetch.mockResolvedValue({
           status: 429
@@ -200,7 +214,43 @@ describe('RegisterForm', () => {
       });
     });
 
+    it('should set general error when getLocales failed', done => {
+      getCustomerLocalesRequest.mockImplementationOnce(
+        mockLocalesFetch.mockResolvedValue({})
+      );
+      const wrapper = shallow(
+        <RegisterForm
+          onRegistrationComplete={onSubmitMock}
+          offerId="S705970293_NL"
+        />
+      );
+      const instance = wrapper.instance();
+      const preventDefaultMock = jest.fn();
+
+      instance.setState({
+        email: 'john@example.com',
+        password: 'testtest123'
+      });
+      wrapper.simulate('submit', {
+        preventDefault: preventDefaultMock
+      });
+
+      setImmediate(() => {
+        expect(instance.state.generalError).toBe('An error occurred.');
+        done();
+      });
+    });
+
     it('should call onSubmit cb when fields valid', done => {
+      getCustomerLocalesRequest.mockImplementationOnce(
+        mockLocalesFetch.mockResolvedValue({
+          responseData: {
+            locale: 'pl_PL',
+            country: 'PL',
+            currency: 'EUR'
+          }
+        })
+      );
       registerCustomerRequest.mockImplementationOnce(
         mockRegisterFetch.mockResolvedValue({
           status: 200,
@@ -216,7 +266,9 @@ describe('RegisterForm', () => {
       Auth.login = jest.fn();
       instance.setState({
         email: mockEmailValue,
-        password: 'testtest123'
+        password: 'testtest123',
+        consents: mockConsentValue,
+        consentDefinitions: mockConsentDefinitions
       });
 
       expect(Auth.login).not.toHaveBeenCalled();
@@ -232,12 +284,26 @@ describe('RegisterForm', () => {
         expect(instance.state.generalError).toBe('');
         expect(Auth.login).toHaveBeenCalled();
         expect(Auth.login).toHaveBeenCalledTimes(1);
-        expect(Auth.login).toHaveBeenCalledWith(mockEmailValue, jwtMock);
+        expect(Auth.login).toHaveBeenCalledWith(
+          mockEmailValue,
+          jwtMock,
+          submitConsentsRequest,
+          [mockConsentValue, mockConsentDefinitions]
+        );
         done();
       });
     });
 
     it('should set general error when customer already exists', done => {
+      getCustomerLocalesRequest.mockImplementationOnce(
+        mockLocalesFetch.mockResolvedValue({
+          responseData: {
+            locale: 'pl_PL',
+            country: 'PL',
+            currency: 'EUR'
+          }
+        })
+      );
       registerCustomerRequest.mockImplementationOnce(
         mockRegisterFetch.mockResolvedValue({
           status: 422

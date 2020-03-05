@@ -3,6 +3,7 @@ import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ErrorPage from 'components/ErrorPage';
 import saveOfferId from '../../util/offerIdHelper';
+import savePublisherId from '../../util/publisherIdHelper';
 import labeling from '../../containers/labeling';
 
 import {
@@ -20,21 +21,25 @@ class Register extends Component {
     super(props);
     this.state = {
       offerId: null,
-      isOfferError: false
+      isOfferError: false,
+      publisherId: null
     };
   }
 
   componentDidMount() {
     const { urlProps } = this.props;
     saveOfferId(urlProps.location, this.setOfferId);
+    savePublisherId(urlProps.location, this.setPublisherId);
   }
 
   setOfferId = value => this.setState({ offerId: value });
 
+  setPublisherId = value => this.setState({ publisherId: value });
+
   setOfferError = value => this.setState({ isOfferError: value });
 
   render() {
-    const { isOfferError, offerId } = this.state;
+    const { isOfferError, offerId, publisherId } = this.state;
     const { t } = this.props;
     return isOfferError ? (
       <ErrorPage type="offerNotExist" />
@@ -45,6 +50,7 @@ class Register extends Component {
           <RegisterForm
             t={t}
             offerId={offerId}
+            publisherId={publisherId}
             setOfferError={this.setOfferError}
           />
           <Button isLink to="/login" variant="secondary">

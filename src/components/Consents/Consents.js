@@ -24,18 +24,18 @@ export class Consents extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { offerId } = this.props;
+    const { publisherId } = this.props;
 
-    if (prevProps.offerId !== offerId) {
-      this.getConsents(offerId).then(() => {
+    if (prevProps.publisherId !== publisherId) {
+      this.getConsents(publisherId).then(() => {
         this.validateConsents();
       });
     }
   }
 
-  getConsents = async offerId => {
+  getConsents = async publisherId => {
     try {
-      const consentsIncome = await getConsentsRequest(offerId);
+      const consentsIncome = await getConsentsRequest(publisherId);
       if (consentsIncome.responseData && consentsIncome.responseData.consents) {
         const consentsDetails = consentsIncome.responseData.consents.map(
           element => {
@@ -134,14 +134,14 @@ export class Consents extends React.Component {
 }
 
 Consents.propTypes = {
-  offerId: PropTypes.string,
+  publisherId: PropTypes.string,
   error: PropTypes.string,
   onChangeFn: PropTypes.func,
   t: PropTypes.func
 };
 
 Consents.defaultProps = {
-  offerId: '',
+  publisherId: '',
   error: '',
   onChangeFn: () => {},
   t: k => k
