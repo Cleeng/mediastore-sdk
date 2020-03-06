@@ -20,14 +20,21 @@ This ultimate checkout application is implemented as a full flow for a user, wit
 
 This is the Frontend application build with React. It was bootstraped with Create React App. We are using webpack to build it, Jest and Enzyme for testing, Styled Components for styles.
 
-This application is communicating with the backend REST API. All methods available can be found below.
+This application is communicating with the backend REST API. All methods available can be found <a href="https://developers.cleeng.com/tutorials/webstore-sdk#5-api-methods-used"> here</a>.
 
-To authenticate - we are using JWT with the payload containing offer id and customer id.
+To authenticate - we are using JWT with the payload containing customer id and publisher id.
 
 Offer id can be passed to the app in 2 ways:
 
 - In URL as a param `?offer=S1234567` and this is the most important one
 - In local storage as `CLEENG_OFFER_ID`
+
+Publisher id can be passed to the app in 2 ways:
+
+- In URL as a param `?publisher=123456789` and this is the most important one
+- In local storage as `CLEENG_PUBLISHER_ID`
+
+Publisher id is required to fetch consents on registration page.
 
 ### Environments
 

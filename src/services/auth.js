@@ -6,10 +6,11 @@ class Auth {
     this.isAuthenticated = false;
   }
 
-  login(email, jwt) {
+  login(email, jwt, cb = () => {}, args = []) {
     this.isAuthenticated = true;
     localStorage.setItem('CLEENG_AUTH_TOKEN', jwt);
     localStorage.setItem('CLEENG_CUSTOMER_EMAIL', email);
+    cb.apply(this, args);
     history.push('/offer');
   }
 

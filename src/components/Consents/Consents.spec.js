@@ -34,7 +34,7 @@ const mockConsentsLabels = ['<a>Terms</a>'];
 const mockConsentsLabelsAfterRegex = ['{{htmltag}}Terms{{endhtmltag}}'];
 const mockConsentsLabelsAfterRegexWithoutTags = ['No tags'];
 
-const mockOfferId = '123123_PL';
+const mockPublisherId = '123456789';
 
 jest.mock('../../api/getConsents');
 const mockConsentsFetch = jest.fn();
@@ -88,9 +88,9 @@ describe('<Consents/>', () => {
             responseData: { consents: mockConsent }
           })
         );
-        // simulate offerId setup with delay
-        const wrapper = mount(<ConsentsComponent offerId="" />);
-        wrapper.setProps({ offerId: mockOfferId });
+        // simulate publisherId setup with delay
+        const wrapper = mount(<ConsentsComponent publisherId="" />);
+        wrapper.setProps({ publisherId: mockPublisherId });
         wrapper.update();
         expect(getConsentsRequest).toHaveBeenCalled();
         setImmediate(() => {
@@ -111,8 +111,8 @@ describe('<Consents/>', () => {
             responseData: { consents: mockConsentWithoutTag }
           })
         );
-        const wrapper = mount(<ConsentsComponent offerId="" />);
-        wrapper.setProps({ offerId: mockOfferId });
+        const wrapper = mount(<ConsentsComponent publisherId="" />);
+        wrapper.setProps({ publisherId: mockPublisherId });
         wrapper.update();
         expect(getConsentsRequest).toHaveBeenCalled();
         setImmediate(() => {
@@ -128,8 +128,8 @@ describe('<Consents/>', () => {
         getConsentsRequest.mockImplementationOnce(
           mockConsentsFetch.mockRejectedValue(new Error('Error'))
         );
-        const wrapper = mount(<ConsentsComponent offerId="" />);
-        wrapper.setProps({ offerId: mockOfferId });
+        const wrapper = mount(<ConsentsComponent publisherId="" />);
+        wrapper.setProps({ publisherId: mockPublisherId });
         wrapper.update();
         expect(getConsentsRequest).toHaveBeenCalled();
         setImmediate(() => {
