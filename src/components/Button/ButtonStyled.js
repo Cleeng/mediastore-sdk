@@ -15,8 +15,8 @@ const ButtonStyled = styled.button`
 
   color: ${colors.ButtonMainFontColor};
   background-color: ${colors.ButtonBackground};
-  border: 1px ${colors.ButtonBorderColor} solid;
-  border-radius: 6px;
+  border: none;
+  border-radius: 30px;
   outline: 0;
 
   text-align: center;
@@ -63,17 +63,21 @@ const ButtonStyled = styled.button`
       justify-content: center;
 
       background-color: transparent;
+      border: 1px solid ${colors.ButtonBorder};
       color: ${colors.MainTextColor};
-      width: 80px;
-      height: 40px;
+      height: 45px;
+      padding: 0 20px 0 40px;
 
       text-align: center;
       font-size: 13px;
       &::before {
+        position: absolute;
         display: inline-block;
 
         width: 20px;
         height: 20px;
+        left: 15px;
+        top: 11px;
       }
     `}
   ${props =>
@@ -98,6 +102,7 @@ const ButtonStyled = styled.button`
       flex: 1 0 21%;
 
       background-color: white;
+      border: 1px solid ${colors.ButtonBorder};
       color: ${colors.MainTextColor};
       ${p =>
         p.disabled
@@ -116,7 +121,7 @@ const ButtonStyled = styled.button`
   ${props =>
     props.variant === 'secondary' &&
     css`
-      background-color: ${colors.LightGrey};
+      background-color: ${colors.ButtonSecondaryBackground};
       color: ${colors.MainTextColor};
       &:hover,
       &:focus {
@@ -133,7 +138,9 @@ const ButtonStyled = styled.button`
       margin: 0 0 18px auto;
 
       background-color: ${colors.LightGrey};
+      border: 1px solid ${colors.ButtonBorder};
       color: ${colors.MainTextColor};
+      padding: 0px 10px;
 
       font-size: 12px;
       line-height: 34px;

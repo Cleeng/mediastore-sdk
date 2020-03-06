@@ -57,12 +57,12 @@ class Register extends Component {
             {t('Have an account?')}
           </Button>
           <SocialStyled>
-            <SeparatorStyled>{t('Or')}</SeparatorStyled>
+            <SeparatorStyled>{t('Or sign up with')}</SeparatorStyled>
             <Button variant="google" label="Sign up with Google">
-              {t('Sign up with Google')}
+              Google
             </Button>
             <Button variant="fb" label="Sign up with Facebook">
-              {t('Sign up with Facebook')}
+              Facebook
             </Button>
           </SocialStyled>
         </ContentWrapperStyled>

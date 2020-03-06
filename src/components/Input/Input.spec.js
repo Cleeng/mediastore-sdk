@@ -13,7 +13,6 @@ describe('Input', () => {
       const inputElement = wrapper.find(InputElementStyled);
       expect(inputElement).toHaveLength(1);
       expect(inputElement.props().type).toBe('text');
-      expect(inputElement.props().placeholder).toBe('');
       expect(inputElement.props().autoComplete).toBe('off');
     });
   });

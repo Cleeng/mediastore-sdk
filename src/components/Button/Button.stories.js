@@ -21,8 +21,9 @@ storiesOf('Button', module)
   ))
   .add('Default', () => <Button>Default button</Button>)
   .add('Secondary', () => <Button variant="secondary">Secondary button</Button>)
-  .add('Google', () => <Button variant="google" />)
-  .add('Fb', () => <Button variant="fb" />)
+  .add('Google', () => <Button variant="google">Google</Button>)
+  .add('Fb', () => <Button variant="fb">Facebook </Button>)
   .add('CreditCard', () => <Button variant="creditcard">Credit card</Button>)
   .add('Link', () => <Button variant="link">Link button</Button>)
-  .add('Back', () => <Button variant="back">Back</Button>);
+  .add('Back', () => <Button variant="back">Back</Button>)
+  .add('Apply coupon', () => <Button variant="couponApply">Apply</Button>);

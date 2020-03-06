@@ -4,7 +4,7 @@ import { ErrorColor } from 'styles/variables';
 export const ConsentsWrapperStyled = styled.div`
   position: relative;
 
-  margin-top: 30px;
+  margin-top: 20px;
 
   font-family: 'Geomanist';
   font-weight: 300;

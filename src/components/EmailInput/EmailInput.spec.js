@@ -16,12 +16,10 @@ describe('EmailInput', () => {
       const inputComponent = wrapper.find(Input);
       expect(inputComponent).toHaveLength(1);
       expect(inputComponent.props().value).toBe('');
-      expect(inputComponent.props().icon).toBe('test-file-stub');
 
       const inputElement = wrapper.find(InputElementStyled);
       expect(inputElement).toHaveLength(1);
       expect(inputElement.props().type).toBe('email');
-      expect(inputElement.props().placeholder).toBe('Email');
       expect(inputElement.props().autoComplete).toBe('off');
     });
 
