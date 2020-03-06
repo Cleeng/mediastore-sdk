@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
 import saveOfferId from '../../util/offerIdHelper';
+import savePublisherId from '../../util/publisherIdHelper';
 import labeling from '../../containers/labeling';
 import Auth from '../../services/auth';
 
@@ -28,6 +29,7 @@ class Login extends Component {
   componentDidMount() {
     const { urlProps } = this.props;
     saveOfferId(urlProps.location, this.setOfferId);
+    savePublisherId(urlProps.location, () => {});
     Auth.isLogged();
   }
 
