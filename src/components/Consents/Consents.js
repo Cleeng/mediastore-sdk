@@ -1,7 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import getConsentsRequest from '../../api/getConsents';
-import { ConsentsWrapperStyled, ConsentsErrorStyled } from './ConsentsStyled';
+import {
+  ConsentsWrapperStyled,
+  ConsentsErrorStyled,
+  InvisibleLegend
+} from './ConsentsStyled';
 import Loader from '../Loader';
 import Checkbox from '../Checkbox';
 
@@ -20,18 +24,18 @@ export class Consents extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { offerId } = this.props;
+    const { publisherId } = this.props;
 
-    if (prevProps.offerId !== offerId) {
-      this.getConsents(offerId).then(() => {
+    if (prevProps.publisherId !== publisherId) {
+      this.getConsents(publisherId).then(() => {
         this.validateConsents();
       });
     }
   }
 
-  getConsents = async offerId => {
+  getConsents = async publisherId => {
     try {
-      const consentsIncome = await getConsentsRequest(offerId);
+      const consentsIncome = await getConsentsRequest(publisherId);
       if (consentsIncome.responseData && consentsIncome.responseData.consents) {
         const consentsDetails = consentsIncome.responseData.consents.map(
           element => {
@@ -108,17 +112,20 @@ export class Consents extends React.Component {
         {!consentLoaded ? (
           <Loader />
         ) : (
-          consentDefinitions.map((consent, index) => (
-            <Checkbox
-              onClickFn={() => this.changeConsentState(index)}
-              checked={checked[index]}
-              error={error}
-              key={String(index)}
-              required={consent.required && !checked[index]}
-            >
-              {consentsLabels[index]}
-            </Checkbox>
-          ))
+          <fieldset>
+            <InvisibleLegend>Consents </InvisibleLegend>
+            {consentDefinitions.map((consent, index) => (
+              <Checkbox
+                onClickFn={() => this.changeConsentState(index)}
+                checked={checked[index]}
+                error={error}
+                key={String(index)}
+                required={consent.required && !checked[index]}
+              >
+                {consentsLabels[index]}
+              </Checkbox>
+            ))}
+          </fieldset>
         )}
         {error && <ConsentsErrorStyled>{error}</ConsentsErrorStyled>}
       </ConsentsWrapperStyled>
@@ -127,14 +134,14 @@ export class Consents extends React.Component {
 }
 
 Consents.propTypes = {
-  offerId: PropTypes.string,
+  publisherId: PropTypes.string,
   error: PropTypes.string,
   onChangeFn: PropTypes.func,
   t: PropTypes.func
 };
 
 Consents.defaultProps = {
-  offerId: '',
+  publisherId: '',
   error: '',
   onChangeFn: () => {},
   t: k => k

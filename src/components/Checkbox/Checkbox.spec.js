@@ -33,5 +33,13 @@ describe('<Checkbox/>', () => {
       wrapper.simulate('click');
       expect(clickFn).toHaveBeenCalledTimes(1);
     });
+    it('should call onClickFn when press Enter on checkbox', () => {
+      const clickFn = jest.fn();
+      const wrapper = shallow(<Checkbox onClickFn={clickFn} />);
+      const checkbox = wrapper.find(CheckFrameStyled);
+      expect(clickFn).not.toHaveBeenCalled();
+      checkbox.simulate('keyDown', { keyCode: 32 });
+      expect(clickFn).toHaveBeenCalledTimes(1);
+    });
   });
 });

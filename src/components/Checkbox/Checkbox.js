@@ -13,10 +13,16 @@ const Checkbox = ({ children, onClickFn, error, checked, required }) => (
     role="checkbox"
     tabIndex="-1"
     aria-checked="false"
-    onKeyDown={() => {}}
     checked={checked}
+    aria-label={children}
   >
-    <CheckFrameStyled error={error && required && !checked}>
+    <CheckFrameStyled
+      error={error && required && !checked}
+      tabIndex="0"
+      onKeyDown={e => {
+        return e.keyCode === 32 ? onClickFn() : null;
+      }}
+    >
       {checked && <CheckMarkStyled />}
     </CheckFrameStyled>
     <ConsentDefinitionStyled dangerouslySetInnerHTML={{ __html: children }} />

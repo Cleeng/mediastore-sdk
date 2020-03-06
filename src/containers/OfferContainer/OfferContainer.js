@@ -71,6 +71,9 @@ class OfferContainer extends Component {
   setOfferId = value => this.setState({ offerId: value });
 
   onCouponSubmit = couponCode => {
+    if (couponCode === '') {
+      return;
+    }
     this.setState({
       couponProps: {
         couponLoading: true
@@ -79,10 +82,8 @@ class OfferContainer extends Component {
     const {
       orderDetails: { id }
     } = this.state;
-    const paymentId = localStorage.getItem('CLEENG_PAYMENT_METHOD_ID');
     updateOrder(id, {
-      couponCode,
-      paymentMethodId: Number(paymentId)
+      couponCode
     }).then(result => {
       if (result.errors.length) {
         this.setState({
@@ -122,7 +123,7 @@ class OfferContainer extends Component {
         return <ErrorPage type="cannotPurchase" />;
       }
       if (
-        error.includes('does not exist.') ||
+        error.includes(`doesn't exist.`) ||
         error.includes('Invalid param offerId') ||
         error.includes('Offer not set')
       ) {

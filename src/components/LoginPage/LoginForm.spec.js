@@ -5,6 +5,7 @@ import EmailInput from '../EmailInput/EmailInput';
 import LoginForm from './LoginForm';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import loginCustomerRequest from '../../api/loginCustomer';
+import Auth from '../../services/auth';
 
 jest.mock('../../api/loginCustomer');
 const mockLoginFetch = jest.fn();
@@ -23,7 +24,6 @@ const onSubmitMock = jest.fn().mockImplementation(
       resolve(false);
     })
 );
-jest.spyOn(window.localStorage.__proto__, 'setItem'); // eslint-disable-line
 const jwtMock =
   'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNjkwNjI0MjU1IiwicHVibGlzaGVySWQiOjEyMDM1NTU1OX0.EvaMwJ1ZtGR4TNujmROVxiXhiHxzTOp0vgCJPoScXW2bBSroAGsm8kLe-ivnqQ9xoiHJWtDRYZGLKSGASFVuo0bqJT2ZzVEohvCPRwMke0R87p_eaTztWvAUjhbUP0Dk9xo8_AeDvEIDmGln_NXJvTTn6EqU_Xk2Zq3W29_WtbEOjfPplCp49gerR_VpnWA36yTUhfF2sWA1ir0F2HymsDvoQ_6dc8t7nENdslJY08kW-_mSQgj4SbOf4uXgiKAlPU8x3LWzUbO9uFF-eAND7hrJGM-FIWcJreW92DRXmuUMBfe_ws9KXzv-F5gKVcuz7qOpyykkJtZSBvFQJtKMaw';
 
@@ -137,7 +137,7 @@ describe('LoginForm', () => {
     });
   });
   describe('@onSubmit', () => {
-    it('should call onSubmit cb when fields valid', done => {
+    it('should login when fields valid', done => {
       loginCustomerRequest.mockImplementationOnce(
         mockLoginFetch.mockResolvedValue({
           status: 200,
@@ -146,19 +146,18 @@ describe('LoginForm', () => {
       );
 
       onSubmitMock.mockClear();
-      const wrapper = shallow(
-        <LoginForm offerId="S649095045_PL" onLoginComplete={onSubmitMock} />
-      );
+      Auth.login = jest.fn();
+      const wrapper = shallow(<LoginForm offerId="S649095045_PL" />);
       const instance = wrapper.instance();
       const preventDefaultMock = jest.fn();
 
       instance.setState({
-        email: 'john@example.com',
+        email: mockEmailValue,
         password: 'testtest123',
         captcha: 'f979c2ff515d921c34af9bd2aee8ef076b719d03'
       });
 
-      expect(onSubmitMock).not.toHaveBeenCalled();
+      expect(Auth.login).not.toHaveBeenCalled();
       wrapper.simulate('submit', { preventDefault: preventDefaultMock });
 
       expect(preventDefaultMock).toHaveBeenCalledTimes(1);
@@ -166,11 +165,9 @@ describe('LoginForm', () => {
         expect(instance.state.errors.email).toBe('');
         expect(instance.state.errors.password).toBe('');
         expect(instance.state.generalError).toBe('');
-        expect(localStorage.setItem).toHaveBeenCalledWith(
-          'CLEENG_AUTH_TOKEN',
-          jwtMock
-        );
-        expect(onSubmitMock).toHaveBeenCalled();
+        expect(Auth.login).toHaveBeenCalled();
+        expect(Auth.login).toHaveBeenCalledTimes(1);
+        expect(Auth.login).toHaveBeenCalledWith(mockEmailValue, jwtMock);
         done();
       });
     });
@@ -178,7 +175,7 @@ describe('LoginForm', () => {
     it('should set general error when customer doesnt exist', done => {
       loginCustomerRequest.mockImplementationOnce(
         mockLoginFetch.mockResolvedValue({
-          status: 422
+          status: 423
         })
       );
       onSubmitMock.mockClear();
@@ -202,6 +199,40 @@ describe('LoginForm', () => {
         expect(instance.state.errors.email).toBe('');
         expect(instance.state.errors.password).toBe('');
         expect(instance.state.generalError).toBe('Wrong email or password');
+        expect(onSubmitMock).not.toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should set general error when captcha info doesnt match', done => {
+      loginCustomerRequest.mockImplementationOnce(
+        mockLoginFetch.mockResolvedValue({
+          status: 429
+        })
+      );
+      onSubmitMock.mockClear();
+      const wrapper = shallow(
+        <LoginForm offerId="S649095045_PL" onLoginComplete={onSubmitMock} />
+      );
+      const instance = wrapper.instance();
+      const preventDefaultMock = jest.fn();
+
+      instance.setState({
+        email: 'john@example.com',
+        password: 'testtest123',
+        captcha: ''
+      });
+
+      expect(onSubmitMock).not.toHaveBeenCalled();
+      wrapper.simulate('submit', { preventDefault: preventDefaultMock });
+
+      expect(preventDefaultMock).toHaveBeenCalledTimes(1);
+      setImmediate(() => {
+        expect(instance.state.errors.email).toBe('');
+        expect(instance.state.errors.password).toBe('');
+        expect(instance.state.generalError).toBe(
+          "Sorry, the captcha information doesn't match. Please try again"
+        );
         expect(onSubmitMock).not.toHaveBeenCalled();
         done();
       });

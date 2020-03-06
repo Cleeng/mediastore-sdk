@@ -5,9 +5,15 @@ import RegisterForm from './RegisterForm';
 import Consent from '../Consents';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import registerCustomerRequest from '../../api/registerCustomer';
+import getCustomerLocalesRequest from '../../api/getCustomerLocales';
+import submitConsentsRequest from '../../api/submitConsents';
+import Auth from '../../services/auth';
 
 jest.mock('../../api/registerCustomer');
+jest.mock('../../api/getCustomerLocales');
+jest.mock('../../api/submitConsents');
 const mockRegisterFetch = jest.fn();
+const mockLocalesFetch = jest.fn();
 const mockInputValue = 'MOCK_INPUT_VALUE11';
 const mockEmailValue = 'mockmail@mock.com';
 const mockNotValidEmail = 'mock';
@@ -170,6 +176,15 @@ describe('RegisterForm', () => {
     });
 
     it('should set general error when request failed', done => {
+      getCustomerLocalesRequest.mockImplementationOnce(
+        mockLocalesFetch.mockResolvedValue({
+          responseData: {
+            locale: 'pl_PL',
+            country: 'PL',
+            currency: 'EUR'
+          }
+        })
+      );
       registerCustomerRequest.mockImplementationOnce(
         mockRegisterFetch.mockResolvedValue({
           status: 429
@@ -199,17 +214,10 @@ describe('RegisterForm', () => {
       });
     });
 
-    it('should call onSubmit cb when fields valid', done => {
-      registerCustomerRequest.mockImplementationOnce(
-        mockRegisterFetch.mockResolvedValue({
-          status: 200,
-          responseData: {
-            jwt: jwtMock
-          }
-        })
+    it('should set general error when getLocales failed', done => {
+      getCustomerLocalesRequest.mockImplementationOnce(
+        mockLocalesFetch.mockResolvedValue({})
       );
-      onSubmitMock.mockClear();
-
       const wrapper = shallow(
         <RegisterForm
           onRegistrationComplete={onSubmitMock}
@@ -223,8 +231,47 @@ describe('RegisterForm', () => {
         email: 'john@example.com',
         password: 'testtest123'
       });
+      wrapper.simulate('submit', {
+        preventDefault: preventDefaultMock
+      });
 
-      expect(onSubmitMock).not.toHaveBeenCalled();
+      setImmediate(() => {
+        expect(instance.state.generalError).toBe('An error occurred.');
+        done();
+      });
+    });
+
+    it('should call onSubmit cb when fields valid', done => {
+      getCustomerLocalesRequest.mockImplementationOnce(
+        mockLocalesFetch.mockResolvedValue({
+          responseData: {
+            locale: 'pl_PL',
+            country: 'PL',
+            currency: 'EUR'
+          }
+        })
+      );
+      registerCustomerRequest.mockImplementationOnce(
+        mockRegisterFetch.mockResolvedValue({
+          status: 200,
+          responseData: {
+            jwt: jwtMock
+          }
+        })
+      );
+
+      const wrapper = shallow(<RegisterForm offerId="S705970293_NL" />);
+      const instance = wrapper.instance();
+      const preventDefaultMock = jest.fn();
+      Auth.login = jest.fn();
+      instance.setState({
+        email: mockEmailValue,
+        password: 'testtest123',
+        consents: mockConsentValue,
+        consentDefinitions: mockConsentDefinitions
+      });
+
+      expect(Auth.login).not.toHaveBeenCalled();
       wrapper.simulate('submit', {
         preventDefault: preventDefaultMock
       });
@@ -235,28 +282,34 @@ describe('RegisterForm', () => {
         expect(instance.state.errors.email).toBe('');
         expect(instance.state.errors.password).toBe('');
         expect(instance.state.generalError).toBe('');
-        expect(localStorage.setItem).toHaveBeenCalled();
-        expect(localStorage.setItem).toHaveBeenCalledWith(
-          'CLEENG_AUTH_TOKEN',
-          jwtMock
+        expect(Auth.login).toHaveBeenCalled();
+        expect(Auth.login).toHaveBeenCalledTimes(1);
+        expect(Auth.login).toHaveBeenCalledWith(
+          mockEmailValue,
+          jwtMock,
+          submitConsentsRequest,
+          [mockConsentValue, mockConsentDefinitions]
         );
-        expect(onSubmitMock).toHaveBeenCalled();
         done();
       });
     });
 
     it('should set general error when customer already exists', done => {
+      getCustomerLocalesRequest.mockImplementationOnce(
+        mockLocalesFetch.mockResolvedValue({
+          responseData: {
+            locale: 'pl_PL',
+            country: 'PL',
+            currency: 'EUR'
+          }
+        })
+      );
       registerCustomerRequest.mockImplementationOnce(
         mockRegisterFetch.mockResolvedValue({
           status: 422
         })
       );
-      const wrapper = shallow(
-        <RegisterForm
-          onRegistrationComplete={onSubmitMock}
-          offerId="S705970293_NL"
-        />
-      );
+      const wrapper = shallow(<RegisterForm offerId="S705970293_NL" />);
       const instance = wrapper.instance();
 
       instance.setState({
@@ -270,25 +323,6 @@ describe('RegisterForm', () => {
         expect(instance.state.generalError).toBe('Customer already exists.');
         done();
       });
-    });
-
-    it('should submit form on enter', () => {
-      const wrapper = mount(
-        <RegisterForm
-          onRegistrationComplete={onSubmitMock}
-          offerId="S705970293_NL"
-        />
-      );
-      const instance = wrapper.instance();
-
-      instance.setState({
-        email: 'john@example.com',
-        password: 'testtest123'
-      });
-
-      const enterEvent = new KeyboardEvent('keydown', { keyCode: 13 });
-      document.dispatchEvent(enterEvent);
-      expect(onSubmitMock).toHaveBeenCalled();
     });
   });
 });

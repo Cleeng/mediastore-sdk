@@ -2,11 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import 'jest-styled-components';
 import PasswordInput from './PasswordInput';
-import {
-  InputElementStyled,
-  ErrorWrapper,
-  MessageStyled
-} from '../Input/InputStyled';
+import { InputElementStyled, ErrorWrapper } from '../Input/InputStyled';
 import Input from '../Input';
 
 jest.useFakeTimers();
@@ -34,10 +30,8 @@ describe('PasswordInput', () => {
     it('should show error message', () => {
       const wrapper = mount(<PasswordInput error={ERROR_MESSAGE} />);
       const errorWrapper = wrapper.find(ErrorWrapper);
-      const messageWrapper = wrapper.find(MessageStyled);
 
       expect(errorWrapper).toHaveLength(1);
-      expect(messageWrapper).toHaveLength(0);
       expect(errorWrapper.text()).toBe(ERROR_MESSAGE);
     });
 

@@ -1,9 +1,6 @@
 import styled, { css } from 'styled-components';
-import failIcon from 'assets/images/input/fail.svg';
-import successIcon from 'assets/images/input/success.svg';
 import * as Colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
-import { MESSAGE_TYPE_SUCCESS } from './InputConstants';
 
 export const InputComponentStyled = styled.div`
   display: flex;
@@ -22,7 +19,7 @@ export const InputElementWrapperStyled = styled.div`
   padding: 15px 0 13px;
 
   background: white;
-  border-bottom: 1px solid ${Colors.LightGrey};
+  border-bottom: 1px solid ${Colors.MediumGrey};
   transition: .2s ease-in-out;
   ${props =>
     !props.passwordStrength &&
@@ -41,7 +38,7 @@ export const InputElementWrapperStyled = styled.div`
   ${props =>
     props.error &&
     css`
-      border-bottom-color: ${Colors.ErrorOffer};
+      border-bottom-color: ${Colors.ErrorColor};
     `}
 
   ${props =>
@@ -49,16 +46,6 @@ export const InputElementWrapperStyled = styled.div`
     css`
       &::before {
         content: url(${props.icon});
-      }
-    `};
-
-  ${props =>
-    props.showMessage &&
-    css`
-      &::after {
-        content: url(${props.messageType === MESSAGE_TYPE_SUCCESS
-          ? successIcon
-          : failIcon});
       }
     `};
 
@@ -76,12 +63,7 @@ export const InputElementStyled = styled.input`
 
   margin: 0 15px;
 
-  color: ${Colors.MainTextColor};
-  ${props =>
-    props.readOnly &&
-    css`
-      opacity: 0.5;
-    `}
+  color: ${Colors.InputText};
   border: none;
   outline: none;
 
@@ -93,22 +75,6 @@ export const InputElementStyled = styled.input`
   `}
 `;
 
-export const MessageStyled = styled.div`
-  padding: 10px;
-
-  background-color: ${Colors.MediumGrey};
-  color: ${props =>
-    props.messageType === MESSAGE_TYPE_SUCCESS
-      ? Colors.PassOffer
-      : Colors.ErrorOffer};
-  border-radius: 5px;
-
-  font-size: 12px;
-
-  opacity: ${props => (props.showMessage ? 1 : 0)};
-  transition: opacity 250ms linear;
-`;
-
 export const ErrorWrapper = styled.div`
   position: absolute;
   top: 57px;
@@ -116,7 +82,7 @@ export const ErrorWrapper = styled.div`
   width: 100%;
 
   content: '';
-  color: ${Colors.ErrorOffer};
+  color: ${Colors.ErrorColor};
   transition: 0.2s ease-in-out;
 
   ${props =>
@@ -126,7 +92,7 @@ export const ErrorWrapper = styled.div`
     `}
 
   font-family: 'Geomanist';
-  font-size: 12px;
+  font-size: 13px;
   text-align: left;
 `;
 
@@ -157,7 +123,8 @@ export const StyledButton = styled.button`
     opacity: 0;
     transition: opacity 0.3s ease;
   }
-  &:hover::after {
+  &:hover::after,
+  &:focus::after {
     opacity: 1;
   }
 `;

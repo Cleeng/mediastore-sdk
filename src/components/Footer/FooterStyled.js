@@ -11,14 +11,14 @@ export const FooterStyled = styled.footer`
   width: 100%;
   padding: 10px;
 
-  background-color: ${colors.MediumGrey};
+  background-color: ${colors.LightGrey};
 `;
 
 export const ProductByStyled = styled.span`
   display: flex;
   align-items: center;
 
-  color: ${colors.LighterGrey};
+  color: ${colors.MainTextColor};
 
   font-size: 12px;
   font-family: 'Geomanist';
@@ -29,7 +29,7 @@ export const ProductByStyled = styled.span`
 `;
 
 export const SecurityStyled = styled.div`
-  color: ${colors.PassOffer};
+  color: ${colors.MainColor};
 
   font-family: 'Geomanist';
   font-size: 14px;

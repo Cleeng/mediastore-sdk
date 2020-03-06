@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getPaymentMethods, submitPayment, updateOrder } from 'api';
-import Button, { BUTTON_TYPE } from 'components/Button/Button';
+import Button, { BUTTON_VARIANT } from 'components/Button/Button';
 import Adyen from 'components/Adyen';
 import {
   PaymentStyled,
@@ -85,7 +85,7 @@ class Payment extends Component {
                 this.setState({ isPaymentFormDisplayed: true });
                 this.choosePaymentMethod(method.id);
               }}
-              variant={BUTTON_TYPE.PAYMENT}
+              variant={BUTTON_VARIANT.PAYMENT}
               disabled={method.methodName === 'paypal'}
             >
               {method.logoUrl ? (

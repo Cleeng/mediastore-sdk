@@ -15,6 +15,7 @@ import EmailInput from '../EmailInput/EmailInput';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import validateEmailField from '../EmailInput/EmailHelper';
 import { validatePasswordField } from '../PasswordInput/PasswordHelper';
+import Auth from '../../services/auth';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -128,17 +129,23 @@ class LoginForm extends Component {
         processing: true
       });
       const { email, password, captcha } = this.state;
-      const { onLoginComplete, t } = this.props;
+      const { t } = this.props;
       const response = await loginCustomer(email, password, offerId, captcha);
       if (response.status === 200) {
-        localStorage.setItem('CLEENG_AUTH_TOKEN', response.responseData.jwt);
-        localStorage.setItem('CLEENG_CUSTOMER_EMAIL', email);
-        onLoginComplete();
-      } else if (response.status === 401 || response.status === 422) {
+        Auth.login(email, response.responseData.jwt);
+      } else if (response.status === 401 || response.status === 423) {
         this.checkCaptcha();
         this.setState({
           processing: false,
           generalError: t('Wrong email or password')
+        });
+      } else if (response.status === 429) {
+        this.checkCaptcha();
+        this.setState({
+          processing: false,
+          generalError: t(
+            "Sorry, the captcha information doesn't match. Please try again"
+          )
         });
       } else {
         this.checkCaptcha();
@@ -193,7 +200,7 @@ class LoginForm extends Component {
           </>
         )}
         <Button type="submit" disabled={processing}>
-          {processing ? <Loader buttonLoader /> : t('Log in')}
+          {processing ? <Loader buttonLoader white /> : t('Log in')}
         </Button>
       </FromStyled>
     );
@@ -202,12 +209,10 @@ class LoginForm extends Component {
 
 LoginForm.propTypes = {
   offerId: PropTypes.string.isRequired,
-  onLoginComplete: PropTypes.func,
   t: PropTypes.func,
   setOfferError: PropTypes.func
 };
 LoginForm.defaultProps = {
-  onLoginComplete: () => {},
   t: k => k,
   setOfferError: () => {}
 };
