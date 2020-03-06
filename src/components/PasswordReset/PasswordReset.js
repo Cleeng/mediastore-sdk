@@ -83,7 +83,11 @@ class PasswordReset extends Component {
               onChange={v => this.setState({ value: v })}
             />
             <Button type="submit" disabled={processing}>
-              {processing ? <Loader buttonLoader white /> : t('Reset Password')}
+              {processing ? (
+                <Loader buttonLoader color="#ffffff" />
+              ) : (
+                t('Reset Password')
+              )}
             </Button>
           </FormStyled>
         </PasswordResetPageStyled>

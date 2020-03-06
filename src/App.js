@@ -2,6 +2,8 @@
 import React, { Suspense } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import Register from 'components/RegisterPage/Register';
+import { Provider } from 'react-redux';
+import store from 'redux/store';
 import { AppStyled, AppContentStyled } from './AppStyled';
 import history from './history';
 import './i18NextInit';
@@ -15,6 +17,7 @@ import RedirectWithQuery from './components/RedirectWithQuery';
 import Loader from './components/Loader';
 import PrivateRoute from './services/privateRoute';
 import PublicRoute from './services/publicRoute';
+import MyAccount from './containers/MyAccount/MyAccount.container';
 
 const App = () => {
   const path = history.location.hash.slice(1);
@@ -70,6 +73,14 @@ const App = () => {
               <PrivateRoute
                 path="/thankyou"
                 component={() => <ThankYouPage />}
+              />
+              <Route
+                path="/my-account"
+                render={({ match }) => (
+                  <Provider store={store}>
+                    <MyAccount routeMatch={match} />
+                  </Provider>
+                )}
               />
               <Route
                 path="*"

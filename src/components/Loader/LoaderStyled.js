@@ -23,7 +23,7 @@ export const LoaderStyled = styled.div`
     position: absolute;
     width: 5px;
     height: 5px;
-    background: #d4d4d4;
+    background: ${props => (props.color ? props.color : '#d4d4d4')};
     border-radius: 50%;
     animation: ${LoaderKeyframeStyled} 1.2s linear infinite;
 
