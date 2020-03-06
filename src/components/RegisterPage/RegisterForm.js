@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import submitConsents from 'api/submitConsents';
 import Consent, { validateConsentsField } from '../Consents';
 import { FromStyled, FormErrorStyled } from '../LoginPage/LoginStyled';
 import Loader from '../Loader/Loader';
@@ -9,6 +10,8 @@ import PasswordInput from '../PasswordInput/PasswordInput';
 import validateEmailField from '../EmailInput/EmailHelper';
 import { validateRegisterPassword } from '../PasswordInput/PasswordHelper';
 import registerCustomer from '../../api/registerCustomer';
+import getCustomerLocales from '../../api/getCustomerLocales';
+import Auth from '../../services/auth';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -28,16 +31,6 @@ class RegisterForm extends Component {
       processing: false
     };
   }
-
-  componentDidMount() {
-    document.addEventListener('keydown', this.submitOnEnter, false);
-  }
-
-  submitOnEnter = e => {
-    if (e.keyCode === 13) {
-      this.handleSubmit(e);
-    }
-  };
 
   handleClickShowPassword = e => {
     e.preventDefault();
@@ -100,8 +93,8 @@ class RegisterForm extends Component {
   };
 
   register = async () => {
-    const { email, password, consents } = this.state;
-    const { onRegistrationComplete, offerId, setOfferError, t } = this.props;
+    const { email, password, consents, consentDefinitions } = this.state;
+    const { offerId, setOfferError, t } = this.props;
     if (!offerId) {
       setOfferError(true);
       return false;
@@ -109,11 +102,28 @@ class RegisterForm extends Component {
     this.setState({
       processing: true
     });
-    const response = await registerCustomer(email, password, offerId, consents);
+    const localesResponse = await getCustomerLocales();
+    if (!localesResponse.responseData) {
+      this.setState({
+        processing: false,
+        generalError: t('An error occurred.')
+      });
+      return false;
+    }
+    const locales = localesResponse.responseData;
+    const response = await registerCustomer(
+      email,
+      password,
+      offerId,
+      locales.locale,
+      locales.country,
+      locales.currency
+    );
     if (response.status === 200) {
-      localStorage.setItem('CLEENG_AUTH_TOKEN', response.responseData.jwt);
-      localStorage.setItem('CLEENG_CUSTOMER_EMAIL', email);
-      onRegistrationComplete();
+      Auth.login(email, response.responseData.jwt, submitConsents, [
+        consents,
+        consentDefinitions
+      ]);
     } else if (response.status === 422) {
       this.setState({
         processing: false,
@@ -148,7 +158,7 @@ class RegisterForm extends Component {
       showPassword,
       processing
     } = this.state;
-    const { offerId, t } = this.props;
+    const { publisherId, t } = this.props;
 
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
@@ -174,12 +184,12 @@ class RegisterForm extends Component {
         />
         <Consent
           t={t}
-          offerId={offerId}
+          publisherId={publisherId}
           error={errors.consents}
           onChangeFn={this.handleConsentsChange}
         />
         <Button type="submit" disabled={processing}>
-          {processing ? <Loader buttonLoader /> : t('Register')}
+          {processing ? <Loader buttonLoader white /> : t('Register')}
         </Button>
       </FromStyled>
     );
@@ -187,15 +197,15 @@ class RegisterForm extends Component {
 }
 
 RegisterForm.propTypes = {
-  onRegistrationComplete: PropTypes.func,
   offerId: PropTypes.string,
+  publisherId: PropTypes.string,
   setOfferError: PropTypes.func,
   t: PropTypes.func
 };
 
 RegisterForm.defaultProps = {
-  onRegistrationComplete: () => {},
   offerId: '',
+  publisherId: '',
   setOfferError: () => {},
   t: k => k
 };

@@ -1,3 +1,4 @@
+/* istanbul ignore file */
 import React, { Suspense } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import Register from 'components/RegisterPage/Register';
@@ -12,12 +13,10 @@ import ErrorPage from './components/ErrorPage';
 import PasswordResetSuccess from './components/PasswordResetSuccess';
 import RedirectWithQuery from './components/RedirectWithQuery';
 import Loader from './components/Loader';
+import PrivateRoute from './services/privateRoute';
+import PublicRoute from './services/publicRoute';
 
 const App = () => {
-  const onLoginComplete = () => history.push(`/offer/`);
-
-  const onRegistrationComplete = () => history.push(`/offer`);
-
   const path = history.location.hash.slice(1);
   if (path) {
     history.replace(path);
@@ -29,26 +28,16 @@ const App = () => {
         <AppStyled>
           <AppContentStyled>
             <Switch>
-              <Route path="/" exact component={RedirectWithQuery} />
-              <Route
+              <PublicRoute path="/" exact component={RedirectWithQuery} />
+              <PublicRoute
                 path="/login"
-                component={urlProps => (
-                  <Login
-                    onLoginComplete={onLoginComplete}
-                    urlProps={urlProps}
-                  />
-                )}
+                component={urlProps => <Login urlProps={urlProps} />}
               />
-              <Route
+              <PublicRoute
                 path="/register"
-                component={urlProps => (
-                  <Register
-                    onRegistrationComplete={onRegistrationComplete}
-                    urlProps={urlProps}
-                  />
-                )}
+                component={urlProps => <Register urlProps={urlProps} />}
               />
-              <Route
+              <PublicRoute
                 path="/reset-password/"
                 component={urlProps => (
                   <PasswordReset
@@ -61,16 +50,15 @@ const App = () => {
                   />
                 )}
               />
-              <Route
+              <PublicRoute
                 path="/password-reset-success/:email"
-                render={({ match }) => {
-                  const email = decodeURIComponent(
-                    (match && match.params && match.params.email) || ''
-                  );
-                  return <PasswordResetSuccess email={email} />;
-                }}
+                component={urlProps => (
+                  <PasswordResetSuccess
+                    email={decodeURIComponent(urlProps.match.params.email)}
+                  />
+                )}
               />
-              <Route
+              <PrivateRoute
                 path="/offer"
                 component={urlProps => (
                   <OfferContainer
@@ -79,9 +67,10 @@ const App = () => {
                   />
                 )}
               />
-              <Route path="/thankyou">
-                <ThankYouPage />
-              </Route>
+              <PrivateRoute
+                path="/thankyou"
+                component={() => <ThankYouPage />}
+              />
               <Route
                 path="*"
                 render={() => {

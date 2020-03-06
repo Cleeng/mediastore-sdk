@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import * as colors from '../../styles/variables';
 import { media } from '../../styles/BreakPoints';
 
-export const ContentWrapperStyled = styled.div`
+export const ContentWrapperStyled = styled.main`
   position: relative;
 
   width: 55%;
@@ -56,7 +56,7 @@ export const SeparatorStyled = styled.div`
 
   padding: 20px 0;
 
-  color: ${colors.LighterGrey};
+  color: ${colors.MainTextColor};
 
   text-align: center;
   font-size: 13px;
@@ -73,7 +73,7 @@ export const SeparatorStyled = styled.div`
     height: 1px;
     width: 40%;
 
-    background-color: ${colors.LighterGrey};
+    background-color: ${colors.MediumGrey};
   }
   &::before {
     right: 20%;
@@ -91,9 +91,10 @@ export const FormErrorStyled = styled.div`
   top: -15px;
   width: 100%;
 
-  color: ${colors.Error};
+  color: ${colors.ErrorColor};
 
-  font-size: 12px;
+  font-size: 13px;
+  font-weight: 600;
   font-family: 'Geomanist';
 `;
 
@@ -110,12 +111,10 @@ export const StyledErrorDiv = styled.div`
   position: relative;
   top: -20px;
   left: 5px;
-  height: 0;  
   width: 100%;  
-  color: ${colors.Error};
+  color: ${colors.ErrorColor};
   text-align: left;
-  font-size: 11px;
-  font-weight: 300;
+  font-size: 13px;
   font-family: 'Geomanist';
   overflow: visible;
   ${props =>

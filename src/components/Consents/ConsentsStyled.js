@@ -1,11 +1,13 @@
 import styled from 'styled-components';
-import { ErrorOffer } from 'styles/variables';
+import { ErrorColor } from 'styles/variables';
 
 export const ConsentsWrapperStyled = styled.div`
   position: relative;
+
+  margin-top: 30px;
+
   font-family: 'Geomanist';
   font-weight: 300;
-  margin-top: 30px;
 
   & button {
     margin-top: 35px;
@@ -17,10 +19,26 @@ export const ConsentsWrapperStyled = styled.div`
 `;
 
 export const ConsentsErrorStyled = styled.div`
-  color: ${ErrorOffer};
-  font-family: 'Geomanist';
-  font-size: 12px;
-  width: 100%;
   position: absolute;
   bottom: -21px;
+
+  width: 100%;
+
+  color: ${ErrorColor};
+
+  font-family: 'Geomanist';
+  font-size: 13px;
+`;
+
+export const InvisibleLegend = styled.legend`
+  position: absolute;
+  clip: rect(0 0 0 0);
+
+  height: 1px;
+  width: 1px;
+
+  margin: -1px;
+  padding: 0;
+
+  overflow: hidden;
 `;

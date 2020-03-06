@@ -17,5 +17,6 @@
   "Wrong email or password": "Wrong email or password",
   "Have an account?": "Have an account?",
   "Email": "Email",
-  "Password": "Password"
+  "Password": "Password",
+  "Sorry, the captcha information doesn't match. Please try again": "Sorry, the captcha information doesn't match. Please try again"
 }

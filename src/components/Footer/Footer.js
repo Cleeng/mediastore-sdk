@@ -8,11 +8,11 @@ const Footer = () => (
     <ProductByStyled>
       Powered by
       <a href="https://cleeng.com" rel="noopener noreferrer" target="_blank">
-        <img src={logo} alt="Powered by Cleeng" />
+        <img src={logo} alt="Cleeng" />
       </a>
     </ProductByStyled>
     <SecurityStyled>
-      <img src={security} alt="secured" />
+      <img src={security} alt="" />
       Secured checkout
     </SecurityStyled>
   </FooterStyled>

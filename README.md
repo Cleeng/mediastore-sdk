@@ -1,14 +1,42 @@
 # Web Store SDK
 
-An example sign-up process for SVOD using Cleeng API.
+A best practices checkout example using Cleeng API. Webstore SDK consists of components that will empower you to build and design a seamless checkout process and help visitors become subscribers to your service in an intuitive and trusted manner.
 
-This repo contains example app as a set of instructions and code snippets for the web to help implement tailored and custom checkout.
+This repo contains an example app as a set of instructions and code snippets for the web to help implement tailored and custom checkout.
 
 To check Cleeng API documentation, visit [Cleeng Developers](https://developers.cleeng.com/reference).
 
 It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Environments
+## Features
+
+This ultimate checkout application is implemented as a full flow for a user, with payment by card (with Adyen). This payment method can be replaced by others. Our checkout flow contains 3 main blocks:
+
+1. Authentication - login form, the registration form (with consents approval) and ability to reset a password
+2. Offer/Product display - offer details display with information about the trial, coupon codes application and price breakdown
+3. Payment - dynamically loaded payment methods with Adyen integration (as an example payment integration) and thank you page after successful offer purchase
+
+### Architecture overview
+
+This is the Frontend application build with React. It was bootstraped with Create React App. We are using webpack to build it, Jest and Enzyme for testing, Styled Components for styles.
+
+This application is communicating with the backend REST API. All methods available can be found <a href="https://developers.cleeng.com/tutorials/webstore-sdk#5-api-methods-used"> here</a>.
+
+To authenticate - we are using JWT with the payload containing customer id and publisher id.
+
+Offer id can be passed to the app in 2 ways:
+
+- In URL as a param `?offer=S1234567` and this is the most important one
+- In local storage as `CLEENG_OFFER_ID`
+
+Publisher id can be passed to the app in 2 ways:
+
+- In URL as a param `?publisher=123456789` and this is the most important one
+- In local storage as `CLEENG_PUBLISHER_ID`
+
+Publisher id is required to fetch consents on registration page.
+
+### Environments
 
 Scripts containing setups for specific environments are in `config/environments` folder.
 
@@ -42,17 +70,15 @@ module.exports = {
 
 Each origin (protocol + domain + port) requires a specific Adyen public key. In case of development environment there are 2 different origins possible for debugging as application and as storybook. Therefore, the `ADYEN_PUBLIC_KEY` should be a map from every origin possible in the given environment to an appropriate key.
 
-### API Mocks
-
-If some APIs on which the application depends are still in development, use `USE_API_MOCK` field to switch between mock endpoints and actual endpoints.
-
 ### Translations system
 
-Translations are done on react-i18n library, without backend-side features. Therefore the translations bundle for every language is done on build or start dev server. It's always avaliable under url (domain_name)/locales/(language_code)/translations.json.<br>
+We provide full flexibility to adjust messaging in the checkout process. All the content in the checkout pages can be translated into 28 languages, but these translations can also be overwritten if you choose so.
 
-The translations file for language merge content of any json files in the folder /translations/(language_code), and because of it folders name for languages and code of languages declared in i18n init needs to be consistent.<br>
+Translations are done on react-i18n library, without backend-side features. Therefore the translations bundle for every language is done on build or start dev server. It's always available under URL (domain_name)/locales/(language_code)/translations.json.<br>
 
-To connect new page in router with translations, it's important to use both withTranslations() and labeling() higher order components. Labeling is a custom method that dynamically loading translations bundle from public folder for choosen language if bundle not already loaded. You can change language using [languageDetector](https://github.com/i18next/i18next-browser-languageDetector)<br>
+The translations file for language merge content of any JSON files in the folder /translations/(language_code), and because of it folders name for languages and code of languages declared in i18n init needs to be consistent.<br>
+
+To connect new page in router with translations, it's important to use both withTranslations() and labeling() higher order components. Labeling is a custom method that dynamically loading translations bundle from public folder for chosen language if bundle not already loaded. You can change language using [languageDetector](https://github.com/i18next/i18next-browser-languageDetector)<br>
 
 ## Available Scripts
 

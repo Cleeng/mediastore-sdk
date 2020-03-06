@@ -121,6 +121,8 @@ class PasswordInput extends React.Component {
           handleClickShowPassword={handleClickShowPassword}
           showPassword={showPassword}
           passwordStrength={errorLabel}
+          ariaRequired
+          ariaInvalid={errorLabel === 'NotValid'}
         />
       </>
     );

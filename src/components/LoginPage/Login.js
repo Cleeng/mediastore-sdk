@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
 import saveOfferId from '../../util/offerIdHelper';
+import savePublisherId from '../../util/publisherIdHelper';
 import labeling from '../../containers/labeling';
+import Auth from '../../services/auth';
 
 import {
   ContentWrapperStyled,
@@ -28,6 +29,8 @@ class Login extends Component {
   componentDidMount() {
     const { urlProps } = this.props;
     saveOfferId(urlProps.location, this.setOfferId);
+    savePublisherId(urlProps.location, () => {});
+    Auth.isLogged();
   }
 
   setOfferId = value => this.setState({ offerId: value });
@@ -36,7 +39,7 @@ class Login extends Component {
 
   render() {
     const { isOfferError, offerId } = this.state;
-    const { t, onLoginComplete } = this.props;
+    const { t } = this.props;
     return isOfferError ? (
       <ErrorPage type="offerNotExist" />
     ) : (
@@ -45,20 +48,23 @@ class Login extends Component {
         <ContentWrapperStyled>
           <LoginForm
             t={t}
-            onLoginComplete={onLoginComplete}
             offerId={offerId}
             setOfferError={this.setOfferError}
           />
-          <Link to="/register">
-            <Button variant="secondary">{t('Go to register')}</Button>
-          </Link>
+          <Button isLink to="/register" variant="secondary">
+            {t('Go to register')}
+          </Button>
           <SocialStyled>
             <SeparatorStyled>{t('Or')}</SeparatorStyled>
-            <Button variant="google">{t('Sign up with Google')}</Button>
-            <Button variant="fb">{t('Sign up with Facebook')}</Button>
-            <Link to="/reset-password">
-              <Button variant="link">{t('Forgot password?')}</Button>
-            </Link>
+            <Button variant="google" label="Log in with Google">
+              {t('Log in with Google')}
+            </Button>
+            <Button variant="fb" label="Log in with Facebook">
+              {t('Log in with Facebook')}
+            </Button>
+            <Button isLink to="/reset-password" variant="link">
+              {t('Forgot password?')}
+            </Button>
           </SocialStyled>
         </ContentWrapperStyled>
         <Footer />
@@ -67,14 +73,12 @@ class Login extends Component {
   }
 }
 Login.propTypes = {
-  onLoginComplete: PropTypes.func,
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
   }),
   t: PropTypes.func
 };
 Login.defaultProps = {
-  onLoginComplete: () => {},
   urlProps: {},
   t: k => k
 };

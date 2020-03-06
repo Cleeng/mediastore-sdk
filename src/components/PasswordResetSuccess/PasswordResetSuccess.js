@@ -26,6 +26,7 @@ const PasswordResetSuccess = ({ email, t }) => (
     </StyledMessage>
     <NoteStyled>
       {t('Not sure that was the right email address?')}
+      &nbsp;
       <Link to="/reset-password/">
         <StyledLink>{t('Try again.')}</StyledLink>
       </Link>

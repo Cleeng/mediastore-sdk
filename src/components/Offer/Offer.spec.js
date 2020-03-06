@@ -21,7 +21,6 @@ const mockCouponProps = {
   messageType: MESSAGE_TYPE_SUCCESS,
   onSubmit: jest.fn().mockResolvedValue({})
 };
-
 describe('Offer', () => {
   describe('@render', () => {
     it('displays basic details', () => {

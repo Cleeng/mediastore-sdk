@@ -18,5 +18,6 @@
   "Wrong email or password": "Błędny email lub hasło",
   "Have an account?": "Masz już konto?",
   "Email": "Email",
-  "Password": "Hasło"
+  "Password": "Hasło",
+  "Sorry, the captcha information doesn't match. Please try again": "Przepraszamy, błąd CAPTCHA. Proszę spróbuj ponownie"
 }

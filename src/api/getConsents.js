@@ -1,6 +1,6 @@
-const getConsents = offerId => {
+const getConsents = publisherId => {
   return fetch(
-    `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/offers/${offerId}/consents`,
+    `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/publishers/${publisherId}/consents`,
     {}
   ).then(res => res.json());
 };

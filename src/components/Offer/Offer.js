@@ -67,79 +67,84 @@ class Offer extends Component {
     const finalPrice = applied ? discountedPrice : offerPrice;
     return (
       <StyledOfferWrapper>
-        <StyledOfferBody>
-          <Header />
-          <StyledPageTitle>{t('Complete your purchase')}</StyledPageTitle>
-          <div>
-            {imageUrl && <StyledImageUrl src={imageUrl} alt="Offer" />}
-            <StyledOfferDetailsAndCoupon>
-              <StyledOfferDetailsWrapper withoutImage={!imageUrl}>
-                <StyledOfferTitle>{offerTitle}</StyledOfferTitle>
-                <StyledOfferDetails>
-                  <StyledOfferDescription>
-                    {trialAvailable && (
-                      <StyledTrialDescription>
-                        {t('You will be charged {{price}} after {{period}}.', {
-                          price: `${customerCurrencySymbol}${offerPrice}`,
-                          period: `${freePeriods} ${periodDescription}`
-                        })}
-                      </StyledTrialDescription>
-                    )}
-                    {description}
-                  </StyledOfferDescription>
-                  <StyledOfferDetailsPrice>
-                    {trialAvailable && (
-                      <StyledTrial>{t('trial period')}</StyledTrial>
-                    )}
-                    <StyledPrice>
+        <Header showLogOutButton />
+        <main>
+          <StyledOfferBody>
+            <StyledPageTitle>{t('Complete your purchase')}</StyledPageTitle>
+            <div>
+              {imageUrl && <StyledImageUrl src={imageUrl} alt="Offer" />}
+              <StyledOfferDetailsAndCoupon>
+                <StyledOfferDetailsWrapper withoutImage={!imageUrl}>
+                  <StyledOfferTitle>{offerTitle}</StyledOfferTitle>
+                  <StyledOfferDetails>
+                    <StyledOfferDescription>
+                      {trialAvailable && (
+                        <StyledTrialDescription>
+                          {t(
+                            'You will be charged {{price}} after {{period}}.',
+                            {
+                              price: `${customerCurrencySymbol}${offerPrice}`,
+                              period: `${freePeriods} ${periodDescription}`
+                            }
+                          )}
+                        </StyledTrialDescription>
+                      )}
+                      {description}
+                    </StyledOfferDescription>
+                    <StyledOfferDetailsPrice>
+                      {trialAvailable && (
+                        <StyledTrial>{t('trial period')}</StyledTrial>
+                      )}
+                      <StyledPrice>
+                        {`${customerCurrencySymbol}${offerPrice} `}
+                        <span>{t('exVAT')}</span>
+                      </StyledPrice>
+                    </StyledOfferDetailsPrice>
+                  </StyledOfferDetails>
+                </StyledOfferDetailsWrapper>
+                <StyledOfferCouponWrapper>
+                  <CouponInput
+                    showMessage={showMessage}
+                    message={message}
+                    messageType={messageType}
+                    onSubmit={onSubmit}
+                    value={coupon}
+                    onChange={e => this.setState({ coupon: e })}
+                    couponLoading={couponLoading}
+                    t={t}
+                  />
+                </StyledOfferCouponWrapper>
+              </StyledOfferDetailsAndCoupon>
+            </div>
+            <StyledTotalWrapper>
+              {isCouponApplied && (
+                <>
+                  <StyledPriceBeforeWrapper>
+                    <StyledTotalLabel>{t('Price')}:</StyledTotalLabel>
+                    <StyledOfferPrice>
                       {`${customerCurrencySymbol}${offerPrice} `}
                       <span>{t('exVAT')}</span>
-                    </StyledPrice>
-                  </StyledOfferDetailsPrice>
-                </StyledOfferDetails>
-              </StyledOfferDetailsWrapper>
-              <StyledOfferCouponWrapper>
-                <CouponInput
-                  showMessage={showMessage}
-                  message={message}
-                  messageType={messageType}
-                  onSubmit={onSubmit}
-                  value={coupon}
-                  onChange={e => this.setState({ coupon: e })}
-                  couponLoading={couponLoading}
-                  t={t}
-                />
-              </StyledOfferCouponWrapper>
-            </StyledOfferDetailsAndCoupon>
-          </div>
-          <StyledTotalWrapper>
-            {isCouponApplied && (
-              <>
-                <StyledPriceBeforeWrapper>
-                  <StyledTotalLabel>{t('Price')}:</StyledTotalLabel>
-                  <StyledOfferPrice>
-                    {`${customerCurrencySymbol}${offerPrice} `}
-                    <span>{t('exVAT')}</span>
-                  </StyledOfferPrice>
-                </StyledPriceBeforeWrapper>
-                <StyledCouponDiscountWrapper>
-                  <StyledTotalLabel>{t('Coupon Discount')}</StyledTotalLabel>
-                  <StyledOfferPrice>
-                    {`${customerCurrencySymbol}${discountAmount}`}
-                  </StyledOfferPrice>
-                </StyledCouponDiscountWrapper>
-              </>
-            )}
-            <StyledPriceWrapper>
-              <StyledTotalLabel>{t('Total')}</StyledTotalLabel>
-              <StyledOfferPrice>
-                {`${customerCurrencySymbol}${finalPrice} `}
-                <span>{t('exVAT')}</span>
-              </StyledOfferPrice>
-            </StyledPriceWrapper>
-          </StyledTotalWrapper>
-        </StyledOfferBody>
-        <Payment onPaymentComplete={onPaymentComplete} t={t} />
+                    </StyledOfferPrice>
+                  </StyledPriceBeforeWrapper>
+                  <StyledCouponDiscountWrapper>
+                    <StyledTotalLabel>{t('Coupon Discount')}</StyledTotalLabel>
+                    <StyledOfferPrice>
+                      {`${customerCurrencySymbol}${discountAmount}`}
+                    </StyledOfferPrice>
+                  </StyledCouponDiscountWrapper>
+                </>
+              )}
+              <StyledPriceWrapper>
+                <StyledTotalLabel>{t('Total')}</StyledTotalLabel>
+                <StyledOfferPrice>
+                  {`${customerCurrencySymbol}${finalPrice} `}
+                  <span>{t('exVAT')}</span>
+                </StyledOfferPrice>
+              </StyledPriceWrapper>
+            </StyledTotalWrapper>
+          </StyledOfferBody>
+          <Payment onPaymentComplete={onPaymentComplete} t={t} />
+        </main>
         <Footer />
       </StyledOfferWrapper>
     );

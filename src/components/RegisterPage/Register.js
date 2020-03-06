@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ErrorPage from 'components/ErrorPage';
 import saveOfferId from '../../util/offerIdHelper';
+import savePublisherId from '../../util/publisherIdHelper';
 import labeling from '../../containers/labeling';
 
 import {
@@ -21,22 +21,26 @@ class Register extends Component {
     super(props);
     this.state = {
       offerId: null,
-      isOfferError: false
+      isOfferError: false,
+      publisherId: null
     };
   }
 
   componentDidMount() {
     const { urlProps } = this.props;
     saveOfferId(urlProps.location, this.setOfferId);
+    savePublisherId(urlProps.location, this.setPublisherId);
   }
 
   setOfferId = value => this.setState({ offerId: value });
 
+  setPublisherId = value => this.setState({ publisherId: value });
+
   setOfferError = value => this.setState({ isOfferError: value });
 
   render() {
-    const { isOfferError, offerId } = this.state;
-    const { onRegistrationComplete, t } = this.props;
+    const { isOfferError, offerId, publisherId } = this.state;
+    const { t } = this.props;
     return isOfferError ? (
       <ErrorPage type="offerNotExist" />
     ) : (
@@ -46,16 +50,20 @@ class Register extends Component {
           <RegisterForm
             t={t}
             offerId={offerId}
-            onRegistrationComplete={onRegistrationComplete}
+            publisherId={publisherId}
             setOfferError={this.setOfferError}
           />
-          <Link to="/login">
-            <Button variant="secondary">{t('Have an account?')}</Button>
-          </Link>
+          <Button isLink to="/login" variant="secondary">
+            {t('Have an account?')}
+          </Button>
           <SocialStyled>
             <SeparatorStyled>{t('Or')}</SeparatorStyled>
-            <Button variant="google">{t('Sign up with Google')}</Button>
-            <Button variant="fb">{t('Sign up with Facebook')}</Button>
+            <Button variant="google" label="Sign up with Google">
+              {t('Sign up with Google')}
+            </Button>
+            <Button variant="fb" label="Sign up with Facebook">
+              {t('Sign up with Facebook')}
+            </Button>
           </SocialStyled>
         </ContentWrapperStyled>
         <Footer />
@@ -64,7 +72,6 @@ class Register extends Component {
   }
 }
 Register.propTypes = {
-  onRegistrationComplete: PropTypes.func,
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
   }),
@@ -72,7 +79,6 @@ Register.propTypes = {
 };
 
 Register.defaultProps = {
-  onRegistrationComplete: () => {},
   urlProps: {},
   t: k => k
 };
