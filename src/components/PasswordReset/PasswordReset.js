@@ -4,7 +4,6 @@ import { withTranslation } from 'react-i18next';
 import EmailInput from 'components/EmailInput/EmailInput';
 import Button from '../Button/Button';
 import Header from '../Header/Header';
-import emailIcon from '../../assets/images/input/email.svg';
 import resetPassword from '../../api/resetPassword';
 import saveOfferId from '../../util/offerIdHelper';
 import labeling from '../../containers/labeling';
@@ -79,7 +78,6 @@ class PasswordReset extends Component {
           <FormStyled onSubmit={this.onSubmit} noValidate>
             <EmailInput
               label={t('Email')}
-              icon={emailIcon}
               error={message}
               value={value}
               onChange={v => this.setState({ value: v })}

@@ -7,7 +7,7 @@ export const ContentWrapperStyled = styled.main`
 
   width: 55%;
   margin: 40px auto 0 auto;
-  padding-bottom: 50px;
+  padding-bottom: 65px;
 
   text-align: center;
 
@@ -20,15 +20,17 @@ export const FromStyled = styled.form`
   & input {
     position: relative;
   }
-  & label {
-    margin-top: 20px;
-  }
   & button:last-child {
     margin: 35px 0 10px;
   }
 `;
 
 export const SocialStyled = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
   width: 100%;
   margin-top: 10px;
 
@@ -37,22 +39,27 @@ export const SocialStyled = styled.div`
   }
 
   button {
-    width: 100%;
-    margin-bottom: 10px;
-    &::before {
-      position: absolute;
-      left: 15px;
-      top: 10px;
-    }
+    width: 48%;
+    margin: 10px 0 30px 0;
   }
 
-  button:last-child {
-    margin: 10px 0 10px;
-  }
+  ${media.smallest`
+    flex-direction: column;
+    
+    margin-bottom: 20px;
+    
+    button{
+      width: 100%;
+
+      margin: 5px 0;
+      padding: 0;
+    }
+  `}
 `;
 
 export const SeparatorStyled = styled.div`
   display: block;
+  width: 100%;
 
   padding: 20px 0;
 
@@ -76,12 +83,12 @@ export const SeparatorStyled = styled.div`
     background-color: ${colors.MediumGrey};
   }
   &::before {
-    right: 20%;
+    right: 5%;
 
     margin-left: -50%;
   }
   &::after {
-    left: 20%;
+    left: 5%;
     margin-right: -50%;
   }
 `;

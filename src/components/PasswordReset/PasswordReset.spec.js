@@ -51,7 +51,6 @@ describe('PasswordReset', () => {
       expect(inputComponent).toHaveLength(1);
       expect(inputComponent.props().error).toBe('');
       expect(inputComponent.props().value).toBe('');
-      expect(inputComponent.props().icon).toBe('test-file-stub');
 
       const buttons = wrapper.find(Button);
       expect(buttons).toHaveLength(2);

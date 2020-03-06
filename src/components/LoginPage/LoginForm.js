@@ -200,7 +200,7 @@ class LoginForm extends Component {
           </>
         )}
         <Button type="submit" disabled={processing}>
-          {processing ? <Loader buttonLoader white /> : t('Log in')}
+          {processing ? <Loader buttonLoader white /> : t('Sign in')}
         </Button>
       </FromStyled>
     );
