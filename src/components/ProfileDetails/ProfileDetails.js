@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import MyAccountInput from 'components/MyAccountInput/MyAccountInput';
-import Button from 'components/Button';
-import { WrapStyled, MyAccountButtonStyled } from './ProfileDetailsStyled';
+// import Button from 'components/Button';
+import { WrapStyled } from './ProfileDetailsStyled';
 
 const ProfileDetails = ({ firstName, lastName, mail }) => (
   <WrapStyled>
@@ -21,9 +21,9 @@ const ProfileDetails = ({ firstName, lastName, mail }) => (
         disabled
       />
       <MyAccountInput id="email" value={mail} label="Mail" disabled />
-      <MyAccountButtonStyled>
+      {/* <MyAccountButtonStyled>
         <Button>Edit Details</Button>
-      </MyAccountButtonStyled>
+      </MyAccountButtonStyled> */}
     </Card>
   </WrapStyled>
 );

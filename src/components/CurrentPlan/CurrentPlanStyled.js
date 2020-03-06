@@ -24,7 +24,7 @@ export const SubscriptionStyled = styled.div``;
 export const SubscriptionInfoBoxStyled = styled.div`
   display: flex;
   align-items: flex-start;
-  margin-bottom: 24px;
+  /* margin-bottom: 24px; */
 `;
 
 export const SubscriptionIcon = styled.div`

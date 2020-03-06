@@ -44,6 +44,7 @@ export const NameStyled = styled.div`
   font-size: 24px;
   line-height: 29px;
   font-weight: 700;
+  margin-bottom: 6px;
 
   ${mediaFrom.small`
     margin-bottom: 10px;
@@ -57,6 +58,8 @@ export const MailStyled = styled.div`
   font-size: 9px;
   font-weight: 500;
   color: ${MyAccountTextGray};
+  margin-bottom: 6px;
+
   ${mediaFrom.small`
     margin-bottom: 14px;
   `}

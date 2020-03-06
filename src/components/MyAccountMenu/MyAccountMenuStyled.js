@@ -95,6 +95,7 @@ export const ItemLabelStyled = styled.div`
 export const ItemLinkStyled = styled(NavLink)`
   display: flex;
   flex-direction: column;
+  height: 100%;
   padding: 12px 0;
   border-radius: 12px;
 

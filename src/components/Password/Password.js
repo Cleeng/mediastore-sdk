@@ -1,8 +1,8 @@
 import React from 'react';
 import Card from 'components/Card';
 import MyAccountInput from 'components/MyAccountInput/MyAccountInput';
-import Button from 'components/Button';
-import { WrapStyled, MyAccountButtonStyled } from './PasswordStyled';
+// import Button from 'components/Button';
+import { WrapStyled } from './PasswordStyled';
 
 const Password = () => (
   <WrapStyled>
@@ -26,9 +26,9 @@ const Password = () => (
         label="Confirm Password"
         disabled
       />
-      <MyAccountButtonStyled>
+      {/* <MyAccountButtonStyled>
         <Button>Edit Password</Button>
-      </MyAccountButtonStyled>
+      </MyAccountButtonStyled> */}
     </Card>
   </WrapStyled>
 );
