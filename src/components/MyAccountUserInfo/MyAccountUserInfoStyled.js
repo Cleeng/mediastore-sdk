@@ -60,6 +60,13 @@ export const MailStyled = styled.div`
   color: ${MyAccountTextGray};
   margin-bottom: 6px;
 
+  ${props =>
+    props.bigger &&
+    css`
+      font-size: 12px;
+      font-weight: 700;
+    `}
+
   ${mediaFrom.small`
     margin-bottom: 14px;
   `}
@@ -98,7 +105,6 @@ export const DetailsStyled = styled.div`
       ${MailStyled} {
         background-color: ${MyAccountTextLightGray};
         width: 100%;
-        min-height: 9px;
         border-radius: 5px;
       }
       ${TextStyled} {

@@ -13,6 +13,6 @@ export const WrapStyled = styled.main`
 
   ${mediaFrom.small`
     border-radius: 20px;
-    overflow: scroll;
+    overflow-y: scroll;
   `}
 `;

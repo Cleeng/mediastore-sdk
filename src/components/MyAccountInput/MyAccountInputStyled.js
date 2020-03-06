@@ -37,6 +37,7 @@ export const InputElementStyled = styled.input`
 
   &:disabled {
     background-color: ${DisabledInputBg};
+    border: 1px solid ${InputBorder};
     color: ${DisabledInputColor};
     font-style: italic;
   }

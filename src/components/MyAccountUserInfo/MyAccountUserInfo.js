@@ -18,14 +18,18 @@ class MyAccountUserInfo extends Component {
 
   render() {
     const { firstName, lastName, email, subscription } = this.props;
+    // eslint-disable-next-line no-bitwise
+    const isNameSetted = !firstName & !lastName;
 
     return (
       <WrapStyled>
         <PhotoStyled />
         <DetailsStyled isEmpty={!email}>
-          <NameStyled>{`${firstName} ${lastName}`}</NameStyled>
-          <MailStyled>{email}</MailStyled>
-          <TextStyled>{subscription}</TextStyled>
+          {!isNameSetted && (
+            <NameStyled>{`${firstName} ${lastName}`}</NameStyled>
+          )}
+          <MailStyled bigger={isNameSetted}>{email}</MailStyled>
+          {subscription && <TextStyled>{subscription}</TextStyled>}
         </DetailsStyled>
       </WrapStyled>
     );
