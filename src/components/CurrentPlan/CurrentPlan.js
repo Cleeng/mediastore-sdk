@@ -36,7 +36,7 @@ class CurrentPlan extends Component {
         <SubscriptionsStyled>
           {subscriptions.length === 0 ? (
             <InfoMessageStyled>
-              {t('There is no subscriptions purchuased yet.')}
+              {t('There are no subscriptions purchased yet.')}
             </InfoMessageStyled>
           ) : (
             <>
