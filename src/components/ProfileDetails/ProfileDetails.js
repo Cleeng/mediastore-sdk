@@ -44,4 +44,6 @@ ProfileDetails.defaultProps = {
   t: k => k
 };
 
+export { ProfileDetails as PureProfileDetails };
+
 export default withTranslation()(labeling()(ProfileDetails));

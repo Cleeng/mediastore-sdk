@@ -91,4 +91,6 @@ CurrentPlan.defaultProps = {
   t: k => k
 };
 
+export { CurrentPlan as PureCurrentPlan };
+
 export default withTranslation()(labeling()(CurrentPlan));

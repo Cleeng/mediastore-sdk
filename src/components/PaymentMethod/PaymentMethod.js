@@ -1,5 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 
 import visaLogo from './img/visa.png';
 
@@ -66,8 +68,6 @@ class PaymentMethod extends PureComponent {
   }
 }
 
-export default PaymentMethod;
-
 PaymentMethod.propTypes = {
   paymentDetails: PropTypes.arrayOf(PropTypes.any),
   t: PropTypes.func
@@ -77,3 +77,7 @@ PaymentMethod.defaultProps = {
   paymentDetails: [],
   t: k => k
 };
+
+export { PaymentMethod as PurePaymentMethod };
+
+export default withTranslation()(labeling()(PaymentMethod));

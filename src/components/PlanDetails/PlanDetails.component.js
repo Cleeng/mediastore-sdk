@@ -64,4 +64,6 @@ PlanDetails.defaultProps = {
   t: k => k
 };
 
+export { PlanDetails as PurePlanDetails };
+
 export default withTranslation()(labeling()(PlanDetails));

@@ -44,4 +44,6 @@ Password.defaultProps = {
   t: k => k
 };
 
+export { Password as PurePassword };
+
 export default withTranslation()(labeling()(Password));

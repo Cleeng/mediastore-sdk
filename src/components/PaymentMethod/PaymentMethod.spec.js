@@ -1,9 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import PaymentMethod from './PaymentMethod';
+import { PurePaymentMethod } from './PaymentMethod';
 import { CardWrapStyled, Message } from './PaymentMethodStyled';
-
-const initialValue = { paymentDetails: [] };
 
 const mockPaymentDetailsByTypes = [
   {
@@ -42,11 +40,11 @@ const mockPaymentDetailsNotSupported = [
 ];
 
 describe('<PaymentMethod/>', () => {
-  const wrapper = mount(<PaymentMethod />);
+  const wrapper = mount(<PurePaymentMethod />);
 
   describe('@renders', () => {
     it('should render initial state', () => {
-      expect(wrapper.props('paymentDetails')).toEqual(initialValue);
+      expect(wrapper.prop('paymentDetails')).toEqual([]);
     });
     it('should render all supported payment types', () => {
       wrapper.setProps({

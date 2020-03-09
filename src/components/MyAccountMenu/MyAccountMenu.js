@@ -59,4 +59,6 @@ MyAccountMenu.defaultProps = {
   t: k => k
 };
 
+export { MyAccountMenu as PureMyAccountMenu };
+
 export default withTranslation()(labeling()(MyAccountMenu));

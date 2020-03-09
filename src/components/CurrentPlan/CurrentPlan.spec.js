@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import CurrentPlan from './CurrentPlan';
+import { PureCurrentPlan } from './CurrentPlan';
 import { SubscriptionStyled } from './CurrentPlanStyled';
 
 const planDetailsMock = [
@@ -31,11 +31,13 @@ const planDetailsMock = [
 describe('<PlanDetails/>', () => {
   describe('@renders', () => {
     it('should render initial state without subscriptions', () => {
-      const wrapper = mount(<CurrentPlan />);
+      const wrapper = mount(<PureCurrentPlan />);
       expect(wrapper.prop('subscriptions')).toStrictEqual([]);
     });
     it('should render initial state with subscriptions parameter', () => {
-      const wrapper = mount(<CurrentPlan subscriptions={planDetailsMock} />);
+      const wrapper = mount(
+        <PureCurrentPlan subscriptions={planDetailsMock} />
+      );
       expect(wrapper.prop('subscriptions')).toStrictEqual(planDetailsMock);
       expect(wrapper.find(SubscriptionStyled)).toHaveLength(2);
     });

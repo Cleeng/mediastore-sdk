@@ -74,4 +74,6 @@ PaymentInfo.defaultProps = {
   t: k => k
 };
 
+export { PaymentInfo as PurePaymentInfo };
+
 export default withTranslation()(labeling()(PaymentInfo));

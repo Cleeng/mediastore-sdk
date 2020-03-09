@@ -76,4 +76,6 @@ UpdateProfile.defaultProps = {
   t: k => k
 };
 
+export { UpdateProfile as PureUpdateProfile };
+
 export default withTranslation()(labeling()(UpdateProfile));
