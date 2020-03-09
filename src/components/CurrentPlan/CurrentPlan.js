@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 // import Button from 'components/Button';
 
 import { periodMapper, dateFormat, currencyFormat } from './helpers';
@@ -27,14 +29,14 @@ class CurrentPlan extends Component {
   }
 
   render() {
-    const { subscriptions } = this.props;
+    const { subscriptions, t } = this.props;
 
     return (
       <WrapStyled>
         <SubscriptionsStyled>
           {subscriptions.length === 0 ? (
             <InfoMessageStyled>
-              There is no subscriptions purchuased yet.
+              {t('There is no subscriptions purchuased yet.')}
             </InfoMessageStyled>
           ) : (
             <>
@@ -52,7 +54,7 @@ class CurrentPlan extends Component {
                         {subItem.offerTitle}
                       </SubscriptionTitleStyled>
                       <SubscriptionNextPaymentStyled>
-                        Next Payment {dateFormat(subItem.expiresAt)}
+                        {t('Next Payment')} {dateFormat(subItem.expiresAt)}
                       </SubscriptionNextPaymentStyled>
                     </SubscriptionInfoStyled>
                     <SubscriptionPriceStyled>
@@ -61,7 +63,7 @@ class CurrentPlan extends Component {
                         {currencyFormat[subItem.nextPaymentCurrency]}
                       </SubscriptionPriceValueStyled>
                       <SubscriptionPricePeroidStyled>
-                        {`/ ${periodMapper[subItem.period].peroid}`}
+                        {`/ ${t(periodMapper[subItem.period].peroid)}`}
                       </SubscriptionPricePeroidStyled>
                     </SubscriptionPriceStyled>
                   </SubscriptionInfoBoxStyled>
@@ -79,12 +81,14 @@ class CurrentPlan extends Component {
   }
 }
 
-export default CurrentPlan;
-
 CurrentPlan.propTypes = {
-  subscriptions: PropTypes.arrayOf(PropTypes.any)
+  subscriptions: PropTypes.arrayOf(PropTypes.any),
+  t: PropTypes.func
 };
 
 CurrentPlan.defaultProps = {
-  subscriptions: []
+  subscriptions: [],
+  t: k => k
 };
+
+export default withTranslation()(labeling()(CurrentPlan));

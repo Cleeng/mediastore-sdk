@@ -1,29 +1,32 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import Card from 'components/Card';
 import MyAccountInput from 'components/MyAccountInput/MyAccountInput';
 // import Button from 'components/Button';
 import { WrapStyled } from './PasswordStyled';
 
-const Password = () => (
+const Password = ({ t }) => (
   <WrapStyled>
     <Card>
       <MyAccountInput
         id="currentPassword"
         value="dummyPassword"
         type="password"
-        label="Old password"
+        label={t('Old password')}
         disabled
       />
       <MyAccountInput
         id="newPassword"
         type="password"
-        label="New password"
+        label={t('New password')}
         disabled
       />
       <MyAccountInput
         id="newPasswordRepeat"
         type="password"
-        label="Confirm Password"
+        label={t('Confirm password')}
         disabled
       />
       {/* <MyAccountButtonStyled>
@@ -33,4 +36,12 @@ const Password = () => (
   </WrapStyled>
 );
 
-export default Password;
+Password.propTypes = {
+  t: PropTypes.func
+};
+
+Password.defaultProps = {
+  t: k => k
+};
+
+export default withTranslation()(labeling()(Password));

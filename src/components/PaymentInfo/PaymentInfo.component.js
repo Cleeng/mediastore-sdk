@@ -1,5 +1,7 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import PaymentMehod from 'components/PaymentMethod';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import { getPaymentDetails } from 'api';
@@ -41,13 +43,13 @@ class PaymentInfo extends Component {
   }
 
   render() {
-    const { paymentInfo, isLoading } = this.props;
+    const { paymentInfo, isLoading, t } = this.props;
 
     return (
       <WrapStyled>
         {!isLoading && (
           <>
-            <MyAccountHeading text="Payment Method" />
+            <MyAccountHeading text={t('Payment Method')} />
             <PaymentMehod
               paymentDetails={paymentInfo ? paymentInfo.paymentMethod : []}
             />
@@ -58,16 +60,18 @@ class PaymentInfo extends Component {
   }
 }
 
-export default PaymentInfo;
-
 PaymentInfo.propTypes = {
   setPaymentMethod: PropTypes.func.isRequired,
   showLoader: PropTypes.func.isRequired,
   hideLoader: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  paymentInfo: PropTypes.objectOf(PropTypes.any)
+  paymentInfo: PropTypes.objectOf(PropTypes.any),
+  t: PropTypes.func
 };
 
 PaymentInfo.defaultProps = {
-  paymentInfo: { paymentMethod: [] }
+  paymentInfo: { paymentMethod: [] },
+  t: k => k
 };
+
+export default withTranslation()(labeling()(PaymentInfo));

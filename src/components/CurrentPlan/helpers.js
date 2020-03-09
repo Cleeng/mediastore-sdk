@@ -37,20 +37,20 @@ export const currencyFormat = {
   GBP: '£'
 };
 
-const monthArray = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-];
+// const monthArray = [
+//   'January',
+//   'February',
+//   'March',
+//   'April',
+//   'May',
+//   'June',
+//   'July',
+//   'August',
+//   'September',
+//   'October',
+//   'November',
+//   'December'
+// ];
 
 export function getOrdinal(n) {
   const s = ['th', 'st', 'nd', 'rd'];
@@ -60,10 +60,11 @@ export function getOrdinal(n) {
 
 export function dateFormat(timestamp) {
   const date = new Date(timestamp * 1000);
-  const monthNumber = date.getMonth();
-  const day = date.getDate();
-  const year = date.getFullYear();
+  // const monthNumber = date.getMonth();
+  // const day = date.getDate();
+  // const year = date.getFullYear();
 
-  const resultString = `${monthArray[monthNumber]} ${getOrdinal(day)}, ${year}`;
+  // const resultString = `${monthArray[monthNumber]} ${getOrdinal(day)}, ${year}`;
+  const resultString = date.toLocaleDateString();
   return resultString;
 }

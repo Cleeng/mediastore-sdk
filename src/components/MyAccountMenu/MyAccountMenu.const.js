@@ -3,8 +3,7 @@ import { ReactComponent as PlanIcon } from './icons/plan_details.svg';
 import { ReactComponent as PaymentIcon } from './icons/payment.svg';
 import { ReactComponent as UpdateIcon } from './icons/update.svg';
 
-export const MenuTitle = 'Category Shortcuts';
-
+// eslint-disable-next-line import/prefer-default-export
 export const MenuItems = [
   {
     icon: ActionsIcon,
