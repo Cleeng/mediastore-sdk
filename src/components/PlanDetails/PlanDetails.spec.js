@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import CurrentPlan from 'components/CurrentPlan';
-import PlanDetails from './PlanDetails.component';
+import { PurePlanDetails } from './PlanDetails.component';
 import { getCustomerSubscriptions } from '../../api';
 
 jest.mock('api', () => ({
@@ -47,7 +47,7 @@ describe('<PlanDetails/>', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
       const wrapper = mount(
-        <PlanDetails
+        <PurePlanDetails
           setCurrentPlan={setCurrentPlanMock}
           showLoader={showLoaderMock}
           hideLoader={hideLoaderMock}
@@ -59,7 +59,7 @@ describe('<PlanDetails/>', () => {
     });
     it('should have no content if isLoading is true', () => {
       const wrapper = mount(
-        <PlanDetails
+        <PurePlanDetails
           setCurrentPlan={setCurrentPlanMock}
           showLoader={showLoaderMock}
           hideLoader={hideLoaderMock}
@@ -75,7 +75,7 @@ describe('<PlanDetails/>', () => {
         errors: returnedErrors
       });
       const wrapper = mount(
-        <PlanDetails
+        <PurePlanDetails
           setCurrentPlan={setCurrentPlanMock}
           showLoader={showLoaderMock}
           hideLoader={hideLoaderMock}

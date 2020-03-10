@@ -1,5 +1,7 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import ProfileDetails from 'components/ProfileDetails';
 import Password from 'components/Password';
@@ -37,20 +39,21 @@ class UpdateProfile extends Component {
   render() {
     const {
       userProfile: { user },
-      isLoading
+      isLoading,
+      t
     } = this.props;
 
     return (
       <WrapStyled>
         {!isLoading && user && (
           <>
-            <MyAccountHeading text="Profile Details" />
+            <MyAccountHeading text={t('Profile Details')} />
             <ProfileDetails
               firstName={user.firstName}
               lastName={user.lastName}
               mail={user.email}
             />
-            <MyAccountHeading text="Password" />
+            <MyAccountHeading text={t('Password')} />
             <Password />
           </>
         )}
@@ -59,16 +62,20 @@ class UpdateProfile extends Component {
   }
 }
 
-export default UpdateProfile;
-
 UpdateProfile.propTypes = {
   setCurrentUser: PropTypes.func.isRequired,
   showLoader: PropTypes.func.isRequired,
   hideLoader: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  userProfile: PropTypes.objectOf(PropTypes.any)
+  userProfile: PropTypes.objectOf(PropTypes.any),
+  t: PropTypes.func
 };
 
 UpdateProfile.defaultProps = {
-  userProfile: { user: null }
+  userProfile: { user: null },
+  t: k => k
 };
+
+export { UpdateProfile as PureUpdateProfile };
+
+export default withTranslation()(labeling()(UpdateProfile));

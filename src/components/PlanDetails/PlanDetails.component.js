@@ -1,5 +1,7 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import CurrentPlan from 'components/CurrentPlan';
 import { getCustomerSubscriptions } from 'api';
@@ -33,13 +35,13 @@ class PlanDetails extends Component {
   }
 
   render() {
-    const { planDetails, isLoading } = this.props;
+    const { planDetails, isLoading, t } = this.props;
 
     return (
       <WrapStyled>
         {!isLoading && (
           <>
-            <MyAccountHeading text="Current Plan" />
+            <MyAccountHeading text={t('Current Plan')} />
             <CurrentPlan subscriptions={planDetails.currentPlan} />
           </>
         )}
@@ -48,16 +50,20 @@ class PlanDetails extends Component {
   }
 }
 
-export default PlanDetails;
-
 PlanDetails.propTypes = {
   setCurrentPlan: PropTypes.func.isRequired,
   showLoader: PropTypes.func.isRequired,
   hideLoader: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,
-  planDetails: PropTypes.objectOf(PropTypes.any)
+  planDetails: PropTypes.objectOf(PropTypes.any),
+  t: PropTypes.func
 };
 
 PlanDetails.defaultProps = {
-  planDetails: { currentPlan: [] }
+  planDetails: { currentPlan: [] },
+  t: k => k
 };
+
+export { PlanDetails as PurePlanDetails };
+
+export default withTranslation()(labeling()(PlanDetails));

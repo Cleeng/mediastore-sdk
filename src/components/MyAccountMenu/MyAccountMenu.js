@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { MenuItems, MenuTitle } from './MyAccountMenu.const';
+import { withTranslation } from 'react-i18next';
+import labeling from '../../containers/labeling';
+import { MenuItems } from './MyAccountMenu.const';
 
 import {
   WrapStyled,
@@ -20,12 +22,13 @@ class MyAccountMenu extends Component {
 
   render() {
     const {
-      routeMatch: { url }
+      routeMatch: { url },
+      t
     } = this.props;
 
     return (
       <WrapStyled>
-        <HeadingStyled>{MenuTitle}</HeadingStyled>
+        <HeadingStyled>{t('Category Shortcuts')}</HeadingStyled>
         <ItemsStyled>
           {MenuItems.map(menuItem => (
             <ItemWrapStyled
@@ -36,7 +39,7 @@ class MyAccountMenu extends Component {
                 <ItemIconWrapStyled>
                   {menuItem.icon ? menuItem.icon.render() : null}
                 </ItemIconWrapStyled>
-                <ItemLabelStyled>{menuItem.label}</ItemLabelStyled>
+                <ItemLabelStyled>{t(menuItem.label)}</ItemLabelStyled>
               </ItemLinkStyled>
             </ItemWrapStyled>
           ))}
@@ -46,12 +49,16 @@ class MyAccountMenu extends Component {
   }
 }
 
-export default MyAccountMenu;
-
 MyAccountMenu.propTypes = {
-  routeMatch: PropTypes.objectOf(PropTypes.any)
+  routeMatch: PropTypes.objectOf(PropTypes.any),
+  t: PropTypes.func
 };
 
 MyAccountMenu.defaultProps = {
-  routeMatch: {}
+  routeMatch: {},
+  t: k => k
 };
+
+export { MyAccountMenu as PureMyAccountMenu };
+
+export default withTranslation()(labeling()(MyAccountMenu));

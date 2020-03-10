@@ -1,7 +1,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
-import PaymentInfo from './PaymentInfo.component';
+import { PurePaymentInfo } from './PaymentInfo.component';
 import { getPaymentDetails } from '../../api';
 
 jest.mock('api', () => ({
@@ -41,7 +41,7 @@ describe('<PaymentInfo/>', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
       const wrapper = mount(
-        <PaymentInfo
+        <PurePaymentInfo
           setPaymentMethod={setPaymentMethodMock}
           showLoader={showLoaderMock}
           hideLoader={hideLoaderMock}
@@ -56,7 +56,7 @@ describe('<PaymentInfo/>', () => {
         errors: returnedErrors
       });
       const wrapper = mount(
-        <PaymentInfo
+        <PurePaymentInfo
           setPaymentMethod={setPaymentMethodMock}
           showLoader={showLoaderMock}
           hideLoader={hideLoaderMock}

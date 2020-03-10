@@ -1,6 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
-import UpdateProfile from './UpdateProfile.component';
+import { PureUpdateProfile } from './UpdateProfile.component';
 import { getCustomer } from '../../api';
 
 jest.mock('api', () => ({
@@ -44,7 +44,7 @@ describe('<UpdateProfile/>', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
       const wrapper = mount(
-        <UpdateProfile
+        <PureUpdateProfile
           setCurrentUser={setCurrentUserMock}
           showLoader={showLoaderMock}
           hideLoader={hideLoaderMock}
@@ -62,7 +62,7 @@ describe('<UpdateProfile/>', () => {
         errors: returnedErrors
       });
       const wrapper = mount(
-        <UpdateProfile
+        <PureUpdateProfile
           setCurrentUser={setCurrentUserMock}
           showLoader={showLoaderMock}
           hideLoader={hideLoaderMock}

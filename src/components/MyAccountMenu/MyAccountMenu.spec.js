@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import { HeadingStyled, ItemsStyled } from './MyAccountMenuStyled';
-import MyAccountMenu from './MyAccountMenu';
+import { PureMyAccountMenu } from './MyAccountMenu';
 
 describe('<MyAccountMenu/>', () => {
-  const wrapper = shallow(<MyAccountMenu />);
+  const wrapper = shallow(<PureMyAccountMenu />);
 
   describe('@renders', () => {
     it('should render initial state', () => {
