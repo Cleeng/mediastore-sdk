@@ -55,7 +55,8 @@ class CurrentPlan extends Component {
                         {subItem.offerTitle}
                       </SubscriptionTitleStyled>
                       <SubscriptionNextPaymentStyled>
-                        {t('Next Payment')} {dateFormat(subItem.expiresAt)}
+                        {t('Next Payment is on')}{' '}
+                        {dateFormat(subItem.expiresAt)}
                       </SubscriptionNextPaymentStyled>
                     </SubscriptionInfoStyled>
                     <SubscriptionPriceStyled>

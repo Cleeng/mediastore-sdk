@@ -15,7 +15,8 @@
   "New password": "Nowe hasło",
   "Confirm password": "Potwierdź hasło",
   "There are no subscriptions purchased yet.": "Nie wykupiono jeszcze żadnej subskrypcji",
-  "Next Payment": "Następna opłata",
+  "There are no payment methods cofigured": "Nie ustawiono jeszcze zadnej metody płatności",
+  "Next Payment is on": "Następna opłata nastąpi",
   "Expire Date": "Ważna do",
   "week": "tydzień",
   "month": "miesiąc"
