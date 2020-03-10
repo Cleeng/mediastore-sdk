@@ -5,6 +5,7 @@ import { MyAccountContentColor } from 'styles/variables';
 // eslint-disable-next-line import/prefer-default-export
 export const WrapStyled = styled.main`
   flex-grow: 1;
+  min-height: 100%;
 
   padding: 26px;
 
@@ -13,6 +14,5 @@ export const WrapStyled = styled.main`
 
   ${mediaFrom.small`
     border-radius: 20px;
-    overflow-y: scroll;
   `}
 `;

@@ -26,6 +26,8 @@ export const WrapStyled = styled.header`
 export const PhotoStyled = styled.div`
   width: 64px;
   height: 64px;
+  margin: auto;
+  min-width: 64px;
 
   border-radius: 50%;
   background-image: url(${portrait});
@@ -45,25 +47,32 @@ export const NameStyled = styled.div`
   line-height: 29px;
   font-weight: 700;
   margin-bottom: 6px;
-
+  color: ${MyAccountTextDark};
   ${mediaFrom.small`
     margin-bottom: 10px;
     text-align: center;
 
-  `}
+  `};
 `;
 
 export const MailStyled = styled.div`
-  margin-bottom: 4px;
-  font-size: 9px;
-  font-weight: 500;
-  color: ${MyAccountTextGray};
+  max-width: 100%;
+
   margin-bottom: 6px;
+
+  color: ${MyAccountTextDark};
+
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
 
   ${props =>
     props.bigger &&
     css`
-      font-size: 12px;
+      font-size: 13px;
       font-weight: 700;
     `}
 
@@ -85,7 +94,7 @@ export const TextStyled = styled.div`
 export const DetailsStyled = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
 
   width: 100%;
   margin-left: 14px;

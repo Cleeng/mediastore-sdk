@@ -1,9 +1,9 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import MyAccountContent from './MyAccountContent';
 
 describe('<MyAccountContent/>', () => {
-  const wrapper = shallow(<MyAccountContent />);
+  const wrapper = mount(<MyAccountContent />);
 
   describe('@renders', () => {
     it('should render initial state', () => {
