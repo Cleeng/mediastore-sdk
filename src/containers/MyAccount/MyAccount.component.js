@@ -12,7 +12,6 @@ import PaymentInfo from 'components/PaymentInfo';
 import UpdateProfile from 'components/UpdateProfile';
 import Loader from 'components/Loader';
 import { getCustomerSubscriptions, getCustomer } from 'api';
-
 import { MyAccountMenuActive } from 'styles/variables';
 import { breakPoints } from 'styles/BreakPoints';
 
@@ -21,7 +20,7 @@ import {
   WrapperStyled,
   HeaderStyled,
   StyledLoaderContainer,
-  MyAccountContentWrap
+  ContentWrapperStyled
 } from './MyAccountStyled';
 
 class MyAccount extends Component {
@@ -94,7 +93,7 @@ class MyAccount extends Component {
             <MyAccountMenu routeMatch={routeMatch} />
           </HeaderStyled>
           <MyAccountContent>
-            <MyAccountContentWrap>
+            <ContentWrapperStyled>
               <Switch>
                 <Route exact path={path}>
                   <Redirect to={firstPageUrl} />
@@ -117,7 +116,7 @@ class MyAccount extends Component {
                   <Loader color={MyAccountMenuActive} />
                 </StyledLoaderContainer>
               )}
-            </MyAccountContentWrap>
+            </ContentWrapperStyled>
           </MyAccountContent>
         </WrapperStyled>
       </OverlayStyled>

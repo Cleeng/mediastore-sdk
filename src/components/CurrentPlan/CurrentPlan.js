@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
+
 // import Button from 'components/Button';
 
 import { periodMapper, dateFormat, currencyFormat } from './helpers';

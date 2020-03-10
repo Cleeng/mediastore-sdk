@@ -7,6 +7,7 @@ export const WrapperStyled = styled.div`
   display: flex;
   flex-direction: column;
   height: 100%;
+  min-height: 100vh;
 
   padding-top: 54px;
 
@@ -14,6 +15,8 @@ export const WrapperStyled = styled.div`
 
   ${mediaFrom.small`
     flex-direction: row;
+    min-height: unset;
+
 
     padding: 12px;
   `}
@@ -21,6 +24,7 @@ export const WrapperStyled = styled.div`
 
 export const HeaderStyled = styled.div`
   padding: 0 26px;
+  overflow: hidden;
 
   ${mediaFrom.small`
     width: 288px;
@@ -29,7 +33,11 @@ export const HeaderStyled = styled.div`
 `;
 
 export const OverlayStyled = styled.div`
-  height: 100%;
+  min-height: 100vh;
+  ${mediaFrom.small`
+    min-height: unset;
+    height: 700px;
+  `}
   ${props =>
     props.isOverlay &&
     css`
@@ -48,11 +56,12 @@ export const OverlayStyled = styled.div`
 
       ${WrapperStyled} {
         width: 824px;
+        height: 700px;
         ${mediaFrom.small`
           min-height: unset;
 
           border-radius: 20px;
-        `}
+        `};
       }
     `}
 `;
@@ -65,6 +74,8 @@ export const StyledLoaderContainer = styled.div`
   height: 100%;
 `;
 
-export const MyAccountContentWrap = styled.div`
-  height: 100%;
+export const ContentWrapperStyled = styled.div``;
+
+export const ScrollBarWrapper = styled.div`
+  width: 100%;
 `;
