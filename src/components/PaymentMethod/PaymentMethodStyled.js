@@ -4,7 +4,8 @@ import {
   MyAccountTextColor,
   CardEditButtonBg,
   HeadingColor,
-  CardSecondaryColor
+  CardSecondaryColor,
+  MyAccountTextGray
 } from 'styles/variables';
 
 export const WrapStyled = styled.div`
@@ -121,4 +122,9 @@ export const Message = styled.div`
   margin-bottom: 24px;
   font-size: 12px;
   font-weight: 500;
+`;
+
+export const InfoMessageStyled = styled.div`
+  color: ${MyAccountTextGray};
+  font-size: 13px;
 `;
