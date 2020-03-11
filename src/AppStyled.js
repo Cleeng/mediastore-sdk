@@ -23,7 +23,7 @@ export const AppContentStyled = styled.div`
 
   ${media.small`
     min-height: 100vh;
-    height: 1px;
+    /* height: 1px; */
     width: 100%;
   `}
 `;
