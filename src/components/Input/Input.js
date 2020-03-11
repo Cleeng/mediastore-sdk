@@ -59,6 +59,7 @@ class Input extends Component {
               onClick={handleClickShowPassword}
               tabIndex="0"
               aria-label="toggle password visibility"
+              type="button"
             >
               {showPassword ? (
                 <StyledPasswordVisibility src={visibilityOff} alt="" />
