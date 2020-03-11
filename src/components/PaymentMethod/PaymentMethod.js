@@ -1,10 +1,11 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+
 import labeling from 'containers/labeling';
 import Card from 'components/Card';
 
-import visaLogo from './img/visa.png';
+import { CardTypesIcons } from './PaymentMethod.const';
 
 import {
   WrapStyled,
@@ -39,16 +40,21 @@ class PaymentMethod extends PureComponent {
           </Card>
         ) : (
           <PaymentDetailsStyled>
-            {paymentDetails.map(card => {
-              const {
-                lastCardFourDigits,
-                cardExpirationDate
-              } = card.paymentMethodSpecificParams;
-              if (card.paymentMethod === 'card')
+            {paymentDetails.map(method => {
+              if (method.paymentMethod === 'card') {
+                const {
+                  lastCardFourDigits,
+                  cardExpirationDate,
+                  variant
+                } = method.paymentMethodSpecificParams;
                 return (
-                  <CardWrapStyled key={card.id}>
+                  <CardWrapStyled key={method.id}>
                     <CardStyled>
-                      <CardTypeStyled src={visaLogo} />
+                      <CardTypeStyled>
+                        {CardTypesIcons[variant]
+                          ? CardTypesIcons[variant].render()
+                          : null}
+                      </CardTypeStyled>
                       <CardNumberStyled>
                         **** **** **** {lastCardFourDigits}
                       </CardNumberStyled>
@@ -64,9 +70,21 @@ class PaymentMethod extends PureComponent {
                     </CardStyled>
                   </CardWrapStyled>
                 );
+              }
+              if (method.paymentMethod === 'paypal')
+                return (
+                  <CardWrapStyled key={method.id} type={method.paymentMethod}>
+                    <CardStyled>
+                      <CardTypeStyled>
+                        {CardTypesIcons[method.paymentMethod].render()}
+                      </CardTypeStyled>
+                      {/* <CardEditStyled>Edit</CardEditStyled> */}
+                    </CardStyled>
+                  </CardWrapStyled>
+                );
               return (
                 <Message key="message">
-                  Payment by {card.paymentMethod} is not supported
+                  Payment by {method.paymentMethod} is not supported
                 </Message>
               );
             })}

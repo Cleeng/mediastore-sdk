@@ -32,8 +32,7 @@ class RegisterForm extends Component {
     };
   }
 
-  handleClickShowPassword = e => {
-    e.preventDefault();
+  handleClickShowPassword = () => {
     const { showPassword } = this.state;
     this.setState({ showPassword: !showPassword });
   };
