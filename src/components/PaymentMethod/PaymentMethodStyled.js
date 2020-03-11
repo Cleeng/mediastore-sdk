@@ -1,10 +1,13 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
   MyAccountBlue,
   MyAccountTextColor,
   CardEditButtonBg,
   HeadingColor,
-  CardSecondaryColor
+  CardSecondaryColor,
+  MyAccountTextGray,
+  PaypalMainColor,
+  PaypalSecondaryColor
 } from 'styles/variables';
 
 export const WrapStyled = styled.div`
@@ -14,12 +17,6 @@ export const WrapStyled = styled.div`
 `;
 
 export const PaymentDetailsStyled = styled.div``;
-
-export const CardWrapStyled = styled.div`
-  max-width: 298px;
-  margin: auto;
-  font-family: Arial, Helvetica, sans-serif;
-`;
 
 export const CardStyled = styled.div`
   position: relative;
@@ -47,13 +44,17 @@ export const CardStyled = styled.div`
   }
 `;
 
-export const CardTypeStyled = styled.img`
+export const CardTypeStyled = styled.div`
   position: absolute;
   left: 16px;
   top: 28px;
-  height: 13px;
-  width: auto;
+  height: 24px;
   z-index: 2;
+
+  svg {
+    height: 100%;
+    width: auto;
+  }
 `;
 
 export const CardNumberStyled = styled.div`
@@ -110,6 +111,24 @@ export const CardEditStyled = styled.button`
   }
 `;
 
+export const CardWrapStyled = styled.div`
+  max-width: 298px;
+  margin: auto;
+  font-family: Arial, Helvetica, sans-serif;
+
+  ${props =>
+    props.type === 'paypal' &&
+    css`
+      ${CardStyled} {
+        background-color: ${PaypalMainColor};
+
+        &:after {
+          background-color: ${PaypalSecondaryColor};
+        }
+      }
+    `}
+`;
+
 export const StyledLoaderContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -121,4 +140,9 @@ export const Message = styled.div`
   margin-bottom: 24px;
   font-size: 12px;
   font-weight: 500;
+`;
+
+export const InfoMessageStyled = styled.div`
+  color: ${MyAccountTextGray};
+  font-size: 13px;
 `;

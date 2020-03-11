@@ -27,16 +27,19 @@ class PaymentInfo extends Component {
 
     if (!paymentInfo.paymentMethod.length) {
       showLoader();
-      getPaymentDetails().then(response => {
-        if (response.errors.length) {
-          this.setState({
-            errors: response.errors
-          });
-        } else {
-          setPaymentMethod(response.responseData.paymentDetails);
+      getPaymentDetails()
+        .then(response => {
+          if (response.errors.length) {
+            this.setState({
+              errors: response.errors
+            });
+          } else {
+            setPaymentMethod(response.responseData.paymentDetails);
+          }
+        })
+        .then(() => {
           hideLoader();
-        }
-      });
+        });
     } else {
       hideLoader();
     }
