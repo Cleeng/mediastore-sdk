@@ -9,14 +9,13 @@ export const WrapperStyled = styled.div`
   height: 100%;
   min-height: 100vh;
 
-  padding-top: 54px;
+  padding-top: 44px;
 
   background-color: ${MyAccountMainColor};
 
   ${mediaFrom.small`
     flex-direction: row;
     min-height: unset;
-
 
     padding: 12px;
   `}

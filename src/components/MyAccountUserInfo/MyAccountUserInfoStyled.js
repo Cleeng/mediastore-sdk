@@ -43,15 +43,16 @@ export const PhotoStyled = styled.div`
 `;
 
 export const NameStyled = styled.div`
-  font-size: 24px;
-  line-height: 29px;
+  font-size: 19px;
+  line-height: 24px;
   font-weight: 700;
   margin-bottom: 6px;
   color: ${MyAccountTextDark};
   ${mediaFrom.small`
+    font-size: 24px;
+    line-height: 29px;
     margin-bottom: 10px;
     text-align: center;
-
   `};
 `;
 
