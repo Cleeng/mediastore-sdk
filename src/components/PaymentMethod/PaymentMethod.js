@@ -30,13 +30,12 @@ class PaymentMethod extends PureComponent {
 
   render() {
     const { paymentDetails, t } = this.props;
-
     return (
       <WrapStyled>
         {paymentDetails.length === 0 ? (
-          <Card>
+          <Card isShadow>
             <InfoMessageStyled>
-              {t('There are no payment methods cofigured')}
+              {t('There are no payment methods configured')}
             </InfoMessageStyled>
           </Card>
         ) : (

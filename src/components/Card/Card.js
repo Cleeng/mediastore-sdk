@@ -3,14 +3,18 @@ import PropTypes from 'prop-types';
 
 import { WrapStyled } from './CardStyled';
 
-const Card = ({ children }) => <WrapStyled>{children}</WrapStyled>;
+const Card = ({ children, isShadow }) => (
+  <WrapStyled isShadow={isShadow}>{children}</WrapStyled>
+);
 
 export default Card;
 
 Card.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
+  isShadow: PropTypes.bool
 };
 
 Card.defaultProps = {
-  children: ''
+  children: '',
+  isShadow: false
 };

@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import {
-  CardColor,
   MyAccountTextGray,
   MyAccountTextDark2,
   MyAccountTextLightGray2,
@@ -11,10 +10,8 @@ import { mediaFrom } from 'styles/BreakPoints';
 
 export const WrapStyled = styled.div`
   position: relative;
-  background-color: ${CardColor};
-  border-radius: 12px;
-  box-shadow: 0px 3px 50px #0000001f;
-  padding: 18px;
+
+  margin-bottom: 20px;
 `;
 
 export const SubscriptionsStyled = styled.div``;
