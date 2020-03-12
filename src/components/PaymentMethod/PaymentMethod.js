@@ -35,7 +35,7 @@ class PaymentMethod extends PureComponent {
         {paymentDetails.length === 0 ? (
           <Card isShadow>
             <InfoMessageStyled>
-              {t('There are no payment methods cofigured')}
+              {t('There are no payment methods configured')}
             </InfoMessageStyled>
           </Card>
         ) : (
