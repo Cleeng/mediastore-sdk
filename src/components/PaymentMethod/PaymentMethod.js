@@ -60,7 +60,7 @@ class PaymentMethod extends PureComponent {
                       </CardNumberStyled>
                       <CardExpirationStyled>
                         <CardExpirationLabel>
-                          {t('Expire Date')}
+                          {t('Expiry date')}
                         </CardExpirationLabel>
                         <CardExpirationDateStyled>
                           {cardExpirationDate}

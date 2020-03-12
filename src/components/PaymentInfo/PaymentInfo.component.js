@@ -52,7 +52,7 @@ class PaymentInfo extends Component {
       <WrapStyled>
         {!isLoading && (
           <>
-            <MyAccountHeading text={t('Payment Method')} />
+            <MyAccountHeading text={t('Payment method')} />
             <PaymentMehod
               paymentDetails={paymentInfo ? paymentInfo.paymentMethod : []}
             />

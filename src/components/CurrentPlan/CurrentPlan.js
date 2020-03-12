@@ -10,7 +10,6 @@ import { periodMapper, dateFormat, currencyFormat } from './helpers';
 
 import {
   WrapStyled,
-  SubscriptionsStyled,
   SubscriptionStyled,
   SubscriptionInfoBoxStyled,
   SubscriptionIcon,
@@ -42,7 +41,7 @@ class CurrentPlan extends Component {
             </InfoMessageStyled>
           </Card>
         ) : (
-          <SubscriptionsStyled>
+          <Card>
             {subscriptions.map(subItem => (
               <SubscriptionStyled key={subItem.offerId}>
                 <SubscriptionInfoBoxStyled>
@@ -57,7 +56,7 @@ class CurrentPlan extends Component {
                       {subItem.offerTitle}
                     </SubscriptionTitleStyled>
                     <SubscriptionNextPaymentStyled>
-                      {t('Next Payment')} {dateFormat(subItem.expiresAt)}
+                      {t('Next payment is on')} {dateFormat(subItem.expiresAt)}
                     </SubscriptionNextPaymentStyled>
                   </SubscriptionInfoStyled>
                   <SubscriptionPriceStyled>
@@ -76,7 +75,7 @@ class CurrentPlan extends Component {
                 </SubscriptionActionsStyled> */}
               </SubscriptionStyled>
             ))}
-          </SubscriptionsStyled>
+          </Card>
         )}
       </WrapStyled>
     );
