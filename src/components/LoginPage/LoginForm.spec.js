@@ -167,7 +167,7 @@ describe('LoginForm', () => {
         expect(instance.state.generalError).toBe('');
         expect(Auth.login).toHaveBeenCalled();
         expect(Auth.login).toHaveBeenCalledTimes(1);
-        expect(Auth.login).toHaveBeenCalledWith(mockEmailValue, jwtMock);
+        expect(Auth.login).toHaveBeenCalledWith(false, mockEmailValue, jwtMock);
         done();
       });
     });

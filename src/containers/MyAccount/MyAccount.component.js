@@ -1,8 +1,7 @@
 /* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Route, Switch, Redirect } from 'react-router-dom';
-
+import { Switch, Redirect } from 'react-router-dom';
 import MyAccountMenu from 'components/MyAccountMenu';
 import MyAccountUserInfo from 'components/MyAccountUserInfo';
 import MyAccountContent from 'components/MyAccountContent';
@@ -14,7 +13,7 @@ import Loader from 'components/Loader';
 import { getCustomerSubscriptions, getCustomer } from 'api';
 import { MyAccountMenuActive } from 'styles/variables';
 import { breakPoints } from 'styles/BreakPoints';
-
+import PrivateRoute from 'services/privateRoute';
 import {
   OverlayStyled,
   WrapperStyled,
@@ -95,21 +94,32 @@ class MyAccount extends Component {
           <MyAccountContent>
             <ContentWrapperStyled>
               <Switch>
-                <Route exact path={path}>
-                  <Redirect to={firstPageUrl} />
-                </Route>
-                <Route path={`${path}/quick-actions`}>
-                  <QuickActions />
-                </Route>
-                <Route path={`${path}/plan-details`}>
-                  <PlanDetails />
-                </Route>
-                <Route path={`${path}/payment-info`}>
-                  <PaymentInfo />
-                </Route>
-                <Route path={`${path}/update-profile`}>
-                  <UpdateProfile />
-                </Route>
+                <PrivateRoute
+                  isMyAccount
+                  exact
+                  path={path}
+                  component={() => <Redirect to={firstPageUrl} />}
+                />
+                <PrivateRoute
+                  isMyAccount
+                  path={`${path}/quick-actions`}
+                  component={QuickActions}
+                />
+                <PrivateRoute
+                  isMyAccount
+                  path={`${path}/plan-details`}
+                  component={PlanDetails}
+                />
+                <PrivateRoute
+                  isMyAccount
+                  path={`${path}/payment-info`}
+                  component={PaymentInfo}
+                />
+                <PrivateRoute
+                  isMyAccount
+                  path={`${path}/update-profile`}
+                  component={UpdateProfile}
+                />
               </Switch>
               {isLoading && (
                 <StyledLoaderContainer>

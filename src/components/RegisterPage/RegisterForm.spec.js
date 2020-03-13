@@ -285,6 +285,7 @@ describe('RegisterForm', () => {
         expect(Auth.login).toHaveBeenCalled();
         expect(Auth.login).toHaveBeenCalledTimes(1);
         expect(Auth.login).toHaveBeenCalledWith(
+          false,
           mockEmailValue,
           jwtMock,
           submitConsentsRequest,

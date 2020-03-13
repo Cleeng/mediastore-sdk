@@ -27,7 +27,7 @@ const Button = ({
   isLink ? (
     <ButtonStyled
       as={Link}
-      to={to}
+      to={{ pathname: to.pathname, state: { fromMyAccount: to.fromMyAccount } }}
       variant={variant}
       disabled={disabled}
       aria-label={label}
@@ -55,7 +55,7 @@ Button.propTypes = {
   onClickFn: PropTypes.func,
   disabled: PropTypes.bool,
   isLink: PropTypes.bool,
-  to: PropTypes.string,
+  to: PropTypes.objectOf(PropTypes.any),
   label: PropTypes.string
 };
 
@@ -66,6 +66,6 @@ Button.defaultProps = {
   onClickFn: () => {},
   disabled: false,
   isLink: false,
-  to: null,
+  to: { pathname: '', state: { fromMyAccount: false } },
   label: null
 };

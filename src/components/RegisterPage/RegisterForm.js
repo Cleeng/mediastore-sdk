@@ -119,7 +119,7 @@ class RegisterForm extends Component {
       locales.currency
     );
     if (response.status === 200) {
-      Auth.login(email, response.responseData.jwt, submitConsents, [
+      Auth.login(false, email, response.responseData.jwt, submitConsents, [
         consents,
         consentDefinitions
       ]);

@@ -5,11 +5,17 @@ import { HeaderStyled, LogoStyled } from './HeaderStyled';
 import headerLogo from './img/logo.svg';
 import Button from '../Button/Button';
 
-const Header = ({ showBackIcon, showLogOutButton }) => (
+const Header = ({ showBackIcon, isMyAccount, showLogOutButton }) => (
   <HeaderStyled>
     {showBackIcon && (
       <nav>
-        <Button isLink to="/login" variant="back">
+        <Button
+          isLink
+          to={{
+            pathname: isMyAccount ? '/my-account/login' : '/login'
+          }}
+          variant="back"
+        >
           Back
         </Button>
       </nav>
@@ -27,10 +33,12 @@ const Header = ({ showBackIcon, showLogOutButton }) => (
 
 Header.propTypes = {
   showBackIcon: PropTypes.bool,
+  isMyAccount: PropTypes.bool,
   showLogOutButton: PropTypes.bool
 };
 Header.defaultProps = {
   showBackIcon: false,
+  isMyAccount: false,
   showLogOutButton: false
 };
 

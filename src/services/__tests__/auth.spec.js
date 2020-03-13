@@ -37,7 +37,7 @@ describe('Auth', () => {
   });
   describe('@login', () => {
     it('should update auth status to authenticated and set items in local storage when Login', () => {
-      Auth.login(emailMock, validJWT);
+      Auth.login(false, emailMock, validJWT);
       expect(localStorage.getItem('CLEENG_AUTH_TOKEN')).toBe(validJWT);
       expect(localStorage.getItem('CLEENG_CUSTOMER_EMAIL')).toBe(emailMock);
       expect(pushSpy).toHaveBeenCalled();
@@ -46,7 +46,7 @@ describe('Auth', () => {
   });
   describe('@logout', () => {
     it('should update auth status to not authenticated and remove items from local storage on Logout', () => {
-      Auth.login(emailMock, validJWT);
+      Auth.login(false, emailMock, validJWT);
       Auth.logout();
       expect(localStorage.removeItem).toHaveBeenCalledTimes(2);
       expect(pushSpy).toHaveBeenCalled();
