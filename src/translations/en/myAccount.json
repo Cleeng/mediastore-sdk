@@ -4,9 +4,9 @@
   "Plan Details": "Plan Details",
   "Payment Info": "Payment Info",
   "Update Profile": "Update Profile",
-  "Current Plan": "Current Plan",
-  "Payment Method": "Payment Method",
-  "Profile Details": "Profile Details",
+  "Current plan": "Current plan",
+  "Payment method": "Payment method",
+  "Profile details": "Profile details",
   "First name": "First name",
   "Last name": "Last name",
   "Mail": "Adres e-mail",
@@ -16,8 +16,8 @@
   "Confirm password": "Confirm password",
   "There are no subscriptions purchased yet.": "There are no subscriptions purchased yet.",
   "There are no payment methods configured": "There are no payment methods configured",
-  "Next Payment is on": "Next Payment is on",
-  "Expire Date": "Expire Date",
+  "Next payment is on": "Next payment is on",
+  "Expiry date": "Expiry date",
   "week": "week",
   "month": "month"
 }

@@ -4,9 +4,9 @@
   "Plan Details": "Szczegóły planu",
   "Payment Info": "Płatności",
   "Update Profile": "Zaktualizuj profil",
-  "Current Plan": "Aktualny plan",
-  "Payment Method": "Metoda płatności",
-  "Profile Details": "Szczegóły profilu",
+  "Current plan": "Aktualny plan",
+  "Payment method": "Metoda płatności",
+  "Profile details": "Szczegóły profilu",
   "First name": "Imię",
   "Last name": "Nazwisko",
   "Mail": "Mail",
@@ -16,8 +16,8 @@
   "Confirm password": "Potwierdź hasło",
   "There are no subscriptions purchased yet.": "Nie wykupiono jeszcze żadnej subskrypcji",
   "There are no payment methods configured": "Nie ustawiono jeszcze zadnej metody płatności",
-  "Next Payment is on": "Następna opłata nastąpi",
-  "Expire Date": "Ważna do",
+  "Next payment is on": "Następna opłata nastąpi",
+  "Expiry Date": "Ważna do",
   "week": "tydzień",
   "month": "miesiąc"
 }

@@ -47,7 +47,7 @@ class UpdateProfile extends Component {
       <WrapStyled>
         {!isLoading && user && (
           <>
-            <MyAccountHeading text={t('Profile Details')} />
+            <MyAccountHeading text={t('Profile details')} />
             <ProfileDetails
               firstName={user.firstName}
               lastName={user.lastName}

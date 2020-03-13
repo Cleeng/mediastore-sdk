@@ -41,7 +41,7 @@ class PlanDetails extends Component {
       <WrapStyled>
         {!isLoading && (
           <>
-            <MyAccountHeading text={t('Current Plan')} />
+            <MyAccountHeading text={t('Current plan')} />
             <CurrentPlan subscriptions={planDetails.currentPlan} />
           </>
         )}
