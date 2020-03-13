@@ -53,7 +53,7 @@ class Register extends Component {
             publisherId={publisherId}
             setOfferError={this.setOfferError}
           />
-          <Button isLink to="/login" variant="secondary">
+          <Button isLink to={{ pathname: '/login' }} variant="secondary">
             {t('Have an account?')}
           </Button>
           <SocialStyled>

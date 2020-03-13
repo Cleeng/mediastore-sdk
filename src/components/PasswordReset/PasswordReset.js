@@ -64,10 +64,14 @@ class PasswordReset extends Component {
 
   render() {
     const { value, message, processing } = this.state;
-    const { t } = this.props;
+    const {
+      t,
+      urlProps: { location }
+    } = this.props;
+    const fromMyAccount = location.state ? location.state.fromMyAccount : false;
     return (
       <>
-        <Header showBackIcon />
+        <Header showBackIcon isMyAccount={fromMyAccount} />
         <PasswordResetPageStyled>
           <StyledTitle>{t('Forgot your password?')}</StyledTitle>
           <StyledMessage>
@@ -99,7 +103,10 @@ class PasswordReset extends Component {
 PasswordReset.propTypes = {
   onSuccess: PropTypes.func.isRequired,
   urlProps: PropTypes.shape({
-    location: PropTypes.shape({ search: PropTypes.string })
+    location: PropTypes.shape({
+      search: PropTypes.string,
+      state: PropTypes.object
+    })
   }),
   t: PropTypes.func
 };

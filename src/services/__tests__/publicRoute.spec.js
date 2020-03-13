@@ -37,7 +37,7 @@ describe('PublicRoute', () => {
     );
   });
 
-  it('should redirect to offer page is user is logged', () => {
+  it('should redirect from checkout login to offer page if user is logged', () => {
     Auth.isLogged = jest.fn(() => true);
     const wrapper = mount(
       <MemoryRouter initialEntries={['/login']}>
@@ -47,6 +47,22 @@ describe('PublicRoute', () => {
     expect(wrapper.find(Login)).toHaveLength(0);
     expect(wrapper.find('Router').prop('history').location.pathname).toEqual(
       '/offer'
+    );
+  });
+  it('should redirect from my account login to plan details page if user is logged', () => {
+    Auth.isLogged = jest.fn(() => true);
+    const wrapper = mount(
+      <MemoryRouter initialEntries={['/my-account/login']}>
+        <PublicRoute
+          path="/my-account/login"
+          isMyAccount
+          component={() => <Login isMyAccount />}
+        />
+      </MemoryRouter>
+    );
+    expect(wrapper.find(Login)).toHaveLength(0);
+    expect(wrapper.find('Router').prop('history').location.pathname).toEqual(
+      '/my-account/plan-details'
     );
   });
 });

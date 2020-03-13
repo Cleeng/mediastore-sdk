@@ -37,6 +37,13 @@ const App = () => {
                 component={urlProps => <Login urlProps={urlProps} />}
               />
               <PublicRoute
+                path="/my-account/login"
+                isMyAccount
+                component={urlProps => (
+                  <Login urlProps={urlProps} isMyAccount />
+                )}
+              />
+              <PublicRoute
                 path="/register"
                 component={urlProps => <Register urlProps={urlProps} />}
               />
@@ -74,9 +81,10 @@ const App = () => {
                 path="/thankyou"
                 component={() => <ThankYouPage />}
               />
-              <Route
+              <PrivateRoute
+                isMyAccount
                 path="/my-account"
-                render={({ match }) => (
+                component={({ match }) => (
                   <Provider store={store}>
                     <MyAccount routeMatch={match} />
                   </Provider>

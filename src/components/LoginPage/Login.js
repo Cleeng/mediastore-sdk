@@ -22,6 +22,7 @@ class Login extends Component {
     super(props);
     this.state = {
       offerId: '',
+      publisherId: '',
       isOfferError: false
     };
   }
@@ -29,17 +30,19 @@ class Login extends Component {
   componentDidMount() {
     const { urlProps } = this.props;
     saveOfferId(urlProps.location, this.setOfferId);
-    savePublisherId(urlProps.location, () => {});
+    savePublisherId(urlProps.location, this.setPublisherId);
     Auth.isLogged();
   }
 
   setOfferId = value => this.setState({ offerId: value });
 
+  setPublisherId = value => this.setState({ publisherId: value });
+
   setOfferError = value => this.setState({ isOfferError: value });
 
   render() {
-    const { isOfferError, offerId } = this.state;
-    const { t } = this.props;
+    const { isOfferError, offerId, publisherId } = this.state;
+    const { isMyAccount, t } = this.props;
     return isOfferError ? (
       <ErrorPage type="offerNotExist" />
     ) : (
@@ -49,21 +52,34 @@ class Login extends Component {
           <LoginForm
             t={t}
             offerId={offerId}
+            publisherId={publisherId}
             setOfferError={this.setOfferError}
+            isMyAccount={isMyAccount}
           />
-          <Button isLink to="/register" variant="secondary">
-            {t('Go to register')}
-          </Button>
-          <SocialStyled>
-            <SeparatorStyled>{t('Or sign in with')}</SeparatorStyled>
-            <Button variant="fb" label={t('Sign in with Facebook')}>
-              Facebook
-            </Button>
-            <Button variant="google" label={t('Sign in with Google')}>
-              Google
-            </Button>
-          </SocialStyled>
-          <Button isLink to="/reset-password" variant="link">
+          {!isMyAccount && (
+            <>
+              <Button isLink to={{ pathname: '/register' }} variant="secondary">
+                {t('Go to register')}
+              </Button>
+              <SocialStyled>
+                <SeparatorStyled>{t('Or sign in with')}</SeparatorStyled>
+                <Button variant="fb" label={t('Sign in with Facebook')}>
+                  Facebook
+                </Button>
+                <Button variant="google" label={t('Sign in with Google')}>
+                  Google
+                </Button>
+              </SocialStyled>
+            </>
+          )}
+          <Button
+            isLink
+            to={{
+              pathname: '/reset-password',
+              fromMyAccount: isMyAccount
+            }}
+            variant="link"
+          >
             {t('Forgot password?')}
           </Button>
         </ContentWrapperStyled>
@@ -76,10 +92,12 @@ Login.propTypes = {
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
   }),
+  isMyAccount: PropTypes.bool,
   t: PropTypes.func
 };
 Login.defaultProps = {
   urlProps: {},
+  isMyAccount: false,
   t: k => k
 };
 

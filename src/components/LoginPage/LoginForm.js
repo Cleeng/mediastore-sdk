@@ -119,8 +119,8 @@ class LoginForm extends Component {
   };
 
   login = async () => {
-    const { offerId, setOfferError } = this.props;
-    if (!offerId) {
+    const { offerId, setOfferError, isMyAccount, publisherId } = this.props;
+    if (!offerId && !isMyAccount) {
       setOfferError(true);
       return false;
     }
@@ -130,9 +130,17 @@ class LoginForm extends Component {
       });
       const { email, password, captcha } = this.state;
       const { t } = this.props;
-      const response = await loginCustomer(email, password, offerId, captcha);
+
+      let loginBy;
+      if (isMyAccount) {
+        loginBy = { publisherId };
+      } else {
+        loginBy = { offerId };
+      }
+
+      const response = await loginCustomer(email, password, loginBy, captcha);
       if (response.status === 200) {
-        Auth.login(email, response.responseData.jwt);
+        Auth.login(!!isMyAccount, email, response.responseData.jwt);
       } else if (response.status === 401 || response.status === 423) {
         this.checkCaptcha();
         this.setState({
@@ -208,13 +216,19 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  offerId: PropTypes.string.isRequired,
-  t: PropTypes.func,
-  setOfferError: PropTypes.func
+  offerId: PropTypes.string,
+  publisherId: PropTypes.string,
+  isMyAccount: PropTypes.bool,
+  setOfferError: PropTypes.func,
+  t: PropTypes.func
 };
+
 LoginForm.defaultProps = {
-  t: k => k,
-  setOfferError: () => {}
+  offerId: '',
+  publisherId: '',
+  isMyAccount: false,
+  setOfferError: () => {},
+  t: k => k
 };
 
 export default LoginForm;

@@ -1,4 +1,4 @@
-const loginCustomer = async (email, password, offerId, captcha) => {
+const loginCustomer = async (email, password, loginBy, captcha) => {
   const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/auths`;
 
   try {
@@ -11,7 +11,7 @@ const loginCustomer = async (email, password, offerId, captcha) => {
       body: JSON.stringify({
         email,
         password,
-        offerId,
+        ...loginBy,
         captcha
       })
     });
