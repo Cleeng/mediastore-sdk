@@ -49,7 +49,7 @@ class PaymentMethod extends PureComponent {
                 } = method.paymentMethodSpecificParams;
                 const LogoComponent = CardTypesIcons[variant]
                   ? CardTypesIcons[variant]
-                  : null;
+                  : React.Fragment;
                 return (
                   <CardWrapStyled key={method.id}>
                     <CardStyled>

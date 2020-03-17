@@ -31,7 +31,9 @@ class MyAccountMenu extends Component {
         <HeadingStyled>{t('Category Shortcuts')}</HeadingStyled>
         <ItemsStyled>
           {MenuItems.map(menuItem => {
-            const IconComponent = menuItem.icon ? menuItem.icon : null;
+            const IconComponent = menuItem.icon
+              ? menuItem.icon
+              : React.Fragment;
             return (
               <ItemWrapStyled
                 key={menuItem.label}
