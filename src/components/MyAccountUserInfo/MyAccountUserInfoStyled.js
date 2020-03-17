@@ -26,7 +26,6 @@ export const WrapStyled = styled.header`
 export const PhotoStyled = styled.div`
   width: 64px;
   height: 64px;
-  margin: auto;
   min-width: 64px;
 
   border-radius: 50%;
@@ -88,6 +87,8 @@ export const TextStyled = styled.div`
   border-radius: 10px;
   color: ${MyAccountTextGray};
   font-size: 9px;
+  line-height: 12px;
+  text-align: center;
   font-weight: 500;
   min-height: 19px;
 `;
@@ -97,7 +98,7 @@ export const DetailsStyled = styled.div`
   flex-direction: column;
   justify-content: center;
 
-  width: 100%;
+  max-width: calc(100% - 78px);
   margin-left: 14px;
 
   color: ${MyAccountTextDark};
@@ -123,6 +124,8 @@ export const DetailsStyled = styled.div`
     `}
 
   ${mediaFrom.small`
+    width: 100%;
+    max-width: unset;
     align-items: center;
   
     margin-left: 0;

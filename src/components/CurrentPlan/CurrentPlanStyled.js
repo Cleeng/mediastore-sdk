@@ -33,18 +33,24 @@ export const SubscriptionInfoBoxStyled = styled.div`
 `;
 
 export const SubscriptionIcon = styled.div`
-  padding: 14px 10px;
+  padding: 12px 10px;
   margin-right: 10px;
   border-radius: 8px;
-  flex: 0 0 50px;
+  flex: 0 0 36px;
 
-  font-size: 21px;
+  font-size: 16px;
   font-weight: 700;
   text-align: center;
 
   background-color: ${props =>
     props.bg ? props.bg : SubscriptionIconDefaultBg};
   color: ${props => (props.color ? props.color : SubscriptionIconDefaultColor)};
+
+  ${mediaFrom.small`
+    padding: 14px 10px;
+    margin-right: 10px;
+    flex: 0 0 50px;
+  `}
 `;
 
 export const SubscriptionInfoStyled = styled.div`
@@ -56,11 +62,16 @@ export const SubscriptionInfoStyled = styled.div`
 `;
 
 export const SubscriptionTitleStyled = styled.div`
-  font-size: 14px;
-  line-height: 17px;
+  font-size: 12px;
+  line-height: 14px;
   font-weight: 600;
   margin-bottom: 8px;
   color: ${MyAccountTextDark2};
+
+  ${mediaFrom.small`
+    font-size: 14px;
+    line-height: 17px;
+  `}
 `;
 
 export const SubscriptionNextPaymentStyled = styled.div`

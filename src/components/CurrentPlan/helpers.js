@@ -11,7 +11,7 @@ export const periodMapper = {
     color: '#76A3F5',
     bg: '#EEF4FF'
   },
-  '3month': {
+  '3months': {
     label: '3',
     peroid: 'month',
     color: '#EBB46D',
@@ -26,6 +26,12 @@ export const periodMapper = {
   year: {
     label: '12',
     peroid: 'month',
+    color: '#83CBBB',
+    bg: '#EDF8F4'
+  },
+  default: {
+    label: 'S',
+    peroid: '',
     color: '#83CBBB',
     bg: '#EDF8F4'
   }
