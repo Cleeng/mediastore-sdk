@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs } from '@storybook/addon-knobs';
-import CurrentPlan from './CurrentPlan';
+import { PureCurrentPlan as CurrentPlan } from './CurrentPlan';
 
 const SUBSCRIPTIONMOCK = [
   {

@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs } from '@storybook/addon-knobs';
 import { MemoryRouter } from 'react-router-dom';
-import MyAccountMenu from './MyAccountMenu';
+import { PureMyAccountMenu as MyAccountMenu } from './MyAccountMenu';
 
 storiesOf('MyAccount/MyAccountMenu', module)
   .addDecorator(jsxDecorator)
