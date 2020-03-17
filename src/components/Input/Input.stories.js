@@ -18,7 +18,7 @@ const inputTypes = {
   password: 'password'
 };
 
-storiesOf('Input', module)
+storiesOf('Checkout/Input', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (

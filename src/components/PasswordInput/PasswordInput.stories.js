@@ -16,7 +16,7 @@ const ERROR_MESSAGES = {
   fillField: 'Please fill out this field.'
 };
 
-storiesOf('PasswordInput', module)
+storiesOf('Checkout/PasswordInput', module)
   .addDecorator(jsxDecorator)
   .addDecorator(withKnobs)
   .addDecorator(story => (

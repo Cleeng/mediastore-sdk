@@ -12,7 +12,7 @@ export const WrapStyled = styled.div`
   background-color: ${CardColor};
 
   ${props =>
-    props.isShadow &&
+    props.withShadow &&
     css`
       box-shadow: 0px 3px 50px #0000001f;
     `}

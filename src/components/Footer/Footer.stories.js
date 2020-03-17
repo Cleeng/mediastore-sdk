@@ -4,7 +4,7 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import Footer from './Footer';
 import 'styles/index.scss';
 
-storiesOf('Footer', module)
+storiesOf('Checkout/Footer', module)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (
     <div

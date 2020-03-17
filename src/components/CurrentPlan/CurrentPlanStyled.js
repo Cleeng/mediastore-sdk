@@ -4,7 +4,8 @@ import {
   MyAccountTextDark2,
   MyAccountTextLightGray2,
   SubscriptionIconDefaultBg,
-  SubscriptionIconDefaultColor
+  SubscriptionIconDefaultColor,
+  MyAccountContentColor
 } from 'styles/variables';
 import { mediaFrom } from 'styles/BreakPoints';
 
@@ -16,7 +17,14 @@ export const WrapStyled = styled.div`
 
 export const SubscriptionsStyled = styled.div``;
 
-export const SubscriptionStyled = styled.div``;
+export const SubscriptionStyled = styled.div`
+  &:not(:last-child) {
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+
+    border-bottom: 2px solid ${MyAccountContentColor};
+  }
+`;
 
 export const SubscriptionInfoBoxStyled = styled.div`
   display: flex;
@@ -28,9 +36,11 @@ export const SubscriptionIcon = styled.div`
   padding: 14px 10px;
   margin-right: 10px;
   border-radius: 8px;
+  flex: 0 0 50px;
 
   font-size: 21px;
   font-weight: 700;
+  text-align: center;
 
   background-color: ${props =>
     props.bg ? props.bg : SubscriptionIconDefaultBg};
@@ -48,7 +58,7 @@ export const SubscriptionInfoStyled = styled.div`
 export const SubscriptionTitleStyled = styled.div`
   font-size: 14px;
   line-height: 17px;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 8px;
   color: ${MyAccountTextDark2};
 `;

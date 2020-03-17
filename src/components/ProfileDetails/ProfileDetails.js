@@ -7,7 +7,7 @@ import MyAccountInput from 'components/MyAccountInput/MyAccountInput';
 // import Button from 'components/Button';
 import { WrapStyled } from './ProfileDetailsStyled';
 
-const ProfileDetails = ({ firstName, lastName, mail, t }) => (
+const ProfileDetails = ({ firstName, lastName, email, t }) => (
   <WrapStyled>
     <Card>
       <MyAccountInput
@@ -22,7 +22,7 @@ const ProfileDetails = ({ firstName, lastName, mail, t }) => (
         label={t('Last name')}
         disabled
       />
-      <MyAccountInput id="email" value={mail} label="Mail" disabled />
+      <MyAccountInput id="email" value={email} label="e-mail" disabled />
       {/* <MyAccountButtonStyled>
         <Button>Edit Details</Button>
       </MyAccountButtonStyled> */}
@@ -33,14 +33,14 @@ const ProfileDetails = ({ firstName, lastName, mail, t }) => (
 ProfileDetails.propTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
-  mail: PropTypes.string,
+  email: PropTypes.string,
   t: PropTypes.func
 };
 
 ProfileDetails.defaultProps = {
   firstName: '',
   lastName: '',
-  mail: '',
+  email: '',
   t: k => k
 };
 

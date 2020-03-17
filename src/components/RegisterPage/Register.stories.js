@@ -8,7 +8,7 @@ import '../../styles/index.scss';
 
 localStorage.setItem('CLEENG_OFFER_ID', 'S144753252_UA');
 
-storiesOf('RegisterPage', module)
+storiesOf('Checkout/RegisterPage', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (

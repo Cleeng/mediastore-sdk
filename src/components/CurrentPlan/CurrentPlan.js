@@ -35,7 +35,7 @@ class CurrentPlan extends Component {
     return (
       <WrapStyled>
         {subscriptions.length === 0 ? (
-          <Card isShadow>
+          <Card withShadow>
             <InfoMessageStyled>
               {t('There are no subscriptions purchased yet.')}
             </InfoMessageStyled>

@@ -16,7 +16,7 @@ import Offer from './Offer';
 
 const OFFER_DETAILS_GROUP_ID = 'Offer Details';
 
-storiesOf('Offer', module)
+storiesOf('Checkout/Offer', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (

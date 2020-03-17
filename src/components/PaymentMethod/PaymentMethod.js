@@ -33,7 +33,7 @@ class PaymentMethod extends PureComponent {
     return (
       <WrapStyled>
         {paymentDetails.length === 0 ? (
-          <Card isShadow>
+          <Card withShadow>
             <InfoMessageStyled>
               {t('There are no payment methods configured')}
             </InfoMessageStyled>

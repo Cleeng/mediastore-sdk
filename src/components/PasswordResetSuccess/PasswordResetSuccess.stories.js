@@ -7,7 +7,7 @@ import StoryRouter from 'storybook-react-router';
 import 'styles/index.scss';
 import PasswordResetSuccess from './PasswordResetSuccess';
 
-storiesOf('PasswordResetSuccess', module)
+storiesOf('Common/PasswordResetSuccess', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(StoryRouter())
