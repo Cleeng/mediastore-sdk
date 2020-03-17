@@ -100,6 +100,8 @@ const ButtonStyled = styled.button`
     props.variant === 'paymentmethod' &&
     css`
       flex: 1 0 21%;
+      min-width: min-content;
+      padding: 0 30px;
 
       background-color: white;
       border: 1px solid ${colors.ButtonBorder};

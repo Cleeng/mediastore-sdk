@@ -9,20 +9,20 @@ class WrapperComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      offerId: null
+      publisherId: null
     };
   }
 
   componentDidMount() {
     this.setState({
-      offerId: 'S144753252_UA'
+      publisherId: '933103327'
     });
   }
 
   render() {
-    const { offerId } = this.state;
+    const { publisherId } = this.state;
     const { error } = this.props;
-    return <Consent error={error} offerId={offerId} />;
+    return <Consent error={error} publisherId={publisherId} />;
   }
 }
 
@@ -34,7 +34,7 @@ WrapperComponent.defaultProps = {
   error: ''
 };
 
-storiesOf('Consents', module)
+storiesOf('Checkout/Consents', module)
   .addDecorator(jsxDecorator)
   .addDecorator(withKnobs)
   .addDecorator(story => (

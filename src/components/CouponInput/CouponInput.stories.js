@@ -82,7 +82,7 @@ CouponInputFeedbackWrapper.propTypes = {
     .isRequired
 };
 
-storiesOf('CouponInput', module)
+storiesOf('Checkout/CouponInput', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (

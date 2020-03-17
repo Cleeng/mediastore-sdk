@@ -51,7 +51,7 @@ class UpdateProfile extends Component {
             <ProfileDetails
               firstName={user.firstName}
               lastName={user.lastName}
-              mail={user.email}
+              email={user.email}
             />
             <MyAccountHeading text={t('Password')} />
             <Password />

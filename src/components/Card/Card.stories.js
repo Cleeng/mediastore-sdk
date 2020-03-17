@@ -2,25 +2,23 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, boolean } from '@storybook/addon-knobs';
-import StoryRouter from 'storybook-react-router';
-import Header from './Header';
-import 'styles/index.scss';
+import Card from './Card';
 
-storiesOf('Checkout/Header', module)
+storiesOf('Common/Card', module)
   .addDecorator(jsxDecorator)
   .addDecorator(withKnobs)
-  .addDecorator(StoryRouter())
   .addDecorator(story => (
     <div
       style={{
-        width: 500,
-        backgroundColor: '#ffffff',
+        width: 400,
+        backgroundColor: 'white',
+        padding: 20,
         position: 'relative'
       }}
     >
       {story()}
     </div>
   ))
-  .add('All options', () => (
-    <Header showBackIcon={boolean('showBackIcon', true)} />
+  .add('Default', () => (
+    <Card withShadow={boolean('withShadow', false)}>Default Card</Card>
   ));
