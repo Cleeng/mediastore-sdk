@@ -47,13 +47,14 @@ class PaymentMethod extends PureComponent {
                   cardExpirationDate,
                   variant
                 } = method.paymentMethodSpecificParams;
+                const LogoComponent = CardTypesIcons[variant]
+                  ? CardTypesIcons[variant]
+                  : null;
                 return (
                   <CardWrapStyled key={method.id}>
                     <CardStyled>
                       <CardTypeStyled>
-                        {CardTypesIcons[variant]
-                          ? CardTypesIcons[variant].render()
-                          : null}
+                        <LogoComponent />
                       </CardTypeStyled>
                       <CardNumberStyled>
                         **** **** **** {lastCardFourDigits}

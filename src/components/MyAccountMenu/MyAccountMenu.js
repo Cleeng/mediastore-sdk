@@ -30,19 +30,22 @@ class MyAccountMenu extends Component {
       <WrapStyled>
         <HeadingStyled>{t('Category Shortcuts')}</HeadingStyled>
         <ItemsStyled>
-          {MenuItems.map(menuItem => (
-            <ItemWrapStyled
-              key={menuItem.label}
-              visibleOnDesktop={menuItem.visibleOnDesktop}
-            >
-              <ItemLinkStyled to={`${url}/${menuItem.link}`}>
-                <ItemIconWrapStyled>
-                  {menuItem.icon ? menuItem.icon.render() : null}
-                </ItemIconWrapStyled>
-                <ItemLabelStyled>{t(menuItem.label)}</ItemLabelStyled>
-              </ItemLinkStyled>
-            </ItemWrapStyled>
-          ))}
+          {MenuItems.map(menuItem => {
+            const IconComponent = menuItem.icon ? menuItem.icon : null;
+            return (
+              <ItemWrapStyled
+                key={menuItem.label}
+                visibleOnDesktop={menuItem.visibleOnDesktop}
+              >
+                <ItemLinkStyled to={`${url}/${menuItem.link}`}>
+                  <ItemIconWrapStyled>
+                    <IconComponent />
+                  </ItemIconWrapStyled>
+                  <ItemLabelStyled>{t(menuItem.label)}</ItemLabelStyled>
+                </ItemLinkStyled>
+              </ItemWrapStyled>
+            );
+          })}
         </ItemsStyled>
       </WrapStyled>
     );
