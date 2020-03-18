@@ -3,6 +3,7 @@ import Button from 'components/Button/Button';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import Header from 'components/Header/Header';
+import Logout from 'components/Logout/Logout';
 import Footer from 'components/Footer/Footer';
 import labeling from '../../containers/labeling';
 import {
@@ -23,7 +24,9 @@ const buttonTypes = {
 const ThankYouPage = ({ t }) => {
   return (
     <>
-      <Header showLogOutButton />
+      <Header>
+        <Logout />
+      </Header>
       <ThankYouPageStyled>
         <TitleStyled>{t('Thank You!')}</TitleStyled>
         <MessageStyled>

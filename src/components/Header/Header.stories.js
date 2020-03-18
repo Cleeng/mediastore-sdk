@@ -1,10 +1,12 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs, boolean } from '@storybook/addon-knobs';
+import { withKnobs } from '@storybook/addon-knobs';
 import StoryRouter from 'storybook-react-router';
-import Header from './Header';
 import 'styles/index.scss';
+import Logout from 'components/Logout/Logout';
+import BackButton from 'components/BackButton/BackButton';
+import Header from './Header';
 
 storiesOf('Checkout/Header', module)
   .addDecorator(jsxDecorator)
@@ -21,6 +23,14 @@ storiesOf('Checkout/Header', module)
       {story()}
     </div>
   ))
-  .add('All options', () => (
-    <Header showBackIcon={boolean('showBackIcon', true)} />
+  .add('Default', () => <Header />)
+  .add('With logout button', () => (
+    <Header>
+      <Logout />
+    </Header>
+  ))
+  .add('With back button', () => (
+    <Header>
+      <BackButton />
+    </Header>
   ));

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import EmailInput from 'components/EmailInput/EmailInput';
+import BackButton from 'components/BackButton/BackButton';
 import Button from '../Button/Button';
 import Header from '../Header/Header';
 import resetPassword from '../../api/resetPassword';
@@ -71,7 +72,9 @@ class PasswordReset extends Component {
     const fromMyAccount = location.state ? location.state.fromMyAccount : false;
     return (
       <>
-        <Header showBackIcon isMyAccount={fromMyAccount} />
+        <Header>
+          <BackButton isMyAccount={fromMyAccount} />
+        </Header>
         <PasswordResetPageStyled>
           <StyledTitle>{t('Forgot your password?')}</StyledTitle>
           <StyledMessage>

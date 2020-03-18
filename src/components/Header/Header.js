@@ -1,45 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Logout from 'components/Logout/Logout';
 import { HeaderStyled, LogoStyled } from './HeaderStyled';
 import headerLogo from './img/logo.svg';
-import Button from '../Button/Button';
 
-const Header = ({ showBackIcon, isMyAccount, showLogOutButton }) => (
+const Header = ({ withoutLogo, children }) => (
   <HeaderStyled>
-    {showBackIcon && (
-      <nav>
-        <Button
-          isLink
-          to={{
-            pathname: isMyAccount ? '/my-account/login' : '/login'
-          }}
-          variant="back"
-        >
-          Back
-        </Button>
-      </nav>
+    {!withoutLogo && (
+      <LogoStyled>
+        <img src={headerLogo} alt="Sport stream" />
+      </LogoStyled>
     )}
-    {showLogOutButton && (
-      <nav>
-        <Logout />
-      </nav>
-    )}
-    <LogoStyled>
-      <img src={headerLogo} alt="Sport stream" />
-    </LogoStyled>
+    {children}
   </HeaderStyled>
 );
 
 Header.propTypes = {
-  showBackIcon: PropTypes.bool,
-  isMyAccount: PropTypes.bool,
-  showLogOutButton: PropTypes.bool
+  withoutLogo: PropTypes.bool,
+  children: PropTypes.node
 };
 Header.defaultProps = {
-  showBackIcon: false,
-  isMyAccount: false,
-  showLogOutButton: false
+  withoutLogo: false,
+  children: null
 };
 
 export default Header;
