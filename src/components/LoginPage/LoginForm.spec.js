@@ -137,7 +137,7 @@ describe('LoginForm', () => {
     });
   });
   describe('@onSubmit', () => {
-    it('should login when fields valid', done => {
+    it('should login with offerId when fields valid', done => {
       loginCustomerRequest.mockImplementationOnce(
         mockLoginFetch.mockResolvedValue({
           status: 200,
@@ -172,10 +172,45 @@ describe('LoginForm', () => {
       });
     });
 
+    it('should login to my account when fields valid', done => {
+      loginCustomerRequest.mockImplementationOnce(
+        mockLoginFetch.mockResolvedValue({
+          status: 200,
+          responseData: { jwt: jwtMock }
+        })
+      );
+
+      onSubmitMock.mockClear();
+      Auth.login = jest.fn();
+      const wrapper = shallow(<LoginForm publisher="123456789" isMyAccount />);
+      const instance = wrapper.instance();
+      const preventDefaultMock = jest.fn();
+
+      instance.setState({
+        email: mockEmailValue,
+        password: 'testtest123',
+        captcha: 'f979c2ff515d921c34af9bd2aee8ef076b719d03'
+      });
+
+      expect(Auth.login).not.toHaveBeenCalled();
+      wrapper.simulate('submit', { preventDefault: preventDefaultMock });
+
+      expect(preventDefaultMock).toHaveBeenCalledTimes(1);
+      setImmediate(() => {
+        expect(instance.state.errors.email).toBe('');
+        expect(instance.state.errors.password).toBe('');
+        expect(instance.state.generalError).toBe('');
+        expect(Auth.login).toHaveBeenCalled();
+        expect(Auth.login).toHaveBeenCalledTimes(1);
+        expect(Auth.login).toHaveBeenCalledWith(true, mockEmailValue, jwtMock);
+        done();
+      });
+    });
+
     it('should set general error when customer doesnt exist', done => {
       loginCustomerRequest.mockImplementationOnce(
         mockLoginFetch.mockResolvedValue({
-          status: 423
+          status: 422
         })
       );
       onSubmitMock.mockClear();

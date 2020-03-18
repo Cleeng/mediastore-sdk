@@ -4,6 +4,7 @@ import CouponInput from 'components/CouponInput/CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Payment from 'components/Payment/Payment';
 
+import Logout from 'components/Logout/Logout';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
@@ -67,7 +68,9 @@ class Offer extends Component {
     const finalPrice = applied ? discountedPrice : offerPrice;
     return (
       <StyledOfferWrapper>
-        <Header showLogOutButton />
+        <Header>
+          <Logout />
+        </Header>
         <main>
           <StyledOfferBody>
             <StyledPageTitle>{t('Complete your purchase')}</StyledPageTitle>

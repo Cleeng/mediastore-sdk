@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ErrorPage from 'components/ErrorPage';
+import BackButton from 'components/BackButton/BackButton';
 import saveOfferId from '../../util/offerIdHelper';
 import savePublisherId from '../../util/publisherIdHelper';
 import labeling from '../../containers/labeling';
@@ -42,10 +43,12 @@ class Register extends Component {
     const { isOfferError, offerId, publisherId } = this.state;
     const { t } = this.props;
     return isOfferError ? (
-      <ErrorPage type="offerNotExist" />
+      <ErrorPage type="offerNotExist" resetError={() => this.setOfferError()} />
     ) : (
       <>
-        <Header showBackIcon />
+        <Header>
+          <BackButton />
+        </Header>
         <ContentWrapperStyled>
           <RegisterForm
             t={t}

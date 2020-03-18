@@ -1,10 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { mount } from 'enzyme';
+import ErrorPage from 'components/ErrorPage';
+import LoginForm from 'components/LoginPage/LoginForm';
+import Auth from 'services/auth';
 import { PureLogin } from './Login';
 
 const mockUrlProps = {
-  location: { search: '?offer=123123' }
+  location: { search: '?offer=123123&publisher=123456789' }
 };
 
 jest.mock('react-router-dom', () => {
@@ -26,10 +29,27 @@ jest.mock('react-i18next', () => ({
 
 describe('Login', () => {
   describe('@renders', () => {
-    it('should set state when offer error occurred', () => {
+    Auth.isLogged = jest.fn(() => true);
+    it('should render initail state', () => {
+      const wrapper = mount(<PureLogin urlProps={mockUrlProps} />);
+      expect(wrapper.find(ErrorPage).exists()).toBe(false);
+      expect(wrapper.find(LoginForm).exists()).toBe(true);
+    });
+    it('should show Error page when offer error occurred', () => {
+      const wrapper = mount(<PureLogin urlProps={mockUrlProps} />);
+      wrapper.setState({ isOfferError: true });
+      expect(wrapper.find(ErrorPage).exists()).toBe(true);
+      expect(wrapper.find(ErrorPage).prop('resetError')).toBeTruthy();
+    });
+    it('should update state when offerError occure', () => {
       const wrapper = mount(<PureLogin urlProps={mockUrlProps} />);
       wrapper.instance().setOfferError(true);
       expect(wrapper.state().isOfferError).toBe(true);
+      wrapper.update();
+      expect(wrapper.find(ErrorPage).exists()).toBe(true);
+      expect(wrapper.find(ErrorPage).prop('resetError')).toBeInstanceOf(
+        Function
+      );
     });
   });
 });

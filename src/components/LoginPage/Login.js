@@ -44,7 +44,10 @@ class Login extends Component {
     const { isOfferError, offerId, publisherId } = this.state;
     const { isMyAccount, t } = this.props;
     return isOfferError ? (
-      <ErrorPage type="offerNotExist" />
+      <ErrorPage
+        type="offerNotExist"
+        resetError={() => this.setOfferError(false)}
+      />
     ) : (
       <>
         <Header />

@@ -141,7 +141,7 @@ class LoginForm extends Component {
       const response = await loginCustomer(email, password, loginBy, captcha);
       if (response.status === 200) {
         Auth.login(!!isMyAccount, email, response.responseData.jwt);
-      } else if (response.status === 401 || response.status === 423) {
+      } else if (response.status === 401 || response.status === 422) {
         this.checkCaptcha();
         this.setState({
           processing: false,
