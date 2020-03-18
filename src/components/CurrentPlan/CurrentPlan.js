@@ -42,39 +42,41 @@ class CurrentPlan extends Component {
           </Card>
         ) : (
           <Card>
-            {subscriptions.map(subItem => (
-              <SubscriptionStyled key={subItem.offerId}>
-                <SubscriptionInfoBoxStyled>
-                  <SubscriptionIcon
-                    color={periodMapper[subItem.period].color}
-                    bg={periodMapper[subItem.period].bg}
-                  >
-                    {periodMapper[subItem.period].label}
-                  </SubscriptionIcon>
-                  <SubscriptionInfoStyled>
-                    <SubscriptionTitleStyled>
-                      {subItem.offerTitle}
-                    </SubscriptionTitleStyled>
-                    <SubscriptionNextPaymentStyled>
-                      {t('Next payment is on')} {dateFormat(subItem.expiresAt)}
-                    </SubscriptionNextPaymentStyled>
-                  </SubscriptionInfoStyled>
-                  <SubscriptionPriceStyled>
-                    <SubscriptionPriceValueStyled>
-                      {subItem.nextPaymentPrice}
-                      {currencyFormat[subItem.nextPaymentCurrency]}
-                    </SubscriptionPriceValueStyled>
-                    <SubscriptionPricePeroidStyled>
-                      {`/ ${t(periodMapper[subItem.period].peroid)}`}
-                    </SubscriptionPricePeroidStyled>
-                  </SubscriptionPriceStyled>
-                </SubscriptionInfoBoxStyled>
-                {/* <SubscriptionActionsStyled>
+            {subscriptions.map(subItem => {
+              const { color, bg, label, peroid } =
+                periodMapper[subItem.period] || periodMapper.default;
+              return (
+                <SubscriptionStyled key={subItem.offerId}>
+                  <SubscriptionInfoBoxStyled>
+                    <SubscriptionIcon color={color || null} bg={bg || null}>
+                      {label || ''}
+                    </SubscriptionIcon>
+                    <SubscriptionInfoStyled>
+                      <SubscriptionTitleStyled>
+                        {subItem.offerTitle}
+                      </SubscriptionTitleStyled>
+                      <SubscriptionNextPaymentStyled>
+                        {t('Next payment is on')}{' '}
+                        {dateFormat(subItem.expiresAt)}
+                      </SubscriptionNextPaymentStyled>
+                    </SubscriptionInfoStyled>
+                    <SubscriptionPriceStyled>
+                      <SubscriptionPriceValueStyled>
+                        {subItem.nextPaymentPrice}
+                        {currencyFormat[subItem.nextPaymentCurrency]}
+                      </SubscriptionPriceValueStyled>
+                      <SubscriptionPricePeroidStyled>
+                        {`/ ${t(peroid)}`}
+                      </SubscriptionPricePeroidStyled>
+                    </SubscriptionPriceStyled>
+                  </SubscriptionInfoBoxStyled>
+                  {/* <SubscriptionActionsStyled>
                   <Button variant="secondary">Unsubscribe</Button>
                   <Button>Apply Coupon</Button>
                 </SubscriptionActionsStyled> */}
-              </SubscriptionStyled>
-            ))}
+                </SubscriptionStyled>
+              );
+            })}
           </Card>
         )}
       </WrapStyled>

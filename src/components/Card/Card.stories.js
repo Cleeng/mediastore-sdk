@@ -11,7 +11,7 @@ storiesOf('Common/Card', module)
     <div
       style={{
         width: 400,
-        backgroundColor: 'white',
+        backgroundColor: '#f8f9fc',
         padding: 20,
         position: 'relative'
       }}

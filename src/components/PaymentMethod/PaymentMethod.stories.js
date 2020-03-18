@@ -2,7 +2,7 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs } from '@storybook/addon-knobs';
-import PaymentMethod from './PaymentMethod';
+import { PurePaymentMethod as PaymentMethod } from './PaymentMethod';
 
 const PAYMENTDETAILS = [
   {
