@@ -53,6 +53,7 @@ const setPaymentMethodMock = jest.fn();
 const setTransactionsList = jest.fn();
 const setTransactionsToShow = jest.fn();
 const setTransactionListAsFetched = jest.fn();
+const hideShowMoreButton = jest.fn();
 const showLoaderMock = jest.fn();
 const hideLoaderMock = jest.fn();
 
@@ -71,6 +72,7 @@ describe('<PaymentInfo/>', () => {
           setTransactionsList={setTransactionsList}
           setTransactionsToShow={setTransactionsToShow}
           setTransactionListAsFetched={setTransactionListAsFetched}
+          hideShowMoreButton={hideShowMoreButton}
           showLoader={showLoaderMock}
           hideLoader={hideLoaderMock}
           isLoading={false}

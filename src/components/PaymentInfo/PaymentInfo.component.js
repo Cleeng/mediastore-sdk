@@ -10,7 +10,7 @@ import { PropTypes } from 'prop-types';
 
 import { WrapStyled } from './PaymentInfoStyled';
 
-const DEFAULT_TRANSACTIONS_NUMBER = 1;
+const DEFAULT_TRANSACTIONS_NUMBER = 3;
 
 class PaymentInfo extends Component {
   constructor(props) {
@@ -89,7 +89,9 @@ class PaymentInfo extends Component {
     const {
       setPaymentMethod,
       setTransactionsList,
-      setTransactionsToShow
+      setTransactionsToShow,
+      setTransactionListAsFetched,
+      hideShowMoreButton
     } = this.props;
     const fetchPaymentDetials = getPaymentDetails().then(response => {
       if (response.errors.length) {
@@ -101,7 +103,7 @@ class PaymentInfo extends Component {
       }
     });
     const fetchTransactions = listCustomerTransactions(
-      DEFAULT_TRANSACTIONS_NUMBER,
+      DEFAULT_TRANSACTIONS_NUMBER + 1,
       0
     ).then(response => {
       if (response.errors.length) {
@@ -110,7 +112,13 @@ class PaymentInfo extends Component {
         });
       } else {
         setTransactionsList(response.responseData.items);
-        setTransactionsToShow();
+        if (response.responseData.items.length > DEFAULT_TRANSACTIONS_NUMBER) {
+          setTransactionsToShow(DEFAULT_TRANSACTIONS_NUMBER);
+        } else {
+          setTransactionsToShow();
+          setTransactionListAsFetched();
+          hideShowMoreButton();
+        }
       }
     });
     await Promise.all([fetchPaymentDetials, fetchTransactions]);
@@ -140,6 +148,7 @@ class PaymentInfo extends Component {
               toggleTransactionList={this.toggleTransactionList}
               transactionsLoading={transactionsLoading}
               isExpanded={isTransactionListExpanded}
+              hideShowMoreButton={paymentInfo.hideShowMoreButton}
             />
           </>
         )}
@@ -153,6 +162,7 @@ PaymentInfo.propTypes = {
   setTransactionsList: PropTypes.func.isRequired,
   setTransactionsToShow: PropTypes.func.isRequired,
   setTransactionListAsFetched: PropTypes.func.isRequired,
+  hideShowMoreButton: PropTypes.func.isRequired,
   showLoader: PropTypes.func.isRequired,
   hideLoader: PropTypes.func.isRequired,
   isLoading: PropTypes.bool.isRequired,

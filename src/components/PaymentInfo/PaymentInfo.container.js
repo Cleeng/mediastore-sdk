@@ -3,7 +3,8 @@ import {
   setPaymentMethod,
   setTransactionsList,
   setTransactionsToShow,
-  setTransactionListAsFetched
+  setTransactionListAsFetched,
+  hideShowMoreButton
 } from 'redux/paymentInfo';
 import { showLoader, hideLoader } from 'redux/loader';
 import PaymentInfo from './PaymentInfo.component';
@@ -34,6 +35,9 @@ export const mapDispatchToProps = dispatch => {
     },
     hideLoader: () => {
       dispatch(hideLoader());
+    },
+    hideShowMoreButton: () => {
+      dispatch(hideShowMoreButton());
     }
   };
 };

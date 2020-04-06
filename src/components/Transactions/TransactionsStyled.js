@@ -5,11 +5,22 @@ import {
   MyAccountTextDark2,
   InputLabelColor
 } from 'styles/variables';
+import { media } from 'styles/BreakPoints';
 
 export const WrapStyled = styled.div`
   position: relative;
 
   margin-bottom: 20px;
+
+  button {
+    padding: 12px 33px 12px 20px;
+  }
+
+  ${media.small`
+    button{
+      width: 100%;
+    }
+  `}
 `;
 
 export const InfoMessageStyled = styled.div`
@@ -71,4 +82,14 @@ export const DateStyled = styled.div`
 
   font-size: 12px;
   font-weight: 600;
+`;
+export const ButtonTextStyled = styled.span`
+  position: relative;
+  &:after {
+    position: absolute;
+    right: -17px;
+    bottom: -1px;
+    font-size: 13px;
+    ${props => (props.isExpanded ? "content: '▲'" : "content: '▼'")};
+  }
 `;
