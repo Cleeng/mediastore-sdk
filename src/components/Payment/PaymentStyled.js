@@ -29,6 +29,14 @@ export const MethodsWrapperStyled = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  button {
+    flex: 1 0 21%;
+    :not(:disabled):hover,
+    :active,
+    :focus {
+      background-color: ${colors.MediumGrey};
+    }
+  }
 `;
 
 export const ButtonImageStyled = styled.img`

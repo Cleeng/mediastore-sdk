@@ -5,7 +5,10 @@ import { withTranslation } from 'react-i18next';
 import Header from 'components/Header/Header';
 import Logout from 'components/Logout/Logout';
 import Footer from 'components/Footer/Footer';
+import googleIcon from 'assets/images/google.png';
+import fbIcon from 'assets/images/fb.svg';
 import labeling from '../../containers/labeling';
+
 import {
   ThankYouPageStyled,
   TitleStyled,
@@ -15,11 +18,6 @@ import {
   ButtonsStyled,
   ShareStyled
 } from './ThankYouPageStyled';
-
-const buttonTypes = {
-  google: 'google',
-  fb: 'fb'
-};
 
 const ThankYouPage = ({ t }) => {
   return (
@@ -48,8 +46,8 @@ const ThankYouPage = ({ t }) => {
         </MessageStyled>
         <SocialsStyled>
           <ButtonsStyled>
-            <Button variant={buttonTypes.google} />
-            <Button variant={buttonTypes.fb} />
+            <Button theme="simple" icon={googleIcon} />
+            <Button theme="simple" icon={fbIcon} />
           </ButtonsStyled>
           <ShareStyled>
             {t('Have friends who would like to check this out?')}

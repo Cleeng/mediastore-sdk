@@ -4,13 +4,44 @@ import { createAction, createReducer } from '@reduxjs/toolkit';
 export const SET_PAYMENT_METHOD = 'SET_PAYMENT_METHOD';
 export const setPaymentMethod = createAction(SET_PAYMENT_METHOD);
 
+export const SET_TRANSACTIONS_LIST = 'SET_TRANSACTIONS_LIST';
+export const setTransactionsList = createAction(SET_TRANSACTIONS_LIST);
+
+export const SET_TRANSACTIONS_TO_SHOW = 'SET_TRANSACTIONS_TO_SHOW';
+export const setTransactionsToShow = createAction(SET_TRANSACTIONS_TO_SHOW);
+
+export const SET_TRANSACTION_LIST_AS_FETCHED =
+  'SET_TRANSACTION_LIST_AS_FETCHED';
+export const setTransactionListAsFetched = createAction(
+  SET_TRANSACTION_LIST_AS_FETCHED
+);
+
 const initialState = {
-  paymentMethod: []
+  paymentMethod: [],
+  transactionsList: [],
+  transactionsToShow: [],
+  isTransactionListFetched: false
 };
 
 const paymentMethodReducer = createReducer(initialState, {
   SET_PAYMENT_METHOD: (state, action) => {
     state.paymentMethod = action.payload;
+  },
+  SET_TRANSACTIONS_LIST: (state, action) => {
+    state.transactionsList = action.payload;
+  },
+  SET_TRANSACTIONS_TO_SHOW: (state, action) => {
+    if (!action.payload) {
+      state.transactionsToShow = [...state.transactionsList];
+    } else {
+      state.transactionsToShow = state.transactionsList.slice(
+        0,
+        action.payload
+      );
+    }
+  },
+  SET_TRANSACTION_LIST_AS_FETCHED: state => {
+    state.isTransactionListFetched = true;
   }
 });
 

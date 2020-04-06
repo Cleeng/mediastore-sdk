@@ -123,8 +123,3 @@ export const SubscriptionActionsStyled = styled.div`
     }
   `}
 `;
-
-export const InfoMessageStyled = styled.div`
-  color: ${MyAccountTextGray};
-  font-size: 13px;
-`;

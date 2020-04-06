@@ -19,5 +19,13 @@
   "Next payment is on": "Next payment is on",
   "Expiry date": "Expiry date",
   "week": "week",
-  "month": "month"
+  "month": "month",
+  "Show more": "Show more",
+  "Show less": "Show less",
+  "Loading...": "Loading...",
+  "payed with": "payed with",
+  "Transactions": "Transactions",
+  "card": "card",
+  "No subscriptions yet!": "No subscriptions yet!",
+  "If you choose your plan, you will be able to manage your Subscriptions here.": "If you choose your plan, you will be able to manage your Subscriptions here."
 }

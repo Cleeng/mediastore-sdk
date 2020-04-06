@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
 import { SET_CURRENT_USER } from 'redux/userProfile';
 import { SHOW_LOADER, HIDE_LOADER } from 'redux/loader';
 import { mapStateToProps, mapDispatchToProps } from './UpdateProfile.container';
@@ -30,6 +32,15 @@ const userProfileMock = {
 const loaderMock = {
   isLoading: true
 };
+
+jest.mock('containers/labeling', () => () => Component => props => (
+  <Component t={k => k} {...props} />
+));
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => props => (
+    <Component t={k => k} {...props} />
+  )
+}));
 
 describe('<UpdateProfile/>', () => {
   describe('@container', () => {

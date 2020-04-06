@@ -10,6 +10,7 @@ import updateOrder from './updateOrder';
 import getPaymentDetails from './getPaymentDetails';
 import getCustomerSubscriptions from './getCustomerSubscriptions';
 import getCustomer from './getCustomer';
+import listCustomerTransactions from './listCustomerTransactions';
 
 export {
   getPaymentMethods,
@@ -23,5 +24,6 @@ export {
   getOfferDetails,
   loginCustomer,
   registerCustomer,
-  resetPassword
+  resetPassword,
+  listCustomerTransactions
 };

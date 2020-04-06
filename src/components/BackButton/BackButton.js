@@ -12,7 +12,7 @@ const BackButton = ({ isMyAccount, onClickFn, t }) => {
         pathname: isMyAccount ? '/my-account/login' : '/login'
       }}
       onClickFn={onClickFn}
-      variant="back"
+      theme="navLink"
     >
       {t('Go back')}
     </Button>

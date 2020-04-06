@@ -36,4 +36,5 @@ storiesOf('MyAccount/PaymentInfo/PaymentMethod', module)
       {story()}
     </div>
   ))
-  .add('Card', () => <PaymentMethod paymentDetails={PAYMENTDETAILS} />);
+  .add('PaymentMethod', () => <PaymentMethod paymentDetails={PAYMENTDETAILS} />)
+  .add('No payment method', () => <PaymentMethod paymentDetails={[]} />);

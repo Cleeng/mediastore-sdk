@@ -4,7 +4,7 @@ import Auth from '../../services/auth';
 
 const Logout = () => {
   return (
-    <Button onClickFn={() => Auth.logout()} variant="back">
+    <Button onClickFn={() => Auth.logout()} theme="navLink">
       Log out
     </Button>
   );

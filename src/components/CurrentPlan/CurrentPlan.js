@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-
+import { ReactComponent as noSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
 // import Button from 'components/Button';
 import Card from 'components/Card';
-
+import MyAccountError from 'components/MyAccountError/MyAccountError';
 import { periodMapper, dateFormat, currencyFormat } from './helpers';
 
 import {
@@ -18,8 +18,7 @@ import {
   SubscriptionNextPaymentStyled,
   SubscriptionPriceValueStyled,
   SubscriptionPricePeroidStyled,
-  SubscriptionPriceStyled,
-  InfoMessageStyled
+  SubscriptionPriceStyled
   // SubscriptionActionsStyled
 } from './CurrentPlanStyled';
 
@@ -35,11 +34,13 @@ class CurrentPlan extends Component {
     return (
       <WrapStyled>
         {subscriptions.length === 0 ? (
-          <Card withShadow>
-            <InfoMessageStyled>
-              {t('There are no subscriptions purchased yet.')}
-            </InfoMessageStyled>
-          </Card>
+          <MyAccountError
+            title={t('No subscriptions yet!')}
+            subtitle={t(
+              'If you choose your plan, you will be able to manage your Subscriptions here.'
+            )}
+            icon={noSubscriptionsIcon}
+          />
         ) : (
           <Card>
             {subscriptions.map(subItem => {
@@ -71,7 +72,7 @@ class CurrentPlan extends Component {
                     </SubscriptionPriceStyled>
                   </SubscriptionInfoBoxStyled>
                   {/* <SubscriptionActionsStyled>
-                  <Button variant="secondary">Unsubscribe</Button>
+                  <Button theme="secondary" size="small">Unsubscribe</Button>
                   <Button>Apply Coupon</Button>
                 </SubscriptionActionsStyled> */}
                 </SubscriptionStyled>

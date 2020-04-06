@@ -1,8 +1,7 @@
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import { PurePaymentInfo } from './PaymentInfo.component';
-import { getPaymentDetails } from '../../api';
 
 jest.mock('api', () => ({
   getPaymentDetails: jest
@@ -30,42 +29,55 @@ jest.mock('api', () => ({
       },
       errors: []
     })
-    .mockName('getPaymentDetails')
+    .mockName('getPaymentDetails'),
+  listCustomerTransactions: jest
+    .fn()
+    .mockResolvedValue({
+      responseData: {
+        items: [
+          {
+            transactionId: 'T650862998',
+            transactionDate: 1584361260,
+            offerId: 'S568296139_ZW',
+            offerType: 'subscription',
+            offerTitle: 'Annual subscription (recurring) to pride&amp;prejudice'
+          }
+        ]
+      },
+      errors: []
+    })
+    .mockName('listCustomerTransactions')
 }));
 
 const setPaymentMethodMock = jest.fn();
+const setTransactionsList = jest.fn();
+const setTransactionsToShow = jest.fn();
+const setTransactionListAsFetched = jest.fn();
 const showLoaderMock = jest.fn();
 const hideLoaderMock = jest.fn();
 
+const initialState = {
+  paymentDetailsError: [],
+  transactionsError: [],
+  isTransactionListExpanded: false,
+  transactionsLoading: false
+};
 describe('<PaymentInfo/>', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
-      const wrapper = mount(
+      const wrapper = shallow(
         <PurePaymentInfo
           setPaymentMethod={setPaymentMethodMock}
+          setTransactionsList={setTransactionsList}
+          setTransactionsToShow={setTransactionsToShow}
+          setTransactionListAsFetched={setTransactionListAsFetched}
           showLoader={showLoaderMock}
           hideLoader={hideLoaderMock}
           isLoading={false}
         />
       );
-      expect(wrapper.find(MyAccountHeading)).toHaveLength(1);
-    });
-    it('should set state when error occurred', () => {
-      const returnedErrors = ['Some error'];
-      getPaymentDetails.mockResolvedValueOnce({
-        errors: returnedErrors
-      });
-      const wrapper = mount(
-        <PurePaymentInfo
-          setPaymentMethod={setPaymentMethodMock}
-          showLoader={showLoaderMock}
-          hideLoader={hideLoaderMock}
-          isLoading={false}
-        />
-      );
-      setImmediate(() => {
-        expect(wrapper.state('errors')).toBe(returnedErrors);
-      });
+      expect(wrapper.find(MyAccountHeading)).toHaveLength(2);
+      expect(wrapper.state()).toEqual(initialState);
     });
   });
 });

@@ -1,7 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import 'jest-styled-components';
-import Button from 'components/Button';
 import CouponInput from './CouponInput';
 import { InputElementStyled, MessageStyled } from './CouponInputStyled';
 import { MESSAGE_TYPE_SUCCESS } from '../Input/InputConstants';
@@ -60,7 +59,7 @@ describe('CouponInput', () => {
       const wrapper = mount(
         <CouponInput onSubmit={onSubmit} value="mockValue" />
       );
-      const buttonComponent = wrapper.find(Button);
+      const buttonComponent = wrapper.find('button');
 
       buttonComponent.simulate('click');
 

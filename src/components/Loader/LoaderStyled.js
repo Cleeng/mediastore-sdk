@@ -109,7 +109,9 @@ export const LoaderStyled = styled.div`
   ${props =>
     props.buttonLoader &&
     css`
-      transform: scale(0.6) translateY(-12px);
+      width: 20px;
+      height: 18px;
+      transform: scale(0.5) translate(-20px, -25px);
     `}
 
   ${props =>

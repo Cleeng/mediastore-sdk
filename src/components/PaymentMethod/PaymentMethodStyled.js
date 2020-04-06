@@ -13,7 +13,7 @@ import {
 export const WrapStyled = styled.div`
   position: relative;
 
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 
 export const PaymentDetailsStyled = styled.div``;

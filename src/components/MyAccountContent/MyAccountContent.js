@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Scrollbars } from 'react-custom-scrollbars';
@@ -20,7 +21,12 @@ class MyAccountContent extends Component {
         {isMobile ? (
           <WrapStyled>{children}</WrapStyled>
         ) : (
-          <Scrollbars style={{ flexGrow: '1', width: 'unset' }}>
+          <Scrollbars
+            style={{ flexGrow: '1', width: 'unset' }}
+            renderTrackHorizontal={props => (
+              <div {...props} style={{ display: 'none' }} />
+            )}
+          >
             <WrapStyled>{children}</WrapStyled>
           </Scrollbars>
         )}
