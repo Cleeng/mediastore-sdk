@@ -16,11 +16,15 @@ export const setTransactionListAsFetched = createAction(
   SET_TRANSACTION_LIST_AS_FETCHED
 );
 
+export const HIDE_SHOW_MORE_BUTTON = 'HIDE_SHOW_MORE_BUTTON';
+export const hideShowMoreButton = createAction(HIDE_SHOW_MORE_BUTTON);
+
 const initialState = {
   paymentMethod: [],
   transactionsList: [],
   transactionsToShow: [],
-  isTransactionListFetched: false
+  isTransactionListFetched: false,
+  hideShowMoreButton: false
 };
 
 const paymentMethodReducer = createReducer(initialState, {
@@ -42,6 +46,9 @@ const paymentMethodReducer = createReducer(initialState, {
   },
   SET_TRANSACTION_LIST_AS_FETCHED: state => {
     state.isTransactionListFetched = true;
+  },
+  HIDE_SHOW_MORE_BUTTON: state => {
+    state.hideShowMoreButton = true;
   }
 });
 

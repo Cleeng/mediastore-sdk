@@ -15,7 +15,8 @@ import {
   SubTitleStyled,
   RightBoxStyled,
   IdStyled,
-  DateStyled
+  DateStyled,
+  ButtonTextStyled
 } from './TransactionsStyled';
 
 class Transactions extends Component {
@@ -30,6 +31,7 @@ class Transactions extends Component {
       toggleTransactionList,
       transactionsLoading,
       isExpanded,
+      hideShowMoreButton,
       // error,
       t
     } = this.props;
@@ -56,18 +58,22 @@ class Transactions extends Component {
                 </RightBoxStyled>
               </InsideWrapperStyled>
             ))}
-            <Button
-              size="small"
-              theme={isExpanded ? 'primary' : 'secondary'}
-              margin="20px 0 0 auto"
-              width="unset"
-              label={(isExpanded && t('Show less')) || t('Show more')}
-              onClickFn={() => toggleTransactionList()}
-            >
-              {(transactionsLoading && t('Loading...')) ||
-                (isExpanded && t('Show less')) ||
-                t('Show more')}
-            </Button>
+            {!hideShowMoreButton && (
+              <Button
+                size="small"
+                theme={isExpanded ? 'primary' : 'secondary'}
+                margin="20px 0 0 auto"
+                width="unset"
+                label={(isExpanded && t('Show less')) || t('Show more')}
+                onClickFn={() => toggleTransactionList()}
+              >
+                <ButtonTextStyled isExpanded={isExpanded}>
+                  {(transactionsLoading && t('Loading...')) ||
+                    (isExpanded && t('Show less')) ||
+                    t('Show more')}
+                </ButtonTextStyled>
+              </Button>
+            )}
           </Card>
         )}
       </WrapStyled>
@@ -81,7 +87,8 @@ Transactions.propTypes = {
   toggleTransactionList: PropTypes.func.isRequired,
   transactionsLoading: PropTypes.bool,
   isExpanded: PropTypes.bool,
-  t: PropTypes.func
+  t: PropTypes.func,
+  hideShowMoreButton: PropTypes.bool
 };
 
 Transactions.defaultProps = {
@@ -89,7 +96,8 @@ Transactions.defaultProps = {
   // error: [],
   transactionsLoading: false,
   isExpanded: false,
-  t: k => k
+  t: k => k,
+  hideShowMoreButton: false
 };
 
 export { Transactions as PureTransactions };
