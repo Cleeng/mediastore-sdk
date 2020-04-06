@@ -52,7 +52,6 @@ export const SocialStyled = styled.div`
       width: 100%;
 
       margin: 5px 0;
-      padding: 0;
     }
   `}
 `;

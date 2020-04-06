@@ -17,7 +17,15 @@
   "There are no subscriptions purchased yet.": "Nie wykupiono jeszcze żadnej subskrypcji",
   "There are no payment methods configured": "Nie ustawiono jeszcze zadnej metody płatności",
   "Next payment is on": "Następna opłata nastąpi",
-  "Expiry Date": "Ważna do",
+  "Expiry date": "Ważna do",
   "week": "tydzień",
-  "month": "miesiąc"
+  "month": "miesiąc",
+  "Show more": "Pokaż więcej",
+  "Show less": "Pokaż mniej",
+  "Loading...": "Ładowanie...",
+  "payed with": "metoda płatności: ",
+  "Transactions": "Transakcje",
+  "card": "karta",
+  "No subscriptions yet!": "Brak subskrypcji!",
+  "If you choose your plan, you will be able to manage your Subscriptions here.": "Wybierz plan, aby móc zarządzać swoimi subskrypcjami"
 }

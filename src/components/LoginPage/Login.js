@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
+import googleIcon from 'assets/images/google.png';
+import fbIcon from 'assets/images/fb.svg';
 import saveOfferId from '../../util/offerIdHelper';
 import savePublisherId from '../../util/publisherIdHelper';
 import labeling from '../../containers/labeling';
@@ -61,15 +63,27 @@ class Login extends Component {
           />
           {!isMyAccount && (
             <>
-              <Button isLink to={{ pathname: '/register' }} variant="secondary">
+              <Button isLink to={{ pathname: '/register' }} theme="secondary">
                 {t('Go to register')}
               </Button>
               <SocialStyled>
                 <SeparatorStyled>{t('Or sign in with')}</SeparatorStyled>
-                <Button variant="fb" label={t('Sign in with Facebook')}>
+                <Button
+                  theme="simple"
+                  size="small"
+                  fontSize="13px"
+                  label={t('Sign in with Facebook')}
+                  icon={fbIcon}
+                >
                   Facebook
                 </Button>
-                <Button variant="google" label={t('Sign in with Google')}>
+                <Button
+                  theme="simple"
+                  size="small"
+                  fontSize="13px"
+                  label={t('Sign in with Google')}
+                  icon={googleIcon}
+                >
                   Google
                 </Button>
               </SocialStyled>
@@ -81,7 +95,7 @@ class Login extends Component {
               pathname: '/reset-password',
               fromMyAccount: isMyAccount
             }}
-            variant="link"
+            theme="link"
           >
             {t('Forgot password?')}
           </Button>

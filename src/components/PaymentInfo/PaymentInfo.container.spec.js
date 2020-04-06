@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-props-no-spreading */
+import React from 'react';
 import { SET_PAYMENT_METHOD } from 'redux/paymentInfo';
 import { SHOW_LOADER, HIDE_LOADER } from 'redux/loader';
 import { mapStateToProps, mapDispatchToProps } from './PaymentInfo.container';
@@ -21,6 +23,15 @@ const planDetailsMock = {
 const loaderMock = {
   isLoading: true
 };
+
+jest.mock('containers/labeling', () => () => Component => props => (
+  <Component t={k => k} {...props} />
+));
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => props => (
+    <Component t={k => k} {...props} />
+  )
+}));
 
 describe('<PaymentInfo/>', () => {
   it('should show previously added value', () => {

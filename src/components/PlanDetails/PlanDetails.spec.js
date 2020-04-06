@@ -1,9 +1,20 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 import React from 'react';
 import { mount } from 'enzyme';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import CurrentPlan from 'components/CurrentPlan';
 import { PurePlanDetails } from './PlanDetails.component';
 import { getCustomerSubscriptions } from '../../api';
+
+jest.mock('containers/labeling', () => () => Component => props => (
+  <Component t={k => k} {...props} />
+));
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => props => (
+    <Component t={k => k} {...props} />
+  )
+}));
 
 jest.mock('api', () => ({
   getCustomerSubscriptions: jest

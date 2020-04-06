@@ -1,71 +1,96 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ButtonStyled from './ButtonStyled';
 
-export const BUTTON_VARIANT = {
-  DEFAULT: '',
+export const BUTTON_SIZE = {
+  SMALL: 'small',
+  BIG: 'big'
+};
+
+export const BUTTON_THEME = {
+  PRIMARY: 'primary',
   SECONDARY: 'secondary',
-  GOOGLE: 'google',
-  FB: 'fb',
-  PAYMENT: 'paymentmethod',
-  LINK: 'link',
-  BACK: 'back',
-  COUPONAPPLY: 'couponApply'
+  SIMPLE: 'simple',
+  NAVLINK: 'navLink',
+  LINK: 'link'
 };
 
 const Button = ({
-  variant,
   type,
   onClickFn,
   disabled,
   children,
   isLink,
   to,
-  label
-}) =>
-  isLink ? (
+  label,
+  size,
+  theme,
+  fontSize,
+  margin,
+  fontWeight,
+  width,
+  icon
+}) => {
+  const LinkProps = {
+    as: Link,
+    to: { pathname: to.pathname, state: { fromMyAccount: to.fromMyAccount } }
+  };
+  const ButtonProps = {
+    type,
+    onClick: onClickFn
+  };
+  return (
     <ButtonStyled
-      as={Link}
-      to={{ pathname: to.pathname, state: { fromMyAccount: to.fromMyAccount } }}
-      variant={variant}
+      {...(isLink ? LinkProps : ButtonProps)}
       disabled={disabled}
       aria-label={label}
-    >
-      {children}
-    </ButtonStyled>
-  ) : (
-    <ButtonStyled
-      variant={variant}
-      type={type}
-      onClick={onClickFn}
-      disabled={disabled}
-      aria-label={label}
+      size={size}
+      theme={theme}
+      fontSize={fontSize}
+      margin={margin}
+      fontWeight={fontWeight}
+      width={width}
+      icon={icon}
     >
       {children}
     </ButtonStyled>
   );
+};
 
 export default Button;
 
 Button.propTypes = {
-  variant: PropTypes.oneOf(Object.values(BUTTON_VARIANT)),
+  size: PropTypes.oneOf(Object.values(BUTTON_SIZE)),
+  theme: PropTypes.oneOf(Object.values(BUTTON_THEME)),
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
   type: PropTypes.string,
   onClickFn: PropTypes.func,
   disabled: PropTypes.bool,
   isLink: PropTypes.bool,
   to: PropTypes.objectOf(PropTypes.any),
-  label: PropTypes.string
+  label: PropTypes.string,
+  fontSize: PropTypes.string,
+  margin: PropTypes.string,
+  fontWeight: PropTypes.string,
+  width: PropTypes.string,
+  icon: PropTypes.string
 };
 
 Button.defaultProps = {
-  variant: BUTTON_VARIANT.DEFAULT,
+  size: BUTTON_SIZE.BIG,
+  theme: BUTTON_THEME.PRIMARY,
   children: '',
   type: 'button',
   onClickFn: () => {},
   disabled: false,
   isLink: false,
   to: { pathname: '', state: { fromMyAccount: false } },
-  label: null
+  label: null,
+  fontSize: null,
+  margin: null,
+  fontWeight: null,
+  width: null,
+  icon: null
 };

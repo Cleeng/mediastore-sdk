@@ -42,7 +42,7 @@ const hideLoaderMock = jest.fn();
 
 describe('<UpdateProfile/>', () => {
   describe('@renders', () => {
-    it('should render initial state', () => {
+    it('should render initial state', done => {
       const wrapper = mount(
         <PureUpdateProfile
           setCurrentUser={setCurrentUserMock}
@@ -54,9 +54,10 @@ describe('<UpdateProfile/>', () => {
       expect(getCustomer).toHaveBeenCalled();
       setImmediate(() => {
         expect(wrapper.state('errors')).toBe(null);
+        done();
       });
     });
-    it('should store errors if cannot fetch getCustomer', () => {
+    it('should store errors if cannot fetch getCustomer', done => {
       const returnedErrors = ['Some error'];
       getCustomer.mockResolvedValueOnce({
         errors: returnedErrors
@@ -71,6 +72,7 @@ describe('<UpdateProfile/>', () => {
       );
       setImmediate(() => {
         expect(wrapper.state('errors')).toBe(returnedErrors);
+        done();
       });
     });
   });

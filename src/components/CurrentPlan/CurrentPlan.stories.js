@@ -36,4 +36,5 @@ storiesOf('MyAccount/PlanDetails/CurrentPlan', module)
     <CurrentPlan subscriptions={SUBSCRIPTIONMOCK}>
       Default CurrentPlan
     </CurrentPlan>
-  ));
+  ))
+  .add('No plan', () => <CurrentPlan subscriptions={[]} />);

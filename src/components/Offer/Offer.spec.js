@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { shallow } from 'enzyme';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input';
@@ -14,6 +15,15 @@ import {
   StyledPriceBeforeWrapper,
   StyledCouponDiscountWrapper
 } from './OfferStyled';
+
+jest.mock('containers/labeling', () => () => Component => props => (
+  <Component t={k => k} {...props} />
+));
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => props => (
+    <Component t={k => k} {...props} />
+  )
+}));
 
 const mockCouponProps = {
   showMessage: false,

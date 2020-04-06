@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 
 import labeling from 'containers/labeling';
-import Card from 'components/Card';
-
+import MyAccountError from 'components/MyAccountError/MyAccountError';
 import { CardTypesIcons } from './PaymentMethod.const';
 
 import {
@@ -18,8 +17,7 @@ import {
   CardExpirationLabel,
   CardExpirationDateStyled,
   // CardEditStyled,
-  Message,
-  InfoMessageStyled
+  Message
 } from './PaymentMethodStyled';
 
 class PaymentMethod extends PureComponent {
@@ -33,11 +31,7 @@ class PaymentMethod extends PureComponent {
     return (
       <WrapStyled>
         {paymentDetails.length === 0 ? (
-          <Card withShadow>
-            <InfoMessageStyled>
-              {t('There are no payment methods configured')}
-            </InfoMessageStyled>
-          </Card>
+          <MyAccountError subtitle="You don't have any payment method configured yet." />
         ) : (
           <PaymentDetailsStyled>
             {paymentDetails.map(method => {
@@ -98,11 +92,13 @@ class PaymentMethod extends PureComponent {
 
 PaymentMethod.propTypes = {
   paymentDetails: PropTypes.arrayOf(PropTypes.any),
+  // error: PropTypes.arrayOf(PropTypes.string),
   t: PropTypes.func
 };
 
 PaymentMethod.defaultProps = {
   paymentDetails: [],
+  // error: [],
   t: k => k
 };
 

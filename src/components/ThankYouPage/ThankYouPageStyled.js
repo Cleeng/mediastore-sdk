@@ -46,10 +46,11 @@ export const ButtonsStyled = styled.div`
   display: flex;
   justify-content: center;
   button {
-    width: min-content;
+    width: 65px;
 
     &::before {
-      left: 20px;
+      left: 50%;
+      transform: translateX(-45%);
     }
   }
   & button:first-child {

@@ -56,15 +56,25 @@ class Register extends Component {
             publisherId={publisherId}
             setOfferError={this.setOfferError}
           />
-          <Button isLink to={{ pathname: '/login' }} variant="secondary">
+          <Button isLink to={{ pathname: '/login' }} theme="secondary">
             {t('Have an account?')}
           </Button>
           <SocialStyled>
             <SeparatorStyled>{t('Or sign up with')}</SeparatorStyled>
-            <Button variant="google" label="Sign up with Google">
+            <Button
+              theme="simple"
+              size="small"
+              fontSize="13px"
+              label="Sign up with Google"
+            >
               Google
             </Button>
-            <Button variant="fb" label="Sign up with Facebook">
+            <Button
+              theme="simple"
+              size="small"
+              fontSize="13px"
+              label="Sign up with Facebook"
+            >
               Facebook
             </Button>
           </SocialStyled>
