@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import {
   MyAccountTextGray,
   MyAccountContentColor,
@@ -36,13 +36,22 @@ export const InsideWrapperStyled = styled.div`
   padding: 18px 0;
   border-bottom: 2px solid ${MyAccountContentColor};
 
-  &:first-child {
-    padding: 0 0 18px 0;
-  }
-  &:last-child {
-    padding: 18px 0 0 0;
-    border-bottom: none;
-  }
+  ${props =>
+    (props.length === 1 &&
+      css`
+        padding: 0;
+      `) ||
+    (props.length !== 1 &&
+      css`
+        &:first-child {
+          padding: 0 0 18px 0;
+        }
+
+        &:last-child {
+          padding: 18px 0 0 0;
+          border-bottom: none;
+        }
+      `)}
 `;
 
 export const LeftBoxStyled = styled.div``;

@@ -42,7 +42,10 @@ class Transactions extends Component {
         ) : (
           <Card withShadow>
             {transactions.map(subItem => (
-              <InsideWrapperStyled key={subItem.offerTitle}>
+              <InsideWrapperStyled
+                key={subItem.offerTitle}
+                length={transactions.length}
+              >
                 <LeftBoxStyled>
                   <TitleStyled>{subItem.offerTitle}</TitleStyled>
                   <SubTitleStyled>
