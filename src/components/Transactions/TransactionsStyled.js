@@ -12,10 +12,6 @@ export const WrapStyled = styled.div`
 
   margin-bottom: 20px;
 
-  button {
-    padding: 12px 33px 12px 20px;
-  }
-
   ${media.small`
     button{
       width: 100%;
@@ -40,6 +36,7 @@ export const InsideWrapperStyled = styled.div`
     (props.length === 1 &&
       css`
         padding: 0;
+        border-bottom: none;
       `) ||
     (props.length !== 1 &&
       css`

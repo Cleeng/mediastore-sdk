@@ -6,14 +6,14 @@ import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import CurrentPlan from 'components/CurrentPlan';
 import { getCustomerSubscriptions } from 'api';
 import { PropTypes } from 'prop-types';
-
+import MyAccountError from 'components/MyAccountError/MyAccountError';
 import { WrapStyled } from './PlanDetailsStyled';
 
 class PlanDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      errors: null
+      errors: []
     };
   }
 
@@ -21,20 +21,27 @@ class PlanDetails extends Component {
     const { planDetails, setCurrentPlan, showLoader, hideLoader } = this.props;
     if (!planDetails.currentPlan.length) {
       showLoader();
-      getCustomerSubscriptions().then(response => {
-        if (response.errors.length) {
-          this.setState({
-            errors: response.errors
-          });
-        } else {
-          setCurrentPlan(response.responseData.items);
+      getCustomerSubscriptions()
+        .then(response => {
+          if (response.errors.length) {
+            this.setState({
+              errors: response.errors
+            });
+            hideLoader();
+          } else {
+            setCurrentPlan(response.responseData.items);
+            hideLoader();
+          }
+        })
+        .catch(err => {
+          this.setState({ errors: [err] });
           hideLoader();
-        }
-      });
+        });
     }
   }
 
   render() {
+    const { errors } = this.state;
     const { planDetails, isLoading, t } = this.props;
 
     return (
@@ -42,7 +49,11 @@ class PlanDetails extends Component {
         {!isLoading && (
           <>
             <MyAccountHeading text={t('Current plan')} />
-            <CurrentPlan subscriptions={planDetails.currentPlan} />
+            {errors.length !== 0 ? (
+              <MyAccountError serverError />
+            ) : (
+              <CurrentPlan subscriptions={planDetails.currentPlan} />
+            )}
           </>
         )}
       </WrapStyled>

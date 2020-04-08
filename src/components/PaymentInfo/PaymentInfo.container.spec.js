@@ -36,10 +36,22 @@ jest.mock('react-i18next', () => ({
 describe('<PaymentInfo/>', () => {
   it('should show previously added value', () => {
     const initialState = {
-      paymentInfo: planDetailsMock,
+      paymentInfo: {
+        paymentMethod: [planDetailsMock],
+        transactionsList: [],
+        transactionsToShow: [],
+        isTransactionListFetched: false,
+        hideShowMoreButton: false
+      },
       loader: loaderMock
     };
-    expect(mapStateToProps(initialState).paymentInfo).toEqual(planDetailsMock);
+    expect(mapStateToProps(initialState).paymentInfo).toEqual({
+      paymentMethod: [planDetailsMock],
+      transactionsList: [],
+      transactionsToShow: [],
+      isTransactionListFetched: false,
+      hideShowMoreButton: false
+    });
     expect(mapStateToProps(initialState).isLoading).toEqual(
       loaderMock.isLoading
     );

@@ -1,3 +1,5 @@
+/* eslint-disable no-nested-ternary */
+
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
@@ -27,11 +29,17 @@ class PaymentMethod extends PureComponent {
   }
 
   render() {
-    const { paymentDetails, t } = this.props;
+    const { paymentDetails, error, t } = this.props;
     return (
       <WrapStyled>
-        {paymentDetails.length === 0 ? (
-          <MyAccountError subtitle="You don't have any payment method configured yet." />
+        {error.length !== 0 ? (
+          <MyAccountError serverError />
+        ) : paymentDetails.length === 0 ? (
+          <MyAccountError
+            title={t('No card added!')}
+            subtitle={t('Add a card to start your plan')}
+            withBorder
+          />
         ) : (
           <PaymentDetailsStyled>
             {paymentDetails.map(method => {
@@ -79,7 +87,8 @@ class PaymentMethod extends PureComponent {
                 );
               return (
                 <Message key="message">
-                  Payment by {method.paymentMethod} is not supported
+                  {t('Payment by ')} {method.paymentMethod}{' '}
+                  {t('is not supported')}
                 </Message>
               );
             })}
@@ -92,13 +101,13 @@ class PaymentMethod extends PureComponent {
 
 PaymentMethod.propTypes = {
   paymentDetails: PropTypes.arrayOf(PropTypes.any),
-  // error: PropTypes.arrayOf(PropTypes.string),
+  error: PropTypes.arrayOf(PropTypes.string),
   t: PropTypes.func
 };
 
 PaymentMethod.defaultProps = {
   paymentDetails: [],
-  // error: [],
+  error: [],
   t: k => k
 };
 

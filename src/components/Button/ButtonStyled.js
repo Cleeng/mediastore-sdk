@@ -165,6 +165,11 @@ const ButtonStyled = styled.button`
       filter: opacity(0.7);
     `}
   ${props =>
+    props.padding &&
+    css`
+      padding: ${props.padding};
+    `}
+  ${props =>
     props.icon &&
     css`
       &::before {

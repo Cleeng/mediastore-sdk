@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import CurrentPlan from 'components/CurrentPlan';
 import { PurePlanDetails } from './PlanDetails.component';
@@ -57,7 +57,7 @@ const hideLoaderMock = jest.fn();
 describe('<PlanDetails/>', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
-      const wrapper = mount(
+      const wrapper = shallow(
         <PurePlanDetails
           setCurrentPlan={setCurrentPlanMock}
           showLoader={showLoaderMock}
@@ -69,7 +69,7 @@ describe('<PlanDetails/>', () => {
       expect(wrapper.find(CurrentPlan)).toHaveLength(1);
     });
     it('should have no content if isLoading is true', () => {
-      const wrapper = mount(
+      const wrapper = shallow(
         <PurePlanDetails
           setCurrentPlan={setCurrentPlanMock}
           showLoader={showLoaderMock}
@@ -80,12 +80,12 @@ describe('<PlanDetails/>', () => {
       expect(wrapper.find(MyAccountHeading)).toHaveLength(0);
       expect(wrapper.find(CurrentPlan)).toHaveLength(0);
     });
-    it('should store errors if returned cannot fetch', () => {
+    it('should store errors if returned cannot fetch', done => {
       const returnedErrors = ['Some error'];
       getCustomerSubscriptions.mockResolvedValueOnce({
         errors: returnedErrors
       });
-      const wrapper = mount(
+      const wrapper = shallow(
         <PurePlanDetails
           setCurrentPlan={setCurrentPlanMock}
           showLoader={showLoaderMock}
@@ -94,7 +94,8 @@ describe('<PlanDetails/>', () => {
         />
       );
       setImmediate(() => {
-        expect(wrapper.state('errors')).toBe(returnedErrors);
+        expect(wrapper.state().errors).toBe(returnedErrors);
+        done();
       });
     });
   });

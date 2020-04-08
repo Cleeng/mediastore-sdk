@@ -1,7 +1,18 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import { PureUpdateProfile } from './UpdateProfile.component';
 import { getCustomer } from '../../api';
+
+jest.mock('containers/labeling', () => () => Component => props => (
+  <Component t={k => k} {...props} />
+));
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => props => (
+    <Component t={k => k} {...props} />
+  )
+}));
 
 jest.mock('api', () => ({
   getCustomer: jest
@@ -43,7 +54,7 @@ const hideLoaderMock = jest.fn();
 describe('<UpdateProfile/>', () => {
   describe('@renders', () => {
     it('should render initial state', done => {
-      const wrapper = mount(
+      const wrapper = shallow(
         <PureUpdateProfile
           setCurrentUser={setCurrentUserMock}
           showLoader={showLoaderMock}
@@ -53,7 +64,7 @@ describe('<UpdateProfile/>', () => {
       );
       expect(getCustomer).toHaveBeenCalled();
       setImmediate(() => {
-        expect(wrapper.state('errors')).toBe(null);
+        expect(wrapper.state().errors).toEqual([]);
         done();
       });
     });
@@ -62,7 +73,7 @@ describe('<UpdateProfile/>', () => {
       getCustomer.mockResolvedValueOnce({
         errors: returnedErrors
       });
-      const wrapper = mount(
+      const wrapper = shallow(
         <PureUpdateProfile
           setCurrentUser={setCurrentUserMock}
           showLoader={showLoaderMock}
@@ -71,7 +82,7 @@ describe('<UpdateProfile/>', () => {
         />
       );
       setImmediate(() => {
-        expect(wrapper.state('errors')).toBe(returnedErrors);
+        expect(wrapper.state().errors).toEqual(returnedErrors);
         done();
       });
     });

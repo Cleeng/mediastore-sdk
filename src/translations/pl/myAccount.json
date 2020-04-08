@@ -27,5 +27,14 @@
   "Transactions": "Transakcje",
   "card": "karta",
   "No subscriptions yet!": "Brak subskrypcji!",
-  "If you choose your plan, you will be able to manage your Subscriptions here.": "Wybierz plan, aby móc zarządzać swoimi subskrypcjami"
+  "If you choose your plan, you will be able to manage your Subscriptions here.": "Wybierz plan, aby móc zarządzać swoimi subskrypcjami",
+  "Oops, something went wrong!": "Ups, coś poszło nie tak!",
+  "Please try again in a few moments.": "Spróbuj ponownie za chwilę",
+  "Try again": "Odswież",
+  "No card added!": "Brak karty!",
+  "Add a card to start your plan": "Dodaj metodę płatności aby rozpocząć plan",
+  "Payment by ": "Płatność ",
+  "is not supported": "nie jest wspierana",
+  "No transactions found!": "Nie znaleziono żadnej transakcji!",
+  "The section will show you recent transactions history after first payment": "W tej sekcji, po dokonaniu pierwszej płatności, znajdziesz listę transakcji"
 }
