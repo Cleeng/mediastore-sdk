@@ -31,7 +31,8 @@ const Button = ({
   margin,
   fontWeight,
   width,
-  icon
+  icon,
+  padding
 }) => {
   const LinkProps = {
     as: Link,
@@ -53,6 +54,7 @@ const Button = ({
       fontWeight={fontWeight}
       width={width}
       icon={icon}
+      padding={padding}
     >
       {children}
     </ButtonStyled>
@@ -75,7 +77,8 @@ Button.propTypes = {
   margin: PropTypes.string,
   fontWeight: PropTypes.string,
   width: PropTypes.string,
-  icon: PropTypes.string
+  icon: PropTypes.string,
+  padding: PropTypes.string
 };
 
 Button.defaultProps = {
@@ -92,5 +95,6 @@ Button.defaultProps = {
   margin: null,
   fontWeight: null,
   width: null,
-  icon: null
+  icon: null,
+  padding: null
 };

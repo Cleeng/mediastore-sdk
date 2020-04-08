@@ -50,7 +50,7 @@ export const ButtonsStyled = styled.div`
 
     &::before {
       left: 50%;
-      transform: translateX(-45%);
+      transform: translate(-45%, -50%);
     }
   }
   & button:first-child {

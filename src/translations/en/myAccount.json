@@ -27,5 +27,14 @@
   "Transactions": "Transactions",
   "card": "card",
   "No subscriptions yet!": "No subscriptions yet!",
-  "If you choose your plan, you will be able to manage your Subscriptions here.": "If you choose your plan, you will be able to manage your Subscriptions here."
+  "If you choose your plan, you will be able to manage your Subscriptions here.": "If you choose your plan, you will be able to manage your Subscriptions here.",
+  "Oops, something went wrong!": "Oops, something went wrong!",
+  "Please try again in a few moments.": "Please try again in a few moments.",
+  "Try again": "Try again",
+  "No card added!": "No card added!",
+  "Add a card to start your plan": "Add a card to start your plan",
+  "Payment by ": "Payment by ",
+  "is not supported": "is not supported",
+  "No transactions found!": "No transactions found!",
+  "The section will show you recent transactions history after first payment": "The section will show you recent transactions history after first payment"
 }

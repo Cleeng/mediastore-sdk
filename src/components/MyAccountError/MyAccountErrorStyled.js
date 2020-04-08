@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { InputLabelColor } from 'styles/variables';
 
 export const WrapStyled = styled.div`
@@ -10,6 +10,14 @@ export const WrapStyled = styled.div`
 
   text-align: center;
   line-height: 1.4;
+
+  ${props =>
+    props.withBorder &&
+    css`
+      border: 1px dashed ${InputLabelColor};
+      border-radius: 20px;
+      padding: 35px 0;
+    `}
 `;
 
 export const TitleStyled = styled.div`
@@ -17,14 +25,14 @@ export const TitleStyled = styled.div`
 
   color: ${InputLabelColor};
 
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
 `;
 
 export const SubTitleStyled = styled.div`
   color: ${InputLabelColor};
 
-  font-size: 14px;
+  font-size: 13px;
 `;
 
 export const IconStyled = styled.div`

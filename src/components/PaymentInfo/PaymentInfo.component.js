@@ -93,34 +93,40 @@ class PaymentInfo extends Component {
       setTransactionListAsFetched,
       hideShowMoreButton
     } = this.props;
-    const fetchPaymentDetials = getPaymentDetails().then(response => {
-      if (response.errors.length) {
-        this.setState({
-          paymentDetailsError: response.errors
-        });
-      } else {
-        setPaymentMethod(response.responseData.paymentDetails);
-      }
-    });
+    const fetchPaymentDetials = getPaymentDetails()
+      .then(response => {
+        if (response.errors.length) {
+          this.setState({
+            paymentDetailsError: response.errors
+          });
+        } else {
+          setPaymentMethod(response.responseData.paymentDetails);
+        }
+      })
+      .catch(error => this.setState({ paymentDetailsError: [error] }));
     const fetchTransactions = listCustomerTransactions(
       DEFAULT_TRANSACTIONS_NUMBER + 1,
       0
-    ).then(response => {
-      if (response.errors.length) {
-        this.setState({
-          transactionsError: response.errors
-        });
-      } else {
-        setTransactionsList(response.responseData.items);
-        if (response.responseData.items.length > DEFAULT_TRANSACTIONS_NUMBER) {
-          setTransactionsToShow(DEFAULT_TRANSACTIONS_NUMBER);
+    )
+      .then(response => {
+        if (response.errors.length) {
+          this.setState({
+            transactionsError: response.errors
+          });
         } else {
-          setTransactionsToShow();
-          setTransactionListAsFetched();
-          hideShowMoreButton();
+          setTransactionsList(response.responseData.items);
+          if (
+            response.responseData.items.length > DEFAULT_TRANSACTIONS_NUMBER
+          ) {
+            setTransactionsToShow(DEFAULT_TRANSACTIONS_NUMBER);
+          } else {
+            setTransactionsToShow();
+            setTransactionListAsFetched();
+            hideShowMoreButton();
+          }
         }
-      }
-    });
+      })
+      .catch(error => this.setState({ transactionsError: [error] }));
     await Promise.all([fetchPaymentDetials, fetchTransactions]);
   }
 

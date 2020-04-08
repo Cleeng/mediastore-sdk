@@ -90,7 +90,7 @@ describe('<MyAccount/>', () => {
           setCurrentUser={setCurrentUserMock}
         />
       );
-      expect(wrapper.prop('isOverlay')).toBe(false);
+      expect(wrapper.props().isOverlay).toBe(false);
     });
     it('should set overlay prop if passed', () => {
       const wrapper = shallow(
@@ -101,7 +101,7 @@ describe('<MyAccount/>', () => {
       );
       const overlayValue = true;
       wrapper.setProps({ isOverlay: overlayValue });
-      expect(wrapper.prop('isOverlay')).toBe(overlayValue);
+      expect(wrapper.props().isOverlay).toBe(overlayValue);
     });
     it('should store errors if cannot fetch getCustomerSubscriptions', () => {
       const returnedErrors = ['Some error'];
@@ -115,7 +115,7 @@ describe('<MyAccount/>', () => {
         />
       );
       setImmediate(() => {
-        expect(wrapper.state('errors')).toBe(returnedErrors);
+        expect(wrapper.state().errors).toEqual(returnedErrors);
       });
     });
     it('should store errors if cannot fetch getCustomer', () => {
@@ -130,7 +130,7 @@ describe('<MyAccount/>', () => {
         />
       );
       setImmediate(() => {
-        expect(wrapper.state('errors')).toBe(returnedErrors);
+        expect(wrapper.state().errors).toBe(returnedErrors);
       });
     });
   });

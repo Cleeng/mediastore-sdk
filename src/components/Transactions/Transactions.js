@@ -1,11 +1,13 @@
+/* eslint-disable no-nested-ternary */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import Button from 'components/Button';
 import Card from 'components/Card';
 import { dateFormat } from 'components/CurrentPlan/helpers';
 import MyAccountError from 'components/MyAccountError/MyAccountError';
+import Button from 'components/Button/Button';
+import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
 import {
   WrapStyled,
   // InfoMessageStyled,
@@ -32,13 +34,21 @@ class Transactions extends Component {
       transactionsLoading,
       isExpanded,
       hideShowMoreButton,
-      // error,
+      error,
       t
     } = this.props;
     return (
       <WrapStyled>
-        {transactions.length === 0 ? (
-          <MyAccountError subtitle="You haven't completed any transaction yet." />
+        {error.length !== 0 ? (
+          <MyAccountError serverError />
+        ) : transactions.length === 0 ? (
+          <MyAccountError
+            icon={noTransactionsIcon}
+            title={t('No transactions found!')}
+            subtitle={t(
+              'The section will show you recent transactions history after first payment'
+            )}
+          />
         ) : (
           <Card withShadow>
             {transactions.map(subItem => (
@@ -69,6 +79,7 @@ class Transactions extends Component {
                 width="unset"
                 label={(isExpanded && t('Show less')) || t('Show more')}
                 onClickFn={() => toggleTransactionList()}
+                padding="12px 33px 12px 20px"
               >
                 <ButtonTextStyled isExpanded={isExpanded}>
                   {(transactionsLoading && t('Loading...')) ||
@@ -86,7 +97,7 @@ class Transactions extends Component {
 
 Transactions.propTypes = {
   transactions: PropTypes.arrayOf(PropTypes.any),
-  // error: PropTypes.arrayOf(PropTypes.string),
+  error: PropTypes.arrayOf(PropTypes.any),
   toggleTransactionList: PropTypes.func.isRequired,
   transactionsLoading: PropTypes.bool,
   isExpanded: PropTypes.bool,
@@ -96,7 +107,7 @@ Transactions.propTypes = {
 
 Transactions.defaultProps = {
   transactions: [],
-  // error: [],
+  error: [],
   transactionsLoading: false,
   isExpanded: false,
   t: k => k,
