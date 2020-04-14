@@ -6,6 +6,8 @@ import LoginForm from 'components/LoginPage/LoginForm';
 import Auth from 'services/auth';
 import { PureLogin } from './Login';
 
+jest.mock('services/auth');
+
 const mockUrlProps = {
   location: { search: '?offer=123123&publisher=123456789' }
 };
@@ -39,7 +41,6 @@ describe('Login', () => {
       const wrapper = mount(<PureLogin urlProps={mockUrlProps} />);
       wrapper.setState({ isOfferError: true });
       expect(wrapper.find(ErrorPage).exists()).toBe(true);
-      expect(wrapper.find(ErrorPage).prop('resetError')).toBeTruthy();
     });
     it('should update state when offerError occure', () => {
       const wrapper = mount(<PureLogin urlProps={mockUrlProps} />);
@@ -47,9 +48,6 @@ describe('Login', () => {
       expect(wrapper.state().isOfferError).toBe(true);
       wrapper.update();
       expect(wrapper.find(ErrorPage).exists()).toBe(true);
-      expect(wrapper.find(ErrorPage).prop('resetError')).toBeInstanceOf(
-        Function
-      );
     });
   });
 });

@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount } from 'enzyme';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import CurrentPlan from 'components/CurrentPlan';
+import getCustomerSubscriptionsRequest from 'api/getCustomerSubscriptions';
 import { PurePlanDetails } from './PlanDetails.component';
-import { getCustomerSubscriptions } from '../../api';
 
+jest.mock('../../api/getCustomerSubscriptions');
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
 ));
@@ -16,87 +17,50 @@ jest.mock('react-i18next', () => ({
   )
 }));
 
-jest.mock('api', () => ({
-  getCustomerSubscriptions: jest
-    .fn()
-    .mockResolvedValue({
-      responseData: {
-        paymentDetails: {
-          data: {
-            success: true,
-            paymentDetails: [
-              {
-                id: 193925086,
-                customerId: 280372348,
-                token: '8315816736477319',
-                paymentGateway: 'adyen',
-                paymentMethod: 'card',
-                paymentMethodSpecificParams: {
-                  variant: 'mc',
-                  lastCardFourDigits: '1111',
-                  holderName: 'dsadsadsa',
-                  cardExpirationDate: '10/2020',
-                  socialSecurityNumber: ''
-                },
-                paymentMethodId: null
-              }
-            ],
-            message: 'Payment details sent successfully'
-          }
+const correctData = {
+  paymentDetails: {
+    data: {
+      success: true,
+      paymentDetails: [
+        {
+          id: 193925086,
+          customerId: 280372348,
+          token: '8315816736477319',
+          paymentGateway: 'adyen',
+          paymentMethod: 'card',
+          paymentMethodSpecificParams: {
+            variant: 'mc',
+            lastCardFourDigits: '1111',
+            holderName: 'dsadsadsa',
+            cardExpirationDate: '10/2020',
+            socialSecurityNumber: ''
+          },
+          paymentMethodId: null
         }
-      },
-      errors: []
-    })
-    .mockName('getCustomerSubscriptions')
-}));
-
+      ],
+      message: 'Payment details sent successfully'
+    }
+  }
+};
 const setCurrentPlanMock = jest.fn();
-const showLoaderMock = jest.fn();
-const hideLoaderMock = jest.fn();
+const getCustomerSubscriptionsMock = jest.fn();
 
 describe('<PlanDetails/>', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
-      const wrapper = shallow(
-        <PurePlanDetails
-          setCurrentPlan={setCurrentPlanMock}
-          showLoader={showLoaderMock}
-          hideLoader={hideLoaderMock}
-          isLoading={false}
-        />
+      getCustomerSubscriptionsRequest.mockImplementationOnce(
+        getCustomerSubscriptionsMock.mockResolvedValue({
+          responseData: {
+            paymentDetails: correctData.paymentDetails
+          },
+          errors: []
+        })
+      );
+      const wrapper = mount(
+        <PurePlanDetails setCurrentPlan={setCurrentPlanMock} />
       );
       expect(wrapper.find(MyAccountHeading)).toHaveLength(1);
       expect(wrapper.find(CurrentPlan)).toHaveLength(1);
-    });
-    it('should have no content if isLoading is true', () => {
-      const wrapper = shallow(
-        <PurePlanDetails
-          setCurrentPlan={setCurrentPlanMock}
-          showLoader={showLoaderMock}
-          hideLoader={hideLoaderMock}
-          isLoading
-        />
-      );
-      expect(wrapper.find(MyAccountHeading)).toHaveLength(0);
-      expect(wrapper.find(CurrentPlan)).toHaveLength(0);
-    });
-    it('should store errors if returned cannot fetch', done => {
-      const returnedErrors = ['Some error'];
-      getCustomerSubscriptions.mockResolvedValueOnce({
-        errors: returnedErrors
-      });
-      const wrapper = shallow(
-        <PurePlanDetails
-          setCurrentPlan={setCurrentPlanMock}
-          showLoader={showLoaderMock}
-          hideLoader={hideLoaderMock}
-          isLoading={false}
-        />
-      );
-      setImmediate(() => {
-        expect(wrapper.state().errors).toBe(returnedErrors);
-        done();
-      });
     });
   });
 });

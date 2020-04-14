@@ -3,16 +3,14 @@ import {
   setPaymentMethod,
   setTransactionsList,
   setTransactionsToShow,
-  setTransactionListAsFetched,
+  setTransactionsListAsFetched,
   hideShowMoreButton
 } from 'redux/paymentInfo';
-import { showLoader, hideLoader } from 'redux/loader';
 import PaymentInfo from './PaymentInfo.component';
 
 export const mapStateToProps = state => {
   return {
-    paymentInfo: state.paymentInfo,
-    isLoading: state.loader.isLoading
+    paymentInfo: state.paymentInfo
   };
 };
 
@@ -27,14 +25,8 @@ export const mapDispatchToProps = dispatch => {
     setTransactionsToShow: items => {
       dispatch(setTransactionsToShow(items));
     },
-    setTransactionListAsFetched: () => {
-      dispatch(setTransactionListAsFetched());
-    },
-    showLoader: () => {
-      dispatch(showLoader());
-    },
-    hideLoader: () => {
-      dispatch(hideLoader());
+    setTransactionsListAsFetched: () => {
+      dispatch(setTransactionsListAsFetched());
     },
     hideShowMoreButton: () => {
       dispatch(hideShowMoreButton());

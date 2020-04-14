@@ -2,9 +2,9 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import MyAccountInput from 'components/MyAccountInput/MyAccountInput';
-import { PurePassword } from './Password';
-import { WrapStyled } from './PasswordStyled';
+import 'jest-styled-components';
+import { PureMyAccountError } from './MyAccountError';
+import { IconStyled } from './MyAccountErrorStyled';
 
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
@@ -15,12 +15,14 @@ jest.mock('react-i18next', () => ({
   )
 }));
 
-describe('<Password/>', () => {
+describe('<MyAccountError/>', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   describe('@renders', () => {
     it('should render initial state', () => {
-      const wrapper = shallow(<PurePassword />);
-      expect(wrapper.find(WrapStyled)).toHaveLength(1);
-      expect(wrapper.find(MyAccountInput)).toHaveLength(3);
+      const wrapper = shallow(<PureMyAccountError />);
+      expect(wrapper.find(IconStyled).exists()).toBe(false);
     });
   });
 });

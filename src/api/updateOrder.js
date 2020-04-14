@@ -6,7 +6,8 @@ const updateOrder = (orderId, params) => {
     method: 'PATCH',
     body: JSON.stringify({ ...params }),
     headers: {
-      Authorization: `Bearer ${token}`
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
     }
   }).then(res => res.json());
 };

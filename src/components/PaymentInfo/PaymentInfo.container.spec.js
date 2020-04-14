@@ -1,7 +1,10 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
-import { SET_PAYMENT_METHOD } from 'redux/paymentInfo';
-import { SHOW_LOADER, HIDE_LOADER } from 'redux/loader';
+import {
+  SET_PAYMENT_METHOD,
+  SET_TRANSACTIONS_LIST,
+  SET_TRANSACTIONS_TO_SHOW,
+  SET_TRANSACTIONS_LIST_AS_FETCHED,
+  HIDE_SHOW_MORE_BUTTON
+} from 'redux/paymentInfo';
 import { mapStateToProps, mapDispatchToProps } from './PaymentInfo.container';
 
 const planDetailsMock = {
@@ -20,19 +23,6 @@ const planDetailsMock = {
   paymentMethodId: null
 };
 
-const loaderMock = {
-  isLoading: true
-};
-
-jest.mock('containers/labeling', () => () => Component => props => (
-  <Component t={k => k} {...props} />
-));
-jest.mock('react-i18next', () => ({
-  withTranslation: () => Component => props => (
-    <Component t={k => k} {...props} />
-  )
-}));
-
 describe('<PaymentInfo/>', () => {
   it('should show previously added value', () => {
     const initialState = {
@@ -41,34 +31,44 @@ describe('<PaymentInfo/>', () => {
         transactionsList: [],
         transactionsToShow: [],
         isTransactionListFetched: false,
-        hideShowMoreButton: false
-      },
-      loader: loaderMock
+        isShowMoreButtonHidden: false
+      }
     };
     expect(mapStateToProps(initialState).paymentInfo).toEqual({
       paymentMethod: [planDetailsMock],
       transactionsList: [],
       transactionsToShow: [],
       isTransactionListFetched: false,
-      hideShowMoreButton: false
+      isShowMoreButtonHidden: false
     });
-    expect(mapStateToProps(initialState).isLoading).toEqual(
-      loaderMock.isLoading
-    );
   });
   it('should dispatch SET_PAYMENT_METHOD action', () => {
     const dispatch = jest.fn();
     mapDispatchToProps(dispatch).setPaymentMethod();
     expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_PAYMENT_METHOD });
   });
-  it('should dispatch SHOW_LOADER action', () => {
+  it('should dispatch SET_TRANSACTIONS_LIST action', () => {
     const dispatch = jest.fn();
-    mapDispatchToProps(dispatch).showLoader();
-    expect(dispatch.mock.calls[0][0]).toEqual({ type: SHOW_LOADER });
+    mapDispatchToProps(dispatch).setTransactionsList();
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_TRANSACTIONS_LIST });
   });
-  it('should dispatch HIDE_LOADER action', () => {
+  it('should dispatch SET_TRANSACTIONS_TO_SHOW action', () => {
     const dispatch = jest.fn();
-    mapDispatchToProps(dispatch).hideLoader();
-    expect(dispatch.mock.calls[0][0]).toEqual({ type: HIDE_LOADER });
+    mapDispatchToProps(dispatch).setTransactionsToShow();
+    expect(dispatch.mock.calls[0][0]).toEqual({
+      type: SET_TRANSACTIONS_TO_SHOW
+    });
+  });
+  it('should dispatch SET_TRANSACTIONS_LIST_AS_FETCHED action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).setTransactionsListAsFetched();
+    expect(dispatch.mock.calls[0][0]).toEqual({
+      type: SET_TRANSACTIONS_LIST_AS_FETCHED
+    });
+  });
+  it('should dispatch HIDE_SHOW_MORE_BUTTON action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).hideShowMoreButton();
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: HIDE_SHOW_MORE_BUTTON });
   });
 });

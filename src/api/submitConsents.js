@@ -16,7 +16,8 @@ const submitConsents = async (consents, consentDefinitions) => {
       method: 'PUT',
       body: JSON.stringify({ consents: consentsPayload }),
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
       }
     });
     const json = await res.json();

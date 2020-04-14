@@ -7,6 +7,7 @@ import MyAccount from 'containers/MyAccount/MyAccount.container';
 import Auth from '../auth';
 import ThankYouPage from '../../components/ThankYouPage/ThankYouPage';
 
+jest.mock('../auth');
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
 ));

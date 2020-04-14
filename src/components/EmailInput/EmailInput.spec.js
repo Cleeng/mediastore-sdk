@@ -5,8 +5,6 @@ import EmailInput from './EmailInput';
 import { InputElementStyled, ErrorWrapper } from '../Input/InputStyled';
 import Input from '../Input';
 
-jest.useFakeTimers();
-
 const ERROR_MESSAGE = 'MOCK_ERROR_MESSAGE';
 
 describe('EmailInput', () => {

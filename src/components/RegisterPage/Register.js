@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import googleIcon from 'assets/images/google.png';
+import fbIcon from 'assets/images/fb.svg';
 import ErrorPage from 'components/ErrorPage';
 import BackButton from 'components/BackButton/BackButton';
 import saveOfferId from '../../util/offerIdHelper';
@@ -65,17 +67,19 @@ class Register extends Component {
               theme="simple"
               size="small"
               fontSize="13px"
-              label="Sign up with Google"
+              label="Sign up with Facebook"
+              icon={fbIcon}
             >
-              Google
+              Facebook
             </Button>
             <Button
               theme="simple"
               size="small"
               fontSize="13px"
-              label="Sign up with Facebook"
+              label="Sign up with Google"
+              icon={googleIcon}
             >
-              Facebook
+              Google
             </Button>
           </SocialStyled>
         </ContentWrapperStyled>

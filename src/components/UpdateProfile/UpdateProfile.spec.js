@@ -28,10 +28,6 @@ jest.mock('api', () => ({
         companyName: null,
         phoneNumber: null,
         addressLine1: null,
-        addressLine2: null,
-        city: null,
-        state: null,
-        postalCode: null,
         regDate: '2020-02-12 15:18:56',
         lastLoginDate: '2020-02-21 07:13:49',
         transactions: '6',
@@ -48,19 +44,15 @@ jest.mock('api', () => ({
 }));
 
 const setCurrentUserMock = jest.fn();
-const showLoaderMock = jest.fn();
-const hideLoaderMock = jest.fn();
 
 describe('<UpdateProfile/>', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   describe('@renders', () => {
     it('should render initial state', done => {
       const wrapper = shallow(
-        <PureUpdateProfile
-          setCurrentUser={setCurrentUserMock}
-          showLoader={showLoaderMock}
-          hideLoader={hideLoaderMock}
-          isLoading={false}
-        />
+        <PureUpdateProfile setCurrentUser={setCurrentUserMock} />
       );
       expect(getCustomer).toHaveBeenCalled();
       setImmediate(() => {
@@ -74,12 +66,7 @@ describe('<UpdateProfile/>', () => {
         errors: returnedErrors
       });
       const wrapper = shallow(
-        <PureUpdateProfile
-          setCurrentUser={setCurrentUserMock}
-          showLoader={showLoaderMock}
-          hideLoader={hideLoaderMock}
-          isLoading={false}
-        />
+        <PureUpdateProfile setCurrentUser={setCurrentUserMock} />
       );
       setImmediate(() => {
         expect(wrapper.state().errors).toEqual(returnedErrors);

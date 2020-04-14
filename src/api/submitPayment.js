@@ -8,7 +8,8 @@ const submitPayment = async card => {
       method: 'POST',
       body: JSON.stringify({ orderId, card }),
       headers: {
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
       }
     });
     return res.json();

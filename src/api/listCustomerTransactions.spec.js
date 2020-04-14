@@ -1,6 +1,6 @@
-import getCustomer from './getCustomer';
+import listCustomerTransactions from './listCustomerTransactions';
 
-describe('getCustomer', () => {
+describe('listCustomerTransactions', () => {
   beforeEach(() => {
     jest.spyOn(Storage.prototype, 'setItem');
   });
@@ -26,7 +26,7 @@ describe('getCustomer', () => {
     );
 
     localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
-    getCustomer().then(res => {
+    listCustomerTransactions().then(res => {
       expect(res).toEqual(mockResponse);
       done();
     });
@@ -35,12 +35,12 @@ describe('getCustomer', () => {
   it('fails on remote call error', done => {
     const mockFetch = jest.spyOn(global, 'fetch').mockImplementation(
       () =>
-        new Promise((resolve, reject) => {
+        new Promise(reject => {
           reject();
         })
     );
 
-    getCustomer().catch(() => {
+    listCustomerTransactions().catch(() => {
       expect(mockFetch).toHaveBeenCalled();
       done();
     });

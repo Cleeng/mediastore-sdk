@@ -1,4 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
+import { MyAccountMenuActive } from 'styles/variables';
 
 export const LoaderKeyframeStyled = keyframes`
   0%,
@@ -26,12 +27,11 @@ export const LoaderStyled = styled.div`
     background: ${props => (props.color ? props.color : '#d4d4d4')};
     border-radius: 50%;
     animation: ${LoaderKeyframeStyled} 1.2s linear infinite;
-
     ${props =>
-      props.white &&
+      props.isMyAccount &&
       css`
-        background: #fff;
-      `}
+        background: ${MyAccountMenuActive};
+      `};
   }
 
   & div:nth-child(1) {

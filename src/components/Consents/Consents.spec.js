@@ -40,6 +40,9 @@ jest.mock('../../api/getConsents');
 const mockConsentsFetch = jest.fn();
 
 describe('<Consents/>', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   describe('@renders', () => {
     it('should render initial state', () => {
       const wrapper = shallow(<ConsentsComponent />);

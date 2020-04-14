@@ -7,8 +7,7 @@ import MyAccount from './MyAccount.component';
 export const mapStateToProps = state => {
   return {
     userProfile: state.userProfile,
-    planDetails: state.planDetails,
-    isLoading: state.loader.isLoading
+    planDetails: state.planDetails
   };
 };
 
