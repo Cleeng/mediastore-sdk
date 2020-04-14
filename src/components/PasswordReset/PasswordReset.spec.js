@@ -40,7 +40,7 @@ const MockResetPasswordFetch = jest.fn();
 
 describe('PasswordReset', () => {
   beforeEach(() => {
-    FuncMock.mockClear();
+    jest.clearAllMocks();
   });
   describe('@renders', () => {
     it('should render initial state', () => {

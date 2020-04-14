@@ -9,13 +9,20 @@ const expiredJWT =
 
 const emailMock = 'example@cleeng.com';
 
-jest.spyOn(window.localStorage.__proto__, 'removeItem'); // eslint-disable-line
-
 describe('Auth', () => {
   const pushSpy = jest.spyOn(history, 'push');
+
+  beforeEach(() => {
+    jest.spyOn(Storage.prototype, 'getItem');
+    jest.spyOn(Storage.prototype, 'removeItem');
+    jest.spyOn(Storage.prototype, 'setItem');
+  });
   afterEach(() => {
     jest.clearAllMocks();
     pushSpy.mockClear();
+    localStorage.setItem.mockRestore();
+    localStorage.getItem.mockRestore();
+    localStorage.removeItem.mockRestore();
   });
   describe('@auth status', () => {
     it('should return auth status as not authenticated when jwt is empty', () => {

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -14,14 +13,17 @@ class UpdateProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      errors: []
+      errors: [],
+      isLoading: false
     };
   }
 
   componentDidMount() {
-    const { userProfile, setCurrentUser, showLoader, hideLoader } = this.props;
+    const { userProfile, setCurrentUser } = this.props;
     if (!userProfile.user) {
-      showLoader();
+      this.setState({
+        isLoading: true
+      });
       getCustomer()
         .then(response => {
           if (response.errors.length) {
@@ -30,45 +32,39 @@ class UpdateProfile extends Component {
             });
           } else {
             setCurrentUser(response.responseData);
-            hideLoader();
           }
+          this.setState({
+            isLoading: false
+          });
         })
         .catch(err => {
-          this.setState({ errors: [err] });
-          hideLoader();
+          this.setState({ errors: [err], isLoading: false });
         });
-    } else {
-      hideLoader();
     }
   }
 
   render() {
-    const { errors } = this.state;
+    const { errors, isLoading } = this.state;
     const {
       userProfile: { user },
-      isLoading,
       t
     } = this.props;
 
     return (
       <WrapStyled>
-        {!isLoading && (
+        <MyAccountHeading text={t('Profile details')} />
+        {errors.length !== 0 ? (
+          <MyAccountError serverError />
+        ) : (
           <>
-            <MyAccountHeading text={t('Profile details')} />
-            {errors.length !== 0 ? (
-              <MyAccountError serverError />
-            ) : (
-              <>
-                <ProfileDetails
-                  firstName={user ? user.firstName : ''}
-                  lastName={user ? user.lastName : ''}
-                  email={user ? user.email : ''}
-                  errors={errors}
-                />
-                <MyAccountHeading text={t('Password')} />
-                <Password />
-              </>
-            )}
+            <ProfileDetails
+              firstName={user ? user.firstName : ''}
+              lastName={user ? user.lastName : ''}
+              email={user ? user.email : ''}
+              isLoading={isLoading}
+            />
+            <MyAccountHeading text={t('Password')} />
+            <Password />
           </>
         )}
       </WrapStyled>
@@ -78,9 +74,6 @@ class UpdateProfile extends Component {
 
 UpdateProfile.propTypes = {
   setCurrentUser: PropTypes.func.isRequired,
-  showLoader: PropTypes.func.isRequired,
-  hideLoader: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
   userProfile: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func
 };

@@ -1,7 +1,18 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 import React from 'react';
 import { mount } from 'enzyme';
 import { PureCurrentPlan } from './CurrentPlan';
 import { SubscriptionStyled } from './CurrentPlanStyled';
+
+jest.mock('containers/labeling', () => () => Component => props => (
+  <Component t={k => k} {...props} />
+));
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => props => (
+    <Component t={k => k} {...props} />
+  )
+}));
 
 const planDetailsMock = [
   {

@@ -29,6 +29,7 @@ const jwtMock =
 
 describe('LoginForm', () => {
   afterEach(() => {
+    jest.clearAllMocks();
     delete global.__mobxInstanceCount; // eslint-disable-line
   });
   describe('@events', () => {

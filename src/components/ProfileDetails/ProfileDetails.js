@@ -5,35 +5,40 @@ import labeling from 'containers/labeling';
 import Card from 'components/Card';
 import MyAccountInput from 'components/MyAccountInput/MyAccountInput';
 // import Button from 'components/Button';
+import Loader from 'components/Loader/Loader';
 import { WrapStyled } from './ProfileDetailsStyled';
 
-const ProfileDetails = ({ firstName, lastName, email, t }) => (
-  <WrapStyled>
-    <Card>
-      <MyAccountInput
-        id="firstName"
-        value={firstName}
-        label={t('First name')}
-        disabled
-      />
-      <MyAccountInput
-        id="lastName"
-        value={lastName}
-        label={t('Last name')}
-        disabled
-      />
-      <MyAccountInput id="email" value={email} label="e-mail" disabled />
-      {/* <MyAccountButtonStyled>
+const ProfileDetails = ({ firstName, lastName, email, isLoading, t }) =>
+  isLoading ? (
+    <Loader isMyAccount />
+  ) : (
+    <WrapStyled>
+      <Card>
+        <MyAccountInput
+          id="firstName"
+          value={firstName}
+          label={t('First name')}
+          disabled
+        />
+        <MyAccountInput
+          id="lastName"
+          value={lastName}
+          label={t('Last name')}
+          disabled
+        />
+        <MyAccountInput id="email" value={email} label="e-mail" disabled />
+        {/* <MyAccountButtonStyled>
         <Button>Edit Details</Button>
       </MyAccountButtonStyled> */}
-    </Card>
-  </WrapStyled>
-);
+      </Card>
+    </WrapStyled>
+  );
 
 ProfileDetails.propTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
   email: PropTypes.string,
+  isLoading: PropTypes.bool,
   t: PropTypes.func
 };
 
@@ -41,6 +46,7 @@ ProfileDetails.defaultProps = {
   firstName: '',
   lastName: '',
   email: '',
+  isLoading: false,
   t: k => k
 };
 

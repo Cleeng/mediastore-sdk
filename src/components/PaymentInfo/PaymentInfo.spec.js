@@ -1,85 +1,261 @@
+/* eslint-disable react/jsx-props-no-spreading */
+
 import React from 'react';
-import { shallow } from 'enzyme';
+import { mount, shallow } from 'enzyme';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
+import listCustomerTransactionsRequest from 'api/listCustomerTransactions';
+import getPaymentDetailsReguster from 'api/getPaymentDetails';
 import { PurePaymentInfo } from './PaymentInfo.component';
 
-jest.mock('api', () => ({
-  getPaymentDetails: jest
-    .fn()
-    .mockResolvedValue({
-      responseData: {
-        paymentDetails: [
-          {
-            id: 193925086,
-            customerId: 280372348,
-            token: '8315816736477319',
-            paymentGateway: 'adyen',
-            paymentMethod: 'card',
-            paymentMethodSpecificParams: {
-              variant: 'mc',
-              lastCardFourDigits: '1111',
-              holderName: 'dsadsadsa',
-              cardExpirationDate: '10/2020',
-              socialSecurityNumber: ''
-            },
-            paymentMethodId: null
-          }
-        ],
-        message: 'Payment details sent successfully'
-      },
-      errors: []
-    })
-    .mockName('getPaymentDetails'),
-  listCustomerTransactions: jest
-    .fn()
-    .mockResolvedValue({
-      responseData: {
-        items: [
-          {
-            transactionId: 'T650862998',
-            transactionDate: 1584361260,
-            offerId: 'S568296139_ZW',
-            offerType: 'subscription',
-            offerTitle: 'Annual subscription (recurring) to pride&amp;prejudice'
-          }
-        ]
-      },
-      errors: []
-    })
-    .mockName('listCustomerTransactions')
+jest.mock('../../api/listCustomerTransactions');
+jest.mock('../../api/getPaymentDetails');
+
+jest.mock('containers/labeling', () => () => Component => props => (
+  <Component t={k => k} {...props} />
+));
+
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => props => (
+    <Component t={k => k} {...props} />
+  )
 }));
 
 const setPaymentMethodMock = jest.fn();
-const setTransactionsList = jest.fn();
-const setTransactionsToShow = jest.fn();
-const setTransactionListAsFetched = jest.fn();
-const hideShowMoreButton = jest.fn();
-const showLoaderMock = jest.fn();
-const hideLoaderMock = jest.fn();
+const setTransactionsListMock = jest.fn();
+const setTransactionsToShowMock = jest.fn();
+const setTransactionsListAsFetchedMock = jest.fn();
+const hideShowMoreButtonMock = jest.fn();
+const getPaymentDetailsMock = jest.fn();
+const listCustomerTransactionsMock = jest.fn();
+const paymentDetailsData = {
+  id: 193925086,
+  customerId: 280372348,
+  token: '8315816736477319',
+  paymentGateway: 'adyen',
+  paymentMethod: 'card',
+  paymentMethodSpecificParams: {
+    variant: 'mc',
+    lastCardFourDigits: '1111',
+    holderName: 'dsadsadsa',
+    cardExpirationDate: '10/2020',
+    socialSecurityNumber: ''
+  },
+  paymentMethodId: null
+};
+const mockError = ['mockError'];
+const transactionsListObject = {
+  transactionId: 'T650862998',
+  transactionDate: 1584361260,
+  offerId: 'S568296139_ZW',
+  offerType: 'subscription',
+  offerTitle: 'Annual subscription (recurring) to pride&amp;prejudice'
+};
 
-const initialState = {
-  paymentDetailsError: [],
-  transactionsError: [],
-  isTransactionListExpanded: false,
-  transactionsLoading: false
+const defaultProps = {
+  setPaymentMethod: setPaymentMethodMock,
+  setTransactionsList: setTransactionsListMock,
+  setTransactionsToShow: setTransactionsToShowMock,
+  setTransactionsListAsFetched: setTransactionsListAsFetchedMock,
+  hideShowMoreButton: hideShowMoreButtonMock
 };
 describe('<PaymentInfo/>', () => {
-  describe('@renders', () => {
-    it('should render initial state', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  describe('@render', () => {
+    it('should fetch data on componentDidMount', done => {
+      getPaymentDetailsReguster.mockImplementationOnce(
+        getPaymentDetailsMock.mockResolvedValue({
+          responseData: {
+            paymentDetails: [paymentDetailsData]
+          },
+          errors: []
+        })
+      );
+      listCustomerTransactionsRequest.mockImplementationOnce(
+        listCustomerTransactionsMock.mockResolvedValue({
+          responseData: {
+            items: [transactionsListObject]
+          },
+          errors: []
+        })
+      );
       const wrapper = shallow(
         <PurePaymentInfo
-          setPaymentMethod={setPaymentMethodMock}
-          setTransactionsList={setTransactionsList}
-          setTransactionsToShow={setTransactionsToShow}
-          setTransactionListAsFetched={setTransactionListAsFetched}
-          hideShowMoreButton={hideShowMoreButton}
-          showLoader={showLoaderMock}
-          hideLoader={hideLoaderMock}
-          isLoading={false}
+          {...defaultProps}
+          paymentInfo={{ paymentMethod: [], transactionsList: [] }}
         />
       );
       expect(wrapper.find(MyAccountHeading)).toHaveLength(2);
-      expect(wrapper.state()).toEqual(initialState);
+      setImmediate(() => {
+        expect(setPaymentMethodMock).toHaveBeenCalled();
+        expect(setPaymentMethodMock).toHaveBeenCalledWith([paymentDetailsData]);
+        expect(setTransactionsListMock).toHaveBeenCalled();
+        expect(setTransactionsListMock).toHaveBeenCalledWith([
+          transactionsListObject
+        ]);
+        expect(setTransactionsToShowMock).toHaveBeenCalled();
+        expect(setTransactionsListAsFetchedMock).toHaveBeenCalled();
+        expect(hideShowMoreButtonMock).toHaveBeenCalled();
+        done();
+      });
+    });
+    it('should not fetch data when data was fetched', () => {
+      mount(
+        <PurePaymentInfo
+          {...defaultProps}
+          paymentInfo={{
+            paymentMethod: [paymentDetailsData],
+            transactionsList: [transactionsListObject]
+          }}
+        />
+      );
+      expect(setTransactionsToShowMock).toHaveBeenCalled();
+      expect(getPaymentDetailsMock).not.toHaveBeenCalled();
+      expect(listCustomerTransactionsMock).not.toHaveBeenCalled();
+    });
+    it('should set errors when fetch faild', done => {
+      getPaymentDetailsReguster.mockImplementationOnce(
+        getPaymentDetailsMock.mockResolvedValue({
+          responseData: {},
+          errors: mockError
+        })
+      );
+      listCustomerTransactionsRequest.mockImplementationOnce(
+        listCustomerTransactionsMock.mockResolvedValue({
+          responseData: {},
+          errors: mockError
+        })
+      );
+      const wrapper = shallow(<PurePaymentInfo {...defaultProps} />);
+      setImmediate(() => {
+        expect(wrapper.state('paymentDetailsError')).toBe(mockError);
+        expect(setPaymentMethodMock).not.toHaveBeenCalled();
+        expect(wrapper.state('transactionsError')).toBe(mockError);
+        expect(setTransactionsListMock).not.toHaveBeenCalled();
+        done();
+      });
+    });
+    it('should not set transaction list as fetched when it is possible to fetch more items', done => {
+      getPaymentDetailsReguster.mockImplementationOnce(
+        getPaymentDetailsMock.mockResolvedValue({
+          responseData: { paymentDetails: [paymentDetailsData] },
+          errors: []
+        })
+      );
+      listCustomerTransactionsRequest.mockImplementationOnce(
+        listCustomerTransactionsMock.mockResolvedValue({
+          responseData: {
+            items: [
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject
+            ]
+          },
+          errors: []
+        })
+      );
+      mount(<PurePaymentInfo {...defaultProps} />);
+      setImmediate(() => {
+        expect(setTransactionsToShowMock).toHaveBeenCalled();
+        expect(setTransactionsToShowMock).toHaveBeenCalledWith(3);
+        expect(setTransactionsListAsFetchedMock).not.toHaveBeenCalled();
+        done();
+      });
+    });
+  });
+  describe('@action', () => {
+    it('should hide transaction list on click show less button', () => {
+      const wrapper = mount(
+        <PurePaymentInfo
+          {...defaultProps}
+          paymentInfo={{
+            paymentMethod: [paymentDetailsData],
+            transactionsList: [
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject
+            ]
+          }}
+        />
+      );
+      wrapper.setState({
+        isTransactionListExpanded: true
+      });
+      wrapper.instance().toggleTransactionsList();
+      expect(wrapper.state('isTransactionListExpanded')).toBe(false);
+      expect(setTransactionsToShowMock).toHaveBeenCalled();
+    });
+    it('should exapand list and NOT fetch transactions list if data was fetched', () => {
+      const wrapper = mount(
+        <PurePaymentInfo
+          {...defaultProps}
+          paymentInfo={{
+            paymentMethod: [paymentDetailsData],
+            transactionsList: [
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject
+            ],
+            isTransactionListFetched: true
+          }}
+        />
+      );
+      wrapper.instance().toggleTransactionsList();
+      expect(wrapper.state('isTransactionListExpanded')).toBe(true);
+      expect(setTransactionsToShowMock).toHaveBeenCalled();
+    });
+    it('should fetch whole transactions list if it was NOT fetched', done => {
+      listCustomerTransactionsRequest.mockImplementationOnce(
+        listCustomerTransactionsMock.mockResolvedValue({
+          responseData: {
+            items: [
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject
+            ]
+          },
+          errors: []
+        })
+      );
+      const wrapper = mount(
+        <PurePaymentInfo
+          {...defaultProps}
+          paymentInfo={{
+            paymentMethod: [paymentDetailsData],
+            transactionsList: [
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject
+            ],
+            isTransactionListFetched: false
+          }}
+        />
+      );
+      wrapper.instance().toggleTransactionsList();
+      expect(wrapper.state('isTransactionsItemsLoading')).toBe(true);
+      expect(listCustomerTransactionsMock).toHaveBeenCalled();
+      setImmediate(() => {
+        expect(wrapper.state('isTransactionListExpanded')).toBe(true);
+        expect(wrapper.state('isTransactionsItemsLoading')).toBe(false);
+        expect(setTransactionsListAsFetchedMock).toHaveBeenCalled();
+        expect(setTransactionsListMock).toHaveBeenCalled();
+        expect(setTransactionsListMock).toHaveBeenCalledWith([
+          transactionsListObject,
+          transactionsListObject,
+          transactionsListObject,
+          transactionsListObject,
+          transactionsListObject
+        ]);
+        expect(setTransactionsToShowMock).toHaveBeenCalled();
+        done();
+      });
     });
   });
 });

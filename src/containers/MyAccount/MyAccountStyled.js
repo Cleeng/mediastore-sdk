@@ -65,14 +65,6 @@ export const OverlayStyled = styled.div`
     `}
 `;
 
-export const StyledLoaderContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 40px;
-  height: 100%;
-`;
-
 export const ContentWrapperStyled = styled.div``;
 
 export const ScrollBarWrapper = styled.div`

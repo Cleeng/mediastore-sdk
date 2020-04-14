@@ -4,7 +4,11 @@ const resetPassword = async (offerId, customerEmail) => {
   try {
     const res = await fetch(url, {
       method: 'PUT',
-      body: JSON.stringify({ offerId, customerEmail })
+      body: JSON.stringify({ offerId, customerEmail }),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      }
     });
     const json = await res.json();
     if (json.message) {

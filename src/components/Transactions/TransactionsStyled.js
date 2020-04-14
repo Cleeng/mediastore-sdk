@@ -74,7 +74,6 @@ export const SubTitleStyled = styled.div`
   font-style: italic;
   font-weight: 600;
 `;
-
 export const IdStyled = styled.div`
   color: ${MyAccountTextDark2};
 

@@ -71,7 +71,7 @@ storiesOf('MyAccount/PaymentInfo/Transactions', module)
       transactions={TRANSACTIONS}
       transactionsLoading={boolean('loading')}
       isExpanded={boolean('isExpanded')}
-      toggleTransactionList={() => {}}
+      toggleTransactionsList={() => {}}
     />
   ))
   .add('No transactions', () => <Transactions transactions={[]} />);

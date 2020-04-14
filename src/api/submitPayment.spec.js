@@ -1,6 +1,12 @@
 import submitPayment from './submitPayment';
 
 describe('submitPayment', () => {
+  beforeEach(() => {
+    jest.spyOn(Storage.prototype, 'setItem');
+  });
+  afterEach(() => {
+    localStorage.setItem.mockRestore();
+  });
   it('calls remote endpoint with authorization token', done => {
     const mockToken = 'TOKEN';
     const mockResponse = { foo: 'ok' };

@@ -100,7 +100,7 @@ describe('CouponInput', () => {
       });
     });
 
-    it('should not call onSubmit when any other key is pressed', done => {
+    it('should not call onSubmit when any other key is pressed', () => {
       onSubmit.mockClear();
       const mockInputValue = 'MOCK_INPUT_VALUE';
 
@@ -116,10 +116,7 @@ describe('CouponInput', () => {
         key: 'd',
         target: input
       });
-      setImmediate(() => {
-        expect(onSubmit).not.toHaveBeenCalled();
-        done();
-      });
+      expect(onSubmit).not.toHaveBeenCalled();
     });
     it('should blur on submit when', () => {
       onSubmit.mockClear();

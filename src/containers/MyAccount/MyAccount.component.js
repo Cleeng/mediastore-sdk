@@ -2,6 +2,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Switch, Redirect } from 'react-router-dom';
+
+import PrivateRoute from 'services/privateRoute';
 import MyAccountMenu from 'components/MyAccountMenu';
 import MyAccountUserInfo from 'components/MyAccountUserInfo';
 import MyAccountContent from 'components/MyAccountContent';
@@ -9,16 +11,13 @@ import QuickActions from 'components/QuickActions';
 import PlanDetails from 'components/PlanDetails';
 import PaymentInfo from 'components/PaymentInfo';
 import UpdateProfile from 'components/UpdateProfile';
-import Loader from 'components/Loader';
 import { getCustomerSubscriptions, getCustomer } from 'api';
-import { MyAccountMenuActive } from 'styles/variables';
+
 import { breakPoints } from 'styles/BreakPoints';
-import PrivateRoute from 'services/privateRoute';
 import {
   OverlayStyled,
   WrapperStyled,
   HeaderStyled,
-  StyledLoaderContainer,
   ContentWrapperStyled
 } from './MyAccountStyled';
 
@@ -26,7 +25,7 @@ class MyAccount extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      errors: null
+      errors: []
     };
   }
 
@@ -40,7 +39,7 @@ class MyAccount extends Component {
 
     document.title = 'My Account';
 
-    if (!planDetails.currentPlan.length) {
+    if (planDetails.currentPlan.length === 0) {
       getCustomerSubscriptions().then(response => {
         if (response.errors.length) {
           this.setState({
@@ -68,7 +67,6 @@ class MyAccount extends Component {
     const {
       routeMatch,
       isOverlay,
-      isLoading,
       planDetails: { currentPlan },
       userProfile: { user }
     } = this.props;
@@ -121,11 +119,6 @@ class MyAccount extends Component {
                   component={UpdateProfile}
                 />
               </Switch>
-              {isLoading && (
-                <StyledLoaderContainer>
-                  <Loader color={MyAccountMenuActive} />
-                </StyledLoaderContainer>
-              )}
             </ContentWrapperStyled>
           </MyAccountContent>
         </WrapperStyled>
@@ -141,7 +134,6 @@ MyAccount.propTypes = {
   setCurrentUser: PropTypes.func.isRequired,
   routeMatch: PropTypes.objectOf(PropTypes.any),
   isOverlay: PropTypes.bool,
-  isLoading: PropTypes.bool,
   userProfile: PropTypes.objectOf(PropTypes.any),
   planDetails: PropTypes.objectOf(PropTypes.any)
 };
@@ -149,7 +141,6 @@ MyAccount.propTypes = {
 MyAccount.defaultProps = {
   routeMatch: {},
   isOverlay: false,
-  isLoading: false,
   userProfile: { user: null },
   planDetails: { currentPlan: [] }
 };

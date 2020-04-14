@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unused-state */
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -7,7 +6,6 @@ import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import Transactions from 'components/Transactions/Transactions';
 import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
-
 import { WrapStyled } from './PaymentInfoStyled';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
@@ -19,34 +17,35 @@ class PaymentInfo extends Component {
       paymentDetailsError: [],
       transactionsError: [],
       isTransactionListExpanded: false,
-      transactionsLoading: false
+      isTransactionsSectionLoading: false,
+      isTransactionsItemsLoading: false,
+      paymentDetailsLoading: false
     };
   }
 
-  async componentDidMount() {
-    const {
-      paymentInfo,
-      showLoader,
-      hideLoader,
-      setTransactionsToShow
-    } = this.props;
-    if (
-      !paymentInfo.paymentMethod.length ||
-      !paymentInfo.transactionsList.length
-    ) {
-      showLoader();
-      await this.fetchPaymentInfo();
-      hideLoader();
-    } else {
-      setTransactionsToShow(DEFAULT_TRANSACTIONS_NUMBER);
+  componentDidMount() {
+    const { paymentInfo, setTransactionsToShow } = this.props;
+    if (paymentInfo.paymentMethod.length === 0) {
+      this.setState({
+        paymentDetailsLoading: true
+      });
+      this.fetchPaymentDetials();
+    }
+    if (paymentInfo.transactionsList.length === 0) {
+      this.setState({
+        isTransactionsSectionLoading: true
+      });
+      this.fetchTransactionsList();
+    } else if (paymentInfo.transactionsList.length !== 0) {
+      setTransactionsToShow(DEFAULT_TRANSACTIONS_NUMBER); // if transactions are in state - show default number of them
     }
   }
 
-  toggleTransactionList = () => {
+  toggleTransactionsList = () => {
     const {
       setTransactionsList,
       setTransactionsToShow,
-      setTransactionListAsFetched,
+      setTransactionsListAsFetched,
       paymentInfo
     } = this.props;
     const { isTransactionListExpanded } = this.state;
@@ -57,107 +56,135 @@ class PaymentInfo extends Component {
       });
       setTransactionsToShow(DEFAULT_TRANSACTIONS_NUMBER);
     } else if (paymentInfo.isTransactionListFetched) {
+      // if transactions was fetched - show all of them without calling API
       this.setState({
         isTransactionListExpanded: true
       });
       setTransactionsToShow();
     } else {
+      // fetch all transactions when the list expands for the first time
       this.setState({
-        transactionsLoading: true
+        isTransactionsItemsLoading: true
       });
-      listCustomerTransactions().then(response => {
-        if (response.errors.length) {
+      listCustomerTransactions()
+        .then(response => {
+          if (response.errors.length !== 0) {
+            this.setState({
+              transactionsError: response.errors
+            });
+          } else {
+            this.setState({
+              isTransactionListExpanded: true
+            });
+            setTransactionsListAsFetched();
+            setTransactionsList(response.responseData.items); // state to hold whole transactions
+            setTransactionsToShow(); // state to hold the array with showed transactions
+          }
           this.setState({
-            transactionsError: response.errors
+            isTransactionsItemsLoading: false
           });
-        } else {
+        })
+        .catch(err => {
           this.setState({
-            isTransactionListExpanded: true
+            transactionsError: [err.message],
+            isTransactionsItemsLoading: false
           });
-          setTransactionListAsFetched();
-          setTransactionsList(response.responseData.items);
-          setTransactionsToShow();
-        }
-        this.setState({
-          transactionsLoading: false
         });
-      });
     }
   };
 
-  async fetchPaymentInfo() {
-    const {
-      setPaymentMethod,
-      setTransactionsList,
-      setTransactionsToShow,
-      setTransactionListAsFetched,
-      hideShowMoreButton
-    } = this.props;
-    const fetchPaymentDetials = getPaymentDetails()
+  fetchPaymentDetials = () => {
+    const { setPaymentMethod } = this.props;
+    getPaymentDetails()
       .then(response => {
         if (response.errors.length) {
           this.setState({
-            paymentDetailsError: response.errors
+            paymentDetailsError: response.errors,
+            paymentDetailsLoading: false
           });
         } else {
           setPaymentMethod(response.responseData.paymentDetails);
+          this.setState({
+            paymentDetailsLoading: false
+          });
         }
       })
-      .catch(error => this.setState({ paymentDetailsError: [error] }));
-    const fetchTransactions = listCustomerTransactions(
-      DEFAULT_TRANSACTIONS_NUMBER + 1,
-      0
-    )
+      .catch(err => {
+        this.setState({
+          paymentDetailsError: [err.message],
+          paymentDetailsLoading: false
+        });
+      });
+  };
+
+  fetchTransactionsList = () => {
+    const {
+      setTransactionsList,
+      setTransactionsToShow,
+      setTransactionsListAsFetched,
+      hideShowMoreButton
+    } = this.props;
+
+    listCustomerTransactions(DEFAULT_TRANSACTIONS_NUMBER + 1, 0) // fetching +1 transaction to check if have to show 'show more' button
       .then(response => {
         if (response.errors.length) {
           this.setState({
-            transactionsError: response.errors
+            transactionsError: response.errors,
+            isTransactionsSectionLoading: false
           });
         } else {
           setTransactionsList(response.responseData.items);
           if (
-            response.responseData.items.length > DEFAULT_TRANSACTIONS_NUMBER
+            response.responseData.items.length > DEFAULT_TRANSACTIONS_NUMBER // if there are more transactions to fetch - show only default number
           ) {
             setTransactionsToShow(DEFAULT_TRANSACTIONS_NUMBER);
           } else {
+            // if there is nothing more to fetch
             setTransactionsToShow();
-            setTransactionListAsFetched();
+            setTransactionsListAsFetched();
             hideShowMoreButton();
           }
+          this.setState({
+            isTransactionsSectionLoading: false
+          });
         }
       })
-      .catch(error => this.setState({ transactionsError: [error] }));
-    await Promise.all([fetchPaymentDetials, fetchTransactions]);
-  }
+      .catch(err => {
+        this.setState({
+          transactionsError: [err.message],
+          isTransactionsSectionLoading: false
+        });
+      });
+  };
 
   render() {
-    const { paymentInfo, isLoading, t } = this.props;
+    const { paymentInfo, t } = this.props;
     const {
       paymentDetailsError,
       transactionsError,
-      transactionsLoading,
+      isTransactionsItemsLoading,
+      isTransactionsSectionLoading,
+      paymentDetailsLoading,
       isTransactionListExpanded
     } = this.state;
     return (
       <WrapStyled>
-        {!isLoading && (
-          <>
-            <MyAccountHeading text={t('Payment method')} />
-            <PaymentMehod
-              paymentDetails={paymentInfo ? paymentInfo.paymentMethod : []}
-              error={paymentDetailsError}
-            />
-            <MyAccountHeading text={t('Transactions')} />
-            <Transactions
-              transactions={paymentInfo ? paymentInfo.transactionsToShow : []}
-              error={transactionsError}
-              toggleTransactionList={this.toggleTransactionList}
-              transactionsLoading={transactionsLoading}
-              isExpanded={isTransactionListExpanded}
-              hideShowMoreButton={paymentInfo.hideShowMoreButton}
-            />
-          </>
-        )}
+        <MyAccountHeading text={t('Payment method')} />
+        <PaymentMehod
+          paymentDetailsLoading={paymentDetailsLoading}
+          paymentDetails={paymentInfo.paymentMethod}
+          error={paymentDetailsError}
+        />
+        <MyAccountHeading text={t('Transactions')} />
+        <Transactions
+          transactions={paymentInfo.transactionsToShow}
+          toggleTransactionsList={this.toggleTransactionsList}
+          isTransactionsItemsLoading={isTransactionsItemsLoading}
+          isTransactionsSectionLoading={isTransactionsSectionLoading}
+          isShowMoreButtonHidden={paymentInfo.isShowMoreButtonHidden}
+          isExpanded={isTransactionListExpanded}
+          error={transactionsError}
+        />
       </WrapStyled>
     );
   }
@@ -167,11 +194,8 @@ PaymentInfo.propTypes = {
   setPaymentMethod: PropTypes.func.isRequired,
   setTransactionsList: PropTypes.func.isRequired,
   setTransactionsToShow: PropTypes.func.isRequired,
-  setTransactionListAsFetched: PropTypes.func.isRequired,
+  setTransactionsListAsFetched: PropTypes.func.isRequired,
   hideShowMoreButton: PropTypes.func.isRequired,
-  showLoader: PropTypes.func.isRequired,
-  hideLoader: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired,
   paymentInfo: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func
 };

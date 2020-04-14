@@ -62,6 +62,15 @@ jest.mock('api', () => ({
 }));
 
 describe('Payment', () => {
+  beforeEach(() => {
+    jest.spyOn(Storage.prototype, 'getItem');
+    jest.spyOn(Storage.prototype, 'setItem');
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+    localStorage.setItem.mockRestore();
+    localStorage.getItem.mockRestore();
+  });
   it('renders with buttons', () => {
     const wrapper = shallow(<Payment onPaymentComplete={jest.fn()} />);
     wrapper.setState({
