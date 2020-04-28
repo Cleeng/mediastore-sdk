@@ -38,16 +38,27 @@ const planDetailsMock = [
     period: '6months'
   }
 ];
+const showSurveyMock = jest.fn();
+const setUpdateActionMock = jest.fn();
 
 describe('<PlanDetails/>', () => {
   describe('@renders', () => {
     it('should render initial state without subscriptions', () => {
-      const wrapper = mount(<PureCurrentPlan />);
+      const wrapper = mount(
+        <PureCurrentPlan
+          showSurvey={showSurveyMock}
+          setUpdateAction={setUpdateActionMock}
+        />
+      );
       expect(wrapper.prop('subscriptions')).toStrictEqual([]);
     });
     it('should render initial state with subscriptions parameter', () => {
       const wrapper = mount(
-        <PureCurrentPlan subscriptions={planDetailsMock} />
+        <PureCurrentPlan
+          subscriptions={planDetailsMock}
+          showSurvey={showSurveyMock}
+          setUpdateAction={setUpdateActionMock}
+        />
       );
       expect(wrapper.prop('subscriptions')).toStrictEqual(planDetailsMock);
       expect(wrapper.find(SubscriptionStyled)).toHaveLength(2);

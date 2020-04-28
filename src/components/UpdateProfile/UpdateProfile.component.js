@@ -54,7 +54,7 @@ class UpdateProfile extends Component {
       <WrapStyled>
         <MyAccountHeading text={t('Profile details')} />
         {errors.length !== 0 ? (
-          <MyAccountError serverError />
+          <MyAccountError generalError />
         ) : (
           <>
             <ProfileDetails

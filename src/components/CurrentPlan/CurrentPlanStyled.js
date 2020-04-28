@@ -8,6 +8,7 @@ import {
   MyAccountContentColor
 } from 'styles/variables';
 import { mediaFrom } from 'styles/BreakPoints';
+import Button from 'components/Button';
 
 export const WrapStyled = styled.div`
   position: relative;
@@ -29,7 +30,6 @@ export const SubscriptionStyled = styled.div`
 export const SubscriptionInfoBoxStyled = styled.div`
   display: flex;
   align-items: flex-start;
-  /* margin-bottom: 24px; */
 `;
 
 export const SubscriptionIcon = styled.div`
@@ -102,24 +102,26 @@ export const SubscriptionActionsStyled = styled.div`
   display: flex;
   justify-content: space-between;
 
-  button {
-    height: 40px;
-    border-radius: 20px;
-    font-weight: 700;
-    width: auto;
-    padding: 0 10px;
-    font-size: 14px;
-  }
-
-  ${mediaFrom.smallest`
-    padding: 0 20px;
-  `}
-
   ${mediaFrom.small`
     justify-content: flex-end;
+  `}
+`;
+export const ActionButton = styled(Button)`
+  margin: 20px 0 0 0;
+  width: 48%;
+  ${mediaFrom.small`
+      margin: 10px 0 0 5px;
+      width: unset;
+      max-width: unset;
+  `}
+`;
 
-    button {
-      margin-left: 8px;
-    }
+export const ResubscribeButton = styled(Button)`
+  width: 100%;
+  margin: 20px 0 0 0;
+  ${mediaFrom.small`
+      margin: 10px 0 0 5px;
+      width: unset;
+      max-width: unset;
   `}
 `;

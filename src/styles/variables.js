@@ -46,4 +46,4 @@ export const SubscriptionIconDefaultColor = '#9cd6c9';
 export const InputBorder = '#d8ddea';
 export const InputLabelColor = '#838eaa';
 export const DisabledInputBg = '#F4F6FC';
-export const DisabledInputColor = '#838eaa';
+export const DisabledInputColor = '#4a4f5f';
