@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import * as colors from 'styles/variables';
+import { media } from 'styles/BreakPoints';
 
 export const PasswordResetPageStyled = styled.main`
   width: 80%;
@@ -16,6 +17,13 @@ export const PasswordResetPageStyled = styled.main`
   & button {
     margin-top: 30px;
   }
+
+  ${media.smallest`
+    width:90%;
+    & button {
+      margin-top: 50px;
+    }
+  `}
 `;
 
 export const StyledTitle = styled.div`
@@ -37,4 +45,8 @@ export const FormStyled = styled.form`
   width: 80%;
 
   margin: 30px auto 0 auto;
+
+  ${media.smallest`
+    width:100%;
+  `}
 `;

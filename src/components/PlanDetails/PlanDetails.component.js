@@ -5,6 +5,8 @@ import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import CurrentPlan from 'components/CurrentPlan';
 import { getCustomerSubscriptions } from 'api';
 import { PropTypes } from 'prop-types';
+import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
+
 import { WrapStyled } from './PlanDetailsStyled';
 
 class PlanDetails extends Component {
@@ -17,41 +19,77 @@ class PlanDetails extends Component {
   }
 
   componentDidMount() {
-    const { planDetails, setCurrentPlan } = this.props;
+    const { planDetails } = this.props;
     if (planDetails.currentPlan.length === 0) {
-      this.setState({
-        currentPlanLoading: true
-      });
-      getCustomerSubscriptions()
-        .then(response => {
-          if (response.errors.length) {
-            this.setState({
-              errors: response.errors
-            });
-          } else {
-            setCurrentPlan(response.responseData.items);
-          }
-          this.setState({
-            currentPlanLoading: false
-          });
-        })
-        .catch(err => {
-          this.setState({ errors: [err.message], currentPlanLoading: false });
-        });
+      this.fetchSubscriptions();
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { planDetails } = this.props;
+    if (prevProps.planDetails.updateList !== planDetails.updateList) {
+      this.fetchSubscriptions();
+    }
+  }
+
+  fetchSubscriptions = async () => {
+    const { setCurrentPlan } = this.props;
+
+    this.setState({
+      currentPlanLoading: true
+    });
+    getCustomerSubscriptions()
+      .then(response => {
+        if (response.errors.length) {
+          this.setState({
+            errors: response.errors
+          });
+        } else {
+          setCurrentPlan(response.responseData.items);
+        }
+        this.setState({
+          currentPlanLoading: false
+        });
+      })
+      .catch(err => {
+        this.setState({ errors: [err.message], currentPlanLoading: false });
+      });
+  };
+
   render() {
-    const { planDetails, t } = this.props;
+    const {
+      planDetails,
+      hideSurvey,
+      showSurvey,
+      updateList,
+      setUpdateAction,
+      t
+    } = this.props;
     const { errors, currentPlanLoading } = this.state;
+
     return (
       <WrapStyled>
-        <MyAccountHeading text={t('Current plan')} />
-        <CurrentPlan
-          subscriptions={planDetails.currentPlan}
-          errors={errors}
-          currentPlanLoading={currentPlanLoading}
-        />
+        {planDetails.isSurveyShown ? (
+          <>
+            <UpdateSubscription
+              hideSurvey={hideSurvey}
+              offerDetails={planDetails.offerToUpdate}
+              updateList={updateList}
+              action={planDetails.updateAction}
+            />
+          </>
+        ) : (
+          <>
+            <MyAccountHeading text={t('Current plan')} />
+            <CurrentPlan
+              subscriptions={planDetails.currentPlan}
+              errors={errors}
+              currentPlanLoading={currentPlanLoading}
+              showSurvey={showSurvey}
+              setUpdateAction={setUpdateAction}
+            />
+          </>
+        )}
       </WrapStyled>
     );
   }
@@ -59,7 +97,11 @@ class PlanDetails extends Component {
 
 PlanDetails.propTypes = {
   setCurrentPlan: PropTypes.func.isRequired,
+  setUpdateAction: PropTypes.func.isRequired,
   planDetails: PropTypes.objectOf(PropTypes.any),
+  showSurvey: PropTypes.func.isRequired,
+  hideSurvey: PropTypes.func.isRequired,
+  updateList: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 

@@ -37,7 +37,7 @@ const Transactions = ({
   ) : (
     <WrapStyled>
       {error.length !== 0 ? (
-        <MyAccountError serverError />
+        <MyAccountError generalError />
       ) : transactions.length === 0 ? (
         <MyAccountError
           icon={noTransactionsIcon}

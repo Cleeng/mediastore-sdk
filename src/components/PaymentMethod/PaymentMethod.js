@@ -28,7 +28,7 @@ const PaymentMethod = ({ paymentDetailsLoading, paymentDetails, error, t }) => {
   ) : (
     <WrapStyled>
       {error.length !== 0 ? (
-        <MyAccountError serverError />
+        <MyAccountError generalError />
       ) : paymentDetails.length === 0 ? (
         <MyAccountError
           title={t('No card added!')}

@@ -43,6 +43,10 @@ const correctData = {
   }
 };
 const setCurrentPlanMock = jest.fn();
+const showSurveyMock = jest.fn();
+const hideSurveyMock = jest.fn();
+const setUpdateActionMock = jest.fn();
+const updateListMock = jest.fn();
 const getCustomerSubscriptionsMock = jest.fn();
 
 describe('<PlanDetails/>', () => {
@@ -57,7 +61,13 @@ describe('<PlanDetails/>', () => {
         })
       );
       const wrapper = mount(
-        <PurePlanDetails setCurrentPlan={setCurrentPlanMock} />
+        <PurePlanDetails
+          setCurrentPlan={setCurrentPlanMock}
+          showSurvey={showSurveyMock}
+          hideSurvey={hideSurveyMock}
+          setUpdateAction={setUpdateActionMock}
+          updateList={updateListMock}
+        />
       );
       expect(wrapper.find(MyAccountHeading)).toHaveLength(1);
       expect(wrapper.find(CurrentPlan)).toHaveLength(1);

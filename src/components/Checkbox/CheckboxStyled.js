@@ -3,7 +3,8 @@ import {
   MainTextColor,
   ErrorColor,
   CheckboxBorderColor,
-  FocusColor
+  FocusColor,
+  MyAccountMenuActive
 } from 'styles/variables';
 import tickIcon from 'assets/images/input/tick.svg';
 
@@ -38,6 +39,12 @@ export const ConsentDefinitionStyled = styled.div`
       outline: 2px solid ${FocusColor};
     }
   }
+  opacity: 0.8;
+  ${props =>
+    props.checked &&
+    css`
+      opacity: 1;
+    `}
 `;
 
 export const CheckFrameStyled = styled.div`
@@ -58,6 +65,17 @@ export const CheckFrameStyled = styled.div`
     css`
       border-color: ${ErrorColor};
     `}
+  ${props =>
+    props.isMyAccount &&
+    css`
+      border-radius: 50%;
+    `}
+  ${props =>
+    props.isMyAccount &&
+    props.checked &&
+    css`
+      border: 1px solid ${MyAccountMenuActive};
+    `}
 `;
 
 export const CheckMarkStyled = styled.div`
@@ -70,6 +88,19 @@ export const CheckMarkStyled = styled.div`
 
   background-image: url(${tickIcon});
   background-repeat: no-repeat;
+  ${props =>
+    props.isMyAccount &&
+    css`
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      width: 12px;
+      height: 12px;
+
+      background: ${MyAccountMenuActive};
+      border-radius: 50%;
+    `}
 `;
 
 export const ErrorFieldStyled = styled.div`

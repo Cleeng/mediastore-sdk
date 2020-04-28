@@ -15,25 +15,25 @@ const MyAccountError = ({
   title,
   subtitle,
   icon,
-  serverError,
+  generalError,
   withBorder,
   t
 }) => {
-  const IconComponent = serverError ? serverIcon : icon;
+  const IconComponent = generalError ? serverIcon : icon;
   return (
     <WrapStyled withBorder={withBorder}>
-      {(icon || serverError) && (
+      {(icon || generalError) && (
         <IconStyled>
           <IconComponent />
         </IconStyled>
       )}
       <TitleStyled>
-        {serverError ? t('Oops, something went wrong!') : title}
+        {generalError ? t('Oops, something went wrong!') : title}
       </TitleStyled>
       <SubTitleStyled>
-        {serverError ? t('Please try again in a few moments.') : subtitle}
+        {generalError ? t('Please try again in a few moments.') : subtitle}
       </SubTitleStyled>
-      {serverError && (
+      {generalError && (
         <Button
           size="small"
           margin="20px 0 0 0"
@@ -52,7 +52,7 @@ MyAccountError.propTypes = {
   title: PropTypes.string,
   subtitle: PropTypes.string,
   icon: PropTypes.oneOfType([PropTypes.any, PropTypes.string]),
-  serverError: PropTypes.bool,
+  generalError: PropTypes.bool,
   withBorder: PropTypes.bool,
   t: PropTypes.func
 };
@@ -61,7 +61,7 @@ MyAccountError.defaultProps = {
   title: '',
   subtitle: '',
   icon: '',
-  serverError: false,
+  generalError: false,
   withBorder: false,
   t: k => k
 };

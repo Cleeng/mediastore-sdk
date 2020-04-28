@@ -7,7 +7,14 @@ import {
   ConsentDefinitionStyled
 } from './CheckboxStyled';
 
-const Checkbox = ({ children, onClickFn, error, checked, required }) => (
+const Checkbox = ({
+  children,
+  onClickFn,
+  error,
+  checked,
+  required,
+  isMyAccount
+}) => (
   <CheckboxStyled
     onClick={onClickFn}
     role="checkbox"
@@ -22,10 +29,15 @@ const Checkbox = ({ children, onClickFn, error, checked, required }) => (
       onKeyDown={e => {
         return e.keyCode === 32 ? onClickFn() : null;
       }}
+      isMyAccount={isMyAccount}
+      checked={checked}
     >
-      {checked && <CheckMarkStyled />}
+      {checked && <CheckMarkStyled isMyAccount={isMyAccount} />}
     </CheckFrameStyled>
-    <ConsentDefinitionStyled dangerouslySetInnerHTML={{ __html: children }} />
+    <ConsentDefinitionStyled
+      dangerouslySetInnerHTML={{ __html: children }}
+      checked={checked}
+    />
   </CheckboxStyled>
 );
 
@@ -34,7 +46,8 @@ Checkbox.propTypes = {
   required: PropTypes.bool,
   onClickFn: PropTypes.func,
   error: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element])
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  isMyAccount: PropTypes.bool
 };
 
 Checkbox.defaultProps = {
@@ -42,7 +55,8 @@ Checkbox.defaultProps = {
   checked: false,
   required: false,
   onClickFn: () => {},
-  children: ''
+  children: '',
+  isMyAccount: false
 };
 
 export default Checkbox;

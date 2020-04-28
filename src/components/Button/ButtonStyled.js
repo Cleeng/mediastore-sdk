@@ -28,10 +28,6 @@ const ButtonStyled = styled.button`
     outline: none;
   }
 
-  &:focus{
-    outline: 2px solid ${colors.FocusColor};
-  }
-
   ${props =>
     (props.size === 'small' &&
       css`
@@ -60,11 +56,27 @@ const ButtonStyled = styled.button`
     (props.theme === 'secondary' &&
       css`
         background-color: ${colors.ButtonSecondaryBackground};
+        border: 1px solid ${colors.ButtonSecondaryBackground};
         color: ${colors.MainTextColor};
         &:hover,
-        &:focus {
+        &:focus,
+        &:active {
           cursor: pointer;
           background-color: ${colors.ButtonBorderColor};
+          border: 1px solid ${colors.ButtonBorderColor};
+        }
+      `) ||
+    (props.theme === 'danger' &&
+      css`
+        background-color: ${colors.ErrorColor};
+        border: none;
+        color: ${colors.MyAccountMainColor};
+        opacity: 0.8;
+        &:not(:disabled):hover,
+        &:focus {
+          cursor: pointer;
+          background-color: ${colors.ErrorColor};
+          opacity: 1;
         }
       `) ||
     (props.theme === 'simple' &&
@@ -76,6 +88,9 @@ const ButtonStyled = styled.button`
         &:focus {
           cursor: pointer;
           background-color: ${colors.LightGrey};
+        }
+        &:active {
+          border: 1px solid ${colors.ButtonMainFontColor};
         }
       `) ||
     (props.theme === 'navLink' &&

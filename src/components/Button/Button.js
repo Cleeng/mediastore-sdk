@@ -14,7 +14,8 @@ export const BUTTON_THEME = {
   SECONDARY: 'secondary',
   SIMPLE: 'simple',
   NAVLINK: 'navLink',
-  LINK: 'link'
+  LINK: 'link',
+  DANGER: 'danger'
 };
 
 const Button = ({
@@ -32,7 +33,8 @@ const Button = ({
   fontWeight,
   width,
   icon,
-  padding
+  padding,
+  className
 }) => {
   const LinkProps = {
     as: Link,
@@ -55,6 +57,7 @@ const Button = ({
       width={width}
       icon={icon}
       padding={padding}
+      className={className}
     >
       {children}
     </ButtonStyled>
@@ -78,7 +81,8 @@ Button.propTypes = {
   fontWeight: PropTypes.string,
   width: PropTypes.string,
   icon: PropTypes.string,
-  padding: PropTypes.string
+  padding: PropTypes.string,
+  className: PropTypes.string
 };
 
 Button.defaultProps = {
@@ -96,5 +100,6 @@ Button.defaultProps = {
   fontWeight: null,
   width: null,
   icon: null,
-  padding: null
+  padding: null,
+  className: ''
 };
