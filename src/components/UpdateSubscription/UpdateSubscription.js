@@ -241,4 +241,6 @@ UpdateSubscription.defaultProps = {
   t: k => k
 };
 
+export { UpdateSubscription as PureUpdateSubscription };
+
 export default withTranslation()(labeling()(UpdateSubscription));

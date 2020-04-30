@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import MyAccountError from 'components/MyAccountError/MyAccountError';
 import { PureTransactions } from './Transactions';
 import { InsideWrapperStyled } from './TransactionsStyled';
@@ -31,7 +31,7 @@ describe('<Transactions/>', () => {
   });
   describe('@renders', () => {
     it('should render transactions', () => {
-      const wrapper = mount(
+      const wrapper = shallow(
         <PureTransactions
           transactions={mockTransaction}
           toggleTransactionsList={toggleTransactionsListMock}
@@ -40,7 +40,7 @@ describe('<Transactions/>', () => {
       expect(wrapper.find(InsideWrapperStyled).exists()).toBe(true);
     });
     it('should show info when there are no transactions', () => {
-      const wrapper = mount(
+      const wrapper = shallow(
         <PureTransactions
           transactions={[]}
           toggleTransactionsList={toggleTransactionsListMock}
@@ -50,7 +50,7 @@ describe('<Transactions/>', () => {
       expect(wrapper.find(InsideWrapperStyled).exists()).toBe(false);
     });
     it('should hide button if all transaction are fetched', () => {
-      const wrapper = mount(
+      const wrapper = shallow(
         <PureTransactions
           transactions={mockTransaction}
           toggleTransactionsList={toggleTransactionsListMock}

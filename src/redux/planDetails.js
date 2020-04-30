@@ -36,9 +36,6 @@ const paymentDetailsReducer = createReducer(initialState, {
     state.isSurveyShown = false;
     state.offerToUpdate = { offerId: '', expiresAt: null, price: null };
   },
-  SET_OFFER_TO_UPDATE: (state, action) => {
-    state.offerToUpdate.offerId = action.payload;
-  },
   UPDATE_LIST: state => {
     state.updateList = !state.updateList;
   },

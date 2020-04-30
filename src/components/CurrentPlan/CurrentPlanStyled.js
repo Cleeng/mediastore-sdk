@@ -106,7 +106,7 @@ export const SubscriptionActionsStyled = styled.div`
     justify-content: flex-end;
   `}
 `;
-export const ActionButton = styled(Button)`
+export const UnsubscribeButtonStyled = styled(Button)`
   margin: 20px 0 0 0;
   width: 48%;
   ${mediaFrom.small`
@@ -116,7 +116,7 @@ export const ActionButton = styled(Button)`
   `}
 `;
 
-export const ResubscribeButton = styled(Button)`
+export const ResubscribeButtonStyled = styled(Button)`
   width: 100%;
   margin: 20px 0 0 0;
   ${mediaFrom.small`

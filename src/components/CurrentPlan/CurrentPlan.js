@@ -22,8 +22,8 @@ import {
   SubscriptionPricePeroidStyled,
   SubscriptionPriceStyled,
   SubscriptionActionsStyled,
-  ResubscribeButton,
-  ActionButton
+  ResubscribeButtonStyled,
+  UnsubscribeButtonStyled
 } from './CurrentPlanStyled';
 
 const CurrentPlan = ({
@@ -83,7 +83,7 @@ const CurrentPlan = ({
                   </SubscriptionInfoBoxStyled>
                   <SubscriptionActionsStyled>
                     {subItem.status === 'active' && (
-                      <ActionButton
+                      <UnsubscribeButtonStyled
                         theme="simple"
                         size="small"
                         fontWeight="700"
@@ -96,10 +96,10 @@ const CurrentPlan = ({
                         }}
                       >
                         {t('Unsubscribe')}
-                      </ActionButton>
+                      </UnsubscribeButtonStyled>
                     )}
                     {subItem.status === 'cancelled' && (
-                      <ResubscribeButton
+                      <ResubscribeButtonStyled
                         theme="secondary"
                         size="small"
                         fontWeight="700"
@@ -115,7 +115,7 @@ const CurrentPlan = ({
                         }}
                       >
                         {t('Resubscribe')}
-                      </ResubscribeButton>
+                      </ResubscribeButtonStyled>
                     )}
 
                     {/* <Button theme="secondary" size="small" fontWeight="700">

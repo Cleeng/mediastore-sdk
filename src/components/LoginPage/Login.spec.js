@@ -30,6 +30,7 @@ jest.mock('react-i18next', () => ({
 }));
 
 describe('Login', () => {
+  afterEach(() => jest.clearAllMocks());
   describe('@renders', () => {
     Auth.isLogged = jest.fn(() => true);
     it('should render initail state', () => {
@@ -40,13 +41,14 @@ describe('Login', () => {
     it('should show Error page when offer error occurred', () => {
       const wrapper = mount(<PureLogin urlProps={mockUrlProps} />);
       wrapper.setState({ isOfferError: true });
+      wrapper.update();
       expect(wrapper.find(ErrorPage).exists()).toBe(true);
     });
     it('should update state when offerError occure', () => {
       const wrapper = mount(<PureLogin urlProps={mockUrlProps} />);
       wrapper.instance().setOfferError(true);
-      expect(wrapper.state().isOfferError).toBe(true);
       wrapper.update();
+      expect(wrapper.state().isOfferError).toBe(true);
       expect(wrapper.find(ErrorPage).exists()).toBe(true);
     });
   });
