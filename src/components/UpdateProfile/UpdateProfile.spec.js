@@ -60,7 +60,7 @@ describe('<UpdateProfile/>', () => {
         done();
       });
     });
-    it('should store errors if cannot fetch getCustomer', done => {
+    it('should store errors if getCustomer return errors', done => {
       const returnedErrors = ['Some error'];
       getCustomer.mockResolvedValueOnce({
         errors: returnedErrors
@@ -70,6 +70,18 @@ describe('<UpdateProfile/>', () => {
       );
       setImmediate(() => {
         expect(wrapper.state().errors).toEqual(returnedErrors);
+        done();
+      });
+    });
+    it('should store errors if cannot fetch getCustomer', done => {
+      const returnedError = 'Some error';
+      getCustomer.mockRejectedValue(new Error(returnedError));
+      const wrapper = shallow(
+        <PureUpdateProfile setCurrentUser={setCurrentUserMock} />
+      );
+      setImmediate(() => {
+        expect(wrapper.state().errors).toEqual([new Error(returnedError)]);
+        expect(wrapper.state().isLoading).toEqual(false);
         done();
       });
     });

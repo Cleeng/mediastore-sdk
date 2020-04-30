@@ -1,4 +1,10 @@
-import { SET_CURRENT_PLAN } from 'redux/planDetails';
+import {
+  SET_CURRENT_PLAN,
+  SHOW_SURVEY,
+  HIDE_SURVEY,
+  UPDATE_LIST,
+  SET_UPDATE_ACTION
+} from 'redux/planDetails';
 import { mapStateToProps, mapDispatchToProps } from './PlanDetails.container';
 
 const currentPlanMock = [
@@ -37,5 +43,25 @@ describe('<PaymentInfo/>', () => {
     const dispatch = jest.fn();
     mapDispatchToProps(dispatch).setCurrentPlan();
     expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_CURRENT_PLAN });
+  });
+  it('should dispatch SHOW_SURVEY action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).showSurvey();
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: SHOW_SURVEY });
+  });
+  it('should dispatch HIDE_SURVEY action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).hideSurvey();
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: HIDE_SURVEY });
+  });
+  it('should dispatch UPDATE_LIST action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).updateList();
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: UPDATE_LIST });
+  });
+  it('should dispatch SET_UPDATE_ACTION action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).setUpdateAction();
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_UPDATE_ACTION });
   });
 });

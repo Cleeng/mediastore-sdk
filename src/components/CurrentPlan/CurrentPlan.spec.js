@@ -3,7 +3,12 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import { PureCurrentPlan } from './CurrentPlan';
-import { SubscriptionStyled } from './CurrentPlanStyled';
+import {
+  SubscriptionStyled,
+  UnsubscribeButtonStyled,
+  ResubscribeButtonStyled
+} from './CurrentPlanStyled';
+import 'jest-styled-components';
 
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
@@ -28,7 +33,7 @@ const planDetailsMock = [
   },
   {
     offerId: 'S249781156_UA',
-    status: 'active',
+    status: 'cancelled',
     expiresAt: 1597917717,
     nextPaymentPrice: 45.04,
     nextPaymentCurrency: 'EUR',
@@ -42,6 +47,7 @@ const showSurveyMock = jest.fn();
 const setUpdateActionMock = jest.fn();
 
 describe('<PlanDetails/>', () => {
+  afterEach(() => jest.clearAllMocks());
   describe('@renders', () => {
     it('should render initial state without subscriptions', () => {
       const wrapper = mount(
@@ -62,6 +68,44 @@ describe('<PlanDetails/>', () => {
       );
       expect(wrapper.prop('subscriptions')).toStrictEqual(planDetailsMock);
       expect(wrapper.find(SubscriptionStyled)).toHaveLength(2);
+    });
+  });
+  describe('@actions', () => {
+    it('should call setUpdateAction fn and showSurvey on click unsubscribe', () => {
+      const wrapper = mount(
+        <PureCurrentPlan
+          subscriptions={planDetailsMock}
+          showSurvey={showSurveyMock}
+          setUpdateAction={setUpdateActionMock}
+        />
+      );
+      wrapper.find(UnsubscribeButtonStyled).simulate('click');
+
+      expect(showSurveyMock).toHaveBeenCalledTimes(1);
+      expect(showSurveyMock).toHaveBeenCalledWith({
+        offerId: 'S937144802_UA',
+        expiresAt: 1582706082
+      });
+      expect(setUpdateActionMock).toHaveBeenCalledTimes(1);
+      expect(setUpdateActionMock).toHaveBeenCalledWith('unsubscribe');
+    });
+    it('should call setUpdateAction fn and showSurvey on click resubscribe', () => {
+      const wrapper = mount(
+        <PureCurrentPlan
+          subscriptions={planDetailsMock}
+          showSurvey={showSurveyMock}
+          setUpdateAction={setUpdateActionMock}
+        />
+      );
+      wrapper.find(ResubscribeButtonStyled).simulate('click');
+
+      expect(setUpdateActionMock).toHaveBeenCalledWith('resubscribe');
+      expect(showSurveyMock).toHaveBeenCalledTimes(1);
+      expect(showSurveyMock).toHaveBeenCalledWith({
+        offerId: 'S249781156_UA',
+        expiresAt: 1597917717,
+        price: '45.04€'
+      });
     });
   });
 });

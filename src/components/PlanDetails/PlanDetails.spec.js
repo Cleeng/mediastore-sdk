@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React from 'react';
-import { mount } from 'enzyme';
+import { shallow } from 'enzyme';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import CurrentPlan from 'components/CurrentPlan';
 import getCustomerSubscriptionsRequest from 'api/getCustomerSubscriptions';
@@ -50,6 +50,7 @@ const updateListMock = jest.fn();
 const getCustomerSubscriptionsMock = jest.fn();
 
 describe('<PlanDetails/>', () => {
+  afterEach(() => jest.clearAllMocks());
   describe('@renders', () => {
     it('should render initial state', () => {
       getCustomerSubscriptionsRequest.mockImplementationOnce(
@@ -60,7 +61,7 @@ describe('<PlanDetails/>', () => {
           errors: []
         })
       );
-      const wrapper = mount(
+      const wrapper = shallow(
         <PurePlanDetails
           setCurrentPlan={setCurrentPlanMock}
           showSurvey={showSurveyMock}
@@ -71,6 +72,65 @@ describe('<PlanDetails/>', () => {
       );
       expect(wrapper.find(MyAccountHeading)).toHaveLength(1);
       expect(wrapper.find(CurrentPlan)).toHaveLength(1);
+    });
+    it('should call fetchSubscriptions when new props given', () => {
+      const wrapper = shallow(
+        <PurePlanDetails
+          setCurrentPlan={setCurrentPlanMock}
+          showSurvey={showSurveyMock}
+          hideSurvey={hideSurveyMock}
+          setUpdateAction={setUpdateActionMock}
+          updateList={updateListMock}
+          planDetails={{ currentPlan: [1, 2] }}
+        />
+      );
+      wrapper.instance().fetchSubscriptions = jest.fn();
+      wrapper.setProps({ planDetails: { updateList: true } });
+      expect(wrapper.instance().fetchSubscriptions).toHaveBeenCalled();
+    });
+    it('should set state when fetchSubscriptions return error', done => {
+      getCustomerSubscriptionsRequest.mockImplementationOnce(
+        getCustomerSubscriptionsMock.mockResolvedValue({
+          responseData: {},
+          errors: ['error']
+        })
+      );
+      const wrapper = shallow(
+        <PurePlanDetails
+          setCurrentPlan={setCurrentPlanMock}
+          showSurvey={showSurveyMock}
+          hideSurvey={hideSurveyMock}
+          setUpdateAction={setUpdateActionMock}
+          updateList={updateListMock}
+        />
+      );
+      expect(wrapper.state('errors')).toEqual([]);
+      setImmediate(() => {
+        expect(wrapper.state('errors')).toEqual(['error']);
+        expect(setCurrentPlanMock).not.toHaveBeenCalled();
+        done();
+      });
+    });
+    it('should catch error when fetchSubscriptions fail', done => {
+      getCustomerSubscriptionsRequest.mockImplementationOnce(
+        getCustomerSubscriptionsMock.mockRejectedValue(new Error('error'))
+      );
+      const wrapper = shallow(
+        <PurePlanDetails
+          setCurrentPlan={setCurrentPlanMock}
+          showSurvey={showSurveyMock}
+          hideSurvey={hideSurveyMock}
+          setUpdateAction={setUpdateActionMock}
+          updateList={updateListMock}
+        />
+      );
+      expect(wrapper.state('errors')).toEqual([]);
+      setImmediate(() => {
+        expect(wrapper.state('errors')).toEqual(['error']);
+        expect(wrapper.state('currentPlanLoading')).toEqual(false);
+        expect(setCurrentPlanMock).not.toHaveBeenCalled();
+        done();
+      });
     });
   });
 });

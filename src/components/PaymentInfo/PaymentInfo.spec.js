@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React from 'react';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import listCustomerTransactionsRequest from 'api/listCustomerTransactions';
 import getPaymentDetailsReguster from 'api/getPaymentDetails';
@@ -101,7 +101,7 @@ describe('<PaymentInfo/>', () => {
       });
     });
     it('should not fetch data when data was fetched', () => {
-      mount(
+      shallow(
         <PurePaymentInfo
           {...defaultProps}
           paymentInfo={{
@@ -136,6 +136,53 @@ describe('<PaymentInfo/>', () => {
         done();
       });
     });
+    it('should catch error when fetchPaymentDetials fail', done => {
+      getPaymentDetailsReguster.mockImplementationOnce(
+        getPaymentDetailsMock.mockRejectedValue(new Error('error'))
+      );
+
+      listCustomerTransactionsRequest.mockImplementationOnce(
+        listCustomerTransactionsMock.mockResolvedValue({
+          responseData: {
+            items: [
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject
+            ]
+          },
+          errors: []
+        })
+      );
+
+      const wrapper = shallow(<PurePaymentInfo {...defaultProps} />);
+      setImmediate(() => {
+        expect(wrapper.state('paymentDetailsError')).toEqual(['error']);
+        expect(setPaymentMethodMock).not.toHaveBeenCalled();
+        expect(wrapper.state('transactionsError')).toEqual([]);
+        expect(setTransactionsListMock).toHaveBeenCalled();
+        done();
+      });
+    });
+    it('should catch error when fetchTransactionsList fail', done => {
+      getPaymentDetailsReguster.mockImplementationOnce(
+        getPaymentDetailsMock.mockResolvedValue({
+          responseData: { paymentDetails: [paymentDetailsData] },
+          errors: []
+        })
+      );
+      listCustomerTransactionsRequest.mockImplementationOnce(
+        listCustomerTransactionsMock.mockRejectedValue(new Error('error'))
+      );
+      const wrapper = shallow(<PurePaymentInfo {...defaultProps} />);
+      setImmediate(() => {
+        expect(wrapper.state('paymentDetailsError')).toEqual([]);
+        expect(setPaymentMethodMock).toHaveBeenCalled();
+        expect(wrapper.state('transactionsError')).toEqual(['error']);
+        expect(setTransactionsListMock).not.toHaveBeenCalled();
+        done();
+      });
+    });
     it('should not set transaction list as fetched when it is possible to fetch more items', done => {
       getPaymentDetailsReguster.mockImplementationOnce(
         getPaymentDetailsMock.mockResolvedValue({
@@ -156,7 +203,7 @@ describe('<PaymentInfo/>', () => {
           errors: []
         })
       );
-      mount(<PurePaymentInfo {...defaultProps} />);
+      shallow(<PurePaymentInfo {...defaultProps} />);
       setImmediate(() => {
         expect(setTransactionsToShowMock).toHaveBeenCalled();
         expect(setTransactionsToShowMock).toHaveBeenCalledWith(3);
@@ -167,7 +214,7 @@ describe('<PaymentInfo/>', () => {
   });
   describe('@action', () => {
     it('should hide transaction list on click show less button', () => {
-      const wrapper = mount(
+      const wrapper = shallow(
         <PurePaymentInfo
           {...defaultProps}
           paymentInfo={{
@@ -189,7 +236,7 @@ describe('<PaymentInfo/>', () => {
       expect(setTransactionsToShowMock).toHaveBeenCalled();
     });
     it('should exapand list and NOT fetch transactions list if data was fetched', () => {
-      const wrapper = mount(
+      const wrapper = shallow(
         <PurePaymentInfo
           {...defaultProps}
           paymentInfo={{
@@ -223,7 +270,7 @@ describe('<PaymentInfo/>', () => {
           errors: []
         })
       );
-      const wrapper = mount(
+      const wrapper = shallow(
         <PurePaymentInfo
           {...defaultProps}
           paymentInfo={{
@@ -254,6 +301,70 @@ describe('<PaymentInfo/>', () => {
           transactionsListObject
         ]);
         expect(setTransactionsToShowMock).toHaveBeenCalled();
+        done();
+      });
+    });
+    it('should set error in state when listCustomerTransactions fail on click show more button', done => {
+      listCustomerTransactionsRequest.mockImplementationOnce(
+        listCustomerTransactionsMock.mockResolvedValue({
+          responseData: {},
+          errors: mockError
+        })
+      );
+      const wrapper = shallow(
+        <PurePaymentInfo
+          {...defaultProps}
+          paymentInfo={{
+            paymentMethod: [paymentDetailsData],
+            transactionsList: [
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject
+            ],
+            isTransactionListFetched: false
+          }}
+        />
+      );
+      wrapper.instance().toggleTransactionsList();
+      expect(wrapper.state('isTransactionsItemsLoading')).toBe(true);
+      expect(listCustomerTransactionsMock).toHaveBeenCalled();
+      setImmediate(() => {
+        expect(wrapper.state('transactionsError')).toBe(mockError);
+        expect(wrapper.state('isTransactionsItemsLoading')).toBe(false);
+        expect(setTransactionsListAsFetchedMock).not.toHaveBeenCalled();
+        expect(setTransactionsListMock).not.toHaveBeenCalled();
+        done();
+      });
+    });
+
+    it('should catch error when listCustomerTransactions fail on click show more button', done => {
+      listCustomerTransactionsRequest.mockImplementationOnce(
+        listCustomerTransactionsMock.mockRejectedValue(new Error('error'))
+      );
+      const wrapper = shallow(
+        <PurePaymentInfo
+          {...defaultProps}
+          paymentInfo={{
+            paymentMethod: [paymentDetailsData],
+            transactionsList: [
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject,
+              transactionsListObject
+            ],
+            isTransactionListFetched: false
+          }}
+        />
+      );
+      wrapper.instance().toggleTransactionsList();
+      expect(wrapper.state('isTransactionsItemsLoading')).toBe(true);
+      expect(listCustomerTransactionsMock).toHaveBeenCalled();
+      setImmediate(() => {
+        expect(wrapper.state('transactionsError')).toEqual(['error']);
+        expect(wrapper.state('isTransactionsItemsLoading')).toBe(false);
+        expect(setTransactionsListAsFetchedMock).not.toHaveBeenCalled();
+        expect(setTransactionsListMock).not.toHaveBeenCalled();
         done();
       });
     });
