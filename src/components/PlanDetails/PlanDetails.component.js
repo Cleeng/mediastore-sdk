@@ -19,7 +19,11 @@ class PlanDetails extends Component {
   }
 
   componentDidMount() {
-    const { planDetails } = this.props;
+    const { planDetails, hideSurvey, updateList } = this.props;
+    if (planDetails.isSurveyShown) {
+      hideSurvey();
+      updateList();
+    }
     if (planDetails.currentPlan.length === 0) {
       this.fetchSubscriptions();
     }
