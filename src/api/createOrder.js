@@ -2,6 +2,8 @@ import jwtDecode from 'jwt-decode';
 
 const createOrder = offerId => {
   const token = localStorage.getItem('CLEENG_AUTH_TOKEN') || '';
+  const customerIP = localStorage.getItem('CLEENG_CUSTOMER_IP') || '';
+
   const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/orders`;
   const { customerId } = jwtDecode(token);
 
@@ -9,7 +11,8 @@ const createOrder = offerId => {
     method: 'POST',
     body: JSON.stringify({
       offerId,
-      customerId
+      customerId,
+      customerIP
     }),
     headers: {
       Authorization: `Bearer ${token}`,

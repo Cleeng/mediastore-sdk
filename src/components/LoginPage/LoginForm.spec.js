@@ -5,10 +5,15 @@ import EmailInput from '../EmailInput/EmailInput';
 import LoginForm from './LoginForm';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import loginCustomerRequest from '../../api/loginCustomer';
+import getLocalesRequest from '../../api/getCustomerLocales';
 import Auth from '../../services/auth';
 
 jest.mock('../../api/loginCustomer');
+jest.mock('../../api/getCustomerLocales');
+
 const mockLoginFetch = jest.fn();
+const mockGetLocalesFetch = jest.fn();
+
 const setOfferErrorMock = jest.fn();
 jest.mock('axios', () => ({
   get: jest
@@ -31,6 +36,14 @@ describe('LoginForm', () => {
   afterEach(() => {
     jest.clearAllMocks();
     delete global.__mobxInstanceCount; // eslint-disable-line
+  });
+  beforeEach(() => {
+    getLocalesRequest.mockImplementationOnce(
+      mockGetLocalesFetch.mockResolvedValue({
+        status: 200,
+        responseData: { ipAddress: '1234' }
+      })
+    );
   });
   describe('@events', () => {
     it('should update state on input change', () => {

@@ -110,6 +110,7 @@ class RegisterForm extends Component {
       return false;
     }
     const locales = localesResponse.responseData;
+    localStorage.setItem('CLEENG_CUSTOMER_IP', locales.ipAddress);
     const response = await registerCustomer(
       email,
       password,
