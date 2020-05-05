@@ -1,3 +1,4 @@
+/* eslint-disable no-debugger */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReCAPTCHA from 'react-google-recaptcha';
@@ -16,6 +17,7 @@ import PasswordInput from '../PasswordInput/PasswordInput';
 import validateEmailField from '../EmailInput/EmailHelper';
 import { validatePasswordField } from '../PasswordInput/PasswordHelper';
 import Auth from '../../services/auth';
+import getCustomerLocales from '../../api/getCustomerLocales';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -129,7 +131,6 @@ class LoginForm extends Component {
         processing: true
       });
       const { email, password, captcha } = this.state;
-      const { t } = this.props;
 
       let loginBy;
       if (isMyAccount) {
@@ -140,30 +141,37 @@ class LoginForm extends Component {
 
       const response = await loginCustomer(email, password, loginBy, captcha);
       if (response.status === 200) {
-        Auth.login(!!isMyAccount, email, response.responseData.jwt);
+        await getCustomerLocales()
+          .then(resp => {
+            localStorage.setItem(
+              'CLEENG_CUSTOMER_IP',
+              resp.responseData.ipAddress
+            );
+            Auth.login(!!isMyAccount, email, response.responseData.jwt);
+          })
+          .catch(() => {
+            this.renderError();
+          });
       } else if (response.status === 401 || response.status === 422) {
-        this.checkCaptcha();
-        this.setState({
-          processing: false,
-          generalError: t('Wrong email or password')
-        });
+        this.renderError('Wrong email or password');
       } else if (response.status === 429) {
-        this.checkCaptcha();
-        this.setState({
-          processing: false,
-          generalError: t(
-            "Sorry, the captcha information doesn't match. Please try again"
-          )
-        });
+        this.renderError(
+          "Sorry, the captcha information doesn't match. Please try again"
+        );
       } else {
-        this.checkCaptcha();
-        this.setState({
-          processing: false,
-          generalError: t('An error occurred.')
-        });
+        this.renderError();
       }
     }
     return true;
+  };
+
+  renderError = (message = 'An error occurred.') => {
+    const { t } = this.props;
+    this.checkCaptcha();
+    this.setState({
+      processing: false,
+      generalError: t(message)
+    });
   };
 
   render() {
