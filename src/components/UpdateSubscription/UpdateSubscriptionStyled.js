@@ -1,5 +1,5 @@
 import styled, { keyframes } from 'styled-components';
-import { MyAccountTextDark2 } from 'styles/variables';
+import { MyAccountTextDark2, DisabledInputColor } from 'styles/variables';
 import { mediaFrom, media } from 'styles/BreakPoints';
 import Card from 'components/Card';
 import Footer from 'components/Footer/Footer';
@@ -55,6 +55,10 @@ export const ButtonsWrapper = styled.div`
     width: 40%;
     margin: 0 5px;
     font-weight: 700;
+    &:disabled {
+      cursor: not-allowed;
+      background: ${DisabledInputColor};
+    }
   }
 `;
 
