@@ -1,25 +1,23 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import axios from 'axios';
 import EmailInput from '../EmailInput/EmailInput';
 import LoginForm from './LoginForm';
 import PasswordInput from '../PasswordInput/PasswordInput';
 import loginCustomerRequest from '../../api/loginCustomer';
 import getLocalesRequest from '../../api/getCustomerLocales';
+import checkCaptchaRequest from '../../api/checkCaptcha';
+
 import Auth from '../../services/auth';
 
 jest.mock('../../api/loginCustomer');
 jest.mock('../../api/getCustomerLocales');
+jest.mock('../../api/checkCaptcha');
 
 const mockLoginFetch = jest.fn();
 const mockGetLocalesFetch = jest.fn();
+const mockCheckCaptchaFetch = jest.fn();
 
 const setOfferErrorMock = jest.fn();
-jest.mock('axios', () => ({
-  get: jest
-    .fn()
-    .mockImplementation(() => Promise.resolve({ data: { required: false } }))
-}));
 const mockInputValue = 'MOCK_INPUT_VALUE';
 const mockEmailValue = 'mockmail@mock.com';
 const mockNotValidEmail = 'mock';
@@ -42,6 +40,12 @@ describe('LoginForm', () => {
       mockGetLocalesFetch.mockResolvedValue({
         status: 200,
         responseData: { ipAddress: '1234' }
+      })
+    );
+    checkCaptchaRequest.mockImplementationOnce(
+      mockCheckCaptchaFetch.mockResolvedValue({
+        status: 200,
+        responseData: { required: false }
       })
     );
   });
@@ -140,8 +144,11 @@ describe('LoginForm', () => {
     });
 
     it('sholud update state if captcha is required', done => {
-      axios.get.mockImplementation(() =>
-        Promise.resolve({ data: { required: true } })
+      checkCaptchaRequest.mockImplementationOnce(
+        mockCheckCaptchaFetch.mockResolvedValue({
+          status: 200,
+          responseData: { required: true }
+        })
       );
       const wrapper = mount(<LoginForm offerId="S649095045_PL" />);
       setImmediate(() => {
@@ -259,6 +266,12 @@ describe('LoginForm', () => {
           status: 429
         })
       );
+      checkCaptchaRequest.mockImplementationOnce(
+        mockCheckCaptchaFetch.mockResolvedValue({
+          status: 200,
+          responseData: { required: false }
+        })
+      );
       onSubmitMock.mockClear();
       const wrapper = shallow(
         <LoginForm offerId="S649095045_PL" onLoginComplete={onSubmitMock} />
@@ -291,6 +304,12 @@ describe('LoginForm', () => {
       loginCustomerRequest.mockImplementationOnce(
         mockLoginFetch.mockResolvedValue({
           status: 500
+        })
+      );
+      checkCaptchaRequest.mockImplementationOnce(
+        mockCheckCaptchaFetch.mockResolvedValue({
+          status: 200,
+          responseData: { required: false }
         })
       );
       onSubmitMock.mockClear();
