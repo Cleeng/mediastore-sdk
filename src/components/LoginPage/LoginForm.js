@@ -1,8 +1,6 @@
-/* eslint-disable no-debugger */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReCAPTCHA from 'react-google-recaptcha';
-import axios from 'axios';
 import loginCustomer from '../../api/loginCustomer';
 import {
   FromStyled,
@@ -18,6 +16,7 @@ import validateEmailField from '../EmailInput/EmailHelper';
 import { validatePasswordField } from '../PasswordInput/PasswordHelper';
 import Auth from '../../services/auth';
 import getCustomerLocales from '../../api/getCustomerLocales';
+import checkCaptcha from '../../api/checkCaptcha';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -39,7 +38,7 @@ class LoginForm extends Component {
   }
 
   componentDidMount() {
-    this.checkCaptcha();
+    this.updateCaptcha();
   }
 
   validateEmail = () => {
@@ -88,17 +87,11 @@ class LoginForm extends Component {
     });
   };
 
-  checkCaptcha = () => {
-    axios
-      .get(
-        `${ENVIRONMENT_CONFIGURATION.WEB_API}/webapi/form/is-captcha-required/customer-login`
-      )
-      .then(response => {
-        this.setState({
-          showCaptcha: response.data.required
-        });
-      })
-      .catch();
+  updateCaptcha = async () => {
+    const response = await checkCaptcha('customer-login');
+    this.setState({
+      showCaptcha: response.responseData.required
+    });
   };
 
   validateFields = () => {
@@ -167,7 +160,7 @@ class LoginForm extends Component {
 
   renderError = (message = 'An error occurred.') => {
     const { t } = this.props;
-    this.checkCaptcha();
+    this.updateCaptcha();
     this.setState({
       processing: false,
       generalError: t(message)
