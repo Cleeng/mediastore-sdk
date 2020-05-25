@@ -11,6 +11,7 @@ import getPaymentDetails from './getPaymentDetails';
 import getCustomerSubscriptions from './getCustomerSubscriptions';
 import getCustomer from './getCustomer';
 import listCustomerTransactions from './listCustomerTransactions';
+import getCustomerConsents from './getCustomerConsents';
 
 export {
   getPaymentMethods,
@@ -25,5 +26,6 @@ export {
   loginCustomer,
   registerCustomer,
   resetPassword,
-  listCustomerTransactions
+  listCustomerTransactions,
+  getCustomerConsents
 };

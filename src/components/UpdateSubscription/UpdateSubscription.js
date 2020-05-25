@@ -195,7 +195,7 @@ class UpdateSubscription extends Component {
               {cancellationReasons.map(reason => (
                 <StyledItem key={reason.key}>
                   <Checkbox
-                    isMyAccount
+                    isRadioButton
                     onClickFn={() =>
                       this.setState({ checkedReason: reason.value })
                     }

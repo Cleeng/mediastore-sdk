@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { SET_CURRENT_USER } from 'redux/userProfile';
+import { SET_CURRENT_USER, SET_CONSENTS } from 'redux/userProfile';
 import { mapStateToProps, mapDispatchToProps } from './UpdateProfile.container';
 
 const userProfileMock = {
@@ -51,6 +51,11 @@ describe('<UpdateProfile/>', () => {
       const dispatch = jest.fn();
       mapDispatchToProps(dispatch).setCurrentUser();
       expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_CURRENT_USER });
+    });
+    it('should dispatch SET_CONSENTS action', () => {
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).setConsents();
+      expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_CONSENTS });
     });
   });
 });

@@ -23,6 +23,12 @@ export class Consents extends React.Component {
     };
   }
 
+  componentDidMount() {
+    const { publisherId } = this.props;
+
+    this.getConsents(publisherId).then(() => {});
+  }
+
   componentDidUpdate(prevProps) {
     const { publisherId } = this.props;
 

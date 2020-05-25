@@ -50,7 +50,7 @@ const Transactions = ({
         <Card withShadow>
           {transactions.map(subItem => (
             <InsideWrapperStyled
-              key={subItem.offerTitle}
+              key={subItem.transactionId}
               length={transactions.length}
             >
               <LeftBoxStyled>

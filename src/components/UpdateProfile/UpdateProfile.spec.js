@@ -40,10 +40,37 @@ jest.mock('api', () => ({
       },
       errors: []
     })
-    .mockName('getCustomer')
+    .mockName('getCustomer'),
+  getCustomerConsents: jest
+    .fn()
+    .mockResolvedValue({
+      responseData: {
+        id: 338816933,
+        email: 'user@example.com',
+        firstName: '',
+        lastName: '',
+        dateOfBirth: null,
+        country: 'GB',
+        companyName: null,
+        phoneNumber: null,
+        addressLine1: null,
+        regDate: '2020-02-12 15:18:56',
+        lastLoginDate: '2020-02-21 07:13:49',
+        transactions: '6',
+        payment: 'mc',
+        termsAccepted: 'no',
+        marketingOptIn: 'no',
+        lastUserIp: '213.156.120.102',
+        externalId: '',
+        externalData: null
+      },
+      errors: []
+    })
+    .mockName('getCustomerConsents')
 }));
 
 const setCurrentUserMock = jest.fn();
+const setConsentsMock = jest.fn();
 
 describe('<UpdateProfile/>', () => {
   afterEach(() => {
@@ -52,11 +79,15 @@ describe('<UpdateProfile/>', () => {
   describe('@renders', () => {
     it('should render initial state', done => {
       const wrapper = shallow(
-        <PureUpdateProfile setCurrentUser={setCurrentUserMock} />
+        <PureUpdateProfile
+          setCurrentUser={setCurrentUserMock}
+          setConsents={setConsentsMock}
+          userProfile={{ consentsError: [] }}
+        />
       );
       expect(getCustomer).toHaveBeenCalled();
       setImmediate(() => {
-        expect(wrapper.state().errors).toEqual([]);
+        expect(wrapper.state().detailsError).toEqual([]);
         done();
       });
     });
@@ -66,22 +97,14 @@ describe('<UpdateProfile/>', () => {
         errors: returnedErrors
       });
       const wrapper = shallow(
-        <PureUpdateProfile setCurrentUser={setCurrentUserMock} />
+        <PureUpdateProfile
+          setCurrentUser={setCurrentUserMock}
+          setConsents={setConsentsMock}
+          userProfile={{ consentsError: [] }}
+        />
       );
       setImmediate(() => {
-        expect(wrapper.state().errors).toEqual(returnedErrors);
-        done();
-      });
-    });
-    it('should store errors if cannot fetch getCustomer', done => {
-      const returnedError = 'Some error';
-      getCustomer.mockRejectedValue(new Error(returnedError));
-      const wrapper = shallow(
-        <PureUpdateProfile setCurrentUser={setCurrentUserMock} />
-      );
-      setImmediate(() => {
-        expect(wrapper.state().errors).toEqual([new Error(returnedError)]);
-        expect(wrapper.state().isLoading).toEqual(false);
+        expect(wrapper.state().detailsError).toEqual(returnedErrors);
         done();
       });
     });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
   CheckboxStyled,
@@ -7,39 +7,62 @@ import {
   ConsentDefinitionStyled
 } from './CheckboxStyled';
 
-const Checkbox = ({
-  children,
-  onClickFn,
-  error,
-  checked,
-  required,
-  isMyAccount
-}) => (
-  <CheckboxStyled
-    onClick={onClickFn}
-    role="checkbox"
-    tabIndex="-1"
-    aria-checked="false"
-    checked={checked}
-    aria-label={children}
-  >
-    <CheckFrameStyled
-      error={error && required && !checked}
-      tabIndex="0"
-      onKeyDown={e => {
-        return e.keyCode === 32 ? onClickFn() : null;
-      }}
-      isMyAccount={isMyAccount}
-      checked={checked}
-    >
-      {checked && <CheckMarkStyled isMyAccount={isMyAccount} />}
-    </CheckFrameStyled>
-    <ConsentDefinitionStyled
-      dangerouslySetInnerHTML={{ __html: children }}
-      checked={checked}
-    />
-  </CheckboxStyled>
-);
+class Checkbox extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  render() {
+    const {
+      children,
+      onClickFn,
+      error,
+      checked,
+      required,
+      isMyAccount,
+      className,
+      disabled,
+      isRadioButton
+    } = this.props;
+    return (
+      <CheckboxStyled
+        onClick={onClickFn}
+        role="checkbox"
+        tabIndex="-1"
+        aria-checked="false"
+        checked={checked}
+        aria-label={children}
+        className={className}
+        disabled={disabled}
+      >
+        <CheckFrameStyled
+          error={error && required && !checked}
+          tabIndex="0"
+          onKeyDown={e => {
+            return e.keyCode === 32 ? onClickFn() : null;
+          }}
+          isMyAccount={isMyAccount}
+          isRadioButton={isRadioButton}
+          checked={checked}
+        >
+          {checked && (
+            <CheckMarkStyled
+              isMyAccount={isMyAccount}
+              isRadioButton={isRadioButton}
+            />
+          )}
+        </CheckFrameStyled>
+        <ConsentDefinitionStyled
+          dangerouslySetInnerHTML={{
+            __html: `${children}${required ? '*' : ''}`
+          }}
+          checked={checked}
+        />
+      </CheckboxStyled>
+    );
+  }
+}
 
 Checkbox.propTypes = {
   checked: PropTypes.bool,
@@ -47,7 +70,10 @@ Checkbox.propTypes = {
   onClickFn: PropTypes.func,
   error: PropTypes.string,
   children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  isMyAccount: PropTypes.bool
+  isMyAccount: PropTypes.bool,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  isRadioButton: PropTypes.bool
 };
 
 Checkbox.defaultProps = {
@@ -56,7 +82,10 @@ Checkbox.defaultProps = {
   required: false,
   onClickFn: () => {},
   children: '',
-  isMyAccount: false
+  isMyAccount: false,
+  className: '',
+  disabled: false,
+  isRadioButton: false
 };
 
 export default Checkbox;

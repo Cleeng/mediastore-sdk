@@ -1,4 +1,8 @@
-import { SET_CURRENT_USER } from 'redux/userProfile';
+import {
+  SET_CURRENT_USER,
+  SET_CONSENTS,
+  SET_CONSENTS_ERROR
+} from 'redux/userProfile';
 import { SET_CURRENT_PLAN } from 'redux/planDetails';
 import { mapDispatchToProps, mapStateToProps } from './MyAccount.container';
 
@@ -37,6 +41,16 @@ describe('<MyAccount/>', () => {
       const dispatch = jest.fn();
       mapDispatchToProps(dispatch).setCurrentPlan();
       expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_CURRENT_PLAN });
+    });
+    it('should dispatch SET_CONSENTS action', () => {
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).setConsents();
+      expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_CONSENTS });
+    });
+    it('should dispatch SET_CONSENTS_ERROR action', () => {
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).setConsentsError();
+      expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_CONSENTS_ERROR });
     });
   });
 });

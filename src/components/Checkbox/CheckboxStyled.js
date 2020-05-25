@@ -7,6 +7,7 @@ import {
   MyAccountMenuActive
 } from 'styles/variables';
 import tickIcon from 'assets/images/input/tick.svg';
+import enableIcon from 'assets/images/input/enable_check.svg';
 
 export const CheckboxStyled = styled.div`
   display: flex;
@@ -22,9 +23,16 @@ export const CheckboxStyled = styled.div`
   &:focus {
     outline: none;
   }
+  ${props =>
+    props.disabled &&
+    css`
+      pointer-events: none;
+      opacity: 0.7;
+    `}
 `;
 
 export const ConsentDefinitionStyled = styled.div`
+  position: relative;
   padding-left: 10px;
   margin-top: 0;
 
@@ -66,15 +74,22 @@ export const CheckFrameStyled = styled.div`
       border-color: ${ErrorColor};
     `}
   ${props =>
-    props.isMyAccount &&
+    props.isRadioButton &&
     css`
       border-radius: 50%;
     `}
   ${props =>
-    props.isMyAccount &&
+    props.isRadioButton &&
     props.checked &&
     css`
       border: 1px solid ${MyAccountMenuActive};
+    `}
+
+  ${props =>
+    props.isMyAccount &&
+    props.checked &&
+    css`
+      border-color: ${MyAccountMenuActive};
     `}
 `;
 
@@ -89,7 +104,7 @@ export const CheckMarkStyled = styled.div`
   background-image: url(${tickIcon});
   background-repeat: no-repeat;
   ${props =>
-    props.isMyAccount &&
+    props.isRadioButton &&
     css`
       top: 50%;
       left: 50%;
@@ -100,6 +115,17 @@ export const CheckMarkStyled = styled.div`
 
       background: ${MyAccountMenuActive};
       border-radius: 50%;
+    `}
+  ${props =>
+    props.isMyAccount &&
+    css`
+      width: 20px;
+      height: 20px;
+      top: -1px;
+      left: -1px;
+      background-image: url(${enableIcon});
+      background-position: center;
+      background-size: cover;
     `}
 `;
 

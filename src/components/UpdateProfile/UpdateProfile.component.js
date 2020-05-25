@@ -7,14 +7,16 @@ import Password from 'components/Password';
 import PropTypes from 'prop-types';
 import { getCustomer } from 'api';
 import MyAccountError from 'components/MyAccountError/MyAccountError';
+import MyAccountConsents from 'components/MyAccountConsents/MyAccountConsents';
 import { WrapStyled } from './UpdateProfileStyled';
 
 class UpdateProfile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      errors: [],
-      isLoading: false
+      detailsError: [],
+      isUserDetailsLoading: false,
+      isConsentLoading: false
     };
   }
 
@@ -22,38 +24,38 @@ class UpdateProfile extends Component {
     const { userProfile, setCurrentUser } = this.props;
     if (!userProfile.user) {
       this.setState({
-        isLoading: true
+        isUserDetailsLoading: true
       });
       getCustomer()
         .then(response => {
           if (response.errors.length) {
             this.setState({
-              errors: response.errors
+              detailsError: response.errors
             });
           } else {
             setCurrentUser(response.responseData);
           }
           this.setState({
-            isLoading: false
+            isUserDetailsLoading: false
           });
         })
         .catch(err => {
-          this.setState({ errors: [err], isLoading: false });
+          this.setState({ detailsError: [err], isUserDetailsLoading: false });
         });
     }
   }
 
   render() {
-    const { errors, isLoading } = this.state;
+    const { detailsError, isUserDetailsLoading, isConsentLoading } = this.state;
     const {
-      userProfile: { user },
+      userProfile: { user, consents, consentsError },
+      setConsents,
       t
     } = this.props;
-
     return (
       <WrapStyled>
         <MyAccountHeading text={t('Profile details')} />
-        {errors.length !== 0 ? (
+        {detailsError.length !== 0 ? (
           <MyAccountError generalError />
         ) : (
           <>
@@ -61,11 +63,22 @@ class UpdateProfile extends Component {
               firstName={user ? user.firstName : ''}
               lastName={user ? user.lastName : ''}
               email={user ? user.email : ''}
-              isLoading={isLoading}
+              isLoading={isUserDetailsLoading}
             />
             <MyAccountHeading text={t('Password')} />
             <Password />
           </>
+        )}
+
+        <MyAccountHeading text={t('Terms Details')} />
+        {consentsError.length !== 0 ? (
+          <MyAccountError generalError />
+        ) : (
+          <MyAccountConsents
+            consents={consents}
+            isLoading={isConsentLoading}
+            setConsents={setConsents}
+          />
         )}
       </WrapStyled>
     );
@@ -74,12 +87,15 @@ class UpdateProfile extends Component {
 
 UpdateProfile.propTypes = {
   setCurrentUser: PropTypes.func.isRequired,
+  setConsents: PropTypes.func.isRequired,
+  consentsError: PropTypes.string,
   userProfile: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func
 };
 
 UpdateProfile.defaultProps = {
   userProfile: { user: null },
+  consentsError: '',
   t: k => k
 };
 
