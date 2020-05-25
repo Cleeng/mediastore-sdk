@@ -1,5 +1,9 @@
 import { connect } from 'react-redux';
-import { setCurrentUser } from 'redux/userProfile';
+import {
+  setCurrentUser,
+  setConsents,
+  setConsentsError
+} from 'redux/userProfile';
 import { setCurrentPlan } from 'redux/planDetails';
 
 import MyAccount from './MyAccount.component';
@@ -7,7 +11,8 @@ import MyAccount from './MyAccount.component';
 export const mapStateToProps = state => {
   return {
     userProfile: state.userProfile,
-    planDetails: state.planDetails
+    planDetails: state.planDetails,
+    consents: state.consents
   };
 };
 
@@ -18,6 +23,12 @@ export const mapDispatchToProps = dispatch => {
     },
     setCurrentPlan: currentPlan => {
       dispatch(setCurrentPlan(currentPlan));
+    },
+    setConsents: consents => {
+      dispatch(setConsents(consents));
+    },
+    setConsentsError: msg => {
+      dispatch(setConsentsError(msg));
     }
   };
 };

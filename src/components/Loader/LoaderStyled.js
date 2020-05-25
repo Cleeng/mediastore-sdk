@@ -19,6 +19,11 @@ export const LoaderStyled = styled.div`
   position: relative;
   width: 64px;
   height: 64px;
+  ${props =>
+    props.isMyAccount &&
+    css`
+      margin: 50px auto;
+    `};
 
   & div {
     position: absolute;

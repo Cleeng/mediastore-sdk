@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { InputLabelColor } from 'styles/variables';
+import { media } from 'styles/BreakPoints';
 
 export const WrapStyled = styled.div`
   position: relative;
@@ -17,6 +18,20 @@ export const WrapStyled = styled.div`
       border: 1px dashed ${InputLabelColor};
       border-radius: 20px;
       padding: 35px 0;
+    `}
+
+  ${props =>
+    props.fullHeight &&
+    css`
+      height: 100%;
+      margin: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      ${media.small`
+        min-height: 100vh;
+      `}
     `}
 `;
 

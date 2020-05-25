@@ -18,11 +18,12 @@ const MyAccountError = ({
   icon,
   generalError,
   withBorder,
+  fullHeight,
   t
 }) => {
   const IconComponent = generalError ? serverIcon : icon;
   return (
-    <WrapStyled withBorder={withBorder}>
+    <WrapStyled withBorder={withBorder} fullHeight={fullHeight}>
       {(icon || generalError) && (
         <IconStyled>
           <IconComponent />
@@ -55,6 +56,7 @@ MyAccountError.propTypes = {
   icon: PropTypes.oneOfType([PropTypes.any, PropTypes.string]),
   generalError: PropTypes.bool,
   withBorder: PropTypes.bool,
+  fullHeight: PropTypes.bool,
   t: PropTypes.func
 };
 
@@ -64,6 +66,7 @@ MyAccountError.defaultProps = {
   icon: '',
   generalError: false,
   withBorder: false,
+  fullHeight: false,
   t: k => k
 };
 
