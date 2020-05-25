@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { setCurrentUser, setConsents } from 'redux/userProfile';
+import { showPopup } from 'redux/popup';
 
 import UpdateProfile from './UpdateProfile.component';
 
@@ -18,6 +19,9 @@ export const mapDispatchToProps = dispatch => {
     },
     setConsents: consents => {
       dispatch(setConsents(consents));
+    },
+    showPopup: type => {
+      dispatch(showPopup(type));
     }
   };
 };

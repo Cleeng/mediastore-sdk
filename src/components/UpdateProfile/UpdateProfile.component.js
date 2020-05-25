@@ -50,6 +50,7 @@ class UpdateProfile extends Component {
     const {
       userProfile: { user, consents, consentsError },
       setConsents,
+      showPopup,
       t
     } = this.props;
     return (
@@ -66,7 +67,7 @@ class UpdateProfile extends Component {
               isLoading={isUserDetailsLoading}
             />
             <MyAccountHeading text={t('Password')} />
-            <Password />
+            <Password showPopup={showPopup} />
           </>
         )}
 
@@ -90,6 +91,7 @@ UpdateProfile.propTypes = {
   setConsents: PropTypes.func.isRequired,
   consentsError: PropTypes.string,
   userProfile: PropTypes.objectOf(PropTypes.any),
+  showPopup: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 

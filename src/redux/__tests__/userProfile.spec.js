@@ -1,4 +1,8 @@
-import { SET_CURRENT_USER } from 'redux/userProfile';
+import {
+  SET_CURRENT_USER,
+  SET_CONSENTS,
+  SET_CONSENTS_ERROR
+} from 'redux/userProfile';
 import userProfileReducer from '../userProfile';
 
 const currentUserMock = {
@@ -30,6 +34,18 @@ describe('UserProfile reducer', () => {
   it('should correctly call setCurrentPlan action', () => {
     const action = { type: SET_CURRENT_USER, payload: currentUserMock };
     const expectedState = { user: currentUserMock };
+
+    expect(userProfileReducer(undefined, action)).toMatchObject(expectedState);
+  });
+  it('should correctly call setConsents action', () => {
+    const action = { type: SET_CONSENTS, payload: [{ name: 'terms' }] };
+    const expectedState = { consents: [{ name: 'terms' }] };
+
+    expect(userProfileReducer(undefined, action)).toMatchObject(expectedState);
+  });
+  it('should correctly call setConsentsError action', () => {
+    const action = { type: SET_CONSENTS_ERROR, payload: 'Failed to fetch' };
+    const expectedState = { consentsError: 'Failed to fetch' };
 
     expect(userProfileReducer(undefined, action)).toMatchObject(expectedState);
   });

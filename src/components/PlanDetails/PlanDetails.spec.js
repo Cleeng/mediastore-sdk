@@ -132,5 +132,19 @@ describe('<PlanDetails/>', () => {
         done();
       });
     });
+    it('should hide survey on switch tabs', () => {
+      shallow(
+        <PurePlanDetails
+          setCurrentPlan={setCurrentPlanMock}
+          showSurvey={showSurveyMock}
+          hideSurvey={hideSurveyMock}
+          setUpdateAction={setUpdateActionMock}
+          updateList={updateListMock}
+          planDetails={{ isSurveyShown: true, currentPlan: ['mock'] }}
+        />
+      );
+      expect(hideSurveyMock).toHaveBeenCalled();
+      expect(updateListMock).toHaveBeenCalled();
+    });
   });
 });

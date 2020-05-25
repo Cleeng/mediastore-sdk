@@ -6,6 +6,8 @@ import labeling from 'containers/labeling';
 import Footer from 'components/Footer/Footer';
 import submitConsents from 'api/submitConsents';
 import getCustomerConsents from 'api/getCustomerConsents';
+import resetPassword from 'api/resetPassword';
+import Auth from 'services/auth';
 import MyAccountConsents from 'components/MyAccountConsents/MyAccountConsents';
 import {
   WrapperStyled,
@@ -19,7 +21,8 @@ import {
   HeaderStyled,
   DotStyled,
   HeaderTitleStyled,
-  DotsWrapperStyled
+  DotsWrapperStyled,
+  InnerWrapperStyled
 } from './PopupStyled';
 import popupData from './Popup.const';
 
@@ -68,6 +71,27 @@ class Popup extends Component {
     });
   };
 
+  logout = () => {
+    const { hidePopup } = this.props;
+    hidePopup();
+    Auth.logout(true);
+  };
+
+  resetPassword = async () => {
+    const customerEmail = localStorage.getItem('CLEENG_CUSTOMER_EMAIL');
+    const publisherId = localStorage.getItem('CLEENG_PUBLISHER_ID');
+    this.setState({
+      isLoading: true
+    });
+    const response = await resetPassword('', customerEmail, publisherId);
+    if (!response.errors.length) {
+      this.renderNextStep();
+      this.setState({
+        isLoading: false
+      });
+    }
+  };
+
   checkAccess(items) {
     const notCheckedTerm = items.find(
       item => item.required && item.state === 'declined'
@@ -84,11 +108,11 @@ class Popup extends Component {
   }
 
   render() {
-    const { popupType, consents, setConsents, t } = this.props;
+    const { popupType, consents, setConsents, hidePopup, t } = this.props;
     const { step, isLoading, allowSubmitConsents } = this.state;
     const stepData = popupData[popupType].steps[step - 1];
     const { steps } = popupData[popupType];
-
+    const customerEmail = localStorage.getItem('CLEENG_CUSTOMER_EMAIL');
     return (
       <WrapperStyled>
         <HeaderStyled>
@@ -98,11 +122,12 @@ class Popup extends Component {
           </DotsWrapperStyled>
           <HeaderTitleStyled>{stepData.headerTitle}</HeaderTitleStyled>
         </HeaderStyled>
-        <ContentStyled step={step}>
+        <ContentStyled step={consents.length ? step : 1}>
           {stepData.icon && <ImageStyled src={stepData.icon} />}
           <TitleStyled step={step}>{stepData.title}</TitleStyled>
           <TextStyled step={step}>
             {stepData.text}
+            {popupType === 'resetPassword' && step === 1 && customerEmail}
             {stepData.secondText && (
               <>
                 <br />
@@ -132,12 +157,19 @@ class Popup extends Component {
                 * This term is mandatory for using myAccount
               </InfoStyled>
             )}
-          <ButtonStyled
-            onClickFn={this[stepData.buttonAction]}
-            disabled={step === 2 && !allowSubmitConsents}
-          >
-            {(isLoading && t('Loading...')) || stepData.buttonText}
-          </ButtonStyled>
+          <InnerWrapperStyled>
+            {stepData.undoButton && (
+              <ButtonStyled onClickFn={hidePopup} theme="secondary">
+                {stepData.undoButton}
+              </ButtonStyled>
+            )}
+            <ButtonStyled
+              onClickFn={this[stepData.buttonAction]}
+              disabled={step === 2 && !allowSubmitConsents}
+            >
+              {(isLoading && t('Loading...')) || stepData.buttonText}
+            </ButtonStyled>
+          </InnerWrapperStyled>
         </ButtonWrapperStyled>
         <Footer />
       </WrapperStyled>
@@ -146,14 +178,17 @@ class Popup extends Component {
 }
 
 Popup.propTypes = {
-  setConsents: PropTypes.func.isRequired,
+  setConsents: PropTypes.func,
   popupType: PropTypes.string,
-  consents: PropTypes.arrayOf(PropTypes.object).isRequired,
+  consents: PropTypes.arrayOf(PropTypes.object),
+  hidePopup: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 
 Popup.defaultProps = {
   popupType: '',
+  setConsents: () => {},
+  consents: [],
   t: k => k
 };
 
