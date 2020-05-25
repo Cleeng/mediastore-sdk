@@ -3,40 +3,32 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import Card from 'components/Card';
-import MyAccountInput from 'components/MyAccountInput/MyAccountInput';
-// import Button from 'components/Button';
-import { WrapStyled } from './PasswordStyled';
+import Button from 'components/Button';
+import {
+  WrapStyled,
+  InnerWrapperStyled,
+  OldPasswordStyled
+} from './PasswordStyled';
 
-const Password = ({ t }) => (
+const Password = ({ showPopup, t }) => (
   <WrapStyled>
     <Card>
-      <MyAccountInput
-        id="currentPassword"
-        value="dummyPassword"
-        type="password"
-        label={t('Old password')}
-        disabled
-      />
-      <MyAccountInput
-        id="newPassword"
-        type="password"
-        label={t('New password')}
-        disabled
-      />
-      <MyAccountInput
-        id="newPasswordRepeat"
-        type="password"
-        label={t('Confirm password')}
-        disabled
-      />
-      {/* <MyAccountButtonStyled>
-        <Button>Edit Password</Button>
-      </MyAccountButtonStyled> */}
+      <InnerWrapperStyled>
+        <OldPasswordStyled>••••••••</OldPasswordStyled>
+        <Button
+          size="small"
+          width="auto"
+          onClickFn={() => showPopup({ type: 'resetPassword' })}
+        >
+          {t('Edit Password')}
+        </Button>
+      </InnerWrapperStyled>
     </Card>
   </WrapStyled>
 );
 
 Password.propTypes = {
+  showPopup: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 

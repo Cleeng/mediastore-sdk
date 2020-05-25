@@ -4,14 +4,18 @@ import { mount } from 'enzyme';
 import MyAccountConsents from 'components/MyAccountConsents/MyAccountConsents';
 import getCustomerConsentsRequest from 'api/getCustomerConsents';
 import submitConsentsRequest from '../../api/submitConsents';
+import resetPasswordRequest from '../../api/resetPassword';
+
 import { PurePopup } from './Popup';
 import 'jest-styled-components';
 
 jest.mock('../../api/submitConsents');
 jest.mock('../../api/getCustomerConsents');
+jest.mock('../../api/resetPassword');
 
 const submitConsentsMock = jest.fn();
 const getCustomerConsentsMock = jest.fn();
+const resetPasswordMock = jest.fn();
 
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
@@ -63,6 +67,7 @@ describe('<Popup/>', () => {
           setConsents={setConsentsMock}
           consents={consents}
           popupType="notCheckedTerms"
+          hidePopup={jest.fn()}
         />
       );
       expect(wrapper.state('updatedConsents')).toEqual(consents);
@@ -103,6 +108,7 @@ describe('<Popup/>', () => {
           setConsents={setConsentsMock}
           consents={consents}
           popupType="termsUpdateRequired"
+          hidePopup={jest.fn()}
         />
       );
       expect(wrapper.state('updatedConsents')).toEqual(consents);
@@ -132,6 +138,7 @@ describe('<Popup/>', () => {
           setConsents={setConsentsMock}
           consents={consents}
           popupType="termsUpdateRequired"
+          hidePopup={jest.fn()}
         />
       );
       wrapper.find('button').simulate('click');
@@ -187,6 +194,7 @@ describe('<Popup/>', () => {
           setConsents={setConsentsMock}
           consents={consents}
           popupType="termsUpdateRequired"
+          hidePopup={jest.fn()}
         />
       );
       wrapper.find('button').simulate('click');
@@ -215,6 +223,44 @@ describe('<Popup/>', () => {
         expect(setConsentsMock).toHaveBeenCalledWith(changedConsent);
         done();
       });
+    });
+    it('should call resetpassword on click reset password button', done => {
+      resetPasswordRequest.mockImplementationOnce(
+        resetPasswordMock.mockResolvedValue({
+          responseData: {},
+          errors: []
+        })
+      );
+      const wrapper = mount(
+        <PurePopup
+          setConsents={setConsentsMock}
+          consents={[]}
+          popupType="resetPassword"
+          hidePopup={jest.fn()}
+        />
+      );
+      wrapper
+        .find('button')
+        .last()
+        .simulate('click');
+      setImmediate(() => {
+        expect(wrapper.state('step')).toBe(2);
+        done();
+      });
+    });
+    it('should logout after resetpassword', () => {
+      const wrapper = mount(
+        <PurePopup
+          setConsents={setConsentsMock}
+          consents={[]}
+          popupType="resetPassword"
+          hidePopup={jest.fn()}
+        />
+      );
+      wrapper.setState({
+        step: 2
+      });
+      wrapper.find('button').simulate('click');
     });
   });
 });

@@ -106,6 +106,8 @@ const setCurrentPlanMock = jest.fn();
 const setCurrentUserMock = jest.fn();
 const setConsentsMock = jest.fn();
 const setConsentsErrorMock = jest.fn();
+const showPopupMock = jest.fn();
+const hidePopupMock = jest.fn();
 
 describe('<MyAccount/>', () => {
   afterEach(() => {
@@ -115,7 +117,9 @@ describe('<MyAccount/>', () => {
     setCurrentPlan: setCurrentPlanMock,
     setCurrentUser: setCurrentUserMock,
     setConsents: setConsentsMock,
-    setConsentsError: setConsentsErrorMock
+    setConsentsError: setConsentsErrorMock,
+    showPopup: showPopupMock,
+    hidePopup: hidePopupMock
   };
   describe('@renders', () => {
     it('should fetch currentPlan, customer and consents on componentDidMount', done => {
@@ -320,7 +324,7 @@ describe('<MyAccount/>', () => {
     afterEach(() => {
       jest.clearAllMocks();
     });
-    it('should render notCheckedTerms layout', () => {
+    it('should render notCheckedTerms popup', () => {
       const wrapper = shallow(
         <MyAccount
           {...defaultProps}
@@ -332,11 +336,12 @@ describe('<MyAccount/>', () => {
         />
       );
       wrapper.setProps({ userProfile: { consents: CONSENTS.notCheckedTerms } });
-      expect(wrapper.state('isTermsPopupOpen')).toBe(true);
-      expect(wrapper.state('popupType')).toBe('notCheckedTerms');
-      expect(wrapper.state('popupConsents')).toEqual(CONSENTS.notCheckedTerms);
+      expect(showPopupMock).toHaveBeenCalledWith({
+        type: 'notCheckedTerms',
+        consents: CONSENTS.notCheckedTerms
+      });
     });
-    it('should render complexUpdate layout', () => {
+    it('should render complexUpdate popup', () => {
       const wrapper = shallow(
         <MyAccount
           {...defaultProps}
@@ -355,14 +360,15 @@ describe('<MyAccount/>', () => {
           ]
         }
       });
-      expect(wrapper.state('isTermsPopupOpen')).toBe(true);
-      expect(wrapper.state('popupType')).toBe('complexUpdate');
-      expect(wrapper.state('popupConsents')).toEqual([
-        ...CONSENTS.termsUpdateRequired,
-        ...CONSENTS.consentsUpdateRequired
-      ]);
+      expect(showPopupMock).toHaveBeenCalledWith({
+        type: 'complexUpdate',
+        consents: [
+          ...CONSENTS.termsUpdateRequired,
+          ...CONSENTS.consentsUpdateRequired
+        ]
+      });
     });
-    it('should render termsUpdateRequired layout', () => {
+    it('should render termsUpdateRequired popup', () => {
       const wrapper = shallow(
         <MyAccount
           {...defaultProps}
@@ -376,11 +382,10 @@ describe('<MyAccount/>', () => {
       wrapper.setProps({
         userProfile: { consents: CONSENTS.termsUpdateRequired }
       });
-      expect(wrapper.state('isTermsPopupOpen')).toBe(true);
-      expect(wrapper.state('popupType')).toBe('termsUpdateRequired');
-      expect(wrapper.state('popupConsents')).toEqual(
-        CONSENTS.termsUpdateRequired
-      );
+      expect(showPopupMock).toHaveBeenCalledWith({
+        type: 'termsUpdateRequired',
+        consents: CONSENTS.termsUpdateRequired
+      });
     });
 
     it('should render consentsUpdateRequired layout', () => {
@@ -397,11 +402,10 @@ describe('<MyAccount/>', () => {
       wrapper.setProps({
         userProfile: { consents: CONSENTS.consentsUpdateRequired }
       });
-      expect(wrapper.state('isTermsPopupOpen')).toBe(true);
-      expect(wrapper.state('popupType')).toBe('consentsUpdateRequired');
-      expect(wrapper.state('popupConsents')).toEqual(
-        CONSENTS.consentsUpdateRequired
-      );
+      expect(showPopupMock).toHaveBeenCalledWith({
+        type: 'consentsUpdateRequired',
+        consents: CONSENTS.consentsUpdateRequired
+      });
     });
 
     it('should hidepopup if consents are valid', () => {
@@ -418,9 +422,7 @@ describe('<MyAccount/>', () => {
       wrapper.setProps({
         userProfile: { consents: CONSENTS.hidePopup }
       });
-      expect(wrapper.state('isTermsPopupOpen')).toBe(false);
-      expect(wrapper.state('popupType')).toBe('');
-      expect(wrapper.state('popupConsents')).toEqual([]);
+      expect(hidePopupMock).toHaveBeenCalled();
     });
   });
 });

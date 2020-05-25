@@ -5,6 +5,7 @@ import {
   setConsentsError
 } from 'redux/userProfile';
 import { setCurrentPlan } from 'redux/planDetails';
+import { showPopup, hidePopup } from 'redux/popup';
 
 import MyAccount from './MyAccount.component';
 
@@ -12,7 +13,8 @@ export const mapStateToProps = state => {
   return {
     userProfile: state.userProfile,
     planDetails: state.planDetails,
-    consents: state.consents
+    consents: state.consents,
+    popup: state.popup
   };
 };
 
@@ -29,6 +31,12 @@ export const mapDispatchToProps = dispatch => {
     },
     setConsentsError: msg => {
       dispatch(setConsentsError(msg));
+    },
+    showPopup: (type, consents) => {
+      dispatch(showPopup(type, consents));
+    },
+    hidePopup: () => {
+      dispatch(hidePopup());
     }
   };
 };

@@ -39,10 +39,7 @@ class MyAccount extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      errors: [],
-      isTermsPopupOpen: false,
-      popupType: '',
-      popupConsents: []
+      errors: []
     };
   }
 
@@ -153,11 +150,10 @@ class MyAccount extends Component {
   }
 
   renderPopup(isOpen, type = '', consents = []) {
-    this.setState({
-      isTermsPopupOpen: isOpen,
-      popupType: type,
-      popupConsents: consents
-    });
+    const { showPopup, hidePopup } = this.props;
+    if (isOpen) {
+      showPopup({ type, consents });
+    } else hidePopup();
   }
 
   render() {
@@ -166,10 +162,11 @@ class MyAccount extends Component {
       isOverlay,
       planDetails: { currentPlan },
       userProfile: { user, consentsError },
-      setConsents
+      setConsents,
+      popup: { isPopupShown, popupType, consents },
+      hidePopup
     } = this.props;
     const { path } = routeMatch;
-    const { isTermsPopupOpen, popupType, popupConsents } = this.state;
     const isMobile = window.innerWidth < breakPoints.small;
     const firstPageUrl = isMobile
       ? `${path}/quick-actions`
@@ -179,11 +176,13 @@ class MyAccount extends Component {
       <OverlayStyled isOverlay={isOverlay}>
         {consentsError ? (
           <MyAccountError generalError fullHeight />
-        ) : isTermsPopupOpen ? (
+        ) : isPopupShown ? (
           <Popup
-            popupType={popupType}
-            consents={popupConsents}
             setConsents={setConsents}
+            popupType={popupType}
+            consents={consents}
+            customerEmail={user.email}
+            hidePopup={hidePopup}
           />
         ) : (
           <WrapperStyled>
@@ -247,12 +246,16 @@ MyAccount.propTypes = {
   routeMatch: PropTypes.objectOf(PropTypes.any),
   isOverlay: PropTypes.bool,
   userProfile: PropTypes.objectOf(PropTypes.any),
-  planDetails: PropTypes.objectOf(PropTypes.any)
+  planDetails: PropTypes.objectOf(PropTypes.any),
+  popup: PropTypes.objectOf(PropTypes.any),
+  showPopup: PropTypes.func.isRequired,
+  hidePopup: PropTypes.func.isRequired
 };
 
 MyAccount.defaultProps = {
   routeMatch: {},
   isOverlay: false,
   userProfile: { user: null },
-  planDetails: { currentPlan: [] }
+  planDetails: { currentPlan: [] },
+  popup: { isPopupShown: false }
 };

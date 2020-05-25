@@ -100,6 +100,7 @@ export const ImageStyled = styled.img`
 `;
 
 export const ButtonStyled = styled(Button)`
+  margin: 0 5px;
   &:disabled {
     cursor: not-allowed;
     background: ${InputBorder};
@@ -147,4 +148,10 @@ export const DotStyled = styled.span`
 export const HeaderTitleStyled = styled.h1`
   font-size: 13px;
   margin: 0;
+`;
+
+export const InnerWrapperStyled = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;

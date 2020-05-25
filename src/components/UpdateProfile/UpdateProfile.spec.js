@@ -70,7 +70,6 @@ jest.mock('api', () => ({
 }));
 
 const setCurrentUserMock = jest.fn();
-const setConsentsMock = jest.fn();
 
 describe('<UpdateProfile/>', () => {
   afterEach(() => {
@@ -81,8 +80,9 @@ describe('<UpdateProfile/>', () => {
       const wrapper = shallow(
         <PureUpdateProfile
           setCurrentUser={setCurrentUserMock}
-          setConsents={setConsentsMock}
           userProfile={{ consentsError: [] }}
+          showPopup={jest.fn()}
+          setConsents={jest.fn()}
         />
       );
       expect(getCustomer).toHaveBeenCalled();
@@ -99,12 +99,29 @@ describe('<UpdateProfile/>', () => {
       const wrapper = shallow(
         <PureUpdateProfile
           setCurrentUser={setCurrentUserMock}
-          setConsents={setConsentsMock}
           userProfile={{ consentsError: [] }}
+          showPopup={jest.fn()}
+          setConsents={jest.fn()}
         />
       );
       setImmediate(() => {
         expect(wrapper.state().detailsError).toEqual(returnedErrors);
+        done();
+      });
+    });
+    it('should catch errors if getCustomer faild', done => {
+      getCustomer.mockRejectedValue(new Error('error'));
+      const wrapper = shallow(
+        <PureUpdateProfile
+          setCurrentUser={setCurrentUserMock}
+          userProfile={{ consentsError: [] }}
+          showPopup={jest.fn()}
+          setConsents={jest.fn()}
+        />
+      );
+      setImmediate(() => {
+        expect(wrapper.state().detailsError).toEqual([new Error('error')]);
+        expect(wrapper.state().isUserDetailsLoading).toBe(false);
         done();
       });
     });
