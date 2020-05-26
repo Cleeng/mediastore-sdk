@@ -86,7 +86,7 @@ const popupData = {
         headerTitle: 'Password Reset',
         icon: PasswordResetIcon,
         title: 'Password Reset',
-        text: `If you want to reset you password, click YES, Reset to receive password reset instruction on your mail `,
+        text: `If you want to reset your password, click 'YES, Reset' to receive password reset instruction on your mail `,
         buttonText: 'Yes, Reset',
         buttonAction: 'resetPassword',
         undoButton: 'No, thanks'
