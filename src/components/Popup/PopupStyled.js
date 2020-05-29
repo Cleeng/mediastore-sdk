@@ -30,6 +30,8 @@ export const WrapperStyled = styled.div`
   justify-content: center;
   align-items: center;
 
+  line-height: normal;
+
   ${media.small`
     min-height: 100vh;
   `}
@@ -41,10 +43,10 @@ export const WrapperStyled = styled.div`
 export const ContentStyled = styled.div`
   text-align: center;
   margin: auto;
-  max-width: 40%;
+  width: 50%;
 
   ${media.small`
-    max-width: 90%;
+    width: 90%;
   `}
 
   ${props =>
@@ -52,7 +54,7 @@ export const ContentStyled = styled.div`
     css`
       margin: 80px auto auto auto;
       text-align: left;
-      max-width: 80%;
+      width: 70%;
     `}
 `;
 export const ButtonWrapperStyled = styled.div`

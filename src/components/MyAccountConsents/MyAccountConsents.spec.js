@@ -60,23 +60,23 @@ describe('<MyAccountConsents/>', () => {
   describe('@action', () => {
     it('should change state on click Update Terms button', () => {
       const wrapper = mount(<PureMyAccountConsents {...propsWithConsents} />);
-      expect(wrapper.state('isDisabled')).toBe(true);
+      expect(wrapper.state('isSectionDisabled')).toBe(true);
       wrapper
         .find(ButtonStyled)
         .first()
         .simulate('click');
-      expect(wrapper.state('isDisabled')).toBe(false);
+      expect(wrapper.state('isSectionDisabled')).toBe(false);
     });
     it('should change state on click Cancel button', () => {
       const wrapper = mount(<PureMyAccountConsents {...propsWithConsents} />);
       wrapper.setState({
-        isDisabled: false
+        isSectionDisabled: false
       });
       wrapper
         .find(ButtonStyled)
         .first()
         .simulate('click');
-      expect(wrapper.state('isDisabled')).toBe(true);
+      expect(wrapper.state('isSectionDisabled')).toBe(true);
       expect(wrapper.state('updatedConsents')).toBe(consentsMock);
     });
     it('should submit consents on click Save button', done => {
@@ -100,7 +100,7 @@ describe('<MyAccountConsents/>', () => {
       ];
       const wrapper = mount(<PureMyAccountConsents {...propsWithConsents} />);
       wrapper.setState({
-        isDisabled: false
+        isSectionDisabled: false
       });
       wrapper
         .find(ButtonStyled)
@@ -109,7 +109,7 @@ describe('<MyAccountConsents/>', () => {
       expect(wrapper.state('isSubmittingPending')).toBe(true);
       setImmediate(() => {
         expect(submitConsentsMock).toHaveBeenCalledWith([], [], correctPayload);
-        expect(wrapper.state('isDisabled')).toBe(true);
+        expect(wrapper.state('isSectionDisabled')).toBe(true);
         expect(wrapper.state('isSubmittingPending')).toBe(false);
         done();
       });
@@ -145,7 +145,10 @@ describe('<MyAccountConsents/>', () => {
         }
       ];
       const wrapper = mount(<PureMyAccountConsents {...propsWithConsents} />);
-      expect(wrapper.state('isDisabled')).toBe(true);
+      expect(wrapper.state('isSectionDisabled')).toBe(true);
+      wrapper.setState({
+        isSectionDisabled: false
+      });
       wrapper
         .find(CheckboxStyled)
         .at(1)
