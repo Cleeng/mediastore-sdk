@@ -19,7 +19,7 @@ const popupData = {
         headerTitle: 'Terms & Conditions',
         icon: null,
         title: 'Terms & Conditions',
-        text: 'Please accept Terms & Conditions before going to myAccount .',
+        text: 'Please accept Terms & Conditions before going to myAccount.',
         buttonText: 'Agree, let’s go!',
         buttonAction: 'handleSubmitConsents'
       }

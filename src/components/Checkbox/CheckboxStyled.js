@@ -26,7 +26,6 @@ export const CheckboxStyled = styled.div`
   ${props =>
     props.disabled &&
     css`
-      pointer-events: none;
       opacity: 0.7;
     `}
 `;

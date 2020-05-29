@@ -120,26 +120,26 @@ class Popup extends Component {
             {steps.length > 1 &&
               steps.map(item => <DotStyled key={item.title} />)}
           </DotsWrapperStyled>
-          <HeaderTitleStyled>{stepData.headerTitle}</HeaderTitleStyled>
+          <HeaderTitleStyled>{t(stepData.headerTitle)}</HeaderTitleStyled>
         </HeaderStyled>
         <ContentStyled step={consents.length ? step : 1}>
           {stepData.icon && <ImageStyled src={stepData.icon} />}
-          <TitleStyled step={step}>{stepData.title}</TitleStyled>
+          <TitleStyled step={step}>{t(stepData.title)}</TitleStyled>
           <TextStyled step={step}>
-            {stepData.text}
+            {t(stepData.text)}
             {popupType === 'resetPassword' && step === 1 && customerEmail}
-            {stepData.secondText && (
+            {t(stepData.secondText) && (
               <>
                 <br />
                 <br />
-                {stepData.secondText}
+                {t(stepData.secondText)}
               </>
             )}
           </TextStyled>
           {step === 2 && consents && (
             <MyAccountConsents
               consents={consents}
-              onlyConsents
+              showConsentsOnly
               saveConsents={items => {
                 this.setState({ updatedConsents: items });
                 this.checkAccess(items);
@@ -154,20 +154,20 @@ class Popup extends Component {
               popupType === 'termsUpdateRequired' ||
               popupType === 'complexUpdate') && (
               <InfoStyled>
-                * This term is mandatory for using myAccount
+                * {t('This term is mandatory for using myAccount')}
               </InfoStyled>
             )}
           <InnerWrapperStyled>
             {stepData.undoButton && (
               <ButtonStyled onClickFn={hidePopup} theme="secondary">
-                {stepData.undoButton}
+                {t(stepData.undoButton)}
               </ButtonStyled>
             )}
             <ButtonStyled
               onClickFn={this[stepData.buttonAction]}
               disabled={step === 2 && !allowSubmitConsents}
             >
-              {(isLoading && t('Loading...')) || stepData.buttonText}
+              {(isLoading && t('Loading...')) || t(stepData.buttonText)}
             </ButtonStyled>
           </InnerWrapperStyled>
         </ButtonWrapperStyled>

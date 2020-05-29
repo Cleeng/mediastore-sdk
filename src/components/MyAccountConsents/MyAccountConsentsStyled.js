@@ -8,7 +8,7 @@ export const CardStyled = styled(Card)`
   margin-bottom: 0;
 
   ${props =>
-    props.onlyConsents &&
+    props.showConsentsOnly &&
     css`
       padding: 20px 0;
     `}
@@ -38,7 +38,7 @@ export const CheckboxStyled = styled(Checkbox)`
   ${props =>
     props.disabled &&
     css`
-      opacity: 0.6;
+      cursor: default;
     `}
 
   ${props =>

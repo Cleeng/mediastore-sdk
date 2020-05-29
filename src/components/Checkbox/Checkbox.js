@@ -27,7 +27,7 @@ class Checkbox extends Component {
     } = this.props;
     return (
       <CheckboxStyled
-        onClick={onClickFn}
+        onClick={e => onClickFn(e, disabled)}
         role="checkbox"
         tabIndex="-1"
         aria-checked="false"
@@ -55,7 +55,7 @@ class Checkbox extends Component {
         </CheckFrameStyled>
         <ConsentDefinitionStyled
           dangerouslySetInnerHTML={{
-            __html: `${children}${required ? '*' : ''}`
+            __html: `${children}${required && isMyAccount ? '*' : ''}`
           }}
           checked={checked}
         />

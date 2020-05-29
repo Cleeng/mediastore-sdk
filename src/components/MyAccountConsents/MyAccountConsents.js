@@ -18,9 +18,10 @@ class MyAccountConsents extends Component {
     super(props);
     this.state = {
       updatedConsents: [],
-      isDisabled: true,
+      isSectionDisabled: true,
       isLoading: false,
-      isSubmittingPending: false
+      isSubmittingPending: false,
+      showButtonToUpdate: true
     };
   }
 
@@ -42,21 +43,25 @@ class MyAccountConsents extends Component {
 
   saveConsentsInState() {
     const { consents } = this.props;
+    const showButtonToUpdate = consents.find(el => !el.required);
     this.setState({
-      updatedConsents: consents
+      updatedConsents: consents,
+      showButtonToUpdate: !!showButtonToUpdate
     });
   }
 
-  handleClick(item) {
+  handleClick(e, isConsentDisabled, item) {
+    const { showConsentsOnly, saveConsents } = this.props;
+    if (e.target.tagName.toLowerCase() === 'a') return; // enable to open link
+    if (isConsentDisabled || (!showConsentsOnly && item.required)) return;
     const { updatedConsents } = this.state;
     const itemIndex = updatedConsents.findIndex(el => el.name === item.name);
-    const { onlyConsents, saveConsents } = this.props;
     this.setState(prevState => {
       const copyConsentObj = { ...prevState.updatedConsents[itemIndex] };
       copyConsentObj.state = this.toggleState(copyConsentObj.state);
       const stateCopy = [...prevState.updatedConsents];
       stateCopy[itemIndex] = copyConsentObj;
-      if (onlyConsents) {
+      if (showConsentsOnly) {
         saveConsents(stateCopy);
       }
       return { ...prevState, updatedConsents: stateCopy };
@@ -78,7 +83,7 @@ class MyAccountConsents extends Component {
     });
     submitConsents([], [], payload).then(() => {
       this.setState({
-        isDisabled: true,
+        isSectionDisabled: true,
         isSubmittingPending: false
       });
       setConsents(updatedConsents);
@@ -86,8 +91,13 @@ class MyAccountConsents extends Component {
   }
 
   render() {
-    const { t, consents, isLoading, onlyConsents } = this.props;
-    const { updatedConsents, isDisabled, isSubmittingPending } = this.state;
+    const { t, consents, isLoading, showConsentsOnly } = this.props;
+    const {
+      updatedConsents,
+      isSectionDisabled,
+      isSubmittingPending,
+      showButtonToUpdate
+    } = this.state;
 
     const sortedConsents = updatedConsents.slice().sort((a, b) => {
       return a.required === b.required ? 0 : a.required ? -1 : 1;
@@ -96,62 +106,68 @@ class MyAccountConsents extends Component {
     return isLoading ? (
       <Loader isMyAccount />
     ) : (
-      <CardStyled onlyConsents={onlyConsents}>
+      <CardStyled showConsentsOnly={showConsentsOnly}>
         {sortedConsents.map(item => (
           <CheckboxStyled
             isMyAccount
-            onClickFn={() => this.handleClick(item)}
+            onClickFn={(e, isConsentDisabled) =>
+              this.handleClick(e, isConsentDisabled, item)
+            }
             checked={item.state === 'accepted'}
             key={item.name}
-            disabled={(isDisabled || item.required) && !onlyConsents}
+            disabled={(isSectionDisabled || item.required) && !showConsentsOnly}
             required={item.required}
-            hide={onlyConsents && !item.required}
+            hide={showConsentsOnly && !item.required}
           >
             {t(item.label)}
           </CheckboxStyled>
         ))}
-        {!onlyConsents && (
+        {!showConsentsOnly && (
           <>
-            <ButtonWrapperStyled>
-              {isDisabled ? (
-                <ButtonStyled
-                  size="small"
-                  fontWeight="700"
-                  onClickFn={() => this.setState({ isDisabled: false })}
-                  width="100%"
-                >
-                  {t('Update Terms')}
-                </ButtonStyled>
-              ) : (
-                <>
+            {showButtonToUpdate && (
+              <ButtonWrapperStyled>
+                {isSectionDisabled ? (
                   <ButtonStyled
                     size="small"
-                    theme="secondary"
                     fontWeight="700"
                     onClickFn={() =>
-                      this.setState({
-                        isDisabled: true,
-                        updatedConsents: consents
-                      })
+                      this.setState({ isSectionDisabled: false })
                     }
+                    width="100%"
                   >
-                    {t('Cancel')}
+                    {t('Update Terms')}
                   </ButtonStyled>
-                  <ButtonStyled
-                    size="small"
-                    theme="primary"
-                    fontWeight="700"
-                    fontSize="13px"
-                    onClickFn={() => this.updateConsents()}
-                    disabled={isSubmittingPending}
-                  >
-                    {(isSubmittingPending && t('Loading...')) || t('Save')}
-                  </ButtonStyled>
-                </>
-              )}
-            </ButtonWrapperStyled>
+                ) : (
+                  <>
+                    <ButtonStyled
+                      size="small"
+                      theme="secondary"
+                      fontWeight="700"
+                      onClickFn={() =>
+                        this.setState({
+                          isSectionDisabled: true,
+                          updatedConsents: consents
+                        })
+                      }
+                    >
+                      {t('Cancel')}
+                    </ButtonStyled>
+                    <ButtonStyled
+                      size="small"
+                      theme="primary"
+                      fontWeight="700"
+                      fontSize="13px"
+                      onClickFn={() => this.updateConsents()}
+                      disabled={isSubmittingPending}
+                    >
+                      {(isSubmittingPending && t('Loading...')) || t('Save')}
+                    </ButtonStyled>
+                  </>
+                )}
+              </ButtonWrapperStyled>
+            )}
             <InfoStyled>
-              * This term is mandatory for using myAccount
+              * {t('This term is mandatory for using myAccount')}
             </InfoStyled>
           </>
         )}
@@ -164,7 +180,7 @@ MyAccountConsents.propTypes = {
   consents: PropTypes.arrayOf(PropTypes.object),
   setConsents: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
-  onlyConsents: PropTypes.bool,
+  showConsentsOnly: PropTypes.bool,
   saveConsents: PropTypes.func,
   t: PropTypes.func
 };
@@ -172,7 +188,7 @@ MyAccountConsents.propTypes = {
 MyAccountConsents.defaultProps = {
   consents: [],
   isLoading: false,
-  onlyConsents: false,
+  showConsentsOnly: false,
   saveConsents: () => {},
   t: k => k
 };

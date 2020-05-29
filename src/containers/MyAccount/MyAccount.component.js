@@ -181,7 +181,7 @@ class MyAccount extends Component {
             setConsents={setConsents}
             popupType={popupType}
             consents={consents}
-            customerEmail={user.email}
+            customerEmail={user ? user.email : ''}
             hidePopup={hidePopup}
           />
         ) : (
