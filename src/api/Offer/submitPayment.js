@@ -1,6 +1,6 @@
 const submitPayment = async card => {
   const token = localStorage.getItem('CLEENG_AUTH_TOKEN') || '';
-  const orderId = localStorage.getItem('CLEENG_ORDER_ID') || '';
+  const orderId = parseInt(localStorage.getItem('CLEENG_ORDER_ID') || '0', 10);
   const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/connectors/adyen/payments`;
 
   try {
