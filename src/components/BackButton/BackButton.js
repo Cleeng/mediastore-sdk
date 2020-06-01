@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import Button from '../Button/Button';
-import labeling from '../../containers/labeling';
+import Button from 'components/Button';
+import labeling from 'containers/labeling';
 
 const BackButton = ({ isMyAccount, onClickFn, t }) => {
   return (

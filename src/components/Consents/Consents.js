@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import getConsentsRequest from '../../api/getConsents';
+import Checkbox from 'components/Checkbox';
+import getConsentsRequest from 'api/Publisher/getConsents';
+import Loader from 'components/Loader';
 import {
   ConsentsWrapperStyled,
   ConsentsErrorStyled,
   InvisibleLegend
 } from './ConsentsStyled';
-import Loader from '../Loader';
-import Checkbox from '../Checkbox';
 
 const regexHrefOpenTag = new RegExp(/<a(.|\n)*?>/);
 const regexHrefCloseTag = new RegExp(/<\/a(.|\n)*?>/);

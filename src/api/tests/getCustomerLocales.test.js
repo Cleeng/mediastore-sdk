@@ -1,4 +1,4 @@
-import getCustomerLocales from './getCustomerLocales';
+import getCustomerLocales from 'api/Customer/getCustomerLocales';
 
 describe('getCustomerLocales', () => {
   it('fetch customer locales on call', done => {

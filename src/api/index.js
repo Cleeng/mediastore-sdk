@@ -1,17 +1,17 @@
-import getConsents from './getConsents';
-import createOrder from './createOrder';
-import getOfferDetails from './getOfferDetails';
-import getPaymentMethods from './getPaymentMethods';
-import loginCustomer from './loginCustomer';
-import registerCustomer from './registerCustomer';
-import resetPassword from './resetPassword';
-import submitPayment from './submitPayment';
-import updateOrder from './updateOrder';
-import getPaymentDetails from './getPaymentDetails';
-import getCustomerSubscriptions from './getCustomerSubscriptions';
-import getCustomer from './getCustomer';
-import listCustomerTransactions from './listCustomerTransactions';
-import getCustomerConsents from './getCustomerConsents';
+import getConsents from './Publisher/getConsents';
+import createOrder from './Offer/createOrder';
+import getOfferDetails from './Customer/getOfferDetails';
+import getPaymentMethods from './Publisher/getPaymentMethods';
+import loginCustomer from './Auth/loginCustomer';
+import registerCustomer from './Auth/registerCustomer';
+import resetPassword from './Auth/resetPassword';
+import submitPayment from './Offer/submitPayment';
+import updateOrder from './Offer/updateOrder';
+import getPaymentDetails from './Customer/getPaymentDetails';
+import getCustomerSubscriptions from './Customer/getCustomerSubscriptions';
+import getCustomer from './Customer/getCustomer';
+import listCustomerTransactions from './Customer/listCustomerTransactions';
+import getCustomerConsents from './Customer/getCustomerConsents';
 
 export {
   getPaymentMethods,

@@ -2,11 +2,11 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import Checkbox from 'components/Checkbox';
 import Button from 'components/Button';
+import updateSubscriptionRequest from 'api/Customer/updateSubscription';
 import { PureUpdateSubscription } from './UpdateSubscription';
 import { HeaderStyled, SubTitleStyled } from './UpdateSubscriptionStyled';
-import updateSubscriptionRequest from '../../api/updateSubscription';
 
-jest.mock('../../api/updateSubscription');
+jest.mock('api/Customer/updateSubscription');
 const updateSubscriptionMock = jest.fn();
 const hideSurveyMock = jest.fn();
 const updateListMock = jest.fn();

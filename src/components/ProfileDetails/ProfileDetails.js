@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import Card from 'components/Card';
-import MyAccountInput from 'components/MyAccountInput/MyAccountInput';
-// import Button from 'components/Button';
-import Loader from 'components/Loader/Loader';
+import MyAccountInput from 'components/MyAccountInput';
+import Loader from 'components/Loader';
 import { WrapStyled } from './ProfileDetailsStyled';
 
 const ProfileDetails = ({ firstName, lastName, email, isLoading, t }) =>

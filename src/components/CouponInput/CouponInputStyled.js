@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
-import * as Colors from 'styles/variables';
 import failIcon from 'assets/images/input/fail.svg';
 import successIcon from 'assets/images/input/success.svg';
+import * as Colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
-import { MESSAGE_TYPE_SUCCESS } from '../Input/InputConstants';
+import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 
 export const CouponInputWrapperStyled = styled.div`
   display: flex;

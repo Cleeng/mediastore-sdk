@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import labeling from '../../containers/labeling';
+import labeling from 'containers/labeling';
 import { MenuItems } from './MyAccountMenu.const';
 
 import {

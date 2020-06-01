@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from '../Input/Input';
+import Input from 'components/Input';
 
 const EmailInput = ({ value, onChange, onBlur, error, label }) => (
   <Input

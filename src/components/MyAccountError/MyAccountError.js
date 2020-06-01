@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'components/Button/Button';
+import Button from 'components/Button';
 import { ReactComponent as serverIcon } from 'assets/images/errors/sad_server.svg';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';

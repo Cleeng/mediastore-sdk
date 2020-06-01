@@ -1,5 +1,5 @@
 /* istanbul ignore file */
-import { validateEmail } from '../../services/helper';
+import { validateEmail } from 'services/helper';
 
 export default function validateEmailField(value) {
   let message = '';

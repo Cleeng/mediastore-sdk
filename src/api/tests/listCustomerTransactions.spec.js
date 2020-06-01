@@ -1,4 +1,4 @@
-import listCustomerTransactions from './listCustomerTransactions';
+import listCustomerTransactions from 'api/Customer/listCustomerTransactions';
 
 describe('listCustomerTransactions', () => {
   beforeEach(() => {

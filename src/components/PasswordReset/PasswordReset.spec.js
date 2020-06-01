@@ -3,13 +3,13 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Input from 'components/Input';
+import ResetPasswordRequest from 'api/Auth/resetPassword';
+import Button from 'components/Button';
+import EmailInput from 'components/EmailInput';
 import PasswordReset, { PurePasswordReset } from './PasswordReset';
-import Button from '../Button';
-import EmailInput from '../EmailInput/EmailInput';
-import ResetPasswordRequest from '../../api/resetPassword';
 import { FormStyled } from './PasswordResetStyled';
 
-jest.mock('../../api/resetPassword');
+jest.mock('api/Auth/resetPassword');
 jest.mock('react-router-dom', () => {
   return {
     Link: () => {

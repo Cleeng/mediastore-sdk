@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import Footer from 'components/Footer/Footer';
-import submitConsents from 'api/submitConsents';
-import getCustomerConsents from 'api/getCustomerConsents';
-import resetPassword from 'api/resetPassword';
+import Footer from 'components/Footer';
+import submitConsents from 'api/Customer/submitConsents';
+import getCustomerConsents from 'api/Customer/getCustomerConsents';
+import resetPassword from 'api/Auth/resetPassword';
 import Auth from 'services/auth';
-import MyAccountConsents from 'components/MyAccountConsents/MyAccountConsents';
+import MyAccountConsents from 'components/MyAccountConsents';
 import {
   WrapperStyled,
   ContentStyled,

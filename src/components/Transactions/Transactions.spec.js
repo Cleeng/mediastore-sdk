@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import MyAccountError from 'components/MyAccountError/MyAccountError';
+import MyAccountError from 'components/MyAccountError';
 import { PureTransactions } from './Transactions';
 import { InsideWrapperStyled } from './TransactionsStyled';
 

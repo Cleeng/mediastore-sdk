@@ -1,17 +1,17 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import EmailInput from '../EmailInput/EmailInput';
+import registerCustomerRequest from 'api/Auth/registerCustomer';
+import getCustomerLocalesRequest from 'api/Customer/getCustomerLocales';
+import submitConsentsRequest from 'api/Customer/submitConsents';
+import Auth from 'services/auth';
+import EmailInput from 'components/EmailInput';
+import Consent from 'components/Consents';
+import PasswordInput from 'components/PasswordInput';
 import RegisterForm from './RegisterForm';
-import Consent from '../Consents';
-import PasswordInput from '../PasswordInput/PasswordInput';
-import registerCustomerRequest from '../../api/registerCustomer';
-import getCustomerLocalesRequest from '../../api/getCustomerLocales';
-import submitConsentsRequest from '../../api/submitConsents';
-import Auth from '../../services/auth';
 
-jest.mock('../../api/registerCustomer');
-jest.mock('../../api/getCustomerLocales');
-jest.mock('../../api/submitConsents');
+jest.mock('api/Auth/registerCustomer');
+jest.mock('api/Customer/getCustomerLocales');
+jest.mock('api/Customer/submitConsents');
 const mockRegisterFetch = jest.fn();
 const mockLocalesFetch = jest.fn();
 const mockInputValue = 'MOCK_INPUT_VALUE11';

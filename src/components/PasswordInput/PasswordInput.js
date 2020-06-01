@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from '../Input/Input';
+import Input from 'components/Input';
 
 class PasswordInput extends React.Component {
   constructor(props) {

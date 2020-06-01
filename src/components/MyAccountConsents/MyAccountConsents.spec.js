@@ -2,11 +2,11 @@
 
 import React from 'react';
 import { shallow, mount } from 'enzyme';
+import submitConsentsRequest from 'api/Customer/submitConsents';
 import { CheckboxStyled, ButtonStyled } from './MyAccountConsentsStyled';
 import { PureMyAccountConsents } from './MyAccountConsents';
-import submitConsentsRequest from '../../api/submitConsents';
 
-jest.mock('../../api/submitConsents');
+jest.mock('api/Customer/submitConsents');
 const submitConsentsMock = jest.fn();
 
 describe('<MyAccountConsents/>', () => {

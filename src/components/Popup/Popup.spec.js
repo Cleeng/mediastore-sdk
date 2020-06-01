@@ -1,17 +1,17 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { mount } from 'enzyme';
-import MyAccountConsents from 'components/MyAccountConsents/MyAccountConsents';
-import getCustomerConsentsRequest from 'api/getCustomerConsents';
-import submitConsentsRequest from '../../api/submitConsents';
-import resetPasswordRequest from '../../api/resetPassword';
+import MyAccountConsents from 'components/MyAccountConsents';
+import getCustomerConsentsRequest from 'api/Customer/getCustomerConsents';
+import submitConsentsRequest from 'api/Customer/submitConsents';
+import resetPasswordRequest from 'api/Auth/resetPassword';
 
 import { PurePopup } from './Popup';
 import 'jest-styled-components';
 
-jest.mock('../../api/submitConsents');
-jest.mock('../../api/getCustomerConsents');
-jest.mock('../../api/resetPassword');
+jest.mock('api/Customer/submitConsents');
+jest.mock('api/Customer/getCustomerConsents');
+jest.mock('api/Auth/resetPassword');
 
 const submitConsentsMock = jest.fn();
 const getCustomerConsentsMock = jest.fn();

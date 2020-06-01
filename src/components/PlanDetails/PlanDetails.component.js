@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
+import MyAccountHeading from 'components/MyAccountHeading';
 import CurrentPlan from 'components/CurrentPlan';
 import { getCustomerSubscriptions } from 'api';
 import { PropTypes } from 'prop-types';
-import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
+import UpdateSubscription from 'components/UpdateSubscription';
 
 import { WrapStyled } from './PlanDetailsStyled';
 

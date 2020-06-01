@@ -1,4 +1,4 @@
-import checkCaptcha from './checkCaptcha';
+import checkCaptcha from 'api/Auth/checkCaptcha';
 
 describe('checkCaptcha', () => {
   it('should return correct response on success', done => {

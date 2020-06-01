@@ -1,9 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import 'jest-styled-components';
+import { InputElementStyled, ErrorWrapper } from 'components/Input/InputStyled';
+import Input from 'components/Input';
 import EmailInput from './EmailInput';
-import { InputElementStyled, ErrorWrapper } from '../Input/InputStyled';
-import Input from '../Input';
 
 const ERROR_MESSAGE = 'MOCK_ERROR_MESSAGE';
 

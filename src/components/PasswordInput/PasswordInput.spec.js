@@ -1,9 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import 'jest-styled-components';
+import Input from 'components/Input';
 import PasswordInput from './PasswordInput';
 import { InputElementStyled, ErrorWrapper } from '../Input/InputStyled';
-import Input from '../Input';
 
 jest.useFakeTimers();
 

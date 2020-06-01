@@ -1,4 +1,4 @@
-import getOfferDetails from './getOfferDetails';
+import getOfferDetails from 'api/Customer/getOfferDetails';
 
 describe('getOfferDetails', () => {
   beforeEach(() => {

@@ -1,13 +1,13 @@
 import React from 'react';
-import Button from 'components/Button/Button';
+import Button from 'components/Button';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import Header from 'components/Header/Header';
-import Logout from 'components/Logout/Logout';
-import Footer from 'components/Footer/Footer';
+import Header from 'components/Header';
+import Logout from 'components/Logout';
+import Footer from 'components/Footer';
 import googleIcon from 'assets/images/google.png';
 import fbIcon from 'assets/images/fb.svg';
-import labeling from '../../containers/labeling';
+import labeling from 'containers/labeling';
 
 import {
   ThankYouPageStyled,

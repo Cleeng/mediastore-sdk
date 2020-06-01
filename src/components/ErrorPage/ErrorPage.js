@@ -2,18 +2,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Auth from 'services/auth';
-import BackButton from '../BackButton/BackButton';
+import BackButton from 'components/BackButton';
+import close from 'assets/images/errors/close.svg';
+import deleteCreditCard from 'assets/images/errors/deleteCreditCard.svg';
+import lock from 'assets/images/errors/lock.svg';
+import warning from 'assets/images/errors/warning.svg';
+import Logout from 'components/Logout';
 import {
   ErrorPageStyled,
   MessageStyled,
   IconStyled,
   LogoutWrapper
 } from './ErrorPageStyled';
-import close from '../../assets/images/errors/close.svg';
-import deleteCreditCard from '../../assets/images/errors/deleteCreditCard.svg';
-import lock from '../../assets/images/errors/lock.svg';
-import warning from '../../assets/images/errors/warning.svg';
-import Logout from '../Logout/Logout';
 
 const errorTypes = {
   offerNotExist: {
