@@ -7,7 +7,7 @@ import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
 import Loader from 'components/Loader';
 import { getOfferDetails, createOrder, updateOrder } from 'api';
-import saveOfferId from '../../util/offerIdHelper';
+import saveOfferId from 'util/offerIdHelper';
 import StyledLoaderContainer from './StyledOfferContainer';
 import labeling from '../labeling';
 

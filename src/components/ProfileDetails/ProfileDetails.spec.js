@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import MyAccountInput from 'components/MyAccountInput/MyAccountInput';
+import MyAccountInput from 'components/MyAccountInput';
 import { PureProfileDetails } from './ProfileDetails';
 import { WrapStyled } from './ProfileDetailsStyled';
 

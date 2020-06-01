@@ -4,19 +4,19 @@ import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
 import googleIcon from 'assets/images/google.png';
 import fbIcon from 'assets/images/fb.svg';
-import saveOfferId from '../../util/offerIdHelper';
-import savePublisherId from '../../util/publisherIdHelper';
-import labeling from '../../containers/labeling';
-import Auth from '../../services/auth';
+import Button from 'components/Button';
+import Header from 'components/Header';
+import Footer from 'components/Footer';
+import saveOfferId from 'util/offerIdHelper';
+import savePublisherId from 'util/publisherIdHelper';
+import labeling from 'containers/labeling';
+import Auth from 'services/auth';
 
 import {
   ContentWrapperStyled,
   SocialStyled,
   SeparatorStyled
 } from './LoginStyled';
-import Button from '../Button/Button';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 import LoginForm from './LoginForm';
 
 class Login extends Component {

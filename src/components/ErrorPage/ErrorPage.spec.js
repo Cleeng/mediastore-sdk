@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import BackButton from 'components/BackButton/BackButton';
+import BackButton from 'components/BackButton';
 import Auth from 'services/auth';
 import ErrorPage from './ErrorPage';
 import { IconStyled } from './ErrorPageStyled';

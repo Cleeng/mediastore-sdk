@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import submitConsents from 'api/submitConsents';
-import Consent, { validateConsentsField } from '../Consents';
-import { FromStyled, FormErrorStyled } from '../LoginPage/LoginStyled';
-import Loader from '../Loader/Loader';
-import Button from '../Button/Button';
-import EmailInput from '../EmailInput/EmailInput';
-import PasswordInput from '../PasswordInput/PasswordInput';
-import validateEmailField from '../EmailInput/EmailHelper';
-import { validateRegisterPassword } from '../PasswordInput/PasswordHelper';
-import registerCustomer from '../../api/registerCustomer';
-import getCustomerLocales from '../../api/getCustomerLocales';
-import Auth from '../../services/auth';
+import submitConsents from 'api/Customer/submitConsents';
+import Loader from 'components/Loader';
+import Consent, { validateConsentsField } from 'components/Consents';
+import { FromStyled, FormErrorStyled } from 'components/LoginPage/LoginStyled';
+import Button from 'components/Button';
+import EmailInput from 'components/EmailInput';
+import PasswordInput from 'components/PasswordInput';
+import validateEmailField from 'components/EmailInput/EmailHelper';
+import { validateRegisterPassword } from 'components/PasswordInput/PasswordHelper';
+import registerCustomer from 'api/Auth/registerCustomer';
+import getCustomerLocales from 'api/Customer/getCustomerLocales';
+import Auth from 'services/auth';
 
 class RegisterForm extends Component {
   constructor(props) {

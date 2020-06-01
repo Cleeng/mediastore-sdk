@@ -4,19 +4,18 @@ import PropTypes from 'prop-types';
 import googleIcon from 'assets/images/google.png';
 import fbIcon from 'assets/images/fb.svg';
 import ErrorPage from 'components/ErrorPage';
-import BackButton from 'components/BackButton/BackButton';
-import saveOfferId from '../../util/offerIdHelper';
-import savePublisherId from '../../util/publisherIdHelper';
-import labeling from '../../containers/labeling';
-
+import BackButton from 'components/BackButton';
 import {
   ContentWrapperStyled,
   SocialStyled,
   SeparatorStyled
-} from '../LoginPage/LoginStyled';
-import Button from '../Button/Button';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
+} from 'components/LoginPage/LoginStyled';
+import Button from 'components/Button';
+import Header from 'components/Header';
+import Footer from 'components/Footer';
+import labeling from 'containers/labeling';
+import savePublisherId from 'util/publisherIdHelper';
+import saveOfferId from 'util/offerIdHelper';
 import RegisterForm from './RegisterForm';
 
 class Register extends Component {

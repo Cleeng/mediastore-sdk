@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { getPaymentMethods, submitPayment, updateOrder } from 'api';
-import Button from 'components/Button/Button';
+import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import {
   PaymentStyled,

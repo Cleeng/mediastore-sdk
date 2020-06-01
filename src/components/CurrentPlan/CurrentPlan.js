@@ -6,8 +6,8 @@ import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { ReactComponent as noSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
 import Card from 'components/Card';
-import Loader from 'components/Loader/Loader';
-import MyAccountError from 'components/MyAccountError/MyAccountError';
+import Loader from 'components/Loader';
+import MyAccountError from 'components/MyAccountError';
 import { periodMapper, dateFormat, currencyFormat } from './helpers';
 
 import {

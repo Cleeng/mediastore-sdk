@@ -3,12 +3,12 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
-import listCustomerTransactionsRequest from 'api/listCustomerTransactions';
-import getPaymentDetailsReguster from 'api/getPaymentDetails';
+import listCustomerTransactionsRequest from 'api/Customer/listCustomerTransactions';
+import getPaymentDetailsReguster from 'api/Customer/getPaymentDetails';
 import { PurePaymentInfo } from './PaymentInfo.component';
 
-jest.mock('../../api/listCustomerTransactions');
-jest.mock('../../api/getPaymentDetails');
+jest.mock('api/Customer/listCustomerTransactions');
+jest.mock('api/Customer/getPaymentDetails');
 
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />

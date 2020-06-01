@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import * as colors from '../../styles/variables';
+import * as colors from 'styles/variables';
 
 export const FooterStyled = styled.footer`
   position: absolute;

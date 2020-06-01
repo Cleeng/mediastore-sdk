@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import EmailInput from 'components/EmailInput/EmailInput';
-import BackButton from 'components/BackButton/BackButton';
-import Button from '../Button/Button';
-import Header from '../Header/Header';
-import resetPassword from '../../api/resetPassword';
-import saveOfferId from '../../util/offerIdHelper';
-import labeling from '../../containers/labeling';
-import Loader from '../Loader';
+import EmailInput from 'components/EmailInput';
+import BackButton from 'components/BackButton';
+import Button from 'components/Button';
+import Header from 'components/Header';
+import Loader from 'components/Loader';
+import resetPassword from 'api/Auth/resetPassword';
+import saveOfferId from 'util/offerIdHelper';
+import labeling from 'containers/labeling';
 import {
   PasswordResetPageStyled,
   StyledTitle,

@@ -1,15 +1,15 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { shallow } from 'enzyme';
-import getCustomerSubscriptionsRequest from 'api/getCustomerSubscriptions';
-import getCustomerRequest from 'api/getCustomer';
-import getCustomerConsentsRequest from 'api/getCustomerConsents';
+import getCustomerSubscriptionsRequest from 'api/Customer/getCustomerSubscriptions';
+import getCustomerRequest from 'api/Customer/getCustomer';
+import getCustomerConsentsRequest from 'api/Customer/getCustomerConsents';
 
 import MyAccount from './MyAccount.component';
 
-jest.mock('../../api/getCustomerSubscriptions');
-jest.mock('../../api/getCustomer');
-jest.mock('../../api/getCustomerConsents');
+jest.mock('api/Customer/getCustomerSubscriptions');
+jest.mock('api/Customer/getCustomer');
+jest.mock('api/Customer/getCustomerConsents');
 
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />

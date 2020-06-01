@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
-import * as colors from '../../styles/variables';
-import { media } from '../../styles/BreakPoints';
+import * as colors from 'styles/variables';
+import { media } from 'styles/BreakPoints';
 
 export const ContentWrapperStyled = styled.main`
   position: relative;

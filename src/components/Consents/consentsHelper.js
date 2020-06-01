@@ -1,4 +1,4 @@
-import { validateConsents } from '../../services/helper';
+import { validateConsents } from 'services/helper';
 
 export default function validateConsentsField(value, consents) {
   if (!validateConsents(value, consents)) {

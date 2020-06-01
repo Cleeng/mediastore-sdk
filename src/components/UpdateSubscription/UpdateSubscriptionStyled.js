@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import { MyAccountTextDark2, DisabledInputColor } from 'styles/variables';
 import { mediaFrom, media } from 'styles/BreakPoints';
 import Card from 'components/Card';
-import Footer from 'components/Footer/Footer';
+import Footer from 'components/Footer';
 
 export const SurveyCard = styled(Card)`
   min-height: 500px;

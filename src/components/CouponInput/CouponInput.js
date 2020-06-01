@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import couponIcon from 'assets/images/input/coupon.svg';
-import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from '../Input';
-// import Button from '../Button';
+import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
+import Loader from 'components/Loader';
 import {
   CouponInputWrapperStyled,
   InputComponentStyled,
@@ -11,7 +11,6 @@ import {
   InputElementStyled,
   ButtonStyled
 } from './CouponInputStyled';
-import Loader from '../Loader';
 
 const FADE_OUT_DELAY = 5000;
 

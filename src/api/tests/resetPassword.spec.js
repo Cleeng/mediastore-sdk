@@ -1,4 +1,4 @@
-import resetPassword from './resetPassword';
+import resetPassword from 'api/Auth/resetPassword';
 
 describe('resetPassword', () => {
   it('calls remote endpoint', done => {

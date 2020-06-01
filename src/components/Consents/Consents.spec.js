@@ -1,9 +1,9 @@
 import { shallow, mount } from 'enzyme';
 import React from 'react';
-import Loader from '../Loader';
-import Checkbox from '../Checkbox';
+import Checkbox from 'components/Checkbox';
+import Loader from 'components/Loader';
+import getConsentsRequest from 'api/Publisher/getConsents';
 import ConsentsComponent from './Consents';
-import getConsentsRequest from '../../api/getConsents';
 import { ConsentsErrorStyled } from './ConsentsStyled';
 import 'jest-styled-components';
 
@@ -36,7 +36,7 @@ const mockConsentsLabelsAfterRegexWithoutTags = ['No tags'];
 
 const mockPublisherId = '123456789';
 
-jest.mock('../../api/getConsents');
+jest.mock('api/Publisher/getConsents');
 const mockConsentsFetch = jest.fn();
 
 describe('<Consents/>', () => {

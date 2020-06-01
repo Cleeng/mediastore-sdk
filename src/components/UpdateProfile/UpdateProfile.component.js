@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
+import MyAccountHeading from 'components/MyAccountHeading';
 import ProfileDetails from 'components/ProfileDetails';
 import Password from 'components/Password';
 import PropTypes from 'prop-types';
 import { getCustomer } from 'api';
-import MyAccountError from 'components/MyAccountError/MyAccountError';
-import MyAccountConsents from 'components/MyAccountConsents/MyAccountConsents';
+import MyAccountError from 'components/MyAccountError';
+import MyAccountConsents from 'components/MyAccountConsents';
 import { WrapStyled } from './UpdateProfileStyled';
 
 class UpdateProfile extends Component {

@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import Loader from 'components/Loader';
-import submitConsents from 'api/submitConsents';
-import labeling from '../../containers/labeling';
+import submitConsents from 'api/Customer/submitConsents';
+import labeling from 'containers/labeling';
 import {
   ButtonStyled,
   CheckboxStyled,

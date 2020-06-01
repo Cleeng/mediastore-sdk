@@ -2,12 +2,12 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
+import MyAccountHeading from 'components/MyAccountHeading';
 import CurrentPlan from 'components/CurrentPlan';
-import getCustomerSubscriptionsRequest from 'api/getCustomerSubscriptions';
+import getCustomerSubscriptionsRequest from 'api/Customer/getCustomerSubscriptions';
 import { PurePlanDetails } from './PlanDetails.component';
 
-jest.mock('../../api/getCustomerSubscriptions');
+jest.mock('api/Customer/getCustomerSubscriptions');
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
 ));

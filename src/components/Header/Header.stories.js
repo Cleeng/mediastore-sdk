@@ -5,7 +5,7 @@ import { withKnobs } from '@storybook/addon-knobs';
 import StoryRouter from 'storybook-react-router';
 import 'styles/index.scss';
 import Logout from 'components/Logout/Logout';
-import BackButton from 'components/BackButton/BackButton';
+import BackButton from 'components/BackButton';
 import Header from './Header';
 
 storiesOf('Checkout/Header', module)

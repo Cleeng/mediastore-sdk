@@ -1,7 +1,7 @@
-import loginCustomer from './loginCustomer';
+import registerCustomer from 'api/Auth/registerCustomer';
 
-describe('loginCustomer', () => {
-  it('login user on call', done => {
+describe('registerCustomer', () => {
+  it('register user on call', done => {
     const mockResponseData = {
       status: 200,
       responseData: { jwt: 'jvbreigburtij' }
@@ -16,7 +16,7 @@ describe('loginCustomer', () => {
         })
     );
 
-    loginCustomer().then(res => {
+    registerCustomer().then(res => {
       expect(res).toEqual(mockResponseData);
       done();
     });
@@ -31,7 +31,7 @@ describe('loginCustomer', () => {
         })
     );
 
-    loginCustomer().then(res => {
+    registerCustomer().then(res => {
       expect(res).toBe(mockError);
       done();
     });

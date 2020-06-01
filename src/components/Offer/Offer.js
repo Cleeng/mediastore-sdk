@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import CouponInput from 'components/CouponInput/CouponInput';
+import CouponInput from 'components/CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
-import Payment from 'components/Payment/Payment';
-
-import Logout from 'components/Logout/Logout';
+import Payment from 'components/Payment';
+import Logout from 'components/Logout';
+import Header from 'components/Header';
+import Footer from 'components/Footer';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
@@ -27,8 +28,6 @@ import {
   StyledPriceWrapper,
   StyledOfferCouponWrapper
 } from './OfferStyled';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 
 class Offer extends Component {
   constructor(props) {

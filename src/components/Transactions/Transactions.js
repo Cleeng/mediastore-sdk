@@ -3,11 +3,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import Loader from 'components/Loader/Loader';
+import Loader from 'components/Loader';
 import Card from 'components/Card';
 import { dateFormat } from 'components/CurrentPlan/helpers';
-import MyAccountError from 'components/MyAccountError/MyAccountError';
-import Button from 'components/Button/Button';
+import MyAccountError from 'components/MyAccountError';
+import Button from 'components/Button';
 import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
 import {
   WrapStyled,

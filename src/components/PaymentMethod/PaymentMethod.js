@@ -1,12 +1,10 @@
 /* eslint-disable no-nested-ternary */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-
 import labeling from 'containers/labeling';
-import MyAccountError from 'components/MyAccountError/MyAccountError';
-import Loader from 'components/Loader/Loader';
+import MyAccountError from 'components/MyAccountError';
+import Loader from 'components/Loader';
 import { CardTypesIcons } from './PaymentMethod.const';
 import {
   WrapStyled,

@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import Button from 'components/Button/Button';
+import Button from 'components/Button';
 import { mountComponentHelper } from 'test/testComponentHelper';
 import ThankYouPage from './ThankYouPage';
 

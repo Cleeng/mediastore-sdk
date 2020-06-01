@@ -1,22 +1,22 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReCAPTCHA from 'react-google-recaptcha';
-import loginCustomer from '../../api/loginCustomer';
+import Loader from 'components/Loader';
+import loginCustomer from 'api/Auth/loginCustomer';
+import Auth from 'services/auth';
+import getCustomerLocales from 'api/Customer/getCustomerLocales';
+import checkCaptcha from 'api/Auth/checkCaptcha';
+import Button from 'components/Button';
+import EmailInput from 'components/EmailInput';
+import PasswordInput from 'components/PasswordInput';
+import validateEmailField from 'components/EmailInput/EmailHelper';
+import { validatePasswordField } from 'components/PasswordInput/PasswordHelper';
 import {
   FromStyled,
   FormErrorStyled,
   StyledRecaptcha,
   StyledErrorDiv
 } from './LoginStyled';
-import Loader from '../Loader/Loader';
-import Button from '../Button/Button';
-import EmailInput from '../EmailInput/EmailInput';
-import PasswordInput from '../PasswordInput/PasswordInput';
-import validateEmailField from '../EmailInput/EmailHelper';
-import { validatePasswordField } from '../PasswordInput/PasswordHelper';
-import Auth from '../../services/auth';
-import getCustomerLocales from '../../api/getCustomerLocales';
-import checkCaptcha from '../../api/checkCaptcha';
 
 class LoginForm extends Component {
   constructor(props) {

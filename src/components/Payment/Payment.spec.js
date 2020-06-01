@@ -1,10 +1,10 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import Button from 'components/Button/Button';
+import Button from 'components/Button';
 import Adyen from 'components/Adyen';
+import { submitPayment, getPaymentMethods, updateOrder } from 'api';
 import Payment from './Payment';
 import { PaymentErrorStyled } from './PaymentStyled';
-import { submitPayment, getPaymentMethods, updateOrder } from '../../api';
 
 const mockPaymentMethods = {
   responseData: {

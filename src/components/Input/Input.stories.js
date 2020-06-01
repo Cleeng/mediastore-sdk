@@ -6,7 +6,6 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import { State, Store } from '@sambego/storybook-state';
 import 'styles/index.scss';
 import Input from './Input';
-import '../../styles/index.scss';
 
 const wrapperState = new Store({
   value: ''

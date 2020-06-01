@@ -3,8 +3,8 @@ import React from 'react';
 import PublicRoute from 'services/publicRoute';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
+import Login from 'components/LoginPage';
 import AuthRequest from '../auth';
-import Login from '../../components/LoginPage';
 
 jest.mock('../auth');
 

@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
+import { getCustomer } from 'api';
 import { PureUpdateProfile } from './UpdateProfile.component';
-import { getCustomer } from '../../api';
 
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />

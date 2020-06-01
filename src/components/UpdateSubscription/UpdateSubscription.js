@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
-import updateSubscription from 'api/updateSubscription';
+import updateSubscription from 'api/Customer/updateSubscription';
 import serverIcon from 'assets/images/errors/sad_server.svg';
-import labeling from '../../containers/labeling';
-import { dateFormat } from '../CurrentPlan/helpers';
+import labeling from 'containers/labeling';
+import { dateFormat } from 'components/CurrentPlan/helpers';
 import {
   SurveyCard,
   WrapperStyled,

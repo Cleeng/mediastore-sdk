@@ -1,17 +1,17 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import EmailInput from '../EmailInput/EmailInput';
+import loginCustomerRequest from 'api/Auth/loginCustomer';
+import getLocalesRequest from 'api/Customer/getCustomerLocales';
+import checkCaptchaRequest from 'api/Auth/checkCaptcha';
+
+import Auth from 'services/auth';
+import PasswordInput from 'components/PasswordInput';
+import EmailInput from 'components/EmailInput';
 import LoginForm from './LoginForm';
-import PasswordInput from '../PasswordInput/PasswordInput';
-import loginCustomerRequest from '../../api/loginCustomer';
-import getLocalesRequest from '../../api/getCustomerLocales';
-import checkCaptchaRequest from '../../api/checkCaptcha';
 
-import Auth from '../../services/auth';
-
-jest.mock('../../api/loginCustomer');
-jest.mock('../../api/getCustomerLocales');
-jest.mock('../../api/checkCaptcha');
+jest.mock('api/Auth/loginCustomer');
+jest.mock('api/Customer/getCustomerLocales');
+jest.mock('api/Auth/checkCaptcha');
 
 const mockLoginFetch = jest.fn();
 const mockGetLocalesFetch = jest.fn();

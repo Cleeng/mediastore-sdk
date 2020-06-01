@@ -4,10 +4,10 @@ import PrivateRoute from 'services/privateRoute';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
 import MyAccount from 'containers/MyAccount/MyAccount.container';
-import Auth from '../auth';
-import ThankYouPage from '../../components/ThankYouPage/ThankYouPage';
+import ThankYouPage from 'components/ThankYouPage/ThankYouPage';
+import Auth from 'services/auth';
 
-jest.mock('../auth');
+jest.mock('services/auth');
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
 ));

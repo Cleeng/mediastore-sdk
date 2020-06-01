@@ -5,8 +5,8 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import { action } from '@storybook/addon-actions';
 import StoryRouter from 'storybook-react-router';
 import Login from './Login';
-import '../../styles/index.scss';
-import '../../i18NextInit';
+import 'styles/index.scss';
+import 'i18NextInit';
 
 storiesOf('Common/LoginPage', module)
   .addDecorator(withKnobs)

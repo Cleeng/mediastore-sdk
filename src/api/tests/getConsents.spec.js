@@ -1,4 +1,4 @@
-import getConsents from './getConsents';
+import getConsents from 'api/Publisher/getConsents';
 
 describe('getConsents', () => {
   it('fetch broadcaster consents on call', done => {
