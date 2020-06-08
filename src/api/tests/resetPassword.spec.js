@@ -57,12 +57,7 @@ describe('resetPassword', () => {
     const mockOfferId = 'mock-offer-id';
     const mockEmail = 'mock-email';
     const mockError = 'mock-error';
-    jest.spyOn(global, 'fetch').mockImplementation(
-      () =>
-        new Promise((resolve, reject) => {
-          reject(new Error(mockError));
-        })
-    );
+    jest.spyOn(global, 'fetch').mockRejectedValue(new Error(mockError));
 
     resetPassword(mockOfferId, mockEmail).then(res => {
       const { errors } = res;

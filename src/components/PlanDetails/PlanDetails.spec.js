@@ -47,20 +47,17 @@ const showSurveyMock = jest.fn();
 const hideSurveyMock = jest.fn();
 const setUpdateActionMock = jest.fn();
 const updateListMock = jest.fn();
-const getCustomerSubscriptionsMock = jest.fn();
 
 describe('<PlanDetails/>', () => {
   afterEach(() => jest.clearAllMocks());
   describe('@renders', () => {
     it('should render initial state', () => {
-      getCustomerSubscriptionsRequest.mockImplementationOnce(
-        getCustomerSubscriptionsMock.mockResolvedValue({
-          responseData: {
-            paymentDetails: correctData.paymentDetails
-          },
-          errors: []
-        })
-      );
+      getCustomerSubscriptionsRequest.mockResolvedValue({
+        responseData: {
+          paymentDetails: correctData.paymentDetails
+        },
+        errors: []
+      });
       const wrapper = shallow(
         <PurePlanDetails
           setCurrentPlan={setCurrentPlanMock}
@@ -89,12 +86,10 @@ describe('<PlanDetails/>', () => {
       expect(wrapper.instance().fetchSubscriptions).toHaveBeenCalled();
     });
     it('should set state when fetchSubscriptions return error', done => {
-      getCustomerSubscriptionsRequest.mockImplementationOnce(
-        getCustomerSubscriptionsMock.mockResolvedValue({
-          responseData: {},
-          errors: ['error']
-        })
-      );
+      getCustomerSubscriptionsRequest.mockResolvedValue({
+        responseData: {},
+        errors: ['error']
+      });
       const wrapper = shallow(
         <PurePlanDetails
           setCurrentPlan={setCurrentPlanMock}
@@ -112,9 +107,7 @@ describe('<PlanDetails/>', () => {
       });
     });
     it('should catch error when fetchSubscriptions fail', done => {
-      getCustomerSubscriptionsRequest.mockImplementationOnce(
-        getCustomerSubscriptionsMock.mockRejectedValue(new Error('error'))
-      );
+      getCustomerSubscriptionsRequest.mockRejectedValue(new Error('error'));
       const wrapper = shallow(
         <PurePlanDetails
           setCurrentPlan={setCurrentPlanMock}

@@ -12,8 +12,6 @@ import RegisterForm from './RegisterForm';
 jest.mock('api/Auth/registerCustomer');
 jest.mock('api/Customer/getCustomerLocales');
 jest.mock('api/Customer/submitConsents');
-const mockRegisterFetch = jest.fn();
-const mockLocalesFetch = jest.fn();
 const mockInputValue = 'MOCK_INPUT_VALUE11';
 const mockEmailValue = 'mockmail@mock.com';
 const mockNotValidEmail = 'mock';
@@ -176,20 +174,16 @@ describe('RegisterForm', () => {
     });
 
     it('should set general error when request failed', done => {
-      getCustomerLocalesRequest.mockImplementationOnce(
-        mockLocalesFetch.mockResolvedValue({
-          responseData: {
-            locale: 'pl_PL',
-            country: 'PL',
-            currency: 'EUR'
-          }
-        })
-      );
-      registerCustomerRequest.mockImplementationOnce(
-        mockRegisterFetch.mockResolvedValue({
-          status: 429
-        })
-      );
+      getCustomerLocalesRequest.mockResolvedValue({
+        responseData: {
+          locale: 'pl_PL',
+          country: 'PL',
+          currency: 'EUR'
+        }
+      });
+      registerCustomerRequest.mockResolvedValue({
+        status: 429
+      });
 
       const wrapper = shallow(
         <RegisterForm
@@ -215,9 +209,7 @@ describe('RegisterForm', () => {
     });
 
     it('should set general error when getLocales failed', done => {
-      getCustomerLocalesRequest.mockImplementationOnce(
-        mockLocalesFetch.mockResolvedValue({})
-      );
+      getCustomerLocalesRequest.mockResolvedValue({});
       const wrapper = shallow(
         <RegisterForm
           onRegistrationComplete={onSubmitMock}
@@ -242,23 +234,19 @@ describe('RegisterForm', () => {
     });
 
     it('should call onSubmit cb when fields valid', done => {
-      getCustomerLocalesRequest.mockImplementationOnce(
-        mockLocalesFetch.mockResolvedValue({
-          responseData: {
-            locale: 'pl_PL',
-            country: 'PL',
-            currency: 'EUR'
-          }
-        })
-      );
-      registerCustomerRequest.mockImplementationOnce(
-        mockRegisterFetch.mockResolvedValue({
-          status: 200,
-          responseData: {
-            jwt: jwtMock
-          }
-        })
-      );
+      getCustomerLocalesRequest.mockResolvedValue({
+        responseData: {
+          locale: 'pl_PL',
+          country: 'PL',
+          currency: 'EUR'
+        }
+      });
+      registerCustomerRequest.mockResolvedValue({
+        status: 200,
+        responseData: {
+          jwt: jwtMock
+        }
+      });
 
       const wrapper = shallow(<RegisterForm offerId="S705970293_NL" />);
       const instance = wrapper.instance();
@@ -296,20 +284,16 @@ describe('RegisterForm', () => {
     });
 
     it('should set general error when customer already exists', done => {
-      getCustomerLocalesRequest.mockImplementationOnce(
-        mockLocalesFetch.mockResolvedValue({
-          responseData: {
-            locale: 'pl_PL',
-            country: 'PL',
-            currency: 'EUR'
-          }
-        })
-      );
-      registerCustomerRequest.mockImplementationOnce(
-        mockRegisterFetch.mockResolvedValue({
-          status: 422
-        })
-      );
+      getCustomerLocalesRequest.mockResolvedValue({
+        responseData: {
+          locale: 'pl_PL',
+          country: 'PL',
+          currency: 'EUR'
+        }
+      });
+      registerCustomerRequest.mockResolvedValue({
+        status: 422
+      });
       const wrapper = shallow(<RegisterForm offerId="S705970293_NL" />);
       const instance = wrapper.instance();
 

@@ -90,7 +90,6 @@ describe('<OfferContainer/>', () => {
   });
   afterEach(() => {
     jest.clearAllMocks();
-    localStorage.setItem.mockRestore();
   });
 
   localStorage.setItem('CLEENG_AUTH_TOKEN', jwtMock);

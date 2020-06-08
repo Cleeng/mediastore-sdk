@@ -13,14 +13,9 @@ describe('getConsents', () => {
         required: true
       }
     };
-    jest.spyOn(global, 'fetch').mockImplementation(
-      async () =>
-        new Promise(resolve => {
-          resolve({
-            json: () => mockResponseData
-          });
-        })
-    );
+    jest
+      .spyOn(global, 'fetch')
+      .mockResolvedValue({ json: () => mockResponseData });
 
     getConsents().then(res => {
       expect(res).toEqual(mockResponseData);
@@ -29,13 +24,13 @@ describe('getConsents', () => {
   });
 
   it('fails on remote call error', done => {
-    jest.spyOn(global, 'fetch').mockImplementation(
-      () =>
-        new Promise((resolve, reject) => {
-          reject();
-        })
-    );
+    const mockError = new Error('error');
+    const mockFetch = jest.spyOn(global, 'fetch').mockRejectedValue(mockError);
 
-    getConsents().catch(done);
+    getConsents().catch(err => {
+      expect(mockFetch).toHaveBeenCalled();
+      expect(err).toEqual(mockError);
+      done();
+    });
   });
 });

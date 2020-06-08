@@ -13,10 +13,6 @@ jest.mock('api/Customer/submitConsents');
 jest.mock('api/Customer/getCustomerConsents');
 jest.mock('api/Auth/resetPassword');
 
-const submitConsentsMock = jest.fn();
-const getCustomerConsentsMock = jest.fn();
-const resetPasswordMock = jest.fn();
-
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
 ));
@@ -177,18 +173,14 @@ describe('<Popup/>', () => {
           date: 1589366394
         }
       ];
-      submitConsentsRequest.mockImplementationOnce(
-        submitConsentsMock.mockResolvedValue({
-          responseData: {},
-          errors: []
-        })
-      );
-      getCustomerConsentsRequest.mockImplementationOnce(
-        getCustomerConsentsMock.mockResolvedValue({
-          responseData: { consents: changedConsent },
-          errors: []
-        })
-      );
+      submitConsentsRequest.mockResolvedValue({
+        responseData: {},
+        errors: []
+      });
+      getCustomerConsentsRequest.mockResolvedValue({
+        responseData: { consents: changedConsent },
+        errors: []
+      });
       const wrapper = mount(
         <PurePopup
           setConsents={setConsentsMock}
@@ -208,7 +200,7 @@ describe('<Popup/>', () => {
       expect(wrapper.state('allowSubmitConsents')).toEqual(true);
       wrapper.find('button').simulate('click');
       setImmediate(() => {
-        expect(submitConsentsMock).toHaveBeenCalledWith(
+        expect(submitConsentsRequest).toHaveBeenCalledWith(
           [],
           [],
           [
@@ -219,18 +211,16 @@ describe('<Popup/>', () => {
             }
           ]
         );
-        expect(getCustomerConsentsMock).toHaveBeenCalled();
+        expect(getCustomerConsentsRequest).toHaveBeenCalled();
         expect(setConsentsMock).toHaveBeenCalledWith(changedConsent);
         done();
       });
     });
     it('should call resetpassword on click reset password button', done => {
-      resetPasswordRequest.mockImplementationOnce(
-        resetPasswordMock.mockResolvedValue({
-          responseData: {},
-          errors: []
-        })
-      );
+      resetPasswordRequest.mockResolvedValue({
+        responseData: {},
+        errors: []
+      });
       const wrapper = mount(
         <PurePopup
           setConsents={setConsentsMock}

@@ -51,6 +51,7 @@ class UpdateProfile extends Component {
       userProfile: { user, consents, consentsError },
       setConsents,
       showPopup,
+      setCurrentUser,
       t
     } = this.props;
     return (
@@ -65,6 +66,7 @@ class UpdateProfile extends Component {
               lastName={user ? user.lastName : ''}
               email={user ? user.email : ''}
               isLoading={isUserDetailsLoading}
+              setCurrentUser={setCurrentUser}
             />
             <MyAccountHeading text={t('Password')} />
             <Password showPopup={showPopup} />

@@ -1,15 +1,10 @@
 import updateOrder from 'api/Offer/updateOrder';
 
 describe('updateOrder', () => {
-  beforeEach(() => {
-    jest.spyOn(Storage.prototype, 'setItem');
-  });
-  afterEach(() => {
-    localStorage.setItem.mockRestore();
-  });
   it('calls remote endpoint with authorization token', done => {
     const mockToken = 'TOKEN';
     const mockResponse = { foo: 'ok' };
+    jest.spyOn(Storage.prototype, 'setItem');
 
     jest.spyOn(global, 'fetch').mockImplementation(
       async (url, { headers: { Authorization } }) =>
@@ -32,15 +27,12 @@ describe('updateOrder', () => {
   });
 
   it('fails on remote call error', done => {
-    const mockFetch = jest.spyOn(global, 'fetch').mockImplementation(
-      () =>
-        new Promise((resolve, reject) => {
-          reject();
-        })
-    );
+    const mockError = new Error('error');
+    const mockFetch = jest.spyOn(global, 'fetch').mockRejectedValue(mockError);
 
-    updateOrder().catch(() => {
+    updateOrder().catch(err => {
       expect(mockFetch).toHaveBeenCalled();
+      expect(err).toEqual(mockError);
       done();
     });
   });

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { ErrorWrapper } from 'components/Input/InputStyled';
 import {
   WrapStyled,
   InputElementWrapperStyled,
@@ -23,16 +24,20 @@ class MyAccountInput extends Component {
       label,
       onChange,
       onSubmit,
-      disabled
+      disabled,
+      hideInput,
+      error,
+      onBlur
     } = this.props;
 
     return (
-      <WrapStyled>
+      <WrapStyled hideInput={hideInput}>
         <InputElementWrapperStyled>
           <InputElementLabelStyled htmlFor={id}>
             {label}
           </InputElementLabelStyled>
           <InputElementStyled
+            error={error}
             id={id}
             placeholder={placeholder}
             type={type}
@@ -40,7 +45,11 @@ class MyAccountInput extends Component {
             disabled={disabled}
             onSubmit={onSubmit}
             onChange={onChange}
+            onBlur={onBlur}
           />
+          <ErrorWrapper id={`${placeholder}-desc`} isMyAccount>
+            {error}
+          </ErrorWrapper>
         </InputElementWrapperStyled>
       </WrapStyled>
     );
@@ -57,7 +66,10 @@ MyAccountInput.propTypes = {
   label: PropTypes.string,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  hideInput: PropTypes.bool,
+  error: PropTypes.string,
+  onBlur: PropTypes.func
 };
 
 MyAccountInput.defaultProps = {
@@ -68,5 +80,8 @@ MyAccountInput.defaultProps = {
   label: '',
   onChange: () => {},
   onSubmit: () => {},
-  disabled: false
+  onBlur: () => {},
+  disabled: false,
+  hideInput: false,
+  error: ''
 };

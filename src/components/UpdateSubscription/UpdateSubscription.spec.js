@@ -7,7 +7,6 @@ import { PureUpdateSubscription } from './UpdateSubscription';
 import { HeaderStyled, SubTitleStyled } from './UpdateSubscriptionStyled';
 
 jest.mock('api/Customer/updateSubscription');
-const updateSubscriptionMock = jest.fn();
 const hideSurveyMock = jest.fn();
 const updateListMock = jest.fn();
 const actionUnsubscribeMock = 'unsubscribe';
@@ -167,12 +166,10 @@ describe('<UpdateSubscription/>', () => {
     describe('@functions', () => {
       describe('unsubscribe', () => {
         it('should change layout and switch off loader if request success', done => {
-          updateSubscriptionRequest.mockImplementationOnce(
-            updateSubscriptionMock.mockResolvedValue({
-              responseData: {},
-              errors: []
-            })
-          );
+          updateSubscriptionRequest.mockResolvedValue({
+            responseData: {},
+            errors: []
+          });
           const wrapper = shallow(
             <PureUpdateSubscription
               hideSurvey={hideSurveyMock}
@@ -192,12 +189,10 @@ describe('<UpdateSubscription/>', () => {
           });
         });
         it('should set error if request returns errors', done => {
-          updateSubscriptionRequest.mockImplementationOnce(
-            updateSubscriptionMock.mockResolvedValue({
-              responseData: {},
-              errors: ['error']
-            })
-          );
+          updateSubscriptionRequest.mockResolvedValue({
+            responseData: {},
+            errors: ['error']
+          });
           const wrapper = shallow(
             <PureUpdateSubscription
               hideSurvey={hideSurveyMock}
@@ -217,9 +212,7 @@ describe('<UpdateSubscription/>', () => {
           });
         });
         it('should set error if request fail', done => {
-          updateSubscriptionRequest.mockImplementationOnce(
-            updateSubscriptionMock.mockRejectedValue(new Error('error'))
-          );
+          updateSubscriptionRequest.mockRejectedValue(new Error('error'));
           const wrapper = shallow(
             <PureUpdateSubscription
               hideSurvey={hideSurveyMock}
@@ -241,12 +234,10 @@ describe('<UpdateSubscription/>', () => {
       });
       describe('resubscribe', () => {
         it('should change layout and switch off loader if request success', done => {
-          updateSubscriptionRequest.mockImplementationOnce(
-            updateSubscriptionMock.mockResolvedValue({
-              responseData: {},
-              errors: []
-            })
-          );
+          updateSubscriptionRequest.mockResolvedValue({
+            responseData: {},
+            errors: []
+          });
           const wrapper = shallow(
             <PureUpdateSubscription
               hideSurvey={hideSurveyMock}
@@ -265,12 +256,10 @@ describe('<UpdateSubscription/>', () => {
           });
         });
         it('should set error if request returns errors', done => {
-          updateSubscriptionRequest.mockImplementationOnce(
-            updateSubscriptionMock.mockResolvedValue({
-              responseData: {},
-              errors: ['error']
-            })
-          );
+          updateSubscriptionRequest.mockResolvedValue({
+            responseData: {},
+            errors: ['error']
+          });
           const wrapper = shallow(
             <PureUpdateSubscription
               hideSurvey={hideSurveyMock}
@@ -289,9 +278,7 @@ describe('<UpdateSubscription/>', () => {
           });
         });
         it('should set error if request fail', done => {
-          updateSubscriptionRequest.mockImplementationOnce(
-            updateSubscriptionMock.mockResolvedValue(new Error('error'))
-          );
+          updateSubscriptionRequest.mockResolvedValue(new Error('error'));
           const wrapper = shallow(
             <PureUpdateSubscription
               hideSurvey={hideSurveyMock}
