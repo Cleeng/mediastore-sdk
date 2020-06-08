@@ -25,10 +25,11 @@ class Auth {
     history.push(redirectURL);
   }
 
-  logout(isMyAccount = false) {
+  logout(isMyAccount = false, cb = () => {}, args = []) {
     this.isAuthenticated = false;
     localStorage.removeItem('CLEENG_AUTH_TOKEN');
     localStorage.removeItem('CLEENG_ORDER_ID');
+    cb.apply(this, args);
     history.push(
       isMyAccount ? this.myAccount.loginPage : this.checkout.loginPage
     );

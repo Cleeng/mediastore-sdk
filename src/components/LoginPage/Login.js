@@ -25,7 +25,8 @@ class Login extends Component {
     this.state = {
       offerId: '',
       publisherId: '',
-      isOfferError: false
+      isOfferError: false,
+      emailChanged: false
     };
   }
 
@@ -33,6 +34,11 @@ class Login extends Component {
     const { urlProps } = this.props;
     saveOfferId(urlProps.location, this.setOfferId);
     savePublisherId(urlProps.location, this.setPublisherId);
+    if (urlProps.location.search.includes('emailChanged=true')) {
+      this.setState({
+        emailChanged: true
+      });
+    }
     Auth.isLogged();
   }
 
@@ -43,7 +49,7 @@ class Login extends Component {
   setOfferError = value => this.setState({ isOfferError: value });
 
   render() {
-    const { isOfferError, offerId, publisherId } = this.state;
+    const { isOfferError, offerId, publisherId, emailChanged } = this.state;
     const { isMyAccount, t } = this.props;
     return isOfferError ? (
       <ErrorPage
@@ -60,6 +66,7 @@ class Login extends Component {
             publisherId={publisherId}
             setOfferError={this.setOfferError}
             isMyAccount={isMyAccount}
+            emailChanged={emailChanged}
           />
           {!isMyAccount && (
             <>
