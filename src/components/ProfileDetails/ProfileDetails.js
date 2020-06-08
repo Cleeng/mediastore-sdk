@@ -110,7 +110,7 @@ class ProfileDetails extends Component {
         });
         if (response.errors.length) {
           const errorMsg = response.errors[0];
-          const isEmailError = errorMsg.includes('e-mail');
+          const isEmailError = errorMsg.includes('mail');
           const isPasswordError = errorMsg.includes('confirmationPassword');
           this.setState({
             errors: {
@@ -126,15 +126,11 @@ class ProfileDetails extends Component {
             isSectionDisabled: true
           });
           if (shouldLogOut) {
-            Auth.logout(true, this.redirectWithMessage);
+            Auth.logout(true, '?emailChanged=true');
           }
         }
       });
     }
-  };
-
-  redirectWithMessage = () => {
-    window.location = '/my-account/login?emailChanged=true';
   };
 
   areNamesValid = () => {

@@ -25,13 +25,14 @@ class Auth {
     history.push(redirectURL);
   }
 
-  logout(isMyAccount = false, cb = () => {}, args = []) {
+  logout(isMyAccount = false, queryParam = '') {
     this.isAuthenticated = false;
     localStorage.removeItem('CLEENG_AUTH_TOKEN');
     localStorage.removeItem('CLEENG_ORDER_ID');
-    cb.apply(this, args);
     history.push(
-      isMyAccount ? this.myAccount.loginPage : this.checkout.loginPage
+      isMyAccount
+        ? this.myAccount.loginPage + queryParam
+        : this.checkout.loginPage
     );
   }
 
