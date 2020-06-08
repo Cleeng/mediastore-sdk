@@ -141,3 +141,13 @@ export const StyledErrorDiv = styled.div`
       top: 17px;
     `}
 `;
+
+export const FormSuccessStyled = styled.h1`
+  color: ${colors.MainColor};
+  position: absolute;
+  top: -25px;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Geomanist';
+`;

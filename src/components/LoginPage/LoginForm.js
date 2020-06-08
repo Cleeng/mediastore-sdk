@@ -15,7 +15,8 @@ import {
   FromStyled,
   FormErrorStyled,
   StyledRecaptcha,
-  StyledErrorDiv
+  StyledErrorDiv,
+  FormSuccessStyled
 } from './LoginStyled';
 
 class LoginForm extends Component {
@@ -32,7 +33,8 @@ class LoginForm extends Component {
       },
       generalError: '',
       showCaptcha: false,
-      processing: false
+      processing: false,
+      hideSuccessMessage: false
     };
     this.recaptchaRef = React.createRef();
   }
@@ -121,7 +123,8 @@ class LoginForm extends Component {
     }
     if (this.validateFields()) {
       this.setState({
-        processing: true
+        processing: true,
+        hideSuccessMessage: true
       });
       const { email, password, captcha } = this.state;
 
@@ -174,12 +177,20 @@ class LoginForm extends Component {
       errors,
       generalError,
       showCaptcha,
-      processing
+      processing,
+      hideSuccessMessage
     } = this.state;
-    const { t } = this.props;
+    const { emailChanged, t } = this.props;
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
-        <FormErrorStyled>{generalError}</FormErrorStyled>
+        {emailChanged && !generalError && !hideSuccessMessage ? (
+          <FormSuccessStyled>
+            {t('Your email has been changed succesfully')}
+          </FormSuccessStyled>
+        ) : (
+          <FormErrorStyled>{generalError}</FormErrorStyled>
+        )}
+
         <EmailInput
           label={t('Email')}
           value={email}
@@ -221,6 +232,7 @@ LoginForm.propTypes = {
   publisherId: PropTypes.string,
   isMyAccount: PropTypes.bool,
   setOfferError: PropTypes.func,
+  emailChanged: PropTypes.bool,
   t: PropTypes.func
 };
 
@@ -229,6 +241,7 @@ LoginForm.defaultProps = {
   publisherId: '',
   isMyAccount: false,
   setOfferError: () => {},
+  emailChanged: false,
   t: k => k
 };
 

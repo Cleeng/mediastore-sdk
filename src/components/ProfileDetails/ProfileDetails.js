@@ -12,6 +12,7 @@ import {
 } from 'components/MyAccountConsents/MyAccountConsentsStyled';
 import validateEmailField from 'components/EmailInput/EmailHelper';
 import updateCustomer from 'api/Customer/updateCustomer';
+import Auth from 'services/auth';
 import { WrapStyled, FormStyled } from './ProfileDetailsStyled';
 
 const InputsData = [
@@ -90,12 +91,13 @@ class ProfileDetails extends Component {
 
   updateProfile = e => {
     e.preventDefault();
+    const { updated } = this.state;
+    const { email, setCurrentUser, t } = this.props;
+    const shouldLogOut = updated.email !== email;
     if (this.areNamesValid() && this.areEmailAndPasswordValid()) {
       this.setState({
         isSubmittingPending: true
       });
-      const { updated } = this.state;
-      const { email, setCurrentUser, t } = this.props;
       updateCustomer({
         firstName: updated.firstName,
         lastName: updated.lastName,
@@ -123,9 +125,16 @@ class ProfileDetails extends Component {
           this.setState({
             isSectionDisabled: true
           });
+          if (shouldLogOut) {
+            Auth.logout(true, this.redirectWithMessage);
+          }
         }
       });
     }
+  };
+
+  redirectWithMessage = () => {
+    window.location = '/my-account/login?emailChanged=true';
   };
 
   areNamesValid = () => {
