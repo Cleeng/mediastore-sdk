@@ -7,14 +7,9 @@ describe('registerCustomer', () => {
       responseData: { jwt: 'jvbreigburtij' }
     };
 
-    jest.spyOn(global, 'fetch').mockImplementation(
-      async () =>
-        new Promise(resolve => {
-          resolve({
-            json: () => mockResponseData
-          });
-        })
-    );
+    jest
+      .spyOn(global, 'fetch')
+      .mockResolvedValue({ json: () => mockResponseData });
 
     registerCustomer().then(res => {
       expect(res).toEqual(mockResponseData);
@@ -24,12 +19,7 @@ describe('registerCustomer', () => {
 
   it('fails on remote call error', done => {
     const mockError = 'mock-error';
-    jest.spyOn(global, 'fetch').mockImplementation(
-      () =>
-        new Promise((resolve, reject) => {
-          reject(mockError);
-        })
-    );
+    jest.spyOn(global, 'fetch').mockRejectedValue(mockError);
 
     registerCustomer().then(res => {
       expect(res).toBe(mockError);

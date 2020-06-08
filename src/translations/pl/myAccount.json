@@ -88,5 +88,12 @@
   "Yes, Reset": "Zresetuj hasło",
   "Email has been sent!": "Email został wysłany!",
   "Please check you inbox and check the Instruction to reset a password": "Sprawdź skrzynkę pocztową aby dokończyc resetowanie hasła.",
-  "Thanks!": "Dzięki!"
+  "Thanks!": "Dzięki!",
+  "Incorect password": "Niepoprawne hasło",
+  "Please enter a valid e-mail address": "Proszę podać poprawy adres e-mail",
+  "Confirmation password is required if you want to change email": "Potwierdzenie hasłem jest wymagane podczas zmiany adresu e-mail",
+  "Confirmation password": "Hasło potwierdzające",
+  "Edit Profile": "Edytuj Profil",
+  "First name can have max 50 characters": "Imię może mieć maksymalnie 50 znaków",
+  "Last name can have max 50 characters": "Nazwisko może mieć maksylnie 50 znaków"
 }

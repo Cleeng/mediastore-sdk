@@ -7,7 +7,6 @@ import { CheckboxStyled, ButtonStyled } from './MyAccountConsentsStyled';
 import { PureMyAccountConsents } from './MyAccountConsents';
 
 jest.mock('api/Customer/submitConsents');
-const submitConsentsMock = jest.fn();
 
 describe('<MyAccountConsents/>', () => {
   afterEach(() => jest.clearAllMocks());
@@ -80,12 +79,10 @@ describe('<MyAccountConsents/>', () => {
       expect(wrapper.state('updatedConsents')).toBe(consentsMock);
     });
     it('should submit consents on click Save button', done => {
-      submitConsentsRequest.mockImplementationOnce(
-        submitConsentsMock.mockResolvedValue({
-          responseData: {},
-          errors: []
-        })
-      );
+      submitConsentsRequest.mockResolvedValue({
+        responseData: {},
+        errors: []
+      });
       const correctPayload = [
         {
           name: 'broadcaster_marketing',
@@ -108,7 +105,11 @@ describe('<MyAccountConsents/>', () => {
         .simulate('click');
       expect(wrapper.state('isSubmittingPending')).toBe(true);
       setImmediate(() => {
-        expect(submitConsentsMock).toHaveBeenCalledWith([], [], correctPayload);
+        expect(submitConsentsRequest).toHaveBeenCalledWith(
+          [],
+          [],
+          correctPayload
+        );
         expect(wrapper.state('isSectionDisabled')).toBe(true);
         expect(wrapper.state('isSubmittingPending')).toBe(false);
         done();

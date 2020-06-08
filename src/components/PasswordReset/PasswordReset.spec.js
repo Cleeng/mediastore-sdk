@@ -36,7 +36,6 @@ const MockEmailValue = 'mock@email.com';
 const MockInvalidEmailValue = 'mock@.com';
 const MockOfferId = '762736382';
 const FuncMock = jest.fn();
-const MockResetPasswordFetch = jest.fn();
 
 describe('PasswordReset', () => {
   beforeEach(() => {
@@ -69,11 +68,9 @@ describe('PasswordReset', () => {
   });
   describe('@onSubmit', () => {
     it('should call onSuccess cb when email valid', done => {
-      ResetPasswordRequest.mockImplementationOnce(
-        MockResetPasswordFetch.mockResolvedValue({
-          errors: []
-        })
-      );
+      ResetPasswordRequest.mockResolvedValue({
+        errors: []
+      });
       const wrapper = mount(
         <PurePasswordReset onSuccess={FuncMock} urlProps={mockUrlProps} />
       );
@@ -92,11 +89,9 @@ describe('PasswordReset', () => {
     });
 
     it('should not call onSuccess cb when email is not correct', done => {
-      ResetPasswordRequest.mockImplementationOnce(
-        MockResetPasswordFetch.mockResolvedValue({
-          errors: MockEmailValue
-        })
-      );
+      ResetPasswordRequest.mockResolvedValue({
+        errors: MockEmailValue
+      });
       const wrapper = mount(
         <PurePasswordReset onSuccess={FuncMock} urlProps={mockUrlProps} />
       );

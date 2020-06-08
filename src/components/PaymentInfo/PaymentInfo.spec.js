@@ -4,7 +4,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
 import listCustomerTransactionsRequest from 'api/Customer/listCustomerTransactions';
-import getPaymentDetailsReguster from 'api/Customer/getPaymentDetails';
+import getPaymentDetailsRequst from 'api/Customer/getPaymentDetails';
 import { PurePaymentInfo } from './PaymentInfo.component';
 
 jest.mock('api/Customer/listCustomerTransactions');
@@ -25,8 +25,6 @@ const setTransactionsListMock = jest.fn();
 const setTransactionsToShowMock = jest.fn();
 const setTransactionsListAsFetchedMock = jest.fn();
 const hideShowMoreButtonMock = jest.fn();
-const getPaymentDetailsMock = jest.fn();
-const listCustomerTransactionsMock = jest.fn();
 const paymentDetailsData = {
   id: 193925086,
   customerId: 280372348,
@@ -64,22 +62,18 @@ describe('<PaymentInfo/>', () => {
   });
   describe('@render', () => {
     it('should fetch data on componentDidMount', done => {
-      getPaymentDetailsReguster.mockImplementationOnce(
-        getPaymentDetailsMock.mockResolvedValue({
-          responseData: {
-            paymentDetails: [paymentDetailsData]
-          },
-          errors: []
-        })
-      );
-      listCustomerTransactionsRequest.mockImplementationOnce(
-        listCustomerTransactionsMock.mockResolvedValue({
-          responseData: {
-            items: [transactionsListObject]
-          },
-          errors: []
-        })
-      );
+      getPaymentDetailsRequst.mockResolvedValue({
+        responseData: {
+          paymentDetails: [paymentDetailsData]
+        },
+        errors: []
+      });
+      listCustomerTransactionsRequest.mockResolvedValue({
+        responseData: {
+          items: [transactionsListObject]
+        },
+        errors: []
+      });
       const wrapper = shallow(
         <PurePaymentInfo
           {...defaultProps}
@@ -111,22 +105,18 @@ describe('<PaymentInfo/>', () => {
         />
       );
       expect(setTransactionsToShowMock).toHaveBeenCalled();
-      expect(getPaymentDetailsMock).not.toHaveBeenCalled();
-      expect(listCustomerTransactionsMock).not.toHaveBeenCalled();
+      expect(getPaymentDetailsRequst).not.toHaveBeenCalled();
+      expect(listCustomerTransactionsRequest).not.toHaveBeenCalled();
     });
     it('should set errors when fetch faild', done => {
-      getPaymentDetailsReguster.mockImplementationOnce(
-        getPaymentDetailsMock.mockResolvedValue({
-          responseData: {},
-          errors: mockError
-        })
-      );
-      listCustomerTransactionsRequest.mockImplementationOnce(
-        listCustomerTransactionsMock.mockResolvedValue({
-          responseData: {},
-          errors: mockError
-        })
-      );
+      getPaymentDetailsRequst.mockResolvedValue({
+        responseData: {},
+        errors: mockError
+      });
+      listCustomerTransactionsRequest.mockResolvedValue({
+        responseData: {},
+        errors: mockError
+      });
       const wrapper = shallow(<PurePaymentInfo {...defaultProps} />);
       setImmediate(() => {
         expect(wrapper.state('paymentDetailsError')).toBe(mockError);
@@ -137,23 +127,18 @@ describe('<PaymentInfo/>', () => {
       });
     });
     it('should catch error when fetchPaymentDetials fail', done => {
-      getPaymentDetailsReguster.mockImplementationOnce(
-        getPaymentDetailsMock.mockRejectedValue(new Error('error'))
-      );
-
-      listCustomerTransactionsRequest.mockImplementationOnce(
-        listCustomerTransactionsMock.mockResolvedValue({
-          responseData: {
-            items: [
-              transactionsListObject,
-              transactionsListObject,
-              transactionsListObject,
-              transactionsListObject
-            ]
-          },
-          errors: []
-        })
-      );
+      getPaymentDetailsRequst.mockRejectedValue(new Error('error'));
+      listCustomerTransactionsRequest.mockResolvedValue({
+        responseData: {
+          items: [
+            transactionsListObject,
+            transactionsListObject,
+            transactionsListObject,
+            transactionsListObject
+          ]
+        },
+        errors: []
+      });
 
       const wrapper = shallow(<PurePaymentInfo {...defaultProps} />);
       setImmediate(() => {
@@ -165,15 +150,11 @@ describe('<PaymentInfo/>', () => {
       });
     });
     it('should catch error when fetchTransactionsList fail', done => {
-      getPaymentDetailsReguster.mockImplementationOnce(
-        getPaymentDetailsMock.mockResolvedValue({
-          responseData: { paymentDetails: [paymentDetailsData] },
-          errors: []
-        })
-      );
-      listCustomerTransactionsRequest.mockImplementationOnce(
-        listCustomerTransactionsMock.mockRejectedValue(new Error('error'))
-      );
+      getPaymentDetailsRequst.mockResolvedValue({
+        responseData: { paymentDetails: [paymentDetailsData] },
+        errors: []
+      });
+      listCustomerTransactionsRequest.mockRejectedValue(new Error('error'));
       const wrapper = shallow(<PurePaymentInfo {...defaultProps} />);
       setImmediate(() => {
         expect(wrapper.state('paymentDetailsError')).toEqual([]);
@@ -184,25 +165,21 @@ describe('<PaymentInfo/>', () => {
       });
     });
     it('should not set transaction list as fetched when it is possible to fetch more items', done => {
-      getPaymentDetailsReguster.mockImplementationOnce(
-        getPaymentDetailsMock.mockResolvedValue({
-          responseData: { paymentDetails: [paymentDetailsData] },
-          errors: []
-        })
-      );
-      listCustomerTransactionsRequest.mockImplementationOnce(
-        listCustomerTransactionsMock.mockResolvedValue({
-          responseData: {
-            items: [
-              transactionsListObject,
-              transactionsListObject,
-              transactionsListObject,
-              transactionsListObject
-            ]
-          },
-          errors: []
-        })
-      );
+      getPaymentDetailsRequst.mockResolvedValue({
+        responseData: { paymentDetails: [paymentDetailsData] },
+        errors: []
+      });
+      listCustomerTransactionsRequest.mockResolvedValue({
+        responseData: {
+          items: [
+            transactionsListObject,
+            transactionsListObject,
+            transactionsListObject,
+            transactionsListObject
+          ]
+        },
+        errors: []
+      });
       shallow(<PurePaymentInfo {...defaultProps} />);
       setImmediate(() => {
         expect(setTransactionsToShowMock).toHaveBeenCalled();
@@ -256,20 +233,18 @@ describe('<PaymentInfo/>', () => {
       expect(setTransactionsToShowMock).toHaveBeenCalled();
     });
     it('should fetch whole transactions list if it was NOT fetched', done => {
-      listCustomerTransactionsRequest.mockImplementationOnce(
-        listCustomerTransactionsMock.mockResolvedValue({
-          responseData: {
-            items: [
-              transactionsListObject,
-              transactionsListObject,
-              transactionsListObject,
-              transactionsListObject,
-              transactionsListObject
-            ]
-          },
-          errors: []
-        })
-      );
+      listCustomerTransactionsRequest.mockResolvedValue({
+        responseData: {
+          items: [
+            transactionsListObject,
+            transactionsListObject,
+            transactionsListObject,
+            transactionsListObject,
+            transactionsListObject
+          ]
+        },
+        errors: []
+      });
       const wrapper = shallow(
         <PurePaymentInfo
           {...defaultProps}
@@ -287,7 +262,7 @@ describe('<PaymentInfo/>', () => {
       );
       wrapper.instance().toggleTransactionsList();
       expect(wrapper.state('isTransactionsItemsLoading')).toBe(true);
-      expect(listCustomerTransactionsMock).toHaveBeenCalled();
+      expect(listCustomerTransactionsRequest).toHaveBeenCalled();
       setImmediate(() => {
         expect(wrapper.state('isTransactionListExpanded')).toBe(true);
         expect(wrapper.state('isTransactionsItemsLoading')).toBe(false);
@@ -305,12 +280,10 @@ describe('<PaymentInfo/>', () => {
       });
     });
     it('should set error in state when listCustomerTransactions fail on click show more button', done => {
-      listCustomerTransactionsRequest.mockImplementationOnce(
-        listCustomerTransactionsMock.mockResolvedValue({
-          responseData: {},
-          errors: mockError
-        })
-      );
+      listCustomerTransactionsRequest.mockResolvedValue({
+        responseData: {},
+        errors: mockError
+      });
       const wrapper = shallow(
         <PurePaymentInfo
           {...defaultProps}
@@ -328,7 +301,7 @@ describe('<PaymentInfo/>', () => {
       );
       wrapper.instance().toggleTransactionsList();
       expect(wrapper.state('isTransactionsItemsLoading')).toBe(true);
-      expect(listCustomerTransactionsMock).toHaveBeenCalled();
+      expect(listCustomerTransactionsRequest).toHaveBeenCalled();
       setImmediate(() => {
         expect(wrapper.state('transactionsError')).toBe(mockError);
         expect(wrapper.state('isTransactionsItemsLoading')).toBe(false);
@@ -339,9 +312,7 @@ describe('<PaymentInfo/>', () => {
     });
 
     it('should catch error when listCustomerTransactions fail on click show more button', done => {
-      listCustomerTransactionsRequest.mockImplementationOnce(
-        listCustomerTransactionsMock.mockRejectedValue(new Error('error'))
-      );
+      listCustomerTransactionsRequest.mockRejectedValue(new Error('error'));
       const wrapper = shallow(
         <PurePaymentInfo
           {...defaultProps}
@@ -359,7 +330,7 @@ describe('<PaymentInfo/>', () => {
       );
       wrapper.instance().toggleTransactionsList();
       expect(wrapper.state('isTransactionsItemsLoading')).toBe(true);
-      expect(listCustomerTransactionsMock).toHaveBeenCalled();
+      expect(listCustomerTransactionsRequest).toHaveBeenCalled();
       setImmediate(() => {
         expect(wrapper.state('transactionsError')).toEqual(['error']);
         expect(wrapper.state('isTransactionsItemsLoading')).toBe(false);

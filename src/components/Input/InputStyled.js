@@ -117,6 +117,14 @@ export const ErrorWrapper = styled.div`
   font-family: 'Geomanist';
   font-size: 13px;
   text-align: left;
+
+  ${props =>
+    props.isMyAccount &&
+    css`
+      position: relative;
+      margin: 5px 0 10px 0;
+      top: unset;
+    `}
 `;
 
 export const StyledPasswordVisibility = styled.img`

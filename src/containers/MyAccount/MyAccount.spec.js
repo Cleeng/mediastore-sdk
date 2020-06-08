@@ -19,9 +19,6 @@ jest.mock('react-i18next', () => ({
     <Component t={k => k} {...props} />
   )
 }));
-const getCustomerSubscriptionsMock = jest.fn();
-const getCustomerMock = jest.fn();
-const getCustomerConsentsMock = jest.fn();
 
 const customerData = {
   id: 338816933,
@@ -123,24 +120,18 @@ describe('<MyAccount/>', () => {
   };
   describe('@renders', () => {
     it('should fetch currentPlan, customer and consents on componentDidMount', done => {
-      getCustomerSubscriptionsRequest.mockImplementationOnce(
-        getCustomerSubscriptionsMock.mockResolvedValue({
-          responseData: subscriptionsData,
-          errors: []
-        })
-      );
-      getCustomerRequest.mockImplementationOnce(
-        getCustomerMock.mockResolvedValue({
-          responseData: customerData,
-          errors: []
-        })
-      );
-      getCustomerConsentsRequest.mockImplementationOnce(
-        getCustomerConsentsMock.mockResolvedValue({
-          responseData: { consents: customerConsents },
-          errors: []
-        })
-      );
+      getCustomerSubscriptionsRequest.mockResolvedValue({
+        responseData: subscriptionsData,
+        errors: []
+      });
+      getCustomerRequest.mockResolvedValue({
+        responseData: customerData,
+        errors: []
+      });
+      getCustomerConsentsRequest.mockResolvedValue({
+        responseData: { consents: customerConsents },
+        errors: []
+      });
       shallow(
         <MyAccount
           {...defaultProps}
@@ -160,12 +151,10 @@ describe('<MyAccount/>', () => {
     });
     it('should store errors if cannot fetch getCustomerSubscriptions', done => {
       const returnedErrors = ['Some error'];
-      getCustomerSubscriptionsRequest.mockImplementationOnce(
-        getCustomerSubscriptionsMock.mockResolvedValue({
-          responseData: {},
-          errors: returnedErrors
-        })
-      );
+      getCustomerSubscriptionsRequest.mockResolvedValue({
+        responseData: {},
+        errors: returnedErrors
+      });
       const wrapper = shallow(
         <MyAccount
           {...defaultProps}
@@ -184,12 +173,10 @@ describe('<MyAccount/>', () => {
     });
     it('should store errors if cannot fetch getCustomer', done => {
       const returnedErrors = ['Some error'];
-      getCustomerRequest.mockImplementationOnce(
-        getCustomerMock.mockResolvedValue({
-          responseData: {},
-          errors: returnedErrors
-        })
-      );
+      getCustomerRequest.mockResolvedValue({
+        responseData: {},
+        errors: returnedErrors
+      });
       const wrapper = shallow(
         <MyAccount
           {...defaultProps}
@@ -205,12 +192,10 @@ describe('<MyAccount/>', () => {
     });
     it('should store errors if cannot fetch getCustomerConsents', done => {
       const returnedErrors = ['Some error'];
-      getCustomerConsentsRequest.mockImplementationOnce(
-        getCustomerConsentsMock.mockResolvedValue({
-          responseData: {},
-          errors: returnedErrors
-        })
-      );
+      getCustomerConsentsRequest.mockResolvedValue({
+        responseData: {},
+        errors: returnedErrors
+      });
       shallow(
         <MyAccount
           {...defaultProps}
@@ -226,9 +211,7 @@ describe('<MyAccount/>', () => {
     });
     it('should setConsentsError if cannot fetch getCustomerConsents', done => {
       const returnedErrors = ['Some error'];
-      getCustomerConsentsRequest.mockImplementationOnce(
-        getCustomerConsentsMock.mockRejectedValue([...returnedErrors])
-      );
+      getCustomerConsentsRequest.mockRejectedValue([...returnedErrors]);
       shallow(
         <MyAccount
           {...defaultProps}
@@ -321,9 +304,6 @@ describe('<MyAccount/>', () => {
         }
       ]
     };
-    afterEach(() => {
-      jest.clearAllMocks();
-    });
     it('should render notCheckedTerms popup', () => {
       const wrapper = shallow(
         <MyAccount

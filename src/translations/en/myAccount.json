@@ -88,5 +88,12 @@
   "Yes, Reset": "Yes, Reset",
   "Email has been sent!": "Email has been sent!",
   "Please check you inbox and check the Instruction to reset a password": "Please check you inbox and check the Instruction to reset a password",
-  "Thanks!": "Thanks!"
+  "Thanks!": "Thanks!",
+  "Incorect password": "Incorect password",
+  "Please enter a valid e-mail address": "Please enter a valid e-mail address",
+  "Confirmation password is required if you want to change email": "Confirmation password is required if you want to change email",
+  "Confirmation password": "Confirmation password",
+  "Edit Profile": "Edit Profile",
+  "First name can have max 50 characters": "First name can have max 50 characters",
+  "Last name can have max 50 characters": "Last name can have max 50 characters"
 }

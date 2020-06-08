@@ -68,8 +68,6 @@ describe('Payment', () => {
   });
   afterEach(() => {
     jest.clearAllMocks();
-    localStorage.setItem.mockRestore();
-    localStorage.getItem.mockRestore();
   });
   it('renders with buttons', () => {
     const wrapper = shallow(<Payment onPaymentComplete={jest.fn()} />);

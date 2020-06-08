@@ -9,14 +9,9 @@ describe('getCustomerLocales', () => {
         currency: 'EUR'
       }
     };
-    jest.spyOn(global, 'fetch').mockImplementationOnce(
-      async () =>
-        new Promise(resolve => {
-          resolve({
-            json: () => mockResponseData
-          });
-        })
-    );
+    jest
+      .spyOn(global, 'fetch')
+      .mockResolvedValue({ json: () => mockResponseData });
 
     getCustomerLocales().then(res => {
       expect(res).toEqual(mockResponseData);
@@ -25,13 +20,13 @@ describe('getCustomerLocales', () => {
   });
 
   it('fails on remote call error', async done => {
-    jest.spyOn(global, 'fetch').mockImplementation(
-      () =>
-        new Promise((resolve, reject) => {
-          reject();
-        })
-    );
+    const mockError = new Error('error');
+    const mockFetch = jest.spyOn(global, 'fetch').mockRejectedValue(mockError);
 
-    getCustomerLocales().catch(done);
+    getCustomerLocales().catch(err => {
+      expect(mockFetch).toHaveBeenCalled();
+      expect(err).toEqual(mockError);
+      done();
+    });
   });
 });

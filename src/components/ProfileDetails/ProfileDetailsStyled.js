@@ -15,3 +15,4 @@ export const MyAccountButtonStyled = styled.div`
     background-color: #4eb7a1;
   }
 `;
+export const FormStyled = styled.form``;

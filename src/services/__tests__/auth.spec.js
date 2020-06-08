@@ -19,10 +19,6 @@ describe('Auth', () => {
   });
   afterEach(() => {
     jest.clearAllMocks();
-    pushSpy.mockClear();
-    localStorage.setItem.mockRestore();
-    localStorage.getItem.mockRestore();
-    localStorage.removeItem.mockRestore();
   });
   describe('@auth status', () => {
     it('should return auth status as not authenticated when jwt is empty', () => {

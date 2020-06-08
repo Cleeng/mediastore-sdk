@@ -1,16 +1,10 @@
 import getOfferDetails from 'api/Customer/getOfferDetails';
 
 describe('getOfferDetails', () => {
-  beforeEach(() => {
-    jest.spyOn(Storage.prototype, 'setItem');
-  });
-  afterEach(() => {
-    localStorage.setItem.mockRestore();
-  });
   it('calls remote endpoint with authorization token', done => {
     const mockToken = 'TOKEN';
     const mockResponseData = { price: 9 };
-
+    jest.spyOn(Storage.prototype, 'setItem');
     jest.spyOn(global, 'fetch').mockImplementation(
       async (url, { headers: { Authorization } }) =>
         new Promise((resolve, reject) => {
@@ -32,13 +26,13 @@ describe('getOfferDetails', () => {
   });
 
   it('fails on remote call error', done => {
-    jest.spyOn(global, 'fetch').mockImplementation(
-      () =>
-        new Promise((resolve, reject) => {
-          reject();
-        })
-    );
+    const mockError = new Error('error');
+    const mockFetch = jest.spyOn(global, 'fetch').mockRejectedValue(mockError);
 
-    getOfferDetails().catch(done);
+    getOfferDetails().catch(err => {
+      expect(mockFetch).toHaveBeenCalled();
+      expect(err).toEqual(mockError);
+      done();
+    });
   });
 });

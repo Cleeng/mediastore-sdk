@@ -7,14 +7,9 @@ describe('checkCaptcha', () => {
         required: false
       }
     };
-    jest.spyOn(global, 'fetch').mockImplementationOnce(
-      async () =>
-        new Promise(resolve => {
-          resolve({
-            json: () => mockResponseData
-          });
-        })
-    );
+    jest
+      .spyOn(global, 'fetch')
+      .mockResolvedValue({ json: () => mockResponseData });
 
     checkCaptcha().then(res => {
       expect(res).toEqual(mockResponseData);
@@ -22,14 +17,14 @@ describe('checkCaptcha', () => {
     });
   });
 
-  it('should fails on remote call error', async done => {
-    jest.spyOn(global, 'fetch').mockImplementation(
-      () =>
-        new Promise((resolve, reject) => {
-          reject();
-        })
-    );
+  it('should fails on remote call error', done => {
+    const mockError = new Error('error');
+    const mockFetch = jest.spyOn(global, 'fetch').mockRejectedValue(mockError);
 
-    checkCaptcha().catch(done);
+    checkCaptcha().catch(err => {
+      expect(mockFetch).toHaveBeenCalled();
+      expect(err).toEqual(mockError);
+      done();
+    });
   });
 });
