@@ -42,11 +42,17 @@ export const PhotoStyled = styled.div`
 `;
 
 export const NameStyled = styled.div`
+  max-width: 100%;
+
+  margin-bottom: 6px;
+
   font-size: 19px;
   line-height: 24px;
   font-weight: 700;
-  margin-bottom: 6px;
   color: ${MyAccountTextDark};
+  text-overflow: ellipsis;
+  overflow: hidden;
+
   ${mediaFrom.small`
     font-size: 24px;
     line-height: 29px;

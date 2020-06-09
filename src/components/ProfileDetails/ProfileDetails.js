@@ -8,7 +8,8 @@ import MyAccountInput from 'components/MyAccountInput';
 import Loader from 'components/Loader';
 import {
   ButtonStyled,
-  ButtonWrapperStyled
+  ButtonWrapperStyled,
+  SuccessMessageStyled
 } from 'components/MyAccountConsents/MyAccountConsentsStyled';
 import validateEmailField from 'components/EmailInput/EmailHelper';
 import updateCustomer from 'api/Customer/updateCustomer';
@@ -59,7 +60,8 @@ class ProfileDetails extends Component {
         confirmationPassword: ''
       },
       isSectionDisabled: true,
-      isSubmittingPending: false
+      isSubmittingPending: false,
+      successMessage: false
     };
   }
 
@@ -118,12 +120,14 @@ class ProfileDetails extends Component {
                 ? t('Incorect password')
                 : '',
               email: isEmailError ? errorMsg : ''
-            }
+            },
+            successMessage: false
           });
         } else {
           setCurrentUser(response.responseData);
           this.setState({
-            isSectionDisabled: true
+            isSectionDisabled: true,
+            successMessage: true
           });
           if (shouldLogOut) {
             Auth.logout(true, '?emailChanged=true');
@@ -202,7 +206,8 @@ class ProfileDetails extends Component {
       updated,
       isSectionDisabled,
       isSubmittingPending,
-      errors
+      errors,
+      successMessage
     } = this.state;
 
     return isLoading ? (
@@ -211,6 +216,11 @@ class ProfileDetails extends Component {
       <WrapStyled>
         <Card>
           <FormStyled onSubmit={this.updateProfile}>
+            {successMessage && (
+              <SuccessMessageStyled>
+                {t('Your profile details have been changed successfully')}
+              </SuccessMessageStyled>
+            )}
             {InputsData.map(input => (
               <MyAccountInput
                 key={input.id}
