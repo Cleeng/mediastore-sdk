@@ -232,8 +232,12 @@ class ProfileDetails extends Component {
                 error={errors[input.id]}
                 onBlur={this[input.onBlur]}
                 type={input.type}
+                name={input.id}
                 hideInput={
                   input.id === 'confirmationPassword' && updated.email === email
+                }
+                autoComplete={
+                  input.id === 'confirmationPassword' ? 'new-password' : 'off'
                 }
               />
             ))}

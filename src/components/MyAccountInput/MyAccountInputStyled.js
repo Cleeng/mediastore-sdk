@@ -19,8 +19,6 @@ export const WrapStyled = styled.div`
     `};
 `;
 
-export const InputElementWrapperStyled = styled.div``;
-
 export const InputElementLabelStyled = styled.label`
   display: block;
   margin-bottom: 12px;
