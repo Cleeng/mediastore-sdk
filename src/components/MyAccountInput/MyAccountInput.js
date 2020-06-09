@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { ErrorWrapper } from 'components/Input/InputStyled';
 import {
   WrapStyled,
-  InputElementWrapperStyled,
   InputElementStyled,
   InputElementLabelStyled
 } from './MyAccountInputStyled';
@@ -27,30 +26,30 @@ class MyAccountInput extends Component {
       disabled,
       hideInput,
       error,
-      onBlur
+      onBlur,
+      name,
+      autoComplete
     } = this.props;
 
     return (
       <WrapStyled hideInput={hideInput}>
-        <InputElementWrapperStyled>
-          <InputElementLabelStyled htmlFor={id}>
-            {label}
-          </InputElementLabelStyled>
-          <InputElementStyled
-            error={error}
-            id={id}
-            placeholder={placeholder}
-            type={type}
-            value={value}
-            disabled={disabled}
-            onSubmit={onSubmit}
-            onChange={onChange}
-            onBlur={onBlur}
-          />
-          <ErrorWrapper id={`${placeholder}-desc`} isMyAccount>
-            {error}
-          </ErrorWrapper>
-        </InputElementWrapperStyled>
+        <InputElementLabelStyled htmlFor={id}>{label}</InputElementLabelStyled>
+        <InputElementStyled
+          error={error}
+          id={id}
+          placeholder={placeholder}
+          type={type}
+          value={value}
+          disabled={disabled}
+          onSubmit={onSubmit}
+          onChange={onChange}
+          onBlur={onBlur}
+          name={name}
+          autoComplete={autoComplete}
+        />
+        <ErrorWrapper id={`${id}-desc`} isMyAccount>
+          {error}
+        </ErrorWrapper>
       </WrapStyled>
     );
   }
@@ -69,7 +68,9 @@ MyAccountInput.propTypes = {
   disabled: PropTypes.bool,
   hideInput: PropTypes.bool,
   error: PropTypes.string,
-  onBlur: PropTypes.func
+  onBlur: PropTypes.func,
+  name: PropTypes.string,
+  autoComplete: PropTypes.string
 };
 
 MyAccountInput.defaultProps = {
@@ -83,5 +84,7 @@ MyAccountInput.defaultProps = {
   onBlur: () => {},
   disabled: false,
   hideInput: false,
-  error: ''
+  error: '',
+  name: '',
+  autoComplete: ''
 };
