@@ -11,7 +11,7 @@ import {
 } from './MyAccountUserInfoStyled';
 
 const MyAccountUserInfo = ({ firstName, lastName, email, subscription }) => {
-  const isNameSetted = firstName && lastName;
+  const isNameSetted = firstName || lastName;
   return (
     <WrapStyled>
       <PhotoStyled />
