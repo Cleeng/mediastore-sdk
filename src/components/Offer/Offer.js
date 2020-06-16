@@ -20,11 +20,11 @@ import {
   StyledTrial,
   StyledPrice,
   StyledTotalWrapper,
-  StyledPriceBeforeWrapper,
   StyledTrialDescription,
   StyledTotalLabel,
   StyledOfferPrice,
-  StyledCouponDiscountWrapper,
+  StyledPriceBoxWrapper,
+  StyledPriceBoxItemWrapper,
   StyledPriceWrapper,
   StyledOfferCouponWrapper
 } from './OfferStyled';
@@ -49,8 +49,9 @@ class Offer extends Component {
         imageUrl
       },
       orderDetails: {
-        priceBreakdown: { offerPrice, discountedPrice, discountAmount },
-        discount: { applied }
+        priceBreakdown: { offerPrice, discountAmount, taxValue },
+        discount: { applied },
+        totalPrice
       },
       couponProps: {
         showMessage,
@@ -64,7 +65,7 @@ class Offer extends Component {
     } = this.props;
     const isCouponApplied = applied;
     const { coupon } = this.state;
-    const finalPrice = applied ? discountedPrice : offerPrice;
+    const finalPrice = totalPrice;
     return (
       <StyledOfferWrapper>
         <Header>
@@ -118,29 +119,37 @@ class Offer extends Component {
                 </StyledOfferCouponWrapper>
               </StyledOfferDetailsAndCoupon>
             </div>
-            <StyledTotalWrapper>
+            <StyledPriceBoxWrapper>
               {isCouponApplied && (
                 <>
-                  <StyledPriceBeforeWrapper>
+                  <StyledPriceBoxItemWrapper>
                     <StyledTotalLabel>{t('Price')}:</StyledTotalLabel>
                     <StyledOfferPrice>
                       {`${customerCurrencySymbol}${offerPrice} `}
                       <span>{t('exVAT')}</span>
                     </StyledOfferPrice>
-                  </StyledPriceBeforeWrapper>
-                  <StyledCouponDiscountWrapper>
+                  </StyledPriceBoxItemWrapper>
+
+                  <StyledPriceBoxItemWrapper>
                     <StyledTotalLabel>{t('Coupon Discount')}</StyledTotalLabel>
                     <StyledOfferPrice>
                       {`${customerCurrencySymbol}${discountAmount}`}
                     </StyledOfferPrice>
-                  </StyledCouponDiscountWrapper>
+                  </StyledPriceBoxItemWrapper>
                 </>
               )}
+              <StyledPriceBoxItemWrapper>
+                <StyledTotalLabel>{t('Applicable Tax')}</StyledTotalLabel>
+                <StyledOfferPrice>
+                  {`${customerCurrencySymbol}${taxValue}`}
+                </StyledOfferPrice>
+              </StyledPriceBoxItemWrapper>
+            </StyledPriceBoxWrapper>
+            <StyledTotalWrapper>
               <StyledPriceWrapper>
                 <StyledTotalLabel>{t('Total')}</StyledTotalLabel>
                 <StyledOfferPrice>
-                  {`${customerCurrencySymbol}${finalPrice} `}
-                  <span>{t('exVAT')}</span>
+                  {`${customerCurrencySymbol}${finalPrice}`}
                 </StyledOfferPrice>
               </StyledPriceWrapper>
             </StyledTotalWrapper>
@@ -170,11 +179,13 @@ Offer.propTypes = {
     priceBreakdown: PropTypes.shape({
       offerPrice: PropTypes.number,
       discountedPrice: PropTypes.number,
-      discountAmount: PropTypes.number
+      discountAmount: PropTypes.number,
+      taxValue: PropTypes.number
     }),
     discount: PropTypes.shape({
       applied: PropTypes.bool
-    })
+    }),
+    totalPrice: PropTypes.number
   }),
   couponProps: PropTypes.shape({
     showMessage: PropTypes.bool,
@@ -192,11 +203,13 @@ Offer.defaultProps = {
     priceBreakdown: {
       offerPrice: 0,
       discountedPrice: 0,
-      discountAmount: 0
+      discountAmount: 0,
+      taxValue: 0
     },
     discount: {
       applied: false
-    }
+    },
+    totalPrice: 0
   },
   couponProps: null,
   t: k => k

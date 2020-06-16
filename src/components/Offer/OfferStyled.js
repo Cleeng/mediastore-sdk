@@ -132,7 +132,6 @@ export const StyledTotalLabel = styled.div`
 
 export const StyledOfferPrice = styled.h3`
   float: right;
-  width: 18%;
 
   & span {
     font-size: 12px;
@@ -153,6 +152,19 @@ export const StyledPrice = styled.div`
   }
 `;
 
+export const StyledPriceBoxWrapper = styled.div`
+  border-width: 1px 0;
+  border-style: solid;
+  border-bottom: 0;
+  border-color: ${colors.MediumGrey};
+`;
+
+export const StyledPriceBoxItemWrapper = styled.div`
+  padding: 10px 20px;
+  font-family: 'Geomanist';
+  font-weight: 400;
+`;
+
 export const StyledTotalWrapper = styled.div`
   background-color: ${colors.LightGrey};
   padding: 20px;
@@ -161,19 +173,6 @@ export const StyledTotalWrapper = styled.div`
   border-color: ${colors.MediumGrey};
   font-family: 'Geomanist';
   font-weight: 400;
-`;
-
-export const StyledPriceBeforeWrapper = styled.div`
-  font-size: 16px;
-  margin-bottom: 11px;
-`;
-
-export const StyledCouponDiscountWrapper = styled.div`
-  font-size: 16px;
-  color: ${colors.MainColor};
-  font-family: 'Geomanist';
-  font-weight: 300;
-  margin-bottom: 14px;
 `;
 
 export const StyledPriceWrapper = styled.div`
