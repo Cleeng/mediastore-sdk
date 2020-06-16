@@ -46,9 +46,19 @@ class Payment extends Component {
     });
     submitPayment(card).then(paymentReponse => {
       if (paymentReponse.errors.length) {
-        this.setState({
-          generalError: 'The payment failed. Please try again.'
-        });
+        const notSupportedMethod = paymentReponse.errors[0].includes(
+          'Payment details are not supported'
+        );
+        if (notSupportedMethod) {
+          this.setState({
+            generalError:
+              'Payment method not supported. Try different payment method'
+          });
+        } else {
+          this.setState({
+            generalError: 'The payment failed. Please try again.'
+          });
+        }
       } else {
         onPaymentComplete();
       }
