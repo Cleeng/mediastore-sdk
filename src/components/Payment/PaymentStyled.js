@@ -31,6 +31,8 @@ export const MethodsWrapperStyled = styled.div`
   align-items: center;
   button {
     flex: 1 0 21%;
+    margin: 0 14px 14px;
+
     :not(:disabled):hover,
     :active,
     :focus {

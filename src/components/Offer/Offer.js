@@ -51,7 +51,8 @@ class Offer extends Component {
       orderDetails: {
         priceBreakdown: { offerPrice, discountAmount, taxValue },
         discount: { applied },
-        totalPrice
+        totalPrice,
+        requiredPaymentDetails
       },
       couponProps: {
         showMessage,
@@ -154,7 +155,11 @@ class Offer extends Component {
               </StyledPriceWrapper>
             </StyledTotalWrapper>
           </StyledOfferBody>
-          <Payment onPaymentComplete={onPaymentComplete} t={t} />
+          <Payment
+            onPaymentComplete={onPaymentComplete}
+            isPaymentDetailsRequired={requiredPaymentDetails}
+            t={t}
+          />
         </main>
         <Footer />
       </StyledOfferWrapper>
@@ -185,7 +190,8 @@ Offer.propTypes = {
     discount: PropTypes.shape({
       applied: PropTypes.bool
     }),
-    totalPrice: PropTypes.number
+    totalPrice: PropTypes.number,
+    requiredPaymentDetails: PropTypes.bool
   }),
   couponProps: PropTypes.shape({
     showMessage: PropTypes.bool,
@@ -209,7 +215,8 @@ Offer.defaultProps = {
     discount: {
       applied: false
     },
-    totalPrice: 0
+    totalPrice: 0,
+    requiredPaymentDetails: true
   },
   couponProps: null,
   t: k => k

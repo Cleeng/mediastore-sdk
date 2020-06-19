@@ -6,6 +6,7 @@ import loginCustomer from './Auth/loginCustomer';
 import registerCustomer from './Auth/registerCustomer';
 import resetPassword from './Auth/resetPassword';
 import submitPayment from './Offer/submitPayment';
+import submitPaymentWithoutDetails from './Offer/submitPaymentWithoutDetails';
 import updateOrder from './Offer/updateOrder';
 import getPaymentDetails from './Customer/getPaymentDetails';
 import getCustomerSubscriptions from './Customer/getCustomerSubscriptions';
@@ -21,6 +22,7 @@ export {
   createOrder,
   updateOrder,
   submitPayment,
+  submitPaymentWithoutDetails,
   getConsents,
   getOfferDetails,
   loginCustomer,
