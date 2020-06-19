@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { getPaymentMethods, submitPayment, updateOrder } from 'api';
+import {
+  getPaymentMethods,
+  submitPayment,
+  submitPaymentWithoutDetails,
+  updateOrder
+} from 'api';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import {
@@ -81,39 +86,63 @@ class Payment extends Component {
     }
   };
 
+  finishTransaction = () => {
+    const { onPaymentComplete } = this.props;
+    this.setState({
+      generalError: ''
+    });
+    submitPaymentWithoutDetails().then(paymentReponse => {
+      if (paymentReponse.errors.length) {
+        this.setState({
+          generalError: 'The payment failed. Please try again.'
+        });
+      } else {
+        onPaymentComplete();
+      }
+    });
+  };
+
   render() {
-    const { t } = this.props;
+    const { isPaymentDetailsRequired, t } = this.props;
     const { isPaymentFormDisplayed, generalError, paymentMethods } = this.state;
     return (
       <PaymentStyled>
-        <TitleStyled>{t('Purchase using')}</TitleStyled>
-        <MethodsWrapperStyled>
-          {paymentMethods.map(method => (
-            <Button
-              key={method.methodName}
-              onClickFn={() => {
-                this.setState({ isPaymentFormDisplayed: true });
-                this.choosePaymentMethod(method.id);
-              }}
-              theme="simple"
-              disabled={method.methodName === 'paypal'}
-            >
-              {method.logoUrl ? (
-                <ButtonImageStyled
-                  alt={method.methodName}
-                  src={method.logoUrl}
-                />
-              ) : (
-                method.methodName.toUpperCase()
-              )}
-            </Button>
-          ))}
-        </MethodsWrapperStyled>
-        {generalError && (
-          <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
-        )}
-        {isPaymentFormDisplayed && (
-          <Adyen onSubmit={this.onAdyenSubmit} onChange={this.clearError} />
+        {isPaymentDetailsRequired ? (
+          <>
+            <TitleStyled>{t('Purchase using')}</TitleStyled>
+            <MethodsWrapperStyled>
+              {paymentMethods.map(method => (
+                <Button
+                  key={method.methodName}
+                  onClickFn={() => {
+                    this.setState({ isPaymentFormDisplayed: true });
+                    this.choosePaymentMethod(method.id);
+                  }}
+                  theme="simple"
+                  disabled={method.methodName === 'paypal'}
+                >
+                  {method.logoUrl ? (
+                    <ButtonImageStyled
+                      alt={method.methodName}
+                      src={method.logoUrl}
+                    />
+                  ) : (
+                    method.methodName.toUpperCase()
+                  )}
+                </Button>
+              ))}
+            </MethodsWrapperStyled>
+            {generalError && (
+              <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
+            )}
+            {isPaymentFormDisplayed && (
+              <Adyen onSubmit={this.onAdyenSubmit} onChange={this.clearError} />
+            )}
+          </>
+        ) : (
+          <Button onClickFn={this.finishTransaction} theme="simple">
+            Complete purchase
+          </Button>
         )}
       </PaymentStyled>
     );
@@ -122,10 +151,12 @@ class Payment extends Component {
 
 Payment.propTypes = {
   onPaymentComplete: PropTypes.func.isRequired,
+  isPaymentDetailsRequired: PropTypes.bool,
   t: PropTypes.func
 };
 
 Payment.defaultProps = {
+  isPaymentDetailsRequired: true,
   t: k => k
 };
 
