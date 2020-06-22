@@ -183,7 +183,7 @@ class Payment extends Component {
               <PayPalWrapperStyled>
                 <PayPalTextStyled>
                   {t(
-                    'To purchase using PayPal click &apos;Pay with PayPal&apos; button. You will be redirected to the PayPal site'
+                    'To purchase using PayPal click "Pay with PayPal" button. You will be redirected to the PayPal site'
                   )}
                 </PayPalTextStyled>
                 <Button
