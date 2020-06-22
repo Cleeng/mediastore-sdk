@@ -13,6 +13,7 @@ import getCustomerSubscriptions from './Customer/getCustomerSubscriptions';
 import getCustomer from './Customer/getCustomer';
 import listCustomerTransactions from './Customer/listCustomerTransactions';
 import getCustomerConsents from './Customer/getCustomerConsents';
+import submitPayPalPayment from './Offer/submitPayPalPayment';
 
 export {
   getPaymentMethods,
@@ -29,5 +30,6 @@ export {
   registerCustomer,
   resetPassword,
   listCustomerTransactions,
-  getCustomerConsents
+  getCustomerConsents,
+  submitPayPalPayment
 };
