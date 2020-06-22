@@ -45,7 +45,8 @@ class Offer extends Component {
         description,
         trialAvailable,
         freePeriods,
-        periodDescription,
+        freeDays,
+        period,
         imageUrl
       },
       orderDetails: {
@@ -85,10 +86,14 @@ class Offer extends Component {
                       {trialAvailable && (
                         <StyledTrialDescription>
                           {t(
-                            'You will be charged {{price}} after {{period}}.',
+                            'You will be charged {{price}}exVat after {{period}}.',
                             {
                               price: `${customerCurrencySymbol}${offerPrice}`,
-                              period: `${freePeriods} ${periodDescription}`
+                              period: `${
+                                freeDays
+                                  ? `${freeDays} days`
+                                  : `${freePeriods} ${period}`
+                              }`
                             }
                           )}
                         </StyledTrialDescription>
@@ -175,7 +180,8 @@ Offer.propTypes = {
     customerCurrencySymbol: PropTypes.string,
     trialAvailable: PropTypes.bool,
     freePeriods: PropTypes.number,
-    periodDescription: PropTypes.string,
+    freeDays: PropTypes.number,
+    period: PropTypes.string,
     priceExclTax: PropTypes.number,
     priceExclTaxBeforeDiscount: PropTypes.number,
     errors: PropTypes.arrayOf(PropTypes.string)

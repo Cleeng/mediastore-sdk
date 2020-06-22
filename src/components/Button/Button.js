@@ -15,7 +15,8 @@ export const BUTTON_THEME = {
   SIMPLE: 'simple',
   NAVLINK: 'navLink',
   LINK: 'link',
-  DANGER: 'danger'
+  DANGER: 'danger',
+  PAYMENT: 'payment'
 };
 
 const Button = ({

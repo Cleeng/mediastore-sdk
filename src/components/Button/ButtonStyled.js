@@ -53,6 +53,30 @@ const ButtonStyled = styled.button`
           background-color: ${colors.ButtonHoverColor};
         }
       `) ||
+    (props.theme === 'payment' &&
+      css`
+        height: 48px;
+        width: 30%;
+        min-width: max-content;
+
+        padding: 15px;
+        border-radius: 6px;
+
+        color: ${colors.ButtonMainFontColor};
+        background-color: ${colors.PaymentButtonBgn};
+
+        font-size: 14px;
+
+        ${media.small`
+          width: 100%;
+        `}
+
+        &:hover,
+        &:focus {
+          cursor: pointer;
+          opacity: 0.9;
+        }
+      `) ||
     (props.theme === 'secondary' &&
       css`
         background-color: ${colors.ButtonSecondaryBackground};

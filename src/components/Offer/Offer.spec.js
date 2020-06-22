@@ -83,7 +83,7 @@ describe('Offer', () => {
         />
       );
 
-      const trialDescription = `You will be charged {{price}} after {{period}}.`;
+      const trialDescription = `You will be charged {{price}}exVat after {{period}}.`;
 
       expect(wrapper.find(StyledTrial)).toHaveLength(1);
       expect(wrapper.find(StyledTrialDescription).text()).toBe(

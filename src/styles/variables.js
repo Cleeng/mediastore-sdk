@@ -46,3 +46,4 @@ export const InputBorder = '#d8ddea';
 export const InputLabelColor = '#838eaa';
 export const DisabledInputBg = '#F4F6FC';
 export const DisabledInputColor = '#4a4f5f';
+export const PaymentButtonBgn = '#00112c';

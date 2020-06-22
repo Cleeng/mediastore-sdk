@@ -114,9 +114,9 @@ export const LoaderStyled = styled.div`
   ${props =>
     props.buttonLoader &&
     css`
-      width: 20px;
+      width: 18px;
       height: 18px;
-      transform: scale(0.5) translate(-20px, -25px);
+      transform: scale(0.4) translate(-20px, -25px);
     `}
 
   ${props =>

@@ -172,7 +172,11 @@ class PaymentInfo extends Component {
         <MyAccountHeading text={t('Payment method')} />
         <PaymentMehod
           paymentDetailsLoading={paymentDetailsLoading}
-          paymentDetails={paymentInfo.paymentMethod}
+          paymentDetails={
+            paymentInfo.paymentMethod.length
+              ? paymentInfo.paymentMethod.slice(-1)
+              : []
+          }
           error={paymentDetailsError}
         />
         <MyAccountHeading text={t('Transactions')} />
