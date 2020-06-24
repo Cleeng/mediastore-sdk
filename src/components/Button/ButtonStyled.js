@@ -127,26 +127,20 @@ const ButtonStyled = styled.button`
         width: auto;
         border-radius: none;
 
-      &:hover,
-      &:focus {
+        transform: translateY(-45%);
         background-color: transparent;
         color: ${colors.MainTextColor};
-
-        text-decoration: none;
-        letter-spacing: 0.025em;
         font-size: 16px;
+        letter-spacing: 0.025em;
 
-        transform: translateY(-45%);
+        &::before {
+          content: '<';
+          margin-right: 5px;
+        }
         &:hover,
         &:focus {
-          font-weight: bold;
-          background: transparent;
-          &::before {
-            font-weight: initial;
-          }
-        }
-        &::before {
-          font-weight: initial;
+          font-weight: 700;
+          text-decoration: none;
         }
         ${media.small`
           top: 20px;
