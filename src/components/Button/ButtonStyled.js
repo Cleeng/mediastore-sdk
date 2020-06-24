@@ -127,6 +127,8 @@ const ButtonStyled = styled.button`
         width: auto;
         border-radius: none;
 
+      &:hover,
+      &:focus {
         background-color: transparent;
         color: ${colors.MainTextColor};
 
@@ -144,10 +146,7 @@ const ButtonStyled = styled.button`
           }
         }
         &::before {
-          display: inline-block;
-          padding-right: 5px;
-          width: 10px;
-          content: '<';
+          font-weight: initial;
         }
         ${media.small`
           top: 20px;
