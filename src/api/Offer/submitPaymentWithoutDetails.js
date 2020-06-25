@@ -3,7 +3,7 @@ const submitPaymentWithoutDetails = async () => {
   const orderId = parseInt(localStorage.getItem('CLEENG_ORDER_ID') || '0', 10);
   const status = 'captured';
   const paymentOperation = 'initial-payment';
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/payment`;
+  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/payments`;
 
   try {
     const res = await fetch(url, {
