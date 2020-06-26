@@ -1,5 +1,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import BackButton from 'components/BackButton';
+import Auth from 'services/auth';
 import ErrorPage from './ErrorPage';
 import { IconStyled } from './ErrorPageStyled';
 
@@ -21,6 +23,17 @@ describe('ErrorPage', () => {
       const errorMessage = 'Some error';
       const wrapper = shallow(<ErrorPage error={errorMessage} />);
       expect(wrapper.text()).toMatch(errorMessage);
+    });
+    it('renders error page with BackButton ', () => {
+      Auth.isLogged = jest.fn(() => false);
+
+      const functionMock = jest.fn();
+      const wrapper = shallow(
+        <ErrorPage type={mockErrorType} resetError={functionMock} />
+      );
+      expect(wrapper.text()).toMatch('Offer does not exist.');
+      expect(wrapper.find(BackButton).exists()).toBe(true);
+      expect(wrapper.find(BackButton).prop('onClickFn')).toBe(functionMock);
     });
   });
 });

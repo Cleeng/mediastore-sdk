@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { shallow } from 'enzyme';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input';
@@ -9,11 +10,20 @@ import {
   StyledOfferDescription,
   StyledTrial,
   StyledTrialDescription,
-  StyledPriceWrapper,
   StyledOfferPrice,
-  StyledPriceBeforeWrapper,
-  StyledCouponDiscountWrapper
+  StyledPriceBoxWrapper,
+  StyledPriceBoxItemWrapper,
+  StyledTotalWrapper
 } from './OfferStyled';
+
+jest.mock('containers/labeling', () => () => Component => props => (
+  <Component t={k => k} {...props} />
+));
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => props => (
+    <Component t={k => k} {...props} />
+  )
+}));
 
 const mockCouponProps = {
   showMessage: false,
@@ -34,7 +44,8 @@ describe('Offer', () => {
       );
 
       expect(wrapper.find(StyledTrial)).toHaveLength(0);
-      expect(wrapper.find(StyledPriceBeforeWrapper)).toHaveLength(0);
+      expect(wrapper.find(StyledPriceBoxWrapper)).toHaveLength(1);
+      expect(wrapper.find(StyledPriceBoxItemWrapper)).toHaveLength(1);
 
       expect(wrapper.find(StyledOfferTitle).text()).toBe(
         mockOfferDetails.offerTitle
@@ -42,8 +53,23 @@ describe('Offer', () => {
       expect(wrapper.find(StyledOfferDescription).text()).toBe(
         mockOfferDetails.description
       );
-      expect(wrapper.find(StyledOfferPrice).text()).toBe(
-        `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.priceBreakdown.offerPrice} exVAT`
+
+      expect(
+        wrapper
+          .find(StyledPriceBoxItemWrapper)
+          .find(StyledOfferPrice)
+          .text()
+      ).toBe(
+        `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.priceBreakdown.taxValue}`
+      );
+
+      expect(
+        wrapper
+          .find(StyledTotalWrapper)
+          .find(StyledOfferPrice)
+          .text()
+      ).toBe(
+        `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.priceBreakdown.offerPrice}`
       );
     });
 
@@ -57,7 +83,7 @@ describe('Offer', () => {
         />
       );
 
-      const trialDescription = `You will be charged {{price}} after {{period}}.`;
+      const trialDescription = `You will be charged {{price}}exVat after {{period}}.`;
 
       expect(wrapper.find(StyledTrial)).toHaveLength(1);
       expect(wrapper.find(StyledTrialDescription).text()).toBe(
@@ -85,19 +111,22 @@ describe('Offer', () => {
         />
       );
 
-      expect(wrapper.find(StyledPriceBeforeWrapper)).toHaveLength(1);
+      expect(wrapper.find(StyledPriceBoxWrapper)).toHaveLength(1);
+      expect(wrapper.find(StyledPriceBoxItemWrapper)).toHaveLength(3);
+
       expect(
         wrapper
-          .find(StyledPriceBeforeWrapper)
+          .find(StyledPriceBoxItemWrapper)
+          .at(0)
           .find(StyledOfferPrice)
           .text()
       ).toBe(
         `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.priceBreakdown.offerPrice} exVAT`
       );
-      expect(wrapper.find(StyledCouponDiscountWrapper)).toHaveLength(1);
       expect(
         wrapper
-          .find(StyledCouponDiscountWrapper)
+          .find(StyledPriceBoxItemWrapper)
+          .at(1)
           .find(StyledOfferPrice)
           .text()
       ).toBe(
@@ -105,11 +134,20 @@ describe('Offer', () => {
       );
       expect(
         wrapper
-          .find(StyledPriceWrapper)
+          .find(StyledPriceBoxItemWrapper)
+          .at(2)
           .find(StyledOfferPrice)
           .text()
       ).toBe(
-        `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.priceBreakdown.discountedPrice} exVAT`
+        `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.priceBreakdown.taxValue}`
+      );
+      expect(
+        wrapper
+          .find(StyledTotalWrapper)
+          .find(StyledOfferPrice)
+          .text()
+      ).toBe(
+        `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.totalPrice}`
       );
     });
   });

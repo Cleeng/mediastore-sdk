@@ -4,7 +4,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import Auth from './auth';
 
-function PrivateRoute({ component: Component, ...rest }) {
+function PrivateRoute({ component: Component, isMyAccount = false, ...rest }) {
   return (
     <Route
       {...rest}
@@ -14,7 +14,9 @@ function PrivateRoute({ component: Component, ...rest }) {
         ) : (
           <Redirect
             to={{
-              pathname: '/login'
+              pathname: isMyAccount
+                ? Auth.myAccount.loginPage
+                : Auth.checkout.loginPage
             }}
           />
         )

@@ -1,10 +1,14 @@
 import React from 'react';
-import Button from 'components/Button/Button';
+import Button from 'components/Button';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import Header from 'components/Header/Header';
-import Footer from 'components/Footer/Footer';
-import labeling from '../../containers/labeling';
+import Header from 'components/Header';
+import Logout from 'components/Logout';
+import Footer from 'components/Footer';
+import googleIcon from 'assets/images/google.png';
+import fbIcon from 'assets/images/fb.svg';
+import labeling from 'containers/labeling';
+
 import {
   ThankYouPageStyled,
   TitleStyled,
@@ -15,15 +19,12 @@ import {
   ShareStyled
 } from './ThankYouPageStyled';
 
-const buttonTypes = {
-  google: 'google',
-  fb: 'fb'
-};
-
 const ThankYouPage = ({ t }) => {
   return (
     <>
-      <Header showLogOutButton />
+      <Header>
+        <Logout />
+      </Header>
       <ThankYouPageStyled>
         <TitleStyled>{t('Thank You!')}</TitleStyled>
         <MessageStyled>
@@ -45,8 +46,8 @@ const ThankYouPage = ({ t }) => {
         </MessageStyled>
         <SocialsStyled>
           <ButtonsStyled>
-            <Button variant={buttonTypes.google} />
-            <Button variant={buttonTypes.fb} />
+            <Button theme="simple" icon={googleIcon} />
+            <Button theme="simple" icon={fbIcon} />
           </ButtonsStyled>
           <ShareStyled>
             {t('Have friends who would like to check this out?')}

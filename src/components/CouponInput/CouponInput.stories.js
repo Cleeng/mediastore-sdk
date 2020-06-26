@@ -5,8 +5,8 @@ import { withKnobs, boolean, text, select } from '@storybook/addon-knobs';
 import { action } from '@storybook/addon-actions';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { State, Store } from '@sambego/storybook-state';
+import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import CouponInput from './CouponInput';
-import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../Input';
 import 'styles/index.scss';
 
 const wrapperState = new Store({
@@ -82,7 +82,7 @@ CouponInputFeedbackWrapper.propTypes = {
     .isRequired
 };
 
-storiesOf('CouponInput', module)
+storiesOf('Checkout/CouponInput', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (

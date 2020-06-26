@@ -1,21 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReCAPTCHA from 'react-google-recaptcha';
-import axios from 'axios';
-import loginCustomer from '../../api/loginCustomer';
+import Loader from 'components/Loader';
+import loginCustomer from 'api/Auth/loginCustomer';
+import Auth from 'services/auth';
+import getCustomerLocales from 'api/Customer/getCustomerLocales';
+import checkCaptcha from 'api/Auth/checkCaptcha';
+import Button from 'components/Button';
+import EmailInput from 'components/EmailInput';
+import PasswordInput from 'components/PasswordInput';
+import validateEmailField from 'components/EmailInput/EmailHelper';
+import { validatePasswordField } from 'components/PasswordInput/PasswordHelper';
 import {
   FromStyled,
   FormErrorStyled,
   StyledRecaptcha,
-  StyledErrorDiv
+  StyledErrorDiv,
+  FormSuccessStyled
 } from './LoginStyled';
-import Loader from '../Loader/Loader';
-import Button from '../Button/Button';
-import EmailInput from '../EmailInput/EmailInput';
-import PasswordInput from '../PasswordInput/PasswordInput';
-import validateEmailField from '../EmailInput/EmailHelper';
-import { validatePasswordField } from '../PasswordInput/PasswordHelper';
-import Auth from '../../services/auth';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -31,13 +33,14 @@ class LoginForm extends Component {
       },
       generalError: '',
       showCaptcha: false,
-      processing: false
+      processing: false,
+      hideSuccessMessage: false
     };
     this.recaptchaRef = React.createRef();
   }
 
   componentDidMount() {
-    this.checkCaptcha();
+    this.updateCaptcha();
   }
 
   validateEmail = () => {
@@ -86,17 +89,11 @@ class LoginForm extends Component {
     });
   };
 
-  checkCaptcha = () => {
-    axios
-      .get(
-        `${ENVIRONMENT_CONFIGURATION.WEB_API}/webapi/form/is-captcha-required/customer-login`
-      )
-      .then(response => {
-        this.setState({
-          showCaptcha: response.data.required
-        });
-      })
-      .catch();
+  updateCaptcha = async () => {
+    const response = await checkCaptcha('customer-login');
+    this.setState({
+      showCaptcha: response.responseData.required
+    });
   };
 
   validateFields = () => {
@@ -119,43 +116,58 @@ class LoginForm extends Component {
   };
 
   login = async () => {
-    const { offerId, setOfferError } = this.props;
-    if (!offerId) {
+    const { offerId, setOfferError, isMyAccount, publisherId } = this.props;
+    if (!offerId && !isMyAccount) {
       setOfferError(true);
       return false;
     }
     if (this.validateFields()) {
       this.setState({
-        processing: true
+        processing: true,
+        hideSuccessMessage: true
       });
       const { email, password, captcha } = this.state;
-      const { t } = this.props;
-      const response = await loginCustomer(email, password, offerId, captcha);
-      if (response.status === 200) {
-        Auth.login(email, response.responseData.jwt);
-      } else if (response.status === 401 || response.status === 423) {
-        this.checkCaptcha();
-        this.setState({
-          processing: false,
-          generalError: t('Wrong email or password')
-        });
-      } else if (response.status === 429) {
-        this.checkCaptcha();
-        this.setState({
-          processing: false,
-          generalError: t(
-            "Sorry, the captcha information doesn't match. Please try again"
-          )
-        });
+
+      let loginBy;
+      if (isMyAccount) {
+        loginBy = { publisherId };
       } else {
-        this.checkCaptcha();
-        this.setState({
-          processing: false,
-          generalError: t('An error occurred.')
-        });
+        loginBy = { offerId };
+      }
+
+      const response = await loginCustomer(email, password, loginBy, captcha);
+      if (response.status === 200) {
+        await getCustomerLocales()
+          .then(resp => {
+            localStorage.setItem(
+              'CLEENG_CUSTOMER_IP',
+              resp.responseData.ipAddress
+            );
+            Auth.login(!!isMyAccount, email, response.responseData.jwt);
+          })
+          .catch(() => {
+            this.renderError();
+          });
+      } else if (response.status === 401 || response.status === 422) {
+        this.renderError('Wrong email or password');
+      } else if (response.status === 429) {
+        this.renderError(
+          "Sorry, the captcha information doesn't match. Please try again"
+        );
+      } else {
+        this.renderError();
       }
     }
     return true;
+  };
+
+  renderError = (message = 'An error occurred.') => {
+    const { t } = this.props;
+    this.updateCaptcha();
+    this.setState({
+      processing: false,
+      generalError: t(message)
+    });
   };
 
   render() {
@@ -165,12 +177,20 @@ class LoginForm extends Component {
       errors,
       generalError,
       showCaptcha,
-      processing
+      processing,
+      hideSuccessMessage
     } = this.state;
-    const { t } = this.props;
+    const { emailChanged, t } = this.props;
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
-        <FormErrorStyled>{generalError}</FormErrorStyled>
+        {emailChanged && !generalError && !hideSuccessMessage ? (
+          <FormSuccessStyled>
+            {t('Your email has been changed succesfully')}
+          </FormSuccessStyled>
+        ) : (
+          <FormErrorStyled>{generalError}</FormErrorStyled>
+        )}
+
         <EmailInput
           label={t('Email')}
           value={email}
@@ -200,7 +220,7 @@ class LoginForm extends Component {
           </>
         )}
         <Button type="submit" disabled={processing}>
-          {processing ? <Loader buttonLoader white /> : t('Log in')}
+          {processing ? <Loader buttonLoader color="#ffffff" /> : t('Sign in')}
         </Button>
       </FromStyled>
     );
@@ -208,13 +228,21 @@ class LoginForm extends Component {
 }
 
 LoginForm.propTypes = {
-  offerId: PropTypes.string.isRequired,
-  t: PropTypes.func,
-  setOfferError: PropTypes.func
+  offerId: PropTypes.string,
+  publisherId: PropTypes.string,
+  isMyAccount: PropTypes.bool,
+  setOfferError: PropTypes.func,
+  emailChanged: PropTypes.bool,
+  t: PropTypes.func
 };
+
 LoginForm.defaultProps = {
-  t: k => k,
-  setOfferError: () => {}
+  offerId: '',
+  publisherId: '',
+  isMyAccount: false,
+  setOfferError: () => {},
+  emailChanged: false,
+  t: k => k
 };
 
 export default LoginForm;

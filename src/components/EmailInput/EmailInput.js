@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from '../Input/Input';
-import email from '../../assets/images/input/email.svg';
+import Input from 'components/Input';
 
 const EmailInput = ({ value, onChange, onBlur, error, label }) => (
   <Input
     placeholder={label}
     type="email"
-    icon={email}
     value={value}
     onChange={onChange}
     onBlur={onBlur}

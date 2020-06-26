@@ -1,17 +1,19 @@
 /* eslint-disable import/no-dynamic-require */
 import React from 'react';
 import PropTypes from 'prop-types';
+import Auth from 'services/auth';
+import BackButton from 'components/BackButton';
+import close from 'assets/images/errors/close.svg';
+import deleteCreditCard from 'assets/images/errors/deleteCreditCard.svg';
+import lock from 'assets/images/errors/lock.svg';
+import warning from 'assets/images/errors/warning.svg';
+import Logout from 'components/Logout';
 import {
   ErrorPageStyled,
   MessageStyled,
   IconStyled,
   LogoutWrapper
 } from './ErrorPageStyled';
-import close from '../../assets/images/errors/close.svg';
-import deleteCreditCard from '../../assets/images/errors/deleteCreditCard.svg';
-import lock from '../../assets/images/errors/lock.svg';
-import warning from '../../assets/images/errors/warning.svg';
-import Logout from '../Logout/Logout';
 
 const errorTypes = {
   offerNotExist: {
@@ -32,13 +34,19 @@ const errorTypes = {
   }
 };
 
-const ErrorPage = ({ type, error }) => {
+const ErrorPage = ({ type, error, resetError }) => {
   const typeParams = errorTypes[type];
+
   return (
     <>
       <LogoutWrapper>
-        <Logout />
+        {Auth.isLogged() ? (
+          <Logout />
+        ) : (
+          type !== 'generalError' && <BackButton onClickFn={resetError} />
+        )}
       </LogoutWrapper>
+
       <ErrorPageStyled>
         <IconStyled src={typeParams.icon} />
         <MessageStyled>{error || typeParams.description}</MessageStyled>
@@ -49,11 +57,13 @@ const ErrorPage = ({ type, error }) => {
 
 ErrorPage.propTypes = {
   type: PropTypes.oneOf(Object.keys(errorTypes)),
-  error: PropTypes.string
+  error: PropTypes.string,
+  resetError: PropTypes.func
 };
 ErrorPage.defaultProps = {
   type: 'generalError',
-  error: ''
+  error: '',
+  resetError: () => {}
 };
 
 export default ErrorPage;

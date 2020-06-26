@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import { media } from '../../styles/BreakPoints';
-import * as colors from '../../styles/variables';
+import { media } from 'styles/BreakPoints';
+import * as colors from 'styles/variables';
 
 export const HeaderStyled = styled.header`
   display: flex;

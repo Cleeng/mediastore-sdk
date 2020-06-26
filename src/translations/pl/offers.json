@@ -20,6 +20,12 @@
   "Unlimited access.": "Nieograniczony dostęp.",
   "Video rental {{days}} days": "Wypożyczenie video na {{days}} dni",
   "Video rental {{hours}}h": "Wypożyczenie video na {{hours}} godzin",
-  "You will be charged {{price}} after {{period}}.": "Twoje konto zostanie obciążone kwotą {{price}} po {{period}}.",
-  "trial period": "okres próbny"
+  "You will be charged {{price}}exTax after {{period}}.": "Twoje konto zostanie obciążone kwotą {{price}} bez VAT po {{period}}.",
+  "trial period": "okres próbny",
+  "Your payment was not processed. Please, try again": "Płatność nie została wykonana. Spróbuj ponownie",
+  "Payment method not supported. Try different payment method": "Wybrana metoda płatności nie jest wspierana. Wybierz inną metodę płatności",
+  "The payment failed. Please try again.": "Płatność nie powiodła się. Spróbuj ponownie",
+  "To purchase using PayPal click 'Pay with PayPal' button. You will be redirected to the PayPal site": "Aby dokonać zakupu za pomocą PayPala kliknij przycisk 'Zapłać z PayPal'. Zostaniesz przekierowany na stronę PayPal",
+  "Pay with PayPal": "Zapłać z PayPal",
+  "Complete purchase": "Dokończ zakup"
 }

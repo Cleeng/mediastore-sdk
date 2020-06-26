@@ -1,20 +1,19 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import axios from 'axios';
-import EmailInput from '../EmailInput/EmailInput';
-import LoginForm from './LoginForm';
-import PasswordInput from '../PasswordInput/PasswordInput';
-import loginCustomerRequest from '../../api/loginCustomer';
-import Auth from '../../services/auth';
+import loginCustomerRequest from 'api/Auth/loginCustomer';
+import getLocalesRequest from 'api/Customer/getCustomerLocales';
+import checkCaptchaRequest from 'api/Auth/checkCaptcha';
 
-jest.mock('../../api/loginCustomer');
-const mockLoginFetch = jest.fn();
+import Auth from 'services/auth';
+import PasswordInput from 'components/PasswordInput';
+import EmailInput from 'components/EmailInput';
+import LoginForm from './LoginForm';
+
+jest.mock('api/Auth/loginCustomer');
+jest.mock('api/Customer/getCustomerLocales');
+jest.mock('api/Auth/checkCaptcha');
+
 const setOfferErrorMock = jest.fn();
-jest.mock('axios', () => ({
-  get: jest
-    .fn()
-    .mockImplementation(() => Promise.resolve({ data: { required: false } }))
-}));
 const mockInputValue = 'MOCK_INPUT_VALUE';
 const mockEmailValue = 'mockmail@mock.com';
 const mockNotValidEmail = 'mock';
@@ -29,7 +28,18 @@ const jwtMock =
 
 describe('LoginForm', () => {
   afterEach(() => {
+    jest.clearAllMocks();
     delete global.__mobxInstanceCount; // eslint-disable-line
+  });
+  beforeEach(() => {
+    getLocalesRequest.mockResolvedValue({
+      status: 200,
+      responseData: { ipAddress: '1234' }
+    });
+    checkCaptchaRequest.mockResolvedValue({
+      status: 200,
+      responseData: { required: false }
+    });
   });
   describe('@events', () => {
     it('should update state on input change', () => {
@@ -126,9 +136,10 @@ describe('LoginForm', () => {
     });
 
     it('sholud update state if captcha is required', done => {
-      axios.get.mockImplementation(() =>
-        Promise.resolve({ data: { required: true } })
-      );
+      checkCaptchaRequest.mockResolvedValue({
+        status: 200,
+        responseData: { required: true }
+      });
       const wrapper = mount(<LoginForm offerId="S649095045_PL" />);
       setImmediate(() => {
         expect(wrapper.state().showCaptcha).toBe(true);
@@ -137,13 +148,11 @@ describe('LoginForm', () => {
     });
   });
   describe('@onSubmit', () => {
-    it('should login when fields valid', done => {
-      loginCustomerRequest.mockImplementationOnce(
-        mockLoginFetch.mockResolvedValue({
-          status: 200,
-          responseData: { jwt: jwtMock }
-        })
-      );
+    it('should login with offerId when fields valid', done => {
+      loginCustomerRequest.mockResolvedValue({
+        status: 200,
+        responseData: { jwt: jwtMock }
+      });
 
       onSubmitMock.mockClear();
       Auth.login = jest.fn();
@@ -167,17 +176,48 @@ describe('LoginForm', () => {
         expect(instance.state.generalError).toBe('');
         expect(Auth.login).toHaveBeenCalled();
         expect(Auth.login).toHaveBeenCalledTimes(1);
-        expect(Auth.login).toHaveBeenCalledWith(mockEmailValue, jwtMock);
+        expect(Auth.login).toHaveBeenCalledWith(false, mockEmailValue, jwtMock);
+        done();
+      });
+    });
+
+    it('should login to my account when fields valid', done => {
+      loginCustomerRequest.mockResolvedValue({
+        status: 200,
+        responseData: { jwt: jwtMock }
+      });
+
+      onSubmitMock.mockClear();
+      Auth.login = jest.fn();
+      const wrapper = shallow(<LoginForm publisher="123456789" isMyAccount />);
+      const instance = wrapper.instance();
+      const preventDefaultMock = jest.fn();
+
+      instance.setState({
+        email: mockEmailValue,
+        password: 'testtest123',
+        captcha: 'f979c2ff515d921c34af9bd2aee8ef076b719d03'
+      });
+
+      expect(Auth.login).not.toHaveBeenCalled();
+      wrapper.simulate('submit', { preventDefault: preventDefaultMock });
+
+      expect(preventDefaultMock).toHaveBeenCalledTimes(1);
+      setImmediate(() => {
+        expect(instance.state.errors.email).toBe('');
+        expect(instance.state.errors.password).toBe('');
+        expect(instance.state.generalError).toBe('');
+        expect(Auth.login).toHaveBeenCalled();
+        expect(Auth.login).toHaveBeenCalledTimes(1);
+        expect(Auth.login).toHaveBeenCalledWith(true, mockEmailValue, jwtMock);
         done();
       });
     });
 
     it('should set general error when customer doesnt exist', done => {
-      loginCustomerRequest.mockImplementationOnce(
-        mockLoginFetch.mockResolvedValue({
-          status: 423
-        })
-      );
+      loginCustomerRequest.mockResolvedValue({
+        status: 422
+      });
       onSubmitMock.mockClear();
       const wrapper = shallow(
         <LoginForm offerId="S649095045_PL" onLoginComplete={onSubmitMock} />
@@ -205,11 +245,13 @@ describe('LoginForm', () => {
     });
 
     it('should set general error when captcha info doesnt match', done => {
-      loginCustomerRequest.mockImplementationOnce(
-        mockLoginFetch.mockResolvedValue({
-          status: 429
-        })
-      );
+      loginCustomerRequest.mockResolvedValue({
+        status: 429
+      });
+      checkCaptchaRequest.mockResolvedValue({
+        status: 200,
+        responseData: { required: false }
+      });
       onSubmitMock.mockClear();
       const wrapper = shallow(
         <LoginForm offerId="S649095045_PL" onLoginComplete={onSubmitMock} />
@@ -239,11 +281,13 @@ describe('LoginForm', () => {
     });
 
     it('should set general error when error occurred', done => {
-      loginCustomerRequest.mockImplementationOnce(
-        mockLoginFetch.mockResolvedValue({
-          status: 500
-        })
-      );
+      loginCustomerRequest.mockResolvedValue({
+        status: 500
+      });
+      checkCaptchaRequest.mockResolvedValue({
+        status: 200,
+        responseData: { required: false }
+      });
       onSubmitMock.mockClear();
       const wrapper = shallow(
         <LoginForm offerId="S649095045_PL" onLoginComplete={onSubmitMock} />

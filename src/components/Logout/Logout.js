@@ -1,13 +1,26 @@
 import React from 'react';
-import Button from '../Button/Button';
-import Auth from '../../services/auth';
+import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
+import Button from 'components/Button';
+import Auth from 'services/auth';
 
-const Logout = () => {
+const Logout = ({ t }) => {
   return (
-    <Button onClickFn={() => Auth.logout()} variant="back">
-      Log out
+    <Button onClickFn={() => Auth.logout()} theme="navLink">
+      {t('Log out')}
     </Button>
   );
 };
 
-export default Logout;
+Logout.propTypes = {
+  t: PropTypes.func
+};
+
+Logout.defaultProps = {
+  t: k => k
+};
+
+export { Logout as PureLogout };
+
+export default withTranslation()(labeling()(Logout));

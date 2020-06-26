@@ -5,7 +5,7 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import Payment from './Payment';
 import 'styles/index.scss';
 
-storiesOf('Payment', module)
+storiesOf('Checkout/Payment', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .add('Basic Payment', () => <Payment onPaymentComplete={() => {}} />);

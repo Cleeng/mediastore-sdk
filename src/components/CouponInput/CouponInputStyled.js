@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
-import * as Colors from 'styles/variables';
 import failIcon from 'assets/images/input/fail.svg';
 import successIcon from 'assets/images/input/success.svg';
+import * as Colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
-import { MESSAGE_TYPE_SUCCESS } from '../Input/InputConstants';
+import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 
 export const CouponInputWrapperStyled = styled.div`
   display: flex;
@@ -111,4 +111,42 @@ export const CouponInputStyled = styled.input`
   &:focus {
     border-bottom: 1px solid ${Colors.MainColor};
   }
+`;
+
+export const ButtonStyled = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 30px;
+  outline: 0;
+
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 0.025em;
+  font-family: 'Geomanist';
+
+  cursor: pointer;
+  width: min-content;
+  height: 34px;
+  margin: 0 0 18px auto;
+
+  background-color: ${Colors.LightGrey};
+  border: 1px solid ${Colors.ButtonBorder};
+  color: ${Colors.MainTextColor};
+  padding: 0px 10px;
+
+  font-size: 12px;
+  line-height: 34px;
+  &:disabled {
+    opacity: 0.6;
+    &:hover {
+      cursor: not-allowed;
+      background-color: ${Colors.LightGrey};
+    }
+  }
+  ${media.smallest`
+        font-size: 13px;
+        padding: 0px 10px;
+      `}
 `;

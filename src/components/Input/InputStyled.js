@@ -5,8 +5,9 @@ import { media } from 'styles/BreakPoints';
 export const InputComponentStyled = styled.div`
   display: flex;
   flex-direction: column;
+  position: relative;
 
-  padding: 10px;
+  padding: 15px 10px;
   width: 100%;
 `;
 
@@ -16,30 +17,15 @@ export const InputElementWrapperStyled = styled.div`
   align-items: center;
   position: relative;
 
-  padding: 15px 0 13px;
+  padding: 13px 0 14px;
 
   background: white;
-  border-bottom: 1px solid ${Colors.MediumGrey};
-  transition: .2s ease-in-out;
-  ${props =>
-    !props.passwordStrength &&
-    css`
-      &:focus-within {
-        border-bottom-color: ${Colors.MainColor};
-      }
-    `}
+  border: 1px solid ${Colors.MediumGrey};
+  transition: 0.2s ease-in-out;
 
-  ${props =>
-    props.passwordStrength &&
-    css`
-      border-bottom-color: ${Colors[props.passwordStrength]};
-    `}
-
-  ${props =>
-    props.error &&
-    css`
-      border-bottom-color: ${Colors.ErrorColor};
-    `}
+  &:focus-within {
+    border-color: ${Colors.MainColor};
+  }
 
   ${props =>
     props.icon &&
@@ -48,11 +34,40 @@ export const InputElementWrapperStyled = styled.div`
         content: url(${props.icon});
       }
     `};
+`;
+
+export const LabelStyled = styled.label`
+  position: absolute;
+  top: 17px;
+  left: 14px;
+
+  margin: 0;
+  padding: 0 3px;
+
+  color: ${Colors.Label};
+  transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+  &::after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 15px;
+
+    background: #fff;
+
+    z-index: -1;
+    opacity: 0;
+  }
 
   ${props =>
-    props.passwordStrength &&
+    props.hasValue &&
     css`
-      border-bottom-color: ${Colors[props.passwordStrength]};
+      transform: translate(0, -25px) scaleY(0.9);
+      &::after {
+        opacity: 1;
+      }
     `}
 `;
 
@@ -70,6 +85,14 @@ export const InputElementStyled = styled.input`
   font-size: 15px;
   line-height: 1.3;
 
+  &:focus + label {
+    transform: translate(0, -25px) scaleY(0.9);
+    color: ${Colors.MainColor};
+    &::after {
+      opacity: 1;
+    }
+  }
+
   ${media.small`
     width: 100%;
   `}
@@ -77,7 +100,7 @@ export const InputElementStyled = styled.input`
 
 export const ErrorWrapper = styled.div`
   position: absolute;
-  top: 57px;
+  top: 52px;
   left: 0;
   width: 100%;
 
@@ -94,6 +117,14 @@ export const ErrorWrapper = styled.div`
   font-family: 'Geomanist';
   font-size: 13px;
   text-align: left;
+
+  ${props =>
+    props.isMyAccount &&
+    css`
+      position: relative;
+      margin: 5px 0 10px 0;
+      top: unset;
+    `}
 `;
 
 export const StyledPasswordVisibility = styled.img`
@@ -108,7 +139,7 @@ export const StyledButton = styled.button`
   display: flex;
   padding: 0;
   position: relative;
-  margin-right: 5px;
+  margin-right: 15px;
   &::after {
     position: absolute;
     top: 0;

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import CouponInput from 'components/CouponInput/CouponInput';
+import CouponInput from 'components/CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
-import Payment from 'components/Payment/Payment';
-
+import Payment from 'components/Payment';
+import Logout from 'components/Logout';
+import Header from 'components/Header';
+import Footer from 'components/Footer';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
@@ -18,16 +20,14 @@ import {
   StyledTrial,
   StyledPrice,
   StyledTotalWrapper,
-  StyledPriceBeforeWrapper,
   StyledTrialDescription,
   StyledTotalLabel,
   StyledOfferPrice,
-  StyledCouponDiscountWrapper,
+  StyledPriceBoxWrapper,
+  StyledPriceBoxItemWrapper,
   StyledPriceWrapper,
   StyledOfferCouponWrapper
 } from './OfferStyled';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 
 class Offer extends Component {
   constructor(props) {
@@ -45,12 +45,15 @@ class Offer extends Component {
         description,
         trialAvailable,
         freePeriods,
-        periodDescription,
+        freeDays,
+        period,
         imageUrl
       },
       orderDetails: {
-        priceBreakdown: { offerPrice, discountedPrice, discountAmount },
-        discount: { applied }
+        priceBreakdown: { offerPrice, discountAmount, taxValue },
+        discount: { applied },
+        totalPrice,
+        requiredPaymentDetails
       },
       couponProps: {
         showMessage,
@@ -64,10 +67,12 @@ class Offer extends Component {
     } = this.props;
     const isCouponApplied = applied;
     const { coupon } = this.state;
-    const finalPrice = applied ? discountedPrice : offerPrice;
+    const finalPrice = totalPrice;
     return (
       <StyledOfferWrapper>
-        <Header showLogOutButton />
+        <Header>
+          <Logout />
+        </Header>
         <main>
           <StyledOfferBody>
             <StyledPageTitle>{t('Complete your purchase')}</StyledPageTitle>
@@ -81,10 +86,14 @@ class Offer extends Component {
                       {trialAvailable && (
                         <StyledTrialDescription>
                           {t(
-                            'You will be charged {{price}} after {{period}}.',
+                            'You will be charged {{price}}exVat after {{period}}.',
                             {
                               price: `${customerCurrencySymbol}${offerPrice}`,
-                              period: `${freePeriods} ${periodDescription}`
+                              period: `${
+                                freeDays
+                                  ? `${freeDays} days`
+                                  : `${freePeriods} ${period}`
+                              }`
                             }
                           )}
                         </StyledTrialDescription>
@@ -116,34 +125,46 @@ class Offer extends Component {
                 </StyledOfferCouponWrapper>
               </StyledOfferDetailsAndCoupon>
             </div>
-            <StyledTotalWrapper>
+            <StyledPriceBoxWrapper>
               {isCouponApplied && (
                 <>
-                  <StyledPriceBeforeWrapper>
+                  <StyledPriceBoxItemWrapper>
                     <StyledTotalLabel>{t('Price')}:</StyledTotalLabel>
                     <StyledOfferPrice>
                       {`${customerCurrencySymbol}${offerPrice} `}
                       <span>{t('exVAT')}</span>
                     </StyledOfferPrice>
-                  </StyledPriceBeforeWrapper>
-                  <StyledCouponDiscountWrapper>
+                  </StyledPriceBoxItemWrapper>
+
+                  <StyledPriceBoxItemWrapper>
                     <StyledTotalLabel>{t('Coupon Discount')}</StyledTotalLabel>
                     <StyledOfferPrice>
                       {`${customerCurrencySymbol}${discountAmount}`}
                     </StyledOfferPrice>
-                  </StyledCouponDiscountWrapper>
+                  </StyledPriceBoxItemWrapper>
                 </>
               )}
+              <StyledPriceBoxItemWrapper>
+                <StyledTotalLabel>{t('Applicable Tax')}</StyledTotalLabel>
+                <StyledOfferPrice>
+                  {`${customerCurrencySymbol}${taxValue}`}
+                </StyledOfferPrice>
+              </StyledPriceBoxItemWrapper>
+            </StyledPriceBoxWrapper>
+            <StyledTotalWrapper>
               <StyledPriceWrapper>
                 <StyledTotalLabel>{t('Total')}</StyledTotalLabel>
                 <StyledOfferPrice>
-                  {`${customerCurrencySymbol}${finalPrice} `}
-                  <span>{t('exVAT')}</span>
+                  {`${customerCurrencySymbol}${finalPrice}`}
                 </StyledOfferPrice>
               </StyledPriceWrapper>
             </StyledTotalWrapper>
           </StyledOfferBody>
-          <Payment onPaymentComplete={onPaymentComplete} t={t} />
+          <Payment
+            onPaymentComplete={onPaymentComplete}
+            isPaymentDetailsRequired={requiredPaymentDetails}
+            t={t}
+          />
         </main>
         <Footer />
       </StyledOfferWrapper>
@@ -159,7 +180,8 @@ Offer.propTypes = {
     customerCurrencySymbol: PropTypes.string,
     trialAvailable: PropTypes.bool,
     freePeriods: PropTypes.number,
-    periodDescription: PropTypes.string,
+    freeDays: PropTypes.number,
+    period: PropTypes.string,
     priceExclTax: PropTypes.number,
     priceExclTaxBeforeDiscount: PropTypes.number,
     errors: PropTypes.arrayOf(PropTypes.string)
@@ -168,11 +190,14 @@ Offer.propTypes = {
     priceBreakdown: PropTypes.shape({
       offerPrice: PropTypes.number,
       discountedPrice: PropTypes.number,
-      discountAmount: PropTypes.number
+      discountAmount: PropTypes.number,
+      taxValue: PropTypes.number
     }),
     discount: PropTypes.shape({
       applied: PropTypes.bool
-    })
+    }),
+    totalPrice: PropTypes.number,
+    requiredPaymentDetails: PropTypes.bool
   }),
   couponProps: PropTypes.shape({
     showMessage: PropTypes.bool,
@@ -190,11 +215,14 @@ Offer.defaultProps = {
     priceBreakdown: {
       offerPrice: 0,
       discountedPrice: 0,
-      discountAmount: 0
+      discountAmount: 0,
+      taxValue: 0
     },
     discount: {
       applied: false
-    }
+    },
+    totalPrice: 0,
+    requiredPaymentDetails: true
   },
   couponProps: null,
   t: k => k

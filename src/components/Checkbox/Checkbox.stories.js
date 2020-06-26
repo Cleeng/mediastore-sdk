@@ -4,7 +4,7 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text, boolean } from '@storybook/addon-knobs';
 import Checkbox from './Checkbox';
 
-storiesOf('Checkbox', module)
+storiesOf('Common/Checkbox', module)
   .addDecorator(jsxDecorator)
   .addDecorator(withKnobs)
   .addDecorator(story => (

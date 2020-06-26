@@ -7,7 +7,7 @@ import Adyen from './Adyen';
 import 'styles/index.scss';
 import CreditCardExample from './util/CreditCardExample';
 
-storiesOf('Adyen', module)
+storiesOf('Checkout/Adyen', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (

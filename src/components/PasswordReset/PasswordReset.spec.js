@@ -3,13 +3,13 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import Input from 'components/Input';
+import ResetPasswordRequest from 'api/Auth/resetPassword';
+import Button from 'components/Button';
+import EmailInput from 'components/EmailInput';
 import PasswordReset, { PurePasswordReset } from './PasswordReset';
-import Button from '../Button';
-import EmailInput from '../EmailInput/EmailInput';
-import ResetPasswordRequest from '../../api/resetPassword';
 import { FormStyled } from './PasswordResetStyled';
 
-jest.mock('../../api/resetPassword');
+jest.mock('api/Auth/resetPassword');
 jest.mock('react-router-dom', () => {
   return {
     Link: () => {
@@ -36,11 +36,10 @@ const MockEmailValue = 'mock@email.com';
 const MockInvalidEmailValue = 'mock@.com';
 const MockOfferId = '762736382';
 const FuncMock = jest.fn();
-const MockResetPasswordFetch = jest.fn();
 
 describe('PasswordReset', () => {
   beforeEach(() => {
-    FuncMock.mockClear();
+    jest.clearAllMocks();
   });
   describe('@renders', () => {
     it('should render initial state', () => {
@@ -51,7 +50,6 @@ describe('PasswordReset', () => {
       expect(inputComponent).toHaveLength(1);
       expect(inputComponent.props().error).toBe('');
       expect(inputComponent.props().value).toBe('');
-      expect(inputComponent.props().icon).toBe('test-file-stub');
 
       const buttons = wrapper.find(Button);
       expect(buttons).toHaveLength(2);
@@ -70,11 +68,9 @@ describe('PasswordReset', () => {
   });
   describe('@onSubmit', () => {
     it('should call onSuccess cb when email valid', done => {
-      ResetPasswordRequest.mockImplementationOnce(
-        MockResetPasswordFetch.mockResolvedValue({
-          errors: []
-        })
-      );
+      ResetPasswordRequest.mockResolvedValue({
+        errors: []
+      });
       const wrapper = mount(
         <PurePasswordReset onSuccess={FuncMock} urlProps={mockUrlProps} />
       );
@@ -93,11 +89,9 @@ describe('PasswordReset', () => {
     });
 
     it('should not call onSuccess cb when email is not correct', done => {
-      ResetPasswordRequest.mockImplementationOnce(
-        MockResetPasswordFetch.mockResolvedValue({
-          errors: MockEmailValue
-        })
-      );
+      ResetPasswordRequest.mockResolvedValue({
+        errors: MockEmailValue
+      });
       const wrapper = mount(
         <PurePasswordReset onSuccess={FuncMock} urlProps={mockUrlProps} />
       );

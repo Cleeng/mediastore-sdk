@@ -4,21 +4,36 @@ import history from '../history';
 class Auth {
   constructor() {
     this.isAuthenticated = false;
+    this.myAccount = {
+      mainPage: '/my-account/plan-details',
+      loginPage: '/my-account/login'
+    };
+    this.checkout = {
+      mainPage: '/offer',
+      loginPage: '/login'
+    };
   }
 
-  login(email, jwt, cb = () => {}, args = []) {
+  login(isMyAccount = false, email, jwt, cb = () => {}, args = []) {
     this.isAuthenticated = true;
     localStorage.setItem('CLEENG_AUTH_TOKEN', jwt);
     localStorage.setItem('CLEENG_CUSTOMER_EMAIL', email);
     cb.apply(this, args);
-    history.push('/offer');
+    const redirectURL = isMyAccount
+      ? this.myAccount.mainPage
+      : this.checkout.mainPage;
+    history.push(redirectURL);
   }
 
-  logout() {
+  logout(isMyAccount = false, queryParam = '') {
     this.isAuthenticated = false;
     localStorage.removeItem('CLEENG_AUTH_TOKEN');
     localStorage.removeItem('CLEENG_ORDER_ID');
-    history.push('/login');
+    history.push(
+      isMyAccount
+        ? this.myAccount.loginPage + queryParam
+        : this.checkout.loginPage
+    );
   }
 
   isLogged() {

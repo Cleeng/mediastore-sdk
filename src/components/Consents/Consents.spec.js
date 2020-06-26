@@ -1,9 +1,9 @@
 import { shallow, mount } from 'enzyme';
 import React from 'react';
-import Loader from '../Loader';
-import Checkbox from '../Checkbox';
+import Checkbox from 'components/Checkbox';
+import Loader from 'components/Loader';
+import getConsentsRequest from 'api/Publisher/getConsents';
 import ConsentsComponent from './Consents';
-import getConsentsRequest from '../../api/getConsents';
 import { ConsentsErrorStyled } from './ConsentsStyled';
 import 'jest-styled-components';
 
@@ -36,10 +36,12 @@ const mockConsentsLabelsAfterRegexWithoutTags = ['No tags'];
 
 const mockPublisherId = '123456789';
 
-jest.mock('../../api/getConsents');
-const mockConsentsFetch = jest.fn();
+jest.mock('api/Publisher/getConsents');
 
 describe('<Consents/>', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   describe('@renders', () => {
     it('should render initial state', () => {
       const wrapper = shallow(<ConsentsComponent />);
@@ -83,11 +85,9 @@ describe('<Consents/>', () => {
     });
     describe('componentDidMount', () => {
       it('should get consents definitions and init values', done => {
-        getConsentsRequest.mockImplementationOnce(
-          mockConsentsFetch.mockResolvedValue({
-            responseData: { consents: mockConsent }
-          })
-        );
+        getConsentsRequest.mockResolvedValue({
+          responseData: { consents: mockConsent }
+        });
         // simulate publisherId setup with delay
         const wrapper = mount(<ConsentsComponent publisherId="" />);
         wrapper.setProps({ publisherId: mockPublisherId });
@@ -106,11 +106,9 @@ describe('<Consents/>', () => {
         });
       });
       it('should translate consents without tags', done => {
-        getConsentsRequest.mockImplementationOnce(
-          mockConsentsFetch.mockResolvedValue({
-            responseData: { consents: mockConsentWithoutTag }
-          })
-        );
+        getConsentsRequest.mockResolvedValue({
+          responseData: { consents: mockConsentWithoutTag }
+        });
         const wrapper = mount(<ConsentsComponent publisherId="" />);
         wrapper.setProps({ publisherId: mockPublisherId });
         wrapper.update();
@@ -125,9 +123,7 @@ describe('<Consents/>', () => {
         });
       });
       it('should catch error when fetch failed', done => {
-        getConsentsRequest.mockImplementationOnce(
-          mockConsentsFetch.mockRejectedValue(new Error('Error'))
-        );
+        getConsentsRequest.mockRejectedValue(new Error('Error'));
         const wrapper = mount(<ConsentsComponent publisherId="" />);
         wrapper.setProps({ publisherId: mockPublisherId });
         wrapper.update();

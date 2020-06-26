@@ -1,10 +1,11 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs } from '@storybook/addon-knobs';
+import { withKnobs, select, text, boolean } from '@storybook/addon-knobs';
+import googleIcon from 'assets/images/google.png';
 import Button from './Button';
 
-storiesOf('Button', module)
+storiesOf('Common/Button', module)
   .addDecorator(jsxDecorator)
   .addDecorator(withKnobs)
   .addDecorator(story => (
@@ -19,10 +20,23 @@ storiesOf('Button', module)
       {story()}
     </div>
   ))
-  .add('Default', () => <Button>Default button</Button>)
-  .add('Secondary', () => <Button variant="secondary">Secondary button</Button>)
-  .add('Google', () => <Button variant="google" />)
-  .add('Fb', () => <Button variant="fb" />)
-  .add('CreditCard', () => <Button variant="creditcard">Credit card</Button>)
-  .add('Link', () => <Button variant="link">Link button</Button>)
-  .add('Back', () => <Button variant="back">Back</Button>);
+  .add('All options', () => (
+    <Button
+      theme={select('theme', [
+        'primary',
+        'secondary',
+        'simple',
+        'navLink',
+        'link'
+      ])}
+      size={select('size', ['big', 'small'])}
+      fontSize={text('fontSize')}
+      margin={text('margin')}
+      fontWeight={text('fontWeight')}
+      width={text('width')}
+      disabled={boolean('disabled')}
+      icon={select('icon', [null, googleIcon])}
+    >
+      Sample button
+    </Button>
+  ));

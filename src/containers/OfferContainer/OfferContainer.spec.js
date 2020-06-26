@@ -85,6 +85,13 @@ const MockCoupon = {
 };
 
 describe('<OfferContainer/>', () => {
+  beforeEach(() => {
+    jest.spyOn(Storage.prototype, 'setItem');
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   localStorage.setItem('CLEENG_AUTH_TOKEN', jwtMock);
 
   describe('@renders', () => {

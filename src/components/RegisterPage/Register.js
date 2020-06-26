@@ -1,19 +1,21 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
+import googleIcon from 'assets/images/google.png';
+import fbIcon from 'assets/images/fb.svg';
 import ErrorPage from 'components/ErrorPage';
-import saveOfferId from '../../util/offerIdHelper';
-import savePublisherId from '../../util/publisherIdHelper';
-import labeling from '../../containers/labeling';
-
+import BackButton from 'components/BackButton';
 import {
   ContentWrapperStyled,
   SocialStyled,
   SeparatorStyled
-} from '../LoginPage/LoginStyled';
-import Button from '../Button/Button';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
+} from 'components/LoginPage/LoginStyled';
+import Button from 'components/Button';
+import Header from 'components/Header';
+import Footer from 'components/Footer';
+import labeling from 'containers/labeling';
+import savePublisherId from 'util/publisherIdHelper';
+import saveOfferId from 'util/offerIdHelper';
 import RegisterForm from './RegisterForm';
 
 class Register extends Component {
@@ -42,10 +44,12 @@ class Register extends Component {
     const { isOfferError, offerId, publisherId } = this.state;
     const { t } = this.props;
     return isOfferError ? (
-      <ErrorPage type="offerNotExist" />
+      <ErrorPage type="offerNotExist" resetError={() => this.setOfferError()} />
     ) : (
       <>
-        <Header showBackIcon />
+        <Header>
+          <BackButton />
+        </Header>
         <ContentWrapperStyled>
           <RegisterForm
             t={t}
@@ -53,16 +57,28 @@ class Register extends Component {
             publisherId={publisherId}
             setOfferError={this.setOfferError}
           />
-          <Button isLink to="/login" variant="secondary">
+          <Button isLink to={{ pathname: '/login' }} theme="secondary">
             {t('Have an account?')}
           </Button>
           <SocialStyled>
-            <SeparatorStyled>{t('Or')}</SeparatorStyled>
-            <Button variant="google" label="Sign up with Google">
-              {t('Sign up with Google')}
+            <SeparatorStyled>{t('Or sign up with')}</SeparatorStyled>
+            <Button
+              theme="simple"
+              size="small"
+              fontSize="13px"
+              label="Sign up with Facebook"
+              icon={fbIcon}
+            >
+              Facebook
             </Button>
-            <Button variant="fb" label="Sign up with Facebook">
-              {t('Sign up with Facebook')}
+            <Button
+              theme="simple"
+              size="small"
+              fontSize="13px"
+              label="Sign up with Google"
+              icon={googleIcon}
+            >
+              Google
             </Button>
           </SocialStyled>
         </ContentWrapperStyled>

@@ -20,6 +20,12 @@
   "Unlimited access.": "Unlimited access.",
   "Video rental {{days}} days": "Video rental {{days}} days",
   "Video rental {{hours}}h": "Video rental {{hours}}h",
-  "You will be charged {{price}} after {{period}}.": "You will be charged {{price}} after {{period}}.",
-  "trial period": "trial period"
+  "You will be charged {{price}}exTax after {{period}}.": "You will be charged {{price}}exTax after {{period}}.",
+  "trial period": "trial period",
+  "Your payment was not processed. Please, try again": "Your payment was not processed. Please, try again",
+  "Payment method not supported. Try different payment method": "Payment method not supported. Try different payment method",
+  "The payment failed. Please try again.": "The payment failed. Please try again.",
+  "To purchase using PayPal click 'Pay with PayPal' button. You will be redirected to the PayPal site": "To purchase using PayPal click 'Pay with PayPal' button. You will be redirected to the PayPal site",
+  "Pay with PayPal": "Pay with PayPal",
+  "Complete purchase": "Complete purchase"
 }

@@ -4,7 +4,7 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs } from '@storybook/addon-knobs';
 import Loader from './Loader';
 
-storiesOf('Loader', module)
+storiesOf('Common/Loader', module)
   .addDecorator(jsxDecorator)
   .addDecorator(withKnobs)
   .addDecorator(story => (

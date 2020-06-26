@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import EmailInput from 'components/EmailInput/EmailInput';
-import Button from '../Button/Button';
-import Header from '../Header/Header';
-import emailIcon from '../../assets/images/input/email.svg';
-import resetPassword from '../../api/resetPassword';
-import saveOfferId from '../../util/offerIdHelper';
-import labeling from '../../containers/labeling';
-import Loader from '../Loader';
+import EmailInput from 'components/EmailInput';
+import BackButton from 'components/BackButton';
+import Button from 'components/Button';
+import Header from 'components/Header';
+import Loader from 'components/Loader';
+import resetPassword from 'api/Auth/resetPassword';
+import saveOfferId from 'util/offerIdHelper';
+import labeling from 'containers/labeling';
 import {
   PasswordResetPageStyled,
   StyledTitle,
@@ -65,10 +65,16 @@ class PasswordReset extends Component {
 
   render() {
     const { value, message, processing } = this.state;
-    const { t } = this.props;
+    const {
+      t,
+      urlProps: { location }
+    } = this.props;
+    const fromMyAccount = location.state ? location.state.fromMyAccount : false;
     return (
       <>
-        <Header showBackIcon />
+        <Header>
+          <BackButton isMyAccount={fromMyAccount} />
+        </Header>
         <PasswordResetPageStyled>
           <StyledTitle>{t('Forgot your password?')}</StyledTitle>
           <StyledMessage>
@@ -79,13 +85,16 @@ class PasswordReset extends Component {
           <FormStyled onSubmit={this.onSubmit} noValidate>
             <EmailInput
               label={t('Email')}
-              icon={emailIcon}
               error={message}
               value={value}
               onChange={v => this.setState({ value: v })}
             />
             <Button type="submit" disabled={processing}>
-              {processing ? <Loader buttonLoader white /> : t('Reset Password')}
+              {processing ? (
+                <Loader buttonLoader color="#ffffff" />
+              ) : (
+                t('Reset Password')
+              )}
             </Button>
           </FormStyled>
         </PasswordResetPageStyled>
@@ -97,7 +106,10 @@ class PasswordReset extends Component {
 PasswordReset.propTypes = {
   onSuccess: PropTypes.func.isRequired,
   urlProps: PropTypes.shape({
-    location: PropTypes.shape({ search: PropTypes.string })
+    location: PropTypes.shape({
+      search: PropTypes.string,
+      state: PropTypes.object
+    })
   }),
   t: PropTypes.func
 };

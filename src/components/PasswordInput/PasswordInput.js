@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from '../Input/Input';
-import lock from '../../assets/images/input/lock.svg';
+import Input from 'components/Input';
 
 class PasswordInput extends React.Component {
   constructor(props) {
@@ -112,7 +111,6 @@ class PasswordInput extends React.Component {
         <Input
           placeholder={label}
           type={showPassword ? 'text' : 'password'}
-          icon={lock}
           value={value}
           onChange={this.onChangeFunction}
           onBlur={onBlur}

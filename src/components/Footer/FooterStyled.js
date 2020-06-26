@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import * as colors from '../../styles/variables';
+import styled, { css } from 'styled-components';
+import * as colors from 'styles/variables';
 
 export const FooterStyled = styled.footer`
   position: absolute;
@@ -12,6 +12,13 @@ export const FooterStyled = styled.footer`
   padding: 10px;
 
   background-color: ${colors.LightGrey};
+
+  ${props =>
+    props.isInPopup &&
+    css`
+      position: fixed;
+      left: 0;
+    `}
 `;
 
 export const ProductByStyled = styled.span`

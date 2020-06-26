@@ -4,11 +4,11 @@ import { withKnobs } from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import StoryRouter from 'storybook-react-router';
 import Register from './Register';
-import '../../styles/index.scss';
+import 'styles/index.scss';
 
 localStorage.setItem('CLEENG_OFFER_ID', 'S144753252_UA');
 
-storiesOf('RegisterPage', module)
+storiesOf('Checkout/RegisterPage', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (

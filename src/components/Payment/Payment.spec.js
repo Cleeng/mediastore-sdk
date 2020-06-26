@@ -1,10 +1,15 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import Button from 'components/Button/Button';
+import Button from 'components/Button';
 import Adyen from 'components/Adyen';
+import {
+  submitPayment,
+  getPaymentMethods,
+  updateOrder,
+  submitPayPalPayment
+} from 'api';
 import Payment from './Payment';
 import { PaymentErrorStyled } from './PaymentStyled';
-import { submitPayment, getPaymentMethods, updateOrder } from '../../api';
 
 const mockPaymentMethods = {
   responseData: {
@@ -58,10 +63,21 @@ jest.mock('api', () => ({
   submitPayment: jest
     .fn()
     .mockResolvedValue({ errors: [] })
-    .mockName('submitPayment')
+    .mockName('submitPayment'),
+  submitPayPalPayment: jest
+    .fn()
+    .mockResolvedValue({ responseData: { redirectUrl: 'mock.com' } })
+    .mockName('submitPayPalPayment')
 }));
 
 describe('Payment', () => {
+  beforeEach(() => {
+    jest.spyOn(Storage.prototype, 'getItem');
+    jest.spyOn(Storage.prototype, 'setItem');
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it('renders with buttons', () => {
     const wrapper = shallow(<Payment onPaymentComplete={jest.fn()} />);
     wrapper.setState({
@@ -142,6 +158,41 @@ describe('Adyen submit', () => {
     expect(submitPayment).toHaveBeenCalled();
     setImmediate(() => {
       expect(instance.state.generalError).not.toBe('');
+      done();
+    });
+  });
+});
+describe('Paypal submit', () => {
+  it('should call submitPayPalPayment', done => {
+    const mockOnPaymentComplete = jest.fn();
+    delete window.location;
+    window.location = {
+      href: ''
+    };
+    const wrapper = mount(
+      <Payment onPaymentComplete={mockOnPaymentComplete} />
+    );
+    const instance = wrapper.instance();
+    instance.submitPayPal();
+    expect(submitPayPalPayment).toHaveBeenCalled();
+    setImmediate(() => {
+      expect(window.location.href).toBe('mock.com');
+      done();
+    });
+  });
+  it('should set state when error occures', done => {
+    submitPayPalPayment.mockRejectedValue(new Error('erro'));
+    const mockOnPaymentComplete = jest.fn();
+    const wrapper = mount(
+      <Payment onPaymentComplete={mockOnPaymentComplete} />
+    );
+    const instance = wrapper.instance();
+    instance.submitPayPal();
+    expect(submitPayPalPayment).toHaveBeenCalled();
+    setImmediate(() => {
+      expect(instance.state.generalError).toBe(
+        'The payment failed. Please try again.'
+      );
       done();
     });
   });

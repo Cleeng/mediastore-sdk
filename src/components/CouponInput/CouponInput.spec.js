@@ -1,10 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import 'jest-styled-components';
-import Button from 'components/Button';
+import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 import CouponInput from './CouponInput';
 import { InputElementStyled, MessageStyled } from './CouponInputStyled';
-import { MESSAGE_TYPE_SUCCESS } from '../Input/InputConstants';
 
 jest.useFakeTimers();
 
@@ -60,7 +59,7 @@ describe('CouponInput', () => {
       const wrapper = mount(
         <CouponInput onSubmit={onSubmit} value="mockValue" />
       );
-      const buttonComponent = wrapper.find(Button);
+      const buttonComponent = wrapper.find('button');
 
       buttonComponent.simulate('click');
 
@@ -101,7 +100,7 @@ describe('CouponInput', () => {
       });
     });
 
-    it('should not call onSubmit when any other key is pressed', done => {
+    it('should not call onSubmit when any other key is pressed', () => {
       onSubmit.mockClear();
       const mockInputValue = 'MOCK_INPUT_VALUE';
 
@@ -117,10 +116,7 @@ describe('CouponInput', () => {
         key: 'd',
         target: input
       });
-      setImmediate(() => {
-        expect(onSubmit).not.toHaveBeenCalled();
-        done();
-      });
+      expect(onSubmit).not.toHaveBeenCalled();
     });
     it('should blur on submit when', () => {
       onSubmit.mockClear();

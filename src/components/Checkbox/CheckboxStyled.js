@@ -3,9 +3,11 @@ import {
   MainTextColor,
   ErrorColor,
   CheckboxBorderColor,
-  FocusColor
+  FocusColor,
+  MyAccountMenuActive
 } from 'styles/variables';
 import tickIcon from 'assets/images/input/tick.svg';
+import enableIcon from 'assets/images/input/enable_check.svg';
 
 export const CheckboxStyled = styled.div`
   display: flex;
@@ -21,9 +23,15 @@ export const CheckboxStyled = styled.div`
   &:focus {
     outline: none;
   }
+  ${props =>
+    props.disabled &&
+    css`
+      opacity: 0.7;
+    `}
 `;
 
 export const ConsentDefinitionStyled = styled.div`
+  position: relative;
   padding-left: 10px;
   margin-top: 0;
 
@@ -38,6 +46,12 @@ export const ConsentDefinitionStyled = styled.div`
       outline: 2px solid ${FocusColor};
     }
   }
+  opacity: 0.8;
+  ${props =>
+    props.checked &&
+    css`
+      opacity: 1;
+    `}
 `;
 
 export const CheckFrameStyled = styled.div`
@@ -58,6 +72,24 @@ export const CheckFrameStyled = styled.div`
     css`
       border-color: ${ErrorColor};
     `}
+  ${props =>
+    props.isRadioButton &&
+    css`
+      border-radius: 50%;
+    `}
+  ${props =>
+    props.isRadioButton &&
+    props.checked &&
+    css`
+      border: 1px solid ${MyAccountMenuActive};
+    `}
+
+  ${props =>
+    props.isMyAccount &&
+    props.checked &&
+    css`
+      border-color: ${MyAccountMenuActive};
+    `}
 `;
 
 export const CheckMarkStyled = styled.div`
@@ -70,6 +102,30 @@ export const CheckMarkStyled = styled.div`
 
   background-image: url(${tickIcon});
   background-repeat: no-repeat;
+  ${props =>
+    props.isRadioButton &&
+    css`
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      width: 12px;
+      height: 12px;
+
+      background: ${MyAccountMenuActive};
+      border-radius: 50%;
+    `}
+  ${props =>
+    props.isMyAccount &&
+    css`
+      width: 20px;
+      height: 20px;
+      top: -1px;
+      left: -1px;
+      background-image: url(${enableIcon});
+      background-position: center;
+      background-size: cover;
+    `}
 `;
 
 export const ErrorFieldStyled = styled.div`

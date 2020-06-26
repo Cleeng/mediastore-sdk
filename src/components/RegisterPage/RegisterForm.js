@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import submitConsents from 'api/submitConsents';
-import Consent, { validateConsentsField } from '../Consents';
-import { FromStyled, FormErrorStyled } from '../LoginPage/LoginStyled';
-import Loader from '../Loader/Loader';
-import Button from '../Button/Button';
-import EmailInput from '../EmailInput/EmailInput';
-import PasswordInput from '../PasswordInput/PasswordInput';
-import validateEmailField from '../EmailInput/EmailHelper';
-import { validateRegisterPassword } from '../PasswordInput/PasswordHelper';
-import registerCustomer from '../../api/registerCustomer';
-import getCustomerLocales from '../../api/getCustomerLocales';
-import Auth from '../../services/auth';
+import submitConsents from 'api/Customer/submitConsents';
+import Loader from 'components/Loader';
+import Consent, { validateConsentsField } from 'components/Consents';
+import { FromStyled, FormErrorStyled } from 'components/LoginPage/LoginStyled';
+import Button from 'components/Button';
+import EmailInput from 'components/EmailInput';
+import PasswordInput from 'components/PasswordInput';
+import validateEmailField from 'components/EmailInput/EmailHelper';
+import { validateRegisterPassword } from 'components/PasswordInput/PasswordHelper';
+import registerCustomer from 'api/Auth/registerCustomer';
+import getCustomerLocales from 'api/Customer/getCustomerLocales';
+import Auth from 'services/auth';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -32,8 +32,7 @@ class RegisterForm extends Component {
     };
   }
 
-  handleClickShowPassword = e => {
-    e.preventDefault();
+  handleClickShowPassword = () => {
     const { showPassword } = this.state;
     this.setState({ showPassword: !showPassword });
   };
@@ -111,6 +110,7 @@ class RegisterForm extends Component {
       return false;
     }
     const locales = localesResponse.responseData;
+    localStorage.setItem('CLEENG_CUSTOMER_IP', locales.ipAddress);
     const response = await registerCustomer(
       email,
       password,
@@ -120,7 +120,7 @@ class RegisterForm extends Component {
       locales.currency
     );
     if (response.status === 200) {
-      Auth.login(email, response.responseData.jwt, submitConsents, [
+      Auth.login(false, email, response.responseData.jwt, submitConsents, [
         consents,
         consentDefinitions
       ]);
@@ -189,7 +189,7 @@ class RegisterForm extends Component {
           onChangeFn={this.handleConsentsChange}
         />
         <Button type="submit" disabled={processing}>
-          {processing ? <Loader buttonLoader white /> : t('Register')}
+          {processing ? <Loader buttonLoader color="#ffffff" /> : t('Register')}
         </Button>
       </FromStyled>
     );

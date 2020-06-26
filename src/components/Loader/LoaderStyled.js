@@ -1,4 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
+import { MyAccountMenuActive } from 'styles/variables';
 
 export const LoaderKeyframeStyled = keyframes`
   0%,
@@ -18,20 +19,24 @@ export const LoaderStyled = styled.div`
   position: relative;
   width: 64px;
   height: 64px;
+  ${props =>
+    props.isMyAccount &&
+    css`
+      margin: 50px auto;
+    `};
 
   & div {
     position: absolute;
     width: 5px;
     height: 5px;
-    background: #d4d4d4;
+    background: ${props => (props.color ? props.color : '#d4d4d4')};
     border-radius: 50%;
     animation: ${LoaderKeyframeStyled} 1.2s linear infinite;
-
     ${props =>
-      props.white &&
+      props.isMyAccount &&
       css`
-        background: #fff;
-      `}
+        background: ${MyAccountMenuActive};
+      `};
   }
 
   & div:nth-child(1) {
@@ -109,7 +114,9 @@ export const LoaderStyled = styled.div`
   ${props =>
     props.buttonLoader &&
     css`
-      transform: scale(0.6) translateY(-12px);
+      width: 18px;
+      height: 18px;
+      transform: scale(0.4) translate(-20px, -25px);
     `}
 
   ${props =>

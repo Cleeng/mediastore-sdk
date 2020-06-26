@@ -4,7 +4,7 @@ import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import Auth from './auth';
 
-function PublicRoute({ component: Component, ...rest }) {
+function PublicRoute({ component: Component, isMyAccount = false, ...rest }) {
   return (
     <Route
       {...rest}
@@ -12,7 +12,9 @@ function PublicRoute({ component: Component, ...rest }) {
         Auth.isLogged() ? (
           <Redirect
             to={{
-              pathname: '/offer'
+              pathname: isMyAccount
+                ? Auth.myAccount.mainPage
+                : Auth.checkout.mainPage
             }}
           />
         ) : (

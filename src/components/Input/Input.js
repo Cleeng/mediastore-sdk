@@ -8,7 +8,8 @@ import {
   InputElementStyled,
   ErrorWrapper,
   StyledButton,
-  StyledPasswordVisibility
+  StyledPasswordVisibility,
+  LabelStyled
 } from './InputStyled';
 
 class Input extends Component {
@@ -21,7 +22,6 @@ class Input extends Component {
     const {
       type,
       placeholder,
-      icon,
       value,
       onChange,
       onBlur,
@@ -38,26 +38,28 @@ class Input extends Component {
       <InputComponentStyled>
         <InputElementWrapperStyled
           error={error}
-          icon={icon}
           passwordStrength={passwordStrength}
         >
           <InputElementStyled
-            placeholder={placeholder}
+            id={placeholder}
             autoComplete="off"
             value={value}
             onChange={event => onChange(event.target.value)}
             type={type}
             onBlur={onBlur}
-            aria-label={placeholder}
             aria-required={ariaRequired}
             aria-invalid={ariaInvalid}
             aria-describedby={`${placeholder}-desc`}
           />
+          <LabelStyled htmlFor={placeholder} hasValue={value}>
+            {placeholder}
+          </LabelStyled>
           {showVisibilityIcon && (
             <StyledButton
               onClick={handleClickShowPassword}
               tabIndex="0"
               aria-label="toggle password visibility"
+              type="button"
             >
               {showPassword ? (
                 <StyledPasswordVisibility src={visibilityOff} alt="" />
@@ -81,7 +83,6 @@ class Input extends Component {
 Input.propTypes = {
   placeholder: PropTypes.string,
   type: PropTypes.string,
-  icon: PropTypes.node,
   value: PropTypes.string,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
@@ -97,7 +98,6 @@ Input.propTypes = {
 Input.defaultProps = {
   placeholder: '',
   type: 'text',
-  icon: null,
   onChange: () => {},
   onBlur: () => {},
   error: '',

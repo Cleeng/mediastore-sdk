@@ -5,12 +5,7 @@ import { action } from '@storybook/addon-actions';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { State, Store } from '@sambego/storybook-state';
 import 'styles/index.scss';
-import couponIcon from 'assets/images/input/coupon.svg';
-import emailIcon from 'assets/images/input/email.svg';
-import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from './InputConstants';
 import Input from './Input';
-import '../../styles/index.scss';
-import passwordIcon from '../../assets/images/input/lock.svg';
 
 const wrapperState = new Store({
   value: ''
@@ -22,7 +17,7 @@ const inputTypes = {
   password: 'password'
 };
 
-storiesOf('Input', module)
+storiesOf('Checkout/Input', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (
@@ -37,30 +32,6 @@ storiesOf('Input', module)
     <Input
       type={select('type', inputTypes)}
       placeholder={text('placeholder', 'Type here...')}
-      icon={select(
-        'icon',
-        {
-          none: null,
-          coupon: couponIcon,
-          email: emailIcon,
-          password: passwordIcon
-        },
-        null
-      )}
-      isCouponInput={boolean('isCouponInput', false)}
-      showMessage={boolean('showMessage', false)}
-      message={text('message', '')}
-      messageType={select(
-        'messageType',
-        {
-          success: MESSAGE_TYPE_SUCCESS,
-          fail: MESSAGE_TYPE_FAIL
-        },
-        MESSAGE_TYPE_SUCCESS
-      )}
-      clearMessageAfterDelay={boolean('clearMessageAfterDelay', false)}
-      clearMessageOnFocus={boolean('clearMessageOnFocus', false)}
-      blurOnSubmit={boolean('blurOnSubmit', false)}
       onSubmit={async () => action('onSubmit')}
       value={state.value}
       onChange={e => wrapperState.set({ value: e })}

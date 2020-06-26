@@ -2,19 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
-import saveOfferId from '../../util/offerIdHelper';
-import savePublisherId from '../../util/publisherIdHelper';
-import labeling from '../../containers/labeling';
-import Auth from '../../services/auth';
+import googleIcon from 'assets/images/google.png';
+import fbIcon from 'assets/images/fb.svg';
+import Button from 'components/Button';
+import Header from 'components/Header';
+import Footer from 'components/Footer';
+import saveOfferId from 'util/offerIdHelper';
+import savePublisherId from 'util/publisherIdHelper';
+import labeling from 'containers/labeling';
+import Auth from 'services/auth';
 
 import {
   ContentWrapperStyled,
   SocialStyled,
   SeparatorStyled
 } from './LoginStyled';
-import Button from '../Button/Button';
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 import LoginForm from './LoginForm';
 
 class Login extends Component {
@@ -22,26 +24,38 @@ class Login extends Component {
     super(props);
     this.state = {
       offerId: '',
-      isOfferError: false
+      publisherId: '',
+      isOfferError: false,
+      emailChanged: false
     };
   }
 
   componentDidMount() {
     const { urlProps } = this.props;
     saveOfferId(urlProps.location, this.setOfferId);
-    savePublisherId(urlProps.location, () => {});
+    savePublisherId(urlProps.location, this.setPublisherId);
+    if (urlProps.location.search.includes('emailChanged=true')) {
+      this.setState({
+        emailChanged: true
+      });
+    }
     Auth.isLogged();
   }
 
   setOfferId = value => this.setState({ offerId: value });
 
+  setPublisherId = value => this.setState({ publisherId: value });
+
   setOfferError = value => this.setState({ isOfferError: value });
 
   render() {
-    const { isOfferError, offerId } = this.state;
-    const { t } = this.props;
+    const { isOfferError, offerId, publisherId, emailChanged } = this.state;
+    const { isMyAccount, t } = this.props;
     return isOfferError ? (
-      <ErrorPage type="offerNotExist" />
+      <ErrorPage
+        type="offerNotExist"
+        resetError={() => this.setOfferError(false)}
+      />
     ) : (
       <>
         <Header />
@@ -49,23 +63,49 @@ class Login extends Component {
           <LoginForm
             t={t}
             offerId={offerId}
+            publisherId={publisherId}
             setOfferError={this.setOfferError}
+            isMyAccount={isMyAccount}
+            emailChanged={emailChanged}
           />
-          <Button isLink to="/register" variant="secondary">
-            {t('Go to register')}
+          {!isMyAccount && (
+            <>
+              <Button isLink to={{ pathname: '/register' }} theme="secondary">
+                {t('Go to register')}
+              </Button>
+              <SocialStyled>
+                <SeparatorStyled>{t('Or sign in with')}</SeparatorStyled>
+                <Button
+                  theme="simple"
+                  size="small"
+                  fontSize="13px"
+                  label={t('Sign in with Facebook')}
+                  icon={fbIcon}
+                >
+                  Facebook
+                </Button>
+                <Button
+                  theme="simple"
+                  size="small"
+                  fontSize="13px"
+                  label={t('Sign in with Google')}
+                  icon={googleIcon}
+                >
+                  Google
+                </Button>
+              </SocialStyled>
+            </>
+          )}
+          <Button
+            isLink
+            to={{
+              pathname: '/reset-password',
+              fromMyAccount: isMyAccount
+            }}
+            theme="link"
+          >
+            {t('Forgot password?')}
           </Button>
-          <SocialStyled>
-            <SeparatorStyled>{t('Or')}</SeparatorStyled>
-            <Button variant="google" label="Log in with Google">
-              {t('Log in with Google')}
-            </Button>
-            <Button variant="fb" label="Log in with Facebook">
-              {t('Log in with Facebook')}
-            </Button>
-            <Button isLink to="/reset-password" variant="link">
-              {t('Forgot password?')}
-            </Button>
-          </SocialStyled>
         </ContentWrapperStyled>
         <Footer />
       </>
@@ -76,10 +116,12 @@ Login.propTypes = {
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
   }),
+  isMyAccount: PropTypes.bool,
   t: PropTypes.func
 };
 Login.defaultProps = {
   urlProps: {},
+  isMyAccount: false,
   t: k => k
 };
 

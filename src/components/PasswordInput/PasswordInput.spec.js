@@ -1,9 +1,9 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import 'jest-styled-components';
+import Input from 'components/Input';
 import PasswordInput from './PasswordInput';
 import { InputElementStyled, ErrorWrapper } from '../Input/InputStyled';
-import Input from '../Input';
 
 jest.useFakeTimers();
 
@@ -18,12 +18,10 @@ describe('PasswordInput', () => {
       const inputComponent = wrapper.find(Input);
       expect(inputComponent).toHaveLength(1);
       expect(inputComponent.props().value).toBe('');
-      expect(inputComponent.props().icon).toBe('test-file-stub');
 
       const inputElement = wrapper.find(InputElementStyled);
       expect(inputElement).toHaveLength(1);
       expect(inputElement.props().type).toBe('password');
-      expect(inputElement.props().placeholder).toBe('Password');
       expect(inputElement.props().autoComplete).toBe('off');
     });
 

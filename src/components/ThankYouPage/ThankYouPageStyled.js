@@ -45,7 +45,14 @@ export const SocialsStyled = styled.div`
 export const ButtonsStyled = styled.div`
   display: flex;
   justify-content: center;
+  button {
+    width: 65px;
 
+    &::before {
+      left: 50%;
+      transform: translate(-45%, -50%);
+    }
+  }
   & button:first-child {
     margin-right: 13px;
   }

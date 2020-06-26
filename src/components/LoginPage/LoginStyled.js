@@ -1,13 +1,13 @@
 import styled, { css } from 'styled-components';
-import * as colors from '../../styles/variables';
-import { media } from '../../styles/BreakPoints';
+import * as colors from 'styles/variables';
+import { media } from 'styles/BreakPoints';
 
 export const ContentWrapperStyled = styled.main`
   position: relative;
 
   width: 55%;
   margin: 40px auto 0 auto;
-  padding-bottom: 50px;
+  padding-bottom: 65px;
 
   text-align: center;
 
@@ -20,15 +20,17 @@ export const FromStyled = styled.form`
   & input {
     position: relative;
   }
-  & label {
-    margin-top: 20px;
-  }
   & button:last-child {
     margin: 35px 0 10px;
   }
 `;
 
 export const SocialStyled = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
   width: 100%;
   margin-top: 10px;
 
@@ -37,22 +39,26 @@ export const SocialStyled = styled.div`
   }
 
   button {
-    width: 100%;
-    margin-bottom: 10px;
-    &::before {
-      position: absolute;
-      left: 15px;
-      top: 10px;
-    }
+    width: 48%;
+    margin: 10px 0 30px 0;
   }
 
-  button:last-child {
-    margin: 10px 0 10px;
-  }
+  ${media.smallest`
+    flex-direction: column;
+    
+    margin-bottom: 20px;
+    
+    button{
+      width: 100%;
+
+      margin: 5px 0;
+    }
+  `}
 `;
 
 export const SeparatorStyled = styled.div`
   display: block;
+  width: 100%;
 
   padding: 20px 0;
 
@@ -76,12 +82,12 @@ export const SeparatorStyled = styled.div`
     background-color: ${colors.MediumGrey};
   }
   &::before {
-    right: 20%;
+    right: 5%;
 
     margin-left: -50%;
   }
   &::after {
-    left: 20%;
+    left: 5%;
     margin-right: -50%;
   }
 `;
@@ -134,4 +140,14 @@ export const StyledErrorDiv = styled.div`
       left: 0;
       top: 17px;
     `}
+`;
+
+export const FormSuccessStyled = styled.h1`
+  color: ${colors.MainColor};
+  position: absolute;
+  top: -25px;
+  width: 100%;
+  font-size: 13px;
+  font-weight: 600;
+  font-family: 'Geomanist';
 `;

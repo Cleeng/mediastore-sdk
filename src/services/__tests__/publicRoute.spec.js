@@ -3,8 +3,10 @@ import React from 'react';
 import PublicRoute from 'services/publicRoute';
 import { mount } from 'enzyme';
 import { MemoryRouter } from 'react-router-dom';
-import Auth from '../auth';
-import Login from '../../components/LoginPage';
+import Login from 'components/LoginPage';
+import AuthRequest from '../auth';
+
+jest.mock('../auth');
 
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
@@ -17,7 +19,7 @@ jest.mock('react-i18next', () => ({
 
 describe('PublicRoute', () => {
   it('should render public component when user is not logged', () => {
-    Auth.isLogged = jest.fn(() => false);
+    AuthRequest.isLogged = jest.fn(() => false);
     const mockUrlProps = {
       location: {
         search: 'offer:123'
@@ -37,8 +39,8 @@ describe('PublicRoute', () => {
     );
   });
 
-  it('should redirect to offer page is user is logged', () => {
-    Auth.isLogged = jest.fn(() => true);
+  it('should redirect from checkout login to offer page if user is logged', () => {
+    AuthRequest.isLogged = jest.fn(() => true);
     const wrapper = mount(
       <MemoryRouter initialEntries={['/login']}>
         <PublicRoute path="/login" component={Login} />
@@ -47,6 +49,22 @@ describe('PublicRoute', () => {
     expect(wrapper.find(Login)).toHaveLength(0);
     expect(wrapper.find('Router').prop('history').location.pathname).toEqual(
       '/offer'
+    );
+  });
+  it('should redirect from my account login to plan details page if user is logged', () => {
+    AuthRequest.isLogged = jest.fn(() => true);
+    const wrapper = mount(
+      <MemoryRouter initialEntries={['/my-account/login']}>
+        <PublicRoute
+          path="/my-account/login"
+          isMyAccount
+          component={() => <Login isMyAccount />}
+        />
+      </MemoryRouter>
+    );
+    expect(wrapper.find(Login)).toHaveLength(0);
+    expect(wrapper.find('Router').prop('history').location.pathname).toEqual(
+      '/my-account/plan-details'
     );
   });
 });

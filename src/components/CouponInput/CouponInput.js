@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import couponIcon from 'assets/images/input/coupon.svg';
-import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from '../Input';
-import Button from '../Button';
+import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
+import Loader from 'components/Loader';
 import {
   CouponInputWrapperStyled,
   InputComponentStyled,
   MessageStyled,
   InputElementWrapperStyled,
-  InputElementStyled
+  InputElementStyled,
+  ButtonStyled
 } from './CouponInputStyled';
-import Loader from '../Loader';
 
 const FADE_OUT_DELAY = 5000;
 
@@ -130,13 +130,12 @@ class CouponInput extends Component {
           </InputElementWrapperStyled>
         </InputComponentStyled>
 
-        <Button
-          onClickFn={() => onSubmit(value)}
-          variant="couponApply"
+        <ButtonStyled
+          onClick={() => onSubmit(value)}
           disabled={couponLoading || value === ''}
         >
           {t('Apply')}
-        </Button>
+        </ButtonStyled>
       </CouponInputWrapperStyled>
     );
   }
