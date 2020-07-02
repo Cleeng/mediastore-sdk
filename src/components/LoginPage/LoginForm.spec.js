@@ -2,8 +2,7 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import loginCustomerRequest from 'api/Auth/loginCustomer';
 import getLocalesRequest from 'api/Customer/getCustomerLocales';
-import checkCaptchaRequest from 'api/Auth/checkCaptcha';
-
+import { isCaptchaRequired, validateCaptchaField } from 'components/Captcha';
 import Auth from 'services/auth';
 import PasswordInput from 'components/PasswordInput';
 import EmailInput from 'components/EmailInput';
@@ -12,7 +11,7 @@ import LoginForm from './LoginForm';
 jest.mock('api/Auth/loginCustomer');
 jest.mock('api/Customer/getCustomerLocales');
 jest.mock('api/Auth/checkCaptcha');
-
+jest.mock('components/Captcha');
 const setOfferErrorMock = jest.fn();
 const mockInputValue = 'MOCK_INPUT_VALUE';
 const mockEmailValue = 'mockmail@mock.com';
@@ -36,10 +35,7 @@ describe('LoginForm', () => {
       status: 200,
       responseData: { ipAddress: '1234' }
     });
-    checkCaptchaRequest.mockResolvedValue({
-      status: 200,
-      responseData: { required: false }
-    });
+    isCaptchaRequired.mockResolvedValue(false);
   });
   describe('@events', () => {
     it('should update state on input change', () => {
@@ -106,6 +102,9 @@ describe('LoginForm', () => {
     });
 
     it('should validate fields on blur', () => {
+      validateCaptchaField.mockReturnValueOnce(
+        'Please complete the CAPTCHA to complete your login.'
+      );
       const wrapper = mount(<LoginForm offerId="S649095045_PL" />);
       const instance = wrapper.instance();
       instance.setState({
@@ -124,22 +123,8 @@ describe('LoginForm', () => {
       );
     });
 
-    it('should update state when captcha is changed', () => {
-      const wrapper = mount(<LoginForm offerId="S649095045_PL" />);
-      const instance = wrapper.instance();
-      instance.setState({
-        showCaptcha: true
-      });
-      instance.onCaptchaChange();
-      expect(wrapper.state().captcha).not.toBe('');
-      expect(wrapper.state().errors.captcha).toBe('');
-    });
-
     it('sholud update state if captcha is required', done => {
-      checkCaptchaRequest.mockResolvedValue({
-        status: 200,
-        responseData: { required: true }
-      });
+      isCaptchaRequired.mockResolvedValue(true);
       const wrapper = mount(<LoginForm offerId="S649095045_PL" />);
       setImmediate(() => {
         expect(wrapper.state().showCaptcha).toBe(true);
@@ -153,6 +138,7 @@ describe('LoginForm', () => {
         status: 200,
         responseData: { jwt: jwtMock }
       });
+      validateCaptchaField.mockReturnValueOnce('');
 
       onSubmitMock.mockClear();
       Auth.login = jest.fn();
@@ -186,7 +172,7 @@ describe('LoginForm', () => {
         status: 200,
         responseData: { jwt: jwtMock }
       });
-
+      validateCaptchaField.mockReturnValueOnce('');
       onSubmitMock.mockClear();
       Auth.login = jest.fn();
       const wrapper = shallow(<LoginForm publisher="123456789" isMyAccount />);
@@ -218,6 +204,7 @@ describe('LoginForm', () => {
       loginCustomerRequest.mockResolvedValue({
         status: 422
       });
+      validateCaptchaField.mockReturnValueOnce('');
       onSubmitMock.mockClear();
       const wrapper = shallow(
         <LoginForm offerId="S649095045_PL" onLoginComplete={onSubmitMock} />
@@ -248,10 +235,8 @@ describe('LoginForm', () => {
       loginCustomerRequest.mockResolvedValue({
         status: 429
       });
-      checkCaptchaRequest.mockResolvedValue({
-        status: 200,
-        responseData: { required: false }
-      });
+      isCaptchaRequired.mockResolvedValue(false);
+      validateCaptchaField.mockReturnValueOnce('');
       onSubmitMock.mockClear();
       const wrapper = shallow(
         <LoginForm offerId="S649095045_PL" onLoginComplete={onSubmitMock} />
@@ -284,10 +269,8 @@ describe('LoginForm', () => {
       loginCustomerRequest.mockResolvedValue({
         status: 500
       });
-      checkCaptchaRequest.mockResolvedValue({
-        status: 200,
-        responseData: { required: false }
-      });
+      isCaptchaRequired.mockResolvedValue(false);
+      validateCaptchaField.mockReturnValueOnce('');
       onSubmitMock.mockClear();
       const wrapper = shallow(
         <LoginForm offerId="S649095045_PL" onLoginComplete={onSubmitMock} />
@@ -317,6 +300,8 @@ describe('LoginForm', () => {
     it('should return offer error when offerId is not given', done => {
       const preventDefaultMock = jest.fn();
       onSubmitMock.mockClear();
+      isCaptchaRequired.mockResolvedValue(false);
+      validateCaptchaField.mockReturnValueOnce('');
       const wrapper = shallow(
         <LoginForm
           offerId=""

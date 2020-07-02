@@ -83,7 +83,7 @@ class Popup extends Component {
     this.setState({
       isLoading: true
     });
-    const response = await resetPassword('', customerEmail, publisherId);
+    const response = await resetPassword('', customerEmail, '', publisherId);
     if (!response.errors.length) {
       this.renderNextStep();
       this.setState({

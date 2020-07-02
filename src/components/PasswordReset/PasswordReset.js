@@ -9,6 +9,10 @@ import Loader from 'components/Loader';
 import resetPassword from 'api/Auth/resetPassword';
 import saveOfferId from 'util/offerIdHelper';
 import labeling from 'containers/labeling';
+import Captcha, {
+  isCaptchaRequired,
+  validateCaptchaField
+} from 'components/Captcha';
 import {
   PasswordResetPageStyled,
   StyledTitle,
@@ -26,45 +30,73 @@ class PasswordReset extends Component {
       offerId: '',
       value: '',
       message: '',
+      showCaptcha: false,
+      captcha: '',
+      captchaError: '',
       processing: false
     };
+    this.recaptchaRef = React.createRef();
   }
 
   componentDidMount() {
     const { urlProps } = this.props;
     saveOfferId(urlProps.location, this.setOfferId);
+    isCaptchaRequired('customer-reset-password').then(resp =>
+      this.setState({
+        showCaptcha: resp
+      })
+    );
   }
 
   setOfferId = value => this.setState({ offerId: value });
 
   onSubmit = async e => {
     e.preventDefault();
-    this.setState({
-      processing: true
-    });
-    const { value, offerId } = this.state;
+    const { value, offerId, captcha } = this.state;
     const { onSuccess, t } = this.props;
-
-    if (EMAIL_REGEX.test(value)) {
-      const { errors } = await resetPassword(offerId, value);
+    if (this.validateFields()) {
+      this.setState({
+        processing: true
+      });
+      const { errors } = await resetPassword(offerId, value, captcha);
       if (errors.length) {
         this.setState({
           processing: false,
+          showCaptcha: await isCaptchaRequired('customer-reset-password'),
           message: t(errors[0])
         });
       } else {
         onSuccess(value);
       }
-    } else {
-      this.setState({
-        processing: false,
-        message: t('The email address is not properly formatted.')
-      });
     }
+
+    return true;
   };
 
+  validateFields() {
+    const { captcha, showCaptcha, value } = this.state;
+    const { t } = this.props;
+    const errorFields = {
+      captcha: t(validateCaptchaField(captcha, showCaptcha)),
+      email: EMAIL_REGEX.test(value)
+        ? ''
+        : t('The email address is not properly formatted.')
+    };
+    this.setState({
+      message: errorFields.email,
+      captchaError: errorFields.captcha
+    });
+    return !Object.keys(errorFields).find(key => errorFields[key] !== '');
+  }
+
   render() {
-    const { value, message, processing } = this.state;
+    const {
+      value,
+      message,
+      processing,
+      showCaptcha,
+      captchaError
+    } = this.state;
     const {
       t,
       urlProps: { location }
@@ -89,6 +121,18 @@ class PasswordReset extends Component {
               value={value}
               onChange={v => this.setState({ value: v })}
             />
+            {showCaptcha && (
+              <Captcha
+                recaptchaRef={this.recaptchaRef}
+                onChange={() =>
+                  this.setState({
+                    captcha: this.recaptchaRef.current.getValue(),
+                    captchaError: ''
+                  })
+                }
+                error={captchaError}
+              />
+            )}
             <Button type="submit" disabled={processing}>
               {processing ? (
                 <Loader buttonLoader color="#ffffff" />

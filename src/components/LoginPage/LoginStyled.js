@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
@@ -102,44 +102,6 @@ export const FormErrorStyled = styled.div`
   font-size: 13px;
   font-weight: 600;
   font-family: 'Geomanist';
-`;
-
-export const StyledRecaptcha = styled.div`
-  width: 100%;
-  margin-top: 25px;
-
-  iframe {
-    height: 78px;
-  }
-`;
-
-export const StyledErrorDiv = styled.div`
-  position: relative;
-  top: -20px;
-  left: 5px;
-  width: 100%;  
-  color: ${colors.ErrorColor};
-  text-align: left;
-  font-size: 13px;
-  font-family: 'Geomanist';
-  overflow: visible;
-  ${props =>
-    props.lowerPos &&
-    css`
-      top: -5px;
-    `}
-  ${props =>
-    props.lowestPos &&
-    css`
-      top: 5px;
-    `}
-  ${props =>
-    props.topPos &&
-    css`
-      text-align: center;
-      left: 0;
-      top: 17px;
-    `}
 `;
 
 export const FormSuccessStyled = styled.h1`

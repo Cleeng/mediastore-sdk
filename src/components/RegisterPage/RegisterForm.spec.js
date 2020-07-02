@@ -7,11 +7,14 @@ import Auth from 'services/auth';
 import EmailInput from 'components/EmailInput';
 import Consent from 'components/Consents';
 import PasswordInput from 'components/PasswordInput';
+import { isCaptchaRequired, validateCaptchaField } from 'components/Captcha';
 import RegisterForm from './RegisterForm';
 
 jest.mock('api/Auth/registerCustomer');
 jest.mock('api/Customer/getCustomerLocales');
 jest.mock('api/Customer/submitConsents');
+jest.mock('components/Captcha');
+
 const mockInputValue = 'MOCK_INPUT_VALUE11';
 const mockEmailValue = 'mockmail@mock.com';
 const mockNotValidEmail = 'mock';
@@ -38,6 +41,10 @@ jest.spyOn(window.localStorage.__proto__, 'setItem'); // eslint-disable-line
 describe('RegisterForm', () => {
   afterEach(() => {
     delete global.__mobxInstanceCount; // eslint-disable-line
+  });
+  beforeEach(() => {
+    isCaptchaRequired.mockResolvedValue(false);
+    validateCaptchaField.mockReturnValue('');
   });
   describe('@events', () => {
     it('should update state on input change', () => {
