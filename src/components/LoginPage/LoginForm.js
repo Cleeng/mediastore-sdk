@@ -1,23 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReCAPTCHA from 'react-google-recaptcha';
 import Loader from 'components/Loader';
 import loginCustomer from 'api/Auth/loginCustomer';
 import Auth from 'services/auth';
 import getCustomerLocales from 'api/Customer/getCustomerLocales';
-import checkCaptcha from 'api/Auth/checkCaptcha';
 import Button from 'components/Button';
 import EmailInput from 'components/EmailInput';
 import PasswordInput from 'components/PasswordInput';
 import validateEmailField from 'components/EmailInput/EmailHelper';
 import { validatePasswordField } from 'components/PasswordInput/PasswordHelper';
-import {
-  FromStyled,
-  FormErrorStyled,
-  StyledRecaptcha,
-  StyledErrorDiv,
-  FormSuccessStyled
-} from './LoginStyled';
+import Captcha, {
+  isCaptchaRequired,
+  validateCaptchaField
+} from 'components/Captcha';
+import { FromStyled, FormErrorStyled, FormSuccessStyled } from './LoginStyled';
 
 class LoginForm extends Component {
   constructor(props) {
@@ -40,7 +36,11 @@ class LoginForm extends Component {
   }
 
   componentDidMount() {
-    this.updateCaptcha();
+    isCaptchaRequired('customer-login').then(resp =>
+      this.setState({
+        showCaptcha: resp
+      })
+    );
   }
 
   validateEmail = () => {
@@ -67,42 +67,13 @@ class LoginForm extends Component {
     }));
   };
 
-  validateCaptchaField = () => {
-    const { captcha, showCaptcha } = this.state;
-    const { t } = this.props;
-    let message = '';
-    if (showCaptcha && captcha === '') {
-      message = t('Please complete the CAPTCHA to complete your login.');
-    }
-    return message;
-  };
-
-  onCaptchaChange = () => {
-    const { errors } = this.state;
-    const recaptchaValue = this.recaptchaRef.current.getValue();
-    this.setState({
-      captcha: recaptchaValue,
-      errors: {
-        ...errors,
-        captcha: ''
-      }
-    });
-  };
-
-  updateCaptcha = async () => {
-    const response = await checkCaptcha('customer-login');
-    this.setState({
-      showCaptcha: response.responseData.required
-    });
-  };
-
   validateFields = () => {
-    const { email, password } = this.state;
+    const { email, password, captcha, showCaptcha } = this.state;
     const { t } = this.props;
     const errorFields = {
       email: t(validateEmailField(email)),
       password: t(validatePasswordField(password)),
-      captcha: this.validateCaptchaField()
+      captcha: t(validateCaptchaField(captcha, showCaptcha))
     };
     this.setState({ errors: errorFields, generalError: '' });
     return !Object.keys(errorFields).find(key => errorFields[key] !== '');
@@ -117,56 +88,58 @@ class LoginForm extends Component {
 
   login = async () => {
     const { offerId, setOfferError, isMyAccount, publisherId } = this.props;
+    const { email, password, captcha } = this.state;
+
     if (!offerId && !isMyAccount) {
       setOfferError(true);
       return false;
     }
-    if (this.validateFields()) {
-      this.setState({
-        processing: true,
-        hideSuccessMessage: true
-      });
-      const { email, password, captcha } = this.state;
 
-      let loginBy;
-      if (isMyAccount) {
-        loginBy = { publisherId };
-      } else {
-        loginBy = { offerId };
-      }
+    this.setState({
+      processing: true,
+      hideSuccessMessage: true
+    });
 
-      const response = await loginCustomer(email, password, loginBy, captcha);
-      if (response.status === 200) {
-        await getCustomerLocales()
-          .then(resp => {
-            localStorage.setItem(
-              'CLEENG_CUSTOMER_IP',
-              resp.responseData.ipAddress
-            );
-            Auth.login(!!isMyAccount, email, response.responseData.jwt);
-          })
-          .catch(() => {
-            this.renderError();
-          });
-      } else if (response.status === 401 || response.status === 422) {
-        this.renderError('Wrong email or password');
-      } else if (response.status === 429) {
-        this.renderError(
-          "Sorry, the captcha information doesn't match. Please try again"
-        );
-      } else {
-        this.renderError();
-      }
+    let loginBy;
+    if (isMyAccount) {
+      loginBy = { publisherId };
+    } else {
+      loginBy = { offerId };
+    }
+
+    const response = await loginCustomer(email, password, loginBy, captcha);
+    if (response.status === 200) {
+      await getCustomerLocales()
+        .then(resp => {
+          localStorage.setItem(
+            'CLEENG_CUSTOMER_IP',
+            resp.responseData.ipAddress
+          );
+          Auth.login(!!isMyAccount, email, response.responseData.jwt);
+        })
+        .catch(() => {
+          this.renderError();
+        });
+    } else if (response.status === 401 || response.status === 422) {
+      this.renderError('Wrong email or password');
+    } else if (response.status === 429) {
+      this.renderError(
+        "Sorry, the captcha information doesn't match. Please try again"
+      );
+    } else {
+      this.renderError();
     }
     return true;
   };
 
   renderError = (message = 'An error occurred.') => {
     const { t } = this.props;
-    this.updateCaptcha();
-    this.setState({
-      processing: false,
-      generalError: t(message)
+    isCaptchaRequired('customer-login').then(resp => {
+      this.setState({
+        processing: false,
+        showCaptcha: resp,
+        generalError: t(message)
+      });
     });
   };
 
@@ -206,18 +179,19 @@ class LoginForm extends Component {
           error={errors.password}
         />
         {showCaptcha && (
-          <>
-            <StyledRecaptcha>
-              <ReCAPTCHA
-                ref={this.recaptchaRef}
-                sitekey="6LcJ_QsUAAAAANPDxN_HZUJs_5Zabd5UoEIeyLtu"
-                onChange={this.onCaptchaChange}
-              />
-            </StyledRecaptcha>
-            {errors.captcha !== '' && (
-              <StyledErrorDiv lowestPos>{errors.captcha}</StyledErrorDiv>
-            )}
-          </>
+          <Captcha
+            recaptchaRef={this.recaptchaRef}
+            onChange={() =>
+              this.setState({
+                captcha: this.recaptchaRef.current.getValue(),
+                errors: {
+                  ...errors,
+                  captcha: ''
+                }
+              })
+            }
+            error={errors.captcha}
+          />
         )}
         <Button type="submit" disabled={processing}>
           {processing ? <Loader buttonLoader color="#ffffff" /> : t('Sign in')}
