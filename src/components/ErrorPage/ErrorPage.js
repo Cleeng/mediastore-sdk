@@ -26,11 +26,13 @@ const errorTypes = {
   },
   alreadyHaveAccess: {
     icon: lock,
-    description: 'You already have access to this offer.'
+    description:
+      'Good news! Your account already gives you access to the content that comes with this plan.'
   },
   cannotPurchase: {
     icon: deleteCreditCard,
-    description: 'Cannot purchase this offer.'
+    description:
+      'We are sorry! The content you are trying to access is not available in your country.'
   }
 };
 

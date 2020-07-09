@@ -18,7 +18,7 @@ export const ErrorPageStyled = styled.div`
 `;
 
 export const MessageStyled = styled.div`
-  margin-top: 10%;
+  margin-top: 25px;
 
   font-size: 25px;
   font-weight: 300;
