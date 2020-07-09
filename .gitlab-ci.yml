@@ -8,7 +8,8 @@ build_staging:
   stage: build
   image: node:8.15-jessie
   script:
-    - cp /home/cleeng-ci/config/gummybear-2/staging.js ./config/environments/staging.js
+    - apt-get update && apt-get install -yq gettext-base
+    - envsubst < ./config/environments/staging.tpl.js > ./config/environments/staging.js
     - yarn && yarn build --environment=staging
     - STORYBOOK_ENV=staging yarn build-storybook
     - mv storybook-static build
