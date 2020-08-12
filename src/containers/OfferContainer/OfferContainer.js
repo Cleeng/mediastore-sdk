@@ -59,6 +59,8 @@ class OfferContainer extends Component {
               'CLEENG_ORDER_ID',
               orderDetailsResponse.responseData.order.id
             );
+          } else {
+            this.setState({ error: orderDetailsResponse.errors[0] });
           }
         });
       } else if (offerId === '') {
@@ -124,6 +126,7 @@ class OfferContainer extends Component {
       }
       if (
         error.includes(`doesn't exist.`) ||
+        error.includes('does not exist.') ||
         error.includes('Invalid param offerId') ||
         error.includes('Offer not set')
       ) {
@@ -131,6 +134,9 @@ class OfferContainer extends Component {
       }
       if (error.includes('Access already granted')) {
         return <ErrorPage type="alreadyHaveAccess" />;
+      }
+      if (error.includes('Request failed with status code 500')) {
+        return <ErrorPage type="generalError" />;
       }
       return <Redirect to="/login" />;
     }
