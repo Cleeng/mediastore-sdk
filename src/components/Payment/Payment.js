@@ -10,6 +10,7 @@ import {
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import Loader from 'components/Loader';
+import { getData, setData } from 'util/appConfigHelper';
 import {
   PaymentStyled,
   TitleStyled,
@@ -39,7 +40,7 @@ class Payment extends Component {
       this.setState({
         paymentMethods: response.responseData.paymentMethods
       });
-      localStorage.setItem(
+      setData(
         'CLEENG_PAYMENT_METHOD_ID',
         response.responseData.paymentMethods[0].id
       );
@@ -89,8 +90,8 @@ class Payment extends Component {
   };
 
   choosePaymentMethod = (methodId, methodName) => {
-    const orderId = localStorage.getItem('CLEENG_ORDER_ID');
-    localStorage.setItem('CLEENG_PAYMENT_METHOD_ID', methodId);
+    const orderId = getData('CLEENG_ORDER_ID');
+    setData('CLEENG_PAYMENT_METHOD_ID', methodId);
     if (orderId) {
       updateOrder(orderId, {
         paymentMethodId: methodId

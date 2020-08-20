@@ -1,6 +1,8 @@
+import { getData } from 'util/appConfigHelper';
+
 const submitPayment = async card => {
-  const token = localStorage.getItem('CLEENG_AUTH_TOKEN') || '';
-  const orderId = parseInt(localStorage.getItem('CLEENG_ORDER_ID') || '0', 10);
+  const token = getData('CLEENG_AUTH_TOKEN') || '';
+  const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
   const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/connectors/adyen/payments`;
 
   try {

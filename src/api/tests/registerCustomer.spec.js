@@ -1,4 +1,9 @@
 import registerCustomer from 'api/Auth/registerCustomer';
+import { sendMessage } from 'util/appConfigHelper';
+
+jest.mock('util/appConfigHelper', () => ({
+  sendMessage: jest.fn()
+}));
 
 describe('registerCustomer', () => {
   it('register user on call', done => {
@@ -13,6 +18,7 @@ describe('registerCustomer', () => {
 
     registerCustomer().then(res => {
       expect(res).toEqual(mockResponseData);
+      expect(sendMessage).toHaveBeenCalledWith(mockResponseData.responseData);
       done();
     });
   });

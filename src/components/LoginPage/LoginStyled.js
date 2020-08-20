@@ -6,8 +6,8 @@ export const ContentWrapperStyled = styled.main`
   position: relative;
 
   width: 55%;
-  margin: 40px auto 0 auto;
-  padding-bottom: 65px;
+  margin: 0 auto;
+  padding-bottom: 70px;
 
   text-align: center;
 
@@ -17,6 +17,7 @@ export const ContentWrapperStyled = styled.main`
 `;
 
 export const FromStyled = styled.form`
+  padding-top: 40px;
   & input {
     position: relative;
   }
@@ -40,7 +41,7 @@ export const SocialStyled = styled.div`
 
   button {
     width: 48%;
-    margin: 10px 0 30px 0;
+    margin: 10px 0 0 0;
   }
 
   ${media.smallest`
@@ -94,7 +95,7 @@ export const SeparatorStyled = styled.div`
 
 export const FormErrorStyled = styled.div`
   position: absolute;
-  top: -15px;
+  top: 20px;
   width: 100%;
 
   color: ${colors.ErrorColor};
@@ -107,7 +108,7 @@ export const FormErrorStyled = styled.div`
 export const FormSuccessStyled = styled.h1`
   color: ${colors.MainColor};
   position: absolute;
-  top: -25px;
+  top: 20px;
   width: 100%;
   font-size: 13px;
   font-weight: 600;

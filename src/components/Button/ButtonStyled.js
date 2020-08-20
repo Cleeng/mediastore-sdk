@@ -121,11 +121,12 @@ const ButtonStyled = styled.button`
       css`
         position: absolute;
         top: 50%;
-        left: 0;
+        left: 10px;
 
         height: auto;
         width: auto;
         border-radius: none;
+        padding: 0;
 
         transform: translateY(-45%);
         background-color: transparent;
@@ -143,7 +144,7 @@ const ButtonStyled = styled.button`
           text-decoration: none;
         }
         ${media.small`
-          top: 20px;
+          top: 15px;
           left: 0px;
         `}
       `) ||

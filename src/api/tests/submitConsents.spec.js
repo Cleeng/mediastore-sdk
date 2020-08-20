@@ -1,4 +1,5 @@
 import submitConsents from 'api/Customer/submitConsents';
+import { setData } from 'util/appConfigHelper';
 
 describe('submitConsents', () => {
   const mockConsentDef = [
@@ -29,7 +30,7 @@ describe('submitConsents', () => {
         })
     );
 
-    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
+    setData('CLEENG_AUTH_TOKEN', mockToken);
     submitConsents(mockConsent, mockConsentDef).then(res => {
       expect(res).toEqual(mockResponse);
       done();

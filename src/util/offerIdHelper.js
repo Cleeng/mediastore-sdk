@@ -1,10 +1,12 @@
+import { setData, getData } from 'util/appConfigHelper';
+
 const saveOfferId = (location, setOfferId) => {
   const offerIdFromQuery = new URLSearchParams(location.search).get('offer');
   if (offerIdFromQuery) {
     setOfferId(offerIdFromQuery);
-    localStorage.setItem('CLEENG_OFFER_ID', offerIdFromQuery);
+    setData('CLEENG_OFFER_ID', offerIdFromQuery);
   } else {
-    setOfferId(localStorage.getItem('CLEENG_OFFER_ID') || '');
+    setOfferId(getData('CLEENG_OFFER_ID') || '');
   }
 };
 

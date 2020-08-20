@@ -1,4 +1,5 @@
 import getCustomerConsents from 'api/Customer/getCustomerConsents';
+import { setData } from 'util/appConfigHelper';
 
 describe('getCustomerConsents', () => {
   it('calls remote endpoint with authorization token', done => {
@@ -19,7 +20,7 @@ describe('getCustomerConsents', () => {
         })
     );
 
-    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
+    setData('CLEENG_AUTH_TOKEN', mockToken);
     getCustomerConsents().then(res => {
       expect(res).toEqual(mockResponse);
       done();

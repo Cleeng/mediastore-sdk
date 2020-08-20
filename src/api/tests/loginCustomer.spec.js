@@ -1,4 +1,9 @@
 import loginCustomer from 'api/Auth/loginCustomer';
+import { sendMessage } from 'util/appConfigHelper';
+
+jest.mock('util/appConfigHelper', () => ({
+  sendMessage: jest.fn()
+}));
 
 describe('loginCustomer', () => {
   it('login user on call', done => {
@@ -13,6 +18,7 @@ describe('loginCustomer', () => {
 
     loginCustomer().then(res => {
       expect(res).toEqual(mockResponseData);
+      expect(sendMessage).toHaveBeenCalledWith(mockResponseData.responseData);
       done();
     });
   });

@@ -18,7 +18,7 @@ export const ErrorPageStyled = styled.div`
 `;
 
 export const MessageStyled = styled.div`
-  margin-top: 25px;
+  margin-top: 30px;
 
   font-size: 25px;
   font-weight: 300;
@@ -28,10 +28,4 @@ export const MessageStyled = styled.div`
 export const IconStyled = styled.img`
   width: 60px;
   height: 60px;
-`;
-
-export const LogoutWrapper = styled.nav`
-  position: relative;
-  top: 30px;
-  left: 15px;
 `;

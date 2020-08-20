@@ -8,6 +8,7 @@ import ErrorPage from 'components/ErrorPage';
 import Loader from 'components/Loader';
 import { getOfferDetails, createOrder, updateOrder } from 'api';
 import saveOfferId from 'util/offerIdHelper';
+import { setData } from 'util/appConfigHelper';
 import StyledLoaderContainer from './StyledOfferContainer';
 import labeling from '../labeling';
 
@@ -55,7 +56,7 @@ class OfferContainer extends Component {
               orderDetails: orderDetailsResponse.responseData.order,
               isOrderCreated: true
             });
-            localStorage.setItem(
+            setData(
               'CLEENG_ORDER_ID',
               orderDetailsResponse.responseData.order.id
             );

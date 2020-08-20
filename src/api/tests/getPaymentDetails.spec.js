@@ -1,4 +1,5 @@
 import getPaymentDetails from 'api/Customer/getPaymentDetails';
+import { setData } from 'util/appConfigHelper';
 
 describe('getPaymentDetails', () => {
   it('calls remote endpoint with authorization token', done => {
@@ -19,7 +20,7 @@ describe('getPaymentDetails', () => {
         })
     );
 
-    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
+    setData('CLEENG_AUTH_TOKEN', mockToken);
     getPaymentDetails().then(res => {
       expect(res).toEqual(mockResponse);
       done();

@@ -1,4 +1,5 @@
 import jwtDecode from 'jwt-decode';
+import { getData, setData, removeData } from 'util/appConfigHelper';
 import history from '../history';
 
 class Auth {
@@ -16,8 +17,8 @@ class Auth {
 
   login(isMyAccount = false, email, jwt, cb = () => {}, args = []) {
     this.isAuthenticated = true;
-    localStorage.setItem('CLEENG_AUTH_TOKEN', jwt);
-    localStorage.setItem('CLEENG_CUSTOMER_EMAIL', email);
+    setData('CLEENG_AUTH_TOKEN', jwt);
+    setData('CLEENG_CUSTOMER_EMAIL', email);
     cb.apply(this, args);
     const redirectURL = isMyAccount
       ? this.myAccount.mainPage
@@ -27,8 +28,12 @@ class Auth {
 
   logout(isMyAccount = false, queryParam = '') {
     this.isAuthenticated = false;
-    localStorage.removeItem('CLEENG_AUTH_TOKEN');
-    localStorage.removeItem('CLEENG_ORDER_ID');
+    removeData('CLEENG_AUTH_TOKEN');
+    removeData('CLEENG_ORDER_ID');
+    removeData('CLEENG_PP_SUCCESS');
+    removeData('CLEENG_PP_CANCEL');
+    removeData('CLEENG_PP_ERROR');
+
     history.push(
       isMyAccount
         ? this.myAccount.loginPage + queryParam
@@ -37,7 +42,7 @@ class Auth {
   }
 
   isLogged() {
-    const jwt = localStorage.getItem('CLEENG_AUTH_TOKEN');
+    const jwt = getData('CLEENG_AUTH_TOKEN');
     if (!jwt) {
       this.isAuthenticated = false;
       return this.isAuthenticated;

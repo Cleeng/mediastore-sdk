@@ -3,7 +3,7 @@ import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const PaymentStyled = styled.div`
-  padding: 40px 35px 50px 35px;
+  padding: 20px 35px 70px 35px;
   width: 100%;
   margin-top: 20px;
 `;
