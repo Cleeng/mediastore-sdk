@@ -1,4 +1,5 @@
 import updateOrder from 'api/Offer/updateOrder';
+import { setData } from 'util/appConfigHelper';
 
 describe('updateOrder', () => {
   it('calls remote endpoint with authorization token', done => {
@@ -19,7 +20,7 @@ describe('updateOrder', () => {
         })
     );
 
-    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
+    setData('CLEENG_AUTH_TOKEN', mockToken);
     updateOrder().then(res => {
       expect(res).toEqual(mockResponse);
       done();

@@ -1,4 +1,5 @@
 import getCustomerSuscriptions from 'api/Customer/getCustomerSubscriptions';
+import { setData } from 'util/appConfigHelper';
 
 describe('getCustomerSuscriptions', () => {
   it('calls remote endpoint with authorization token', done => {
@@ -20,7 +21,7 @@ describe('getCustomerSuscriptions', () => {
         })
     );
 
-    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
+    setData('CLEENG_AUTH_TOKEN', mockToken);
     getCustomerSuscriptions().then(res => {
       expect(res).toEqual(mockResponse);
       done();

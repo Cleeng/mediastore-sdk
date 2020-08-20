@@ -1,4 +1,5 @@
 import updateCustomer from 'api/Customer/updateCustomer';
+import { setData } from 'util/appConfigHelper';
 
 describe('updateCustomer', () => {
   it('should calls remote endpoint with authorization token', done => {
@@ -20,7 +21,7 @@ describe('updateCustomer', () => {
         })
     );
 
-    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
+    setData('CLEENG_AUTH_TOKEN', mockToken);
     updateCustomer().then(res => {
       expect(res).toEqual(mockResponse);
       done();

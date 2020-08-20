@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { media } from './styles/BreakPoints';
 
 export const AppStyled = styled.div`
@@ -10,6 +10,13 @@ export const AppStyled = styled.div`
   ${media.small`
     padding: 0;
   `}
+
+  ${props =>
+    props.hosted &&
+    css`
+      width: 100%;
+      padding: 0;
+    `}
 `;
 
 export const AppContentStyled = styled.div`
@@ -25,4 +32,11 @@ export const AppContentStyled = styled.div`
     min-height: 100vh;
     width: 100%;
   `}
+
+  ${props =>
+    props.hosted &&
+    css`
+      max-width: unset;
+      min-height: 100vh;
+    `}
 `;

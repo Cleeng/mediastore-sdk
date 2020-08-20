@@ -1,3 +1,5 @@
+import { sendMessage } from 'util/appConfigHelper';
+
 const registerCustomer = async (
   email,
   password,
@@ -27,6 +29,9 @@ const registerCustomer = async (
       })
     });
     const json = await resp.json();
+    sendMessage({
+      ...json.responseData
+    });
     return {
       status: resp.status,
       ...json

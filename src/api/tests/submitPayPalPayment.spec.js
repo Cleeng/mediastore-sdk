@@ -1,4 +1,5 @@
 import submitPayPalPayment from 'api/Offer/submitPayPalPayment';
+import { setData } from 'util/appConfigHelper';
 
 describe('submitPayPalPayment', () => {
   it('calls remote endpoint with authorization token', done => {
@@ -19,7 +20,7 @@ describe('submitPayPalPayment', () => {
         })
     );
 
-    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
+    setData('CLEENG_AUTH_TOKEN', mockToken);
     submitPayPalPayment().then(res => {
       expect(res).toEqual(mockResponse);
       done();

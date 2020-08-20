@@ -1,4 +1,5 @@
 import updateSubscription from 'api/Customer/updateSubscription';
+import { setData } from 'util/appConfigHelper';
 
 describe('updateSubscription', () => {
   it('should calls remote endpoint with authorization token', done => {
@@ -20,7 +21,7 @@ describe('updateSubscription', () => {
         })
     );
 
-    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
+    setData('CLEENG_AUTH_TOKEN', mockToken);
     updateSubscription().then(res => {
       expect(res).toEqual(mockResponse);
       done();

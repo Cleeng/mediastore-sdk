@@ -8,6 +8,7 @@ import {
   updateOrder,
   submitPayPalPayment
 } from 'api';
+import { getData, setData } from 'util/appConfigHelper';
 import Payment from './Payment';
 import { PaymentErrorStyled } from './PaymentStyled';
 
@@ -92,7 +93,7 @@ describe('Payment', () => {
       expect(wrapper.state().paymentMethods).toEqual(
         mockPaymentMethods.responseData.paymentMethods
       );
-      const paymentMethodId = localStorage.getItem('CLEENG_PAYMENT_METHOD_ID');
+      const paymentMethodId = getData('CLEENG_PAYMENT_METHOD_ID');
       expect(Number(paymentMethodId)).toBe(
         mockPaymentMethods.responseData.paymentMethods[0].id
       );
@@ -111,7 +112,7 @@ describe('Payment', () => {
   });
   it('expands on button click', () => {
     const wrapper = mount(<Payment onPaymentComplete={jest.fn()} />);
-    localStorage.setItem('CLEENG_ORDER_ID', 123123123);
+    setData('CLEENG_ORDER_ID', 123123123);
     wrapper.setState({
       paymentMethods: mockPaymentMethods.responseData.paymentMethods
     });

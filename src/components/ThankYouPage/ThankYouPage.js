@@ -8,6 +8,7 @@ import Footer from 'components/Footer';
 import googleIcon from 'assets/images/google.png';
 import fbIcon from 'assets/images/fb.svg';
 import labeling from 'containers/labeling';
+import { isHosted } from 'util/appConfigHelper';
 
 import {
   ThankYouPageStyled,
@@ -44,17 +45,19 @@ const ThankYouPage = ({ t }) => {
             {t('here')}.
           </LinkStyled>
         </MessageStyled>
-        <SocialsStyled>
-          <ButtonsStyled>
-            <Button theme="simple" icon={googleIcon} />
-            <Button theme="simple" icon={fbIcon} />
-          </ButtonsStyled>
-          <ShareStyled>
-            {t('Have friends who would like to check this out?')}
-            <br />
-            {t('Just click to share.')}
-          </ShareStyled>
-        </SocialsStyled>
+        {!isHosted() && (
+          <SocialsStyled>
+            <ButtonsStyled>
+              <Button theme="simple" icon={googleIcon} />
+              <Button theme="simple" icon={fbIcon} />
+            </ButtonsStyled>
+            <ShareStyled>
+              {t('Have friends who would like to check this out?')}
+              <br />
+              {t('Just click to share.')}
+            </ShareStyled>
+          </SocialsStyled>
+        )}
       </ThankYouPageStyled>
       <Footer />
     </>

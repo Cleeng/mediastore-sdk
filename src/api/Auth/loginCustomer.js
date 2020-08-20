@@ -1,3 +1,5 @@
+import { sendMessage } from 'util/appConfigHelper';
+
 const loginCustomer = async (email, password, loginBy, captcha) => {
   const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/auths`;
 
@@ -16,6 +18,9 @@ const loginCustomer = async (email, password, loginBy, captcha) => {
       })
     });
     const json = await resp.json();
+    sendMessage({
+      ...json.responseData
+    });
     return {
       status: resp.status,
       ...json

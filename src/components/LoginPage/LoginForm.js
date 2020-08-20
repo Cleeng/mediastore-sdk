@@ -13,6 +13,7 @@ import Captcha, {
   isCaptchaRequired,
   validateCaptchaField
 } from 'components/Captcha';
+import { setData } from 'util/appConfigHelper';
 import { FromStyled, FormErrorStyled, FormSuccessStyled } from './LoginStyled';
 
 class LoginForm extends Component {
@@ -111,10 +112,7 @@ class LoginForm extends Component {
     if (response.status === 200) {
       await getCustomerLocales()
         .then(resp => {
-          localStorage.setItem(
-            'CLEENG_CUSTOMER_IP',
-            resp.responseData.ipAddress
-          );
+          setData('CLEENG_CUSTOMER_IP', resp.responseData.ipAddress);
           Auth.login(!!isMyAccount, email, response.responseData.jwt);
         })
         .catch(() => {

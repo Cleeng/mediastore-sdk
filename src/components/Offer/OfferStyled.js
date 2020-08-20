@@ -21,7 +21,7 @@ export const StyledPageTitle = styled.h1`
   border-width: 0 0 1px;
   border-style: solid;
   border-color: ${colors.MediumGrey};
-  padding: 20px 0 30px 0;
+  padding: 0 0 30px 0;
   text-align: center;
 `;
 
@@ -84,9 +84,9 @@ export const StyledOfferTitle = styled.h2`
   margin-bottom: 15px;
 `;
 export const StyledOfferBody = styled.div`
-  padding: 0 35px;
+  padding: 20px 35px 0;
   ${media.small`
-    padding: 0 10px;
+    padding: 20px 10px 0;
   `}
 `;
 export const StyledOfferDetails = styled.div`
