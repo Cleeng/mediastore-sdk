@@ -21,12 +21,8 @@ import {
 
 import { breakPoints } from 'styles/BreakPoints';
 import MyAccountError from 'components/MyAccountError/MyAccountError';
-import {
-  OverlayStyled,
-  WrapperStyled,
-  HeaderStyled,
-  ContentWrapperStyled
-} from './MyAccountStyled';
+import { isHosted } from 'util/appConfigHelper';
+import { WrapperStyled, HeaderStyled } from './MyAccountStyled';
 
 const POPUP_TYPE = {
   notCheckedTerms: 'notCheckedTerms',
@@ -159,7 +155,6 @@ class MyAccount extends Component {
   render() {
     const {
       routeMatch,
-      isOverlay,
       planDetails: { currentPlan },
       userProfile: { user, consentsError },
       setConsents,
@@ -173,7 +168,7 @@ class MyAccount extends Component {
       : `${path}/plan-details`;
 
     return (
-      <OverlayStyled isOverlay={isOverlay}>
+      <>
         {consentsError ? (
           <MyAccountError generalError fullHeight />
         ) : isPopupShown ? (
@@ -185,53 +180,49 @@ class MyAccount extends Component {
             hidePopup={hidePopup}
           />
         ) : (
-          <WrapperStyled>
-            <>
-              <HeaderStyled>
-                <MyAccountUserInfo
-                  firstName={user ? user.firstName : ''}
-                  lastName={user ? user.lastName : ''}
-                  email={user ? user.email : ''}
-                  subscription={currentPlan[0] ? currentPlan[0].offerTitle : ''}
+          <WrapperStyled hosted={isHosted()}>
+            <HeaderStyled>
+              <MyAccountUserInfo
+                firstName={user ? user.firstName : ''}
+                lastName={user ? user.lastName : ''}
+                email={user ? user.email : ''}
+                subscription={currentPlan[0] ? currentPlan[0].offerTitle : ''}
+              />
+              <MyAccountMenu routeMatch={routeMatch} />
+            </HeaderStyled>
+            <MyAccountContent>
+              <Switch>
+                <PrivateRoute
+                  isMyAccount
+                  exact
+                  path={path}
+                  component={() => <Redirect to={firstPageUrl} />}
                 />
-                <MyAccountMenu routeMatch={routeMatch} />
-              </HeaderStyled>
-              <MyAccountContent>
-                <ContentWrapperStyled>
-                  <Switch>
-                    <PrivateRoute
-                      isMyAccount
-                      exact
-                      path={path}
-                      component={() => <Redirect to={firstPageUrl} />}
-                    />
-                    <PrivateRoute
-                      isMyAccount
-                      path={`${path}/quick-actions`}
-                      component={QuickActions}
-                    />
-                    <PrivateRoute
-                      isMyAccount
-                      path={`${path}/plan-details`}
-                      component={PlanDetails}
-                    />
-                    <PrivateRoute
-                      isMyAccount
-                      path={`${path}/payment-info`}
-                      component={PaymentInfo}
-                    />
-                    <PrivateRoute
-                      isMyAccount
-                      path={`${path}/update-profile`}
-                      component={UpdateProfile}
-                    />
-                  </Switch>
-                </ContentWrapperStyled>
-              </MyAccountContent>
-            </>
+                <PrivateRoute
+                  isMyAccount
+                  path={`${path}/quick-actions`}
+                  component={QuickActions}
+                />
+                <PrivateRoute
+                  isMyAccount
+                  path={`${path}/plan-details`}
+                  component={PlanDetails}
+                />
+                <PrivateRoute
+                  isMyAccount
+                  path={`${path}/payment-info`}
+                  component={PaymentInfo}
+                />
+                <PrivateRoute
+                  isMyAccount
+                  path={`${path}/update-profile`}
+                  component={UpdateProfile}
+                />
+              </Switch>
+            </MyAccountContent>
           </WrapperStyled>
         )}
-      </OverlayStyled>
+      </>
     );
   }
 }
@@ -244,7 +235,6 @@ MyAccount.propTypes = {
   setConsents: PropTypes.func.isRequired,
   setConsentsError: PropTypes.func.isRequired,
   routeMatch: PropTypes.objectOf(PropTypes.any),
-  isOverlay: PropTypes.bool,
   userProfile: PropTypes.objectOf(PropTypes.any),
   planDetails: PropTypes.objectOf(PropTypes.any),
   popup: PropTypes.objectOf(PropTypes.any),
@@ -254,7 +244,6 @@ MyAccount.propTypes = {
 
 MyAccount.defaultProps = {
   routeMatch: {},
-  isOverlay: false,
   userProfile: { user: null },
   planDetails: { currentPlan: [] },
   popup: { isPopupShown: false }
