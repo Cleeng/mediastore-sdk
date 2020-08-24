@@ -9,10 +9,6 @@ import EmailInput from 'components/EmailInput';
 import PasswordInput from 'components/PasswordInput';
 import validateEmailField from 'components/EmailInput/EmailHelper';
 import { validatePasswordField } from 'components/PasswordInput/PasswordHelper';
-import Captcha, {
-  isCaptchaRequired,
-  validateCaptchaField
-} from 'components/Captcha';
 import { setData } from 'util/appConfigHelper';
 import { FromStyled, FormErrorStyled, FormSuccessStyled } from './LoginStyled';
 
@@ -22,26 +18,15 @@ class LoginForm extends Component {
     this.state = {
       email: '',
       password: '',
-      captcha: '',
       errors: {
         email: '',
-        password: '',
-        captcha: ''
+        password: ''
       },
       generalError: '',
-      showCaptcha: false,
       processing: false,
+      overloaded: false,
       hideSuccessMessage: false
     };
-    this.recaptchaRef = React.createRef();
-  }
-
-  componentDidMount() {
-    isCaptchaRequired('customer-login').then(resp =>
-      this.setState({
-        showCaptcha: resp
-      })
-    );
   }
 
   validateEmail = () => {
@@ -69,12 +54,11 @@ class LoginForm extends Component {
   };
 
   validateFields = () => {
-    const { email, password, captcha, showCaptcha } = this.state;
+    const { email, password } = this.state;
     const { t } = this.props;
     const errorFields = {
       email: t(validateEmailField(email)),
-      password: t(validatePasswordField(password)),
-      captcha: t(validateCaptchaField(captcha, showCaptcha))
+      password: t(validatePasswordField(password))
     };
     this.setState({ errors: errorFields, generalError: '' });
     return !Object.keys(errorFields).find(key => errorFields[key] !== '');
@@ -89,7 +73,7 @@ class LoginForm extends Component {
 
   login = async () => {
     const { offerId, setOfferError, isMyAccount, publisherId } = this.props;
-    const { email, password, captcha } = this.state;
+    const { email, password } = this.state;
 
     if (!offerId && !isMyAccount) {
       setOfferError(true);
@@ -108,7 +92,7 @@ class LoginForm extends Component {
       loginBy = { offerId };
     }
 
-    const response = await loginCustomer(email, password, loginBy, captcha);
+    const response = await loginCustomer(email, password, loginBy);
     if (response.status === 200) {
       await getCustomerLocales()
         .then(resp => {
@@ -121,9 +105,14 @@ class LoginForm extends Component {
     } else if (response.status === 401 || response.status === 422) {
       this.renderError('Wrong email or password');
     } else if (response.status === 429) {
-      this.renderError(
-        "Sorry, the captcha information doesn't match. Please try again"
-      );
+      this.setState({ overloaded: true });
+      this.renderError('Server overloaded. Please try again later.', true);
+      setTimeout(() => {
+        this.setState({
+          overloaded: false,
+          generalError: ''
+        });
+      }, 10 * 1000);
     } else {
       this.renderError();
     }
@@ -132,12 +121,9 @@ class LoginForm extends Component {
 
   renderError = (message = 'An error occurred.') => {
     const { t } = this.props;
-    isCaptchaRequired('customer-login').then(resp => {
-      this.setState({
-        processing: false,
-        showCaptcha: resp,
-        generalError: t(message)
-      });
+    this.setState({
+      processing: false,
+      generalError: t(message)
     });
   };
 
@@ -147,8 +133,8 @@ class LoginForm extends Component {
       password,
       errors,
       generalError,
-      showCaptcha,
       processing,
+      overloaded,
       hideSuccessMessage
     } = this.state;
     const { emailChanged, t } = this.props;
@@ -176,22 +162,7 @@ class LoginForm extends Component {
           onBlur={this.validatePassword}
           error={errors.password}
         />
-        {showCaptcha && (
-          <Captcha
-            recaptchaRef={this.recaptchaRef}
-            onChange={() =>
-              this.setState({
-                captcha: this.recaptchaRef.current.getValue(),
-                errors: {
-                  ...errors,
-                  captcha: ''
-                }
-              })
-            }
-            error={errors.captcha}
-          />
-        )}
-        <Button type="submit" disabled={processing}>
+        <Button type="submit" disabled={processing || overloaded}>
           {processing ? <Loader buttonLoader color="#ffffff" /> : t('Sign in')}
         </Button>
       </FromStyled>

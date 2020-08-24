@@ -22,7 +22,10 @@ const resetPassword = async (
         errors: [json.message]
       };
     }
-    return json;
+    return {
+      status: res.status,
+      ...json
+    };
   } catch (error) {
     return {
       errors: [error.message]

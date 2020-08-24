@@ -6,8 +6,7 @@ const registerCustomer = async (
   offerId,
   locale,
   country,
-  currency,
-  captcha
+  currency
 ) => {
   const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers`;
 
@@ -24,8 +23,7 @@ const registerCustomer = async (
         offerId,
         locale,
         country,
-        currency,
-        captcha
+        currency
       })
     });
     const json = await resp.json();

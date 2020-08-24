@@ -7,13 +7,11 @@ import Auth from 'services/auth';
 import EmailInput from 'components/EmailInput';
 import Consent from 'components/Consents';
 import PasswordInput from 'components/PasswordInput';
-import { isCaptchaRequired, validateCaptchaField } from 'components/Captcha';
 import RegisterForm from './RegisterForm';
 
 jest.mock('api/Auth/registerCustomer');
 jest.mock('api/Customer/getCustomerLocales');
 jest.mock('api/Customer/submitConsents');
-jest.mock('components/Captcha');
 
 const mockInputValue = 'MOCK_INPUT_VALUE11';
 const mockEmailValue = 'mockmail@mock.com';
@@ -39,10 +37,6 @@ const jwtMock =
 describe('RegisterForm', () => {
   afterEach(() => {
     delete global.__mobxInstanceCount; // eslint-disable-line
-  });
-  beforeEach(() => {
-    isCaptchaRequired.mockResolvedValue(false);
-    validateCaptchaField.mockReturnValue('');
   });
   describe('@events', () => {
     it('should update state on input change', () => {
@@ -143,8 +137,7 @@ describe('RegisterForm', () => {
       const instance = wrapper.instance();
       instance.setState({
         email: 'john@example.com',
-        password: 'testtest123',
-        captcha: 'f979c2ff515d921c34af9bd2aee8ef076b719d03'
+        password: 'testtest123'
       });
       expect(onSubmitMock).not.toHaveBeenCalled();
 
@@ -187,7 +180,7 @@ describe('RegisterForm', () => {
         }
       });
       registerCustomerRequest.mockResolvedValue({
-        status: 429
+        status: 500
       });
 
       const wrapper = shallow(
@@ -311,6 +304,36 @@ describe('RegisterForm', () => {
       wrapper.simulate('submit', { preventDefault: preventDefaultMock });
       setImmediate(() => {
         expect(instance.state.generalError).toBe('Customer already exists.');
+        done();
+      });
+    });
+
+    it('should set error when faild with 429 code', done => {
+      getCustomerLocalesRequest.mockResolvedValue({
+        responseData: {
+          locale: 'pl_PL',
+          country: 'PL',
+          currency: 'EUR'
+        }
+      });
+      registerCustomerRequest.mockResolvedValue({
+        status: 429
+      });
+      const wrapper = shallow(<RegisterForm offerId="S705970293_NL" />);
+      const instance = wrapper.instance();
+
+      instance.setState({
+        email: 'john@example.com',
+        password: 'testtest123'
+      });
+
+      const preventDefaultMock = jest.fn();
+      wrapper.simulate('submit', { preventDefault: preventDefaultMock });
+      setImmediate(() => {
+        expect(instance.state.generalError).toBe(
+          'Server overloaded. Please try again later.'
+        );
+        expect(instance.state.overloaded).toBe(true);
         done();
       });
     });

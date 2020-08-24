@@ -1,6 +1,6 @@
 import { sendMessage } from 'util/appConfigHelper';
 
-const loginCustomer = async (email, password, loginBy, captcha) => {
+const loginCustomer = async (email, password, loginBy) => {
   const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/auths`;
 
   try {
@@ -13,8 +13,7 @@ const loginCustomer = async (email, password, loginBy, captcha) => {
       body: JSON.stringify({
         email,
         password,
-        ...loginBy,
-        captcha
+        ...loginBy
       })
     });
     const json = await resp.json();
