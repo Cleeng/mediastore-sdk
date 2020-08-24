@@ -28,6 +28,12 @@ const ButtonStyled = styled.button`
     outline: none;
   }
 
+  &:disabled {
+    &:hover {
+    cursor: not-allowed;
+    }
+  }
+
   ${props =>
     (props.size === 'small' &&
       css`

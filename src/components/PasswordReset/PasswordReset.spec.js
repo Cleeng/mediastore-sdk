@@ -6,12 +6,10 @@ import Input from 'components/Input';
 import ResetPasswordRequest from 'api/Auth/resetPassword';
 import Button from 'components/Button';
 import EmailInput from 'components/EmailInput';
-import { isCaptchaRequired, validateCaptchaField } from 'components/Captcha';
 import PasswordReset, { PurePasswordReset } from './PasswordReset';
 import { FormStyled } from './PasswordResetStyled';
 
 jest.mock('api/Auth/resetPassword');
-jest.mock('components/Captcha');
 jest.mock('react-router-dom', () => {
   return {
     Link: () => {
@@ -42,8 +40,6 @@ const FuncMock = jest.fn();
 describe('PasswordReset', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    isCaptchaRequired.mockResolvedValue(false);
-    validateCaptchaField.mockReturnValue('');
   });
 
   describe('@renders', () => {
