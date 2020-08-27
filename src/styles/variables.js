@@ -47,3 +47,6 @@ export const InputLabelColor = '#838eaa';
 export const DisabledInputBg = '#F4F6FC';
 export const DisabledInputColor = '#4a4f5f';
 export const PaymentButtonBgn = '#00112c';
+
+export const LightGreyCheckout = '#D3DBE6';
+export const TitleGrey = '#606376';

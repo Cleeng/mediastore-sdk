@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { media } from './styles/BreakPoints';
+import { media } from 'styles/BreakPoints';
 
 export const AppStyled = styled.div`
   min-height: 100vh;

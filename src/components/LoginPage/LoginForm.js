@@ -7,8 +7,7 @@ import getCustomerLocales from 'api/Customer/getCustomerLocales';
 import Button from 'components/Button';
 import EmailInput from 'components/EmailInput';
 import PasswordInput from 'components/PasswordInput';
-import validateEmailField from 'components/EmailInput/EmailHelper';
-import { validatePasswordField } from 'components/PasswordInput/PasswordHelper';
+import { validatePasswordField, validateEmailField } from 'util/validators';
 import { setData } from 'util/appConfigHelper';
 import { FromStyled, FormErrorStyled, FormSuccessStyled } from './LoginStyled';
 

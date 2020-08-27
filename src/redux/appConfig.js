@@ -20,7 +20,7 @@ const initialState = {
   CLEENG_HEADER_OFF: ''
 };
 
-const appConfigReducer = createReducer(initialState, {
+const appConfig = createReducer(initialState, {
   SET_DATA: (state, action) => {
     state[action.payload.name] = action.payload.value;
   },
@@ -29,4 +29,4 @@ const appConfigReducer = createReducer(initialState, {
   }
 });
 
-export default appConfigReducer;
+export default appConfig;

@@ -40,7 +40,10 @@ export const periodMapper = {
 export const currencyFormat = {
   EUR: '€',
   USD: '$',
-  GBP: '£'
+  GBP: '£',
+  '€': '€',
+  $: '$',
+  '£': '£'
 };
 
 export function dateFormat(timestamp) {
