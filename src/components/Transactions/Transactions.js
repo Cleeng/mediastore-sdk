@@ -5,13 +5,12 @@ import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import Loader from 'components/Loader';
 import Card from 'components/Card';
-import { dateFormat } from 'components/CurrentPlan/helpers';
+import { dateFormat } from 'util/planHelper';
 import MyAccountError from 'components/MyAccountError';
 import Button from 'components/Button';
 import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
 import {
   WrapStyled,
-  // InfoMessageStyled,
   InsideWrapperStyled,
   LeftBoxStyled,
   TitleStyled,

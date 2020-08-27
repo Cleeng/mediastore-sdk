@@ -9,7 +9,7 @@ export const HeaderStyled = styled.header`
   padding: 0;
   margin: 0 35px;
 
-  border-bottom: 1px ${colors.MediumGrey} solid;
+  border-bottom: 1px ${colors.LightGreyCheckout} solid;
 
   text-align: center;
 
@@ -29,7 +29,7 @@ export const LogoStyled = styled.div`
   width: 100%;
 
   background-image: ${props => props.logoSrc && css`url(${props.logoSrc})`};
-  background-size: 100% 50%;
+  background-size: 100% 40%;
   background-position: center;
   background-repeat: no-repeat;
 `;

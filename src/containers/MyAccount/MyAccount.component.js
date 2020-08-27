@@ -9,9 +9,9 @@ import MyAccountMenu from 'components/MyAccountMenu';
 import MyAccountUserInfo from 'components/MyAccountUserInfo';
 import MyAccountContent from 'components/MyAccountContent';
 import QuickActions from 'components/QuickActions';
-import PlanDetails from 'components/PlanDetails';
-import PaymentInfo from 'components/PaymentInfo';
-import UpdateProfile from 'components/UpdateProfile';
+import PlanDetails from 'containers/PlanDetails';
+import PaymentInfo from 'containers/PaymentInfo';
+import UpdateProfile from 'containers/UpdateProfile';
 import Popup from 'components/Popup/Popup';
 import {
   getCustomerSubscriptions,

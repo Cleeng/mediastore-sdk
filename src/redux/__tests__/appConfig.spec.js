@@ -1,7 +1,4 @@
-import appConfigReducer, {
-  SET_DATA,
-  REMOVE_DATA
-} from 'redux/appConfigReducer';
+import appConfigReducer, { SET_DATA, REMOVE_DATA } from 'redux/appConfig';
 
 describe('appConfigReducer', () => {
   it('should correctly call setData action', () => {

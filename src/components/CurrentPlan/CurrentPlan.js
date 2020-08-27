@@ -8,7 +8,7 @@ import { ReactComponent as noSubscriptionsIcon } from 'assets/images/errors/sad_
 import Card from 'components/Card';
 import Loader from 'components/Loader';
 import MyAccountError from 'components/MyAccountError';
-import { periodMapper, dateFormat, currencyFormat } from './helpers';
+import { periodMapper, dateFormat, currencyFormat } from 'util/planHelper';
 
 import {
   WrapStyled,

@@ -142,7 +142,7 @@ const ButtonStyled = styled.button`
 
         &::before {
           content: '<';
-          margin-right: 5px;
+          margin-right: 10px;
         }
         &:hover,
         &:focus {

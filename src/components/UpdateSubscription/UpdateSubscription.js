@@ -6,7 +6,7 @@ import Checkbox from 'components/Checkbox';
 import updateSubscription from 'api/Customer/updateSubscription';
 import serverIcon from 'assets/images/errors/sad_server.svg';
 import labeling from 'containers/labeling';
-import { dateFormat } from 'components/CurrentPlan/helpers';
+import { dateFormat } from 'util/planHelper';
 import {
   SurveyCard,
   WrapperStyled,

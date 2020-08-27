@@ -4,7 +4,7 @@ import store from 'redux/store';
 import {
   setData as setDataInRedux,
   removeData as removeDataFromRedux
-} from 'redux/appConfigReducer';
+} from 'redux/appConfig';
 
 const isLocalStorageAvailable = () => {
   try {
@@ -44,16 +44,3 @@ export const sendMessage = msg => {
 
 export const isHosted = () =>
   getData('CLEENG_HOSTED') && getData('CLEENG_HOSTED') === 'true';
-
-// for hosted solution only
-export const listenForPayPalUrls = () => {
-  window.addEventListener('message', event => {
-    if (!event.data) return;
-    if (event.origin !== 'http://127.0.0.1:5500') return;
-    // console.log('I GET MESSGAE', event);
-    const { paypalSuccess, paypalCancel, paypalError } = event.data;
-    setData('CLEENG_PP_SUCCESS', paypalSuccess);
-    setData('CLEENG_PP_CANCEL', paypalCancel);
-    setData('CLEENG_PP_ERROR', paypalError);
-  });
-};

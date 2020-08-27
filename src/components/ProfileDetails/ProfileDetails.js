@@ -11,7 +11,7 @@ import {
   ButtonWrapperStyled,
   SuccessMessageStyled
 } from 'components/MyAccountConsents/MyAccountConsentsStyled';
-import validateEmailField from 'components/EmailInput/EmailHelper';
+import { validateEmailField } from 'util/validators';
 import updateCustomer from 'api/Customer/updateCustomer';
 import Auth from 'services/auth';
 import { WrapStyled, FormStyled } from './ProfileDetailsStyled';
