@@ -26,7 +26,7 @@ build_staging:
   except:
     - master
   tags:
-    - test
+    - aws-runner
 
 test:
   stage: test
@@ -39,7 +39,7 @@ test:
   only:
     - branches
   tags:
-    - test
+    - aws-runner
   artifacts:
     paths:
       - coverage
@@ -54,7 +54,7 @@ deploy_staging:
   only:
     - stage
   tags:
-    - staging
+    - aws-runner
 
 build_production:
   stage: build
@@ -72,7 +72,7 @@ build_production:
   only:
     - master
   tags:
-    - test
+    - aws-runner
 
 deploy_production:
   stage: deploy
@@ -84,4 +84,4 @@ deploy_production:
   only:
     - master
   tags:
-    - staging
+    - aws-runner
