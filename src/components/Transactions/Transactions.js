@@ -46,7 +46,7 @@ const Transactions = ({
           )}
         />
       ) : (
-        <Card withShadow>
+        <Card withBorder>
           {transactions.map(subItem => (
             <InsideWrapperStyled
               key={subItem.transactionId}
@@ -70,7 +70,7 @@ const Transactions = ({
           {!isShowMoreButtonHidden && (
             <Button
               size="small"
-              theme={isExpanded ? 'primary' : 'secondary'}
+              theme="primary"
               margin="20px 0 0 auto"
               width="unset"
               label={(isExpanded && t('Show less')) || t('Show more')}

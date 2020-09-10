@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import PaymentMehod from 'components/PaymentMethod';
-import MyAccountHeading from 'components/MyAccountHeading';
+import SectionHeader from 'components/SectionHeader';
 import Transactions from 'components/Transactions';
 import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
@@ -169,7 +169,7 @@ class PaymentInfo extends Component {
     } = this.state;
     return (
       <WrapStyled>
-        <MyAccountHeading text={t('Payment method')} />
+        <SectionHeader marginTop="0">{t('Payment method')}</SectionHeader>
         <PaymentMehod
           paymentDetailsLoading={paymentDetailsLoading}
           paymentDetails={
@@ -179,7 +179,7 @@ class PaymentInfo extends Component {
           }
           error={paymentDetailsError}
         />
-        <MyAccountHeading text={t('Transactions')} />
+        <SectionHeader>{t('Transactions')}</SectionHeader>
         <Transactions
           transactions={paymentInfo.transactionsToShow}
           toggleTransactionsList={this.toggleTransactionsList}

@@ -1,7 +1,10 @@
 import styled from 'styled-components';
 
-const AdyenStyled = styled.div`
-  margin-top: 25px;
+export const AdyenStyled = styled.div`
+  max-width: 320px;
+  margin: 50px auto 0 auto;
 `;
 
-export default AdyenStyled;
+export const ConfirmButtonStyled = styled.div`
+  margin-top: 32px;
+`;

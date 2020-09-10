@@ -63,7 +63,7 @@ export const SeparatorStyled = styled.div`
 
   padding: 20px 0;
 
-  color: ${colors.MainTextColor};
+  color: ${colors.MainColor};
 
   text-align: center;
   font-size: 13px;
@@ -106,7 +106,7 @@ export const FormErrorStyled = styled.div`
 `;
 
 export const FormSuccessStyled = styled.h1`
-  color: ${colors.MainColor};
+  color: ${colors.ConfirmColor};
   position: absolute;
   top: 20px;
   width: 100%;

@@ -12,7 +12,7 @@ import {
 
 const Password = ({ showPopup, t }) => (
   <WrapStyled>
-    <Card>
+    <Card withBorder>
       <InnerWrapperStyled>
         <OldPasswordStyled>••••••••</OldPasswordStyled>
         <Button

@@ -13,7 +13,7 @@ class MockAdyenCheckout {
       onSubmit: mockOnSubmit,
       onChange: mockOnChange,
       clientKey: 'foo',
-      showPayButton: true
+      showPayButton: false
     });
   }
 

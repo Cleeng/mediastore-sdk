@@ -24,7 +24,7 @@ export const InputElementWrapperStyled = styled.div`
   transition: 0.2s ease-in-out;
 
   &:focus-within {
-    border-color: ${Colors.MainColor};
+    border-color: ${Colors.ConfirmColor};
   }
 
   ${props =>
@@ -44,7 +44,7 @@ export const LabelStyled = styled.label`
   margin: 0;
   padding: 0 3px;
 
-  color: ${Colors.Label};
+  color: ${Colors.MainColor};
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
   &::after {
     position: absolute;
@@ -78,7 +78,7 @@ export const InputElementStyled = styled.input`
 
   margin: 0 15px;
 
-  color: ${Colors.InputText};
+  color: ${Colors.MainColor};
   border: none;
   outline: none;
 
@@ -87,7 +87,7 @@ export const InputElementStyled = styled.input`
 
   &:focus + label {
     transform: translate(0, -25px) scaleY(0.9);
-    color: ${Colors.MainColor};
+    color: ${Colors.ConfirmColor};
     &::after {
       opacity: 1;
     }

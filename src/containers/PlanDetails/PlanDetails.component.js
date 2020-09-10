@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import MyAccountHeading from 'components/MyAccountHeading';
+import SectionHeader from 'components/SectionHeader';
 import CurrentPlan from 'components/CurrentPlan';
 import { getCustomerSubscriptions } from 'api';
 import { PropTypes } from 'prop-types';
@@ -84,7 +84,7 @@ class PlanDetails extends Component {
           </>
         ) : (
           <>
-            <MyAccountHeading text={t('Current plan')} />
+            <SectionHeader marginTop="0">{t('Current plan')}</SectionHeader>
             <CurrentPlan
               subscriptions={planDetails.currentPlan}
               errors={errors}

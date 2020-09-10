@@ -21,6 +21,7 @@ import {
 
 import { breakPoints } from 'styles/BreakPoints';
 import MyAccountError from 'components/MyAccountError/MyAccountError';
+import Footer from 'components/Footer';
 import { isHosted } from 'util/appConfigHelper';
 import { WrapperStyled, HeaderStyled } from './MyAccountStyled';
 
@@ -189,6 +190,7 @@ class MyAccount extends Component {
                 subscription={currentPlan[0] ? currentPlan[0].offerTitle : ''}
               />
               <MyAccountMenu routeMatch={routeMatch} />
+              {!isMobile && <Footer isCheckout={false} isTransparent />}
             </HeaderStyled>
             <MyAccountContent>
               <Switch>

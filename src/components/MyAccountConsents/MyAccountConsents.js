@@ -106,7 +106,7 @@ class MyAccountConsents extends Component {
     return isLoading ? (
       <Loader isMyAccount />
     ) : (
-      <CardStyled showConsentsOnly={showConsentsOnly}>
+      <CardStyled showConsentsOnly={showConsentsOnly} withBorder>
         {sortedConsents.map(item => (
           <CheckboxStyled
             isMyAccount
@@ -141,7 +141,7 @@ class MyAccountConsents extends Component {
                   <>
                     <ButtonStyled
                       size="small"
-                      theme="secondary"
+                      theme="simple"
                       fontWeight="700"
                       onClickFn={() =>
                         this.setState({
@@ -154,7 +154,7 @@ class MyAccountConsents extends Component {
                     </ButtonStyled>
                     <ButtonStyled
                       size="small"
-                      theme="primary"
+                      theme="confirm"
                       fontWeight="700"
                       fontSize="13px"
                       onClickFn={() => this.updateConsents()}

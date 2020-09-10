@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import MyAccountHeading from 'components/MyAccountHeading';
+import SectionHeader from 'components/SectionHeader';
 import ProfileDetails from 'components/ProfileDetails';
 import Password from 'components/Password';
 import PropTypes from 'prop-types';
@@ -56,7 +56,7 @@ class UpdateProfile extends Component {
     } = this.props;
     return (
       <WrapStyled>
-        <MyAccountHeading text={t('Profile details')} />
+        <SectionHeader marginTop="0">{t('Profile details')}</SectionHeader>
         {detailsError.length !== 0 ? (
           <MyAccountError generalError />
         ) : (
@@ -68,12 +68,12 @@ class UpdateProfile extends Component {
               isLoading={isUserDetailsLoading}
               setCurrentUser={setCurrentUser}
             />
-            <MyAccountHeading text={t('Password')} />
+            <SectionHeader>{t('Password')}</SectionHeader>
             <Password showPopup={showPopup} />
           </>
         )}
 
-        <MyAccountHeading text={t('Terms Details')} />
+        <SectionHeader> {t('Terms Details')}</SectionHeader>
         {consentsError.length !== 0 ? (
           <MyAccountError generalError />
         ) : (

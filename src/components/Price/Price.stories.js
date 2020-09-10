@@ -2,9 +2,9 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs, text } from '@storybook/addon-knobs';
-import MyAccountHeading from './MyAccountHeading';
+import Price from './Price';
 
-storiesOf('MyAccount/MyAccountHeading', module)
+storiesOf('Common/Price', module)
   .addDecorator(jsxDecorator)
   .addDecorator(withKnobs)
   .addDecorator(story => (
@@ -20,5 +20,9 @@ storiesOf('MyAccount/MyAccountHeading', module)
     </div>
   ))
   .add('Default', () => (
-    <MyAccountHeading text={text('text', 'Default heading')} />
+    <Price
+      currency={text('Currency', '$')}
+      price={text('Price', '20')}
+      period={text('Period', 'month')}
+    />
   ));

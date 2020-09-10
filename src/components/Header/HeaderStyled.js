@@ -7,9 +7,8 @@ export const HeaderStyled = styled.header`
   position: relative;
 
   padding: 0;
-  margin: 0 35px;
 
-  border-bottom: 1px ${colors.LightGreyCheckout} solid;
+  border-bottom: 1px ${colors.LineColor} solid;
 
   text-align: center;
 

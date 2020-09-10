@@ -6,14 +6,11 @@ import Offer from './Offer';
 import mockOfferDetails from './__mocks__/offerDetails';
 import mockOrderDetails from './__mocks__/orderDetails';
 import {
-  StyledOfferTitle,
-  StyledOfferDescription,
-  StyledTrial,
-  StyledTrialDescription,
   StyledOfferPrice,
+  StyledPriceBox,
   StyledPriceBoxWrapper,
-  StyledPriceBoxItemWrapper,
-  StyledTotalWrapper
+  StyledTotalOfferPrice,
+  StyledPriceWrapper
 } from './OfferStyled';
 
 jest.mock('containers/labeling', () => () => Component => props => (
@@ -43,54 +40,15 @@ describe('Offer', () => {
         />
       );
 
-      expect(wrapper.find(StyledTrial)).toHaveLength(0);
+      expect(wrapper.find(StyledPriceBox)).toHaveLength(1);
       expect(wrapper.find(StyledPriceBoxWrapper)).toHaveLength(1);
-      expect(wrapper.find(StyledPriceBoxItemWrapper)).toHaveLength(1);
 
-      expect(wrapper.find(StyledOfferTitle).text()).toBe(
-        mockOfferDetails.offerTitle
-      );
-      expect(wrapper.find(StyledOfferDescription).text()).toBe(
-        mockOfferDetails.description
-      );
-
-      expect(
-        wrapper
-          .find(StyledPriceBoxItemWrapper)
-          .find(StyledOfferPrice)
-          .text()
-      ).toBe(
+      expect(wrapper.find(StyledOfferPrice).text()).toBe(
         `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.priceBreakdown.taxValue}`
       );
 
-      expect(
-        wrapper
-          .find(StyledTotalWrapper)
-          .find(StyledOfferPrice)
-          .text()
-      ).toBe(
+      expect(wrapper.find(StyledTotalOfferPrice).text()).toBe(
         `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.priceBreakdown.offerPrice}`
-      );
-    });
-
-    it('displays trial', () => {
-      const wrapper = shallow(
-        <Offer
-          offerDetails={{ ...mockOfferDetails, trialAvailable: true }}
-          orderDetails={mockOrderDetails}
-          couponProps={mockCouponProps}
-          onPaymentComplete={jest.fn()}
-        />
-      );
-
-      const trialDescription = `You will be charged {{price}}exVat after {{period}}.`;
-
-      expect(wrapper.find(StyledTrial)).toHaveLength(1);
-      expect(wrapper.find(StyledTrialDescription).text()).toBe(
-        trialDescription
-      );
-      expect(wrapper.find(StyledOfferDescription).text()).toBe(
-        `${trialDescription}${mockOfferDetails.description}`
       );
     });
 
@@ -112,11 +70,11 @@ describe('Offer', () => {
       );
 
       expect(wrapper.find(StyledPriceBoxWrapper)).toHaveLength(1);
-      expect(wrapper.find(StyledPriceBoxItemWrapper)).toHaveLength(3);
+      expect(wrapper.find(StyledPriceWrapper)).toHaveLength(4);
 
       expect(
         wrapper
-          .find(StyledPriceBoxItemWrapper)
+          .find(StyledPriceWrapper)
           .at(0)
           .find(StyledOfferPrice)
           .text()
@@ -125,7 +83,7 @@ describe('Offer', () => {
       );
       expect(
         wrapper
-          .find(StyledPriceBoxItemWrapper)
+          .find(StyledPriceWrapper)
           .at(1)
           .find(StyledOfferPrice)
           .text()
@@ -134,7 +92,7 @@ describe('Offer', () => {
       );
       expect(
         wrapper
-          .find(StyledPriceBoxItemWrapper)
+          .find(StyledPriceWrapper)
           .at(2)
           .find(StyledOfferPrice)
           .text()
@@ -143,8 +101,9 @@ describe('Offer', () => {
       );
       expect(
         wrapper
-          .find(StyledTotalWrapper)
-          .find(StyledOfferPrice)
+          .find(StyledPriceWrapper)
+          .at(3)
+          .find(StyledTotalOfferPrice)
           .text()
       ).toBe(
         `${mockOfferDetails.customerCurrencySymbol}${mockOrderDetails.totalPrice}`
