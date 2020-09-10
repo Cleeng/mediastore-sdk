@@ -1,10 +1,5 @@
 import styled, { css } from 'styled-components';
-import {
-  MyAccountTextGray,
-  MyAccountContentColor,
-  MyAccountTextDark2,
-  InputLabelColor
-} from 'styles/variables';
+import { MyAccountTextGray, LineColor, MainColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const WrapStyled = styled.div`
@@ -30,7 +25,7 @@ export const InsideWrapperStyled = styled.div`
   flex-wrap: no-wrap;
 
   padding: 18px 0;
-  border-bottom: 2px solid ${MyAccountContentColor};
+  border-bottom: 1px solid ${LineColor};
 
   ${props =>
     (props.length === 1 &&
@@ -60,7 +55,7 @@ export const RightBoxStyled = styled.div`
 `;
 
 export const TitleStyled = styled.h3`
-  color: ${MyAccountTextDark2};
+  color: ${MainColor};
 
   font-size: 13px;
   font-weight: 700;
@@ -68,25 +63,21 @@ export const TitleStyled = styled.h3`
 export const SubTitleStyled = styled.div`
   margin-top: 6px;
 
-  color: ${InputLabelColor};
+  color: ${MainColor};
 
   font-size: 12px;
-  font-style: italic;
-  font-weight: 600;
 `;
 export const IdStyled = styled.div`
-  color: ${MyAccountTextDark2};
+  color: ${MainColor};
 
   font-size: 13px;
-  font-weight: 600;
 `;
 export const DateStyled = styled.div`
   margin-top: 6px;
 
-  color: ${InputLabelColor};
+  color: ${MainColor};
 
   font-size: 12px;
-  font-weight: 600;
 `;
 export const ButtonTextStyled = styled.span`
   position: relative;

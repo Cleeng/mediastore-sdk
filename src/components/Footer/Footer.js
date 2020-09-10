@@ -4,8 +4,12 @@ import { FooterStyled, ProductByStyled, SecurityStyled } from './FooterStyled';
 import logo from './img/cleeng-logo-sm.png';
 import security from './img/security.svg';
 
-const Footer = ({ className, isInPopup, isCheckout }) => (
-  <FooterStyled isInPopup={isInPopup} className={className}>
+const Footer = ({ className, isInPopup, isCheckout, isTransparent }) => (
+  <FooterStyled
+    isInPopup={isInPopup}
+    isTransparent={isTransparent}
+    className={className}
+  >
     <ProductByStyled>
       Powered by
       <a href="https://cleeng.com" rel="noopener noreferrer" target="_blank">
@@ -24,12 +28,14 @@ const Footer = ({ className, isInPopup, isCheckout }) => (
 Footer.propTypes = {
   isInPopup: PropTypes.bool,
   isCheckout: PropTypes.bool,
+  isTransparent: PropTypes.bool,
   className: PropTypes.string
 };
 
 Footer.defaultProps = {
   isInPopup: false,
   isCheckout: true,
+  isTransparent: false,
   className: ''
 };
 

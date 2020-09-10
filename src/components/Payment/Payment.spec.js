@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import Button from 'components/Button';
+import PaymentMethodButton from 'components/PaymentMethodButton';
 import Adyen from 'components/Adyen';
 import {
   submitPayment,
@@ -84,7 +84,7 @@ describe('Payment', () => {
     wrapper.setState({
       paymentMethods: mockPaymentMethods.responseData.paymentMethods
     });
-    expect(wrapper.find(Button)).toHaveLength(2);
+    expect(wrapper.find(PaymentMethodButton)).toHaveLength(2);
     expect(wrapper.find(Adyen)).toHaveLength(0);
   });
   it('fetch payment methods on render', done => {
@@ -117,7 +117,7 @@ describe('Payment', () => {
       paymentMethods: mockPaymentMethods.responseData.paymentMethods
     });
     wrapper
-      .find(Button)
+      .find(PaymentMethodButton)
       .first()
       .simulate('click');
     expect(wrapper.find(Adyen)).toHaveLength(1);

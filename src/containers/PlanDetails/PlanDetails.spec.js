@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import MyAccountHeading from 'components/MyAccountHeading';
+import SectionHeader from 'components/SectionHeader';
 import CurrentPlan from 'components/CurrentPlan';
 import getCustomerSubscriptionsRequest from 'api/Customer/getCustomerSubscriptions';
 import { PurePlanDetails } from './PlanDetails.component';
@@ -67,7 +67,7 @@ describe('<PlanDetails/>', () => {
           updateList={updateListMock}
         />
       );
-      expect(wrapper.find(MyAccountHeading)).toHaveLength(1);
+      expect(wrapper.find(SectionHeader)).toHaveLength(1);
       expect(wrapper.find(CurrentPlan)).toHaveLength(1);
     });
     it('should call fetchSubscriptions when new props given', () => {

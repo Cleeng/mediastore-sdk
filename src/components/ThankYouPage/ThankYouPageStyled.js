@@ -2,15 +2,18 @@ import styled from 'styled-components';
 import * as colors from 'styles/variables';
 
 export const ThankYouPageStyled = styled.main`
-  margin: 0 35px;
-  padding: 40px 0;
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 50px 0 80px;
   text-align: center;
   line-height: 1.3em;
   font-size: 15px;
-  color: ${colors.MainTextColor};
+  color: ${colors.MainColor};
   font-family: 'Geomanist';
   font-weight: bold;
 `;
+
+export const IconStyled = styled.img``;
 
 export const TitleStyled = styled.div`
   font-size: 25px;
@@ -28,40 +31,10 @@ export const MessageStyled = styled.div`
 
 export const LinkStyled = styled.a`
   font-family: 'Geomanist';
-  color: ${colors.MainTextColor};
+  color: ${colors.MainColor};
   padding-left: 4px;
   font-weight: bold;
   &:hover {
     text-decoration: underline;
   }
-`;
-
-export const SocialsStyled = styled.div`
-  border-top: 1px ${colors.MediumGrey} solid;
-  padding-top: 20px;
-  margin: 70px 0 20px 0;
-`;
-
-export const ButtonsStyled = styled.div`
-  display: flex;
-  justify-content: center;
-  button {
-    width: 65px;
-
-    &::before {
-      left: 50%;
-      transform: translate(-45%, -50%);
-    }
-  }
-  & button:first-child {
-    margin-right: 13px;
-  }
-`;
-
-export const ShareStyled = styled.div`
-  color: ${colors.MainTextColor};
-  font-family: 'Geomanist';
-  font-weight: 300;
-  font-size: 13px;
-  margin-top: 15px;
 `;

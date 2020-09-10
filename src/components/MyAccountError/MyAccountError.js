@@ -38,9 +38,10 @@ const MyAccountError = ({
       {generalError && (
         <Button
           size="small"
-          margin="20px 0 0 0"
+          margin="20px auto auto auto"
           fontWeight="600"
           fontSize="12px"
+          width="auto"
           onClickFn={() => window.location.reload()}
         >
           {t('Try again')}

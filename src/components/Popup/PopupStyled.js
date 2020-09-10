@@ -1,10 +1,9 @@
 import styled, { css, keyframes } from 'styled-components';
 import { media } from 'styles/BreakPoints';
 import {
-  MyAccountTextDark2,
-  InputBorder,
+  MainColor,
+  LineColor,
   ErrorColor,
-  HeadingColor,
   MyAccountMenuActive
 } from 'styles/variables';
 import Button from 'components/Button';
@@ -67,7 +66,7 @@ export const ButtonWrapperStyled = styled.div`
 `;
 export const TitleStyled = styled.h1`
   font-size: 30px;
-  color: ${MyAccountTextDark2};
+  color: ${MainColor};
   font-weight: 700;
 
   ${media.small`
@@ -85,10 +84,11 @@ export const TitleStyled = styled.h1`
 `;
 
 export const TextStyled = styled.p`
-  color: ${MyAccountTextDark2};
+  color: ${MainColor};
   opacity: 0.8;
   font-size: 14px;
   line-height: 1.5;
+  margin: 20px 0;
 
   ${props =>
     props.step === 2 &&
@@ -105,7 +105,7 @@ export const ButtonStyled = styled(Button)`
   margin: 0 5px;
   &:disabled {
     cursor: not-allowed;
-    background: ${InputBorder};
+    background: ${LineColor};
   }
 `;
 
@@ -132,7 +132,7 @@ export const HeaderStyled = styled.div`
   justify-content: space-between;
   width: 90%;
   margin: 50px 0 0 0;
-  color: ${HeadingColor};
+  color: ${MainColor};
   ${media.small`
     margin: 30px 0 0 0;
   `}
@@ -143,12 +143,12 @@ export const DotStyled = styled.span`
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: ${InputBorder};
+  background: ${LineColor};
   margin-right: 10px;
 `;
 
 export const HeaderTitleStyled = styled.h1`
-  font-size: 13px;
+  font-size: 14px;
   margin: 0;
 `;
 

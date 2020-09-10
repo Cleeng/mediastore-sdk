@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { shallow } from 'enzyme';
-import MyAccountHeading from 'components/MyAccountHeading/MyAccountHeading';
+import SectionHeader from 'components/SectionHeader/SectionHeader';
 import listCustomerTransactionsRequest from 'api/Customer/listCustomerTransactions';
 import getPaymentDetailsRequst from 'api/Customer/getPaymentDetails';
 import { PurePaymentInfo } from './PaymentInfo.component';
@@ -80,7 +80,7 @@ describe('<PaymentInfo/>', () => {
           paymentInfo={{ paymentMethod: [], transactionsList: [] }}
         />
       );
-      expect(wrapper.find(MyAccountHeading)).toHaveLength(2);
+      expect(wrapper.find(SectionHeader)).toHaveLength(2);
       setImmediate(() => {
         expect(setPaymentMethodMock).toHaveBeenCalled();
         expect(setPaymentMethodMock).toHaveBeenCalledWith([paymentDetailsData]);

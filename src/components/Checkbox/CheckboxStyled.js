@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components';
 import {
-  MainTextColor,
+  MainColor,
   ErrorColor,
-  CheckboxBorderColor,
-  FocusColor,
-  MyAccountMenuActive
+  ConfirmColor,
+  LineColor,
+  FocusColor
 } from 'styles/variables';
 import tickIcon from 'assets/images/input/tick.svg';
 import enableIcon from 'assets/images/input/enable_check.svg';
@@ -18,7 +18,7 @@ export const CheckboxStyled = styled.div`
 
   align-items: center;
   font-size: 13px;
-  color: ${MainTextColor};
+  color: ${MainColor};
 
   &:focus {
     outline: none;
@@ -39,7 +39,7 @@ export const ConsentDefinitionStyled = styled.div`
   font-weight: 400;
   text-align: left;
   a {
-    color: ${MainTextColor};
+    color: ${MainColor};
 
     text-decoration: underline;
     &:focus {
@@ -58,7 +58,7 @@ export const CheckFrameStyled = styled.div`
   position: relative;
   box-sizing: border-box;
 
-  border: 1px solid ${CheckboxBorderColor};
+  border: 1px solid ${LineColor};
   border-radius: 2px;
   width: 20px;
   min-width: 20px;
@@ -81,14 +81,14 @@ export const CheckFrameStyled = styled.div`
     props.isRadioButton &&
     props.checked &&
     css`
-      border: 1px solid ${MyAccountMenuActive};
+      border: 1px solid ${ConfirmColor};
     `}
 
   ${props =>
     props.isMyAccount &&
     props.checked &&
     css`
-      border-color: ${MyAccountMenuActive};
+      border-color: ${ConfirmColor};
     `}
 `;
 
@@ -112,7 +112,7 @@ export const CheckMarkStyled = styled.div`
       width: 12px;
       height: 12px;
 
-      background: ${MyAccountMenuActive};
+      background: ${ConfirmColor};
       border-radius: 50%;
     `}
   ${props =>

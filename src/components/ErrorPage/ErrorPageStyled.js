@@ -11,7 +11,7 @@ export const ErrorPageStyled = styled.div`
   min-height: 350px;
   margin: 0 auto;
 
-  color: ${colors.MainTextColor};
+  color: ${colors.MainColor};
 
   font-size: 15px;
   font-family: 'Geomanist';

@@ -16,7 +16,8 @@ export const BUTTON_THEME = {
   NAVLINK: 'navLink',
   LINK: 'link',
   DANGER: 'danger',
-  PAYMENT: 'payment'
+  PAYMENT: 'payment',
+  CONFIRM: 'confirm'
 };
 
 const Button = ({

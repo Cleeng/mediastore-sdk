@@ -1,10 +1,8 @@
 import styled, { css } from 'styled-components';
 import {
-  InputBorder,
-  InputLabelColor,
-  DisabledInputBg,
-  DisabledInputColor,
-  MyAccountTextDark,
+  MainColor,
+  BackgroundColor,
+  LineColor,
   ErrorColor
 } from 'styles/variables';
 
@@ -22,28 +20,26 @@ export const WrapStyled = styled.div`
 export const InputElementLabelStyled = styled.label`
   display: block;
   margin-bottom: 12px;
-  color: ${InputLabelColor};
+  color: ${MainColor};
   font-size: 13px;
-  font-weight: 700;
 `;
 
 export const InputElementStyled = styled.input`
   width: 100%;
   padding: 10px 16px;
 
-  border: 1px solid ${InputBorder};
-  border-radius: 8px;
+  border: 1px solid ${LineColor};
+  border-radius: 4px;
   font-size: 13px;
   line-height: 13px;
 
   &:focus {
-    border: 1px solid ${MyAccountTextDark};
+    border: 1px solid ${LineColor};
   }
 
   &:disabled {
-    background-color: ${DisabledInputBg};
-    border: 1px solid ${InputBorder};
-    color: ${DisabledInputColor};
+    background-color: ${BackgroundColor};
+    color: ${MainColor};
     font-style: italic;
   }
 

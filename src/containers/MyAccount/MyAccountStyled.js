@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
-import { MyAccountMainColor } from 'styles/variables';
+import { White } from 'styles/variables';
 
 export const WrapperStyled = styled.div`
   position: relative;
@@ -12,18 +12,19 @@ export const WrapperStyled = styled.div`
 
   padding-top: 44px;
 
-  background-color: ${MyAccountMainColor};
+  background-color: ${White};
 
   ${mediaFrom.small`
     flex-direction: row;
     min-height: ${props => (props.hosted ? '100vh' : 'unset')};
     height: ${props => (props.hosted ? '100vh' : '700px')};
 
-    padding: 12px;
+    padding: 0;
   `}
 `;
 
 export const HeaderStyled = styled.div`
+  position: relative;
   padding: 0 26px;
   overflow: hidden;
 

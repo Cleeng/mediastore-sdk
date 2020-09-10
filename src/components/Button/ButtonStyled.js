@@ -22,6 +22,7 @@ const ButtonStyled = styled.button`
   font-size: 16px;
   line-height: initial;
 
+  transition: opacity 0.1s ease-in-out;
   cursor: pointer;
 
   &:active {
@@ -30,7 +31,7 @@ const ButtonStyled = styled.button`
 
   &:disabled {
     &:hover {
-    cursor: not-allowed;
+      cursor: not-allowed;
     }
   }
 
@@ -48,15 +49,26 @@ const ButtonStyled = styled.button`
       `)}
   
   ${props =>
-    (props.theme === 'primary' &&
+    (props.theme === 'confirm' &&
       css`
-        color: ${colors.ButtonMainFontColor};
-        background-color: ${colors.ButtonBackground};
-
+        color: ${colors.White};
+        background-color: ${colors.ConfirmColor};
+        opacity: 0.9;
         &:hover,
         &:focus {
           cursor: pointer;
-          background-color: ${colors.ButtonHoverColor};
+          opacity: 1;
+        }
+      `) ||
+    (props.theme === 'primary' &&
+      css`
+        color: ${colors.White};
+        background-color: ${colors.MainColor};
+        opacity: 0.9;
+        &:hover,
+        &:focus {
+          cursor: pointer;
+          opacity: 1;
         }
       `) ||
     (props.theme === 'payment' &&
@@ -68,7 +80,7 @@ const ButtonStyled = styled.button`
         padding: 15px;
         border-radius: 6px;
 
-        color: ${colors.ButtonMainFontColor};
+        color: ${colors.White};
         background-color: ${colors.PaymentButtonBgn};
 
         font-size: 14px;
@@ -85,22 +97,22 @@ const ButtonStyled = styled.button`
       `) ||
     (props.theme === 'secondary' &&
       css`
-        background-color: ${colors.ButtonSecondaryBackground};
-        border: 1px solid ${colors.ButtonSecondaryBackground};
-        color: ${colors.MainTextColor};
+        background-color: ${colors.BackgroundColor};
+        border: 1px solid ${colors.BackgroundColor};
+        color: ${colors.MainColor};
         &:hover,
         &:focus,
         &:active {
           cursor: pointer;
-          background-color: ${colors.ButtonBorderColor};
-          border: 1px solid ${colors.ButtonBorderColor};
+          background-color: ${colors.LineColor};
+          border: 1px solid ${colors.LineColor};
         }
       `) ||
     (props.theme === 'danger' &&
       css`
         background-color: ${colors.ErrorColor};
         border: none;
-        color: ${colors.MyAccountMainColor};
+        color: ${colors.White};
         opacity: 0.8;
         &:not(:disabled):hover,
         &:focus {
@@ -111,23 +123,23 @@ const ButtonStyled = styled.button`
       `) ||
     (props.theme === 'simple' &&
       css`
-        background-color: ${colors.ButtonMainFontColor};
-        border: 1px solid ${colors.ButtonBorder};
-        color: ${colors.MainTextColor};
+        background-color: transparent;
+        border: 1px solid ${colors.LineColor};
+        color: ${colors.MainColor};
         &:not(:disabled):hover,
         &:focus {
           cursor: pointer;
-          background-color: ${colors.LightGrey};
+          background-color: ${colors.BackgroundColor};
         }
         &:active {
-          border: 1px solid ${colors.ButtonMainFontColor};
+          border: 1px solid transparent;
         }
       `) ||
     (props.theme === 'navLink' &&
       css`
         position: absolute;
         top: 50%;
-        left: 10px;
+        left: 35px;
 
         height: auto;
         width: auto;
@@ -136,7 +148,7 @@ const ButtonStyled = styled.button`
 
         transform: translateY(-45%);
         background-color: transparent;
-        color: ${colors.MainTextColor};
+        color: ${colors.MainColor};
         font-size: 16px;
         letter-spacing: 0.025em;
 
@@ -164,7 +176,7 @@ const ButtonStyled = styled.button`
 
         border-radius: none;
         background-color: transparent;
-        color: ${colors.MainTextColor};
+        color: ${colors.MainColor};
 
         text-decoration: underline;
         letter-spacing: 0.025em;

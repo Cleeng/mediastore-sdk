@@ -2,38 +2,44 @@ export const periodMapper = {
   week: {
     label: 'W',
     peroid: 'week',
-    color: '#65CDE5',
-    bg: '#E9F7FA'
+    color: '#D5749B',
+    bg: '#FFF0FB',
+    border: '#D980A42B'
   },
   month: {
     label: '1',
     peroid: 'month',
-    color: '#76A3F5',
-    bg: '#EEF4FF'
+    color: '#AB68BC',
+    bg: '#FBF0FF',
+    border: '#AC61BF2B'
   },
   '3months': {
     label: '3',
     peroid: 'month',
-    color: '#EBB46D',
-    bg: '#FCF5EC'
+    color: '#6399E3',
+    bg: '#EDF3FF',
+    border: '#DAE4FD'
   },
   '6months': {
     label: '6',
     peroid: 'month',
-    color: '#AF60AA',
-    bg: '#F5E9F3'
+    color: '#7172C9',
+    bg: '#F0F0FF',
+    border: '#6163CD2E'
   },
   year: {
     label: '12',
     peroid: 'month',
-    color: '#83CBBB',
-    bg: '#EDF8F4'
+    color: '#5971B9',
+    bg: '#EDF1FF',
+    border: '#39529B2E'
   },
   default: {
     label: 'S',
     peroid: '',
-    color: '#83CBBB',
-    bg: '#EDF8F4'
+    color: '#5971B9',
+    bg: '#EDF1FF',
+    border: '#39529B2E'
   }
 };
 

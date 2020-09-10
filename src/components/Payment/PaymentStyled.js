@@ -6,6 +6,7 @@ export const PaymentStyled = styled.div`
   padding: 20px 35px 70px 35px;
   width: 100%;
   margin-top: 20px;
+  background-color: ${colors.BackgroundColor};
 `;
 
 export const PaymentErrorStyled = styled.div`
@@ -14,24 +15,16 @@ export const PaymentErrorStyled = styled.div`
   font-family: 'Geomanist';
 `;
 
-export const TitleStyled = styled.div`
-  font-family: 'Geomanist';
-  font-weight: 600;
-  font-size: 22px;
-  padding: 20px 0;
-  text-align: center;
-`;
-
 export const MethodsWrapperStyled = styled.div`
   margin-bottom: 10px;
   font-size: 20px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   button {
     flex-basis: 200px;
-    margin: 5px auto;
+    margin: 10px;
 
     :not(:disabled):hover,
     :active,
@@ -44,11 +37,6 @@ export const MethodsWrapperStyled = styled.div`
       flex-basis: 100%;
     }
   `}
-`;
-
-export const ButtonImageStyled = styled.img`
-  max-height: 50%;
-  margin: 0 auto;
 `;
 
 export const PayPalWrapperStyled = styled.div`

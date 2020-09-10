@@ -1,15 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import couponIcon from 'assets/images/input/coupon.svg';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
 import Loader from 'components/Loader';
+import Button from 'components/Button';
 import {
-  CouponInputWrapperStyled,
   InputComponentStyled,
   MessageStyled,
   InputElementWrapperStyled,
-  InputElementStyled,
-  ButtonStyled
+  InputElementStyled
 } from './CouponInputStyled';
 
 const FADE_OUT_DELAY = 5000;
@@ -19,7 +17,8 @@ class CouponInput extends Component {
     super(props);
     this.state = {
       suppressMessage: false,
-      timeoutId: 0
+      timeoutId: 0,
+      isOpened: false
     };
   }
 
@@ -79,6 +78,16 @@ class CouponInput extends Component {
     });
   };
 
+  onRedeemClick = async () => {
+    const { isOpened } = this.state;
+    const { onSubmit, value } = this.props;
+    if (!isOpened) {
+      this.setState({ isOpened: true });
+    } else {
+      await onSubmit(value);
+    }
+  };
+
   render() {
     const {
       showMessage,
@@ -87,56 +96,53 @@ class CouponInput extends Component {
       value,
       onChange,
       couponLoading,
-      onSubmit,
       t
     } = this.props;
-    const { suppressMessage } = this.state;
+    const { suppressMessage, isOpened } = this.state;
 
     return (
-      <CouponInputWrapperStyled>
-        <InputComponentStyled>
-          <MessageStyled
-            showMessage={showMessage && !suppressMessage}
-            messageType={messageType}
-          >
-            {message}
-          </MessageStyled>
-          <InputElementWrapperStyled
-            showMessage={showMessage && !suppressMessage}
-            messageType={messageType}
-            icon={couponIcon}
-          >
-            <InputElementStyled
-              placeholder={t('Redeem coupon')}
-              onKeyDown={event => {
-                if (event.key === 'Enter') {
-                  this.handleSubmit(event);
-                }
-              }}
-              onFocus={() => {
-                this.setState({
-                  suppressMessage: true
-                });
-              }}
-              autoComplete="off"
-              value={value}
-              onChange={event => onChange(event.target.value)}
-              type="text"
-              readOnly={couponLoading}
-              aria-label={t('Redeem coupon')}
-              aria-required={false}
-            />
-            {couponLoading && <Loader smallLoader />}
-          </InputElementWrapperStyled>
-        </InputComponentStyled>
-
-        <ButtonStyled
-          onClick={() => onSubmit(value)}
-          disabled={couponLoading || value === ''}
+      <InputComponentStyled>
+        <InputElementWrapperStyled
+          showMessage={showMessage && !suppressMessage}
+          messageType={messageType}
         >
-          {t('Apply')}
-        </ButtonStyled>
-      </CouponInputWrapperStyled>
+          <InputElementStyled
+            isOpened={isOpened}
+            placeholder={t('Your coupon')}
+            onKeyDown={event => {
+              if (event.key === 'Enter') {
+                this.handleSubmit(event);
+              }
+            }}
+            onFocus={() => {
+              this.setState({
+                suppressMessage: true
+              });
+            }}
+            autoComplete="off"
+            value={value}
+            onChange={event => onChange(event.target.value)}
+            type="text"
+            readOnly={couponLoading}
+            aria-label={t('Your coupon')}
+            aria-required={false}
+          />
+          {couponLoading && <Loader smallLoader />}
+          <Button
+            size="small"
+            width="auto"
+            onClickFn={() => this.onRedeemClick()}
+          >
+            {isOpened ? t('Redeem') : t('Redeem coupon')}
+          </Button>
+        </InputElementWrapperStyled>
+        <MessageStyled
+          showMessage={showMessage && !suppressMessage}
+          messageType={messageType}
+        >
+          {message}
+        </MessageStyled>
+      </InputComponentStyled>
     );
   }
 }
