@@ -4,9 +4,9 @@ import AdyenStyled from './AdyenStyled';
 import LocalhostWarning from './util/LocalhostWarning';
 
 const ADYEN_STYLESHEET_HREF =
-  'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.2.0/adyen.css';
+  'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css';
 const ADYEN_SCRIPT_HREF =
-  'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.2.0/adyen.js';
+  'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.10.1/adyen.js';
 
 const COMPONENT_CONTAINER_ID = 'component-container';
 const PAYMENT_METHOD_CARD = 'card';
@@ -50,8 +50,7 @@ class Adyen extends Component {
     const configuration = {
       showPayButton: true,
       environment: ENV_TEST,
-      originKey:
-        ENVIRONMENT_CONFIGURATION.ADYEN_PUBLIC_KEY[window.location.origin],
+      clientKey: ENVIRONMENT_CONFIGURATION.ADYEN_CLIENT_KEY,
       onSubmit,
       onChange
     };
