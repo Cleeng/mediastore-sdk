@@ -161,7 +161,11 @@ class LoginForm extends Component {
           onBlur={this.validatePassword}
           error={errors.password}
         />
-        <Button type="submit" disabled={processing || overloaded}>
+        <Button
+          type="submit"
+          theme="confirm"
+          disabled={processing || overloaded}
+        >
           {processing ? <Loader buttonLoader color="#ffffff" /> : t('Sign in')}
         </Button>
       </FromStyled>

@@ -26,6 +26,6 @@ export const MessageStyled = styled.div`
   text-align: center;
 `;
 export const IconStyled = styled.img`
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: auto;
 `;

@@ -12,8 +12,15 @@ export const FooterStyled = styled.footer`
   width: 100%;
   padding: 10px 34px;
 
+  border-top: 1px solid ${colors.LineColor};
   background-color: ${props =>
-    props.isTransparent ? 'transparent' : colors.BackgroundColor};
+    props.isTransparent ? 'transparent' : colors.White};
+
+  ${props =>
+    props.isTransparent &&
+    css`
+      border: none;
+    `}
 
   ${props =>
     props.isInPopup &&

@@ -74,6 +74,10 @@ export const StyledPriceBox = styled.div`
 
 export const StyledPriceBoxWrapper = styled.div`
   width: 300px;
+
+  ${media.small`
+    width: 100%;
+  `}
 `;
 
 export const StyledPriceWrapper = styled.div`
