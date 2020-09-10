@@ -7,6 +7,8 @@ export const PaymentStyled = styled.div`
   width: 100%;
   margin-top: 20px;
   background-color: ${colors.BackgroundColor};
+  border-top: 1px solid ${colors.LineColor};
+  border-bottom: 1px solid ${colors.LineColor};
 `;
 
 export const PaymentErrorStyled = styled.div`
