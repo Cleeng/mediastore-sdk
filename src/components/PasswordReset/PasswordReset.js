@@ -9,6 +9,7 @@ import Loader from 'components/Loader';
 import resetPassword from 'api/Auth/resetPassword';
 import saveOfferId from 'util/offerIdHelper';
 import labeling from 'containers/labeling';
+import Footer from 'components/Footer';
 import {
   PasswordResetPageStyled,
   StyledTitle,
@@ -114,7 +115,11 @@ class PasswordReset extends Component {
               value={value}
               onChange={v => this.setState({ value: v })}
             />
-            <Button type="submit" disabled={processing || overloaded}>
+            <Button
+              type="submit"
+              theme="confirm"
+              disabled={processing || overloaded}
+            >
               {processing ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
@@ -123,6 +128,7 @@ class PasswordReset extends Component {
             </Button>
           </FormStyled>
         </PasswordResetPageStyled>
+        <Footer />
       </>
     );
   }

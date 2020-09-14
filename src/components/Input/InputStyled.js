@@ -7,7 +7,7 @@ export const InputComponentStyled = styled.div`
   flex-direction: column;
   position: relative;
 
-  padding: 15px 10px;
+  padding: 10px;
   width: 100%;
 `;
 
@@ -99,10 +99,9 @@ export const InputElementStyled = styled.input`
 `;
 
 export const ErrorWrapper = styled.div`
-  position: absolute;
-  top: 52px;
-  left: 0;
   width: 100%;
+  height: 13px;
+  margin-top: 8px;
 
   content: '';
   color: ${Colors.ErrorColor};

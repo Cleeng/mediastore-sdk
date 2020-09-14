@@ -208,7 +208,12 @@ class RegisterForm extends Component {
           error={errors.consents}
           onChangeFn={this.handleConsentsChange}
         />
-        <Button type="submit" disabled={processing || overloaded}>
+        <Button
+          type="submit"
+          theme="confirm"
+          margin="10px 0"
+          disabled={processing || overloaded}
+        >
           {processing ? <Loader buttonLoader color="#ffffff" /> : t('Register')}
         </Button>
       </FromStyled>

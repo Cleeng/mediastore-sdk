@@ -137,7 +137,7 @@ class Popup extends Component {
               </>
             )}
           </TextStyled>
-          {step === 2 && consents && (
+          {step === 2 && consents && popupType !== 'resetPassword' && (
             <MyAccountConsents
               consents={consents}
               showConsentsOnly

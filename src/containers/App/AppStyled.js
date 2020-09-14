@@ -5,7 +5,7 @@ export const AppStyled = styled.div`
   min-height: 100vh;
   padding: 40px 0;
 
-  background: linear-gradient(-21deg, #44b2e7, #595fbb);
+  background: #eaeff8;
 
   ${media.small`
     padding: 0;
@@ -27,6 +27,7 @@ export const AppContentStyled = styled.div`
   max-width: 900px;
 
   background: white;
+  box-shadow: 0px 0px 79px #00000024;
 
   ${media.small`
     min-height: 100vh;

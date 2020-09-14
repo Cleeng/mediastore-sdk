@@ -21,9 +21,6 @@ export const FromStyled = styled.form`
   & input {
     position: relative;
   }
-  & button:last-child {
-    margin: 35px 0 10px;
-  }
 `;
 
 export const SocialStyled = styled.div`

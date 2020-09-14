@@ -44,7 +44,7 @@ export const StyledMessage = styled.div`
 export const FormStyled = styled.form`
   width: 80%;
 
-  margin: 30px auto 0 auto;
+  margin: 30px auto 50px auto;
 
   ${media.smallest`
     width:100%;

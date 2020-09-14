@@ -163,7 +163,7 @@ const ButtonStyled = styled.button`
         }
         ${media.small`
           top: 15px;
-          left: 0px;
+          left: 10px;
         `}
       `) ||
     (props.theme === 'link' &&
