@@ -68,13 +68,14 @@ class Input extends Component {
               )}
             </StyledButton>
           )}
-          <ErrorWrapper
-            passwordStrength={passwordStrength}
-            id={`${placeholder}-desc`}
-          >
-            {error}
-          </ErrorWrapper>
         </InputElementWrapperStyled>
+
+        <ErrorWrapper
+          passwordStrength={passwordStrength}
+          id={`${placeholder}-desc`}
+        >
+          {error}
+        </ErrorWrapper>
       </InputComponentStyled>
     );
   }

@@ -45,7 +45,12 @@ class Offer extends Component {
         imageUrl
       },
       orderDetails: {
-        priceBreakdown: { offerPrice, discountAmount, taxValue },
+        priceBreakdown: {
+          offerPrice,
+          discountAmount,
+          taxValue,
+          customerServiceFee
+        },
         discount: { applied },
         totalPrice,
         requiredPaymentDetails
@@ -129,6 +134,14 @@ class Offer extends Component {
                     {`${customerCurrencySymbol}${taxValue}`}
                   </StyledOfferPrice>
                 </StyledPriceWrapper>
+                {customerServiceFee !== 0 && (
+                  <StyledPriceWrapper>
+                    <StyledLabel>{t('Customer Service Fee')}</StyledLabel>
+                    <StyledOfferPrice>
+                      {`${customerCurrencySymbol}${customerServiceFee}`}
+                    </StyledOfferPrice>
+                  </StyledPriceWrapper>
+                )}
                 <StyledPriceWrapper>
                   <StyledTotalLabel>{t('Total:')}</StyledTotalLabel>
                   <StyledTotalOfferPrice>
@@ -169,7 +182,8 @@ Offer.propTypes = {
       offerPrice: PropTypes.number,
       discountedPrice: PropTypes.number,
       discountAmount: PropTypes.number,
-      taxValue: PropTypes.number
+      taxValue: PropTypes.number,
+      customerServiceFee: PropTypes.number
     }),
     discount: PropTypes.shape({
       applied: PropTypes.bool
@@ -194,7 +208,8 @@ Offer.defaultProps = {
       offerPrice: 0,
       discountedPrice: 0,
       discountAmount: 0,
-      taxValue: 0
+      taxValue: 0,
+      customerServiceFee: 0
     },
     discount: {
       applied: false

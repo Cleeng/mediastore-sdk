@@ -164,6 +164,7 @@ class LoginForm extends Component {
         <Button
           type="submit"
           theme="confirm"
+          margin="10px 0"
           disabled={processing || overloaded}
         >
           {processing ? <Loader buttonLoader color="#ffffff" /> : t('Sign in')}
