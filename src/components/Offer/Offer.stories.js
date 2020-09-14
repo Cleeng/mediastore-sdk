@@ -1,12 +1,6 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
-import {
-  withKnobs,
-  number,
-  boolean,
-  text,
-  array
-} from '@storybook/addon-knobs';
+import { withKnobs, number, boolean, text } from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { action } from '@storybook/addon-actions';
 import 'styles/index.scss';
@@ -20,38 +14,36 @@ storiesOf('Checkout/Offer', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (
-    <div style={{ width: 700, backgroundColor: 'white', position: 'relative' }}>
+    <div
+      style={{
+        minHeight: '100%',
+        backgroundColor: 'white',
+        position: 'relative'
+      }}
+    >
       {story()}
     </div>
   ))
   .add('Basic Offer', () => (
     <Offer
       offerDetails={{
-        imageUrl: text(
-          'imageUrl',
-          mockOfferDetails.imageUrl,
+        offerTitle: text(
+          'title',
+          mockOfferDetails.title,
           OFFER_DETAILS_GROUP_ID
         ),
-        title: text('title', mockOfferDetails.title, OFFER_DETAILS_GROUP_ID),
         customerCurrencySymbol: text(
           'customerCurrencySymbol',
           mockOfferDetails.customerCurrencySymbol,
           OFFER_DETAILS_GROUP_ID
         ),
-        price: number(
-          'price',
-          mockOfferDetails.price,
-          {},
+        description: text(
+          'description',
+          mockOfferDetails.description,
           OFFER_DETAILS_GROUP_ID
         ),
-        priceBeforeDiscount: number(
-          'priceBeforeDiscount',
-          12,
-          {},
-          OFFER_DETAILS_GROUP_ID
-        ),
-        isCouponApplied: boolean(
-          'couponApplied',
+        trialAvailable: boolean(
+          'trialAvailable',
           false,
           OFFER_DETAILS_GROUP_ID
         ),
@@ -61,22 +53,49 @@ storiesOf('Checkout/Offer', module)
           {},
           OFFER_DETAILS_GROUP_ID
         ),
-        isTrialAllowed: boolean(
-          'isTrialAllowed',
+        freeDays: number(
+          'freeDays',
+          mockOfferDetails.freeDays,
+          {},
+          OFFER_DETAILS_GROUP_ID
+        ),
+        period: text('period', mockOfferDetails.period, OFFER_DETAILS_GROUP_ID)
+      }}
+      orderDetails={{
+        priceBreakdown: {
+          offerPrice: number(
+            'price',
+            mockOfferDetails.price,
+            {},
+            OFFER_DETAILS_GROUP_ID
+          ),
+          discountAmount: number(
+            'discountAmount',
+            mockOfferDetails.discountAmount,
+            {},
+            OFFER_DETAILS_GROUP_ID
+          ),
+          taxValue: number(
+            'taxValue',
+            mockOfferDetails.taxValue,
+            {},
+            OFFER_DETAILS_GROUP_ID
+          )
+        },
+        discount: {
+          applied: boolean('discount applied', false, OFFER_DETAILS_GROUP_ID)
+        },
+        totalPrice: number(
+          'totalPrice',
+          mockOfferDetails.totalPrice,
+          {},
+          OFFER_DETAILS_GROUP_ID
+        ),
+        requiredPaymentDetails: boolean(
+          'requiredPaymentDetails',
           false,
           OFFER_DETAILS_GROUP_ID
-        ),
-        periodDescription: text(
-          'periodDescription',
-          mockOfferDetails.periodDescription,
-          OFFER_DETAILS_GROUP_ID
-        ),
-        description: text(
-          'description',
-          mockOfferDetails.description,
-          OFFER_DETAILS_GROUP_ID
-        ),
-        errors: array('errors', [], ',', OFFER_DETAILS_GROUP_ID)
+        )
       }}
       couponProps={{
         showMessage: false,
@@ -85,5 +104,24 @@ storiesOf('Checkout/Offer', module)
         onSubmit: action('apply-coupon')
       }}
       onPaymentComplete={action('onPaymentComplete')}
+      mocks={{
+        matcher: '/payment-methods',
+        response: {
+          body: {
+            responseData: [
+              {
+                id: 165380565,
+                methodName: 'card',
+                logoUrl: ''
+              },
+              {
+                id: 800563429,
+                methodName: 'roku',
+                logoUrl: ''
+              }
+            ]
+          }
+        }
+      }}
     />
   ));
