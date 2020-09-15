@@ -6,7 +6,7 @@ const getPaymentDetails = async () => {
   const decoded = jwtDecode(token);
   const { customerId } = decoded;
 
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers/${customerId}/payment_details`;
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/${customerId}/payment_details`;
   return fetch(url, {
     method: 'GET',
     headers: {

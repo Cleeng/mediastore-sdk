@@ -3,7 +3,7 @@ import { getData } from 'util/appConfigHelper';
 const submitPayPalPayment = async () => {
   const token = getData('CLEENG_AUTH_TOKEN') || '';
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/connectors/paypal/v1/tokens`;
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/connectors/paypal/v1/tokens`;
   const redirectUrls = {
     successUrl:
       getData('CLEENG_PP_SUCCESS') || `${window.location.origin}/thankyou`,

@@ -4,7 +4,7 @@ import { getData } from 'util/appConfigHelper';
 const submitConsents = async (consents, consentDefinitions, payload = null) => {
   const token = getData('CLEENG_AUTH_TOKEN') || '';
   const { customerId } = jwtDecode(token);
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers/${customerId}/consents`;
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/${customerId}/consents`;
   let consentsPayload;
   if (!payload) {
     consentsPayload = consentDefinitions.map((consentDefinition, index) => {

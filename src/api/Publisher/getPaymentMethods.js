@@ -2,7 +2,7 @@ import { getData } from 'util/appConfigHelper';
 
 const getPaymentMethods = async () => {
   const token = getData('CLEENG_AUTH_TOKEN') || '';
-  return fetch(`${ENVIRONMENT_CONFIGURATION.GB_API_URL}/payment-methods`, {
+  return fetch(`${ENVIRONMENT_CONFIGURATION.API_URL}/payment-methods`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`

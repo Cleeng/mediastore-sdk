@@ -6,7 +6,7 @@ const getCustomerSubscriptions = async () => {
   const decoded = jwtDecode(token);
   const { customerId } = decoded;
 
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers/${customerId}/subscriptions`;
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/${customerId}/subscriptions`;
   return fetch(url, {
     method: 'GET',
     headers: {

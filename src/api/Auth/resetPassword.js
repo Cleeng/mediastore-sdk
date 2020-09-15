@@ -4,7 +4,7 @@ const resetPassword = async (
   captcha,
   publisherId = ''
 ) => {
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers/passwords`;
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/passwords`;
 
   try {
     const res = await fetch(url, {

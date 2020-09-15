@@ -1,6 +1,6 @@
 module.exports = {
   ENVIRONMENT_CONFIGURATION: {
-    GB_API_URL: JSON.stringify('$STAGING_GB_API_URL'),
+    API_URL: JSON.stringify('$STAGING_API_URL'),
     ADYEN_CLIENT_KEY: JSON.stringify('$STAGING_ADYEN_CLIENT_KEY')
   }
 };
