@@ -2,8 +2,10 @@
 
 MediaStore SDK repo is marked as a template so you can easily move it directly to your GitHub account. Just use `Use this template` option.
 
-<img src="src/assets/images/use_template.png" />
-<img src="src/assets/images/create_repo.png" />
+<div style="display: flex; align-items: center; flex-direction: column">
+  <img src="src/assets/images/readme/use_template.png" style="margin: 20px auto;" alt="Use template button"/>
+  <img src="src/assets/images/readme/create_repo.png" style="margin: 20px auto;" alt="Create repo"/>
+</div>
 
 Upon creating the repository, please proceed with the below steps
 
@@ -19,7 +21,7 @@ Upon creating the repository, please proceed with the below steps
 
 `yarn install`
 
-4. Create a script in `src/config/environments` containing setups for the development environment.
+4. Create a script `development.js` in `config/environments` containing setups for the development environment.
 
 Here is an example of a file to connect to the sandbox. You can use it for your development.
 
@@ -32,11 +34,11 @@ module.exports = {
 };
 ```
 
-All the configs defined in `src/config/environments` can be accessed in code via a global ENVIRONMENT_CONFIGURATION constant.
+All the configs defined in `config/environments` can be accessed in code via a global ENVIRONMENT_CONFIGURATION constant.
 
 To select a specific environment for a run or build, use the `--environment` flag, e.g. `yarn start --environment=production`.
 
-Scripts containing setups are in js format. `staging.js` and `development.js` files are not committed and are ignored via .gitignore. That’s why you will need to create a local file and set some variables within it.
+Scripts containing setups are in `js` format.
 
 <table>
 <tr>
@@ -46,11 +48,9 @@ Scripts containing setups are in js format. `staging.js` and `development.js` fi
 <tr><td>GB_API_URL</td><td>identifies the host of REST API</td></tr>
 <tr><td>ADYEN_CLIENT_KEY</td>
   <td>
-    identifies Adyen's Client Key. It’s a Cleeng key, which allows you to use Adyen enpoint (when Cleeng is MoR). To use it we need to add your origin to allowed ones.
-    Testing: 
-      `test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K`
-    Production: 
-      `live_BQDOFBYTGZB3XKF62GBYSLPUJ4YW2TPL`
+    identifies Adyen's Client Key. It’s a Cleeng key, which allows you to use Adyen enpoint (when Cleeng is MoR). To use it we need to add your origin to allowed ones. Values:
+    testing `test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K`,
+    production `live_BQDOFBYTGZB3XKF62GBYSLPUJ4YW2TPL`
   </td></tr>
 </table>
 
