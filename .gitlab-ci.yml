@@ -79,7 +79,7 @@ deploy_production:
   script:
     - pip install awscli
     - cd build
-    - aws s3 cp ./ s3://webstoresdk-demo.cleeng.com/ --recursive
+    - aws s3 cp ./ s3://mediastoresdk-demo.cleeng.com/ --recursive
   only:
     - master
   tags:
