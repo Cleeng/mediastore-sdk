@@ -5,7 +5,7 @@ const createOrder = offerId => {
   const token = getData('CLEENG_AUTH_TOKEN') || '';
   const customerIP = getData('CLEENG_CUSTOMER_IP') || '';
 
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/orders`;
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/orders`;
   const { customerId } = jwtDecode(token);
 
   return fetch(url, {

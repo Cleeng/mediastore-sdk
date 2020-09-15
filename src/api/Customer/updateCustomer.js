@@ -6,7 +6,7 @@ const updateCustomer = params => {
   const decoded = jwtDecode(token);
   const { customerId } = decoded;
 
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers/${customerId}`;
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/${customerId}`;
 
   return fetch(url, {
     method: 'PATCH',

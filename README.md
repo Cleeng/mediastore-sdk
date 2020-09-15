@@ -28,7 +28,7 @@ Here is an example of a file to connect to the sandbox. You can use it for your 
 ```
 module.exports = {
   ENVIRONMENT_CONFIGURATION: {
-    GB_API_URL: JSON.stringify('https://connect-sandbox.cleeng.com'),
+    API_URL: JSON.stringify('https://mediastore-sandbox.cleeng.com'),
     ADYEN_CLIENT_KEY: JSON.stringify('test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K'), //write to BSS team to add your origin to the whitelist
   }
 };
@@ -45,7 +45,7 @@ Scripts containing setups are in `js` format.
     <th>Configuration</th>
     <th>Description</th>
 </tr>
-<tr><td>GB_API_URL</td><td>identifies the host of REST API</td></tr>
+<tr><td>API_URL</td><td>identifies the host of REST API</td></tr>
 <tr><td>ADYEN_CLIENT_KEY</td>
   <td>
     identifies Adyen's Client Key. It’s a Cleeng key, which allows you to use Adyen enpoint (when Cleeng is MoR). To use it we need to add your origin to allowed ones. Values:
@@ -98,7 +98,7 @@ This repo is an example app as a set of instructions and code snippets for the w
 
 It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-Check the demo [here](https://webstoresdk-demo.cleeng.com/login?offer=S817681481_PL&publisher=933103327).
+Check the demo [here](https://mediastoresdk-demo.cleeng.com/login?offer=S817681481_PL&publisher=933103327).
 
 ## Features
 
@@ -228,4 +228,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 # License
 
-The Cleeng Web Store SDK is open source and available under the BSD 3-Clause License. See the [LICENSE](LICENSE.md) file for more info.
+The Cleeng Media Store SDK is open source and available under the BSD 3-Clause License. See the [LICENSE](LICENSE.md) file for more info.
