@@ -29,7 +29,7 @@ Here is an example of a file to connect to the sandbox. You can use it for your 
 module.exports = {
   ENVIRONMENT_CONFIGURATION: {
     GB_API_URL: JSON.stringify('https://connect-sandbox.cleeng.com'),
-    ADYEN_CLIENT_KEY: JSON.stringify('test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K'), //write to us to origin whitelist
+    ADYEN_CLIENT_KEY: JSON.stringify('test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K'), //write to BSS team to add your origin to the whitelist
   }
 };
 ```
@@ -60,7 +60,7 @@ Scripts containing setups are in `js` format.
 
 Open `http://localhost:3003` to view it in the browser. The page will reload if you make edits. You will also see any lint errors in the console.
 
-That’s it! Your own MediaStore SDK app is running locally.
+That’s it! Your MediaStore SDK app is running locally.
 
 Below you can find a list with available scripts.
 
@@ -124,7 +124,7 @@ a. details about the current plans with the option to unsubscribe or resubscribe
 
 2. Payment info
 
-a. information about current payment method
+a. information about the current payment method
 
 b. list of transactions
 
@@ -138,7 +138,7 @@ c. consents management
 
 ## Architecture overview
 
-MediaStore SDK is a Frontend application build with React. It was bootstrapped with Create React App. We are using webpack to build it, Jest, and Enzyme for testing, Styled Components for styles.
+MediaStore SDK is a Frontend application build with React. It was bootstrapped with Create React App. We are using a webpack to build it, Jest, and Enzyme for testing, Styled Components for styles.
 
 This application is communicating with the backend REST API. All methods available can be found [here](https://developers.apidoc.cleeng.com/reference/getting-started).
 
@@ -164,7 +164,7 @@ To authenticate - we are using JWT with the payload containing `customerId`, `pu
 
 JWT is valid for 30 minutes and after it, the customer is logged out.
 
-JWT is required for the most part of API calls. It is returned after successful login and registration requests.
+JWT is required for the most of API calls. It is returned after successful login and registration requests.
 
 ## Translations
 
