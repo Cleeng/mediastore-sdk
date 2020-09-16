@@ -9,7 +9,6 @@
   "Register": "Zarejestruj się",
   "Please agree on all consents to use this service": "Zaakceptuj wszystkie zgody, aby korzystać z serwisu",
   "I accept the {{htmltag}}Terms and Conditions{{endhtmltag}} of Cleeng.": "Akceptuję {{htmltag}}regulamin korzystania z serwisu{{endhtmltag}} firmy Cleeng.",
-  "Please complete the CAPTCHA to complete your login.": "Uzupełnij CAPTCHA aby się zalogować",
   "Go to register": "Przejdź do rejestracji",
   "Google": "Google",
   "Facebook": "Facebook",
@@ -19,6 +18,5 @@
   "Wrong email or password": "Błędny email lub hasło",
   "Have an account?": "Masz już konto?",
   "Email": "Email",
-  "Password": "Hasło",
-  "Sorry, the captcha information doesn't match. Please try again": "Przepraszamy, błąd CAPTCHA. Proszę spróbuj ponownie"
+  "Password": "Hasło"
 }

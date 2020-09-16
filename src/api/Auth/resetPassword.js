@@ -1,15 +1,10 @@
-const resetPassword = async (
-  offerId,
-  customerEmail,
-  captcha,
-  publisherId = ''
-) => {
+const resetPassword = async (offerId, customerEmail, publisherId = '') => {
   const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/passwords`;
 
   try {
     const res = await fetch(url, {
       method: 'PUT',
-      body: JSON.stringify({ offerId, publisherId, customerEmail, captcha }),
+      body: JSON.stringify({ offerId, publisherId, customerEmail }),
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json'
