@@ -6,6 +6,7 @@ import Offer from 'components/Offer';
 import Loader from 'components/Loader';
 import ErrorPage from 'components/ErrorPage';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
+import { setData } from 'util/appConfigHelper';
 import OfferContainer, { PureOfferContainer } from './OfferContainer';
 
 jest.mock('containers/labeling', () => () => Component => props => (
@@ -92,7 +93,7 @@ describe('<OfferContainer/>', () => {
     jest.clearAllMocks();
   });
 
-  localStorage.setItem('CLEENG_AUTH_TOKEN', jwtMock);
+  setData('CLEENG_AUTH_TOKEN', jwtMock);
 
   describe('@renders', () => {
     it('should show Loader when no offer details', () => {
@@ -234,7 +235,7 @@ describe('<OfferContainer/>', () => {
       });
     });
     it('should show error while empty offerId', done => {
-      localStorage.setItem('CLEENG_OFFER_ID', '');
+      setData('CLEENG_OFFER_ID', '');
       const localProps = {
         location: { search: '' }
       };

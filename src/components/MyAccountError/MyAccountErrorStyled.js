@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { InputLabelColor } from 'styles/variables';
+import { MainColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const WrapStyled = styled.div`
@@ -15,7 +15,7 @@ export const WrapStyled = styled.div`
   ${props =>
     props.withBorder &&
     css`
-      border: 1px dashed ${InputLabelColor};
+      border: 1px dashed ${MainColor};
       border-radius: 20px;
       padding: 35px 0;
     `}
@@ -38,14 +38,13 @@ export const WrapStyled = styled.div`
 export const TitleStyled = styled.div`
   margin-bottom: 5px;
 
-  color: ${InputLabelColor};
+  color: ${MainColor};
 
   font-size: 16px;
-  font-weight: 700;
 `;
 
 export const SubTitleStyled = styled.div`
-  color: ${InputLabelColor};
+  color: ${MainColor};
 
   font-size: 13px;
 `;

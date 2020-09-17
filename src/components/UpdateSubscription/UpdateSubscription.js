@@ -6,7 +6,8 @@ import Checkbox from 'components/Checkbox';
 import updateSubscription from 'api/Customer/updateSubscription';
 import serverIcon from 'assets/images/errors/sad_server.svg';
 import labeling from 'containers/labeling';
-import { dateFormat } from 'components/CurrentPlan/helpers';
+import { dateFormat } from 'util/planHelper';
+import checkmarkIcon from 'assets/images/checkmark.svg';
 import {
   SurveyCard,
   WrapperStyled,
@@ -16,8 +17,6 @@ import {
   ButtonsWrapper,
   StyledItem,
   UnsubscribedWrapper,
-  Checkmark,
-  Loader,
   StrongStyled,
   FooterStyled
 } from './UpdateSubscriptionStyled';
@@ -104,6 +103,10 @@ class UpdateSubscription extends Component {
     const { checkedReason, isError, layout, isLoading } = this.state;
     const { hideSurvey, offerDetails, updateList, action, t } = this.props;
 
+    const price = offerDetails.price ? offerDetails.price.slice(0, -1) : '';
+    const priceRounded = Math.round(price * 100) / 100;
+    const currency = offerDetails.price ? offerDetails.price.slice(-1) : '';
+
     if (isError) {
       return (
         <SurveyCard>
@@ -137,16 +140,14 @@ class UpdateSubscription extends Component {
       const popupContent = content[action].success;
       const resubscribeText = (
         <>
-          <b>{offerDetails.price}</b> {t(popupContent.startedFrom)}{' '}
+          <b>{`${priceRounded}${currency}`}</b> {t(popupContent.startedFrom)}{' '}
         </>
       );
       return (
         <SurveyCard>
           <WrapperStyled>
             <UnsubscribedWrapper>
-              <Loader>
-                <Checkmark />
-              </Loader>
+              <img src={checkmarkIcon} alt="checkmark icon" />
               <HeaderStyled>{t(popupContent.title)}</HeaderStyled>
               <SubTitleStyled>
                 {t(popupContent.text)}{' '}
@@ -175,7 +176,7 @@ class UpdateSubscription extends Component {
     const popupContent = content[action].confirm;
     const resubscribeText = (
       <>
-        <b>{offerDetails.price} </b>
+        <b>{`${priceRounded}${currency}`} </b>
         {t(popupContent.startedFrom)}{' '}
         <b>{dateFormat(offerDetails.expiresAt)}.</b>
       </>

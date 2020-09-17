@@ -1,4 +1,5 @@
 import getCustomer from 'api/Customer/getCustomer';
+import { setData } from 'util/appConfigHelper';
 
 describe('getCustomer', () => {
   it('calls remote endpoint with authorization token', done => {
@@ -19,7 +20,7 @@ describe('getCustomer', () => {
         })
     );
 
-    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
+    setData('CLEENG_AUTH_TOKEN', mockToken);
     getCustomer().then(res => {
       expect(res).toEqual(mockResponse);
       done();

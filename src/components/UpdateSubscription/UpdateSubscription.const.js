@@ -16,7 +16,7 @@ export const content = {
       startedFrom: 'started from',
       reasons: false,
       buttonText: 'Resubscribe',
-      buttonTheme: 'primary'
+      buttonTheme: 'confirm'
     },
     success: {
       title: 'Your plan has been renewed',
@@ -33,7 +33,7 @@ export const content = {
         'button below. Before You go, please let us know why you decided to unsubscribed:',
       reasons: true,
       buttonText: 'Unsubscribe',
-      buttonTheme: 'danger'
+      buttonTheme: 'confirm'
     },
     success: {
       title: 'Miss you already.',

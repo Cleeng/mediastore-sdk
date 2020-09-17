@@ -4,14 +4,23 @@ import * as colors from 'styles/variables';
 export const FooterStyled = styled.footer`
   position: absolute;
   bottom: 0;
+  left: 0;
   display: flex;
   justify-content: space-between;
   align-items: center;
 
   width: 100%;
-  padding: 10px;
+  padding: 10px 34px;
 
-  background-color: ${colors.LightGrey};
+  border-top: 1px solid ${colors.LineColor};
+  background-color: ${props =>
+    props.isTransparent ? 'transparent' : colors.White};
+
+  ${props =>
+    props.isTransparent &&
+    css`
+      border: none;
+    `}
 
   ${props =>
     props.isInPopup &&
@@ -25,7 +34,7 @@ export const ProductByStyled = styled.span`
   display: flex;
   align-items: center;
 
-  color: ${colors.MainTextColor};
+  color: ${colors.MainColor};
 
   font-size: 12px;
   font-family: 'Geomanist';
@@ -36,7 +45,7 @@ export const ProductByStyled = styled.span`
 `;
 
 export const SecurityStyled = styled.div`
-  color: ${colors.MainColor};
+  color: ${colors.ConfirmColor};
 
   font-family: 'Geomanist';
   font-size: 14px;

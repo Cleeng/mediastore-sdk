@@ -1,26 +1,26 @@
 import styled, { css } from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
 import {
-  MyAccountTextDark,
-  MyAccountTextGray,
+  MainColor,
   MyAccountTextLightGray,
-  MyAccountBorder
+  LineColor,
+  SmallFont
 } from 'styles/variables';
 
-import portrait from './img/avatar.svg';
+import portrait from './img/icon_myaccount.svg';
 
 export const WrapStyled = styled.header`
   display: flex;
   flex-direction: row;
 
-  padding-bottom: 26px;
-  border-bottom: 1px solid ${MyAccountBorder};
+  padding-bottom: 10px;
 
   ${mediaFrom.small`
     flex-direction: column;
     align-items: center;
-    
-    `}
+    border-bottom: 1px solid ${LineColor};
+    padding-bottom: 26px;
+  `}
 `;
 
 export const PhotoStyled = styled.div`
@@ -46,15 +46,15 @@ export const NameStyled = styled.div`
 
   margin-bottom: 6px;
 
-  font-size: 19px;
+  font-size: 20px;
   line-height: 24px;
   font-weight: 700;
-  color: ${MyAccountTextDark};
+  color: ${MainColor};
   text-overflow: ellipsis;
   overflow: hidden;
 
   ${mediaFrom.small`
-    font-size: 24px;
+    font-size: 26px;
     line-height: 29px;
     margin-bottom: 10px;
     text-align: center;
@@ -66,9 +66,9 @@ export const MailStyled = styled.div`
 
   margin-bottom: 6px;
 
-  color: ${MyAccountTextDark};
+  color: ${MainColor};
 
-  font-size: 12px;
+  font-size: ${SmallFont};
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
@@ -78,7 +78,7 @@ export const MailStyled = styled.div`
   ${props =>
     props.bigger &&
     css`
-      font-size: 13px;
+      font-size: 14px;
       font-weight: 700;
     `}
 
@@ -89,9 +89,10 @@ export const MailStyled = styled.div`
 
 export const TextStyled = styled.div`
   padding: 5px 10px;
-  background-color: ${MyAccountTextLightGray};
-  border-radius: 10px;
-  color: ${MyAccountTextGray};
+  background-color: #f0f0ff;
+  border-radius: 14px;
+  border: 1px solid #d7d7f5;
+  color: #7172c9;
   font-size: 9px;
   line-height: 12px;
   text-align: center;
@@ -107,7 +108,7 @@ export const DetailsStyled = styled.div`
   max-width: calc(100% - 78px);
   margin-left: 14px;
 
-  color: ${MyAccountTextDark};
+  color: ${MainColor};
 
   ${props =>
     props.isEmpty &&

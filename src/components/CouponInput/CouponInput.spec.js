@@ -22,7 +22,7 @@ describe('CouponInput', () => {
 
       const inputElement = wrapper.find(InputElementStyled);
       expect(inputElement).toHaveLength(1);
-      expect(inputElement.props().placeholder).toBe('Redeem coupon');
+      expect(inputElement.props().placeholder).toBe('Your coupon');
       expect(inputElement.props().autoComplete).toBe('off');
     });
 
@@ -55,11 +55,17 @@ describe('CouponInput', () => {
       expect(messageEl).toHaveStyleRule('opacity', '0');
     });
 
-    it('should apply coupon on button click', () => {
+    it('should open input field on first click and apply coupon on second click', () => {
       const wrapper = mount(
         <CouponInput onSubmit={onSubmit} value="mockValue" />
       );
       const buttonComponent = wrapper.find('button');
+
+      expect(wrapper.state('isOpened')).toBe(false);
+
+      buttonComponent.simulate('click');
+
+      expect(wrapper.state('isOpened')).toBe(true);
 
       buttonComponent.simulate('click');
 

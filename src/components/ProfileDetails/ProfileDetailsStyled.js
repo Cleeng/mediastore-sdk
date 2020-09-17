@@ -1,7 +1,8 @@
 import styled from 'styled-components';
 
-// eslint-disable-next-line import/prefer-default-export
-export const WrapStyled = styled.div``;
+export const WrapStyled = styled.div`
+  width: 100%;
+`;
 
 export const MyAccountButtonStyled = styled.div`
   margin-top: 28px;
@@ -12,7 +13,6 @@ export const MyAccountButtonStyled = styled.div`
     width: 100%;
     padding: 0 10px;
     font-size: 14px;
-    background-color: #4eb7a1;
   }
 `;
 export const FormStyled = styled.form``;

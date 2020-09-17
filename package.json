@@ -1,5 +1,5 @@
 {
-  "name": "webstoresdk",
+  "name": "mediastoresdk",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
@@ -59,7 +59,6 @@
     "react-custom-scrollbars": "^4.2.1",
     "react-dev-utils": "^9.0.3",
     "react-dom": "^16.9.0",
-    "react-google-recaptcha": "^2.0.1",
     "react-i18next": "^10.12.5",
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.0.1",

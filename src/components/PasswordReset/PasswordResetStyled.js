@@ -7,7 +7,7 @@ export const PasswordResetPageStyled = styled.main`
   margin: 0 auto;
   padding: 40px 0;
 
-  color: ${colors.MainTextColor};
+  color: ${colors.MainColor};
 
   text-align: center;
   line-height: 1.3em;
@@ -44,7 +44,7 @@ export const StyledMessage = styled.div`
 export const FormStyled = styled.form`
   width: 80%;
 
-  margin: 30px auto 0 auto;
+  margin: 30px auto 50px auto;
 
   ${media.smallest`
     width:100%;

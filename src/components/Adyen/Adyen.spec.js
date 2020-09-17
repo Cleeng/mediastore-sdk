@@ -12,8 +12,8 @@ class MockAdyenCheckout {
       environment: 'test',
       onSubmit: mockOnSubmit,
       onChange: mockOnChange,
-      originKey: 'foo',
-      showPayButton: true
+      clientKey: 'foo',
+      showPayButton: false
     });
   }
 
@@ -35,9 +35,7 @@ describe('Adyen', () => {
   it('calls Adyen API', () => {
     window.AdyenCheckout = MockAdyenCheckout;
     window.ENVIRONMENT_CONFIGURATION = {
-      ADYEN_PUBLIC_KEY: {
-        'http://localhost': 'foo'
-      }
+      ADYEN_CLIENT_KEY: 'foo'
     };
     shallow(<Adyen onSubmit={mockOnSubmit} onChange={mockOnChange} />); // assertions are inside the mock class functions
   });

@@ -1,12 +1,14 @@
+import { setData, getData } from 'util/appConfigHelper';
+
 const savePublisherId = (location, setPublisherId) => {
   const publisherIdFromQuery = new URLSearchParams(location.search).get(
     'publisher'
   );
   if (publisherIdFromQuery) {
     setPublisherId(publisherIdFromQuery);
-    localStorage.setItem('CLEENG_PUBLISHER_ID', publisherIdFromQuery);
+    setData('CLEENG_PUBLISHER_ID', publisherIdFromQuery);
   } else {
-    setPublisherId(localStorage.getItem('CLEENG_PUBLISHER_ID') || '');
+    setPublisherId(getData('CLEENG_PUBLISHER_ID') || '');
   }
 };
 

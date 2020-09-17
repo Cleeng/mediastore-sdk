@@ -41,6 +41,7 @@ describe('PasswordReset', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+
   describe('@renders', () => {
     it('should render initial state', () => {
       const wrapper = mount(

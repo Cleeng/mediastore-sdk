@@ -1,4 +1,5 @@
 import listCustomerTransactions from 'api/Customer/listCustomerTransactions';
+import { setData } from 'util/appConfigHelper';
 
 describe('listCustomerTransactions', () => {
   it('calls remote endpoint with authorization token', done => {
@@ -19,7 +20,7 @@ describe('listCustomerTransactions', () => {
         })
     );
 
-    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
+    setData('CLEENG_AUTH_TOKEN', mockToken);
     listCustomerTransactions().then(res => {
       expect(res).toEqual(mockResponse);
       done();

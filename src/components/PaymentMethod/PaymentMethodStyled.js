@@ -1,9 +1,9 @@
 import styled, { css } from 'styled-components';
 import {
   MyAccountBlue,
-  MyAccountTextColor,
+  White,
   CardEditButtonBg,
-  HeadingColor,
+  MainColor,
   CardSecondaryColor,
   MyAccountTextGray,
   PaypalMainColor,
@@ -61,7 +61,7 @@ export const CardNumberStyled = styled.div`
   position: absolute;
   top: 28px;
   right: 16px;
-  color: ${MyAccountTextColor};
+  color: ${White};
   font-size: 13px;
   z-index: 2;
 `;
@@ -70,7 +70,7 @@ export const CardExpirationStyled = styled.div`
   position: absolute;
   bottom: 18px;
   left: 16px;
-  color: ${MyAccountTextColor};
+  color: ${White};
   font-size: 12px;
   z-index: 2;
   display: flex;
@@ -78,14 +78,14 @@ export const CardExpirationStyled = styled.div`
 `;
 
 export const CardExpirationLabel = styled.div`
-  color: ${HeadingColor};
+  color: ${MainColor};
   font-size: 10px;
   margin-bottom: 4px;
   z-index: 2;
 `;
 
 export const CardExpirationDateStyled = styled.div`
-  color: ${MyAccountTextColor};
+  color: ${White};
   font-size: 13px;
   z-index: 2;
 `;
@@ -94,7 +94,7 @@ export const CardEditStyled = styled.button`
   position: absolute;
   bottom: 18px;
   right: 16px;
-  color: ${MyAccountTextColor};
+  color: ${White};
   font-size: 12px;
   z-index: 2;
 

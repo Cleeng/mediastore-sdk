@@ -1,5 +1,5 @@
 const resetPassword = async (offerId, customerEmail, publisherId = '') => {
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers/passwords`;
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/passwords`;
 
   try {
     const res = await fetch(url, {
@@ -17,7 +17,10 @@ const resetPassword = async (offerId, customerEmail, publisherId = '') => {
         errors: [json.message]
       };
     }
-    return json;
+    return {
+      status: res.status,
+      ...json
+    };
   } catch (error) {
     return {
       errors: [error.message]

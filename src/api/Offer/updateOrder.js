@@ -1,6 +1,8 @@
+import { getData } from 'util/appConfigHelper';
+
 const updateOrder = (orderId, params) => {
-  const token = localStorage.getItem('CLEENG_AUTH_TOKEN') || '';
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/orders/${orderId}`;
+  const token = getData('CLEENG_AUTH_TOKEN') || '';
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/orders/${orderId}`;
 
   return fetch(url, {
     method: 'PATCH',

@@ -17,9 +17,9 @@ export default function customLabeling() {
         if (typeof i18n === 'undefined') return false;
         const language = i18n.language || 'en';
         if (!i18n.hasResourceBundle(language, 'translations')) {
-          const data = await fetch(
-            `/locales/${language}/translations.json`
-          ).then(response => response.json());
+          const data = await fetch(`/locales/${language}/translations.json`)
+            .then(response => response.json())
+            .catch(() => {});
           i18n.addResourceBundle(language, 'translation', data, true, true);
         }
         this.setState({ dataLoaded: true });

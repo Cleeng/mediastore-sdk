@@ -9,12 +9,13 @@ import {
 } from 'api';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
+import SectionHeader from 'components/SectionHeader';
 import Loader from 'components/Loader';
+import { getData, setData } from 'util/appConfigHelper';
+import PaymentMethodButton from 'components/PaymentMethodButton';
 import {
   PaymentStyled,
-  TitleStyled,
   MethodsWrapperStyled,
-  ButtonImageStyled,
   PaymentErrorStyled,
   PayPalWrapperStyled,
   PayPalTextStyled
@@ -39,7 +40,7 @@ class Payment extends Component {
       this.setState({
         paymentMethods: response.responseData.paymentMethods
       });
-      localStorage.setItem(
+      setData(
         'CLEENG_PAYMENT_METHOD_ID',
         response.responseData.paymentMethods[0].id
       );
@@ -89,8 +90,8 @@ class Payment extends Component {
   };
 
   choosePaymentMethod = (methodId, methodName) => {
-    const orderId = localStorage.getItem('CLEENG_ORDER_ID');
-    localStorage.setItem('CLEENG_PAYMENT_METHOD_ID', methodId);
+    const orderId = getData('CLEENG_ORDER_ID');
+    setData('CLEENG_PAYMENT_METHOD_ID', methodId);
     if (orderId) {
       updateOrder(orderId, {
         paymentMethodId: methodId
@@ -154,26 +155,17 @@ class Payment extends Component {
       <PaymentStyled>
         {isPaymentDetailsRequired ? (
           <>
-            <TitleStyled>{t('Purchase using')}</TitleStyled>
+            <SectionHeader center>{t('Purchase using')}</SectionHeader>
             <MethodsWrapperStyled>
               {paymentMethods.map(method => (
-                <Button
+                <PaymentMethodButton
                   key={method.id}
+                  methodName={method.methodName}
                   onClickFn={() => {
                     this.setState({ isPaymentFormDisplayed: true });
                     this.choosePaymentMethod(method.id, method.methodName);
                   }}
-                  theme="simple"
-                >
-                  {method.logoUrl ? (
-                    <ButtonImageStyled
-                      alt={method.methodName}
-                      src={method.logoUrl}
-                    />
-                  ) : (
-                    method.methodName.toUpperCase()
-                  )}
-                </Button>
+                />
               ))}
             </MethodsWrapperStyled>
             {generalError && (

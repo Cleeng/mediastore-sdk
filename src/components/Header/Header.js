@@ -1,15 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { isHeaderOff } from 'util/layoutHelper';
 import { HeaderStyled, LogoStyled } from './HeaderStyled';
-import headerLogo from './img/logo.svg';
+import headerLogo from './img/sportstream_logo.svg';
 
 const Header = ({ withoutLogo, children }) => (
-  <HeaderStyled>
-    {!withoutLogo && (
-      <LogoStyled>
-        <img src={headerLogo} alt="Sport stream" />
-      </LogoStyled>
-    )}
+  <HeaderStyled switchOff={isHeaderOff()}>
+    {!withoutLogo && <LogoStyled logoSrc={headerLogo} />}
     {children}
   </HeaderStyled>
 );

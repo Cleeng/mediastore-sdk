@@ -1,10 +1,11 @@
 import jwtDecode from 'jwt-decode';
+import { getData } from 'util/appConfigHelper';
 
 const createOrder = offerId => {
-  const token = localStorage.getItem('CLEENG_AUTH_TOKEN') || '';
-  const customerIP = localStorage.getItem('CLEENG_CUSTOMER_IP') || '';
+  const token = getData('CLEENG_AUTH_TOKEN') || '';
+  const customerIP = getData('CLEENG_CUSTOMER_IP') || '';
 
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/orders`;
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/orders`;
   const { customerId } = jwtDecode(token);
 
   return fetch(url, {

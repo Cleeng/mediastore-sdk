@@ -2,16 +2,20 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import submitConsents from 'api/Customer/submitConsents';
 import Loader from 'components/Loader';
-import Consent, { validateConsentsField } from 'components/Consents';
+import Consent from 'components/Consents';
 import { FromStyled, FormErrorStyled } from 'components/LoginPage/LoginStyled';
 import Button from 'components/Button';
 import EmailInput from 'components/EmailInput';
 import PasswordInput from 'components/PasswordInput';
-import validateEmailField from 'components/EmailInput/EmailHelper';
-import { validateRegisterPassword } from 'components/PasswordInput/PasswordHelper';
+import {
+  validateRegisterPassword,
+  validateEmailField,
+  validateConsentsField
+} from 'util/validators';
 import registerCustomer from 'api/Auth/registerCustomer';
 import getCustomerLocales from 'api/Customer/getCustomerLocales';
 import Auth from 'services/auth';
+import { setData } from 'util/appConfigHelper';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -28,7 +32,8 @@ class RegisterForm extends Component {
       generalError: '',
       showPassword: false,
       consentDefinitions: [],
-      processing: false
+      processing: false,
+      overloaded: false
     };
   }
 
@@ -110,7 +115,7 @@ class RegisterForm extends Component {
       return false;
     }
     const locales = localesResponse.responseData;
-    localStorage.setItem('CLEENG_CUSTOMER_IP', locales.ipAddress);
+    setData('CLEENG_CUSTOMER_IP', locales.ipAddress);
     const response = await registerCustomer(
       email,
       password,
@@ -125,10 +130,16 @@ class RegisterForm extends Component {
         consentDefinitions
       ]);
     } else if (response.status === 422) {
-      this.setState({
-        processing: false,
-        generalError: t('Customer already exists.')
-      });
+      this.renderError('Customer already exists.');
+    } else if (response.status === 429) {
+      this.setState({ overloaded: true });
+      this.renderError('Server overloaded. Please try again later.');
+      setTimeout(() => {
+        this.setState({
+          overloaded: false,
+          generalError: ''
+        });
+      }, 10 * 1000);
     } else {
       this.setState({
         processing: false,
@@ -136,6 +147,14 @@ class RegisterForm extends Component {
       });
     }
     return true;
+  };
+
+  renderError = (message = 'An error occurred.') => {
+    const { t } = this.props;
+    this.setState({
+      processing: false,
+      generalError: t(message)
+    });
   };
 
   handlePasswordChange = value => {
@@ -156,7 +175,8 @@ class RegisterForm extends Component {
       errors,
       generalError,
       showPassword,
-      processing
+      processing,
+      overloaded
     } = this.state;
     const { publisherId, t } = this.props;
 
@@ -188,7 +208,12 @@ class RegisterForm extends Component {
           error={errors.consents}
           onChangeFn={this.handleConsentsChange}
         />
-        <Button type="submit" disabled={processing}>
+        <Button
+          type="submit"
+          theme="confirm"
+          margin="10px 0"
+          disabled={processing || overloaded}
+        >
           {processing ? <Loader buttonLoader color="#ffffff" /> : t('Register')}
         </Button>
       </FromStyled>

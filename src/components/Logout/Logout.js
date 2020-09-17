@@ -8,7 +8,7 @@ import Auth from 'services/auth';
 const Logout = ({ t }) => {
   return (
     <Button onClickFn={() => Auth.logout()} theme="navLink">
-      {t('Log out')}
+      {t('Back')}
     </Button>
   );
 };

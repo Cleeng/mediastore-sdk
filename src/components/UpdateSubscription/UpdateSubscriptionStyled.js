@@ -1,10 +1,12 @@
-import styled, { keyframes } from 'styled-components';
-import { MyAccountTextDark2, DisabledInputColor } from 'styles/variables';
+import styled from 'styled-components';
+import { MainColor, LineColor } from 'styles/variables';
 import { mediaFrom, media } from 'styles/BreakPoints';
 import Card from 'components/Card';
 import Footer from 'components/Footer';
 
 export const SurveyCard = styled(Card)`
+  border: 1px solid ${LineColor};
+  height: 100%;
   min-height: 500px;
   display: flex;
   ${media.small`
@@ -26,19 +28,21 @@ export const WrapperStyled = styled.div`
 export const HeaderStyled = styled.h1`
   margin-bottom: 15px;
 
-  color: ${MyAccountTextDark2};
+  color: ${MainColor};
 
+  text-align: center;
   font-size: 18px;
   font-weight: 700;
 `;
 
 export const SubTitleStyled = styled.p`
-  margin-bottom: 20px;
+  margin: 0 auto 20px auto;
 
-  color: ${MyAccountTextDark2};
+  color: ${MainColor};
 
   font-size: 13px;
   line-height: 20px;
+  text-align: center;
 
   ${mediaFrom.small`
     max-width: 80%;
@@ -57,14 +61,13 @@ export const ButtonsWrapper = styled.div`
     font-weight: 700;
     &:disabled {
       cursor: not-allowed;
-      background: ${DisabledInputColor};
     }
   }
 `;
 
 export const StyledItem = styled.li`
   margin: 0 0 20px 0;
-  color: ${MyAccountTextDark2};
+  color: ${MainColor};
 
   font-size: 13px;
 `;
@@ -90,49 +93,6 @@ export const Loader = styled.div`
   height: 7em;
   transition: border 500ms ease-out;
   margin-bottom: 20px;
-`;
-
-const animateCheckmark = keyframes`
-    0% {
-      height: 0;
-      width: 0;
-      opacity: 1;
-    }
-
-    20% {
-      height: 0;
-      width: 1.75em;
-      opacity: 1;
-    }
-
-    40% {
-      height: 3.5em;
-      width: 1.75em;
-      opacity: 1;
-    }
-
-    100% {
-      height: 3.5em;
-      width: 1.75em;
-      opacity: 1;
-    }
-  `;
-
-export const Checkmark = styled.div`
-  animation-duration: 800ms;
-  animation-timing-function: ease;
-  animation-name: ${animateCheckmark};
-  transform: scaleX(-1) rotate(135deg);
-  opacity: 1;
-  height: 3.5em;
-  width: 1.75em;
-  transform-origin: left top;
-  border-right: 3px solid #5cb85c;
-  border-top: 3px solid #5cb85c;
-  content: '';
-  left: 1.75em;
-  top: 3.5em;
-  position: absolute;
 `;
 
 export const StrongStyled = styled.strong`

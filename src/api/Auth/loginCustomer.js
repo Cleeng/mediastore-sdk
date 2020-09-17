@@ -1,5 +1,7 @@
-const loginCustomer = async (email, password, loginBy, captcha) => {
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/auths`;
+import { sendMessage } from 'util/appConfigHelper';
+
+const loginCustomer = async (email, password, loginBy) => {
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/auths`;
 
   try {
     const resp = await fetch(url, {
@@ -11,11 +13,13 @@ const loginCustomer = async (email, password, loginBy, captcha) => {
       body: JSON.stringify({
         email,
         password,
-        ...loginBy,
-        captcha
+        ...loginBy
       })
     });
     const json = await resp.json();
+    sendMessage({
+      ...json.responseData
+    });
     return {
       status: resp.status,
       ...json

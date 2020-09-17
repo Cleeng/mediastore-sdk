@@ -1,4 +1,4 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
@@ -6,8 +6,8 @@ export const ContentWrapperStyled = styled.main`
   position: relative;
 
   width: 55%;
-  margin: 40px auto 0 auto;
-  padding-bottom: 65px;
+  margin: 0 auto;
+  padding-bottom: 70px;
 
   text-align: center;
 
@@ -17,11 +17,9 @@ export const ContentWrapperStyled = styled.main`
 `;
 
 export const FromStyled = styled.form`
+  padding-top: 40px;
   & input {
     position: relative;
-  }
-  & button:last-child {
-    margin: 35px 0 10px;
   }
 `;
 
@@ -40,7 +38,7 @@ export const SocialStyled = styled.div`
 
   button {
     width: 48%;
-    margin: 10px 0 30px 0;
+    margin: 10px 0 0 0;
   }
 
   ${media.smallest`
@@ -62,7 +60,7 @@ export const SeparatorStyled = styled.div`
 
   padding: 20px 0;
 
-  color: ${colors.MainTextColor};
+  color: ${colors.MainColor};
 
   text-align: center;
   font-size: 13px;
@@ -94,7 +92,7 @@ export const SeparatorStyled = styled.div`
 
 export const FormErrorStyled = styled.div`
   position: absolute;
-  top: -15px;
+  top: 20px;
   width: 100%;
 
   color: ${colors.ErrorColor};
@@ -104,48 +102,10 @@ export const FormErrorStyled = styled.div`
   font-family: 'Geomanist';
 `;
 
-export const StyledRecaptcha = styled.div`
-  width: 100%;
-  margin-top: 25px;
-
-  iframe {
-    height: 78px;
-  }
-`;
-
-export const StyledErrorDiv = styled.div`
-  position: relative;
-  top: -20px;
-  left: 5px;
-  width: 100%;  
-  color: ${colors.ErrorColor};
-  text-align: left;
-  font-size: 13px;
-  font-family: 'Geomanist';
-  overflow: visible;
-  ${props =>
-    props.lowerPos &&
-    css`
-      top: -5px;
-    `}
-  ${props =>
-    props.lowestPos &&
-    css`
-      top: 5px;
-    `}
-  ${props =>
-    props.topPos &&
-    css`
-      text-align: center;
-      left: 0;
-      top: 17px;
-    `}
-`;
-
 export const FormSuccessStyled = styled.h1`
-  color: ${colors.MainColor};
+  color: ${colors.ConfirmColor};
   position: absolute;
-  top: -25px;
+  top: 20px;
   width: 100%;
   font-size: 13px;
   font-weight: 600;

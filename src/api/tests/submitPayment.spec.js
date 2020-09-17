@@ -1,4 +1,5 @@
 import submitPayment from 'api/Offer/submitPayment';
+import { setData } from 'util/appConfigHelper';
 
 describe('submitPayment', () => {
   it('calls remote endpoint with authorization token', done => {
@@ -19,7 +20,7 @@ describe('submitPayment', () => {
         })
     );
 
-    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
+    setData('CLEENG_AUTH_TOKEN', mockToken);
     submitPayment().then(res => {
       expect(res).toEqual(mockResponse);
       done();

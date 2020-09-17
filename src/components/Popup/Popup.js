@@ -9,6 +9,7 @@ import getCustomerConsents from 'api/Customer/getCustomerConsents';
 import resetPassword from 'api/Auth/resetPassword';
 import Auth from 'services/auth';
 import MyAccountConsents from 'components/MyAccountConsents';
+import { getData } from 'util/appConfigHelper';
 import {
   WrapperStyled,
   ContentStyled,
@@ -78,12 +79,12 @@ class Popup extends Component {
   };
 
   resetPassword = async () => {
-    const customerEmail = localStorage.getItem('CLEENG_CUSTOMER_EMAIL');
-    const publisherId = localStorage.getItem('CLEENG_PUBLISHER_ID');
+    const customerEmail = getData('CLEENG_CUSTOMER_EMAIL');
+    const publisherId = getData('CLEENG_PUBLISHER_ID');
     this.setState({
       isLoading: true
     });
-    const response = await resetPassword('', customerEmail, publisherId);
+    const response = await resetPassword('', customerEmail, '', publisherId);
     if (!response.errors.length) {
       this.renderNextStep();
       this.setState({
@@ -112,7 +113,7 @@ class Popup extends Component {
     const { step, isLoading, allowSubmitConsents } = this.state;
     const stepData = popupData[popupType].steps[step - 1];
     const { steps } = popupData[popupType];
-    const customerEmail = localStorage.getItem('CLEENG_CUSTOMER_EMAIL');
+    const customerEmail = getData('CLEENG_CUSTOMER_EMAIL');
     return (
       <WrapperStyled>
         <HeaderStyled>
@@ -136,7 +137,7 @@ class Popup extends Component {
               </>
             )}
           </TextStyled>
-          {step === 2 && consents && (
+          {step === 2 && consents && popupType !== 'resetPassword' && (
             <MyAccountConsents
               consents={consents}
               showConsentsOnly
@@ -171,7 +172,7 @@ class Popup extends Component {
             </ButtonStyled>
           </InnerWrapperStyled>
         </ButtonWrapperStyled>
-        <Footer />
+        <Footer isCheckout={false} />
       </WrapperStyled>
     );
   }

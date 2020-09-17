@@ -9,6 +9,7 @@ import Loader from 'components/Loader';
 import resetPassword from 'api/Auth/resetPassword';
 import saveOfferId from 'util/offerIdHelper';
 import labeling from 'containers/labeling';
+import Footer from 'components/Footer';
 import {
   PasswordResetPageStyled,
   StyledTitle,
@@ -26,7 +27,8 @@ class PasswordReset extends Component {
       offerId: '',
       value: '',
       message: '',
-      processing: false
+      processing: false,
+      overloaded: false
     };
   }
 
@@ -39,32 +41,56 @@ class PasswordReset extends Component {
 
   onSubmit = async e => {
     e.preventDefault();
-    this.setState({
-      processing: true
-    });
     const { value, offerId } = this.state;
     const { onSuccess, t } = this.props;
-
-    if (EMAIL_REGEX.test(value)) {
-      const { errors } = await resetPassword(offerId, value);
-      if (errors.length) {
-        this.setState({
-          processing: false,
-          message: t(errors[0])
-        });
+    if (this.validateFields()) {
+      this.setState({
+        processing: true
+      });
+      const response = await resetPassword(offerId, value);
+      if (response.errors.length) {
+        if (response.status === 429) {
+          this.setState({
+            overloaded: true,
+            processing: false,
+            message: 'Server overloaded. Please try again later.'
+          });
+          setTimeout(() => {
+            this.setState({
+              overloaded: false,
+              message: ''
+            });
+          }, 10 * 1000);
+        } else {
+          this.setState({
+            processing: false,
+            message: t(response.errors[0])
+          });
+        }
       } else {
         onSuccess(value);
       }
-    } else {
-      this.setState({
-        processing: false,
-        message: t('The email address is not properly formatted.')
-      });
     }
+
+    return true;
   };
 
+  validateFields() {
+    const { value } = this.state;
+    const { t } = this.props;
+    const errorFields = {
+      email: EMAIL_REGEX.test(value)
+        ? ''
+        : t('The email address is not properly formatted.')
+    };
+    this.setState({
+      message: errorFields.email
+    });
+    return !Object.keys(errorFields).find(key => errorFields[key] !== '');
+  }
+
   render() {
-    const { value, message, processing } = this.state;
+    const { value, message, processing, overloaded } = this.state;
     const {
       t,
       urlProps: { location }
@@ -89,7 +115,11 @@ class PasswordReset extends Component {
               value={value}
               onChange={v => this.setState({ value: v })}
             />
-            <Button type="submit" disabled={processing}>
+            <Button
+              type="submit"
+              theme="confirm"
+              disabled={processing || overloaded}
+            >
               {processing ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
@@ -98,6 +128,7 @@ class PasswordReset extends Component {
             </Button>
           </FormStyled>
         </PasswordResetPageStyled>
+        <Footer />
       </>
     );
   }

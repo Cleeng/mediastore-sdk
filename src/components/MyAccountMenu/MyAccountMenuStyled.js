@@ -1,25 +1,14 @@
 import styled, { css } from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
-import {
-  HeadingColor,
-  MyAccountMenu,
-  MyAccountMenuActive,
-  MyAccountTextGray,
-  MyAccountMainColor
-} from 'styles/variables';
+import { MyAccountTextGray, MainColor, ConfirmColor } from 'styles/variables';
 import { NavLink } from 'react-router-dom';
 
 export const WrapStyled = styled.nav`
-  padding: 26px 0;
-`;
+  padding: 10px 0;
 
-export const HeadingStyled = styled.div`
-  margin-bottom: 18px;
-
-  color: ${HeadingColor};
-
-  font-size: 14px;
-  font-weight: 700;
+  ${mediaFrom.small`
+    padding: 26px 0;
+  `}
 `;
 
 export const ItemsStyled = styled.div`
@@ -47,9 +36,6 @@ export const ItemWrapStyled = styled.div`
 
   &.active {
     opacity: 1;
-    ${mediaFrom.small`
-      background-color: #182C7A;
-  `}
   }
 
   ${mediaFrom.smallest`
@@ -62,33 +48,36 @@ export const ItemWrapStyled = styled.div`
 `;
 
 export const ItemIconWrapStyled = styled.div`
-  display: flex;
+  display: none;
   justify-content: center;
   align-items: center;
 
   path {
+    opacity: 0.4;
     fill: ${MyAccountTextGray};
   }
 
   ${mediaFrom.small`
+    display: flex;
     border: 0;
     height: 50px;
+    width: 30px;
   `}
 `;
 
 export const ItemLabelStyled = styled.div`
-  width: 60px;
-  margin-top: 12px;
+  opacity: 0.4;
+  width: auto;
+  margin: auto;
 
-  color: ${MyAccountTextGray};
-
-  font-size: 11px;
+  color: ${MainColor};
+  border-bottom: 2px solid transparent;
+  font-size: 12px;
+  font-weight: 700;
   line-height: 16px;
-  text-align: center;
 
   ${mediaFrom.small`
-    width: 100%;
-    margin-top: 0;
+    margin: auto auto auto 20px;
   `}
 `;
 
@@ -101,20 +90,17 @@ export const ItemLinkStyled = styled(NavLink)`
 
   transition: opacity 0.1s;
 
-  background-color: ${MyAccountMenu};
-
   &.active {
-    background-color: ${MyAccountMenuActive};
-    color: ${MyAccountTextGray};
-
     ${ItemIconWrapStyled} {
       path {
-        fill: ${MyAccountMainColor};
+        opacity: 1;
+        fill: ${ConfirmColor};
       }
     }
 
     ${ItemLabelStyled} {
-      color: ${MyAccountMainColor};
+      border-bottom: 2px solid ${ConfirmColor};
+      opacity: 1;
     }
   }
 

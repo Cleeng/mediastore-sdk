@@ -1,5 +1,5 @@
-import styled, { css } from 'styled-components';
-import * as colors from 'styles/variables';
+import styled from 'styled-components';
+import * as variables from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const StyledOfferWrapper = styled.div`
@@ -7,56 +7,8 @@ export const StyledOfferWrapper = styled.div`
   background-color: #fff;
 `;
 
-export const StyledloaderWrapper = styled.div`
-  min-height: 453px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const StyledPageTitle = styled.h1`
-  font-family: 'Geomanist';
-  font-weight: 600;
-  font-size: 25px;
-  border-width: 0 0 1px;
-  border-style: solid;
-  border-color: ${colors.MediumGrey};
-  padding: 20px 0 30px 0;
-  text-align: center;
-`;
-
 export const StyledOfferCouponWrapper = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  flex-direction: column;
-
-  min-height: 170px;
-  width: 60%;
-
-  ${media.smallest`
-    width: 100%;
-  `}
-`;
-
-export const StyledCoupon = styled.div`
-  width: 50%;
-  position: relative;
-  ${media.small`
-    width: 100%;
-    margin-top: 20px;
-  `}
-`;
-
-export const StyledOfferDetailsWrapper = styled.div`
-  background-color: ${colors.LightGrey};
-  padding: 20px;
-  width: 88%;
-  border-radius: 5px;
-  ${props =>
-    props.withoutImage &&
-    css`
-      width: 100%;
-    `}
+  margin: 16px 0;
 `;
 
 export const StyledOfferDetailsAndCoupon = styled.div`
@@ -77,61 +29,22 @@ export const StyledImageUrl = styled.img`
   `}
 `;
 
-export const StyledOfferTitle = styled.h2`
-  font-family: 'Geomanist';
-  font-weight: 400;
-  font-size: 20px;
-  margin-bottom: 15px;
-`;
 export const StyledOfferBody = styled.div`
-  padding: 0 35px;
+  padding: 20px 35px 0;
   ${media.small`
-    padding: 0 10px;
+    padding: 20px 10px 0;
   `}
 `;
-export const StyledOfferDetails = styled.div`
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-`;
 
-export const StyledOfferDescription = styled.div`
-  font-family: 'Geomanist';
-  font-weight: 300;
-  color: ${colors.MainTextColor};
-  font-size: 15px;
-  width: 60%;
-`;
-
-export const StyledTrialDescription = styled.div`
-  margin-bottom: 5px;
-`;
-
-export const StyledOfferDetailsPrice = styled.div`
-  text-align: center;
-`;
-
-export const StyledTrial = styled.div`
-  color: ${colors.MainTextColor};
-  text-transform: uppercase;
-  border: 1px ${colors.MainTextColor} solid;
-  border-radius: 5px;
-  padding: 5px;
-  background-color: #fff;
-  font-size: 13px;
-  line-height: 13px;
-  font-family: 'Geomanist';
-  font-weight: 400;
-  margin-bottom: 10px;
-  display: inline-block;
-`;
-
-export const StyledTotalLabel = styled.div`
-  display: inline-block;
+export const StyledLabel = styled.div`
+  font-size: 16px;
+  color: ${variables.MainColor};
 `;
 
 export const StyledOfferPrice = styled.h3`
   float: right;
+  font-size: 16px;
+  color: ${variables.MainColor};
 
   & span {
     font-size: 12px;
@@ -142,43 +55,44 @@ export const StyledOfferPrice = styled.h3`
   `}
 `;
 
-export const StyledPrice = styled.div`
-  font-family: 'Geomanist';
-  font-weight: 400;
-  font-size: 20px;
+export const StyledTotalLabel = styled(StyledLabel)`
+  font-weight: ${variables.BoldFont};
+  text-transform: uppercase;
+`;
 
-  & span {
-    font-size: 12px;
-  }
+export const StyledTotalOfferPrice = styled(StyledOfferPrice)`
+  font-size: 25px;
+  font-weight: ${variables.MediumFontWeight};
+`;
+
+export const StyledPriceBox = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  margin: 16px 0;
 `;
 
 export const StyledPriceBoxWrapper = styled.div`
-  border-width: 1px 0;
-  border-style: solid;
-  border-bottom: 0;
-  border-color: ${colors.MediumGrey};
-`;
+  width: 300px;
 
-export const StyledPriceBoxItemWrapper = styled.div`
-  padding: 10px 20px;
-  font-family: 'Geomanist';
-  font-weight: 400;
-`;
-
-export const StyledTotalWrapper = styled.div`
-  background-color: ${colors.LightGrey};
-  padding: 20px;
-  border-width: 1px 0;
-  border-style: solid;
-  border-color: ${colors.MediumGrey};
-  font-family: 'Geomanist';
-  font-weight: 400;
+  ${media.small`
+    width: 100%;
+  `}
 `;
 
 export const StyledPriceWrapper = styled.div`
-  font-size: 20px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
 `;
 
-export const StyledOfferPayment = styled.div`
-  height: 100%;
+export const SubscriptionCardWrapperStyled = styled.section`
+  width: 100%;
+  background: ${variables.BackgroundColor};
+  border: 1px solid ${variables.LineColor};
+  border-radius: 12px;
+
+  padding: 20px;
 `;

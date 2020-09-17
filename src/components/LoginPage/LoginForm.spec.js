@@ -2,8 +2,6 @@ import React from 'react';
 import { shallow, mount } from 'enzyme';
 import loginCustomerRequest from 'api/Auth/loginCustomer';
 import getLocalesRequest from 'api/Customer/getCustomerLocales';
-import checkCaptchaRequest from 'api/Auth/checkCaptcha';
-
 import Auth from 'services/auth';
 import PasswordInput from 'components/PasswordInput';
 import EmailInput from 'components/EmailInput';
@@ -11,8 +9,6 @@ import LoginForm from './LoginForm';
 
 jest.mock('api/Auth/loginCustomer');
 jest.mock('api/Customer/getCustomerLocales');
-jest.mock('api/Auth/checkCaptcha');
-
 const setOfferErrorMock = jest.fn();
 const mockInputValue = 'MOCK_INPUT_VALUE';
 const mockEmailValue = 'mockmail@mock.com';
@@ -35,10 +31,6 @@ describe('LoginForm', () => {
     getLocalesRequest.mockResolvedValue({
       status: 200,
       responseData: { ipAddress: '1234' }
-    });
-    checkCaptchaRequest.mockResolvedValue({
-      status: 200,
-      responseData: { required: false }
     });
   });
   describe('@events', () => {
@@ -110,41 +102,13 @@ describe('LoginForm', () => {
       const instance = wrapper.instance();
       instance.setState({
         email: '',
-        password: '',
-        captcha: '',
-        showCaptcha: true
+        password: ''
       });
       instance.validateEmail();
       instance.validatePassword();
       instance.validateFields();
       expect(instance.state.errors.email).not.toBe('');
       expect(instance.state.errors.password).not.toBe('');
-      expect(instance.state.errors.captcha).toBe(
-        'Please complete the CAPTCHA to complete your login.'
-      );
-    });
-
-    it('should update state when captcha is changed', () => {
-      const wrapper = mount(<LoginForm offerId="S649095045_PL" />);
-      const instance = wrapper.instance();
-      instance.setState({
-        showCaptcha: true
-      });
-      instance.onCaptchaChange();
-      expect(wrapper.state().captcha).not.toBe('');
-      expect(wrapper.state().errors.captcha).toBe('');
-    });
-
-    it('sholud update state if captcha is required', done => {
-      checkCaptchaRequest.mockResolvedValue({
-        status: 200,
-        responseData: { required: true }
-      });
-      const wrapper = mount(<LoginForm offerId="S649095045_PL" />);
-      setImmediate(() => {
-        expect(wrapper.state().showCaptcha).toBe(true);
-        done();
-      });
     });
   });
   describe('@onSubmit', () => {
@@ -162,8 +126,7 @@ describe('LoginForm', () => {
 
       instance.setState({
         email: mockEmailValue,
-        password: 'testtest123',
-        captcha: 'f979c2ff515d921c34af9bd2aee8ef076b719d03'
+        password: 'testtest123'
       });
 
       expect(Auth.login).not.toHaveBeenCalled();
@@ -186,7 +149,6 @@ describe('LoginForm', () => {
         status: 200,
         responseData: { jwt: jwtMock }
       });
-
       onSubmitMock.mockClear();
       Auth.login = jest.fn();
       const wrapper = shallow(<LoginForm publisher="123456789" isMyAccount />);
@@ -195,8 +157,7 @@ describe('LoginForm', () => {
 
       instance.setState({
         email: mockEmailValue,
-        password: 'testtest123',
-        captcha: 'f979c2ff515d921c34af9bd2aee8ef076b719d03'
+        password: 'testtest123'
       });
 
       expect(Auth.login).not.toHaveBeenCalled();
@@ -227,8 +188,7 @@ describe('LoginForm', () => {
 
       instance.setState({
         email: 'john@example.com',
-        password: 'testtest123',
-        captcha: ''
+        password: 'testtest123'
       });
 
       expect(onSubmitMock).not.toHaveBeenCalled();
@@ -244,13 +204,9 @@ describe('LoginForm', () => {
       });
     });
 
-    it('should set general error when captcha info doesnt match', done => {
+    it('should set general error when status code 429', done => {
       loginCustomerRequest.mockResolvedValue({
         status: 429
-      });
-      checkCaptchaRequest.mockResolvedValue({
-        status: 200,
-        responseData: { required: false }
       });
       onSubmitMock.mockClear();
       const wrapper = shallow(
@@ -261,8 +217,7 @@ describe('LoginForm', () => {
 
       instance.setState({
         email: 'john@example.com',
-        password: 'testtest123',
-        captcha: ''
+        password: 'testtest123'
       });
 
       expect(onSubmitMock).not.toHaveBeenCalled();
@@ -273,8 +228,9 @@ describe('LoginForm', () => {
         expect(instance.state.errors.email).toBe('');
         expect(instance.state.errors.password).toBe('');
         expect(instance.state.generalError).toBe(
-          "Sorry, the captcha information doesn't match. Please try again"
+          'Server overloaded. Please try again later.'
         );
+        expect(instance.state.overloaded).toBe(true);
         expect(onSubmitMock).not.toHaveBeenCalled();
         done();
       });
@@ -283,10 +239,6 @@ describe('LoginForm', () => {
     it('should set general error when error occurred', done => {
       loginCustomerRequest.mockResolvedValue({
         status: 500
-      });
-      checkCaptchaRequest.mockResolvedValue({
-        status: 200,
-        responseData: { required: false }
       });
       onSubmitMock.mockClear();
       const wrapper = shallow(
@@ -297,8 +249,7 @@ describe('LoginForm', () => {
 
       instance.setState({
         email: 'john@example.com',
-        password: 'testtest123',
-        captcha: 'f979c2ff515d921c34af9bd2aee8ef076b719d03'
+        password: 'testtest123'
       });
 
       expect(onSubmitMock).not.toHaveBeenCalled();
@@ -327,8 +278,7 @@ describe('LoginForm', () => {
       const instance = wrapper.instance();
       instance.setState({
         email: 'john@example.com',
-        password: 'testtest123',
-        captcha: 'f979c2ff515d921c34af9bd2aee8ef076b719d03'
+        password: 'testtest123'
       });
       expect(onSubmitMock).not.toHaveBeenCalled();
 

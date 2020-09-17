@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import Button from 'components/Button';
+import PaymentMethodButton from 'components/PaymentMethodButton';
 import Adyen from 'components/Adyen';
 import {
   submitPayment,
@@ -8,6 +8,7 @@ import {
   updateOrder,
   submitPayPalPayment
 } from 'api';
+import { getData, setData } from 'util/appConfigHelper';
 import Payment from './Payment';
 import { PaymentErrorStyled } from './PaymentStyled';
 
@@ -83,7 +84,7 @@ describe('Payment', () => {
     wrapper.setState({
       paymentMethods: mockPaymentMethods.responseData.paymentMethods
     });
-    expect(wrapper.find(Button)).toHaveLength(2);
+    expect(wrapper.find(PaymentMethodButton)).toHaveLength(2);
     expect(wrapper.find(Adyen)).toHaveLength(0);
   });
   it('fetch payment methods on render', done => {
@@ -92,7 +93,7 @@ describe('Payment', () => {
       expect(wrapper.state().paymentMethods).toEqual(
         mockPaymentMethods.responseData.paymentMethods
       );
-      const paymentMethodId = localStorage.getItem('CLEENG_PAYMENT_METHOD_ID');
+      const paymentMethodId = getData('CLEENG_PAYMENT_METHOD_ID');
       expect(Number(paymentMethodId)).toBe(
         mockPaymentMethods.responseData.paymentMethods[0].id
       );
@@ -111,12 +112,12 @@ describe('Payment', () => {
   });
   it('expands on button click', () => {
     const wrapper = mount(<Payment onPaymentComplete={jest.fn()} />);
-    localStorage.setItem('CLEENG_ORDER_ID', 123123123);
+    setData('CLEENG_ORDER_ID', 123123123);
     wrapper.setState({
       paymentMethods: mockPaymentMethods.responseData.paymentMethods
     });
     wrapper
-      .find(Button)
+      .find(PaymentMethodButton)
       .first()
       .simulate('click');
     expect(wrapper.find(Adyen)).toHaveLength(1);

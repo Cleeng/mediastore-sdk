@@ -6,7 +6,6 @@ import { MenuItems } from './MyAccountMenu.const';
 
 import {
   WrapStyled,
-  HeadingStyled,
   ItemsStyled,
   ItemWrapStyled,
   ItemLinkStyled,
@@ -28,7 +27,6 @@ class MyAccountMenu extends Component {
 
     return (
       <WrapStyled>
-        <HeadingStyled>{t('Category Shortcuts')}</HeadingStyled>
         <ItemsStyled>
           {MenuItems.map(menuItem => {
             const IconComponent = menuItem.icon

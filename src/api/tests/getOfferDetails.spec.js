@@ -1,4 +1,5 @@
 import getOfferDetails from 'api/Customer/getOfferDetails';
+import { setData } from 'util/appConfigHelper';
 
 describe('getOfferDetails', () => {
   it('calls remote endpoint with authorization token', done => {
@@ -18,7 +19,7 @@ describe('getOfferDetails', () => {
         })
     );
 
-    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
+    setData('CLEENG_AUTH_TOKEN', mockToken);
     getOfferDetails().then(res => {
       expect(res).toEqual(mockResponseData);
       done();

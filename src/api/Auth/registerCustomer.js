@@ -1,3 +1,5 @@
+import { sendMessage } from 'util/appConfigHelper';
+
 const registerCustomer = async (
   email,
   password,
@@ -6,7 +8,7 @@ const registerCustomer = async (
   country,
   currency
 ) => {
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/customers`;
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers`;
 
   try {
     const resp = await fetch(url, {
@@ -25,6 +27,9 @@ const registerCustomer = async (
       })
     });
     const json = await resp.json();
+    sendMessage({
+      ...json.responseData
+    });
     return {
       status: resp.status,
       ...json

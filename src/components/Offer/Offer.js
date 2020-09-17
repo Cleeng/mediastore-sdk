@@ -5,28 +5,23 @@ import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Payment from 'components/Payment';
 import Logout from 'components/Logout';
 import Header from 'components/Header';
+import SectionHeader from 'components/SectionHeader';
 import Footer from 'components/Footer';
+import SubscriptionCard from 'components/SubscriptionCard';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
-  StyledPageTitle,
   StyledImageUrl,
   StyledOfferDetailsAndCoupon,
-  StyledOfferDetailsWrapper,
-  StyledOfferTitle,
-  StyledOfferDetails,
-  StyledOfferDescription,
-  StyledOfferDetailsPrice,
-  StyledTrial,
-  StyledPrice,
-  StyledTotalWrapper,
-  StyledTrialDescription,
   StyledTotalLabel,
   StyledOfferPrice,
+  StyledPriceBox,
   StyledPriceBoxWrapper,
-  StyledPriceBoxItemWrapper,
+  StyledTotalOfferPrice,
+  StyledLabel,
   StyledPriceWrapper,
-  StyledOfferCouponWrapper
+  StyledOfferCouponWrapper,
+  SubscriptionCardWrapperStyled
 } from './OfferStyled';
 
 class Offer extends Component {
@@ -50,7 +45,12 @@ class Offer extends Component {
         imageUrl
       },
       orderDetails: {
-        priceBreakdown: { offerPrice, discountAmount, taxValue },
+        priceBreakdown: {
+          offerPrice,
+          discountAmount,
+          taxValue,
+          customerServiceFee
+        },
         discount: { applied },
         totalPrice,
         requiredPaymentDetails
@@ -68,6 +68,11 @@ class Offer extends Component {
     const isCouponApplied = applied;
     const { coupon } = this.state;
     const finalPrice = totalPrice;
+    const trialPeriodText = freeDays
+      ? `${freeDays} days`
+      : `${freePeriods} months`;
+    const periodText = trialAvailable ? trialPeriodText : period;
+    const alternativeDescription = `You will be charged ${offerPrice} after ${periodText}.`;
     return (
       <StyledOfferWrapper>
         <Header>
@@ -75,42 +80,20 @@ class Offer extends Component {
         </Header>
         <main>
           <StyledOfferBody>
-            <StyledPageTitle>{t('Complete your purchase')}</StyledPageTitle>
+            <SectionHeader center>{t('Complete your purchase')}</SectionHeader>
             <div>
               {imageUrl && <StyledImageUrl src={imageUrl} alt="Offer" />}
               <StyledOfferDetailsAndCoupon>
-                <StyledOfferDetailsWrapper withoutImage={!imageUrl}>
-                  <StyledOfferTitle>{offerTitle}</StyledOfferTitle>
-                  <StyledOfferDetails>
-                    <StyledOfferDescription>
-                      {trialAvailable && (
-                        <StyledTrialDescription>
-                          {t(
-                            'You will be charged {{price}}exVat after {{period}}.',
-                            {
-                              price: `${customerCurrencySymbol}${offerPrice}`,
-                              period: `${
-                                freeDays
-                                  ? `${freeDays} days`
-                                  : `${freePeriods} ${period}`
-                              }`
-                            }
-                          )}
-                        </StyledTrialDescription>
-                      )}
-                      {description}
-                    </StyledOfferDescription>
-                    <StyledOfferDetailsPrice>
-                      {trialAvailable && (
-                        <StyledTrial>{t('trial period')}</StyledTrial>
-                      )}
-                      <StyledPrice>
-                        {`${customerCurrencySymbol}${offerPrice} `}
-                        <span>{t('exVAT')}</span>
-                      </StyledPrice>
-                    </StyledOfferDetailsPrice>
-                  </StyledOfferDetails>
-                </StyledOfferDetailsWrapper>
+                <SubscriptionCardWrapperStyled>
+                  <SubscriptionCard
+                    period={period}
+                    title={offerTitle}
+                    description={description || alternativeDescription}
+                    currency={customerCurrencySymbol}
+                    price={offerPrice}
+                    isTrialAvailable={trialAvailable}
+                  />
+                </SubscriptionCardWrapperStyled>
                 <StyledOfferCouponWrapper>
                   <CouponInput
                     showMessage={showMessage}
@@ -125,40 +108,48 @@ class Offer extends Component {
                 </StyledOfferCouponWrapper>
               </StyledOfferDetailsAndCoupon>
             </div>
-            <StyledPriceBoxWrapper>
-              {isCouponApplied && (
-                <>
-                  <StyledPriceBoxItemWrapper>
-                    <StyledTotalLabel>{t('Price')}:</StyledTotalLabel>
-                    <StyledOfferPrice>
-                      {`${customerCurrencySymbol}${offerPrice} `}
-                      <span>{t('exVAT')}</span>
-                    </StyledOfferPrice>
-                  </StyledPriceBoxItemWrapper>
+            <StyledPriceBox>
+              <StyledPriceBoxWrapper>
+                {isCouponApplied && (
+                  <>
+                    <StyledPriceWrapper>
+                      <StyledLabel>{t('Price')}:</StyledLabel>
+                      <StyledOfferPrice>
+                        {`${customerCurrencySymbol}${offerPrice} `}
+                        <span>{t('exVAT')}</span>
+                      </StyledOfferPrice>
+                    </StyledPriceWrapper>
 
-                  <StyledPriceBoxItemWrapper>
-                    <StyledTotalLabel>{t('Coupon Discount')}</StyledTotalLabel>
+                    <StyledPriceWrapper>
+                      <StyledLabel>{t('Coupon Discount')}</StyledLabel>
+                      <StyledOfferPrice>
+                        {`${customerCurrencySymbol}${discountAmount}`}
+                      </StyledOfferPrice>
+                    </StyledPriceWrapper>
+                  </>
+                )}
+                <StyledPriceWrapper>
+                  <StyledLabel>{t('Applicable Tax')}</StyledLabel>
+                  <StyledOfferPrice>
+                    {`${customerCurrencySymbol}${taxValue}`}
+                  </StyledOfferPrice>
+                </StyledPriceWrapper>
+                {customerServiceFee !== 0 && (
+                  <StyledPriceWrapper>
+                    <StyledLabel>{t('Customer Service Fee')}</StyledLabel>
                     <StyledOfferPrice>
-                      {`${customerCurrencySymbol}${discountAmount}`}
+                      {`${customerCurrencySymbol}${customerServiceFee}`}
                     </StyledOfferPrice>
-                  </StyledPriceBoxItemWrapper>
-                </>
-              )}
-              <StyledPriceBoxItemWrapper>
-                <StyledTotalLabel>{t('Applicable Tax')}</StyledTotalLabel>
-                <StyledOfferPrice>
-                  {`${customerCurrencySymbol}${taxValue}`}
-                </StyledOfferPrice>
-              </StyledPriceBoxItemWrapper>
-            </StyledPriceBoxWrapper>
-            <StyledTotalWrapper>
-              <StyledPriceWrapper>
-                <StyledTotalLabel>{t('Total')}</StyledTotalLabel>
-                <StyledOfferPrice>
-                  {`${customerCurrencySymbol}${finalPrice}`}
-                </StyledOfferPrice>
-              </StyledPriceWrapper>
-            </StyledTotalWrapper>
+                  </StyledPriceWrapper>
+                )}
+                <StyledPriceWrapper>
+                  <StyledTotalLabel>{t('Total:')}</StyledTotalLabel>
+                  <StyledTotalOfferPrice>
+                    {`${customerCurrencySymbol}${finalPrice}`}
+                  </StyledTotalOfferPrice>
+                </StyledPriceWrapper>
+              </StyledPriceBoxWrapper>
+            </StyledPriceBox>
           </StyledOfferBody>
           <Payment
             onPaymentComplete={onPaymentComplete}
@@ -191,7 +182,8 @@ Offer.propTypes = {
       offerPrice: PropTypes.number,
       discountedPrice: PropTypes.number,
       discountAmount: PropTypes.number,
-      taxValue: PropTypes.number
+      taxValue: PropTypes.number,
+      customerServiceFee: PropTypes.number
     }),
     discount: PropTypes.shape({
       applied: PropTypes.bool
@@ -216,7 +208,8 @@ Offer.defaultProps = {
       offerPrice: 0,
       discountedPrice: 0,
       discountAmount: 0,
-      taxValue: 0
+      taxValue: 0,
+      customerServiceFee: 0
     },
     discount: {
       applied: false

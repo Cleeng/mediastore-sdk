@@ -1,4 +1,5 @@
 import submitPaymentWithoutDetails from 'api/Offer/submitPaymentWithoutDetails';
+import { setData } from 'util/appConfigHelper';
 
 describe('submitPaymentWithoutDetails', () => {
   it('calls remote endpoint with authorization token', done => {
@@ -19,7 +20,7 @@ describe('submitPaymentWithoutDetails', () => {
         })
     );
 
-    localStorage.setItem('CLEENG_AUTH_TOKEN', mockToken);
+    setData('CLEENG_AUTH_TOKEN', mockToken);
     submitPaymentWithoutDetails().then(res => {
       expect(res).toEqual(mockResponse);
       done();

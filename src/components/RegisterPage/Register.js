@@ -16,6 +16,7 @@ import Footer from 'components/Footer';
 import labeling from 'containers/labeling';
 import savePublisherId from 'util/publisherIdHelper';
 import saveOfferId from 'util/offerIdHelper';
+import { isHosted } from 'util/appConfigHelper';
 import RegisterForm from './RegisterForm';
 
 class Register extends Component {
@@ -60,27 +61,29 @@ class Register extends Component {
           <Button isLink to={{ pathname: '/login' }} theme="secondary">
             {t('Have an account?')}
           </Button>
-          <SocialStyled>
-            <SeparatorStyled>{t('Or sign up with')}</SeparatorStyled>
-            <Button
-              theme="simple"
-              size="small"
-              fontSize="13px"
-              label="Sign up with Facebook"
-              icon={fbIcon}
-            >
-              Facebook
-            </Button>
-            <Button
-              theme="simple"
-              size="small"
-              fontSize="13px"
-              label="Sign up with Google"
-              icon={googleIcon}
-            >
-              Google
-            </Button>
-          </SocialStyled>
+          {!isHosted() && (
+            <SocialStyled>
+              <SeparatorStyled>{t('Or sign up with')}</SeparatorStyled>
+              <Button
+                theme="simple"
+                size="small"
+                fontSize="13px"
+                label="Sign up with Facebook"
+                icon={fbIcon}
+              >
+                Facebook
+              </Button>
+              <Button
+                theme="simple"
+                size="small"
+                fontSize="13px"
+                label="Sign up with Google"
+                icon={googleIcon}
+              >
+                Google
+              </Button>
+            </SocialStyled>
+          )}
         </ContentWrapperStyled>
         <Footer />
       </>

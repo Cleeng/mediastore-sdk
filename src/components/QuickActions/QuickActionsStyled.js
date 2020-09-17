@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { HeadingColor } from 'styles/variables';
+import { MainColor } from 'styles/variables';
 
 export const WrapStyled = styled.div``;
 
 export const HeaderStyled = styled.div`
-  color: ${HeadingColor};
+  color: ${MainColor};
 
   font-size: 14px;
   font-weight: 700;

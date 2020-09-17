@@ -8,12 +8,8 @@ import deleteCreditCard from 'assets/images/errors/deleteCreditCard.svg';
 import lock from 'assets/images/errors/lock.svg';
 import warning from 'assets/images/errors/warning.svg';
 import Logout from 'components/Logout';
-import {
-  ErrorPageStyled,
-  MessageStyled,
-  IconStyled,
-  LogoutWrapper
-} from './ErrorPageStyled';
+import Header from 'components/Header';
+import { ErrorPageStyled, MessageStyled, IconStyled } from './ErrorPageStyled';
 
 const errorTypes = {
   offerNotExist: {
@@ -26,11 +22,13 @@ const errorTypes = {
   },
   alreadyHaveAccess: {
     icon: lock,
-    description: 'You already have access to this offer.'
+    description:
+      'Good news! Your account already gives you access to the content that comes with this plan.'
   },
   cannotPurchase: {
     icon: deleteCreditCard,
-    description: 'Cannot purchase this offer.'
+    description:
+      'We are sorry! The content you are trying to access is not available in your country.'
   }
 };
 
@@ -39,13 +37,13 @@ const ErrorPage = ({ type, error, resetError }) => {
 
   return (
     <>
-      <LogoutWrapper>
+      <Header>
         {Auth.isLogged() ? (
           <Logout />
         ) : (
           type !== 'generalError' && <BackButton onClickFn={resetError} />
         )}
-      </LogoutWrapper>
+      </Header>
 
       <ErrorPageStyled>
         <IconStyled src={typeParams.icon} />

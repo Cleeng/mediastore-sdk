@@ -3,7 +3,7 @@ import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
 import Card from 'components/Card';
 import { mediaFrom } from 'styles/BreakPoints';
-import { MainColor } from 'styles/variables';
+import { ConfirmColor } from 'styles/variables';
 
 export const CardStyled = styled(Card)`
   margin-bottom: 0;
@@ -11,7 +11,7 @@ export const CardStyled = styled(Card)`
   ${props =>
     props.showConsentsOnly &&
     css`
-      padding: 20px 0;
+      padding: 20px;
     `}
 `;
 export const ButtonStyled = styled(Button)`
@@ -64,7 +64,7 @@ export const InfoStyled = styled.div`
 `;
 
 export const SuccessMessageStyled = styled.h6`
-  color: ${MainColor};
+  color: ${ConfirmColor};
   text-align: center;
   margin: 5px 0 15px 0;
   font-size: 12px;

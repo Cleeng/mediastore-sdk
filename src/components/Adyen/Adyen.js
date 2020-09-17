@@ -1,25 +1,41 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import AdyenStyled from './AdyenStyled';
+import Button from 'components/Button';
+import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
 import LocalhostWarning from './util/LocalhostWarning';
 
 const ADYEN_STYLESHEET_HREF =
-  'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.2.0/adyen.css';
+  'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css';
 const ADYEN_SCRIPT_HREF =
-  'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.2.0/adyen.js';
+  'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.10.1/adyen.js';
 
 const COMPONENT_CONTAINER_ID = 'component-container';
 const PAYMENT_METHOD_CARD = 'card';
 const ENV_TEST = 'test';
 
 class Adyen extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoaded: false
+    };
+  }
+
   componentDidMount() {
     if (window.AdyenCheckout === undefined) {
       this.loadAdyenStylesheet()
         .then(this.loadAdyenScript)
-        .then(this.renderCheckout);
+        .then(this.renderCheckout)
+        .then(() => {
+          this.setState({
+            isLoaded: true
+          });
+        });
     } else {
       this.renderCheckout();
+      this.setState({
+        isLoaded: true
+      });
     }
   }
 
@@ -48,23 +64,30 @@ class Adyen extends Component {
     const { onSubmit, onChange } = this.props;
 
     const configuration = {
-      showPayButton: true,
+      showPayButton: false,
       environment: ENV_TEST,
-      originKey:
-        ENVIRONMENT_CONFIGURATION.ADYEN_PUBLIC_KEY[window.location.origin],
+      clientKey: ENVIRONMENT_CONFIGURATION.ADYEN_CLIENT_KEY,
       onSubmit,
       onChange
     };
-    new window.AdyenCheckout(configuration)
+    this.checkout = new window.AdyenCheckout(configuration)
       .create(PAYMENT_METHOD_CARD)
       .mount(`#${COMPONENT_CONTAINER_ID}`);
   };
 
   render() {
+    const { isLoaded } = this.state;
     return (
       <AdyenStyled>
         <LocalhostWarning />
         <div id={COMPONENT_CONTAINER_ID} />
+        {isLoaded && (
+          <ConfirmButtonStyled>
+            <Button theme="confirm" onClickFn={() => this.checkout.submit()}>
+              Confirm
+            </Button>
+          </ConfirmButtonStyled>
+        )}
       </AdyenStyled>
     );
   }

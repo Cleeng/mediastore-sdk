@@ -2,11 +2,12 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs } from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
+import { setData } from 'util/appConfigHelper';
 import StoryRouter from 'storybook-react-router';
 import Register from './Register';
 import 'styles/index.scss';
 
-localStorage.setItem('CLEENG_OFFER_ID', 'S144753252_UA');
+setData('CLEENG_OFFER_ID', 'S144753252_UA');
 
 storiesOf('Checkout/RegisterPage', module)
   .addDecorator(withKnobs)

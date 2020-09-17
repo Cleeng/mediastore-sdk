@@ -1,9 +1,11 @@
+import { getData } from 'util/appConfigHelper';
+
 const submitPaymentWithoutDetails = async () => {
-  const token = localStorage.getItem('CLEENG_AUTH_TOKEN') || '';
-  const orderId = parseInt(localStorage.getItem('CLEENG_ORDER_ID') || '0', 10);
+  const token = getData('CLEENG_AUTH_TOKEN') || '';
+  const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
   const status = 'captured';
   const paymentOperation = 'initial-payment';
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/payments`;
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/payments`;
 
   try {
     const res = await fetch(url, {

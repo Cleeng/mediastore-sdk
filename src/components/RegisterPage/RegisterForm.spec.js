@@ -12,6 +12,7 @@ import RegisterForm from './RegisterForm';
 jest.mock('api/Auth/registerCustomer');
 jest.mock('api/Customer/getCustomerLocales');
 jest.mock('api/Customer/submitConsents');
+
 const mockInputValue = 'MOCK_INPUT_VALUE11';
 const mockEmailValue = 'mockmail@mock.com';
 const mockNotValidEmail = 'mock';
@@ -32,8 +33,6 @@ const mockConsentDefinitions = [
 
 const jwtMock =
   'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjoiNjkwNjI0MjU1IiwicHVibGlzaGVySWQiOjEyMDM1NTU1OX0.EvaMwJ1ZtGR4TNujmROVxiXhiHxzTOp0vgCJPoScXW2bBSroAGsm8kLe-ivnqQ9xoiHJWtDRYZGLKSGASFVuo0bqJT2ZzVEohvCPRwMke0R87p_eaTztWvAUjhbUP0Dk9xo8_AeDvEIDmGln_NXJvTTn6EqU_Xk2Zq3W29_WtbEOjfPplCp49gerR_VpnWA36yTUhfF2sWA1ir0F2HymsDvoQ_6dc8t7nENdslJY08kW-_mSQgj4SbOf4uXgiKAlPU8x3LWzUbO9uFF-eAND7hrJGM-FIWcJreW92DRXmuUMBfe_ws9KXzv-F5gKVcuz7qOpyykkJtZSBvFQJtKMaw';
-
-jest.spyOn(window.localStorage.__proto__, 'setItem'); // eslint-disable-line
 
 describe('RegisterForm', () => {
   afterEach(() => {
@@ -138,8 +137,7 @@ describe('RegisterForm', () => {
       const instance = wrapper.instance();
       instance.setState({
         email: 'john@example.com',
-        password: 'testtest123',
-        captcha: 'f979c2ff515d921c34af9bd2aee8ef076b719d03'
+        password: 'testtest123'
       });
       expect(onSubmitMock).not.toHaveBeenCalled();
 
@@ -182,7 +180,7 @@ describe('RegisterForm', () => {
         }
       });
       registerCustomerRequest.mockResolvedValue({
-        status: 429
+        status: 500
       });
 
       const wrapper = shallow(
@@ -306,6 +304,36 @@ describe('RegisterForm', () => {
       wrapper.simulate('submit', { preventDefault: preventDefaultMock });
       setImmediate(() => {
         expect(instance.state.generalError).toBe('Customer already exists.');
+        done();
+      });
+    });
+
+    it('should set error when faild with 429 code', done => {
+      getCustomerLocalesRequest.mockResolvedValue({
+        responseData: {
+          locale: 'pl_PL',
+          country: 'PL',
+          currency: 'EUR'
+        }
+      });
+      registerCustomerRequest.mockResolvedValue({
+        status: 429
+      });
+      const wrapper = shallow(<RegisterForm offerId="S705970293_NL" />);
+      const instance = wrapper.instance();
+
+      instance.setState({
+        email: 'john@example.com',
+        password: 'testtest123'
+      });
+
+      const preventDefaultMock = jest.fn();
+      wrapper.simulate('submit', { preventDefault: preventDefaultMock });
+      setImmediate(() => {
+        expect(instance.state.generalError).toBe(
+          'Server overloaded. Please try again later.'
+        );
+        expect(instance.state.overloaded).toBe(true);
         done();
       });
     });

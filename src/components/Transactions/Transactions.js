@@ -5,13 +5,12 @@ import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import Loader from 'components/Loader';
 import Card from 'components/Card';
-import { dateFormat } from 'components/CurrentPlan/helpers';
+import { dateFormat } from 'util/planHelper';
 import MyAccountError from 'components/MyAccountError';
 import Button from 'components/Button';
 import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
 import {
   WrapStyled,
-  // InfoMessageStyled,
   InsideWrapperStyled,
   LeftBoxStyled,
   TitleStyled,
@@ -47,7 +46,7 @@ const Transactions = ({
           )}
         />
       ) : (
-        <Card withShadow>
+        <Card withBorder>
           {transactions.map(subItem => (
             <InsideWrapperStyled
               key={subItem.transactionId}
@@ -71,7 +70,7 @@ const Transactions = ({
           {!isShowMoreButtonHidden && (
             <Button
               size="small"
-              theme={isExpanded ? 'primary' : 'secondary'}
+              theme="primary"
               margin="20px 0 0 auto"
               width="unset"
               label={(isExpanded && t('Show less')) || t('Show more')}

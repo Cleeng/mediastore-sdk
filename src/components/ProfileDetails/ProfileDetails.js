@@ -11,7 +11,7 @@ import {
   ButtonWrapperStyled,
   SuccessMessageStyled
 } from 'components/MyAccountConsents/MyAccountConsentsStyled';
-import validateEmailField from 'components/EmailInput/EmailHelper';
+import { validateEmailField } from 'util/validators';
 import updateCustomer from 'api/Customer/updateCustomer';
 import Auth from 'services/auth';
 import { WrapStyled, FormStyled } from './ProfileDetailsStyled';
@@ -214,7 +214,7 @@ class ProfileDetails extends Component {
       <Loader isMyAccount />
     ) : (
       <WrapStyled>
-        <Card>
+        <Card withBorder>
           <FormStyled onSubmit={this.updateProfile}>
             {successMessage && (
               <SuccessMessageStyled>
@@ -255,7 +255,7 @@ class ProfileDetails extends Component {
                 <>
                   <ButtonStyled
                     size="small"
-                    theme="secondary"
+                    theme="simple"
                     fontWeight="700"
                     onClickFn={() =>
                       this.setState({
@@ -284,6 +284,7 @@ class ProfileDetails extends Component {
                     onClickFn={this.updateProfile}
                     disabled={isSubmittingPending}
                     type="submit"
+                    theme="confirm"
                   >
                     {(isSubmittingPending && t('Loading...')) || t('Save')}
                   </ButtonStyled>

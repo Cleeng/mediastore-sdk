@@ -1,11 +1,14 @@
 const offerDetails = {
-  imageUrl: 'https://webstoresdk.cleeng.com/assets/ff1e5e2f.png',
-  offerTitle: 'Some test offer (ID: S123456789)',
+  title: 'Monthly subscription - basic plan',
   customerCurrencySymbol: '$',
   freePeriods: 2,
+  freeDays: null,
+  period: 'month',
+  price: 10,
+  discountAmount: 0,
+  taxValue: 2.3,
+  totalPrice: 12.3,
   trialAvailable: false,
-  periodDescription: 'months',
-  description: 'Monthly plan. Renews automatically. Cancel anytime you want.',
-  errors: []
+  description: 'Monthly plan. Renews automatically. Cancel anytime you want.'
 };
 export default offerDetails;

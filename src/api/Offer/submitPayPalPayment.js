@@ -1,11 +1,14 @@
+import { getData } from 'util/appConfigHelper';
+
 const submitPayPalPayment = async () => {
-  const token = localStorage.getItem('CLEENG_AUTH_TOKEN') || '';
-  const orderId = parseInt(localStorage.getItem('CLEENG_ORDER_ID') || '0', 10);
-  const url = `${ENVIRONMENT_CONFIGURATION.GB_API_URL}/connectors/paypal/v1/tokens`;
+  const token = getData('CLEENG_AUTH_TOKEN') || '';
+  const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
+  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/connectors/paypal/v1/tokens`;
   const redirectUrls = {
-    successUrl: `${window.location.origin}/thankyou`,
-    cancelUrl: `${window.location.origin}/offer`,
-    errorUrl: `${window.location.origin}/offer`
+    successUrl:
+      getData('CLEENG_PP_SUCCESS') || `${window.location.origin}/thankyou`,
+    cancelUrl: getData('CLEENG_PP_CANCEL') || `${window.location.origin}/offer`,
+    errorUrl: getData('CLEENG_PP_ERROR') || `${window.location.origin}/offer`
   };
   try {
     const res = await fetch(url, {
