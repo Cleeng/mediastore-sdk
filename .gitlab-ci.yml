@@ -84,4 +84,4 @@ deploy_production:
   only:
     - master
   tags:
-    - aws-runner
+    - staging
