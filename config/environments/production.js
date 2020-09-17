@@ -1,6 +1,6 @@
 module.exports = {
   ENVIRONMENT_CONFIGURATION: {
-    API_URL: JSON.stringify('https://mediastore.cleeng.com'),
-    ADYEN_CLIENT_KEY: JSON.stringify('live_BQDOFBYTGZB3XKF62GBYSLPUJ4YW2TPL')
+    API_URL: JSON.stringify('https://mediastore-sandbox.cleeng.com'),
+    ADYEN_CLIENT_KEY: JSON.stringify('test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K')
   }
 };
