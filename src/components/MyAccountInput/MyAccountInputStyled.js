@@ -33,7 +33,8 @@ export const InputElementStyled = styled.input`
   font-size: 13px;
   line-height: 13px;
 
-  &:focus {
+  &:focus,
+  &:active {
     border: 1px solid ${LineColor};
   }
 
