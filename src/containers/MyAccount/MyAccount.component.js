@@ -190,7 +190,7 @@ class MyAccount extends Component {
                 subscription={currentPlan[0] ? currentPlan[0].offerTitle : ''}
               />
               <MyAccountMenu routeMatch={routeMatch} />
-              {!isMobile && <Footer isCheckout={false} isTransparent />}
+              <Footer isCheckout={false} isTransparent />
             </HeaderStyled>
             <MyAccountContent>
               <Switch>

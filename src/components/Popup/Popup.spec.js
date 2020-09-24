@@ -4,14 +4,12 @@ import { mount } from 'enzyme';
 import MyAccountConsents from 'components/MyAccountConsents';
 import getCustomerConsentsRequest from 'api/Customer/getCustomerConsents';
 import submitConsentsRequest from 'api/Customer/submitConsents';
-import resetPasswordRequest from 'api/Auth/resetPassword';
 
 import { PurePopup } from './Popup';
 import 'jest-styled-components';
 
 jest.mock('api/Customer/submitConsents');
 jest.mock('api/Customer/getCustomerConsents');
-jest.mock('api/Auth/resetPassword');
 
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
@@ -215,42 +213,6 @@ describe('<Popup/>', () => {
         expect(setConsentsMock).toHaveBeenCalledWith(changedConsent);
         done();
       });
-    });
-    it('should call resetpassword on click reset password button', done => {
-      resetPasswordRequest.mockResolvedValue({
-        responseData: {},
-        errors: []
-      });
-      const wrapper = mount(
-        <PurePopup
-          setConsents={setConsentsMock}
-          consents={[]}
-          popupType="resetPassword"
-          hidePopup={jest.fn()}
-        />
-      );
-      wrapper
-        .find('button')
-        .last()
-        .simulate('click');
-      setImmediate(() => {
-        expect(wrapper.state('step')).toBe(2);
-        done();
-      });
-    });
-    it('should logout after resetpassword', () => {
-      const wrapper = mount(
-        <PurePopup
-          setConsents={setConsentsMock}
-          consents={[]}
-          popupType="resetPassword"
-          hidePopup={jest.fn()}
-        />
-      );
-      wrapper.setState({
-        step: 2
-      });
-      wrapper.find('button').simulate('click');
     });
   });
 });

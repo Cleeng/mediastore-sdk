@@ -19,7 +19,7 @@ const ButtonStyled = styled.button`
   text-decoration: none;
   letter-spacing: 0.025em;
   font-family: 'Geomanist';
-  font-size: 16px;
+  font-size: 14px;
   line-height: initial;
 
   transition: opacity 0.1s ease-in-out;

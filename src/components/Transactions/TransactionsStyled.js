@@ -49,6 +49,9 @@ export const InsideWrapperStyled = styled.div`
 export const LeftBoxStyled = styled.div``;
 
 export const RightBoxStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   flex-shrink: 0;
   margin-left: 20px;
   text-align: right;
@@ -59,6 +62,7 @@ export const TitleStyled = styled.h3`
 
   font-size: 13px;
   font-weight: 700;
+  line-height: 15px;
 `;
 export const SubTitleStyled = styled.div`
   margin-top: 6px;

@@ -1,5 +1,10 @@
 import { connect } from 'react-redux';
-import { setCurrentUser, setConsents } from 'redux/userProfile';
+import {
+  setCurrentUser,
+  setConsents,
+  showResetPassword,
+  hideResetPassword
+} from 'redux/userProfile';
 import { showPopup } from 'redux/popup';
 
 import UpdateProfile from './UpdateProfile.component';
@@ -8,7 +13,8 @@ export const mapStateToProps = state => {
   return {
     userProfile: state.userProfile,
     userConsents: [],
-    consentsError: state.consentsError
+    consentsError: state.consentsError,
+    isResetPasswordShown: state.isResetPasswordShown
   };
 };
 
@@ -22,6 +28,12 @@ export const mapDispatchToProps = dispatch => {
     },
     showPopup: type => {
       dispatch(showPopup(type));
+    },
+    showResetPassword: type => {
+      dispatch(showResetPassword(type));
+    },
+    hideResetPassword: type => {
+      dispatch(hideResetPassword(type));
     }
   };
 };

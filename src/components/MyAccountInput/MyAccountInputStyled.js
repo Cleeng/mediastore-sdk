@@ -41,7 +41,6 @@ export const InputElementStyled = styled.input`
   &:disabled {
     background-color: ${BackgroundColor};
     color: ${MainColor};
-    font-style: italic;
   }
 
   ${props =>
