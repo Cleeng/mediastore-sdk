@@ -8,6 +8,7 @@ import PropTypes from 'prop-types';
 import { getCustomer } from 'api';
 import MyAccountError from 'components/MyAccountError';
 import MyAccountConsents from 'components/MyAccountConsents';
+import EditPassword from 'components/EditPassword/EditPassword';
 import { WrapStyled } from './UpdateProfileStyled';
 
 class UpdateProfile extends Component {
@@ -48,40 +49,49 @@ class UpdateProfile extends Component {
   render() {
     const { detailsError, isUserDetailsLoading, isConsentLoading } = this.state;
     const {
-      userProfile: { user, consents, consentsError },
+      userProfile: { user, consents, consentsError, isResetPasswordShown },
       setConsents,
-      showPopup,
       setCurrentUser,
+      showResetPassword,
+      hideResetPassword,
       t
     } = this.props;
     return (
       <WrapStyled>
-        <SectionHeader marginTop="0">{t('Profile details')}</SectionHeader>
-        {detailsError.length !== 0 ? (
-          <MyAccountError generalError />
+        {isResetPasswordShown ? (
+          <>
+            <EditPassword hideResetPassword={hideResetPassword} />
+          </>
         ) : (
           <>
-            <ProfileDetails
-              firstName={user ? user.firstName : ''}
-              lastName={user ? user.lastName : ''}
-              email={user ? user.email : ''}
-              isLoading={isUserDetailsLoading}
-              setCurrentUser={setCurrentUser}
-            />
-            <SectionHeader>{t('Password')}</SectionHeader>
-            <Password showPopup={showPopup} />
-          </>
-        )}
+            <SectionHeader marginTop="0">{t('Profile details')}</SectionHeader>
+            {detailsError.length !== 0 ? (
+              <MyAccountError generalError />
+            ) : (
+              <>
+                <ProfileDetails
+                  firstName={user ? user.firstName : ''}
+                  lastName={user ? user.lastName : ''}
+                  email={user ? user.email : ''}
+                  isLoading={isUserDetailsLoading}
+                  setCurrentUser={setCurrentUser}
+                />
+                <SectionHeader>{t('Password')}</SectionHeader>
+                <Password showResetPassword={showResetPassword} />
+              </>
+            )}
 
-        <SectionHeader> {t('Terms Details')}</SectionHeader>
-        {consentsError.length !== 0 ? (
-          <MyAccountError generalError />
-        ) : (
-          <MyAccountConsents
-            consents={consents}
-            isLoading={isConsentLoading}
-            setConsents={setConsents}
-          />
+            <SectionHeader> {t('Terms Details')}</SectionHeader>
+            {consentsError.length !== 0 ? (
+              <MyAccountError generalError />
+            ) : (
+              <MyAccountConsents
+                consents={consents}
+                isLoading={isConsentLoading}
+                setConsents={setConsents}
+              />
+            )}
+          </>
         )}
       </WrapStyled>
     );
@@ -93,7 +103,8 @@ UpdateProfile.propTypes = {
   setConsents: PropTypes.func.isRequired,
   consentsError: PropTypes.string,
   userProfile: PropTypes.objectOf(PropTypes.any),
-  showPopup: PropTypes.func.isRequired,
+  showResetPassword: PropTypes.func.isRequired,
+  hideResetPassword: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 

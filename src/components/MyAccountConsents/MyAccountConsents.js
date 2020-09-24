@@ -129,6 +129,7 @@ class MyAccountConsents extends Component {
                 {isSectionDisabled ? (
                   <ButtonStyled
                     size="small"
+                    fontSize="14px"
                     fontWeight="700"
                     onClickFn={() =>
                       this.setState({ isSectionDisabled: false })

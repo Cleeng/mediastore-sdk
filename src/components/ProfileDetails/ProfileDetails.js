@@ -245,6 +245,7 @@ class ProfileDetails extends Component {
               {isSectionDisabled ? (
                 <ButtonStyled
                   size="small"
+                  fontSize="14px"
                   fontWeight="700"
                   onClickFn={() => this.setState({ isSectionDisabled: false })}
                   width="100%"
@@ -256,6 +257,7 @@ class ProfileDetails extends Component {
                   <ButtonStyled
                     size="small"
                     theme="simple"
+                    fontSize="14px"
                     fontWeight="700"
                     onClickFn={() =>
                       this.setState({
@@ -280,7 +282,7 @@ class ProfileDetails extends Component {
                   <ButtonStyled
                     size="small"
                     fontWeight="700"
-                    fontSize="13px"
+                    fontSize="14px"
                     onClickFn={this.updateProfile}
                     disabled={isSubmittingPending}
                     type="submit"

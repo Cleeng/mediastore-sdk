@@ -19,15 +19,19 @@ describe('<Password/>', () => {
     jest.clearAllMocks();
   });
   describe('@renders', () => {
-    const showPopupMock = jest.fn();
+    const showResetPassword = jest.fn();
     it('should render initial state', () => {
-      const wrapper = shallow(<PurePassword showPopup={showPopupMock} />);
+      const wrapper = shallow(
+        <PurePassword showResetPassword={showResetPassword} />
+      );
       expect(wrapper.find(WrapStyled)).toHaveLength(1);
     });
     it('should call showPopup on button click', () => {
-      const wrapper = mount(<PurePassword showPopup={showPopupMock} />);
+      const wrapper = mount(
+        <PurePassword showResetPassword={showResetPassword} />
+      );
       wrapper.find('button').simulate('click');
-      expect(showPopupMock).toHaveBeenCalledWith({ type: 'resetPassword' });
+      expect(showResetPassword).toHaveBeenCalledTimes(1);
     });
   });
 });

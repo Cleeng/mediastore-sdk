@@ -28,9 +28,18 @@ export const HeaderStyled = styled.div`
   padding: 0 26px;
   overflow: hidden;
 
+  footer {
+    display: none;
+  }
+
   ${mediaFrom.small`
     width: 288px;
     padding: 30px 34px;
+
+    footer {
+      display: block;
+      padding: 23px 34px;
+    }
   `}
 `;
 

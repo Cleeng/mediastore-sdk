@@ -61,6 +61,7 @@ const CurrentPlan = ({
                     <UnsubscribeButtonStyled
                       theme="simple"
                       size="small"
+                      fontSize="14px"
                       fontWeight="700"
                       onClickFn={() => {
                         setUpdateAction('unsubscribe');
@@ -75,8 +76,9 @@ const CurrentPlan = ({
                   )}
                   {subItem.status === 'cancelled' && (
                     <ResubscribeButtonStyled
-                      theme="primary"
+                      theme="simple"
                       size="small"
+                      fontSize="14px"
                       fontWeight="700"
                       onClickFn={() => {
                         setUpdateAction('resubscribe');

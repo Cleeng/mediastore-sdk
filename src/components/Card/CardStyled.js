@@ -8,7 +8,7 @@ export const WrapStyled = styled.div`
   padding: 18px;
   border-radius: 12px;
 
-  margin-bottom: 32px;
+  margin-bottom: 39px;
 
   background-color: ${White};
 

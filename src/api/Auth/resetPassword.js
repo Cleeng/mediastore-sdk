@@ -1,6 +1,5 @@
 const resetPassword = async (offerId, customerEmail, publisherId = '') => {
   const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/passwords`;
-
   try {
     const res = await fetch(url, {
       method: 'PUT',

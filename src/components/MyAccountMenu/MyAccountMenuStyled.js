@@ -61,7 +61,7 @@ export const ItemIconWrapStyled = styled.div`
     display: flex;
     border: 0;
     height: 50px;
-    width: 30px;
+    width: 17px;
   `}
 `;
 
@@ -72,9 +72,9 @@ export const ItemLabelStyled = styled.div`
 
   color: ${MainColor};
   border-bottom: 2px solid transparent;
-  font-size: 12px;
+  font-size: 15px;
   font-weight: 700;
-  line-height: 16px;
+  line-height: 21px;
 
   ${mediaFrom.small`
     margin: auto auto auto 20px;
@@ -108,10 +108,9 @@ export const ItemLinkStyled = styled(NavLink)`
     flex-direction: row;
     align-items: center;
 
-    padding: 0 26px;
+    padding: 0 26px 0 0;
     margin-bottom: 16px;
-    
+
     border-radius: 8px;
-    
   `}
 `;

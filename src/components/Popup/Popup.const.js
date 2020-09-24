@@ -1,7 +1,5 @@
 import WelcomeIcon from './images/welcome.svg';
 import ConsentsIcon from './images/icon_terms.svg';
-import PasswordResetIcon from './images/password_reset.svg';
-import EmailIcon from './images/email_sent.svg';
 
 const popupData = {
   notCheckedTerms: {
@@ -77,27 +75,6 @@ const popupData = {
         text: `If you want to continue using myAccount, please agree with updated Terms & Conditions.`,
         buttonText: 'Agree, let’s go!',
         buttonAction: 'handleSubmitConsents'
-      }
-    ]
-  },
-  resetPassword: {
-    steps: [
-      {
-        headerTitle: 'Password Reset',
-        icon: PasswordResetIcon,
-        title: 'Password Reset',
-        text: `If you want to reset your password, click 'YES, Reset' to receive password reset instruction on your mail `,
-        buttonText: 'Yes, Reset',
-        buttonAction: 'resetPassword',
-        undoButton: 'No, thanks'
-      },
-      {
-        headerTitle: 'Password Reset',
-        icon: EmailIcon,
-        title: 'Email has been sent!',
-        text: `Please check you inbox and check the Instruction to reset a password`,
-        buttonText: 'Thanks!',
-        buttonAction: 'logout'
       }
     ]
   }
