@@ -136,12 +136,14 @@ class CouponInput extends Component {
             {isOpened ? t('Redeem') : t('Redeem coupon')}
           </Button>
         </InputElementWrapperStyled>
-        <MessageStyled
-          showMessage={showMessage && !suppressMessage}
-          messageType={messageType}
-        >
-          {message}
-        </MessageStyled>
+        {isOpened && (
+          <MessageStyled
+            showMessage={showMessage && !suppressMessage}
+            messageType={messageType}
+          >
+            {message}
+          </MessageStyled>
+        )}
       </InputComponentStyled>
     );
   }

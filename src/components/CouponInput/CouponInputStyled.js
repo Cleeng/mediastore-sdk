@@ -50,7 +50,6 @@ export const InputElementStyled = styled.input`
 
   font-size: 15px;
   line-height: 1.3;
-
   ${props =>
     props.isOpened &&
     css`

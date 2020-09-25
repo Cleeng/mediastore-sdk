@@ -4,11 +4,11 @@ import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { action } from '@storybook/addon-actions';
 import StoryRouter from 'storybook-react-router';
-import Login from './Login';
+import { PureLogin } from './Login';
 import 'styles/index.scss';
 import 'i18NextInit';
 
-storiesOf('Common/LoginPage', module)
+storiesOf('Pages/LoginPage', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(StoryRouter())
@@ -18,7 +18,7 @@ storiesOf('Common/LoginPage', module)
     </div>
   ))
   .add('Checkout and My account login', () => (
-    <Login
+    <PureLogin
       onLoginComplete={action('onLoginComplete')}
       urlProps={{ location: { search: 'http://cleeng.com/' } }}
       isMyAccount={boolean('isMyAccount', false)}
