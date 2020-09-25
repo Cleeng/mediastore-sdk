@@ -1,6 +1,6 @@
 # Installation
 
-MediaStore SDK repo is marked as a template so you can easily move it directly to your GitHub account. Just use `Use this template` option.
+MediaStore SDK repo is marked as a template so you can easily move it directly to your GitHub account. To do so, login to your Github account and use the template option as shown in the screenshot below.
 
 <div style="display: flex; align-items: center; flex-direction: column">
   <img src="src/assets/images/readme/use_template.png" style="margin: 20px auto;" alt="Use template button"/>

@@ -95,6 +95,7 @@ class PasswordReset extends Component {
       t,
       urlProps: { location }
     } = this.props;
+
     const fromMyAccount = location.state ? location.state.fromMyAccount : false;
     return (
       <>
@@ -139,7 +140,9 @@ PasswordReset.propTypes = {
   urlProps: PropTypes.shape({
     location: PropTypes.shape({
       search: PropTypes.string,
-      state: PropTypes.object
+      state: PropTypes.shape({
+        fromMyAccount: PropTypes.bool
+      })
     })
   }),
   t: PropTypes.func
