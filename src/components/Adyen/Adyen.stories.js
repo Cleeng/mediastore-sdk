@@ -23,7 +23,6 @@ storiesOf('Checkout/Adyen', module)
       {story()}
     </div>
   ))
-  .add('Payment Form', () => <Adyen onSubmit={action('onSubmit')} />)
   .add('With Sample Card', () => (
     <>
       <Adyen onSubmit={action('onSubmit')} />

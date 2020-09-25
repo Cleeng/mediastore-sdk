@@ -9,20 +9,13 @@ storiesOf('Checkout/Footer', module)
   .addDecorator(story => (
     <div
       style={{
-        width: '100%',
-        height: '100%',
-        background: '#ffffff'
+        width: '400px',
+        height: '36px',
+        background: '#ffffff',
+        position: 'relative'
       }}
     >
-      <div
-        style={{
-          width: 400,
-          height: 35,
-          position: 'relative'
-        }}
-      >
-        {story()}
-      </div>
+      {story()}
     </div>
   ))
   .add('Default', () => <Footer />);

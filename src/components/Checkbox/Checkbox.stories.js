@@ -28,6 +28,6 @@ storiesOf('Common/Checkbox', module)
       )}
       required={boolean('required', false)}
     >
-      {text('checkbox label', 'Some text to show')}
+      {text('checkbox label', 'I accept the Terms and Conditions of Cleeng')}
     </Checkbox>
   ));

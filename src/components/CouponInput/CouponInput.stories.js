@@ -8,9 +8,19 @@ import { State, Store } from '@sambego/storybook-state';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import CouponInput from './CouponInput';
 import 'styles/index.scss';
+import {
+  StyledLabel,
+  StyledPriceWrapper,
+  StyledOfferPrice,
+  StyledPriceBoxWrapper,
+  StyledPriceBox,
+  StyledTotalLabel,
+  StyledTotalOfferPrice
+} from '../Offer/OfferStyled';
 
 const wrapperState = new Store({
-  value: ''
+  value: '',
+  isOpened: false
 });
 
 class CouponInputFeedbackWrapper extends Component {
@@ -31,7 +41,7 @@ class CouponInputFeedbackWrapper extends Component {
       setTimeout(() => {
         this.setState({ showMessage: true });
         if (messageType === MESSAGE_TYPE_SUCCESS) {
-          this.setState({ price: Math.max(price - 1, 0) });
+          this.setState({ price: Math.max(price - price / 2, 0) });
           resolve();
         } else {
           reject();
@@ -61,17 +71,20 @@ class CouponInputFeedbackWrapper extends Component {
           value={inputValue}
           onChange={e => this.setState({ inputValue: e })}
         />
-        <div>
-          Price:{' '}
-          {price < 20 && (
-            <>
-              <span style={{ textDecoration: 'line-through', color: 'red' }}>
-                $20
-              </span>{' '}
-            </>
-          )}
-          ${price}
-        </div>
+        <StyledPriceBox>
+          <StyledPriceBoxWrapper>
+            {price < 20 && (
+              <StyledPriceWrapper>
+                <StyledLabel>Coupon Discount</StyledLabel>
+                <StyledOfferPrice>$10</StyledOfferPrice>
+              </StyledPriceWrapper>
+            )}
+            <StyledPriceWrapper>
+              <StyledTotalLabel>Total:</StyledTotalLabel>
+              <StyledTotalOfferPrice>${price}</StyledTotalOfferPrice>
+            </StyledPriceWrapper>
+          </StyledPriceBoxWrapper>
+        </StyledPriceBox>
       </div>
     );
   }
@@ -86,7 +99,17 @@ storiesOf('Checkout/CouponInput', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (
-    <div style={{ width: 400, backgroundColor: 'white' }}>{story()}</div>
+    <div
+      style={{
+        width: 600,
+        backgroundColor: 'white',
+        position: 'relative',
+        display: 'flex',
+        justifyContent: 'flex-end'
+      }}
+    >
+      {story()}
+    </div>
   ))
   .addDecorator(story => (
     <State store={wrapperState}>{state => story(state)}</State>
@@ -111,7 +134,7 @@ storiesOf('Checkout/CouponInput', module)
   ))
   .add('UC: Accept any code', () => (
     <CouponInputFeedbackWrapper
-      message="Your coupon has been applied! Enjoy your 40% discount."
+      message="Your coupon has been applied! Enjoy your 50% discount."
       messageType={MESSAGE_TYPE_SUCCESS}
     />
   ))

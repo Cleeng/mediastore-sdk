@@ -10,9 +10,10 @@ const CreditCardExample = () => (
       border: 'solid 1px black'
     }}
   >
+    <p style={{ textAlign: 'center', padding: 10 }}>Test card data</p>
     {[
-      { label: 'Card number', value: '5555 4444 3333 1111' },
-      { label: 'Expires', value: '10/20' },
+      { label: 'Card number', value: '4988 4388 4388 4305' },
+      { label: 'Expires', value: '03/30' },
       { label: 'CVV', value: '737' }
     ].map(({ label, value }) => (
       <div
@@ -39,7 +40,9 @@ const CreditCardExample = () => (
         />
       </div>
     ))}
-    <div style={{ textAlign: 'right', padding: 10 }}>(click to copy)</div>
+    <div style={{ textAlign: 'right', padding: 10, cursor: 'pointer' }}>
+      (click to copy)
+    </div>
   </form>
 );
 
