@@ -43,4 +43,5 @@ PasswordResetSuccess.defaultProps = {
   t: k => k
 };
 
+export { PasswordResetSuccess as PurePasswordResetSuccess };
 export default withTranslation()(labeling()(PasswordResetSuccess));
