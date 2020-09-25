@@ -48,7 +48,7 @@ Scripts containing setups are in `js` format.
 <tr><td>API_URL</td><td>identifies the host of REST API</td></tr>
 <tr><td>ADYEN_CLIENT_KEY</td>
   <td>
-    identifies Adyen's Client Key. It’s a Cleeng key, which allows you to use Adyen enpoint (when Cleeng is MoR). To use it we need to add your origin to allowed ones. Values:
+    identifies Adyen's Client Key. Finde more details <a href="https://developers.apidoc.cleeng.com/docs/checkout-implementation#purchase-using-adyen">here</a>. Values:
     testing `test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K`,
     production `live_BQDOFBYTGZB3XKF62GBYSLPUJ4YW2TPL`
   </td></tr>
@@ -92,53 +92,24 @@ Below you can find a list with available scripts.
 
 ## MediaStore SDK
 
-MediaStore SDK includes a best practice <b>checkout</b> and <b>myAccount</b> example using Cleeng API. MediaStore SDK consists of components that will empower you to build and design a seamless checkout process and help visitors become subscribers and then to manage their subscription to your service in an intuitive and trusted manner.
+This repo is an example app which shows how to integrate with Cleeng MediaStore API. It consists of components that will empower you to build and design a seamless checkout process, help visitors become subscribers, and then allow them to manage their subscription.
 
-This repo is an example app as a set of instructions and code snippets for the web to help implement tailored and custom checkout.
+**Check the demo app [here](https://mediastoresdk-demo.cleeng.com/login?offer=S817681481_PL&publisher=933103327).**
 
-It was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+**Here you can find documentation:**
 
-Check the demo [here](https://mediastoresdk-demo.cleeng.com/login?offer=S817681481_PL&publisher=933103327).
+- [MediaStore SDK tutorial](https://developers.apidoc.cleeng.com/docs/what-is-mediastore-sdk)
+- [API documentation](https://developers.apidoc.cleeng.com/reference/getting-started)
 
-## Features
+**Looking for specific details?**
 
-### User Account
-
-1. Authentication - login form, the registration form (with consents approval) and ability to reset a password
-
-### Checkout
-
-This ultimate checkout application is implemented as a full flow for a user, with payment by card possible through Adyen and PayPal v1. These payment methods can be replaced by others.
-
-1. Offer/Product display - offer details display with information about the trial, coupon codes application and price breakdown
-
-2. Payment - dynamically loaded payment methods with <b>Adyen and PayPal v1 integration</b> (as an example payment integration) and thank you page after successful offer purchase
-
-### MyAccount
-
-MyAccount part is a solution for customers to manage their subscriptions. It is divided into 3 blocks with the following features:
-
-1. Plan details
-
-a. details about the current plans with the option to unsubscribe or resubscribe
-
-2. Payment info
-
-a. information about the current payment method
-
-b. list of transactions
-
-3. Update profile
-
-a. update name, last name, and email
-
-b. change password
-
-c. consents management
+- [features](https://developers.apidoc.cleeng.com/docs/what-is-mediastore-sdk#features)
+- [authorisation](https://developers.apidoc.cleeng.com/docs/what-is-mediastore-sdk#authorisation)
+- [translations](https://developers.apidoc.cleeng.com/docs/what-is-mediastore-sdk#translation)
 
 ## Architecture overview
 
-MediaStore SDK is a Frontend application build with React. It was bootstrapped with Create React App. We are using a webpack to build it, Jest, and Enzyme for testing, Styled Components for styles.
+MediaStore SDK is a frontend application build with React. It was bootstrapped with Create React App. We are using a webpack to build it, Jest, and Enzyme for testing, Styled Components for styles.
 
 This application is communicating with the backend REST API. All methods available can be found [here](https://developers.apidoc.cleeng.com/reference/getting-started).
 
@@ -158,43 +129,11 @@ In URL as a param `?publisher=123456789` and this is the most important one
 
 In local storage as `CLEENG_PUBLISHER_ID`
 
-## Authentication
+# License
 
-To authenticate - we are using JWT with the payload containing `customerId`, `publisherId`, and `expiration date`. You can decode JWT using packages like [`jwt-decode`](https://www.npmjs.com/package/jwt-decode) or if you want only check it use online decoder [jwt.io](https://jwt.io/).
+The Cleeng Media Store SDK is open source and available under the BSD 3-Clause License. See the [LICENSE](LICENSE.md) file for more info.
 
-JWT is valid for 30 minutes and after it, the customer is logged out.
-
-JWT is required for the most of API calls. It is returned after successful login and registration requests.
-
-## Translations
-
-We provide full flexibility to adjust messaging in the checkout process and the myAccount app. All the content in the MediaStore pages can be translated into 28 languages, but these translations can also be overwritten if you choose so.
-
-## Style Guide
-
-### Files
-
-Each component should have an accompanying `ComponentStyled.js` file which contains `styled-components` objects for this component.
-
-### CSS Property Order
-
-Keep CSS props in the following order, with empty newlines between sections:
-
-- Layout Properties (position, float, clear, display)
-- Box Model Properties (width, height, margin, padding)
-- Visual Properties (color, background, border, box-shadow)
-- Typography Properties (font-size, font-family, text-align, text-transform)
-- Misc Properties (cursor, overflow, z-index)
-
-## MediaStore SDK tutorial
-
-Check the [full tutorial](https://developers.apidoc.cleeng.com/docs) for a better understanding of the product, architecture, and functionality.
-
-## API reference
-
-[Here](https://developers.apidoc.cleeng.com/reference/getting-started) is a link to API reference.
-
-## Useful links
+## Other links
 
 ### Learn More
 
@@ -225,7 +164,3 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `yarn build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#yarn-run-build-fails-to-minify
-
-# License
-
-The Cleeng Media Store SDK is open source and available under the BSD 3-Clause License. See the [LICENSE](LICENSE.md) file for more info.
