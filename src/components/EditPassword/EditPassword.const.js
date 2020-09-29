@@ -11,7 +11,7 @@ const data = {
     {
       headerTitle: 'Password Reset',
       title: 'Email has been sent!',
-      text: `Please check you inbox and check the Instruction to reset a password`,
+      text: `Please check your inbox and check the Instruction to reset a password`,
       buttonText: 'Thanks!',
       buttonAction: 'logout'
     }
