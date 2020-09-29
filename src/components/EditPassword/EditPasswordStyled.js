@@ -9,6 +9,7 @@ export const CardStyled = styled(Card)`
   min-height: 500px;
   display: flex;
   padding: 0;
+  margin: 0;
   ${media.small`
     display: flex;
     align-items: flex-start;
