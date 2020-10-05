@@ -113,21 +113,18 @@ MediaStore SDK is a frontend application build with React. It was bootstrapped w
 
 This application is communicating with the backend REST API. All methods available can be found [here](https://developers.apidoc.cleeng.com/reference/getting-started).
 
-<b>The app requires few params to working properly. </b>
+<b>The app requires params to working properly. </b>
 
-To enable login action pass `offerId` to the app. Login is also possible using `publisherId`, but in the sample app, we use `offerId`. You can pass it in two ways:
-
-In URL as a param `?offer=S1234567` and this is the most important one
-
-In local storage as `CLEENG_OFFER_ID`
-
+To enable login action pass `offerId` to the app. Login is also possible using `publisherId`, but in the sample app, we use `offerId`.
 To enable registration, pass `publisherId` which is required to fetch terms and conditions.
 
-Similarly, `publisherId` can be passed to the app in 2 ways:
+You can pass it in two ways:
 
-In URL as a param `?publisher=123456789` and this is the most important one
+In URL as a param `?offer=S1234567` / `?publisher=123456789` and this is the most important one
 
-In local storage as `CLEENG_PUBLISHER_ID`
+In local storage as `CLEENG_OFFER_ID` / `CLEENG_PUBLISHER_ID`
+
+<b>Sample:`http://localhost:3003/login?offer=S279420927_PL&publisher=384784683`</b>
 
 # License
 

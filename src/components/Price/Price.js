@@ -15,8 +15,7 @@ const Price = ({ currency, price, period }) => (
       <CurrencyStyled>{currency}</CurrencyStyled>
       <PriceStyled>{price}</PriceStyled>
     </InnerWrapper>
-
-    <PeriodStyled>/&nbsp;{period}</PeriodStyled>
+    {period && <PeriodStyled>/&nbsp;{period}</PeriodStyled>}
   </WrapperStyled>
 );
 
