@@ -11,7 +11,6 @@ export const InputComponentStyled = styled.div`
 `;
 
 export const MessageStyled = styled.div`
-  margin-top: 8px;
   color: ${props =>
     props.messageType === MESSAGE_TYPE_SUCCESS
       ? Colors.ConfirmColor
@@ -29,6 +28,7 @@ export const InputElementWrapperStyled = styled.div`
   justify-content: space-between;
   align-items: center;
   position: relative;
+  margin-bottom: 8px;
 
   border: 1px solid ${Colors.LineColor};
   border-radius: 21px;
@@ -55,7 +55,8 @@ export const InputElementStyled = styled.input`
     css`
       width: 200px
       max-width: 200px;
-      margin: 0 25px 0 15px;
+      padding: 0 25px 0 13px;
+      left: 2px;
       ${media.small`
         width: 100%;
         max-width: 100%;
