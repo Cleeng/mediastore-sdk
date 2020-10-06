@@ -103,19 +103,11 @@ class EditPassword extends PureComponent {
             <ButtonWrapperStyled>
               <InnerWrapperStyled>
                 {stepData.undoButton && (
-                  <Button
-                    theme="simple"
-                    fontSize="14px"
-                    onClickFn={() => hideResetPassword()}
-                  >
+                  <Button theme="simple" onClickFn={() => hideResetPassword()}>
                     {t(stepData.undoButton)}
                   </Button>
                 )}
-                <Button
-                  theme="confirm"
-                  fontSize="14px"
-                  onClickFn={this[stepData.buttonAction]}
-                >
+                <Button theme="confirm" onClickFn={this[stepData.buttonAction]}>
                   {(isLoading && t('Loading...')) || t(stepData.buttonText)}
                 </Button>
               </InnerWrapperStyled>

@@ -128,12 +128,14 @@ class Payment extends Component {
   finishTransaction = () => {
     const { onPaymentComplete, t } = this.props;
     this.setState({
+      isLoading: true,
       generalError: ''
     });
     submitPaymentWithoutDetails().then(paymentReponse => {
       if (paymentReponse.errors.length) {
         this.setState({
-          generalError: t('The payment failed. Please try again.')
+          generalError: t('The payment failed. Please try again.'),
+          isLoading: false
         });
       } else {
         onPaymentComplete();
@@ -196,8 +198,18 @@ class Payment extends Component {
             )}
           </>
         ) : (
-          <Button onClickFn={this.finishTransaction} theme="simple">
-            {t('Complete purchase')}
+          <Button
+            onClickFn={this.finishTransaction}
+            theme="confirm"
+            width="250px"
+            size="big"
+            margin="20px auto 0 auto"
+          >
+            {isLoading ? (
+              <Loader buttonLoader color="#ffffff" />
+            ) : (
+              t('Complete purchase')
+            )}
           </Button>
         )}
       </PaymentStyled>

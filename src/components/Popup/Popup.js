@@ -125,13 +125,18 @@ class Popup extends Component {
             )}
           <InnerWrapperStyled>
             {stepData.undoButton && (
-              <ButtonStyled onClickFn={hidePopup} theme="secondary">
+              <ButtonStyled
+                onClickFn={hidePopup}
+                theme="secondary"
+                width="auto"
+              >
                 {t(stepData.undoButton)}
               </ButtonStyled>
             )}
             <ButtonStyled
               onClickFn={this[stepData.buttonAction]}
               disabled={step === 2 && !allowSubmitConsents}
+              width="auto"
             >
               {(isLoading && t('Loading...')) || t(stepData.buttonText)}
             </ButtonStyled>

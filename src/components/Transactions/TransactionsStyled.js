@@ -85,10 +85,11 @@ export const DateStyled = styled.div`
 `;
 export const ButtonTextStyled = styled.span`
   position: relative;
+  line-height: 1.2;
   &:after {
     position: absolute;
     right: -17px;
-    bottom: -1px;
+    bottom: 0;
     font-size: 13px;
     ${props => (props.isExpanded ? "content: '▲'" : "content: '▼'")};
   }

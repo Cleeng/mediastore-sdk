@@ -73,7 +73,7 @@ class Offer extends Component {
       : `${freePeriods} months`;
     const periodText = trialAvailable ? trialPeriodText : period;
     const alternativeDescription = periodText
-      ? `You will be charged ${offerPrice} after ${periodText}.`
+      ? `You will be charged ${offerPrice}${customerCurrencySymbol} after ${periodText}.`
       : '';
     return (
       <StyledOfferWrapper>

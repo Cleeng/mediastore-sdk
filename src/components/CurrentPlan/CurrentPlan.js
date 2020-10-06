@@ -60,9 +60,6 @@ const CurrentPlan = ({
                   {subItem.status === 'active' && (
                     <UnsubscribeButtonStyled
                       theme="simple"
-                      size="small"
-                      fontSize="14px"
-                      fontWeight="700"
                       onClickFn={() => {
                         setUpdateAction('unsubscribe');
                         showSurvey({
@@ -77,9 +74,6 @@ const CurrentPlan = ({
                   {subItem.status === 'cancelled' && (
                     <ResubscribeButtonStyled
                       theme="simple"
-                      size="small"
-                      fontSize="14px"
-                      fontWeight="700"
                       onClickFn={() => {
                         setUpdateAction('resubscribe');
                         showSurvey({

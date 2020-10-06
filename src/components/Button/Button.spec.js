@@ -9,7 +9,6 @@ describe('<Button/>', () => {
 
       expect(wrapper.prop('type')).toBe('button');
       expect(wrapper.prop('theme')).toBe('primary');
-      expect(wrapper.prop('size')).toBe('big');
     });
     it('should render initial state for Link', () => {
       const wrapper = shallow(

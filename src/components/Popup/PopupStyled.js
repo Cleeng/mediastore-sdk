@@ -57,7 +57,7 @@ export const ContentStyled = styled.div`
     `}
 `;
 export const ButtonWrapperStyled = styled.div`
-  width: 50%;
+  width: 70%;
   margin: 0 auto 100px auto;
 
   ${media.small`
@@ -102,7 +102,7 @@ export const ImageStyled = styled.img`
 `;
 
 export const ButtonStyled = styled(Button)`
-  margin: 0 5px;
+  margin: 0 auto;
   &:disabled {
     cursor: not-allowed;
     background: ${LineColor};

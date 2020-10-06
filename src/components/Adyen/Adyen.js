@@ -83,7 +83,11 @@ class Adyen extends Component {
         <div id={COMPONENT_CONTAINER_ID} />
         {isLoaded && (
           <ConfirmButtonStyled>
-            <Button theme="confirm" onClickFn={() => this.checkout.submit()}>
+            <Button
+              theme="confirm"
+              size="big"
+              onClickFn={() => this.checkout.submit()}
+            >
               Confirm
             </Button>
           </ConfirmButtonStyled>

@@ -50,4 +50,6 @@ export const PeriodStyled = styled.span`
   font-size: ${TinyFont};
 `;
 
-export const InnerWrapper = styled.div``;
+export const InnerWrapper = styled.div`
+  line-height: 15px;
+`;
