@@ -128,9 +128,6 @@ class MyAccountConsents extends Component {
               <ButtonWrapperStyled>
                 {isSectionDisabled ? (
                   <ButtonStyled
-                    size="small"
-                    fontSize="14px"
-                    fontWeight="700"
                     onClickFn={() =>
                       this.setState({ isSectionDisabled: false })
                     }
@@ -141,9 +138,7 @@ class MyAccountConsents extends Component {
                 ) : (
                   <>
                     <ButtonStyled
-                      size="small"
                       theme="simple"
-                      fontWeight="700"
                       onClickFn={() =>
                         this.setState({
                           isSectionDisabled: true,
@@ -154,10 +149,7 @@ class MyAccountConsents extends Component {
                       {t('Cancel')}
                     </ButtonStyled>
                     <ButtonStyled
-                      size="small"
                       theme="confirm"
-                      fontWeight="700"
-                      fontSize="13px"
                       onClickFn={() => this.updateConsents()}
                       disabled={isSubmittingPending}
                     >

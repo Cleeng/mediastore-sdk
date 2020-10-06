@@ -53,10 +53,10 @@ export const InputElementStyled = styled.input`
   ${props =>
     props.isOpened &&
     css`
-      width: 200px
-      max-width: 200px;
-      padding: 0 25px 0 13px;
-      left: 2px;
+      width: 198px
+      max-width: 198px;
+      left: 15px;
+      padding-right: 25px;
       ${media.small`
         width: 100%;
         max-width: 100%;

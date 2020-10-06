@@ -119,6 +119,7 @@ class PasswordReset extends Component {
             <Button
               type="submit"
               theme="confirm"
+              size="big"
               disabled={processing || overloaded}
             >
               {processing ? (

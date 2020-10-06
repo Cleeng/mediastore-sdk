@@ -244,9 +244,6 @@ class ProfileDetails extends Component {
             <ButtonWrapperStyled>
               {isSectionDisabled ? (
                 <ButtonStyled
-                  size="small"
-                  fontSize="14px"
-                  fontWeight="700"
                   onClickFn={() => this.setState({ isSectionDisabled: false })}
                   width="100%"
                 >
@@ -255,10 +252,7 @@ class ProfileDetails extends Component {
               ) : (
                 <>
                   <ButtonStyled
-                    size="small"
                     theme="simple"
-                    fontSize="14px"
-                    fontWeight="700"
                     onClickFn={() =>
                       this.setState({
                         isSectionDisabled: true,
@@ -280,9 +274,6 @@ class ProfileDetails extends Component {
                     {t('Cancel')}
                   </ButtonStyled>
                   <ButtonStyled
-                    size="small"
-                    fontWeight="700"
-                    fontSize="14px"
                     onClickFn={this.updateProfile}
                     disabled={isSubmittingPending}
                     type="submit"

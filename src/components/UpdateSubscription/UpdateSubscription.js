@@ -118,15 +118,12 @@ class UpdateSubscription extends Component {
                 {t('Please try again in a few moments.')}
               </SubTitleStyled>
               <Button
-                size="small"
                 width="auto"
                 margin="30px auto 0 auto"
                 onClickFn={() => {
                   hideSurvey();
                   updateList();
                 }}
-                fontWeight="700"
-                fontSize="13px"
               >
                 {t('Back to settings')}
               </Button>
@@ -155,15 +152,12 @@ class UpdateSubscription extends Component {
                 <b>{dateFormat(offerDetails.expiresAt)}</b>.
               </SubTitleStyled>
               <Button
-                size="small"
                 width="auto"
                 margin="30px auto 0 auto"
                 onClickFn={() => {
                   hideSurvey();
                   updateList();
                 }}
-                fontWeight="700"
-                fontSize="13px"
               >
                 {t(popupContent.buttonText)}
               </Button>
@@ -209,11 +203,10 @@ class UpdateSubscription extends Component {
             </ReasonsWrapper>
           )}
           <ButtonsWrapper>
-            <Button size="small" theme="simple" onClickFn={hideSurvey}>
+            <Button theme="simple" onClickFn={hideSurvey}>
               {t('No, thanks')}
             </Button>
             <Button
-              size="small"
               theme={popupContent.buttonTheme}
               onClickFn={this[action]}
               disabled={

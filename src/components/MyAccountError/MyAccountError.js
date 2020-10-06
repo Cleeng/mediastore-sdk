@@ -42,10 +42,7 @@ const MyAccountError = ({
       </SubTitleStyled>
       {generalError && (
         <Button
-          size="small"
           margin="20px auto auto auto"
-          fontWeight="600"
-          fontSize="12px"
           width="auto"
           onClickFn={() => window.location.reload()}
         >

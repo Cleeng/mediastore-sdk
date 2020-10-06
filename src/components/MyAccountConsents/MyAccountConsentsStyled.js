@@ -11,7 +11,9 @@ export const CardStyled = styled(Card)`
   ${props =>
     props.showConsentsOnly &&
     css`
-      padding: 20px;
+      padding: 0 0 20px 0;
+      border: none;
+      background: transparent;
     `}
 `;
 export const ButtonStyled = styled(Button)`

@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom';
 import ButtonStyled from './ButtonStyled';
 
 export const BUTTON_SIZE = {
-  SMALL: 'small',
   BIG: 'big'
 };
 
@@ -15,7 +14,6 @@ export const BUTTON_THEME = {
   SIMPLE: 'simple',
   NAVLINK: 'navLink',
   LINK: 'link',
-  DANGER: 'danger',
   PAYMENT: 'payment',
   CONFIRM: 'confirm'
 };
@@ -88,7 +86,7 @@ Button.propTypes = {
 };
 
 Button.defaultProps = {
-  size: BUTTON_SIZE.BIG,
+  size: null,
   theme: BUTTON_THEME.PRIMARY,
   children: '',
   type: 'button',

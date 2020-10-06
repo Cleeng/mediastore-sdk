@@ -15,13 +15,7 @@ const Password = ({ showResetPassword, t }) => (
     <Card withBorder>
       <InnerWrapperStyled>
         <OldPasswordStyled>••••••••</OldPasswordStyled>
-        <Button
-          size="small"
-          width="auto"
-          fontSize="14px"
-          fontWeight="700"
-          onClickFn={() => showResetPassword()}
-        >
+        <Button width="auto" onClickFn={() => showResetPassword()}>
           {t('Edit Password')}
         </Button>
       </InnerWrapperStyled>

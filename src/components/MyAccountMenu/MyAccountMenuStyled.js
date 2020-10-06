@@ -72,12 +72,14 @@ export const ItemLabelStyled = styled.div`
 
   color: ${MainColor};
   border-bottom: 2px solid transparent;
-  font-size: 15px;
+  font-size: 13px;
+
   font-weight: 700;
   line-height: 21px;
 
   ${mediaFrom.small`
     margin: auto auto auto 20px;
+   font-size: 15px;
   `}
 `;
 
