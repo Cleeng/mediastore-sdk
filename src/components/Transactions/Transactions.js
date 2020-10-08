@@ -69,7 +69,6 @@ const Transactions = ({
           ))}
           {!isShowMoreButtonHidden && (
             <Button
-              size="small"
               theme="primary"
               margin="20px 0 0 auto"
               width="unset"

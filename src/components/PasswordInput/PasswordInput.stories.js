@@ -6,7 +6,8 @@ import { State, Store } from '@sambego/storybook-state';
 import PasswordInput from './PasswordInput';
 
 const wrapperState = new Store({
-  value: ''
+  value: '',
+  showPassword: false
 });
 
 const ERROR_MESSAGES = {
@@ -29,11 +30,14 @@ storiesOf('Checkout/PasswordInput', module)
   ))
   .add('All options', state => (
     <PasswordInput
+      handleClickShowPassword={() =>
+        wrapperState.set({ showPassword: !state.showPassword })
+      }
       error={select('Error message', ERROR_MESSAGES)}
       value={state.value}
       onChange={e => wrapperState.set({ value: e })}
       showVisibilityIcon={boolean('showVisibilityIcon', true)}
-      showPassword={boolean('showPassword', false)}
+      showPassword={state.showPassword || boolean('showPassword', false)}
       showPasswordStrength={boolean('showPasswordStrength', false)}
     />
   ));

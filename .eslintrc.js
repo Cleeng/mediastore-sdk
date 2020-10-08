@@ -21,7 +21,7 @@ module.exports = {
   },
   plugins: ['react', 'jest'],
   rules: {
-    'prettier/prettier': ['error', { singleQuote: true }],
+    'prettier/prettier': ['error', { singleQuote: true, endOfLine: 'auto' }],
     'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }]
   },
   settings: {

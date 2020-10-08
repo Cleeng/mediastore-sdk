@@ -5,7 +5,7 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import ErrorPage from './ErrorPage';
 import 'styles/index.scss';
 
-storiesOf('Common/ErrorPage', module)
+storiesOf('Pages/ErrorPage', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (

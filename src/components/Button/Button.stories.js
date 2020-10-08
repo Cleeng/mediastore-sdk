@@ -29,7 +29,7 @@ storiesOf('Common/Button', module)
         'navLink',
         'link'
       ])}
-      size={select('size', ['big', 'small'])}
+      size={select('size', ['big'])}
       fontSize={text('fontSize')}
       margin={text('margin')}
       fontWeight={text('fontWeight')}

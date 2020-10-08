@@ -9,6 +9,8 @@ const offerDetails = {
   taxValue: 2.3,
   totalPrice: 12.3,
   trialAvailable: false,
-  description: 'Monthly plan. Renews automatically. Cancel anytime you want.'
+  description: 'Monthly plan. Renews automatically. Cancel anytime you want.',
+  customerServiceFee: 0,
+  requiredPaymentDetails: true
 };
 export default offerDetails;

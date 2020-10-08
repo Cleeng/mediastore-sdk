@@ -30,9 +30,9 @@ export const StyledImageUrl = styled.img`
 `;
 
 export const StyledOfferBody = styled.div`
-  padding: 20px 35px 0;
+  padding: 0 35px;
   ${media.small`
-    padding: 20px 10px 0;
+    padding: 0 10px;
   `}
 `;
 
@@ -73,7 +73,7 @@ export const StyledPriceBox = styled.div`
 `;
 
 export const StyledPriceBoxWrapper = styled.div`
-  width: 300px;
+  width: 400px;
 
   ${media.small`
     width: 100%;

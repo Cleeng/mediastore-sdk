@@ -10,16 +10,12 @@ import {
   OldPasswordStyled
 } from './PasswordStyled';
 
-const Password = ({ showPopup, t }) => (
+const Password = ({ showResetPassword, t }) => (
   <WrapStyled>
     <Card withBorder>
       <InnerWrapperStyled>
         <OldPasswordStyled>••••••••</OldPasswordStyled>
-        <Button
-          size="small"
-          width="auto"
-          onClickFn={() => showPopup({ type: 'resetPassword' })}
-        >
+        <Button width="auto" onClickFn={() => showResetPassword()}>
           {t('Edit Password')}
         </Button>
       </InnerWrapperStyled>
@@ -28,7 +24,7 @@ const Password = ({ showPopup, t }) => (
 );
 
 Password.propTypes = {
-  showPopup: PropTypes.func.isRequired,
+  showResetPassword: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 

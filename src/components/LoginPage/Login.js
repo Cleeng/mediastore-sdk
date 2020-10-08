@@ -70,7 +70,12 @@ class Login extends Component {
           />
           {!isMyAccount && (
             <>
-              <Button isLink to={{ pathname: '/register' }} theme="secondary">
+              <Button
+                isLink
+                to={{ pathname: '/register' }}
+                theme="secondary"
+                size="big"
+              >
                 {t('Go to register')}
               </Button>
               {!isHosted() && (
@@ -78,8 +83,7 @@ class Login extends Component {
                   <SeparatorStyled>{t('Or sign in with')}</SeparatorStyled>
                   <Button
                     theme="simple"
-                    size="small"
-                    fontSize="13px"
+                    fontWeight="500"
                     label={t('Sign in with Facebook')}
                     icon={fbIcon}
                   >
@@ -87,8 +91,7 @@ class Login extends Component {
                   </Button>
                   <Button
                     theme="simple"
-                    size="small"
-                    fontSize="13px"
+                    fontWeight="500"
                     label={t('Sign in with Google')}
                     icon={googleIcon}
                   >

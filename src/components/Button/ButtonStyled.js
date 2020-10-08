@@ -19,7 +19,9 @@ const ButtonStyled = styled.button`
   text-decoration: none;
   letter-spacing: 0.025em;
   font-family: 'Geomanist';
-  font-size: 16px;
+  font-size: 13px;
+  padding: 12px 25px;
+  font-weight: 600;
   line-height: initial;
 
   transition: opacity 0.1s ease-in-out;
@@ -36,17 +38,12 @@ const ButtonStyled = styled.button`
   }
 
   ${props =>
-    (props.size === 'small' &&
-      css`
-        padding: 12px 20px;
-        font-size: 11px;
-      `) ||
-    (props.size === 'big' &&
-      css`
-        padding: 20px;
-        font-size: 16px;
-        font-weight: 400;
-      `)}
+    props.size === 'big' &&
+    css`
+      padding: 20px;
+      font-size: 16px;
+      font-weight: 400;
+    `}
   
   ${props =>
     (props.theme === 'confirm' &&
@@ -108,19 +105,6 @@ const ButtonStyled = styled.button`
           border: 1px solid ${colors.LineColor};
         }
       `) ||
-    (props.theme === 'danger' &&
-      css`
-        background-color: ${colors.ErrorColor};
-        border: none;
-        color: ${colors.White};
-        opacity: 0.8;
-        &:not(:disabled):hover,
-        &:focus {
-          cursor: pointer;
-          background-color: ${colors.ErrorColor};
-          opacity: 1;
-        }
-      `) ||
     (props.theme === 'simple' &&
       css`
         background-color: transparent;
@@ -132,7 +116,7 @@ const ButtonStyled = styled.button`
           background-color: ${colors.BackgroundColor};
         }
         &:active {
-          border: 1px solid transparent;
+          border: 1px solid ${colors.LineColor};
         }
       `) ||
     (props.theme === 'navLink' &&
@@ -151,6 +135,7 @@ const ButtonStyled = styled.button`
         color: ${colors.MainColor};
         font-size: 16px;
         letter-spacing: 0.025em;
+        font-weight: 500;
 
         &::before {
           content: '<';

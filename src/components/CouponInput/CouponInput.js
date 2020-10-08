@@ -128,20 +128,18 @@ class CouponInput extends Component {
             aria-required={false}
           />
           {couponLoading && <Loader smallLoader />}
-          <Button
-            size="small"
-            width="auto"
-            onClickFn={() => this.onRedeemClick()}
-          >
+          <Button width="auto" onClickFn={() => this.onRedeemClick()}>
             {isOpened ? t('Redeem') : t('Redeem coupon')}
           </Button>
         </InputElementWrapperStyled>
-        <MessageStyled
-          showMessage={showMessage && !suppressMessage}
-          messageType={messageType}
-        >
-          {message}
-        </MessageStyled>
+        {isOpened && (
+          <MessageStyled
+            showMessage={showMessage && !suppressMessage}
+            messageType={messageType}
+          >
+            {message}
+          </MessageStyled>
+        )}
       </InputComponentStyled>
     );
   }

@@ -56,4 +56,6 @@ ThankYouPage.defaultProps = {
   t: k => k
 };
 
+export { ThankYouPage as PureThankYouPage };
+
 export default withTranslation()(labeling()(ThankYouPage));

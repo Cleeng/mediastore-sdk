@@ -11,7 +11,9 @@ export const CardStyled = styled(Card)`
   ${props =>
     props.showConsentsOnly &&
     css`
-      padding: 20px;
+      padding: 0 0 20px 0;
+      border: none;
+      background: transparent;
     `}
 `;
 export const ButtonStyled = styled(Button)`
@@ -24,11 +26,11 @@ export const ButtonStyled = styled(Button)`
       width: ${props.width};
     `}
 
-  ${mediaFrom.small`
+  ${mediaFrom.small &&
+    css`
       margin: 20px 0 0 5px;
       width: unset;
       max-width: unset;
-      padding: 12px 35px;
     `}
 `;
 
@@ -50,11 +52,7 @@ export const CheckboxStyled = styled(Checkbox)`
 `;
 export const ButtonWrapperStyled = styled.div`
   display: flex;
-  justify-content: space-between;
-
-  ${mediaFrom.small`
-    justify-content: flex-end;
-  `}
+  justify-content: flex-end;
 `;
 
 export const InfoStyled = styled.div`

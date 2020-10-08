@@ -4,7 +4,8 @@ import {
   MainColor,
   MyAccountTextLightGray,
   LineColor,
-  SmallFont
+  SmallFont,
+  MediumFontWeight
 } from 'styles/variables';
 
 import portrait from './img/icon_myaccount.svg';
@@ -88,7 +89,7 @@ export const MailStyled = styled.div`
 `;
 
 export const TextStyled = styled.div`
-  padding: 5px 10px;
+  padding: 5px 16px;
   background-color: #f0f0ff;
   border-radius: 14px;
   border: 1px solid #d7d7f5;
@@ -96,7 +97,7 @@ export const TextStyled = styled.div`
   font-size: 9px;
   line-height: 12px;
   text-align: center;
-  font-weight: 500;
+  font-weight: ${MediumFontWeight};
   min-height: 19px;
 `;
 

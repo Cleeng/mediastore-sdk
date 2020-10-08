@@ -33,14 +33,14 @@ export const InputElementStyled = styled.input`
   font-size: 13px;
   line-height: 13px;
 
-  &:focus {
+  &:focus,
+  &:active {
     border: 1px solid ${LineColor};
   }
 
   &:disabled {
     background-color: ${BackgroundColor};
     color: ${MainColor};
-    font-style: italic;
   }
 
   ${props =>

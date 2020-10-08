@@ -35,7 +35,7 @@ describe('CouponInput', () => {
           messageType={MESSAGE_TYPE_SUCCESS}
         />
       );
-
+      wrapper.setState({ isOpened: true });
       const messageEl = wrapper.find(MessageStyled);
       expect(messageEl.text()).toBe(MOCK_MESSAGE_1);
       expect(messageEl).toHaveStyleRule('opacity', '1');
@@ -49,7 +49,7 @@ describe('CouponInput', () => {
           messageType={MESSAGE_TYPE_SUCCESS}
         />
       );
-
+      wrapper.setState({ isOpened: true });
       const messageEl = wrapper.find(MessageStyled);
       expect(messageEl.text()).toBe(MOCK_MESSAGE_1);
       expect(messageEl).toHaveStyleRule('opacity', '0');

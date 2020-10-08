@@ -22,7 +22,7 @@ module.exports = {
         use: ['@svgr/webpack', 'url-loader']
       },
       {
-        test: /\.(otf|svg|ttf|woff|woff2)$/,
+        test: /\.(otf|ttf|woff|woff2)$/,
         loaders: ['file-loader']
       },
       {

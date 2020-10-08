@@ -33,20 +33,25 @@ export const TitleStyled = styled.h1`
 
   font-weight: ${BoldFont};
   font-size: ${SmallFont};
+  line-height: 15px;
 
   ${mediaFrom.small`
     font-size: ${MediumFont};
+    line-height: 19px;
   `};
 `;
 export const DescriptionStyled = styled.h2`
   font-size: ${TinyFont};
   font-weight: ${MediumFontWeight};
+  line-height: 17px;
 `;
 
 export const PriceWrapperStyled = styled.div`
   display: flex;
   flex-direction: column;
-  margin: auto 0 auto auto;
+  ${mediaFrom.small`
+    margin: auto 0 auto auto;
+  `}
 `;
 
 export const TrialBadgeStyled = styled.div`

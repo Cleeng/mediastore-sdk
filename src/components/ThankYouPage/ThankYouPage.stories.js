@@ -1,11 +1,13 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
-import ThankYouPage from './ThankYouPage';
+import { PureThankYouPage } from './ThankYouPage';
 
-storiesOf('Common/ThankYouPage', module)
+storiesOf('Pages/ThankYouPage', module)
   .addDecorator(jsxDecorator)
   .addDecorator(story => (
-    <div style={{ width: 700, backgroundColor: 'white' }}>{story()}</div>
+    <div style={{ width: 700, backgroundColor: 'white', position: 'relative' }}>
+      {story()}
+    </div>
   ))
-  .add('Default', () => <ThankYouPage />);
+  .add('Default', () => <PureThankYouPage />);

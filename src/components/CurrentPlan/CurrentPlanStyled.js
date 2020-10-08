@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { IconsColor, White, LineColor } from 'styles/variables';
 import { mediaFrom } from 'styles/BreakPoints';
 import Button from 'components/Button';
@@ -23,31 +23,29 @@ export const SubscriptionStyled = styled.div`
 
 export const SubscriptionActionsStyled = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
 
   border-top: 1px solid ${IconsColor};
-  margin-top: 15px;
-
-  ${mediaFrom.small`
-    justify-content: flex-end;
-  `}
+  margin-top: 17px;
 `;
 export const UnsubscribeButtonStyled = styled(Button)`
   margin: 15px 0 0 0;
   width: 48%;
-  ${mediaFrom.small`
-      margin: 10px 0 0 5px;
+  ${mediaFrom.small &&
+    css`
+      margin: 17px 0 0 5px;
       width: unset;
       max-width: unset;
-  `}
+    `}
 `;
 
 export const ResubscribeButtonStyled = styled(Button)`
   width: 100%;
   margin: 20px 0 0 0;
-  ${mediaFrom.small`
-      margin: 10px 0 0 5px;
+  ${mediaFrom.small &&
+    css`
+      margin: 17px 0 0 5px;
       width: unset;
       max-width: unset;
-  `}
+    `}
 `;

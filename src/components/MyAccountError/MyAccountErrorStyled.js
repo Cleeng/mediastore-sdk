@@ -33,6 +33,12 @@ export const WrapStyled = styled.div`
         min-height: 100vh;
       `}
     `}
+
+    ${props =>
+      props.centered &&
+      css`
+        margin: auto;
+      `}
 `;
 
 export const TitleStyled = styled.div`

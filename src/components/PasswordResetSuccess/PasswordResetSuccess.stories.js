@@ -5,9 +5,9 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import { action } from '@storybook/addon-actions';
 import StoryRouter from 'storybook-react-router';
 import 'styles/index.scss';
-import PasswordResetSuccess from './PasswordResetSuccess';
+import { PurePasswordResetSuccess } from './PasswordResetSuccess';
 
-storiesOf('Common/PasswordResetSuccess', module)
+storiesOf('Pages/PasswordResetSuccess', module)
   .addDecorator(withKnobs)
   .addDecorator(jsxDecorator)
   .addDecorator(StoryRouter())
@@ -15,7 +15,7 @@ storiesOf('Common/PasswordResetSuccess', module)
     <div style={{ width: 700, backgroundColor: 'white' }}>{story()}</div>
   ))
   .add('Default', () => (
-    <PasswordResetSuccess
+    <PurePasswordResetSuccess
       onSuccess={action('onSuccess')}
       urlProps={{ location: { search: 'http://cleeng.com/' } }}
       email={text('email', 'customer@example.com')}

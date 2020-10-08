@@ -8,7 +8,6 @@ import PrivateRoute from 'services/privateRoute';
 import MyAccountMenu from 'components/MyAccountMenu';
 import MyAccountUserInfo from 'components/MyAccountUserInfo';
 import MyAccountContent from 'components/MyAccountContent';
-import QuickActions from 'components/QuickActions';
 import PlanDetails from 'containers/PlanDetails';
 import PaymentInfo from 'containers/PaymentInfo';
 import UpdateProfile from 'containers/UpdateProfile';
@@ -18,11 +17,10 @@ import {
   getCustomer,
   getCustomerConsents
 } from 'api';
-
-import { breakPoints } from 'styles/BreakPoints';
-import MyAccountError from 'components/MyAccountError/MyAccountError';
 import Footer from 'components/Footer';
+
 import { isHosted } from 'util/appConfigHelper';
+import MyAccountError from 'components/MyAccountError/MyAccountError';
 import { WrapperStyled, HeaderStyled } from './MyAccountStyled';
 
 const POPUP_TYPE = {
@@ -163,10 +161,7 @@ class MyAccount extends Component {
       hidePopup
     } = this.props;
     const { path } = routeMatch;
-    const isMobile = window.innerWidth < breakPoints.small;
-    const firstPageUrl = isMobile
-      ? `${path}/quick-actions`
-      : `${path}/plan-details`;
+    const firstPageUrl = `${path}/plan-details`;
 
     return (
       <>
@@ -190,7 +185,7 @@ class MyAccount extends Component {
                 subscription={currentPlan[0] ? currentPlan[0].offerTitle : ''}
               />
               <MyAccountMenu routeMatch={routeMatch} />
-              {!isMobile && <Footer isCheckout={false} isTransparent />}
+              <Footer isCheckout={false} isTransparent />
             </HeaderStyled>
             <MyAccountContent>
               <Switch>
@@ -199,11 +194,6 @@ class MyAccount extends Component {
                   exact
                   path={path}
                   component={() => <Redirect to={firstPageUrl} />}
-                />
-                <PrivateRoute
-                  isMyAccount
-                  path={`${path}/quick-actions`}
-                  component={QuickActions}
                 />
                 <PrivateRoute
                   isMyAccount

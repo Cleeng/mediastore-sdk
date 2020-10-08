@@ -2,11 +2,14 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs } from '@storybook/addon-knobs';
-import UpdateSubscription from './UpdateSubscription';
+import withMock from 'storybook-addon-mock';
+
+import { PureUpdateSubscription } from './UpdateSubscription';
 
 storiesOf('MyAccount/PlanDetails/UpdateSubscription', module)
   .addDecorator(jsxDecorator)
   .addDecorator(withKnobs)
+  .addDecorator(withMock)
   .addDecorator(story => (
     <div
       style={{
@@ -20,13 +23,13 @@ storiesOf('MyAccount/PlanDetails/UpdateSubscription', module)
     </div>
   ))
   .add('Unsubscribe', () => (
-    <UpdateSubscription
+    <PureUpdateSubscription
       action="unsubscribe"
       offerDetails={{ price: '10$', expiresAt: 1588942729 }}
     />
   ))
   .add('Resubscribe', () => (
-    <UpdateSubscription
+    <PureUpdateSubscription
       action="resubscribe"
       offerDetails={{ price: '10$', expiresAt: 1588942729 }}
     />

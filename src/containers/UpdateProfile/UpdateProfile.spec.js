@@ -83,6 +83,8 @@ describe('<UpdateProfile/>', () => {
           userProfile={{ consentsError: [] }}
           showPopup={jest.fn()}
           setConsents={jest.fn()}
+          showResetPassword={jest.fn()}
+          hideResetPassword={jest.fn()}
         />
       );
       expect(getCustomer).toHaveBeenCalled();
@@ -102,6 +104,8 @@ describe('<UpdateProfile/>', () => {
           userProfile={{ consentsError: [] }}
           showPopup={jest.fn()}
           setConsents={jest.fn()}
+          showResetPassword={jest.fn()}
+          hideResetPassword={jest.fn()}
         />
       );
       setImmediate(() => {
@@ -117,6 +121,8 @@ describe('<UpdateProfile/>', () => {
           userProfile={{ consentsError: [] }}
           showPopup={jest.fn()}
           setConsents={jest.fn()}
+          showResetPassword={jest.fn()}
+          hideResetPassword={jest.fn()}
         />
       );
       setImmediate(() => {
