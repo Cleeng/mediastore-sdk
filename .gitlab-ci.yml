@@ -47,10 +47,13 @@ test:
 deploy_staging:
   stage: deploy
   image: python:latest
+  variables:
+    AWS_ACCESS_KEY_ID: $DEV_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
   script:
     - pip install awscli
     - cd build
-    - aws s3 cp ./ s3://gummybear-staging.cleeng.com/ --recursive
+    - aws s3 cp ./ s3://mediastoresdk-dev-aeqxn7zn/ --recursive
   only:
     - stage
   tags:
