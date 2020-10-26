@@ -8,6 +8,7 @@ import Header from 'components/Header';
 import SectionHeader from 'components/SectionHeader';
 import Footer from 'components/Footer';
 import SubscriptionCard from 'components/SubscriptionCard';
+import roundNumber from 'util/roundNumber';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
@@ -49,7 +50,8 @@ class Offer extends Component {
           offerPrice,
           discountAmount,
           taxValue,
-          customerServiceFee
+          customerServiceFee,
+          paymentMethodFee
         },
         discount: { applied },
         totalPrice,
@@ -63,6 +65,7 @@ class Offer extends Component {
         couponLoading
       },
       onPaymentComplete,
+      updatePriceBreakdown,
       t
     } = this.props;
     const isCouponApplied = applied;
@@ -130,24 +133,38 @@ class Offer extends Component {
                     </StyledPriceWrapper>
                   </>
                 )}
-                <StyledPriceWrapper>
-                  <StyledLabel>{t('Applicable Tax')}</StyledLabel>
-                  <StyledOfferPrice>
-                    {`${customerCurrencySymbol}${taxValue}`}
-                  </StyledOfferPrice>
-                </StyledPriceWrapper>
+                {taxValue !== 0 && (
+                  <StyledPriceWrapper>
+                    <StyledLabel>{t('Applicable Tax')}</StyledLabel>
+                    <StyledOfferPrice>
+                      {`${customerCurrencySymbol}${taxValue}`}
+                    </StyledOfferPrice>
+                  </StyledPriceWrapper>
+                )}
                 {customerServiceFee !== 0 && (
                   <StyledPriceWrapper>
-                    <StyledLabel>{t('Customer Service Fee')}</StyledLabel>
+                    <StyledLabel>{t('Service Fee')}</StyledLabel>
                     <StyledOfferPrice>
-                      {`${customerCurrencySymbol}${customerServiceFee}`}
+                      {`${customerCurrencySymbol}${roundNumber(
+                        customerServiceFee
+                      )}`}
+                    </StyledOfferPrice>
+                  </StyledPriceWrapper>
+                )}
+                {paymentMethodFee !== 0 && (
+                  <StyledPriceWrapper>
+                    <StyledLabel>{t('Payment Method Fee')}</StyledLabel>
+                    <StyledOfferPrice>
+                      {`${customerCurrencySymbol}${roundNumber(
+                        paymentMethodFee
+                      )}`}
                     </StyledOfferPrice>
                   </StyledPriceWrapper>
                 )}
                 <StyledPriceWrapper>
                   <StyledTotalLabel>{t('Total:')}</StyledTotalLabel>
                   <StyledTotalOfferPrice>
-                    {`${customerCurrencySymbol}${finalPrice}`}
+                    {`${customerCurrencySymbol}${roundNumber(finalPrice)}`}
                   </StyledTotalOfferPrice>
                 </StyledPriceWrapper>
               </StyledPriceBoxWrapper>
@@ -156,6 +173,7 @@ class Offer extends Component {
           <Payment
             onPaymentComplete={onPaymentComplete}
             isPaymentDetailsRequired={requiredPaymentDetails}
+            updatePriceBreakdown={updatePriceBreakdown}
             t={t}
           />
         </main>
@@ -185,7 +203,8 @@ Offer.propTypes = {
       discountedPrice: PropTypes.number,
       discountAmount: PropTypes.number,
       taxValue: PropTypes.number,
-      customerServiceFee: PropTypes.number
+      customerServiceFee: PropTypes.number,
+      paymentMethodFee: PropTypes.number
     }),
     discount: PropTypes.shape({
       applied: PropTypes.bool
@@ -201,6 +220,7 @@ Offer.propTypes = {
     couponLoading: PropTypes.bool
   }),
   onPaymentComplete: PropTypes.func.isRequired,
+  updatePriceBreakdown: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 
@@ -211,7 +231,8 @@ Offer.defaultProps = {
       discountedPrice: 0,
       discountAmount: 0,
       taxValue: 0,
-      customerServiceFee: 0
+      customerServiceFee: 0,
+      paymentMethodFee: 0
     },
     discount: {
       applied: false

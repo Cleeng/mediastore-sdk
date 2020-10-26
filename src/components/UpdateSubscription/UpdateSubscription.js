@@ -7,6 +7,7 @@ import updateSubscription from 'api/Customer/updateSubscription';
 import serverIcon from 'assets/images/errors/sad_server.svg';
 import labeling from 'containers/labeling';
 import { dateFormat } from 'util/planHelper';
+import roundNumber from 'util/roundNumber';
 import checkmarkIcon from 'assets/images/checkmark.svg';
 import {
   SurveyCard,
@@ -104,7 +105,7 @@ class UpdateSubscription extends Component {
     const { hideSurvey, offerDetails, updateList, action, t } = this.props;
 
     const price = offerDetails.price ? offerDetails.price.slice(0, -1) : '';
-    const priceRounded = Math.round(price * 100) / 100;
+    const priceRounded = roundNumber(price);
     const currency = offerDetails.price ? offerDetails.price.slice(-1) : '';
 
     if (isError) {

@@ -113,6 +113,8 @@ class Payment extends Component {
       updateOrder(orderId, {
         paymentMethodId: methodId
       }).then(response => {
+        const { updatePriceBreakdown } = this.props;
+        updatePriceBreakdown(response.responseData.order);
         if (response.errors.length && response.errors[0].includes('JWT')) {
           Auth.logout();
         }
@@ -245,11 +247,13 @@ class Payment extends Component {
 Payment.propTypes = {
   onPaymentComplete: PropTypes.func.isRequired,
   isPaymentDetailsRequired: PropTypes.bool,
+  updatePriceBreakdown: PropTypes.func,
   t: PropTypes.func
 };
 
 Payment.defaultProps = {
   isPaymentDetailsRequired: true,
+  updatePriceBreakdown: () => {},
   t: k => k
 };
 
