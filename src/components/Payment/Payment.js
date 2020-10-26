@@ -13,6 +13,7 @@ import SectionHeader from 'components/SectionHeader';
 import Loader from 'components/Loader';
 import { getData, setData } from 'util/appConfigHelper';
 import PaymentMethodButton from 'components/PaymentMethodButton';
+import Auth from 'services/auth';
 import {
   PaymentStyled,
   MethodsWrapperStyled,
@@ -35,16 +36,29 @@ class Payment extends Component {
 
   async componentDidMount() {
     const { t } = this.props;
-    const response = await getPaymentMethods();
-    if (response.responseData && response.responseData.paymentMethods) {
-      this.setState({
-        paymentMethods: response.responseData.paymentMethods
-      });
-      setData(
-        'CLEENG_PAYMENT_METHOD_ID',
-        response.responseData.paymentMethods[0].id
-      );
-    } else {
+    try {
+      const response = await getPaymentMethods();
+      const { paymentMethods } = response.responseData;
+      if (paymentMethods) {
+        if (!paymentMethods.length) {
+          this.setState({
+            generalError: t('Payment methods not defined')
+          });
+        } else {
+          this.setState({
+            paymentMethods: response.responseData.paymentMethods
+          });
+          setData(
+            'CLEENG_PAYMENT_METHOD_ID',
+            response.responseData.paymentMethods[0].id
+          );
+        }
+      } else if (!response.errors.length) {
+        this.setState({
+          generalError: t('Cannot fetch payment methods')
+        });
+      }
+    } catch {
       this.setState({
         generalError: t('Cannot fetch payment methods')
       });
@@ -59,7 +73,8 @@ class Payment extends Component {
   onAdyenSubmit = ({ data: { paymentMethod: card } }) => {
     const { onPaymentComplete, t } = this.props;
     this.setState({
-      generalError: ''
+      generalError: '',
+      isLoading: true
     });
     submitPayment(card).then(paymentReponse => {
       if (paymentReponse.errors.length) {
@@ -70,11 +85,13 @@ class Payment extends Component {
           this.setState({
             generalError: t(
               'Payment method not supported. Try different payment method'
-            )
+            ),
+            isLoading: false
           });
         } else {
           this.setState({
-            generalError: t('The payment failed. Please try again.')
+            generalError: t('The payment failed. Please try again.'),
+            isLoading: false
           });
         }
       } else {
@@ -95,6 +112,10 @@ class Payment extends Component {
     if (orderId) {
       updateOrder(orderId, {
         paymentMethodId: methodId
+      }).then(response => {
+        if (response.errors.length && response.errors[0].includes('JWT')) {
+          Auth.logout();
+        }
       });
     }
     if (methodName === 'paypal') {
@@ -194,7 +215,11 @@ class Payment extends Component {
               </PayPalWrapperStyled>
             )}
             {isPaymentFormDisplayed && !isPayPal && (
-              <Adyen onSubmit={this.onAdyenSubmit} onChange={this.clearError} />
+              <Adyen
+                onSubmit={this.onAdyenSubmit}
+                onChange={this.clearError}
+                isPaymentProcessing={isLoading}
+              />
             )}
           </>
         ) : (
