@@ -40,3 +40,9 @@ export const InvisibleLegend = styled.legend`
 
   overflow: hidden;
 `;
+
+export const GeneralErrorStyled = styled.p`
+  margin-bottom: 30px;
+  color: ${ErrorColor};
+  font-size: 13px;
+`;

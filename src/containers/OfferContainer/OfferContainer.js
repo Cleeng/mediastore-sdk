@@ -48,20 +48,20 @@ class OfferContainer extends Component {
             this.setState({ error: offerDetailsResponse.errors[0] });
           } else {
             this.setState({ offerDetails: offerDetailsResponse.responseData });
-          }
-        });
-        createOrder(offerId).then(orderDetailsResponse => {
-          if (!orderDetailsResponse.errors.length) {
-            this.setState({
-              orderDetails: orderDetailsResponse.responseData.order,
-              isOrderCreated: true
+            createOrder(offerId).then(orderDetailsResponse => {
+              if (!orderDetailsResponse.errors.length) {
+                this.setState({
+                  orderDetails: orderDetailsResponse.responseData.order,
+                  isOrderCreated: true
+                });
+                setData(
+                  'CLEENG_ORDER_ID',
+                  orderDetailsResponse.responseData.order.id
+                );
+              } else {
+                this.setState({ error: orderDetailsResponse.errors[0] });
+              }
             });
-            setData(
-              'CLEENG_ORDER_ID',
-              orderDetailsResponse.responseData.order.id
-            );
-          } else {
-            this.setState({ error: orderDetailsResponse.errors[0] });
           }
         });
       } else if (offerId === '') {
