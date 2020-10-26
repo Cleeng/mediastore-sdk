@@ -71,6 +71,12 @@ class OfferContainer extends Component {
     }
   }
 
+  updatePriceBreakdown = updatedOrder => {
+    this.setState({
+      orderDetails: updatedOrder
+    });
+  };
+
   setOfferId = value => this.setState({ offerId: value });
 
   onCouponSubmit = couponCode => {
@@ -150,6 +156,7 @@ class OfferContainer extends Component {
           onSubmit: this.onCouponSubmit
         }}
         onPaymentComplete={onPaymentComplete}
+        updatePriceBreakdown={this.updatePriceBreakdown}
         t={t}
       />
     ) : (

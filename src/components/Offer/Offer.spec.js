@@ -37,6 +37,7 @@ describe('Offer', () => {
           orderDetails={mockOrderDetails}
           couponProps={mockCouponProps}
           onPaymentComplete={jest.fn()}
+          updatePriceBreakdown={jest.fn()}
         />
       );
 
@@ -66,6 +67,7 @@ describe('Offer', () => {
           }}
           couponProps={mockCouponProps}
           onPaymentComplete={jest.fn()}
+          updatePriceBreakdown={jest.fn()}
         />
       );
 
@@ -119,6 +121,7 @@ describe('Offer', () => {
           orderDetails={mockOrderDetails}
           couponProps={mockCouponProps}
           onPaymentComplete={jest.fn()}
+          updatePriceBreakdown={jest.fn()}
         />
       );
 

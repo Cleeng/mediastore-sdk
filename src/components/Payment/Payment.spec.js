@@ -38,7 +38,7 @@ jest.mock('api', () => ({
     .mockName('createOrder'),
   updateOrder: jest
     .fn()
-    .mockResolvedValue({ errors: [] })
+    .mockResolvedValue({ errors: [], responseData: { order: {} } })
     .mockName('updateOrder'),
   getPaymentMethods: jest
     .fn()
