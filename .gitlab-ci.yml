@@ -53,7 +53,7 @@ deploy_staging:
   script:
     - pip install awscli
     - cd build
-    - aws s3 cp ./ s3://mediastoresdk-dev-aeqxn7zn/ --recursive
+    - aws s3 sync --delete . s3://mediastoresdk-staging-ufxaytd1
   only:
     - stage
   tags:
