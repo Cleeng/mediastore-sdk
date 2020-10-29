@@ -3,15 +3,12 @@ stages:
   - test
   - deploy
 
-
-build_staging:
+.build:
   stage: build
   image: node:8.15-jessie
   script:
-    - apt-get update && apt-get install -yq gettext-base
-    - envsubst < ./config/environments/staging.tpl.js > ./config/environments/staging.js
-    - yarn && yarn build --environment=staging
-    - STORYBOOK_ENV=staging yarn build-storybook
+    - yarn && yarn build --environment=$ENVIRONMENT
+    - STORYBOOK_ENV=$ENVIRONMENT yarn build-storybook
     - mv storybook-static build
   cache:
     paths:
@@ -21,14 +18,10 @@ build_staging:
     paths:
       - build
     expire_in: 1 hour
-  only:
-    - branches
-  except:
-    - master
   tags:
     - aws-runner
 
-test:
+.test:
   stage: test
   image: node:8.15-jessie
   script:
@@ -36,32 +29,50 @@ test:
   cache:
     paths:
       - node_modules/
-  only:
-    - branches
-  tags:
-    - aws-runner
   artifacts:
     paths:
       - coverage
-
-deploy_staging:
-  stage: deploy
-  image: python:latest
-  variables:
-    AWS_ACCESS_KEY_ID: $DEV_AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
-  script:
-    - pip install awscli
-    - cd build
-    - aws s3 sync --delete . s3://mediastoresdk-staging-ufxaytd1
-  only:
-    - stage
   tags:
     - aws-runner
 
+.deploy:
+  stage: deploy
+  image: python:latest
+  script:
+    - pip install awscli
+    - aws s3 sync --delete build/ s3://$BUCKET
+  tags:
+    - aws-runner
+
+build_staging:
+  extend: .build
+  environment: staging
+  before_script:
+    - apt-get update && apt-get install -yq gettext-base
+    - envsubst < ./config/environments/staging.tpl.js > ./config/environments/staging.js
+  only:
+    - stage
+
+test_staging:
+  stage: test
+  extend: .test
+  environment: staging
+  only:
+    - stage
+
+deploy_staging:
+  extend: .deploy
+  environment: staging
+  variables:
+    AWS_ACCESS_KEY_ID: $DEV_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+    BUCKET: $STAGING_BUCKET
+  only:
+    - stage
+
 build_production:
-  stage: build
-  image: node:8.15-jessie
+  extend: .build
+  environment: production
   script:
     - yarn && yarn build --environment=production
   cache:
@@ -73,18 +84,14 @@ build_production:
       - build
     expire_in: 1 hour
   only:
-    - master
-  tags:
-    - aws-runner
+    - stage
 
 deploy_production:
-  stage: deploy
-  image: python:latest
-  script:
-    - pip install awscli
-    - cd build
-    - aws s3 cp ./ s3://mediastoresdk-demo.cleeng.com/ --recursive
+  environment: production
+  variables:
+    AWS_ACCESS_KEY_ID: $PROD_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $PROD_AWS_SECRET_ACCESS_KEY
+    BUCKET: $PROD_BUCKET
   only:
     - master
-  tags:
-    - staging
+
