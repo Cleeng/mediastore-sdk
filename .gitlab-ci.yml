@@ -87,6 +87,8 @@ test_production:
     - master
     
 deploy_production:
+  stage: deploy
+  extends: .deploy
   environment: production
   variables:
     AWS_ACCESS_KEY_ID: $PROD_AWS_ACCESS_KEY_ID
