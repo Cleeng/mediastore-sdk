@@ -45,7 +45,7 @@ stages:
 
 ### STAGING ENVIRONMENT ###
 build_staging:
-  extend: .build
+  extends: .build
   environment: staging
   before_script:
     - apt-get update && apt-get install -yq gettext-base
@@ -55,13 +55,13 @@ build_staging:
 
 test_staging:
   stage: test
-  extend: .test
+  extends: .test
   environment: staging
   only:
     - stage
 
 deploy_staging:
-  extend: .deploy
+  extends: .deploy
   environment: staging
   variables:
     AWS_ACCESS_KEY_ID: $DEV_AWS_ACCESS_KEY_ID
@@ -74,14 +74,14 @@ deploy_staging:
 
 ### PROD ENVIRONMENT ###
 build_production:
-  extend: .build
+  extends: .build
   environment: production
   only:
     - master
 
 test_production:
   stage: test
-  extend: .test
+  extends: .test
   environment: production
   only:
     - master
