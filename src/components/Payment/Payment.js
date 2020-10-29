@@ -42,7 +42,7 @@ class Payment extends Component {
       if (paymentMethods) {
         if (!paymentMethods.length) {
           this.setState({
-            generalError: t('Payment methods not defined')
+            generalError: t('Payment methods are not defined')
           });
         } else {
           this.setState({
