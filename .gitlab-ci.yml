@@ -37,13 +37,13 @@ stages:
 
 .deploy:
   stage: deploy
-  image: python:latest
+  image: amazon/aws-cli
   script:
-    - pip install awscli
     - aws s3 sync --delete build/ s3://$BUCKET
   tags:
     - aws-runner
 
+### STAGING ENVIRONMENT ###
 build_staging:
   extend: .build
   environment: staging
@@ -69,23 +69,23 @@ deploy_staging:
     BUCKET: $STAGING_BUCKET
   only:
     - stage
+### END OF STAGING ENVIRONMENT ###
 
+
+### PROD ENVIRONMENT ###
 build_production:
   extend: .build
   environment: production
-  script:
-    - yarn && yarn build --environment=production
-  cache:
-    paths:
-      - node_modules/
-    key: node_cache
-  artifacts:
-    paths:
-      - build
-    expire_in: 1 hour
   only:
-    - stage
+    - master
 
+test_production:
+  stage: test
+  extend: .test
+  environment: production
+  only:
+    - master
+    
 deploy_production:
   environment: production
   variables:
@@ -94,4 +94,4 @@ deploy_production:
     BUCKET: $PROD_BUCKET
   only:
     - master
-
+### END OF PROD ENVIRONMENT ###
