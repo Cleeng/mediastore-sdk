@@ -131,7 +131,9 @@ class RegisterForm extends Component {
       ]);
     } else if (response.status === 422) {
       if (response.errors[0].includes('Enterprise account is required')) {
-        this.renderError('Cleeng Core is required to call this API');
+        this.renderError(
+          'You would need our product <a href="https://cleeng.com/core-ott-subscriber-management" target="_blank">Core</a> to call this API'
+        );
       } else {
         this.renderError('Customer already exists.');
       }
@@ -192,7 +194,7 @@ class RegisterForm extends Component {
 
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
-        <FormErrorStyled>{generalError}</FormErrorStyled>
+        <FormErrorStyled dangerouslySetInnerHTML={{ __html: generalError }} />
         <EmailInput
           label={t('Email')}
           value={email}

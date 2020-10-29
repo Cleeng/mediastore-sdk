@@ -127,7 +127,7 @@ export class Consents extends React.Component {
     if (generalError === 'noPublisherId') {
       return (
         <GeneralErrorStyled>
-          {t('Unable to fetch terms & conditions. Publisher not recognized')}
+          {t('Unable to fetch terms & conditions. Publisher is not recognized')}
         </GeneralErrorStyled>
       );
     }

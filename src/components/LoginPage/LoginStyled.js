@@ -100,6 +100,12 @@ export const FormErrorStyled = styled.div`
   font-size: 13px;
   font-weight: 600;
   font-family: 'Geomanist';
+
+  a {
+    color: ${colors.ErrorColor};
+    font-weight: 600;
+    text-decoration: underline;
+  }
 `;
 
 export const FormSuccessStyled = styled.h1`
