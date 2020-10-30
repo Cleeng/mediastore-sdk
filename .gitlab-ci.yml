@@ -3,6 +3,7 @@ stages:
   - test
   - deploy
 
+### TEMPLATES ###
 .build:
   stage: build
   image: node:8.15-jessie
@@ -43,6 +44,62 @@ stages:
   tags:
     - aws-runner
 
+### END OF TEMPLATES ###
+
+### PROD ENVIRONMENT ###
+build_production:
+  extends: .build
+  environment: production
+  only:
+    - master
+
+test_production:
+  stage: test
+  extends: .test
+  environment: production
+  only:
+    - master
+    
+deploy_production:
+  stage: deploy
+  extends: .deploy
+  environment: production
+  variables:
+    AWS_ACCESS_KEY_ID: $PROD_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $PROD_AWS_SECRET_ACCESS_KEY
+    BUCKET: $PROD_BUCKET
+  only:
+    - master
+### END OF PROD ENVIRONMENT ###
+
+
+### DEMO ENVIRONMENT ###
+build_demo:
+  extends: .build
+  environment: demo
+  only:
+    - github_master
+
+test_demo:
+  stage: test
+  extends: .test
+  environment: demo
+  only:
+    - github_master
+    
+deploy_demo:
+  stage: deploy
+  extends: .deploy
+  environment: demo
+  variables:
+    AWS_ACCESS_KEY_ID: $DEV_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+    BUCKET: $DEMO_BUCKET
+  only:
+    - github+master
+### END OF PROD ENVIRONMENT ###
+
+
 ### STAGING ENVIRONMENT ###
 build_staging:
   extends: .build
@@ -70,30 +127,3 @@ deploy_staging:
   only:
     - stage
 ### END OF STAGING ENVIRONMENT ###
-
-
-### PROD ENVIRONMENT ###
-build_production:
-  extends: .build
-  environment: production
-  only:
-    - master
-
-test_production:
-  stage: test
-  extends: .test
-  environment: production
-  only:
-    - master
-    
-deploy_production:
-  stage: deploy
-  extends: .deploy
-  environment: production
-  variables:
-    AWS_ACCESS_KEY_ID: $PROD_AWS_ACCESS_KEY_ID
-    AWS_SECRET_ACCESS_KEY: $PROD_AWS_SECRET_ACCESS_KEY
-    BUCKET: $PROD_BUCKET
-  only:
-    - master
-### END OF PROD ENVIRONMENT ###
