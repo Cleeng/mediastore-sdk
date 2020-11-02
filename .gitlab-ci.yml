@@ -111,6 +111,8 @@ deploy_demo:
 build_staging:
   extends: .build
   environment: staging
+  variables:
+    ENVIRONMENT: staging
   before_script:
     - apt-get update && apt-get install -yq gettext-base
     - envsubst < ./config/environments/staging.tpl.js > ./config/environments/staging.js
