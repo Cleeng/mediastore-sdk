@@ -8,8 +8,8 @@ stages:
   stage: build
   image: node:8.15-jessie
   script:
-    - yarn && yarn build --environment=$ENVIRONMENT
-    - STORYBOOK_ENV=$ENVIRONMENT yarn build-storybook
+    - yarn && yarn build --environment=${ENVIRONMENT}
+    - STORYBOOK_ENV=${ENVIRONMENT} yarn build-storybook
     - mv storybook-static build
   cache:
     paths:
