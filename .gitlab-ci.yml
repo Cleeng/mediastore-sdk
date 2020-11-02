@@ -38,7 +38,8 @@ stages:
 
 .deploy:
   stage: deploy
-  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  # https://gitlab.com/gitlab-org/cloud-deploy/-/tags/v0.3.3
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base@sha256:654cb6d3ba01f9753a4a3f20d6c39fb0b9c111d080bb6f90606cec284b4be7e9
   script:
     - aws --version
     - aws s3 sync --delete build/ s3://$BUCKET
