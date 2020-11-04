@@ -9,13 +9,22 @@ import {
   InnerWrapper
 } from './PriceStyled';
 
+const addSpaceAfterNumber = str => {
+  if (!/\d/.test(str.charAt(0))) {
+    return str;
+  }
+  return `${str.charAt(0)} ${str.substring(1)}`;
+};
+
 const Price = ({ currency, price, period }) => (
   <WrapperStyled>
     <InnerWrapper>
       <CurrencyStyled>{currency}</CurrencyStyled>
       <PriceStyled>{price}</PriceStyled>
     </InnerWrapper>
-    {period && <PeriodStyled>/&nbsp;{period}</PeriodStyled>}
+    {period && (
+      <PeriodStyled>/&nbsp;{addSpaceAfterNumber(period)}</PeriodStyled>
+    )}
   </WrapperStyled>
 );
 

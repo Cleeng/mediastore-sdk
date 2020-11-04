@@ -8,19 +8,13 @@ import Header from 'components/Header';
 import SectionHeader from 'components/SectionHeader';
 import Footer from 'components/Footer';
 import SubscriptionCard from 'components/SubscriptionCard';
-import roundNumber from 'util/roundNumber';
+import CheckoutPriceBox from 'components/CheckoutPriceBox';
+import { getData } from 'util/appConfigHelper';
+import { periodMapper, dateFormat } from 'util/planHelper';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
-  StyledImageUrl,
   StyledOfferDetailsAndCoupon,
-  StyledTotalLabel,
-  StyledOfferPrice,
-  StyledPriceBox,
-  StyledPriceBoxWrapper,
-  StyledTotalOfferPrice,
-  StyledLabel,
-  StyledPriceWrapper,
   StyledOfferCouponWrapper,
   SubscriptionCardWrapperStyled
 } from './OfferStyled';
@@ -33,17 +27,68 @@ class Offer extends Component {
     };
   }
 
+  generateDescription = offerType => {
+    switch (offerType) {
+      case 'S': {
+        const {
+          offerDetails: {
+            freePeriods,
+            freeDays,
+            trialAvailable,
+            period,
+            customerCurrencySymbol
+          },
+          orderDetails: {
+            priceBreakdown: { offerPrice }
+          }
+        } = this.props;
+        const trialPeriodText = freeDays
+          ? `${freeDays} days`
+          : `${freePeriods > 1 ? `${freePeriods} months` : 'month'}`;
+        if (trialAvailable) {
+          return `You will be charged ${offerPrice}${customerCurrencySymbol} after ${trialPeriodText}. 
+          </br>Next payments will occur for every ${periodMapper[period].period}.`;
+        }
+        return `You will be charged ${offerPrice}${customerCurrencySymbol} 
+        for every ${periodMapper[period].chargedForEveryText}.`;
+      }
+      case 'P': {
+        const {
+          offerDetails: { period, expiresAt }
+        } = this.props;
+        if (!period) {
+          return `Access until ${dateFormat(expiresAt, true)}`;
+        }
+        return `${periodMapper[period].accessText} season pass`;
+      }
+      case 'E': {
+        const {
+          offerDetails: { startTime }
+        } = this.props;
+        return `Pay-per-view event ${
+          startTime ? dateFormat(startTime, true) : ''
+        }`;
+      }
+      case 'R': {
+        const {
+          offerDetails: { period }
+        } = this.props;
+        return `${periodMapper[period].accessText} access`;
+      }
+      case 'A':
+        return 'Unlimited access';
+      default:
+        return '';
+    }
+  };
+
   render() {
     const {
       offerDetails: {
         offerTitle,
         customerCurrencySymbol,
-        description,
         trialAvailable,
-        freePeriods,
-        freeDays,
-        period,
-        imageUrl
+        period
       },
       orderDetails: {
         priceBreakdown: {
@@ -71,13 +116,7 @@ class Offer extends Component {
     const isCouponApplied = applied;
     const { coupon } = this.state;
     const finalPrice = totalPrice;
-    const trialPeriodText = freeDays
-      ? `${freeDays} days`
-      : `${freePeriods} months`;
-    const periodText = trialAvailable ? trialPeriodText : period;
-    const alternativeDescription = periodText
-      ? `You will be charged ${offerPrice}${customerCurrencySymbol} after ${periodText}.`
-      : '';
+    const offerType = getData('CLEENG_OFFER_TYPE');
     return (
       <StyledOfferWrapper>
         <Header>
@@ -86,14 +125,14 @@ class Offer extends Component {
         <main>
           <StyledOfferBody>
             <SectionHeader center>{t('Complete your purchase')}</SectionHeader>
-            <div>
-              {imageUrl && <StyledImageUrl src={imageUrl} alt="Offer" />}
+            <>
               <StyledOfferDetailsAndCoupon>
                 <SubscriptionCardWrapperStyled>
                   <SubscriptionCard
                     period={period}
+                    icon={period || offerType}
                     title={offerTitle}
-                    description={description || alternativeDescription}
+                    description={this.generateDescription(offerType)}
                     currency={customerCurrencySymbol}
                     price={offerPrice}
                     isTrialAvailable={trialAvailable}
@@ -112,63 +151,17 @@ class Offer extends Component {
                   />
                 </StyledOfferCouponWrapper>
               </StyledOfferDetailsAndCoupon>
-            </div>
-            <StyledPriceBox>
-              <StyledPriceBoxWrapper>
-                {isCouponApplied && (
-                  <>
-                    <StyledPriceWrapper>
-                      <StyledLabel>{t('Price')}:</StyledLabel>
-                      <StyledOfferPrice>
-                        {`${customerCurrencySymbol}${offerPrice} `}
-                        <span>{t('exVAT')}</span>
-                      </StyledOfferPrice>
-                    </StyledPriceWrapper>
-
-                    <StyledPriceWrapper>
-                      <StyledLabel>{t('Coupon Discount')}</StyledLabel>
-                      <StyledOfferPrice>
-                        {`${customerCurrencySymbol}${discountAmount}`}
-                      </StyledOfferPrice>
-                    </StyledPriceWrapper>
-                  </>
-                )}
-                {taxValue !== 0 && (
-                  <StyledPriceWrapper>
-                    <StyledLabel>{t('Applicable Tax')}</StyledLabel>
-                    <StyledOfferPrice>
-                      {`${customerCurrencySymbol}${taxValue}`}
-                    </StyledOfferPrice>
-                  </StyledPriceWrapper>
-                )}
-                {customerServiceFee !== 0 && (
-                  <StyledPriceWrapper>
-                    <StyledLabel>{t('Service Fee')}</StyledLabel>
-                    <StyledOfferPrice>
-                      {`${customerCurrencySymbol}${roundNumber(
-                        customerServiceFee
-                      )}`}
-                    </StyledOfferPrice>
-                  </StyledPriceWrapper>
-                )}
-                {paymentMethodFee !== 0 && (
-                  <StyledPriceWrapper>
-                    <StyledLabel>{t('Payment Method Fee')}</StyledLabel>
-                    <StyledOfferPrice>
-                      {`${customerCurrencySymbol}${roundNumber(
-                        paymentMethodFee
-                      )}`}
-                    </StyledOfferPrice>
-                  </StyledPriceWrapper>
-                )}
-                <StyledPriceWrapper>
-                  <StyledTotalLabel>{t('Total:')}</StyledTotalLabel>
-                  <StyledTotalOfferPrice>
-                    {`${customerCurrencySymbol}${roundNumber(finalPrice)}`}
-                  </StyledTotalOfferPrice>
-                </StyledPriceWrapper>
-              </StyledPriceBoxWrapper>
-            </StyledPriceBox>
+            </>
+            <CheckoutPriceBox
+              finalPrice={finalPrice}
+              isCouponApplied={isCouponApplied}
+              discountAmount={discountAmount}
+              taxValue={taxValue}
+              customerServiceFee={customerServiceFee}
+              paymentMethodFee={paymentMethodFee}
+              customerCurrencySymbol={customerCurrencySymbol}
+              offerPrice={offerPrice}
+            />
           </StyledOfferBody>
           <Payment
             onPaymentComplete={onPaymentComplete}
@@ -193,9 +186,11 @@ Offer.propTypes = {
     freePeriods: PropTypes.number,
     freeDays: PropTypes.number,
     period: PropTypes.string,
+    expiresAt: PropTypes.string,
     priceExclTax: PropTypes.number,
     priceExclTaxBeforeDiscount: PropTypes.number,
-    errors: PropTypes.arrayOf(PropTypes.string)
+    errors: PropTypes.arrayOf(PropTypes.string),
+    startTime: PropTypes.number
   }).isRequired,
   orderDetails: PropTypes.shape({
     priceBreakdown: PropTypes.shape({
