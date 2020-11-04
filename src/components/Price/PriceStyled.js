@@ -51,5 +51,5 @@ export const PeriodStyled = styled.span`
 `;
 
 export const InnerWrapper = styled.div`
-  line-height: 15px;
+  line-height: 1rem;
 `;

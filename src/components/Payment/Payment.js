@@ -114,10 +114,10 @@ class Payment extends Component {
         paymentMethodId: methodId
       }).then(response => {
         const { updatePriceBreakdown } = this.props;
-        updatePriceBreakdown(response.responseData.order);
         if (response.errors.length && response.errors[0].includes('JWT')) {
           Auth.logout();
         }
+        updatePriceBreakdown(response.responseData.order);
       });
     }
     if (methodName === 'paypal') {
