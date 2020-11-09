@@ -44,10 +44,10 @@ class Offer extends Component {
         } = this.props;
         const trialPeriodText = freeDays
           ? `${freeDays} days`
-          : `${freePeriods > 1 ? `${freePeriods} months` : 'month'}`;
+          : `${freePeriods > 1 ? `${freePeriods} ${period}s` : period}`;
         if (trialAvailable) {
           return `You will be charged ${offerPrice}${customerCurrencySymbol} after ${trialPeriodText}. 
-          </br>Next payments will occur for every ${periodMapper[period].period}.`;
+          </br>Next payments will occur for every ${periodMapper[period].chargedForEveryText}.`;
         }
         return `You will be charged ${offerPrice}${customerCurrencySymbol} 
         for every ${periodMapper[period].chargedForEveryText}.`;
