@@ -103,8 +103,8 @@ deploy_demo:
     AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
     BUCKET: $DEMO_BUCKET
   only:
-    - github+master
-### END OF PROD ENVIRONMENT ###
+    - github_master
+### END OF DEMO ENVIRONMENT ###
 
 
 ### STAGING ENVIRONMENT ###
