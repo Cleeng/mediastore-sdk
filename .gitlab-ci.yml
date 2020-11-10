@@ -85,14 +85,14 @@ build_demo:
   variables:
     ENVIRONMENT: production
   only:
-    - github_master
+    - master
 
 test_demo:
   stage: test
   extends: .test
   environment: demo
   only:
-    - github_master
+    - master
     
 deploy_demo:
   stage: deploy
@@ -103,8 +103,8 @@ deploy_demo:
     AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
     BUCKET: $DEMO_BUCKET
   only:
-    - github+master
-### END OF PROD ENVIRONMENT ###
+    - master
+### END OF DEMO ENVIRONMENT ###
 
 
 ### STAGING ENVIRONMENT ###
