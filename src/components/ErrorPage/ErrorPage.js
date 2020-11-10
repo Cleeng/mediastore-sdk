@@ -14,7 +14,7 @@ import { ErrorPageStyled, MessageStyled, IconStyled } from './ErrorPageStyled';
 const errorTypes = {
   offerNotExist: {
     icon: close,
-    description: 'Offer does not exist.'
+    description: 'Offer does not exist or is not provided.'
   },
   generalError: {
     icon: warning,

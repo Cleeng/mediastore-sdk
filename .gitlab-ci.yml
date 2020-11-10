@@ -3,32 +3,26 @@ stages:
   - test
   - deploy
 
-
-build_staging:
+### TEMPLATES ###
+.build:
   stage: build
   image: node:8.15-jessie
   script:
-    - apt-get update && apt-get install -yq gettext-base
-    - envsubst < ./config/environments/staging.tpl.js > ./config/environments/staging.js
-    - yarn && yarn build --environment=staging
-    - STORYBOOK_ENV=staging yarn build-storybook
+    - yarn && yarn build --environment=${ENVIRONMENT}
+    - STORYBOOK_ENV=${ENVIRONMENT} yarn build-storybook
     - mv storybook-static build
   cache:
     paths:
       - node_modules/
-    key: node_cache
+    key: "$CI_COMMIT_REF_SLUG"
   artifacts:
     paths:
       - build
     expire_in: 1 hour
-  only:
-    - branches
-  except:
-    - master
   tags:
     - aws-runner
 
-test:
+.test:
   stage: test
   image: node:8.15-jessie
   script:
@@ -36,52 +30,109 @@ test:
   cache:
     paths:
       - node_modules/
-  only:
-    - branches
-  tags:
-    - aws-runner
   artifacts:
     paths:
       - coverage
-
-deploy_staging:
-  stage: deploy
-  image: python:latest
-  script:
-    - pip install awscli
-    - cd build
-    - aws s3 cp ./ s3://gummybear-staging.cleeng.com/ --recursive
-  only:
-    - stage
   tags:
     - aws-runner
 
-build_production:
-  stage: build
-  image: node:8.15-jessie
+.deploy:
+  stage: deploy
+  # https://gitlab.com/gitlab-org/cloud-deploy/-/tags/v0.3.3
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base@sha256:654cb6d3ba01f9753a4a3f20d6c39fb0b9c111d080bb6f90606cec284b4be7e9
   script:
-    - yarn && yarn build --environment=production
-  cache:
-    paths:
-      - node_modules/
-    key: node_cache
-  artifacts:
-    paths:
-      - build
-    expire_in: 1 hour
+    - aws --version
+    - aws s3 sync --delete build/ s3://$BUCKET
+  tags:
+    - aws-runner
+
+### END OF TEMPLATES ###
+
+### PROD ENVIRONMENT ###
+build_production:
+  extends: .build
+  environment: production
+  variables:
+    ENVIRONMENT: production
   only:
     - master
-  tags:
-    - aws-runner
 
+test_production:
+  stage: test
+  extends: .test
+  environment: production
+  only:
+    - master
+    
 deploy_production:
   stage: deploy
-  image: python:latest
-  script:
-    - pip install awscli
-    - cd build
-    - aws s3 cp ./ s3://mediastoresdk-demo.cleeng.com/ --recursive
+  extends: .deploy
+  environment: production
+  variables:
+    AWS_ACCESS_KEY_ID: $PROD_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $PROD_AWS_SECRET_ACCESS_KEY
+    BUCKET: $PROD_BUCKET
+    ENVIRONMENT: production
   only:
     - master
-  tags:
-    - staging
+### END OF PROD ENVIRONMENT ###
+
+
+### DEMO ENVIRONMENT ###
+build_demo:
+  extends: .build
+  environment: demo
+  variables:
+    ENVIRONMENT: production
+  only:
+    - github_master
+
+test_demo:
+  stage: test
+  extends: .test
+  environment: demo
+  only:
+    - github_master
+    
+deploy_demo:
+  stage: deploy
+  extends: .deploy
+  environment: demo
+  variables:
+    AWS_ACCESS_KEY_ID: $DEV_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+    BUCKET: $DEMO_BUCKET
+  only:
+    - github+master
+### END OF PROD ENVIRONMENT ###
+
+
+### STAGING ENVIRONMENT ###
+build_staging:
+  extends: .build
+  environment: staging
+  variables:
+    ENVIRONMENT: staging
+  before_script:
+    - apt-get update && apt-get install -yq gettext-base
+    - envsubst < ./config/environments/staging.tpl.js > ./config/environments/staging.js
+  only:
+    - stage
+
+test_staging:
+  stage: test
+  extends: .test
+  environment: staging
+  only:
+    - stage
+
+deploy_staging:
+  extends: .deploy
+  environment: staging
+  variables:
+    AWS_ACCESS_KEY_ID: $DEV_AWS_ACCESS_KEY_ID
+    AWS_SECRET_ACCESS_KEY: $DEV_AWS_SECRET_ACCESS_KEY
+    BUCKET: $STAGING_BUCKET
+  only:
+    - stage
+### END OF STAGING ENVIRONMENT ###

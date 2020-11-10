@@ -9,6 +9,7 @@ import Loader from 'components/Loader';
 import MyAccountError from 'components/MyAccountError';
 import { dateFormat, currencyFormat } from 'util/planHelper';
 import SubscriptionCard from 'components/SubscriptionCard';
+import roundNumber from 'util/roundNumber';
 import {
   WrapStyled,
   SubscriptionStyled,
@@ -54,7 +55,7 @@ const CurrentPlan = ({
                   title={subItem.offerTitle}
                   description={description}
                   currency={currencyFormat[subItem.nextPaymentCurrency]}
-                  price={Math.round(subItem.nextPaymentPrice * 100) / 100}
+                  price={roundNumber(subItem.nextPaymentPrice)}
                 />
                 <SubscriptionActionsStyled>
                   {subItem.status === 'active' && (

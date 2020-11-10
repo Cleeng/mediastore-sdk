@@ -6,7 +6,8 @@ import Loader from 'components/Loader';
 import {
   ConsentsWrapperStyled,
   ConsentsErrorStyled,
-  InvisibleLegend
+  InvisibleLegend,
+  GeneralErrorStyled
 } from './ConsentsStyled';
 
 const regexHrefOpenTag = new RegExp(/<a(.|\n)*?>/);
@@ -19,7 +20,8 @@ export class Consents extends React.Component {
       consentDefinitions: [],
       checked: [],
       consentsLabels: [],
-      consentLoaded: false
+      consentLoaded: false,
+      generalError: ''
     };
   }
 
@@ -63,6 +65,13 @@ export class Consents extends React.Component {
           consentsLabels: labels,
           checked: initArray
         });
+      } else if (consentsIncome.errors.includes('Invalid param publisherId')) {
+        const { disabledRegisterButton } = this.props;
+        this.setState({
+          consentLoaded: true,
+          generalError: 'noPublisherId'
+        });
+        disabledRegisterButton();
       }
     } catch (error) {
       return error;
@@ -111,9 +120,17 @@ export class Consents extends React.Component {
       checked,
       consentsLabels,
       consentDefinitions,
-      consentLoaded
+      consentLoaded,
+      generalError
     } = this.state;
-    const { error } = this.props;
+    const { error, t } = this.props;
+    if (generalError === 'noPublisherId') {
+      return (
+        <GeneralErrorStyled>
+          {t('Unable to fetch terms & conditions. Publisher is not recognized')}
+        </GeneralErrorStyled>
+      );
+    }
     return (
       <ConsentsWrapperStyled>
         {!consentLoaded ? (
@@ -144,6 +161,7 @@ Consents.propTypes = {
   publisherId: PropTypes.string,
   error: PropTypes.string,
   onChangeFn: PropTypes.func,
+  disabledRegisterButton: PropTypes.func,
   t: PropTypes.func
 };
 
@@ -151,6 +169,7 @@ Consents.defaultProps = {
   publisherId: '',
   error: '',
   onChangeFn: () => {},
+  disabledRegisterButton: () => {},
   t: k => k
 };
 

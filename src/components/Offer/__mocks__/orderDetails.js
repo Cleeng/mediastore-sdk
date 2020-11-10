@@ -4,7 +4,8 @@ const orderDetails = {
     discountedPrice: 16,
     discountAmount: 4,
     taxValue: 4.6,
-    customerServiceFee: 0
+    customerServiceFee: 0,
+    paymentMethodFee: 0
   },
   discount: {
     applied: false

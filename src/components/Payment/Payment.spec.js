@@ -38,7 +38,7 @@ jest.mock('api', () => ({
     .mockName('createOrder'),
   updateOrder: jest
     .fn()
-    .mockResolvedValue({})
+    .mockResolvedValue({ errors: [], responseData: { order: {} } })
     .mockName('updateOrder'),
   getPaymentMethods: jest
     .fn()
@@ -67,7 +67,10 @@ jest.mock('api', () => ({
     .mockName('submitPayment'),
   submitPayPalPayment: jest
     .fn()
-    .mockResolvedValue({ responseData: { redirectUrl: 'mock.com' } })
+    .mockResolvedValue({
+      responseData: { redirectUrl: 'mock.com' },
+      errors: []
+    })
     .mockName('submitPayPalPayment')
 }));
 
@@ -123,16 +126,13 @@ describe('Payment', () => {
     expect(wrapper.find(Adyen)).toHaveLength(1);
     expect(updateOrder).toHaveBeenCalled();
   });
-  it('clears error', done => {
+  it('clears error', () => {
     const wrapper = shallow(<Payment onPaymentComplete={jest.fn()} />);
     const instance = wrapper.instance();
     instance.setState({ generalError: 'ERROR' });
     expect(instance.state.generalError).not.toBe('');
     instance.clearError();
-    setImmediate(() => {
-      expect(instance.state.generalError).toBe('');
-      done();
-    });
+    expect(instance.state.generalError).toBe('');
   });
 });
 describe('Adyen submit', () => {

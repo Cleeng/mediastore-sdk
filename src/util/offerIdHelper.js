@@ -5,6 +5,7 @@ const saveOfferId = (location, setOfferId) => {
   if (offerIdFromQuery) {
     setOfferId(offerIdFromQuery);
     setData('CLEENG_OFFER_ID', offerIdFromQuery);
+    setData('CLEENG_OFFER_TYPE', offerIdFromQuery.charAt(0));
   } else {
     setOfferId(getData('CLEENG_OFFER_ID') || '');
   }

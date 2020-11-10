@@ -33,7 +33,7 @@ class RegisterForm extends Component {
       showPassword: false,
       consentDefinitions: [],
       processing: false,
-      overloaded: false
+      disableActionButton: false
     };
   }
 
@@ -130,13 +130,19 @@ class RegisterForm extends Component {
         consentDefinitions
       ]);
     } else if (response.status === 422) {
-      this.renderError('Customer already exists.');
+      if (response.errors[0].includes('Enterprise account is required')) {
+        this.renderError(
+          'You would need our product <a href="https://cleeng.com/core-ott-subscriber-management" target="_blank">Core</a> to call this API'
+        );
+      } else {
+        this.renderError('Customer already exists.');
+      }
     } else if (response.status === 429) {
-      this.setState({ overloaded: true });
+      this.setState({ disableActionButton: true });
       this.renderError('Server overloaded. Please try again later.');
       setTimeout(() => {
         this.setState({
-          overloaded: false,
+          disableActionButton: false,
           generalError: ''
         });
       }, 10 * 1000);
@@ -168,6 +174,12 @@ class RegisterForm extends Component {
     });
   };
 
+  disabledRegisterButton = () => {
+    this.setState({
+      disableActionButton: true
+    });
+  };
+
   render() {
     const {
       email,
@@ -175,14 +187,14 @@ class RegisterForm extends Component {
       errors,
       generalError,
       showPassword,
-      processing,
-      overloaded
+      disableActionButton,
+      processing
     } = this.state;
     const { publisherId, t } = this.props;
 
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
-        <FormErrorStyled>{generalError}</FormErrorStyled>
+        <FormErrorStyled dangerouslySetInnerHTML={{ __html: generalError }} />
         <EmailInput
           label={t('Email')}
           value={email}
@@ -207,13 +219,14 @@ class RegisterForm extends Component {
           publisherId={publisherId}
           error={errors.consents}
           onChangeFn={this.handleConsentsChange}
+          disabledRegisterButton={this.disabledRegisterButton}
         />
         <Button
           type="submit"
           size="big"
           theme="confirm"
           margin="10px 0"
-          disabled={processing || overloaded}
+          disabled={processing || disableActionButton}
         >
           {processing ? <Loader buttonLoader color="#ffffff" /> : t('Register')}
         </Button>

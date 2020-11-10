@@ -16,7 +16,9 @@ describe('ErrorPage', () => {
     });
     it('renders specified type of error', () => {
       const wrapper = shallow(<ErrorPage type={mockErrorType} />);
-      expect(wrapper.text()).toMatch('Offer does not exist.');
+      expect(wrapper.text()).toMatch(
+        'Offer does not exist or is not provided.'
+      );
       expect(wrapper.find(IconStyled).exists()).toBe(true);
     });
     it('renders error message ', () => {
@@ -31,7 +33,9 @@ describe('ErrorPage', () => {
       const wrapper = shallow(
         <ErrorPage type={mockErrorType} resetError={functionMock} />
       );
-      expect(wrapper.text()).toMatch('Offer does not exist.');
+      expect(wrapper.text()).toMatch(
+        'Offer does not exist or is not provided.'
+      );
       expect(wrapper.find(BackButton).exists()).toBe(true);
       expect(wrapper.find(BackButton).prop('onClickFn')).toBe(functionMock);
     });

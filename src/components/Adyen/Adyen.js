@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'components/Button';
+import Loader from 'components/Loader';
 import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
 import LocalhostWarning from './util/LocalhostWarning';
 
@@ -77,6 +78,7 @@ class Adyen extends Component {
 
   render() {
     const { isLoaded } = this.state;
+    const { isPaymentProcessing } = this.props;
     return (
       <AdyenStyled>
         <LocalhostWarning />
@@ -87,8 +89,13 @@ class Adyen extends Component {
               theme="confirm"
               size="big"
               onClickFn={() => this.checkout.submit()}
+              disabled={isPaymentProcessing}
             >
-              Confirm
+              {isPaymentProcessing ? (
+                <Loader buttonLoader color="#ffffff" />
+              ) : (
+                'Confirm'
+              )}
             </Button>
           </ConfirmButtonStyled>
         )}
@@ -98,11 +105,13 @@ class Adyen extends Component {
 }
 Adyen.propTypes = {
   onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  isPaymentProcessing: PropTypes.bool
 };
 
 Adyen.defaultProps = {
-  onChange: () => {}
+  onChange: () => {},
+  isPaymentProcessing: false
 };
 
 export default Adyen;

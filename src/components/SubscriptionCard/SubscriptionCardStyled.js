@@ -16,7 +16,7 @@ export const WrapperStyled = styled.section`
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  align-items: flex-start;
+  align-items: center;
   width: 100%;
 `;
 export const InnerWrapper = styled.div`
@@ -29,7 +29,7 @@ export const InnerWrapper = styled.div`
 `;
 
 export const TitleStyled = styled.h1`
-  margin: 0 auto 10px 0;
+  margin: 0 auto 3px 0;
 
   font-weight: ${BoldFont};
   font-size: ${SmallFont};
