@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { isHeaderOff } from 'util/layoutHelper';
 import { HeaderStyled, LogoStyled } from './HeaderStyled';
-import headerLogo from './img/sportstream_logo.svg';
+import headerLogo from './img/logo.png';
 
 const Header = ({ withoutLogo, children }) => (
   <HeaderStyled switchOff={isHeaderOff()}>

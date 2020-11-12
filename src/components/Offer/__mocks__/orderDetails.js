@@ -1,4 +1,4 @@
-const orderDetails = {
+export const orderDetailsMock = {
   priceBreakdown: {
     offerPrice: 20,
     discountedPrice: 16,
@@ -12,4 +12,18 @@ const orderDetails = {
   },
   totalPrice: 20
 };
-export default orderDetails;
+
+export const freeOrderDetailsMock = {
+  priceBreakdown: {
+    offerPrice: 0,
+    discountedPrice: 0,
+    discountAmount: 0,
+    taxValue: 0,
+    customerServiceFee: 0,
+    paymentMethodFee: 0
+  },
+  discount: {
+    applied: false
+  },
+  totalPrice: 0
+};

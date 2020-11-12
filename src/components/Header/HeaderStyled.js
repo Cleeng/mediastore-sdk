@@ -24,7 +24,7 @@ export const LogoStyled = styled.div`
   width: 100%;
 
   background-image: ${props => props.logoSrc && css`url(${props.logoSrc})`};
-  background-size: 100% 40%;
+  background-size: auto 35%;
   background-position: center;
   background-repeat: no-repeat;
 `;
