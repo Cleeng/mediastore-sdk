@@ -4,6 +4,7 @@ import { shallow } from 'enzyme';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
+import * as planHelper from 'util/planHelper';
 import Offer from './Offer';
 import {
   offerDetailsMock,
@@ -24,6 +25,7 @@ jest.mock('react-i18next', () => ({
     <Component t={k => k} {...props} />
   )
 }));
+planHelper.dateFormat = jest.fn().mockReturnValue('11/6/2020 02:31 PM GMT+1');
 
 const mockCouponProps = {
   showMessage: false,

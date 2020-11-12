@@ -3,11 +3,13 @@ import React from 'react';
 import { getData } from 'util/appConfigHelper';
 import submitPaymentWithoutDetails from 'api/Offer/submitPaymentWithoutDetails';
 import Button from 'components/Button';
+import * as planHelper from 'util/planHelper';
 import { PureFreeOffer } from './FreeOffer';
 import { DescriptionStyled } from './FreeOfferStyled';
 
 jest.mock('util/appConfigHelper');
 jest.mock('api/Offer/submitPaymentWithoutDetails');
+planHelper.dateFormat = jest.fn().mockReturnValue('11/6/2020 02:31 PM GMT+1');
 
 describe('<FreeOffer/>', () => {
   describe('@render', () => {
