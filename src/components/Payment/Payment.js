@@ -182,16 +182,19 @@ class Payment extends Component {
           <>
             <SectionHeader center>{t('Purchase using')}</SectionHeader>
             <MethodsWrapperStyled>
-              {paymentMethods.map(method => (
-                <PaymentMethodButton
-                  key={method.id}
-                  methodName={method.methodName}
-                  onClickFn={() => {
-                    this.setState({ isPaymentFormDisplayed: true });
-                    this.choosePaymentMethod(method.id, method.methodName);
-                  }}
-                />
-              ))}
+              {paymentMethods.map(
+                method =>
+                  method.methodName !== 'manual' && (
+                    <PaymentMethodButton
+                      key={method.id}
+                      methodName={method.methodName}
+                      onClickFn={() => {
+                        this.setState({ isPaymentFormDisplayed: true });
+                        this.choosePaymentMethod(method.id, method.methodName);
+                      }}
+                    />
+                  )
+              )}
             </MethodsWrapperStyled>
             {generalError && (
               <PaymentErrorStyled>{generalError}</PaymentErrorStyled>

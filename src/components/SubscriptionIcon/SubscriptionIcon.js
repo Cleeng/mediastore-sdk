@@ -4,7 +4,7 @@ import { periodMapper } from 'util/planHelper';
 
 import WrapperStyled from './SubscriptionIconStyled';
 
-const SubscriptionIcon = ({ icon }) => {
+const SubscriptionIcon = ({ icon, className }) => {
   const { color, bg, label, border } =
     periodMapper[icon] || periodMapper.default;
   return (
@@ -12,6 +12,7 @@ const SubscriptionIcon = ({ icon }) => {
       color={color || null}
       bg={bg || null}
       border={border || null}
+      className={className}
     >
       {label || ''}
     </WrapperStyled>
@@ -19,11 +20,13 @@ const SubscriptionIcon = ({ icon }) => {
 };
 
 SubscriptionIcon.propTypes = {
-  icon: PropTypes.string
+  icon: PropTypes.string,
+  className: PropTypes.string
 };
 
 SubscriptionIcon.defaultProps = {
-  icon: 'default'
+  icon: 'default',
+  className: ''
 };
 
 export default SubscriptionIcon;

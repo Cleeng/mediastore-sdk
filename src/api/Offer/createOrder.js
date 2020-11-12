@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import { getData } from 'util/appConfigHelper';
 
-const createOrder = offerId => {
+const createOrder = (offerId, paymentMethodId = 0) => {
   const token = getData('CLEENG_AUTH_TOKEN') || '';
   const customerIP = getData('CLEENG_CUSTOMER_IP') || '';
 
@@ -13,7 +13,8 @@ const createOrder = offerId => {
     body: JSON.stringify({
       offerId,
       customerId,
-      customerIP
+      customerIP,
+      paymentMethodId
     }),
     headers: {
       Authorization: `Bearer ${token}`,
