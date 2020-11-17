@@ -39,17 +39,6 @@ class MyAccountConsents extends Component {
     }
   }
 
-  toggleState = state => (state === 'accepted' ? 'declined' : 'accepted');
-
-  saveConsentsInState() {
-    const { consents } = this.props;
-    const showButtonToUpdate = consents.find(el => !el.required);
-    this.setState({
-      updatedConsents: consents,
-      showButtonToUpdate: !!showButtonToUpdate
-    });
-  }
-
   handleClick(e, isConsentDisabled, item) {
     const { showConsentsOnly, saveConsents } = this.props;
     if (e.target.tagName.toLowerCase() === 'a') return; // enable to open link
@@ -65,6 +54,17 @@ class MyAccountConsents extends Component {
         saveConsents(stateCopy);
       }
       return { ...prevState, updatedConsents: stateCopy };
+    });
+  }
+
+  toggleState = state => (state === 'accepted' ? 'declined' : 'accepted');
+
+  saveConsentsInState() {
+    const { consents } = this.props;
+    const showButtonToUpdate = consents.find(el => !el.required);
+    this.setState({
+      updatedConsents: consents,
+      showButtonToUpdate: !!showButtonToUpdate
     });
   }
 
