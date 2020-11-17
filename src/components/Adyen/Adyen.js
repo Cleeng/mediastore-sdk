@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
-import LocalhostWarning from './util/LocalhostWarning';
 
 const ADYEN_STYLESHEET_HREF =
   'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css';
@@ -81,7 +80,6 @@ class Adyen extends Component {
     const { isPaymentProcessing } = this.props;
     return (
       <AdyenStyled>
-        <LocalhostWarning />
         <div id={COMPONENT_CONTAINER_ID} />
         {isLoaded && (
           <ConfirmButtonStyled>

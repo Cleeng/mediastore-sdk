@@ -1,3 +1,4 @@
+/* eslint-disable */
 // Do this as the first thing so that any code reading it knows the right env.
 process.env.BABEL_ENV = 'development';
 process.env.NODE_ENV = 'development';
@@ -125,7 +126,13 @@ checkBrowsers(paths.appPath, isInteractive)
       }
 
       console.log(chalk.cyan('Starting the development server...\n'));
-      openBrowser(urls.localUrlForBrowser);
+      openBrowser(
+        `${urls.localUrlForBrowser}${
+          process.argv.includes('runWithTestOffer')
+            ? '?offer=S817681481_PL&publisher=933103327'
+            : ''
+        }`
+      );
       translationsBundle.run(false);
     });
 

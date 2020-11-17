@@ -1,7 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import Adyen from './Adyen';
-import LocalhostWarning from './util/LocalhostWarning';
 
 const mockOnSubmit = jest.fn();
 const mockOnChange = jest.fn();
@@ -27,11 +26,6 @@ class MockAdyenCheckout {
 }
 
 describe('Adyen', () => {
-  it('renders localhost warning', () => {
-    const wrapper = shallow(<Adyen onSubmit={mockOnSubmit} />);
-    expect(wrapper.find(LocalhostWarning)).toHaveLength(1);
-  });
-
   it('calls Adyen API', () => {
     window.AdyenCheckout = MockAdyenCheckout;
     window.ENVIRONMENT_CONFIGURATION = {
