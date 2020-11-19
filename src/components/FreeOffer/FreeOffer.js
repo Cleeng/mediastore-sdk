@@ -59,12 +59,25 @@ class FreeOffer extends Component {
     });
     submitPaymentWithoutDetails().then(paymentReponse => {
       if (paymentReponse.errors.length) {
-        this.setState({
-          isLoading: false,
-          error: t(
-            'Oops, something went wrong! Please, reload the page and try again'
+        if (
+          paymentReponse.errors[0].includes(
+            "Order doesn't have paymentMethodId"
           )
-        });
+        ) {
+          this.setState({
+            isLoading: false,
+            error: t(
+              'Unable to proceed, because of wrong offer settings. Please, contact the owner of the offer'
+            )
+          });
+        } else {
+          this.setState({
+            isLoading: false,
+            error: t(
+              'Oops, something went wrong! Please, reload the page and try again'
+            )
+          });
+        }
       } else {
         onPaymentComplete();
       }

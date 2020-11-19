@@ -73,4 +73,5 @@ export const ErrorMessageStyled = styled.div`
   margin-top: 10px;
   color: ${ErrorColor};
   font-size: 12px;
+  line-height: 1.3em;
 `;
