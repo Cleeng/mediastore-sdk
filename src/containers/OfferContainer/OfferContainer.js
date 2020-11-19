@@ -71,13 +71,16 @@ class OfferContainer extends Component {
                 !orderDetailsResponse.responseData.order.discount.applied
               ) {
                 getPaymentMethods().then(paymentMethodResponse => {
+                  const properPaymentMethodId = paymentMethodResponse.responseData.paymentMethods.find(
+                    method =>
+                      getData('CLEENG_OFFER_TYPE') === 'S'
+                        ? method.methodName === 'manual'
+                        : method.methodName !== 'manual'
+                  );
                   updateOrder(orderDetailsResponse.responseData.order.id, {
-                    paymentMethodId: paymentMethodResponse.responseData.paymentMethods.find(
-                      method =>
-                        getData('CLEENG_OFFER_TYPE') === 'S'
-                          ? method.methodName === 'manual'
-                          : method.methodName !== 'manual'
-                    ).id
+                    paymentMethodId: properPaymentMethodId
+                      ? properPaymentMethodId.id
+                      : 0
                   });
                 });
               }
