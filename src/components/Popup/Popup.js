@@ -15,7 +15,6 @@ import {
   ImageStyled,
   ButtonWrapperStyled,
   ButtonStyled,
-  InfoStyled,
   HeaderStyled,
   DotStyled,
   HeaderTitleStyled,
@@ -115,14 +114,6 @@ class Popup extends Component {
           )}
         </ContentStyled>
         <ButtonWrapperStyled>
-          {step === 2 &&
-            (popupType === 'notCheckedTerms' ||
-              popupType === 'termsUpdateRequired' ||
-              popupType === 'complexUpdate') && (
-              <InfoStyled>
-                * {t('This term is mandatory for using myAccount')}
-              </InfoStyled>
-            )}
           <InnerWrapperStyled>
             {stepData.undoButton && (
               <ButtonStyled

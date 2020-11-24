@@ -180,7 +180,9 @@ class ProfileDetails extends Component {
           email: validateEmailField(updated.email),
           confirmationPassword: updated.confirmationPassword
             ? ''
-            : t('Confirmation password is required if you want to change email')
+            : t(
+                'Please confirm your password to proceed with changing your email address.'
+              )
         }
       });
       return false;

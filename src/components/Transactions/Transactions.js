@@ -55,7 +55,7 @@ const Transactions = ({
               <LeftBoxStyled>
                 <TitleStyled>{subItem.offerTitle}</TitleStyled>
                 <SubTitleStyled>
-                  {t(`payed with`)}{' '}
+                  {t(`Paid with`)}{' '}
                   {subItem.paymentMethod === 'card'
                     ? t('card')
                     : subItem.paymentMethod}

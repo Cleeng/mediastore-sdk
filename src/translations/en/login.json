@@ -1,5 +1,5 @@
 {
-  "The email address is not properly formatted.": "The email address is not properly formatted.",
+  "This address does not seem to have a normal email format.": "This address does not seem to have a normal email format.",
   "Your password must contain at least 8 characters, including 1 digit.": "Your password must contain at least 8 characters, including 1 digit",
   "Please fill out this field.": "Please fill out this field.",
   "Incorrect login or password": "Incorrect login or password",

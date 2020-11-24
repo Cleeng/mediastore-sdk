@@ -10,12 +10,15 @@ export const cancellationReasons = [
 export const content = {
   resubscribe: {
     confirm: {
-      title: 'Resubscribe your plan.',
-      text1: 'By clicking the',
-      text2: 'button you agree to renew your current plan. Your fee will be',
-      startedFrom: 'started from',
+      title: 'Resume your plan',
+      text1:
+        'By clicking the button below you can resume your plan. Your next bill will be on',
+      text2: '',
+      startedFrom: '',
+      andWillBe: 'and will be',
       reasons: false,
-      buttonText: 'Resubscribe',
+      buttonText: 'Resume',
+      backButtonText: 'No, thanks',
       buttonTheme: 'confirm'
     },
     success: {
@@ -28,11 +31,12 @@ export const content = {
   unsubscribe: {
     confirm: {
       title: 'We’re sorry to see you go.',
-      text1: 'You will be unsubscribed from you current plan by clicking the',
+      text1: 'You will be unsubscribed from your current plan by clicking the',
       text2:
-        'button below. Before You go, please let us know why you decided to unsubscribed:',
+        'button below. Before you go, please let us know why you decided to leave:',
       reasons: true,
       buttonText: 'Unsubscribe',
+      backButtonText: 'Go back',
       buttonTheme: 'confirm'
     },
     success: {

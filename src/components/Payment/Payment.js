@@ -202,9 +202,7 @@ class Payment extends Component {
             {isPayPal && (
               <PayPalWrapperStyled>
                 <PayPalTextStyled>
-                  {t(
-                    'To purchase using PayPal click "Pay with PayPal" button. You will be redirected to the PayPal site'
-                  )}
+                  {t('Click ‘Continue with PayPal’ to complete your purchase.')}
                 </PayPalTextStyled>
                 <Button
                   type="button"
@@ -214,7 +212,7 @@ class Payment extends Component {
                   {isLoading ? (
                     <Loader buttonLoader color="#ffffff" />
                   ) : (
-                    t('Pay with PayPal')
+                    t('Continue with PayPal')
                   )}
                 </Button>
               </PayPalWrapperStyled>

@@ -81,7 +81,7 @@ class UpdateProfile extends Component {
               </>
             )}
 
-            <SectionHeader> {t('Terms Details')}</SectionHeader>
+            <SectionHeader> {t('Terms and Conditions')}</SectionHeader>
             {consentsError.length !== 0 ? (
               <MyAccountError generalError />
             ) : (

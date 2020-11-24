@@ -12,7 +12,11 @@ const Footer = ({ className, isInPopup, isCheckout, isTransparent }) => (
   >
     <ProductByStyled>
       Powered by
-      <a href="https://cleeng.com" rel="noopener noreferrer" target="_blank">
+      <a
+        href="https://cleeng.com/who-are-cleeng"
+        rel="noopener noreferrer"
+        target="_blank"
+      >
         <img src={logo} alt="Cleeng" />
       </a>
     </ProductByStyled>

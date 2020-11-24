@@ -1,8 +1,12 @@
 {
   "Go back": "Go back",
+  "Back to login": "Back to login",
   "Complete your purchase": "Complete your purchase",
   "exVAT": "exVAT",
   "Total": "Total",
+  "Applicable Tax": "Applicable Tax",
+  "Service Fee": "Service Fee",
+  "Payment Method Fee": "Payment Method Fee",
   "Access for 24 hours": "Access for 24 hours",
   "Access for one week": "Access for one week",
   "Access for two weeks": "Access for two weeks",
@@ -25,7 +29,8 @@
   "Your payment was not processed. Please, try again": "Your payment was not processed. Please, try again",
   "Payment method not supported. Try different payment method": "Payment method not supported. Try different payment method",
   "The payment failed. Please try again.": "The payment failed. Please try again.",
-  "To purchase using PayPal click 'Pay with PayPal' button. You will be redirected to the PayPal site": "To purchase using PayPal click 'Pay with PayPal' button. You will be redirected to the PayPal site",
-  "Pay with PayPal": "Pay with PayPal",
-  "Complete purchase": "Complete purchase"
+  "Click ‘Continue with PayPal’ to complete your purchase.": "Click ‘Continue with PayPal’ to complete your purchase.",
+  "Continue with PayPal": "Continue with PayPal",
+  "Complete purchase": "Complete purchase",
+  "Your coupon": "Your coupon"
 }
