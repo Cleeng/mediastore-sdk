@@ -113,7 +113,7 @@ class Login extends Component {
             {t('Forgot password?')}
           </Button>
         </ContentWrapperStyled>
-        <Footer />
+        <Footer isCheckout={!isMyAccount} />
       </>
     );
   }

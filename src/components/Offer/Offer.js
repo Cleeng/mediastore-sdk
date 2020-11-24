@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import CouponInput from 'components/CouponInput';
+import { PureCouponInput as CouponInput } from 'components/CouponInput/CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Payment from 'components/Payment';
 import Logout from 'components/Logout';

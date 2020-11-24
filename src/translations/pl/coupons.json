@@ -2,5 +2,8 @@
   "Your coupon has been applied! Enjoy your {{discount}}% discount.": "Twój kupon has been applied! Enjoy your {{discount}}% discount.",
   "This is not a valid coupon code for this offer. Please check the code on your coupon and try again.": "This is not a valid coupon code for this offer. Please check the code on your coupon and try again",
   "Redeem coupon": "Kupon",
-  "Apply": "Zastosuj"
+  "Coupon Discount": "Zniżka",
+  "Apply": "Zastosuj",
+  "Your coupon": "Twój kupon",
+  "Redeem": "Aplikuj"
 }

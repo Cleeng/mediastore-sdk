@@ -47,17 +47,9 @@ export const ContentStyled = styled.div`
   ${media.small`
     width: 90%;
   `}
-
-  ${props =>
-    props.step === 2 &&
-    css`
-      margin: 80px auto auto auto;
-      text-align: left;
-      width: 70%;
-    `}
 `;
 export const ButtonWrapperStyled = styled.div`
-  width: 70%;
+  width: 50%;
   margin: 0 auto 100px auto;
 
   ${media.small`
@@ -72,15 +64,6 @@ export const TitleStyled = styled.h1`
   ${media.small`
     font-size: 27px;
   `}
-
-  ${props =>
-    props.step === 2 &&
-    css`
-      font-size: 20px;
-      ${media.small`
-        font-size: 20px;
-      `}
-    `}
 `;
 
 export const TextStyled = styled.p`
@@ -94,6 +77,7 @@ export const TextStyled = styled.p`
     props.step === 2 &&
     css`
       opacity: 0.6;
+      text-align: left;
     `}
 `;
 

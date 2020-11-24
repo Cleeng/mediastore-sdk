@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
 
 const ADYEN_STYLESHEET_HREF =
@@ -77,7 +79,7 @@ class Adyen extends Component {
 
   render() {
     const { isLoaded } = this.state;
-    const { isPaymentProcessing } = this.props;
+    const { t, isPaymentProcessing } = this.props;
     return (
       <AdyenStyled>
         <div id={COMPONENT_CONTAINER_ID} />
@@ -92,7 +94,7 @@ class Adyen extends Component {
               {isPaymentProcessing ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                'Confirm'
+                t('Confirm')
               )}
             </Button>
           </ConfirmButtonStyled>
@@ -102,14 +104,18 @@ class Adyen extends Component {
   }
 }
 Adyen.propTypes = {
+  t: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func,
   isPaymentProcessing: PropTypes.bool
 };
 
 Adyen.defaultProps = {
+  t: k => k,
   onChange: () => {},
   isPaymentProcessing: false
 };
 
-export default Adyen;
+export { Adyen as PureAdyen };
+
+export default withTranslation()(labeling()(Adyen));

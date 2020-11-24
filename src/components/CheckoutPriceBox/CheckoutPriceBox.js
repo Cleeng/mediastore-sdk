@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import roundNumber from 'util/roundNumber';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 
 import {
   StyledTotalLabel,
@@ -68,7 +70,7 @@ const CheckoutPriceBox = ({
         </StyledPriceWrapper>
       )}
       <StyledPriceWrapper>
-        <StyledTotalLabel>{t('Total:')}</StyledTotalLabel>
+        <StyledTotalLabel>{t('Total')}:</StyledTotalLabel>
         <StyledTotalOfferPrice>
           {`${customerCurrencySymbol}${roundNumber(finalPrice)}`}
         </StyledTotalOfferPrice>
@@ -101,4 +103,6 @@ CheckoutPriceBox.defaultProps = {
   t: k => k
 };
 
-export default CheckoutPriceBox;
+export { CheckoutPriceBox as PureCheckoutPriceBox };
+
+export default withTranslation()(labeling()(CheckoutPriceBox));

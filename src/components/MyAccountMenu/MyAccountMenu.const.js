@@ -12,7 +12,7 @@ export const MenuItems = [
   },
   {
     icon: PaymentIcon,
-    label: 'Payment Info',
+    label: 'Your Payments',
     link: 'payment-info',
     visibleOnDesktop: true
   },

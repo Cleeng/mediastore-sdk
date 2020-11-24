@@ -1,7 +1,8 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import PaymentMethodButton from 'components/PaymentMethodButton';
-import Adyen from 'components/Adyen';
+import { PureAdyen as Adyen } from 'components/Adyen/Adyen';
 import {
   submitPayment,
   getPaymentMethods,
@@ -11,6 +12,15 @@ import {
 import { getData, setData } from 'util/appConfigHelper';
 import Payment from './Payment';
 import { PaymentErrorStyled } from './PaymentStyled';
+
+jest.mock('containers/labeling', () => () => Component => props => (
+  <Component t={k => k} {...props} />
+));
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => props => (
+    <Component t={k => k} {...props} />
+  )
+}));
 
 const mockPaymentMethods = {
   responseData: {

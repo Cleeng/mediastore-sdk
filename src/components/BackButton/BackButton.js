@@ -14,7 +14,7 @@ const BackButton = ({ isMyAccount, onClickFn, t }) => {
       onClickFn={onClickFn}
       theme="navLink"
     >
-      {t('Go back')}
+      {t('Back to login')}
     </Button>
   );
 };

@@ -95,7 +95,7 @@ export const Loader = styled.div`
 `;
 
 export const StrongStyled = styled.strong`
-  text-transform: uppercase;
+  text-transform: lowercase;
 `;
 export const FooterStyled = styled(Footer)`
   ${mediaFrom.small`

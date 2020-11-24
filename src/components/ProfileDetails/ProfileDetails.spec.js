@@ -103,7 +103,7 @@ describe('<ProfileDetails/>', () => {
       wrapper.instance().areEmailAndPasswordValid();
       expect(wrapper.state().errors.email).toBe('');
       expect(wrapper.state().errors.confirmationPassword).toBe(
-        'Confirmation password is required if you want to change email'
+        'Please confirm your password to proceed with changing your email address.'
       );
     });
     it('should set state on success', done => {

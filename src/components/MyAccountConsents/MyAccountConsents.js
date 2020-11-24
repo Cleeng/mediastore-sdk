@@ -9,8 +9,7 @@ import {
   ButtonStyled,
   CheckboxStyled,
   CardStyled,
-  ButtonWrapperStyled,
-  InfoStyled
+  ButtonWrapperStyled
 } from './MyAccountConsentsStyled';
 
 class MyAccountConsents extends Component {
@@ -159,9 +158,6 @@ class MyAccountConsents extends Component {
                 )}
               </ButtonWrapperStyled>
             )}
-            <InfoStyled>
-              * {t('This term is mandatory for using myAccount')}
-            </InfoStyled>
           </>
         )}
       </CardStyled>
