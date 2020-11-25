@@ -25,9 +25,7 @@ const ThankYouPage = ({ t }) => {
         <IconStyled src={checkmarkIcon} alt="checkmark icon" />
         <TitleStyled>{t('Thank You!')}</TitleStyled>
         <MessageStyled>
-          <strong>
-            {t('You are now a subscriber to our premium package.')}
-          </strong>
+          <strong>{t('Your purchase has been successfully completed.')}</strong>
         </MessageStyled>
         <MessageStyled>
           {t(
