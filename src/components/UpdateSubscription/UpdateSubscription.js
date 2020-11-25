@@ -18,7 +18,8 @@ import {
   ButtonsWrapper,
   StyledItem,
   UnsubscribedWrapper,
-  FooterStyled
+  FooterStyled,
+  StrongStyled
 } from './UpdateSubscriptionStyled';
 import { cancellationReasons, content } from './UpdateSubscription.const';
 
@@ -179,7 +180,11 @@ class UpdateSubscription extends Component {
         <WrapperStyled>
           <HeaderStyled>{t(popupContent.title)}</HeaderStyled>
           <SubTitleStyled>
-            {t(popupContent.text1)} {t(popupContent.text2)}{' '}
+            {t(popupContent.text1)}{' '}
+            {action === 'unsubscribe' && (
+              <StrongStyled>{`${t(popupContent.buttonText)} `}</StrongStyled>
+            )}
+            {t(popupContent.text2)}{' '}
             {action === 'resubscribe' && resubscribeText}
           </SubTitleStyled>
           {popupContent.reasons && (
