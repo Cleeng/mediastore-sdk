@@ -7,9 +7,14 @@ import labeling from 'containers/labeling';
 import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
 
 const ADYEN_STYLESHEET_HREF =
-  'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css';
+  process.env.NODE_ENV === 'production'
+    ? 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css'
+    : 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css';
+
 const ADYEN_SCRIPT_HREF =
-  'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.10.1/adyen.js';
+  process.env.NODE_ENV === 'production'
+    ? 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.10.1/adyen.js'
+    : 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.10.1/adyen.js';
 
 const COMPONENT_CONTAINER_ID = 'component-container';
 const PAYMENT_METHOD_CARD = 'card';
