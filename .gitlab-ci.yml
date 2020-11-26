@@ -83,7 +83,7 @@ build_demo:
   extends: .build
   environment: demo
   variables:
-    ENVIRONMENT: production
+    ENVIRONMENT: sandbox
   only:
     - master
 
