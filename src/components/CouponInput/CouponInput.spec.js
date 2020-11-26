@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import 'jest-styled-components';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
-import CouponInput from './CouponInput';
+import { PureCouponInput as CouponInput } from './CouponInput';
 import { InputElementStyled, MessageStyled } from './CouponInputStyled';
 
 jest.useFakeTimers();

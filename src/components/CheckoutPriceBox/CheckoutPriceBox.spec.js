@@ -1,7 +1,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { shallow } from 'enzyme';
-import CheckoutPriceBox from './CheckoutPriceBox';
+import roundNumber from 'util/roundNumber';
+import { PureCheckoutPriceBox as CheckoutPriceBox } from './CheckoutPriceBox';
 import {
   StyledPriceBoxWrapper,
   StyledPriceWrapper,
@@ -96,20 +97,20 @@ describe('CheckoutPriceBox', () => {
         .at(0)
         .find(StyledOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${customerServiceFee}`);
+    ).toBe(`${customerCurrencySymbol}${roundNumber(customerServiceFee)}`);
     expect(
       wrapper
         .find(StyledPriceWrapper)
         .at(1)
         .find(StyledOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${paymentFee}`);
+    ).toBe(`${customerCurrencySymbol}${roundNumber(paymentFee)}`);
     expect(
       wrapper
         .find(StyledPriceWrapper)
         .at(2)
         .find(StyledTotalOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${finalPriceWithFees}`);
+    ).toBe(`${customerCurrencySymbol}${roundNumber(finalPriceWithFees)}`);
   });
 });

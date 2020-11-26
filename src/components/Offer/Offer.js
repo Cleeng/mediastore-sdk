@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import CouponInput from 'components/CouponInput';
+import { PureCouponInput as CouponInput } from 'components/CouponInput/CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Payment from 'components/Payment';
 import Logout from 'components/Logout';
@@ -9,6 +9,7 @@ import SectionHeader from 'components/SectionHeader';
 import Footer from 'components/Footer';
 import SubscriptionCard from 'components/SubscriptionCard';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
+import FreeOffer from 'components/FreeOffer';
 import { getData } from 'util/appConfigHelper';
 import { periodMapper, dateFormat } from 'util/planHelper';
 import {
@@ -49,8 +50,7 @@ class Offer extends Component {
           return `You will be charged ${offerPrice}${customerCurrencySymbol} after ${trialPeriodText}. 
           </br>Next payments will occur for every ${periodMapper[period].chargedForEveryText}.`;
         }
-        return `You will be charged ${offerPrice}${customerCurrencySymbol} 
-        for every ${periodMapper[period].chargedForEveryText}.`;
+        return `You will be charged ${offerPrice}${customerCurrencySymbol} for every ${periodMapper[period].chargedForEveryText}.`;
       }
       case 'P': {
         const {
@@ -88,7 +88,9 @@ class Offer extends Component {
         offerTitle,
         customerCurrencySymbol,
         trialAvailable,
-        period
+        period,
+        expiresAt,
+        startTime
       },
       orderDetails: {
         priceBreakdown: {
@@ -117,58 +119,74 @@ class Offer extends Component {
     const { coupon } = this.state;
     const finalPrice = totalPrice;
     const offerType = getData('CLEENG_OFFER_TYPE');
+    const isFree = totalPrice === 0 && !trialAvailable && !isCouponApplied;
     return (
       <StyledOfferWrapper>
         <Header>
           <Logout />
         </Header>
         <main>
-          <StyledOfferBody>
-            <SectionHeader center>{t('Complete your purchase')}</SectionHeader>
-            <>
-              <StyledOfferDetailsAndCoupon>
-                <SubscriptionCardWrapperStyled>
-                  <SubscriptionCard
-                    period={period}
-                    icon={period || offerType}
-                    title={offerTitle}
-                    description={this.generateDescription(offerType)}
-                    currency={customerCurrencySymbol}
-                    price={offerPrice}
-                    isTrialAvailable={trialAvailable}
-                  />
-                </SubscriptionCardWrapperStyled>
-                <StyledOfferCouponWrapper>
-                  <CouponInput
-                    showMessage={showMessage}
-                    message={message}
-                    messageType={messageType}
-                    onSubmit={onSubmit}
-                    value={coupon}
-                    onChange={e => this.setState({ coupon: e })}
-                    couponLoading={couponLoading}
-                    t={t}
-                  />
-                </StyledOfferCouponWrapper>
-              </StyledOfferDetailsAndCoupon>
-            </>
-            <CheckoutPriceBox
-              finalPrice={finalPrice}
-              isCouponApplied={isCouponApplied}
-              discountAmount={discountAmount}
-              taxValue={taxValue}
-              customerServiceFee={customerServiceFee}
-              paymentMethodFee={paymentMethodFee}
-              customerCurrencySymbol={customerCurrencySymbol}
-              offerPrice={offerPrice}
+          {isFree ? (
+            <FreeOffer
+              icon={period || offerType}
+              title={offerTitle}
+              period={period}
+              expiresAt={expiresAt}
+              startTime={startTime}
+              onPaymentComplete={onPaymentComplete}
             />
-          </StyledOfferBody>
-          <Payment
-            onPaymentComplete={onPaymentComplete}
-            isPaymentDetailsRequired={requiredPaymentDetails}
-            updatePriceBreakdown={updatePriceBreakdown}
-            t={t}
-          />
+          ) : (
+            <>
+              <StyledOfferBody>
+                <SectionHeader center>
+                  {t('Complete your purchase')}
+                </SectionHeader>
+                <>
+                  <StyledOfferDetailsAndCoupon>
+                    <SubscriptionCardWrapperStyled>
+                      <SubscriptionCard
+                        period={period}
+                        icon={period || offerType}
+                        title={offerTitle}
+                        description={this.generateDescription(offerType)}
+                        currency={customerCurrencySymbol}
+                        price={offerPrice}
+                        isTrialAvailable={trialAvailable}
+                      />
+                    </SubscriptionCardWrapperStyled>
+                    <StyledOfferCouponWrapper>
+                      <CouponInput
+                        showMessage={showMessage}
+                        message={message}
+                        messageType={messageType}
+                        onSubmit={onSubmit}
+                        value={coupon}
+                        onChange={e => this.setState({ coupon: e })}
+                        couponLoading={couponLoading}
+                        t={t}
+                      />
+                    </StyledOfferCouponWrapper>
+                  </StyledOfferDetailsAndCoupon>
+                </>
+                <CheckoutPriceBox
+                  finalPrice={finalPrice}
+                  isCouponApplied={isCouponApplied}
+                  discountAmount={discountAmount}
+                  taxValue={taxValue}
+                  customerServiceFee={customerServiceFee}
+                  paymentMethodFee={paymentMethodFee}
+                  customerCurrencySymbol={customerCurrencySymbol}
+                  offerPrice={offerPrice}
+                />
+              </StyledOfferBody>
+              <Payment
+                onPaymentComplete={onPaymentComplete}
+                isPaymentDetailsRequired={requiredPaymentDetails}
+                updatePriceBreakdown={updatePriceBreakdown}
+                t={t}
+              />
+            </>
+          )}
         </main>
         <Footer />
       </StyledOfferWrapper>

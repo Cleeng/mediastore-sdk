@@ -18,8 +18,8 @@ import {
   ButtonsWrapper,
   StyledItem,
   UnsubscribedWrapper,
-  StrongStyled,
-  FooterStyled
+  FooterStyled,
+  StrongStyled
 } from './UpdateSubscriptionStyled';
 import { cancellationReasons, content } from './UpdateSubscription.const';
 
@@ -171,9 +171,8 @@ class UpdateSubscription extends Component {
     const popupContent = content[action].confirm;
     const resubscribeText = (
       <>
-        <b>{`${priceRounded}${currency}`} </b>
-        {t(popupContent.startedFrom)}{' '}
-        <b>{dateFormat(offerDetails.expiresAt)}.</b>
+        <b>{dateFormat(offerDetails.expiresAt)} </b>
+        {t(popupContent.andWillBe)} <b>{`${priceRounded}${currency}`}.</b>
       </>
     );
     return (
@@ -182,7 +181,9 @@ class UpdateSubscription extends Component {
           <HeaderStyled>{t(popupContent.title)}</HeaderStyled>
           <SubTitleStyled>
             {t(popupContent.text1)}{' '}
-            <StrongStyled>{t(popupContent.buttonText)}</StrongStyled>{' '}
+            {action === 'unsubscribe' && (
+              <StrongStyled>{`${t(popupContent.buttonText)} `}</StrongStyled>
+            )}
             {t(popupContent.text2)}{' '}
             {action === 'resubscribe' && resubscribeText}
           </SubTitleStyled>
@@ -205,7 +206,7 @@ class UpdateSubscription extends Component {
           )}
           <ButtonsWrapper>
             <Button theme="simple" onClickFn={hideSurvey}>
-              {t('No, thanks')}
+              {t(popupContent.backButtonText)}
             </Button>
             <Button
               theme={popupContent.buttonTheme}

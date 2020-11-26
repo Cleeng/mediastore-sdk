@@ -9,8 +9,7 @@ import {
   ButtonStyled,
   CheckboxStyled,
   CardStyled,
-  ButtonWrapperStyled,
-  InfoStyled
+  ButtonWrapperStyled
 } from './MyAccountConsentsStyled';
 
 class MyAccountConsents extends Component {
@@ -39,17 +38,6 @@ class MyAccountConsents extends Component {
     }
   }
 
-  toggleState = state => (state === 'accepted' ? 'declined' : 'accepted');
-
-  saveConsentsInState() {
-    const { consents } = this.props;
-    const showButtonToUpdate = consents.find(el => !el.required);
-    this.setState({
-      updatedConsents: consents,
-      showButtonToUpdate: !!showButtonToUpdate
-    });
-  }
-
   handleClick(e, isConsentDisabled, item) {
     const { showConsentsOnly, saveConsents } = this.props;
     if (e.target.tagName.toLowerCase() === 'a') return; // enable to open link
@@ -65,6 +53,17 @@ class MyAccountConsents extends Component {
         saveConsents(stateCopy);
       }
       return { ...prevState, updatedConsents: stateCopy };
+    });
+  }
+
+  toggleState = state => (state === 'accepted' ? 'declined' : 'accepted');
+
+  saveConsentsInState() {
+    const { consents } = this.props;
+    const showButtonToUpdate = consents.find(el => !el.required);
+    this.setState({
+      updatedConsents: consents,
+      showButtonToUpdate: !!showButtonToUpdate
     });
   }
 
@@ -159,9 +158,6 @@ class MyAccountConsents extends Component {
                 )}
               </ButtonWrapperStyled>
             )}
-            <InfoStyled>
-              * {t('This term is mandatory for using myAccount')}
-            </InfoStyled>
           </>
         )}
       </CardStyled>

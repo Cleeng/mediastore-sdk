@@ -49,9 +49,7 @@ export const DescriptionStyled = styled.h2`
 export const PriceWrapperStyled = styled.div`
   display: flex;
   flex-direction: column;
-  ${mediaFrom.small`
-    margin: auto 0 auto auto;
-  `}
+  margin: auto 0 auto auto;
 `;
 
 export const TrialBadgeStyled = styled.div`

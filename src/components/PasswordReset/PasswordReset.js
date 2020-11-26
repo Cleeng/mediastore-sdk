@@ -81,7 +81,7 @@ class PasswordReset extends Component {
     const errorFields = {
       email: EMAIL_REGEX.test(value)
         ? ''
-        : t('The email address is not properly formatted.')
+        : t('This address does not seem to have a normal email format.')
     };
     this.setState({
       message: errorFields.email

@@ -6,9 +6,14 @@ import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
 import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
 import Loader from 'components/Loader';
-import { getOfferDetails, createOrder, updateOrder } from 'api';
+import {
+  getOfferDetails,
+  createOrder,
+  updateOrder,
+  getPaymentMethods
+} from 'api';
 import saveOfferId from 'util/offerIdHelper';
-import { setData } from 'util/appConfigHelper';
+import { setData, getData } from 'util/appConfigHelper';
 import StyledLoaderContainer from './StyledOfferContainer';
 import labeling from '../labeling';
 
@@ -60,6 +65,24 @@ class OfferContainer extends Component {
                 );
               } else {
                 this.setState({ error: orderDetailsResponse.errors[0] });
+              }
+              if (
+                orderDetailsResponse.responseData.order.totalPrice === 0 &&
+                !orderDetailsResponse.responseData.order.discount.applied
+              ) {
+                getPaymentMethods().then(paymentMethodResponse => {
+                  const properPaymentMethodId = paymentMethodResponse.responseData.paymentMethods.find(
+                    method =>
+                      getData('CLEENG_OFFER_TYPE') === 'S'
+                        ? method.methodName === 'manual'
+                        : method.methodName !== 'manual'
+                  );
+                  updateOrder(orderDetailsResponse.responseData.order.id, {
+                    paymentMethodId: properPaymentMethodId
+                      ? properPaymentMethodId.id
+                      : 0
+                  });
+                });
               }
             });
           }

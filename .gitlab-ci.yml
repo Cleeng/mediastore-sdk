@@ -6,7 +6,7 @@ stages:
 ### TEMPLATES ###
 .build:
   stage: build
-  image: node:8.15-jessie
+  image: node:14.15-buster
   script:
     - yarn && yarn build --environment=${ENVIRONMENT}
     - STORYBOOK_ENV=${ENVIRONMENT} yarn build-storybook
@@ -24,7 +24,7 @@ stages:
 
 .test:
   stage: test
-  image: node:8.15-jessie
+  image: node:14.15-buster
   script:
     - yarn && yarn test --coverage
   cache:

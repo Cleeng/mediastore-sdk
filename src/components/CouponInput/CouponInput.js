@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import {
   InputComponentStyled,
   MessageStyled,
@@ -166,4 +168,6 @@ CouponInput.defaultProps = {
   couponLoading: false
 };
 
-export default CouponInput;
+export { CouponInput as PureCouponInput };
+
+export default withTranslation()(labeling()(CouponInput));

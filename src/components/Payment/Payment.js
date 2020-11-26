@@ -182,16 +182,19 @@ class Payment extends Component {
           <>
             <SectionHeader center>{t('Purchase using')}</SectionHeader>
             <MethodsWrapperStyled>
-              {paymentMethods.map(method => (
-                <PaymentMethodButton
-                  key={method.id}
-                  methodName={method.methodName}
-                  onClickFn={() => {
-                    this.setState({ isPaymentFormDisplayed: true });
-                    this.choosePaymentMethod(method.id, method.methodName);
-                  }}
-                />
-              ))}
+              {paymentMethods.map(
+                method =>
+                  method.methodName !== 'manual' && (
+                    <PaymentMethodButton
+                      key={method.id}
+                      methodName={method.methodName}
+                      onClickFn={() => {
+                        this.setState({ isPaymentFormDisplayed: true });
+                        this.choosePaymentMethod(method.id, method.methodName);
+                      }}
+                    />
+                  )
+              )}
             </MethodsWrapperStyled>
             {generalError && (
               <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
@@ -199,9 +202,7 @@ class Payment extends Component {
             {isPayPal && (
               <PayPalWrapperStyled>
                 <PayPalTextStyled>
-                  {t(
-                    'To purchase using PayPal click "Pay with PayPal" button. You will be redirected to the PayPal site'
-                  )}
+                  {t('Click ‘Continue with PayPal’ to complete your purchase.')}
                 </PayPalTextStyled>
                 <Button
                   type="button"
@@ -211,7 +212,7 @@ class Payment extends Component {
                   {isLoading ? (
                     <Loader buttonLoader color="#ffffff" />
                   ) : (
-                    t('Pay with PayPal')
+                    t('Continue with PayPal')
                   )}
                 </Button>
               </PayPalWrapperStyled>

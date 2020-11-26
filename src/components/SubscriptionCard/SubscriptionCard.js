@@ -47,7 +47,7 @@ SubscriptionCard.propTypes = {
   title: PropTypes.string,
   description: PropTypes.string,
   currency: PropTypes.string,
-  price: PropTypes.number,
+  price: PropTypes.string,
   isTrialAvailable: PropTypes.bool
 };
 
@@ -57,7 +57,7 @@ SubscriptionCard.defaultProps = {
   title: '',
   description: '',
   currency: '',
-  price: null,
+  price: '',
   isTrialAvailable: false
 };
 

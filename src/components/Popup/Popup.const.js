@@ -9,16 +9,17 @@ const popupData = {
         icon: WelcomeIcon,
         title: 'Hi there!',
         text:
-          'Thanks for joining our serivce. In last step you need to accept Terms & Conditions.',
-        buttonText: 'Okey, Go next',
+          'Your brand new account is waiting for you. Just one last step. We would like you to review our terms and conditions before continuing to your account.',
+        buttonText: 'Let’s do it',
         buttonAction: 'renderNextStep'
       },
       {
         headerTitle: 'Terms & Conditions',
-        icon: null,
+        icon: WelcomeIcon,
         title: 'Terms & Conditions',
-        text: 'Please accept Terms & Conditions before going to myAccount.',
-        buttonText: 'Agree, let’s go!',
+        text:
+          'Please accept our terms and conditions before continuing to your account.',
+        buttonText: 'Continue',
         buttonAction: 'handleSubmitConsents'
       }
     ]
@@ -37,10 +38,10 @@ const popupData = {
       {
         headerTitle: 'Terms update',
         icon: null,
-        title: 'Updated Terms & Conditions',
+        title: 'Update to terms & conditions',
         text:
-          'If you want to continue using myAccount, please agree with updated Terms & Conditions.',
-        buttonText: 'Agree, let’s go!',
+          'Please review and accept our updated terms and conditions before continuing to your account.',
+        buttonText: 'Continue',
         buttonAction: 'handleSubmitConsents'
       }
     ]
@@ -50,9 +51,9 @@ const popupData = {
       {
         headerTitle: 'Terms update',
         icon: ConsentsIcon,
-        title: 'New terms added',
-        text: `We've updated our Terms Details in Update Profile tab. Please, take a few minutes to read them.`,
-        buttonText: 'Okey, thanks',
+        title: 'Update to terms & conditions',
+        text: `We have updated our terms and conditions. Please take a few minutes to review the changes in your profile section.`,
+        buttonText: 'Continue',
         buttonAction: 'handleSubmitConsents'
       }
     ]
@@ -71,9 +72,9 @@ const popupData = {
       {
         headerTitle: 'Terms update',
         icon: null,
-        title: 'Updated Terms & Conditions',
-        text: `If you want to continue using myAccount, please agree with updated Terms & Conditions.`,
-        buttonText: 'Agree, let’s go!',
+        title: 'Update to terms & conditions',
+        text: `Please review and accept our updated terms and conditions before continuing to your account.`,
+        buttonText: 'Continue',
         buttonAction: 'handleSubmitConsents'
       }
     ]
