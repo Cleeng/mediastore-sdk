@@ -7,6 +7,8 @@ stages:
 .build:
   stage: build
   image: node:14.15-buster
+  variables:
+    GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME
   script:
     - yarn && yarn build --environment=${ENVIRONMENT}
     - STORYBOOK_ENV=${ENVIRONMENT} yarn build-storybook
@@ -25,6 +27,8 @@ stages:
 .test:
   stage: test
   image: node:14.15-buster
+  variables:
+    GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME
   script:
     - yarn && yarn test --coverage
   cache:
@@ -39,6 +43,8 @@ stages:
 
 .deploy:
   stage: deploy
+  variables:
+    GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME
   # https://gitlab.com/gitlab-org/cloud-deploy/-/tags/v0.3.3
   image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base@sha256:654cb6d3ba01f9753a4a3f20d6c39fb0b9c111d080bb6f90606cec284b4be7e9
   script:
