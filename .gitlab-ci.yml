@@ -14,7 +14,7 @@ stages:
   cache:
     paths:
       - node_modules/
-    key: "$CI_COMMIT_REF_SLUG"
+    key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
   artifacts:
     paths:
       - build
@@ -30,6 +30,7 @@ stages:
   cache:
     paths:
       - node_modules/
+    key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
   artifacts:
     paths:
       - coverage
@@ -56,6 +57,8 @@ build_production:
     ENVIRONMENT: production
   only:
     - master
+  when: delayed
+  start_in: 10 minutes
 
 test_production:
   stage: test
@@ -63,6 +66,8 @@ test_production:
   environment: production
   only:
     - master
+  when: delayed
+  start_in: 10 minutes
     
 deploy_production:
   stage: deploy
@@ -75,6 +80,8 @@ deploy_production:
     ENVIRONMENT: production
   only:
     - master
+  when: delayed
+  start_in: 10 minutes
 ### END OF PROD ENVIRONMENT ###
 
 
