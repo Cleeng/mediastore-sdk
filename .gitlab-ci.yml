@@ -1,6 +1,6 @@
 stages:
-  - build
   - test
+  - build
   - deploy
 
 ### TEMPLATES ###
@@ -18,13 +18,14 @@ stages:
       - node_modules/
     key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG-$CI_ENVIRONMENT_NAME"
   artifacts:
+    name: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG-$CI_ENVIRONMENT_NAME"
     paths:
       - build
     expire_in: 1 hour
   tags:
     - aws-runner
 
-.test:
+test:
   stage: test
   image: node:14.15-buster
   variables:
@@ -34,12 +35,14 @@ stages:
   cache:
     paths:
       - node_modules/
-    key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG-$CI_ENVIRONMENT_NAME"
+    key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
   artifacts:
     paths:
       - coverage
   tags:
     - aws-runner
+  only:
+    - merge_requests
 
 .deploy:
   stage: deploy
@@ -64,12 +67,6 @@ build_production:
   only:
     - master
 
-test_production:
-  stage: test
-  extends: .test
-  environment: production
-  only:
-    - master
     
 deploy_production:
   stage: deploy
@@ -82,6 +79,8 @@ deploy_production:
     ENVIRONMENT: production
   only:
     - master
+  dependencies:
+    - build_production
 ### END OF PROD ENVIRONMENT ###
 
 
@@ -94,13 +93,6 @@ build_demo:
   only:
     - master
 
-test_demo:
-  stage: test
-  extends: .test
-  environment: demo
-  only:
-    - master
-    
 deploy_demo:
   stage: deploy
   extends: .deploy
@@ -111,6 +103,8 @@ deploy_demo:
     BUCKET: $DEMO_BUCKET
   only:
     - master
+  dependencies:
+    - build_demo
 ### END OF DEMO ENVIRONMENT ###
 
 
@@ -126,12 +120,6 @@ build_staging:
   only:
     - stage
 
-test_staging:
-  stage: test
-  extends: .test
-  environment: staging
-  only:
-    - stage
 
 deploy_staging:
   extends: .deploy
@@ -142,4 +130,6 @@ deploy_staging:
     BUCKET: $STAGING_BUCKET
   only:
     - stage
+  dependencies:
+    - build_staging
 ### END OF STAGING ENVIRONMENT ###
