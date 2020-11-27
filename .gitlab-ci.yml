@@ -63,8 +63,6 @@ build_production:
     ENVIRONMENT: production
   only:
     - master
-  when: delayed
-  start_in: 10 minutes
 
 test_production:
   stage: test
@@ -72,8 +70,6 @@ test_production:
   environment: production
   only:
     - master
-  when: delayed
-  start_in: 10 minutes
     
 deploy_production:
   stage: deploy
@@ -86,8 +82,6 @@ deploy_production:
     ENVIRONMENT: production
   only:
     - master
-  when: delayed
-  start_in: 10 minutes
 ### END OF PROD ENVIRONMENT ###
 
 
