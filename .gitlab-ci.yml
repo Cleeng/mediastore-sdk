@@ -16,7 +16,7 @@ stages:
   cache:
     paths:
       - node_modules/
-    key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG-$CI_ENVIRONMENT_NAME"
   artifacts:
     paths:
       - build
@@ -34,7 +34,7 @@ stages:
   cache:
     paths:
       - node_modules/
-    key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG"
+    key: "$CI_JOB_STAGE-$CI_COMMIT_REF_SLUG-$CI_ENVIRONMENT_NAME"
   artifacts:
     paths:
       - coverage
