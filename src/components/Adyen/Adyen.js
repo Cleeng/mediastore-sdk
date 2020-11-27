@@ -18,7 +18,8 @@ const ADYEN_SCRIPT_HREF =
 
 const COMPONENT_CONTAINER_ID = 'component-container';
 const PAYMENT_METHOD_CARD = 'card';
-const ENV_TEST = 'test';
+
+const ADYEN_ENV = process.env.NODE_ENV === 'production' ? 'live' : 'test';
 
 class Adyen extends Component {
   constructor(props) {
@@ -72,7 +73,7 @@ class Adyen extends Component {
 
     const configuration = {
       showPayButton: false,
-      environment: ENV_TEST,
+      environment: ADYEN_ENV,
       clientKey: ENVIRONMENT_CONFIGURATION.ADYEN_CLIENT_KEY,
       onSubmit,
       onChange
