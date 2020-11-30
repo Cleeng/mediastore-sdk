@@ -30,7 +30,7 @@ const Price = ({ currency, price, period }) => (
 
 Price.propTypes = {
   currency: PropTypes.string,
-  price: PropTypes.string,
+  price: PropTypes.number,
   period: PropTypes.string
 };
 

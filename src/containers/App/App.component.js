@@ -23,7 +23,6 @@ const App = () => {
   if (path) {
     history.replace(path);
   }
-
   const isAppHosted = isHosted();
 
   return (

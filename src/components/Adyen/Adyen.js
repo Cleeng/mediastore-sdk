@@ -6,20 +6,15 @@ import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
 
-const ADYEN_STYLESHEET_HREF =
-  process.env.NODE_ENV === 'production'
-    ? 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css'
-    : 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css';
-
-const ADYEN_SCRIPT_HREF =
-  process.env.NODE_ENV === 'production'
-    ? 'https://checkoutshopper-live.adyen.com/checkoutshopper/sdk/3.10.1/adyen.js'
-    : 'https://checkoutshopper-test.adyen.com/checkoutshopper/sdk/3.10.1/adyen.js';
-
 const COMPONENT_CONTAINER_ID = 'component-container';
 const PAYMENT_METHOD_CARD = 'card';
 
-const ADYEN_ENV = process.env.NODE_ENV === 'production' ? 'live' : 'test';
+const ADYEN_ENV =
+  ENVIRONMENT_CONFIGURATION.REACT_ENV === 'production' ? 'live' : 'test';
+
+const ADYEN_STYLESHEET_HREF = `https://checkoutshopper-${ADYEN_ENV}.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css`;
+
+const ADYEN_SCRIPT_HREF = `https://checkoutshopper-${ADYEN_ENV}.adyen.com/checkoutshopper/sdk/3.10.1/adyen.js`;
 
 class Adyen extends Component {
   constructor(props) {
