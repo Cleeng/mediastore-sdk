@@ -52,39 +52,49 @@ class OfferContainer extends Component {
           if (offerDetailsResponse.errors.length) {
             this.setState({ error: offerDetailsResponse.errors[0] });
           } else {
-            this.setState({ offerDetails: offerDetailsResponse.responseData });
-            createOrder(offerId).then(orderDetailsResponse => {
-              if (!orderDetailsResponse.errors.length) {
-                this.setState({
-                  orderDetails: orderDetailsResponse.responseData.order,
-                  isOrderCreated: true
-                });
-                setData(
-                  'CLEENG_ORDER_ID',
-                  orderDetailsResponse.responseData.order.id
-                );
-              } else {
-                this.setState({ error: orderDetailsResponse.errors[0] });
-              }
-              if (
-                orderDetailsResponse.responseData.order.totalPrice === 0 &&
-                !orderDetailsResponse.responseData.order.discount.applied
-              ) {
-                getPaymentMethods().then(paymentMethodResponse => {
-                  const properPaymentMethodId = paymentMethodResponse.responseData.paymentMethods.find(
-                    method =>
-                      getData('CLEENG_OFFER_TYPE') === 'S'
-                        ? method.methodName === 'manual'
-                        : method.methodName !== 'manual'
-                  );
-                  updateOrder(orderDetailsResponse.responseData.order.id, {
-                    paymentMethodId: properPaymentMethodId
-                      ? properPaymentMethodId.id
-                      : 0
-                  });
-                });
-              }
+            this.setState({
+              offerId: offerDetailsResponse.offerId,
+              offerDetails: offerDetailsResponse.responseData
             });
+            if (
+              offerDetailsResponse &&
+              offerDetailsResponse.responseData &&
+              offerDetailsResponse.responseData.offerId
+            )
+              createOrder(offerDetailsResponse.responseData.offerId).then(
+                orderDetailsResponse => {
+                  if (!orderDetailsResponse.errors.length) {
+                    this.setState({
+                      orderDetails: orderDetailsResponse.responseData.order,
+                      isOrderCreated: true
+                    });
+                    setData(
+                      'CLEENG_ORDER_ID',
+                      orderDetailsResponse.responseData.order.id
+                    );
+                  } else {
+                    this.setState({ error: orderDetailsResponse.errors[0] });
+                  }
+                  if (
+                    orderDetailsResponse.responseData.order.totalPrice === 0 &&
+                    !orderDetailsResponse.responseData.order.discount.applied
+                  ) {
+                    getPaymentMethods().then(paymentMethodResponse => {
+                      const properPaymentMethodId = paymentMethodResponse.responseData.paymentMethods.find(
+                        method =>
+                          getData('CLEENG_OFFER_TYPE') === 'S'
+                            ? method.methodName === 'manual'
+                            : method.methodName !== 'manual'
+                      );
+                      updateOrder(orderDetailsResponse.responseData.order.id, {
+                        paymentMethodId: properPaymentMethodId
+                          ? properPaymentMethodId.id
+                          : 0
+                      });
+                    });
+                  }
+                }
+              );
           }
         });
       } else if (offerId === '') {
