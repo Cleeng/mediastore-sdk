@@ -1,15 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price from 'components/Price';
 import { getData } from 'util/appConfigHelper';
+import { ReactComponent as BlockedIcon } from 'assets/images/blocked.svg';
 import {
   WrapperStyled,
   InnerWrapper,
   TitleStyled,
   DescriptionStyled,
   PriceWrapperStyled,
-  TrialBadgeStyled
+  TrialBadgeStyled,
+  SubBoxStyled,
+  BoxTextStyled
 } from './SubscriptionCardStyled';
 
 const SubscriptionCard = ({
@@ -19,25 +24,64 @@ const SubscriptionCard = ({
   description,
   currency,
   price,
-  isTrialAvailable
+  isTrialAvailable,
+  showInfoBox,
+  t
 }) => {
   const isSubscription = getData('CLEENG_OFFER_TYPE') === 'S';
+  const mapCode = {
+    TO_OFFER_COUNTRY_NOT_ALLOWED: {
+      text: t(
+        `This plan is <strong>not currently available</strong> in your country or region`
+      ),
+      icon: BlockedIcon
+    },
+    ALREADY_HAS_ACCESS: {
+      text: t('It looks like you already have access to this offer'),
+      icon: BlockedIcon
+    },
+    TO_FREE_OFFER_NOT_ALLOWED: {
+      text: t('Switching from a paid to a free offer is not possible'),
+      icon: BlockedIcon
+    }
+  };
+
+  const IconComponent =
+    showInfoBox && mapCode[showInfoBox].icon
+      ? mapCode[showInfoBox].icon
+      : React.Fragment;
   return (
-    <WrapperStyled>
-      <SubscriptionIcon icon={icon} />
-      <InnerWrapper>
-        <TitleStyled>{title}</TitleStyled>
-        <DescriptionStyled dangerouslySetInnerHTML={{ __html: description }} />
-      </InnerWrapper>
-      <PriceWrapperStyled>
-        {isTrialAvailable && <TrialBadgeStyled>trial period</TrialBadgeStyled>}
-        <Price
-          currency={currency}
-          price={price}
-          period={isSubscription ? period : null}
-        />
-      </PriceWrapperStyled>
-    </WrapperStyled>
+    <>
+      <WrapperStyled>
+        <SubscriptionIcon icon={icon} />
+        <InnerWrapper>
+          <TitleStyled>{title}</TitleStyled>
+          <DescriptionStyled
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
+        </InnerWrapper>
+        <PriceWrapperStyled>
+          {isTrialAvailable && (
+            <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
+          )}
+          <Price
+            currency={currency}
+            price={price}
+            period={isSubscription ? period : null}
+          />
+        </PriceWrapperStyled>
+      </WrapperStyled>
+      {showInfoBox ? (
+        <SubBoxStyled>
+          <IconComponent />
+          <BoxTextStyled
+            dangerouslySetInnerHTML={{ __html: mapCode[showInfoBox].text }}
+          />
+        </SubBoxStyled>
+      ) : (
+        ''
+      )}
+    </>
   );
 };
 
@@ -48,7 +92,9 @@ SubscriptionCard.propTypes = {
   description: PropTypes.string,
   currency: PropTypes.string,
   price: PropTypes.number,
-  isTrialAvailable: PropTypes.bool
+  isTrialAvailable: PropTypes.bool,
+  showInfoBox: PropTypes.string,
+  t: PropTypes.func
 };
 
 SubscriptionCard.defaultProps = {
@@ -58,7 +104,11 @@ SubscriptionCard.defaultProps = {
   description: '',
   currency: '',
   price: '',
-  isTrialAvailable: false
+  isTrialAvailable: false,
+  showInfoBox: null,
+  t: k => k
 };
 
-export default SubscriptionCard;
+export { SubscriptionCard as PureSubscriptionCard };
+
+export default withTranslation()(labeling()(SubscriptionCard));

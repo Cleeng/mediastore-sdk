@@ -4,29 +4,33 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
+
 import { ReactComponent as noSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
+import { dateFormat, currencyFormat } from 'util/planHelper';
+
 import Loader from 'components/Loader';
 import MyAccountError from 'components/MyAccountError';
-import { dateFormat, currencyFormat } from 'util/planHelper';
 import SubscriptionCard from 'components/SubscriptionCard';
-import roundNumber from 'util/roundNumber';
+
 import {
   WrapStyled,
   SubscriptionStyled,
   SubscriptionActionsStyled,
-  ResubscribeButtonStyled,
-  UnsubscribeButtonStyled
+  FullWidthButtonStyled,
+  SimpleButtonStyled
 } from './CurrentPlanStyled';
 
 const CurrentPlan = ({
   subscriptions,
-  currentPlanLoading,
+  isLoading,
   errors,
-  showSurvey,
-  setUpdateAction,
+  showInnerPopup,
+  setOfferToSwitch,
+  offerToSwitch,
   t
 }) => {
-  return currentPlanLoading ? (
+  const areFewOffers = subscriptions.length > 1;
+  return isLoading ? (
     <Loader isMyAccount />
   ) : (
     <WrapStyled>
@@ -49,45 +53,67 @@ const CurrentPlan = ({
                 : t('This plan will expire on')
             } ${dateFormat(subItem.expiresAt)}`;
             return (
-              <SubscriptionStyled key={subItem.offerId}>
+              <SubscriptionStyled
+                key={subItem.offerId}
+                onClick={() => {
+                  if (areFewOffers && subItem.status === 'active')
+                    setOfferToSwitch(subItem);
+                }}
+                cursorPointer={areFewOffers && subItem.status === 'active'}
+                isSelected={
+                  areFewOffers && offerToSwitch.offerId === subItem.offerId
+                }
+              >
                 <SubscriptionCard
                   period={subItem.period}
                   title={subItem.offerTitle}
                   description={description}
                   currency={currencyFormat[subItem.nextPaymentCurrency]}
-                  price={roundNumber(subItem.nextPaymentPrice)}
+                  price={Math.round(subItem.nextPaymentPrice * 100) / 100}
                 />
                 <SubscriptionActionsStyled>
                   {subItem.status === 'active' && (
-                    <UnsubscribeButtonStyled
+                    <SimpleButtonStyled
                       theme="simple"
-                      onClickFn={() => {
-                        setUpdateAction('unsubscribe');
-                        showSurvey({
-                          offerId: subItem.offerId,
-                          expiresAt: subItem.expiresAt
+                      onClickFn={event => {
+                        event.stopPropagation();
+                        showInnerPopup({
+                          type: 'updateSubscription',
+                          data: {
+                            action: 'unsubscribe',
+                            offerData: {
+                              offerId: subItem.offerId,
+                              expiresAt: subItem.expiresAt
+                            }
+                          }
                         });
                       }}
                     >
                       {t('Unsubscribe')}
-                    </UnsubscribeButtonStyled>
+                    </SimpleButtonStyled>
                   )}
                   {subItem.status === 'cancelled' && (
-                    <ResubscribeButtonStyled
+                    <FullWidthButtonStyled
                       theme="simple"
-                      onClickFn={() => {
-                        setUpdateAction('resubscribe');
-                        showSurvey({
-                          offerId: subItem.offerId,
-                          expiresAt: subItem.expiresAt,
-                          price: `${subItem.nextPaymentPrice}${
-                            currencyFormat[subItem.nextPaymentCurrency]
-                          }`
+                      onClickFn={event => {
+                        event.stopPropagation();
+                        showInnerPopup({
+                          type: 'updateSubscription',
+                          data: {
+                            action: 'resubscribe',
+                            offerData: {
+                              offerId: subItem.offerId,
+                              expiresAt: subItem.expiresAt,
+                              price: `${subItem.nextPaymentPrice}${
+                                currencyFormat[subItem.nextPaymentCurrency]
+                              }`
+                            }
+                          }
                         });
                       }}
                     >
-                      {t('Resubscribe')}
-                    </ResubscribeButtonStyled>
+                      {t('Resume')}
+                    </FullWidthButtonStyled>
                   )}
                 </SubscriptionActionsStyled>
               </SubscriptionStyled>
@@ -101,17 +127,19 @@ const CurrentPlan = ({
 
 CurrentPlan.propTypes = {
   subscriptions: PropTypes.arrayOf(PropTypes.any),
-  setUpdateAction: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.any),
-  showSurvey: PropTypes.func.isRequired,
-  currentPlanLoading: PropTypes.bool,
+  showInnerPopup: PropTypes.func.isRequired,
+  setOfferToSwitch: PropTypes.func.isRequired,
+  offerToSwitch: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func
 };
 
 CurrentPlan.defaultProps = {
   subscriptions: [],
+  isLoading: false,
   errors: [],
-  currentPlanLoading: false,
+  offerToSwitch: {},
   t: k => k
 };
 

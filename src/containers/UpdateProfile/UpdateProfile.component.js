@@ -49,18 +49,19 @@ class UpdateProfile extends Component {
   render() {
     const { detailsError, isUserDetailsLoading, isConsentLoading } = this.state;
     const {
-      userProfile: { user, consents, consentsError, isResetPasswordShown },
+      userProfile: { user, consents, consentsError },
       setConsents,
       setCurrentUser,
-      showResetPassword,
-      hideResetPassword,
+      showInnerPopup,
+      hideInnerPopup,
+      innerPopup,
       t
     } = this.props;
     return (
       <WrapStyled>
-        {isResetPasswordShown ? (
+        {innerPopup.isOpen && innerPopup.type === 'editPassword' ? (
           <>
-            <EditPassword hideResetPassword={hideResetPassword} />
+            <EditPassword hideInnerPopup={hideInnerPopup} />
           </>
         ) : (
           <>
@@ -77,11 +78,15 @@ class UpdateProfile extends Component {
                   setCurrentUser={setCurrentUser}
                 />
                 <SectionHeader>{t('Password')}</SectionHeader>
-                <Password showResetPassword={showResetPassword} />
+                <Password
+                  showInnerPopup={() =>
+                    showInnerPopup({ type: 'editPassword' })
+                  }
+                />
               </>
             )}
 
-            <SectionHeader> {t('Terms and Conditions')}</SectionHeader>
+            <SectionHeader> {t('Terms Details')}</SectionHeader>
             {consentsError.length !== 0 ? (
               <MyAccountError generalError />
             ) : (
@@ -103,8 +108,9 @@ UpdateProfile.propTypes = {
   setConsents: PropTypes.func.isRequired,
   consentsError: PropTypes.string,
   userProfile: PropTypes.objectOf(PropTypes.any),
-  showResetPassword: PropTypes.func.isRequired,
-  hideResetPassword: PropTypes.func.isRequired,
+  showInnerPopup: PropTypes.func.isRequired,
+  hideInnerPopup: PropTypes.func.isRequired,
+  innerPopup: PropTypes.objectOf(PropTypes.any).isRequired,
   t: PropTypes.func
 };
 

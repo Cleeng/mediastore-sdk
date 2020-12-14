@@ -70,6 +70,18 @@ jest.mock('api', () => ({
 }));
 
 const setCurrentUserMock = jest.fn();
+const setConsentsMock = jest.fn();
+const showInnerPopupMock = jest.fn();
+const hideInnerPopuprMock = jest.fn();
+const innerPopupMock = { isOpen: false, type: '', data: {} };
+
+const defaultProps = {
+  setCurrentUser: setCurrentUserMock,
+  setConsents: setConsentsMock,
+  showInnerPopup: showInnerPopupMock,
+  hideInnerPopup: hideInnerPopuprMock,
+  innerPopup: innerPopupMock
+};
 
 describe('<UpdateProfile/>', () => {
   afterEach(() => {
@@ -79,12 +91,8 @@ describe('<UpdateProfile/>', () => {
     it('should render initial state', done => {
       const wrapper = shallow(
         <PureUpdateProfile
-          setCurrentUser={setCurrentUserMock}
           userProfile={{ consentsError: [] }}
-          showPopup={jest.fn()}
-          setConsents={jest.fn()}
-          showResetPassword={jest.fn()}
-          hideResetPassword={jest.fn()}
+          {...defaultProps}
         />
       );
       expect(getCustomer).toHaveBeenCalled();
@@ -100,12 +108,8 @@ describe('<UpdateProfile/>', () => {
       });
       const wrapper = shallow(
         <PureUpdateProfile
-          setCurrentUser={setCurrentUserMock}
           userProfile={{ consentsError: [] }}
-          showPopup={jest.fn()}
-          setConsents={jest.fn()}
-          showResetPassword={jest.fn()}
-          hideResetPassword={jest.fn()}
+          {...defaultProps}
         />
       );
       setImmediate(() => {
@@ -117,12 +121,8 @@ describe('<UpdateProfile/>', () => {
       getCustomer.mockRejectedValue(new Error('error'));
       const wrapper = shallow(
         <PureUpdateProfile
-          setCurrentUser={setCurrentUserMock}
           userProfile={{ consentsError: [] }}
-          showPopup={jest.fn()}
-          setConsents={jest.fn()}
-          showResetPassword={jest.fn()}
-          hideResetPassword={jest.fn()}
+          {...defaultProps}
         />
       );
       setImmediate(() => {

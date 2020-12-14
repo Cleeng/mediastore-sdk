@@ -8,8 +8,8 @@ export const cancellationReasons = [
   { value: 'Content I like has ended', key: 'end' }
 ];
 export const content = {
-  resubscribe: {
-    confirm: {
+  resubscribe: [
+    {
       title: 'Resume your plan',
       text1:
         'By clicking the button below you can resume your plan. Your next bill will be on',
@@ -21,15 +21,15 @@ export const content = {
       backButtonText: 'No, thanks',
       buttonTheme: 'confirm'
     },
-    success: {
+    {
       title: 'Your plan has been renewed',
       text: 'You have been successfully resubscribed. Your fee will be',
       startedFrom: 'started from',
       buttonText: 'Back to settings'
     }
-  },
-  unsubscribe: {
-    confirm: {
+  ],
+  unsubscribe: [
+    {
       title: 'We’re sorry to see you go.',
       text1: 'You will be unsubscribed from your current plan by clicking the',
       text2:
@@ -39,11 +39,11 @@ export const content = {
       backButtonText: 'Go back',
       buttonTheme: 'confirm'
     },
-    success: {
+    {
       title: 'Miss you already.',
       text:
         'You have been successfully unsubscribed. Your current plan will expire on',
       buttonText: 'Back to settings'
     }
-  }
+  ]
 };

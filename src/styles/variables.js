@@ -8,7 +8,6 @@ export const CardSecondaryColor = '#182c7a';
 export const PaypalMainColor = '#61AEF0';
 export const PaypalSecondaryColor = '#74B8F2';
 export const MyAccountMenu = '#f2f5fc';
-export const MyAccountMenuActive = '#43599c';
 
 // Common colors
 export const ErrorColor = '#CB4477';

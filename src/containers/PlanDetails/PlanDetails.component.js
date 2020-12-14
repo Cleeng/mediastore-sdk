@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
+import { PropTypes } from 'prop-types';
+
+import { getCustomerSubscriptions, getAvailableSwitches } from 'api';
 import SectionHeader from 'components/SectionHeader';
 import CurrentPlan from 'components/CurrentPlan';
-import { getCustomerSubscriptions } from 'api';
-import { PropTypes } from 'prop-types';
-import UpdateSubscription from 'components/UpdateSubscription';
+import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
+import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
+import SwitchPlanPopup from 'components/SwitchPlanPopup';
 
 import { WrapStyled } from './PlanDetailsStyled';
 
@@ -13,15 +16,21 @@ class PlanDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPlanLoading: false,
-      errors: []
+      isLoading: {
+        currentPlan: false,
+        changePlan: false
+      },
+      errors: {
+        currentPlan: [],
+        changePlan: []
+      }
     };
   }
 
   componentDidMount() {
-    const { planDetails, hideSurvey, updateList } = this.props;
-    if (planDetails.isSurveyShown) {
-      hideSurvey();
+    const { planDetails, updateList, innerPopup, hideInnerPopup } = this.props;
+    if (innerPopup.isOpen) {
+      hideInnerPopup();
       updateList();
     }
     if (planDetails.currentPlan.length === 0) {
@@ -37,61 +46,159 @@ class PlanDetails extends Component {
   }
 
   fetchSubscriptions = async () => {
-    const { setCurrentPlan } = this.props;
+    const { setCurrentPlan, setOfferToSwitch } = this.props;
 
     this.setState({
-      currentPlanLoading: true
+      isLoading: {
+        currentPlan: true,
+        changePlan: true
+      }
     });
     getCustomerSubscriptions()
       .then(response => {
         if (response.errors.length) {
           this.setState({
-            errors: response.errors
+            errors: {
+              currentPlan: response.errors
+            }
           });
         } else {
-          setCurrentPlan(response.responseData.items);
+          const customerSubscriptions = response.responseData.items;
+          setCurrentPlan(customerSubscriptions);
+          const activeSubscriptions = customerSubscriptions.filter(
+            sub => sub.status === 'active'
+          );
+
+          if (activeSubscriptions.length === 1) {
+            setOfferToSwitch(activeSubscriptions[0]);
+          }
+
+          if (activeSubscriptions.length > 0) {
+            this.getAndSaveSwitchSettings(customerSubscriptions);
+          }
         }
         this.setState({
-          currentPlanLoading: false
+          isLoading: {
+            currentPlan: false
+          }
         });
       })
       .catch(err => {
-        this.setState({ errors: [err.message], currentPlanLoading: false });
+        this.setState({
+          errors: { currentPlan: [err.message] },
+          isLoading: { currentPlan: false }
+        });
       });
+  };
+
+  getAndSaveSwitchSettings = async customerSubscriptions => {
+    const { setSwitchSettings } = this.props;
+    const result = customerSubscriptions.map(offer =>
+      getAvailableSwitches(offer.offerId).then(response => {
+        if (!response.errors.length) {
+          setSwitchSettings({
+            offerId: offer.offerId,
+            settings: response.responseData
+          });
+        } else {
+          this.setState({
+            errors: {
+              changePlan: response.errors
+            }
+          });
+        }
+      })
+    );
+    await Promise.all(result)
+      .then(() => {
+        this.setState({
+          isLoading: {
+            changePlan: false
+          }
+        });
+      })
+      .catch(err => {
+        this.setState({
+          errors: { changePlan: [err.message] },
+          isLoading: {
+            changePlan: false
+          }
+        });
+      });
+  };
+
+  renderPopup = type => {
+    const { updateList, innerPopup, hideInnerPopup, planDetails } = this.props;
+    switch (type) {
+      case 'updateSubscription':
+        return (
+          <UpdateSubscription
+            hideInnerPopup={hideInnerPopup}
+            offerDetails={innerPopup.data.offerData}
+            updateList={updateList}
+            action={innerPopup.data.action}
+          />
+        );
+      case 'switchPlan':
+        return (
+          <SwitchPlanPopup
+            toOffer={innerPopup.data.offerData}
+            fromOffer={planDetails.offerToSwitch}
+            hideInnerPopup={hideInnerPopup}
+            updateList={updateList}
+          />
+        );
+      default:
+        return <></>;
+    }
   };
 
   render() {
     const {
       planDetails,
-      hideSurvey,
-      showSurvey,
-      updateList,
-      setUpdateAction,
+      innerPopup,
+      showInnerPopup,
+      setOfferToSwitch,
       t
     } = this.props;
-    const { errors, currentPlanLoading } = this.state;
-
+    const { errors, isLoading } = this.state;
+    const activeSubscriptions = planDetails.currentPlan.filter(
+      sub => sub.status === 'active'
+    );
     return (
       <WrapStyled>
-        {planDetails.isSurveyShown ? (
-          <>
-            <UpdateSubscription
-              hideSurvey={hideSurvey}
-              offerDetails={planDetails.offerToUpdate}
-              updateList={updateList}
-              action={planDetails.updateAction}
-            />
-          </>
+        {innerPopup.isOpen ? (
+          this.renderPopup(innerPopup.type)
         ) : (
           <>
             <SectionHeader marginTop="0">{t('Current plan')}</SectionHeader>
             <CurrentPlan
               subscriptions={planDetails.currentPlan}
-              errors={errors}
-              currentPlanLoading={currentPlanLoading}
-              showSurvey={showSurvey}
-              setUpdateAction={setUpdateAction}
+              errors={errors.currentPlan}
+              isLoading={isLoading.currentPlan}
+              showInnerPopup={showInnerPopup}
+              setOfferToSwitch={setOfferToSwitch}
+              offerToSwitch={planDetails.offerToSwitch}
             />
+            {activeSubscriptions.length !== 0 && (
+              <>
+                <SectionHeader marginTop="0">{t('Change Plan')}</SectionHeader>
+                <SubscriptionSwitchesList
+                  switchSettings={
+                    planDetails.switchSettings[
+                      planDetails.offerToSwitch.offerId
+                    ]
+                  }
+                  showInnerPopup={showInnerPopup}
+                  isOfferSelected={!!planDetails.offerToSwitch.offerId}
+                  isLoading={
+                    isLoading.changePlan ||
+                    Object.keys(planDetails.switchSettings).length === 0
+                  }
+                  errors={errors.changePlan || []}
+                />
+              </>
+            )}
           </>
         )}
       </WrapStyled>
@@ -101,16 +208,19 @@ class PlanDetails extends Component {
 
 PlanDetails.propTypes = {
   setCurrentPlan: PropTypes.func.isRequired,
-  setUpdateAction: PropTypes.func.isRequired,
   planDetails: PropTypes.objectOf(PropTypes.any),
-  showSurvey: PropTypes.func.isRequired,
-  hideSurvey: PropTypes.func.isRequired,
+  innerPopup: PropTypes.objectOf(PropTypes.any),
+  showInnerPopup: PropTypes.func.isRequired,
+  hideInnerPopup: PropTypes.func.isRequired,
+  setOfferToSwitch: PropTypes.func.isRequired,
+  setSwitchSettings: PropTypes.func.isRequired,
   updateList: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 
 PlanDetails.defaultProps = {
   planDetails: { currentPlan: [] },
+  innerPopup: {},
   t: k => k
 };
 

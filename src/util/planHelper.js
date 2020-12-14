@@ -31,6 +31,14 @@ export const periodMapper = {
     chargedForEveryText: 'month',
     accessText: 'Monthly'
   },
+  monthly: {
+    label: '1',
+    color: '#AB68BC',
+    bg: '#FBF0FF',
+    border: '#AC61BF2B',
+    chargedForEveryText: 'month',
+    accessText: 'Monthly'
+  },
   '3months': {
     label: '3',
     color: '#6399E3',

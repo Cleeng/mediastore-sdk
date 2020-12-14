@@ -14,6 +14,8 @@ import getCustomer from './Customer/getCustomer';
 import listCustomerTransactions from './Customer/listCustomerTransactions';
 import getCustomerConsents from './Customer/getCustomerConsents';
 import submitPayPalPayment from './Offer/submitPayPalPayment';
+import getAvailableSwitches from './Customer/getAvailableSwitches';
+import subscriptionSwitch from './Customer/subscriptionSwitch';
 
 export {
   getPaymentMethods,
@@ -31,5 +33,7 @@ export {
   resetPassword,
   listCustomerTransactions,
   getCustomerConsents,
-  submitPayPalPayment
+  submitPayPalPayment,
+  getAvailableSwitches,
+  subscriptionSwitch
 };

@@ -1,10 +1,10 @@
 import {
   SET_CURRENT_PLAN,
-  SHOW_SURVEY,
-  HIDE_SURVEY,
   UPDATE_LIST,
-  SET_UPDATE_ACTION
+  SET_OFFER_TO_SWITCH,
+  SET_SWITCH_SETTINGS
 } from 'redux/planDetails';
+
 import planDetailsReducer from '../planDetails';
 
 const planDetailsMock = [
@@ -39,24 +39,6 @@ describe('PlanDetails reducer', () => {
 
     expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);
   });
-  it('should correctly call showSurvey action', () => {
-    const action = { type: SHOW_SURVEY, payload: planDetailsMock[0] };
-    const expectedState = {
-      isSurveyShown: true,
-      offerToUpdate: planDetailsMock[0]
-    };
-
-    expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);
-  });
-  it('should correctly call hideSurvey action', () => {
-    const action = { type: HIDE_SURVEY };
-    const expectedState = {
-      isSurveyShown: false,
-      offerToUpdate: { offerId: '', expiresAt: null, price: null }
-    };
-
-    expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);
-  });
   it('should correctly call updateList action', () => {
     const action = { type: UPDATE_LIST };
     const expectedState = {
@@ -65,10 +47,23 @@ describe('PlanDetails reducer', () => {
 
     expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);
   });
-  it('should correctly call setUpdateAction action', () => {
-    const action = { type: SET_UPDATE_ACTION, payload: 'unsubscribe' };
+  it('should correctly call setOfferToSwitch action', () => {
+    const action = { type: SET_OFFER_TO_SWITCH, payload: planDetailsMock[0] };
     const expectedState = {
-      updateAction: 'unsubscribe'
+      offerToSwitch: planDetailsMock[0]
+    };
+
+    expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);
+  });
+  it('should correctly call setSwitchSettings action', () => {
+    const action = {
+      type: SET_SWITCH_SETTINGS,
+      payload: { offerId: 'S937144802_UA', settings: planDetailsMock[0] }
+    };
+    const expectedState = {
+      switchSettings: {
+        S937144802_UA: planDetailsMock[0]
+      }
     };
 
     expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);
