@@ -1,11 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
 import { media } from 'styles/BreakPoints';
-import {
-  MainColor,
-  LineColor,
-  ErrorColor,
-  MyAccountMenuActive
-} from 'styles/variables';
+import { MainColor, LineColor, ErrorColor } from 'styles/variables';
 import Button from 'components/Button';
 
 const fadeInOpacity = keyframes`
@@ -106,7 +101,7 @@ export const DotsWrapperStyled = styled.div`
     props.currentStep &&
     css`
       span:nth-child(-n + ${props.currentStep}) {
-        background: ${MyAccountMenuActive};
+        background: ${MainColor};
       }
     `}
 `;

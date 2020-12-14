@@ -1,15 +1,10 @@
 import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { jsxDecorator } from 'storybook-addon-jsx';
-import { withKnobs } from '@storybook/addon-knobs';
-import withMock from 'storybook-addon-mock';
-
 import { PureUpdateSubscription } from './UpdateSubscription';
 
 storiesOf('MyAccount/PlanDetails/UpdateSubscription', module)
   .addDecorator(jsxDecorator)
-  .addDecorator(withKnobs)
-  .addDecorator(withMock)
   .addDecorator(story => (
     <div
       style={{
@@ -25,12 +20,38 @@ storiesOf('MyAccount/PlanDetails/UpdateSubscription', module)
   .add('Unsubscribe', () => (
     <PureUpdateSubscription
       action="unsubscribe"
-      offerDetails={{ price: '10$', expiresAt: 1588942729 }}
+      updateList={() => {}}
+      offerDetails={{
+        offerId: 'S568296139_ZW',
+        status: 'active',
+        expiresAt: 1615897260,
+        nextPaymentPrice: 22.15,
+        nextPaymentCurrency: 'EUR',
+        paymentGateway: 'adyen',
+        paymentMethod: 'card',
+        offerTitle: 'Annual subscription to Sport TV',
+        period: 'year',
+        totalPrice: 90
+      }}
+      hideInnerPopup={() => {}}
     />
   ))
   .add('Resubscribe', () => (
     <PureUpdateSubscription
       action="resubscribe"
-      offerDetails={{ price: '10$', expiresAt: 1588942729 }}
+      updateList={() => {}}
+      hideInnerPopup={() => {}}
+      offerDetails={{
+        offerId: 'S568296139_ZW',
+        status: 'cancelled',
+        expiresAt: 1615897260,
+        nextPaymentPrice: 22.15,
+        nextPaymentCurrency: 'EUR',
+        paymentGateway: 'adyen',
+        paymentMethod: 'card',
+        offerTitle: 'Annual subscription to Sport TV',
+        period: 'year',
+        totalPrice: 90
+      }}
     />
   ));

@@ -15,13 +15,11 @@ export const WrapperStyled = styled.h3`
   justify-content: flex-end;
 
   align-items: center;
-  margin: 0 0 auto auto;
 
   color: ${MainColor};
 
   ${mediaFrom.small`
     flex-wrap: nowrap;
-    margin: auto 0 auto auto;
   `}
 `;
 export const CurrencyStyled = styled.span`

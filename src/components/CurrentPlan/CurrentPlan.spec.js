@@ -5,8 +5,8 @@ import { mount } from 'enzyme';
 import { PureCurrentPlan } from './CurrentPlan';
 import {
   SubscriptionStyled,
-  UnsubscribeButtonStyled,
-  ResubscribeButtonStyled
+  SimpleButtonStyled,
+  FullWidthButtonStyled
 } from './CurrentPlanStyled';
 import 'jest-styled-components';
 
@@ -43,8 +43,8 @@ const planDetailsMock = [
     period: '6months'
   }
 ];
-const showSurveyMock = jest.fn();
-const setUpdateActionMock = jest.fn();
+const showInnerPopupMock = jest.fn();
+const setOfferToSwitchMock = jest.fn();
 
 describe('<PlanDetails/>', () => {
   afterEach(() => jest.clearAllMocks());
@@ -52,8 +52,8 @@ describe('<PlanDetails/>', () => {
     it('should render initial state without subscriptions', () => {
       const wrapper = mount(
         <PureCurrentPlan
-          showSurvey={showSurveyMock}
-          setUpdateAction={setUpdateActionMock}
+          showInnerPopup={showInnerPopupMock}
+          setOfferToSwitch={setOfferToSwitchMock}
         />
       );
       expect(wrapper.prop('subscriptions')).toStrictEqual([]);
@@ -62,8 +62,8 @@ describe('<PlanDetails/>', () => {
       const wrapper = mount(
         <PureCurrentPlan
           subscriptions={planDetailsMock}
-          showSurvey={showSurveyMock}
-          setUpdateAction={setUpdateActionMock}
+          showInnerPopup={showInnerPopupMock}
+          setOfferToSwitch={setOfferToSwitchMock}
         />
       );
       expect(wrapper.prop('subscriptions')).toStrictEqual(planDetailsMock);
@@ -71,41 +71,66 @@ describe('<PlanDetails/>', () => {
     });
   });
   describe('@actions', () => {
-    it('should call setUpdateAction fn and showSurvey on click unsubscribe', () => {
+    it('should call showInnerPopup on click unsubscribe', () => {
       const wrapper = mount(
         <PureCurrentPlan
           subscriptions={planDetailsMock}
-          showSurvey={showSurveyMock}
-          setUpdateAction={setUpdateActionMock}
+          showInnerPopup={showInnerPopupMock}
+          setOfferToSwitch={setOfferToSwitchMock}
         />
       );
-      wrapper.find(UnsubscribeButtonStyled).simulate('click');
+      wrapper.find(SimpleButtonStyled).simulate('click');
 
-      expect(showSurveyMock).toHaveBeenCalledTimes(1);
-      expect(showSurveyMock).toHaveBeenCalledWith({
-        offerId: 'S937144802_UA',
-        expiresAt: 1582706082
+      expect(showInnerPopupMock).toHaveBeenCalledTimes(1);
+      expect(showInnerPopupMock).toHaveBeenCalledWith({
+        type: 'updateSubscription',
+        data: {
+          action: 'unsubscribe',
+          offerData: {
+            offerId: 'S937144802_UA',
+            expiresAt: 1582706082
+          }
+        }
       });
-      expect(setUpdateActionMock).toHaveBeenCalledTimes(1);
-      expect(setUpdateActionMock).toHaveBeenCalledWith('unsubscribe');
     });
-    it('should call setUpdateAction fn and showSurvey on click resubscribe', () => {
+    it('should call showInnerPopup on click resubscribe', () => {
+      const wrapper = mount(
+        <PureCurrentPlan
+          subscriptions={planDetailsMock.slice(1)}
+          showInnerPopup={showInnerPopupMock}
+          setOfferToSwitch={setOfferToSwitchMock}
+        />
+      );
+      wrapper.find(FullWidthButtonStyled).simulate('click');
+
+      expect(showInnerPopupMock).toHaveBeenCalledTimes(1);
+      expect(showInnerPopupMock).toHaveBeenCalledWith({
+        type: 'updateSubscription',
+        data: {
+          action: 'resubscribe',
+          offerData: {
+            offerId: 'S249781156_UA',
+            expiresAt: 1597917717,
+            price: '45.04€'
+          }
+        }
+      });
+    });
+    it('should save data about offer to switch on click SubscriptionCard', () => {
       const wrapper = mount(
         <PureCurrentPlan
           subscriptions={planDetailsMock}
-          showSurvey={showSurveyMock}
-          setUpdateAction={setUpdateActionMock}
+          showInnerPopup={showInnerPopupMock}
+          setOfferToSwitch={setOfferToSwitchMock}
         />
       );
-      wrapper.find(ResubscribeButtonStyled).simulate('click');
+      wrapper
+        .find(SubscriptionStyled)
+        .first()
+        .simulate('click');
 
-      expect(setUpdateActionMock).toHaveBeenCalledWith('resubscribe');
-      expect(showSurveyMock).toHaveBeenCalledTimes(1);
-      expect(showSurveyMock).toHaveBeenCalledWith({
-        offerId: 'S249781156_UA',
-        expiresAt: 1597917717,
-        price: '45.04€'
-      });
+      expect(setOfferToSwitchMock).toHaveBeenCalledTimes(1);
+      expect(setOfferToSwitchMock).toHaveBeenCalledWith(planDetailsMock[0]);
     });
   });
 });

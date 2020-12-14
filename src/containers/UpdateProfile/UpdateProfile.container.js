@@ -1,11 +1,6 @@
 import { connect } from 'react-redux';
-import {
-  setCurrentUser,
-  setConsents,
-  showResetPassword,
-  hideResetPassword
-} from 'redux/userProfile';
-import { showPopup } from 'redux/popup';
+import { setCurrentUser, setConsents } from 'redux/userProfile';
+import { showInnerPopup, hideInnerPopup } from 'redux/innerPopupReducer';
 
 import UpdateProfile from './UpdateProfile.component';
 
@@ -14,7 +9,7 @@ export const mapStateToProps = state => {
     userProfile: state.userProfile,
     userConsents: [],
     consentsError: state.consentsError,
-    isResetPasswordShown: state.isResetPasswordShown
+    innerPopup: state.innerPopup
   };
 };
 
@@ -26,14 +21,11 @@ export const mapDispatchToProps = dispatch => {
     setConsents: consents => {
       dispatch(setConsents(consents));
     },
-    showPopup: type => {
-      dispatch(showPopup(type));
+    showInnerPopup: payload => {
+      dispatch(showInnerPopup(payload));
     },
-    showResetPassword: type => {
-      dispatch(showResetPassword(type));
-    },
-    hideResetPassword: type => {
-      dispatch(hideResetPassword(type));
+    hideInnerPopup: () => {
+      dispatch(hideInnerPopup());
     }
   };
 };

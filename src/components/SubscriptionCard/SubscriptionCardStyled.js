@@ -9,7 +9,8 @@ import {
   MicroFont,
   MainColor,
   White,
-  LineColor
+  LineColor,
+  BackgroundColor
 } from 'styles/variables';
 
 export const WrapperStyled = styled.section`
@@ -64,4 +65,21 @@ export const TrialBadgeStyled = styled.div`
   font-size: ${MicroFont};
   font-weight: ${MediumFontWeight};
   text-transform: uppercase;
+`;
+export const SubBoxStyled = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  margin: 15px 0;
+  padding: 12px;
+  border: 1px solid ${LineColor};
+  background: ${BackgroundColor};
+  border-radius: 4px;
+`;
+
+export const BoxTextStyled = styled.p`
+  font-size: ${TinyFont};
+  color: ${MainColor};
+  margin: 0 0 0 10px;
 `;

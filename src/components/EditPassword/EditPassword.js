@@ -6,24 +6,16 @@ import { getData } from 'util/appConfigHelper';
 import resetPassword from 'api/Auth/resetPassword';
 import Button from 'components/Button';
 import Auth from 'services/auth';
-import MyAccountError from 'components/MyAccountError';
-
-import data from './EditPassword.const';
+import InnerPopupWrapper from 'components/InnerPopupWrapper';
 
 import {
-  WrapperStyled,
-  CardStyled,
-  HeaderStyled,
-  HeaderTitleStyled,
-  DotsWrapperStyled,
-  DotStyled,
   ContentStyled,
   TitleStyled,
   TextStyled,
   ButtonWrapperStyled,
-  InnerWrapperStyled,
   MailStyled
-} from './EditPasswordStyled';
+} from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
+import data from './EditPassword.const';
 
 class EditPassword extends PureComponent {
   constructor(props) {
@@ -42,8 +34,8 @@ class EditPassword extends PureComponent {
   };
 
   logout = () => {
-    const { hideResetPassword } = this.props;
-    hideResetPassword();
+    const { hideInnerPopup } = this.props;
+    hideInnerPopup();
     Auth.logout(true);
   };
 
@@ -53,13 +45,20 @@ class EditPassword extends PureComponent {
     this.setState({
       isLoading: true
     });
-    const response = await resetPassword('', customerEmail, publisherId);
-    if (!response.errors.length) {
-      this.renderNextStep();
-      this.setState({
-        isLoading: false
-      });
-    } else {
+    try {
+      const response = await resetPassword('', customerEmail, publisherId);
+      if (!response.errors.length) {
+        this.renderNextStep();
+        this.setState({
+          isLoading: false
+        });
+      } else {
+        this.setState({
+          isLoading: false,
+          isError: true
+        });
+      }
+    } catch {
       this.setState({
         isLoading: false,
         isError: true
@@ -69,58 +68,48 @@ class EditPassword extends PureComponent {
 
   render() {
     const { step, isLoading, isError } = this.state;
-    const { t, hideResetPassword } = this.props;
+    const { t, hideInnerPopup } = this.props;
     const { steps } = data;
     const stepData = steps[step - 1];
     const customerEmail = getData('CLEENG_CUSTOMER_EMAIL');
     return (
-      <CardStyled>
-        {isError ? (
-          <MyAccountError generalError centered />
-        ) : (
-          <WrapperStyled>
-            <HeaderStyled>
-              <DotsWrapperStyled currentStep={step}>
-                {steps.length > 1 &&
-                  steps.map(item => <DotStyled key={item.title} />)}
-              </DotsWrapperStyled>
-              <HeaderTitleStyled>{t(stepData.headerTitle)}</HeaderTitleStyled>
-            </HeaderStyled>
-            <ContentStyled>
-              <TitleStyled step={step}>{t(stepData.title)}</TitleStyled>
-              <TextStyled step={step}>
-                {t(stepData.text)}
-                {step === 1 && <MailStyled>{customerEmail}</MailStyled>}
-                {t(stepData.secondText) && (
-                  <>
-                    <br />
-                    <br />
-                    {t(stepData.secondText)}
-                  </>
-                )}
-              </TextStyled>
-            </ContentStyled>
-            <ButtonWrapperStyled>
-              <InnerWrapperStyled>
-                {stepData.undoButton && (
-                  <Button theme="simple" onClickFn={() => hideResetPassword()}>
-                    {t(stepData.undoButton)}
-                  </Button>
-                )}
-                <Button theme="confirm" onClickFn={this[stepData.buttonAction]}>
-                  {(isLoading && t('Loading...')) || t(stepData.buttonText)}
-                </Button>
-              </InnerWrapperStyled>
-            </ButtonWrapperStyled>
-          </WrapperStyled>
-        )}
-      </CardStyled>
+      <InnerPopupWrapper
+        steps={2}
+        popupTitle="Edit Password"
+        isError={isError}
+        currentStep={step}
+      >
+        <ContentStyled>
+          <TitleStyled step={step}>{t(stepData.title)}</TitleStyled>
+          <TextStyled step={step}>
+            {t(stepData.text)}
+            {step === 1 && <MailStyled>{customerEmail}</MailStyled>}
+            {t(stepData.secondText) && (
+              <>
+                <br />
+                <br />
+                {t(stepData.secondText)}
+              </>
+            )}
+          </TextStyled>
+        </ContentStyled>
+        <ButtonWrapperStyled>
+          {stepData.undoButton && (
+            <Button theme="simple" onClickFn={() => hideInnerPopup()}>
+              {t(stepData.undoButton)}
+            </Button>
+          )}
+          <Button theme="confirm" onClickFn={this[stepData.buttonAction]}>
+            {(isLoading && t('Loading...')) || t(stepData.buttonText)}
+          </Button>
+        </ButtonWrapperStyled>
+      </InnerPopupWrapper>
     );
   }
 }
 
 EditPassword.propTypes = {
-  hideResetPassword: PropTypes.func.isRequired,
+  hideInnerPopup: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 

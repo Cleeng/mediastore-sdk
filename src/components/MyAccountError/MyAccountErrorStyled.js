@@ -4,10 +4,10 @@ import { media } from 'styles/BreakPoints';
 
 export const WrapStyled = styled.div`
   position: relative;
-  max-width: 320px;
+  max-width: ${props => (props.fullWidth ? 'unset' : '320px')};
 
   padding: 18px;
-  margin: 0 auto 32px auto;
+  margin: ${props => (props.margin ? props.margin : '0 auto 32px auto')} ;
 
   text-align: center;
   line-height: 1.4;

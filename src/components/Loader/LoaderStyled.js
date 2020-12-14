@@ -1,5 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
-import { MyAccountMenuActive } from 'styles/variables';
+import { MainColor } from 'styles/variables';
 
 export const LoaderKeyframeStyled = keyframes`
   0%,
@@ -35,7 +35,7 @@ export const LoaderStyled = styled.div`
     ${props =>
       props.isMyAccount &&
       css`
-        background: ${MyAccountMenuActive};
+        background: ${MainColor};
       `};
   }
 

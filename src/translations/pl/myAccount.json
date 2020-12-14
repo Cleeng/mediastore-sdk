@@ -100,5 +100,22 @@
   "Edit Profile": "Edytuj Profil",
   "First name can have max 50 characters": "Imię może mieć maksymalnie 50 znaków",
   "Last name can have max 50 characters": "Nazwisko może mieć maksylnie 50 znaków",
-  "Your email has been changed succesfully": "Twój adres e-mail został pomyślnie zmieniony"
+  "Your email has been changed succesfully": "Twój email został poprawnie zmieniony",
+  "Switching from a paid to a free offer is not possible": "Zmiana planu na darmowy jest niemożliwa",
+  "Keep Current Plan": "Wróć",
+  "Choose": "Wybierz",
+  "Start by selecting the plan that would like to switch from": "Zacznij od wybrania planu, który chcesz zmienić",
+  "This plan is {{htmltag}}not currently available{{endhtmltag}} in your country or region": "Ten plan {{htmltag}}nie jest obecnie dostępny{{endhtmltag}} w Twoim kraju",
+  "It looks like you already have access to this offer": "Wygląda na to, że masz już dostęp do tej oferty",
+  "Looks like there aren't any options for switching from your current plan right now": "Wygląda na to, że nie ma opcji zmiany Twojego planu na inny",
+  "Your payment method does not allow switching to a new plan from here.": "Twoja metoda płatności nie pozwala na zmianę planu z tego miejsca",
+  "If you signed up via a mobile app, it may be possible to change your plan there.": "Jeżeli kupiłeś ofertę przez aplikację mobilna jest szansa, że możesz go tam zmienić.",
+  "You are about to change your plan from {{htmltag}} {{fromOffer.offerTitle}}{{endhtmltag}} to {{htmltag}} {{toOffer.title}} {{endhtmltag}}. You will be charged the new price {{htmltag}} {{toOffer.nextPaymentPrice}} {{toOffer.nextPaymentPriceCurrencySymbol}} {{endhtmltag}} on your next billing date {{htmltag}} {{dateFormat(fromOffer.expiresAt)}}{{endhtmltag}}.": "Zamierzasz zmienić plan z {{htmltag}} {{fromOffer.offerTitle}{{endhtmltag}} na {{htmltag}} {{toOffer.title} {{endhtmltag}}. Zostaniesz obciążony kwotą {{htmltag}} {{toOffer.nextPaymentPrice} {{toOffer.nextPaymentPriceCurrencySymbol} {{endhtmltag}} przy kolejnym okresie rozliczeniowym, czyli {{htmltag}} {{dateFormat(fromOffer.expiresAt)}{{endhtmltag}}.",
+  "trial period": "trial",
+  "Change Plan": "Zmień Plan",
+  "Upgrade": "Zmień plan",
+  "Downgrade": "Zmień plan",
+  "Manage your plan": "Zarządzaj swoim planem",
+  "You have successfully changed your plan. Your new fee will be ": "Pomyślnie zmieniłeś swój plan. Twoja opłata będzie wynosiła ",
+  "starting from ": "zaczynając od "
 }
