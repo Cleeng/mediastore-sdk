@@ -10,7 +10,6 @@ import {
   SimpleButtonStyled
 } from 'components/CurrentPlan/CurrentPlanStyled';
 import SubscriptionCard from 'components/SubscriptionCard';
-import { currencyFormat } from 'util/planHelper';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
 import mapErrorToText from './helper';
@@ -49,7 +48,7 @@ const SubscriptionSwitchesList = ({
     return (
       <MyAccountError
         icon={mapErrorToText[allSwitchesBlocked.code].icon}
-        title={mapErrorToText[allSwitchesBlocked.code].text}
+        title={mapErrorToText[allSwitchesBlocked.code].title}
         subtitle={mapErrorToText[allSwitchesBlocked.code].subtitle}
         margin="0 auto"
         fullWidth
@@ -75,7 +74,7 @@ const SubscriptionSwitchesList = ({
             <SubscriptionCard
               period={subItem.period}
               title={subItem.title}
-              currency={currencyFormat[subItem.currency]}
+              currency={subItem.nextPaymentPriceCurrencySymbol}
               price={Math.round(subItem.nextPaymentPrice * 100) / 100}
             />
             <SubscriptionActionsStyled>
@@ -102,7 +101,7 @@ const SubscriptionSwitchesList = ({
             <SubscriptionCard
               period={subItem.period}
               title={subItem.title}
-              currency={currencyFormat[subItem.currency]}
+              currency={subItem.nextPaymentPriceCurrencySymbol}
               price={Math.round(subItem.nextPaymentPrice * 100) / 100}
               showInfoBox={subItem.reason.code}
             />
