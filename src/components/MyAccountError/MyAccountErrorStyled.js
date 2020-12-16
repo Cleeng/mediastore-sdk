@@ -42,7 +42,8 @@ export const WrapStyled = styled.div`
 `;
 
 export const TitleStyled = styled.div`
-  margin-bottom: 5px;
+  max-width: 380px;
+  margin: auto auto 5px auto;
 
   color: ${MainColor};
 
@@ -53,8 +54,14 @@ export const SubTitleStyled = styled.div`
   color: ${MainColor};
 
   font-size: 13px;
+
+  max-width: 310px;
+  margin: auto;
 `;
 
 export const IconStyled = styled.div`
   margin: 0 auto 10px auto;
+  svg {
+    max-width: 100%;
+  }
 `;
