@@ -1,3 +1,6 @@
+![Build](https://github.com/Cleeng/media-store-sdk/workflows/Build/badge.svg?branch=master&event=push)
+![Tests](https://github.com/Cleeng/media-store-sdk/workflows/Tests/badge.svg?branch=master&event=push)
+
 # MediaStore SDK
 
 This repo is an example app which shows how to integrate with Cleeng MediaStore API. It consists of components that will empower you to build and design a seamless checkout process, help visitors become subscribers, and then allow them to manage their subscription.
