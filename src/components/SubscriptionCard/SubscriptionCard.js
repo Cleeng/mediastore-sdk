@@ -26,9 +26,11 @@ const SubscriptionCard = ({
   price,
   isTrialAvailable,
   showInfoBox,
+  isSubscriptionOffer,
   t
 }) => {
-  const isSubscription = getData('CLEENG_OFFER_TYPE') === 'S';
+  const isSubscription =
+    getData('CLEENG_OFFER_TYPE') === 'S' || isSubscriptionOffer;
   const mapCode = {
     TO_OFFER_COUNTRY_NOT_ALLOWED: {
       text: t(
@@ -94,6 +96,7 @@ SubscriptionCard.propTypes = {
   price: PropTypes.number,
   isTrialAvailable: PropTypes.bool,
   showInfoBox: PropTypes.string,
+  isSubscriptionOffer: PropTypes.bool,
   t: PropTypes.func
 };
 
@@ -106,6 +109,7 @@ SubscriptionCard.defaultProps = {
   price: '',
   isTrialAvailable: false,
   showInfoBox: null,
+  isSubscriptionOffer: false,
   t: k => k
 };
 

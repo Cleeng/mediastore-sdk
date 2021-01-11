@@ -6,16 +6,15 @@ import { action } from '@storybook/addon-actions';
 import 'styles/index.scss';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import withMock from 'storybook-addon-mock';
-import mockOfferDetails from './__mocks__/offerDetails';
-
-import Offer from './Offer';
+import { offerDetailsMock } from './__mocks__/offerDetails';
+import { PureOffer as Offer } from './Offer';
 
 const OFFER_DETAILS_GROUP_ID = 'Offer Details';
 
 storiesOf('Pages/Offer', module)
   .addDecorator(withKnobs)
-  .addDecorator(jsxDecorator)
   .addDecorator(withMock)
+  .addDecorator(jsxDecorator)
   .addDecorator(story => (
     <div
       style={{
@@ -34,17 +33,17 @@ storiesOf('Pages/Offer', module)
         offerDetails={{
           offerTitle: text(
             'title',
-            mockOfferDetails.title,
+            offerDetailsMock.title,
             OFFER_DETAILS_GROUP_ID
           ),
           customerCurrencySymbol: text(
             'customerCurrencySymbol',
-            mockOfferDetails.customerCurrencySymbol,
+            offerDetailsMock.customerCurrencySymbol,
             OFFER_DETAILS_GROUP_ID
           ),
           description: text(
             'description',
-            mockOfferDetails.description,
+            offerDetailsMock.description,
             OFFER_DETAILS_GROUP_ID
           ),
           trialAvailable: boolean(
@@ -54,19 +53,19 @@ storiesOf('Pages/Offer', module)
           ),
           freePeriods: number(
             'freePeriods',
-            mockOfferDetails.freePeriods,
+            offerDetailsMock.freePeriods,
             {},
             OFFER_DETAILS_GROUP_ID
           ),
           freeDays: number(
             'freeDays',
-            mockOfferDetails.freeDays,
+            offerDetailsMock.freeDays,
             {},
             OFFER_DETAILS_GROUP_ID
           ),
           period: text(
             'period',
-            mockOfferDetails.period,
+            offerDetailsMock.period,
             OFFER_DETAILS_GROUP_ID
           )
         }}
@@ -74,25 +73,25 @@ storiesOf('Pages/Offer', module)
           priceBreakdown: {
             offerPrice: number(
               'price',
-              mockOfferDetails.price,
+              offerDetailsMock.price,
               {},
               OFFER_DETAILS_GROUP_ID
             ),
             discountAmount: number(
               'discountAmount',
-              mockOfferDetails.discountAmount,
+              offerDetailsMock.discountAmount,
               {},
               OFFER_DETAILS_GROUP_ID
             ),
             taxValue: number(
               'taxValue',
-              mockOfferDetails.taxValue,
+              offerDetailsMock.taxValue,
               {},
               OFFER_DETAILS_GROUP_ID
             ),
             customerServiceFee: number(
               'customerServiceFee',
-              mockOfferDetails.customerServiceFee,
+              offerDetailsMock.customerServiceFee,
               {},
               OFFER_DETAILS_GROUP_ID
             )
@@ -102,13 +101,13 @@ storiesOf('Pages/Offer', module)
           },
           totalPrice: number(
             'totalPrice',
-            mockOfferDetails.totalPrice,
+            offerDetailsMock.totalPrice,
             {},
             OFFER_DETAILS_GROUP_ID
           ),
           requiredPaymentDetails: boolean(
             'requiredPaymentDetails',
-            mockOfferDetails.requiredPaymentDetails,
+            offerDetailsMock.requiredPaymentDetails,
             OFFER_DETAILS_GROUP_ID
           )
         }}
@@ -119,6 +118,7 @@ storiesOf('Pages/Offer', module)
           onSubmit: action('apply-coupon')
         }}
         onPaymentComplete={action('onPaymentComplete')}
+        updatePriceBreakdown={() => {}}
       />
     ),
     {
