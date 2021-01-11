@@ -9,7 +9,7 @@ storiesOf('Checkout/Footer', module)
   .addDecorator(story => (
     <div
       style={{
-        width: '400px',
+        width: '600px',
         height: '36px',
         background: '#ffffff',
         position: 'relative'

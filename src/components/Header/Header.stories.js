@@ -4,7 +4,6 @@ import { jsxDecorator } from 'storybook-addon-jsx';
 import { withKnobs } from '@storybook/addon-knobs';
 import StoryRouter from 'storybook-react-router';
 import 'styles/index.scss';
-import { PureLogout } from 'components/Logout/Logout';
 import { PureBackButton } from 'components/BackButton/BackButton';
 import Header from './Header';
 
@@ -15,7 +14,7 @@ storiesOf('Checkout/Header', module)
   .addDecorator(story => (
     <div
       style={{
-        width: 500,
+        width: 600,
         backgroundColor: '#ffffff',
         position: 'relative'
       }}
@@ -24,11 +23,6 @@ storiesOf('Checkout/Header', module)
     </div>
   ))
   .add('Default - with logo', () => <Header />)
-  .add('With logout button', () => (
-    <Header>
-      <PureLogout />
-    </Header>
-  ))
   .add('With back to login button', () => (
     <Header>
       <PureBackButton />

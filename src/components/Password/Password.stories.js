@@ -19,4 +19,4 @@ storiesOf('MyAccount/UpdateProfile/Password', module)
       {story()}
     </div>
   ))
-  .add('Default', () => <PurePassword />);
+  .add('Default', () => <PurePassword showInnerPopup={() => {}} />);
