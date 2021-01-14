@@ -117,5 +117,12 @@
   "Downgrade": "Zmień plan",
   "Manage your plan": "Zarządzaj swoim planem",
   "You have successfully changed your plan. Your new fee will be ": "Pomyślnie zmieniłeś swój plan. Twoja opłata będzie wynosiła ",
-  "starting from ": "zaczynając od "
+  "starting from ": "zaczynając od ",
+  "Manage": "Zarządzaj",
+  "Your Coupon has been successfully reedemed.": "Kupon został pomyślnie zaaplikowany.",
+  "This is not a valid coupon code for this offer.": "Podany kupon nie jest poprawny dla wybranej oferty.",
+  "Invalid coupon code.": "Podany kupon jest niepoprawny.",
+  "Coupon already used": "Podany kupon został juz wykorzystany.",
+  "Ooops. Something went wrong.": "Przepraszmy. Coś poszło nie tak.",
+  "Please enter coupon code.": "Proszę podać kupon."
 }

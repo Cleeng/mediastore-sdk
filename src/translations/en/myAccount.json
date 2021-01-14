@@ -116,5 +116,12 @@
   "Downgrade": "Downgrade",
   "Manage your plan": "Manage your plan",
   "You have successfully changed your plan. Your new fee will be ": "You have successfully changed your plan. Your new fee will be ",
-  "starting from ": "starting from "
+  "starting from ": "starting from ",
+  "Manage": "Manage",
+  "Your Coupon has been successfully reedemed.": "Your Coupon has been successfully reedemed.",
+  "This is not a valid coupon code for this offer.": "This is not a valid coupon code for this offer.",
+  "Invalid coupon code.": "Invalid coupon code.",
+  "Coupon already used": "Coupon already used",
+  "Ooops. Something went wrong.": "Ooops. Something went wrong.",
+  "Please enter coupon code.": "Please enter coupon code."
 }
