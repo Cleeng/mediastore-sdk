@@ -45,6 +45,7 @@ const planDetailsMock = [
 ];
 const showInnerPopupMock = jest.fn();
 const setOfferToSwitchMock = jest.fn();
+const updateList = jest.fn();
 
 describe('<PlanDetails/>', () => {
   afterEach(() => jest.clearAllMocks());
@@ -54,6 +55,7 @@ describe('<PlanDetails/>', () => {
         <PureCurrentPlan
           showInnerPopup={showInnerPopupMock}
           setOfferToSwitch={setOfferToSwitchMock}
+          updateList={updateList}
         />
       );
       expect(wrapper.prop('subscriptions')).toStrictEqual([]);
@@ -64,6 +66,7 @@ describe('<PlanDetails/>', () => {
           subscriptions={planDetailsMock}
           showInnerPopup={showInnerPopupMock}
           setOfferToSwitch={setOfferToSwitchMock}
+          updateList={updateList}
         />
       );
       expect(wrapper.prop('subscriptions')).toStrictEqual(planDetailsMock);
@@ -72,13 +75,17 @@ describe('<PlanDetails/>', () => {
   });
   describe('@actions', () => {
     it('should call showInnerPopup on click unsubscribe', () => {
+      const trueValue = true;
       const wrapper = mount(
         <PureCurrentPlan
           subscriptions={planDetailsMock}
           showInnerPopup={showInnerPopupMock}
           setOfferToSwitch={setOfferToSwitchMock}
+          updateList={updateList}
+          isManagementBarOpen={trueValue}
         />
       );
+
       wrapper.find(SimpleButtonStyled).simulate('click');
 
       expect(showInnerPopupMock).toHaveBeenCalledTimes(1);
@@ -94,11 +101,14 @@ describe('<PlanDetails/>', () => {
       });
     });
     it('should call showInnerPopup on click resubscribe', () => {
+      const trueValue = true;
       const wrapper = mount(
         <PureCurrentPlan
           subscriptions={planDetailsMock.slice(1)}
           showInnerPopup={showInnerPopupMock}
           setOfferToSwitch={setOfferToSwitchMock}
+          updateList={updateList}
+          isManagementBarOpen={trueValue}
         />
       );
       wrapper.find(FullWidthButtonStyled).simulate('click');
@@ -122,6 +132,7 @@ describe('<PlanDetails/>', () => {
           subscriptions={planDetailsMock}
           showInnerPopup={showInnerPopupMock}
           setOfferToSwitch={setOfferToSwitchMock}
+          updateList={updateList}
         />
       );
       wrapper

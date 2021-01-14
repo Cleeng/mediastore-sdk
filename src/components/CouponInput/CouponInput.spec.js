@@ -2,12 +2,18 @@ import React from 'react';
 import { mount } from 'enzyme';
 import 'jest-styled-components';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
+import Button from 'components/Button';
 import { PureCouponInput as CouponInput } from './CouponInput';
-import { InputElementStyled, MessageStyled } from './CouponInputStyled';
+import {
+  InputElementStyled,
+  MessageStyled,
+  CloseButtonStyled
+} from './CouponInputStyled';
 
 jest.useFakeTimers();
 
 const onSubmit = jest.fn().mockResolvedValue({});
+const onClose = jest.fn();
 const MOCK_MESSAGE_1 = 'MOCK_MESSAGE_1';
 const MOCK_MESSAGE_2 = 'MOCK_MESSAGE_2';
 const DELAY = 5000;
@@ -53,24 +59,6 @@ describe('CouponInput', () => {
       const messageEl = wrapper.find(MessageStyled);
       expect(messageEl.text()).toBe(MOCK_MESSAGE_1);
       expect(messageEl).toHaveStyleRule('opacity', '0');
-    });
-
-    it('should open input field on first click and apply coupon on second click', () => {
-      const wrapper = mount(
-        <CouponInput onSubmit={onSubmit} value="mockValue" />
-      );
-      const buttonComponent = wrapper.find('button');
-
-      expect(wrapper.state('isOpened')).toBe(false);
-
-      buttonComponent.simulate('click');
-
-      expect(wrapper.state('isOpened')).toBe(true);
-
-      buttonComponent.simulate('click');
-
-      expect(onSubmit).toHaveBeenCalled();
-      expect(onSubmit).toHaveBeenCalledWith('mockValue');
     });
   });
   describe('@events', () => {
@@ -209,6 +197,40 @@ describe('CouponInput', () => {
 
       wrapper.unmount();
       expect(clearTimeout).toHaveBeenCalledWith(timeoutId);
+    });
+    it('should open input field on first click and apply coupon on second click', () => {
+      const wrapper = mount(
+        <CouponInput onSubmit={onSubmit} value="mockValue" />
+      );
+      const buttonComponent = wrapper.find(Button);
+
+      expect(wrapper.state('isOpened')).toBe(false);
+
+      buttonComponent.simulate('click');
+
+      expect(wrapper.state('isOpened')).toBe(true);
+
+      buttonComponent.simulate('click');
+
+      expect(onSubmit).toHaveBeenCalled();
+      expect(onSubmit).toHaveBeenCalledWith('mockValue');
+    });
+
+    it('should close input field on close button click', () => {
+      const wrapper = mount(
+        <CouponInput onSubmit={onSubmit} onClose={onClose} value="mockValue" />
+      );
+      const buttonComponent = wrapper.find(CloseButtonStyled);
+
+      wrapper.setState({ isOpened: true });
+
+      expect(wrapper.state('isOpened')).toBe(true);
+
+      buttonComponent.simulate('click');
+
+      expect(onClose).toHaveBeenCalled();
+
+      expect(wrapper.state('isOpened')).toBe(false);
     });
   });
 });

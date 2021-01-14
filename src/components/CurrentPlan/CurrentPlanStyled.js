@@ -59,12 +59,13 @@ export const SubscriptionStyled = styled.div`
 export const SubscriptionActionsStyled = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: flex-start;
 
   border-top: 1px solid ${IconsColor};
   margin-top: 17px;
+  padding-top: 17px;
 `;
 export const SimpleButtonStyled = styled(Button)`
-  margin: 15px 0 0 0;
   width: 48%;
 
   text-transform: capitalize;
@@ -73,7 +74,7 @@ export const SimpleButtonStyled = styled(Button)`
   }
   ${mediaFrom.small &&
     css`
-      margin: 17px 0 0 5px;
+      margin: 0 14px 0 0;
       width: unset;
       max-width: unset;
     `}
@@ -88,4 +89,34 @@ export const FullWidthButtonStyled = styled(Button)`
       width: unset;
       max-width: unset;
     `}
+`;
+
+export const SubscriptionManageWrapStyled = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+export const ButtonTextStyled = styled.span`
+  position: relative;
+  margin-right: 17px;
+  font-family: inherit;
+  font-weight: inherit;
+
+  &:after {
+    position: absolute;
+    right: -17px;
+    bottom: 0;
+    font-size: 11px;
+    ${props => (props.isExpanded ? "content: '▲'" : "content: '▼'")};
+  }
+`;
+
+export const StatusMessageWrapStyled = styled.div`
+  margin-top: 20px;
+`;
+
+export const CouponWrapStyled = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 `;

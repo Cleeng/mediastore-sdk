@@ -159,6 +159,7 @@ class PlanDetails extends Component {
       innerPopup,
       showInnerPopup,
       setOfferToSwitch,
+      updateList,
       t
     } = this.props;
     const { errors, isLoading } = this.state;
@@ -179,6 +180,7 @@ class PlanDetails extends Component {
               showInnerPopup={showInnerPopup}
               setOfferToSwitch={setOfferToSwitch}
               offerToSwitch={planDetails.offerToSwitch}
+              updateList={updateList}
             />
             {activeSubscriptions.length !== 0 && (
               <>

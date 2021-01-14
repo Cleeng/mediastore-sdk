@@ -16,6 +16,7 @@ import getCustomerConsents from './Customer/getCustomerConsents';
 import submitPayPalPayment from './Offer/submitPayPalPayment';
 import getAvailableSwitches from './Customer/getAvailableSwitches';
 import subscriptionSwitch from './Customer/subscriptionSwitch';
+import applyCoupon from './Customer/applyCoupon';
 
 export {
   getPaymentMethods,
@@ -35,5 +36,6 @@ export {
   getCustomerConsents,
   submitPayPalPayment,
   getAvailableSwitches,
-  subscriptionSwitch
+  subscriptionSwitch,
+  applyCoupon
 };
