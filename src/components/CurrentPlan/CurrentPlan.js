@@ -55,6 +55,9 @@ class CurrentPlan extends PureComponent {
                 'success',
                 t('Your Coupon has been successfully reedemed.')
               );
+              this.setState({
+                isCouponInputOpened: false
+              });
               updateList();
               break;
             case 422:

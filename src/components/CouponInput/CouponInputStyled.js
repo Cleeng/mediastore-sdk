@@ -91,6 +91,7 @@ export const CloseButtonStyled = styled.button`
   left: 7px;
   transform: translate(0, -50%);
   background-color: ${Colors.LineColor};
+  opacity: 0;
   border: 0;
   border-radius: 50%;
   display: flex;
@@ -103,4 +104,10 @@ export const CloseButtonStyled = styled.button`
     height: 8px;
     fill: ${Colors.White};
   }
+
+  ${props =>
+    props.isInputOpened &&
+    css`
+      opacity: 1;
+    `}
 `;

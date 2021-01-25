@@ -122,7 +122,10 @@ class CouponInput extends Component {
           showMessage={showMessage && !suppressMessage}
           messageType={messageType}
         >
-          <CloseButtonStyled onClick={() => this.onCloseClick()}>
+          <CloseButtonStyled
+            onClick={() => this.onCloseClick()}
+            isInputOpened={isOpened}
+          >
             {CloseIcon && <CloseIcon />}
           </CloseButtonStyled>
           <InputElementStyled

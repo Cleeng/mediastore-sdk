@@ -1,14 +1,8 @@
 /* istanbul ignore file */
 import React, { Suspense } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
-import Register from 'components/RegisterPage/Register';
 import { isHosted } from 'util/layoutHelper';
 import 'i18NextInit';
-import ThankYouPage from 'components/ThankYouPage/ThankYouPage';
-import Login from 'components/LoginPage/Login';
-import PasswordReset from 'components/PasswordReset';
-import ErrorPage from 'components/ErrorPage';
-import PasswordResetSuccess from 'components/PasswordResetSuccess';
 import RedirectWithQuery from 'components/RedirectWithQuery';
 import Loader from 'components/Loader';
 import PrivateRoute from 'services/privateRoute';
@@ -16,7 +10,18 @@ import PublicRoute from 'services/publicRoute';
 import history from '../../history';
 import OfferContainer from '../OfferContainer';
 import { AppStyled, AppContentStyled } from './AppStyled';
-import MyAccount from '../MyAccount/MyAccount.container';
+
+const Register = React.lazy(() => import('components/RegisterPage/Register'));
+const Login = React.lazy(() => import('components/LoginPage/Login'));
+const PasswordReset = React.lazy(() => import('components/PasswordReset'));
+const PasswordResetSuccess = React.lazy(() =>
+  import('components/PasswordResetSuccess')
+);
+const ThankYouPage = React.lazy(() =>
+  import('components/ThankYouPage/ThankYouPage')
+);
+const ErrorPage = React.lazy(() => import('components/ErrorPage'));
+const MyAccount = React.lazy(() => import('../MyAccount/MyAccount.container'));
 
 const App = () => {
   const path = history.location.hash.slice(1);
@@ -26,9 +31,9 @@ const App = () => {
   const isAppHosted = isHosted();
 
   return (
-    <Suspense fallback={<Loader />}>
-      <Router history={history}>
-        <AppStyled hosted={isAppHosted}>
+    <AppStyled hosted={isAppHosted}>
+      <Suspense fallback={<Loader centered />}>
+        <Router history={history}>
           <AppContentStyled hosted={isAppHosted}>
             <Switch>
               <PublicRoute path="/" exact component={RedirectWithQuery} />
@@ -94,9 +99,9 @@ const App = () => {
               />
             </Switch>
           </AppContentStyled>
-        </AppStyled>
-      </Router>
-    </Suspense>
+        </Router>
+      </Suspense>
+    </AppStyled>
   );
 };
 
