@@ -25,6 +25,15 @@ export const LoaderStyled = styled.div`
       margin: 50px auto;
     `};
 
+  ${props =>
+    props.centered &&
+    css`
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    `}
+
   & div {
     position: absolute;
     width: 5px;

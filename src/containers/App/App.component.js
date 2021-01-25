@@ -31,9 +31,9 @@ const App = () => {
   const isAppHosted = isHosted();
 
   return (
-    <Suspense fallback={<Loader />}>
-      <Router history={history}>
-        <AppStyled hosted={isAppHosted}>
+    <AppStyled hosted={isAppHosted}>
+      <Suspense fallback={<Loader centered />}>
+        <Router history={history}>
           <AppContentStyled hosted={isAppHosted}>
             <Switch>
               <PublicRoute path="/" exact component={RedirectWithQuery} />
@@ -99,9 +99,9 @@ const App = () => {
               />
             </Switch>
           </AppContentStyled>
-        </AppStyled>
-      </Router>
-    </Suspense>
+        </Router>
+      </Suspense>
+    </AppStyled>
   );
 };
 
