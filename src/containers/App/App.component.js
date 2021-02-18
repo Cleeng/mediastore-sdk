@@ -7,6 +7,7 @@ import RedirectWithQuery from 'components/RedirectWithQuery';
 import Loader from 'components/Loader';
 import PrivateRoute from 'services/privateRoute';
 import PublicRoute from 'services/publicRoute';
+import Capture from 'components/Capture/Capture';
 import history from '../../history';
 import OfferContainer from '../OfferContainer';
 import { AppStyled, AppContentStyled } from './AppStyled';
@@ -70,6 +71,16 @@ const App = () => {
                 component={urlProps => (
                   <PasswordResetSuccess
                     email={decodeURIComponent(urlProps.match.params.email)}
+                  />
+                )}
+              />
+              <PrivateRoute
+                path="/capture"
+                component={urlProps => (
+                  <Capture
+                    urlProps={urlProps}
+                    settings={urlProps.location.state.settings}
+                    redirectUrl={urlProps.location.state.redirectUrl}
                   />
                 )}
               />
