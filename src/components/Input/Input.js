@@ -9,7 +9,9 @@ import {
   ErrorWrapper,
   StyledButton,
   StyledPasswordVisibility,
-  LabelStyled
+  LabelStyled,
+  InputIconStyled,
+  InputRequiredStyled
 } from './InputStyled';
 
 class Input extends Component {
@@ -31,7 +33,9 @@ class Input extends Component {
       showPassword,
       passwordStrength,
       ariaRequired,
-      ariaInvalid
+      ariaInvalid,
+      icon,
+      required
     } = this.props;
 
     return (
@@ -40,6 +44,8 @@ class Input extends Component {
           error={error}
           passwordStrength={passwordStrength}
         >
+          {icon && <InputIconStyled>{icon.render()}</InputIconStyled>}
+          {required && <InputRequiredStyled>*</InputRequiredStyled>}
           <InputElementStyled
             id={placeholder}
             autoComplete="off"
@@ -50,8 +56,9 @@ class Input extends Component {
             aria-required={ariaRequired}
             aria-invalid={ariaInvalid}
             aria-describedby={`${placeholder}-desc`}
+            withIcon={icon}
           />
-          <LabelStyled htmlFor={placeholder} hasValue={value}>
+          <LabelStyled htmlFor={placeholder} hasValue={value} withIcon={icon}>
             {placeholder}
           </LabelStyled>
           {showVisibilityIcon && (
@@ -93,7 +100,9 @@ Input.propTypes = {
   showPassword: PropTypes.bool,
   passwordStrength: PropTypes.string,
   ariaRequired: PropTypes.bool,
-  ariaInvalid: PropTypes.bool
+  ariaInvalid: PropTypes.bool,
+  icon: PropTypes.elementType,
+  required: PropTypes.bool
 };
 
 Input.defaultProps = {
@@ -108,7 +117,9 @@ Input.defaultProps = {
   showPassword: false,
   passwordStrength: '',
   ariaRequired: false,
-  ariaInvalid: false
+  ariaInvalid: false,
+  icon: null,
+  required: false
 };
 
 export default Input;

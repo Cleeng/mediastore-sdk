@@ -7,6 +7,18 @@ jest.mock('util/appConfigHelper', () => ({
   setData: jest.fn(),
   removeData: jest.fn()
 }));
+jest.mock('api', () => ({
+  getCaptureStatus: jest
+    .fn()
+    .mockResolvedValue({
+      responseData: {
+        shouldCaptureBeDisplayed: true,
+        settings: []
+      },
+      errors: []
+    })
+    .mockName('getCaptureStatus')
+}));
 
 const validJWT =
   'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjo1MzMzNTQzMDUsIm9mZmVySWQiOiJTNzA1OTcwMjkzX05MIn0.HNh4sl7zIg9fBwo7wcZAks8Io998LaJKFKiY10osljZXxPoC5ML2_nwsU-d57WkTCrgyKuofpVdlAwCVe6cYbyjaHDWy31eNjiqPG5V0T6IAw6NJ3nHojbVQ_CxWxVYxc9W--Z09-ClTVJqOCswShsHWXlPexA1r2BI79TVoGXSJags3uN7Q7TuNSb9GPDo1UsUJD0WkFC-05gllsr9eMZ5U2H6ds6ERTQFHdO71QtMPjJbodJZE-gYTyC9LwU1KKt84iQ6FMXvmaU_J7Ye9JrmHOdBppMWrUtvFs1-tZKUd0vvfQbO9y9wGPcRFsEpkmbiu0ba8t5k9v1K7fv7mfQ';
@@ -37,13 +49,19 @@ describe('Auth', () => {
     });
   });
   describe('@login', () => {
-    it('should update auth status to authenticated and set items in local storage when Login', () => {
+    it('should update auth status to authenticated and set items in local storage when Login', done => {
       Auth.login(false, emailMock, validJWT);
       getData.mockReturnValueOnce(validJWT).mockReturnValueOnce(emailMock);
       expect(getData('CLEENG_AUTH_TOKEN')).toBe(validJWT);
       expect(getData('CLEENG_CUSTOMER_EMAIL')).toBe(emailMock);
-      expect(pushSpy).toHaveBeenCalled();
-      expect(pushSpy).toHaveBeenCalledWith('/offer');
+      setImmediate(() => {
+        expect(pushSpy).toHaveBeenCalled();
+        expect(pushSpy).toHaveBeenCalledWith('/capture', {
+          redirectURL: '/offer',
+          settings: []
+        });
+        done();
+      });
     });
   });
   describe('@logout', () => {

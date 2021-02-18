@@ -1,5 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import { getData, setData, removeData } from 'util/appConfigHelper';
+import { getCaptureStatus } from 'api';
 import history from '../history';
 
 class Auth {
@@ -7,11 +8,13 @@ class Auth {
     this.isAuthenticated = false;
     this.myAccount = {
       mainPage: '/my-account/plan-details',
-      loginPage: '/my-account/login'
+      loginPage: '/my-account/login',
+      capturePage: '/capture'
     };
     this.checkout = {
       mainPage: '/offer',
-      loginPage: '/login'
+      loginPage: '/login',
+      capturePage: '/capture'
     };
   }
 
@@ -23,7 +26,18 @@ class Auth {
     const redirectURL = isMyAccount
       ? this.myAccount.mainPage
       : this.checkout.mainPage;
-    history.push(redirectURL);
+
+    getCaptureStatus().then(resp => {
+      if (resp.responseData.shouldCaptureBeDisplayed === true) {
+        const data = {
+          settings: resp.responseData.settings,
+          redirectURL
+        };
+        history.push('/capture', data);
+      } else {
+        history.push(redirectURL);
+      }
+    });
   }
 
   logout(isMyAccount = false, queryParam = '') {
