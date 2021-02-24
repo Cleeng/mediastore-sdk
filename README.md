@@ -41,11 +41,6 @@ Below you can find a list with available scripts.
   <td>
    Launches the test runner in the interactive watch mode.
   </td></tr>
-<tr><td>yarn storybook</td>
-  <td>
-  Launches the storybooks locally on the localhost:6006 port 
-  On staging, the storybook is available on <a href="https://gummybear-staging.cleeng.com/storybook-static">https://gummybear-staging.cleeng.com/storybook-static</a>
-  </td></tr>
 </table>
 
 ## Links
@@ -54,20 +49,20 @@ Below you can find a list with available scripts.
 
 **Here you can find documentation:**
 
-- [MediaStore SDK tutorial](https://developers.apidoc.cleeng.com/docs/what-is-mediastore-sdk)
-- [API documentation](https://developers.apidoc.cleeng.com/reference/getting-started)
+- [MediaStore SDK tutorial](https://developers.cleeng.com/docs/prerequisites)
+- [API documentation](https://developers.cleeng.com/reference/getting-started)
 
 **Looking for specific details?**
 
-- [features](https://developers.apidoc.cleeng.com/docs/what-is-mediastore-sdk#features)
-- [authorisation](https://developers.apidoc.cleeng.com/docs/what-is-mediastore-sdk#authorisation)
-- [translations](https://developers.apidoc.cleeng.com/docs/what-is-mediastore-sdk#translation)
+- [features](https://developers.cleeng.com/docs/mediastore-overview)
+- [authorisation](https://developers.cleeng.com/docs/authorisation)
+- [translations](https://developers.cleeng.com/docs/translations)
 
 ## Architecture overview
 
 MediaStore SDK is a frontend application build with React. It was bootstrapped with Create React App. We are using a webpack to build it, Jest, and Enzyme for testing, Styled Components for styles.
 
-This application is communicating with the backend REST API. All methods available can be found [here](https://developers.apidoc.cleeng.com/reference/getting-started).
+This application is communicating with the backend REST API. All methods available can be found [here](https://developers.cleeng.com/reference/getting-started).
 
 <b>The app requires params to working properly. </b>
 
