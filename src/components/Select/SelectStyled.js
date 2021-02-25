@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
 import ReactSelect from 'react-select';
 import * as Colors from 'styles/variables';
-// import { media } from 'styles/BreakPoints';
 
 export const SelectStyled = styled.div`
   display: flex;
@@ -11,7 +10,6 @@ export const SelectStyled = styled.div`
   width: 100%;
 `;
 
-// eslint-disable-next-line import/prefer-default-export
 export const ReactSelectStyled = styled(ReactSelect)`
   &:focus-within,
   &:focus {
@@ -28,6 +26,9 @@ export const ReactSelectStyled = styled(ReactSelect)`
         border-color: ${Colors.ConfirmColor};
         box-shadow: none;
       }
+    }
+    &--is-disabled {
+      background-color: ${Colors.BackgroundColor};
     }
   }
   .react-select__placeholder {
@@ -53,6 +54,18 @@ export const ReactSelectStyled = styled(ReactSelect)`
       background-color: #fff;
     }
   }
+  ${props =>
+    props.isMyAccount &&
+    css`
+      .react-select__control {
+        border: 1px solid #d3dbe6;
+        border-radius: 4px;
+      }
+      .react-select__value-container {
+        padding: 0 16px;
+        font-size: 13px;
+      }
+    `}
   ${props =>
     props.required &&
     css`
