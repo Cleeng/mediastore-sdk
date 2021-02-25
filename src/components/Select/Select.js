@@ -1,9 +1,27 @@
-/* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { SelectStyled, ReactSelectStyled } from './SelectStyled';
 
-const Select = ({ name, values, value, onChange, label, required }) => {
+export const mapToSelectFormat = array => {
+  const newArray = array.map(item => {
+    return {
+      label: item,
+      value: item
+    };
+  });
+  return newArray;
+};
+
+const Select = ({
+  name,
+  values,
+  value,
+  onChange,
+  label,
+  required,
+  disabled,
+  isMyAccount
+}) => {
   const handleChange = option => {
     onChange(name, option);
   };
@@ -18,6 +36,8 @@ const Select = ({ name, values, value, onChange, label, required }) => {
         onChange={handleChange}
         options={values}
         name={name}
+        isDisabled={disabled}
+        isMyAccount={isMyAccount}
       />
     </SelectStyled>
   );
@@ -29,7 +49,9 @@ Select.propTypes = {
   required: PropTypes.bool,
   value: PropTypes.objectOf(PropTypes.string),
   name: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
+  disabled: PropTypes.bool,
+  isMyAccount: PropTypes.bool
 };
 
 Select.defaultProps = {
@@ -38,7 +60,9 @@ Select.defaultProps = {
   required: false,
   name: '',
   value: {},
-  onChange: () => {}
+  onChange: () => {},
+  disabled: false,
+  isMyAccount: false
 };
 
 export default Select;

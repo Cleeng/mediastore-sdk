@@ -1,5 +1,10 @@
 import { connect } from 'react-redux';
-import { setCurrentUser, setConsents } from 'redux/userProfile';
+import {
+  setCurrentUser,
+  setConsents,
+  setUserCapture,
+  updateCaptureOption
+} from 'redux/userProfile';
 import { showInnerPopup, hideInnerPopup } from 'redux/innerPopupReducer';
 
 import UpdateProfile from './UpdateProfile.component';
@@ -17,6 +22,12 @@ export const mapDispatchToProps = dispatch => {
   return {
     setCurrentUser: currentUser => {
       dispatch(setCurrentUser(currentUser));
+    },
+    setUserCapture: capture => {
+      dispatch(setUserCapture(capture));
+    },
+    updateCaptureOption: payload => {
+      dispatch(updateCaptureOption(payload));
     },
     setConsents: consents => {
       dispatch(setConsents(consents));

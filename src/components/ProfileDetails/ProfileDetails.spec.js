@@ -3,9 +3,12 @@ import React from 'react';
 import { mount } from 'enzyme';
 import MyAccountInput from 'components/MyAccountInput';
 import updateCustomerRequest from 'api/Customer/updateCustomer';
+import updateCaptureAnswers from 'api/Customer/updateCaptureAnswers';
+
 import { PureProfileDetails } from './ProfileDetails';
 
 jest.mock('api/Customer/updateCustomer');
+jest.mock('api/Customer/updateCaptureAnswers');
 
 describe('<ProfileDetails/>', () => {
   afterEach(() => {
@@ -14,20 +17,67 @@ describe('<ProfileDetails/>', () => {
   const defaultProps = {
     firstName: 'Username',
     lastName: 'Lastname',
-    email: 'user@example.com'
+    email: 'user@example.com',
+    birthDate: {
+      key: 'birthDate',
+      enabled: true,
+      required: true,
+      answer: '2000-02-02'
+    },
+    phoneNumber: {
+      key: 'phoneNumber',
+      enabled: true,
+      required: true,
+      answer: '123123123'
+    },
+    companyName: {
+      key: 'companyName',
+      enabled: true,
+      required: true,
+      answer: 'test company'
+    }
   };
   const updatedProps = {
     firstName: 'Username2',
     lastName: 'Lastname2',
     email: 'user2@example.com',
-    confirmationPassword: '123'
+    confirmationPassword: '123',
+    birthDate: {
+      key: 'birthDate',
+      enabled: true,
+      required: true,
+      answer: '2000-02-02'
+    },
+    phoneNumber: {
+      key: 'phoneNumber',
+      enabled: true,
+      required: true,
+      answer: '123123123'
+    },
+    companyName: {
+      key: 'companyName',
+      enabled: true,
+      required: true,
+      answer: 'test company'
+    }
   };
   describe('@lifecycle', () => {
     it('should set state on componentDidMount', () => {
       const wrapper = mount(
         <PureProfileDetails {...defaultProps} isLoading={false} />
       );
-      expect(wrapper.state().updated).toEqual(defaultProps);
+      expect(wrapper.state().updated.firstName).toEqual(defaultProps.firstName);
+      expect(wrapper.state().updated.lastName).toEqual(defaultProps.lastName);
+      expect(wrapper.state().updated.email).toEqual(defaultProps.email);
+      expect(wrapper.state().updated.birthDate).toEqual(
+        updatedProps.birthDate.answer
+      );
+      expect(wrapper.state().updated.phoneNumber).toEqual(
+        updatedProps.phoneNumber.answer
+      );
+      expect(wrapper.state().updated.companyName).toEqual(
+        updatedProps.companyName.answer
+      );
     });
     it('should update state on componentDidUpdate', () => {
       const wrapper = mount(<PureProfileDetails {...defaultProps} />);
@@ -35,6 +85,15 @@ describe('<ProfileDetails/>', () => {
       expect(wrapper.state().updated.firstName).toEqual(updatedProps.firstName);
       expect(wrapper.state().updated.lastName).toEqual(updatedProps.lastName);
       expect(wrapper.state().updated.email).toEqual(updatedProps.email);
+      expect(wrapper.state().updated.birthDate).toEqual(
+        updatedProps.birthDate.answer
+      );
+      expect(wrapper.state().updated.phoneNumber).toEqual(
+        updatedProps.phoneNumber.answer
+      );
+      expect(wrapper.state().updated.companyName).toEqual(
+        updatedProps.companyName.answer
+      );
     });
   });
   describe('@action', () => {
@@ -49,6 +108,9 @@ describe('<ProfileDetails/>', () => {
       const lastNameInput = wrapper.find(MyAccountInput).at(1);
       const emailInput = wrapper.find(MyAccountInput).at(2);
       const passwordInput = wrapper.find(MyAccountInput).at(3);
+      const birthDateInput = wrapper.find(MyAccountInput).at(4);
+      const phoneNumberInput = wrapper.find(MyAccountInput).at(5);
+      const companyNumberInput = wrapper.find(MyAccountInput).at(6);
 
       nameInput.props().onChange({
         target: { value: updatedProps.firstName }
@@ -61,6 +123,15 @@ describe('<ProfileDetails/>', () => {
       });
       passwordInput.props().onChange({
         target: { value: updatedProps.confirmationPassword }
+      });
+      birthDateInput.props().onChange({
+        target: { value: updatedProps.birthDate }
+      });
+      phoneNumberInput.props().onChange({
+        target: { value: updatedProps.phoneNumber }
+      });
+      companyNumberInput.props().onChange({
+        target: { value: updatedProps.companyName }
       });
       expect(wrapper.state().updated).toEqual(updatedProps);
     });
@@ -75,10 +146,19 @@ describe('<ProfileDetails/>', () => {
 
       cancelButton.simulate('click');
       expect(wrapper.state().isSectionDisabled).toBe(true);
-      expect(wrapper.state().updated).toEqual({
-        ...defaultProps,
-        confirmationPassword: ''
-      });
+      expect(wrapper.state().updated.confirmationPassword).toEqual('');
+      expect(wrapper.state().updated.firstName).toEqual(defaultProps.firstName);
+      expect(wrapper.state().updated.lastName).toEqual(defaultProps.lastName);
+      expect(wrapper.state().updated.email).toEqual(defaultProps.email);
+      expect(wrapper.state().updated.birthDate).toEqual(
+        updatedProps.birthDate.answer
+      );
+      expect(wrapper.state().updated.phoneNumber).toEqual(
+        updatedProps.phoneNumber.answer
+      );
+      expect(wrapper.state().updated.companyName).toEqual(
+        updatedProps.companyName.answer
+      );
       expect(wrapper.state().errors.confirmationPassword).toBe('');
       expect(wrapper.state().errors.email).toBe('');
     });
@@ -149,6 +229,12 @@ describe('<ProfileDetails/>', () => {
       const preventDefaultMock = jest.fn();
       updateCustomerRequest.mockResolvedValue({
         errors: ['Incorrect e-mail']
+      });
+      updateCaptureAnswers.mockResolvedValue({
+        responseData: {
+          success: true
+        },
+        errors: []
       });
       const wrapper = mount(
         <PureProfileDetails

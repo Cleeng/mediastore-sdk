@@ -1,0 +1,154 @@
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import Card from 'components/Card';
+import MyAccountInput from 'components/MyAccountInput';
+import Loader from 'components/Loader';
+import useMessage from 'hooks/useMessage';
+import { updateCaptureAnswers } from 'api';
+import {
+  ButtonStyled,
+  ButtonWrapperStyled
+} from 'components/MyAccountConsents/MyAccountConsentsStyled';
+
+import { WrapStyled, RowStyled, MessageStyled } from './AddressDetailsStyled';
+
+const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
+  const [isSectionDisabled, setIsSectionDisabled] = useState(true);
+  const [isPending, setIsPending] = useState(false);
+  const [address, setAddress] = useState(null);
+  const [initialAddress, setInitialAddress] = useState(null);
+  const [message, type, setMessage, resetMessage] = useMessage();
+
+  useEffect(() => {
+    if (data) {
+      setAddress(data.answer);
+      setInitialAddress(data.answer);
+    }
+  }, [data]);
+
+  const onAddressChange = (key, newValue) => {
+    setAddress({
+      ...address,
+      [key]: newValue
+    });
+  };
+
+  const onCancel = () => {
+    setAddress(initialAddress);
+    setIsSectionDisabled(true);
+  };
+
+  const onSubmit = () => {
+    setIsPending(true);
+    updateCaptureAnswers({
+      ...address
+    })
+      .then(() => {
+        updateCaptureOption({ key: 'address', value: address });
+        setMessage({
+          message: 'Your address details have been changed successfully',
+          type: 'success'
+        });
+        setIsPending(false);
+        setIsSectionDisabled(true);
+      })
+      .catch(() => {
+        setMessage({
+          message: 'Something went wrong. Try again later.',
+          type: 'error'
+        });
+        setIsPending(false);
+        setIsSectionDisabled(true);
+      });
+  };
+
+  return isLoading ? (
+    <Loader isMyAccount />
+  ) : (
+    <WrapStyled>
+      {address && (
+        <Card withBorder>
+          {message && <MessageStyled type={type}>{message}</MessageStyled>}
+          <MyAccountInput
+            id="address"
+            label="Address Line 1"
+            value={address.address || ''}
+            onChange={e => onAddressChange('address', e.target.value)}
+            disabled={isSectionDisabled}
+          />
+          <MyAccountInput
+            id="address2"
+            label="Address Line 2"
+            value={address.address2 || ''}
+            onChange={e => onAddressChange('address2', e.target.value)}
+            disabled={isSectionDisabled}
+          />
+          <MyAccountInput
+            id="city"
+            label="City"
+            value={address.city || ''}
+            onChange={e => onAddressChange('city', e.target.value)}
+            disabled={isSectionDisabled}
+          />
+          <RowStyled>
+            <MyAccountInput
+              id="state"
+              label="State"
+              value={address.state || ''}
+              onChange={e => onAddressChange('state', e.target.value)}
+              disabled={isSectionDisabled}
+            />
+            <MyAccountInput
+              id="postCode"
+              label="Zip/Postal Code"
+              value={address.postCode || ''}
+              onChange={e => onAddressChange('postCode', e.target.value)}
+              disabled={isSectionDisabled}
+            />
+          </RowStyled>
+          <ButtonWrapperStyled>
+            {isSectionDisabled ? (
+              <ButtonStyled
+                onClickFn={() => {
+                  setIsSectionDisabled(false);
+                  resetMessage();
+                }}
+                width="100%"
+              >
+                Edit Profile
+              </ButtonStyled>
+            ) : (
+              <>
+                <ButtonStyled theme="simple" onClickFn={() => onCancel()}>
+                  Cancel
+                </ButtonStyled>
+                <ButtonStyled
+                  onClickFn={onSubmit}
+                  disabled={isPending}
+                  type="submit"
+                  theme="confirm"
+                >
+                  {(isPending && 'Loading...') || 'Save'}
+                </ButtonStyled>
+              </>
+            )}
+          </ButtonWrapperStyled>
+        </Card>
+      )}
+    </WrapStyled>
+  );
+};
+
+AddressDetails.propTypes = {
+  isLoading: PropTypes.bool,
+  data: PropTypes.objectOf(PropTypes.any),
+  updateCaptureOption: PropTypes.func
+};
+
+AddressDetails.defaultProps = {
+  isLoading: false,
+  data: {},
+  updateCaptureOption: () => {}
+};
+
+export default AddressDetails;

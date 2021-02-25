@@ -3,12 +3,14 @@ import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import SectionHeader from 'components/SectionHeader';
 import ProfileDetails from 'components/ProfileDetails';
+import AddressDetails from 'components/AddressDetails';
 import Password from 'components/Password';
 import PropTypes from 'prop-types';
-import { getCustomer } from 'api';
+import { getCustomer, getCaptureStatus } from 'api';
 import MyAccountError from 'components/MyAccountError';
 import MyAccountConsents from 'components/MyAccountConsents';
 import EditPassword from 'components/EditPassword/EditPassword';
+import AdditionalProfileInfo from 'components/AdditionalProfileInfo';
 import { WrapStyled } from './UpdateProfileStyled';
 
 class UpdateProfile extends Component {
@@ -17,12 +19,13 @@ class UpdateProfile extends Component {
     this.state = {
       detailsError: [],
       isUserDetailsLoading: false,
+      isCaptureLoading: false,
       isConsentLoading: false
     };
   }
 
   componentDidMount() {
-    const { userProfile, setCurrentUser } = this.props;
+    const { userProfile, setCurrentUser, setUserCapture } = this.props;
     if (!userProfile.user) {
       this.setState({
         isUserDetailsLoading: true
@@ -44,19 +47,72 @@ class UpdateProfile extends Component {
           this.setState({ detailsError: [err], isUserDetailsLoading: false });
         });
     }
+    if (!userProfile.capture) {
+      this.setState({
+        isCaptureLoading: true
+      });
+      getCaptureStatus()
+        .then(response => {
+          if (response.errors.length) {
+            this.setState({
+              detailsError: response.errors
+            });
+          } else {
+            setUserCapture(response.responseData);
+          }
+          this.setState({
+            isCaptureLoading: false
+          });
+        })
+        .catch(err => {
+          this.setState({ detailsError: [err], isCaptureLoading: false });
+        });
+    }
   }
 
+  getObjectByKey = (array, key) => {
+    return array.find(setting => setting.key === key);
+  };
+
   render() {
-    const { detailsError, isUserDetailsLoading, isConsentLoading } = this.state;
     const {
-      userProfile: { user, consents, consentsError },
+      detailsError,
+      isUserDetailsLoading,
+      isCaptureLoading,
+      isConsentLoading
+    } = this.state;
+    const {
+      userProfile: { user, consents, capture, consentsError },
       setConsents,
       setCurrentUser,
+      updateCaptureOption,
       showInnerPopup,
       hideInnerPopup,
       innerPopup,
       t
     } = this.props;
+    const address =
+      capture && capture.isCaptureEnabled
+        ? capture.settings.filter(setting => setting.key === 'address')[0]
+        : null;
+    const customSettings =
+      capture && capture.isCaptureEnabled
+        ? capture.settings.filter(
+            setting => setting.key.startsWith('custom') && setting.enabled
+          )
+        : null;
+    const birthDate =
+      capture && capture.isCaptureEnabled
+        ? this.getObjectByKey(capture.settings, 'birthDate')
+        : null;
+    const companyName =
+      capture && capture.isCaptureEnabled
+        ? this.getObjectByKey(capture.settings, 'companyName')
+        : null;
+    const phoneNumber =
+      capture && capture.isCaptureEnabled
+        ? this.getObjectByKey(capture.settings, 'phoneNumber')
+        : null;
     return (
       <WrapStyled>
         {innerPopup.isOpen && innerPopup.type === 'editPassword' ? (
@@ -74,15 +130,42 @@ class UpdateProfile extends Component {
                   firstName={user ? user.firstName : ''}
                   lastName={user ? user.lastName : ''}
                   email={user ? user.email : ''}
-                  isLoading={isUserDetailsLoading}
+                  isLoading={isUserDetailsLoading || isCaptureLoading}
                   setCurrentUser={setCurrentUser}
+                  updateCaptureOption={updateCaptureOption}
+                  birthDate={birthDate}
+                  companyName={companyName}
+                  phoneNumber={phoneNumber}
                 />
+                {address && address.enabled && (
+                  <>
+                    <SectionHeader marginTop="0">
+                      {t('Address details')}
+                    </SectionHeader>
+                    <AddressDetails
+                      data={address}
+                      isLoading={isCaptureLoading}
+                      updateCaptureOption={updateCaptureOption}
+                    />
+                  </>
+                )}
                 <SectionHeader>{t('Password')}</SectionHeader>
                 <Password
                   showInnerPopup={() =>
                     showInnerPopup({ type: 'editPassword' })
                   }
                 />
+                {customSettings && customSettings.length > 0 && (
+                  <>
+                    <SectionHeader marginTop="0">
+                      {t('Additional Options')}
+                    </SectionHeader>
+                    <AdditionalProfileInfo
+                      data={customSettings}
+                      updateCaptureOption={updateCaptureOption}
+                    />
+                  </>
+                )}
               </>
             )}
 
@@ -106,6 +189,8 @@ class UpdateProfile extends Component {
 UpdateProfile.propTypes = {
   setCurrentUser: PropTypes.func.isRequired,
   setConsents: PropTypes.func.isRequired,
+  setUserCapture: PropTypes.func.isRequired,
+  updateCaptureOption: PropTypes.func.isRequired,
   consentsError: PropTypes.string,
   userProfile: PropTypes.objectOf(PropTypes.any),
   showInnerPopup: PropTypes.func.isRequired,

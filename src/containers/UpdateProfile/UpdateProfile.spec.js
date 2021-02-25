@@ -66,11 +66,94 @@ jest.mock('api', () => ({
       },
       errors: []
     })
-    .mockName('getCustomerConsents')
+    .mockName('getCustomerConsents'),
+  getCaptureStatus: jest
+    .fn()
+    .mockResolvedValue({
+      responseData: {
+        isCaptureEnabled: true,
+        shouldCaptureBeDisplayed: false,
+        settings: [
+          {
+            key: 'email',
+            enabled: true,
+            required: true,
+            answer: 'pkaczmarek+topic01@cleeng.com'
+          },
+          {
+            key: 'firstNameLastName',
+            enabled: true,
+            required: true,
+            answer: {
+              firstName: 'Dareczek',
+              lastName: 'Miodek'
+            }
+          },
+          {
+            key: 'birthDate',
+            enabled: false,
+            required: true,
+            answer: null
+          },
+          {
+            key: 'companyName',
+            enabled: false,
+            required: true,
+            answer: null
+          },
+          {
+            key: 'phoneNumber',
+            enabled: false,
+            required: true,
+            answer: null
+          },
+          {
+            key: 'address',
+            enabled: false,
+            required: true,
+            answer: {
+              address: null,
+              address2: null,
+              city: null,
+              state: null,
+              postCode: null,
+              country: null
+            }
+          },
+          {
+            key: 'custom_1',
+            enabled: false,
+            required: false,
+            value: 'option 1;option 2;option 3',
+            question: 'Which option do you prefer?',
+            answer: null
+          },
+          {
+            key: 'custom_2',
+            enabled: false,
+            required: false,
+            value: '',
+            question: 'Which option do you prefer? - input',
+            answer: null
+          },
+          {
+            key: 'custom_3',
+            enabled: false,
+            required: false,
+            value: 'option 1',
+            question: 'Which option do you prefer?',
+            answer: null
+          }
+        ]
+      },
+      errors: []
+    })
+    .mockName('getCaptureStatus')
 }));
 
 const setCurrentUserMock = jest.fn();
 const setConsentsMock = jest.fn();
+const setUserCaptureMock = jest.fn();
 const showInnerPopupMock = jest.fn();
 const hideInnerPopuprMock = jest.fn();
 const innerPopupMock = { isOpen: false, type: '', data: {} };
@@ -78,6 +161,7 @@ const innerPopupMock = { isOpen: false, type: '', data: {} };
 const defaultProps = {
   setCurrentUser: setCurrentUserMock,
   setConsents: setConsentsMock,
+  setUserCapture: setUserCaptureMock,
   showInnerPopup: showInnerPopupMock,
   hideInnerPopup: hideInnerPopuprMock,
   innerPopup: innerPopupMock
