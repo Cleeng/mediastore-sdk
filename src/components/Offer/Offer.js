@@ -50,7 +50,7 @@ class Offer extends Component {
           : `${freePeriods > 1 ? `${freePeriods} ${period}s` : period}`;
         if (trialAvailable) {
           return `You will be charged ${offerPrice}${customerCurrencySymbol} after ${trialPeriodText}. 
-          </br>Next payments will occur for every ${periodMapper[period].chargedForEveryText}.`;
+              </br>Next payments will occur for every ${periodMapper[period].chargedForEveryText}.`;
         }
         return `You will be charged ${offerPrice}${customerCurrencySymbol} for every ${periodMapper[period].chargedForEveryText}.`;
       }
@@ -61,7 +61,9 @@ class Offer extends Component {
         if (!period) {
           return `Access until ${dateFormat(expiresAt, true)}`;
         }
-        return `${periodMapper[period].accessText} season pass`;
+        return periodMapper[period]
+          ? `${periodMapper[period].accessText} season pass`
+          : '';
       }
       case 'E': {
         const {
@@ -75,7 +77,9 @@ class Offer extends Component {
         const {
           offerDetails: { period }
         } = this.props;
-        return `${periodMapper[period].accessText} access`;
+        return periodMapper[period]
+          ? `${periodMapper[period].accessText} access`
+          : '';
       }
       case 'A':
         return 'Unlimited access';
