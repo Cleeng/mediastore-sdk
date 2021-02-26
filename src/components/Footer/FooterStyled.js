@@ -37,7 +37,6 @@ export const ProductByStyled = styled.span`
   color: ${colors.MainColor};
 
   font-size: 12px;
-  font-family: 'Geomanist';
   font-weight: 300;
   & a {
     padding: 0 5px;
@@ -47,7 +46,6 @@ export const ProductByStyled = styled.span`
 export const SecurityStyled = styled.div`
   color: ${colors.ConfirmColor};
 
-  font-family: 'Geomanist';
   font-size: 14px;
   & img {
     padding-right: 5px;

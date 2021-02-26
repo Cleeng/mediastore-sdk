@@ -9,7 +9,7 @@ export const PasswordResetSuccessPageStyled = styled.div`
   line-height: 1.3em;
   font-size: 15px;
   color: ${colors.MainColor};
-  font-family: 'Geomanist';
+
   font-weight: bold;
 `;
 
@@ -21,7 +21,6 @@ export const StyledTitle = styled.div`
 `;
 
 export const StyledMessage = styled.div`
-  font-family: 'Geomanist';
   font-weight: 300;
   & strong {
     font-weight: bold;
@@ -29,7 +28,6 @@ export const StyledMessage = styled.div`
 `;
 
 export const StyledLink = styled.span`
-  font-family: 'Geomanist';
   color: ${colors.MainColor};
   font-weight: bold;
   &:hover {

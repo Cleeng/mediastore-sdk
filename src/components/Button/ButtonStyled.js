@@ -18,7 +18,6 @@ const ButtonStyled = styled.button`
   text-align: center;
   text-decoration: none;
   letter-spacing: 0.025em;
-  font-family: 'Geomanist';
   font-size: 13px;
   padding: 12px 25px;
   font-weight: 600;

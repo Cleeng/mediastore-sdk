@@ -149,7 +149,6 @@ export const ErrorWrapper = styled.div`
       color: ${Colors[props.passwordStrength]};
     `}
 
-  font-family: 'Geomanist';
   font-size: 13px;
   text-align: left;
 

@@ -14,7 +14,6 @@ export const ErrorPageStyled = styled.div`
   color: ${colors.MainColor};
 
   font-size: 15px;
-  font-family: 'Geomanist';
 `;
 
 export const MessageStyled = styled.div`

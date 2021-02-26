@@ -12,7 +12,7 @@ export const PasswordResetPageStyled = styled.main`
   text-align: center;
   line-height: 1.3em;
   font-size: 15px;
-  font-family: 'Geomanist';
+
   font-weight: bold;
   & button {
     margin-top: 30px;
@@ -34,7 +34,6 @@ export const StyledTitle = styled.div`
 `;
 
 export const StyledMessage = styled.div`
-  font-family: 'Geomanist';
   font-weight: 300;
   & strong {
     font-weight: bold;
