@@ -38,7 +38,6 @@ export const CaptureError = styled.div`
   color: ${ErrorColor};
   -webkit-transition: 0.2s ease-in-out;
   transition: 0.2s ease-in-out;
-  font-family: 'Geomanist';
   font-size: 13px;
   text-align: left;
 `;

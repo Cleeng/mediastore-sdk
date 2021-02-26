@@ -9,7 +9,6 @@ export const ThankYouPageStyled = styled.main`
   line-height: 1.3em;
   font-size: 15px;
   color: ${colors.MainColor};
-  font-family: 'Geomanist';
   font-weight: bold;
 `;
 
@@ -22,7 +21,6 @@ export const TitleStyled = styled.div`
 `;
 
 export const MessageStyled = styled.div`
-  font-family: 'Geomanist';
   font-weight: 300;
   & strong {
     font-weight: bold;
@@ -30,7 +28,6 @@ export const MessageStyled = styled.div`
 `;
 
 export const LinkStyled = styled.a`
-  font-family: 'Geomanist';
   color: ${colors.MainColor};
   padding-left: 4px;
   font-weight: bold;

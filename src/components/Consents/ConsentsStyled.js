@@ -6,14 +6,12 @@ export const ConsentsWrapperStyled = styled.div`
 
   padding-bottom: 10px;
 
-  font-family: 'Geomanist';
   font-weight: 300;
 
   & button {
     margin-top: 35px;
   }
   & a {
-    font-family: 'Geomanist';
     font-weight: 600;
   }
 `;
@@ -24,7 +22,6 @@ export const ConsentsErrorStyled = styled.div`
 
   color: ${ErrorColor};
 
-  font-family: 'Geomanist';
   font-size: 13px;
 `;
 
