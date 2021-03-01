@@ -2,7 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Input from 'components/Input';
 
-const EmailInput = ({ value, onChange, onBlur, error, label, required }) => (
+const EmailInput = ({
+  value,
+  onChange,
+  onBlur,
+  error,
+  label,
+  required,
+  reference
+}) => (
   <Input
     placeholder={label}
     type="email"
@@ -11,6 +19,7 @@ const EmailInput = ({ value, onChange, onBlur, error, label, required }) => (
     onBlur={onBlur}
     error={error}
     required={required}
+    reference={reference}
     ariaRequired={required}
     ariaInvalid={!!error}
   />
@@ -22,7 +31,11 @@ EmailInput.propTypes = {
   onBlur: PropTypes.func,
   error: PropTypes.string,
   label: PropTypes.string,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  reference: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(HTMLInputElement) })
+  ])
 };
 
 EmailInput.defaultProps = {
@@ -31,7 +44,8 @@ EmailInput.defaultProps = {
   onBlur: () => {},
   error: '',
   label: 'Email',
-  required: false
+  required: false,
+  reference: { current: null }
 };
 
 export default EmailInput;

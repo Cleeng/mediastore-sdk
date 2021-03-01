@@ -14,6 +14,7 @@ import { FromStyled, FormErrorStyled, FormSuccessStyled } from './LoginStyled';
 class LoginForm extends Component {
   constructor(props) {
     super(props);
+    this.emailInput = React.createRef();
     this.state = {
       email: '',
       password: '',
@@ -26,6 +27,11 @@ class LoginForm extends Component {
       overloaded: false,
       hideSuccessMessage: false
     };
+  }
+
+  componentDidMount() {
+    if (this.emailInput && this.emailInput.current)
+      this.emailInput.current.focus();
   }
 
   validateEmail = () => {
@@ -146,8 +152,8 @@ class LoginForm extends Component {
         ) : (
           <FormErrorStyled>{generalError}</FormErrorStyled>
         )}
-
         <EmailInput
+          reference={this.emailInput}
           label={t('Email')}
           value={email}
           onChange={e => this.setState({ email: e })}

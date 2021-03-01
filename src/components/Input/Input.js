@@ -35,7 +35,8 @@ class Input extends Component {
       ariaRequired,
       ariaInvalid,
       icon,
-      required
+      required,
+      reference
     } = this.props;
 
     return (
@@ -53,6 +54,7 @@ class Input extends Component {
             onChange={event => onChange(event.target.value)}
             type={type}
             onBlur={onBlur}
+            ref={reference}
             aria-required={ariaRequired}
             aria-invalid={ariaInvalid}
             aria-describedby={`${placeholder}-desc`}
@@ -102,7 +104,11 @@ Input.propTypes = {
   ariaRequired: PropTypes.bool,
   ariaInvalid: PropTypes.bool,
   icon: PropTypes.elementType,
-  required: PropTypes.bool
+  required: PropTypes.bool,
+  reference: PropTypes.oneOfType([
+    PropTypes.func,
+    PropTypes.shape({ current: PropTypes.instanceOf(HTMLInputElement) })
+  ])
 };
 
 Input.defaultProps = {
@@ -119,7 +125,8 @@ Input.defaultProps = {
   ariaRequired: false,
   ariaInvalid: false,
   icon: null,
-  required: false
+  required: false,
+  reference: { current: null }
 };
 
 export default Input;
