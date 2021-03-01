@@ -11,31 +11,6 @@ export const InputComponentStyled = styled.div`
   width: 100%;
 `;
 
-export const InputElementWrapperStyled = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-
-  padding: 13px 0 14px;
-
-  background: white;
-  border: 1px solid ${Colors.MediumGrey};
-  transition: 0.2s ease-in-out;
-
-  &:focus-within {
-    border-color: ${Colors.ConfirmColor};
-  }
-
-  ${props =>
-    props.icon &&
-    css`
-      &::before {
-        content: url(${props.icon});
-      }
-    `};
-`;
-
 export const LabelStyled = styled.label`
   position: absolute;
   top: 17px;
@@ -83,6 +58,38 @@ export const LabelStyled = styled.label`
     css`
       transform: translate(-26px, -25px) scaleY(0.9);
     `}
+`;
+
+export const InputElementWrapperStyled = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  padding: 13px 0 14px;
+
+  background: white;
+  border: 1px solid ${Colors.MediumGrey};
+  transition: 0.2s ease-in-out;
+
+  &:focus-within {
+    border-color: ${Colors.ConfirmColor};
+    ${LabelStyled} {
+      color: ${Colors.ConfirmColor};
+      transform: translate(0, -25px) scaleY(0.9);
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
+  ${props =>
+    props.icon &&
+    css`
+      &::before {
+        content: url(${props.icon});
+      }
+    `};
 `;
 
 export const InputElementStyled = styled.input`
