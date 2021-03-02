@@ -9,6 +9,9 @@ export default function customLabeling() {
       constructor(props) {
         super(props);
         this.state = { dataLoaded: false };
+      }
+
+      componentDidMount() {
         this.addTranslations();
       }
 
@@ -16,7 +19,7 @@ export default function customLabeling() {
         const { i18n } = this.props;
         if (typeof i18n === 'undefined') return false;
         const language = i18n.language || 'en';
-        if (!i18n.hasResourceBundle(language, 'translations')) {
+        if (!i18n.hasResourceBundle(language, 'translation')) {
           const data = await fetch(`/locales/${language}/translations.json`)
             .then(response => response.json())
             .catch(() => {});
