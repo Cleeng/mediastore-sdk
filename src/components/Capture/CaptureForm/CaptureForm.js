@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import Input from 'components/Input';
 import EmailInput from 'components/EmailInput';
 import DateInput from 'components/DateInput';
@@ -21,6 +22,7 @@ import {
 } from './CaptureFormStyled';
 
 const CaptureForm = ({ settings, redirectUrl }) => {
+  const [t] = useTranslation();
   const [processing, setProcessing] = useState(false);
   const [customSettings, setCustomSetting] = useState([]);
   const firstName = useInput('');
@@ -99,8 +101,8 @@ const CaptureForm = ({ settings, redirectUrl }) => {
   };
 
   const validateNames = () => {
-    if (!firstName.value) firstName.setError('First Name is required');
-    if (!lastName.value) lastName.setError('Last Name is required');
+    if (!firstName.value) firstName.setError(t('First Name is required'));
+    if (!lastName.value) lastName.setError(t('Last Name is required'));
     if (!firstName.value || !lastName.value) setIsError(true);
   };
 
@@ -108,37 +110,37 @@ const CaptureForm = ({ settings, redirectUrl }) => {
     if (!address.value || !city || !state || !postCode) {
       setIsError(true);
     }
-    if (!address.value) address.setError('Address is required');
-    if (!city.value) city.setError('City is required');
-    if (!state.value) state.setError('State is required');
-    if (!postCode.value) postCode.setError('Post code is required');
+    if (!address.value) address.setError(t('Address is required'));
+    if (!city.value) city.setError(t('City is required'));
+    if (!state.value) state.setError(t('State is required'));
+    if (!postCode.value) postCode.setError(t('Post code is required'));
   };
 
   const validateEmail = () => {
     const message = validateEmailField(email.value);
     if (message) {
-      email.setError(message);
+      email.setError(t(message));
       setIsError(true);
     }
   };
 
   const validateCompany = () => {
     if (!companyName.value) {
-      companyName.setError('Company name is required');
+      companyName.setError(t('Company name is required'));
       setIsError(true);
     }
   };
 
   const validatePhone = () => {
     if (!phoneNumber.value) {
-      phoneNumber.setError('Phone number is required');
+      phoneNumber.setError(t('Phone number is required'));
       setIsError(true);
     }
   };
 
   const validateBirthDate = () => {
     if (!birthDate.value) {
-      birthDate.setError('Birth date is required');
+      birthDate.setError(t('Birth date is required'));
       setIsError(true);
     }
   };
@@ -149,7 +151,7 @@ const CaptureForm = ({ settings, redirectUrl }) => {
         setIsError(true);
         return {
           ...item,
-          error: 'Answer on that question is required'
+          error: t('Answer on that question is required')
         };
       }
       return { ...item, error: '' };
@@ -217,7 +219,7 @@ const CaptureForm = ({ settings, redirectUrl }) => {
       {isEnabled('firstNameLastName') && (
         <CaptureRowStyled>
           <Input
-            placeholder="First Name"
+            placeholder={t('First Name')}
             value={firstName.value}
             error={firstName.error}
             onChange={val => firstName.setValue(val)}
@@ -225,7 +227,7 @@ const CaptureForm = ({ settings, redirectUrl }) => {
             required={isRequired('firstNameLastName')}
           />
           <Input
-            placeholder="Last Name"
+            placeholder={t('Last Name')}
             value={lastName.value}
             error={lastName.error}
             onChange={val => lastName.setValue(val)}
@@ -236,7 +238,7 @@ const CaptureForm = ({ settings, redirectUrl }) => {
       )}
       {isEnabled('email') && (
         <EmailInput
-          label="Confirm Email"
+          label={t('Confirm Email')}
           value={email.value}
           error={email.error}
           onChange={val => email.setValue(val)}
@@ -246,7 +248,7 @@ const CaptureForm = ({ settings, redirectUrl }) => {
       )}
       {isEnabled('birthDate') && (
         <DateInput
-          label="Date of Birth"
+          label={t('Date of Birth')}
           value={birthDate.value}
           error={birthDate.error}
           onChange={val => birthDate.setValue(val)}
@@ -256,7 +258,7 @@ const CaptureForm = ({ settings, redirectUrl }) => {
       )}
       {isEnabled('companyName') && (
         <Input
-          placeholder="Company"
+          placeholder={t('Company')}
           value={companyName.value}
           error={companyName.error}
           onChange={val => companyName.setValue(val)}
@@ -266,7 +268,7 @@ const CaptureForm = ({ settings, redirectUrl }) => {
       )}
       {isEnabled('phoneNumber') && (
         <Input
-          placeholder="Mobile phone"
+          placeholder={t('Mobile phone')}
           value={phoneNumber.value}
           error={phoneNumber.error}
           onChange={val => phoneNumber.setValue(val)}
@@ -277,7 +279,7 @@ const CaptureForm = ({ settings, redirectUrl }) => {
       {isEnabled('address') && (
         <CaptureGroupStyled>
           <Input
-            placeholder="Address line 1"
+            placeholder={t('Address line 1')}
             value={address.value}
             error={address.error}
             onChange={val => address.setValue(val)}
@@ -285,12 +287,12 @@ const CaptureForm = ({ settings, redirectUrl }) => {
             required={isRequired('address')}
           />
           <Input
-            placeholder="Address line 2"
+            placeholder={t('Address line 2')}
             value={address2.value}
             onChange={val => address2.setValue(val)}
           />
           <Input
-            placeholder="City"
+            placeholder={t('City')}
             value={city.value}
             error={city.error}
             onChange={val => city.setValue(val)}
@@ -299,7 +301,7 @@ const CaptureForm = ({ settings, redirectUrl }) => {
           />
           <CaptureRowStyled>
             <Input
-              placeholder="State/Region"
+              placeholder={t('State/Region')}
               value={state.value}
               error={state.error}
               onChange={val => state.setValue(val)}
@@ -307,7 +309,7 @@ const CaptureForm = ({ settings, redirectUrl }) => {
               required={isRequired('address')}
             />
             <Input
-              placeholder="ZIP/Postal code"
+              placeholder={t('ZIP/Postal code')}
               value={postCode.value}
               error={postCode.error}
               onChange={val => postCode.setValue(val)}
@@ -407,7 +409,7 @@ const CaptureForm = ({ settings, redirectUrl }) => {
         return <div />;
       })}
       <Button type="submit" size="big" theme="confirm" margin="10px 0">
-        {processing ? <Loader buttonLoader color="#ffffff" /> : 'Continue'}
+        {processing ? <Loader buttonLoader color="#ffffff" /> : t('Continue')}
       </Button>
     </CaptureFormStyled>
   );

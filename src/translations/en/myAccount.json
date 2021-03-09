@@ -123,5 +123,22 @@
   "Invalid coupon code.": "Invalid coupon code.",
   "Coupon already used": "Coupon already used",
   "Ooops. Something went wrong.": "Ooops. Something went wrong.",
-  "Please enter coupon code.": "Please enter coupon code."
+  "Please enter coupon code.": "Please enter coupon code.",
+  "Address details": "Address details",
+  "Your profile details have been changed successfully": "Your profile details have been changed successfully",
+  "Your address details have been changed successfully": "Your address details have been changed successfully",
+  "Something went wrong. Try again later.": "Something went wrong. Try again later.",
+  "Address Line 1": "Address Line 1",
+  "Address Line 2": "Address Line 2",
+  "City": "City",
+  "State": "State",
+  "Zip/Postal Code": "Zip/Postal Code",
+  "Edit Address": "Edit Address",
+  "Birth Date": "Birth Date",
+  "Phone Number": "Phone Number",
+  "Company Name": "Company Name",
+  "This is not a valid phone number": "This is not a valid phone number",
+  "Your answers have been changed successfully": "Your answers have been changed successfully",
+  "Additional Options": "Additional Options",
+  "Terms Details": "Terms Details"
 }

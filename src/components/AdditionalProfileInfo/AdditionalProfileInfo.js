@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import Loader from 'components/Loader';
@@ -19,6 +20,7 @@ import {
 } from './AdditionalProfileInfoStyled';
 
 const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
+  const [t] = useTranslation();
   const [isSectionDisabled, setIsSectionDisabled] = useState(true);
   const [isPending, setIsPending] = useState(false);
   const [customSettings, setCustomSettings] = useState(null);
@@ -76,7 +78,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
           });
         }
         setMessage({
-          message: 'Your answers have been changed successfully',
+          message: t('Your answers have been changed successfully'),
           type: 'success'
         });
         setIsPending(false);
@@ -84,7 +86,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
       })
       .catch(() => {
         setMessage({
-          message: 'Something went wrong. Try again later.',
+          message: t('Something went wrong. Try again later.'),
           type: 'error'
         });
         setIsPending(false);
@@ -196,12 +198,12 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                 }}
                 width="100%"
               >
-                Edit Profile
+                {t('Edit Profile')}
               </ButtonStyled>
             ) : (
               <>
                 <ButtonStyled theme="simple" onClickFn={onCancel}>
-                  Cancel
+                  {t('Cancel')}
                 </ButtonStyled>
                 <ButtonStyled
                   onClickFn={onSubmit}
@@ -209,7 +211,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                   type="submit"
                   theme="confirm"
                 >
-                  {(isPending && 'Loading...') || 'Save'}
+                  {(isPending && t('Loading...')) || t('Save')}
                 </ButtonStyled>
               </>
             )}
