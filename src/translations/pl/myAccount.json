@@ -124,5 +124,22 @@
   "Invalid coupon code.": "Podany kupon jest niepoprawny.",
   "Coupon already used": "Podany kupon został juz wykorzystany.",
   "Ooops. Something went wrong.": "Przepraszmy. Coś poszło nie tak.",
-  "Please enter coupon code.": "Proszę podać kupon."
+  "Please enter coupon code.": "Proszę podać kupon.",
+  "Address details": "Dane adresowe",
+  "Your profile details have been changed successfully": "Twoje dane zostały poprawnie zmienone.",
+  "Your address details have been changed successfully": "Twój adres został poprawnie zmienony.",
+  "Something went wrong. Try again later.": "Ups. Coś poszło nie tak. Spróbuj ponownie później.",
+  "Address Line 1": "Adres",
+  "Address Line 2": "Adres - informacje dodatkowe",
+  "City": "Miasto",
+  "State": "Stan",
+  "Zip/Postal Code": "Kod pocztowy",
+  "Edit Address": "Edutuj Adres",
+  "Birth Date": "Data urodzenia",
+  "Phone Number": "Numer telefonu",
+  "Company Name": "Nazwa firmy",
+  "This is not a valid phone number": "Podany numer telefony jest niepoprawny",
+  "Your answers have been changed successfully": "Twoje odpowiedzi zostały zmienione",
+  "Additional Options": "Dodatkowe informacje",
+  "Terms Details": "Warunki"
 }

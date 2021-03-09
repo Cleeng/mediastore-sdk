@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import MyAccountInput from 'components/MyAccountInput';
@@ -13,6 +14,7 @@ import {
 import { WrapStyled, RowStyled, MessageStyled } from './AddressDetailsStyled';
 
 const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
+  const [t] = useTranslation();
   const [isSectionDisabled, setIsSectionDisabled] = useState(true);
   const [isPending, setIsPending] = useState(false);
   const [address, setAddress] = useState(null);
@@ -46,7 +48,7 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
       .then(() => {
         updateCaptureOption({ key: 'address', value: address });
         setMessage({
-          message: 'Your address details have been changed successfully',
+          message: t('Your address details have been changed successfully'),
           type: 'success'
         });
         setIsPending(false);
@@ -54,7 +56,7 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
       })
       .catch(() => {
         setMessage({
-          message: 'Something went wrong. Try again later.',
+          message: t('Something went wrong. Try again later.'),
           type: 'error'
         });
         setIsPending(false);
@@ -71,21 +73,21 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
           {message && <MessageStyled type={type}>{message}</MessageStyled>}
           <MyAccountInput
             id="address"
-            label="Address Line 1"
+            label={t('Address Line 1')}
             value={address.address || ''}
             onChange={e => onAddressChange('address', e.target.value)}
             disabled={isSectionDisabled}
           />
           <MyAccountInput
             id="address2"
-            label="Address Line 2"
+            label={t('Address Line 2')}
             value={address.address2 || ''}
             onChange={e => onAddressChange('address2', e.target.value)}
             disabled={isSectionDisabled}
           />
           <MyAccountInput
             id="city"
-            label="City"
+            label={t('City')}
             value={address.city || ''}
             onChange={e => onAddressChange('city', e.target.value)}
             disabled={isSectionDisabled}
@@ -93,14 +95,14 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
           <RowStyled>
             <MyAccountInput
               id="state"
-              label="State"
+              label={t('State')}
               value={address.state || ''}
               onChange={e => onAddressChange('state', e.target.value)}
               disabled={isSectionDisabled}
             />
             <MyAccountInput
               id="postCode"
-              label="Zip/Postal Code"
+              label={t('Zip/Postal Code')}
               value={address.postCode || ''}
               onChange={e => onAddressChange('postCode', e.target.value)}
               disabled={isSectionDisabled}
@@ -115,12 +117,12 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
                 }}
                 width="100%"
               >
-                Edit Profile
+                {t('Edit Address')}
               </ButtonStyled>
             ) : (
               <>
                 <ButtonStyled theme="simple" onClickFn={() => onCancel()}>
-                  Cancel
+                  {t('Cancel')}
                 </ButtonStyled>
                 <ButtonStyled
                   onClickFn={onSubmit}
@@ -128,7 +130,7 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
                   type="submit"
                   theme="confirm"
                 >
-                  {(isPending && 'Loading...') || 'Save'}
+                  {(isPending && t('Loading...')) || t('Save')}
                 </ButtonStyled>
               </>
             )}

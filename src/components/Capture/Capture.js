@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -12,6 +13,7 @@ import {
 } from './CaptureStyled';
 
 const Capture = ({ settings, redirectUrl }) => {
+  const [t] = useTranslation();
   const [captureSettings, setCaptureSettings] = useState(null);
 
   useEffect(() => {
@@ -22,7 +24,7 @@ const Capture = ({ settings, redirectUrl }) => {
     <CaptureStyled>
       <Header />
       <CaptureContentStyled>
-        <CaptureTitle>Confirm Registration</CaptureTitle>
+        <CaptureTitle>{t('Confirm Registration')}</CaptureTitle>
         {captureSettings ? (
           <CaptureForm settings={captureSettings} redirectUrl={redirectUrl} />
         ) : (
