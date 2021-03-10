@@ -38,12 +38,12 @@ const Capture = ({ settings, redirectUrl }) => {
 
 Capture.propTypes = {
   settings: PropTypes.arrayOf(PropTypes.any),
-  redirectUrl: PropTypes.string
+  redirectUrl: PropTypes.arrayOf(PropTypes.any)
 };
 
 Capture.defaultProps = {
   settings: [],
-  redirectUrl: ''
+  redirectUrl: []
 };
 
 export default Capture;

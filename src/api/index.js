@@ -19,6 +19,7 @@ import subscriptionSwitch from './Customer/subscriptionSwitch';
 import applyCoupon from './Customer/applyCoupon';
 import getCaptureStatus from './Customer/getCaptureStatus';
 import updateCaptureAnswers from './Customer/updateCaptureAnswers';
+import submitConsents from './Customer/submitConsents';
 
 export {
   getPaymentMethods,
@@ -41,5 +42,6 @@ export {
   submitPayPalPayment,
   getAvailableSwitches,
   subscriptionSwitch,
-  applyCoupon
+  applyCoupon,
+  submitConsents
 };

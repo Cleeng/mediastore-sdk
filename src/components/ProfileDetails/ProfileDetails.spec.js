@@ -125,15 +125,26 @@ describe('<ProfileDetails/>', () => {
         target: { value: updatedProps.confirmationPassword }
       });
       birthDateInput.props().onChange({
-        target: { value: updatedProps.birthDate }
+        target: { value: updatedProps.birthDate.answer }
       });
       phoneNumberInput.props().onChange({
-        target: { value: updatedProps.phoneNumber }
+        target: { value: updatedProps.phoneNumber.answer }
       });
       companyNumberInput.props().onChange({
-        target: { value: updatedProps.companyName }
+        target: { value: updatedProps.companyName.answer }
       });
-      expect(wrapper.state().updated).toEqual(updatedProps);
+      expect(wrapper.state().updated.firstName).toEqual(updatedProps.firstName);
+      expect(wrapper.state().updated.lastName).toEqual(updatedProps.lastName);
+      expect(wrapper.state().updated.email).toEqual(updatedProps.email);
+      expect(wrapper.state().updated.birthDate).toEqual(
+        updatedProps.birthDate.answer
+      );
+      expect(wrapper.state().updated.phoneNumber).toEqual(
+        updatedProps.phoneNumber.answer
+      );
+      expect(wrapper.state().updated.companyName).toEqual(
+        updatedProps.companyName.answer
+      );
     });
     it('should clear state on Cancel button click', () => {
       const wrapper = mount(
@@ -213,7 +224,18 @@ describe('<ProfileDetails/>', () => {
       );
       wrapper.setState({
         isSectionDisabled: false,
-        updated: updatedProps
+        updated: {
+          ...updatedProps,
+          birthDate: updatedProps.birthDate.answer,
+          phoneNumber: updatedProps.phoneNumber.answer,
+          companyName: updatedProps.companyName.answer
+        }
+      });
+      updateCaptureAnswers.mockResolvedValue({
+        responseData: {
+          success: true
+        },
+        errors: []
       });
       wrapper.instance().updateProfile({ preventDefault: preventDefaultMock });
       expect(wrapper.state().isSubmittingPending).toBe(true);

@@ -209,7 +209,8 @@ const CaptureForm = ({ settings, redirectUrl }) => {
         customAnswers
       }).then(() => {
         setProcessing(false);
-        history.push(redirectUrl);
+        const currentRedirection = redirectUrl.shift();
+        history.push(currentRedirection, { redirectUrl });
       });
     }
   };
@@ -417,12 +418,12 @@ const CaptureForm = ({ settings, redirectUrl }) => {
 
 CaptureForm.propTypes = {
   settings: PropTypes.arrayOf(PropTypes.any),
-  redirectUrl: PropTypes.string
+  redirectUrl: PropTypes.arrayOf(PropTypes.any)
 };
 
 CaptureForm.defaultProps = {
   settings: [],
-  redirectUrl: ''
+  redirectUrl: []
 };
 
 export default CaptureForm;
