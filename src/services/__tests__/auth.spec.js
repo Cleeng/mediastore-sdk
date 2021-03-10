@@ -17,7 +17,43 @@ jest.mock('api', () => ({
       },
       errors: []
     })
-    .mockName('getCaptureStatus')
+    .mockName('getCaptureStatus'),
+  getCustomerConsents: jest
+    .fn()
+    .mockResolvedValue({
+      responseData: {
+        consents: [
+          {
+            customerId: '859989525',
+            name: 'terms',
+            required: true,
+            state: 'accepted',
+            version: '1',
+            needsUpdate: false,
+            label:
+              'I accept the <a href="https://cleeng.com/cleeng-user-agreement" target="_blank">Terms and Conditions</a> of Cleeng.',
+            value: 'https://cleeng.com/cleeng-user-agreement',
+            newestVersion: '1',
+            date: 1601474217
+          },
+          {
+            customerId: '859989525',
+            name: 'broadcaster_terms',
+            required: true,
+            state: 'accepted',
+            version: '6',
+            needsUpdate: true,
+            label:
+              'I accept <a href="https://cleeng.com/privacytest" target="_blank">Testing link text test  v4 dsadsadsasda</a> of My Super Company.',
+            value: 'https://cleeng.com/privacytest',
+            newestVersion: '7',
+            date: 1609840678
+          }
+        ]
+      },
+      errors: []
+    })
+    .mockName('getCustomerConsents')
 }));
 
 const validJWT =
@@ -57,7 +93,7 @@ describe('Auth', () => {
       setImmediate(() => {
         expect(pushSpy).toHaveBeenCalled();
         expect(pushSpy).toHaveBeenCalledWith('/capture', {
-          redirectURL: '/offer',
+          redirectUrl: ['/consents', '/offer'],
           settings: []
         });
         done();

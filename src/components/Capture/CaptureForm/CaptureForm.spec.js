@@ -59,7 +59,7 @@ const captureSettings = [
   }
 ];
 
-const redirectUrl = '/offer';
+const redirectUrl = ['/offer'];
 
 describe('Capture', () => {
   describe('@renders', () => {
@@ -67,7 +67,7 @@ describe('Capture', () => {
       const wrapper = mount(<CaptureForm />);
 
       expect(wrapper.props().settings).toStrictEqual([]);
-      expect(wrapper.props().redirectUrl).toBe('');
+      expect(wrapper.props().redirectUrl).toStrictEqual([]);
     });
     it('should render initial state with passed props', () => {
       const wrapper = mount(

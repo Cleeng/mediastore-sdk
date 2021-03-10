@@ -67,7 +67,7 @@ const captureSettings = [
   }
 ];
 
-const redirectUrl = '/offer';
+const redirectUrl = ['/offer'];
 
 describe('Capture', () => {
   describe('@renders', () => {

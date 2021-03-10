@@ -1,6 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import { getData, setData, removeData } from 'util/appConfigHelper';
-import { getCaptureStatus } from 'api';
+import { getCaptureStatus, getCustomerConsents } from 'api';
 import history from '../history';
 
 class Auth {
@@ -8,14 +8,14 @@ class Auth {
     this.isAuthenticated = false;
     this.myAccount = {
       mainPage: '/my-account/plan-details',
-      loginPage: '/my-account/login',
-      capturePage: '/capture'
+      loginPage: '/my-account/login'
     };
     this.checkout = {
       mainPage: '/offer',
-      loginPage: '/login',
-      capturePage: '/capture'
+      loginPage: '/login'
     };
+    this.capturePage = '/capture';
+    this.consentsPage = '/consents';
   }
 
   login(isMyAccount = false, email, jwt, cb = () => {}, args = []) {
@@ -23,20 +23,42 @@ class Auth {
     setData('CLEENG_AUTH_TOKEN', jwt);
     setData('CLEENG_CUSTOMER_EMAIL', email);
     cb.apply(this, args);
-    const redirectURL = isMyAccount
+    const redirectUrl = isMyAccount
       ? this.myAccount.mainPage
       : this.checkout.mainPage;
 
-    getCaptureStatus().then(resp => {
+    let shouldConsentsBeDisplayed = false;
+    let shouldCaptureBeDisplayed = false;
+    let data = {};
+
+    const consentsResponse = getCustomerConsents().then(resp => {
+      const { consents } = resp.responseData;
+      shouldConsentsBeDisplayed = consents.some(
+        consent => consent.newestVersion > consent.version
+      );
+    });
+
+    const captureResponse = getCaptureStatus().then(resp => {
       if (resp.responseData.shouldCaptureBeDisplayed === true) {
-        const data = {
-          settings: resp.responseData.settings,
-          redirectURL
+        shouldCaptureBeDisplayed = true;
+        data = {
+          ...data,
+          settings: resp.responseData.settings
         };
-        history.push('/capture', data);
-      } else {
-        history.push(redirectURL);
       }
+    });
+
+    Promise.allSettled([consentsResponse, captureResponse]).then(() => {
+      data = {
+        ...data,
+        redirectUrl: [
+          shouldCaptureBeDisplayed ? this.capturePage : null,
+          shouldConsentsBeDisplayed ? this.consentsPage : null,
+          redirectUrl
+        ].filter(Boolean)
+      };
+      const currentRedirection = data.redirectUrl.shift();
+      history.push(currentRedirection, data);
     });
   }
 

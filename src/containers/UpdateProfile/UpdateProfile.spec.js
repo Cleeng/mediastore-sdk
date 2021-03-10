@@ -156,6 +156,7 @@ const setConsentsMock = jest.fn();
 const setUserCaptureMock = jest.fn();
 const showInnerPopupMock = jest.fn();
 const hideInnerPopuprMock = jest.fn();
+const updateCaptureOption = jest.fn();
 const innerPopupMock = { isOpen: false, type: '', data: {} };
 
 const defaultProps = {
@@ -164,7 +165,8 @@ const defaultProps = {
   setUserCapture: setUserCaptureMock,
   showInnerPopup: showInnerPopupMock,
   hideInnerPopup: hideInnerPopuprMock,
-  innerPopup: innerPopupMock
+  innerPopup: innerPopupMock,
+  updateCaptureOption
 };
 
 describe('<UpdateProfile/>', () => {

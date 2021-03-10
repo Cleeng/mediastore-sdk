@@ -8,6 +8,7 @@ import Loader from 'components/Loader';
 import PrivateRoute from 'services/privateRoute';
 import PublicRoute from 'services/publicRoute';
 import Capture from 'components/Capture/Capture';
+import CheckoutConsents from 'components/CheckoutConsents';
 import history from '../../history';
 import OfferContainer from '../OfferContainer';
 import { AppStyled, AppContentStyled } from './AppStyled';
@@ -80,6 +81,15 @@ const App = () => {
                   <Capture
                     urlProps={urlProps}
                     settings={urlProps.location.state.settings}
+                    redirectUrl={urlProps.location.state.redirectUrl}
+                  />
+                )}
+              />
+              <PrivateRoute
+                path="/consents"
+                component={urlProps => (
+                  <CheckoutConsents
+                    urlProps={urlProps}
                     redirectUrl={urlProps.location.state.redirectUrl}
                   />
                 )}
