@@ -27,7 +27,9 @@ const CheckoutConsents = ({ redirectUrl }) => {
   useEffect(() => {
     getCustomerConsents().then(resp => {
       const consentsToAccept = resp.responseData.consents.filter(
-        consent => consent.needsUpdate
+        consent =>
+          consent.newestVersion > consent.version ||
+          consent.needsUpdate === true
       );
       setConsents(consentsToAccept);
     });
