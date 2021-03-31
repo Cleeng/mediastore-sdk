@@ -34,7 +34,9 @@ class Auth {
     const consentsResponse = getCustomerConsents().then(resp => {
       const { consents } = resp.responseData;
       shouldConsentsBeDisplayed = consents.some(
-        consent => consent.newestVersion > consent.version
+        consent =>
+          consent.newestVersion > consent.version ||
+          consent.needsUpdate === true
       );
     });
 
