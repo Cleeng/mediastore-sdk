@@ -1,6 +1,16 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { shallow } from 'enzyme';
 import Adyen from './Adyen';
+
+jest.mock('containers/labeling', () => () => Component => props => (
+  <Component t={k => k} {...props} />
+));
+jest.mock('react-i18next', () => ({
+  withTranslation: () => Component => props => (
+    <Component t={k => k} {...props} />
+  )
+}));
 
 const mockOnSubmit = jest.fn();
 const mockOnChange = jest.fn();
