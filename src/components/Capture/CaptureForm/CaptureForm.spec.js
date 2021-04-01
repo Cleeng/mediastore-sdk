@@ -2,6 +2,10 @@ import React from 'react';
 import { mount } from 'enzyme';
 import CaptureForm from './CaptureForm';
 
+jest.mock('react-i18next', () => ({
+  useTranslation: () => [key => key]
+}));
+
 const captureSettings = [
   {
     key: 'email',
