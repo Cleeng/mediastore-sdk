@@ -107,6 +107,7 @@ const CaptureForm = ({ settings, redirectUrl }) => {
   };
 
   const validateAddress = () => {
+    if (!isRequired('address')) return;
     if (!address.value || !city || !state || !postCode) {
       setIsError(true);
     }
