@@ -1,10 +1,5 @@
 import { connect } from 'react-redux';
-import {
-  setCurrentPlan,
-  updateList,
-  setOfferToSwitch,
-  setSwitchSettings
-} from 'redux/planDetails';
+import { setCurrentPlan, updateList } from 'redux/planDetails';
 import { showInnerPopup, hideInnerPopup } from 'redux/innerPopupReducer';
 
 import PlanDetails from './PlanDetails.component';
@@ -30,12 +25,6 @@ export const mapDispatchToProps = dispatch => {
     },
     hideInnerPopup: () => {
       dispatch(hideInnerPopup());
-    },
-    setOfferToSwitch: payload => {
-      dispatch(setOfferToSwitch(payload));
-    },
-    setSwitchSettings: payload => {
-      dispatch(setSwitchSettings(payload));
     }
   };
 };
