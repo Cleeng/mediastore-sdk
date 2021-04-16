@@ -1,14 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React from 'react';
 import { mount } from 'enzyme';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Capture from './Capture';
-import {
-  CaptureStyled,
-  CaptureContentStyled,
-  CaptureTitle
-} from './CaptureStyled';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => [key => key]
