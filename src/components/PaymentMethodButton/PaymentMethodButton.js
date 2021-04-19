@@ -4,7 +4,6 @@ import { logos } from 'util/paymentMethodHelper';
 
 import { StyledButton, StyledMethodName } from './PaymentMethodButtonStyled';
 
-// eslint-disable-next-line no-unused-vars
 const PaymentMethodButton = ({ methodName, onClickFn }) => {
   const LogoComponent = logos[methodName];
   return (
