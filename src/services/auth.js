@@ -18,7 +18,14 @@ class Auth {
     this.consentsPage = '/consents';
   }
 
-  login(isMyAccount = false, email, jwt, cb = () => {}, args = []) {
+  login(
+    isMyAccount = false,
+    isRegister = false,
+    email,
+    jwt,
+    cb = () => {},
+    args = []
+  ) {
     this.isAuthenticated = true;
     setData('CLEENG_AUTH_TOKEN', jwt);
     setData('CLEENG_CUSTOMER_EMAIL', email);
@@ -33,11 +40,13 @@ class Auth {
 
     const consentsResponse = getCustomerConsents().then(resp => {
       const { consents } = resp.responseData;
-      shouldConsentsBeDisplayed = consents.some(
-        consent =>
-          consent.newestVersion > consent.version ||
-          consent.needsUpdate === true
-      );
+      shouldConsentsBeDisplayed = isRegister
+        ? false
+        : consents.some(
+            consent =>
+              consent.newestVersion > consent.version ||
+              consent.needsUpdate === true
+          );
     });
 
     const captureResponse = getCaptureStatus().then(resp => {

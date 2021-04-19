@@ -139,7 +139,12 @@ describe('LoginForm', () => {
         expect(instance.state.generalError).toBe('');
         expect(Auth.login).toHaveBeenCalled();
         expect(Auth.login).toHaveBeenCalledTimes(1);
-        expect(Auth.login).toHaveBeenCalledWith(false, mockEmailValue, jwtMock);
+        expect(Auth.login).toHaveBeenCalledWith(
+          false,
+          false,
+          mockEmailValue,
+          jwtMock
+        );
         done();
       });
     });
@@ -170,7 +175,12 @@ describe('LoginForm', () => {
         expect(instance.state.generalError).toBe('');
         expect(Auth.login).toHaveBeenCalled();
         expect(Auth.login).toHaveBeenCalledTimes(1);
-        expect(Auth.login).toHaveBeenCalledWith(true, mockEmailValue, jwtMock);
+        expect(Auth.login).toHaveBeenCalledWith(
+          true,
+          false,
+          mockEmailValue,
+          jwtMock
+        );
         done();
       });
     });
