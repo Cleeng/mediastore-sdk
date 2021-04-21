@@ -1,5 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import { getData, setData, removeData } from 'util/appConfigHelper';
+import { getCaptureStatus, getCustomerConsents } from 'api';
 import history from '../history';
 
 class Auth {
@@ -13,17 +14,63 @@ class Auth {
       mainPage: '/offer',
       loginPage: '/login'
     };
+    this.capturePage = '/capture';
+    this.consentsPage = '/consents';
   }
 
-  login(isMyAccount = false, email, jwt, cb = () => {}, args = []) {
+  login(
+    isMyAccount = false,
+    isRegister = false,
+    email,
+    jwt,
+    cb = () => {},
+    args = []
+  ) {
     this.isAuthenticated = true;
     setData('CLEENG_AUTH_TOKEN', jwt);
     setData('CLEENG_CUSTOMER_EMAIL', email);
     cb.apply(this, args);
-    const redirectURL = isMyAccount
+    const redirectUrl = isMyAccount
       ? this.myAccount.mainPage
       : this.checkout.mainPage;
-    history.push(redirectURL);
+
+    let shouldConsentsBeDisplayed = false;
+    let shouldCaptureBeDisplayed = false;
+    let data = {};
+
+    const consentsResponse = getCustomerConsents().then(resp => {
+      const { consents } = resp.responseData;
+      shouldConsentsBeDisplayed = isRegister
+        ? false
+        : consents.some(
+            consent =>
+              consent.newestVersion > consent.version ||
+              consent.needsUpdate === true
+          );
+    });
+
+    const captureResponse = getCaptureStatus().then(resp => {
+      if (resp.responseData.shouldCaptureBeDisplayed === true) {
+        shouldCaptureBeDisplayed = true;
+        data = {
+          ...data,
+          settings: resp.responseData.settings
+        };
+      }
+    });
+
+    Promise.allSettled([consentsResponse, captureResponse]).then(() => {
+      data = {
+        ...data,
+        redirectUrl: [
+          shouldCaptureBeDisplayed ? this.capturePage : null,
+          shouldConsentsBeDisplayed ? this.consentsPage : null,
+          redirectUrl
+        ].filter(Boolean)
+      };
+      const currentRedirection = data.redirectUrl.shift();
+      history.push(currentRedirection, data);
+    });
   }
 
   logout(isMyAccount = false, queryParam = '') {

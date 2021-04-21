@@ -14,6 +14,10 @@ import getCustomer from './Customer/getCustomer';
 import listCustomerTransactions from './Customer/listCustomerTransactions';
 import getCustomerConsents from './Customer/getCustomerConsents';
 import submitPayPalPayment from './Offer/submitPayPalPayment';
+import applyCoupon from './Customer/applyCoupon';
+import getCaptureStatus from './Customer/getCaptureStatus';
+import updateCaptureAnswers from './Customer/updateCaptureAnswers';
+import submitConsents from './Customer/submitConsents';
 
 export {
   getPaymentMethods,
@@ -25,11 +29,15 @@ export {
   submitPayment,
   submitPaymentWithoutDetails,
   getConsents,
+  getCaptureStatus,
+  updateCaptureAnswers,
   getOfferDetails,
   loginCustomer,
   registerCustomer,
   resetPassword,
   listCustomerTransactions,
   getCustomerConsents,
-  submitPayPalPayment
+  submitPayPalPayment,
+  applyCoupon,
+  submitConsents
 };

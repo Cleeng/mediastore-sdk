@@ -4,10 +4,10 @@ import { media } from 'styles/BreakPoints';
 
 export const WrapStyled = styled.div`
   position: relative;
-  max-width: 320px;
+  max-width: ${props => (props.fullWidth ? 'unset' : '320px')};
 
   padding: 18px;
-  margin: 0 auto 32px auto;
+  margin: ${props => (props.margin ? props.margin : '0 auto 32px auto')} ;
 
   text-align: center;
   line-height: 1.4;
@@ -42,7 +42,8 @@ export const WrapStyled = styled.div`
 `;
 
 export const TitleStyled = styled.div`
-  margin-bottom: 5px;
+  max-width: 380px;
+  margin: auto auto 5px auto;
 
   color: ${MainColor};
 
@@ -53,8 +54,14 @@ export const SubTitleStyled = styled.div`
   color: ${MainColor};
 
   font-size: 13px;
+
+  max-width: 310px;
+  margin: auto;
 `;
 
 export const IconStyled = styled.div`
   margin: 0 auto 10px auto;
+  svg {
+    max-width: 100%;
+  }
 `;

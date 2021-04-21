@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
+import { PropTypes } from 'prop-types';
+
+import { getCustomerSubscriptions } from 'api';
 import SectionHeader from 'components/SectionHeader';
 import CurrentPlan from 'components/CurrentPlan';
-import { getCustomerSubscriptions } from 'api';
-import { PropTypes } from 'prop-types';
-import UpdateSubscription from 'components/UpdateSubscription';
+import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
 
 import { WrapStyled } from './PlanDetailsStyled';
 
@@ -13,15 +14,19 @@ class PlanDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentPlanLoading: false,
-      errors: []
+      isLoading: {
+        currentPlan: false
+      },
+      errors: {
+        currentPlan: []
+      }
     };
   }
 
   componentDidMount() {
-    const { planDetails, hideSurvey, updateList } = this.props;
-    if (planDetails.isSurveyShown) {
-      hideSurvey();
+    const { planDetails, updateList, innerPopup, hideInnerPopup } = this.props;
+    if (innerPopup.isOpen) {
+      hideInnerPopup();
       updateList();
     }
     if (planDetails.currentPlan.length === 0) {
@@ -40,57 +45,75 @@ class PlanDetails extends Component {
     const { setCurrentPlan } = this.props;
 
     this.setState({
-      currentPlanLoading: true
+      isLoading: {
+        currentPlan: true
+      }
     });
     getCustomerSubscriptions()
       .then(response => {
         if (response.errors.length) {
           this.setState({
-            errors: response.errors
+            errors: {
+              currentPlan: response.errors
+            }
           });
         } else {
-          setCurrentPlan(response.responseData.items);
+          const customerSubscriptions = response.responseData.items;
+          setCurrentPlan(customerSubscriptions);
         }
         this.setState({
-          currentPlanLoading: false
+          isLoading: {
+            currentPlan: false
+          }
         });
       })
       .catch(err => {
-        this.setState({ errors: [err.message], currentPlanLoading: false });
+        this.setState({
+          errors: { currentPlan: [err.message] },
+          isLoading: { currentPlan: false }
+        });
       });
+  };
+
+  renderPopup = type => {
+    const { updateList, innerPopup, hideInnerPopup } = this.props;
+    switch (type) {
+      case 'updateSubscription':
+        return (
+          <UpdateSubscription
+            hideInnerPopup={hideInnerPopup}
+            offerDetails={innerPopup.data.offerData}
+            updateList={updateList}
+            action={innerPopup.data.action}
+          />
+        );
+      default:
+        return <></>;
+    }
   };
 
   render() {
     const {
       planDetails,
-      hideSurvey,
-      showSurvey,
+      innerPopup,
+      showInnerPopup,
       updateList,
-      setUpdateAction,
       t
     } = this.props;
-    const { errors, currentPlanLoading } = this.state;
-
+    const { errors, isLoading } = this.state;
     return (
       <WrapStyled>
-        {planDetails.isSurveyShown ? (
-          <>
-            <UpdateSubscription
-              hideSurvey={hideSurvey}
-              offerDetails={planDetails.offerToUpdate}
-              updateList={updateList}
-              action={planDetails.updateAction}
-            />
-          </>
+        {innerPopup.isOpen ? (
+          this.renderPopup(innerPopup.type)
         ) : (
           <>
             <SectionHeader marginTop="0">{t('Current plan')}</SectionHeader>
             <CurrentPlan
               subscriptions={planDetails.currentPlan}
-              errors={errors}
-              currentPlanLoading={currentPlanLoading}
-              showSurvey={showSurvey}
-              setUpdateAction={setUpdateAction}
+              errors={errors.currentPlan}
+              isLoading={isLoading.currentPlan}
+              showInnerPopup={showInnerPopup}
+              updateList={updateList}
             />
           </>
         )}
@@ -101,16 +124,17 @@ class PlanDetails extends Component {
 
 PlanDetails.propTypes = {
   setCurrentPlan: PropTypes.func.isRequired,
-  setUpdateAction: PropTypes.func.isRequired,
   planDetails: PropTypes.objectOf(PropTypes.any),
-  showSurvey: PropTypes.func.isRequired,
-  hideSurvey: PropTypes.func.isRequired,
+  innerPopup: PropTypes.objectOf(PropTypes.any),
+  showInnerPopup: PropTypes.func.isRequired,
+  hideInnerPopup: PropTypes.func.isRequired,
   updateList: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 
 PlanDetails.defaultProps = {
   planDetails: { currentPlan: [] },
+  innerPopup: {},
   t: k => k
 };
 

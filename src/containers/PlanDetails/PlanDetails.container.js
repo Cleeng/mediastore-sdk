@@ -1,20 +1,14 @@
 import { connect } from 'react-redux';
-import {
-  setCurrentPlan,
-  showSurvey,
-  hideSurvey,
-  updateList,
-  setUpdateAction
-} from 'redux/planDetails';
+import { setCurrentPlan, updateList } from 'redux/planDetails';
+import { showInnerPopup, hideInnerPopup } from 'redux/innerPopupReducer';
+
 import PlanDetails from './PlanDetails.component';
 
 export const mapStateToProps = state => {
   return {
     planDetails: state.planDetails,
-    isSurveyShown: state.isSurveyShown,
-    offerToUpdate: state.offerToUpdate,
     updateList: state.updateList,
-    updateAction: state.updateAction
+    innerPopup: state.innerPopup
   };
 };
 
@@ -23,17 +17,14 @@ export const mapDispatchToProps = dispatch => {
     setCurrentPlan: currentPlan => {
       dispatch(setCurrentPlan(currentPlan));
     },
-    showSurvey: offerId => {
-      dispatch(showSurvey(offerId));
-    },
-    hideSurvey: () => {
-      dispatch(hideSurvey());
-    },
     updateList: () => {
       dispatch(updateList());
     },
-    setUpdateAction: action => {
-      dispatch(setUpdateAction(action));
+    showInnerPopup: payload => {
+      dispatch(showInnerPopup(payload));
+    },
+    hideInnerPopup: () => {
+      dispatch(hideInnerPopup());
     }
   };
 };

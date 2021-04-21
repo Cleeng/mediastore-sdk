@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { SET_CURRENT_USER, SET_CONSENTS } from 'redux/userProfile';
-import { SHOW_POPUP } from 'redux/popup';
+import { SHOW_INNER_POPUP, HIDE_INNER_POPUP } from 'redux/innerPopupReducer';
 import { mapStateToProps, mapDispatchToProps } from './UpdateProfile.container';
 
 const userProfileMock = {
@@ -42,7 +42,10 @@ describe('<UpdateProfile/>', () => {
   describe('@container', () => {
     it('should show previously added value', () => {
       const initialState = {
-        userProfile: userProfileMock
+        userProfile: userProfileMock,
+        userConsents: [],
+        consentsError: [],
+        innerPopup: { isOpen: false, type: '', data: {} }
       };
       expect(mapStateToProps(initialState).userProfile).toEqual(
         userProfileMock
@@ -58,10 +61,15 @@ describe('<UpdateProfile/>', () => {
       mapDispatchToProps(dispatch).setConsents();
       expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_CONSENTS });
     });
-    it('should dispatch SHOW_POPUP action', () => {
+    it('should dispatch SHOW_INNER_POPUP action', () => {
       const dispatch = jest.fn();
-      mapDispatchToProps(dispatch).showPopup();
-      expect(dispatch.mock.calls[0][0]).toEqual({ type: SHOW_POPUP });
+      mapDispatchToProps(dispatch).showInnerPopup();
+      expect(dispatch.mock.calls[0][0]).toEqual({ type: SHOW_INNER_POPUP });
+    });
+    it('should dispatch HIDE_INNER_POPUP action', () => {
+      const dispatch = jest.fn();
+      mapDispatchToProps(dispatch).hideInnerPopup();
+      expect(dispatch.mock.calls[0][0]).toEqual({ type: HIDE_INNER_POPUP });
     });
   });
 });

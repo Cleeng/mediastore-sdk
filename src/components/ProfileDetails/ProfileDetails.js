@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/no-did-update-set-state */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
@@ -13,6 +14,7 @@ import {
 } from 'components/MyAccountConsents/MyAccountConsentsStyled';
 import { validateEmailField } from 'util/validators';
 import updateCustomer from 'api/Customer/updateCustomer';
+import updateCaptureAnswers from 'api/Customer/updateCaptureAnswers';
 import Auth from 'services/auth';
 import { WrapStyled, FormStyled } from './ProfileDetailsStyled';
 
@@ -40,6 +42,24 @@ const InputsData = [
     label: 'Confirmation password',
     onBlur: 'areEmailAndPasswordValid',
     type: 'password'
+  },
+  {
+    id: 'birthDate',
+    label: 'Birth Date',
+    onBlur: '',
+    type: 'date'
+  },
+  {
+    id: 'phoneNumber',
+    label: 'Phone Number',
+    onBlur: 'isPhoneNumberValid',
+    type: 'tel'
+  },
+  {
+    id: 'companyName',
+    label: 'Company Name',
+    onBlur: 'isCompanyNameValid',
+    type: 'text'
   }
 ];
 
@@ -51,13 +71,19 @@ class ProfileDetails extends Component {
         firstName: '',
         lastName: '',
         email: '',
-        confirmationPassword: ''
+        confirmationPassword: '',
+        birthDate: '',
+        phoneNumber: '',
+        companyName: ''
       },
       errors: {
         firstName: '',
         lastName: '',
         email: '',
-        confirmationPassword: ''
+        confirmationPassword: '',
+        birthDate: '',
+        phoneNumber: '',
+        companyName: ''
       },
       isSectionDisabled: true,
       isSubmittingPending: false,
@@ -66,27 +92,58 @@ class ProfileDetails extends Component {
   }
 
   componentDidMount() {
-    const { firstName, lastName, email } = this.props;
+    const {
+      firstName,
+      lastName,
+      email,
+      birthDate,
+      phoneNumber,
+      companyName
+    } = this.props;
+    const { updated } = this.state;
     this.setState({
       updated: {
+        ...updated,
         firstName,
         lastName,
-        email
+        email,
+        birthDate: birthDate ? birthDate.answer : '',
+        phoneNumber: phoneNumber ? phoneNumber.answer : '',
+        companyName: companyName ? companyName.answer : ''
       }
     });
   }
 
   componentDidUpdate() {
     const { updated, isSectionDisabled } = this.state;
-    const { firstName, lastName, email } = this.props;
+    const {
+      firstName,
+      lastName,
+      email,
+      birthDate,
+      phoneNumber,
+      companyName
+    } = this.props;
     if (
       isSectionDisabled &&
       (firstName !== updated.firstName ||
         lastName !== updated.lastName ||
-        email !== updated.email)
+        email !== updated.email ||
+        (birthDate && birthDate.answer !== updated.birthDate) ||
+        (phoneNumber && phoneNumber.answer !== updated.phoneNumber) ||
+        (companyName && companyName.answer !== updated.companyName))
     ) {
       this.setState({
-        updated: { firstName, lastName, email, confirmationPassword: '' }
+        updated: {
+          ...updated,
+          firstName,
+          lastName,
+          email,
+          confirmationPassword: '',
+          birthDate: birthDate ? birthDate.answer : '',
+          phoneNumber: phoneNumber ? phoneNumber.answer : '',
+          companyName: companyName ? companyName.answer : ''
+        }
       });
     }
   }
@@ -94,7 +151,7 @@ class ProfileDetails extends Component {
   updateProfile = e => {
     e.preventDefault();
     const { updated } = this.state;
-    const { email, setCurrentUser, t } = this.props;
+    const { email, setCurrentUser, updateCaptureOption, t } = this.props;
     const shouldLogOut = updated.email !== email;
     if (this.areNamesValid() && this.areEmailAndPasswordValid()) {
       this.setState({
@@ -133,6 +190,25 @@ class ProfileDetails extends Component {
             Auth.logout(true, '?emailChanged=true');
           }
         }
+      });
+    }
+    if (this.isPhoneNumberValid() && this.isCompanyNameValid()) {
+      this.setState({
+        isSubmittingPending: true
+      });
+      updateCaptureAnswers({
+        birthDate: updated.birthDate,
+        companyName: updated.companyName,
+        phoneNumber: updated.phoneNumber
+      }).then(() => {
+        updateCaptureOption({ key: 'birthDate', value: updated.birthDate });
+        updateCaptureOption({ key: 'companyName', value: updated.companyName });
+        updateCaptureOption({ key: 'phoneNumber', value: updated.phoneNumber });
+        this.setState({
+          isSubmittingPending: false,
+          isSectionDisabled: true,
+          successMessage: true
+        });
       });
     }
   };
@@ -196,6 +272,48 @@ class ProfileDetails extends Component {
     return true;
   };
 
+  isPhoneNumberValid = () => {
+    const { updated } = this.state;
+    const { t } = this.props;
+    const regexp = /^[0-9()+-\s]+$/;
+    if (updated.phoneNumber && !regexp.test(updated.phoneNumber)) {
+      this.setState({
+        errors: {
+          phoneNumber: t('This is not a valid phone number')
+        }
+      });
+      return false;
+    }
+    this.setState({
+      errors: {
+        phoneNumber: ''
+      }
+    });
+    return true;
+  };
+
+  isCompanyNameValid = () => {
+    const { updated } = this.state;
+    const { t } = this.props;
+    if (updated.companyName && updated.companyName.length > 50) {
+      this.setState({
+        errors: {
+          companyName:
+            updated.companyName.length > 50
+              ? t('Company name can have max 50 characters')
+              : ''
+        }
+      });
+      return false;
+    }
+    this.setState({
+      errors: {
+        companyName: ''
+      }
+    });
+    return true;
+  };
+
   handleInputChange = (fieldName, inputValue) => {
     this.setState(prevState => ({
       updated: { ...prevState.updated, [fieldName]: inputValue }
@@ -223,26 +341,34 @@ class ProfileDetails extends Component {
                 {t('Your profile details have been changed successfully')}
               </SuccessMessageStyled>
             )}
-            {InputsData.map(input => (
-              <MyAccountInput
-                key={input.id}
-                id={input.id}
-                value={updated[input.id]}
-                label={t(input.label)}
-                onChange={e => this.handleInputChange(input.id, e.target.value)}
-                disabled={isSectionDisabled}
-                error={errors[input.id]}
-                onBlur={this[input.onBlur]}
-                type={input.type}
-                name={input.id}
-                hideInput={
-                  input.id === 'confirmationPassword' && updated.email === email
-                }
-                autoComplete={
-                  input.id === 'confirmationPassword' ? 'new-password' : 'off'
-                }
-              />
-            ))}
+            {InputsData.map(input => {
+              const shouldBeHidden =
+                typeof this.props[input.id] === 'object' &&
+                !this.props[input.id]?.enabled;
+              return !shouldBeHidden ? (
+                <MyAccountInput
+                  key={input.id}
+                  id={input.id}
+                  value={updated[input.id]}
+                  label={t(input.label)}
+                  onChange={e =>
+                    this.handleInputChange(input.id, e.target.value)
+                  }
+                  disabled={isSectionDisabled}
+                  error={errors[input.id]}
+                  onBlur={this[input.onBlur]}
+                  type={input.type}
+                  name={input.id}
+                  hideInput={
+                    input.id === 'confirmationPassword' &&
+                    updated.email === email
+                  }
+                  autoComplete={
+                    input.id === 'confirmationPassword' ? 'new-password' : 'off'
+                  }
+                />
+              ) : null;
+            })}
             <ButtonWrapperStyled>
               {isSectionDisabled ? (
                 <ButtonStyled
@@ -297,8 +423,12 @@ ProfileDetails.propTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
   email: PropTypes.string,
+  birthDate: PropTypes.objectOf(PropTypes.any),
+  phoneNumber: PropTypes.objectOf(PropTypes.any),
+  companyName: PropTypes.objectOf(PropTypes.any),
   isLoading: PropTypes.bool,
   setCurrentUser: PropTypes.func,
+  updateCaptureOption: PropTypes.func,
   t: PropTypes.func
 };
 
@@ -306,8 +436,12 @@ ProfileDetails.defaultProps = {
   firstName: '',
   lastName: '',
   email: '',
+  birthDate: null,
+  phoneNumber: null,
+  companyName: null,
   isLoading: false,
   setCurrentUser: () => {},
+  updateCaptureOption: () => {},
   t: k => k
 };
 

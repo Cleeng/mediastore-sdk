@@ -12,7 +12,7 @@ describe('appConfigReducer', () => {
 
     expect(appConfigReducer(undefined, action)).toMatchObject(expectedState);
   });
-  it('should correctly call hidePopup action', () => {
+  it('should correctly call removeData action', () => {
     const action = { type: REMOVE_DATA, payload: { name: 'CLEENG_OFFER_ID' } };
     const expectedState = { CLEENG_OFFER_ID: '' };
 

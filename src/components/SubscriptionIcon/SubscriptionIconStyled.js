@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
-import { BoldFont } from 'styles/variables';
+import { BoldFont, MainColor, White, ConfirmColor } from 'styles/variables';
 
-const WrapperStyled = styled.div`
+export const WrapperStyled = styled.div`
+  position: relative;
   padding: 10px;
   margin-right: 10px;
   border-radius: 8px;
@@ -27,4 +28,23 @@ const WrapperStyled = styled.div`
   `}
 `;
 
-export default WrapperStyled;
+export const LabelStyled = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: 18px;
+  width: 48px;
+
+  background: ${props => (props.label === 'New' ? ConfirmColor : MainColor)};
+  border-radius: 10px;
+
+  color: ${White};
+  font-size: 9px;
+  font-weight: 600;
+
+  transform: translate(-50%, -10px);
+`;

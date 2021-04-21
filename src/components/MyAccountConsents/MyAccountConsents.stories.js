@@ -21,6 +21,7 @@ storiesOf('MyAccount/UpdateProfile/Consents', module)
   ))
   .add('Default', () => (
     <PureMyAccountConsents
+      setConsents={() => {}}
       consents={[
         {
           customerId: '338816933',

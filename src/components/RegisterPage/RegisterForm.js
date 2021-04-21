@@ -125,10 +125,14 @@ class RegisterForm extends Component {
       locales.currency
     );
     if (response.status === 200) {
-      Auth.login(false, email, response.responseData.jwt, submitConsents, [
-        consents,
-        consentDefinitions
-      ]);
+      Auth.login(
+        false,
+        true,
+        email,
+        response.responseData.jwt,
+        submitConsents,
+        [consents, consentDefinitions]
+      );
     } else if (response.status === 422) {
       if (response.errors[0].includes('Enterprise account is required')) {
         this.renderError(

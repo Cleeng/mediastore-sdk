@@ -7,6 +7,54 @@ jest.mock('util/appConfigHelper', () => ({
   setData: jest.fn(),
   removeData: jest.fn()
 }));
+jest.mock('api', () => ({
+  getCaptureStatus: jest
+    .fn()
+    .mockResolvedValue({
+      responseData: {
+        shouldCaptureBeDisplayed: true,
+        settings: []
+      },
+      errors: []
+    })
+    .mockName('getCaptureStatus'),
+  getCustomerConsents: jest
+    .fn()
+    .mockResolvedValue({
+      responseData: {
+        consents: [
+          {
+            customerId: '859989525',
+            name: 'terms',
+            required: true,
+            state: 'accepted',
+            version: '1',
+            needsUpdate: false,
+            label:
+              'I accept the <a href="https://cleeng.com/cleeng-user-agreement" target="_blank">Terms and Conditions</a> of Cleeng.',
+            value: 'https://cleeng.com/cleeng-user-agreement',
+            newestVersion: '1',
+            date: 1601474217
+          },
+          {
+            customerId: '859989525',
+            name: 'broadcaster_terms',
+            required: true,
+            state: 'accepted',
+            version: '6',
+            needsUpdate: true,
+            label:
+              'I accept <a href="https://cleeng.com/privacytest" target="_blank">Testing link text test  v4 dsadsadsasda</a> of My Super Company.',
+            value: 'https://cleeng.com/privacytest',
+            newestVersion: '7',
+            date: 1609840678
+          }
+        ]
+      },
+      errors: []
+    })
+    .mockName('getCustomerConsents')
+}));
 
 const validJWT =
   'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjdXN0b21lcklkIjo1MzMzNTQzMDUsIm9mZmVySWQiOiJTNzA1OTcwMjkzX05MIn0.HNh4sl7zIg9fBwo7wcZAks8Io998LaJKFKiY10osljZXxPoC5ML2_nwsU-d57WkTCrgyKuofpVdlAwCVe6cYbyjaHDWy31eNjiqPG5V0T6IAw6NJ3nHojbVQ_CxWxVYxc9W--Z09-ClTVJqOCswShsHWXlPexA1r2BI79TVoGXSJags3uN7Q7TuNSb9GPDo1UsUJD0WkFC-05gllsr9eMZ5U2H6ds6ERTQFHdO71QtMPjJbodJZE-gYTyC9LwU1KKt84iQ6FMXvmaU_J7Ye9JrmHOdBppMWrUtvFs1-tZKUd0vvfQbO9y9wGPcRFsEpkmbiu0ba8t5k9v1K7fv7mfQ';
@@ -37,18 +85,24 @@ describe('Auth', () => {
     });
   });
   describe('@login', () => {
-    it('should update auth status to authenticated and set items in local storage when Login', () => {
-      Auth.login(false, emailMock, validJWT);
+    it('should update auth status to authenticated and set items in local storage when Login', done => {
+      Auth.login(false, false, emailMock, validJWT);
       getData.mockReturnValueOnce(validJWT).mockReturnValueOnce(emailMock);
       expect(getData('CLEENG_AUTH_TOKEN')).toBe(validJWT);
       expect(getData('CLEENG_CUSTOMER_EMAIL')).toBe(emailMock);
-      expect(pushSpy).toHaveBeenCalled();
-      expect(pushSpy).toHaveBeenCalledWith('/offer');
+      setImmediate(() => {
+        expect(pushSpy).toHaveBeenCalled();
+        expect(pushSpy).toHaveBeenCalledWith('/capture', {
+          redirectUrl: ['/consents', '/offer'],
+          settings: []
+        });
+        done();
+      });
     });
   });
   describe('@logout', () => {
     it('should update auth status to not authenticated and remove items from local storage on Logout', () => {
-      Auth.login(false, emailMock, validJWT);
+      Auth.login(false, false, emailMock, validJWT);
       Auth.logout();
       expect(removeData).toHaveBeenCalledTimes(5);
       expect(pushSpy).toHaveBeenCalled();

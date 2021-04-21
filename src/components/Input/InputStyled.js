@@ -11,31 +11,6 @@ export const InputComponentStyled = styled.div`
   width: 100%;
 `;
 
-export const InputElementWrapperStyled = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-
-  padding: 13px 0 14px;
-
-  background: white;
-  border: 1px solid ${Colors.MediumGrey};
-  transition: 0.2s ease-in-out;
-
-  &:focus-within {
-    border-color: ${Colors.ConfirmColor};
-  }
-
-  ${props =>
-    props.icon &&
-    css`
-      &::before {
-        content: url(${props.icon});
-      }
-    `};
-`;
-
 export const LabelStyled = styled.label`
   position: absolute;
   top: 17px;
@@ -46,6 +21,13 @@ export const LabelStyled = styled.label`
 
   color: ${Colors.MainColor};
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+
+  ${props =>
+    props.withIcon &&
+    css`
+      left: 40px;
+    `}
+
   &::after {
     position: absolute;
     content: '';
@@ -69,6 +51,45 @@ export const LabelStyled = styled.label`
         opacity: 1;
       }
     `}
+
+  ${props =>
+    props.hasValue &&
+    props.withIcon &&
+    css`
+      transform: translate(-26px, -25px) scaleY(0.9);
+    `}
+`;
+
+export const InputElementWrapperStyled = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  padding: 13px 0 14px;
+
+  background: white;
+  border: 1px solid ${Colors.MediumGrey};
+  transition: 0.2s ease-in-out;
+
+  &:focus-within {
+    border-color: ${Colors.ConfirmColor};
+    ${LabelStyled} {
+      color: ${Colors.ConfirmColor};
+      transform: translate(0, -25px) scaleY(0.9);
+      &::after {
+        opacity: 1;
+      }
+    }
+  }
+
+  ${props =>
+    props.icon &&
+    css`
+      &::before {
+        content: url(${props.icon});
+      }
+    `};
 `;
 
 export const InputElementStyled = styled.input`
@@ -88,6 +109,11 @@ export const InputElementStyled = styled.input`
   &:focus + label {
     transform: translate(0, -25px) scaleY(0.9);
     color: ${Colors.ConfirmColor};
+    ${props =>
+      props.withIcon &&
+      css`
+        transform: translate(-26px, -25px) scaleY(0.9);
+      `}
     &::after {
       opacity: 1;
     }
@@ -96,6 +122,23 @@ export const InputElementStyled = styled.input`
   ${media.small`
     width: 100%;
   `}
+
+  ${props =>
+    props.type === 'date' &&
+    css`
+      text-transform: uppercase;
+      &::-webkit-inner-spin-button,
+      &::-webkit-calendar-picker-indicator {
+        display: none;
+        -webkit-appearance: none;
+      }
+      & + label {
+        transform: translate(-26px, -25px) scaleY(0.9);
+        &::after {
+          opacity: 1;
+        }
+      }
+    `}
 `;
 
 export const ErrorWrapper = styled.div`
@@ -113,7 +156,6 @@ export const ErrorWrapper = styled.div`
       color: ${Colors[props.passwordStrength]};
     `}
 
-  font-family: 'Geomanist';
   font-size: 13px;
   text-align: left;
 
@@ -157,4 +199,29 @@ export const StyledButton = styled.button`
   &:focus::after {
     opacity: 1;
   }
+`;
+
+export const InputIconStyled = styled.div`
+  height: 18px;
+  width: 18px;
+  margin-left: 14px;
+
+  svg {
+    height: 100%;
+    width: auto;
+    fill: ${Colors.MediumGrey};
+  }
+`;
+
+export const InputRequiredStyled = styled.span`
+  display: block;
+  position: absolute;
+  right: 16px;
+  height: 9px;
+  font-size: 12px;
+  line-height: 12px;
+  top: 50%;
+  color: ${Colors.ErrorColor};
+  transform: translate(0, -50%);
+  z-index: 1;
 `;

@@ -14,7 +14,6 @@ export const PaymentStyled = styled.div`
 export const PaymentErrorStyled = styled.div`
   font-size: 15px;
   color: ${colors.ErrorColor};
-  font-family: 'Geomanist';
 `;
 
 export const MethodsWrapperStyled = styled.div`

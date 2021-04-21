@@ -35,7 +35,6 @@ export const ConsentDefinitionStyled = styled.div`
   padding-left: 10px;
   margin-top: 0;
 
-  font-family: 'Geomanist';
   font-weight: 400;
   text-align: left;
   a {
@@ -137,7 +136,6 @@ export const ErrorFieldStyled = styled.div`
   color: ${ErrorColor};
 
   font-size: 12px;
-  font-family: 'Geomanist';
   font-weight: 300;
   text-align: center;
 `;

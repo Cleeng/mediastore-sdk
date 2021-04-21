@@ -2,11 +2,9 @@ import React from 'react';
 import { storiesOf } from '@storybook/react';
 import { withKnobs, boolean } from '@storybook/addon-knobs';
 import { jsxDecorator } from 'storybook-addon-jsx';
-import { action } from '@storybook/addon-actions';
 import StoryRouter from 'storybook-react-router';
-import { PureLogin } from './Login';
+import { PureLogin as Login } from './Login';
 import 'styles/index.scss';
-import 'i18NextInit';
 
 storiesOf('Pages/LoginPage', module)
   .addDecorator(withKnobs)
@@ -18,8 +16,7 @@ storiesOf('Pages/LoginPage', module)
     </div>
   ))
   .add('Checkout and My account login', () => (
-    <PureLogin
-      onLoginComplete={action('onLoginComplete')}
+    <Login
       urlProps={{ location: { search: 'http://cleeng.com/' } }}
       isMyAccount={boolean('isMyAccount', false)}
     />

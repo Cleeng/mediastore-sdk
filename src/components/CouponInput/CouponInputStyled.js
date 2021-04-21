@@ -8,6 +8,14 @@ export const InputComponentStyled = styled.div`
   flex-direction: column;
 
   max-width: 300px;
+
+  ${props =>
+    props.fullWidth &&
+    props.isOpened &&
+    css`
+      max-width: 100%;
+      width: 100%;
+    `};
 `;
 
 export const MessageStyled = styled.div`
@@ -40,7 +48,6 @@ export const InputElementStyled = styled.input`
   flex-grow: 1;
   position: relative;
   width: 0px;
-  transition: width 0.3s, margin 0.3s;
 
   color: ${Colors.MainColor};
   padding: 0;
@@ -55,17 +62,52 @@ export const InputElementStyled = styled.input`
     css`
       width: 198px
       max-width: 198px;
-      left: 15px;
+      left: 37px;
       padding-right: 25px;
       ${media.small`
         width: 100%;
         max-width: 100%;
       `}
+
+      ${props.fullWidth &&
+        css`
+          width: 100%;
+          max-width: 100%;
+        `}
     `}
 
   ${props =>
     props.readOnly &&
     css`
       opacity: 0.5;
+    `}
+`;
+
+export const CloseButtonStyled = styled.button`
+  position: absolute;
+  height: 22px;
+  width: 22px;
+  top: 50%;
+  left: 7px;
+  transform: translate(0, -50%);
+  background-color: ${Colors.LineColor};
+  opacity: 0;
+  border: 0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  svg {
+    width: 8px;
+    height: 8px;
+    fill: ${Colors.White};
+  }
+
+  ${props =>
+    props.isInputOpened &&
+    css`
+      opacity: 1;
     `}
 `;

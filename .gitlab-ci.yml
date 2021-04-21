@@ -10,6 +10,7 @@ stages:
   variables:
     GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME
   script:
+    - echo ${ENVIRONMENT}
     - yarn && yarn build --environment=${ENVIRONMENT}
     - STORYBOOK_ENV=${ENVIRONMENT} yarn build-storybook
     - mv storybook-static build

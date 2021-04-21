@@ -1,10 +1,5 @@
-import {
-  SET_CURRENT_PLAN,
-  SHOW_SURVEY,
-  HIDE_SURVEY,
-  UPDATE_LIST,
-  SET_UPDATE_ACTION
-} from 'redux/planDetails';
+import { SET_CURRENT_PLAN, UPDATE_LIST } from 'redux/planDetails';
+
 import planDetailsReducer from '../planDetails';
 
 const planDetailsMock = [
@@ -39,36 +34,10 @@ describe('PlanDetails reducer', () => {
 
     expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);
   });
-  it('should correctly call showSurvey action', () => {
-    const action = { type: SHOW_SURVEY, payload: planDetailsMock[0] };
-    const expectedState = {
-      isSurveyShown: true,
-      offerToUpdate: planDetailsMock[0]
-    };
-
-    expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);
-  });
-  it('should correctly call hideSurvey action', () => {
-    const action = { type: HIDE_SURVEY };
-    const expectedState = {
-      isSurveyShown: false,
-      offerToUpdate: { offerId: '', expiresAt: null, price: null }
-    };
-
-    expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);
-  });
   it('should correctly call updateList action', () => {
     const action = { type: UPDATE_LIST };
     const expectedState = {
       updateList: true
-    };
-
-    expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);
-  });
-  it('should correctly call setUpdateAction action', () => {
-    const action = { type: SET_UPDATE_ACTION, payload: 'unsubscribe' };
-    const expectedState = {
-      updateAction: 'unsubscribe'
     };
 
     expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);

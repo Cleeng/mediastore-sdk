@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import { PureCouponInput as CouponInput } from 'components/CouponInput/CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Payment from 'components/Payment';
@@ -48,7 +50,7 @@ class Offer extends Component {
           : `${freePeriods > 1 ? `${freePeriods} ${period}s` : period}`;
         if (trialAvailable) {
           return `You will be charged ${offerPrice}${customerCurrencySymbol} after ${trialPeriodText}. 
-          </br>Next payments will occur for every ${periodMapper[period].chargedForEveryText}.`;
+              </br>Next payments will occur for every ${periodMapper[period].chargedForEveryText}.`;
         }
         return `You will be charged ${offerPrice}${customerCurrencySymbol} for every ${periodMapper[period].chargedForEveryText}.`;
       }
@@ -59,7 +61,9 @@ class Offer extends Component {
         if (!period) {
           return `Access until ${dateFormat(expiresAt, true)}`;
         }
-        return `${periodMapper[period].accessText} season pass`;
+        return periodMapper[period]
+          ? `${periodMapper[period].accessText} season pass`
+          : '';
       }
       case 'E': {
         const {
@@ -73,7 +77,9 @@ class Offer extends Component {
         const {
           offerDetails: { period }
         } = this.props;
-        return `${periodMapper[period].accessText} access`;
+        return periodMapper[period]
+          ? `${periodMapper[period].accessText} access`
+          : '';
       }
       case 'A':
         return 'Unlimited access';
@@ -257,4 +263,6 @@ Offer.defaultProps = {
   t: k => k
 };
 
-export default Offer;
+export { Offer as PureOffer };
+
+export default withTranslation()(labeling()(Offer));

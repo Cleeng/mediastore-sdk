@@ -1,18 +1,16 @@
 const data = {
   steps: [
     {
-      headerTitle: 'Password Reset',
-      title: 'Password Reset',
-      text: `If you want to reset your password, click 'Reset password' and we will send instructions to your email address `,
-      buttonText: 'Reset password',
+      title: 'Edit Password',
+      text: `If you want to edit your password, click 'YES, Reset' to receive password reset instruction on your mail `,
+      buttonText: 'Yes, Reset',
       buttonAction: 'resetPassword',
-      undoButton: 'Go back'
+      undoButton: 'No, thanks'
     },
     {
-      headerTitle: 'Password Reset',
-      title: 'On its way!',
-      text: `Please check your email inbox and follow the instructions to reset your password. When you are ready, click ‘continue’ to log out and sign in with your new password.`,
-      buttonText: 'Continue',
+      title: 'Email has been sent!',
+      text: `Please check your inbox and check the Instruction to change a password`,
+      buttonText: 'Thanks!',
       buttonAction: 'logout'
     }
   ]

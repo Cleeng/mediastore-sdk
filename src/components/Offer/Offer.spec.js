@@ -5,7 +5,7 @@ import { MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
 import * as planHelper from 'util/planHelper';
-import Offer from './Offer';
+import { PureOffer as Offer } from './Offer';
 import {
   offerDetailsMock,
   freeOfferDetailsMock,
