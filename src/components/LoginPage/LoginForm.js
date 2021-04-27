@@ -155,6 +155,7 @@ class LoginForm extends Component {
         <EmailInput
           reference={this.emailInput}
           label={t('Email')}
+          floatingLabels={false}
           value={email}
           onChange={e => this.setState({ email: e })}
           onBlur={this.validateEmail}
@@ -162,6 +163,7 @@ class LoginForm extends Component {
         />
         <PasswordInput
           label={t('Password')}
+          floatingLabels={false}
           value={password}
           onChange={e => this.setState({ password: e })}
           onBlur={this.validatePassword}

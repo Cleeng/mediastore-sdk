@@ -102,7 +102,8 @@ class PasswordInput extends React.Component {
       showVisibilityIcon,
       showPassword,
       handleClickShowPassword,
-      label
+      label,
+      floatingLabels
     } = this.props;
     const { passError, errorLabel } = this.state;
     const errorMsg = error || passError;
@@ -110,6 +111,7 @@ class PasswordInput extends React.Component {
       <>
         <Input
           placeholder={label}
+          floatingLabels={floatingLabels}
           type={showPassword ? 'text' : 'password'}
           value={value}
           onChange={this.onChangeFunction}
@@ -136,6 +138,7 @@ PasswordInput.propTypes = {
   showPassword: PropTypes.bool,
   handleClickShowPassword: PropTypes.func,
   label: PropTypes.string,
+  floatingLabels: PropTypes.bool,
   showPasswordStrength: PropTypes.bool,
   t: PropTypes.func
 };
@@ -149,6 +152,7 @@ PasswordInput.defaultProps = {
   showPassword: false,
   handleClickShowPassword: () => {},
   label: 'Password',
+  floatingLabels: true,
   showPasswordStrength: false,
   t: k => k
 };

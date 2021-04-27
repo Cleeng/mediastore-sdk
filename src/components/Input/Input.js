@@ -36,6 +36,7 @@ class Input extends Component {
       ariaInvalid,
       icon,
       required,
+      floatingLabels,
       reference
     } = this.props;
 
@@ -59,6 +60,7 @@ class Input extends Component {
             aria-invalid={ariaInvalid}
             aria-describedby={`${placeholder}-desc`}
             withIcon={icon}
+            floatingLabels={floatingLabels}
           />
           <LabelStyled htmlFor={placeholder} hasValue={value} withIcon={icon}>
             {placeholder}
@@ -105,6 +107,7 @@ Input.propTypes = {
   ariaInvalid: PropTypes.bool,
   icon: PropTypes.elementType,
   required: PropTypes.bool,
+  floatingLabels: PropTypes.bool,
   reference: PropTypes.oneOfType([
     PropTypes.func,
     PropTypes.shape({ current: PropTypes.instanceOf(HTMLInputElement) })
@@ -126,6 +129,7 @@ Input.defaultProps = {
   ariaInvalid: false,
   icon: null,
   required: false,
+  floatingLabels: true,
   reference: { current: null }
 };
 

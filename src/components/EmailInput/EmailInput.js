@@ -8,11 +8,13 @@ const EmailInput = ({
   onBlur,
   error,
   label,
+  floatingLabels,
   required,
   reference
 }) => (
   <Input
     placeholder={label}
+    floatingLabels={floatingLabels}
     type="email"
     value={value}
     onChange={onChange}
@@ -31,6 +33,7 @@ EmailInput.propTypes = {
   onBlur: PropTypes.func,
   error: PropTypes.string,
   label: PropTypes.string,
+  floatingLabels: PropTypes.bool,
   required: PropTypes.bool,
   reference: PropTypes.oneOfType([
     PropTypes.func,
@@ -44,6 +47,7 @@ EmailInput.defaultProps = {
   onBlur: () => {},
   error: '',
   label: 'Email',
+  floatingLabels: true,
   required: false,
   reference: { current: null }
 };

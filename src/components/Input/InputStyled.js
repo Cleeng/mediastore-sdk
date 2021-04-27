@@ -119,6 +119,17 @@ export const InputElementStyled = styled.input`
     }
   }
 
+  ${props =>
+    props.floatingLabels === false &&
+    css`
+      & + label {
+        transform: translate(0, -25px) scaleY(0.9);
+        &::after {
+          opacity: 1;
+        }
+      }
+    `}
+
   ${media.small`
     width: 100%;
   `}
