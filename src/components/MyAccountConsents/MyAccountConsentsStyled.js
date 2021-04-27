@@ -19,6 +19,7 @@ export const CardStyled = styled(Card)`
 export const ButtonStyled = styled(Button)`
   margin: 20px 0 10px 0;
   width: 48%;
+  min-width: 100px;
 
   ${props =>
     props.width &&

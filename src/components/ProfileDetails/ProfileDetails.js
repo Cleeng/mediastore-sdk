@@ -407,7 +407,10 @@ class ProfileDetails extends Component {
                     type="submit"
                     theme="confirm"
                   >
-                    {(isSubmittingPending && t('Loading...')) || t('Save')}
+                    {(isSubmittingPending && (
+                      <Loader buttonLoader color="#ffffff" />
+                    )) ||
+                      t('Save')}
                   </ButtonStyled>
                 </>
               )}

@@ -130,7 +130,8 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
                   type="submit"
                   theme="confirm"
                 >
-                  {(isPending && t('Loading...')) || t('Save')}
+                  {(isPending && <Loader buttonLoader color="#ffffff" />) ||
+                    t('Save')}
                 </ButtonStyled>
               </>
             )}

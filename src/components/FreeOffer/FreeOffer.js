@@ -6,6 +6,7 @@ import { getData } from 'util/appConfigHelper';
 import { periodMapper, dateFormat } from 'util/planHelper';
 import labeling from 'containers/labeling';
 import Button from 'components/Button';
+import Loader from 'components/Loader';
 import {
   WrapStyled,
   TitleStyled,
@@ -102,7 +103,11 @@ class FreeOffer extends Component {
               onClickFn={this.getAccessToFreeOffer}
               disabled={isLoading}
             >
-              {isLoading ? t('Loading...') : t('Get Access')}
+              {isLoading ? (
+                <Loader buttonLoader color="#ffffff" />
+              ) : (
+                t('Get Access')
+              )}
             </Button>
             {error && <ErrorMessageStyled>{error}</ErrorMessageStyled>}
           </ButtonWrapperStyled>
