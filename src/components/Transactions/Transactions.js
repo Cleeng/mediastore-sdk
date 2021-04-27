@@ -77,7 +77,9 @@ const Transactions = ({
               padding="12px 33px 12px 20px"
             >
               <ButtonTextStyled isExpanded={isExpanded}>
-                {(isTransactionsItemsLoading && t('Loading...')) ||
+                {(isTransactionsItemsLoading && (
+                  <Loader buttonLoader color="#ffffff" />
+                )) ||
                   (isExpanded && t('Show less')) ||
                   t('Show more')}
               </ButtonTextStyled>

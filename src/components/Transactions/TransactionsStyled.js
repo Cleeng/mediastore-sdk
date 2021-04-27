@@ -88,7 +88,7 @@ export const ButtonTextStyled = styled.span`
   line-height: 1.2;
   &:after {
     position: absolute;
-    right: -17px;
+    right: -20px;
     bottom: 0;
     font-size: 13px;
     ${props => (props.isExpanded ? "content: '▲'" : "content: '▼'")};

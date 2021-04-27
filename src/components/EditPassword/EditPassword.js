@@ -5,6 +5,7 @@ import labeling from 'containers/labeling';
 import { getData } from 'util/appConfigHelper';
 import resetPassword from 'api/Auth/resetPassword';
 import Button from 'components/Button';
+import Loader from 'components/Loader';
 import Auth from 'services/auth';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 
@@ -100,7 +101,8 @@ class EditPassword extends PureComponent {
             </Button>
           )}
           <Button theme="confirm" onClickFn={this[stepData.buttonAction]}>
-            {(isLoading && t('Loading...')) || t(stepData.buttonText)}
+            {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
+              t(stepData.buttonText)}
           </Button>
         </ButtonWrapperStyled>
       </InnerPopupWrapper>

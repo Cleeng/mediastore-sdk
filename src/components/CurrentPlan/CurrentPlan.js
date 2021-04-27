@@ -36,7 +36,8 @@ class CurrentPlan extends PureComponent {
       isErrorMessageShown: false,
       errorMessage: '',
       isCouponInputOpened: false,
-      couponValue: ''
+      couponValue: '',
+      isSubmitting: false
     };
   }
 
@@ -46,7 +47,8 @@ class CurrentPlan extends PureComponent {
 
     this.resetErrorMessage();
 
-    if (couponValue)
+    if (couponValue) {
+      this.setState({ isSubmitting: true });
       applyCoupon(subscriptionId, couponValue)
         .then(resp => {
           switch (resp.status) {
@@ -56,7 +58,8 @@ class CurrentPlan extends PureComponent {
                 t('Your Coupon has been successfully reedemed.')
               );
               this.setState({
-                isCouponInputOpened: false
+                isCouponInputOpened: false,
+                isSubmitting: false
               });
               updateList();
               break;
@@ -65,16 +68,25 @@ class CurrentPlan extends PureComponent {
                 this.showErrorMessage(t('Invalid coupon code.'));
               if (resp.errors.some(e => e.includes('already')))
                 this.showErrorMessage(t('Coupon already used'));
+              this.setState({
+                isSubmitting: false
+              });
               break;
             default:
               this.showErrorMessage(t('Invalid coupon code.'));
+              this.setState({
+                isSubmitting: false
+              });
               break;
           }
         })
         .catch(() => {
           this.showErrorMessage('Ooops. Something went wrong.');
+          this.setState({
+            isSubmitting: false
+          });
         });
-    else {
+    } else {
       this.showErrorMessage(t('Please enter coupon code.'));
     }
   };
@@ -114,7 +126,8 @@ class CurrentPlan extends PureComponent {
       messageBoxType,
       messageBoxText,
       errorMessage,
-      couponValue
+      couponValue,
+      isSubmitting
     } = this.state;
 
     const {
@@ -221,6 +234,7 @@ class CurrentPlan extends PureComponent {
                           showMessage={isErrorMessageShown}
                           value={couponValue}
                           message={errorMessage}
+                          couponLoading={isSubmitting}
                           onSubmit={() =>
                             this.submitCoupon(subItem.subscriptionId)
                           }
