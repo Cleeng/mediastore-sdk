@@ -197,6 +197,7 @@ class RegisterForm extends Component {
         <FormErrorStyled dangerouslySetInnerHTML={{ __html: generalError }} />
         <EmailInput
           label={t('Email')}
+          floatingLabels={false}
           value={email}
           onChange={e => this.setState({ email: e })}
           onBlur={this.validateEmail}
@@ -204,6 +205,7 @@ class RegisterForm extends Component {
         />
         <PasswordInput
           label={t('Password')}
+          floatingLabels={false}
           value={password}
           onChange={this.handlePasswordChange}
           onBlur={this.validatePassword}
