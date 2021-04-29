@@ -183,6 +183,7 @@ class MyAccount extends Component {
                 lastName={user ? user.lastName : ''}
                 email={user ? user.email : ''}
                 subscription={currentPlan[0] ? currentPlan[0].offerTitle : ''}
+                isDataLoaded={!!user && !!currentPlan}
               />
               <MyAccountMenu routeMatch={routeMatch} />
               <Footer isCheckout={false} isTransparent />

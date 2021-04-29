@@ -46,7 +46,9 @@ export const InsideWrapperStyled = styled.div`
       `)}
 `;
 
-export const LeftBoxStyled = styled.div``;
+export const LeftBoxStyled = styled.div`
+  max-width: 70%;
+`;
 
 export const RightBoxStyled = styled.div`
   display: flex;

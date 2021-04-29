@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import MyAccountError from 'components/MyAccountError';
-import Loader from 'components/Loader';
+import SkeletonWrapper from 'components/SkeletonWrapper';
 import { CardTypesIcons } from './PaymentMethod.const';
 import {
   WrapStyled,
@@ -20,9 +20,60 @@ import {
   Message
 } from './PaymentMethodStyled';
 
+const PaymentCard = ({
+  lastCardFourDigits,
+  cardExpirationDate,
+  variant,
+  isDataLoaded,
+  t
+}) => {
+  const LogoComponent = CardTypesIcons[variant]
+    ? CardTypesIcons[variant]
+    : React.Fragment;
+  return (
+    <CardWrapStyled>
+      {isDataLoaded ? (
+        <CardStyled>
+          <CardTypeStyled>
+            <LogoComponent />
+          </CardTypeStyled>
+          <CardNumberStyled>
+            **** **** **** {lastCardFourDigits}
+          </CardNumberStyled>
+          <CardExpirationStyled>
+            <CardExpirationLabel>{t('Expiry date')}</CardExpirationLabel>
+            <CardExpirationDateStyled>
+              {cardExpirationDate}
+            </CardExpirationDateStyled>
+          </CardExpirationStyled>
+          {/* <CardEditStyled>Edit</CardEditStyled> */}
+        </CardStyled>
+      ) : (
+        <SkeletonWrapper height={166} />
+      )}
+    </CardWrapStyled>
+  );
+};
+
+PaymentCard.propTypes = {
+  lastCardFourDigits: PropTypes.string,
+  cardExpirationDate: PropTypes.string,
+  variant: PropTypes.string,
+  isDataLoaded: PropTypes.bool,
+  t: PropTypes.func
+};
+
+PaymentCard.defaultProps = {
+  lastCardFourDigits: '',
+  cardExpirationDate: '',
+  isDataLoaded: true,
+  variant: '',
+  t: k => k
+};
+
 const PaymentMethod = ({ paymentDetailsLoading, paymentDetails, error, t }) => {
   return paymentDetailsLoading ? (
-    <Loader isMyAccount />
+    <PaymentCard isDataLoaded={false} />
   ) : (
     <WrapStyled>
       {error.length !== 0 ? (
@@ -42,29 +93,14 @@ const PaymentMethod = ({ paymentDetailsLoading, paymentDetails, error, t }) => {
                 cardExpirationDate,
                 variant
               } = method.paymentMethodSpecificParams;
-              const LogoComponent = CardTypesIcons[variant]
-                ? CardTypesIcons[variant]
-                : React.Fragment;
+
               return (
-                <CardWrapStyled key={method.id}>
-                  <CardStyled>
-                    <CardTypeStyled>
-                      <LogoComponent />
-                    </CardTypeStyled>
-                    <CardNumberStyled>
-                      **** **** **** {lastCardFourDigits}
-                    </CardNumberStyled>
-                    <CardExpirationStyled>
-                      <CardExpirationLabel>
-                        {t('Expiry date')}
-                      </CardExpirationLabel>
-                      <CardExpirationDateStyled>
-                        {cardExpirationDate}
-                      </CardExpirationDateStyled>
-                    </CardExpirationStyled>
-                    {/* <CardEditStyled>Edit</CardEditStyled> */}
-                  </CardStyled>
-                </CardWrapStyled>
+                <PaymentCard
+                  key={method.id}
+                  lastCardFourDigits={lastCardFourDigits}
+                  cardExpirationDate={cardExpirationDate}
+                  variant={variant}
+                />
               );
             }
             if (method.paymentMethod === 'paypal') {

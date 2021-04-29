@@ -6,7 +6,6 @@ import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import Card from 'components/Card';
 import MyAccountInput from 'components/MyAccountInput';
-import Loader from 'components/Loader';
 import {
   ButtonStyled,
   ButtonWrapperStyled,
@@ -16,6 +15,8 @@ import { validateEmailField } from 'util/validators';
 import updateCustomer from 'api/Customer/updateCustomer';
 import updateCaptureAnswers from 'api/Customer/updateCaptureAnswers';
 import Auth from 'services/auth';
+import SkeletonWrapper from 'components/SkeletonWrapper';
+import Loader from 'components/Loader';
 import { WrapStyled, FormStyled } from './ProfileDetailsStyled';
 
 const InputsData = [
@@ -330,92 +331,107 @@ class ProfileDetails extends Component {
       successMessage
     } = this.state;
 
-    return isLoading ? (
-      <Loader isMyAccount />
-    ) : (
+    return (
       <WrapStyled>
         <Card withBorder>
-          <FormStyled onSubmit={this.updateProfile}>
-            {successMessage && (
-              <SuccessMessageStyled>
-                {t('Your profile details have been changed successfully')}
-              </SuccessMessageStyled>
-            )}
-            {InputsData.map(input => {
-              const shouldBeHidden =
-                typeof this.props[input.id] === 'object' &&
-                !this.props[input.id]?.enabled;
-              return !shouldBeHidden ? (
-                <MyAccountInput
-                  key={input.id}
-                  id={input.id}
-                  value={updated[input.id]}
-                  label={t(input.label)}
-                  onChange={e =>
-                    this.handleInputChange(input.id, e.target.value)
-                  }
-                  disabled={isSectionDisabled}
-                  error={errors[input.id]}
-                  onBlur={this[input.onBlur]}
-                  type={input.type}
-                  name={input.id}
-                  hideInput={
-                    input.id === 'confirmationPassword' &&
-                    updated.email === email
-                  }
-                  autoComplete={
-                    input.id === 'confirmationPassword' ? 'new-password' : 'off'
-                  }
-                />
-              ) : null;
-            })}
-            <ButtonWrapperStyled>
-              {isSectionDisabled ? (
-                <ButtonStyled
-                  onClickFn={() => this.setState({ isSectionDisabled: false })}
-                  width="100%"
-                >
-                  {t('Edit Profile')}
-                </ButtonStyled>
-              ) : (
-                <>
-                  <ButtonStyled
-                    theme="simple"
-                    onClickFn={() =>
-                      this.setState({
-                        isSectionDisabled: true,
-                        updated: {
-                          firstName,
-                          lastName,
-                          email,
-                          confirmationPassword: ''
-                        },
-                        errors: {
-                          firstName: '',
-                          lastName: '',
-                          email: '',
-                          confirmationPassword: ''
-                        }
-                      })
-                    }
-                  >
-                    {t('Cancel')}
-                  </ButtonStyled>
-                  <ButtonStyled
-                    onClickFn={this.updateProfile}
-                    disabled={isSubmittingPending}
-                    type="submit"
-                    theme="confirm"
-                  >
-                    {(isSubmittingPending && (
-                      <Loader buttonLoader color="#ffffff" />
-                    )) ||
-                      t('Save')}
-                  </ButtonStyled>
-                </>
+          {isLoading ? (
+            <>
+              {[...Array(3)].map((i, k) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <React.Fragment key={`skeleton-item-${k}`}>
+                  <SkeletonWrapper width={100} margin="0 0 12px 0" />
+                  <SkeletonWrapper height={40} margin="0 0 28px 0" />
+                </React.Fragment>
+              ))}
+              <SkeletonWrapper height={40} width={140} margin="40px 0 0 auto" />
+            </>
+          ) : (
+            <FormStyled onSubmit={this.updateProfile}>
+              {successMessage && (
+                <SuccessMessageStyled>
+                  {t('Your profile details have been changed successfully')}
+                </SuccessMessageStyled>
               )}
-            </ButtonWrapperStyled>
-          </FormStyled>
+              {InputsData.map(input => {
+                const shouldBeHidden =
+                  typeof this.props[input.id] === 'object' &&
+                  !this.props[input.id]?.enabled;
+                return !shouldBeHidden ? (
+                  <MyAccountInput
+                    key={input.id}
+                    id={input.id}
+                    value={updated[input.id]}
+                    label={t(input.label)}
+                    onChange={e =>
+                      this.handleInputChange(input.id, e.target.value)
+                    }
+                    disabled={isSectionDisabled}
+                    error={errors[input.id]}
+                    onBlur={this[input.onBlur]}
+                    type={input.type}
+                    name={input.id}
+                    hideInput={
+                      input.id === 'confirmationPassword' &&
+                      updated.email === email
+                    }
+                    autoComplete={
+                      input.id === 'confirmationPassword'
+                        ? 'new-password'
+                        : 'off'
+                    }
+                  />
+                ) : null;
+              })}
+              <ButtonWrapperStyled>
+                {isSectionDisabled ? (
+                  <ButtonStyled
+                    onClickFn={() =>
+                      this.setState({ isSectionDisabled: false })
+                    }
+                    width="100%"
+                  >
+                    {t('Edit Profile')}
+                  </ButtonStyled>
+                ) : (
+                  <>
+                    <ButtonStyled
+                      theme="simple"
+                      onClickFn={() =>
+                        this.setState({
+                          isSectionDisabled: true,
+                          updated: {
+                            firstName,
+                            lastName,
+                            email,
+                            confirmationPassword: ''
+                          },
+                          errors: {
+                            firstName: '',
+                            lastName: '',
+                            email: '',
+                            confirmationPassword: ''
+                          }
+                        })
+                      }
+                    >
+                      {t('Cancel')}
+                    </ButtonStyled>
+                    <ButtonStyled
+                      onClickFn={this.updateProfile}
+                      disabled={isSubmittingPending}
+                      type="submit"
+                      theme="confirm"
+                    >
+                      {(isSubmittingPending && (
+                        <Loader buttonLoader color="#ffffff" />
+                      )) ||
+                        t('Save')}
+                    </ButtonStyled>
+                  </>
+                )}
+              </ButtonWrapperStyled>
+            </FormStyled>
+          )}
         </Card>
       </WrapStyled>
     );
