@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import SkeletonWrapper from 'components/SkeletonWrapper';
 
 import {
   WrapStyled,
@@ -10,15 +11,36 @@ import {
   TextStyled
 } from './MyAccountUserInfoStyled';
 
-const MyAccountUserInfo = ({ firstName, lastName, email, subscription }) => {
+const MyAccountUserInfo = ({
+  firstName,
+  lastName,
+  email,
+  subscription,
+  isDataLoaded
+}) => {
   const isNameSetted = firstName || lastName;
   return (
     <WrapStyled>
-      <PhotoStyled />
+      <SkeletonWrapper
+        showChildren={isDataLoaded}
+        circle
+        width={80}
+        height={80}
+      >
+        <PhotoStyled />
+      </SkeletonWrapper>
       <DetailsStyled isEmpty={!email}>
-        {isNameSetted && <NameStyled>{`${firstName} ${lastName}`}</NameStyled>}
-        <MailStyled bigger={!isNameSetted}>{email}</MailStyled>
-        {subscription && <TextStyled>{subscription}</TextStyled>}
+        <SkeletonWrapper showChildren={isDataLoaded} height={26}>
+          {isNameSetted && (
+            <NameStyled>{`${firstName} ${lastName}`}</NameStyled>
+          )}
+        </SkeletonWrapper>
+        <SkeletonWrapper showChildren={isDataLoaded}>
+          <MailStyled bigger={!isNameSetted}>{email}</MailStyled>
+        </SkeletonWrapper>
+        <SkeletonWrapper showChildren={isDataLoaded} height={36} margin="0px">
+          <TextStyled>{subscription}</TextStyled>
+        </SkeletonWrapper>
       </DetailsStyled>
     </WrapStyled>
   );
@@ -30,12 +52,14 @@ MyAccountUserInfo.propTypes = {
   firstName: PropTypes.string,
   lastName: PropTypes.string,
   email: PropTypes.string,
-  subscription: PropTypes.string
+  subscription: PropTypes.string,
+  isDataLoaded: PropTypes.bool
 };
 
 MyAccountUserInfo.defaultProps = {
   firstName: '',
   lastName: '',
   email: '',
-  subscription: ''
+  subscription: '',
+  isDataLoaded: false
 };

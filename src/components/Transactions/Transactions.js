@@ -3,12 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import Loader from 'components/Loader';
 import Card from 'components/Card';
 import { dateFormat } from 'util/planHelper';
 import MyAccountError from 'components/MyAccountError';
 import Button from 'components/Button';
 import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
+import SkeletonWrapper from 'components/SkeletonWrapper';
+import Loader from 'components/Loader';
 import {
   WrapStyled,
   InsideWrapperStyled,
@@ -21,6 +22,32 @@ import {
   ButtonTextStyled
 } from './TransactionsStyled';
 
+const TransactionsSkeleton = () => (
+  <Card withBorder>
+    {[...Array(3)].map((i, k) => (
+      // eslint-disable-next-line react/no-array-index-key
+      <InsideWrapperStyled key={`skeleton-item-${k}`} length={3}>
+        <LeftBoxStyled>
+          <TitleStyled>
+            <SkeletonWrapper width={300} />
+          </TitleStyled>
+          <SubTitleStyled>
+            <SkeletonWrapper width={100} />
+          </SubTitleStyled>
+        </LeftBoxStyled>
+        <RightBoxStyled>
+          <IdStyled>
+            <SkeletonWrapper width={80} />
+          </IdStyled>
+          <DateStyled>
+            <SkeletonWrapper width={80} />
+          </DateStyled>
+        </RightBoxStyled>
+      </InsideWrapperStyled>
+    ))}
+  </Card>
+);
+
 const Transactions = ({
   transactions,
   toggleTransactionsList,
@@ -32,7 +59,7 @@ const Transactions = ({
   t
 }) =>
   isTransactionsSectionLoading ? (
-    <Loader isMyAccount />
+    <TransactionsSkeleton />
   ) : (
     <WrapStyled>
       {error.length !== 0 ? (

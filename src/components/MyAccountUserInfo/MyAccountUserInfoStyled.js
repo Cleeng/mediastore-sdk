@@ -103,6 +103,7 @@ export const TextStyled = styled.div`
 
 export const DetailsStyled = styled.div`
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   justify-content: center;
 

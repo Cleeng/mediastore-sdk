@@ -5,6 +5,7 @@ import labeling from 'containers/labeling';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price from 'components/Price';
 import { getData } from 'util/appConfigHelper';
+import SkeletonWrapper from 'components/SkeletonWrapper';
 import {
   WrapperStyled,
   InnerWrapper,
@@ -23,6 +24,7 @@ const SubscriptionCard = ({
   price,
   isTrialAvailable,
   isSubscriptionOffer,
+  isDataLoaded,
   t
 }) => {
   const isSubscription =
@@ -30,22 +32,38 @@ const SubscriptionCard = ({
   return (
     <>
       <WrapperStyled>
-        <SubscriptionIcon icon={icon} />
+        <SkeletonWrapper showChildren={isDataLoaded} width={50} height={50}>
+          <SubscriptionIcon icon={icon} />
+        </SkeletonWrapper>
         <InnerWrapper>
-          <TitleStyled>{title}</TitleStyled>
-          <DescriptionStyled
-            dangerouslySetInnerHTML={{ __html: description }}
-          />
+          <SkeletonWrapper
+            showChildren={isDataLoaded}
+            width={200}
+            margin="0 0 10px 10px"
+          >
+            <TitleStyled>{title}</TitleStyled>
+          </SkeletonWrapper>
+          <SkeletonWrapper
+            showChildren={isDataLoaded}
+            width={300}
+            margin="0 0 10px 10px"
+          >
+            <DescriptionStyled
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
+          </SkeletonWrapper>
         </InnerWrapper>
         <PriceWrapperStyled>
-          {isTrialAvailable && (
-            <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
-          )}
-          <Price
-            currency={currency}
-            price={price}
-            period={isSubscription ? period : null}
-          />
+          <SkeletonWrapper showChildren={isDataLoaded} width={80} height={30}>
+            {isTrialAvailable && (
+              <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
+            )}
+            <Price
+              currency={currency}
+              price={price}
+              period={isSubscription ? period : null}
+            />
+          </SkeletonWrapper>
         </PriceWrapperStyled>
       </WrapperStyled>
     </>
@@ -61,6 +79,7 @@ SubscriptionCard.propTypes = {
   price: PropTypes.number,
   isTrialAvailable: PropTypes.bool,
   isSubscriptionOffer: PropTypes.bool,
+  isDataLoaded: PropTypes.bool,
   t: PropTypes.func
 };
 
@@ -70,9 +89,10 @@ SubscriptionCard.defaultProps = {
   title: '',
   description: '',
   currency: '',
-  price: '',
+  price: null,
   isTrialAvailable: false,
   isSubscriptionOffer: false,
+  isDataLoaded: true,
   t: k => k
 };
 

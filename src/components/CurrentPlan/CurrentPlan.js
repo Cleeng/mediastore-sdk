@@ -8,7 +8,6 @@ import labeling from 'containers/labeling';
 import { ReactComponent as noSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
 import { dateFormat, currencyFormat } from 'util/planHelper';
 
-import Loader from 'components/Loader';
 import MyAccountError from 'components/MyAccountError';
 import SubscriptionCard from 'components/SubscriptionCard';
 import SubscriptionManagement from 'components/SubscriptionManagement';
@@ -25,6 +24,14 @@ import {
   CouponWrapStyled,
   StatusMessageWrapStyled
 } from './CurrentPlanStyled';
+
+const SkeletonCard = () => {
+  return (
+    <SubscriptionStyled>
+      <SubscriptionCard isDataLoaded={false} />
+    </SubscriptionStyled>
+  );
+};
 
 class CurrentPlan extends PureComponent {
   constructor(props) {
@@ -140,7 +147,7 @@ class CurrentPlan extends PureComponent {
     } = this.props;
 
     return isLoading ? (
-      <Loader isMyAccount />
+      <SkeletonCard />
     ) : (
       <WrapStyled>
         {errors.length !== 0 ? (

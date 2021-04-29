@@ -21,10 +21,12 @@ export const WrapperStyled = styled.section`
   width: 100%;
 `;
 export const InnerWrapper = styled.div`
+  max-width: 50%;
   color: ${MainColor};
   margin-right: 15px;
 
   ${mediaFrom.small`
+    max-width: none;
     margin-right: 20px;
   `}
 `;
