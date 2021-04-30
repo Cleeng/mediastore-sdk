@@ -142,10 +142,13 @@ class CurrentPlan extends PureComponent {
       isLoading,
       errors,
       showInnerPopup,
+      setOfferToSwitch,
+      offerToSwitch,
       isManagementBarOpen,
       t
     } = this.props;
 
+    const areFewOffers = subscriptions.length > 1;
     return isLoading ? (
       <SkeletonCard />
     ) : (
@@ -169,7 +172,17 @@ class CurrentPlan extends PureComponent {
                   : t('This plan will expire on')
               } ${dateFormat(subItem.expiresAt)}`;
               return (
-                <SubscriptionStyled key={subItem.offerId}>
+                <SubscriptionStyled
+                  key={subItem.offerId}
+                  onClick={() => {
+                    if (areFewOffers && subItem.status === 'active')
+                      setOfferToSwitch(subItem);
+                  }}
+                  cursorPointer={areFewOffers && subItem.status === 'active'}
+                  isSelected={
+                    areFewOffers && offerToSwitch.offerId === subItem.offerId
+                  }
+                >
                   <SubscriptionCard
                     period={subItem.period}
                     title={subItem.offerTitle}
@@ -269,6 +282,8 @@ CurrentPlan.propTypes = {
   isLoading: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.any),
   showInnerPopup: PropTypes.func.isRequired,
+  setOfferToSwitch: PropTypes.func.isRequired,
+  offerToSwitch: PropTypes.objectOf(PropTypes.any),
   updateList: PropTypes.func.isRequired,
   isManagementBarOpen: PropTypes.bool,
   t: PropTypes.func
@@ -278,6 +293,7 @@ CurrentPlan.defaultProps = {
   subscriptions: [],
   isLoading: false,
   errors: [],
+  offerToSwitch: {},
   isManagementBarOpen: false,
   t: k => k
 };

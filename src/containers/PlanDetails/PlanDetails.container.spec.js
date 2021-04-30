@@ -1,4 +1,9 @@
-import { SET_CURRENT_PLAN, UPDATE_LIST } from 'redux/planDetails';
+import {
+  SET_CURRENT_PLAN,
+  UPDATE_LIST,
+  SET_OFFER_TO_SWITCH,
+  SET_SWITCH_SETTINGS
+} from 'redux/planDetails';
 import { SHOW_INNER_POPUP, HIDE_INNER_POPUP } from 'redux/innerPopupReducer';
 import { mapStateToProps, mapDispatchToProps } from './PlanDetails.container';
 
@@ -53,5 +58,15 @@ describe('<PaymentInfo/>', () => {
     const dispatch = jest.fn();
     mapDispatchToProps(dispatch).updateList();
     expect(dispatch.mock.calls[0][0]).toEqual({ type: UPDATE_LIST });
+  });
+  it('should dispatch SET_OFFER_TO_SWITCH action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).setOfferToSwitch();
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_OFFER_TO_SWITCH });
+  });
+  it('should dispatch SET_SWITCH_SETTINGS action', () => {
+    const dispatch = jest.fn();
+    mapDispatchToProps(dispatch).setSwitchSettings();
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_SWITCH_SETTINGS });
   });
 });

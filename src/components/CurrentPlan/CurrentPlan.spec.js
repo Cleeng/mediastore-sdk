@@ -44,6 +44,7 @@ const planDetailsMock = [
   }
 ];
 const showInnerPopupMock = jest.fn();
+const setOfferToSwitchMock = jest.fn();
 const updateList = jest.fn();
 
 describe('<PlanDetails/>', () => {
@@ -53,6 +54,7 @@ describe('<PlanDetails/>', () => {
       const wrapper = mount(
         <PureCurrentPlan
           showInnerPopup={showInnerPopupMock}
+          setOfferToSwitch={setOfferToSwitchMock}
           updateList={updateList}
         />
       );
@@ -63,6 +65,7 @@ describe('<PlanDetails/>', () => {
         <PureCurrentPlan
           subscriptions={planDetailsMock}
           showInnerPopup={showInnerPopupMock}
+          setOfferToSwitch={setOfferToSwitchMock}
           updateList={updateList}
         />
       );
@@ -77,6 +80,7 @@ describe('<PlanDetails/>', () => {
         <PureCurrentPlan
           subscriptions={planDetailsMock}
           showInnerPopup={showInnerPopupMock}
+          setOfferToSwitch={setOfferToSwitchMock}
           updateList={updateList}
           isManagementBarOpen={trueValue}
         />
@@ -102,6 +106,7 @@ describe('<PlanDetails/>', () => {
         <PureCurrentPlan
           subscriptions={planDetailsMock.slice(1)}
           showInnerPopup={showInnerPopupMock}
+          setOfferToSwitch={setOfferToSwitchMock}
           updateList={updateList}
           isManagementBarOpen={trueValue}
         />
@@ -120,6 +125,23 @@ describe('<PlanDetails/>', () => {
           }
         }
       });
+    });
+    it('should save data about offer to switch on click SubscriptionCard', () => {
+      const wrapper = mount(
+        <PureCurrentPlan
+          subscriptions={planDetailsMock}
+          showInnerPopup={showInnerPopupMock}
+          setOfferToSwitch={setOfferToSwitchMock}
+          updateList={updateList}
+        />
+      );
+      wrapper
+        .find(SubscriptionStyled)
+        .first()
+        .simulate('click');
+
+      expect(setOfferToSwitchMock).toHaveBeenCalledTimes(1);
+      expect(setOfferToSwitchMock).toHaveBeenCalledWith(planDetailsMock[0]);
     });
   });
 });
