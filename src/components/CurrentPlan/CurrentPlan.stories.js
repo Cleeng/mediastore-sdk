@@ -38,6 +38,7 @@ if (showStory) {
       <CurrentPlan
         subscriptions={SUBSCRIPTIONMOCK}
         isLoading={boolean('isLoading', false)}
+        setOfferToSwitch={() => {}}
         showInnerPopup={() => {}}
       />
     ))
@@ -45,6 +46,7 @@ if (showStory) {
       <CurrentPlan
         subscriptions={[]}
         isLoading={false}
+        setOfferToSwitch={() => {}}
         showInnerPopup={() => {}}
       />
     ));

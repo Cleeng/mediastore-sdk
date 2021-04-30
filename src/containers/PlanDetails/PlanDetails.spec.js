@@ -1,15 +1,16 @@
 /* eslint-disable react/jsx-props-no-spreading */
 
 import React from 'react';
-import { shallow } from 'enzyme';
-
+import { shallow, mount } from 'enzyme';
 import getCustomerSubscriptionsRequest from 'api/Customer/getCustomerSubscriptions';
 
 import UpdateSubscription from 'components/UpdateSubscription';
+import SwitchPlanPopup from 'components/SwitchPlanPopup';
 
 import { PurePlanDetails } from './PlanDetails.component';
 
 jest.mock('api/Customer/getCustomerSubscriptions');
+jest.mock('api/Customer/getAvailableSwitches');
 
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
@@ -20,107 +21,45 @@ jest.mock('react-i18next', () => ({
   )
 }));
 
-const correctData = {
-  items: [
-    {
-      offerId: 'S568296139_ZW',
-      status: 'active',
-      expiresAt: 1615897260,
-      nextPaymentPrice: 22.15,
-      nextPaymentCurrency: 'EUR',
-      paymentGateway: 'adyen',
-      paymentMethod: 'card',
-      offerTitle: 'Annual subscription (recurring) to pride&amp;prejudice',
-      period: 'year',
-      totalPrice: 20
-    }
-  ]
-};
-
 const setCurrentPlanMock = jest.fn();
 const showInnerPopupMock = jest.fn();
 const hideInnerPopupMock = jest.fn();
+const setOfferToSwitchMock = jest.fn();
+const setSwitchSettingsMock = jest.fn();
 const updateListMock = jest.fn();
 
 const defaultProps = {
   setCurrentPlan: setCurrentPlanMock,
   showInnerPopup: showInnerPopupMock,
   hideInnerPopup: hideInnerPopupMock,
+  setOfferToSwitch: setOfferToSwitchMock,
+  setSwitchSettings: setSwitchSettingsMock,
   updateList: updateListMock
 };
 describe('<PlanDetails/>', () => {
   afterEach(() => jest.clearAllMocks());
   describe('@componentDidMount', () => {
-    it('should fetch subsctiptions on mount', done => {
-      getCustomerSubscriptionsRequest.mockResolvedValue({
-        responseData: {
-          items: correctData.items
-        },
-        errors: []
-      });
-      const wrapper = shallow(<PurePlanDetails {...defaultProps} />);
-      expect(wrapper.state('isLoading')).toEqual({
-        currentPlan: true
-      });
-
-      setImmediate(() => {
-        expect(setCurrentPlanMock).toHaveBeenCalledWith(correctData.items);
-        done();
-      });
-    });
-    it('should call fetchSubscriptions when new props given', () => {
-      const wrapper = shallow(
-        <PurePlanDetails
-          {...defaultProps}
-          planDetails={{
-            currentPlan: [1, 2],
-            updateList: false
-          }}
-        />
-      );
-      wrapper.instance().fetchSubscriptions = jest.fn();
-      wrapper.setProps({
-        planDetails: {
-          updateList: true,
-          currentPlan: [1, 2, 3]
-        }
-      });
-      expect(wrapper.instance().fetchSubscriptions).toHaveBeenCalled();
-    });
     it('should set state when fetchSubscriptions return error', done => {
       getCustomerSubscriptionsRequest.mockResolvedValue({
         responseData: {},
         errors: ['error']
       });
-      const wrapper = shallow(<PurePlanDetails {...defaultProps} />);
-      expect(wrapper.state('errors')).toEqual({
-        currentPlan: []
-      });
+      shallow(<PurePlanDetails {...defaultProps} />);
       setImmediate(() => {
-        expect(wrapper.state('errors')).toEqual({
-          currentPlan: ['error']
-        });
         expect(setCurrentPlanMock).not.toHaveBeenCalled();
         done();
       });
     });
     it('should catch error when fetchSubscriptions fail', done => {
       getCustomerSubscriptionsRequest.mockRejectedValue(new Error('error'));
-      const wrapper = shallow(<PurePlanDetails {...defaultProps} />);
-      expect(wrapper.state('errors')).toEqual({
-        currentPlan: []
-      });
+      shallow(<PurePlanDetails {...defaultProps} />);
       setImmediate(() => {
-        expect(wrapper.state('errors')).toEqual({
-          currentPlan: ['error']
-        });
-        expect(wrapper.state('isLoading')).toEqual({ currentPlan: false });
         expect(setCurrentPlanMock).not.toHaveBeenCalled();
         done();
       });
     });
     it('should hide survey on switch tabs', () => {
-      shallow(
+      mount(
         <PurePlanDetails
           {...defaultProps}
           planDetails={{ isSurveyShown: true, currentPlan: ['mock'] }}
@@ -138,6 +77,8 @@ describe('<PlanDetails/>', () => {
           {...defaultProps}
           planDetails={{
             currentPlan: [1],
+            switchSettings: { id: [{ mock: 'mock' }] },
+            offerToSwitch: { offerId: 'id' },
             updateList: false
           }}
           innerPopup={{
@@ -148,6 +89,25 @@ describe('<PlanDetails/>', () => {
         />
       );
       expect(wrapper.find(UpdateSubscription).exists()).toBe(true);
+    });
+    it('should render SwitchPlan popup', () => {
+      const wrapper = shallow(
+        <PurePlanDetails
+          {...defaultProps}
+          planDetails={{
+            currentPlan: [1],
+            switchSettings: { id: [{ mock: 'mock' }] },
+            offerToSwitch: { offerId: 'id' },
+            updateList: false
+          }}
+          innerPopup={{
+            isOpen: true,
+            type: 'switchPlan',
+            data: { offerData: { mock: 'mock' } }
+          }}
+        />
+      );
+      expect(wrapper.find(SwitchPlanPopup).exists()).toBe(true);
     });
   });
 });
