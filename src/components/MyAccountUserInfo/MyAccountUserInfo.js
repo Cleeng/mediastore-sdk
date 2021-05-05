@@ -39,7 +39,7 @@ const MyAccountUserInfo = ({
           <MailStyled bigger={!isNameSetted}>{email}</MailStyled>
         </SkeletonWrapper>
         <SkeletonWrapper showChildren={isDataLoaded} height={36} margin="0px">
-          <TextStyled>{subscription}</TextStyled>
+          {subscription && <TextStyled>{subscription}</TextStyled>}
         </SkeletonWrapper>
       </DetailsStyled>
     </WrapStyled>

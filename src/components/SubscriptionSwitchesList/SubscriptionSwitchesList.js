@@ -3,7 +3,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import Loader from 'components/Loader';
 import {
   SubscriptionStyled,
   SubscriptionActionsStyled,
@@ -12,6 +11,7 @@ import {
 import SubscriptionCard from 'components/SubscriptionCard';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
+import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import mapErrorToText from './helper';
 
 const SubscriptionSwitchesList = ({
@@ -23,7 +23,7 @@ const SubscriptionSwitchesList = ({
   t
 }) => {
   if (isLoading) {
-    return <Loader isMyAccount />;
+    return <SkeletonCard />;
   }
   if (errors.length) {
     return <MyAccountError generalError />;
