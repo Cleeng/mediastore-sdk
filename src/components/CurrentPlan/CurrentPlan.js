@@ -25,7 +25,7 @@ import {
   StatusMessageWrapStyled
 } from './CurrentPlanStyled';
 
-const SkeletonCard = () => {
+export const SkeletonCard = () => {
   return (
     <SubscriptionStyled>
       <SubscriptionCard isDataLoaded={false} />

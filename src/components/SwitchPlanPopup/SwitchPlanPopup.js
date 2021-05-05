@@ -6,6 +6,7 @@ import labeling from 'containers/labeling';
 import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
+import Loader from 'components/Loader';
 import { dateFormat } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmark.svg';
 
@@ -99,7 +100,11 @@ const SwitchPlanPopup = ({
               {t('Keep Current Plan')}
             </Button>
             <Button theme="confirm" onClickFn={changePlan}>
-              {(isLoading && t('Loading...')) || t(`Change Plan`)}
+              {isLoading ? (
+                <Loader buttonLoader color="#ffffff" />
+              ) : (
+                t(`Change Plan`)
+              )}
             </Button>
           </ButtonWrapperStyled>
         </>

@@ -2,7 +2,7 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import MyAccountError from 'components/MyAccountError';
-import Loader from 'components/Loader';
+import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
 import { PureSubscriptionSwitchesList } from './SubscriptionSwitchesList';
 
@@ -22,7 +22,7 @@ describe('<SubscriptionSwitchesList/>', () => {
       const wrapper = shallow(
         <PureSubscriptionSwitchesList isLoading isOfferSelected={false} />
       );
-      expect(wrapper.find(Loader)).toHaveLength(1);
+      expect(wrapper.find(SkeletonCard)).toHaveLength(1);
     });
     it('should show error if offer is not selected', () => {
       const wrapper = shallow(
