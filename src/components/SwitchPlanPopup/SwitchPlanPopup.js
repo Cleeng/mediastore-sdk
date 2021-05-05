@@ -86,8 +86,9 @@ const SwitchPlanPopup = ({
                 __html: `${t(`You are about to change your plan from <b>
                   ${fromOffer.offerTitle}</b> to <b> 
                   ${toOffer.title} </b>. You will be charged the new price <b>
-                  ${toOffer.nextPaymentPrice}
-                  ${toOffer.nextPaymentPriceCurrencySymbol} 
+                  ${toOffer.nextPaymentPrice}${
+                  toOffer.nextPaymentPriceCurrencySymbol
+                } 
                   </b> on your next billing date <b>
                   ${dateFormat(fromOffer.expiresAt)}</b>.`)}
                   <br />
