@@ -12,6 +12,7 @@ export const PaymentStyled = styled.div`
 `;
 
 export const PaymentErrorStyled = styled.div`
+  text-align: center;
   font-size: 15px;
   color: ${colors.ErrorColor};
 `;
