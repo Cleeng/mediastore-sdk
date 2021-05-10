@@ -20,7 +20,6 @@ import {
 
 const SubscriptionCard = ({
   period,
-  icon,
   title,
   description,
   currency,
@@ -58,7 +57,7 @@ const SubscriptionCard = ({
     <>
       <WrapperStyled>
         <SkeletonWrapper showChildren={isDataLoaded} width={50} height={50}>
-          <SubscriptionIcon icon={icon} />
+          <SubscriptionIcon period={period} />
         </SkeletonWrapper>
         <InnerWrapper>
           <SkeletonWrapper
@@ -107,7 +106,6 @@ const SubscriptionCard = ({
 
 SubscriptionCard.propTypes = {
   period: PropTypes.string,
-  icon: PropTypes.string,
   title: PropTypes.string,
   description: PropTypes.string,
   currency: PropTypes.string,
@@ -121,7 +119,6 @@ SubscriptionCard.propTypes = {
 
 SubscriptionCard.defaultProps = {
   period: '',
-  icon: '',
   title: '',
   description: '',
   currency: '',
