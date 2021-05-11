@@ -71,11 +71,21 @@ export const ItemLabelStyled = styled.div`
   margin: auto;
 
   color: ${MainColor};
-  border-bottom: 2px solid transparent;
   font-size: 13px;
 
   font-weight: 700;
   line-height: 21px;
+
+  transition: all 0.1s ease-in-out;
+
+  &:after {
+    display: block;
+    content: '';
+    border-bottom: 2px solid ${ConfirmColor};
+    transform: scaleX(0);
+    transition: transform 250ms ease-in-out;
+    transform-origin: 0% 50%;
+  }
 
   ${mediaFrom.small`
     margin: auto auto auto 20px;
@@ -92,6 +102,15 @@ export const ItemLinkStyled = styled(NavLink)`
 
   transition: opacity 0.1s;
 
+  &:hover {
+    ${ItemLabelStyled} {
+      &:after {
+        transform: scaleX(1);
+      }
+      opacity: 1;
+    }
+  }
+
   &.active {
     ${ItemIconWrapStyled} {
       path {
@@ -101,7 +120,9 @@ export const ItemLinkStyled = styled(NavLink)`
     }
 
     ${ItemLabelStyled} {
-      border-bottom: 2px solid ${ConfirmColor};
+      &:after {
+        transform: scaleX(1);
+      }
       opacity: 1;
     }
   }
