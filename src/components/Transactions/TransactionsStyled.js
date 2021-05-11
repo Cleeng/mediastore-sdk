@@ -46,6 +46,18 @@ export const InsideWrapperStyled = styled.div`
       `)}
 `;
 
+export const TransactionListStyled = styled.div`
+  height: 174px;
+  transition: all 0.3s ease-in-out;
+  overflow: hidden;
+
+  ${props =>
+    props.length &&
+    css`
+      height: ${props.length * 70}px;
+    `};
+`;
+
 export const LeftBoxStyled = styled.div`
   max-width: 70%;
 `;
@@ -92,7 +104,14 @@ export const ButtonTextStyled = styled.span`
     position: absolute;
     right: -20px;
     bottom: 0;
-    font-size: 13px;
-    ${props => (props.isExpanded ? "content: '▲'" : "content: '▼'")};
+    font-size: 11px;
+    transform: scaleY(0.8) rotate(0deg);
+    transition: all 0.3s ease-in-out;
+    content: '▼';
+    ${props =>
+      props.isExpanded &&
+      css`
+        transform: scaleY(0.8) rotateX(180deg);
+      `}
   }
 `;

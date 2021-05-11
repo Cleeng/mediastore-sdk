@@ -19,7 +19,8 @@ import {
   RightBoxStyled,
   IdStyled,
   DateStyled,
-  ButtonTextStyled
+  ButtonTextStyled,
+  TransactionListStyled
 } from './TransactionsStyled';
 
 const TransactionsSkeleton = () => (
@@ -74,26 +75,31 @@ const Transactions = ({
         />
       ) : (
         <Card withBorder>
-          {transactions.map(subItem => (
-            <InsideWrapperStyled
-              key={subItem.transactionId}
-              length={transactions.length}
-            >
-              <LeftBoxStyled>
-                <TitleStyled>{subItem.offerTitle}</TitleStyled>
-                <SubTitleStyled>
-                  {t(`Paid with`)}{' '}
-                  {subItem.paymentMethod === 'card'
-                    ? t('card')
-                    : subItem.paymentMethod}
-                </SubTitleStyled>
-              </LeftBoxStyled>
-              <RightBoxStyled>
-                <IdStyled>{subItem.transactionId}</IdStyled>
-                <DateStyled>{dateFormat(subItem.transactionDate)}</DateStyled>
-              </RightBoxStyled>
-            </InsideWrapperStyled>
-          ))}
+          <TransactionListStyled
+            isExpanded={isExpanded}
+            length={transactions.length}
+          >
+            {transactions.map(subItem => (
+              <InsideWrapperStyled
+                key={subItem.transactionId}
+                length={transactions.length}
+              >
+                <LeftBoxStyled>
+                  <TitleStyled>{subItem.offerTitle}</TitleStyled>
+                  <SubTitleStyled>
+                    {t(`Paid with`)}{' '}
+                    {subItem.paymentMethod === 'card'
+                      ? t('card')
+                      : subItem.paymentMethod}
+                  </SubTitleStyled>
+                </LeftBoxStyled>
+                <RightBoxStyled>
+                  <IdStyled>{subItem.transactionId}</IdStyled>
+                  <DateStyled>{dateFormat(subItem.transactionDate)}</DateStyled>
+                </RightBoxStyled>
+              </InsideWrapperStyled>
+            ))}
+          </TransactionListStyled>
           {!isShowMoreButtonHidden && (
             <Button
               theme="primary"

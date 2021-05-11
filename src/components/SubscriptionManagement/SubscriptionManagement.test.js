@@ -18,7 +18,7 @@ describe('<MessageBox/>', () => {
       const wrapper = shallow(<SubscriptionManagement />);
 
       expect(wrapper.find(ManageButtonWrapStyled)).toHaveLength(1);
-      expect(wrapper.find(SubscriptionActionsStyled)).toHaveLength(0);
+      expect(wrapper.find(SubscriptionActionsStyled)).toHaveLength(1);
     });
     it('should render children when isOpened prop is true', () => {
       // eslint-disable-next-line react/jsx-boolean-value
