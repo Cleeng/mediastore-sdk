@@ -92,11 +92,19 @@ const SwitchPlanPopup = ({
                   </b> on your next billing date <b>
                   ${dateFormat(fromOffer.expiresAt)}</b>.`)}
                   <br />
+                  ${
+                    toOffer.couponNotApplicable
+                      ? `<br />
+                    ${t(
+                      'Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.'
+                    )} <br />`
+                      : ''
+                  }
                   <br /> ${t('Do you want to apply the change now?')}`
               }}
             />
           </ContentStyled>
-          <ButtonWrapperStyled>
+          <ButtonWrapperStyled removeMargin>
             <Button theme="simple" onClickFn={hideInnerPopup}>
               {t('Keep Current Plan')}
             </Button>
