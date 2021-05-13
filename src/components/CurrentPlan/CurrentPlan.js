@@ -44,7 +44,8 @@ class CurrentPlan extends PureComponent {
       errorMessage: '',
       isCouponInputOpened: false,
       couponValue: '',
-      isSubmitting: false
+      isSubmitting: false,
+      messageSubscriptionId: null
     };
   }
 
@@ -62,7 +63,8 @@ class CurrentPlan extends PureComponent {
             case 200:
               this.showMessageBox(
                 'success',
-                t('Your Coupon has been successfully reedemed.')
+                t('Your Coupon has been successfully reedemed.'),
+                subscriptionId
               );
               this.setState({
                 isCouponInputOpened: false,
@@ -117,11 +119,12 @@ class CurrentPlan extends PureComponent {
     });
   };
 
-  showMessageBox = (type, text) => {
+  showMessageBox = (type, text, subscriptionId) => {
     this.setState({
       messageBoxType: type,
       messageBoxText: text,
-      isMessageBoxOpened: true
+      isMessageBoxOpened: true,
+      messageSubscriptionId: subscriptionId
     });
   };
 
@@ -134,7 +137,8 @@ class CurrentPlan extends PureComponent {
       messageBoxText,
       errorMessage,
       couponValue,
-      isSubmitting
+      isSubmitting,
+      messageSubscriptionId
     } = this.state;
 
     const {
@@ -190,14 +194,15 @@ class CurrentPlan extends PureComponent {
                     currency={currencyFormat[subItem.nextPaymentCurrency]}
                     price={subItem.nextPaymentPrice}
                   />
-                  {isMessageBoxOpened && (
-                    <StatusMessageWrapStyled>
-                      <MessageBox
-                        type={messageBoxType}
-                        message={messageBoxText}
-                      />
-                    </StatusMessageWrapStyled>
-                  )}
+                  {isMessageBoxOpened &&
+                    messageSubscriptionId === subItem.subsctiptionId && (
+                      <StatusMessageWrapStyled>
+                        <MessageBox
+                          type={messageBoxType}
+                          message={messageBoxText}
+                        />
+                      </StatusMessageWrapStyled>
+                    )}
                   <SubscriptionManagement
                     isOpened={isManagementBarOpen}
                     onClose={() =>
@@ -248,23 +253,25 @@ class CurrentPlan extends PureComponent {
                           {t('Resume')}
                         </FullWidthButtonStyled>
                       )}
-                      <CouponWrapStyled>
-                        <CouponInput
-                          fullWidth
-                          showMessage={isErrorMessageShown}
-                          value={couponValue}
-                          message={errorMessage}
-                          couponLoading={isSubmitting}
-                          onSubmit={() =>
-                            this.submitCoupon(subItem.subscriptionId)
-                          }
-                          onChange={e => this.setState({ couponValue: e })}
-                          onClose={() =>
-                            this.setState({ isCouponInputOpened: false })
-                          }
-                          onInputToggle={() => this.onInputToggle()}
-                        />
-                      </CouponWrapStyled>
+                      {subItem.status !== 'cancelled' && (
+                        <CouponWrapStyled>
+                          <CouponInput
+                            fullWidth
+                            showMessage={isErrorMessageShown}
+                            value={couponValue}
+                            message={errorMessage}
+                            couponLoading={isSubmitting}
+                            onSubmit={() =>
+                              this.submitCoupon(subItem.subscriptionId)
+                            }
+                            onChange={e => this.setState({ couponValue: e })}
+                            onClose={() =>
+                              this.setState({ isCouponInputOpened: false })
+                            }
+                            onInputToggle={() => this.onInputToggle()}
+                          />
+                        </CouponWrapStyled>
+                      )}
                     </SubscriptionActionsStyled>
                   </SubscriptionManagement>
                 </SubscriptionStyled>

@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { media } from 'styles/BreakPoints';
 
 export const SubscriptionManagementStyled = styled.section`
   width: 100%;
@@ -27,6 +28,13 @@ export const SubscriptionActionsStyled = styled.div`
     css`
       max-height: 500px;
     `}
+
+  ${media.small`
+    button{
+      font-size:11px;
+      padding: 12px 15px;
+    }
+  `}
 `;
 
 export const ButtonTextStyled = styled.span`
