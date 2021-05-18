@@ -46,6 +46,10 @@ const SubscriptionCard = ({
     TO_FREE_OFFER_NOT_ALLOWED: {
       text: t('Switching from a paid to a free offer is not possible'),
       icon: BlockedIcon
+    },
+    SUBSCRIPTION_WITH_COUPON_NOT_ALLOWED: {
+      text: t('You can`t upgrade your subscription if coupon was applied.'),
+      icon: BlockedIcon
     }
   };
 
