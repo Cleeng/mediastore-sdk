@@ -45,11 +45,14 @@ const SubscriptionSwitchesList = ({
   );
   const allSwitchesBlocked = switchSettings.unavailableReason;
   if (allSwitchesBlocked) {
+    const error = mapErrorToText[allSwitchesBlocked.code]
+      ? mapErrorToText[allSwitchesBlocked.code]
+      : mapErrorToText.DEFAULT;
     return (
       <MyAccountError
-        icon={mapErrorToText[allSwitchesBlocked.code].icon}
-        title={mapErrorToText[allSwitchesBlocked.code].title}
-        subtitle={mapErrorToText[allSwitchesBlocked.code].subtitle}
+        icon={error.icon}
+        title={error.title}
+        subtitle={error.subtitle}
         margin="0 auto"
         fullWidth
       />

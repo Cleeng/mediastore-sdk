@@ -12,6 +12,16 @@ const mapErrorToText = {
     subtitle:
       'If you signed up via a mobile app, it may be possible to change your plan there.',
     icon: subscriptionCardPlaceholderIcon
+  },
+  SUBSCRIPTION_WITH_COUPON_NOT_ALLOWED: {
+    title: 'You can`t upgrade your subscription if coupon was applied.',
+    subtitle: '',
+    icon: subscriptionCardPlaceholderIcon
+  },
+  DEFAULT: {
+    title: 'It looks like you can`t change your current plan.',
+    subtitle: 'Try again later.',
+    icon: subscriptionCardPlaceholderIcon
   }
 };
 
