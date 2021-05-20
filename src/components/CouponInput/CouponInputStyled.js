@@ -39,7 +39,7 @@ export const InputElementWrapperStyled = styled.div`
   margin-bottom: 8px;
 
   border: 1px solid ${Colors.LineColor};
-  border-radius: 21px;
+  border-radius: 30px;
 
   background: white;
   transition: 0.2s ease-in-out;

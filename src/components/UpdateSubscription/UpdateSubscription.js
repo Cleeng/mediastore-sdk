@@ -10,6 +10,7 @@ import checkmarkIcon from 'assets/images/checkmark.svg';
 import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
+import Loader from 'components/Loader';
 
 import {
   ContentStyled,
@@ -157,7 +158,8 @@ class UpdateSubscription extends Component {
                   isLoading
                 }
               >
-                {(isLoading && t('Loading...')) || t(popupContent.buttonText)}
+                {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
+                  t(popupContent.buttonText)}
               </Button>
             </ButtonWrapperStyled>
           </>

@@ -1,4 +1,9 @@
-import { SET_CURRENT_PLAN, UPDATE_LIST } from 'redux/planDetails';
+import {
+  SET_CURRENT_PLAN,
+  UPDATE_LIST,
+  SET_OFFER_TO_SWITCH,
+  SET_SWITCH_SETTINGS
+} from 'redux/planDetails';
 
 import planDetailsReducer from '../planDetails';
 
@@ -38,6 +43,27 @@ describe('PlanDetails reducer', () => {
     const action = { type: UPDATE_LIST };
     const expectedState = {
       updateList: true
+    };
+
+    expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);
+  });
+  it('should correctly call setOfferToSwitch action', () => {
+    const action = { type: SET_OFFER_TO_SWITCH, payload: planDetailsMock[0] };
+    const expectedState = {
+      offerToSwitch: planDetailsMock[0]
+    };
+
+    expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);
+  });
+  it('should correctly call setSwitchSettings action', () => {
+    const action = {
+      type: SET_SWITCH_SETTINGS,
+      payload: { offerId: 'S937144802_UA', settings: planDetailsMock[0] }
+    };
+    const expectedState = {
+      switchSettings: {
+        S937144802_UA: planDetailsMock[0]
+      }
     };
 
     expect(planDetailsReducer(undefined, action)).toMatchObject(expectedState);

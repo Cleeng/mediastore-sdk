@@ -8,7 +8,6 @@ import labeling from 'containers/labeling';
 import { ReactComponent as noSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
 import { dateFormat, currencyFormat } from 'util/planHelper';
 
-import Loader from 'components/Loader';
 import MyAccountError from 'components/MyAccountError';
 import SubscriptionCard from 'components/SubscriptionCard';
 import SubscriptionManagement from 'components/SubscriptionManagement';
@@ -26,6 +25,14 @@ import {
   StatusMessageWrapStyled
 } from './CurrentPlanStyled';
 
+export const SkeletonCard = () => {
+  return (
+    <SubscriptionStyled>
+      <SubscriptionCard isDataLoaded={false} />
+    </SubscriptionStyled>
+  );
+};
+
 class CurrentPlan extends PureComponent {
   constructor(props) {
     super(props);
@@ -36,7 +43,9 @@ class CurrentPlan extends PureComponent {
       isErrorMessageShown: false,
       errorMessage: '',
       isCouponInputOpened: false,
-      couponValue: ''
+      couponValue: '',
+      isSubmitting: false,
+      messageSubscriptionId: null
     };
   }
 
@@ -46,17 +55,20 @@ class CurrentPlan extends PureComponent {
 
     this.resetErrorMessage();
 
-    if (couponValue)
+    if (couponValue) {
+      this.setState({ isSubmitting: true });
       applyCoupon(subscriptionId, couponValue)
         .then(resp => {
           switch (resp.status) {
             case 200:
               this.showMessageBox(
                 'success',
-                t('Your Coupon has been successfully reedemed.')
+                t('Your Coupon has been successfully reedemed.'),
+                subscriptionId
               );
               this.setState({
-                isCouponInputOpened: false
+                isCouponInputOpened: false,
+                isSubmitting: false
               });
               updateList();
               break;
@@ -65,16 +77,25 @@ class CurrentPlan extends PureComponent {
                 this.showErrorMessage(t('Invalid coupon code.'));
               if (resp.errors.some(e => e.includes('already')))
                 this.showErrorMessage(t('Coupon already used'));
+              this.setState({
+                isSubmitting: false
+              });
               break;
             default:
               this.showErrorMessage(t('Invalid coupon code.'));
+              this.setState({
+                isSubmitting: false
+              });
               break;
           }
         })
         .catch(() => {
           this.showErrorMessage('Ooops. Something went wrong.');
+          this.setState({
+            isSubmitting: false
+          });
         });
-    else {
+    } else {
       this.showErrorMessage(t('Please enter coupon code.'));
     }
   };
@@ -98,11 +119,12 @@ class CurrentPlan extends PureComponent {
     });
   };
 
-  showMessageBox = (type, text) => {
+  showMessageBox = (type, text, subscriptionId) => {
     this.setState({
       messageBoxType: type,
       messageBoxText: text,
-      isMessageBoxOpened: true
+      isMessageBoxOpened: true,
+      messageSubscriptionId: subscriptionId
     });
   };
 
@@ -114,7 +136,9 @@ class CurrentPlan extends PureComponent {
       messageBoxType,
       messageBoxText,
       errorMessage,
-      couponValue
+      couponValue,
+      isSubmitting,
+      messageSubscriptionId
     } = this.state;
 
     const {
@@ -122,12 +146,15 @@ class CurrentPlan extends PureComponent {
       isLoading,
       errors,
       showInnerPopup,
+      setOfferToSwitch,
+      offerToSwitch,
       isManagementBarOpen,
       t
     } = this.props;
 
+    const areFewOffers = subscriptions.length > 1;
     return isLoading ? (
-      <Loader isMyAccount />
+      <SkeletonCard />
     ) : (
       <WrapStyled>
         {errors.length !== 0 ? (
@@ -149,7 +176,17 @@ class CurrentPlan extends PureComponent {
                   : t('This plan will expire on')
               } ${dateFormat(subItem.expiresAt)}`;
               return (
-                <SubscriptionStyled key={subItem.offerId}>
+                <SubscriptionStyled
+                  key={subItem.offerId}
+                  onClick={() => {
+                    if (areFewOffers && subItem.status === 'active')
+                      setOfferToSwitch(subItem);
+                  }}
+                  cursorPointer={areFewOffers && subItem.status === 'active'}
+                  isSelected={
+                    areFewOffers && offerToSwitch.offerId === subItem.offerId
+                  }
+                >
                   <SubscriptionCard
                     period={subItem.period}
                     title={subItem.offerTitle}
@@ -157,14 +194,15 @@ class CurrentPlan extends PureComponent {
                     currency={currencyFormat[subItem.nextPaymentCurrency]}
                     price={subItem.nextPaymentPrice}
                   />
-                  {isMessageBoxOpened && (
-                    <StatusMessageWrapStyled>
-                      <MessageBox
-                        type={messageBoxType}
-                        message={messageBoxText}
-                      />
-                    </StatusMessageWrapStyled>
-                  )}
+                  {isMessageBoxOpened &&
+                    messageSubscriptionId === subItem.subsctiptionId && (
+                      <StatusMessageWrapStyled>
+                        <MessageBox
+                          type={messageBoxType}
+                          message={messageBoxText}
+                        />
+                      </StatusMessageWrapStyled>
+                    )}
                   <SubscriptionManagement
                     isOpened={isManagementBarOpen}
                     onClose={() =>
@@ -215,22 +253,25 @@ class CurrentPlan extends PureComponent {
                           {t('Resume')}
                         </FullWidthButtonStyled>
                       )}
-                      <CouponWrapStyled>
-                        <CouponInput
-                          fullWidth
-                          showMessage={isErrorMessageShown}
-                          value={couponValue}
-                          message={errorMessage}
-                          onSubmit={() =>
-                            this.submitCoupon(subItem.subscriptionId)
-                          }
-                          onChange={e => this.setState({ couponValue: e })}
-                          onClose={() =>
-                            this.setState({ isCouponInputOpened: false })
-                          }
-                          onInputToggle={() => this.onInputToggle()}
-                        />
-                      </CouponWrapStyled>
+                      {subItem.status !== 'cancelled' && (
+                        <CouponWrapStyled>
+                          <CouponInput
+                            fullWidth
+                            showMessage={isErrorMessageShown}
+                            value={couponValue}
+                            message={errorMessage}
+                            couponLoading={isSubmitting}
+                            onSubmit={() =>
+                              this.submitCoupon(subItem.subscriptionId)
+                            }
+                            onChange={e => this.setState({ couponValue: e })}
+                            onClose={() =>
+                              this.setState({ isCouponInputOpened: false })
+                            }
+                            onInputToggle={() => this.onInputToggle()}
+                          />
+                        </CouponWrapStyled>
+                      )}
                     </SubscriptionActionsStyled>
                   </SubscriptionManagement>
                 </SubscriptionStyled>
@@ -248,6 +289,8 @@ CurrentPlan.propTypes = {
   isLoading: PropTypes.bool,
   errors: PropTypes.arrayOf(PropTypes.any),
   showInnerPopup: PropTypes.func.isRequired,
+  setOfferToSwitch: PropTypes.func.isRequired,
+  offerToSwitch: PropTypes.objectOf(PropTypes.any),
   updateList: PropTypes.func.isRequired,
   isManagementBarOpen: PropTypes.bool,
   t: PropTypes.func
@@ -257,6 +300,7 @@ CurrentPlan.defaultProps = {
   subscriptions: [],
   isLoading: false,
   errors: [],
+  offerToSwitch: {},
   isManagementBarOpen: false,
   t: k => k
 };

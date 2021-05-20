@@ -3,12 +3,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import Loader from 'components/Loader';
 import Card from 'components/Card';
 import { dateFormat } from 'util/planHelper';
 import MyAccountError from 'components/MyAccountError';
 import Button from 'components/Button';
 import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
+import SkeletonWrapper from 'components/SkeletonWrapper';
+import Loader from 'components/Loader';
 import {
   WrapStyled,
   InsideWrapperStyled,
@@ -18,8 +19,35 @@ import {
   RightBoxStyled,
   IdStyled,
   DateStyled,
-  ButtonTextStyled
+  ButtonTextStyled,
+  TransactionListStyled
 } from './TransactionsStyled';
+
+const TransactionsSkeleton = () => (
+  <Card withBorder>
+    {[...Array(3)].map((i, k) => (
+      // eslint-disable-next-line react/no-array-index-key
+      <InsideWrapperStyled key={`skeleton-item-${k}`} length={3}>
+        <LeftBoxStyled>
+          <TitleStyled>
+            <SkeletonWrapper width={300} />
+          </TitleStyled>
+          <SubTitleStyled>
+            <SkeletonWrapper width={100} />
+          </SubTitleStyled>
+        </LeftBoxStyled>
+        <RightBoxStyled>
+          <IdStyled>
+            <SkeletonWrapper width={80} />
+          </IdStyled>
+          <DateStyled>
+            <SkeletonWrapper width={80} />
+          </DateStyled>
+        </RightBoxStyled>
+      </InsideWrapperStyled>
+    ))}
+  </Card>
+);
 
 const Transactions = ({
   transactions,
@@ -32,7 +60,7 @@ const Transactions = ({
   t
 }) =>
   isTransactionsSectionLoading ? (
-    <Loader isMyAccount />
+    <TransactionsSkeleton />
   ) : (
     <WrapStyled>
       {error.length !== 0 ? (
@@ -47,26 +75,31 @@ const Transactions = ({
         />
       ) : (
         <Card withBorder>
-          {transactions.map(subItem => (
-            <InsideWrapperStyled
-              key={subItem.transactionId}
-              length={transactions.length}
-            >
-              <LeftBoxStyled>
-                <TitleStyled>{subItem.offerTitle}</TitleStyled>
-                <SubTitleStyled>
-                  {t(`Paid with`)}{' '}
-                  {subItem.paymentMethod === 'card'
-                    ? t('card')
-                    : subItem.paymentMethod}
-                </SubTitleStyled>
-              </LeftBoxStyled>
-              <RightBoxStyled>
-                <IdStyled>{subItem.transactionId}</IdStyled>
-                <DateStyled>{dateFormat(subItem.transactionDate)}</DateStyled>
-              </RightBoxStyled>
-            </InsideWrapperStyled>
-          ))}
+          <TransactionListStyled
+            isExpanded={isExpanded}
+            length={transactions.length}
+          >
+            {transactions.map(subItem => (
+              <InsideWrapperStyled
+                key={subItem.transactionId}
+                length={transactions.length}
+              >
+                <LeftBoxStyled>
+                  <TitleStyled>{subItem.offerTitle}</TitleStyled>
+                  <SubTitleStyled>
+                    {t(`Paid with`)}{' '}
+                    {subItem.paymentMethod === 'card'
+                      ? t('card')
+                      : subItem.paymentMethod}
+                  </SubTitleStyled>
+                </LeftBoxStyled>
+                <RightBoxStyled>
+                  <IdStyled>{subItem.transactionId}</IdStyled>
+                  <DateStyled>{dateFormat(subItem.transactionDate)}</DateStyled>
+                </RightBoxStyled>
+              </InsideWrapperStyled>
+            ))}
+          </TransactionListStyled>
           {!isShowMoreButtonHidden && (
             <Button
               theme="primary"
@@ -77,7 +110,9 @@ const Transactions = ({
               padding="12px 33px 12px 20px"
             >
               <ButtonTextStyled isExpanded={isExpanded}>
-                {(isTransactionsItemsLoading && t('Loading...')) ||
+                {(isTransactionsItemsLoading && (
+                  <Loader buttonLoader color="#ffffff" />
+                )) ||
                   (isExpanded && t('Show less')) ||
                   t('Show more')}
               </ButtonTextStyled>

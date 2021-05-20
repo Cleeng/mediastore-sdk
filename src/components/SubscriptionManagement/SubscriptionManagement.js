@@ -30,9 +30,9 @@ const SubscriptionManagement = ({ isOpened, children, onClose, t }) => {
           </ButtonTextStyled>
         </Button>
       </ManageButtonWrapStyled>
-      {isOptionsVisible && (
-        <SubscriptionActionsStyled>{children}</SubscriptionActionsStyled>
-      )}
+      <SubscriptionActionsStyled isOpened={isOptionsVisible}>
+        {children}
+      </SubscriptionActionsStyled>
     </SubscriptionManagementStyled>
   );
 };

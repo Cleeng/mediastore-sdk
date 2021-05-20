@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import Footer from 'components/Footer';
+import Loader from 'components/Loader';
 import submitConsents from 'api/Customer/submitConsents';
 import getCustomerConsents from 'api/Customer/getCustomerConsents';
 import MyAccountConsents from 'components/MyAccountConsents';
@@ -129,7 +130,8 @@ class Popup extends Component {
               disabled={step === 2 && !allowSubmitConsents}
               width="auto"
             >
-              {(isLoading && t('Loading...')) || t(stepData.buttonText)}
+              {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
+                t(stepData.buttonText)}
             </ButtonStyled>
           </InnerWrapperStyled>
         </ButtonWrapperStyled>

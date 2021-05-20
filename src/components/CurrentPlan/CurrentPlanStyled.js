@@ -74,7 +74,7 @@ export const SimpleButtonStyled = styled(Button)`
   }
   ${mediaFrom.small &&
     css`
-      margin: 0 14px 0 0;
+      margin: 0;
       width: unset;
       max-width: unset;
     `}
@@ -82,10 +82,8 @@ export const SimpleButtonStyled = styled(Button)`
 
 export const FullWidthButtonStyled = styled(Button)`
   width: 100%;
-  margin: 20px 0 0 0;
   ${mediaFrom.small &&
     css`
-      margin: 17px 0 0 5px;
       width: unset;
       max-width: unset;
     `}

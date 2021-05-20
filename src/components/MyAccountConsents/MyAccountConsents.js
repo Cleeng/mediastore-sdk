@@ -152,7 +152,10 @@ class MyAccountConsents extends Component {
                       onClickFn={() => this.updateConsents()}
                       disabled={isSubmittingPending}
                     >
-                      {(isSubmittingPending && t('Loading...')) || t('Save')}
+                      {(isSubmittingPending && (
+                        <Loader buttonLoader color="#ffffff" />
+                      )) ||
+                        t('Save')}
                     </ButtonStyled>
                   </>
                 )}
