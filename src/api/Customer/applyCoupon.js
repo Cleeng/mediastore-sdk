@@ -1,5 +1,6 @@
 import jwtDecode from 'jwt-decode';
 import { getData } from 'util/appConfigHelper';
+import fetchWithJWT from 'util/fetchHelper';
 
 const applyCoupon = async (subscriptionId, couponCode) => {
   const token = getData('CLEENG_AUTH_TOKEN') || '';
@@ -8,12 +9,9 @@ const applyCoupon = async (subscriptionId, couponCode) => {
 
   const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/${customerId}/subscriptions/${subscriptionId}`;
 
-  const resp = await fetch(url, {
+  const resp = await fetchWithJWT(url, {
     method: 'PATCH',
-    body: JSON.stringify({ couponCode }),
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+    body: JSON.stringify({ couponCode })
   });
 
   const json = await resp.json();

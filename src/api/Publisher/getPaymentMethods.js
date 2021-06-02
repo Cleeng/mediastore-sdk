@@ -1,12 +1,8 @@
-import { getData } from 'util/appConfigHelper';
+import fetchWithJWT from 'util/fetchHelper';
 
-const getPaymentMethods = async () => {
-  const token = getData('CLEENG_AUTH_TOKEN') || '';
-  return fetch(`${ENVIRONMENT_CONFIGURATION.API_URL}/payment-methods`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+const getPaymentMethods = () => {
+  return fetchWithJWT(`${ENVIRONMENT_CONFIGURATION.API_URL}/payment-methods`, {
+    method: 'GET'
   }).then(res => res.json());
 };
 

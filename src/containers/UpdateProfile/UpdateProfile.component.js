@@ -25,7 +25,7 @@ class UpdateProfile extends Component {
   }
 
   componentDidMount() {
-    const { userProfile, setCurrentUser, setUserCapture } = this.props;
+    const { userProfile, setCurrentUser, setUserCapture, t } = this.props;
     if (!userProfile.user) {
       this.setState({
         isUserDetailsLoading: true
@@ -43,8 +43,11 @@ class UpdateProfile extends Component {
             isUserDetailsLoading: false
           });
         })
-        .catch(err => {
-          this.setState({ detailsError: [err], isUserDetailsLoading: false });
+        .catch(() => {
+          this.setState({
+            detailsError: [t('Something went wrong..')],
+            isUserDetailsLoading: false
+          });
         });
     }
     if (!userProfile.capture) {
@@ -64,8 +67,11 @@ class UpdateProfile extends Component {
             isCaptureLoading: false
           });
         })
-        .catch(err => {
-          this.setState({ detailsError: [err], isCaptureLoading: false });
+        .catch(() => {
+          this.setState({
+            detailsError: [t('Something went wrong..')],
+            isCaptureLoading: false
+          });
         });
     }
   }

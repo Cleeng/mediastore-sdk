@@ -1,21 +1,19 @@
+import { fetchWithHeaders } from 'util/fetchHelper';
 import { sendMessage } from 'util/appConfigHelper';
 
 const loginCustomer = async (email, password, loginBy) => {
-  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/auths`;
-
   try {
-    const resp = await fetch(url, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      method: 'POST',
-      body: JSON.stringify({
-        email,
-        password,
-        ...loginBy
-      })
-    });
+    const resp = await fetchWithHeaders(
+      `${ENVIRONMENT_CONFIGURATION.API_URL}/auths`,
+      {
+        method: 'POST',
+        body: JSON.stringify({
+          email,
+          password,
+          ...loginBy
+        })
+      }
+    );
     const json = await resp.json();
     sendMessage({
       ...json.responseData

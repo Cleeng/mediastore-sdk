@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  getPaymentMethods,
   submitPayment,
   submitPayPalPayment,
   submitPaymentWithoutDetails,
-  updateOrder
+  updateOrder,
+  getPaymentMethods
 } from 'api';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';

@@ -130,6 +130,7 @@ class RegisterForm extends Component {
         true,
         email,
         response.responseData.jwt,
+        response.responseData.refreshToken,
         submitConsents,
         [consents, consentDefinitions]
       );
