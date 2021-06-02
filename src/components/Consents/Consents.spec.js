@@ -2,7 +2,7 @@ import { shallow, mount } from 'enzyme';
 import React from 'react';
 import Checkbox from 'components/Checkbox';
 import Loader from 'components/Loader';
-import getConsentsRequest from 'api/Publisher/getConsents';
+import { getConsents as getConsentsRequest } from 'api';
 import ConsentsComponent from './Consents';
 import { ConsentsErrorStyled } from './ConsentsStyled';
 import 'jest-styled-components';

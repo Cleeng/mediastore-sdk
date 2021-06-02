@@ -1,6 +1,7 @@
 import jwtDecode from 'jwt-decode';
 import { getData, setData, removeData } from 'util/appConfigHelper';
-import { getCaptureStatus, getCustomerConsents } from 'api';
+import getCaptureStatus from 'api/Customer/getCaptureStatus';
+import getCustomerConsents from 'api/Customer/getCustomerConsents';
 import history from '../history';
 
 class Auth {
@@ -23,11 +24,15 @@ class Auth {
     isRegister = false,
     email,
     jwt,
+    refreshToken,
     cb = () => {},
     args = []
   ) {
     this.isAuthenticated = true;
+    const { customerId } = jwtDecode(jwt);
+    setData('CLEENG_CUSTOMER_ID', customerId);
     setData('CLEENG_AUTH_TOKEN', jwt);
+    setData('CLEENG_REFRESH_TOKEN', refreshToken);
     setData('CLEENG_CUSTOMER_EMAIL', email);
     cb.apply(this, args);
     const redirectUrl = isMyAccount
@@ -76,6 +81,7 @@ class Auth {
   logout(isMyAccount = false, queryParam = '') {
     this.isAuthenticated = false;
     removeData('CLEENG_AUTH_TOKEN');
+    removeData('CLEENG_REMOTE_TOKEN');
     removeData('CLEENG_ORDER_ID');
     removeData('CLEENG_PP_SUCCESS');
     removeData('CLEENG_PP_CANCEL');
@@ -90,6 +96,8 @@ class Auth {
 
   isLogged() {
     const jwt = getData('CLEENG_AUTH_TOKEN');
+    const refreshToken = getData('CLEENG_REFRESH_TOKEN');
+
     if (!jwt) {
       this.isAuthenticated = false;
       return this.isAuthenticated;
@@ -98,7 +106,8 @@ class Auth {
     const decoded = jwtDecode(jwt);
     const now = Date.now() / 1000;
     const isExpired = now > decoded.exp;
-    if (isExpired) {
+
+    if (isExpired && !refreshToken) {
       this.logout();
     } else {
       this.isAuthenticated = true;

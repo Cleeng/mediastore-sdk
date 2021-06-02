@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import submitPaymentWithoutDetails from 'api/Offer/submitPaymentWithoutDetails';
+import submitPaymentWithoutDetails from 'api/Payment/submitPaymentWithoutDetails';
 import { getData } from 'util/appConfigHelper';
 import { periodMapper, dateFormat } from 'util/planHelper';
 import labeling from 'containers/labeling';

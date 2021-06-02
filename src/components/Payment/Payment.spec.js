@@ -5,9 +5,9 @@ import PaymentMethodButton from 'components/PaymentMethodButton';
 import { PureAdyen as Adyen } from 'components/Adyen/Adyen';
 import {
   submitPayment,
-  getPaymentMethods,
   updateOrder,
-  submitPayPalPayment
+  submitPayPalPayment,
+  getPaymentMethods
 } from 'api';
 import { getData, setData } from 'util/appConfigHelper';
 import Payment from './Payment';
