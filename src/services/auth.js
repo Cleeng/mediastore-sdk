@@ -99,7 +99,7 @@ class Auth {
     const refreshToken = getData('CLEENG_REFRESH_TOKEN');
 
     if (!jwt) {
-      this.isAuthenticated = false;
+      this.isAuthenticated = !!refreshToken;
       return this.isAuthenticated;
     }
 

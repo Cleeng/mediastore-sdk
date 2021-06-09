@@ -1,11 +1,8 @@
-import jwtDecode from 'jwt-decode';
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 
 const applyCoupon = async (subscriptionId, couponCode) => {
-  const token = getData('CLEENG_AUTH_TOKEN') || '';
-  const decoded = jwtDecode(token);
-  const { customerId } = decoded;
+  const customerId = getData('CLEENG_CUSTOMER_ID') || '';
 
   const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/${customerId}/subscriptions/${subscriptionId}`;
 
