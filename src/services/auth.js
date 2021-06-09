@@ -81,7 +81,7 @@ class Auth {
   logout(isMyAccount = false, queryParam = '') {
     this.isAuthenticated = false;
     removeData('CLEENG_AUTH_TOKEN');
-    removeData('CLEENG_REMOTE_TOKEN');
+    removeData('CLEENG_REFRESH_TOKEN');
     removeData('CLEENG_ORDER_ID');
     removeData('CLEENG_PP_SUCCESS');
     removeData('CLEENG_PP_CANCEL');
