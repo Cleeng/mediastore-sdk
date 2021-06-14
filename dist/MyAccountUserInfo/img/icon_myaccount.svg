@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="84" height="89" viewBox="0 0 84 89">
+  <defs>
+    <clipPath id="clip-path">
+      <ellipse id="Ellipse_442" data-name="Ellipse 442" cx="42" cy="41.5" rx="42" ry="41.5" transform="translate(0 -0.292)" fill="#f2f5fc"/>
+    </clipPath>
+    <clipPath id="clip-path-2">
+      <rect id="Rectangle_3047" data-name="Rectangle 3047" width="41" height="71" rx="20.5" transform="translate(-0.24 0.216)" fill="#fff"/>
+    </clipPath>
+    <clipPath id="clip-path-3">
+      <path id="Path_2031" data-name="Path 2031" d="M16.317,12c0,4.048-3.653,7.33-8.158,7.33S0,16.048,0,12Z" transform="translate(0 -12)" fill="#eaedf5"/>
+    </clipPath>
+    <clipPath id="clip-path-4">
+      <path id="Path_2033" data-name="Path 2033" d="M20.6,0c0,5.277-4.612,9.555-10.3,9.555S0,5.277,0,0Z" transform="translate(0 0)" fill="#7b849d"/>
+    </clipPath>
+    <clipPath id="clip-path-5">
+      <path id="Path_2034" data-name="Path 2034" d="M19.991,0A9.869,9.869,0,0,1,10,9.738,9.869,9.869,0,0,1,0,0Z" transform="translate(0 0)" fill="#e1e5ef"/>
+    </clipPath>
+  </defs>
+  <g id="Group_3185" data-name="Group 3185" transform="translate(1464 -201)">
+    <g id="Group_3184" data-name="Group 3184" transform="translate(-7169.565 -1049.373)">
+      <g id="Component_13_12" data-name="Component 13 – 12" transform="translate(5705.565 1250.373)">
+        <path id="Path_2413" data-name="Path 2413" d="M42,0C65.2,0,84,18.58,84,41.5S65.2,83,42,83,0,64.42,0,41.5,18.8,0,42,0Z" fill="#eaeff5"/>
+        <g id="Mask_Group_75" data-name="Mask Group 75" transform="translate(0 0.292)" clip-path="url(#clip-path)">
+          <path id="Path_2032" data-name="Path 2032" d="M21.074,0C32.714,0,42.149,12.146,42.149,27.129V63.914c0,14.983-9.435,54.666-21.074,54.666S0,78.9,0,63.914V27.129C0,12.146,9.435,0,21.074,0Z" transform="translate(20.781 17.564)" fill="#fff"/>
+          <rect id="Rectangle_3049" data-name="Rectangle 3049" width="44" height="16" transform="translate(20 71.708)" fill="#7b849d"/>
+        </g>
+        <path id="Path_2028" data-name="Path 2028" d="M346.339-6903.9s4.784-2.349-3.63-3.687c-6.284-.937,5.721-2.283,10.135-.239,2.251,1.15-2.291-4.69-2.291-4.69a51.8,51.8,0,0,1,5.946,2.782c1.2.856,1.806-3.464,1.806-3.464s.62.1,2.364,4.426a.214.214,0,0,0,.171.062c.582-.13,4.693-3.064,4.811-2.762s-1.631,3.1-1.079,4.18c1.392-.163,7.671-.861,10.06,0a13.743,13.743,0,0,0-5.457,2.406l-.932.479Z" transform="translate(-317.236 6925.753)" fill="#fff"/>
+        <g id="Mask_Group_73" data-name="Mask Group 73" transform="translate(21.24 17.784)" clip-path="url(#clip-path-2)">
+          <path id="Path_2029" data-name="Path 2029" d="M534.934-7238.473a82.313,82.313,0,0,0,8.813-1.986c5.7-2.478,19.268-2.816,25.452-.35s10.6,2.8,12.58,2.752.759,5.181.759,5.181a83.737,83.737,0,0,1-14.852-3.64c-7.4-2.632-20.093-.177-23.939.813s-8.077,3.017-10.795,2.826-4.44-4.96-4.44-4.96Z" transform="translate(-535.79 7252.792)" fill="#7b849d"/>
+        </g>
+        <ellipse id="Ellipse_439" data-name="Ellipse 439" cx="4.5" cy="3" rx="4.5" ry="3" transform="translate(21 23)" fill="#fff"/>
+        <ellipse id="Ellipse_440" data-name="Ellipse 440" cx="4" cy="3" rx="4" ry="3" transform="translate(54 23)" fill="#fff"/>
+        <g id="Group_2567" data-name="Group 2567" transform="matrix(0.998, 0.07, -0.07, 0.998, 31.339, 53.311)">
+          <path id="Path_2030" data-name="Path 2030" d="M19.991,0A9.869,9.869,0,0,1,10,9.738,9.869,9.869,0,0,1,0,0Z" transform="translate(0.305 1.249)" fill="#7b849d"/>
+          <path id="Rectangle_3048" data-name="Rectangle 3048" d="M1,0H18.991a1,1,0,0,1,1,1v.249a0,0,0,0,1,0,0H0a0,0,0,0,1,0,0V1A1,1,0,0,1,1,0Z" transform="translate(0.305)" fill="#7b849d"/>
+          <g id="Mask_Group_77" data-name="Mask Group 77" transform="translate(0.305 1.249)" clip-path="url(#clip-path-5)">
+            <circle id="Ellipse_446" data-name="Ellipse 446" cx="6.247" cy="6.247" r="6.247" transform="translate(2.589 3.832)" fill="#e1e5ef"/>
+          </g>
+        </g>
+        <g id="Group_2568" data-name="Group 2568" transform="translate(33.484 42.773)">
+          <circle id="Ellipse_444" data-name="Ellipse 444" cx="2" cy="2" r="2" transform="translate(-0.484 0.228)" fill="#7b849d"/>
+          <circle id="Ellipse_447" data-name="Ellipse 447" cx="2" cy="2" r="2" transform="translate(13.516 0.228)" fill="#7b849d"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

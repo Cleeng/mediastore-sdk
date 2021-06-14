@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { White, LineColor } from 'styles/variables';
 // eslint-disable-next-line import/prefer-default-export
 export const WrapStyled = styled.div`
   position: relative;
@@ -10,7 +9,7 @@ export const WrapStyled = styled.div`
 
   margin-bottom: 39px;
 
-  background-color: ${White};
+  background-color: #FFFFFF;
 
   ${props =>
     props.withShadow &&
@@ -20,6 +19,6 @@ export const WrapStyled = styled.div`
   ${props =>
     props.withBorder &&
     css`
-      border: 1px solid ${LineColor};
+      border: 1px solid #D3DBE6;
     `}
 `;
