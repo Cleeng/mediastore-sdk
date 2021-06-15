@@ -1,11 +1,11 @@
 {
   "name": "mediastoresdk-iwona",
-  "version": "1.0.6",
+  "version": "1.0.28",
   "private": false,
   "engines": {
     "node": ">=14.15.0 <15.0"
   },
-  "main": "dist/index.js",
+  "main": "dist/src/package.js",
   "files": [
     "dist",
     "README.md"
@@ -103,7 +103,7 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "scan-translations": "node -e 'require(`./scripts/translationsBundle.js`).run(false)'",
     "clean": "rimraf dist",
-    "compile": "npm run clean && cross-env NODE_ENV=production babel src/components --out-dir dist --copy-files --ignore __tests__,spec.js,test.js,stories.js,__snapshots__"
+    "compile": "npm run clean && cross-env NODE_ENV=production babel src --out-dir dist/src --copy-files --ignore __tests__,spec.js,test.js,stories.js,__snapshots__ && cross-env NODE_ENV=production babel config --out-dir dist/config"
   },
   "browserslist": {
     "production": [
@@ -146,6 +146,7 @@
     "@babel/cli": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
+    "babel-plugin-module-resolver": "^4.1.0",
     "cross-env": "^7.0.3",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",

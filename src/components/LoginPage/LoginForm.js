@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Loader from 'components/Loader';
-import loginCustomer from 'api/Auth/loginCustomer';
+import loginCustomer from '../../api/Auth/loginCustomer';
 import Auth from 'services/auth';
-import getCustomerLocales from 'api/Customer/getCustomerLocales';
+import getCustomerLocales from '../../api/Customer/getCustomerLocales';
 import Button from 'components/Button';
 import EmailInput from 'components/EmailInput';
 import PasswordInput from 'components/PasswordInput';

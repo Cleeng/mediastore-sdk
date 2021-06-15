@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
-import * as Colors from 'styles/variables';
-import { media } from 'styles/BreakPoints';
+import * as Colors from '../../styles/variables';
+import { media } from '../../styles/BreakPoints';
 
 export const InputComponentStyled = styled.div`
   display: flex;

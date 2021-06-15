@@ -5,9 +5,9 @@ import {
   ConfirmColor,
   LineColor,
   FocusColor
-} from 'styles/variables';
-import tickIcon from 'assets/images/input/tick.svg';
-import enableIcon from 'assets/images/input/enable_check.svg';
+} from '../../styles/variables';
+import tickIcon from '../../assets/images/input/tick.svg';
+import enableIcon from '../../assets/images/input/enable_check.svg';
 
 export const CheckboxStyled = styled.div`
   display: flex;

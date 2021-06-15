@@ -27,6 +27,9 @@ export class Consents extends React.Component {
 
   componentDidMount() {
     const { publisherId } = this.props;
+    console.log('componentDidMount, publisherId:', publisherId);
+    localStorage.setItem('test_package', 'yes');
+    console.log(localStorage.getItem('test_package'));
     if (publisherId) {
       this.getConsents(publisherId).then(() => {});
     }
@@ -34,6 +37,7 @@ export class Consents extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { publisherId } = this.props;
+    console.log('componentDidUpdate, publisherId:', publisherId);
 
     if (prevProps.publisherId !== publisherId) {
       this.getConsents(publisherId).then(() => {
@@ -44,7 +48,11 @@ export class Consents extends React.Component {
 
   getConsents = async publisherId => {
     try {
+      console.log('getConsents');
+      debugger;
       const consentsIncome = await getConsentsRequest(publisherId);
+      debugger;
+      console.log('consentsIncome', consentsIncome);
       if (consentsIncome.responseData && consentsIncome.responseData.consents) {
         const consentsDetails = consentsIncome.responseData.consents.map(
           element => {

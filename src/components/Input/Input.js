@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import visibility from 'assets/images/visibility.svg';
-import visibilityOff from 'assets/images/visibilityOff.svg';
+import visibility from '../../assets/images/visibility.svg';
+import visibilityOff from '../../assets/images/visibilityOff.svg';
 import {
   InputComponentStyled,
   InputElementWrapperStyled,

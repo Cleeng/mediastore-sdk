@@ -1,5 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
-import { MainColor } from 'styles/variables';
+import { MainColor } from '../../styles/variables';
 
 export const LoaderKeyframeStyled = keyframes`
   0%,

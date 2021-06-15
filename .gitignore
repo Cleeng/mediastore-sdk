@@ -5,6 +5,7 @@
 /public/locales/*
 /.pnp
 .pnp.js
+/dist
 
 # testing
 /coverage
