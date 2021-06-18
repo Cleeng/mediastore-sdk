@@ -1,6 +1,6 @@
 {
   "name": "mediastoresdk-iwona",
-  "version": "1.0.28",
+  "version": "1.0.34",
   "private": false,
   "engines": {
     "node": ">=14.15.0 <15.0"
@@ -147,6 +147,7 @@
     "@babel/preset-env": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
     "babel-plugin-module-resolver": "^4.1.0",
+    "babel-plugin-transform-globals": "^1.0.1",
     "cross-env": "^7.0.3",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",

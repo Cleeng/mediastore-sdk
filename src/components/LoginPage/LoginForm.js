@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Loader from 'components/Loader';
-import loginCustomer from '../../api/Auth/loginCustomer';
 import Auth from 'services/auth';
-import getCustomerLocales from '../../api/Customer/getCustomerLocales';
 import Button from 'components/Button';
 import EmailInput from 'components/EmailInput';
 import PasswordInput from 'components/PasswordInput';
 import { validatePasswordField, validateEmailField } from 'util/validators';
 import { setData } from 'util/appConfigHelper';
+import getCustomerLocales from '../../api/Customer/getCustomerLocales';
+import loginCustomer from '../../api/Auth/loginCustomer';
 import { FromStyled, FormErrorStyled, FormSuccessStyled } from './LoginStyled';
 
 class LoginForm extends Component {

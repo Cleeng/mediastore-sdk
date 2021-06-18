@@ -1,7 +1,9 @@
 const getConsents = publisherId => {
-  console.log(`https://mediastore-sandbox.cleeng.com/publishers/${publisherId}/consents`);
+  console.log(
+    `${ENVIRONMENT_CONFIGURATION.API_URL}/publishers/${publisherId}/consents`
+  );
   return fetch(
-    `https://mediastore-sandbox.cleeng.com/publishers/${publisherId}/consents`,
+    `${ENVIRONMENT_CONFIGURATION.API_URL}/publishers/${publisherId}/consents`,
     { method: 'GET' }
   ).then(res => res.json());
 };
