@@ -5,7 +5,7 @@ const createOrder = (offerId, paymentMethodId = 0) => {
   const token = getData('CLEENG_AUTH_TOKEN') || '';
   const customerIP = getData('CLEENG_CUSTOMER_IP') || '';
 
-  const url = `https://mediastore-sandbox.cleeng.com/orders`;
+  const url = `http://sls.cleeng.com:8000/mediastore-api/orders`;
   const { customerId } = jwtDecode(token);
 
   return fetch(url, {

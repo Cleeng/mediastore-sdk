@@ -48,11 +48,7 @@ export class Consents extends React.Component {
 
   getConsents = async publisherId => {
     try {
-      console.log('getConsents');
-      debugger;
       const consentsIncome = await getConsentsRequest(publisherId);
-      debugger;
-      console.log('consentsIncome', consentsIncome);
       if (consentsIncome.responseData && consentsIncome.responseData.consents) {
         const consentsDetails = consentsIncome.responseData.consents.map(
           element => {
@@ -82,7 +78,6 @@ export class Consents extends React.Component {
         disabledRegisterButton();
       }
     } catch (error) {
-      console.error(error);
       return error;
     }
     return false;

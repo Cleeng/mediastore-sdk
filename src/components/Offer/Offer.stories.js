@@ -124,7 +124,7 @@ storiesOf('Pages/Offer', module)
     {
       mockData: [
         {
-          url: `https://mediastore-sandbox.cleeng.com/payment-methods`,
+          url: `http://sls.cleeng.com:8000/mediastore-api/payment-methods`,
           method: 'GET',
           status: 200,
           response: {

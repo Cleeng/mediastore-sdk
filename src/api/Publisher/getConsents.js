@@ -1,6 +1,6 @@
 const getConsents = publisherId => {
   return fetch(
-    `https://mediastore-sandbox.cleeng.com/publishers/${publisherId}/consents`,
+    `http://sls.cleeng.com:8000/mediastore-api/publishers/${publisherId}/consents`,
     { method: 'GET' }
   ).then(res => res.json());
 };

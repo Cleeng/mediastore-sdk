@@ -2,7 +2,7 @@ import { getData } from 'util/appConfigHelper';
 
 const getPaymentMethods = async () => {
   const token = getData('CLEENG_AUTH_TOKEN') || '';
-  return fetch(`https://mediastore-sandbox.cleeng.com/payment-methods`, {
+  return fetch(`http://sls.cleeng.com:8000/mediastore-api/payment-methods`, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${token}`

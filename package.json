@@ -1,6 +1,6 @@
 {
   "name": "mediastoresdk-iwona",
-  "version": "1.0.39",
+  "version": "1.0.55",
   "private": false,
   "engines": {
     "node": ">=14.15.0 <15.0"
@@ -13,6 +13,10 @@
   "repository": {
     "type": "git",
     "url": "URL_OF_YOUR_REPOSITORY"
+  },
+  "peerDependencies": {
+    "history": "^4.10.1",
+    "react": "^16.14.0"
   },
   "dependencies": {
     "@babel/core": "7.14.0",
@@ -44,8 +48,8 @@
     "file-loader": "^4.3.0",
     "fs-extra": "7.0.1",
     "glob": "^7.1.7",
-    "history": "^4.10.1",
     "html-webpack-plugin": "4.0.0-beta.5",
+    "react-i18next": "^10.12.5",
     "i18next": "^17.0.16",
     "i18next-browser-languagedetector": "^4.3.1",
     "identity-obj-proxy": "3.0.0",
@@ -67,12 +71,10 @@
     "postcss-safe-parser": "4.0.1",
     "prettier": "^1.19.1",
     "prop-types": "^15.7.2",
-    "react": "^16.14.0",
     "react-app-polyfill": "^1.0.6",
     "react-custom-scrollbars": "^4.2.1",
     "react-dev-utils": "^11.0.4",
     "react-dom": "^16.14.0",
-    "react-i18next": "^10.12.5",
     "react-loading-skeleton": "^2.2.0",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
@@ -105,7 +107,7 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "scan-translations": "node -e 'require(`./scripts/translationsBundle.js`).run(false)'",
     "clean": "rimraf dist",
-    "compile": "npm run clean && cross-env NODE_ENV=production babel src --out-dir dist/src --copy-files --ignore __tests__,spec.js,test.js,stories.js,__snapshots__ && cross-env NODE_ENV=production babel config --out-dir dist/config"
+    "compile": "npm run clean && cross-env NODE_ENV=production babel src --out-dir dist/src --copy-files --ignore __tests__,spec.js,test.js,stories.js,__snapshots__ && cross-env NODE_ENV=production babel config --out-dir dist/config --ignore __tests__,spec.js,test.js,stories.js,__snapshots__ "
   },
   "browserslist": {
     "production": [

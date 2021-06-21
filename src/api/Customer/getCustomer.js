@@ -6,7 +6,7 @@ const getCustomer = async () => {
   const decoded = jwtDecode(token);
   const { customerId } = decoded;
 
-  const url = `https://mediastore-sandbox.cleeng.com/customers/${customerId}`;
+  const url = `http://sls.cleeng.com:8000/mediastore-api/customers/${customerId}`;
   return fetch(url, {
     method: 'GET',
     headers: {

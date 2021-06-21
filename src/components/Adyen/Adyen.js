@@ -2,15 +2,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+// import { withTranslation } from 'react-i18next';
+// import labeling from 'containers/labeling';
 import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
 
 const COMPONENT_CONTAINER_ID = 'component-container';
 const PAYMENT_METHOD_CARD = 'card';
 
-const ADYEN_ENV =
-  ENVIRONMENT_CONFIGURATION.REACT_ENV === 'production' ? 'live' : 'test';
+const ADYEN_ENV = 'test';
 
 const ADYEN_STYLESHEET_HREF = `https://checkoutshopper-${ADYEN_ENV}.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css`;
 
@@ -69,7 +68,7 @@ class Adyen extends Component {
     const configuration = {
       showPayButton: false,
       environment: ADYEN_ENV,
-      clientKey: ENVIRONMENT_CONFIGURATION.ADYEN_CLIENT_KEY,
+      clientKey: 'test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K',
       onSubmit,
       onChange
     };
@@ -119,4 +118,5 @@ Adyen.defaultProps = {
 
 export { Adyen as PureAdyen };
 
-export default withTranslation()(labeling()(Adyen));
+// export default withTranslation()(labeling()(Adyen));
+export default Adyen;

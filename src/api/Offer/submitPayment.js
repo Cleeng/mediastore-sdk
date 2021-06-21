@@ -3,7 +3,7 @@ import { getData } from 'util/appConfigHelper';
 const submitPayment = async card => {
   const token = getData('CLEENG_AUTH_TOKEN') || '';
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
-  const url = `https://mediastore-sandbox.cleeng.com/connectors/adyen/payments`;
+  const url = `http://sls.cleeng.com:8000/mediastore-api/connectors/adyen/payments`;
 
   try {
     const res = await fetch(url, {

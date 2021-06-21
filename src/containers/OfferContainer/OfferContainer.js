@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import Offer from 'components/Offer';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
-import { withTranslation } from 'react-i18next';
+// import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
 import Loader from 'components/Loader';
 import {
@@ -15,7 +15,7 @@ import {
 import saveOfferId from 'util/offerIdHelper';
 import { setData, getData } from 'util/appConfigHelper';
 import StyledLoaderContainer from './StyledOfferContainer';
-import labeling from '../labeling';
+// import labeling from '../labeling';
 
 class OfferContainer extends Component {
   constructor(props) {
@@ -214,4 +214,5 @@ OfferContainer.defaultProps = {
 
 export { OfferContainer as PureOfferContainer };
 
-export default withTranslation()(labeling()(OfferContainer));
+// export default withTranslation()(labeling()(OfferContainer));
+export default OfferContainer;

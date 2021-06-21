@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+// import { withTranslation } from 'react-i18next';
+// import labeling from 'containers/labeling';
 import { PureCouponInput as CouponInput } from 'components/CouponInput/CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Payment from 'components/Payment';
@@ -265,4 +265,5 @@ Offer.defaultProps = {
 
 export { Offer as PureOffer };
 
-export default withTranslation()(labeling()(Offer));
+// export default withTranslation()(labeling()(Offer));
+export default Offer;

@@ -19,7 +19,7 @@ export default function customLabeling() {
         const { i18n } = this.props;
         if (typeof i18n === 'undefined') return false;
         const language = i18n.language || 'en';
-        if (!i18n.hasResourceBundle(language, 'translation')) {
+        if (false) {
           const data = await fetch(`/locales/${language}/translations.json`)
             .then(response => response.json())
             .catch(() => {});

@@ -33,6 +33,7 @@ module.exports = function(api) {
 
   return {
     presets,
-    plugins
+    plugins,
+    ignore: [/node_modules/]
   };
 };

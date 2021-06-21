@@ -4,7 +4,7 @@ import { getData } from 'util/appConfigHelper';
 const submitConsents = async (consents, consentDefinitions, payload = null) => {
   const token = getData('CLEENG_AUTH_TOKEN') || '';
   const { customerId } = jwtDecode(token);
-  const url = `https://mediastore-sandbox.cleeng.com/customers/${customerId}/consents`;
+  const url = `http://sls.cleeng.com:8000/mediastore-api/customers/${customerId}/consents`;
   let consentsPayload;
   if (!payload) {
     consentsPayload = consentDefinitions.map((consentDefinition, index) => {
