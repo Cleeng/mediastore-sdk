@@ -6,7 +6,7 @@ const updateCustomer = params => {
   const decoded = jwtDecode(token);
   const { customerId } = decoded;
 
-  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/${customerId}`;
+  const url = `https://mediastore-sandbox.cleeng.com/customers/${customerId}`;
 
   return fetch(url, {
     method: 'PATCH',

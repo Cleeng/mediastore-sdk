@@ -6,7 +6,7 @@ const updateCaptureAnswers = async anwsers => {
   const decoded = jwtDecode(token);
   const { customerId } = decoded;
 
-  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/${customerId}/capture`;
+  const url = `https://mediastore-sandbox.cleeng.com/customers/${customerId}/capture`;
 
   const payload = {
     firstName: anwsers.firstName || null,

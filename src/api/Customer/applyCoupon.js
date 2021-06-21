@@ -6,7 +6,7 @@ const applyCoupon = async (subscriptionId, couponCode) => {
   const decoded = jwtDecode(token);
   const { customerId } = decoded;
 
-  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/${customerId}/subscriptions/${subscriptionId}`;
+  const url = `https://mediastore-sandbox.cleeng.com/customers/${customerId}/subscriptions/${subscriptionId}`;
 
   const resp = await fetch(url, {
     method: 'PATCH',

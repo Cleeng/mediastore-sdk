@@ -82,6 +82,7 @@ export class Consents extends React.Component {
         disabledRegisterButton();
       }
     } catch (error) {
+      console.error(error);
       return error;
     }
     return false;

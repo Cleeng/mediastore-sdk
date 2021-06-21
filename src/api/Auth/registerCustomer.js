@@ -8,7 +8,7 @@ const registerCustomer = async (
   country,
   currency
 ) => {
-  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers`;
+  const url = `https://mediastore-sandbox.cleeng.com/customers`;
 
   try {
     const resp = await fetch(url, {

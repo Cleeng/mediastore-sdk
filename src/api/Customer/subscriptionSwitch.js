@@ -6,7 +6,7 @@ const subscriptionSwitch = async (offerId, toOfferId, switchDirection) => {
   const decoded = jwtDecode(token);
   const { customerId } = decoded;
 
-  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/${customerId}/subscription_switches/${offerId}`;
+  const url = `https://mediastore-sandbox.cleeng.com/customers/${customerId}/subscription_switches/${offerId}`;
   return fetch(url, {
     method: 'POST',
     body: JSON.stringify({

@@ -6,7 +6,7 @@ const getCustomerConsents = async () => {
   const decoded = jwtDecode(token);
   const { customerId } = decoded;
 
-  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/${customerId}/consents`;
+  const url = `https://mediastore-sandbox.cleeng.com/customers/${customerId}/consents`;
   return fetch(url, {
     method: 'GET',
     headers: {

@@ -6,7 +6,7 @@ const listCustomerTransactions = async (limit = 50, offset = 0) => {
   const decoded = jwtDecode(token);
   const { customerId } = decoded;
 
-  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/customers/${customerId}/transactions?limit=${limit}&offset=${offset}`;
+  const url = `https://mediastore-sandbox.cleeng.com/customers/${customerId}/transactions?limit=${limit}&offset=${offset}`;
   return fetch(url, {
     method: 'GET',
     headers: {

@@ -1,7 +1,7 @@
 import { sendMessage } from 'util/appConfigHelper';
 
 const loginCustomer = async (email, password, loginBy) => {
-  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/auths`;
+  const url = `https://mediastore-sandbox.cleeng.com/auths`;
 
   try {
     const resp = await fetch(url, {

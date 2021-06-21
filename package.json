@@ -1,6 +1,6 @@
 {
   "name": "mediastoresdk-iwona",
-  "version": "1.0.34",
+  "version": "1.0.39",
   "private": false,
   "engines": {
     "node": ">=14.15.0 <15.0"
@@ -30,6 +30,8 @@
     "babel-jest": "^24.8.0",
     "babel-loader": "8.2.2",
     "babel-plugin-named-asset-import": "^0.3.7",
+    "babel-plugin-transform-define": "^2.0.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "babel-preset-react-app": "^9.1.2",
     "camelcase": "^5.2.0",
     "case-sensitive-paths-webpack-plugin": "2.4.0",
@@ -147,7 +149,6 @@
     "@babel/preset-env": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
     "babel-plugin-module-resolver": "^4.1.0",
-    "babel-plugin-transform-globals": "^1.0.1",
     "cross-env": "^7.0.3",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",

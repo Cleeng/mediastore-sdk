@@ -1,5 +1,5 @@
 const getCustomerLocales = () => {
-  return fetch(`${ENVIRONMENT_CONFIGURATION.API_URL}/locales`, {}).then(res =>
+  return fetch(`https://mediastore-sandbox.cleeng.com/locales`, {}).then(res =>
     res.json()
   );
 };
