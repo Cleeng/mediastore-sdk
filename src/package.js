@@ -1,6 +1,7 @@
 import Card from 'components/Card';
 import Consents from 'components/Consents';
 import OfferContainer from 'containers/OfferContainer';
+import App from 'containers/App/App.container';
 
 const ENVIRONMENT_CONFIGURATION = {
   API_URL: 'https://mediastore-sandbox.cleeng.com',
@@ -8,4 +9,4 @@ const ENVIRONMENT_CONFIGURATION = {
   REACT_ENV: 'sandbox'
 };
 
-export { ENVIRONMENT_CONFIGURATION, Card, Consents, OfferContainer };
+export { ENVIRONMENT_CONFIGURATION, Card, Consents, OfferContainer, App };
