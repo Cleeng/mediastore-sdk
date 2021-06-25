@@ -1,6 +1,6 @@
 {
   "name": "mediastoresdk-iwona",
-  "version": "1.0.57",
+  "version": "1.0.77",
   "private": false,
   "engines": {
     "node": ">=14.15.0 <15.0"
