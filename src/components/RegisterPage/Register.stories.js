@@ -35,7 +35,7 @@ storiesOf('Pages/RegisterPage', module)
     {
       mockData: [
         {
-          url: `http://sls.cleeng.com:8000/mediastore-api/publishers/933103327/consents`,
+          url: `https://mediastoreapi-sandbox.cleeng.com/publishers/933103327/consents`,
           method: 'GET',
           status: 200,
           response: {

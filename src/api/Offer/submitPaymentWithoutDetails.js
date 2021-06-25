@@ -5,7 +5,7 @@ const submitPaymentWithoutDetails = async () => {
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
   const status = 'captured';
   const paymentOperation = 'initial-payment';
-  const url = `http://sls.cleeng.com:8000/mediastore-api/payments`;
+  const url = `https://mediastoreapi-sandbox.cleeng.com/payments`;
 
   try {
     const res = await fetch(url, {

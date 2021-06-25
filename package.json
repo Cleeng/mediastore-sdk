@@ -1,10 +1,7 @@
 {
   "name": "mediastoresdk-iwona",
-  "version": "1.0.77",
+  "version": "1.0.87",
   "private": false,
-  "engines": {
-    "node": ">=14.15.0 <15.0"
-  },
   "main": "dist/package.js",
   "files": [
     "dist",
@@ -49,7 +46,6 @@
     "fs-extra": "7.0.1",
     "glob": "^7.1.7",
     "html-webpack-plugin": "4.0.0-beta.5",
-    "react-i18next": "^10.12.5",
     "i18next": "^17.0.16",
     "i18next-browser-languagedetector": "^4.3.1",
     "identity-obj-proxy": "3.0.0",
@@ -75,6 +71,7 @@
     "react-custom-scrollbars": "^4.2.1",
     "react-dev-utils": "^11.0.4",
     "react-dom": "^16.14.0",
+    "react-i18next": "^10.12.5",
     "react-loading-skeleton": "^2.2.0",
     "react-redux": "^7.2.4",
     "react-router-dom": "^5.2.0",
@@ -150,6 +147,7 @@
     "@babel/cli": "^7.14.5",
     "@babel/preset-env": "^7.14.5",
     "@babel/preset-react": "^7.14.5",
+    "babel-plugin-inline-react-svg": "^2.0.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "cross-env": "^7.0.3",
     "enzyme": "^3.11.0",

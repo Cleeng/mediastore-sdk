@@ -6,7 +6,7 @@ const getAvailableSwitches = async offerId => {
   const decoded = jwtDecode(token);
   const { customerId } = decoded;
 
-  const url = `http://sls.cleeng.com:8000/mediastore-api/customers/${customerId}/subscription_switches/${offerId}/availability`;
+  const url = `https://mediastoreapi-sandbox.cleeng.com/customers/${customerId}/subscription_switches/${offerId}/availability`;
   return fetch(url, {
     method: 'GET',
     headers: {

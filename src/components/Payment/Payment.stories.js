@@ -13,7 +13,7 @@ storiesOf('Checkout/Payment', module)
   .add('Basic Payment', () => <Payment onPaymentComplete={() => {}} />, {
     mockData: [
       {
-        url: `http://sls.cleeng.com:8000/mediastore-api/payment-methods`,
+        url: `https://mediastoreapi-sandbox.cleeng.com/payment-methods`,
         method: 'GET',
         status: 200,
         response: {

@@ -2,7 +2,7 @@ import { getData } from 'util/appConfigHelper';
 
 const updateOrder = (orderId, params) => {
   const token = getData('CLEENG_AUTH_TOKEN') || '';
-  const url = `http://sls.cleeng.com:8000/mediastore-api/orders/${orderId}`;
+  const url = `https://mediastoreapi-sandbox.cleeng.com/orders/${orderId}`;
 
   return fetch(url, {
     method: 'PATCH',

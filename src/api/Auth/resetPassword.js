@@ -1,5 +1,5 @@
 const resetPassword = async (offerId, customerEmail, publisherId = '') => {
-  const url = `http://sls.cleeng.com:8000/mediastore-api/customers/passwords`;
+  const url = `https://mediastoreapi-sandbox.cleeng.com/customers/passwords`;
   try {
     const res = await fetch(url, {
       method: 'PUT',

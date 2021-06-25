@@ -1,8 +1,11 @@
+import './styles/index.scss';
 import Card from 'components/Card';
 import Consents from 'components/Consents';
 import OfferContainer from 'containers/OfferContainer';
 import Login from 'components/LoginPage';
 import Register from 'components/RegisterPage';
+import MyAccount from 'containers/MyAccount';
+import store from 'redux/store';
 
 const ENVIRONMENT_CONFIGURATION = {
   API_URL: 'https://mediastore-sandbox.cleeng.com',
@@ -16,5 +19,7 @@ export {
   Consents,
   OfferContainer,
   Login,
-  Register
+  Register,
+  MyAccount,
+  store
 };

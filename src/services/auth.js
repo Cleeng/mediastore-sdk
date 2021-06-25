@@ -89,8 +89,10 @@ class Auth {
   }
 
   isLogged() {
+    console.log('in isLogged');
     const jwt = getData('CLEENG_AUTH_TOKEN');
     if (!jwt) {
+      console.log('is NOT logged in');
       this.isAuthenticated = false;
       return this.isAuthenticated;
     }
@@ -99,8 +101,10 @@ class Auth {
     const now = Date.now() / 1000;
     const isExpired = now > decoded.exp;
     if (isExpired) {
+      console.log('logout');
       this.logout();
     } else {
+      console.log('is logged in');
       this.isAuthenticated = true;
     }
     return this.isAuthenticated;
