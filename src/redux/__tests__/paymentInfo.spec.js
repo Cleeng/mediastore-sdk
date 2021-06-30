@@ -7,11 +7,21 @@ import {
 } from 'redux/paymentInfo';
 import paymentInfoReducer from '../paymentInfo';
 
+const paypalPaymentMethod = {
+  id: 457654757,
+  customerId: 338816933,
+  paymentGateway: 'paypal',
+  paymentMethod: 'paypal',
+  paymentMethodSpecificParams: {
+    holderName: 'User'
+  },
+  active: true
+};
+
 const paymentDetailsMock = [
   {
     id: 680860225,
     customerId: 338816933,
-    token: '8315815183716450',
     paymentGateway: 'adyen',
     paymentMethod: 'card',
     paymentMethodSpecificParams: {
@@ -21,7 +31,24 @@ const paymentDetailsMock = [
       cardExpirationDate: '10/2020',
       socialSecurityNumber: ''
     },
-    paymentMethodId: null
+    active: true
+  },
+  {
+    id: 32122312312,
+    customerId: 338816933,
+    paymentGateway: 'adyen',
+    paymentMethod: 'card',
+    paymentMethodSpecificParams: {
+      variant: 'mc',
+      lastCardFourDigits: '1111',
+      holderName: 'Sample card',
+      cardExpirationDate: '10/2020',
+      socialSecurityNumber: ''
+    },
+    active: false
+  },
+  {
+    ...paypalPaymentMethod
   }
 ];
 
@@ -36,9 +63,12 @@ const transactionListPayload = [
 ];
 
 describe('PaymentInfo reducer', () => {
-  it('should correctly call paymentMethod action', () => {
+  it('should correctly call setPaymentMethod action and select active payment method', () => {
     const action = { type: SET_PAYMENT_METHOD, payload: paymentDetailsMock };
-    const expectedState = { paymentMethod: paymentDetailsMock };
+    const expectedState = {
+      paymentMethod: paymentDetailsMock,
+      activePaymentMethod: paypalPaymentMethod
+    };
 
     expect(paymentInfoReducer(undefined, action)).toMatchObject(expectedState);
   });

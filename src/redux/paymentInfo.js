@@ -24,12 +24,16 @@ const initialState = {
   transactionsList: [],
   transactionsToShow: [],
   isTransactionListFetched: false,
-  isShowMoreButtonHidden: false
+  isShowMoreButtonHidden: false,
+  activePaymentMethod: null
 };
 
 const paymentMethodReducer = createReducer(initialState, {
   SET_PAYMENT_METHOD: (state, action) => {
     state.paymentMethod = action.payload;
+    state.activePaymentMethod = action.payload.length
+      ? action.payload.filter(item => item.active).slice(-1)[0]
+      : null;
   },
   SET_TRANSACTIONS_LIST: (state, action) => {
     state.transactionsList = action.payload;

@@ -3,145 +3,86 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
+import { ReactComponent as AddIcon } from 'assets/images/add.svg';
 import MyAccountError from 'components/MyAccountError';
-import SkeletonWrapper from 'components/SkeletonWrapper';
-import { CardTypesIcons } from './PaymentMethod.const';
+import PaymentCard from 'components/PaymentCard';
 import {
   WrapStyled,
   PaymentDetailsStyled,
-  CardStyled,
-  CardWrapStyled,
-  CardTypeStyled,
-  CardNumberStyled,
-  CardExpirationStyled,
-  CardExpirationLabel,
-  CardExpirationDateStyled,
-  // CardEditStyled,
   Message
 } from './PaymentMethodStyled';
 
-const PaymentCard = ({
-  lastCardFourDigits,
-  cardExpirationDate,
-  variant,
-  isDataLoaded,
+const PaymentMethod = ({
+  paymentDetailsLoading,
+  activePaymentMethod,
+  showInnerPopup,
+  error,
   t
 }) => {
-  const LogoComponent = CardTypesIcons[variant]
-    ? CardTypesIcons[variant]
-    : React.Fragment;
-  return (
-    <CardWrapStyled>
-      {isDataLoaded ? (
-        <CardStyled>
-          <CardTypeStyled>
-            <LogoComponent />
-          </CardTypeStyled>
-          <CardNumberStyled>
-            **** **** **** {lastCardFourDigits}
-          </CardNumberStyled>
-          <CardExpirationStyled>
-            <CardExpirationLabel>{t('Expiry date')}</CardExpirationLabel>
-            <CardExpirationDateStyled>
-              {cardExpirationDate}
-            </CardExpirationDateStyled>
-          </CardExpirationStyled>
-          {/* <CardEditStyled>Edit</CardEditStyled> */}
-        </CardStyled>
-      ) : (
-        <SkeletonWrapper height={166} />
-      )}
-    </CardWrapStyled>
-  );
-};
+  const renderPaymentMethodItem = () => {
+    const { paymentMethod, paymentGateway, id } = activePaymentMethod;
+    const generateDesc = () => {
+      switch (paymentGateway) {
+        case 'ios':
+        case 'tvos':
+          return 'Paid & managed via iTunes';
+        case 'android':
+          return 'Paid via Android In-app Billing';
+        case 'amazon':
+          return 'Paid via Amazon In-app Purchasing';
+        default:
+          return 'Paid by external provider';
+      }
+    };
+    switch (paymentMethod) {
+      case 'card':
+      case 'paypal':
+        return (
+          <PaymentCard
+            key={id}
+            activePaymentMethod={activePaymentMethod}
+            showInnerPopup={showInnerPopup}
+          />
+        );
+      default:
+        return <Message>{generateDesc()}</Message>;
+    }
+  };
 
-PaymentCard.propTypes = {
-  lastCardFourDigits: PropTypes.string,
-  cardExpirationDate: PropTypes.string,
-  variant: PropTypes.string,
-  isDataLoaded: PropTypes.bool,
-  t: PropTypes.func
-};
-
-PaymentCard.defaultProps = {
-  lastCardFourDigits: '',
-  cardExpirationDate: '',
-  isDataLoaded: true,
-  variant: '',
-  t: k => k
-};
-
-const PaymentMethod = ({ paymentDetailsLoading, paymentDetails, error, t }) => {
   return paymentDetailsLoading ? (
     <PaymentCard isDataLoaded={false} />
   ) : (
     <WrapStyled>
       {error.length !== 0 ? (
         <MyAccountError generalError fullHeight />
-      ) : paymentDetails.length === 0 ? (
+      ) : !activePaymentMethod ? (
         <MyAccountError
+          icon={AddIcon}
           title={t('No payment method added!')}
           subtitle={t('Add a card to start your plan')}
           withBorder
+          onClick={() => showInnerPopup()}
         />
       ) : (
-        <PaymentDetailsStyled>
-          {paymentDetails.map(method => {
-            if (method.paymentMethod === 'card') {
-              const {
-                lastCardFourDigits,
-                cardExpirationDate,
-                variant
-              } = method.paymentMethodSpecificParams;
-
-              return (
-                <PaymentCard
-                  key={method.id}
-                  lastCardFourDigits={lastCardFourDigits}
-                  cardExpirationDate={cardExpirationDate}
-                  variant={variant}
-                />
-              );
-            }
-            if (method.paymentMethod === 'paypal') {
-              const LogoComponent = CardTypesIcons[method.paymentMethod]
-                ? CardTypesIcons[method.paymentMethod]
-                : React.Fragment;
-              return (
-                <CardWrapStyled key={method.id} type={method.paymentMethod}>
-                  <CardStyled>
-                    <CardTypeStyled>
-                      <LogoComponent />
-                    </CardTypeStyled>
-                    {/* <CardEditStyled>Edit</CardEditStyled> */}
-                  </CardStyled>
-                </CardWrapStyled>
-              );
-            }
-            return (
-              <Message key="message">
-                {t('Payment by ')} {method.paymentMethod}{' '}
-                {t('is not supported')}
-              </Message>
-            );
-          })}
-        </PaymentDetailsStyled>
+        <PaymentDetailsStyled>{renderPaymentMethodItem()}</PaymentDetailsStyled>
       )}
     </WrapStyled>
   );
 };
 
 PaymentMethod.propTypes = {
-  paymentDetails: PropTypes.arrayOf(PropTypes.any),
+  activePaymentMethod: PropTypes.objectOf(PropTypes.any),
   error: PropTypes.arrayOf(PropTypes.string),
   paymentDetailsLoading: PropTypes.bool,
+  showInnerPopup: PropTypes.func,
   t: PropTypes.func
 };
 
 PaymentMethod.defaultProps = {
-  paymentDetails: [],
+  activePaymentMethod: {},
   error: [],
   paymentDetailsLoading: false,
+  showInnerPopup: () => {},
   t: k => k
 };
 

@@ -22,6 +22,7 @@ const MyAccountError = ({
   centered,
   margin,
   fullWidth,
+  onClick,
   t
 }) => {
   const IconComponent = generalError ? serverIcon : icon;
@@ -32,6 +33,7 @@ const MyAccountError = ({
       centered={centered}
       margin={margin}
       fullWidth={fullWidth}
+      onClick={onClick}
     >
       {(icon || generalError) && (
         <IconStyled>
@@ -67,6 +69,7 @@ MyAccountError.propTypes = {
   centered: PropTypes.bool,
   margin: PropTypes.string,
   fullWidth: PropTypes.bool,
+  onClick: PropTypes.func,
   t: PropTypes.func
 };
 
@@ -80,6 +83,7 @@ MyAccountError.defaultProps = {
   centered: false,
   margin: '',
   fullWidth: false,
+  onClick: null,
   t: k => k
 };
 

@@ -41,7 +41,7 @@ const InnerPopupWrapper = ({
 
 InnerPopupWrapper.propTypes = {
   steps: PropTypes.number.isRequired,
-  popupTitle: PropTypes.string.isRequired,
+  popupTitle: PropTypes.string,
   currentStep: PropTypes.number.isRequired,
   children: PropTypes.node.isRequired,
   isError: PropTypes.bool.isRequired,
@@ -49,6 +49,7 @@ InnerPopupWrapper.propTypes = {
 };
 
 InnerPopupWrapper.defaultProps = {
+  popupTitle: '',
   t: k => k
 };
 

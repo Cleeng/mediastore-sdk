@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'components/Button';
@@ -80,15 +81,21 @@ class Adyen extends Component {
 
   render() {
     const { isLoaded } = this.state;
-    const { t, isPaymentProcessing } = this.props;
+    const { t, isPaymentProcessing, isCheckout } = this.props;
+    const myAccountProps = {
+      size: 'normal',
+      width: '60%',
+      margin: 'auto'
+    };
     return (
-      <AdyenStyled>
+      <AdyenStyled isMyAccount={!isCheckout}>
         <div id={COMPONENT_CONTAINER_ID} />
         {isLoaded && (
           <ConfirmButtonStyled>
             <Button
-              theme="confirm"
               size="big"
+              {...(isCheckout ? {} : myAccountProps)}
+              theme="confirm"
               onClickFn={() => this.checkout.submit()}
               disabled={isPaymentProcessing}
             >
@@ -108,13 +115,15 @@ Adyen.propTypes = {
   t: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func,
-  isPaymentProcessing: PropTypes.bool
+  isPaymentProcessing: PropTypes.bool,
+  isCheckout: PropTypes.bool
 };
 
 Adyen.defaultProps = {
   t: k => k,
   onChange: () => {},
-  isPaymentProcessing: false
+  isPaymentProcessing: false,
+  isCheckout: true
 };
 
 export { Adyen as PureAdyen };

@@ -5,7 +5,8 @@ import { Link } from 'react-router-dom';
 import ButtonStyled from './ButtonStyled';
 
 export const BUTTON_SIZE = {
-  BIG: 'big'
+  BIG: 'big',
+  NORMAL: 'normal'
 };
 
 export const BUTTON_THEME = {
@@ -15,7 +16,8 @@ export const BUTTON_THEME = {
   NAVLINK: 'navLink',
   LINK: 'link',
   PAYMENT: 'payment',
-  CONFIRM: 'confirm'
+  CONFIRM: 'confirm',
+  PAYPAL: 'paypal'
 };
 
 const Button = ({
@@ -69,7 +71,11 @@ export default Button;
 Button.propTypes = {
   size: PropTypes.oneOf(Object.values(BUTTON_SIZE)),
   theme: PropTypes.oneOf(Object.values(BUTTON_THEME)),
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
+  children: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.element,
+    PropTypes.node
+  ]),
   type: PropTypes.string,
   onClickFn: PropTypes.func,
   disabled: PropTypes.bool,
