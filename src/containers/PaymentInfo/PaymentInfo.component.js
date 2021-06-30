@@ -6,6 +6,7 @@ import SectionHeader from 'components/SectionHeader';
 import Transactions from 'components/Transactions';
 import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
+import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
 import { WrapStyled } from './PaymentInfoStyled';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
@@ -160,7 +161,13 @@ class PaymentInfo extends Component {
   };
 
   render() {
-    const { paymentInfo, t } = this.props;
+    const {
+      paymentInfo,
+      showInnerPopup,
+      innerPopup,
+      hideInnerPopup,
+      t
+    } = this.props;
     const {
       paymentDetailsError,
       transactionsError,
@@ -171,26 +178,32 @@ class PaymentInfo extends Component {
     } = this.state;
     return (
       <WrapStyled>
-        <SectionHeader marginTop="0">{t('Payment method')}</SectionHeader>
-        <PaymentMehod
-          paymentDetailsLoading={paymentDetailsLoading}
-          paymentDetails={
-            paymentInfo.paymentMethod.length
-              ? paymentInfo.paymentMethod.slice(-1)
-              : []
-          }
-          error={paymentDetailsError}
-        />
-        <SectionHeader>{t('Transactions')}</SectionHeader>
-        <Transactions
-          transactions={paymentInfo.transactionsToShow}
-          toggleTransactionsList={this.toggleTransactionsList}
-          isTransactionsItemsLoading={isTransactionsItemsLoading}
-          isTransactionsSectionLoading={isTransactionsSectionLoading}
-          isShowMoreButtonHidden={paymentInfo.isShowMoreButtonHidden}
-          isExpanded={isTransactionListExpanded}
-          error={transactionsError}
-        />
+        {innerPopup.isOpen && innerPopup.type === 'paymentDetails' ? (
+          <UpdatePaymentDetailsPopup
+            currentDetails={paymentInfo.activePaymentMethod}
+            hideInnerPopup={hideInnerPopup}
+          />
+        ) : (
+          <>
+            <SectionHeader marginTop="0">{t('Payment method')}</SectionHeader>
+            <PaymentMehod
+              paymentDetailsLoading={paymentDetailsLoading}
+              activePaymentMethod={paymentInfo.activePaymentMethod}
+              showInnerPopup={() => showInnerPopup({ type: 'paymentDetails' })}
+              error={paymentDetailsError}
+            />
+            <SectionHeader>{t('Transactions')}</SectionHeader>
+            <Transactions
+              transactions={paymentInfo.transactionsToShow}
+              toggleTransactionsList={this.toggleTransactionsList}
+              isTransactionsItemsLoading={isTransactionsItemsLoading}
+              isTransactionsSectionLoading={isTransactionsSectionLoading}
+              isShowMoreButtonHidden={paymentInfo.isShowMoreButtonHidden}
+              isExpanded={isTransactionListExpanded}
+              error={transactionsError}
+            />
+          </>
+        )}
       </WrapStyled>
     );
   }
@@ -203,6 +216,9 @@ PaymentInfo.propTypes = {
   setTransactionsListAsFetched: PropTypes.func.isRequired,
   hideShowMoreButton: PropTypes.func.isRequired,
   paymentInfo: PropTypes.objectOf(PropTypes.any),
+  showInnerPopup: PropTypes.func.isRequired,
+  hideInnerPopup: PropTypes.func.isRequired,
+  innerPopup: PropTypes.objectOf(PropTypes.any).isRequired,
   t: PropTypes.func
 };
 

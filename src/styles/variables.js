@@ -3,7 +3,6 @@ export const MyAccountBlue = '#031a6e';
 export const MyAccountContentColor = '#f8f9fc';
 export const MyAccountTextGray = '#7B849D';
 export const MyAccountTextLightGray = '#F2F5FC';
-export const CardEditButtonBg = '#415598';
 export const CardSecondaryColor = '#182c7a';
 export const PaypalMainColor = '#61AEF0';
 export const PaypalSecondaryColor = '#74B8F2';

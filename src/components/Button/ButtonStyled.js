@@ -43,6 +43,14 @@ const ButtonStyled = styled.button`
       font-size: 16px;
       font-weight: 400;
     `}
+
+  ${props =>
+    props.size === 'normal' &&
+    css`
+      padding: 12px 25px;
+      font-size: 13px;
+      font-weight: 600;
+    `}
   
   ${props =>
     (props.theme === 'confirm' &&
@@ -60,6 +68,17 @@ const ButtonStyled = styled.button`
       css`
         color: ${colors.White};
         background-color: ${colors.MainColor};
+        opacity: 0.9;
+        &:hover,
+        &:focus {
+          cursor: pointer;
+          opacity: 1;
+        }
+      `) ||
+    (props.theme === 'paypal' &&
+      css`
+        color: ${colors.White};
+        background-color: ${colors.PaypalMainColor};
         opacity: 0.9;
         &:hover,
         &:focus {

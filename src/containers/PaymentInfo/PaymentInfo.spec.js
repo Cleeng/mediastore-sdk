@@ -5,6 +5,7 @@ import { shallow } from 'enzyme';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import listCustomerTransactionsRequest from 'api/Customer/listCustomerTransactions';
 import getPaymentDetailsRequst from 'api/Customer/getPaymentDetails';
+import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
 import { PurePaymentInfo } from './PaymentInfo.component';
 
 jest.mock('api/Customer/listCustomerTransactions');
@@ -25,6 +26,8 @@ const setTransactionsListMock = jest.fn();
 const setTransactionsToShowMock = jest.fn();
 const setTransactionsListAsFetchedMock = jest.fn();
 const hideShowMoreButtonMock = jest.fn();
+const showInnerPopupMock = jest.fn();
+const hideInnerPopupMock = jest.fn();
 const paymentDetailsData = {
   id: 193925086,
   customerId: 280372348,
@@ -54,8 +57,16 @@ const defaultProps = {
   setTransactionsList: setTransactionsListMock,
   setTransactionsToShow: setTransactionsToShowMock,
   setTransactionsListAsFetched: setTransactionsListAsFetchedMock,
-  hideShowMoreButton: hideShowMoreButtonMock
+  hideShowMoreButton: hideShowMoreButtonMock,
+  showInnerPopup: showInnerPopupMock,
+  hideInnerPopup: hideInnerPopupMock,
+  innerPopup: {
+    isOpen: false,
+    type: '',
+    data: {}
+  }
 };
+
 describe('<PaymentInfo/>', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -191,6 +202,15 @@ describe('<PaymentInfo/>', () => {
         expect(setTransactionsListAsFetchedMock).not.toHaveBeenCalled();
         done();
       });
+    });
+    it('should render UpdatePaymentDetails popup', () => {
+      const wrapper = shallow(
+        <PurePaymentInfo
+          {...defaultProps}
+          innerPopup={{ isOpen: true, type: 'paymentDetails' }}
+        />
+      );
+      expect(wrapper.find(UpdatePaymentDetailsPopup)).toHaveLength(1);
     });
   });
   describe('@action', () => {

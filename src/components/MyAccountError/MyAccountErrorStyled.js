@@ -39,6 +39,29 @@ export const WrapStyled = styled.div`
       css`
         margin: auto;
       `}
+
+  ${props =>
+    props.onClick &&
+    css`
+      cursor: pointer;
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        content: '';
+        opacity: 0;
+        border-radius: 20px;
+        box-shadow: 0px 0px 14px 0px #86868642;
+        transition: opacity 0.2s ease-in-out;
+      }
+      &:hover {
+        &:after {
+          opacity: 1;
+        }
+      }
+    `}
 `;
 
 export const TitleStyled = styled.div`
