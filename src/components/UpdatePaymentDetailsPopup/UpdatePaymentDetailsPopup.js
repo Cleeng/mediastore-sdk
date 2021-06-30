@@ -28,8 +28,11 @@ const UpdatePaymentDetailsPopup = ({ hideInnerPopup, t }) => {
   const [step, setStep] = useState(1);
   const [newMethod, setNewMethod] = useState(null);
 
-  const addAdyenPaymentDetails = ({ data: { paymentMethod: card } }) => {
-    console.log('card', card);
+  // const addAdyenPaymentDetails = ({ data: { paymentMethod: card } }) => {
+  //   console.log('card', card);
+  //   setStep(currentStep => currentStep + 1);
+  // };
+  const addAdyenPaymentDetails = () => {
     setStep(currentStep => currentStep + 1);
   };
 
