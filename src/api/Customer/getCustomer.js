@@ -1,20 +1,13 @@
-import jwtDecode from 'jwt-decode';
 import { getData } from 'util/appConfigHelper';
+import fetchWithJWT from 'util/fetchHelper';
 
-const getCustomer = async () => {
-  const token = getData('CLEENG_AUTH_TOKEN') || '';
-  const decoded = jwtDecode(token);
-  const { customerId } = decoded;
+const getCustomer = () => {
+  const customerId = getData('CLEENG_CUSTOMER_ID') || '';
 
   const url = `https://mediastoreapi-sandbox.cleeng.com/customers/${customerId}`;
-  return fetch(url, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  }).then(res => {
-    return res.json();
-  });
+  return fetchWithJWT(url, {
+    method: 'GET'
+  }).then(res => res.json());
 };
 
 export default getCustomer;

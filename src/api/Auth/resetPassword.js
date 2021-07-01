@@ -1,13 +1,11 @@
+import { fetchWithHeaders } from 'util/fetchHelper';
+
 const resetPassword = async (offerId, customerEmail, publisherId = '') => {
   const url = `https://mediastoreapi-sandbox.cleeng.com/customers/passwords`;
   try {
-    const res = await fetch(url, {
+    const res = await fetchWithHeaders(url, {
       method: 'PUT',
-      body: JSON.stringify({ offerId, publisherId, customerEmail }),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
+      body: JSON.stringify({ offerId, publisherId, customerEmail })
     });
     const json = await res.json();
     if (json.message) {

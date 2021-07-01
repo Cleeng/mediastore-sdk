@@ -7,6 +7,7 @@ import RedirectWithQuery from 'components/RedirectWithQuery';
 import Loader from 'components/Loader';
 import PrivateRoute from 'services/privateRoute';
 import PublicRoute from 'services/publicRoute';
+
 import Capture from 'components/Capture/Capture';
 import CheckoutConsents from 'components/CheckoutConsents';
 import history from '../../history';

@@ -1,20 +1,14 @@
-import jwtDecode from 'jwt-decode';
 import { getData } from 'util/appConfigHelper';
+import fetchWithJWT from 'util/fetchHelper';
 
 const updateCustomer = params => {
-  const token = getData('CLEENG_AUTH_TOKEN') || '';
-  const decoded = jwtDecode(token);
-  const { customerId } = decoded;
+  const customerId = getData('CLEENG_CUSTOMER_ID') || '';
 
   const url = `https://mediastoreapi-sandbox.cleeng.com/customers/${customerId}`;
 
-  return fetch(url, {
+  return fetchWithJWT(url, {
     method: 'PATCH',
-    body: JSON.stringify({ ...params }),
-    headers: {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
+    body: JSON.stringify({ ...params })
   }).then(res => res.json());
 };
 

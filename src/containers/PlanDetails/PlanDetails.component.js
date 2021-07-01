@@ -45,8 +45,8 @@ const PlanDetails = ({
       .then(() => {
         setIsLoadingChangePlan(false);
       })
-      .catch(err => {
-        setIsErrorChangePlan([err.message]);
+      .catch(() => {
+        setIsErrorChangePlan(t('Something went wrong..'));
         setIsLoadingChangePlan(false);
       });
   };
@@ -76,8 +76,8 @@ const PlanDetails = ({
         }
         setIsLoadingCurrentPlan(false);
       })
-      .catch(err => {
-        setIsErrorCurrentPlan([err.message]);
+      .catch(() => {
+        setIsErrorCurrentPlan(t('Something went wrong..'));
         setIsLoadingCurrentPlan(false);
       });
   };

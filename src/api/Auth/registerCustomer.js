@@ -1,4 +1,5 @@
 import { sendMessage } from 'util/appConfigHelper';
+import { fetchWithHeaders } from 'util/fetchHelper';
 
 const registerCustomer = async (
   email,
@@ -11,11 +12,7 @@ const registerCustomer = async (
   const url = `https://mediastoreapi-sandbox.cleeng.com/customers`;
 
   try {
-    const resp = await fetch(url, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
+    const resp = await fetchWithHeaders(url, {
       method: 'POST',
       body: JSON.stringify({
         email,

@@ -102,7 +102,13 @@ class LoginForm extends Component {
       await getCustomerLocales()
         .then(resp => {
           setData('CLEENG_CUSTOMER_IP', resp.responseData.ipAddress);
-          Auth.login(!!isMyAccount, false, email, response.responseData.jwt);
+          Auth.login(
+            !!isMyAccount,
+            false,
+            email,
+            response.responseData.jwt,
+            response.responseData.refreshToken
+          );
         })
         .catch(() => {
           this.renderError();

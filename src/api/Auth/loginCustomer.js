@@ -1,14 +1,11 @@
+import { fetchWithHeaders } from 'util/fetchHelper';
 import { sendMessage } from 'util/appConfigHelper';
 
 const loginCustomer = async (email, password, loginBy) => {
   const url = `https://mediastoreapi-sandbox.cleeng.com/auths`;
 
   try {
-    const resp = await fetch(url, {
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
+    const resp = await fetchWithHeaders(url, {
       method: 'POST',
       body: JSON.stringify({
         email,

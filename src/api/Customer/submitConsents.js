@@ -1,9 +1,9 @@
-import jwtDecode from 'jwt-decode';
 import { getData } from 'util/appConfigHelper';
+import fetchWithJWT from 'util/fetchHelper';
 
 const submitConsents = async (consents, consentDefinitions, payload = null) => {
-  const token = getData('CLEENG_AUTH_TOKEN') || '';
-  const { customerId } = jwtDecode(token);
+  const customerId = getData('CLEENG_CUSTOMER_ID') || '';
+
   const url = `https://mediastoreapi-sandbox.cleeng.com/customers/${customerId}/consents`;
   let consentsPayload;
   if (!payload) {
@@ -19,13 +19,9 @@ const submitConsents = async (consents, consentDefinitions, payload = null) => {
   }
 
   try {
-    const res = await fetch(url, {
+    const res = await fetchWithJWT(url, {
       method: 'PUT',
-      body: JSON.stringify({ consents: consentsPayload }),
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json'
-      }
+      body: JSON.stringify({ consents: consentsPayload })
     });
     const json = await res.json();
     return json;

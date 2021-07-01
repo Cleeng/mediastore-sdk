@@ -212,7 +212,9 @@ describe('<UpdateProfile/>', () => {
         />
       );
       setImmediate(() => {
-        expect(wrapper.state().detailsError).toEqual([new Error('error')]);
+        expect(wrapper.state().detailsError).toEqual([
+          'Something went wrong..'
+        ]);
         expect(wrapper.state().isUserDetailsLoading).toBe(false);
         done();
       });

@@ -1,13 +1,12 @@
-import { getData } from 'util/appConfigHelper';
+import fetchWithJWT from 'util/fetchHelper';
 
-const getPaymentMethods = async () => {
-  const token = getData('CLEENG_AUTH_TOKEN') || '';
-  return fetch(`https://mediastoreapi-sandbox.cleeng.com/payment-methods`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Bearer ${token}`
+const getPaymentMethods = () => {
+  return fetchWithJWT(
+    `https://mediastoreapi-sandbox.cleeng.com/payment-methods`,
+    {
+      method: 'GET'
     }
-  }).then(res => res.json());
+  ).then(res => res.json());
 };
 
 export default getPaymentMethods;

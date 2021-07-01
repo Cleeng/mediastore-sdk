@@ -60,7 +60,7 @@ class MyAccount extends Component {
             setConsentsError(response.errors[0]);
           }
         })
-        .catch(err => setConsentsError(err.message));
+        .catch(() => setConsentsError('Something went wrong..'));
     }
 
     if (planDetails.currentPlan.length === 0) {

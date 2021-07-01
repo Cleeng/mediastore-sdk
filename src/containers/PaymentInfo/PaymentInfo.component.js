@@ -46,7 +46,8 @@ class PaymentInfo extends Component {
       setTransactionsList,
       setTransactionsToShow,
       setTransactionsListAsFetched,
-      paymentInfo
+      paymentInfo,
+      t
     } = this.props;
     const { isTransactionListExpanded } = this.state;
 
@@ -84,9 +85,9 @@ class PaymentInfo extends Component {
             isTransactionsItemsLoading: false
           });
         })
-        .catch(err => {
+        .catch(() => {
           this.setState({
-            transactionsError: [err.message],
+            transactionsError: [t('Something went wrong..')],
             isTransactionsItemsLoading: false
           });
         });
@@ -94,7 +95,7 @@ class PaymentInfo extends Component {
   };
 
   fetchPaymentDetials = () => {
-    const { setPaymentMethod } = this.props;
+    const { setPaymentMethod, t } = this.props;
     getPaymentDetails()
       .then(response => {
         if (response.errors.length) {
@@ -109,9 +110,9 @@ class PaymentInfo extends Component {
           });
         }
       })
-      .catch(err => {
+      .catch(() => {
         this.setState({
-          paymentDetailsError: [err.message],
+          paymentDetailsError: [t('Something went wrong..')],
           paymentDetailsLoading: false
         });
       });
@@ -122,7 +123,8 @@ class PaymentInfo extends Component {
       setTransactionsList,
       setTransactionsToShow,
       setTransactionsListAsFetched,
-      hideShowMoreButton
+      hideShowMoreButton,
+      t
     } = this.props;
 
     listCustomerTransactions(DEFAULT_TRANSACTIONS_NUMBER + 1, 0) // fetching +1 transaction to check if have to show 'show more' button
@@ -149,9 +151,9 @@ class PaymentInfo extends Component {
           });
         }
       })
-      .catch(err => {
+      .catch(() => {
         this.setState({
-          transactionsError: [err.message],
+          transactionsError: [t('Something went wrong..')],
           isTransactionsSectionLoading: false
         });
       });

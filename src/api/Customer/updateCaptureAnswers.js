@@ -1,11 +1,8 @@
-import jwtDecode from 'jwt-decode';
 import { getData } from 'util/appConfigHelper';
+import fetchWithJWT from 'util/fetchHelper';
 
 const updateCaptureAnswers = async anwsers => {
-  const token = getData('CLEENG_AUTH_TOKEN') || '';
-  const decoded = jwtDecode(token);
-  const { customerId } = decoded;
-
+  const customerId = getData('CLEENG_CUSTOMER_ID') || '';
   const url = `https://mediastoreapi-sandbox.cleeng.com/customers/${customerId}/capture`;
 
   const payload = {
@@ -24,12 +21,9 @@ const updateCaptureAnswers = async anwsers => {
     customAnswers: anwsers.customAnswers || null
   };
 
-  const resp = await fetch(url, {
+  const resp = await fetchWithJWT(url, {
     method: 'PUT',
-    body: JSON.stringify(payload),
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
+    body: JSON.stringify(payload)
   });
 
   const json = await resp.json();

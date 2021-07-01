@@ -142,7 +142,9 @@ describe('<PaymentInfo/>', () => {
 
       const wrapper = shallow(<PurePaymentInfo {...defaultProps} />);
       setImmediate(() => {
-        expect(wrapper.state('paymentDetailsError')).toEqual(['error']);
+        expect(wrapper.state('paymentDetailsError')).toEqual([
+          'Something went wrong..'
+        ]);
         expect(setPaymentMethodMock).not.toHaveBeenCalled();
         expect(wrapper.state('transactionsError')).toEqual([]);
         expect(setTransactionsListMock).toHaveBeenCalled();
@@ -159,7 +161,9 @@ describe('<PaymentInfo/>', () => {
       setImmediate(() => {
         expect(wrapper.state('paymentDetailsError')).toEqual([]);
         expect(setPaymentMethodMock).toHaveBeenCalled();
-        expect(wrapper.state('transactionsError')).toEqual(['error']);
+        expect(wrapper.state('transactionsError')).toEqual([
+          'Something went wrong..'
+        ]);
         expect(setTransactionsListMock).not.toHaveBeenCalled();
         done();
       });
@@ -332,7 +336,9 @@ describe('<PaymentInfo/>', () => {
       expect(wrapper.state('isTransactionsItemsLoading')).toBe(true);
       expect(listCustomerTransactionsRequest).toHaveBeenCalled();
       setImmediate(() => {
-        expect(wrapper.state('transactionsError')).toEqual(['error']);
+        expect(wrapper.state('transactionsError')).toEqual([
+          'Something went wrong..'
+        ]);
         expect(wrapper.state('isTransactionsItemsLoading')).toBe(false);
         expect(setTransactionsListAsFetchedMock).not.toHaveBeenCalled();
         expect(setTransactionsListMock).not.toHaveBeenCalled();

@@ -16,6 +16,14 @@ export const periodMapper = {
     chargedForEveryText: 'week',
     accessText: 'Weekly'
   },
+  weekly: {
+    label: 'W',
+    color: '#D5749B',
+    bg: '#FFF0FB',
+    border: '#D980A42B',
+    chargedForEveryText: 'week',
+    accessText: 'Weekly'
+  },
   '2week': {
     label: '2',
     color: '#D5749B',
@@ -47,6 +55,14 @@ export const periodMapper = {
     chargedForEveryText: '3 months',
     accessText: 'Three months of a'
   },
+  '3-months': {
+    label: '3',
+    color: '#6399E3',
+    bg: '#EDF3FF',
+    border: '#DAE4FD',
+    chargedForEveryText: '3 months',
+    accessText: 'Three months of a'
+  },
   '6months': {
     label: '6',
     color: '#7172C9',
@@ -55,7 +71,23 @@ export const periodMapper = {
     chargedForEveryText: '6 months',
     accessText: 'Six months of a'
   },
+  '6-months': {
+    label: '6',
+    color: '#7172C9',
+    bg: '#F0F0FF',
+    border: '#6163CD2E',
+    chargedForEveryText: '6 months',
+    accessText: 'Six months of a'
+  },
   year: {
+    label: '12',
+    color: '#5971B9',
+    bg: '#EDF1FF',
+    border: '#39529B2E',
+    chargedForEveryText: 'year',
+    accessText: 'Annual'
+  },
+  annual: {
     label: '12',
     color: '#5971B9',
     bg: '#EDF1FF',

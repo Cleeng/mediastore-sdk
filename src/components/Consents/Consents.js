@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from 'components/Checkbox';
-import getConsentsRequest from 'api/Publisher/getConsents';
+import { getConsents } from 'api';
 import Loader from 'components/Loader';
 import {
   ConsentsWrapperStyled,
@@ -48,7 +48,7 @@ export class Consents extends React.Component {
 
   getConsents = async publisherId => {
     try {
-      const consentsIncome = await getConsentsRequest(publisherId);
+      const consentsIncome = await getConsents(publisherId);
       if (consentsIncome.responseData && consentsIncome.responseData.consents) {
         const consentsDetails = consentsIncome.responseData.consents.map(
           element => {
