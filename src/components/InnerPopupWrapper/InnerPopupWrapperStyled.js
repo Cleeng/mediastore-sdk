@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { MainColor, LineColor } from 'styles/variables';
+import { MainColor, LineColor, ConfirmColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 import Card from 'components/Card';
 
@@ -37,7 +37,7 @@ export const DotsWrapperStyled = styled.div`
     props.currentStep &&
     css`
       span:nth-child(-n + ${props.currentStep}) {
-        background: ${MainColor};
+        background: ${ConfirmColor};
       }
     `}
 `;

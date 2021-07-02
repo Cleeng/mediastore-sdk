@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { MainColor, ErrorColor, ConfirmColor } from 'styles/variables';
+import { MainColor, ConfirmColor, ErrorColor } from 'styles/variables';
 
 export const AdyenStyled = styled.div`
   max-width: 320px;
@@ -37,12 +37,15 @@ export const AdyenStyled = styled.div`
   .adyen-checkout__input:active:hover,
   .adyen-checkout__input:focus,
   .adyen-checkout__input:focus:hover {
-    border: 1px solid ${ConfirmColor};
-    box-shadow: 0 0 0 2px #d9f5ef;
+    border: 1px solid rgb(81 83 100 / 80%);
+    box-shadow: 0 0 5px 2px #f3f3f3;
   }
   .adyen-checkout__spinner {
-    border: 3px solid ${ConfirmColor};
+    border: 3px solid ${MainColor};
     border-top-color: transparent;
+  }
+  .adyen-checkout__input--valid {
+    border-bottom-color: ${ConfirmColor};
   }
 `;
 

@@ -4,7 +4,7 @@ import { BackgroundColor, LineColor, ConfirmColor } from 'styles/variables';
 export const MessageBoxStyled = styled.div`
   display: flex;
   align-items: center;
-  padding: 19px 18px;
+  padding: 12px;
   background-color: ${BackgroundColor};
   border: 1px solid ${LineColor};
   border-radius: 7px;

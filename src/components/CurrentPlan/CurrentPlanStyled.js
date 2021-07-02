@@ -1,7 +1,5 @@
 import styled, { css } from 'styled-components';
-import { IconsColor, White, LineColor, ConfirmColor } from 'styles/variables';
-import { mediaFrom } from 'styles/BreakPoints';
-import Button from 'components/Button';
+import { White, LineColor, ConfirmColor } from 'styles/variables';
 
 export const WrapStyled = styled.div`
   position: relative;
@@ -56,39 +54,6 @@ export const SubscriptionStyled = styled.div`
     `}
 `;
 
-export const SubscriptionActionsStyled = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-
-  border-top: 1px solid ${IconsColor};
-  margin-top: 17px;
-  padding-top: 17px;
-`;
-export const SimpleButtonStyled = styled(Button)`
-  width: 48%;
-
-  text-transform: capitalize;
-  &:disabled:hover {
-    opacity: 0.9;
-  }
-  ${mediaFrom.small &&
-    css`
-      margin: 0;
-      width: unset;
-      max-width: unset;
-    `}
-`;
-
-export const FullWidthButtonStyled = styled(Button)`
-  width: 100%;
-  ${mediaFrom.small &&
-    css`
-      width: unset;
-      max-width: unset;
-    `}
-`;
-
 export const SubscriptionManageWrapStyled = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -111,10 +76,4 @@ export const ButtonTextStyled = styled.span`
 
 export const StatusMessageWrapStyled = styled.div`
   margin-top: 20px;
-`;
-
-export const CouponWrapStyled = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  width: 100%;
 `;

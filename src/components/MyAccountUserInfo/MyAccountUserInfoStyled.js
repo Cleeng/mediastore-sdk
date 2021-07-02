@@ -99,6 +99,7 @@ export const TextStyled = styled.div`
   text-align: center;
   font-weight: ${MediumFontWeight};
   min-height: 19px;
+  max-width: max-content;
 `;
 
 export const DetailsStyled = styled.div`

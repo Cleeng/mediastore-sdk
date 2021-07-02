@@ -25,6 +25,8 @@ class OfferContainer extends Component {
       couponProps: null,
       error: '',
       offerId: null,
+      isFreeOffer: false,
+      isFreeOrderReady: false,
       orderDetails: {
         priceBreakdown: {
           offerPrice: 0,
@@ -66,7 +68,9 @@ class OfferContainer extends Component {
                   if (!orderDetailsResponse.errors.length) {
                     this.setState({
                       orderDetails: orderDetailsResponse.responseData.order,
-                      isOrderCreated: true
+                      isOrderCreated: true,
+                      isFreeOffer:
+                        orderDetailsResponse.responseData.order.totalPrice === 0
                     });
                     setData(
                       'CLEENG_ORDER_ID',
@@ -90,6 +94,10 @@ class OfferContainer extends Component {
                         paymentMethodId: properPaymentMethodId
                           ? properPaymentMethodId.id
                           : 0
+                      }).then(() => {
+                        this.setState({
+                          isFreeOrderReady: true
+                        });
                       });
                     });
                   }
@@ -157,7 +165,9 @@ class OfferContainer extends Component {
       offerDetails,
       couponProps,
       orderDetails,
-      isOrderCreated
+      isOrderCreated,
+      isFreeOffer,
+      isFreeOrderReady
     } = this.state;
     const { onPaymentComplete, t } = this.props;
     if (error) {
@@ -180,7 +190,9 @@ class OfferContainer extends Component {
       }
       return <Redirect to="/login" />;
     }
-    return offerDetails && isOrderCreated ? (
+    return offerDetails &&
+      isOrderCreated &&
+      (isFreeOffer ? isFreeOrderReady : true) ? (
       <Offer
         offerDetails={offerDetails}
         orderDetails={orderDetails}

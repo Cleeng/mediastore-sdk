@@ -42,6 +42,10 @@ class PaymentInfo extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.setState = () => {};
+  }
+
   toggleTransactionsList = () => {
     const {
       setTransactionsList,

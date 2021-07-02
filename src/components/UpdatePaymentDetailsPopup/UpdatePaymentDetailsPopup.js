@@ -86,8 +86,11 @@ const UpdatePaymentDetailsPopup = ({ hideInnerPopup, t }) => {
             <Adyen onSubmit={addAdyenPaymentDetails} isCheckout={false} />
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={() => hideInnerPopup()}>
-              {t('Cancel')}
+            <Button
+              theme="simple"
+              onClickFn={() => setStep(currentStep => currentStep - 1)}
+            >
+              {t('Back')}
             </Button>
           </ButtonWrapperStyled>
         </>
@@ -111,8 +114,11 @@ const UpdatePaymentDetailsPopup = ({ hideInnerPopup, t }) => {
             </Button>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={() => hideInnerPopup()}>
-              {t('Cancel')}
+            <Button
+              theme="simple"
+              onClickFn={() => setStep(currentStep => currentStep - 1)}
+            >
+              {t('Back')}
             </Button>
           </ButtonWrapperStyled>
         </>
