@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { MainColor } from 'styles/variables';
+import { MainColor, IconsColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const WrapStyled = styled.div`
@@ -15,7 +15,7 @@ export const WrapStyled = styled.div`
   ${props =>
     props.withBorder &&
     css`
-      border: 1px dashed ${MainColor};
+      border: 1px dashed ${IconsColor};
       border-radius: 20px;
       padding: 35px 0;
     `}
@@ -66,7 +66,7 @@ export const WrapStyled = styled.div`
 
 export const TitleStyled = styled.div`
   max-width: 380px;
-  margin: auto auto 5px auto;
+  margin: 10px auto 0 auto;
 
   color: ${MainColor};
 
@@ -79,11 +79,11 @@ export const SubTitleStyled = styled.div`
   font-size: 13px;
 
   max-width: 310px;
-  margin: auto;
+  margin: 5px auto 20px auto;
 `;
 
 export const IconStyled = styled.div`
-  margin: 0 auto 10px auto;
+  margin: auto auto 10px auto;
   svg {
     max-width: 100%;
   }

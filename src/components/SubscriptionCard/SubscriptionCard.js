@@ -48,7 +48,7 @@ const SubscriptionCard = ({
       icon: BlockedIcon
     },
     SUBSCRIPTION_WITH_COUPON_NOT_ALLOWED: {
-      text: t('You can`t upgrade your subscription if coupon was applied.'),
+      text: t("You can't upgrade your subscription if coupon was applied."),
       icon: BlockedIcon
     }
   };

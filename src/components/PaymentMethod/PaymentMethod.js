@@ -54,7 +54,7 @@ const PaymentMethod = ({
   ) : (
     <WrapStyled>
       {error.length !== 0 ? (
-        <MyAccountError generalError fullHeight />
+        <MyAccountError generalError />
       ) : !activePaymentMethod ? (
         <MyAccountError
           icon={AddIcon}

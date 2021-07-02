@@ -76,6 +76,10 @@ class UpdateProfile extends Component {
     }
   }
 
+  componentWillUnmount() {
+    this.setState = () => {};
+  }
+
   getObjectByKey = (array, key) => {
     return array.find(setting => setting.key === key);
   };
