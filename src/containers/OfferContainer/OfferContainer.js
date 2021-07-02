@@ -65,32 +65,35 @@ class OfferContainer extends Component {
             )
               createOrder(offerDetailsResponse.responseData.offerId).then(
                 orderDetailsResponse => {
-                  if (!orderDetailsResponse.errors.length) {
-                    this.setState({
-                      orderDetails: orderDetailsResponse.responseData.order,
-                      isOrderCreated: true,
-                      isFreeOffer:
-                        orderDetailsResponse.responseData.order.totalPrice === 0
-                    });
-                    setData(
-                      'CLEENG_ORDER_ID',
-                      orderDetailsResponse.responseData.order.id
-                    );
-                  } else {
-                    this.setState({ error: orderDetailsResponse.errors[0] });
+                  const { errors } = orderDetailsResponse;
+                  if (errors.length) {
+                    this.setState({ error: errors[0] });
+                    return;
                   }
-                  if (
-                    orderDetailsResponse.responseData.order.totalPrice === 0 &&
-                    !orderDetailsResponse.responseData.order.discount.applied
-                  ) {
+                  const {
+                    responseData: { order }
+                  } = orderDetailsResponse;
+                  const isFreeOffer =
+                    order.totalPrice === 0 && !order.discount.applied;
+                  this.setState({
+                    orderDetails: order,
+                    isOrderCreated: true,
+                    isFreeOffer
+                  });
+                  setData('CLEENG_ORDER_ID', order.id);
+
+                  if (isFreeOffer) {
                     getPaymentMethods().then(paymentMethodResponse => {
-                      const properPaymentMethodId = paymentMethodResponse.responseData.paymentMethods.find(
+                      const {
+                        responseData: { paymentMethods }
+                      } = paymentMethodResponse;
+                      const properPaymentMethodId = paymentMethods.find(
                         method =>
                           getData('CLEENG_OFFER_TYPE') === 'S'
                             ? method.methodName === 'manual'
                             : method.methodName !== 'manual'
                       );
-                      updateOrder(orderDetailsResponse.responseData.order.id, {
+                      updateOrder(order.id, {
                         paymentMethodId: properPaymentMethodId
                           ? properPaymentMethodId.id
                           : 0
