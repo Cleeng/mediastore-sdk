@@ -4,7 +4,8 @@ import {
   setTransactionsList,
   setTransactionsToShow,
   setTransactionsListAsFetched,
-  hideShowMoreButton
+  hideShowMoreButton,
+  setPaymentsSettings
 } from 'redux/paymentInfo';
 import { showInnerPopup, hideInnerPopup } from 'redux/innerPopupReducer';
 import PaymentInfo from './PaymentInfo.component';
@@ -38,6 +39,9 @@ export const mapDispatchToProps = dispatch => {
     },
     hideInnerPopup: () => {
       dispatch(hideInnerPopup());
+    },
+    setPaymentsSettings: payload => {
+      dispatch(setPaymentsSettings(payload));
     }
   };
 };

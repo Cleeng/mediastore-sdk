@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import updatePayPalPaymentDetails from 'api/PaymentDetails/updatePayPalPaymentDetails';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { ReactComponent as CheckmackIcon } from 'assets/images/greenCheckmark.svg';
-
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
+import SkeletonWrapper from 'components/SkeletonWrapper';
+import Loader from 'components/Loader';
 import {
   ContentStyled,
   TitleStyled,
@@ -13,7 +15,8 @@ import {
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
-import paymentMethods from './paymentMethods.const';
+import { getPaymentMethods } from 'api';
+import supportedPaymentGateways from './definedPaymentMethods.const';
 import {
   PaymentMethodStyled,
   PaymentMethodTextStyled,
@@ -24,16 +27,57 @@ import {
   PPIconStyled
 } from './UpdatePaymentDetailsPopupStyled';
 
-const UpdatePaymentDetailsPopup = ({ hideInnerPopup, t }) => {
+const UpdatePaymentDetailsPopup = ({
+  hideInnerPopup,
+  paymentsSettings,
+  setPaymentsSettings,
+  t
+}) => {
   const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [newMethod, setNewMethod] = useState(null);
 
   // const addAdyenPaymentDetails = ({ data: { paymentMethod: card } }) => {
   //   console.log('card', card);
   //   setStep(currentStep => currentStep + 1);
   // };
+
+  useEffect(() => {
+    if (!paymentsSettings) {
+      setIsLoading(true);
+      getPaymentMethods().then(resp => {
+        if (resp.responseData) {
+          const {
+            responseData: { paymentMethods }
+          } = resp;
+          if (paymentMethods) {
+            const adyenData = paymentMethods.find(
+              item => item.paymentGateway === 'adyen'
+            );
+            const payPalData = paymentMethods.find(
+              item => item.paymentGateway === 'paypal'
+            );
+            setPaymentsSettings({
+              payPal: payPalData?.id,
+              adyen: adyenData?.id
+            });
+          }
+          setIsLoading(false);
+        }
+      });
+    }
+  }, []);
+
   const addAdyenPaymentDetails = () => {
     setStep(currentStep => currentStep + 1);
+  };
+
+  const addPayPalPaymentDetails = () => {
+    setIsButtonLoading(true);
+    updatePayPalPaymentDetails(paymentsSettings.payPal).then(resp => {
+      window.location.href = resp.responseData.redirectUrl;
+    });
   };
 
   return (
@@ -46,30 +90,35 @@ const UpdatePaymentDetailsPopup = ({ hideInnerPopup, t }) => {
               Update current payment method or select a new one below to pay for
               Subscription Plans
             </TextStyled>
-            {paymentMethods.map(method => {
-              const IconComponent = method.icon ? method.icon : React.Fragment;
-              return (
-                <PaymentMethodStyled
-                  key={method.key}
-                  onClick={() => {
-                    setStep(currentStep => currentStep + 1);
-                    setNewMethod(method.key);
-                  }}
-                >
-                  <PaymentMethodIconStyled>
-                    <IconComponent />
-                  </PaymentMethodIconStyled>
-                  <PaymentMethodTextStyled>
-                    <PaymentMethodTitleStyled>
-                      {method.title}
-                    </PaymentMethodTitleStyled>
-                    <PaymentMethodDescStyled>
-                      {method.description}
-                    </PaymentMethodDescStyled>
-                  </PaymentMethodTextStyled>
-                </PaymentMethodStyled>
-              );
-            })}
+            <SkeletonWrapper showChildren={!isLoading} height={90}>
+              {supportedPaymentGateways.map(item => {
+                const IconComponent = item.icon ? item.icon : React.Fragment;
+                if (paymentsSettings && paymentsSettings[item.paymentGateway]) {
+                  return (
+                    <PaymentMethodStyled
+                      key={item.key}
+                      onClick={() => {
+                        setStep(currentStep => currentStep + 1);
+                        setNewMethod(item.key);
+                      }}
+                    >
+                      <PaymentMethodIconStyled>
+                        <IconComponent />
+                      </PaymentMethodIconStyled>
+                      <PaymentMethodTextStyled>
+                        <PaymentMethodTitleStyled>
+                          {item.title}
+                        </PaymentMethodTitleStyled>
+                        <PaymentMethodDescStyled>
+                          {item.description}
+                        </PaymentMethodDescStyled>
+                      </PaymentMethodTextStyled>
+                    </PaymentMethodStyled>
+                  );
+                }
+                return null;
+              })}
+            </SkeletonWrapper>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
             <Button theme="simple" onClickFn={() => hideInnerPopup()}>
@@ -108,9 +157,16 @@ const UpdatePaymentDetailsPopup = ({ hideInnerPopup, t }) => {
               width="50%"
               margin="40px auto auto auto"
               theme="paypal"
+              onClickFn={addPayPalPaymentDetails}
             >
-              <PPIconStyled />
-              PayPal
+              {isButtonLoading ? (
+                <Loader buttonLoader color="#ffffff" />
+              ) : (
+                <>
+                  <PPIconStyled />
+                  PayPal
+                </>
+              )}
             </Button>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
@@ -147,11 +203,15 @@ const UpdatePaymentDetailsPopup = ({ hideInnerPopup, t }) => {
 
 UpdatePaymentDetailsPopup.propTypes = {
   hideInnerPopup: PropTypes.func,
+  setPaymentsSettings: PropTypes.func,
+  paymentsSettings: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func
 };
 
 UpdatePaymentDetailsPopup.defaultProps = {
   hideInnerPopup: () => {},
+  setPaymentsSettings: () => {},
+  paymentsSettings: null,
   t: k => k
 };
 
