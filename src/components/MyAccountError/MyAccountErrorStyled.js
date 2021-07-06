@@ -79,7 +79,7 @@ export const SubTitleStyled = styled.div`
   font-size: 13px;
 
   max-width: 310px;
-  margin: 5px auto 20px auto;
+  margin: 5px auto 0 auto;
 `;
 
 export const IconStyled = styled.div`

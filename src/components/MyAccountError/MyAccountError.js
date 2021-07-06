@@ -48,7 +48,7 @@ const MyAccountError = ({
       </SubTitleStyled>
       {generalError && (
         <Button
-          margin="0 auto auto auto"
+          margin="20px auto auto auto"
           width="auto"
           onClickFn={() => window.location.reload()}
         >

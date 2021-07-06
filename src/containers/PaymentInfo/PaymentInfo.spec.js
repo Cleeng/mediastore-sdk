@@ -28,6 +28,7 @@ const setTransactionsListAsFetchedMock = jest.fn();
 const hideShowMoreButtonMock = jest.fn();
 const showInnerPopupMock = jest.fn();
 const hideInnerPopupMock = jest.fn();
+const setPaymentsSettingsMock = jest.fn();
 const paymentDetailsData = {
   id: 193925086,
   customerId: 280372348,
@@ -57,6 +58,7 @@ const defaultProps = {
   setTransactionsList: setTransactionsListMock,
   setTransactionsToShow: setTransactionsToShowMock,
   setTransactionsListAsFetched: setTransactionsListAsFetchedMock,
+  setPaymentsSettings: setPaymentsSettingsMock,
   hideShowMoreButton: hideShowMoreButtonMock,
   showInnerPopup: showInnerPopupMock,
   hideInnerPopup: hideInnerPopupMock,

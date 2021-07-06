@@ -170,6 +170,7 @@ class PaymentInfo extends Component {
       showInnerPopup,
       innerPopup,
       hideInnerPopup,
+      setPaymentsSettings,
       t
     } = this.props;
     const {
@@ -184,8 +185,9 @@ class PaymentInfo extends Component {
       <WrapStyled>
         {innerPopup.isOpen && innerPopup.type === 'paymentDetails' ? (
           <UpdatePaymentDetailsPopup
-            currentDetails={paymentInfo.activePaymentMethod}
             hideInnerPopup={hideInnerPopup}
+            setPaymentsSettings={setPaymentsSettings}
+            paymentsSettings={paymentInfo.paymentsSettings}
           />
         ) : (
           <>
@@ -223,6 +225,7 @@ PaymentInfo.propTypes = {
   showInnerPopup: PropTypes.func.isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
   innerPopup: PropTypes.objectOf(PropTypes.any).isRequired,
+  setPaymentsSettings: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 

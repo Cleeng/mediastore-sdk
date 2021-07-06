@@ -19,13 +19,17 @@ export const setTransactionsListAsFetched = createAction(
 export const HIDE_SHOW_MORE_BUTTON = 'HIDE_SHOW_MORE_BUTTON';
 export const hideShowMoreButton = createAction(HIDE_SHOW_MORE_BUTTON);
 
+export const SET_PAYMENTS_SETTINGS = 'SET_PAYMENTS_SETTINGS';
+export const setPaymentsSettings = createAction(SET_PAYMENTS_SETTINGS);
+
 const initialState = {
   paymentMethod: [],
   transactionsList: [],
   transactionsToShow: [],
   isTransactionListFetched: false,
   isShowMoreButtonHidden: false,
-  activePaymentMethod: null
+  activePaymentMethod: null,
+  paymentsSettings: null
 };
 
 const paymentMethodReducer = createReducer(initialState, {
@@ -53,6 +57,9 @@ const paymentMethodReducer = createReducer(initialState, {
   },
   HIDE_SHOW_MORE_BUTTON: state => {
     state.isShowMoreButtonHidden = true;
+  },
+  SET_PAYMENTS_SETTINGS: (state, action) => {
+    state.paymentsSettings = action.payload;
   }
 });
 
