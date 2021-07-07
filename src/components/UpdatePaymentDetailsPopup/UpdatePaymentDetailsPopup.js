@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import updatePayPalPaymentDetails from 'api/PaymentDetails/updatePayPalPaymentDetails';
+import updateAdyenPaymentDetails from 'api/PaymentDetails/updateAdyenPaymentDetails';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { ReactComponent as CheckmackIcon } from 'assets/images/greenCheckmark.svg';
@@ -24,24 +25,28 @@ import {
   PaymentMethodDescStyled,
   PaymentMethodIconStyled,
   ImageWrapper,
-  PPIconStyled
+  PPIconStyled,
+  ErrorMessage
 } from './UpdatePaymentDetailsPopupStyled';
 
 const UpdatePaymentDetailsPopup = ({
   hideInnerPopup,
   paymentsSettings,
   setPaymentsSettings,
+  updatePaymentDetailsSection,
   t
 }) => {
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const [newMethod, setNewMethod] = useState(null);
 
-  // const addAdyenPaymentDetails = ({ data: { paymentMethod: card } }) => {
-  //   console.log('card', card);
-  //   setStep(currentStep => currentStep + 1);
-  // };
+  useEffect(() => {
+    if (isError) {
+      setIsError(false);
+    }
+  }, [step]);
 
   useEffect(() => {
     if (!paymentsSettings) {
@@ -69,15 +74,36 @@ const UpdatePaymentDetailsPopup = ({
     }
   }, []);
 
-  const addAdyenPaymentDetails = () => {
-    setStep(currentStep => currentStep + 1);
+  const addAdyenPaymentDetails = ({ data: { paymentMethod: card } }) => {
+    setIsButtonLoading(true);
+    setIsError(false);
+    updateAdyenPaymentDetails(paymentsSettings.adyen, card)
+      .then(resp => {
+        setIsButtonLoading(false);
+        if (!resp.errors.length) {
+          setStep(currentStep => currentStep + 1);
+          updatePaymentDetailsSection();
+        } else {
+          setIsError(true);
+        }
+      })
+      .catch(() => {
+        setIsButtonLoading(false);
+        setIsError(true);
+      });
   };
 
   const addPayPalPaymentDetails = () => {
     setIsButtonLoading(true);
-    updatePayPalPaymentDetails(paymentsSettings.payPal).then(resp => {
-      window.location.href = resp.responseData.redirectUrl;
-    });
+    setIsError(false);
+    updatePayPalPaymentDetails(paymentsSettings.payPal)
+      .then(resp => {
+        window.location.href = resp.responseData.redirectUrl;
+      })
+      .catch(() => {
+        setIsButtonLoading(false);
+        setIsError(true);
+      });
   };
 
   return (
@@ -132,7 +158,16 @@ const UpdatePaymentDetailsPopup = ({
           <ContentStyled>
             <TitleStyled>Credit Card</TitleStyled>
             <TextStyled>Add your credit card details.</TextStyled>
-            <Adyen onSubmit={addAdyenPaymentDetails} isCheckout={false} />
+            <Adyen
+              onSubmit={addAdyenPaymentDetails}
+              isCheckout={false}
+              isPaymentProcessing={isButtonLoading}
+            />
+            {isError && (
+              <ErrorMessage>
+                Oops, something went wrong! Try again...
+              </ErrorMessage>
+            )}
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
             <Button
@@ -168,6 +203,11 @@ const UpdatePaymentDetailsPopup = ({
                 </>
               )}
             </Button>
+            {isError && (
+              <ErrorMessage>
+                Oops, something went wrong! Try again...
+              </ErrorMessage>
+            )}
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
             <Button
@@ -204,6 +244,7 @@ const UpdatePaymentDetailsPopup = ({
 UpdatePaymentDetailsPopup.propTypes = {
   hideInnerPopup: PropTypes.func,
   setPaymentsSettings: PropTypes.func,
+  updatePaymentDetailsSection: PropTypes.func,
   paymentsSettings: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func
 };
@@ -211,6 +252,7 @@ UpdatePaymentDetailsPopup.propTypes = {
 UpdatePaymentDetailsPopup.defaultProps = {
   hideInnerPopup: () => {},
   setPaymentsSettings: () => {},
+  updatePaymentDetailsSection: () => {},
   paymentsSettings: null,
   t: k => k
 };

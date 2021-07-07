@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import styled from 'styled-components';
-import { LineColor, MainColor } from 'styles/variables';
+import { LineColor, MainColor, ErrorColor } from 'styles/variables';
 import { ReactComponent as PPIcon } from 'assets/images/paymentMethods/paypal_short.svg';
 
 export const PaymentMethodStyled = styled.button`
@@ -60,4 +60,11 @@ export const ImageWrapper = styled.div`
 export const PPIconStyled = styled(props => <PPIcon {...props} />)`
   margin-right: 10px;
   filter: brightness(0) invert(1);
+`;
+
+export const ErrorMessage = styled.p`
+  width: 100%;
+  color: ${ErrorColor};
+  margin: 10px 0;
+  text-align: center;
 `;

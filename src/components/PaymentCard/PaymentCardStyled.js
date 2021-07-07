@@ -59,7 +59,7 @@ export const CardNumberStyled = styled.div`
 
 export const CardExpirationStyled = styled.div`
   position: absolute;
-  bottom: 18px;
+  bottom: 20px;
   left: 16px;
   color: ${White};
   font-size: 12px;
@@ -79,6 +79,10 @@ export const CardExpirationDateStyled = styled.div`
   color: ${White};
   font-size: 13px;
   z-index: 2;
+  max-width: 125px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
 `;
 
 export const CardEditStyled = styled.button`
