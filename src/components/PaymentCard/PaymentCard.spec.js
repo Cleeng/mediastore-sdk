@@ -8,7 +8,8 @@ import {
   CardWrapStyled,
   CardEditStyled,
   CardExpirationStyled,
-  CardNumberStyled
+  CardNumberStyled,
+  CardExpirationLabel
 } from './PaymentCardStyled';
 
 jest.mock('containers/labeling', () => () => Component => props => (
@@ -46,6 +47,17 @@ describe('<PaymentCard/>', () => {
     },
     showInnerPopup: showInnerPopupMock
   };
+
+  const payPalPaymentMethod = {
+    paymentGateway: 'adyen',
+    paymentMethod: 'card',
+    paymentMethodSpecificParams: {
+      holderName: 'dsadsadsa'
+    },
+    paymentMethodId: null,
+    active: true,
+    bound: false
+  };
   describe('@renders', () => {
     it('should render initial state', () => {
       const wrapper = shallow(<PaymentCard {...defaultProps} />);
@@ -56,6 +68,16 @@ describe('<PaymentCard/>', () => {
       const wrapper = shallow(<PaymentCard {...defaultProps} />);
       expect(wrapper.find(CardNumberStyled)).toHaveLength(1);
       expect(wrapper.find(CardExpirationStyled)).toHaveLength(1);
+    });
+    it('should show holder name when no cardExpirationDate', () => {
+      const wrapper = shallow(
+        <PaymentCard
+          {...defaultProps}
+          activePaymentMethod={payPalPaymentMethod}
+        />
+      );
+      expect(wrapper.find(CardExpirationStyled)).toHaveLength(1);
+      expect(wrapper.find(CardExpirationLabel).text()).toBe('Holder name');
     });
   });
 });

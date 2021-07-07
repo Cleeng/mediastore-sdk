@@ -43,7 +43,9 @@ class PaymentInfo extends Component {
   }
 
   componentWillUnmount() {
+    const { hideInnerPopup } = this.props;
     this.setState = () => {};
+    hideInnerPopup();
   }
 
   toggleTransactionsList = () => {
@@ -164,6 +166,13 @@ class PaymentInfo extends Component {
       });
   };
 
+  updatePaymentDetailsSection = () => {
+    this.setState({
+      paymentDetailsLoading: true
+    });
+    this.fetchPaymentDetials();
+  };
+
   render() {
     const {
       paymentInfo,
@@ -188,6 +197,7 @@ class PaymentInfo extends Component {
             hideInnerPopup={hideInnerPopup}
             setPaymentsSettings={setPaymentsSettings}
             paymentsSettings={paymentInfo.paymentsSettings}
+            updatePaymentDetailsSection={this.updatePaymentDetailsSection}
           />
         ) : (
           <>

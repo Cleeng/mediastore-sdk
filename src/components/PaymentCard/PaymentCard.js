@@ -48,6 +48,15 @@ const PaymentCard = ({
               </CardExpirationDateStyled>
             </CardExpirationStyled>
           )}
+          {paymentMethodSpecificParams?.holderName &&
+            !paymentMethodSpecificParams?.cardExpirationDate && (
+              <CardExpirationStyled>
+                <CardExpirationLabel>{t('Holder name')}</CardExpirationLabel>
+                <CardExpirationDateStyled>
+                  {paymentMethodSpecificParams.holderName}
+                </CardExpirationDateStyled>
+              </CardExpirationStyled>
+            )}
           <CardEditStyled onClick={() => showInnerPopup()}>
             {t('Edit payment info')}
           </CardEditStyled>
