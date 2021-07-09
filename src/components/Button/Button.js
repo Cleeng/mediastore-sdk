@@ -17,7 +17,8 @@ export const BUTTON_THEME = {
   LINK: 'link',
   PAYMENT: 'payment',
   CONFIRM: 'confirm',
-  PAYPAL: 'paypal'
+  PAYPAL: 'paypal',
+  DANGER: 'danger'
 };
 
 const Button = ({
