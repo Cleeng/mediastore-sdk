@@ -86,6 +86,17 @@ const ButtonStyled = styled.button`
           opacity: 1;
         }
       `) ||
+    (props.theme === 'danger' &&
+      css`
+        color: ${colors.White};
+        background-color: ${colors.ErrorColor};
+        opacity: 0.9;
+        &:hover,
+        &:focus {
+          cursor: pointer;
+          opacity: 1;
+        }
+      `) ||
     (props.theme === 'payment' &&
       css`
         height: 48px;

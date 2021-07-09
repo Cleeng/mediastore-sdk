@@ -3,6 +3,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { LineColor, MainColor, ErrorColor } from 'styles/variables';
 import { ReactComponent as PPIcon } from 'assets/images/paymentMethods/paypal_short.svg';
+import { ReactComponent as DeleteIcon } from 'assets/images/remove_icon.svg';
 
 export const PaymentMethodStyled = styled.button`
   display: flex;
@@ -67,4 +68,23 @@ export const ErrorMessage = styled.p`
   color: ${ErrorColor};
   margin: 10px 0;
   text-align: center;
+`;
+
+export const RemoveLinkStyled = styled.a`
+  color: ${ErrorColor};
+  text-decoration: underline;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+export const DeleteIconStyled = styled(props => <DeleteIcon {...props} />)`
+  margin-right: 10px;
+  font-size: 9px;
 `;
