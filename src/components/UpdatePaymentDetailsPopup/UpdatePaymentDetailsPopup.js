@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -28,17 +29,19 @@ import {
 
 const UpdatePaymentDetailsPopup = ({
   hideInnerPopup,
-  paymentsSettings,
-  setPaymentsSettings,
+  setPublisherPaymentMethods,
   updatePaymentDetailsSection,
+  selectedPaymentMethod,
   t
 }) => {
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [action, setAction] = useState(null);
-
+  const publisherPaymentMethods = useSelector(
+    state => state.paymentInfo.publisherPaymentMethods
+  );
   useEffect(() => {
-    if (!paymentsSettings) {
+    if (!publisherPaymentMethods) {
       setIsLoading(true);
       getPaymentMethods().then(resp => {
         if (resp.responseData) {
@@ -47,13 +50,13 @@ const UpdatePaymentDetailsPopup = ({
           } = resp;
           if (paymentMethods) {
             const adyenData = paymentMethods.find(
-              item => item.paymentGateway === 'adyen'
+              item => item.methodName === 'card'
             );
-            const payPalData = paymentMethods.find(
-              item => item.paymentGateway === 'paypal'
+            const paypalData = paymentMethods.find(
+              item => item.methodName === 'paypal'
             );
-            setPaymentsSettings({
-              payPal: payPalData?.id,
+            setPublisherPaymentMethods({
+              paypal: paypalData?.id,
               adyen: adyenData?.id
             });
           }
@@ -68,17 +71,21 @@ const UpdatePaymentDetailsPopup = ({
       case ACTIONS.addCard:
         return (
           <AddCard
-            paymentsSettings={paymentsSettings}
             setStep={setStep}
             updatePaymentDetailsSection={updatePaymentDetailsSection}
           />
         );
       case ACTIONS.addPayPal:
-        return (
-          <AddPayPal paymentsSettings={paymentsSettings} setStep={setStep} />
-        );
+        return <AddPayPal setStep={setStep} />;
       case ACTIONS.delete:
-        return <DeletePaymentMethod hideInnerPopup={hideInnerPopup} />;
+        return (
+          <DeletePaymentMethod
+            hideInnerPopup={hideInnerPopup}
+            paymentDetailsToDelete={selectedPaymentMethod}
+            setStep={setStep}
+            updatePaymentDetailsSection={updatePaymentDetailsSection}
+          />
+        );
       default:
         return '';
     }
@@ -102,7 +109,10 @@ const UpdatePaymentDetailsPopup = ({
             <SkeletonWrapper showChildren={!isLoading} height={90}>
               {supportedPaymentGateways.map(item => {
                 const IconComponent = item.icon ? item.icon : React.Fragment;
-                if (paymentsSettings && paymentsSettings[item.paymentGateway]) {
+                if (
+                  publisherPaymentMethods &&
+                  publisherPaymentMethods[item.paymentGateway]
+                ) {
                   return (
                     <PaymentMethodStyled
                       key={item.key}
@@ -129,15 +139,17 @@ const UpdatePaymentDetailsPopup = ({
               })}
             </SkeletonWrapper>
             <SkeletonWrapper showChildren={!isLoading}>
-              <RemoveLinkStyled
-                onClick={() => {
-                  setStep(currentStep => currentStep + 1);
-                  setAction(ACTIONS.delete);
-                }}
-              >
-                <DeleteIconStyled />
-                Remove your payment method
-              </RemoveLinkStyled>
+              {selectedPaymentMethod.id && (
+                <RemoveLinkStyled
+                  onClick={() => {
+                    setStep(currentStep => currentStep + 1);
+                    setAction(ACTIONS.delete);
+                  }}
+                >
+                  <DeleteIconStyled />
+                  Remove your payment method
+                </RemoveLinkStyled>
+              )}
             </SkeletonWrapper>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
@@ -155,17 +167,17 @@ const UpdatePaymentDetailsPopup = ({
 
 UpdatePaymentDetailsPopup.propTypes = {
   hideInnerPopup: PropTypes.func,
-  setPaymentsSettings: PropTypes.func,
+  setPublisherPaymentMethods: PropTypes.func,
   updatePaymentDetailsSection: PropTypes.func,
-  paymentsSettings: PropTypes.objectOf(PropTypes.any),
+  selectedPaymentMethod: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func
 };
 
 UpdatePaymentDetailsPopup.defaultProps = {
   hideInnerPopup: () => {},
-  setPaymentsSettings: () => {},
+  setPublisherPaymentMethods: () => {},
   updatePaymentDetailsSection: () => {},
-  paymentsSettings: null,
+  selectedPaymentMethod: {},
   t: k => k
 };
 

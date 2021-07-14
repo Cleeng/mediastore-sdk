@@ -12,6 +12,7 @@ import SubscriptionCard from 'components/SubscriptionCard';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import mapErrorToText from './helper';
 
 const SubscriptionSwitchesList = ({
@@ -84,7 +85,7 @@ const SubscriptionSwitchesList = ({
               <SimpleButtonStyled
                 onClickFn={() => {
                   showInnerPopup({
-                    type: 'switchPlan',
+                    type: POPUP_TYPES.switchPlan,
                     data: {
                       offerData: {
                         ...subItem

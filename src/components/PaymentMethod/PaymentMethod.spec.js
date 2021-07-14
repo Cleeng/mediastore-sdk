@@ -50,14 +50,6 @@ const paymentDetails = {
   active: true
 };
 
-const applePaymentDetails = {
-  id: 193925084,
-  customerId: 280372348,
-  paymentGateway: 'ios',
-  paymentMethod: 'ios',
-  paymentMethodSpecificParams: {}
-};
-
 describe('<PaymentMethod/>', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -65,22 +57,20 @@ describe('<PaymentMethod/>', () => {
 
   describe('@renders', () => {
     const showPopupMock = jest.fn();
-
-    it('should render initial state', () => {
-      const wrapper = mount(<PurePaymentMethod />);
-      expect(wrapper.prop('activePaymentMethod')).toEqual({});
-    });
     it('should show the message if type is not supported', () => {
       const wrapper = mount(
         <PurePaymentMethod
-          activePaymentMethod={mockPaymentDetailsNotSupported}
+          activeOrBoundPaymentDetails={[mockPaymentDetailsNotSupported]}
         />
       );
       expect(wrapper.find(Message)).toHaveLength(1);
     });
     it('should render error when request failed', () => {
       const wrapper = shallow(
-        <PurePaymentMethod error={['errorMock']} activePaymentMethod={null} />
+        <PurePaymentMethod
+          error={['errorMock']}
+          activeOrBoundPaymentDetails={[]}
+        />
       );
       expect(wrapper.find(MyAccountError)).toHaveLength(1);
       expect(wrapper.find(MyAccountError).prop('generalError')).toBe(true);
@@ -88,7 +78,7 @@ describe('<PaymentMethod/>', () => {
     it('should open popup to add payment details', () => {
       const wrapper = mount(
         <PurePaymentMethod
-          activePaymentMethod={null}
+          activeOrBoundPaymentDetails={[]}
           showInnerPopup={showPopupMock}
         />
       );
@@ -100,15 +90,12 @@ describe('<PaymentMethod/>', () => {
     it('should render PaymentCard with proper desctiption', () => {
       const wrapper = shallow(
         <PurePaymentMethod
-          activePaymentMethod={paymentDetails}
+          activeOrBoundPaymentDetails={[paymentDetails]}
           showInnerPopup={showPopupMock}
         />
       );
       expect(wrapper.find(PaymentDetailsStyled)).toHaveLength(1);
       expect(wrapper.find(PaymentCard)).toHaveLength(1);
-      wrapper.setProps({ activePaymentMethod: applePaymentDetails });
-      expect(wrapper.find(Message)).toHaveLength(1);
-      expect(wrapper.find(Message).text()).toBe('Paid & managed via iTunes');
     });
   });
 });

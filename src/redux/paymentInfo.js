@@ -1,8 +1,8 @@
 /* eslint-disable no-param-reassign */
 import { createAction, createReducer } from '@reduxjs/toolkit';
 
-export const SET_PAYMENT_METHOD = 'SET_PAYMENT_METHOD';
-export const setPaymentMethod = createAction(SET_PAYMENT_METHOD);
+export const SET_PAYMENT_DETAILS = 'SET_PAYMENT_DETAILS';
+export const setPaymentDetails = createAction(SET_PAYMENT_DETAILS);
 
 export const SET_TRANSACTIONS_LIST = 'SET_TRANSACTIONS_LIST';
 export const setTransactionsList = createAction(SET_TRANSACTIONS_LIST);
@@ -19,25 +19,27 @@ export const setTransactionsListAsFetched = createAction(
 export const HIDE_SHOW_MORE_BUTTON = 'HIDE_SHOW_MORE_BUTTON';
 export const hideShowMoreButton = createAction(HIDE_SHOW_MORE_BUTTON);
 
-export const SET_PAYMENTS_SETTINGS = 'SET_PAYMENTS_SETTINGS';
-export const setPaymentsSettings = createAction(SET_PAYMENTS_SETTINGS);
+export const SET_PUBLISHER_PAYMENT_METHODS = 'SET_PUBLISHER_PAYMENT_METHODS';
+export const setPublisherPaymentMethods = createAction(
+  SET_PUBLISHER_PAYMENT_METHODS
+);
 
 const initialState = {
-  paymentMethod: [],
+  paymentDetails: [],
   transactionsList: [],
   transactionsToShow: [],
   isTransactionListFetched: false,
   isShowMoreButtonHidden: false,
-  activePaymentMethod: null,
-  paymentsSettings: null
+  activeOrBoundPaymentDetails: [],
+  publisherPaymentMethods: null
 };
 
 const paymentMethodReducer = createReducer(initialState, {
-  SET_PAYMENT_METHOD: (state, action) => {
-    state.paymentMethod = action.payload;
-    state.activePaymentMethod = action.payload.length
-      ? action.payload.filter(item => item.active).slice(-1)[0]
-      : null;
+  SET_PAYMENT_DETAILS: (state, action) => {
+    state.paymentDetails = action.payload;
+    state.activeOrBoundPaymentDetails = action.payload.filter(
+      item => item.active || item.bound
+    );
   },
   SET_TRANSACTIONS_LIST: (state, action) => {
     state.transactionsList = action.payload;
@@ -58,8 +60,8 @@ const paymentMethodReducer = createReducer(initialState, {
   HIDE_SHOW_MORE_BUTTON: state => {
     state.isShowMoreButtonHidden = true;
   },
-  SET_PAYMENTS_SETTINGS: (state, action) => {
-    state.paymentsSettings = action.payload;
+  SET_PUBLISHER_PAYMENT_METHODS: (state, action) => {
+    state.publisherPaymentMethods = action.payload;
   }
 });
 

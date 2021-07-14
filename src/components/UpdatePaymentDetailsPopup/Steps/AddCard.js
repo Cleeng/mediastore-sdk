@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import updateAdyenPaymentDetails from 'api/PaymentDetails/updateAdyenPaymentDetails';
 import {
@@ -12,18 +13,16 @@ import Adyen from 'components/Adyen';
 
 import { ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
-const AddCard = ({
-  paymentsSettings,
-  setStep,
-  updatePaymentDetailsSection
-}) => {
+const AddCard = ({ setStep, updatePaymentDetailsSection }) => {
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
-
+  const publisherPaymentMethods = useSelector(
+    state => state.paymentInfo.publisherPaymentMethods
+  );
   const addAdyenPaymentDetails = ({ data: { paymentMethod: card } }) => {
     setIsButtonLoading(true);
     setIsError(false);
-    updateAdyenPaymentDetails(paymentsSettings.adyen, card)
+    updateAdyenPaymentDetails(publisherPaymentMethods.adyen, card)
       .then(resp => {
         setIsButtonLoading(false);
         if (!resp.errors.length) {
@@ -67,14 +66,12 @@ const AddCard = ({
 
 AddCard.propTypes = {
   setStep: PropTypes.func,
-  updatePaymentDetailsSection: PropTypes.func,
-  paymentsSettings: PropTypes.objectOf(PropTypes.any)
+  updatePaymentDetailsSection: PropTypes.func
 };
 
 AddCard.defaultProps = {
   setStep: () => {},
-  updatePaymentDetailsSection: () => {},
-  paymentsSettings: null
+  updatePaymentDetailsSection: () => {}
 };
 
 export default AddCard;

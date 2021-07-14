@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import updatePayPalPaymentDetails from 'api/PaymentDetails/updatePayPalPaymentDetails';
 import Loader from 'components/Loader';
@@ -11,14 +12,16 @@ import {
 import Button from 'components/Button';
 import { PPIconStyled, ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
-const AddPayPal = ({ paymentsSettings, setStep }) => {
+const AddPayPal = ({ setStep }) => {
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
-
+  const publisherPaymentMethods = useSelector(
+    state => state.paymentInfo.publisherPaymentMethods
+  );
   const addPayPalPaymentDetails = () => {
     setIsButtonLoading(true);
     setIsError(false);
-    updatePayPalPaymentDetails(paymentsSettings.payPal)
+    updatePayPalPaymentDetails(publisherPaymentMethods.paypal)
       .then(resp => {
         window.location.href = resp.responseData.redirectUrl;
       })
@@ -71,11 +74,9 @@ const AddPayPal = ({ paymentsSettings, setStep }) => {
 export default AddPayPal;
 
 AddPayPal.propTypes = {
-  setStep: PropTypes.func,
-  paymentsSettings: PropTypes.objectOf(PropTypes.any)
+  setStep: PropTypes.func
 };
 
 AddPayPal.defaultProps = {
-  setStep: () => {},
-  paymentsSettings: null
+  setStep: () => {}
 };

@@ -3,6 +3,7 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import 'jest-styled-components';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { PureSubscriptionManagement } from './SubscriptionManagement';
 import {
   ManageButtonWrapStyled,
@@ -72,7 +73,7 @@ describe('<MessageBox/>', () => {
 
       expect(showInnerPopupMock).toHaveBeenCalledTimes(1);
       expect(showInnerPopupMock).toHaveBeenCalledWith({
-        type: 'updateSubscription',
+        type: POPUP_TYPES.updateSubscription,
         data: {
           action: 'unsubscribe',
           offerData: {
@@ -95,7 +96,7 @@ describe('<MessageBox/>', () => {
 
       expect(showInnerPopupMock).toHaveBeenCalledTimes(1);
       expect(showInnerPopupMock).toHaveBeenCalledWith({
-        type: 'updateSubscription',
+        type: POPUP_TYPES.updateSubscription,
         data: {
           action: 'resubscribe',
           offerData: {
