@@ -8,15 +8,36 @@ import {
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
+import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import { ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
-const DeletePaymentMethod = ({ hideInnerPopup }) => {
+const DeletePaymentMethod = ({
+  hideInnerPopup,
+  setStep,
+  updatePaymentDetailsSection,
+  paymentDetailsToDelete
+}) => {
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   const deletePaymentMethod = () => {
     setIsError(false);
     setIsButtonLoading(true);
+    deletePaymentDetails(paymentDetailsToDelete.id)
+      .then(resp => {
+        if (!resp.errors.length) {
+          setIsButtonLoading(false);
+          setStep(currentStep => currentStep + 1);
+          updatePaymentDetailsSection();
+        } else {
+          setIsButtonLoading(false);
+          setIsError(true);
+        }
+      })
+      .catch(() => {
+        setIsButtonLoading(false);
+        setIsError(true);
+      });
   };
 
   return (
@@ -49,9 +70,15 @@ const DeletePaymentMethod = ({ hideInnerPopup }) => {
 export default DeletePaymentMethod;
 
 DeletePaymentMethod.propTypes = {
-  hideInnerPopup: PropTypes.func
+  paymentDetailsToDelete: PropTypes.objectOf(PropTypes.any),
+  hideInnerPopup: PropTypes.func,
+  updatePaymentDetailsSection: PropTypes.func,
+  setStep: PropTypes.func
 };
 
 DeletePaymentMethod.defaultProps = {
-  hideInnerPopup: () => {}
+  paymentDetailsToDelete: {},
+  hideInnerPopup: () => {},
+  updatePaymentDetailsSection: () => {},
+  setStep: () => {}
 };

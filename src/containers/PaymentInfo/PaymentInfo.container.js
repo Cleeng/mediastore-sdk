@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import {
-  setPaymentMethod,
+  setPaymentDetails,
   setTransactionsList,
   setTransactionsToShow,
   setTransactionsListAsFetched,
   hideShowMoreButton,
-  setPaymentsSettings
+  setPublisherPaymentMethods
 } from 'redux/paymentInfo';
 import { showInnerPopup, hideInnerPopup } from 'redux/innerPopupReducer';
 import PaymentInfo from './PaymentInfo.component';
@@ -19,8 +19,8 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => {
   return {
-    setPaymentMethod: newPaymentDetails => {
-      dispatch(setPaymentMethod(newPaymentDetails));
+    setPaymentDetails: newPaymentDetails => {
+      dispatch(setPaymentDetails(newPaymentDetails));
     },
     setTransactionsList: newTransactionList => {
       dispatch(setTransactionsList(newTransactionList));
@@ -40,8 +40,8 @@ export const mapDispatchToProps = dispatch => {
     hideInnerPopup: () => {
       dispatch(hideInnerPopup());
     },
-    setPaymentsSettings: payload => {
-      dispatch(setPaymentsSettings(payload));
+    setPublisherPaymentMethods: payload => {
+      dispatch(setPublisherPaymentMethods(payload));
     }
   };
 };

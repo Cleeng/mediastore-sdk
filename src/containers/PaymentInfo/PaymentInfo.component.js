@@ -26,7 +26,7 @@ class PaymentInfo extends Component {
 
   componentDidMount() {
     const { paymentInfo, setTransactionsToShow } = this.props;
-    if (paymentInfo.paymentMethod.length === 0) {
+    if (paymentInfo.paymentDetails && paymentInfo.paymentDetails.length === 0) {
       this.setState({
         paymentDetailsLoading: true
       });
@@ -102,7 +102,7 @@ class PaymentInfo extends Component {
   };
 
   fetchPaymentDetials = () => {
-    const { setPaymentMethod, t } = this.props;
+    const { setPaymentDetails, t } = this.props;
     getPaymentDetails()
       .then(response => {
         if (response.errors.length) {
@@ -111,7 +111,7 @@ class PaymentInfo extends Component {
             paymentDetailsLoading: false
           });
         } else {
-          setPaymentMethod(response.responseData.paymentDetails);
+          setPaymentDetails(response.responseData.paymentDetails);
           this.setState({
             paymentDetailsLoading: false
           });
@@ -179,7 +179,7 @@ class PaymentInfo extends Component {
       showInnerPopup,
       innerPopup,
       hideInnerPopup,
-      setPaymentsSettings,
+      setPublisherPaymentMethods,
       t
     } = this.props;
     const {
@@ -195,17 +195,19 @@ class PaymentInfo extends Component {
         {innerPopup.isOpen && innerPopup.type === 'paymentDetails' ? (
           <UpdatePaymentDetailsPopup
             hideInnerPopup={hideInnerPopup}
-            setPaymentsSettings={setPaymentsSettings}
-            paymentsSettings={paymentInfo.paymentsSettings}
+            setPublisherPaymentMethods={setPublisherPaymentMethods}
             updatePaymentDetailsSection={this.updatePaymentDetailsSection}
+            selectedPaymentMethod={innerPopup.data}
           />
         ) : (
           <>
             <SectionHeader marginTop="0">{t('Payment method')}</SectionHeader>
             <PaymentMehod
               paymentDetailsLoading={paymentDetailsLoading}
-              activePaymentMethod={paymentInfo.activePaymentMethod}
-              showInnerPopup={() => showInnerPopup({ type: 'paymentDetails' })}
+              activeOrBoundPaymentDetails={
+                paymentInfo.activeOrBoundPaymentDetails
+              }
+              showInnerPopup={showInnerPopup}
               error={paymentDetailsError}
             />
             <SectionHeader>{t('Transactions')}</SectionHeader>
@@ -226,7 +228,7 @@ class PaymentInfo extends Component {
 }
 
 PaymentInfo.propTypes = {
-  setPaymentMethod: PropTypes.func.isRequired,
+  setPaymentDetails: PropTypes.func.isRequired,
   setTransactionsList: PropTypes.func.isRequired,
   setTransactionsToShow: PropTypes.func.isRequired,
   setTransactionsListAsFetched: PropTypes.func.isRequired,
@@ -235,7 +237,7 @@ PaymentInfo.propTypes = {
   showInnerPopup: PropTypes.func.isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
   innerPopup: PropTypes.objectOf(PropTypes.any).isRequired,
-  setPaymentsSettings: PropTypes.func.isRequired,
+  setPublisherPaymentMethods: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 

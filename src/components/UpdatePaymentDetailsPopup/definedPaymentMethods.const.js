@@ -20,7 +20,7 @@ const supportedPaymentGateways = [
     icon: PPIcon,
     title: 'PayPal',
     description: 'Accept all major credit and debit cards',
-    paymentGateway: 'payPal'
+    paymentGateway: 'paypal'
   }
 ];
 

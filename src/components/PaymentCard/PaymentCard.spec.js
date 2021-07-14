@@ -28,7 +28,7 @@ describe('<PaymentCard/>', () => {
   const showInnerPopupMock = jest.fn();
   const defaultProps = {
     isDataLoaded: true,
-    activePaymentMethod: {
+    details: {
       id: 193925084,
       customerId: 280372348,
       token: '8315816736477319',
@@ -71,10 +71,7 @@ describe('<PaymentCard/>', () => {
     });
     it('should show holder name when no cardExpirationDate', () => {
       const wrapper = shallow(
-        <PaymentCard
-          {...defaultProps}
-          activePaymentMethod={payPalPaymentMethod}
-        />
+        <PaymentCard {...defaultProps} details={payPalPaymentMethod} />
       );
       expect(wrapper.find(CardExpirationStyled)).toHaveLength(1);
       expect(wrapper.find(CardExpirationLabel).text()).toBe('Holder name');

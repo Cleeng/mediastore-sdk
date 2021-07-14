@@ -7,6 +7,7 @@ import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { applyCoupon } from 'api';
 import CouponInput from 'components/CouponInput';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
 
 import {
   SubscriptionManagementStyled,
@@ -97,7 +98,7 @@ const SubscriptionManagement = ({
               onClickFn={event => {
                 event.stopPropagation();
                 showInnerPopup({
-                  type: 'updateSubscription',
+                  type: POPUP_TYPES.updateSubscription,
                   data: {
                     action: 'unsubscribe',
                     offerData: {
@@ -117,7 +118,7 @@ const SubscriptionManagement = ({
               onClickFn={event => {
                 event.stopPropagation();
                 showInnerPopup({
-                  type: 'updateSubscription',
+                  type: POPUP_TYPES.updateSubscription,
                   data: {
                     action: 'resubscribe',
                     offerData: {

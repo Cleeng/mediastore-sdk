@@ -6,6 +6,7 @@ import labeling from 'containers/labeling';
 import { ReactComponent as AddIcon } from 'assets/images/add.svg';
 import MyAccountError from 'components/MyAccountError';
 import PaymentCard from 'components/PaymentCard';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import {
   WrapStyled,
   PaymentDetailsStyled,
@@ -14,13 +15,13 @@ import {
 
 const PaymentMethod = ({
   paymentDetailsLoading,
-  activePaymentMethod,
+  activeOrBoundPaymentDetails,
   showInnerPopup,
   error,
   t
 }) => {
-  const renderPaymentMethodItem = () => {
-    const { paymentMethod, paymentGateway, id } = activePaymentMethod;
+  const renderPaymentMethodItem = paymentDetail => {
+    const { paymentMethod, paymentGateway, id } = paymentDetail;
     const generateDesc = () => {
       switch (paymentGateway) {
         case 'ios':
@@ -40,7 +41,7 @@ const PaymentMethod = ({
         return (
           <PaymentCard
             key={id}
-            activePaymentMethod={activePaymentMethod}
+            details={paymentDetail}
             showInnerPopup={showInnerPopup}
           />
         );
@@ -55,23 +56,29 @@ const PaymentMethod = ({
     <WrapStyled>
       {error.length !== 0 ? (
         <MyAccountError generalError />
-      ) : !activePaymentMethod ? (
+      ) : !activeOrBoundPaymentDetails.length ? (
         <MyAccountError
           icon={AddIcon}
           title={t('No payment method added!')}
           subtitle={t('Add a card to start your plan')}
           withBorder
-          onClick={() => showInnerPopup()}
+          onClick={() => showInnerPopup({ type: POPUP_TYPES.paymentDetails })}
         />
       ) : (
-        <PaymentDetailsStyled>{renderPaymentMethodItem()}</PaymentDetailsStyled>
+        activeOrBoundPaymentDetails.map(paymentDetail => (
+          <PaymentDetailsStyled key={paymentDetail.id}>
+            {renderPaymentMethodItem(paymentDetail)}
+          </PaymentDetailsStyled>
+        ))
       )}
     </WrapStyled>
   );
 };
 
 PaymentMethod.propTypes = {
-  activePaymentMethod: PropTypes.objectOf(PropTypes.any),
+  activeOrBoundPaymentDetails: PropTypes.arrayOf(
+    PropTypes.objectOf(PropTypes.any)
+  ),
   error: PropTypes.arrayOf(PropTypes.string),
   paymentDetailsLoading: PropTypes.bool,
   showInnerPopup: PropTypes.func,
@@ -79,7 +86,7 @@ PaymentMethod.propTypes = {
 };
 
 PaymentMethod.defaultProps = {
-  activePaymentMethod: {},
+  activeOrBoundPaymentDetails: [],
   error: [],
   paymentDetailsLoading: false,
   showInnerPopup: () => {},

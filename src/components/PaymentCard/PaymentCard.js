@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SkeletonWrapper from 'components/SkeletonWrapper';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { CardTypesIcons } from './Payment.const';
 import {
   CardStyled,
@@ -13,21 +14,16 @@ import {
   CardEditStyled
 } from './PaymentCardStyled';
 
-const PaymentCard = ({
-  isDataLoaded,
-  activePaymentMethod,
-  showInnerPopup,
-  t
-}) => {
-  const { paymentMethodSpecificParams } = activePaymentMethod;
+const PaymentCard = ({ isDataLoaded, details, showInnerPopup, t }) => {
+  const { paymentMethodSpecificParams } = details;
   const LogoComponent =
     paymentMethodSpecificParams &&
     CardTypesIcons[paymentMethodSpecificParams.variant]
       ? CardTypesIcons[paymentMethodSpecificParams.variant]
-      : CardTypesIcons[activePaymentMethod.paymentMethod] || null;
+      : CardTypesIcons[details.paymentMethod] || null;
 
   return (
-    <CardWrapStyled type={activePaymentMethod.paymentMethod}>
+    <CardWrapStyled type={details.paymentMethod}>
       {isDataLoaded ? (
         <CardStyled>
           {LogoComponent && (
@@ -57,7 +53,14 @@ const PaymentCard = ({
                 </CardExpirationDateStyled>
               </CardExpirationStyled>
             )}
-          <CardEditStyled onClick={() => showInnerPopup()}>
+          <CardEditStyled
+            onClick={() =>
+              showInnerPopup({
+                type: POPUP_TYPES.paymentDetails,
+                data: details
+              })
+            }
+          >
             {t('Edit payment info')}
           </CardEditStyled>
         </CardStyled>
@@ -70,14 +73,14 @@ const PaymentCard = ({
 
 PaymentCard.propTypes = {
   showInnerPopup: PropTypes.func,
-  activePaymentMethod: PropTypes.objectOf(PropTypes.any),
+  details: PropTypes.objectOf(PropTypes.any),
   isDataLoaded: PropTypes.bool,
   t: PropTypes.func
 };
 
 PaymentCard.defaultProps = {
   showInnerPopup: () => {},
-  activePaymentMethod: {},
+  details: {},
   isDataLoaded: true,
   t: k => k
 };

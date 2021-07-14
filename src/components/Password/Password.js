@@ -4,6 +4,7 @@ import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import Card from 'components/Card';
 import Button from 'components/Button';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import {
   WrapStyled,
   InnerWrapperStyled,
@@ -17,7 +18,7 @@ const Password = ({ showInnerPopup, t }) => (
         <OldPasswordStyled>••••••••</OldPasswordStyled>
         <Button
           width="auto"
-          onClickFn={() => showInnerPopup({ type: 'editPassword' })}
+          onClickFn={() => showInnerPopup({ type: POPUP_TYPES.editPassword })}
         >
           {t('Edit Password')}
         </Button>

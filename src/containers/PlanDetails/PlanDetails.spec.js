@@ -3,6 +3,7 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
 import getCustomerSubscriptionsRequest from 'api/Customer/getCustomerSubscriptions';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
 
 import UpdateSubscription from 'components/UpdateSubscription';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
@@ -83,7 +84,7 @@ describe('<PlanDetails/>', () => {
           }}
           innerPopup={{
             isOpen: true,
-            type: 'updateSubscription',
+            type: POPUP_TYPES.updateSubscription,
             data: { action: 'resubscribe', offerData: { mock: 'mock' } }
           }}
         />
@@ -102,7 +103,7 @@ describe('<PlanDetails/>', () => {
           }}
           innerPopup={{
             isOpen: true,
-            type: 'switchPlan',
+            type: POPUP_TYPES.switchPlan,
             data: { offerData: { mock: 'mock' } }
           }}
         />
