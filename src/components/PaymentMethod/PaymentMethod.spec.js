@@ -4,16 +4,16 @@ import React from 'react';
 import { mount, shallow } from 'enzyme';
 import MyAccountError from 'components/MyAccountError';
 import PaymentCard from 'components/PaymentCard';
-import { PurePaymentMethod } from './PaymentMethod';
+import PurePaymentMethod from './PaymentMethod';
 import { Message, PaymentDetailsStyled } from './PaymentMethodStyled';
 
-jest.mock('containers/labeling', () => () => Component => props => (
-  <Component t={k => k} {...props} />
-));
 jest.mock('react-i18next', () => ({
   withTranslation: () => Component => props => (
     <Component t={k => k} {...props} />
-  )
+  ),
+  useTranslation: () => ({
+    t: key => key
+  })
 }));
 
 const mockPaymentDetailsNotSupported = {
@@ -76,7 +76,7 @@ describe('<PaymentMethod/>', () => {
       expect(wrapper.find(MyAccountError).prop('generalError')).toBe(true);
     });
     it('should open popup to add payment details', () => {
-      const wrapper = mount(
+      const wrapper = shallow(
         <PurePaymentMethod
           activeOrBoundPaymentDetails={[]}
           showInnerPopup={showPopupMock}

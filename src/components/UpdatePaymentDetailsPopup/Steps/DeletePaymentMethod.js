@@ -9,6 +9,7 @@ import {
 import Loader from 'components/Loader';
 import Button from 'components/Button';
 import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
+import { useTranslation } from 'react-i18next';
 import { ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
 const DeletePaymentMethod = ({
@@ -17,6 +18,8 @@ const DeletePaymentMethod = ({
   updatePaymentDetailsSection,
   paymentDetailsToDelete
 }) => {
+  const { t } = useTranslation();
+
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
@@ -43,24 +46,33 @@ const DeletePaymentMethod = ({
   return (
     <>
       <ContentStyled>
-        <TitleStyled>Remove payment method?</TitleStyled>
+        <TitleStyled>{t('Remove payment method?')}</TitleStyled>
         <TextStyled>
-          By clicking the REMOVE button you agree to remove this payment method
-          for all subscriptions without adding it again.
+          {t(
+            'By clicking the REMOVE button you will delete this payment method.'
+          )}
           <br />
           <br />
-          After that all your subscription will be terminated.
+          {t(
+            'Any subscriptions connected with this payment method will not be renewed, unless another payment method is added.'
+          )}
         </TextStyled>
         {isError && (
-          <ErrorMessage>Oops, something went wrong! Try again...</ErrorMessage>
+          <ErrorMessage>
+            {t('Oops, something went wrong! Try again...')}
+          </ErrorMessage>
         )}
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
         <Button theme="simple" onClickFn={() => hideInnerPopup()}>
-          No, thanks
+          {t('No, thanks')}
         </Button>
         <Button theme="danger" onClickFn={deletePaymentMethod}>
-          {isButtonLoading ? <Loader buttonLoader color="#ffffff" /> : 'Remove'}
+          {isButtonLoading ? (
+            <Loader buttonLoader color="#ffffff" />
+          ) : (
+            t('Remove')
+          )}
         </Button>
       </ButtonWrapperStyled>
     </>

@@ -10,7 +10,7 @@ import {
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
-
+import { useTranslation } from 'react-i18next';
 import { ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
 const AddCard = ({ setStep, updatePaymentDetailsSection }) => {
@@ -19,6 +19,8 @@ const AddCard = ({ setStep, updatePaymentDetailsSection }) => {
   const publisherPaymentMethods = useSelector(
     state => state.paymentInfo.publisherPaymentMethods
   );
+  const { t } = useTranslation();
+
   const addAdyenPaymentDetails = ({ data: { paymentMethod: card } }) => {
     setIsButtonLoading(true);
     setIsError(false);
@@ -41,15 +43,17 @@ const AddCard = ({ setStep, updatePaymentDetailsSection }) => {
   return (
     <>
       <ContentStyled>
-        <TitleStyled>Credit Card</TitleStyled>
-        <TextStyled>Add your credit card details.</TextStyled>
+        <TitleStyled>{t('Add your card')}</TitleStyled>
+        <TextStyled>{t('Enter your card details here')}</TextStyled>
         <Adyen
           onSubmit={addAdyenPaymentDetails}
           isCheckout={false}
           isPaymentProcessing={isButtonLoading}
         />
         {isError && (
-          <ErrorMessage>Oops, something went wrong! Try again...</ErrorMessage>
+          <ErrorMessage>
+            {t('Oops, something went wrong! Try again...')}
+          </ErrorMessage>
         )}
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
@@ -57,7 +61,7 @@ const AddCard = ({ setStep, updatePaymentDetailsSection }) => {
           theme="simple"
           onClickFn={() => setStep(currentStep => currentStep - 1)}
         >
-          Back
+          {t('Back')}
         </Button>
       </ButtonWrapperStyled>
     </>

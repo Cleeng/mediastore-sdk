@@ -1,8 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as AddIcon } from 'assets/images/add.svg';
 import MyAccountError from 'components/MyAccountError';
 import PaymentCard from 'components/PaymentCard';
@@ -17,9 +16,9 @@ const PaymentMethod = ({
   paymentDetailsLoading,
   activeOrBoundPaymentDetails,
   showInnerPopup,
-  error,
-  t
+  error
 }) => {
+  const { t } = useTranslation();
   const renderPaymentMethodItem = paymentDetail => {
     const { paymentMethod, paymentGateway, id } = paymentDetail;
     const generateDesc = () => {
@@ -59,8 +58,8 @@ const PaymentMethod = ({
       ) : !activeOrBoundPaymentDetails.length ? (
         <MyAccountError
           icon={AddIcon}
-          title={t('No payment method added!')}
-          subtitle={t('Add a card to start your plan')}
+          title={t('Add a payment method!')}
+          subtitle={t('Set up a new payment method for your account')}
           withBorder
           onClick={() => showInnerPopup({ type: POPUP_TYPES.paymentDetails })}
         />
@@ -81,18 +80,14 @@ PaymentMethod.propTypes = {
   ),
   error: PropTypes.arrayOf(PropTypes.string),
   paymentDetailsLoading: PropTypes.bool,
-  showInnerPopup: PropTypes.func,
-  t: PropTypes.func
+  showInnerPopup: PropTypes.func
 };
 
 PaymentMethod.defaultProps = {
   activeOrBoundPaymentDetails: [],
   error: [],
   paymentDetailsLoading: false,
-  showInnerPopup: () => {},
-  t: k => k
+  showInnerPopup: () => {}
 };
 
-export { PaymentMethod as PurePaymentMethod };
-
-export default withTranslation()(labeling()(PaymentMethod));
+export default PaymentMethod;

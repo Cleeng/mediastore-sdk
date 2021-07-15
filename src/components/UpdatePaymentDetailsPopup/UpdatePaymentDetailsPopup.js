@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import Button from 'components/Button';
@@ -31,9 +30,9 @@ const UpdatePaymentDetailsPopup = ({
   hideInnerPopup,
   setPublisherPaymentMethods,
   updatePaymentDetailsSection,
-  selectedPaymentMethod,
-  t
+  selectedPaymentMethod
 }) => {
+  const { t } = useTranslation();
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [action, setAction] = useState(null);
@@ -96,15 +95,14 @@ const UpdatePaymentDetailsPopup = ({
       steps={3}
       isError={false}
       currentStep={step}
-      popupTitle="Edit payment details"
+      popupTitle={t('Update payment details')}
     >
       {step === 1 && (
         <>
           <ContentStyled>
-            <TitleStyled>Edit payment details</TitleStyled>
+            <TitleStyled>{t('Update payment details')}</TitleStyled>
             <TextStyled>
-              Update current payment method or select a new one below to pay for
-              Subscription Plans
+              {t('Update your current payment method, or add a new one.')}
             </TextStyled>
             <SkeletonWrapper showChildren={!isLoading} height={90}>
               {supportedPaymentGateways.map(item => {
@@ -126,10 +124,10 @@ const UpdatePaymentDetailsPopup = ({
                       </PaymentMethodIconStyled>
                       <PaymentMethodTextStyled>
                         <PaymentMethodTitleStyled>
-                          {item.title}
+                          {t(item.title)}
                         </PaymentMethodTitleStyled>
                         <PaymentMethodDescStyled>
-                          {item.description}
+                          {t(item.description)}
                         </PaymentMethodDescStyled>
                       </PaymentMethodTextStyled>
                     </PaymentMethodStyled>
@@ -147,7 +145,7 @@ const UpdatePaymentDetailsPopup = ({
                   }}
                 >
                   <DeleteIconStyled />
-                  Remove your payment method
+                  {t('Remove your payment method')}
                 </RemoveLinkStyled>
               )}
             </SkeletonWrapper>
@@ -169,18 +167,14 @@ UpdatePaymentDetailsPopup.propTypes = {
   hideInnerPopup: PropTypes.func,
   setPublisherPaymentMethods: PropTypes.func,
   updatePaymentDetailsSection: PropTypes.func,
-  selectedPaymentMethod: PropTypes.objectOf(PropTypes.any),
-  t: PropTypes.func
+  selectedPaymentMethod: PropTypes.objectOf(PropTypes.any)
 };
 
 UpdatePaymentDetailsPopup.defaultProps = {
   hideInnerPopup: () => {},
   setPublisherPaymentMethods: () => {},
   updatePaymentDetailsSection: () => {},
-  selectedPaymentMethod: {},
-  t: k => k
+  selectedPaymentMethod: {}
 };
 
-export { UpdatePaymentDetailsPopup as PureUpdatePaymentDetailsPopup };
-
-export default withTranslation()(labeling()(UpdatePaymentDetailsPopup));
+export default UpdatePaymentDetailsPopup;

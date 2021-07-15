@@ -12,14 +12,14 @@ const supportedPaymentGateways = [
     key: ACTIONS.addCard,
     icon: CardIcon,
     title: 'Credit or Debit card',
-    description: 'Accept all major credit and debit cards',
+    description: 'Add your card details here',
     paymentGateway: 'adyen'
   },
   {
     key: ACTIONS.addPayPal,
     icon: PPIcon,
     title: 'PayPal',
-    description: 'Accept all major credit and debit cards',
+    description: 'Connect your PayPal account here',
     paymentGateway: 'paypal'
   }
 ];

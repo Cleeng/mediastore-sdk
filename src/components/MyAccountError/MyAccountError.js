@@ -1,10 +1,9 @@
 /* istanbul ignore file */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import Button from 'components/Button';
 import { ReactComponent as serverIcon } from 'assets/images/errors/sad_server.svg';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
 import {
   WrapStyled,
   TitleStyled,
@@ -22,10 +21,10 @@ const MyAccountError = ({
   centered,
   margin,
   fullWidth,
-  onClick,
-  t
+  onClick
 }) => {
   const IconComponent = generalError ? serverIcon : icon;
+  const { t } = useTranslation;
   return (
     <WrapStyled
       withBorder={withBorder}
@@ -69,8 +68,7 @@ MyAccountError.propTypes = {
   centered: PropTypes.bool,
   margin: PropTypes.string,
   fullWidth: PropTypes.bool,
-  onClick: PropTypes.func,
-  t: PropTypes.func
+  onClick: PropTypes.func
 };
 
 MyAccountError.defaultProps = {
@@ -83,10 +81,7 @@ MyAccountError.defaultProps = {
   centered: false,
   margin: '',
   fullWidth: false,
-  onClick: null,
-  t: k => k
+  onClick: null
 };
 
-export { MyAccountError as PureMyAccountError };
-
-export default withTranslation()(labeling()(MyAccountError));
+export default MyAccountError;

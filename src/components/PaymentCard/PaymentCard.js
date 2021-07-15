@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { CardTypesIcons } from './Payment.const';
@@ -14,7 +15,8 @@ import {
   CardEditStyled
 } from './PaymentCardStyled';
 
-const PaymentCard = ({ isDataLoaded, details, showInnerPopup, t }) => {
+const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
+  const { t } = useTranslation();
   const { paymentMethodSpecificParams } = details;
   const LogoComponent =
     paymentMethodSpecificParams &&
@@ -74,15 +76,13 @@ const PaymentCard = ({ isDataLoaded, details, showInnerPopup, t }) => {
 PaymentCard.propTypes = {
   showInnerPopup: PropTypes.func,
   details: PropTypes.objectOf(PropTypes.any),
-  isDataLoaded: PropTypes.bool,
-  t: PropTypes.func
+  isDataLoaded: PropTypes.bool
 };
 
 PaymentCard.defaultProps = {
   showInnerPopup: () => {},
   details: {},
-  isDataLoaded: true,
-  t: k => k
+  isDataLoaded: true
 };
 
 export default PaymentCard;

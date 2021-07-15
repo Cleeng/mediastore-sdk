@@ -10,9 +10,11 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
+import { useTranslation } from 'react-i18next';
 import { PPIconStyled, ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
 const AddPayPal = ({ setStep }) => {
+  const { t } = useTranslation();
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const publisherPaymentMethods = useSelector(
@@ -36,8 +38,9 @@ const AddPayPal = ({ setStep }) => {
       <ContentStyled>
         <TitleStyled>PayPal</TitleStyled>
         <TextStyled>
-          Paying with PayPal is easy. Click the button below and sign in to your
-          PayPal account
+          {t(
+            'Paying with PayPal is easy. Click the button below and sign in to your PayPal account'
+          )}
         </TextStyled>
         <Button
           size="normal"
@@ -56,7 +59,9 @@ const AddPayPal = ({ setStep }) => {
           )}
         </Button>
         {isError && (
-          <ErrorMessage>Oops, something went wrong! Try again...</ErrorMessage>
+          <ErrorMessage>
+            {t('Oops, something went wrong! Try again...')}
+          </ErrorMessage>
         )}
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
@@ -64,7 +69,7 @@ const AddPayPal = ({ setStep }) => {
           theme="simple"
           onClickFn={() => setStep(currentStep => currentStep - 1)}
         >
-          Back
+          {t('Back')}
         </Button>
       </ButtonWrapperStyled>
     </>
