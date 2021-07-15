@@ -201,7 +201,9 @@ class PaymentInfo extends Component {
           />
         ) : (
           <>
-            <SectionHeader marginTop="0">{t('Payment method')}</SectionHeader>
+            <SectionHeader marginTop="0">
+              {t('Current payment method')}
+            </SectionHeader>
             <PaymentMehod
               paymentDetailsLoading={paymentDetailsLoading}
               activeOrBoundPaymentDetails={
@@ -210,7 +212,7 @@ class PaymentInfo extends Component {
               showInnerPopup={showInnerPopup}
               error={paymentDetailsError}
             />
-            <SectionHeader>{t('Transactions')}</SectionHeader>
+            <SectionHeader>{t('Payment history')}</SectionHeader>
             <Transactions
               transactions={paymentInfo.transactionsToShow}
               toggleTransactionsList={this.toggleTransactionsList}

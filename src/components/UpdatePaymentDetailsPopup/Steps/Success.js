@@ -8,23 +8,23 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
+import { useTranslation } from 'react-i18next';
 import { ImageWrapper } from '../UpdatePaymentDetailsPopupStyled';
 
 const Success = ({ hideInnerPopup }) => {
+  const { t } = useTranslation();
   return (
     <>
       <ContentStyled>
         <ImageWrapper>
           <CheckmackIcon />
         </ImageWrapper>
-        <TitleStyled>Thank you</TitleStyled>
-        <TextStyled>
-          Your payment method have been successfully updated.
-        </TextStyled>
+        <TitleStyled>{t('Thank you!')}</TitleStyled>
+        <TextStyled>{t('Your payment details have been updated')}</TextStyled>
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
         <Button theme="simple" onClickFn={() => hideInnerPopup()}>
-          Back to settings
+          {t('Back to settings')}
         </Button>
       </ButtonWrapperStyled>
     </>
