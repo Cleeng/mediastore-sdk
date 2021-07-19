@@ -6,11 +6,20 @@ import {
   TextStyled,
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
+import { PopupImageStyled } from 'components/UpdatePaymentDetailsPopup/UpdatePaymentDetailsPopupStyled';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
 import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import { useTranslation } from 'react-i18next';
+import { ReactComponent as PaypalIcon } from 'assets/images/paymentMethods/paypal_color.svg';
+import { ReactComponent as VisaIcon } from 'assets/images/paymentMethods/visa_color.svg';
+
 import { ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
+
+const PaymentMethodIcons = {
+  paypal: PaypalIcon,
+  visa: VisaIcon
+};
 
 const DeletePaymentMethod = ({
   hideInnerPopup,
@@ -42,10 +51,19 @@ const DeletePaymentMethod = ({
         setIsError(true);
       });
   };
+  const { paymentMethodSpecificParams } = paymentDetailsToDelete;
+  const LogoComponent = PaymentMethodIcons[paymentMethodSpecificParams.variant]
+    ? PaymentMethodIcons[paymentMethodSpecificParams.variant]
+    : PaymentMethodIcons[paymentDetailsToDelete.paymentMethod];
 
   return (
     <>
       <ContentStyled>
+        {LogoComponent && (
+          <PopupImageStyled>
+            <LogoComponent />
+          </PopupImageStyled>
+        )}
         <TitleStyled>{t('Remove payment method?')}</TitleStyled>
         <TextStyled>
           {t(

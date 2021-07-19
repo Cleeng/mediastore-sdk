@@ -6,6 +6,7 @@ import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price from 'components/Price';
 import { getData } from 'util/appConfigHelper';
 import { ReactComponent as BlockedIcon } from 'assets/images/blocked.svg';
+import { ReactComponent as EditBlockedIcon } from 'assets/images/noEdit.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import {
   WrapperStyled,
@@ -28,6 +29,7 @@ const SubscriptionCard = ({
   showInfoBox,
   isSubscriptionOffer,
   isDataLoaded,
+  paymentMethod,
   t
 }) => {
   const isSubscription =
@@ -50,6 +52,12 @@ const SubscriptionCard = ({
     SUBSCRIPTION_WITH_COUPON_NOT_ALLOWED: {
       text: t("You can't upgrade your subscription if coupon was applied."),
       icon: BlockedIcon
+    },
+    INAPP_SUBSCRIPTION: {
+      text: t(
+        `Subscription purchased via ${paymentMethod}. Use an external service to edit the plan.`
+      ),
+      icon: EditBlockedIcon
     }
   };
 
@@ -118,6 +126,7 @@ SubscriptionCard.propTypes = {
   showInfoBox: PropTypes.string,
   isSubscriptionOffer: PropTypes.bool,
   isDataLoaded: PropTypes.bool,
+  paymentMethod: PropTypes.string,
   t: PropTypes.func
 };
 
@@ -131,6 +140,7 @@ SubscriptionCard.defaultProps = {
   showInfoBox: null,
   isSubscriptionOffer: false,
   isDataLoaded: true,
+  paymentMethod: '',
   t: k => k
 };
 

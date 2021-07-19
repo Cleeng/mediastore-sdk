@@ -19,7 +19,7 @@ const Success = ({ hideInnerPopup }) => {
         <ImageWrapper>
           <CheckmackIcon />
         </ImageWrapper>
-        <TitleStyled>{t('Thank you!')}</TitleStyled>
+        <TitleStyled>{t('Success')}</TitleStyled>
         <TextStyled>{t('Your payment details have been updated')}</TextStyled>
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>

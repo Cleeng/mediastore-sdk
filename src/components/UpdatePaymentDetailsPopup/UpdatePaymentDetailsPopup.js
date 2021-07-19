@@ -12,10 +12,11 @@ import {
   TextStyled,
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
-import { AddCard, AddPayPal, Success, DeletePaymentMethod } from './Steps';
-import supportedPaymentGateways, {
-  ACTIONS
-} from './definedPaymentMethods.const';
+import { ReactComponent as AmazonIcon } from 'assets/images/paymentMethods/amazon_color.svg';
+import { ReactComponent as AppleIcon } from 'assets/images/paymentMethods/apple_color.svg';
+import { ReactComponent as AndroidIcon } from 'assets/images/paymentMethods/android_color.svg';
+import { ReactComponent as PaypalIcon } from 'assets/images/paymentMethods/paypal_color.svg';
+import { ReactComponent as RokuIcon } from 'assets/images/paymentMethods/roku_color.svg';
 import {
   PaymentMethodStyled,
   PaymentMethodTextStyled,
@@ -23,8 +24,21 @@ import {
   PaymentMethodDescStyled,
   PaymentMethodIconStyled,
   RemoveLinkStyled,
-  DeleteIconStyled
+  DeleteIconStyled,
+  PopupImageStyled
 } from './UpdatePaymentDetailsPopupStyled';
+import supportedPaymentGateways, {
+  ACTIONS
+} from './definedPaymentMethods.const';
+import { AddCard, AddPayPal, Success, DeletePaymentMethod } from './Steps';
+
+const PaymentMethodIcons = {
+  amazon: AmazonIcon,
+  apple: AppleIcon,
+  android: AndroidIcon,
+  paypal: PaypalIcon,
+  roku: RokuIcon
+};
 
 const UpdatePaymentDetailsPopup = ({
   hideInnerPopup,
@@ -39,6 +53,7 @@ const UpdatePaymentDetailsPopup = ({
   const publisherPaymentMethods = useSelector(
     state => state.paymentInfo.publisherPaymentMethods
   );
+
   useEffect(() => {
     if (!publisherPaymentMethods) {
       setIsLoading(true);
@@ -72,10 +87,16 @@ const UpdatePaymentDetailsPopup = ({
           <AddCard
             setStep={setStep}
             updatePaymentDetailsSection={updatePaymentDetailsSection}
+            selectedPaymentMethod={selectedPaymentMethod}
           />
         );
       case ACTIONS.addPayPal:
-        return <AddPayPal setStep={setStep} />;
+        return (
+          <AddPayPal
+            setStep={setStep}
+            selectedPaymentMethod={selectedPaymentMethod}
+          />
+        );
       case ACTIONS.delete:
         return (
           <DeletePaymentMethod
@@ -89,6 +110,43 @@ const UpdatePaymentDetailsPopup = ({
         return '';
     }
   };
+  if (selectedPaymentMethod.bound) {
+    const LogoComponent =
+      PaymentMethodIcons[selectedPaymentMethod.paymentMethod];
+    return (
+      <InnerPopupWrapper
+        steps={1}
+        isError={false}
+        currentStep={step}
+        popupTitle={t('Update payment details')}
+      >
+        <ContentStyled>
+          {PaymentMethodIcons[selectedPaymentMethod.paymentMethod] && (
+            <PopupImageStyled>
+              <LogoComponent />
+            </PopupImageStyled>
+          )}
+          <TitleStyled textTransform="normal">
+            {t('It looks like your payments cannot be managed from here')}
+          </TitleStyled>
+          <TextStyled>
+            {t('You are currently paying for your subscription via')}{' '}
+            {selectedPaymentMethod.paymentMethod}.
+            <br />
+            <br />
+            {t(
+              'This means that your payment information cannot be changed from here right now.'
+            )}
+          </TextStyled>
+        </ContentStyled>
+        <ButtonWrapperStyled removeMargin>
+          <Button theme="simple" onClickFn={() => hideInnerPopup()}>
+            {t('Back')}
+          </Button>
+        </ButtonWrapperStyled>
+      </InnerPopupWrapper>
+    );
+  }
 
   return (
     <InnerPopupWrapper

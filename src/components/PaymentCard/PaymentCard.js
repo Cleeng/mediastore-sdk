@@ -12,12 +12,14 @@ import {
   CardExpirationStyled,
   CardExpirationLabel,
   CardExpirationDateStyled,
-  CardEditStyled
+  CardEditStyled,
+  MethodNameStyled
 } from './PaymentCardStyled';
 
+const INAPPS = ['android', 'apple', 'amazon', 'roku'];
 const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
   const { t } = useTranslation();
-  const { paymentMethodSpecificParams } = details;
+  const { paymentMethodSpecificParams, paymentMethod } = details;
   const LogoComponent =
     paymentMethodSpecificParams &&
     CardTypesIcons[paymentMethodSpecificParams.variant]
@@ -36,6 +38,12 @@ const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
           {paymentMethodSpecificParams?.lastCardFourDigits && (
             <CardNumberStyled>
               **** **** **** {paymentMethodSpecificParams.lastCardFourDigits}
+            </CardNumberStyled>
+          )}
+          {INAPPS.includes(paymentMethod) && (
+            <CardNumberStyled>
+              {t('Billing via')}{' '}
+              <MethodNameStyled>{paymentMethod}</MethodNameStyled>
             </CardNumberStyled>
           )}
           {paymentMethodSpecificParams?.cardExpirationDate && (

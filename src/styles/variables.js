@@ -4,9 +4,22 @@ export const MyAccountContentColor = '#f8f9fc';
 export const MyAccountTextGray = '#7B849D';
 export const MyAccountTextLightGray = '#F2F5FC';
 export const CardSecondaryColor = '#182c7a';
-export const PaypalMainColor = '#61AEF0';
-export const PaypalSecondaryColor = '#74B8F2';
 export const MyAccountMenu = '#f2f5fc';
+export const PayPal = '#61AEF0';
+
+// Payment Methods
+export const paymentMethodColors = {
+  paypalMainColor: '#61AEF0',
+  paypalSecondaryColor: '#74B8F2',
+  amazonMainColor: '#FDA625',
+  amazonSecondaryColor: '#EF9A1B',
+  appleMainColor: '#1C1C1C',
+  appleSecondaryColor: '#252525',
+  androidMainColor: '#62DBA3',
+  androidSecondaryColor: '#63CB9B',
+  rokuMainColor: '#662C91',
+  rokuSecondaryColor: '#7838A8'
+};
 
 // Common colors
 export const ErrorColor = '#CB4477';

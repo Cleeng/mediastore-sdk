@@ -21,7 +21,8 @@ const MyAccountError = ({
   centered,
   margin,
   fullWidth,
-  onClick
+  onClick,
+  isSmallCard
 }) => {
   const IconComponent = generalError ? serverIcon : icon;
   const { t } = useTranslation;
@@ -33,6 +34,7 @@ const MyAccountError = ({
       margin={margin}
       fullWidth={fullWidth}
       onClick={onClick}
+      isSmallCard={isSmallCard}
     >
       {(icon || generalError) && (
         <IconStyled>
@@ -68,7 +70,8 @@ MyAccountError.propTypes = {
   centered: PropTypes.bool,
   margin: PropTypes.string,
   fullWidth: PropTypes.bool,
-  onClick: PropTypes.func
+  onClick: PropTypes.func,
+  isSmallCard: PropTypes.bool
 };
 
 MyAccountError.defaultProps = {
@@ -81,7 +84,8 @@ MyAccountError.defaultProps = {
   centered: false,
   margin: '',
   fullWidth: false,
-  onClick: null
+  onClick: null,
+  isSmallCard: false
 };
 
 export default MyAccountError;
