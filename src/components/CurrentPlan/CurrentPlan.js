@@ -108,6 +108,12 @@ class CurrentPlan extends PureComponent {
                     description={description}
                     currency={currencyFormat[subItem.nextPaymentCurrency]}
                     price={subItem.nextPaymentPrice}
+                    showInfoBox={
+                      supportedPaymentGateways.includes(subItem.paymentGateway)
+                        ? ''
+                        : 'INAPP_SUBSCRIPTION'
+                    }
+                    paymentMethod={subItem.paymentMethod}
                   />
                   {isMessageBoxOpened &&
                     messageSubscriptionId === subItem.subscriptionId && (

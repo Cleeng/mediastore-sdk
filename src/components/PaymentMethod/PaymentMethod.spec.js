@@ -5,7 +5,7 @@ import { mount, shallow } from 'enzyme';
 import MyAccountError from 'components/MyAccountError';
 import PaymentCard from 'components/PaymentCard';
 import PurePaymentMethod from './PaymentMethod';
-import { Message, PaymentDetailsStyled } from './PaymentMethodStyled';
+import { Message } from './PaymentMethodStyled';
 
 jest.mock('react-i18next', () => ({
   withTranslation: () => Component => props => (
@@ -94,7 +94,6 @@ describe('<PaymentMethod/>', () => {
           showInnerPopup={showPopupMock}
         />
       );
-      expect(wrapper.find(PaymentDetailsStyled)).toHaveLength(1);
       expect(wrapper.find(PaymentCard)).toHaveLength(1);
     });
   });

@@ -88,3 +88,14 @@ export const DeleteIconStyled = styled(props => <DeleteIcon {...props} />)`
   margin-right: 10px;
   font-size: 9px;
 `;
+
+export const PopupImageStyled = styled.div`
+  border: 1px solid ${LineColor};
+  border-radius: 10px;
+  padding: 15px 25px;
+  max-width: 100px;
+  margin: auto auto 30px auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;

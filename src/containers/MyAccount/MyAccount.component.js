@@ -21,6 +21,7 @@ import Footer from 'components/Footer';
 
 import { isHosted } from 'util/appConfigHelper';
 import MyAccountError from 'components/MyAccountError/MyAccountError';
+import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import { WrapperStyled, HeaderStyled } from './MyAccountStyled';
 
 const POPUP_TYPE = {
@@ -84,6 +85,14 @@ class MyAccount extends Component {
           setCurrentUser(response.responseData);
         }
       });
+    }
+
+    // delete old payment details when paypal payment details were updated successfully
+    const paymentDetailsToDelete = new URLSearchParams(
+      window.location.search
+    ).get('deletepd');
+    if (parseInt(paymentDetailsToDelete, 10)) {
+      deletePaymentDetails(paymentDetailsToDelete);
     }
   }
 

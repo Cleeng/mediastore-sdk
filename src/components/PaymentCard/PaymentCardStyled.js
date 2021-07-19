@@ -4,16 +4,14 @@ import {
   White,
   MainColor,
   CardSecondaryColor,
-  PaypalMainColor,
-  PaypalSecondaryColor,
-  IconsColor
+  IconsColor,
+  paymentMethodColors
 } from 'styles/variables';
 
 export const CardStyled = styled.div`
   position: relative;
 
-  height: 0;
-  padding-top: 56.25%;
+  height: 160px;
 
   background-color: ${MyAccountBlue};
   border-radius: 20px;
@@ -38,8 +36,8 @@ export const CardStyled = styled.div`
 export const CardTypeStyled = styled.div`
   position: absolute;
   left: 16px;
-  top: 28px;
-  height: 24px;
+  top: 16px;
+  height: 35px;
   z-index: 2;
 
   svg {
@@ -53,7 +51,7 @@ export const CardNumberStyled = styled.div`
   top: 28px;
   right: 16px;
   color: ${White};
-  font-size: 13px;
+  font-size: 12px;
   z-index: 2;
 `;
 
@@ -77,9 +75,9 @@ export const CardExpirationLabel = styled.div`
 
 export const CardExpirationDateStyled = styled.div`
   color: ${White};
-  font-size: 13px;
+  font-size: 12px;
   z-index: 2;
-  max-width: 125px;
+  max-width: 100px;
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
@@ -92,7 +90,7 @@ export const CardEditStyled = styled.button`
   color: ${MainColor};
   z-index: 2;
 
-  padding: 9px 17px;
+  padding: 9px 14px;
   background-color: ${White};
   font-size: 11px;
   font-weight: 600;
@@ -106,19 +104,24 @@ export const CardEditStyled = styled.button`
 `;
 
 export const CardWrapStyled = styled.div`
-  max-width: 298px;
-  margin: auto;
+  width: 265px;
   font-family: Arial, Helvetica, sans-serif;
 
   ${props =>
-    props.type === 'paypal' &&
+    props.type !== '' &&
     css`
       ${CardStyled} {
-        background-color: ${PaypalMainColor};
+        background-color: ${paymentMethodColors[`${props.type}MainColor`]};
 
         &:after {
-          background-color: ${PaypalSecondaryColor};
+          background-color: ${paymentMethodColors[
+            `${props.type}SecondaryColor`
+          ]};
         }
       }
     `}
+`;
+
+export const MethodNameStyled = styled.strong`
+  text-transform: capitalize;
 `;

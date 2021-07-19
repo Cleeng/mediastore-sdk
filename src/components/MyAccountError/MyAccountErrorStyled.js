@@ -2,6 +2,31 @@ import styled, { css } from 'styled-components';
 import { MainColor, IconsColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
+export const TitleStyled = styled.div`
+  max-width: 380px;
+  margin: 10px auto 0 auto;
+
+  color: ${MainColor};
+
+  font-size: 16px;
+`;
+
+export const SubTitleStyled = styled.div`
+  color: ${MainColor};
+
+  font-size: 13px;
+
+  max-width: 310px;
+  margin: 5px auto 0 auto;
+`;
+
+export const IconStyled = styled.div`
+  margin: auto auto 10px auto;
+  svg {
+    max-width: 100%;
+  }
+`;
+
 export const WrapStyled = styled.div`
   position: relative;
   max-width: ${props => (props.fullWidth ? 'unset' : '320px')};
@@ -11,7 +36,7 @@ export const WrapStyled = styled.div`
 
   text-align: center;
   line-height: 1.4;
-
+  
   ${props =>
     props.withBorder &&
     css`
@@ -62,29 +87,21 @@ export const WrapStyled = styled.div`
         }
       }
     `}
-`;
-
-export const TitleStyled = styled.div`
-  max-width: 380px;
-  margin: 10px auto 0 auto;
-
-  color: ${MainColor};
-
-  font-size: 16px;
-`;
-
-export const SubTitleStyled = styled.div`
-  color: ${MainColor};
-
-  font-size: 13px;
-
-  max-width: 310px;
-  margin: 5px auto 0 auto;
-`;
-
-export const IconStyled = styled.div`
-  margin: auto auto 10px auto;
-  svg {
-    max-width: 100%;
-  }
+    ${props =>
+      props.isSmallCard &&
+      css`
+        width: 265px;
+        padding: 26px 0;
+        height: 160px;
+        margin: 0 auto;
+        ${TitleStyled} {
+          font-size: 14px;
+        }
+        ${SubTitleStyled} {
+          font-size: 12px;
+        }
+        ${IconStyled} {
+          margin: auto auto 5px auto;
+        }
+      `}
 `;

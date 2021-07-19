@@ -161,5 +161,11 @@
   "By clicking the REMOVE button you will delete this payment method.": "By clicking the REMOVE button you will delete this payment method.",
   "Any subscriptions connected with this payment method will not be renewed, unless another payment method is added.": "Any subscriptions connected with this payment method will not be renewed, unless another payment method is added.",
   "Remove": "Remove",
-  "Paying with PayPal is easy. Click the button below and sign in to your PayPal account": "Paying with PayPal is easy. Click the button below and sign in to your PayPal account"
+  "Paying with PayPal is easy. Click the button below and sign in to your PayPal account": "Paying with PayPal is easy. Click the button below and sign in to your PayPal account",
+  "It looks like your payments cannot be managed from here": "It looks like your payments cannot be managed from here",
+  "You are currently paying for your subscription via": "You are currently paying for your subscription via",
+  "This means that your payment information cannot be changed from here right now.": "This means that your payment information cannot be changed from here right now.",
+  "Billing via": "Billing via",
+  "Success": "Success",
+  "Managed by external service": "Managed by external service"
 }

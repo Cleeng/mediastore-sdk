@@ -78,7 +78,7 @@ const ButtonStyled = styled.button`
     (props.theme === 'paypal' &&
       css`
         color: ${colors.White};
-        background-color: ${colors.PaypalMainColor};
+        background-color: ${colors.PayPal};
         opacity: 0.9;
         &:hover,
         &:focus {

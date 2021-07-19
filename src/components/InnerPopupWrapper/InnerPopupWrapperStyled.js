@@ -81,7 +81,8 @@ export const TitleStyled = styled.h1`
   font-size: 26px;
   color: ${MainColor};
   font-weight: 600;
-  text-transform: capitalize;
+  text-transform: ${props =>
+    props.textTransform ? props.textTransform : 'capitalize'};
   line-height: 1.2;
 
   ${media.small`

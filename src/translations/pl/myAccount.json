@@ -164,5 +164,11 @@
   "By clicking the REMOVE button you will delete this payment method.": "Kliknięcie w przycisk USUŃ skutkuje usunięciem danych płatności.",
   "Any subscriptions connected with this payment method will not be renewed, unless another payment method is added.": "Subskrypcje połączone z tą metodą płatności nie zostaną odnowione dopóki nie zostanie dodana nowa metoda płatności.",
   "Remove": "Usuń",
-  "Paying with PayPal is easy. Click the button below and sign in to your PayPal account": "Płacenie z PayPal jest łatwe. Kliknij na przycisk poniżej i zaloguj się do konta PayPal"
+  "Paying with PayPal is easy. Click the button below and sign in to your PayPal account": "Płacenie z PayPal jest łatwe. Kliknij na przycisk poniżej i zaloguj się do konta PayPal",
+  "It looks like your payments cannot be managed from here": "Wygląda na to, że Twoje płatności nie mogą być tutaj edytowane",
+  "You are currently paying for your subscription via": "Opłacasz subskrypcję za pomoca",
+  "This means that your payment information cannot be changed from here right now.": "Oznacza to, że Twoje dane płatności nie mogą zostać zmienione w tym miejscu.",
+  "Billing via": "Zarządzane przez",
+  "Success": "Sukces",
+  "Managed by external service": "Zarządzana przez zewnętrzy serwis"
 }
