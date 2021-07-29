@@ -21,10 +21,9 @@ class MyAccountMenu extends Component {
 
   render() {
     const {
-      routeMatch: { url },
+      routeMatch: { url, path },
       t
     } = this.props;
-
     return (
       <WrapStyled>
         <ItemsStyled>
@@ -37,7 +36,7 @@ class MyAccountMenu extends Component {
                 key={menuItem.label}
                 visibleOnDesktop={menuItem.visibleOnDesktop}
               >
-                <ItemLinkStyled to={`${url}/${menuItem.link}`}>
+                <ItemLinkStyled to={`${url || path}/${menuItem.link}`}>
                   <ItemIconWrapStyled>
                     <IconComponent />
                   </ItemIconWrapStyled>

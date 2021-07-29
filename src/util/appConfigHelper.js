@@ -44,3 +44,24 @@ export const sendMessage = msg => {
 
 export const isHosted = () =>
   getData('CLEENG_HOSTED') && getData('CLEENG_HOSTED') === 'true';
+
+export const setPublisher = publisherId => {
+  if (publisherId) {
+    setData('CLEENG_PUBLISHER_ID', publisherId);
+    return true;
+  }
+  return false;
+};
+
+export const setOffer = offerId => {
+  if (offerId) {
+    setData('CLEENG_OFFER_ID', offerId);
+    return true;
+  }
+  return false;
+};
+
+export default {
+  setPublisher,
+  setOffer
+};

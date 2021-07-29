@@ -24,7 +24,7 @@ const isJWTExpired = () => {
 const fetchNewTokens = async () => {
   IS_FETCHING_REFRESH_TOKEN = true;
   const response = await fetch(
-    `${ENVIRONMENT_CONFIGURATION.API_URL}/auths/refresh_token`,
+    `https://mediastoreapi-sandbox.cleeng.com/auths/refresh_token`,
     {
       method: 'POST',
       body: JSON.stringify({ refreshToken: getData('CLEENG_REFRESH_TOKEN') }),

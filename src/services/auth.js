@@ -2,7 +2,7 @@ import jwtDecode from 'jwt-decode';
 import { getData, setData, removeData } from 'util/appConfigHelper';
 import getCaptureStatus from 'api/Customer/getCaptureStatus';
 import getCustomerConsents from 'api/Customer/getCustomerConsents';
-import history from '../history';
+// import history from '../history';
 
 class Auth {
   constructor() {
@@ -26,7 +26,8 @@ class Auth {
     jwt,
     refreshToken,
     cb = () => {},
-    args = []
+    args = [],
+    callback = () => {}
   ) {
     this.isAuthenticated = true;
     const { customerId } = jwtDecode(jwt);
@@ -34,7 +35,7 @@ class Auth {
     setData('CLEENG_AUTH_TOKEN', jwt);
     setData('CLEENG_REFRESH_TOKEN', refreshToken);
     setData('CLEENG_CUSTOMER_EMAIL', email);
-    cb.apply(this, args);
+    if (cb) cb.apply(this, args);
     const redirectUrl = isMyAccount
       ? this.myAccount.mainPage
       : this.checkout.mainPage;
@@ -73,12 +74,14 @@ class Auth {
           redirectUrl
         ].filter(Boolean)
       };
-      const currentRedirection = data.redirectUrl.shift();
-      history.push(currentRedirection, data);
+      // const currentRedirection = data.redirectUrl.shift();
+      // history.push(currentRedirection, data);
     });
+
+    callback();
   }
 
-  logout(isMyAccount = false, queryParam = '') {
+  logout(isMyAccount = false, queryParam = '', callback = () => {}) {
     this.isAuthenticated = false;
     removeData('CLEENG_AUTH_TOKEN');
     removeData('CLEENG_REFRESH_TOKEN');
@@ -87,15 +90,16 @@ class Auth {
     removeData('CLEENG_PP_CANCEL');
     removeData('CLEENG_PP_ERROR');
 
-    history.push(
-      isMyAccount
-        ? this.myAccount.loginPage + queryParam
-        : this.checkout.loginPage
-    );
+    callback();
+
+    // history.push(
+    //   isMyAccount
+    //     ? this.myAccount.loginPage + queryParam
+    //     : this.checkout.loginPage
+    // );
   }
 
   isLogged() {
-    console.log('in isLogged');
     const jwt = getData('CLEENG_AUTH_TOKEN');
     const refreshToken = getData('CLEENG_REFRESH_TOKEN');
 
@@ -109,10 +113,8 @@ class Auth {
     const isExpired = now > decoded.exp;
 
     if (isExpired && !refreshToken) {
-      console.log('logout');
       this.logout();
     } else {
-      console.log('is logged in');
       this.isAuthenticated = true;
     }
     return this.isAuthenticated;

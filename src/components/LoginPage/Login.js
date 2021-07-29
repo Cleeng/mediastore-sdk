@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
 import googleIcon from 'assets/images/google.png';
-import fbIcon from 'assets/images/fb.svg';
+import fbIcon from 'assets/images/fbIB.svg';
 import Button from 'components/Button';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -15,7 +15,8 @@ import { isHosted } from 'util/appConfigHelper';
 import {
   ContentWrapperStyled,
   SocialStyled,
-  SeparatorStyled
+  SeparatorStyled,
+  LoginWrapperStyled
 } from './LoginStyled';
 import LoginForm from './LoginForm';
 
@@ -50,14 +51,14 @@ class Login extends Component {
 
   render() {
     const { isOfferError, offerId, publisherId, emailChanged } = this.state;
-    const { isMyAccount, t } = this.props;
+    const { isMyAccount, onSuccess, t } = this.props;
     return isOfferError ? (
       <ErrorPage
         type="offerNotExist"
         resetError={() => this.setOfferError(false)}
       />
     ) : (
-      <>
+      <LoginWrapperStyled>
         <Header />
         <ContentWrapperStyled>
           <LoginForm
@@ -67,6 +68,7 @@ class Login extends Component {
             setOfferError={this.setOfferError}
             isMyAccount={isMyAccount}
             emailChanged={emailChanged}
+            onSuccess={onSuccess}
           />
           {!isMyAccount && (
             <>
@@ -114,7 +116,7 @@ class Login extends Component {
           </Button>
         </ContentWrapperStyled>
         <Footer isCheckout={!isMyAccount} />
-      </>
+      </LoginWrapperStyled>
     );
   }
 }
@@ -123,11 +125,13 @@ Login.propTypes = {
     location: PropTypes.shape({ search: PropTypes.string })
   }),
   isMyAccount: PropTypes.bool,
+  onSuccess: PropTypes.func,
   t: PropTypes.func
 };
 Login.defaultProps = {
   urlProps: {},
   isMyAccount: false,
+  onSuccess: () => {},
   t: k => k
 };
 

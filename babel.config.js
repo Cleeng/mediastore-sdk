@@ -1,4 +1,5 @@
 // const sandboxEnvironment = require('./config/environments/sandbox');
+const { extendDefaultPlugins } = require('svgo');
 
 module.exports = function(api) {
   api.cache(true);
@@ -6,6 +7,21 @@ module.exports = function(api) {
   const presets = ['@babel/preset-env', '@babel/preset-react'];
   const plugins = [
     'macros',
+    [
+      'inline-react-svg',
+      {
+        ignorePattern: 'IB',
+        svgo: {
+          plugins: extendDefaultPlugins([
+            {
+              name: 'removeAttrs',
+              params: { attrs: '(data-name)' }
+            },
+            'cleanupIDs'
+          ])
+        }
+      }
+    ],
     // 'transform-inline-environment-variables',
     // [
     //   'transform-define',

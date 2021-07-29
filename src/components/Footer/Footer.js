@@ -2,7 +2,7 @@ import React from 'react';
 import { PropTypes } from 'prop-types';
 import { FooterStyled, ProductByStyled, SecurityStyled } from './FooterStyled';
 import logo from './img/cleeng-logo-sm.png';
-import security from './img/security.svg';
+import security from './img/securityIB.svg';
 
 const Footer = ({ className, isInPopup, isCheckout, isTransparent }) => (
   <FooterStyled

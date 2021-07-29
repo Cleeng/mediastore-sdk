@@ -2,6 +2,10 @@ import styled from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
+export const LoginWrapperStyled = styled.div`
+  position: relative;
+`;
+
 export const ContentWrapperStyled = styled.main`
   position: relative;
 

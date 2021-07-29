@@ -2,13 +2,14 @@ import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import googleIcon from 'assets/images/google.png';
-import fbIcon from 'assets/images/fb.svg';
+import fbIcon from 'assets/images/fbIB.svg';
 import ErrorPage from 'components/ErrorPage';
 import BackButton from 'components/BackButton';
 import {
   ContentWrapperStyled,
   SocialStyled,
-  SeparatorStyled
+  SeparatorStyled,
+  LoginWrapperStyled as RegisterWrapperStyled
 } from 'components/LoginPage/LoginStyled';
 import Button from 'components/Button';
 import Header from 'components/Header';
@@ -43,11 +44,11 @@ class Register extends Component {
 
   render() {
     const { isOfferError, offerId, publisherId } = this.state;
-    const { t } = this.props;
+    const { t, onSuccess } = this.props;
     return isOfferError ? (
       <ErrorPage type="offerNotExist" resetError={() => this.setOfferError()} />
     ) : (
-      <>
+      <RegisterWrapperStyled>
         <Header>
           <BackButton />
         </Header>
@@ -57,6 +58,7 @@ class Register extends Component {
             offerId={offerId}
             publisherId={publisherId}
             setOfferError={this.setOfferError}
+            onSuccess={onSuccess}
           />
           <Button
             isLink
@@ -89,7 +91,7 @@ class Register extends Component {
           )}
         </ContentWrapperStyled>
         <Footer />
-      </>
+      </RegisterWrapperStyled>
     );
   }
 }
@@ -97,11 +99,13 @@ Register.propTypes = {
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
   }),
+  onSuccess: PropTypes.func,
   t: PropTypes.func
 };
 
 Register.defaultProps = {
   urlProps: {},
+  onSuccess: () => {},
   t: k => k
 };
 

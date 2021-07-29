@@ -189,7 +189,6 @@ class MyAccount extends Component {
               <Footer isCheckout={false} isTransparent />
             </HeaderStyled>
             <MyAccountContent>
-              {console.log('my account component, path: ', path)}
               <Switch>
                 <PrivateRoute
                   isMyAccount

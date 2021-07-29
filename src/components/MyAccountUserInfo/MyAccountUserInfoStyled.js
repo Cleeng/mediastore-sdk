@@ -8,7 +8,7 @@ import {
   MediumFontWeight
 } from 'styles/variables';
 
-import portrait from './img/icon_myaccount.svg';
+import portrait from './img/icon_myaccountIB.svg';
 
 export const WrapStyled = styled.header`
   display: flex;

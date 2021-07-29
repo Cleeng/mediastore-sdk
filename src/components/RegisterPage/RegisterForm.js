@@ -98,7 +98,7 @@ class RegisterForm extends Component {
 
   register = async () => {
     const { email, password, consents, consentDefinitions } = this.state;
-    const { offerId, setOfferError, t } = this.props;
+    const { offerId, setOfferError, onSuccess, t } = this.props;
     if (!offerId) {
       setOfferError(true);
       return false;
@@ -132,7 +132,8 @@ class RegisterForm extends Component {
         response.responseData.jwt,
         response.responseData.refreshToken,
         submitConsents,
-        [consents, consentDefinitions]
+        [consents, consentDefinitions],
+        onSuccess
       );
     } else if (response.status === 422) {
       if (response.errors[0].includes('Enterprise account is required')) {
@@ -246,6 +247,7 @@ RegisterForm.propTypes = {
   offerId: PropTypes.string,
   publisherId: PropTypes.string,
   setOfferError: PropTypes.func,
+  onSuccess: PropTypes.func,
   t: PropTypes.func
 };
 
@@ -253,6 +255,7 @@ RegisterForm.defaultProps = {
   offerId: '',
   publisherId: '',
   setOfferError: () => {},
+  onSuccess: () => {},
   t: k => k
 };
 

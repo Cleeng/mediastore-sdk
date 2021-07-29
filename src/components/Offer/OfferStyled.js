@@ -3,6 +3,7 @@ import * as variables from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const StyledOfferWrapper = styled.div`
+  position: relative;
   width: 100%;
   background-color: #fff;
 `;

@@ -6,8 +6,8 @@ import {
   LineColor,
   FocusColor
 } from '../../styles/variables';
-import tickIcon from '../../assets/images/input/tick.svg';
-import enableIcon from '../../assets/images/input/enable_check.svg';
+import tickIcon from '../../assets/images/input/tickIB.svg';
+import enableIcon from '../../assets/images/input/enable_checkIB.svg';
 
 export const CheckboxStyled = styled.div`
   display: flex;

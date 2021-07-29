@@ -77,7 +77,13 @@ class LoginForm extends Component {
   };
 
   login = async () => {
-    const { offerId, setOfferError, isMyAccount, publisherId } = this.props;
+    const {
+      offerId,
+      setOfferError,
+      isMyAccount,
+      publisherId,
+      onSuccess
+    } = this.props;
     const { email, password } = this.state;
 
     if (!offerId && !isMyAccount) {
@@ -107,10 +113,14 @@ class LoginForm extends Component {
             false,
             email,
             response.responseData.jwt,
-            response.responseData.refreshToken
+            response.responseData.refreshToken,
+            null,
+            null,
+            onSuccess
           );
         })
-        .catch(() => {
+        .catch(err => {
+          console.log(err);
           this.renderError();
         });
     } else if (response.status === 401 || response.status === 422) {
@@ -195,6 +205,7 @@ LoginForm.propTypes = {
   isMyAccount: PropTypes.bool,
   setOfferError: PropTypes.func,
   emailChanged: PropTypes.bool,
+  onSuccess: PropTypes.func,
   t: PropTypes.func
 };
 
@@ -204,6 +215,7 @@ LoginForm.defaultProps = {
   isMyAccount: false,
   setOfferError: () => {},
   emailChanged: false,
+  onSuccess: () => {},
   t: k => k
 };
 

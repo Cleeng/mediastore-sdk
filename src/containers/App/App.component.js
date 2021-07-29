@@ -1,6 +1,6 @@
 /* istanbul ignore file */
 import React, { Suspense } from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { isHosted } from 'util/layoutHelper';
 import 'i18NextInit';
 import RedirectWithQuery from 'components/RedirectWithQuery';
@@ -36,7 +36,7 @@ const App = () => {
   return (
     <AppStyled hosted={isAppHosted}>
       <Suspense fallback={<Loader centered />}>
-        <Router history={history}>
+        <Router>
           <AppContentStyled hosted={isAppHosted}>
             <Switch>
               <PublicRoute path="/" exact component={RedirectWithQuery} />

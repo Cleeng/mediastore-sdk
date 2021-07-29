@@ -83,7 +83,6 @@ const PlanDetails = ({
   };
 
   useEffect(() => {
-    console.log('plan details component');
     if (innerPopup.isOpen) {
       hideInnerPopup();
       updateList();
