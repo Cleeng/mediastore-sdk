@@ -55,7 +55,9 @@ const SubscriptionCard = ({
     },
     INAPP_SUBSCRIPTION: {
       text: t(
-        `Subscription purchased via ${paymentMethod}. Use an external service to edit the plan.`
+        `${
+          paymentMethod ? `Subscription purchased via ${paymentMethod}. ` : ``
+        }Use an external service to edit the plan.`
       ),
       icon: EditBlockedIcon
     }
