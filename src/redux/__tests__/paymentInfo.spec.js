@@ -1,5 +1,5 @@
 import {
-  SET_PAYMENT_METHOD,
+  SET_PAYMENT_DETAILS,
   SET_TRANSACTIONS_LIST,
   SET_TRANSACTIONS_TO_SHOW,
   SET_TRANSACTIONS_LIST_AS_FETCHED,
@@ -7,11 +7,34 @@ import {
 } from 'redux/paymentInfo';
 import paymentInfoReducer from '../paymentInfo';
 
+const paypalPaymentMethod = {
+  id: 457654757,
+  customerId: 338816933,
+  paymentGateway: 'paypal',
+  paymentMethod: 'paypal',
+  paymentMethodSpecificParams: {
+    holderName: 'User'
+  },
+  active: true,
+  bound: false
+};
+
+const iosPaymentMethod = {
+  id: 457654757,
+  customerId: 338816933,
+  paymentGateway: 'paypal',
+  paymentMethod: 'paypal',
+  paymentMethodSpecificParams: {
+    holderName: 'User'
+  },
+  active: true,
+  bound: false
+};
+
 const paymentDetailsMock = [
   {
     id: 680860225,
     customerId: 338816933,
-    token: '8315815183716450',
     paymentGateway: 'adyen',
     paymentMethod: 'card',
     paymentMethodSpecificParams: {
@@ -21,7 +44,14 @@ const paymentDetailsMock = [
       cardExpirationDate: '10/2020',
       socialSecurityNumber: ''
     },
-    paymentMethodId: null
+    active: false,
+    bound: false
+  },
+  {
+    ...iosPaymentMethod
+  },
+  {
+    ...paypalPaymentMethod
   }
 ];
 
@@ -36,9 +66,12 @@ const transactionListPayload = [
 ];
 
 describe('PaymentInfo reducer', () => {
-  it('should correctly call paymentMethod action', () => {
-    const action = { type: SET_PAYMENT_METHOD, payload: paymentDetailsMock };
-    const expectedState = { paymentMethod: paymentDetailsMock };
+  it('should correctly call setPaymentDetails action and select active and bound payment details', () => {
+    const action = { type: SET_PAYMENT_DETAILS, payload: paymentDetailsMock };
+    const expectedState = {
+      paymentDetails: paymentDetailsMock,
+      activeOrBoundPaymentDetails: [paypalPaymentMethod, iosPaymentMethod]
+    };
 
     expect(paymentInfoReducer(undefined, action)).toMatchObject(expectedState);
   });

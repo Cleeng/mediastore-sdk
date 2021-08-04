@@ -3,16 +3,13 @@
 import React from 'react';
 import { shallow } from 'enzyme';
 import 'jest-styled-components';
-import { PureMyAccountError } from './MyAccountError';
+import MyAccountError from './MyAccountError';
 import { IconStyled } from './MyAccountErrorStyled';
 
-jest.mock('containers/labeling', () => () => Component => props => (
-  <Component t={k => k} {...props} />
-));
 jest.mock('react-i18next', () => ({
-  withTranslation: () => Component => props => (
-    <Component t={k => k} {...props} />
-  )
+  useTranslation: () => ({
+    t: key => key
+  })
 }));
 
 describe('<MyAccountError/>', () => {
@@ -21,7 +18,7 @@ describe('<MyAccountError/>', () => {
   });
   describe('@renders', () => {
     it('should render initial state', () => {
-      const wrapper = shallow(<PureMyAccountError />);
+      const wrapper = shallow(<MyAccountError />);
       expect(wrapper.find(IconStyled).exists()).toBe(false);
     });
   });

@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import styled, { css } from 'styled-components';
 import { MyAccountTextGray, LineColor, MainColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
@@ -54,7 +55,11 @@ export const TransactionListStyled = styled.div`
   ${props =>
     props.length &&
     css`
-      height: ${props.length * 70}px;
+      height: ${props.length === 1
+        ? '33px'
+        : props.length === 2
+        ? '103px'
+        : `${(props.length - 2) * 70 + 103}px`};
     `};
 `;
 

@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
 import MyAccountError from 'components/MyAccountError';
 
 import {
@@ -18,8 +16,7 @@ const InnerPopupWrapper = ({
   popupTitle,
   currentStep,
   children,
-  isError,
-  t
+  isError
 }) => (
   <CardStyled>
     {isError ? (
@@ -31,7 +28,7 @@ const InnerPopupWrapper = ({
             {steps > 1 &&
               Array.from({ length: steps }, (_, k) => <DotStyled key={k} />)}
           </DotsWrapperStyled>
-          <HeaderTitleStyled>{t(popupTitle)}</HeaderTitleStyled>
+          <HeaderTitleStyled>{popupTitle}</HeaderTitleStyled>
         </HeaderStyled>
         {children}
       </WrapperStyled>
@@ -41,17 +38,14 @@ const InnerPopupWrapper = ({
 
 InnerPopupWrapper.propTypes = {
   steps: PropTypes.number.isRequired,
-  popupTitle: PropTypes.string.isRequired,
+  popupTitle: PropTypes.string,
   currentStep: PropTypes.number.isRequired,
   children: PropTypes.node.isRequired,
-  isError: PropTypes.bool.isRequired,
-  t: PropTypes.func
+  isError: PropTypes.bool.isRequired
 };
 
 InnerPopupWrapper.defaultProps = {
-  t: k => k
+  popupTitle: ''
 };
 
-export { InnerPopupWrapper as PureInnerPopupWrapper };
-
-export default withTranslation()(labeling()(InnerPopupWrapper));
+export default InnerPopupWrapper;

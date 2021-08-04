@@ -3,15 +3,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
+import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
 import {
-  SubscriptionStyled,
-  SubscriptionActionsStyled,
+  WrapperStyled,
   SimpleButtonStyled
-} from 'components/CurrentPlan/CurrentPlanStyled';
+} from 'components/SubscriptionManagement/SubscriptionManagementStyled';
 import SubscriptionCard from 'components/SubscriptionCard';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import mapErrorToText from './helper';
 
 const SubscriptionSwitchesList = ({
@@ -80,11 +81,11 @@ const SubscriptionSwitchesList = ({
               currency={subItem.nextPaymentPriceCurrencySymbol}
               price={Math.round(subItem.nextPaymentPrice * 100) / 100}
             />
-            <SubscriptionActionsStyled>
+            <WrapperStyled>
               <SimpleButtonStyled
                 onClickFn={() => {
                   showInnerPopup({
-                    type: 'switchPlan',
+                    type: POPUP_TYPES.switchPlan,
                     data: {
                       offerData: {
                         ...subItem
@@ -95,7 +96,7 @@ const SubscriptionSwitchesList = ({
               >
                 {t('Choose')}
               </SimpleButtonStyled>
-            </SubscriptionActionsStyled>
+            </WrapperStyled>
           </SubscriptionStyled>
         ))}
       {areUnAvailable &&
@@ -108,9 +109,9 @@ const SubscriptionSwitchesList = ({
               price={Math.round(subItem.nextPaymentPrice * 100) / 100}
               showInfoBox={subItem.reason.code}
             />
-            <SubscriptionActionsStyled>
+            <WrapperStyled>
               <SimpleButtonStyled disabled>{t('Choose')}</SimpleButtonStyled>
-            </SubscriptionActionsStyled>
+            </WrapperStyled>
           </SubscriptionStyled>
         ))}
     </>

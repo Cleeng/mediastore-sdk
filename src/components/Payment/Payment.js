@@ -107,6 +107,7 @@ class Payment extends Component {
   };
 
   choosePaymentMethod = (methodId, methodName) => {
+    this.clearError();
     const orderId = getData('CLEENG_ORDER_ID');
     setData('CLEENG_PAYMENT_METHOD_ID', methodId);
     if (orderId) {

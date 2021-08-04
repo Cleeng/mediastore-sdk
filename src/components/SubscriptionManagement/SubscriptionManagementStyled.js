@@ -1,5 +1,17 @@
 import styled, { css } from 'styled-components';
-import { media } from 'styles/BreakPoints';
+import { media, mediaFrom } from 'styles/BreakPoints';
+import { IconsColor } from 'styles/variables';
+import Button from 'components/Button';
+
+export const WrapperStyled = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+
+  border-top: 1px solid ${IconsColor};
+  margin-top: 17px;
+  padding-top: 17px;
+`;
 
 export const SubscriptionManagementStyled = styled.section`
   width: 100%;
@@ -23,6 +35,7 @@ export const SubscriptionActionsStyled = styled.div`
   max-height: 0px;
   overflow: hidden;
   transition: all 0.3s ease-in-out;
+
   ${props =>
     props.isOpened &&
     css`
@@ -32,7 +45,6 @@ export const SubscriptionActionsStyled = styled.div`
   ${media.small`
     button{
       font-size:11px;
-      padding: 12px 15px;
     }
   `}
 `;
@@ -54,4 +66,34 @@ export const ButtonTextStyled = styled.span`
         transform: scaleY(0.8) rotateX(180deg);
       `}
   }
+`;
+
+export const SimpleButtonStyled = styled(Button)`
+  width: 48%;
+
+  text-transform: capitalize;
+  &:disabled:hover {
+    opacity: 0.9;
+  }
+  ${mediaFrom.small &&
+    css`
+      margin: 0;
+      width: unset;
+      max-width: unset;
+    `}
+`;
+
+export const FullWidthButtonStyled = styled(Button)`
+  width: 100%;
+  ${mediaFrom.small &&
+    css`
+      width: unset;
+      max-width: unset;
+    `}
+`;
+
+export const CouponWrapStyled = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
 `;

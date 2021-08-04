@@ -1,6 +1,31 @@
 import styled, { css } from 'styled-components';
-import { MainColor } from 'styles/variables';
+import { MainColor, IconsColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
+
+export const TitleStyled = styled.div`
+  max-width: 380px;
+  margin: 10px auto 0 auto;
+
+  color: ${MainColor};
+
+  font-size: 16px;
+`;
+
+export const SubTitleStyled = styled.div`
+  color: ${MainColor};
+
+  font-size: 13px;
+
+  max-width: 310px;
+  margin: 5px auto 0 auto;
+`;
+
+export const IconStyled = styled.div`
+  margin: auto auto 10px auto;
+  svg {
+    max-width: 100%;
+  }
+`;
 
 export const WrapStyled = styled.div`
   position: relative;
@@ -11,11 +36,11 @@ export const WrapStyled = styled.div`
 
   text-align: center;
   line-height: 1.4;
-
+  
   ${props =>
     props.withBorder &&
     css`
-      border: 1px dashed ${MainColor};
+      border: 1px dashed ${IconsColor};
       border-radius: 20px;
       padding: 35px 0;
     `}
@@ -39,29 +64,44 @@ export const WrapStyled = styled.div`
       css`
         margin: auto;
       `}
-`;
 
-export const TitleStyled = styled.div`
-  max-width: 380px;
-  margin: auto auto 5px auto;
-
-  color: ${MainColor};
-
-  font-size: 16px;
-`;
-
-export const SubTitleStyled = styled.div`
-  color: ${MainColor};
-
-  font-size: 13px;
-
-  max-width: 310px;
-  margin: auto;
-`;
-
-export const IconStyled = styled.div`
-  margin: 0 auto 10px auto;
-  svg {
-    max-width: 100%;
-  }
+  ${props =>
+    props.onClick &&
+    css`
+      cursor: pointer;
+      &:after {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        content: '';
+        opacity: 0;
+        border-radius: 20px;
+        box-shadow: 0px 0px 14px 0px #86868642;
+        transition: opacity 0.2s ease-in-out;
+      }
+      &:hover {
+        &:after {
+          opacity: 1;
+        }
+      }
+    `}
+    ${props =>
+      props.isSmallCard &&
+      css`
+        width: 265px;
+        padding: 26px 0;
+        height: 160px;
+        margin: 0 auto;
+        ${TitleStyled} {
+          font-size: 14px;
+        }
+        ${SubTitleStyled} {
+          font-size: 12px;
+        }
+        ${IconStyled} {
+          margin: auto auto 5px auto;
+        }
+      `}
 `;

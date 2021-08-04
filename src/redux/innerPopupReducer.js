@@ -1,6 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createAction, createReducer } from '@reduxjs/toolkit';
 
+export const POPUP_TYPES = {
+  editPassword: 'editPassword',
+  paymentDetails: 'paymentDetails',
+  updateSubscription: 'updateSubscription',
+  switchPlan: 'switchPlan'
+};
+
 export const SHOW_INNER_POPUP = 'SHOW_INNER_POPUP';
 export const showInnerPopup = createAction(SHOW_INNER_POPUP);
 
