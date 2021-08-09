@@ -119,8 +119,7 @@ class LoginForm extends Component {
             onSuccess
           );
         })
-        .catch(err => {
-          console.log(err);
+        .catch(() => {
           this.renderError();
         });
     } else if (response.status === 401 || response.status === 422) {

@@ -16,14 +16,14 @@ const ENVIRONMENT_CONFIGURATION = {
 };
 
 export {
+  Login,
+  Register,
+  OfferContainer,
+  MyAccount,
+  Config,
+  Auth,
   ENVIRONMENT_CONFIGURATION,
   Card,
   Consents,
-  OfferContainer,
-  Login,
-  Register,
-  MyAccount,
-  Auth,
-  store,
-  Config
+  store
 };

@@ -41,7 +41,11 @@ class OfferContainer extends Component {
 
   componentDidMount() {
     const { urlProps } = this.props;
-    saveOfferId(urlProps.location, this.setOfferId);
+    if (urlProps.location) {
+      saveOfferId(urlProps.location, this.setOfferId);
+    } else {
+      this.setOfferId(getData('CLEENG_OFFER_ID'));
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {

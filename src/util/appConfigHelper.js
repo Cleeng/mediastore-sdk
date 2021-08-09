@@ -61,7 +61,16 @@ export const setOffer = offerId => {
   return false;
 };
 
+export const setEnvironment = env => {
+  if (env) {
+    setData('CLEENG_ENVIRONMENT', env);
+    return true;
+  }
+  return false;
+};
+
 export default {
   setPublisher,
-  setOffer
+  setOffer,
+  setEnvironment
 };

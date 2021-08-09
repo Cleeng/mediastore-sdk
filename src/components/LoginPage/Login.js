@@ -10,7 +10,7 @@ import Footer from 'components/Footer';
 import saveOfferId from 'util/offerIdHelper';
 import savePublisherId from 'util/publisherIdHelper';
 import labeling from 'containers/labeling';
-import { isHosted } from 'util/appConfigHelper';
+import { isHosted, getData } from 'util/appConfigHelper';
 
 import {
   ContentWrapperStyled,
@@ -33,13 +33,18 @@ class Login extends Component {
 
   componentDidMount() {
     const { urlProps } = this.props;
-    saveOfferId(urlProps.location, this.setOfferId);
-    savePublisherId(urlProps.location, this.setPublisherId);
+    if (urlProps.location) {
+      saveOfferId(urlProps.location, this.setOfferId);
+      savePublisherId(urlProps.location, this.setPublisherId);
 
-    if (urlProps.location.search.includes('emailChanged=true')) {
-      this.setState({
-        emailChanged: true
-      });
+      if (urlProps.location.search.includes('emailChanged=true')) {
+        this.setState({
+          emailChanged: true
+        });
+      }
+    } else {
+      this.setOfferId(getData('CLEENG_OFFER_ID'));
+      this.setPublisherId(getData('CLEENG_PUBLISHER_ID'));
     }
   }
 

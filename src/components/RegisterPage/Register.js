@@ -17,7 +17,7 @@ import Footer from 'components/Footer';
 import labeling from 'containers/labeling';
 import savePublisherId from 'util/publisherIdHelper';
 import saveOfferId from 'util/offerIdHelper';
-import { isHosted } from 'util/appConfigHelper';
+import { isHosted, getData } from 'util/appConfigHelper';
 import RegisterForm from './RegisterForm';
 
 class Register extends Component {
@@ -32,8 +32,13 @@ class Register extends Component {
 
   componentDidMount() {
     const { urlProps } = this.props;
-    saveOfferId(urlProps.location, this.setOfferId);
-    savePublisherId(urlProps.location, this.setPublisherId);
+    if (urlProps.location) {
+      saveOfferId(urlProps.location, this.setOfferId);
+      savePublisherId(urlProps.location, this.setPublisherId);
+    } else {
+      this.setOfferId(getData('CLEENG_OFFER_ID'));
+      this.setPublisherId(getData('CLEENG_PUBLISHER_ID'));
+    }
   }
 
   setOfferId = value => this.setState({ offerId: value });

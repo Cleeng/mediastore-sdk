@@ -1,6 +1,6 @@
 {
-  "name": "mediastoresdk-iwona",
-  "version": "1.0.131",
+  "name": "@cleeng/mediastore-sdk",
+  "version": "1.0.5",
   "private": false,
   "main": "dist/package.js",
   "files": [
