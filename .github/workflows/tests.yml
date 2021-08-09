@@ -2,9 +2,8 @@ name: Tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
 
 jobs:
   build:
@@ -26,4 +25,4 @@ jobs:
     - name: Test
       run: yarn test --coverage
 
- 
+
