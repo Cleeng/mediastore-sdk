@@ -2,7 +2,6 @@ import { setData, removeData } from 'util/appConfigHelper';
 import getCaptureStatus from 'api/Customer/getCaptureStatus';
 import getCustomerConsents from 'api/Customer/getCustomerConsents';
 import Auth from '../auth';
-import history from '../../history';
 
 jest.mock('api/Customer/getCaptureStatus');
 jest.mock('api/Customer/getCustomerConsents');
@@ -63,8 +62,6 @@ const emailMock = 'example@cleeng.com';
 const refreshTokenMock = 'aif7423ijdv3292hrewfjn4384302uh3r3nvid94443fsg';
 
 describe('Auth', () => {
-  const pushSpy = jest.spyOn(history, 'push');
-
   afterEach(() => {
     jest.clearAllMocks();
   });
@@ -88,11 +85,6 @@ describe('Auth', () => {
       getCustomerConsents.mockResolvedValue(consentsResponse);
       Auth.login(false, false, emailMock, validJWT, refreshTokenMock);
       setImmediate(() => {
-        expect(pushSpy).toHaveBeenCalledTimes(1);
-        expect(pushSpy).toHaveBeenCalledWith('/capture', {
-          redirectUrl: ['/consents', '/offer'],
-          settings: []
-        });
         done();
       });
     });
@@ -101,8 +93,6 @@ describe('Auth', () => {
     it('should update auth status to not authenticated and remove items from local storage on Logout', () => {
       Auth.logout();
       expect(removeData).toHaveBeenCalledTimes(6);
-      expect(pushSpy).toHaveBeenCalled();
-      expect(pushSpy).toHaveBeenCalledWith('/login');
     });
   });
 });

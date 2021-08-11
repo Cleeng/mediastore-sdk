@@ -13,6 +13,7 @@ const setOfferErrorMock = jest.fn();
 const mockInputValue = 'MOCK_INPUT_VALUE';
 const mockEmailValue = 'mockmail@mock.com';
 const mockNotValidEmail = 'mock';
+const onSuccessMock = jest.fn();
 const onSubmitMock = jest.fn().mockImplementation(
   () =>
     new Promise(resolve => {
@@ -122,7 +123,9 @@ describe('LoginForm', () => {
 
       onSubmitMock.mockClear();
       Auth.login = jest.fn();
-      const wrapper = shallow(<LoginForm offerId="S649095045_PL" />);
+      const wrapper = shallow(
+        <LoginForm offerId="S649095045_PL" onSuccess={onSuccessMock} />
+      );
       const instance = wrapper.instance();
       const preventDefaultMock = jest.fn();
 
@@ -146,7 +149,10 @@ describe('LoginForm', () => {
           false,
           mockEmailValue,
           jwtMock,
-          refreshTokenMock
+          refreshTokenMock,
+          null,
+          null,
+          onSuccessMock
         );
         done();
       });
@@ -159,7 +165,13 @@ describe('LoginForm', () => {
       });
       onSubmitMock.mockClear();
       Auth.login = jest.fn();
-      const wrapper = shallow(<LoginForm publisher="123456789" isMyAccount />);
+      const wrapper = shallow(
+        <LoginForm
+          publisher="123456789"
+          onSuccess={onSuccessMock}
+          isMyAccount
+        />
+      );
       const instance = wrapper.instance();
       const preventDefaultMock = jest.fn();
 
@@ -183,7 +195,10 @@ describe('LoginForm', () => {
           false,
           mockEmailValue,
           jwtMock,
-          refreshTokenMock
+          refreshTokenMock,
+          null,
+          null,
+          onSuccessMock
         );
         done();
       });

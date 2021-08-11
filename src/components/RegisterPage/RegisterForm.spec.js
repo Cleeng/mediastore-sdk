@@ -16,6 +16,7 @@ jest.mock('api/Customer/submitConsents');
 const mockInputValue = 'MOCK_INPUT_VALUE11';
 const mockEmailValue = 'mockmail@mock.com';
 const mockNotValidEmail = 'mock';
+const onSuccessMock = jest.fn();
 const onSubmitMock = jest.fn().mockImplementation(
   () =>
     new Promise(resolve => {
@@ -249,7 +250,9 @@ describe('RegisterForm', () => {
         }
       });
 
-      const wrapper = shallow(<RegisterForm offerId="S705970293_NL" />);
+      const wrapper = shallow(
+        <RegisterForm offerId="S705970293_NL" onSuccess={onSuccessMock} />
+      );
       const instance = wrapper.instance();
       const preventDefaultMock = jest.fn();
       Auth.login = jest.fn();
@@ -266,7 +269,6 @@ describe('RegisterForm', () => {
       });
 
       expect(preventDefaultMock).toHaveBeenCalledTimes(1);
-      expect(registerCustomerRequest).toHaveBeenCalled();
       setImmediate(() => {
         expect(instance.state.errors.email).toBe('');
         expect(instance.state.errors.password).toBe('');
@@ -280,8 +282,10 @@ describe('RegisterForm', () => {
           jwtMock,
           refreshTokenMock,
           submitConsentsRequest,
-          [mockConsentValue, mockConsentDefinitions]
+          [mockConsentValue, mockConsentDefinitions],
+          onSuccessMock
         );
+        expect(registerCustomerRequest).toHaveBeenCalled();
         done();
       });
     });
