@@ -1,8 +1,10 @@
 import { fetchWithHeaders } from 'util/fetchHelper';
 import { sendMessage } from 'util/appConfigHelper';
+import getApiURL from 'util/environmentHelper';
 
 const loginCustomer = async (email, password, loginBy) => {
-  const url = `https://mediastoreapi-sandbox.cleeng.com/auths`;
+  const API_URL = getApiURL();
+  const url = `${API_URL}/auths`;
 
   try {
     const resp = await fetchWithHeaders(url, {

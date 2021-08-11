@@ -1,9 +1,12 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
+import getApiURL from 'util/environmentHelper';
 
 const submitPayment = async card => {
+  const API_URL = getApiURL();
+
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
-  const url = `https://mediastoreapi-sandbox.cleeng.com/connectors/adyen/payments`;
+  const url = `${API_URL}/connectors/adyen/payments`;
 
   try {
     const res = await fetchWithJWT(url, {

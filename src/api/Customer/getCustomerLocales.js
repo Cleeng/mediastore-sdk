@@ -1,8 +1,9 @@
+import getApiURL from 'util/environmentHelper';
+
 const getCustomerLocales = () => {
-  return fetch(
-    `https://mediastoreapi-sandbox.cleeng.com/locales`,
-    {}
-  ).then(res => res.json());
+  const API_URL = getApiURL();
+
+  return fetch(`${API_URL}/locales`, {}).then(res => res.json());
 };
 
 export default getCustomerLocales;

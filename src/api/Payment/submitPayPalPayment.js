@@ -1,9 +1,11 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
+import getApiURL from 'util/environmentHelper';
 
 const submitPayPalPayment = async () => {
+  const API_URL = getApiURL();
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
-  const url = `https://mediastoreapi-sandbox.cleeng.com/connectors/paypal/v1/tokens`;
+  const url = `${API_URL}/connectors/paypal/v1/tokens`;
 
   const redirectUrls = {
     successUrl:

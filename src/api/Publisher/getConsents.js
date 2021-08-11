@@ -1,7 +1,9 @@
+import getApiURL from 'util/environmentHelper';
+
 const getConsents = publisherId => {
-  return fetch(
-    `https://mediastoreapi-sandbox.cleeng.com/publishers/${publisherId}/consents`,
-    { method: 'GET' }
-  ).then(res => res.json());
+  const API_URL = getApiURL();
+  return fetch(`${API_URL}/publishers/${publisherId}/consents`, {
+    method: 'GET'
+  }).then(res => res.json());
 };
 export default getConsents;

@@ -1,10 +1,12 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
+import getApiURL from 'util/environmentHelper';
 
 const subscriptionSwitch = async (offerId, toOfferId, switchDirection) => {
+  const API_URL = getApiURL();
   const customerId = getData('CLEENG_CUSTOMER_ID') || '';
 
-  const url = `https://mediastoreapi-sandbox.cleeng.com/customers/${customerId}/subscription_switches/${offerId}`;
+  const url = `${API_URL}/customers/${customerId}/subscription_switches/${offerId}`;
   return fetchWithJWT(url, {
     method: 'POST',
     body: JSON.stringify({

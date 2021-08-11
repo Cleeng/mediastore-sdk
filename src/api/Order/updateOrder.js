@@ -1,7 +1,9 @@
 import fetchWithJWT from 'util/fetchHelper';
+import getApiURL from 'util/environmentHelper';
 
 const updateOrder = (orderId, params) => {
-  const url = `https://mediastoreapi-sandbox.cleeng.com/orders/${orderId}`;
+  const API_URL = getApiURL();
+  const url = `${API_URL}/orders/${orderId}`;
 
   return fetchWithJWT(url, {
     method: 'PATCH',

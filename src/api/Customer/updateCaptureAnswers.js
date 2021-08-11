@@ -1,9 +1,11 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
+import getApiURL from 'util/environmentHelper';
 
 const updateCaptureAnswers = async anwsers => {
+  const API_URL = getApiURL();
   const customerId = getData('CLEENG_CUSTOMER_ID') || '';
-  const url = `https://mediastoreapi-sandbox.cleeng.com/customers/${customerId}/capture`;
+  const url = `${API_URL}/customers/${customerId}/capture`;
 
   const payload = {
     firstName: anwsers.firstName || null,

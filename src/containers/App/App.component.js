@@ -27,10 +27,6 @@ const ErrorPage = React.lazy(() => import('components/ErrorPage'));
 const MyAccount = React.lazy(() => import('../MyAccount/MyAccount.container'));
 
 const App = () => {
-  const path = history.location.hash.slice(1);
-  if (path) {
-    history.replace(path);
-  }
   const isAppHosted = isHosted();
 
   return (

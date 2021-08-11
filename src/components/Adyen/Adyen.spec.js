@@ -21,7 +21,7 @@ class MockAdyenCheckout {
       environment: 'test',
       onSubmit: mockOnSubmit,
       onChange: mockOnChange,
-      clientKey: 'foo',
+      clientKey: 'test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K',
       showPayButton: false
     });
   }

@@ -1,12 +1,12 @@
 import fetchWithJWT from 'util/fetchHelper';
+import getApiURL from 'util/environmentHelper';
 
 const getPaymentMethods = () => {
-  return fetchWithJWT(
-    `https://mediastoreapi-sandbox.cleeng.com/payment-methods`,
-    {
-      method: 'GET'
-    }
-  ).then(res => res.json());
+  const API_URL = getApiURL();
+
+  return fetchWithJWT(`${API_URL}/payment-methods`, {
+    method: 'GET'
+  }).then(res => res.json());
 };
 
 export default getPaymentMethods;

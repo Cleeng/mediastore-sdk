@@ -2,6 +2,7 @@ import merge from 'lodash.merge';
 import jwtDecode from 'jwt-decode';
 import { getData, setData } from 'util/appConfigHelper';
 import Auth from 'services/auth';
+import getApiURL from 'util/environmentHelper';
 
 const JWT = 'CLEENG_AUTH_TOKEN';
 const REFRESH_TOKEN = 'CLEENG_REFRESH_TOKEN';
@@ -22,18 +23,16 @@ const isJWTExpired = () => {
 };
 
 const fetchNewTokens = async () => {
+  const API_URL = getApiURL();
   IS_FETCHING_REFRESH_TOKEN = true;
-  const response = await fetch(
-    `https://mediastoreapi-sandbox.cleeng.com/auths/refresh_token`,
-    {
-      method: 'POST',
-      body: JSON.stringify({ refreshToken: getData('CLEENG_REFRESH_TOKEN') }),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      }
+  const response = await fetch(`${API_URL}/auths/refresh_token`, {
+    method: 'POST',
+    body: JSON.stringify({ refreshToken: getData('CLEENG_REFRESH_TOKEN') }),
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json'
     }
-  );
+  });
   const responseJSON = await response.json();
   setData(JWT, responseJSON.responseData.jwt);
   setData(REFRESH_TOKEN, responseJSON.responseData.refreshToken);

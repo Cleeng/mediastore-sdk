@@ -1,10 +1,12 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
+import getApiURL from 'util/environmentHelper';
 
 const submitConsents = async (consents, consentDefinitions, payload = null) => {
+  const API_URL = getApiURL();
   const customerId = getData('CLEENG_CUSTOMER_ID') || '';
 
-  const url = `https://mediastoreapi-sandbox.cleeng.com/customers/${customerId}/consents`;
+  const url = `${API_URL}/customers/${customerId}/consents`;
   let consentsPayload;
   if (!payload) {
     consentsPayload = consentDefinitions.map((consentDefinition, index) => {

@@ -1,5 +1,6 @@
 import { sendMessage } from 'util/appConfigHelper';
 import { fetchWithHeaders } from 'util/fetchHelper';
+import getApiURL from 'util/environmentHelper';
 
 const registerCustomer = async (
   email,
@@ -9,7 +10,7 @@ const registerCustomer = async (
   country,
   currency
 ) => {
-  const url = `https://mediastoreapi-sandbox.cleeng.com/customers`;
+  const url = `${getApiURL}/customers`;
 
   try {
     const resp = await fetchWithHeaders(url, {
