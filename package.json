@@ -1,6 +1,6 @@
 {
   "name": "@cleeng/mediastore-sdk",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "private": false,
   "main": "dist/package.js",
   "files": [
@@ -128,7 +128,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "yarn test --watchAll=false"
+      "pre-push": "npm run test --watchAll=false"
     }
   },
   "lint-staged": {

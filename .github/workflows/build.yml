@@ -22,8 +22,8 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Install dependencies
-      run: yarn --frozen-lockfile
+      run: npm ci
     - name: Build
-      run: yarn build --environment=sandbox
+      run: npm run build --environment=sandbox
 
     

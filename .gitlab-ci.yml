@@ -11,8 +11,8 @@ stages:
     GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME
   script:
     - echo ${ENVIRONMENT}
-    - yarn && yarn build --environment=${ENVIRONMENT}
-    - STORYBOOK_ENV=${ENVIRONMENT} yarn build-storybook
+    - npm install && npm run build --environment=${ENVIRONMENT}
+    - STORYBOOK_ENV=${ENVIRONMENT} npm run build-storybook
     - mv storybook-static build
   cache:
     paths:
@@ -32,7 +32,7 @@ test:
   variables:
     GIT_CLONE_PATH: $CI_BUILDS_DIR/$CI_PROJECT_NAME/$CI_ENVIRONMENT_NAME
   script:
-    - yarn && yarn test --coverage
+    - npm install && npm run test --coverage
   cache:
     paths:
       - node_modules/
