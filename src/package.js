@@ -8,22 +8,30 @@ import MyAccount from 'containers/MyAccount';
 import Auth from 'services/auth';
 import store from 'redux/store';
 import Config from 'util/appConfigHelper';
-
-const ENVIRONMENT_CONFIGURATION = {
-  API_URL: 'https://mediastore-sandbox.cleeng.com',
-  ADYEN_CLIENT_KEY: 'test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K',
-  REACT_ENV: 'sandbox'
-};
+import PlanDetails from 'containers/PlanDetails';
+import PaymentInfo from 'containers/PaymentInfo';
+import UpdateProfile from 'containers/UpdateProfile';
+import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
+import Capture from 'components/Capture/Capture';
+import CheckoutConsents from 'components/CheckoutConsents';
 
 export {
-  Login,
+  // Identity Management
   Register,
-  OfferContainer,
+  Login,
+  // Checkout
+  OfferContainer as Purchase,
+  // My Account
   MyAccount,
+  PlanDetails,
+  UpdateProfile,
+  PaymentInfo,
+  SubscriptionSwitchesList,
+  Capture,
   Config,
   Auth,
-  ENVIRONMENT_CONFIGURATION,
   Card,
   Consents,
+  CheckoutConsents,
   store
 };

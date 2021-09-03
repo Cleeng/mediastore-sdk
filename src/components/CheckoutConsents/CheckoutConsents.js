@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { getCustomerConsents, submitConsents } from 'api';
@@ -7,7 +8,7 @@ import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
-import history from '../../history';
+// import history from '../../history';
 import {
   CheckoutConsentsStyled,
   CheckoutConsentsContentStyled,
@@ -20,6 +21,7 @@ import {
 
 const CheckoutConsents = ({ redirectUrl }) => {
   const [t] = useTranslation();
+  const [redirect, setRedirect] = useState(null);
   const [consents, setConsents] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [generalError, setGeneralError] = useState('');
@@ -78,7 +80,11 @@ const CheckoutConsents = ({ redirectUrl }) => {
         .then(() => {
           setProcessing(false);
           const currentRedirection = redirectUrl.shift();
-          history.push(currentRedirection, redirectUrl);
+          // history.push(currentRedirection, redirectUrl);
+          setRedirect({
+            redirectUrl: currentRedirection,
+            state: { redirectUrl }
+          });
         })
         .catch(() => {
           setGeneralError(t('Something went wrong. Try again later'));
@@ -87,53 +93,66 @@ const CheckoutConsents = ({ redirectUrl }) => {
   };
 
   return (
-    <CheckoutConsentsStyled>
-      <Header />
-      <CheckoutConsentsContentStyled>
-        {consents ? (
-          <>
-            <CheckoutConsentsTitleStyled>
-              {t('Terms & Conditions')}
-            </CheckoutConsentsTitleStyled>
-            <CheckoutConsentsSubTitleStyled>
-              {t('Please accept Terms & Conditions')}
-            </CheckoutConsentsSubTitleStyled>
-            <CheckoutConsentsListStyled>
-              {consents.map(consent => (
-                <CheckoutConsentsCheckbox key={consent.name}>
-                  <Checkbox
-                    isMyAccount
-                    onClickFn={(e, isConsentDisabled) =>
-                      handleClick(e, isConsentDisabled, consent)
-                    }
-                    checked={consent.state === 'accepted'}
-                    required={consent.required}
-                  >
-                    {t(consent.label)}
-                  </Checkbox>
-                  <CheckoutConsentsError>{consent.error}</CheckoutConsentsError>
-                </CheckoutConsentsCheckbox>
-              ))}
-              {generalError && (
-                <CheckoutConsentsError center>
-                  {generalError}
-                </CheckoutConsentsError>
-              )}
-            </CheckoutConsentsListStyled>
-            <Button size="big" theme="confirm" onClickFn={updateConsents}>
-              {processing ? (
-                <Loader buttonLoader color="#ffffff" />
-              ) : (
-                t('Continue')
-              )}
-            </Button>
-          </>
-        ) : (
-          <Loader />
-        )}
-      </CheckoutConsentsContentStyled>
-      <Footer isCheckout={false} />
-    </CheckoutConsentsStyled>
+    <>
+      {redirect ? (
+        <Redirect
+          to={{
+            pathname: redirect.redirectUrl,
+            state: redirect.state
+          }}
+        />
+      ) : (
+        <CheckoutConsentsStyled>
+          <Header />
+          <CheckoutConsentsContentStyled>
+            {consents ? (
+              <>
+                <CheckoutConsentsTitleStyled>
+                  {t('Terms & Conditions')}
+                </CheckoutConsentsTitleStyled>
+                <CheckoutConsentsSubTitleStyled>
+                  {t('Please accept Terms & Conditions')}
+                </CheckoutConsentsSubTitleStyled>
+                <CheckoutConsentsListStyled>
+                  {consents.map(consent => (
+                    <CheckoutConsentsCheckbox key={consent.name}>
+                      <Checkbox
+                        isMyAccount
+                        onClickFn={(e, isConsentDisabled) =>
+                          handleClick(e, isConsentDisabled, consent)
+                        }
+                        checked={consent.state === 'accepted'}
+                        required={consent.required}
+                      >
+                        {t(consent.label)}
+                      </Checkbox>
+                      <CheckoutConsentsError>
+                        {consent.error}
+                      </CheckoutConsentsError>
+                    </CheckoutConsentsCheckbox>
+                  ))}
+                  {generalError && (
+                    <CheckoutConsentsError center>
+                      {generalError}
+                    </CheckoutConsentsError>
+                  )}
+                </CheckoutConsentsListStyled>
+                <Button size="big" theme="confirm" onClickFn={updateConsents}>
+                  {processing ? (
+                    <Loader buttonLoader color="#ffffff" />
+                  ) : (
+                    t('Continue')
+                  )}
+                </Button>
+              </>
+            ) : (
+              <Loader />
+            )}
+          </CheckoutConsentsContentStyled>
+          <Footer isCheckout={false} />
+        </CheckoutConsentsStyled>
+      )}
+    </>
   );
 };
 
