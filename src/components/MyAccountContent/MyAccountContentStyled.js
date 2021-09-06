@@ -19,6 +19,5 @@ export const WrapStyled = styled.main`
     border-left: 1px solid ${LineColor};
     border-top: none;
     padding: 35px;
-
   `}
 `;

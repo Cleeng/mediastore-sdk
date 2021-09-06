@@ -11,17 +11,11 @@ import { dateFormat, currencyFormat } from 'util/planHelper';
 import MyAccountError from 'components/MyAccountError';
 import SubscriptionCard from 'components/SubscriptionCard';
 import SubscriptionManagement from 'components/SubscriptionManagement';
-import CouponInput from 'components/CouponInput';
 import MessageBox from 'components/MessageBox';
-import { applyCoupon } from 'api';
 
 import {
   WrapStyled,
   SubscriptionStyled,
-  SubscriptionActionsStyled,
-  FullWidthButtonStyled,
-  SimpleButtonStyled,
-  CouponWrapStyled,
   StatusMessageWrapStyled
 } from './CurrentPlanStyled';
 
@@ -33,6 +27,7 @@ export const SkeletonCard = () => {
   );
 };
 
+const supportedPaymentGateways = ['paypal', 'card', 'adyen'];
 class CurrentPlan extends PureComponent {
   constructor(props) {
     super(props);
@@ -40,84 +35,9 @@ class CurrentPlan extends PureComponent {
       isMessageBoxOpened: false,
       messageBoxType: null,
       messageBoxText: '',
-      isErrorMessageShown: false,
-      errorMessage: '',
-      isCouponInputOpened: false,
-      couponValue: '',
-      isSubmitting: false,
       messageSubscriptionId: null
     };
   }
-
-  submitCoupon = subscriptionId => {
-    const { t, updateList } = this.props;
-    const { couponValue } = this.state;
-
-    this.resetErrorMessage();
-
-    if (couponValue) {
-      this.setState({ isSubmitting: true });
-      applyCoupon(subscriptionId, couponValue)
-        .then(resp => {
-          switch (resp.status) {
-            case 200:
-              this.showMessageBox(
-                'success',
-                t('Your Coupon has been successfully reedemed.'),
-                subscriptionId
-              );
-              this.setState({
-                isCouponInputOpened: false,
-                isSubmitting: false
-              });
-              updateList();
-              break;
-            case 422:
-              if (resp.errors.some(e => e.includes('not found')))
-                this.showErrorMessage(t('Invalid coupon code.'));
-              if (resp.errors.some(e => e.includes('already')))
-                this.showErrorMessage(t('Coupon already used'));
-              this.setState({
-                isSubmitting: false
-              });
-              break;
-            default:
-              this.showErrorMessage(t('Invalid coupon code.'));
-              this.setState({
-                isSubmitting: false
-              });
-              break;
-          }
-        })
-        .catch(() => {
-          this.showErrorMessage('Ooops. Something went wrong.');
-          this.setState({
-            isSubmitting: false
-          });
-        });
-    } else {
-      this.showErrorMessage(t('Please enter coupon code.'));
-    }
-  };
-
-  onInputToggle = () => {
-    this.setState({
-      isCouponInputOpened: true
-    });
-  };
-
-  resetErrorMessage = () => {
-    this.setState({
-      isErrorMessageShown: false
-    });
-  };
-
-  showErrorMessage = message => {
-    this.setState({
-      isErrorMessageShown: true,
-      errorMessage: message
-    });
-  };
 
   showMessageBox = (type, text, subscriptionId) => {
     this.setState({
@@ -131,13 +51,8 @@ class CurrentPlan extends PureComponent {
   render() {
     const {
       isMessageBoxOpened,
-      isCouponInputOpened,
-      isErrorMessageShown,
       messageBoxType,
       messageBoxText,
-      errorMessage,
-      couponValue,
-      isSubmitting,
       messageSubscriptionId
     } = this.state;
 
@@ -148,7 +63,7 @@ class CurrentPlan extends PureComponent {
       showInnerPopup,
       setOfferToSwitch,
       offerToSwitch,
-      isManagementBarOpen,
+      updateList,
       t
     } = this.props;
 
@@ -193,9 +108,15 @@ class CurrentPlan extends PureComponent {
                     description={description}
                     currency={currencyFormat[subItem.nextPaymentCurrency]}
                     price={subItem.nextPaymentPrice}
+                    showInfoBox={
+                      supportedPaymentGateways.includes(subItem.paymentGateway)
+                        ? ''
+                        : 'INAPP_SUBSCRIPTION'
+                    }
+                    paymentMethod={subItem.paymentMethod}
                   />
                   {isMessageBoxOpened &&
-                    messageSubscriptionId === subItem.subsctiptionId && (
+                    messageSubscriptionId === subItem.subscriptionId && (
                       <StatusMessageWrapStyled>
                         <MessageBox
                           type={messageBoxType}
@@ -203,77 +124,16 @@ class CurrentPlan extends PureComponent {
                         />
                       </StatusMessageWrapStyled>
                     )}
-                  <SubscriptionManagement
-                    isOpened={isManagementBarOpen}
-                    onClose={() =>
-                      this.setState({ isCouponInputOpened: false })
-                    }
-                  >
-                    <SubscriptionActionsStyled>
-                      {subItem.status === 'active' && !isCouponInputOpened && (
-                        <SimpleButtonStyled
-                          theme="simple"
-                          onClickFn={event => {
-                            event.stopPropagation();
-                            showInnerPopup({
-                              type: 'updateSubscription',
-                              data: {
-                                action: 'unsubscribe',
-                                offerData: {
-                                  offerId: subItem.offerId,
-                                  expiresAt: subItem.expiresAt
-                                }
-                              }
-                            });
-                          }}
-                        >
-                          {t('Unsubscribe')}
-                        </SimpleButtonStyled>
-                      )}
-                      {subItem.status === 'cancelled' && !isCouponInputOpened && (
-                        <FullWidthButtonStyled
-                          theme="simple"
-                          onClickFn={event => {
-                            event.stopPropagation();
-                            showInnerPopup({
-                              type: 'updateSubscription',
-                              data: {
-                                action: 'resubscribe',
-                                offerData: {
-                                  offerId: subItem.offerId,
-                                  expiresAt: subItem.expiresAt,
-                                  price: `${subItem.nextPaymentPrice}${
-                                    currencyFormat[subItem.nextPaymentCurrency]
-                                  }`
-                                }
-                              }
-                            });
-                          }}
-                        >
-                          {t('Resume')}
-                        </FullWidthButtonStyled>
-                      )}
-                      {subItem.status !== 'cancelled' && (
-                        <CouponWrapStyled>
-                          <CouponInput
-                            fullWidth
-                            showMessage={isErrorMessageShown}
-                            value={couponValue}
-                            message={errorMessage}
-                            couponLoading={isSubmitting}
-                            onSubmit={() =>
-                              this.submitCoupon(subItem.subscriptionId)
-                            }
-                            onChange={e => this.setState({ couponValue: e })}
-                            onClose={() =>
-                              this.setState({ isCouponInputOpened: false })
-                            }
-                            onInputToggle={() => this.onInputToggle()}
-                          />
-                        </CouponWrapStyled>
-                      )}
-                    </SubscriptionActionsStyled>
-                  </SubscriptionManagement>
+                  {supportedPaymentGateways.includes(
+                    subItem.paymentGateway
+                  ) && (
+                    <SubscriptionManagement
+                      subscription={subItem}
+                      showInnerPopup={showInnerPopup}
+                      updateList={updateList}
+                      showMessageBox={this.showMessageBox}
+                    />
+                  )}
                 </SubscriptionStyled>
               );
             })}
@@ -292,7 +152,6 @@ CurrentPlan.propTypes = {
   setOfferToSwitch: PropTypes.func.isRequired,
   offerToSwitch: PropTypes.objectOf(PropTypes.any),
   updateList: PropTypes.func.isRequired,
-  isManagementBarOpen: PropTypes.bool,
   t: PropTypes.func
 };
 
@@ -301,7 +160,6 @@ CurrentPlan.defaultProps = {
   isLoading: false,
   errors: [],
   offerToSwitch: {},
-  isManagementBarOpen: false,
   t: k => k
 };
 

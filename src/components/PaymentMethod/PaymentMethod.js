@@ -1,150 +1,93 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
+import { ReactComponent as AddIcon } from 'assets/images/add.svg';
 import MyAccountError from 'components/MyAccountError';
-import SkeletonWrapper from 'components/SkeletonWrapper';
-import { CardTypesIcons } from './PaymentMethod.const';
-import {
-  WrapStyled,
-  PaymentDetailsStyled,
-  CardStyled,
-  CardWrapStyled,
-  CardTypeStyled,
-  CardNumberStyled,
-  CardExpirationStyled,
-  CardExpirationLabel,
-  CardExpirationDateStyled,
-  // CardEditStyled,
-  Message
-} from './PaymentMethodStyled';
+import PaymentCard from 'components/PaymentCard';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
+import { WrapStyled, CardsWrapper, Message } from './PaymentMethodStyled';
 
-const PaymentCard = ({
-  lastCardFourDigits,
-  cardExpirationDate,
-  variant,
-  isDataLoaded,
-  t
+const PaymentMethod = ({
+  paymentDetailsLoading,
+  activeOrBoundPaymentDetails,
+  showInnerPopup,
+  error
 }) => {
-  const LogoComponent = CardTypesIcons[variant]
-    ? CardTypesIcons[variant]
-    : React.Fragment;
-  return (
-    <CardWrapStyled>
-      {isDataLoaded ? (
-        <CardStyled>
-          <CardTypeStyled>
-            <LogoComponent />
-          </CardTypeStyled>
-          <CardNumberStyled>
-            **** **** **** {lastCardFourDigits}
-          </CardNumberStyled>
-          <CardExpirationStyled>
-            <CardExpirationLabel>{t('Expiry date')}</CardExpirationLabel>
-            <CardExpirationDateStyled>
-              {cardExpirationDate}
-            </CardExpirationDateStyled>
-          </CardExpirationStyled>
-          {/* <CardEditStyled>Edit</CardEditStyled> */}
-        </CardStyled>
-      ) : (
-        <SkeletonWrapper height={166} />
-      )}
-    </CardWrapStyled>
-  );
-};
+  const { t } = useTranslation();
+  const renderPaymentMethodItem = paymentDetail => {
+    const { paymentMethod, id } = paymentDetail;
+    switch (paymentMethod) {
+      case 'card':
+      case 'paypal':
+      case 'apple':
+      case 'android':
+      case 'amazon':
+      case 'roku':
+        return (
+          <PaymentCard
+            key={id}
+            details={paymentDetail}
+            showInnerPopup={showInnerPopup}
+          />
+        );
+      default:
+        return <Message>{t('Managed by external service')}</Message>;
+    }
+  };
+  const activeItems = activeOrBoundPaymentDetails.find(item => item.active);
 
-PaymentCard.propTypes = {
-  lastCardFourDigits: PropTypes.string,
-  cardExpirationDate: PropTypes.string,
-  variant: PropTypes.string,
-  isDataLoaded: PropTypes.bool,
-  t: PropTypes.func
-};
-
-PaymentCard.defaultProps = {
-  lastCardFourDigits: '',
-  cardExpirationDate: '',
-  isDataLoaded: true,
-  variant: '',
-  t: k => k
-};
-
-const PaymentMethod = ({ paymentDetailsLoading, paymentDetails, error, t }) => {
   return paymentDetailsLoading ? (
-    <PaymentCard isDataLoaded={false} />
+    <CardsWrapper numberOfItems={1}>
+      <PaymentCard isDataLoaded={false} />
+    </CardsWrapper>
   ) : (
     <WrapStyled>
       {error.length !== 0 ? (
-        <MyAccountError generalError fullHeight />
-      ) : paymentDetails.length === 0 ? (
-        <MyAccountError
-          title={t('No payment method added!')}
-          subtitle={t('Add a card to start your plan')}
-          withBorder
-        />
+        <MyAccountError generalError />
       ) : (
-        <PaymentDetailsStyled>
-          {paymentDetails.map(method => {
-            if (method.paymentMethod === 'card') {
-              const {
-                lastCardFourDigits,
-                cardExpirationDate,
-                variant
-              } = method.paymentMethodSpecificParams;
-
-              return (
-                <PaymentCard
-                  key={method.id}
-                  lastCardFourDigits={lastCardFourDigits}
-                  cardExpirationDate={cardExpirationDate}
-                  variant={variant}
-                />
-              );
-            }
-            if (method.paymentMethod === 'paypal') {
-              const LogoComponent = CardTypesIcons[method.paymentMethod]
-                ? CardTypesIcons[method.paymentMethod]
-                : React.Fragment;
-              return (
-                <CardWrapStyled key={method.id} type={method.paymentMethod}>
-                  <CardStyled>
-                    <CardTypeStyled>
-                      <LogoComponent />
-                    </CardTypeStyled>
-                    {/* <CardEditStyled>Edit</CardEditStyled> */}
-                  </CardStyled>
-                </CardWrapStyled>
-              );
-            }
-            return (
-              <Message key="message">
-                {t('Payment by ')} {method.paymentMethod}{' '}
-                {t('is not supported')}
-              </Message>
-            );
-          })}
-        </PaymentDetailsStyled>
+        <CardsWrapper
+          numberOfItems={
+            !activeItems
+              ? activeOrBoundPaymentDetails.length + 1
+              : activeOrBoundPaymentDetails.length
+          }
+        >
+          {activeOrBoundPaymentDetails.map(paymentDetail =>
+            renderPaymentMethodItem(paymentDetail)
+          )}
+          {!activeItems && (
+            <MyAccountError
+              icon={AddIcon}
+              title={t('Add a payment method!')}
+              subtitle={t('Set up a new payment method for your account')}
+              withBorder
+              onClick={() =>
+                showInnerPopup({ type: POPUP_TYPES.paymentDetails })
+              }
+              isSmallCard
+            />
+          )}
+        </CardsWrapper>
       )}
     </WrapStyled>
   );
 };
 
 PaymentMethod.propTypes = {
-  paymentDetails: PropTypes.arrayOf(PropTypes.any),
+  activeOrBoundPaymentDetails: PropTypes.arrayOf(
+    PropTypes.objectOf(PropTypes.any)
+  ),
   error: PropTypes.arrayOf(PropTypes.string),
   paymentDetailsLoading: PropTypes.bool,
-  t: PropTypes.func
+  showInnerPopup: PropTypes.func
 };
 
 PaymentMethod.defaultProps = {
-  paymentDetails: [],
+  activeOrBoundPaymentDetails: [],
   error: [],
   paymentDetailsLoading: false,
-  t: k => k
+  showInnerPopup: () => {}
 };
 
-export { PaymentMethod as PurePaymentMethod };
-
-export default withTranslation()(labeling()(PaymentMethod));
+export default PaymentMethod;

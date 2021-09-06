@@ -1,17 +1,18 @@
 import innerPopupReducer, {
   SHOW_INNER_POPUP,
-  HIDE_INNER_POPUP
+  HIDE_INNER_POPUP,
+  POPUP_TYPES
 } from 'redux/innerPopupReducer';
 
 describe('InnerPopup reducer', () => {
   it('should correctly call showInnerPopup action', () => {
     const action = {
       type: SHOW_INNER_POPUP,
-      payload: { type: 'updateSubscription', data: { mock: 'mock' } }
+      payload: { type: POPUP_TYPES.updateSubscription, data: { mock: 'mock' } }
     };
     const expectedState = {
       isOpen: true,
-      type: 'updateSubscription',
+      type: POPUP_TYPES.updateSubscription,
       data: { mock: 'mock' }
     };
 

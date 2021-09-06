@@ -11,6 +11,7 @@ import MyAccountError from 'components/MyAccountError';
 import MyAccountConsents from 'components/MyAccountConsents';
 import EditPassword from 'components/EditPassword/EditPassword';
 import AdditionalProfileInfo from 'components/AdditionalProfileInfo';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { WrapStyled } from './UpdateProfileStyled';
 
 class UpdateProfile extends Component {
@@ -74,6 +75,10 @@ class UpdateProfile extends Component {
           });
         });
     }
+  }
+
+  componentWillUnmount() {
+    this.setState = () => {};
   }
 
   getObjectByKey = (array, key) => {
@@ -158,7 +163,7 @@ class UpdateProfile extends Component {
                 <SectionHeader>{t('Password')}</SectionHeader>
                 <Password
                   showInnerPopup={() =>
-                    showInnerPopup({ type: 'editPassword' })
+                    showInnerPopup({ type: POPUP_TYPES.editPassword })
                   }
                 />
                 {customSettings && customSettings.length > 0 && (

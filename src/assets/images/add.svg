@@ -1,0 +1,9 @@
+<svg width="38" height="38" xmlns="http://www.w3.org/2000/svg" data-name="Component 10 – 1" color="red">
+ <g id="Layer_1">
+  <title>Layer 1</title>
+  <ellipse stroke="#5db98f" fill="#5db98f" cx="19" cy="19" id="svg_1" rx="18" ry="18"/>
+  <line transform="rotate(-5.68434e-14)" fill="none" x1="19" y1="8.23684" x2="19" y2="29.76316" id="svg_2" stroke-width="2" stroke="#f0f3fa"/>
+  <line transform="rotate(90 19 19)" fill="none" x1="19" y1="9.23684" x2="19" y2="28.76316" id="svg_4" stroke="#f0f3fa" stroke-width="2"/>
+ </g>
+
+</svg>

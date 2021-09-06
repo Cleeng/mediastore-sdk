@@ -1,5 +1,5 @@
 import {
-  SET_PAYMENT_METHOD,
+  SET_PAYMENT_DETAILS,
   SET_TRANSACTIONS_LIST,
   SET_TRANSACTIONS_TO_SHOW,
   SET_TRANSACTIONS_LIST_AS_FETCHED,
@@ -27,7 +27,7 @@ describe('<PaymentInfo/>', () => {
   it('should show previously added value', () => {
     const initialState = {
       paymentInfo: {
-        paymentMethod: [planDetailsMock],
+        paymentDetails: [planDetailsMock],
         transactionsList: [],
         transactionsToShow: [],
         isTransactionListFetched: false,
@@ -35,17 +35,17 @@ describe('<PaymentInfo/>', () => {
       }
     };
     expect(mapStateToProps(initialState).paymentInfo).toEqual({
-      paymentMethod: [planDetailsMock],
+      paymentDetails: [planDetailsMock],
       transactionsList: [],
       transactionsToShow: [],
       isTransactionListFetched: false,
       isShowMoreButtonHidden: false
     });
   });
-  it('should dispatch SET_PAYMENT_METHOD action', () => {
+  it('should dispatch SET_PAYMENT_DETAILS action', () => {
     const dispatch = jest.fn();
-    mapDispatchToProps(dispatch).setPaymentMethod();
-    expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_PAYMENT_METHOD });
+    mapDispatchToProps(dispatch).setPaymentDetails();
+    expect(dispatch.mock.calls[0][0]).toEqual({ type: SET_PAYMENT_DETAILS });
   });
   it('should dispatch SET_TRANSACTIONS_LIST action', () => {
     const dispatch = jest.fn();

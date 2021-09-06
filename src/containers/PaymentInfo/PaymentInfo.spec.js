@@ -5,6 +5,8 @@ import { shallow } from 'enzyme';
 import SectionHeader from 'components/SectionHeader/SectionHeader';
 import listCustomerTransactionsRequest from 'api/Customer/listCustomerTransactions';
 import getPaymentDetailsRequst from 'api/Customer/getPaymentDetails';
+import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { PurePaymentInfo } from './PaymentInfo.component';
 
 jest.mock('api/Customer/listCustomerTransactions');
@@ -20,11 +22,14 @@ jest.mock('react-i18next', () => ({
   )
 }));
 
-const setPaymentMethodMock = jest.fn();
+const setPaymentDetailsMock = jest.fn();
 const setTransactionsListMock = jest.fn();
 const setTransactionsToShowMock = jest.fn();
 const setTransactionsListAsFetchedMock = jest.fn();
 const hideShowMoreButtonMock = jest.fn();
+const showInnerPopupMock = jest.fn();
+const hideInnerPopupMock = jest.fn();
+const setPublisherPaymentMethodsMock = jest.fn();
 const paymentDetailsData = {
   id: 193925086,
   customerId: 280372348,
@@ -50,12 +55,22 @@ const transactionsListObject = {
 };
 
 const defaultProps = {
-  setPaymentMethod: setPaymentMethodMock,
+  setPaymentDetails: setPaymentDetailsMock,
   setTransactionsList: setTransactionsListMock,
   setTransactionsToShow: setTransactionsToShowMock,
   setTransactionsListAsFetched: setTransactionsListAsFetchedMock,
-  hideShowMoreButton: hideShowMoreButtonMock
+  hideShowMoreButton: hideShowMoreButtonMock,
+  showInnerPopup: showInnerPopupMock,
+  hideInnerPopup: hideInnerPopupMock,
+  setPublisherPaymentMethods: setPublisherPaymentMethodsMock,
+  paymentInfo: { paymentDetails: [], transactionsList: [] },
+  innerPopup: {
+    isOpen: false,
+    type: '',
+    data: {}
+  }
 };
+
 describe('<PaymentInfo/>', () => {
   afterEach(() => {
     jest.clearAllMocks();
@@ -74,16 +89,13 @@ describe('<PaymentInfo/>', () => {
         },
         errors: []
       });
-      const wrapper = shallow(
-        <PurePaymentInfo
-          {...defaultProps}
-          paymentInfo={{ paymentMethod: [], transactionsList: [] }}
-        />
-      );
+      const wrapper = shallow(<PurePaymentInfo {...defaultProps} />);
       expect(wrapper.find(SectionHeader)).toHaveLength(2);
       setImmediate(() => {
-        expect(setPaymentMethodMock).toHaveBeenCalled();
-        expect(setPaymentMethodMock).toHaveBeenCalledWith([paymentDetailsData]);
+        expect(setPaymentDetailsMock).toHaveBeenCalled();
+        expect(setPaymentDetailsMock).toHaveBeenCalledWith([
+          paymentDetailsData
+        ]);
         expect(setTransactionsListMock).toHaveBeenCalled();
         expect(setTransactionsListMock).toHaveBeenCalledWith([
           transactionsListObject
@@ -99,7 +111,7 @@ describe('<PaymentInfo/>', () => {
         <PurePaymentInfo
           {...defaultProps}
           paymentInfo={{
-            paymentMethod: [paymentDetailsData],
+            paymentDetails: [paymentDetailsData],
             transactionsList: [transactionsListObject]
           }}
         />
@@ -120,7 +132,7 @@ describe('<PaymentInfo/>', () => {
       const wrapper = shallow(<PurePaymentInfo {...defaultProps} />);
       setImmediate(() => {
         expect(wrapper.state('paymentDetailsError')).toBe(mockError);
-        expect(setPaymentMethodMock).not.toHaveBeenCalled();
+        expect(setPaymentDetailsMock).not.toHaveBeenCalled();
         expect(wrapper.state('transactionsError')).toBe(mockError);
         expect(setTransactionsListMock).not.toHaveBeenCalled();
         done();
@@ -145,7 +157,7 @@ describe('<PaymentInfo/>', () => {
         expect(wrapper.state('paymentDetailsError')).toEqual([
           'Something went wrong..'
         ]);
-        expect(setPaymentMethodMock).not.toHaveBeenCalled();
+        expect(setPaymentDetailsMock).not.toHaveBeenCalled();
         expect(wrapper.state('transactionsError')).toEqual([]);
         expect(setTransactionsListMock).toHaveBeenCalled();
         done();
@@ -160,7 +172,7 @@ describe('<PaymentInfo/>', () => {
       const wrapper = shallow(<PurePaymentInfo {...defaultProps} />);
       setImmediate(() => {
         expect(wrapper.state('paymentDetailsError')).toEqual([]);
-        expect(setPaymentMethodMock).toHaveBeenCalled();
+        expect(setPaymentDetailsMock).toHaveBeenCalled();
         expect(wrapper.state('transactionsError')).toEqual([
           'Something went wrong..'
         ]);
@@ -192,6 +204,15 @@ describe('<PaymentInfo/>', () => {
         done();
       });
     });
+    it('should render UpdatePaymentDetails popup', () => {
+      const wrapper = shallow(
+        <PurePaymentInfo
+          {...defaultProps}
+          innerPopup={{ isOpen: true, type: POPUP_TYPES.paymentDetails }}
+        />
+      );
+      expect(wrapper.find(UpdatePaymentDetailsPopup)).toHaveLength(1);
+    });
   });
   describe('@action', () => {
     it('should hide transaction list on click show less button', () => {
@@ -199,7 +220,7 @@ describe('<PaymentInfo/>', () => {
         <PurePaymentInfo
           {...defaultProps}
           paymentInfo={{
-            paymentMethod: [paymentDetailsData],
+            paymentDetails: [paymentDetailsData],
             transactionsList: [
               transactionsListObject,
               transactionsListObject,
@@ -221,7 +242,7 @@ describe('<PaymentInfo/>', () => {
         <PurePaymentInfo
           {...defaultProps}
           paymentInfo={{
-            paymentMethod: [paymentDetailsData],
+            paymentDetails: [paymentDetailsData],
             transactionsList: [
               transactionsListObject,
               transactionsListObject,
@@ -253,7 +274,7 @@ describe('<PaymentInfo/>', () => {
         <PurePaymentInfo
           {...defaultProps}
           paymentInfo={{
-            paymentMethod: [paymentDetailsData],
+            paymentDetails: [paymentDetailsData],
             transactionsList: [
               transactionsListObject,
               transactionsListObject,
@@ -292,7 +313,7 @@ describe('<PaymentInfo/>', () => {
         <PurePaymentInfo
           {...defaultProps}
           paymentInfo={{
-            paymentMethod: [paymentDetailsData],
+            paymentDetails: [paymentDetailsData],
             transactionsList: [
               transactionsListObject,
               transactionsListObject,
@@ -321,7 +342,7 @@ describe('<PaymentInfo/>', () => {
         <PurePaymentInfo
           {...defaultProps}
           paymentInfo={{
-            paymentMethod: [paymentDetailsData],
+            paymentDetails: [paymentDetailsData],
             transactionsList: [
               transactionsListObject,
               transactionsListObject,
