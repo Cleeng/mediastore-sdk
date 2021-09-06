@@ -10,6 +10,7 @@ import store from 'redux/store';
 import Config from 'util/appConfigHelper';
 import PlanDetails from 'containers/PlanDetails';
 import PaymentInfo from 'containers/PaymentInfo';
+import TransactionList from 'containers/TransactionList';
 import UpdateProfile from 'containers/UpdateProfile';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import Capture from 'components/Capture/Capture';
@@ -33,5 +34,6 @@ export {
   Card,
   Consents,
   CheckoutConsents,
+  TransactionList,
   store
 };

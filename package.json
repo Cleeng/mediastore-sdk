@@ -1,6 +1,6 @@
 {
   "name": "@cleeng/mediastore-sdk",
-  "version": "1.0.16",
+  "version": "1.0.18",
   "private": false,
   "main": "dist/package.js",
   "files": [
@@ -9,7 +9,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "URL_OF_YOUR_REPOSITORY"
+    "url": "https://github.com/Cleeng/mediastore-sdk"
   },
   "peerDependencies": {
     "history": "^4.10.1",
