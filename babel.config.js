@@ -23,6 +23,12 @@ module.exports = function(api) {
       }
     ],
     [
+      '@babel/plugin-proposal-class-properties',
+      {
+        loose: true
+      }
+    ],
+    [
       '@babel/plugin-proposal-private-methods',
       {
         loose: true
@@ -49,6 +55,6 @@ module.exports = function(api) {
   return {
     presets,
     plugins,
-    ignore: [/node_modules/]
+    exclude: ['/node_modules/']
   };
 };
