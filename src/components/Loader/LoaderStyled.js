@@ -14,7 +14,9 @@ export const LoaderKeyframeStyled = keyframes`
   }
 `;
 
-export const LoaderStyled = styled.div`
+export const LoaderStyled = styled.div.attrs(() => ({
+  className: 'cleengMSD__spinner'
+}))`
   margin: 0 auto;
   position: relative;
   width: 64px;

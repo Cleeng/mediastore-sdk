@@ -2,7 +2,9 @@ import styled, { css } from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
-const ButtonStyled = styled.button`
+const ButtonStyled = styled.button.attrs(props => ({
+  className: `cleengMSD__button cleengMSD__button__${props.theme}`
+}))`
   position: relative;
   display: flex;
   justify-content: center;

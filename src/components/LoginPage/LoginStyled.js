@@ -6,7 +6,9 @@ export const LoginWrapperStyled = styled.div`
   position: relative;
 `;
 
-export const ContentWrapperStyled = styled.main`
+export const ContentWrapperStyled = styled.main.attrs(() => ({
+  className: 'cleengMSD__login__wrapper'
+}))`
   position: relative;
 
   width: 55%;
@@ -20,7 +22,9 @@ export const ContentWrapperStyled = styled.main`
   `}
 `;
 
-export const FromStyled = styled.form`
+export const FromStyled = styled.form.attrs(() => ({
+  className: 'cleengMSD__login__form'
+}))`
   padding-top: 40px;
   & input {
     position: relative;

@@ -11,7 +11,9 @@ export const InputComponentStyled = styled.div`
   width: 100%;
 `;
 
-export const LabelStyled = styled.label`
+export const LabelStyled = styled.label.attrs(() => ({
+  className: 'cleengMSD__input__label'
+}))`
   position: absolute;
   top: 17px;
   left: 14px;
@@ -60,7 +62,9 @@ export const LabelStyled = styled.label`
     `}
 `;
 
-export const InputElementWrapperStyled = styled.div`
+export const InputElementWrapperStyled = styled.div.attrs(() => ({
+  className: 'cleengMSD__input__wrapper'
+}))`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -92,7 +96,9 @@ export const InputElementWrapperStyled = styled.div`
     `};
 `;
 
-export const InputElementStyled = styled.input`
+export const InputElementStyled = styled.input.attrs(() => ({
+  className: 'cleengMSD__input'
+}))`
   flex-grow: 1;
   position: relative;
   width: auto;
@@ -179,7 +185,9 @@ export const ErrorWrapper = styled.div`
     `}
 `;
 
-export const StyledPasswordVisibility = styled.img`
+export const StyledPasswordVisibility = styled.img.attrs(() => ({
+  className: 'cleengMSD__password__icon'
+}))`
   height: 20px;
   width: 20px;
   filter: ${Colors.TextFieldBorderFilter};
@@ -212,7 +220,9 @@ export const StyledButton = styled.button`
   }
 `;
 
-export const InputIconStyled = styled.div`
+export const InputIconStyled = styled.div.attrs(() => ({
+  className: 'cleengMSD__input__icon'
+}))`
   height: 18px;
   width: 18px;
   margin-left: 14px;
@@ -224,7 +234,9 @@ export const InputIconStyled = styled.div`
   }
 `;
 
-export const InputRequiredStyled = styled.span`
+export const InputRequiredStyled = styled.span.attrs(() => ({
+  className: 'cleengMSD__input__required'
+}))`
   display: block;
   position: absolute;
   right: 16px;

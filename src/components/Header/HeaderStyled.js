@@ -1,7 +1,9 @@
 import styled, { css } from 'styled-components';
 import * as colors from 'styles/variables';
 
-export const HeaderStyled = styled.header`
+export const HeaderStyled = styled.header.attrs(() => ({
+  className: 'cleengMSD__header'
+}))`
   display: flex;
   position: relative;
 
