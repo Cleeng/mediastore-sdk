@@ -1,14 +1,10 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
-import googleIcon from 'assets/images/google.png';
-import fbIcon from 'assets/images/fbIB.svg';
 import ErrorPage from 'components/ErrorPage';
 import BackButton from 'components/BackButton';
 import {
   ContentWrapperStyled,
-  SocialStyled,
-  SeparatorStyled,
   LoginWrapperStyled as RegisterWrapperStyled
 } from 'components/LoginPage/LoginStyled';
 import Button from 'components/Button';
@@ -17,7 +13,7 @@ import Footer from 'components/Footer';
 import labeling from 'containers/labeling';
 import savePublisherId from 'util/publisherIdHelper';
 import saveOfferId from 'util/offerIdHelper';
-import { isHosted, getData } from 'util/appConfigHelper';
+import { getData } from 'util/appConfigHelper';
 import RegisterForm from './RegisterForm';
 
 class Register extends Component {
@@ -73,27 +69,6 @@ class Register extends Component {
           >
             {t('Have an account?')}
           </Button>
-          {!isHosted() && (
-            <SocialStyled>
-              <SeparatorStyled>{t('Or sign up with')}</SeparatorStyled>
-              <Button
-                theme="simple"
-                fontWeight="500"
-                label="Sign up with Facebook"
-                icon={fbIcon}
-              >
-                Facebook
-              </Button>
-              <Button
-                theme="simple"
-                fontWeight="500"
-                label="Sign up with Google"
-                icon={googleIcon}
-              >
-                Google
-              </Button>
-            </SocialStyled>
-          )}
         </ContentWrapperStyled>
         <Footer />
       </RegisterWrapperStyled>

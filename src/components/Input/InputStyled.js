@@ -72,7 +72,7 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
 
   padding: 13px 0 14px;
 
-  background: white;
+  background: transparent;
   border: 1px solid ${Colors.MediumGrey};
   transition: 0.2s ease-in-out;
 
@@ -106,6 +106,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
   margin: 0 15px;
 
   color: ${Colors.MainColor};
+  background: transparent;
   border: none;
   outline: none;
 

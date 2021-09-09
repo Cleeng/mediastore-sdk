@@ -2,12 +2,15 @@ import styled from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
-export const LoginWrapperStyled = styled.div`
+export const LoginWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__auth-wrapper'
+}))`
   position: relative;
+  background: #fff;
 `;
 
 export const ContentWrapperStyled = styled.main.attrs(() => ({
-  className: 'msd__auth-wrapper'
+  className: 'msd__auth-content'
 }))`
   position: relative;
 

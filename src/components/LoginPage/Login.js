@@ -2,22 +2,15 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
-import googleIcon from 'assets/images/google.png';
-import fbIcon from 'assets/images/fbIB.svg';
 import Button from 'components/Button';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import saveOfferId from 'util/offerIdHelper';
 import savePublisherId from 'util/publisherIdHelper';
 import labeling from 'containers/labeling';
-import { isHosted, getData } from 'util/appConfigHelper';
+import { getData } from 'util/appConfigHelper';
 
-import {
-  ContentWrapperStyled,
-  SocialStyled,
-  SeparatorStyled,
-  LoginWrapperStyled
-} from './LoginStyled';
+import { ContentWrapperStyled, LoginWrapperStyled } from './LoginStyled';
 import LoginForm from './LoginForm';
 
 class Login extends Component {
@@ -85,27 +78,6 @@ class Login extends Component {
               >
                 {t('Go to register')}
               </Button>
-              {!isHosted() && (
-                <SocialStyled>
-                  <SeparatorStyled>{t('Or sign in with')}</SeparatorStyled>
-                  <Button
-                    theme="simple"
-                    fontWeight="500"
-                    label={t('Sign in with Facebook')}
-                    icon={fbIcon}
-                  >
-                    Facebook
-                  </Button>
-                  <Button
-                    theme="simple"
-                    fontWeight="500"
-                    label={t('Sign in with Google')}
-                    icon={googleIcon}
-                  >
-                    Google
-                  </Button>
-                </SocialStyled>
-              )}
             </>
           )}
           <Button
@@ -115,7 +87,7 @@ class Login extends Component {
               fromMyAccount: isMyAccount
             }}
             theme="link"
-            margin="20px auto"
+            margin="20px auto 0 auto"
           >
             {t('Forgot password?')}
           </Button>
