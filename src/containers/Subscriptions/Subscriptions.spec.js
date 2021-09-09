@@ -6,7 +6,6 @@ import getCustomerSubscriptionsRequest from 'api/Customer/getCustomerSubscriptio
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 
 import UpdateSubscription from 'components/UpdateSubscription';
-import SwitchPlanPopup from 'components/SwitchPlanPopup';
 
 import { PureSubscriptions } from './Subscriptions.component';
 
@@ -93,25 +92,6 @@ describe('<Subscriptions/>', () => {
         />
       );
       expect(wrapper.find(UpdateSubscription).exists()).toBe(true);
-    });
-    it('should render SwitchPlan popup', () => {
-      const wrapper = shallow(
-        <PureSubscriptions
-          {...defaultProps}
-          planDetails={{
-            currentPlan: [1],
-            switchSettings: { id: [{ mock: 'mock' }] },
-            offerToSwitch: { offerId: 'id' },
-            updateList: false
-          }}
-          innerPopup={{
-            isOpen: true,
-            type: POPUP_TYPES.switchPlan,
-            data: { offerData: { mock: 'mock' } }
-          }}
-        />
-      );
-      expect(wrapper.find(SwitchPlanPopup).exists()).toBe(true);
     });
   });
 });
