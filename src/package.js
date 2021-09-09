@@ -11,6 +11,7 @@ import Config from 'util/appConfigHelper';
 import PlanDetails from 'containers/PlanDetails';
 import PaymentInfo from 'containers/PaymentInfo';
 import TransactionList from 'containers/TransactionList';
+import Subscriptions from 'containers/Subscriptions';
 import UpdateProfile from 'containers/UpdateProfile';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import Capture from 'components/Capture/Capture';
@@ -35,5 +36,6 @@ export {
   Consents,
   CheckoutConsents,
   TransactionList,
+  Subscriptions,
   store
 };
