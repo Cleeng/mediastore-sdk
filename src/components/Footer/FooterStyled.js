@@ -1,7 +1,11 @@
 import styled, { css } from 'styled-components';
 import * as colors from 'styles/variables';
 
-export const FooterStyled = styled.footer`
+export const FooterStyled = styled.footer.attrs(props => ({
+  className: `msd__footer ${
+    props.isTransparent ? 'msd__footer--transparent' : ''
+  }`
+}))`
   position: absolute;
   bottom: 0;
   left: 0;
@@ -30,7 +34,9 @@ export const FooterStyled = styled.footer`
     `}
 `;
 
-export const ProductByStyled = styled.span`
+export const ProductByStyled = styled.span.attrs(() => ({
+  className: 'msd__footer__label--left'
+}))`
   display: flex;
   align-items: center;
 
@@ -43,7 +49,9 @@ export const ProductByStyled = styled.span`
   }
 `;
 
-export const SecurityStyled = styled.div`
+export const SecurityStyled = styled.div.attrs(() => ({
+  className: 'msd__footer__label--right'
+}))`
   color: ${colors.ConfirmColor};
 
   font-size: 14px;

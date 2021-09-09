@@ -7,7 +7,7 @@ export const LoginWrapperStyled = styled.div`
 `;
 
 export const ContentWrapperStyled = styled.main.attrs(() => ({
-  className: 'msd__login-wrapper'
+  className: 'msd__auth-wrapper'
 }))`
   position: relative;
 
@@ -23,7 +23,7 @@ export const ContentWrapperStyled = styled.main.attrs(() => ({
 `;
 
 export const FromStyled = styled.form.attrs(() => ({
-  className: 'msd__login-wrapper__form'
+  className: 'msd__auth-wrapper__form'
 }))`
   padding-top: 40px;
   & input {
@@ -98,7 +98,9 @@ export const SeparatorStyled = styled.div`
   }
 `;
 
-export const FormErrorStyled = styled.div`
+export const FormErrorStyled = styled.div.attrs(() => ({
+  className: 'msd__form__message--error'
+}))`
   position: absolute;
   top: 20px;
   width: 100%;
@@ -115,7 +117,9 @@ export const FormErrorStyled = styled.div`
   }
 `;
 
-export const FormSuccessStyled = styled.h1`
+export const FormSuccessStyled = styled.h1.attrs(() => ({
+  className: 'msd__form__message--success'
+}))`
   color: ${colors.ConfirmColor};
   position: absolute;
   top: 20px;
