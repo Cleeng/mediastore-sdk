@@ -12,7 +12,7 @@ export const InputComponentStyled = styled.div`
 `;
 
 export const LabelStyled = styled.label.attrs(() => ({
-  className: 'cleengMSD__input__label'
+  className: 'msd__input__label'
 }))`
   position: absolute;
   top: 17px;
@@ -63,7 +63,7 @@ export const LabelStyled = styled.label.attrs(() => ({
 `;
 
 export const InputElementWrapperStyled = styled.div.attrs(() => ({
-  className: 'cleengMSD__input__wrapper'
+  className: 'msd__input__wrapper'
 }))`
   display: flex;
   justify-content: space-between;
@@ -97,7 +97,7 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
 `;
 
 export const InputElementStyled = styled.input.attrs(() => ({
-  className: 'cleengMSD__input'
+  className: 'msd__input'
 }))`
   flex-grow: 1;
   position: relative;
@@ -158,7 +158,9 @@ export const InputElementStyled = styled.input.attrs(() => ({
     `}
 `;
 
-export const ErrorWrapper = styled.div`
+export const ErrorWrapper = styled.div.attrs(() => ({
+  className: 'msd__error'
+}))`
   width: 100%;
   height: 13px;
   margin-top: 8px;
@@ -186,7 +188,7 @@ export const ErrorWrapper = styled.div`
 `;
 
 export const StyledPasswordVisibility = styled.img.attrs(() => ({
-  className: 'cleengMSD__password__icon'
+  className: 'msd__icon--password'
 }))`
   height: 20px;
   width: 20px;
@@ -221,7 +223,7 @@ export const StyledButton = styled.button`
 `;
 
 export const InputIconStyled = styled.div.attrs(() => ({
-  className: 'cleengMSD__input__icon'
+  className: 'msd__input__icon'
 }))`
   height: 18px;
   width: 18px;
@@ -235,7 +237,7 @@ export const InputIconStyled = styled.div.attrs(() => ({
 `;
 
 export const InputRequiredStyled = styled.span.attrs(() => ({
-  className: 'cleengMSD__input__required'
+  className: 'msd__icon__required--error'
 }))`
   display: block;
   position: absolute;

@@ -3,7 +3,7 @@ import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 const ButtonStyled = styled.button.attrs(props => ({
-  className: `cleengMSD__button cleengMSD__button__${props.theme}`
+  className: `msd__button msd__button--${props.theme}`
 }))`
   position: relative;
   display: flex;

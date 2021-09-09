@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import * as colors from 'styles/variables';
 
 export const HeaderStyled = styled.header.attrs(() => ({
-  className: 'cleengMSD__header'
+  className: 'msd__header'
 }))`
   display: flex;
   position: relative;
@@ -21,7 +21,9 @@ export const HeaderStyled = styled.header.attrs(() => ({
     `}
 `;
 
-export const LogoStyled = styled.div`
+export const LogoStyled = styled.div.attrs(() => ({
+  className: 'msd__header__logo'
+}))`
   height: 80px;
   width: 100%;
 
