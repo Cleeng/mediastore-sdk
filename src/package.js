@@ -13,14 +13,16 @@ import PaymentInfo from 'containers/PaymentInfo';
 import TransactionList from 'containers/TransactionList';
 import Subscriptions from 'containers/Subscriptions';
 import UpdateProfile from 'containers/UpdateProfile';
-import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
+import SubscriptionSwitches from 'containers/SubscriptionSwitches';
 import Capture from 'components/Capture/Capture';
 import CheckoutConsents from 'components/CheckoutConsents';
+import PasswordReset from 'components/PasswordReset';
 
 export {
   // Identity Management
   Register,
   Login,
+  PasswordReset,
   // Checkout
   OfferContainer as Purchase,
   // My Account
@@ -28,7 +30,7 @@ export {
   PlanDetails,
   UpdateProfile,
   PaymentInfo,
-  SubscriptionSwitchesList,
+  SubscriptionSwitches,
   Capture,
   Config,
   Auth,
