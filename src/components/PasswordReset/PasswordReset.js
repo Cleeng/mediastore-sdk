@@ -10,6 +10,7 @@ import resetPassword from 'api/Auth/resetPassword';
 import saveOfferId from 'util/offerIdHelper';
 import labeling from 'containers/labeling';
 import Footer from 'components/Footer';
+import { getData } from 'util/appConfigHelper';
 import {
   PasswordResetPageStyled,
   StyledTitle,
@@ -34,7 +35,11 @@ class PasswordReset extends Component {
 
   componentDidMount() {
     const { urlProps } = this.props;
-    saveOfferId(urlProps.location, this.setOfferId);
+    if (urlProps.location) {
+      saveOfferId(urlProps.location, this.setOfferId);
+    } else {
+      this.setOfferId(getData('CLEENG_OFFER_ID'));
+    }
   }
 
   setOfferId = value => this.setState({ offerId: value });
@@ -91,16 +96,12 @@ class PasswordReset extends Component {
 
   render() {
     const { value, message, processing, overloaded } = this.state;
-    const {
-      t,
-      urlProps: { location }
-    } = this.props;
+    const { t } = this.props;
 
-    const fromMyAccount = location.state ? location.state.fromMyAccount : false;
     return (
       <>
         <Header>
-          <BackButton isMyAccount={fromMyAccount} />
+          <BackButton />
         </Header>
         <PasswordResetPageStyled>
           <StyledTitle>{t('Forgot your password?')}</StyledTitle>
