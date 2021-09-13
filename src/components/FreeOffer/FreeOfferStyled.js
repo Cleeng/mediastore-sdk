@@ -16,7 +16,9 @@ export const WrapStyled = styled.div`
   padding: 50px 30px 86px 30px;
 `;
 
-export const CardStyled = styled.div`
+export const CardStyled = styled.div.attrs(() => ({
+  className: 'msd__checkout-card'
+}))`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -34,7 +36,9 @@ export const CardStyled = styled.div`
   color: ${MainColor};
 `;
 
-export const TitleStyled = styled.h1`
+export const TitleStyled = styled.h1.attrs(() => ({
+  className: 'msd__checkout-card__title'
+}))`
   margin: 20px 0 15px 0;
 
   font-weight: ${BoldFont};
@@ -42,20 +46,26 @@ export const TitleStyled = styled.h1`
   line-height: 1.2em;
 `;
 
-export const DescriptionStyled = styled.h2`
+export const DescriptionStyled = styled.h2.attrs(() => ({
+  className: 'msd__checkout-card__description'
+}))`
   margin: 0 0 30px 0;
 
   font-size: ${MediumFont};
 `;
 
-export const SubTextStyled = styled.p`
+export const SubTextStyled = styled.p.attrs(() => ({
+  className: 'msd__checkout-card__subtext'
+}))`
   margin: 20px 0 0 0;
 
   font-size: ${SmallFont};
   color: ${MediumGrey};
 `;
 
-export const SubscriptionIconStyled = styled(SubscriptionIcon)`
+export const SubscriptionIconStyled = styled(SubscriptionIcon).attrs(() => ({
+  className: 'msd__checkout-card__icon'
+}))`
   flex: 0 0 75px;
   min-width: 75px;
 
@@ -69,7 +79,9 @@ export const ButtonWrapperStyled = styled.div`
   max-width: 200px;
 `;
 
-export const ErrorMessageStyled = styled.div`
+export const ErrorMessageStyled = styled.div.attrs(() => ({
+  className: 'msd__checkout-card__message--error'
+}))`
   margin-top: 10px;
   color: ${ErrorColor};
   font-size: 12px;

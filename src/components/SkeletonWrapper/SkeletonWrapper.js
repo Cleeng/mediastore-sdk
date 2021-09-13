@@ -4,7 +4,9 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 
-export const SkeletonWrapperStyled = styled.div`
+export const SkeletonWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__skeleton'
+}))`
   width: 100%;
   max-width: 100%;
   margin: 0 0 10px;

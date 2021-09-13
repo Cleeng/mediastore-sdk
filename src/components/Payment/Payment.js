@@ -181,7 +181,9 @@ class Payment extends Component {
       <PaymentStyled>
         {isPaymentDetailsRequired ? (
           <>
-            <SectionHeader center>{t('Purchase using')}</SectionHeader>
+            <SectionHeader marginTop="25px" center>
+              {t('Purchase using')}
+            </SectionHeader>
             <MethodsWrapperStyled>
               {paymentMethods.map(
                 method =>

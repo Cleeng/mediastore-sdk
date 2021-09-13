@@ -136,7 +136,7 @@ class TransactionList extends Component {
     } = this.state;
     return (
       <WrapStyled>
-        <SectionHeader>{t('Transactions')}</SectionHeader>
+        <SectionHeader marginTop="25px">{t('Transactions')}</SectionHeader>
         <Transactions
           transactions={paymentInfo.transactionsToShow}
           toggleTransactionsList={this.toggleTransactionsList}

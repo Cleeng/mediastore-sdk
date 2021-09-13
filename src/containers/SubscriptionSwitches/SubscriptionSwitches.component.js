@@ -94,7 +94,7 @@ const SubscriptionSwitches = ({
         renderPopup(innerPopup.type)
       ) : (
         <>
-          <SectionHeader marginTop="0">{t('Change Plan')}</SectionHeader>
+          <SectionHeader>{t('Change Plan')}</SectionHeader>
           <SubscriptionSwitchesList
             switchSettings={planDetails.switchSettings[offerId]}
             showInnerPopup={showInnerPopup}

@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
 import { BoldFont, MainColor, White, ConfirmColor } from 'styles/variables';
 
-export const WrapperStyled = styled.div`
+export const WrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__subscription-card__icon'
+}))`
   position: relative;
   padding: 10px;
   margin-right: 10px;

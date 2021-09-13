@@ -2,12 +2,16 @@ import styled from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
+export const PasswordResetWrapperStyled = styled.div`
+  position: relative;
+`;
+
 export const PasswordResetPageStyled = styled.main.attrs(() => ({
-  className: 'msd__rest-password'
+  className: 'msd__reset-password'
 }))`
-  width: 80%;
+  width: 100%;
   margin: 0 auto;
-  padding: 40px 0;
+  padding: 40px 10%;
 
   color: ${colors.MainColor};
 
@@ -29,7 +33,7 @@ export const PasswordResetPageStyled = styled.main.attrs(() => ({
 `;
 
 export const StyledTitle = styled.div.attrs(() => ({
-  className: 'msd__rest-password__title'
+  className: 'msd__reset-password__title'
 }))`
   margin: 40px 0 25px 0;
 
@@ -38,7 +42,7 @@ export const StyledTitle = styled.div.attrs(() => ({
 `;
 
 export const StyledMessage = styled.div.attrs(() => ({
-  className: 'msd__rest-password__message'
+  className: 'msd__reset-password__message'
 }))`
   font-weight: 300;
   & strong {
@@ -47,7 +51,7 @@ export const StyledMessage = styled.div.attrs(() => ({
 `;
 
 export const FormStyled = styled.form.attrs(() => ({
-  className: 'msd__rest-password__form'
+  className: 'msd__reset-password__form'
 }))`
   width: 80%;
 

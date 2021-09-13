@@ -3,8 +3,10 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { MainColor, BigFont, BoldFont } from 'styles/variables';
 
-const HeadingStyled = styled.h2`
-  margin: 25px 0;
+const HeadingStyled = styled.h2.attrs(() => ({
+  className: 'msd__section-header'
+}))`
+  padding: 25px 0;
   font-size: ${BigFont};
   font-weight: ${BoldFont};
   color: ${MainColor};
@@ -38,5 +40,5 @@ SectionHeader.propTypes = {
 SectionHeader.defaultProps = {
   children: '',
   center: false,
-  marginTop: '25px'
+  marginTop: null
 };

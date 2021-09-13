@@ -1,7 +1,9 @@
 import styled, { css } from 'styled-components';
 import { MainColor, ConfirmColor, ErrorColor } from 'styles/variables';
 
-export const AdyenStyled = styled.div`
+export const AdyenStyled = styled.div.attrs(() => ({
+  className: 'msd__payment__adyen'
+}))`
   max-width: 320px;
   margin: 50px auto 0 auto;
   ${props =>

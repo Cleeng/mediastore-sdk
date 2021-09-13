@@ -132,7 +132,7 @@ class UpdateProfile extends Component {
           </>
         ) : (
           <>
-            <SectionHeader marginTop="0">{t('Profile details')}</SectionHeader>
+            <SectionHeader>{t('Profile details')}</SectionHeader>
             {detailsError.length !== 0 ? (
               <MyAccountError generalError />
             ) : (
@@ -150,9 +150,7 @@ class UpdateProfile extends Component {
                 />
                 {address && address.enabled && (
                   <>
-                    <SectionHeader marginTop="0">
-                      {t('Address details')}
-                    </SectionHeader>
+                    <SectionHeader>{t('Address details')}</SectionHeader>
                     <AddressDetails
                       data={address}
                       isLoading={isCaptureLoading}
@@ -160,7 +158,7 @@ class UpdateProfile extends Component {
                     />
                   </>
                 )}
-                <SectionHeader>{t('Password')}</SectionHeader>
+                <SectionHeader marginTop="25px">{t('Password')}</SectionHeader>
                 <Password
                   showInnerPopup={() =>
                     showInnerPopup({ type: POPUP_TYPES.editPassword })
@@ -168,9 +166,7 @@ class UpdateProfile extends Component {
                 />
                 {customSettings && customSettings.length > 0 && (
                   <>
-                    <SectionHeader marginTop="0">
-                      {t('Additional Options')}
-                    </SectionHeader>
+                    <SectionHeader>{t('Additional Options')}</SectionHeader>
                     <AdditionalProfileInfo
                       data={customSettings}
                       updateCaptureOption={updateCaptureOption}
@@ -180,7 +176,10 @@ class UpdateProfile extends Component {
               </>
             )}
 
-            <SectionHeader> {t('Terms Details')}</SectionHeader>
+            <SectionHeader marginTop="25px">
+              {' '}
+              {t('Terms Details')}
+            </SectionHeader>
             {consentsError.length !== 0 ? (
               <MyAccountError generalError />
             ) : (
