@@ -11,7 +11,9 @@ export const WrapStyled = styled.nav`
   `}
 `;
 
-export const ItemsStyled = styled.div`
+export const ItemsStyled = styled.div.attrs(() => ({
+  className: 'msd__account-sidebar__items'
+}))`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -25,7 +27,9 @@ export const ItemsStyled = styled.div`
   `}
 `;
 
-export const ItemWrapStyled = styled.div`
+export const ItemWrapStyled = styled.div.attrs(() => ({
+  className: 'msd__account-sidebar__item'
+}))`
   ${props =>
     !props.visibleOnDesktop &&
     css`
@@ -47,7 +51,9 @@ export const ItemWrapStyled = styled.div`
   `}
 `;
 
-export const ItemIconWrapStyled = styled.div`
+export const ItemIconWrapStyled = styled.div.attrs(() => ({
+  className: 'msd__account-sidebar__icon'
+}))`
   display: none;
   justify-content: center;
   align-items: center;
@@ -65,7 +71,9 @@ export const ItemIconWrapStyled = styled.div`
   `}
 `;
 
-export const ItemLabelStyled = styled.div`
+export const ItemLabelStyled = styled.div.attrs(() => ({
+  className: 'msd__account-sidebar__label'
+}))`
   opacity: 0.4;
   width: auto;
   margin: auto;
@@ -93,7 +101,9 @@ export const ItemLabelStyled = styled.div`
   `}
 `;
 
-export const ItemLinkStyled = styled(NavLink)`
+export const ItemLinkStyled = styled(NavLink).attrs(() => ({
+  className: 'msd__account-sidebar__link'
+}))`
   display: flex;
   flex-direction: column;
   height: 100%;

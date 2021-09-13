@@ -2,7 +2,9 @@ import styled from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
 import { White } from 'styles/variables';
 
-export const WrapperStyled = styled.div`
+export const WrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__account-wrapper'
+}))`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -23,7 +25,9 @@ export const WrapperStyled = styled.div`
   `}
 `;
 
-export const HeaderStyled = styled.div`
+export const HeaderStyled = styled.div.attrs(() => ({
+  className: 'msd__account-sidebar'
+}))`
   position: relative;
   padding: 0 26px;
   overflow: hidden;

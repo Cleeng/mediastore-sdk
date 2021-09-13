@@ -10,7 +10,9 @@ import {
 
 import portrait from './img/icon_myaccountIB.svg';
 
-export const WrapStyled = styled.header`
+export const WrapStyled = styled.header.attrs(() => ({
+  className: 'msd__account-header'
+}))`
   display: flex;
   flex-direction: row;
 
@@ -24,7 +26,9 @@ export const WrapStyled = styled.header`
   `}
 `;
 
-export const PhotoStyled = styled.div`
+export const PhotoStyled = styled.div.attrs(() => ({
+  className: 'msd__account-header__avatar'
+}))`
   width: 64px;
   height: 64px;
   min-width: 64px;
@@ -42,7 +46,9 @@ export const PhotoStyled = styled.div`
   `}
 `;
 
-export const NameStyled = styled.div`
+export const NameStyled = styled.div.attrs(() => ({
+  className: 'msd__account-header__name'
+}))`
   max-width: 100%;
 
   margin-bottom: 6px;
@@ -62,7 +68,9 @@ export const NameStyled = styled.div`
   `};
 `;
 
-export const MailStyled = styled.div`
+export const MailStyled = styled.div.attrs(() => ({
+  className: 'msd__account-header__mail'
+}))`
   max-width: 100%;
 
   margin-bottom: 6px;
@@ -88,7 +96,9 @@ export const MailStyled = styled.div`
   `}
 `;
 
-export const TextStyled = styled.div`
+export const TextStyled = styled.div.attrs(() => ({
+  className: 'msd__account-header__label'
+}))`
   padding: 5px 16px;
   background-color: #f0f0ff;
   border-radius: 14px;
@@ -102,7 +112,9 @@ export const TextStyled = styled.div`
   max-width: max-content;
 `;
 
-export const DetailsStyled = styled.div`
+export const DetailsStyled = styled.div.attrs(() => ({
+  className: 'msd__account-header__wrapper'
+}))`
   display: flex;
   flex-grow: 1;
   flex-direction: column;

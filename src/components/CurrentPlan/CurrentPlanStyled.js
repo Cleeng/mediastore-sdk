@@ -7,7 +7,9 @@ export const WrapStyled = styled.div`
   margin-bottom: 20px;
 `;
 
-export const SubscriptionStyled = styled.div`
+export const SubscriptionStyled = styled.div.attrs(() => ({
+  className: 'msd__account__subscription'
+}))`
   background: ${White};
   border: 1px solid ${LineColor};
   border-radius: 12px;
@@ -74,6 +76,8 @@ export const ButtonTextStyled = styled.span`
   }
 `;
 
-export const StatusMessageWrapStyled = styled.div`
+export const StatusMessageWrapStyled = styled.div.attrs(() => ({
+  className: 'msd__account__message'
+}))`
   margin-top: 20px;
 `;
