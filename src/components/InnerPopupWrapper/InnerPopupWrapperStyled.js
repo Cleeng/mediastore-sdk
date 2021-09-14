@@ -22,7 +22,9 @@ export const CardStyled = styled(Card)`
   `};
 `;
 
-export const WrapperStyled = styled.div`
+export const WrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__popup'
+}))`
   display: flex;
   flex-direction: column;
   padding: 30px;
@@ -30,7 +32,9 @@ export const WrapperStyled = styled.div`
   width: 100%;
 `;
 
-export const DotsWrapperStyled = styled.div`
+export const DotsWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__popup__dots'
+}))`
   display: flex;
   flex-direction: row;
   ${props =>
@@ -41,7 +45,9 @@ export const DotsWrapperStyled = styled.div`
       }
     `}
 `;
-export const HeaderStyled = styled.div`
+export const HeaderStyled = styled.div.attrs(() => ({
+  className: 'msd__popup__header'
+}))`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -51,7 +57,9 @@ export const HeaderStyled = styled.div`
   `}
 `;
 
-export const DotStyled = styled.span`
+export const DotStyled = styled.span.attrs(() => ({
+  className: 'msd__popup__dot'
+}))`
   display: block;
   width: 10px;
   height: 10px;
@@ -60,14 +68,18 @@ export const DotStyled = styled.span`
   margin-right: 10px;
 `;
 
-export const HeaderTitleStyled = styled.h1`
+export const HeaderTitleStyled = styled.h1.attrs(() => ({
+  className: 'msd__popup__title'
+}))`
   font-size: 14px;
   margin: 0;
 `;
 
 /* USE IT FOR CHILDREN */
 
-export const ContentStyled = styled.div`
+export const ContentStyled = styled.div.attrs(() => ({
+  className: 'msd__popup-content'
+}))`
   text-align: center;
   margin: auto;
   width: 80%;
@@ -77,7 +89,9 @@ export const ContentStyled = styled.div`
   `}
 `;
 
-export const TitleStyled = styled.h1`
+export const TitleStyled = styled.h1.attrs(() => ({
+  className: 'msd__popup-content__title'
+}))`
   font-size: 26px;
   color: ${MainColor};
   font-weight: 600;
@@ -99,7 +113,9 @@ export const TitleStyled = styled.h1`
     `}
 `;
 
-export const TextStyled = styled.p`
+export const TextStyled = styled.p.attrs(() => ({
+  className: 'msd__popup-content__text'
+}))`
   color: ${MainColor};
   opacity: 0.8;
   font-size: 14px;
@@ -107,11 +123,15 @@ export const TextStyled = styled.p`
   margin: 24px 0;
 `;
 
-export const MailStyled = styled.span`
+export const MailStyled = styled.span.attrs(() => ({
+  className: 'msd__popup-content__mail'
+}))`
   font-weight: 700;
 `;
 
-export const ButtonWrapperStyled = styled.div`
+export const ButtonWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__popup-content__buttons'
+}))`
   display: flex;
   flex-direction: row;
   justify-content: center;

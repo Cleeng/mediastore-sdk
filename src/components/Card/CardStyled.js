@@ -1,6 +1,8 @@
 import styled, { css } from 'styled-components';
 // eslint-disable-next-line import/prefer-default-export
-export const WrapStyled = styled.div`
+export const WrapStyled = styled.div.attrs(() => ({
+  className: 'msd__account__card'
+}))`
   position: relative;
   width: 100%;
 
@@ -9,7 +11,7 @@ export const WrapStyled = styled.div`
 
   margin-bottom: 39px;
 
-  background-color: #FFFFFF;
+  background-color: #ffffff;
 
   ${props =>
     props.withShadow &&
@@ -19,6 +21,6 @@ export const WrapStyled = styled.div`
   ${props =>
     props.withBorder &&
     css`
-      border: 1px solid #D3DBE6;
+      border: 1px solid #d3dbe6;
     `}
 `;

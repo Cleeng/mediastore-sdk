@@ -1,19 +1,8 @@
 import styled from 'styled-components';
 
-export const WrapStyled = styled.div``;
-
-export const MyAccountButtonStyled = styled.div`
-  margin-top: 28px;
-  button {
-    height: 40px;
-    border-radius: 20px;
-    font-weight: 700;
-    width: 100%;
-    padding: 0 10px;
-    font-size: 14px;
-    background-color: #4eb7a1;
-  }
-`;
+export const WrapStyled = styled.div.attrs(() => ({
+  className: 'msd__profile-password'
+}))``;
 
 export const InnerWrapperStyled = styled.div`
   display: flex;
@@ -22,7 +11,9 @@ export const InnerWrapperStyled = styled.div`
   align-items: center;
 `;
 
-export const OldPasswordStyled = styled.span`
+export const OldPasswordStyled = styled.span.attrs(() => ({
+  className: 'msd__profile-password__old'
+}))`
   letter-spacing: 2px;
   font-weight: 700;
 `;

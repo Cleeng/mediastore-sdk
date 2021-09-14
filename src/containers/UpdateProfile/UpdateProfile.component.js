@@ -12,7 +12,7 @@ import MyAccountConsents from 'components/MyAccountConsents';
 import EditPassword from 'components/EditPassword/EditPassword';
 import AdditionalProfileInfo from 'components/AdditionalProfileInfo';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
-import { WrapStyled } from './UpdateProfileStyled';
+import WrapStyled from './UpdateProfileStyled';
 
 class UpdateProfile extends Component {
   constructor(props) {
