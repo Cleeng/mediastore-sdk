@@ -2,7 +2,9 @@ import styled, { css } from 'styled-components';
 import { MainColor, IconsColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
-export const TitleStyled = styled.div`
+export const TitleStyled = styled.div.attrs(() => ({
+  className: 'msd__info-box__title'
+}))`
   max-width: 380px;
   margin: 10px auto 0 auto;
 
@@ -11,7 +13,9 @@ export const TitleStyled = styled.div`
   font-size: 16px;
 `;
 
-export const SubTitleStyled = styled.div`
+export const SubTitleStyled = styled.div.attrs(() => ({
+  className: 'msd__info-box__subtitle'
+}))`
   color: ${MainColor};
 
   font-size: 13px;
@@ -20,14 +24,18 @@ export const SubTitleStyled = styled.div`
   margin: 5px auto 0 auto;
 `;
 
-export const IconStyled = styled.div`
+export const IconStyled = styled.div.attrs(() => ({
+  className: 'msd__info-box__icon'
+}))`
   margin: auto auto 10px auto;
   svg {
     max-width: 100%;
   }
 `;
 
-export const WrapStyled = styled.div`
+export const WrapStyled = styled.div.attrs(() => ({
+  className: 'msd__info-box'
+}))`
   position: relative;
   max-width: ${props => (props.fullWidth ? 'unset' : '320px')};
 

@@ -138,9 +138,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
             if (setting.values.length === 2)
               return (
                 <InputWrapStyled key={setting.key}>
-                  <InputLabelStyled required={setting.required}>
-                    {setting.question}
-                  </InputLabelStyled>
+                  <InputLabelStyled>{setting.question}</InputLabelStyled>
                   <Checkbox
                     key={`${setting.key}-01`}
                     onClickFn={(e, disabled) =>

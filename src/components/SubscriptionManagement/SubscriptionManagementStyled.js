@@ -3,7 +3,9 @@ import { media, mediaFrom } from 'styles/BreakPoints';
 import { IconsColor } from 'styles/variables';
 import Button from 'components/Button';
 
-export const WrapperStyled = styled.div`
+export const WrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__manage-box__actions-wrapper'
+}))`
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
@@ -13,7 +15,9 @@ export const WrapperStyled = styled.div`
   padding-top: 17px;
 `;
 
-export const SubscriptionManagementStyled = styled.section`
+export const SubscriptionManagementStyled = styled.section.attrs(() => ({
+  className: 'msd__manage-box'
+}))`
   width: 100%;
   margin-top: 22px;
   display: flex;
@@ -30,7 +34,9 @@ export const ManageButtonWrapStyled = styled.div`
   }
 `;
 
-export const SubscriptionActionsStyled = styled.div`
+export const SubscriptionActionsStyled = styled.div.attrs(() => ({
+  className: 'msd__manage-box__actions'
+}))`
   width: 100%;
   max-height: 0px;
   overflow: hidden;
@@ -49,7 +55,9 @@ export const SubscriptionActionsStyled = styled.div`
   `}
 `;
 
-export const ButtonTextStyled = styled.span`
+export const ButtonTextStyled = styled.span.attrs(() => ({
+  className: 'msd__manage-box__button-text'
+}))`
   position: relative;
   line-height: 1.2;
   &:after {
@@ -68,7 +76,9 @@ export const ButtonTextStyled = styled.span`
   }
 `;
 
-export const SimpleButtonStyled = styled(Button)`
+export const SimpleButtonStyled = styled(Button).attrs(() => ({
+  className: 'msd__manage-box__button'
+}))`
   width: 48%;
 
   text-transform: capitalize;

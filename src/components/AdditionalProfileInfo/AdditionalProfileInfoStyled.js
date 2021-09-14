@@ -1,9 +1,13 @@
 import styled from 'styled-components';
 import { ConfirmColor, MainColor } from 'styles/variables';
 
-export const WrapStyled = styled.div``;
+export const WrapStyled = styled.div.attrs(() => ({
+  className: 'msd__profile-capture__wrapper'
+}))``;
 
-export const MessageStyled = styled.div`
+export const MessageStyled = styled.div.attrs(() => ({
+  className: 'msd__profile-capture__message'
+}))`
   color: ${ConfirmColor};
   text-align: center;
   margin: 5px 0 15px 0;
@@ -15,7 +19,9 @@ export const InputWrapStyled = styled.div`
   margin-bottom: 20px;
 `;
 
-export const InputLabelStyled = styled.div`
+export const InputLabelStyled = styled.div.attrs(() => ({
+  className: 'msd__profile-capture__label'
+}))`
   display: block;
   margin-bottom: 12px;
   color: ${MainColor};

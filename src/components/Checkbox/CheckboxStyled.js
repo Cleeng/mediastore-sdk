@@ -9,7 +9,9 @@ import {
 import tickIcon from '../../assets/images/input/tickIB.svg';
 import enableIcon from '../../assets/images/input/enable_checkIB.svg';
 
-export const CheckboxStyled = styled.div`
+export const CheckboxStyled = styled.div.attrs(props => ({
+  className: `msd__consents ${props.disabled ? 'msd__consents--disabled' : ''}`
+}))`
   display: flex;
   width: 100%;
   height: 100%;
@@ -30,7 +32,11 @@ export const CheckboxStyled = styled.div`
     `}
 `;
 
-export const ConsentDefinitionStyled = styled.div`
+export const ConsentDefinitionStyled = styled.div.attrs(props => ({
+  className: `msd__consents__text ${
+    props.checked ? 'msd__consents__text--checked' : ''
+  }`
+}))`
   position: relative;
   padding-left: 10px;
   margin-top: 0;
@@ -53,7 +59,14 @@ export const ConsentDefinitionStyled = styled.div`
     `}
 `;
 
-export const CheckFrameStyled = styled.div`
+export const CheckFrameStyled = styled.div.attrs(props => ({
+  className: `msd__consents__frame ${
+    props.error ? 'msd__consents__frame--error' : ''
+  } ${props.checked ? 'msd__consents__frame--checked' : ''}
+  ${props.isRadioButton ? 'msd__consents__frame--radio' : ''} ${
+    props.isMyAccount ? 'msd__consents__frame--account' : ''
+  }`
+}))`
   position: relative;
   box-sizing: border-box;
 
@@ -91,7 +104,11 @@ export const CheckFrameStyled = styled.div`
     `}
 `;
 
-export const CheckMarkStyled = styled.div`
+export const CheckMarkStyled = styled.div.attrs(props => ({
+  className: `msd__consents__check-mark ${
+    props.isRadioButton ? 'msd__consents__check-mark--radio' : ''
+  } ${props.isMyAccount ? 'msd__consents__check-mark--account' : ''}`
+}))`
   position: absolute;
 
   width: 13px;

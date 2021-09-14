@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import PaymentMehod from 'components/PaymentMethod';
+import PaymentMethod from 'components/PaymentMethod';
 import SectionHeader from 'components/SectionHeader';
 import Transactions from 'components/Transactions';
 import { getPaymentDetails, listCustomerTransactions } from 'api';
@@ -201,10 +201,8 @@ class PaymentInfo extends Component {
           />
         ) : (
           <>
-            <SectionHeader marginTop="0">
-              {t('Current payment method')}
-            </SectionHeader>
-            <PaymentMehod
+            <SectionHeader>{t('Current payment method')}</SectionHeader>
+            <PaymentMethod
               paymentDetailsLoading={paymentDetailsLoading}
               activeOrBoundPaymentDetails={
                 paymentInfo.activeOrBoundPaymentDetails
@@ -212,7 +210,9 @@ class PaymentInfo extends Component {
               showInnerPopup={showInnerPopup}
               error={paymentDetailsError}
             />
-            <SectionHeader>{t('Payment history')}</SectionHeader>
+            <SectionHeader marginTop="25px">
+              {t('Payment history')}
+            </SectionHeader>
             <Transactions
               transactions={paymentInfo.transactionsToShow}
               toggleTransactionsList={this.toggleTransactionsList}

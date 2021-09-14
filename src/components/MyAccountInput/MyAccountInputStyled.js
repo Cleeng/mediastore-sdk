@@ -6,7 +6,9 @@ import {
   ErrorColor
 } from 'styles/variables';
 
-export const WrapStyled = styled.div`
+export const WrapStyled = styled.div.attrs(() => ({
+  className: 'msd__account-input__wrapper'
+}))`
   position: relative;
   margin-bottom: 12px;
 
@@ -17,14 +19,18 @@ export const WrapStyled = styled.div`
     `};
 `;
 
-export const InputElementLabelStyled = styled.label`
+export const InputElementLabelStyled = styled.label.attrs(() => ({
+  className: 'msd__account-input__label'
+}))`
   display: block;
   margin-bottom: 12px;
   color: ${MainColor};
   font-size: 13px;
 `;
 
-export const InputElementStyled = styled.input`
+export const InputElementStyled = styled.input.attrs(() => ({
+  className: 'msd__account-input'
+}))`
   width: 100%;
   padding: 10px 16px;
 

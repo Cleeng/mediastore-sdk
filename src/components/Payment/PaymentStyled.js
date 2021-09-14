@@ -2,22 +2,27 @@ import styled from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
-export const PaymentStyled = styled.div`
+export const PaymentStyled = styled.div.attrs(() => ({
+  className: 'msd__payment'
+}))`
   padding: 20px 35px 70px 35px;
   width: 100%;
-  margin-top: 20px;
   background-color: ${colors.BackgroundColor};
   border-top: 1px solid ${colors.LineColor};
   border-bottom: 1px solid ${colors.LineColor};
 `;
 
-export const PaymentErrorStyled = styled.div`
+export const PaymentErrorStyled = styled.div.attrs(() => ({
+  className: 'msd__payment--error'
+}))`
   text-align: center;
   font-size: 15px;
   color: ${colors.ErrorColor};
 `;
 
-export const MethodsWrapperStyled = styled.div`
+export const MethodsWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__payment__methods'
+}))`
   margin-bottom: 10px;
   font-size: 20px;
   display: flex;
@@ -41,7 +46,9 @@ export const MethodsWrapperStyled = styled.div`
   `}
 `;
 
-export const PayPalWrapperStyled = styled.div`
+export const PayPalWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__payment__paypal'
+}))`
   height: 180px;
   display: flex;
   flex-direction: column;
@@ -49,7 +56,9 @@ export const PayPalWrapperStyled = styled.div`
   justify-content: center;
 `;
 
-export const PayPalTextStyled = styled.p`
+export const PayPalTextStyled = styled.p.attrs(() => ({
+  className: 'msd__payment__paypal-text'
+}))`
   max-width: 50%;
   margin-bottom: 20px;
   text-align: center;

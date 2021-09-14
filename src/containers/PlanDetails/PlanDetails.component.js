@@ -135,7 +135,7 @@ const PlanDetails = ({
         renderPopup(innerPopup.type)
       ) : (
         <>
-          <SectionHeader marginTop="0">{t('Current plan')}</SectionHeader>
+          <SectionHeader>{t('Current plan')}</SectionHeader>
           <CurrentPlan
             subscriptions={planDetails.currentPlan}
             errors={isErrorCurrentPlan}
@@ -147,7 +147,7 @@ const PlanDetails = ({
           />
           {activeSubscriptions.length !== 0 && (
             <>
-              <SectionHeader marginTop="0">{t('Change Plan')}</SectionHeader>
+              <SectionHeader>{t('Change Plan')}</SectionHeader>
               <SubscriptionSwitchesList
                 switchSettings={
                   planDetails.switchSettings[planDetails.offerToSwitch.offerId]

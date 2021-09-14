@@ -8,7 +8,9 @@ import {
   paymentMethodColors
 } from 'styles/variables';
 
-export const CardStyled = styled.div`
+export const CardStyled = styled.div.attrs(() => ({
+  className: 'msd__payment-card'
+}))`
   position: relative;
 
   height: 160px;
@@ -33,7 +35,9 @@ export const CardStyled = styled.div`
   }
 `;
 
-export const CardTypeStyled = styled.div`
+export const CardTypeStyled = styled.div.attrs(() => ({
+  className: 'msd__payment-card__type'
+}))`
   position: absolute;
   left: 16px;
   top: 16px;
@@ -46,7 +50,9 @@ export const CardTypeStyled = styled.div`
   }
 `;
 
-export const CardNumberStyled = styled.div`
+export const CardNumberStyled = styled.div.attrs(() => ({
+  className: 'msd__payment-card__number'
+}))`
   position: absolute;
   top: 28px;
   right: 16px;
@@ -55,7 +61,9 @@ export const CardNumberStyled = styled.div`
   z-index: 2;
 `;
 
-export const CardExpirationStyled = styled.div`
+export const CardExpirationStyled = styled.div.attrs(() => ({
+  className: 'msd__payment-data__wrapper'
+}))`
   position: absolute;
   bottom: 20px;
   left: 16px;
@@ -66,14 +74,18 @@ export const CardExpirationStyled = styled.div`
   flex-direction: column;
 `;
 
-export const CardExpirationLabel = styled.div`
+export const CardExpirationLabel = styled.div.attrs(() => ({
+  className: 'msd__payment-data__label'
+}))`
   color: ${IconsColor};
   font-size: 10px;
   margin-bottom: 4px;
   z-index: 2;
 `;
 
-export const CardExpirationDateStyled = styled.div`
+export const CardExpirationDateStyled = styled.div.attrs(() => ({
+  className: 'msd__payment-data__value'
+}))`
   color: ${White};
   font-size: 12px;
   z-index: 2;
@@ -83,7 +95,9 @@ export const CardExpirationDateStyled = styled.div`
   white-space: nowrap;
 `;
 
-export const CardEditStyled = styled.button`
+export const CardEditStyled = styled.button.attrs(() => ({
+  className: 'msd__payment-method__button'
+}))`
   position: absolute;
   bottom: 18px;
   right: 16px;
@@ -103,7 +117,9 @@ export const CardEditStyled = styled.button`
   }
 `;
 
-export const CardWrapStyled = styled.div`
+export const CardWrapStyled = styled.div.attrs(() => ({
+  className: 'msd__payment-card__wrapper'
+}))`
   width: 265px;
   font-family: Arial, Helvetica, sans-serif;
 

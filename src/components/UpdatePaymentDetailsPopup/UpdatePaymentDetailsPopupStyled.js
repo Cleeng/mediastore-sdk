@@ -5,7 +5,9 @@ import { LineColor, MainColor, ErrorColor } from 'styles/variables';
 import { ReactComponent as PPIcon } from 'assets/images/paymentMethods/paypal_short.svg';
 import { ReactComponent as DeleteIcon } from 'assets/images/remove_icon.svg';
 
-export const PaymentMethodStyled = styled.button`
+export const PaymentMethodStyled = styled.button.attrs(() => ({
+  className: 'msd__popup-content__payment-method'
+}))`
   display: flex;
   align-items: center;
   width: 100%;
@@ -32,24 +34,32 @@ export const PaymentMethodTextStyled = styled.div`
   margin-left: 20px;
 `;
 
-export const PaymentMethodTitleStyled = styled.div`
+export const PaymentMethodTitleStyled = styled.div.attrs(() => ({
+  className: 'msd__popup-content__payment-method-title'
+}))`
   font-weight: 600;
   margin-bottom: 10px;
   font-size: 14px;
   width: 100%;
 `;
 
-export const PaymentMethodDescStyled = styled.div`
+export const PaymentMethodDescStyled = styled.div.attrs(() => ({
+  className: 'msd__popup-content__payment-method-description'
+}))`
   font-weight: 300;
   font-size: 12px;
 `;
-export const PaymentMethodIconStyled = styled.div`
+export const PaymentMethodIconStyled = styled.div.attrs(() => ({
+  className: 'msd__popup-content__payment-method-icon'
+}))`
   path {
     fill: ${MainColor};
   }
 `;
 
-export const ImageWrapper = styled.div`
+export const ImageWrapper = styled.div.attrs(() => ({
+  className: 'msd__popup-content__payment-method-img'
+}))`
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -63,14 +73,18 @@ export const PPIconStyled = styled(props => <PPIcon {...props} />)`
   filter: brightness(0) invert(1);
 `;
 
-export const ErrorMessage = styled.p`
+export const ErrorMessage = styled.p.attrs(() => ({
+  className: 'msd__popup-content__erro'
+}))`
   width: 100%;
   color: ${ErrorColor};
   margin: 10px 0;
   text-align: center;
 `;
 
-export const RemoveLinkStyled = styled.a`
+export const RemoveLinkStyled = styled.a.attrs(() => ({
+  className: 'msd__popup-content__error-link'
+}))`
   color: ${ErrorColor};
   text-decoration: underline;
   font-size: 12px;
@@ -89,7 +103,9 @@ export const DeleteIconStyled = styled(props => <DeleteIcon {...props} />)`
   font-size: 9px;
 `;
 
-export const PopupImageStyled = styled.div`
+export const PopupImageStyled = styled.div.attrs(() => ({
+  className: 'msd__popup-content__payment-method-image'
+}))`
   border: 1px solid ${LineColor};
   border-radius: 10px;
   padding: 15px 25px;

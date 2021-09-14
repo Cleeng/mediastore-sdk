@@ -20,7 +20,9 @@ export const WrapperStyled = styled.section`
   align-items: center;
   width: 100%;
 `;
-export const InnerWrapper = styled.div`
+export const InnerWrapper = styled.div.attrs(() => ({
+  className: 'msd__subscription-text__wrapper'
+}))`
   max-width: 50%;
   color: ${MainColor};
   margin-right: 15px;
@@ -31,7 +33,9 @@ export const InnerWrapper = styled.div`
   `}
 `;
 
-export const TitleStyled = styled.h1`
+export const TitleStyled = styled.h1.attrs(() => ({
+  className: 'msd__subscription-text__title'
+}))`
   margin: 0 auto 3px 0;
 
   font-weight: ${BoldFont};
@@ -43,19 +47,25 @@ export const TitleStyled = styled.h1`
     line-height: 19px;
   `};
 `;
-export const DescriptionStyled = styled.h2`
+export const DescriptionStyled = styled.h2.attrs(() => ({
+  className: 'msd__subscription-text__description'
+}))`
   font-size: ${TinyFont};
   font-weight: ${MediumFontWeight};
   line-height: 17px;
 `;
 
-export const PriceWrapperStyled = styled.div`
+export const PriceWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__subscription-price__wrapper'
+}))`
   display: flex;
   flex-direction: column;
   margin: auto 0 auto auto;
 `;
 
-export const TrialBadgeStyled = styled.div`
+export const TrialBadgeStyled = styled.div.attrs(() => ({
+  className: 'msd__subscription-price__badge'
+}))`
   width: 80px;
   padding: 4px 8px;
   margin-bottom: 4px;
@@ -68,7 +78,9 @@ export const TrialBadgeStyled = styled.div`
   font-weight: ${MediumFontWeight};
   text-transform: uppercase;
 `;
-export const SubBoxStyled = styled.div`
+export const SubBoxStyled = styled.div.attrs(() => ({
+  className: 'msd__subscription-subcard'
+}))`
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
@@ -80,7 +92,9 @@ export const SubBoxStyled = styled.div`
   border-radius: 4px;
 `;
 
-export const BoxTextStyled = styled.p`
+export const BoxTextStyled = styled.p.attrs(() => ({
+  className: 'msd__subscription-subcard__title'
+}))`
   font-size: ${TinyFont};
   color: ${MainColor};
   margin: 0 0 0 10px;

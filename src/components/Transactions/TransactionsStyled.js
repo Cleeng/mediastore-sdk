@@ -1,9 +1,11 @@
 /* eslint-disable no-nested-ternary */
 import styled, { css } from 'styled-components';
-import { MyAccountTextGray, LineColor, MainColor } from 'styles/variables';
+import { LineColor, MainColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
-export const WrapStyled = styled.div`
+export const WrapStyled = styled.div.attrs(() => ({
+  className: 'msd__transactions__wrapper'
+}))`
   position: relative;
 
   margin-bottom: 20px;
@@ -15,12 +17,9 @@ export const WrapStyled = styled.div`
   `}
 `;
 
-export const InfoMessageStyled = styled.div`
-  color: ${MyAccountTextGray};
-  font-size: 13px;
-`;
-
-export const InsideWrapperStyled = styled.div`
+export const InsideWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__transactions__item'
+}))`
   display: flex;
   justify-content: space-between;
   flex-wrap: no-wrap;
@@ -47,7 +46,9 @@ export const InsideWrapperStyled = styled.div`
       `)}
 `;
 
-export const TransactionListStyled = styled.div`
+export const TransactionListStyled = styled.div.attrs(() => ({
+  className: 'msd__transactions__list'
+}))`
   height: 174px;
   transition: all 0.3s ease-in-out;
   overflow: hidden;
@@ -76,33 +77,43 @@ export const RightBoxStyled = styled.div`
   text-align: right;
 `;
 
-export const TitleStyled = styled.h3`
+export const TitleStyled = styled.h3.attrs(() => ({
+  className: 'msd__transaction__title'
+}))`
   color: ${MainColor};
 
   font-size: 13px;
   font-weight: 700;
   line-height: 15px;
 `;
-export const SubTitleStyled = styled.div`
+export const SubTitleStyled = styled.div.attrs(() => ({
+  className: 'msd__transaction__subtitle'
+}))`
   margin-top: 6px;
 
   color: ${MainColor};
 
   font-size: 12px;
 `;
-export const IdStyled = styled.div`
+export const IdStyled = styled.div.attrs(() => ({
+  className: 'msd__transaction__id'
+}))`
   color: ${MainColor};
 
   font-size: 13px;
 `;
-export const DateStyled = styled.div`
+export const DateStyled = styled.div.attrs(() => ({
+  className: 'msd__transaction__date'
+}))`
   margin-top: 6px;
 
   color: ${MainColor};
 
   font-size: 12px;
 `;
-export const ButtonTextStyled = styled.span`
+export const ButtonTextStyled = styled.span.attrs(() => ({
+  className: 'msd__transactions__button-text'
+}))`
   position: relative;
   line-height: 1.2;
   &:after {

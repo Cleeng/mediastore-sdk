@@ -10,7 +10,7 @@ const registerCustomer = async (
   country,
   currency
 ) => {
-  const url = `${getApiURL}/customers`;
+  const url = `${getApiURL()}/customers`;
 
   try {
     const resp = await fetchWithHeaders(url, {

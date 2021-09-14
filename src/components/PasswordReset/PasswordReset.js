@@ -15,7 +15,8 @@ import {
   PasswordResetPageStyled,
   StyledTitle,
   StyledMessage,
-  FormStyled
+  FormStyled,
+  PasswordResetWrapperStyled
 } from './PasswordResetStyled';
 
 // eslint-disable-next-line no-useless-escape
@@ -99,7 +100,7 @@ class PasswordReset extends Component {
     const { t } = this.props;
 
     return (
-      <>
+      <PasswordResetWrapperStyled>
         <Header>
           <BackButton />
         </Header>
@@ -132,7 +133,7 @@ class PasswordReset extends Component {
           </FormStyled>
         </PasswordResetPageStyled>
         <Footer />
-      </>
+      </PasswordResetWrapperStyled>
     );
   }
 }

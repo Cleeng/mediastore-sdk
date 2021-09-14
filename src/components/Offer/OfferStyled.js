@@ -17,18 +17,21 @@ export const StyledOfferDetailsAndCoupon = styled.div`
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-end;
-  margin-top: 12px;
   margin-bottom: 12px;
 `;
 
-export const StyledOfferBody = styled.div`
+export const StyledOfferBody = styled.div.attrs(() => ({
+  className: 'msd__checkout-wrapper'
+}))`
   padding: 0 35px;
   ${media.small`
     padding: 0 10px;
   `}
 `;
 
-export const SubscriptionCardWrapperStyled = styled.section`
+export const SubscriptionCardWrapperStyled = styled.section.attrs(() => ({
+  className: 'msd__subscription-card'
+}))`
   width: 100%;
   background: ${variables.BackgroundColor};
   border: 1px solid ${variables.LineColor};

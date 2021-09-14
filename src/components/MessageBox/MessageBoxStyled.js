@@ -1,7 +1,9 @@
 import styled from 'styled-components';
 import { BackgroundColor, LineColor, ConfirmColor } from 'styles/variables';
 
-export const MessageBoxStyled = styled.div`
+export const MessageBoxStyled = styled.div.attrs(() => ({
+  className: 'msd__message-box'
+}))`
   display: flex;
   align-items: center;
   padding: 12px;
@@ -10,7 +12,9 @@ export const MessageBoxStyled = styled.div`
   border-radius: 7px;
 `;
 
-export const MessageBoxIconWrapStyled = styled.div`
+export const MessageBoxIconWrapStyled = styled.div.attrs(() => ({
+  className: 'msd__message-box__icon'
+}))`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,7 +30,9 @@ export const MessageBoxIconWrapStyled = styled.div`
   }
 `;
 
-export const MessageBoxMessageStyled = styled.div`
+export const MessageBoxMessageStyled = styled.div.attrs(() => ({
+  className: 'msd__message-box__text'
+}))`
   margin-left: 13px;
   font-size: 12px;
   color: ${ConfirmColor};

@@ -7,7 +7,9 @@ export const WrapStyled = styled.div`
   margin-bottom: 30px;
 `;
 
-export const CardsWrapper = styled.div`
+export const CardsWrapper = styled.div.attrs(() => ({
+  className: 'msd__payment-method__wrapper'
+}))`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
@@ -27,7 +29,9 @@ export const CardsWrapper = styled.div`
     `}
 `;
 
-export const Message = styled.div`
+export const Message = styled.div.attrs(() => ({
+  className: 'msd__payment-method__message'
+}))`
   margin-bottom: 24px;
   font-size: 12px;
   font-weight: 500;

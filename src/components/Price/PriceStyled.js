@@ -8,7 +8,9 @@ import {
   TinyFont
 } from 'styles/variables';
 
-export const WrapperStyled = styled.h3`
+export const WrapperStyled = styled.h3.attrs(() => ({
+  className: 'msd__subscription-price'
+}))`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -22,7 +24,9 @@ export const WrapperStyled = styled.h3`
     flex-wrap: nowrap;
   `}
 `;
-export const CurrencyStyled = styled.span`
+export const CurrencyStyled = styled.span.attrs(() => ({
+  className: 'msd__subscription-price__currency'
+}))`
   margin-right: 2px;
 
   font-size: ${TinyFont};
@@ -32,7 +36,9 @@ export const CurrencyStyled = styled.span`
     font-size: ${BigFont};
   `}
 `;
-export const PriceStyled = styled.span`
+export const PriceStyled = styled.span.attrs(() => ({
+  className: 'msd__subscription-price__amount'
+}))`
   font-size: ${BigFont};
 
   font-weight: ${MediumFontWeight};
@@ -42,7 +48,9 @@ export const PriceStyled = styled.span`
   `}
 `;
 
-export const PeriodStyled = styled.span`
+export const PeriodStyled = styled.span.attrs(() => ({
+  className: 'msd__subscription-price__period'
+}))`
   margin: auto 0 0 5px;
 
   font-size: ${TinyFont};

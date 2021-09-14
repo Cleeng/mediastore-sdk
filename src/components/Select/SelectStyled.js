@@ -2,7 +2,9 @@ import styled, { css } from 'styled-components';
 import ReactSelect from 'react-select';
 import * as Colors from 'styles/variables';
 
-export const SelectStyled = styled.div`
+export const SelectStyled = styled.div.attrs(() => ({
+  className: 'msd__select__wrapper'
+}))`
   display: flex;
   flex-direction: column;
   position: relative;
@@ -10,7 +12,9 @@ export const SelectStyled = styled.div`
   width: 100%;
 `;
 
-export const ReactSelectStyled = styled(ReactSelect)`
+export const ReactSelectStyled = styled(ReactSelect).attrs(() => ({
+  className: 'msd__select'
+}))`
   &:focus-within,
   &:focus {
     border-color: ${Colors.ConfirmColor};

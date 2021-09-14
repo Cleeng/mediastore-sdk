@@ -16,7 +16,9 @@ export const ConsentsWrapperStyled = styled.div`
   }
 `;
 
-export const ConsentsErrorStyled = styled.div`
+export const ConsentsErrorStyled = styled.div.attrs(() => ({
+  className: 'msd__consents__error'
+}))`
   width: 100%;
   height: 13px;
 
