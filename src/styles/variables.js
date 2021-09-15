@@ -3,7 +3,6 @@ import { getTheme } from 'util/appConfigHelper';
 
 const {
   backgroundColor,
-  headerColor,
   loaderColor,
   successColor,
   errorColor,
