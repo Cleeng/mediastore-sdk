@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
-import { BoldFont, MainColor, White, ConfirmColor } from 'styles/variables';
+import { BoldFont, FontColor, White, ConfirmColor } from 'styles/variables';
 
 export const WrapperStyled = styled.div.attrs(() => ({
   className: 'msd__subscription-card__icon'
@@ -41,7 +41,7 @@ export const LabelStyled = styled.span`
   height: 18px;
   width: 48px;
 
-  background: ${props => (props.label === 'New' ? ConfirmColor : MainColor)};
+  background: ${props => (props.label === 'New' ? ConfirmColor : FontColor)};
   border-radius: 10px;
 
   color: ${White};

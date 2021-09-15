@@ -1,4 +1,6 @@
 import styled, { css } from 'styled-components';
+import { CardColor } from 'styles/variables';
+
 // eslint-disable-next-line import/prefer-default-export
 export const WrapStyled = styled.div.attrs(() => ({
   className: 'msd__account__card'
@@ -11,7 +13,7 @@ export const WrapStyled = styled.div.attrs(() => ({
 
   margin-bottom: 39px;
 
-  background-color: #ffffff;
+  background-color: ${CardColor};
 
   ${props =>
     props.withShadow &&

@@ -1,3 +1,18 @@
+/* eslint-disable no-unused-vars */
+import { getTheme } from 'util/appConfigHelper';
+
+const {
+  backgroundColor,
+  headerColor,
+  loaderColor,
+  successColor,
+  errorColor,
+  fontColor,
+  cardColor,
+  primaryColor,
+  secondaryColor
+} = getTheme() || {};
+
 // My Account
 export const MyAccountBlue = '#031a6e';
 export const MyAccountContentColor = '#f8f9fc';
@@ -5,6 +20,7 @@ export const MyAccountTextGray = '#7B849D';
 export const MyAccountTextLightGray = '#F2F5FC';
 export const CardSecondaryColor = '#182c7a';
 export const MyAccountMenu = '#f2f5fc';
+export const MyAccountMenuActive = successColor || '#4EB7A1';
 export const PayPal = '#61AEF0';
 
 // Payment Methods
@@ -22,13 +38,17 @@ export const paymentMethodColors = {
 };
 
 // Common colors
-export const ErrorColor = '#CB4477';
-export const BackgroundColor = '#F8FAFD';
+export const BackgroundColor = backgroundColor || '#F8FAFD';
+export const CardColor = cardColor || '#ffffff';
+export const FontColor = fontColor || '#515364';
+export const ConfirmColor = successColor || '#4EB7A1';
+export const ErrorColor = errorColor || '#CB4477';
+export const PrimaryColor = primaryColor || FontColor;
+export const SecondaryColor = secondaryColor || BackgroundColor;
+export const LoaderColor = loaderColor || '#eeeff2';
 export const IconsColor = '#BCC3CD';
-export const MainColor = '#515364';
 export const LineColor = '#D3DBE6';
 export const White = '#FFFFFF';
-export const ConfirmColor = '#4EB7A1';
 export const MediumGrey = '#b7bfca';
 export const TextFieldBorderFilter =
   'invert(87%) sepia(14%) saturate(243%) hue-rotate(213deg) brightness(96%) contrast(80%)';

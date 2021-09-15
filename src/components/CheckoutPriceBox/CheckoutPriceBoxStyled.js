@@ -6,7 +6,7 @@ export const StyledLabel = styled.div.attrs(() => ({
   className: 'msd__price-summary__label'
 }))`
   font-size: 16px;
-  color: ${variables.MainColor};
+  color: ${variables.FontColor};
 `;
 
 export const StyledOfferPrice = styled.h3.attrs(() => ({
@@ -14,7 +14,7 @@ export const StyledOfferPrice = styled.h3.attrs(() => ({
 }))`
   float: right;
   font-size: 16px;
-  color: ${variables.MainColor};
+  color: ${variables.FontColor};
 
   & span {
     font-size: 12px;

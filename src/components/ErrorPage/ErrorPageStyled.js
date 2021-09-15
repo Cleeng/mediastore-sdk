@@ -11,7 +11,7 @@ export const ErrorPageStyled = styled.div`
   min-height: 350px;
   margin: 0 auto;
 
-  color: ${colors.MainColor};
+  color: ${colors.FontColor};
 
   font-size: 15px;
 `;

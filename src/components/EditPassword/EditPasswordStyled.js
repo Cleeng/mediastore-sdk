@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { MainColor, LineColor, MyAccountMenuActive } from 'styles/variables';
+import { FontColor, LineColor, MyAccountMenuActive } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 import Card from 'components/Card';
 
@@ -44,7 +44,7 @@ export const HeaderStyled = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  color: ${MainColor};
+  color: ${FontColor};
   ${media.small`
     margin: 30px 0 0 0;
   `}
@@ -76,7 +76,7 @@ export const ContentStyled = styled.div`
 
 export const TitleStyled = styled.h1`
   font-size: 30px;
-  color: ${MainColor};
+  color: ${FontColor};
   font-weight: 700;
 
   ${media.small`
@@ -94,7 +94,7 @@ export const TitleStyled = styled.h1`
 `;
 
 export const TextStyled = styled.p`
-  color: ${MainColor};
+  color: ${FontColor};
   opacity: 0.8;
   font-size: 14px;
   line-height: 1.5;

@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
 import {
-  MainColor,
+  FontColor,
   MyAccountTextLightGray,
   LineColor,
   SmallFont,
@@ -56,7 +56,7 @@ export const NameStyled = styled.div.attrs(() => ({
   font-size: 20px;
   line-height: 24px;
   font-weight: 700;
-  color: ${MainColor};
+  color: ${FontColor};
   text-overflow: ellipsis;
   overflow: hidden;
 
@@ -75,7 +75,7 @@ export const MailStyled = styled.div.attrs(() => ({
 
   margin-bottom: 6px;
 
-  color: ${MainColor};
+  color: ${FontColor};
 
   font-size: ${SmallFont};
   font-weight: 500;
@@ -123,7 +123,7 @@ export const DetailsStyled = styled.div.attrs(() => ({
   max-width: calc(100% - 78px);
   margin-left: 14px;
 
-  color: ${MainColor};
+  color: ${FontColor};
 
   ${props =>
     props.isEmpty &&

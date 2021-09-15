@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { MainColor, IconsColor } from 'styles/variables';
+import { FontColor, IconsColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const TitleStyled = styled.div.attrs(() => ({
@@ -8,7 +8,7 @@ export const TitleStyled = styled.div.attrs(() => ({
   max-width: 380px;
   margin: 10px auto 0 auto;
 
-  color: ${MainColor};
+  color: ${FontColor};
 
   font-size: 16px;
 `;
@@ -16,7 +16,7 @@ export const TitleStyled = styled.div.attrs(() => ({
 export const SubTitleStyled = styled.div.attrs(() => ({
   className: 'msd__info-box__subtitle'
 }))`
-  color: ${MainColor};
+  color: ${FontColor};
 
   font-size: 13px;
 

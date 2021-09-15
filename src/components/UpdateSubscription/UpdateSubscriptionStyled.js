@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { MainColor, LineColor } from 'styles/variables';
+import { FontColor, LineColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 import Card from 'components/Card';
 
@@ -31,7 +31,7 @@ export const ReasonsWrapper = styled.ul`
 
 export const StyledItem = styled.li`
   margin: 0 0 20px 0;
-  color: ${MainColor};
+  color: ${FontColor};
 
   font-size: 13px;
 `;

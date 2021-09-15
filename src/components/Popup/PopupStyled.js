@@ -1,6 +1,6 @@
 import styled, { css, keyframes } from 'styled-components';
 import { media } from 'styles/BreakPoints';
-import { MainColor, LineColor, ErrorColor } from 'styles/variables';
+import { FontColor, LineColor, ErrorColor } from 'styles/variables';
 import Button from 'components/Button';
 
 const fadeInOpacity = keyframes`
@@ -53,7 +53,7 @@ export const ButtonWrapperStyled = styled.div`
 `;
 export const TitleStyled = styled.h1`
   font-size: 30px;
-  color: ${MainColor};
+  color: ${FontColor};
   font-weight: 700;
 
   ${media.small`
@@ -62,7 +62,7 @@ export const TitleStyled = styled.h1`
 `;
 
 export const TextStyled = styled.p`
-  color: ${MainColor};
+  color: ${FontColor};
   opacity: 0.8;
   font-size: 14px;
   line-height: 1.5;
@@ -101,7 +101,7 @@ export const DotsWrapperStyled = styled.div`
     props.currentStep &&
     css`
       span:nth-child(-n + ${props.currentStep}) {
-        background: ${MainColor};
+        background: ${FontColor};
       }
     `}
 `;
@@ -111,7 +111,7 @@ export const HeaderStyled = styled.div`
   justify-content: space-between;
   width: 90%;
   margin: 50px 0 0 0;
-  color: ${MainColor};
+  color: ${FontColor};
   ${media.small`
     margin: 30px 0 0 0;
   `}

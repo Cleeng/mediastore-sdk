@@ -11,7 +11,7 @@ export const StyledButton = styled(Button)`
 
   svg {
     path {
-      fill: ${variables.MainColor};
+      fill: ${variables.FontColor};
     }
   }
 

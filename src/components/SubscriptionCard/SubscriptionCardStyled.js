@@ -7,7 +7,7 @@ import {
   TinyFont,
   SmallFont,
   MicroFont,
-  MainColor,
+  FontColor,
   White,
   LineColor,
   BackgroundColor
@@ -24,7 +24,7 @@ export const InnerWrapper = styled.div.attrs(() => ({
   className: 'msd__subscription-text__wrapper'
 }))`
   max-width: 50%;
-  color: ${MainColor};
+  color: ${FontColor};
   margin-right: 15px;
 
   ${mediaFrom.small`
@@ -70,7 +70,7 @@ export const TrialBadgeStyled = styled.div.attrs(() => ({
   padding: 4px 8px;
   margin-bottom: 4px;
   background-color: ${White};
-  color: ${MainColor};
+  color: ${FontColor};
   border: 1px solid ${LineColor};
   border-radius: 10px;
   font-size: 9px;
@@ -96,6 +96,6 @@ export const BoxTextStyled = styled.p.attrs(() => ({
   className: 'msd__subscription-subcard__title'
 }))`
   font-size: ${TinyFont};
-  color: ${MainColor};
+  color: ${FontColor};
   margin: 0 0 0 10px;
 `;

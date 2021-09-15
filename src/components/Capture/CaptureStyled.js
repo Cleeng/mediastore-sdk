@@ -27,5 +27,5 @@ export const CaptureTitle = styled.div`
   text-transform: uppercase;
   font-weight: 700;
 
-  color: ${colors.MainColor};
+  color: ${colors.FontColor};
 `;

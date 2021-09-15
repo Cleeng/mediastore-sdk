@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import ErrorPage from 'components/ErrorPage';
-import BackButton from 'components/BackButton';
 import {
   ContentWrapperStyled,
   LoginWrapperStyled as RegisterWrapperStyled
@@ -50,9 +49,7 @@ class Register extends Component {
       <ErrorPage type="offerNotExist" resetError={() => this.setOfferError()} />
     ) : (
       <RegisterWrapperStyled>
-        <Header>
-          <BackButton />
-        </Header>
+        <Header />
         <ContentWrapperStyled>
           <RegisterForm
             t={t}

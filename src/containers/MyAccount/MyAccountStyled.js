@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
-import { White } from 'styles/variables';
+import { White, BackgroundColor } from 'styles/variables';
 
 export const WrapperStyled = styled.div.attrs(() => ({
   className: 'msd__account-wrapper'
@@ -31,6 +31,8 @@ export const HeaderStyled = styled.div.attrs(() => ({
   position: relative;
   padding: 0 26px;
   overflow: hidden;
+
+  background: ${BackgroundColor};
 
   footer {
     display: none;

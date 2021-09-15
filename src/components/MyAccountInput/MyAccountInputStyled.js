@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import {
-  MainColor,
+  FontColor,
   BackgroundColor,
   LineColor,
   ErrorColor
@@ -24,7 +24,7 @@ export const InputElementLabelStyled = styled.label.attrs(() => ({
 }))`
   display: block;
   margin-bottom: 12px;
-  color: ${MainColor};
+  color: ${FontColor};
   font-size: 13px;
 `;
 
@@ -46,7 +46,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
 
   &:disabled {
     background-color: ${BackgroundColor};
-    color: ${MainColor};
+    color: ${FontColor};
   }
 
   ${props =>

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { ConfirmColor, MainColor } from 'styles/variables';
+import { ConfirmColor, FontColor } from 'styles/variables';
 
 export const WrapStyled = styled.div.attrs(() => ({
   className: 'msd__profile-capture__wrapper'
@@ -24,6 +24,6 @@ export const InputLabelStyled = styled.div.attrs(() => ({
 }))`
   display: block;
   margin-bottom: 12px;
-  color: ${MainColor};
+  color: ${FontColor};
   font-size: 13px;
 `;

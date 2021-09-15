@@ -4,6 +4,7 @@ import { media } from 'styles/BreakPoints';
 
 export const PasswordResetWrapperStyled = styled.div`
   position: relative;
+  background: ${colors.BackgroundColor};
 `;
 
 export const PasswordResetPageStyled = styled.main.attrs(() => ({
@@ -13,7 +14,7 @@ export const PasswordResetPageStyled = styled.main.attrs(() => ({
   margin: 0 auto;
   padding: 40px 10%;
 
-  color: ${colors.MainColor};
+  color: ${colors.FontColor};
 
   text-align: center;
   line-height: 1.3em;

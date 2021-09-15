@@ -58,7 +58,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
   position: relative;
   width: 0px;
 
-  color: ${Colors.MainColor};
+  color: ${Colors.FontColor};
   padding: 0;
 
   border: none;

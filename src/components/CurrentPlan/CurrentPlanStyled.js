@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { White, LineColor, ConfirmColor } from 'styles/variables';
+import { CardColor, LineColor, ConfirmColor } from 'styles/variables';
 
 export const WrapStyled = styled.div`
   position: relative;
@@ -10,7 +10,7 @@ export const WrapStyled = styled.div`
 export const SubscriptionStyled = styled.div.attrs(() => ({
   className: 'msd__account__subscription'
 }))`
-  background: ${White};
+  background: ${CardColor};
   border: 1px solid ${LineColor};
   border-radius: 12px;
 

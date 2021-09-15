@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import {
   MyAccountBlue,
   White,
-  MainColor,
+  FontColor,
   CardSecondaryColor,
   IconsColor,
   paymentMethodColors
@@ -101,7 +101,7 @@ export const CardEditStyled = styled.button.attrs(() => ({
   position: absolute;
   bottom: 18px;
   right: 16px;
-  color: ${MainColor};
+  color: ${FontColor};
   z-index: 2;
 
   padding: 9px 14px;
@@ -127,7 +127,7 @@ export const CardWrapStyled = styled.div.attrs(() => ({
     props.type !== '' &&
     css`
       ${CardStyled} {
-        background-color: ${paymentMethodColors[`${props.type}MainColor`]};
+        background-color: ${paymentMethodColors[`${props.type}FontColor`]};
 
         &:after {
           background-color: ${paymentMethodColors[

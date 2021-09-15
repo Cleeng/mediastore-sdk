@@ -6,7 +6,7 @@ export const LoginWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__auth-wrapper'
 }))`
   position: relative;
-  background: #fff;
+  background: ${colors.BackgroundColor};
 `;
 
 export const ContentWrapperStyled = styled.main.attrs(() => ({
@@ -71,7 +71,7 @@ export const SeparatorStyled = styled.div`
 
   padding: 20px 0;
 
-  color: ${colors.MainColor};
+  color: ${colors.FontColor};
 
   text-align: center;
   font-size: 13px;

@@ -69,7 +69,7 @@ const ButtonStyled = styled.button.attrs(props => ({
     (props.theme === 'primary' &&
       css`
         color: ${colors.White};
-        background-color: ${colors.MainColor};
+        background-color: ${colors.PrimaryColor};
         opacity: 0.9;
         &:hover,
         &:focus {
@@ -125,9 +125,9 @@ const ButtonStyled = styled.button.attrs(props => ({
       `) ||
     (props.theme === 'secondary' &&
       css`
-        background-color: ${colors.BackgroundColor};
+        background-color: ${colors.SecondaryColor};
         border: 1px solid ${colors.BackgroundColor};
-        color: ${colors.MainColor};
+        color: ${colors.FontColor};
         &:hover,
         &:focus,
         &:active {
@@ -140,7 +140,7 @@ const ButtonStyled = styled.button.attrs(props => ({
       css`
         background-color: transparent;
         border: 1px solid ${colors.LineColor};
-        color: ${colors.MainColor};
+        color: ${colors.FontColor};
         &:not(:disabled):hover,
         &:focus {
           cursor: pointer;
@@ -163,7 +163,7 @@ const ButtonStyled = styled.button.attrs(props => ({
 
         transform: translateY(-45%);
         background-color: transparent;
-        color: ${colors.MainColor};
+        color: ${colors.FontColor};
         font-size: 16px;
         letter-spacing: 0.025em;
         font-weight: 500;
@@ -192,7 +192,7 @@ const ButtonStyled = styled.button.attrs(props => ({
 
         border-radius: none;
         background-color: transparent;
-        color: ${colors.MainColor};
+        color: ${colors.FontColor};
 
         text-decoration: underline;
         letter-spacing: 0.025em;

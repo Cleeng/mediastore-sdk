@@ -21,7 +21,7 @@ export const LabelStyled = styled.label.attrs(() => ({
   margin: 0;
   padding: 0 3px;
 
-  color: ${Colors.MainColor};
+  color: ${Colors.FontColor};
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
   ${props =>
@@ -39,7 +39,7 @@ export const LabelStyled = styled.label.attrs(() => ({
     width: 100%;
     height: 15px;
 
-    background: #fff;
+    background: ${Colors.BackgroundColor};
 
     z-index: -1;
     opacity: 0;
@@ -105,7 +105,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
 
   margin: 0 15px;
 
-  color: ${Colors.MainColor};
+  color: ${Colors.FontColor};
   background: transparent;
   border: none;
   outline: none;

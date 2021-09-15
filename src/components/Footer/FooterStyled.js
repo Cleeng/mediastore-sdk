@@ -18,7 +18,7 @@ export const FooterStyled = styled.footer.attrs(props => ({
 
   border-top: 1px solid ${colors.LineColor};
   background-color: ${props =>
-    props.isTransparent ? 'transparent' : colors.White};
+    props.isTransparent ? 'transparent' : colors.BackgroundColor};
 
   ${props =>
     props.isTransparent &&
@@ -40,7 +40,7 @@ export const ProductByStyled = styled.span.attrs(() => ({
   display: flex;
   align-items: center;
 
-  color: ${colors.MainColor};
+  color: ${colors.FontColor};
 
   font-size: 12px;
   font-weight: 300;

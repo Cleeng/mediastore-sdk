@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { MainColor, LineColor, ConfirmColor } from 'styles/variables';
+import { FontColor, LineColor, ConfirmColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 import Card from 'components/Card';
 
@@ -51,7 +51,7 @@ export const HeaderStyled = styled.div.attrs(() => ({
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  color: ${MainColor};
+  color: ${FontColor};
   ${media.small`
     margin: 30px 0 0 0;
   `}
@@ -93,7 +93,7 @@ export const TitleStyled = styled.h1.attrs(() => ({
   className: 'msd__popup-content__title'
 }))`
   font-size: 26px;
-  color: ${MainColor};
+  color: ${FontColor};
   font-weight: 600;
   text-transform: ${props =>
     props.textTransform ? props.textTransform : 'capitalize'};
@@ -116,7 +116,7 @@ export const TitleStyled = styled.h1.attrs(() => ({
 export const TextStyled = styled.p.attrs(() => ({
   className: 'msd__popup-content__text'
 }))`
-  color: ${MainColor};
+  color: ${FontColor};
   opacity: 0.8;
   font-size: 14px;
   line-height: 1.5;

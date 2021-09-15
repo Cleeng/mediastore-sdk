@@ -1,5 +1,5 @@
 import styled, { keyframes, css } from 'styled-components';
-import { MainColor } from '../../styles/variables';
+import { FontColor } from '../../styles/variables';
 
 export const LoaderKeyframeStyled = keyframes`
   0%,
@@ -46,7 +46,7 @@ export const LoaderStyled = styled.div.attrs(() => ({
     ${props =>
       props.isMyAccount &&
       css`
-        background: ${MainColor};
+        background: ${FontColor};
       `};
   }
 

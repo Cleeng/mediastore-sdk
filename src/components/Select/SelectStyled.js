@@ -36,11 +36,11 @@ export const ReactSelectStyled = styled(ReactSelect).attrs(() => ({
     }
   }
   .react-select__placeholder {
-    color: ${Colors.MainColor};
+    color: ${Colors.FontColor};
   }
   .react-select__value-container {
     padding: 13px 15px 14px;
-    color: ${Colors.MainColor};
+    color: ${Colors.FontColor};
   }
   .react-select__menu {
     border-radius: 0px;

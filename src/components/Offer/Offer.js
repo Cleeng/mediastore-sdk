@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import { PureCouponInput as CouponInput } from 'components/CouponInput/CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Payment from 'components/Payment';
-import Logout from 'components/Logout';
 import Header from 'components/Header';
 import SectionHeader from 'components/SectionHeader';
 import Footer from 'components/Footer';
@@ -128,9 +127,7 @@ class Offer extends Component {
     const isFree = totalPrice === 0 && !trialAvailable && !isCouponApplied;
     return (
       <StyledOfferWrapper>
-        <Header>
-          <Logout />
-        </Header>
+        <Header />
         <main>
           {isFree ? (
             <FreeOffer

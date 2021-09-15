@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
 import {
-  MainColor,
+  FontColor,
   BigFont,
   LargeFont,
   MediumFontWeight,
@@ -18,7 +18,7 @@ export const WrapperStyled = styled.h3.attrs(() => ({
 
   align-items: center;
 
-  color: ${MainColor};
+  color: ${FontColor};
 
   ${mediaFrom.small`
     flex-wrap: nowrap;

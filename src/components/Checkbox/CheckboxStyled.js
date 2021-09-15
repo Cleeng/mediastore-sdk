@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import {
-  MainColor,
+  FontColor,
   ErrorColor,
   ConfirmColor,
   LineColor,
@@ -20,7 +20,7 @@ export const CheckboxStyled = styled.div.attrs(props => ({
 
   align-items: center;
   font-size: 13px;
-  color: ${MainColor};
+  color: ${FontColor};
 
   &:focus {
     outline: none;
@@ -44,7 +44,7 @@ export const ConsentDefinitionStyled = styled.div.attrs(props => ({
   font-weight: 400;
   text-align: left;
   a {
-    color: ${MainColor};
+    color: ${FontColor};
 
     text-decoration: underline;
     &:focus {

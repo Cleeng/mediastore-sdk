@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
-import { MyAccountTextGray, MainColor, ConfirmColor } from 'styles/variables';
+import { MyAccountTextGray, FontColor, ConfirmColor } from 'styles/variables';
 import { NavLink } from 'react-router-dom';
 
 export const WrapStyled = styled.nav`
@@ -67,7 +67,6 @@ export const ItemIconWrapStyled = styled.div.attrs(() => ({
     display: flex;
     border: 0;
     height: 50px;
-    width: 17px;
   `}
 `;
 
@@ -78,7 +77,7 @@ export const ItemLabelStyled = styled.div.attrs(() => ({
   width: auto;
   margin: auto;
 
-  color: ${MainColor};
+  color: ${FontColor};
   font-size: 13px;
 
   font-weight: 700;

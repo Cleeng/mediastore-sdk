@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { MainColor, ConfirmColor, ErrorColor } from 'styles/variables';
+import { FontColor, ConfirmColor, ErrorColor } from 'styles/variables';
 
 export const AdyenStyled = styled.div.attrs(() => ({
   className: 'msd__payment__adyen'
@@ -10,7 +10,7 @@ export const AdyenStyled = styled.div.attrs(() => ({
     props.isMyAccount &&
     css`
       .adyen-checkout__label__text {
-        color: ${MainColor};
+        color: ${FontColor};
         font-size: 12px;
         opacity: 0.8;
       }
@@ -18,7 +18,7 @@ export const AdyenStyled = styled.div.attrs(() => ({
 
   .adyen-checkout__label--focused 
     .adyen-checkout__label__text {
-    color: ${MainColor};
+    color: ${FontColor};
     opacity: 1;
   }
 
@@ -43,7 +43,7 @@ export const AdyenStyled = styled.div.attrs(() => ({
     box-shadow: 0 0 5px 2px #f3f3f3;
   }
   .adyen-checkout__spinner {
-    border: 3px solid ${MainColor};
+    border: 3px solid ${FontColor};
     border-top-color: transparent;
   }
   .adyen-checkout__input--valid {

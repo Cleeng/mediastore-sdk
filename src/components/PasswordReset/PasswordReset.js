@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import EmailInput from 'components/EmailInput';
-import BackButton from 'components/BackButton';
 import Button from 'components/Button';
 import Header from 'components/Header';
 import Loader from 'components/Loader';
@@ -101,9 +100,7 @@ class PasswordReset extends Component {
 
     return (
       <PasswordResetWrapperStyled>
-        <Header>
-          <BackButton />
-        </Header>
+        <Header />
         <PasswordResetPageStyled>
           <StyledTitle>{t('Forgot your password?')}</StyledTitle>
           <StyledMessage>

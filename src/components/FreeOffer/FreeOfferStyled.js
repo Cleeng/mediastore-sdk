@@ -4,7 +4,7 @@ import {
   LineColor,
   BackgroundColor,
   MediumGrey,
-  MainColor,
+  FontColor,
   BoldFont,
   SmallFont,
   MediumFont,
@@ -33,7 +33,7 @@ export const CardStyled = styled.div.attrs(() => ({
   background: ${BackgroundColor};
 
   text-align: center;
-  color: ${MainColor};
+  color: ${FontColor};
 `;
 
 export const TitleStyled = styled.h1.attrs(() => ({

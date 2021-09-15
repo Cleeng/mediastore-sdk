@@ -53,7 +53,7 @@ describe('PasswordReset', () => {
       expect(inputComponent.props().value).toBe('');
 
       const buttons = wrapper.find(Button);
-      expect(buttons).toHaveLength(2);
+      expect(buttons).toHaveLength(1);
     });
   });
   describe('@events', () => {

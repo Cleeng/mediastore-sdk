@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import styled from 'styled-components';
-import { LineColor, MainColor, ErrorColor } from 'styles/variables';
+import { LineColor, FontColor, ErrorColor } from 'styles/variables';
 import { ReactComponent as PPIcon } from 'assets/images/paymentMethods/paypal_short.svg';
 import { ReactComponent as DeleteIcon } from 'assets/images/remove_icon.svg';
 
@@ -19,14 +19,14 @@ export const PaymentMethodStyled = styled.button.attrs(() => ({
   border-radius: 12px;
   background: transparent;
 
-  color: ${MainColor};
+  color: ${FontColor};
   text-align: left;
   cursor: pointer;
   &:active {
     border: 1px solid ${LineColor};
   }
   &:hover {
-    border: 1px solid ${MainColor};
+    border: 1px solid ${FontColor};
   }
 `;
 
@@ -53,7 +53,7 @@ export const PaymentMethodIconStyled = styled.div.attrs(() => ({
   className: 'msd__popup-content__payment-method-icon'
 }))`
   path {
-    fill: ${MainColor};
+    fill: ${FontColor};
   }
 `;
 

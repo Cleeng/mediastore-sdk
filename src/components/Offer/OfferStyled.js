@@ -5,7 +5,7 @@ import { media } from 'styles/BreakPoints';
 export const StyledOfferWrapper = styled.div`
   position: relative;
   width: 100%;
-  background-color: #fff;
+  background: ${variables.BackgroundColor};
 `;
 
 export const StyledOfferCouponWrapper = styled.div`
@@ -23,7 +23,7 @@ export const StyledOfferDetailsAndCoupon = styled.div`
 export const StyledOfferBody = styled.div.attrs(() => ({
   className: 'msd__checkout-wrapper'
 }))`
-  padding: 0 35px;
+  padding: 25px 35px;
   ${media.small`
     padding: 0 10px;
   `}

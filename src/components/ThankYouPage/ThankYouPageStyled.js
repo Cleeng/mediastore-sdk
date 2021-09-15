@@ -8,7 +8,7 @@ export const ThankYouPageStyled = styled.main`
   text-align: center;
   line-height: 1.3em;
   font-size: 15px;
-  color: ${colors.MainColor};
+  color: ${colors.FontColor};
   font-weight: bold;
 `;
 
@@ -28,7 +28,7 @@ export const MessageStyled = styled.div`
 `;
 
 export const LinkStyled = styled.a`
-  color: ${colors.MainColor};
+  color: ${colors.FontColor};
   padding-left: 4px;
   font-weight: bold;
   &:hover {

@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import styled, { css } from 'styled-components';
-import { LineColor, MainColor } from 'styles/variables';
+import { LineColor, FontColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const WrapStyled = styled.div.attrs(() => ({
@@ -80,7 +80,7 @@ export const RightBoxStyled = styled.div`
 export const TitleStyled = styled.h3.attrs(() => ({
   className: 'msd__transaction__title'
 }))`
-  color: ${MainColor};
+  color: ${FontColor};
 
   font-size: 13px;
   font-weight: 700;
@@ -91,14 +91,14 @@ export const SubTitleStyled = styled.div.attrs(() => ({
 }))`
   margin-top: 6px;
 
-  color: ${MainColor};
+  color: ${FontColor};
 
   font-size: 12px;
 `;
 export const IdStyled = styled.div.attrs(() => ({
   className: 'msd__transaction__id'
 }))`
-  color: ${MainColor};
+  color: ${FontColor};
 
   font-size: 13px;
 `;
@@ -107,7 +107,7 @@ export const DateStyled = styled.div.attrs(() => ({
 }))`
   margin-top: 6px;
 
-  color: ${MainColor};
+  color: ${FontColor};
 
   font-size: 12px;
 `;

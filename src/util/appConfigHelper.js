@@ -69,8 +69,27 @@ export const setEnvironment = env => {
   return false;
 };
 
+export const setTheme = theme => {
+  const themeString = JSON.stringify(theme);
+  if (theme) {
+    setData('CLEENG_THEME', themeString);
+    return true;
+  }
+  return false;
+};
+
+export const getTheme = () => {
+  const theme = getData('CLEENG_THEME');
+  if (theme) {
+    const themeJSON = JSON.parse(theme);
+    return themeJSON;
+  }
+  return false;
+};
+
 export default {
   setPublisher,
   setOffer,
-  setEnvironment
+  setEnvironment,
+  setTheme
 };

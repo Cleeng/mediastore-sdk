@@ -6,6 +6,7 @@ export const CheckoutConsentsStyled = styled.div.attrs(() => ({
   className: 'msd__consents'
 }))`
   position: relative;
+  background: ${colors.BackgroundColor};
 `;
 
 export const CheckoutConsentsContentStyled = styled.div.attrs(() => ({
@@ -34,7 +35,7 @@ export const CheckoutConsentsTitleStyled = styled.h3.attrs(() => ({
   text-align: center;
   font-weight: 700;
 
-  color: ${colors.MainColor};
+  color: ${colors.FontColor};
 `;
 
 export const CheckoutConsentsSubTitleStyled = styled.h4.attrs(() => ({
@@ -46,7 +47,8 @@ export const CheckoutConsentsSubTitleStyled = styled.h4.attrs(() => ({
   text-align: center;
   font-weight: 700;
 
-  color: ${colors.MediumGrey};
+  color: ${colors.FontColor};
+  filter: brightness(1.7);
 `;
 
 export const CheckoutConsentsListStyled = styled.div.attrs(() => ({
