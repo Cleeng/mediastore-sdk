@@ -1,6 +1,3 @@
-// const sandboxEnvironment = require('./config/environments/sandbox');
-const { extendDefaultPlugins } = require('svgo');
-
 module.exports = function(api) {
   api.cache(true);
 
@@ -12,13 +9,22 @@ module.exports = function(api) {
       {
         ignorePattern: 'IB',
         svgo: {
-          plugins: extendDefaultPlugins([
+          plugins: [
             {
               name: 'removeAttrs',
-              params: { attrs: '(data-name)' }
+              params: {
+                attrs: 'data-name'
+              }
             },
-            'cleanupIDs'
-          ])
+            {
+              name: 'preset-default',
+              params: {
+                overrides: {
+                  cleanupIDs: true
+                }
+              }
+            }
+          ]
         }
       }
     ],
