@@ -56,8 +56,8 @@ export class Consents extends React.Component {
             };
           }
         );
-        const labels = consentsIncome.responseData.consents.map(element =>
-          this.translateConsents(element.label)
+        const labels = consentsIncome.responseData.consents.map(
+          element => element.label
         );
         const initArray = new Array(consentsDetails.length).fill(false);
         this.setState({
@@ -139,17 +139,19 @@ export class Consents extends React.Component {
         ) : (
           <fieldset>
             <InvisibleLegend>Consents </InvisibleLegend>
-            {consentDefinitions.map((consent, index) => (
-              <Checkbox
-                onClickFn={() => this.changeConsentState(index)}
-                checked={checked[index]}
-                error={error}
-                key={String(index)}
-                required={consent.required && !checked[index]}
-              >
-                {consentsLabels[index]}
-              </Checkbox>
-            ))}
+            {consentDefinitions.map((consent, index) => {
+              return (
+                <Checkbox
+                  onClickFn={() => this.changeConsentState(index)}
+                  checked={checked[index]}
+                  error={error}
+                  key={String(index)}
+                  required={consent.required && !checked[index]}
+                >
+                  {consentsLabels[index]}
+                </Checkbox>
+              );
+            })}
           </fieldset>
         )}
         {error && <ConsentsErrorStyled>{error}</ConsentsErrorStyled>}

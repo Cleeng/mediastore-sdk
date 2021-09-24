@@ -1,6 +1,6 @@
 {
   "name": "@cleeng/mediastore-sdk",
-  "version": "1.0.70",
+  "version": "1.0.76",
   "private": false,
   "main": "dist/package.js",
   "files": [

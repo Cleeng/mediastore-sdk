@@ -31,7 +31,6 @@ const mockConsentDefinitions = [
   }
 ];
 const mockConsentsLabels = ['<a>Terms</a>'];
-const mockConsentsLabelsAfterRegex = ['{{htmltag}}Terms{{endhtmltag}}'];
 const mockConsentsLabelsAfterRegexWithoutTags = ['No tags'];
 
 const mockPublisherId = '123456789';
@@ -99,9 +98,6 @@ describe('<Consents/>', () => {
           );
           expect(wrapper.state().consentLoaded).toBe(true);
           expect(wrapper.state().checked).toEqual([false]);
-          expect(wrapper.state().consentsLabels).toEqual(
-            mockConsentsLabelsAfterRegex
-          );
           done();
         });
       });
