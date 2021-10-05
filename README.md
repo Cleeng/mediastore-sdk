@@ -1,6 +1,13 @@
 # MediaStore SDK
 
-This is the Cleeng official component library for using with ReactJS
+This is the Cleeng official component library for using with ReactJS.
+
+MediaStore SDK Library consists of components that will allow you to build a seamless checkout process, help visitors become subscribers, and then allow them to manage their subscriptions.
+
+To find out more about MediaStore SDK, see:
+
+- [MediaStore SDK tutorial](https://developers.cleeng.com/docs/mediastore-overview)
+- [API documentation](https://developers.cleeng.com/reference/getting-started)
 
 ## Prerequisites
 
@@ -25,26 +32,26 @@ yarn add @cleeng/mediastore-sdk
 
 ### Configuration
 
-You should start configoration by setting publisher settings like publisherId, offerId or environment if its needed.
+You should start configuration by setting publisher settings such as: `publisherId`, `offerId` or environment (if it's needed).
 You can do this by using Config class which has few important methods to do it.
 
-Setting publisherId:
+1. Setting `publisherId`:
 
 ```javascript
 Config.setPublisher("publisherId");
 ```
 
-where publisherId is your publisher ID in Cleeng system.
+where `publisherId` is your publisher ID in the Cleeng system.
 
-Setting offerId
+2. Setting `offerId`
 
 ```javascript
 Config.setOffer("offerId");
 ```
 
-where offerId is ID of the offer created for your publisher in Cleeng system.
+where `offerId` is the ID of the offer created for your publisher in the Cleeng system.
 
-Setting environment:
+3. Setting environment:
 
 ```javascript
 Config.setEnvironment("environment");
@@ -56,23 +63,27 @@ where environment is one of the environments listed below:
 - `sandbox`
 - `production`
 
-You can also style the application by using one of the Config.setTheme() method but there will be more information about that in [Styling](#styling-header) section.
+You can also style the application by using one of the Config.setTheme() method but there will be more information about that in the [Styling](#styling-header) section.
 
 ### Available components
 
-#### Login
+- [Register](#register-header)
+- [Login](#login-header)
+- [PasswordReset](#password-reset-header)
+- [Purchase](#purchase-header)
+- [Subscriptions](#subscriptions-header)
+- [SubscriptionSwitches](#subscription-switches-header)
+- [PlanDetails (contains Subscriptions and SubscriptionSwitches)](#plan-details-header)
+- [PaymentInfo](#payment-info-header)
+- [TransactionList](#transaction-list-header)
+- [UpdateProfile](#update-profile-header)
+- [Checkout Consents](#checkout-consents-header)
+- [Capture](#capture-header)
+- [MyAccount](#my-account-header)
 
-Login component is a basic Cleeng login form. You can pass a function that will be called after successful login process by using `onSuccess` prop.
+#### <a id="register-header"></a>Register
 
-Usage:
-
-```javascript
-<Login onSuccess={() => hideModal()} />
-```
-
-#### Register
-
-Register component is a basic Cleeng registration form. You can pass a function that will be called after successful registration process by using `onSuccess` prop.
+`Register` component is a basic Cleeng registration form. You can pass a function that will be called after a successful registration process by using `onSuccess` prop.
 
 Usage:
 
@@ -80,9 +91,19 @@ Usage:
 <Register onSuccess={() => hideModal()} />
 ```
 
-#### PasswordReset
+#### <a id="login-header"></a>Login
 
-PasswordReset is basic reset password form that can be used for resseting password. You can pass a function that will be called after successful processing the request with `onSuccess` prop.
+`Login` component is a basic Cleeng login form. You can pass a function that will be called after a successful login process by using `onSuccess` prop.
+
+Usage:
+
+```javascript
+<Login onSuccess={() => hideModal()} />
+```
+
+#### <a id="password-reset-header"></a>PasswordReset
+
+`PasswordReset` is a basic reset password form that can be used for resetting passwords. You can pass a function that will be called after successful processing of the request with `onSuccess` prop.
 
 Usage:
 
@@ -90,9 +111,9 @@ Usage:
 <PasswordReset onSuccess={() => console.log("success")} />
 ```
 
-#### Purchase
+#### <a id="purchase-header"></a>Purchase
 
-Purchase is a component that gives a possibility to buy an offer in Cleeng system. You have to be logged in before showing that component. To do so use Login/Register component. You can pass a function that will be called after successful payment process by using `onPaymentComplete` prop.
+`Purchase` is a component that gives a possibility to buy an offer in the Cleeng system. You have to be logged in before showing that component. To do so, use the Login/Register component. You can pass a function that will be called after successful payment process by using `onPaymentComplete` prop.
 
 Usage:
 
@@ -100,9 +121,9 @@ Usage:
 <Purchase onPaymentComplete={() => hideModal()} />
 ```
 
-#### Subscriptions
+#### <a id="subscriptions-header"></a>Subscriptions
 
-Subscriptions is a component that will list all subscriptions that are linked with logged subscriber. There is an option to cancel or resume selected subscription from list of subscription.
+`Subscriptions` is a component that will list all subscriptions that are linked with a given logged in subscriber. There is an option to cancel or resume the selected subscription from the list of subscriptions.
 
 Usage:
 
@@ -110,9 +131,9 @@ Usage:
 <Subscriptions />
 ```
 
-#### SubscriptionSwitches
+#### <a id="subscription-switches-header"></a>SubscriptionSwitches
 
-List of available switches for subscription passed in `offerId` prop.
+This component shows a list of available switches (upgrade options) for a given subscription passed in `offerId` prop.
 
 Usage:
 
@@ -120,9 +141,12 @@ Usage:
 <SubscriptionSwitches offerId={"S538257415_PL"} />
 ```
 
-#### PlanDetails
+#### <a id="plan-details-header"></a>PlanDetails
 
-Plan Details is a component that contains previously described components(Subscriptions and SubscriptionSwitches).
+`PlanDetails` is a component that contains previously described components
+
+- [Subscriptions](#subscriptions-header)
+- [SubscriptionSwitches](#subscription-switches-header)
 
 Usage:
 
@@ -130,9 +154,12 @@ Usage:
 <PlanDetails />
 ```
 
-#### PaymentInfo
+#### <a id="payment-info-header"></a>PaymentInfo
 
-PaymentInfo is a component that contains all information about customer payments. Customer will be able to see or change his payment methods and check all transactions that took plase in the past.
+PaymentInfo is a component that contains all information about customer payments. A customer will be able to:
+
+- see or change his/her payment methods, and
+- check all transactions that took place in the past.
 
 Usage:
 
@@ -140,9 +167,9 @@ Usage:
 <PaymentInfo />
 ```
 
-#### TransactionList
+#### <a id="transaction-list-header"></a>TransactionList
 
-TransactionList is a part of PaymentInfo component and contains only information about all transactions that took plase in the past
+`TransactionList` is a part of the `PaymentInfo` component and contains only information about all transactions that took place in the past.
 
 Usage:
 
@@ -150,9 +177,11 @@ Usage:
 <TransactionList />
 ```
 
-#### UpdateProfile
+#### <a id="update-profile-header"></a>UpdateProfile
 
-UpdateProfile is a component that displays all information about current Customer. It also gives posibility to change that profile information. From UpdateProfile component Customer will also be able to reset his password or update terms.
+`UpdateProfile` is a component that displays all information about a current customer. It also gives the possibility to change that profile information.
+
+Customers will also be able to reset their password or update consents from the `UpdateProfile` component.
 
 Usage:
 
@@ -160,11 +189,11 @@ Usage:
 <UpdateProfile />
 ```
 
-#### CheckoutConsents
+#### <a id="checkout-consents-header"></a>CheckoutConsents
 
-CheckoutConsents is a siple form that contains all consents that have to be confirmed by Customer.
+`CheckoutConsents` is a simple form that contains all consents that have to be confirmed by a customer.
 
-After successful form submition user will be redirected into url that is passed via `redirectUrl`.
+After successful form submission the customer will be redirected into an url that is passed via `redirectUrl`.
 
 Usage:
 
@@ -172,11 +201,11 @@ Usage:
 <CheckoutConsents redirectUrl={["/acc"]} />
 ```
 
-#### Capture
+#### <a id="capture-header"></a>Capture
 
-Capture component is a form that was created for collecting user data that publisher want to collect. Publisher can enable capture feature and configure those settings in Cleeng publisher dashboard.
+`Capture` component is a form that was created for collecting user data that a publisher wants to collect. A publisher can enable the capture feature and configure its settings in the Cleeng publisher dashboard. For more information, see [Cleeng Capture](https://publisher.support.cleeng.com/hc/en-us/articles/222325667-Cleeng-Capture)
 
-After successful form submition or if there is no available capture fields user will be redirected into url that is passed via `redirectUrl`.
+After successful form submission or if there are no available capture fields user will be redirected into an url that is passed via `redirectUrl`.
 
 Usage:
 
@@ -184,13 +213,13 @@ Usage:
 <Capture redirectUrl={["/acc"]} />
 ```
 
-#### MyAccount
+#### <a id="my-account-header"></a>MyAccount
 
-My account is a big component that contains the whole my account feature. Sections that are available in My Account:
+`MyAccount` is a big component that contains the whole **My Account** feature. The following sections are available in `MyAccount`:
 
-- Plan Details (manage subscriptions)
-- Payments
-- Profile Details
+- [PlanDetails (manage subscriptions)](#plan-details-header)
+- [PaymentsInfo](#payment-info-header)
+- [UpdateProfile](#update-profile-header)
 
 Usage:
 
@@ -198,13 +227,18 @@ Usage:
 <CleengMyAccount routeMatch={match} />
 ```
 
-where routeMatch is an match object passed from from Route component.
+where `routeMatch` is a match object passed from Route component.
 
 ### <a id="styling-header"></a>Styling
 
-#### SetTheme function
+There are two ways of styling MediaStore SDK components:
 
-There are two ways of styling mediastore-sdk components. First one is using setTheme() function which gives a possibility to change basic colors for whole mediastore-sdk components.
+- [SetTheme function](#set-theme-header)
+- [Custom styles](#custom-styles-header)
+
+#### <a id="set-theme-header"></a>SetTheme function
+
+The setTheme() function gives a possibility to change basic colors for all MediaStore SDK components.
 
 Here is an example how to do it:
 
@@ -221,12 +255,12 @@ Config.setTheme({
 });
 ```
 
-#### Custom styles
+#### <a id="custom-styles-header"></a>Custom styles
 
-Another way of styling componets from library is creating custom styles and overriding default styles by those that you have created.
-Every mediastore-sdk library component has many classes that can be used to select element that needs to be styled. Their names are based on BEM.
+Another way of styling components from the library is creating custom styles and overriding default styles by those that you have created.
+Every MediaStore SDK library component has many classes that can be used to select an element that needs to be styled. Their names are based on BEM.
 
-Here is a simple exapmle how styles can be added:
+Here is a simple example how styles can be added:
 
 ```css
 .msd__header {
@@ -249,11 +283,11 @@ Here is a simple exapmle how styles can be added:
 }
 ```
 
-**Here you can find documentation:**
+# Related documentation:
 
-- [MediaStore SDK tutorial](https://developers.cleeng.com/docs/prerequisites)
+- [MediaStore SDK tutorial](https://developers.cleeng.com/docs/mediastore-overview)
 - [API documentation](https://developers.cleeng.com/reference/getting-started)
 
 # License
 
-The Cleeng Media Store SDK is open source and available under the BSD 3-Clause License. See the [LICENSE](LICENSE.md) file for more info.
+The Cleeng MediaStore SDK is open source and available under the BSD 3-Clause License. See the [LICENSE](LICENSE.md) file for more information.
