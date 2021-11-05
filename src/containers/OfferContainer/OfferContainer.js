@@ -42,9 +42,11 @@ class OfferContainer extends Component {
   }
 
   componentDidMount() {
-    const { urlProps } = this.props;
+    const { urlProps, offerId } = this.props;
     if (urlProps.location) {
       saveOfferId(urlProps.location, this.setOfferId);
+    } else if (offerId) {
+      this.setOfferId(offerId);
     } else {
       this.setOfferId(getData('CLEENG_OFFER_ID'));
     }
@@ -176,7 +178,7 @@ class OfferContainer extends Component {
       isFreeOffer,
       isFreeOrderReady
     } = this.state;
-    const { onPaymentComplete, t } = this.props;
+    const { onSuccess, t } = this.props;
     if (error) {
       if (error.includes('Offer is blocked for country')) {
         return <ErrorPage type="cannotPurchase" />;
@@ -207,7 +209,7 @@ class OfferContainer extends Component {
           ...couponProps,
           onSubmit: this.onCouponSubmit
         }}
-        onPaymentComplete={onPaymentComplete}
+        onPaymentComplete={onSuccess}
         updatePriceBreakdown={this.updatePriceBreakdown}
         t={t}
       />
@@ -220,13 +222,16 @@ class OfferContainer extends Component {
 }
 
 OfferContainer.propTypes = {
-  onPaymentComplete: PropTypes.func.isRequired,
+  offerId: PropTypes.string,
+  onSuccess: PropTypes.func,
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
   }),
   t: PropTypes.func
 };
 OfferContainer.defaultProps = {
+  offerId: '',
+  onSuccess: () => {},
   urlProps: {},
   t: k => k
 };

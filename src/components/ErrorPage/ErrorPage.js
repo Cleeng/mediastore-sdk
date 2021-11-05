@@ -1,13 +1,11 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable import/no-dynamic-require */
 import React from 'react';
 import PropTypes from 'prop-types';
-import Auth from 'services/auth';
-import BackButton from 'components/BackButton';
 import close from 'assets/images/errors/close.svg';
 import deleteCreditCard from 'assets/images/errors/deleteCreditCard.svg';
 import lock from 'assets/images/errors/lock.svg';
 import warning from 'assets/images/errors/warning.svg';
-import Logout from 'components/Logout';
 import Header from 'components/Header';
 import { ErrorPageStyled, MessageStyled, IconStyled } from './ErrorPageStyled';
 
@@ -37,14 +35,7 @@ const ErrorPage = ({ type, error, resetError }) => {
 
   return (
     <>
-      <Header>
-        {Auth.isLogged() ? (
-          <Logout />
-        ) : (
-          type !== 'generalError' && <BackButton onClickFn={resetError} />
-        )}
-      </Header>
-
+      <Header />
       <ErrorPageStyled>
         <IconStyled src={typeParams.icon} />
         <MessageStyled>{error || typeParams.description}</MessageStyled>

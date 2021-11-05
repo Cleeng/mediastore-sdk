@@ -7,10 +7,12 @@ export const ErrorPageStyled = styled.div`
   justify-content: center;
   flex-direction: column;
 
-  width: 80%;
+  width: 100%;
   min-height: 350px;
   margin: 0 auto;
+  padding: 80px 120px 70px;
 
+  background-color: ${colors.BackgroundColor};
   color: ${colors.FontColor};
 
   font-size: 15px;

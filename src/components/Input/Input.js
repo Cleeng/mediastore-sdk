@@ -10,7 +10,7 @@ import {
   StyledButton,
   StyledPasswordVisibility,
   LabelStyled,
-  InputIconStyled,
+  // InputIconStyled,
   InputRequiredStyled
 } from './InputStyled';
 
@@ -46,7 +46,7 @@ class Input extends Component {
           error={error}
           passwordStrength={passwordStrength}
         >
-          {icon && <InputIconStyled>{icon.render()}</InputIconStyled>}
+          {/* {icon && <InputIconStyled>{icon.render()}</InputIconStyled>} */}
           {required && <InputRequiredStyled>*</InputRequiredStyled>}
           <InputElementStyled
             id={placeholder}

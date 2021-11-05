@@ -2,15 +2,18 @@ import styled from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
-export const CaptureStyled = styled.div``;
+export const CaptureStyled = styled.div`
+  position: relative;
+`;
 
 export const CaptureContentStyled = styled.div`
   position: relative;
 
-  width: 55%;
+  width: 100%;
   margin: 0 auto;
-  padding-top: 80px;
-  padding-bottom: 70px;
+  padding: 80px 120px 120px;
+
+  background-color: ${colors.BackgroundColor};
 
   text-align: center;
 

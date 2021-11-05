@@ -8,7 +8,7 @@ import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
 import { dateFormat } from 'util/planHelper';
-import checkmarkIcon from 'assets/images/checkmark.svg';
+import checkmarkIcon from 'assets/images/checkmarkIB.svg';
 
 import {
   ContentStyled,

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import Input from 'components/Input';
 import EmailInput from 'components/EmailInput';
@@ -11,7 +10,6 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateCaptureAnswers } from 'api';
 import { validateEmailField } from 'util/validators';
-// import history from '../../../history';
 import useInput from './useInput';
 import {
   CaptureFormStyled,
@@ -22,9 +20,8 @@ import {
   CaptureError
 } from './CaptureFormStyled';
 
-const CaptureForm = ({ settings, redirectUrl }) => {
+const CaptureForm = ({ settings, onSuccess }) => {
   const [t] = useTranslation();
-  const [redirect, setRedirect] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [customSettings, setCustomSetting] = useState([]);
   const firstName = useInput('');
@@ -212,242 +209,224 @@ const CaptureForm = ({ settings, redirectUrl }) => {
         customAnswers
       }).then(() => {
         setProcessing(false);
-        const currentRedirection = redirectUrl.shift();
-        // history.push(currentRedirection, { redirectUrl });
-        setRedirect({
-          redirectUrl: currentRedirection,
-          state: { redirectUrl }
-        });
+        onSuccess();
       });
     }
   };
 
   return (
     <>
-      {redirect ? (
-        <Redirect
-          to={{
-            pathname: redirect.redirectUrl,
-            state: redirect.state
-          }}
-        />
-      ) : (
-        <CaptureFormStyled onSubmit={handleSubmit} noValidate>
-          {isEnabled('firstNameLastName') && (
+      <CaptureFormStyled onSubmit={handleSubmit} noValidate>
+        {isEnabled('firstNameLastName') && (
+          <CaptureRowStyled>
+            <Input
+              placeholder={t('First Name')}
+              value={firstName.value}
+              error={firstName.error}
+              onChange={val => firstName.setValue(val)}
+              onBlur={() => validateNames()}
+              required={isRequired('firstNameLastName')}
+            />
+            <Input
+              placeholder={t('Last Name')}
+              value={lastName.value}
+              error={lastName.error}
+              onChange={val => lastName.setValue(val)}
+              onBlur={() => validateNames()}
+              required={isRequired('firstNameLastName')}
+            />
+          </CaptureRowStyled>
+        )}
+        {isEnabled('email') && (
+          <EmailInput
+            label={t('Confirm Email')}
+            value={email.value}
+            error={email.error}
+            onChange={val => email.setValue(val)}
+            onBlur={() => validateEmail()}
+            required={isRequired('email')}
+          />
+        )}
+        {isEnabled('birthDate') && (
+          <DateInput
+            label={t('Date of Birth')}
+            value={birthDate.value}
+            error={birthDate.error}
+            onChange={val => birthDate.setValue(val)}
+            onBlur={() => validateBirthDate()}
+            required={isRequired('birthDate')}
+          />
+        )}
+        {isEnabled('companyName') && (
+          <Input
+            placeholder={t('Company')}
+            value={companyName.value}
+            error={companyName.error}
+            onChange={val => companyName.setValue(val)}
+            onBlur={() => validateCompany()}
+            required={isRequired('companyName')}
+          />
+        )}
+        {isEnabled('phoneNumber') && (
+          <Input
+            placeholder={t('Mobile phone')}
+            value={phoneNumber.value}
+            error={phoneNumber.error}
+            onChange={val => phoneNumber.setValue(val)}
+            onBlur={() => validatePhone()}
+            required={isRequired('phoneNumber')}
+          />
+        )}
+        {isEnabled('address') && (
+          <CaptureGroupStyled>
+            <Input
+              placeholder={t('Address line 1')}
+              value={address.value}
+              error={address.error}
+              onChange={val => address.setValue(val)}
+              onBlur={() => validateAddress()}
+              required={isRequired('address')}
+            />
+            <Input
+              placeholder={t('Address line 2')}
+              value={address2.value}
+              onChange={val => address2.setValue(val)}
+            />
+            <Input
+              placeholder={t('City')}
+              value={city.value}
+              error={city.error}
+              onChange={val => city.setValue(val)}
+              onBlur={() => validateAddress()}
+              required={isRequired('address')}
+            />
             <CaptureRowStyled>
               <Input
-                placeholder={t('First Name')}
-                value={firstName.value}
-                error={firstName.error}
-                onChange={val => firstName.setValue(val)}
-                onBlur={() => validateNames()}
-                required={isRequired('firstNameLastName')}
+                placeholder={t('State/Region')}
+                value={state.value}
+                error={state.error}
+                onChange={val => state.setValue(val)}
+                onBlur={() => validateAddress()}
+                required={isRequired('address')}
               />
               <Input
-                placeholder={t('Last Name')}
-                value={lastName.value}
-                error={lastName.error}
-                onChange={val => lastName.setValue(val)}
-                onBlur={() => validateNames()}
-                required={isRequired('firstNameLastName')}
+                placeholder={t('ZIP/Postal code')}
+                value={postCode.value}
+                error={postCode.error}
+                onChange={val => postCode.setValue(val)}
+                onBlur={() => validateAddress()}
+                required={isRequired('address')}
               />
             </CaptureRowStyled>
-          )}
-          {isEnabled('email') && (
-            <EmailInput
-              label={t('Confirm Email')}
-              value={email.value}
-              error={email.error}
-              onChange={val => email.setValue(val)}
-              onBlur={() => validateEmail()}
-              required={isRequired('email')}
-            />
-          )}
-          {isEnabled('birthDate') && (
-            <DateInput
-              label={t('Date of Birth')}
-              value={birthDate.value}
-              error={birthDate.error}
-              onChange={val => birthDate.setValue(val)}
-              onBlur={() => validateBirthDate()}
-              required={isRequired('birthDate')}
-            />
-          )}
-          {isEnabled('companyName') && (
-            <Input
-              placeholder={t('Company')}
-              value={companyName.value}
-              error={companyName.error}
-              onChange={val => companyName.setValue(val)}
-              onBlur={() => validateCompany()}
-              required={isRequired('companyName')}
-            />
-          )}
-          {isEnabled('phoneNumber') && (
-            <Input
-              placeholder={t('Mobile phone')}
-              value={phoneNumber.value}
-              error={phoneNumber.error}
-              onChange={val => phoneNumber.setValue(val)}
-              onBlur={() => validatePhone()}
-              required={isRequired('phoneNumber')}
-            />
-          )}
-          {isEnabled('address') && (
-            <CaptureGroupStyled>
-              <Input
-                placeholder={t('Address line 1')}
-                value={address.value}
-                error={address.error}
-                onChange={val => address.setValue(val)}
-                onBlur={() => validateAddress()}
-                required={isRequired('address')}
-              />
-              <Input
-                placeholder={t('Address line 2')}
-                value={address2.value}
-                onChange={val => address2.setValue(val)}
-              />
-              <Input
-                placeholder={t('City')}
-                value={city.value}
-                error={city.error}
-                onChange={val => city.setValue(val)}
-                onBlur={() => validateAddress()}
-                required={isRequired('address')}
-              />
-              <CaptureRowStyled>
-                <Input
-                  placeholder={t('State/Region')}
-                  value={state.value}
-                  error={state.error}
-                  onChange={val => state.setValue(val)}
-                  onBlur={() => validateAddress()}
-                  required={isRequired('address')}
-                />
-                <Input
-                  placeholder={t('ZIP/Postal code')}
-                  value={postCode.value}
-                  error={postCode.error}
-                  onChange={val => postCode.setValue(val)}
-                  onBlur={() => validateAddress()}
-                  required={isRequired('address')}
-                />
-              </CaptureRowStyled>
-            </CaptureGroupStyled>
-          )}
-          {customSettings.map(setting => {
-            if (setting.values.length === 1 && isEnabled(setting.key))
-              return (
-                <CaptureBoxStyled key={setting.key}>
-                  <CaptureQuestionStyled required={setting.required}>
-                    {setting.question}
-                  </CaptureQuestionStyled>
-                  <Checkbox
-                    key={setting.key}
-                    onClickFn={() =>
-                      handleCustomSetting(setting.key, {
-                        value: setting.value ? '' : setting.values[0].value,
-                        label: setting.value ? '' : setting.values[0].value
-                      })
-                    }
-                    checked={setting.value === setting.values[0].value}
-                  >
-                    {setting.values[0].value}
-                  </Checkbox>
-                  <CaptureError>{setting.error}</CaptureError>
-                </CaptureBoxStyled>
-              );
-            if (setting.values.length === 2 && isEnabled(setting.key))
-              return (
-                <CaptureBoxStyled key={setting.key}>
-                  <CaptureQuestionStyled required={setting.required}>
-                    {setting.question}
-                  </CaptureQuestionStyled>
-                  <Checkbox
-                    key={`${setting.key}-01`}
-                    onClickFn={() =>
-                      handleCustomSetting(setting.key, {
-                        value: setting.values[0].value,
-                        label: setting.values[0].value
-                      })
-                    }
-                    isRadioButton
-                    checked={setting.value === setting.values[0].value}
-                  >
-                    {setting.values[0].value}
-                  </Checkbox>
-                  <Checkbox
-                    key={`${setting.key}-02`}
-                    onClickFn={() =>
-                      handleCustomSetting(setting.key, {
-                        value: setting.values[1].value,
-                        label: setting.values[1].value
-                      })
-                    }
-                    isRadioButton
-                    checked={setting.value === setting.values[1].value}
-                  >
-                    {setting.values[1].value}
-                  </Checkbox>
-                  <CaptureError>{setting.error}</CaptureError>
-                </CaptureBoxStyled>
-              );
-            if (setting.values.length > 2 && isEnabled(setting.key))
-              return (
-                <CaptureBoxStyled key={setting.key}>
-                  <Select
-                    label={setting.question}
-                    name={setting.key}
-                    value={
-                      setting.value
-                        ? { value: setting.value, label: setting.value }
-                        : null
-                    }
-                    values={setting.values}
-                    required={setting.required}
-                    onChange={handleCustomSetting}
-                  />
-                  <CaptureError>{setting.error}</CaptureError>
-                </CaptureBoxStyled>
-              );
-            if (isEnabled(setting.key))
-              return (
-                <Input
+          </CaptureGroupStyled>
+        )}
+        {customSettings.map(setting => {
+          if (setting.values.length === 1 && isEnabled(setting.key))
+            return (
+              <CaptureBoxStyled key={setting.key}>
+                <CaptureQuestionStyled required={setting.required}>
+                  {setting.question}
+                </CaptureQuestionStyled>
+                <Checkbox
                   key={setting.key}
-                  placeholder={setting.question}
-                  value={setting.value}
-                  error={setting.error}
-                  onChange={val =>
-                    handleCustomSetting(setting.key, { value: val })
+                  onClickFn={() =>
+                    handleCustomSetting(setting.key, {
+                      value: setting.value ? '' : setting.values[0].value,
+                      label: setting.value ? '' : setting.values[0].value
+                    })
                   }
-                  onBlur={() => validateCustomSettings()}
+                  checked={setting.value === setting.values[0].value}
+                >
+                  {setting.values[0].value}
+                </Checkbox>
+                <CaptureError>{setting.error}</CaptureError>
+              </CaptureBoxStyled>
+            );
+          if (setting.values.length === 2 && isEnabled(setting.key))
+            return (
+              <CaptureBoxStyled key={setting.key}>
+                <CaptureQuestionStyled required={setting.required}>
+                  {setting.question}
+                </CaptureQuestionStyled>
+                <Checkbox
+                  key={`${setting.key}-01`}
+                  onClickFn={() =>
+                    handleCustomSetting(setting.key, {
+                      value: setting.values[0].value,
+                      label: setting.values[0].value
+                    })
+                  }
+                  isRadioButton
+                  checked={setting.value === setting.values[0].value}
+                >
+                  {setting.values[0].value}
+                </Checkbox>
+                <Checkbox
+                  key={`${setting.key}-02`}
+                  onClickFn={() =>
+                    handleCustomSetting(setting.key, {
+                      value: setting.values[1].value,
+                      label: setting.values[1].value
+                    })
+                  }
+                  isRadioButton
+                  checked={setting.value === setting.values[1].value}
+                >
+                  {setting.values[1].value}
+                </Checkbox>
+                <CaptureError>{setting.error}</CaptureError>
+              </CaptureBoxStyled>
+            );
+          if (setting.values.length > 2 && isEnabled(setting.key))
+            return (
+              <CaptureBoxStyled key={setting.key}>
+                <Select
+                  label={setting.question}
+                  name={setting.key}
+                  value={
+                    setting.value
+                      ? { value: setting.value, label: setting.value }
+                      : null
+                  }
+                  values={setting.values}
                   required={setting.required}
+                  onChange={handleCustomSetting}
                 />
-              );
-            return <div />;
-          })}
-          <Button type="submit" size="big" theme="confirm" margin="10px 0">
-            {processing ? (
-              <Loader buttonLoader color="#ffffff" />
-            ) : (
-              t('Continue')
-            )}
-          </Button>
-        </CaptureFormStyled>
-      )}
+                <CaptureError>{setting.error}</CaptureError>
+              </CaptureBoxStyled>
+            );
+          if (isEnabled(setting.key))
+            return (
+              <Input
+                key={setting.key}
+                placeholder={setting.question}
+                value={setting.value}
+                error={setting.error}
+                onChange={val =>
+                  handleCustomSetting(setting.key, { value: val })
+                }
+                onBlur={() => validateCustomSettings()}
+                required={setting.required}
+              />
+            );
+          return <div />;
+        })}
+        <Button type="submit" size="big" theme="confirm" margin="10px 0">
+          {processing ? <Loader buttonLoader color="#ffffff" /> : t('Continue')}
+        </Button>
+      </CaptureFormStyled>
     </>
   );
 };
 
 CaptureForm.propTypes = {
   settings: PropTypes.arrayOf(PropTypes.any),
-  redirectUrl: PropTypes.arrayOf(PropTypes.any)
+  onSuccess: PropTypes.func
 };
 
 CaptureForm.defaultProps = {
   settings: [],
-  redirectUrl: []
+  onSuccess: () => {}
 };
 
 export default CaptureForm;

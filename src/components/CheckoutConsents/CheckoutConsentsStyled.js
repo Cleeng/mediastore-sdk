@@ -17,7 +17,7 @@ export const CheckoutConsentsContentStyled = styled.div.attrs(() => ({
   width: 55%;
   margin: 0 auto;
   padding-top: 80px;
-  padding-bottom: 105px;
+  padding-bottom: 120px;
 
   text-align: center;
 

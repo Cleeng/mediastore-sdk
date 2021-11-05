@@ -17,6 +17,8 @@ import SubscriptionSwitches from 'containers/SubscriptionSwitches';
 import Capture from 'components/Capture/Capture';
 import CheckoutConsents from 'components/CheckoutConsents';
 import PasswordReset from 'components/PasswordReset';
+import ThankYouPage from 'components/ThankYouPage';
+import Checkout from 'components/Checkout';
 
 export {
   // Identity Management
@@ -24,7 +26,9 @@ export {
   Login,
   PasswordReset,
   // Checkout
+  Checkout,
   OfferContainer as Purchase,
+  ThankYouPage,
   // My Account
   MyAccount,
   PlanDetails,

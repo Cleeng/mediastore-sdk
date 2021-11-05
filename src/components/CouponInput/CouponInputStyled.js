@@ -69,7 +69,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
   ${props =>
     props.isOpened &&
     css`
-      width: 198px
+      width: 198px;
       max-width: 198px;
       left: 37px;
       padding-right: 25px;
@@ -101,8 +101,9 @@ export const CloseButtonStyled = styled.button.attrs(() => ({
   top: 50%;
   left: 7px;
   transform: translate(0, -50%);
-  background-color: ${Colors.LineColor};
+  background-color: ${Colors.PrimaryColor};
   opacity: 0;
+  padding: 0;
   border: 0;
   border-radius: 50%;
   display: flex;
@@ -111,8 +112,7 @@ export const CloseButtonStyled = styled.button.attrs(() => ({
   cursor: pointer;
 
   svg {
-    width: 8px;
-    height: 8px;
+    transform: scale(0.3);
     fill: ${Colors.White};
   }
 

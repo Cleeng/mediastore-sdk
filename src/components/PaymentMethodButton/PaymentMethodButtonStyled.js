@@ -5,7 +5,6 @@ import * as variables from 'styles/variables';
 export const StyledButton = styled(Button)`
   max-width: 160px;
   height: 90px;
-  background-color: ${variables.White};
   border: 1px solid ${variables.LineColor};
   border-radius: 7px;
 

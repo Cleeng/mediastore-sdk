@@ -95,7 +95,7 @@ const App = () => {
                 path="/offer"
                 component={urlProps => (
                   <OfferContainer
-                    onPaymentComplete={() => history.push('/thankyou')}
+                    onSuccess={() => history.push('/thankyou')}
                     urlProps={urlProps}
                   />
                 )}

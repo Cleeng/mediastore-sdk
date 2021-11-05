@@ -1,13 +1,18 @@
 import styled from 'styled-components';
 import * as colors from 'styles/variables';
 
+export const ThankYouPageWrapperStyled = styled.div`
+  position: relative;
+`;
+
 export const ThankYouPageStyled = styled.main`
-  max-width: 420px;
+  width: 100%;
   margin: 0 auto;
-  padding: 50px 0 80px;
+  padding: 50px 120px 80px;
   text-align: center;
   line-height: 1.3em;
   font-size: 15px;
+  background-color: ${colors.BackgroundColor};
   color: ${colors.FontColor};
   font-weight: bold;
 `;

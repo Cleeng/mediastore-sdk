@@ -49,7 +49,14 @@ class Login extends Component {
 
   render() {
     const { isOfferError, offerId, publisherId, emailChanged } = this.state;
-    const { isMyAccount, onSuccess, t } = this.props;
+    const {
+      isMyAccount,
+      onSuccess,
+      onPasswordResetClick,
+      onRegisterClick,
+      t
+    } = this.props;
+
     return isOfferError ? (
       <ErrorPage
         type="offerNotExist"
@@ -71,23 +78,18 @@ class Login extends Component {
           {!isMyAccount && (
             <>
               <Button
-                isLink
-                to={{ pathname: '/register' }}
                 theme="secondary"
                 size="big"
+                onClickFn={() => onRegisterClick()}
               >
                 {t('Go to register')}
               </Button>
             </>
           )}
           <Button
-            isLink
-            to={{
-              pathname: '/reset-password',
-              fromMyAccount: isMyAccount
-            }}
             theme="link"
             margin="20px auto 0 auto"
+            onClickFn={() => onPasswordResetClick()}
           >
             {t('Forgot password?')}
           </Button>
@@ -103,12 +105,16 @@ Login.propTypes = {
   }),
   isMyAccount: PropTypes.bool,
   onSuccess: PropTypes.func,
+  onRegisterClick: PropTypes.func,
+  onPasswordResetClick: PropTypes.func,
   t: PropTypes.func
 };
 Login.defaultProps = {
   urlProps: {},
   isMyAccount: false,
   onSuccess: () => {},
+  onRegisterClick: () => {},
+  onPasswordResetClick: () => {},
   t: k => k
 };
 

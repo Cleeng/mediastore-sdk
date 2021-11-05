@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Redirect } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import Header from 'components/Header';
@@ -14,9 +13,8 @@ import {
   CaptureTitle
 } from './CaptureStyled';
 
-const Capture = ({ settings, redirectUrl }) => {
+const Capture = ({ settings, onSuccess }) => {
   const [t] = useTranslation();
-  const [redirect, setRedirect] = useState(null);
   const [captureSettings, setCaptureSettings] = useState(null);
 
   useEffect(() => {
@@ -27,11 +25,7 @@ const Capture = ({ settings, redirectUrl }) => {
         if (resp.responseData.shouldCaptureBeDisplayed === true) {
           setCaptureSettings(resp.responseData.settings);
         } else {
-          const currentRedirection = redirectUrl.shift();
-          setRedirect({
-            redirectUrl: currentRedirection,
-            state: { redirectUrl }
-          });
+          onSuccess();
         }
       });
     }
@@ -39,42 +33,32 @@ const Capture = ({ settings, redirectUrl }) => {
 
   return (
     <>
-      {redirect ? (
-        <Redirect
-          to={{
-            pathname: redirect.redirectUrl,
-            state: redirect.state
-          }}
-        />
-      ) : (
-        <CaptureStyled>
-          <Header />
-          <CaptureContentStyled>
-            <CaptureTitle>{t('Confirm Registration')}</CaptureTitle>
-            {captureSettings ? (
-              <CaptureForm
-                settings={captureSettings}
-                redirectUrl={redirectUrl}
-              />
-            ) : (
-              <Loader />
-            )}
-          </CaptureContentStyled>
-          <Footer isCheckout={false} />
-        </CaptureStyled>
-      )}
+      <CaptureStyled>
+        <Header />
+        <CaptureContentStyled>
+          {captureSettings ? (
+            <>
+              <CaptureTitle>{t('Confirm Registration')}</CaptureTitle>
+              <CaptureForm settings={captureSettings} onSuccess={onSuccess} />
+            </>
+          ) : (
+            <Loader />
+          )}
+        </CaptureContentStyled>
+        <Footer isCheckout={false} />
+      </CaptureStyled>
     </>
   );
 };
 
 Capture.propTypes = {
   settings: PropTypes.arrayOf(PropTypes.any),
-  redirectUrl: PropTypes.arrayOf(PropTypes.any)
+  onSuccess: PropTypes.func
 };
 
 Capture.defaultProps = {
   settings: [],
-  redirectUrl: []
+  onSuccess: () => {}
 };
 
 export default Capture;

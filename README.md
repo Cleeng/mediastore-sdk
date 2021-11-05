@@ -6,7 +6,7 @@ MediaStore SDK Library consists of components that will allow you to build a sea
 
 To find out more about MediaStore SDK, see:
 
-- [MediaStore SDK tutorial](https://developers.cleeng.com/docs/mediastore-overview)
+- [MediaStore SDK Reference Materials](https://developers.cleeng.com/docs/mediastore-overview)
 - [API documentation](https://developers.cleeng.com/reference/getting-started)
 
 ## Prerequisites
@@ -80,25 +80,33 @@ You can also style the application by using one of the Config.setTheme() method 
 - [Checkout Consents](#checkout-consents-header)
 - [Capture](#capture-header)
 - [MyAccount](#my-account-header)
+- [Checkout](#checkout-header)
 
 #### <a id="register-header"></a>Register
 
-`Register` component is a basic Cleeng registration form. You can pass a function that will be called after a successful registration process by using `onSuccess` prop.
+`Register` component is a basic Cleeng registration form. You can pass a function that will be called after a successful registration process by using `onSuccess` prop. There is also have an account button on that form. You can set what excacly will happend on click by using `onHaveAccountClick` prop.
 
 Usage:
 
 ```javascript
-<Register onSuccess={() => hideModal()} />
+<Register
+  onSuccess={() => console.log("success")}
+  onHaveAccountClick={() => console.log("have an account clicked")}
+/>
 ```
 
 #### <a id="login-header"></a>Login
 
-`Login` component is a basic Cleeng login form. You can pass a function that will be called after a successful login process by using `onSuccess` prop.
+`Login` component is a basic Cleeng login form. You can pass a function that will be called after a successful login process by using `onSuccess` prop. There are two buttons on that form. You can set what excacly will happend on click by using `onRegisterClick` and `onPasswordResetClick` props.
 
 Usage:
 
 ```javascript
-<Login onSuccess={() => hideModal()} />
+<Login
+  onSuccess={() => console.log("success")}
+  onRegisterClick={() => console.log("register button clicked")}
+  onPasswordResetClick={() => console.log("password reset button clicked")}
+/>
 ```
 
 #### <a id="password-reset-header"></a>PasswordReset
@@ -113,12 +121,12 @@ Usage:
 
 #### <a id="purchase-header"></a>Purchase
 
-`Purchase` is a component that gives a possibility to buy an offer in the Cleeng system. You have to be logged in before showing that component. To do so, use the Login/Register component. You can pass a function that will be called after successful payment process by using `onPaymentComplete` prop.
+`Purchase` is a component that gives a possibility to buy an offer in the Cleeng system. You have to be logged in before showing that component. To do so, use the Login/Register component. You can pass a function that will be called after successful payment process by using `onSuccess` prop. You can also select which offer should be purchased by passing `offerId` prop.
 
 Usage:
 
 ```javascript
-<Purchase onPaymentComplete={() => hideModal()} />
+<Purchase offerId={"S538257415_PL"} onSuccess={() => console.log("success")} />
 ```
 
 #### <a id="subscriptions-header"></a>Subscriptions
@@ -193,24 +201,24 @@ Usage:
 
 `CheckoutConsents` is a simple form that contains all consents that have to be confirmed by a customer.
 
-After successful form submission the customer will be redirected into an url that is passed via `redirectUrl`.
+You can pass a function that will be called after successful form submission with `onSuccess` prop.
 
 Usage:
 
 ```javascript
-<CheckoutConsents redirectUrl={["/acc"]} />
+<CheckoutConsents onSuccess={() => console.log("success")} />
 ```
 
 #### <a id="capture-header"></a>Capture
 
 `Capture` component is a form that was created for collecting user data that a publisher wants to collect. A publisher can enable the capture feature and configure its settings in the Cleeng publisher dashboard. For more information, see [Cleeng Capture](https://publisher.support.cleeng.com/hc/en-us/articles/222325667-Cleeng-Capture)
 
-After successful form submission or if there are no available capture fields user will be redirected into an url that is passed via `redirectUrl`.
+You can pass a function that will be called after successful form submission or if there are no available capture fields with `onSuccess` prop.
 
 Usage:
 
 ```javascript
-<Capture redirectUrl={["/acc"]} />
+<Capture onSuccess={() => console.log("success")} />
 ```
 
 #### <a id="my-account-header"></a>MyAccount
@@ -228,6 +236,28 @@ Usage:
 ```
 
 where `routeMatch` is a match object passed from Route component.
+
+#### <a id="checkout-header"></a>Checkout
+
+`Checkout` is a big component that contains the whole **Checkout** process. The whole checkout flow contains components listed below:
+
+- [Register](#register-header)
+- [Login](#login-header)
+- [Capture](#capture-header)
+- [Checkout Consents](#checkout-consents-header)
+- [Purchase](#purchase-header)
+- [PasswordReset](#password-reset-header)
+
+You can pass a function that will be called after successful checkout process by using `onSuccess` prop. You can also select which offer should be purchased by passing `offerId` prop.
+
+Usage:
+
+```javascript
+<Checkout
+  onSuccess={() => console.log("success")}}
+  offerId={'S531234647_PL'}
+>
+```
 
 ### <a id="styling-header"></a>Styling
 
@@ -285,7 +315,7 @@ Here is a simple example how styles can be added:
 
 # Related documentation:
 
-- [MediaStore SDK tutorial](https://developers.cleeng.com/docs/mediastore-overview)
+- [MediaStore SDK Reference Materials](https://developers.cleeng.com/docs/mediastore-overview)
 - [API documentation](https://developers.cleeng.com/reference/getting-started)
 
 # License

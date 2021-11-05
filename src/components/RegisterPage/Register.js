@@ -44,7 +44,7 @@ class Register extends Component {
 
   render() {
     const { isOfferError, offerId, publisherId } = this.state;
-    const { t, onSuccess } = this.props;
+    const { t, onSuccess, onHaveAccountClick } = this.props;
     return isOfferError ? (
       <ErrorPage type="offerNotExist" resetError={() => this.setOfferError()} />
     ) : (
@@ -59,10 +59,9 @@ class Register extends Component {
             onSuccess={onSuccess}
           />
           <Button
-            isLink
-            to={{ pathname: '/login' }}
             theme="secondary"
             size="big"
+            onClickFn={() => onHaveAccountClick()}
           >
             {t('Have an account?')}
           </Button>
@@ -77,12 +76,14 @@ Register.propTypes = {
     location: PropTypes.shape({ search: PropTypes.string })
   }),
   onSuccess: PropTypes.func,
+  onHaveAccountClick: PropTypes.func,
   t: PropTypes.func
 };
 
 Register.defaultProps = {
   urlProps: {},
   onSuccess: () => {},
+  onHaveAccountClick: () => {},
   t: k => k
 };
 
