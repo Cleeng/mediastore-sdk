@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 
-import Button from 'components/Button';
+import Header from 'components/Header';
 import { mount } from 'enzyme';
 
 import ThankYouPage from './ThankYouPage';
@@ -19,7 +19,7 @@ describe('<ThankYouPage/>', () => {
   describe('@renders', () => {
     it('should render initial state', () => {
       const wrapper = mount(<ThankYouPage />);
-      expect(wrapper.find(Button).exists()).toEqual(true);
+      expect(wrapper.find(Header).exists()).toEqual(true);
     });
   });
 });

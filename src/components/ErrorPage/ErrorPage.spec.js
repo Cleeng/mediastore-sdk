@@ -1,6 +1,5 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import BackButton from 'components/BackButton';
 import Auth from 'services/auth';
 import ErrorPage from './ErrorPage';
 import { IconStyled } from './ErrorPageStyled';
@@ -36,8 +35,6 @@ describe('ErrorPage', () => {
       expect(wrapper.text()).toMatch(
         'Offer does not exist or is not provided.'
       );
-      expect(wrapper.find(BackButton).exists()).toBe(true);
-      expect(wrapper.find(BackButton).prop('onClickFn')).toBe(functionMock);
     });
   });
 });
