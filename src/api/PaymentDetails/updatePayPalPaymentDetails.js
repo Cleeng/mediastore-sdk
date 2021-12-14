@@ -1,10 +1,12 @@
 import fetchWithJWT from 'util/fetchHelper';
+import getApiURL from 'util/environmentHelper';
 
 const updatePayPalPaymentDetails = async (
   paymentMethodId,
   paymentDetailsToDelete = 0
 ) => {
-  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/connectors/paypal/v1/payment_details/tokens`;
+  const API_URL = getApiURL();
+  const url = `${API_URL}/connectors/paypal/v1/payment_details/tokens`;
 
   const redirectUrls = {
     successUrl: `${window.location.origin}/my-account/payment-info?deletepd=${paymentDetailsToDelete}`,

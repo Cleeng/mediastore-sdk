@@ -1,7 +1,9 @@
 import fetchWithJWT from 'util/fetchHelper';
+import getApiURL from 'util/environmentHelper';
 
 const updateAdyenPaymentDetails = async (paymentMethodId, card) => {
-  const url = `${ENVIRONMENT_CONFIGURATION.API_URL}/connectors/adyen/payment_details`;
+  const API_URL = getApiURL();
+  const url = `${API_URL}/connectors/adyen/payment_details`;
 
   try {
     const res = await fetchWithJWT(url, {
