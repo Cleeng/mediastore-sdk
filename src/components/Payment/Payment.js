@@ -168,6 +168,7 @@ class Payment extends Component {
   };
 
   render() {
+    const availablePaymentMethods = ['adyen', 'paypal'];
     const { isPaymentDetailsRequired, t } = this.props;
     const {
       isPaymentFormDisplayed,
@@ -187,7 +188,8 @@ class Payment extends Component {
             <MethodsWrapperStyled>
               {paymentMethods.map(
                 method =>
-                  method.methodName !== 'manual' && (
+                  method.methodName !== 'manual' &&
+                  availablePaymentMethods.includes(method.paymentGateway) && (
                     <PaymentMethodButton
                       key={method.id}
                       methodName={method.methodName}

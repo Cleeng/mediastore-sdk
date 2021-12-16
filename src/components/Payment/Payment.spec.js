@@ -28,12 +28,14 @@ const mockPaymentMethods = {
       {
         id: 234,
         methodName: 'card',
+        paymentGateway: 'adyen',
         logoUrl:
           'https://cleeng.com/assets/7d823b2183d46cd1fe79a9a32c566e07.png'
       },
       {
         id: 123,
         methodName: 'paypal',
+        paymentGateway: 'paypal',
         logoUrl: ''
       }
     ]
@@ -58,12 +60,14 @@ jest.mock('api', () => ({
           {
             id: 234,
             methodName: 'card',
+            paymentGateway: 'adyen',
             logoUrl:
               'https://cleeng.com/assets/7d823b2183d46cd1fe79a9a32c566e07.png'
           },
           {
             id: 123,
             methodName: 'paypal',
+            paymentGateway: 'paypal',
             logoUrl: ''
           }
         ]
