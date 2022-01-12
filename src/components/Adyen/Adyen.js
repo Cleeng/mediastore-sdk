@@ -5,6 +5,7 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 // import { withTranslation } from 'react-i18next';
 // import labeling from 'containers/labeling';
+import { FontColor } from 'styles/variables';
 import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
 
 const COMPONENT_CONTAINER_ID = 'component-container';
@@ -73,8 +74,17 @@ class Adyen extends Component {
       onSubmit,
       onChange
     };
+
+    const cardConfiguration = {
+      styles: {
+        base: {
+          color: FontColor
+        }
+      }
+    };
+
     this.checkout = new window.AdyenCheckout(configuration)
-      .create(PAYMENT_METHOD_CARD)
+      .create(PAYMENT_METHOD_CARD, cardConfiguration)
       .mount(`#${COMPONENT_CONTAINER_ID}`);
   };
 

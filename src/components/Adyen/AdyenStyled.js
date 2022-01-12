@@ -1,5 +1,10 @@
 import styled, { css } from 'styled-components';
-import { FontColor, ConfirmColor, ErrorColor } from 'styles/variables';
+import {
+  FontColor,
+  ConfirmColor,
+  ErrorColor,
+  BackgroundColor
+} from 'styles/variables';
 
 export const AdyenStyled = styled.div.attrs(() => ({
   className: 'msd__payment__adyen'
@@ -48,6 +53,13 @@ export const AdyenStyled = styled.div.attrs(() => ({
   }
   .adyen-checkout__input--valid {
     border-bottom-color: ${ConfirmColor};
+  }
+  .adyen-checkout__input {
+    background-color: ${BackgroundColor};
+    color: ${FontColor} !important;
+  }
+  .input-field {
+    color: ${FontColor} !important;
   }
 `;
 
