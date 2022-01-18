@@ -2,9 +2,7 @@
 /* eslint-disable no-nested-ternary */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Switch, Redirect } from 'react-router-dom';
 
-import PrivateRoute from 'services/privateRoute';
 import MyAccountMenu from 'components/MyAccountMenu';
 import MyAccountUserInfo from 'components/MyAccountUserInfo';
 import MyAccountContent from 'components/MyAccountContent';
@@ -12,6 +10,8 @@ import PlanDetails from 'containers/PlanDetails';
 import PaymentInfo from 'containers/PaymentInfo';
 import UpdateProfile from 'containers/UpdateProfile';
 import Popup from 'components/Popup/Popup';
+import Login from 'components/LoginPage/Login';
+
 import {
   getCustomerSubscriptions,
   getCustomer,
@@ -22,6 +22,7 @@ import Footer from 'components/Footer';
 import { isHosted } from 'util/appConfigHelper';
 import MyAccountError from 'components/MyAccountError/MyAccountError';
 import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
+import Auth from 'services/auth';
 import { WrapperStyled, HeaderStyled } from './MyAccountStyled';
 
 const POPUP_TYPE = {
@@ -31,10 +32,18 @@ const POPUP_TYPE = {
   consentsUpdateRequired: 'consentsUpdateRequired'
 };
 
+export const MY_ACCOUNT_PAGES = {
+  planDetails: 'planDetails',
+  paymentInfo: 'paymentInfo',
+  updateProfile: 'updateProfile'
+};
+
 class MyAccount extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      isLogged: false,
+      currentPage: MY_ACCOUNT_PAGES.planDetails,
       errors: []
     };
   }
@@ -51,59 +60,122 @@ class MyAccount extends Component {
 
     document.title = 'My Account';
 
-    if (userProfile.consents.length === 0) {
-      getCustomerConsents()
-        .then(response => {
-          if (!response.errors.length) {
-            setConsents(response.responseData.consents);
-            this.checkTerms();
+    if (Auth.isLogged()) {
+      if (userProfile.consents.length === 0) {
+        getCustomerConsents()
+          .then(response => {
+            if (!response.errors.length) {
+              setConsents(response.responseData.consents);
+              this.checkTerms();
+            } else {
+              setConsentsError(response.errors[0]);
+            }
+          })
+          .catch(() => setConsentsError('Something went wrong..'));
+      }
+
+      if (planDetails.currentPlan.length === 0) {
+        getCustomerSubscriptions().then(response => {
+          if (response.errors.length) {
+            this.setState({
+              errors: response.errors
+            });
           } else {
-            setConsentsError(response.errors[0]);
+            setCurrentPlan(response.responseData.items);
           }
-        })
-        .catch(() => setConsentsError('Something went wrong..'));
-    }
+        });
+      }
 
-    if (planDetails.currentPlan.length === 0) {
-      getCustomerSubscriptions().then(response => {
-        if (response.errors.length) {
-          this.setState({
-            errors: response.errors
-          });
-        } else {
-          setCurrentPlan(response.responseData.items);
-        }
-      });
-    }
-    if (!userProfile.user) {
-      getCustomer().then(response => {
-        if (response.errors.length) {
-          this.setState({
-            errors: response.errors
-          });
-        } else {
-          setCurrentUser(response.responseData);
-        }
-      });
-    }
+      if (!userProfile.user) {
+        getCustomer().then(response => {
+          if (response.errors.length) {
+            this.setState({
+              errors: response.errors
+            });
+          } else {
+            setCurrentUser(response.responseData);
+          }
+        });
+      }
 
-    // delete old payment details when paypal payment details were updated successfully
-    const paymentDetailsToDelete = new URLSearchParams(
-      window.location.search
-    ).get('deletepd');
-    if (parseInt(paymentDetailsToDelete, 10)) {
-      deletePaymentDetails(paymentDetailsToDelete);
+      // delete old payment details when paypal payment details were updated successfully
+      const paymentDetailsToDelete = new URLSearchParams(
+        window.location.search
+      ).get('deletepd');
+      if (parseInt(paymentDetailsToDelete, 10)) {
+        deletePaymentDetails(paymentDetailsToDelete);
+      }
     }
   }
 
   componentDidUpdate(prevProps) {
     const {
-      userProfile: { consents }
+      userProfile: { consents },
+      planDetails,
+      userProfile,
+      setCurrentPlan,
+      setCurrentUser,
+      setConsents,
+      setConsentsError
     } = this.props;
+
     if (prevProps.userProfile.consents !== consents) {
       this.checkTerms();
     }
+
+    if (Auth.isLogged()) {
+      if (userProfile.consents.length === 0) {
+        getCustomerConsents()
+          .then(response => {
+            if (!response.errors.length) {
+              setConsents(response.responseData.consents);
+              this.checkTerms();
+            } else {
+              setConsentsError(response.errors[0]);
+            }
+          })
+          .catch(() => setConsentsError('Something went wrong..'));
+      }
+
+      if (planDetails.currentPlan.length === 0) {
+        getCustomerSubscriptions().then(response => {
+          if (response.errors.length) {
+            this.setState({
+              errors: response.errors
+            });
+          } else {
+            setCurrentPlan(response.responseData.items);
+          }
+        });
+      }
+
+      if (!userProfile.user) {
+        getCustomer().then(response => {
+          if (response.errors.length) {
+            this.setState({
+              errors: response.errors
+            });
+          } else {
+            setCurrentUser(response.responseData);
+          }
+        });
+      }
+
+      // delete old payment details when paypal payment details were updated successfully
+      const paymentDetailsToDelete = new URLSearchParams(
+        window.location.search
+      ).get('deletepd');
+      if (parseInt(paymentDetailsToDelete, 10)) {
+        deletePaymentDetails(paymentDetailsToDelete);
+      }
+    }
   }
+
+  goToPage = pageName => {
+    this.setState({
+      currentPage: pageName
+    });
+  };
 
   checkTerms() {
     const {
@@ -160,17 +232,28 @@ class MyAccount extends Component {
     } else hidePopup();
   }
 
+  renderMyAccountContent = currentPage => {
+    switch (currentPage) {
+      case MY_ACCOUNT_PAGES.planDetails:
+        return <PlanDetails />;
+      case MY_ACCOUNT_PAGES.paymentInfo:
+        return <PaymentInfo />;
+      case MY_ACCOUNT_PAGES.updateProfile:
+        return <UpdateProfile />;
+      default:
+        return null;
+    }
+  };
+
   render() {
     const {
-      routeMatch,
       planDetails: { currentPlan },
       userProfile: { user, consentsError },
       setConsents,
       popup: { isPopupShown, popupType, consents },
       hidePopup
     } = this.props;
-    const { path } = routeMatch;
-    const firstPageUrl = `${path}/plan-details`;
+    const { currentPage } = this.state;
 
     return (
       <>
@@ -184,6 +267,11 @@ class MyAccount extends Component {
             customerEmail={user ? user.email : ''}
             hidePopup={hidePopup}
           />
+        ) : !Auth.isLogged() ? (
+          <Login
+            isMyAccount
+            onSuccess={() => this.setState({ isLogged: true })}
+          />
         ) : (
           <WrapperStyled hosted={isHosted()}>
             <HeaderStyled>
@@ -194,33 +282,14 @@ class MyAccount extends Component {
                 subscription={currentPlan[0] ? currentPlan[0].offerTitle : ''}
                 isDataLoaded={!!user && !!currentPlan}
               />
-              <MyAccountMenu routeMatch={routeMatch} />
+              <MyAccountMenu
+                currentPage={currentPage}
+                goToPage={this.goToPage}
+              />
               <Footer isCheckout={false} isTransparent />
             </HeaderStyled>
             <MyAccountContent>
-              <Switch>
-                <PrivateRoute
-                  isMyAccount
-                  exact
-                  path={path}
-                  component={() => <Redirect to={firstPageUrl} />}
-                />
-                <PrivateRoute
-                  isMyAccount
-                  path={`${path}/plan-details`}
-                  component={PlanDetails}
-                />
-                <PrivateRoute
-                  isMyAccount
-                  path={`${path}/payment-info`}
-                  component={PaymentInfo}
-                />
-                <PrivateRoute
-                  isMyAccount
-                  path={`${path}/update-profile`}
-                  component={UpdateProfile}
-                />
-              </Switch>
+              {this.renderMyAccountContent(currentPage)}
             </MyAccountContent>
           </WrapperStyled>
         )}
@@ -236,7 +305,6 @@ MyAccount.propTypes = {
   setCurrentUser: PropTypes.func.isRequired,
   setConsents: PropTypes.func.isRequired,
   setConsentsError: PropTypes.func.isRequired,
-  routeMatch: PropTypes.objectOf(PropTypes.any),
   userProfile: PropTypes.objectOf(PropTypes.any),
   planDetails: PropTypes.objectOf(PropTypes.any),
   popup: PropTypes.objectOf(PropTypes.any),
@@ -245,7 +313,6 @@ MyAccount.propTypes = {
 };
 
 MyAccount.defaultProps = {
-  routeMatch: {},
   userProfile: { user: null },
   planDetails: { currentPlan: [] },
   popup: { isPopupShown: false }

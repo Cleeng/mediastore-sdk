@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
 import { MyAccountTextGray, FontColor, ConfirmColor } from 'styles/variables';
-import { NavLink } from 'react-router-dom';
 
 export const WrapStyled = styled.nav`
   padding: 10px 0;
@@ -100,8 +99,8 @@ export const ItemLabelStyled = styled.div.attrs(() => ({
   `}
 `;
 
-export const ItemLinkStyled = styled(NavLink).attrs(() => ({
-  className: 'msd__account-sidebar__link'
+export const ItemStyled = styled.div.attrs(() => ({
+  className: 'msd__account-sidebar__item'
 }))`
   display: flex;
   flex-direction: column;
@@ -112,6 +111,7 @@ export const ItemLinkStyled = styled(NavLink).attrs(() => ({
   transition: opacity 0.1s;
 
   &:hover {
+    cursor: pointer;
     ${ItemLabelStyled} {
       &:after {
         transform: scaleX(1);
@@ -120,21 +120,23 @@ export const ItemLinkStyled = styled(NavLink).attrs(() => ({
     }
   }
 
-  &.active {
-    ${ItemIconWrapStyled} {
-      path {
+  ${props =>
+    props.isActive &&
+    css`
+      ${ItemIconWrapStyled} {
+        path {
+          opacity: 1;
+          fill: ${ConfirmColor};
+        }
+      }
+
+      ${ItemLabelStyled} {
+        &:after {
+          transform: scaleX(1);
+        }
         opacity: 1;
-        fill: ${ConfirmColor};
       }
-    }
-
-    ${ItemLabelStyled} {
-      &:after {
-        transform: scaleX(1);
-      }
-      opacity: 1;
-    }
-  }
+    `}
 
   ${mediaFrom.small`
     flex-direction: row;

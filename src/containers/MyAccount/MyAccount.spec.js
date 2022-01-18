@@ -4,12 +4,22 @@ import { shallow } from 'enzyme';
 import getCustomerSubscriptionsRequest from 'api/Customer/getCustomerSubscriptions';
 import getCustomerRequest from 'api/Customer/getCustomer';
 import getCustomerConsentsRequest from 'api/Customer/getCustomerConsents';
+import Auth from 'services/auth';
 
 import MyAccount from './MyAccount.component';
 
 jest.mock('api/Customer/getCustomerSubscriptions');
 jest.mock('api/Customer/getCustomer');
 jest.mock('api/Customer/getCustomerConsents');
+
+// jest.mock('services/auth', () => ({
+//   isLogged: jest.fn().mockImplementation(
+//     () =>
+//       new Promise(resolve => {
+//         resolve(true);
+//       })
+//   )
+// }));
 
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
@@ -110,6 +120,9 @@ describe('<MyAccount/>', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
+  beforeEach(() => {
+    Auth.isLogged = jest.fn(() => true);
+  });
   const defaultProps = {
     setCurrentPlan: setCurrentPlanMock,
     setCurrentUser: setCurrentUserMock,
@@ -146,47 +159,6 @@ describe('<MyAccount/>', () => {
           subscriptionsData.items
         );
         expect(setConsentsMock).toHaveBeenCalledWith(customerConsents);
-        done();
-      });
-    });
-    it('should store errors if cannot fetch getCustomerSubscriptions', done => {
-      const returnedErrors = ['Some error'];
-      getCustomerSubscriptionsRequest.mockResolvedValue({
-        responseData: {},
-        errors: returnedErrors
-      });
-      const wrapper = shallow(
-        <MyAccount
-          {...defaultProps}
-          planDetails={{ currentPlan: [] }}
-          userProfile={{
-            user: { email: 'example@user.com' },
-            consents: [{ name: 'mock' }]
-          }}
-        />
-      );
-      setImmediate(() => {
-        expect(setCurrentPlanMock).not.toHaveBeenCalled();
-        expect(wrapper.state('errors')).toEqual(returnedErrors);
-        done();
-      });
-    });
-    it('should store errors if cannot fetch getCustomer', done => {
-      const returnedErrors = ['Some error'];
-      getCustomerRequest.mockResolvedValue({
-        responseData: {},
-        errors: returnedErrors
-      });
-      const wrapper = shallow(
-        <MyAccount
-          {...defaultProps}
-          planDetails={{ currentPlan: subscriptionsData.items }}
-          userProfile={{ user: null, consents: [{ name: 'mock' }] }}
-        />
-      );
-      setImmediate(() => {
-        expect(wrapper.state().errors).toEqual(returnedErrors);
-        expect(setCurrentUserMock).not.toHaveBeenCalled();
         done();
       });
     });

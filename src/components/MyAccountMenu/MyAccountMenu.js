@@ -8,9 +8,9 @@ import {
   WrapStyled,
   ItemsStyled,
   ItemWrapStyled,
-  ItemLinkStyled,
   ItemIconWrapStyled,
-  ItemLabelStyled
+  ItemLabelStyled,
+  ItemStyled
 } from './MyAccountMenuStyled';
 
 class MyAccountMenu extends Component {
@@ -19,11 +19,13 @@ class MyAccountMenu extends Component {
     this.state = {};
   }
 
+  onMenuItemClick = id => {
+    const { goToPage } = this.props;
+    goToPage(id);
+  };
+
   render() {
-    const {
-      routeMatch: { url, path },
-      t
-    } = this.props;
+    const { currentPage, t } = this.props;
     return (
       <WrapStyled>
         <ItemsStyled>
@@ -35,13 +37,14 @@ class MyAccountMenu extends Component {
               <ItemWrapStyled
                 key={menuItem.label}
                 visibleOnDesktop={menuItem.visibleOnDesktop}
+                onClick={() => this.onMenuItemClick(menuItem.id)}
               >
-                <ItemLinkStyled to={`${url || path}/${menuItem.link}`}>
+                <ItemStyled isActive={currentPage === menuItem.id}>
                   <ItemIconWrapStyled>
                     <IconComponent />
                   </ItemIconWrapStyled>
                   <ItemLabelStyled>{t(menuItem.label)}</ItemLabelStyled>
-                </ItemLinkStyled>
+                </ItemStyled>
               </ItemWrapStyled>
             );
           })}
@@ -52,12 +55,14 @@ class MyAccountMenu extends Component {
 }
 
 MyAccountMenu.propTypes = {
-  routeMatch: PropTypes.objectOf(PropTypes.any),
+  currentPage: PropTypes.string,
+  goToPage: PropTypes.func,
   t: PropTypes.func
 };
 
 MyAccountMenu.defaultProps = {
-  routeMatch: {},
+  currentPage: '',
+  goToPage: () => {},
   t: k => k
 };
 

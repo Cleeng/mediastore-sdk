@@ -86,13 +86,15 @@ class Login extends Component {
               </Button>
             </>
           )}
-          <Button
-            theme="link"
-            margin="20px auto 0 auto"
-            onClickFn={() => onPasswordResetClick()}
-          >
-            {t('Forgot password?')}
-          </Button>
+          {!isMyAccount && (
+            <Button
+              theme="link"
+              margin="20px auto 0 auto"
+              onClickFn={() => onPasswordResetClick()}
+            >
+              {t('Forgot password?')}
+            </Button>
+          )}
         </ContentWrapperStyled>
         <Footer isCheckout={!isMyAccount} />
       </LoginWrapperStyled>

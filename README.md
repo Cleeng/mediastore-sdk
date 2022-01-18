@@ -225,6 +225,7 @@ Usage:
 
 `MyAccount` is a big component that contains the whole **My Account** feature. The following sections are available in `MyAccount`:
 
+- [Login](#login-header)
 - [PlanDetails (manage subscriptions)](#plan-details-header)
 - [PaymentsInfo](#payment-info-header)
 - [UpdateProfile](#update-profile-header)
@@ -232,10 +233,8 @@ Usage:
 Usage:
 
 ```javascript
-<CleengMyAccount routeMatch={match} />
+<MyAccount />
 ```
-
-where `routeMatch` is a match object passed from Route component.
 
 #### <a id="checkout-header"></a>Checkout
 
