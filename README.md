@@ -1,12 +1,12 @@
 # MediaStore SDK
 
-This is the Cleeng official component library for using with ReactJS.
+This is the Cleeng official component library to be used with React.js.
 
 MediaStore SDK Library consists of components that will allow you to build a seamless checkout process, help visitors become subscribers, and then allow them to manage their subscriptions.
 
 To find out more about MediaStore SDK, see:
 
-- [MediaStore SDK Reference Materials](https://developers.cleeng.com/docs/mediastore-overview)
+- [MediaStore SDK Components Library](https://developers.cleeng.com/docs/components-library)
 - [API documentation](https://developers.cleeng.com/reference/getting-started)
 
 ## Prerequisites
@@ -16,11 +16,15 @@ To find out more about MediaStore SDK, see:
 
 ## Installation
 
+Install the package with:
+
 **NPM**
 
 ```
 npm i @cleeng/mediastore-sdk
 ```
+
+or
 
 **Yarn**
 
@@ -28,12 +32,12 @@ npm i @cleeng/mediastore-sdk
 yarn add @cleeng/mediastore-sdk
 ```
 
-## Using of the library
+## Usage
 
 ### Configuration
 
-You should start configuration by setting publisher settings such as: `publisherId`, `offerId` or environment (if it's needed).
-You can do this by using Config class which has few important methods to do it.
+If you have the package downloaded locally and you want to begin to use it, you should start configuration by setting broadcaster settings such as: `publisherId` (see more it [here](https://developers.cleeng.com/docs/prerequisites#step-3-obtain-publisher-token)), `offerId` (see more it [here](https://developers.cleeng.com/docs/prerequisites#step-4-create-an-offer)) or environment (if it's needed).
+You can do this by using the Config class which has few important methods to do it.
 
 1. Setting `publisherId`:
 
@@ -41,7 +45,7 @@ You can do this by using Config class which has few important methods to do it.
 Config.setPublisher("publisherId");
 ```
 
-where `publisherId` is your publisher ID in the Cleeng system.
+where `publisherId` is your broadcaster ID in the Cleeng system.
 
 2. Setting `offerId`
 
@@ -49,7 +53,7 @@ where `publisherId` is your publisher ID in the Cleeng system.
 Config.setOffer("offerId");
 ```
 
-where `offerId` is the ID of the offer created for your publisher in the Cleeng system.
+where `offerId` is the ID of the offer created for your broadcaster in the Cleeng system.
 
 3. Setting environment:
 
@@ -63,28 +67,72 @@ where environment is one of the environments listed below:
 - `sandbox`
 - `production`
 
-You can also style the application by using one of the Config.setTheme() method but there will be more information about that in the [Styling](#styling-header) section.
+You can also style the application by using one of the Config.setTheme() methods but there will be more information about that in the [Styling](#styling-header) section.
 
 ### Available components
 
+You can build a complete flow - allowing customers to buy your offering and use their customer accounts - with two main components:
+
+- [Checkout](#checkout-header) - a full purchase flow (starting from registration to purchase)
+- [MyAccount](#my-account-header) - a complete customer account environment
+
+If you prefer smaller components, you can use these to implement the exact features you need:
+
 - [Register](#register-header)
 - [Login](#login-header)
-- [PasswordReset](#password-reset-header)
+- [Capture](#capture-header)
+- [Checkout Consents](#checkout-consents-header)
 - [Purchase](#purchase-header)
+- [PasswordReset](#password-reset-header)
 - [Subscriptions](#subscriptions-header)
 - [SubscriptionSwitches](#subscription-switches-header)
-- [PlanDetails (contains Subscriptions and SubscriptionSwitches)](#plan-details-header)
+- [PlanDetails](#plan-details-header)
 - [PaymentInfo](#payment-info-header)
 - [TransactionList](#transaction-list-header)
 - [UpdateProfile](#update-profile-header)
-- [Checkout Consents](#checkout-consents-header)
+
+#### <a id="checkout-header"></a>Checkout
+
+`Checkout` is a big component that contains the whole checkout process (from registration to purchase). It contains components listed below:
+
+- [Register](#register-header)
+- [Login](#login-header)
 - [Capture](#capture-header)
-- [MyAccount](#my-account-header)
-- [Checkout](#checkout-header)
+- [Checkout Consents](#checkout-consents-header)
+- [Purchase](#purchase-header)
+- [PasswordReset](#password-reset-header)
+
+You can pass a function that will be called after a successful checkout process by using `onSuccess` prop. You can also select which offer should be purchased by passing `offerId` prop.
+
+Usage:
+
+```javascript
+<Checkout
+  onSuccess={() => console.log("success")}}
+  offerId={'S531234647_PL'}
+>
+```
+
+#### <a id="my-account-header"></a>MyAccount
+
+`MyAccount` is a big component that contains the whole **My Account** feature. The following sections are available in `MyAccount`:
+
+- [Login](#login-header)
+- [PlanDetails (manage subscriptions)](#plan-details-header)
+- [PaymentsInfo](#payment-info-header)
+- [UpdateProfile](#update-profile-header)
+
+Usage:
+
+```javascript
+<MyAccount />
+```
 
 #### <a id="register-header"></a>Register
 
-`Register` component is a basic Cleeng registration form. You can pass a function that will be called after a successful registration process by using `onSuccess` prop. There is also have an account button on that form. You can set what excacly will happend on click by using `onHaveAccountClick` prop.
+`Register` component is a basic Cleeng registration form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#register)). You can pass a function that will be called after a successful registration process by using `onSuccess` prop.
+
+There is also a **Have an account?** button on that form. You can set what exactly will happen on clicking by using `onHaveAccountClick` prop.
 
 Usage:
 
@@ -97,7 +145,9 @@ Usage:
 
 #### <a id="login-header"></a>Login
 
-`Login` component is a basic Cleeng login form. You can pass a function that will be called after a successful login process by using `onSuccess` prop. There are two buttons on that form. You can set what excacly will happend on click by using `onRegisterClick` and `onPasswordResetClick` props.
+`Login` component is a basic Cleeng login form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#login)). You can pass a function that will be called after a successful login process by using `onSuccess` prop.
+
+There are two additional buttons on that form: **Go to register** and **Forgot password?**. You can set what exactly will happen on clicking each of them by using `onRegisterClick` and `onPasswordResetClick` props.
 
 Usage:
 
@@ -111,7 +161,7 @@ Usage:
 
 #### <a id="password-reset-header"></a>PasswordReset
 
-`PasswordReset` is a basic reset password form that can be used for resetting passwords. You can pass a function that will be called after successful processing of the request with `onSuccess` prop.
+`PasswordReset` is a basic reset password form that can be used for resetting passwords (see an example [here](https://developers.cleeng.com/docs/purchase-flow#passwordreset)). You can pass a function that will be called after successful processing of the request with `onSuccess` prop.
 
 Usage:
 
@@ -121,7 +171,9 @@ Usage:
 
 #### <a id="purchase-header"></a>Purchase
 
-`Purchase` is a component that gives a possibility to buy an offer in the Cleeng system. You have to be logged in before showing that component. To do so, use the Login/Register component. You can pass a function that will be called after successful payment process by using `onSuccess` prop. You can also select which offer should be purchased by passing `offerId` prop.
+`Purchase` is a component that gives you a possibility to buy an offer in the Cleeng system. You have to be logged in before showing that component. To do so, use the [Login](#login-header) / [Register](#register-header) component.
+
+You can pass a function that will be called after a successful payment process by using `onSuccess` prop. You can also select which offer should be purchased by passing `offerId` prop.
 
 Usage:
 
@@ -211,7 +263,7 @@ Usage:
 
 #### <a id="capture-header"></a>Capture
 
-`Capture` component is a form that was created for collecting user data that a publisher wants to collect. A publisher can enable the capture feature and configure its settings in the Cleeng publisher dashboard. For more information, see [Cleeng Capture](https://publisher.support.cleeng.com/hc/en-us/articles/222325667-Cleeng-Capture)
+`Capture` component is a form that was created for collecting user data that a broadcaster wants to collect. A broadcaster can enable the capture feature and configure its settings in the Cleeng broadcaster dashboard. For more information, see [Cleeng Capture](https://publisher.support.cleeng.com/hc/en-us/articles/222325667-Cleeng-Capture).
 
 You can pass a function that will be called after successful form submission or if there are no available capture fields with `onSuccess` prop.
 
@@ -219,43 +271,6 @@ Usage:
 
 ```javascript
 <Capture onSuccess={() => console.log("success")} />
-```
-
-#### <a id="my-account-header"></a>MyAccount
-
-`MyAccount` is a big component that contains the whole **My Account** feature. The following sections are available in `MyAccount`:
-
-- [Login](#login-header)
-- [PlanDetails (manage subscriptions)](#plan-details-header)
-- [PaymentsInfo](#payment-info-header)
-- [UpdateProfile](#update-profile-header)
-
-Usage:
-
-```javascript
-<MyAccount />
-```
-
-#### <a id="checkout-header"></a>Checkout
-
-`Checkout` is a big component that contains the whole **Checkout** process. The whole checkout flow contains components listed below:
-
-- [Register](#register-header)
-- [Login](#login-header)
-- [Capture](#capture-header)
-- [Checkout Consents](#checkout-consents-header)
-- [Purchase](#purchase-header)
-- [PasswordReset](#password-reset-header)
-
-You can pass a function that will be called after successful checkout process by using `onSuccess` prop. You can also select which offer should be purchased by passing `offerId` prop.
-
-Usage:
-
-```javascript
-<Checkout
-  onSuccess={() => console.log("success")}}
-  offerId={'S531234647_PL'}
->
 ```
 
 ### <a id="styling-header"></a>Styling
@@ -267,7 +282,7 @@ There are two ways of styling MediaStore SDK components:
 
 #### <a id="set-theme-header"></a>SetTheme function
 
-The setTheme() function gives a possibility to change basic colors for all MediaStore SDK components.
+The setTheme() function gives you a possibility to change basic colors for all MediaStore SDK components.
 
 Here is an example how to do it:
 
