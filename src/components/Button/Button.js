@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import ButtonStyled from './ButtonStyled';
 
 export const BUTTON_SIZE = {
@@ -26,8 +25,6 @@ const Button = ({
   onClickFn,
   disabled,
   children,
-  isLink,
-  to,
   label,
   size,
   theme,
@@ -39,17 +36,13 @@ const Button = ({
   padding,
   className
 }) => {
-  const LinkProps = {
-    as: Link,
-    to: { pathname: to.pathname, state: { fromMyAccount: to.fromMyAccount } }
-  };
   const ButtonProps = {
     type,
     onClick: onClickFn
   };
   return (
     <ButtonStyled
-      {...(isLink ? LinkProps : ButtonProps)}
+      {...ButtonProps}
       disabled={disabled}
       aria-label={label}
       size={size}
@@ -80,8 +73,6 @@ Button.propTypes = {
   type: PropTypes.string,
   onClickFn: PropTypes.func,
   disabled: PropTypes.bool,
-  isLink: PropTypes.bool,
-  to: PropTypes.objectOf(PropTypes.any),
   label: PropTypes.string,
   fontSize: PropTypes.string,
   margin: PropTypes.string,
@@ -99,8 +90,6 @@ Button.defaultProps = {
   type: 'button',
   onClickFn: () => {},
   disabled: false,
-  isLink: false,
-  to: { pathname: '', state: { fromMyAccount: false } },
   label: null,
   fontSize: null,
   margin: null,

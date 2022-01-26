@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import {
@@ -8,7 +7,6 @@ import {
   StyledTitle,
   StyledMessage,
   NoteStyled,
-  StyledLink,
   Loader,
   Checkmark
 } from './PasswordResetSuccessStyled';
@@ -27,9 +25,6 @@ const PasswordResetSuccess = ({ email, t }) => (
     <NoteStyled>
       {t('Not sure that was the right email address?')}
       &nbsp;
-      <Link to="/reset-password/">
-        <StyledLink>{t('Try again.')}</StyledLink>
-      </Link>
     </NoteStyled>
   </PasswordResetSuccessPageStyled>
 );

@@ -12,14 +12,6 @@ const mockUrlProps = {
   location: { search: '?offer=123123&publisher=123456789' }
 };
 
-jest.mock('react-router-dom', () => {
-  return {
-    Link: () => {
-      return <div />;
-    }
-  };
-});
-
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
 ));

@@ -1,8 +1,8 @@
+/* eslint-disable no-unused-vars */
 import jwtDecode from 'jwt-decode';
 import { getData, setData, removeData } from 'util/appConfigHelper';
 import getCaptureStatus from 'api/Customer/getCaptureStatus';
 import getCustomerConsents from 'api/Customer/getCustomerConsents';
-// import history from '../history';
 
 class Auth {
   constructor() {
@@ -74,8 +74,6 @@ class Auth {
           redirectUrl
         ].filter(Boolean)
       };
-      // const currentRedirection = data.redirectUrl.shift();
-      // history.push(currentRedirection, data);
     });
 
     callback();
@@ -91,12 +89,6 @@ class Auth {
     removeData('CLEENG_PP_ERROR');
 
     callback();
-
-    // history.push(
-    //   isMyAccount
-    //     ? this.myAccount.loginPage + queryParam
-    //     : this.checkout.loginPage
-    // );
   }
 
   isLogged() {

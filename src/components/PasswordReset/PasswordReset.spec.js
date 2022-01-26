@@ -10,13 +10,6 @@ import PasswordReset, { PurePasswordReset } from './PasswordReset';
 import { FormStyled } from './PasswordResetStyled';
 
 jest.mock('api/Auth/resetPassword');
-jest.mock('react-router-dom', () => {
-  return {
-    Link: () => {
-      return <div />;
-    }
-  };
-});
 
 const mockUrlProps = {
   location: { search: '?offer=123123' }

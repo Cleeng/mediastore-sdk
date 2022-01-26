@@ -3,14 +3,6 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { PureRegister } from './Register';
 
-jest.mock('react-router-dom', () => {
-  return {
-    Link: () => {
-      return <div />;
-    }
-  };
-});
-
 jest.mock('containers/labeling', () => () => Component => props => (
   <Component t={k => k} {...props} />
 ));

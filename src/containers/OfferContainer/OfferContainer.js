@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Redirect } from 'react-router-dom';
 import Offer from 'components/Offer';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
 // import { withTranslation } from 'react-i18next';
@@ -197,7 +196,6 @@ class OfferContainer extends Component {
       if (error.includes('Request failed with status code 500')) {
         return <ErrorPage type="generalError" />;
       }
-      return <Redirect to="/login" />;
     }
     return offerDetails &&
       isOrderCreated &&
