@@ -31,7 +31,7 @@ const CheckoutConsents = ({ onSuccess }) => {
           consent.needsUpdate === true
       );
       if (consentsToAccept.length === 0) onSuccess();
-      setConsents(consentsToAccept);
+      else setConsents(consentsToAccept);
     });
   }, []);
 

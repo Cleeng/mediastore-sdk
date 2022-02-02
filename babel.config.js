@@ -4,24 +4,18 @@ module.exports = function(api) {
   const presets = ['@babel/preset-env', '@babel/preset-react'];
   const plugins = [
     'macros',
+    '@babel/plugin-transform-runtime',
     [
       'inline-react-svg',
       {
         ignorePattern: 'IB',
         svgo: {
           plugins: [
+            'preset-default',
             {
               name: 'removeAttrs',
               params: {
                 attrs: 'data-name'
-              }
-            },
-            {
-              name: 'preset-default',
-              params: {
-                overrides: {
-                  cleanupIDs: true
-                }
               }
             }
           ]
