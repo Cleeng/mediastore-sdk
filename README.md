@@ -12,7 +12,7 @@ To find out more about MediaStore SDK, see:
 ## Prerequisites
 
 - node v14.15.0
-- react
+- react v16.14.0
 
 ## Installation
 
@@ -66,6 +66,24 @@ where environment is one of the environments listed below:
 - `staging`
 - `sandbox`
 - `production`
+
+4. Setting PayPal urls
+
+```javascript
+// needed for Checkout Paypal payments
+Config.setPaypalUrls({
+  successUrl: "http://localhost:3000/my-account",
+  cancelUrl: "http://localhost:3000/",
+  errorUrl: "http://localhost:3000/error"
+});
+```
+
+5. Setting My Account url
+
+```javascript
+// needed for MyAccount update payment details
+Config.setMyAccountUrl("http://localhost:3000/acc");
+```
 
 You can also style the application by using one of the Config.setTheme() methods but there will be more information about that in the [Styling](#styling-header) section.
 

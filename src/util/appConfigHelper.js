@@ -69,6 +69,25 @@ export const setEnvironment = env => {
   return false;
 };
 
+export const setPaypalUrls = urls => {
+  if (urls) {
+    const { successUrl, cancelUrl, errorUrl } = urls;
+    setData('CLEENG_PP_SUCCESS', successUrl);
+    setData('CLEENG_PP_CANCEL', cancelUrl);
+    setData('CLEENG_PP_ERROR', errorUrl);
+    return true;
+  }
+  return false;
+};
+
+export const setMyAccountUrl = url => {
+  if (url) {
+    setData('CLEENG_MY_ACCOUNT_URL', url);
+    return true;
+  }
+  return false;
+};
+
 export const setTheme = theme => {
   const themeString = JSON.stringify(theme);
   if (theme) {
@@ -91,5 +110,7 @@ export default {
   setPublisher,
   setOffer,
   setEnvironment,
-  setTheme
+  setTheme,
+  setPaypalUrls,
+  setMyAccountUrl
 };
