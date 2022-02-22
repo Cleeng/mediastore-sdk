@@ -4,6 +4,8 @@ import Offer from 'components/Offer';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
 // import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
+import Header from 'components/Header';
+import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import {
   getOfferDetails,
@@ -13,7 +15,10 @@ import {
 } from 'api';
 import saveOfferId from 'util/offerIdHelper';
 import { setData, getData } from 'util/appConfigHelper';
-import StyledLoaderContainer from './StyledOfferContainer';
+import {
+  StyledLoaderContainer,
+  StyledLoaderContent
+} from './StyledOfferContainer';
 // import labeling from '../labeling';
 
 class OfferContainer extends Component {
@@ -213,7 +218,11 @@ class OfferContainer extends Component {
       />
     ) : (
       <StyledLoaderContainer>
-        <Loader />
+        <Header />
+        <StyledLoaderContent>
+          <Loader />
+        </StyledLoaderContent>
+        <Footer />
       </StyledLoaderContainer>
     );
   }
