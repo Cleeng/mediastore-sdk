@@ -22,7 +22,9 @@ class MockAdyenCheckout {
       onSubmit: mockOnSubmit,
       onChange: mockOnChange,
       clientKey: 'test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K',
-      showPayButton: false
+      showPayButton: false,
+      hasHolderName: true,
+      holderNameRequired: true
     });
   }
 
