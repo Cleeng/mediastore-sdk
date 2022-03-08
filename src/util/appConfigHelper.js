@@ -107,8 +107,9 @@ export const getTheme = () => {
 };
 
 export const setAdyenConfig = config => {
-  if (config) {
-    setData('CLEENG_ADYEN', config);
+  const configString = JSON.stringify(config);
+  if (configString) {
+    setData('CLEENG_ADYEN', configString);
     return true;
   }
   return false;
