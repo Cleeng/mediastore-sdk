@@ -78,7 +78,16 @@ Config.setPaypalUrls({
 });
 ```
 
-5. Setting My Account url
+5. Setting Adyen configuration
+
+```javascript
+Config.setAdyenConfig({
+  clientKey: "CLIENT_KEY",
+  adyenEnv: "test"
+});
+```
+
+6. Setting My Account url
 
 ```javascript
 // needed for MyAccount update payment details

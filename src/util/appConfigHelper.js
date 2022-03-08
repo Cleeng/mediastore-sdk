@@ -106,11 +106,31 @@ export const getTheme = () => {
   return false;
 };
 
+export const setAdyenConfig = config => {
+  const configString = JSON.stringify(config);
+  if (configString) {
+    setData('CLEENG_ADYEN', configString);
+    return true;
+  }
+  return false;
+};
+
+export const getAdyenConfig = () => {
+  const config = getData('CLEENG_ADYEN');
+  if (config) {
+    const configJSON = JSON.parse(config);
+    return configJSON;
+  }
+  return false;
+};
+
 export default {
   setPublisher,
   setOffer,
   setEnvironment,
   setTheme,
   setPaypalUrls,
-  setMyAccountUrl
+  setMyAccountUrl,
+  setAdyenConfig,
+  getAdyenConfig
 };
