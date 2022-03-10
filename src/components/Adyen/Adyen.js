@@ -71,6 +71,8 @@ class Adyen extends Component {
 
     const configuration = {
       showPayButton: false,
+      hasHolderName: true,
+      holderNameRequired: true,
       environment: ADYEN_ENV,
       clientKey: clientKey || 'test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K',
       onSubmit,
