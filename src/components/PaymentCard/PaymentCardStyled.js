@@ -2,10 +2,10 @@ import styled, { css } from 'styled-components';
 import {
   MyAccountBlue,
   White,
-  FontColor,
   CardSecondaryColor,
   IconsColor,
-  paymentMethodColors
+  paymentMethodColors,
+  ConfirmColor
 } from 'styles/variables';
 
 export const CardStyled = styled.div.attrs(() => ({
@@ -101,11 +101,11 @@ export const CardEditStyled = styled.button.attrs(() => ({
   position: absolute;
   bottom: 18px;
   right: 16px;
-  color: ${FontColor};
+  color: ${White};
   z-index: 2;
 
   padding: 9px 14px;
-  background-color: ${White};
+  background-color: ${ConfirmColor};
   font-size: 11px;
   font-weight: 600;
   border-radius: 17px;
