@@ -169,6 +169,7 @@ export const currencyFormat = {
   EUR: '€',
   USD: '$',
   GBP: '£',
+  AUD: '$',
   '€': '€',
   $: '$',
   '£': '£'
