@@ -1,14 +1,14 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { shallow } from 'enzyme';
-import getCustomerSubscriptionsRequest from 'api/Customer/getCustomerSubscriptions';
+import getCustomerOffersRequest from 'api/Customer/getCustomerOffers';
 import getCustomerRequest from 'api/Customer/getCustomer';
 import getCustomerConsentsRequest from 'api/Customer/getCustomerConsents';
 import Auth from 'services/auth';
 
 import MyAccount from './MyAccount.component';
 
-jest.mock('api/Customer/getCustomerSubscriptions');
+jest.mock('api/Customer/getCustomerOffers');
 jest.mock('api/Customer/getCustomer');
 jest.mock('api/Customer/getCustomerConsents');
 
@@ -54,7 +54,7 @@ const customerData = {
   externalId: '',
   externalData: null
 };
-const subscriptionsData = {
+const offersData = {
   items: [
     {
       offerId: 'S937144802_UA',
@@ -68,15 +68,13 @@ const subscriptionsData = {
       period: 'month'
     },
     {
-      offerId: 'S249781156_UA',
+      offerType: 'P',
+      offerId: 'P770673843_PL',
       status: 'active',
-      expiresAt: 1597917717,
-      nextPaymentPrice: 45.04,
-      nextPaymentCurrency: 'EUR',
-      paymentGateway: 'adyen',
-      paymentMethod: 'mc',
-      offerTitle: '6-Month without trial',
-      period: '6months'
+      expiresAt: 1679669059,
+      startedAt: 1648133059,
+      offerTitle: 'Test pass',
+      totalPrice: 25
     }
   ]
 };
@@ -133,8 +131,8 @@ describe('<MyAccount/>', () => {
   };
   describe('@renders', () => {
     it('should fetch currentPlan, customer and consents on componentDidMount', done => {
-      getCustomerSubscriptionsRequest.mockResolvedValue({
-        responseData: subscriptionsData,
+      getCustomerOffersRequest.mockResolvedValue({
+        responseData: offersData,
         errors: []
       });
       getCustomerRequest.mockResolvedValue({
@@ -155,9 +153,7 @@ describe('<MyAccount/>', () => {
       setImmediate(() => {
         expect(setCurrentUserMock).toHaveBeenCalled();
         expect(setCurrentUserMock).toHaveBeenCalledWith(customerData);
-        expect(setCurrentPlanMock).toHaveBeenCalledWith(
-          subscriptionsData.items
-        );
+        expect(setCurrentPlanMock).toHaveBeenCalledWith(offersData.items);
         expect(setConsentsMock).toHaveBeenCalledWith(customerConsents);
         done();
       });
@@ -171,7 +167,7 @@ describe('<MyAccount/>', () => {
       shallow(
         <MyAccount
           {...defaultProps}
-          planDetails={{ currentPlan: subscriptionsData.items }}
+          planDetails={{ currentPlan: offersData.items }}
           userProfile={{ user: { email: 'example@user.com' }, consents: [] }}
         />
       );
@@ -187,7 +183,7 @@ describe('<MyAccount/>', () => {
       shallow(
         <MyAccount
           {...defaultProps}
-          planDetails={{ currentPlan: subscriptionsData.items }}
+          planDetails={{ currentPlan: offersData.items }}
           userProfile={{ user: { email: 'example@user.com' }, consents: [] }}
         />
       );
@@ -280,7 +276,7 @@ describe('<MyAccount/>', () => {
       const wrapper = shallow(
         <MyAccount
           {...defaultProps}
-          planDetails={{ currentPlan: subscriptionsData.items }}
+          planDetails={{ currentPlan: offersData.items }}
           userProfile={{
             user: { email: 'example@user.com' },
             consents: CONSENTS.defaultConsents
@@ -297,7 +293,7 @@ describe('<MyAccount/>', () => {
       const wrapper = shallow(
         <MyAccount
           {...defaultProps}
-          planDetails={{ currentPlan: subscriptionsData.items }}
+          planDetails={{ currentPlan: offersData.items }}
           userProfile={{
             user: { email: 'example@user.com' },
             consents: CONSENTS.defaultConsents
@@ -324,7 +320,7 @@ describe('<MyAccount/>', () => {
       const wrapper = shallow(
         <MyAccount
           {...defaultProps}
-          planDetails={{ currentPlan: subscriptionsData.items }}
+          planDetails={{ currentPlan: offersData.items }}
           userProfile={{
             user: { email: 'example@user.com' },
             consents: CONSENTS.defaultConsents
@@ -344,7 +340,7 @@ describe('<MyAccount/>', () => {
       const wrapper = shallow(
         <MyAccount
           {...defaultProps}
-          planDetails={{ currentPlan: subscriptionsData.items }}
+          planDetails={{ currentPlan: offersData.items }}
           userProfile={{
             user: { email: 'example@user.com' },
             consents: CONSENTS.defaultConsents
@@ -364,7 +360,7 @@ describe('<MyAccount/>', () => {
       const wrapper = shallow(
         <MyAccount
           {...defaultProps}
-          planDetails={{ currentPlan: subscriptionsData.items }}
+          planDetails={{ currentPlan: offersData.items }}
           userProfile={{
             user: { email: 'example@user.com' },
             consents: CONSENTS.defaultConsents

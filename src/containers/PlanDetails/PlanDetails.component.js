@@ -3,7 +3,7 @@ import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { PropTypes } from 'prop-types';
 
-import { getCustomerSubscriptions, getAvailableSwitches } from 'api';
+import { getCustomerOffers, getAvailableSwitches } from 'api';
 import SectionHeader from 'components/SectionHeader';
 import CurrentPlan from 'components/CurrentPlan';
 import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
@@ -55,13 +55,16 @@ const PlanDetails = ({
     setIsLoadingCurrentPlan(true);
     setIsLoadingChangePlan(true);
 
-    getCustomerSubscriptions()
+    getCustomerOffers()
       .then(response => {
         if (response.errors.length) {
           setIsErrorCurrentPlan(response.errors);
         } else {
-          const customerSubscriptions = response.responseData.items;
-          setCurrentPlan(customerSubscriptions);
+          const customerOffers = response.responseData.items;
+          const customerSubscriptions = customerOffers.filter(
+            offer => offer.offerType === 'S'
+          );
+          setCurrentPlan(customerOffers);
           const activeSubscriptions = customerSubscriptions.filter(
             sub => sub.status === 'active'
           );
@@ -126,7 +129,7 @@ const PlanDetails = ({
   };
 
   const activeSubscriptions = planDetails.currentPlan.filter(
-    sub => sub.status === 'active'
+    offer => offer.status === 'active' && offer.offerType === 'S'
   );
 
   return (

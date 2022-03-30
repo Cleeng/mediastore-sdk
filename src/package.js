@@ -1,4 +1,3 @@
-import './styles/index.scss';
 import Card from 'components/Card';
 import Consents from 'components/Consents';
 import OfferContainer from 'containers/OfferContainer';
@@ -19,6 +18,7 @@ import CheckoutConsents from 'components/CheckoutConsents';
 import PasswordReset from 'components/PasswordReset';
 import ThankYouPage from 'components/ThankYouPage';
 import Checkout from 'components/Checkout';
+import './styles/index.scss';
 
 export {
   // Identity Management
@@ -43,5 +43,6 @@ export {
   CheckoutConsents,
   TransactionList,
   Subscriptions,
+  Subscriptions as Offers,
   store
 };

@@ -8,7 +8,7 @@ import Payment from 'components/Payment';
 import Header from 'components/Header';
 import SectionHeader from 'components/SectionHeader';
 import Footer from 'components/Footer';
-import SubscriptionCard from 'components/SubscriptionCard';
+import OfferCard from 'components/OfferCard';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
 import { getData } from 'util/appConfigHelper';
@@ -18,7 +18,7 @@ import {
   StyledOfferWrapper,
   StyledOfferDetailsAndCoupon,
   StyledOfferCouponWrapper,
-  SubscriptionCardWrapperStyled
+  OfferCardWrapperStyled
 } from './OfferStyled';
 
 class Offer extends Component {
@@ -146,8 +146,8 @@ class Offer extends Component {
                 </SectionHeader>
                 <>
                   <StyledOfferDetailsAndCoupon>
-                    <SubscriptionCardWrapperStyled>
-                      <SubscriptionCard
+                    <OfferCardWrapperStyled>
+                      <OfferCard
                         period={period}
                         icon={period || offerType}
                         title={offerTitle}
@@ -156,7 +156,7 @@ class Offer extends Component {
                         price={offerPrice}
                         isTrialAvailable={trialAvailable}
                       />
-                    </SubscriptionCardWrapperStyled>
+                    </OfferCardWrapperStyled>
                     <StyledOfferCouponWrapper>
                       <CouponInput
                         showMessage={showMessage}

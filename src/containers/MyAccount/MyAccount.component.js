@@ -12,11 +12,7 @@ import UpdateProfile from 'containers/UpdateProfile';
 import Popup from 'components/Popup/Popup';
 import Login from 'components/LoginPage/Login';
 
-import {
-  getCustomerSubscriptions,
-  getCustomer,
-  getCustomerConsents
-} from 'api';
+import { getCustomerOffers, getCustomer, getCustomerConsents } from 'api';
 import Footer from 'components/Footer';
 
 import { isHosted } from 'util/appConfigHelper';
@@ -75,7 +71,7 @@ class MyAccount extends Component {
       }
 
       if (planDetails.currentPlan.length === 0) {
-        getCustomerSubscriptions().then(response => {
+        getCustomerOffers().then(response => {
           if (response.errors.length) {
             this.setState({
               errors: response.errors
@@ -138,7 +134,7 @@ class MyAccount extends Component {
       }
 
       if (planDetails.currentPlan.length === 0) {
-        getCustomerSubscriptions().then(response => {
+        getCustomerOffers().then(response => {
           if (response.errors.length) {
             this.setState({
               errors: response.errors
