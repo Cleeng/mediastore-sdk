@@ -27,12 +27,10 @@ const OfferCard = ({
   price,
   isTrialAvailable,
   showInfoBox,
-  isSubscriptionOffer,
   isDataLoaded,
   paymentMethod,
   t
 }) => {
-  const isSubscription = offerType === 'S' || isSubscriptionOffer;
   const mapCode = {
     TO_OFFER_COUNTRY_NOT_ALLOWED: {
       text: t(
@@ -98,7 +96,7 @@ const OfferCard = ({
             <Price
               currency={currency}
               price={price}
-              period={isSubscription ? period : null}
+              period={offerType === 'S' ? period : null}
             />
           </SkeletonWrapper>
         </PriceWrapperStyled>
@@ -126,7 +124,6 @@ OfferCard.propTypes = {
   price: PropTypes.number,
   isTrialAvailable: PropTypes.bool,
   showInfoBox: PropTypes.string,
-  isSubscriptionOffer: PropTypes.bool,
   isDataLoaded: PropTypes.bool,
   paymentMethod: PropTypes.string,
   t: PropTypes.func
@@ -141,7 +138,6 @@ OfferCard.defaultProps = {
   price: null,
   isTrialAvailable: false,
   showInfoBox: null,
-  isSubscriptionOffer: false,
   isDataLoaded: true,
   paymentMethod: '',
   t: k => k
