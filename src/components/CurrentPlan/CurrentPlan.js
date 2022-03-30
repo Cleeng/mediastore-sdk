@@ -67,7 +67,7 @@ class CurrentPlan extends PureComponent {
       t
     } = this.props;
 
-    const areFewOffers = subscriptions.length > 1;
+    // const areFewOffers = subscriptions.length > 1;
     return isLoading ? (
       <SkeletonCard />
     ) : (
@@ -114,19 +114,20 @@ class CurrentPlan extends PureComponent {
                   key={subItem.offerId}
                   onClick={() => {
                     if (
-                      areFewOffers &&
+                      subscriptions.length > 1 &&
                       subItem.offerType === 'S' &&
                       subItem.status === 'active'
                     )
                       setOfferToSwitch(subItem);
                   }}
                   cursorPointer={
-                    areFewOffers &&
+                    subscriptions.length > 1 &&
                     subItem.status === 'active' &&
                     subItem.offerType === 'S'
                   }
                   isSelected={
-                    areFewOffers && offerToSwitch.offerId === subItem.offerId
+                    subscriptions.length > 1 &&
+                    offerToSwitch.offerId === subItem.offerId
                   }
                 >
                   <OfferCard
