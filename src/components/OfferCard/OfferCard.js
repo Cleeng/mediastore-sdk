@@ -4,7 +4,6 @@ import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price from 'components/Price';
-import { getData } from 'util/appConfigHelper';
 import { ReactComponent as BlockedIcon } from 'assets/images/blocked.svg';
 import { ReactComponent as EditBlockedIcon } from 'assets/images/noEdit.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
@@ -17,10 +16,11 @@ import {
   TrialBadgeStyled,
   SubBoxStyled,
   BoxTextStyled
-} from './SubscriptionCardStyled';
+} from './OfferCardStyled';
 
-const SubscriptionCard = ({
+const OfferCard = ({
   period,
+  offerType,
   title,
   description,
   currency,
@@ -32,8 +32,7 @@ const SubscriptionCard = ({
   paymentMethod,
   t
 }) => {
-  const isSubscription =
-    getData('CLEENG_OFFER_TYPE') === 'S' || isSubscriptionOffer;
+  const isSubscription = offerType === 'S' || isSubscriptionOffer;
   const mapCode = {
     TO_OFFER_COUNTRY_NOT_ALLOWED: {
       text: t(
@@ -71,7 +70,7 @@ const SubscriptionCard = ({
     <>
       <WrapperStyled>
         <SkeletonWrapper showChildren={isDataLoaded} width={50} height={50}>
-          <SubscriptionIcon period={period} />
+          <SubscriptionIcon period={period || offerType} />
         </SkeletonWrapper>
         <InnerWrapper>
           <SkeletonWrapper
@@ -118,8 +117,9 @@ const SubscriptionCard = ({
   );
 };
 
-SubscriptionCard.propTypes = {
+OfferCard.propTypes = {
   period: PropTypes.string,
+  offerType: PropTypes.string,
   title: PropTypes.string,
   description: PropTypes.string,
   currency: PropTypes.string,
@@ -132,8 +132,9 @@ SubscriptionCard.propTypes = {
   t: PropTypes.func
 };
 
-SubscriptionCard.defaultProps = {
+OfferCard.defaultProps = {
   period: '',
+  offerType: '',
   title: '',
   description: '',
   currency: '',
@@ -146,6 +147,6 @@ SubscriptionCard.defaultProps = {
   t: k => k
 };
 
-export { SubscriptionCard as PureSubscriptionCard };
+export { OfferCard as PureOfferCard };
 
-export default withTranslation()(labeling()(SubscriptionCard));
+export default withTranslation()(labeling()(OfferCard));

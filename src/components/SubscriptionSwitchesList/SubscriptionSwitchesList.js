@@ -8,7 +8,7 @@ import {
   WrapperStyled,
   SimpleButtonStyled
 } from 'components/SubscriptionManagement/SubscriptionManagementStyled';
-import SubscriptionCard from 'components/SubscriptionCard';
+import OfferCard from 'components/OfferCard';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
@@ -75,7 +75,7 @@ const SubscriptionSwitchesList = ({
       {areAvailable &&
         switchSettings.available.map(subItem => (
           <SubscriptionStyled key={subItem.toOfferId}>
-            <SubscriptionCard
+            <OfferCard
               period={subItem.period}
               title={subItem.title}
               currency={subItem.nextPaymentPriceCurrencySymbol}
@@ -102,7 +102,7 @@ const SubscriptionSwitchesList = ({
       {areUnAvailable &&
         switchSettings.unavailable.map(subItem => (
           <SubscriptionStyled key={subItem.toOfferId}>
-            <SubscriptionCard
+            <OfferCard
               period={subItem.period}
               title={subItem.title}
               currency={subItem.nextPaymentPriceCurrencySymbol}

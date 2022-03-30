@@ -1,7 +1,6 @@
 /* istanbul ignore file */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useTranslation } from 'react-i18next';
 import Button from 'components/Button';
 import { ReactComponent as serverIcon } from 'assets/images/errors/sad_server.svg';
 import {
@@ -25,7 +24,6 @@ const MyAccountError = ({
   isSmallCard
 }) => {
   const IconComponent = generalError ? serverIcon : icon;
-  const { t } = useTranslation;
   return (
     <WrapStyled
       withBorder={withBorder}
@@ -42,10 +40,10 @@ const MyAccountError = ({
         </IconStyled>
       )}
       <TitleStyled>
-        {generalError ? t('Oops, something went wrong!') : title}
+        {generalError ? 'Oops, something went wrong!' : title}
       </TitleStyled>
       <SubTitleStyled>
-        {generalError ? t('Please try again in a few moments.') : subtitle}
+        {generalError ? 'Please try again in a few moments.' : subtitle}
       </SubTitleStyled>
       {generalError && (
         <Button
@@ -53,7 +51,7 @@ const MyAccountError = ({
           width="auto"
           onClickFn={() => window.location.reload()}
         >
-          {t('Try again')}
+          Try again
         </Button>
       )}
     </WrapStyled>

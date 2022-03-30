@@ -29,25 +29,24 @@ const planDetailsMock = [
     paymentGateway: 'adyen',
     paymentMethod: 'mc',
     offerTitle: 'Monthly subscription with 7 days trial',
-    period: 'month'
+    period: 'month',
+    offerType: 'S'
   },
   {
-    offerId: 'S249781156_UA',
-    status: 'cancelled',
-    expiresAt: 1597917717,
-    nextPaymentPrice: 45.04,
-    nextPaymentCurrency: 'EUR',
-    paymentGateway: 'apple',
-    paymentMethod: 'mc',
-    offerTitle: '6-Month without trial',
-    period: '6months'
+    offerType: 'P',
+    offerId: 'P770673843_UA',
+    status: 'active',
+    expiresAt: 1679669059,
+    startedAt: 1648133059,
+    offerTitle: 'Test pass',
+    totalPrice: 25
   }
 ];
 const showInnerPopupMock = jest.fn();
 const setOfferToSwitchMock = jest.fn();
 const updateList = jest.fn();
 
-describe('<PlanDetails/>', () => {
+describe('<CurrentPlan/>', () => {
   afterEach(() => jest.clearAllMocks());
   describe('@renders', () => {
     it('should render initial state without subscriptions', () => {
@@ -75,7 +74,7 @@ describe('<PlanDetails/>', () => {
     });
   });
   describe('@actions', () => {
-    it('should save data about offer to switch on click SubscriptionCard', () => {
+    it('should save data about offer to switch on click OfferCard if offerType is S', () => {
       const wrapper = mount(
         <PureCurrentPlan
           subscriptions={planDetailsMock}
@@ -91,6 +90,22 @@ describe('<PlanDetails/>', () => {
 
       expect(setOfferToSwitchMock).toHaveBeenCalledTimes(1);
       expect(setOfferToSwitchMock).toHaveBeenCalledWith(planDetailsMock[0]);
+    });
+    it('should not save data about offer to switch on click OfferCard if offerType is P', () => {
+      const wrapper = mount(
+        <PureCurrentPlan
+          subscriptions={planDetailsMock}
+          showInnerPopup={showInnerPopupMock}
+          setOfferToSwitch={setOfferToSwitchMock}
+          updateList={updateList}
+        />
+      );
+      wrapper
+        .find(SubscriptionStyled)
+        .last()
+        .simulate('click');
+
+      expect(setOfferToSwitchMock).not.toHaveBeenCalled();
     });
   });
 });

@@ -9,7 +9,7 @@ import { ReactComponent as noSubscriptionsIcon } from 'assets/images/errors/sad_
 import { dateFormat, currencyFormat } from 'util/planHelper';
 
 import MyAccountError from 'components/MyAccountError';
-import SubscriptionCard from 'components/SubscriptionCard';
+import OfferCard from 'components/OfferCard';
 import SubscriptionManagement from 'components/SubscriptionManagement';
 import MessageBox from 'components/MessageBox';
 
@@ -22,7 +22,7 @@ import {
 export const SkeletonCard = () => {
   return (
     <SubscriptionStyled>
-      <SubscriptionCard isDataLoaded={false} />
+      <OfferCard isDataLoaded={false} />
     </SubscriptionStyled>
   );
 };
@@ -76,39 +76,68 @@ class CurrentPlan extends PureComponent {
           <MyAccountError generalError />
         ) : subscriptions.length === 0 ? (
           <MyAccountError
-            title={t('No subscriptions yet!')}
+            title={t('No offers yet!')}
             subtitle={t(
-              'If you choose your plan, you will be able to manage your Subscriptions here.'
+              'If you choose your plan, you will be able to manage your Offers here.'
             )}
             icon={noSubscriptionsIcon}
           />
         ) : (
           <>
             {subscriptions.map(subItem => {
-              const description = `${
-                subItem.status === 'active'
-                  ? t('Next payment is on')
-                  : t('This plan will expire on')
-              } ${dateFormat(subItem.expiresAt)}`;
+              let description;
+              let price;
+              let currency;
+              switch (subItem.offerType) {
+                case 'S':
+                  price = subItem.nextPaymentPrice;
+                  currency = subItem.nextPaymentCurrency;
+                  description = `${
+                    subItem.status === 'active'
+                      ? t('Next payment is on')
+                      : t('This plan will expire on')
+                  } ${dateFormat(subItem.expiresAt)}`;
+                  break;
+                case 'P':
+                  price = subItem.totalPrice;
+                  currency = subItem.customerCurrency;
+                  description = `${t('Expires on')} ${dateFormat(
+                    subItem.expiresAt
+                  )}`;
+                  break;
+                default:
+                  break;
+              }
+
               return (
                 <SubscriptionStyled
                   key={subItem.offerId}
                   onClick={() => {
-                    if (areFewOffers && subItem.status === 'active')
+                    if (
+                      areFewOffers &&
+                      subItem.offerType === 'S' &&
+                      subItem.status === 'active'
+                    )
                       setOfferToSwitch(subItem);
                   }}
-                  cursorPointer={areFewOffers && subItem.status === 'active'}
+                  cursorPointer={
+                    areFewOffers &&
+                    subItem.status === 'active' &&
+                    subItem.offerType === 'S'
+                  }
                   isSelected={
                     areFewOffers && offerToSwitch.offerId === subItem.offerId
                   }
                 >
-                  <SubscriptionCard
+                  <OfferCard
                     period={subItem.period}
+                    offerType={subItem.offerType}
                     title={subItem.offerTitle}
                     description={description}
-                    currency={currencyFormat[subItem.nextPaymentCurrency]}
-                    price={subItem.nextPaymentPrice}
+                    currency={currencyFormat[currency]}
+                    price={price}
                     showInfoBox={
+                      subItem.offerType !== 'S' ||
                       supportedPaymentGateways.includes(subItem.paymentGateway)
                         ? ''
                         : 'INAPP_SUBSCRIPTION'
@@ -124,16 +153,17 @@ class CurrentPlan extends PureComponent {
                         />
                       </StatusMessageWrapStyled>
                     )}
-                  {supportedPaymentGateways.includes(
-                    subItem.paymentGateway
-                  ) && (
-                    <SubscriptionManagement
-                      subscription={subItem}
-                      showInnerPopup={showInnerPopup}
-                      updateList={updateList}
-                      showMessageBox={this.showMessageBox}
-                    />
-                  )}
+                  {subItem.offerType === 'S' &&
+                    supportedPaymentGateways.includes(
+                      subItem.paymentGateway
+                    ) && (
+                      <SubscriptionManagement
+                        subscription={subItem}
+                        showInnerPopup={showInnerPopup}
+                        updateList={updateList}
+                        showMessageBox={this.showMessageBox}
+                      />
+                    )}
                 </SubscriptionStyled>
               );
             })}

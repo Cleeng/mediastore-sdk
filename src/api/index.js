@@ -8,6 +8,7 @@ import submitPaymentWithoutDetails from './Payment/submitPaymentWithoutDetails';
 import updateOrder from './Order/updateOrder';
 import getPaymentDetails from './Customer/getPaymentDetails';
 import getCustomerSubscriptions from './Customer/getCustomerSubscriptions';
+import getCustomerOffers from './Customer/getCustomerOffers';
 import getCustomer from './Customer/getCustomer';
 import listCustomerTransactions from './Customer/listCustomerTransactions';
 import getCustomerConsents from './Customer/getCustomerConsents';
@@ -24,6 +25,7 @@ import getConsents from './Publisher/getConsents';
 export {
   getPaymentDetails,
   getCustomerSubscriptions,
+  getCustomerOffers,
   getCustomer,
   createOrder,
   updateOrder,

@@ -29,7 +29,7 @@ export const StyledOfferBody = styled.div.attrs(() => ({
   `}
 `;
 
-export const SubscriptionCardWrapperStyled = styled.section.attrs(() => ({
+export const OfferCardWrapperStyled = styled.section.attrs(() => ({
   className: 'msd__subscription-card'
 }))`
   width: 100%;
