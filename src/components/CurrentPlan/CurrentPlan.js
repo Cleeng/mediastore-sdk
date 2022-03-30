@@ -67,7 +67,6 @@ class CurrentPlan extends PureComponent {
       t
     } = this.props;
 
-    // const areFewOffers = subscriptions.length > 1;
     return isLoading ? (
       <SkeletonCard />
     ) : (
