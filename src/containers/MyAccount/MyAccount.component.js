@@ -107,9 +107,7 @@ class MyAccount extends Component {
   componentDidUpdate(prevProps) {
     const {
       userProfile: { consents },
-      planDetails,
       userProfile,
-      setCurrentPlan,
       setCurrentUser,
       setConsents,
       setConsentsError
@@ -131,18 +129,6 @@ class MyAccount extends Component {
             }
           })
           .catch(() => setConsentsError('Something went wrong..'));
-      }
-
-      if (planDetails.currentPlan.length === 0) {
-        getCustomerOffers().then(response => {
-          if (response.errors.length) {
-            this.setState({
-              errors: response.errors
-            });
-          } else {
-            setCurrentPlan(response.responseData.items);
-          }
-        });
       }
 
       if (!userProfile.user) {
