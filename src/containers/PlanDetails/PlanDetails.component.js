@@ -61,10 +61,14 @@ const PlanDetails = ({
           setIsErrorCurrentPlan(response.errors);
         } else {
           const customerOffers = response.responseData.items;
+          const offersWithActivePasses = customerOffers.filter(
+            offer =>
+              !(offer.offerType === 'P' && offer.expiresAt * 1000 < Date.now())
+          );
           const customerSubscriptions = customerOffers.filter(
             offer => offer.offerType === 'S'
           );
-          setCurrentPlan(customerOffers);
+          setCurrentPlan(offersWithActivePasses);
           const activeSubscriptions = customerSubscriptions.filter(
             sub => sub.status === 'active'
           );
