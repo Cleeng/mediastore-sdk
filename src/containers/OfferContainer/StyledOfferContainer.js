@@ -3,6 +3,9 @@ import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const StyledLoaderContainer = styled.div`
+  * {
+    box-sizing: border-box;
+  }
   position: relative;
 `;
 

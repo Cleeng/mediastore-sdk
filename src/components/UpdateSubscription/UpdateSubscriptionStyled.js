@@ -27,6 +27,7 @@ export const WrapperStyled = styled.div`
 
 export const ReasonsWrapper = styled.ul`
   margin: 30px 0;
+  list-style: none;
 `;
 
 export const StyledItem = styled.li`

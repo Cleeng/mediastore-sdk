@@ -2,6 +2,9 @@ import styled from 'styled-components';
 import { ErrorColor } from 'styles/variables';
 
 export const ConsentsWrapperStyled = styled.div`
+  * {
+    box-sizing: border-box;
+  }
   position: relative;
 
   padding-bottom: 10px;
@@ -41,7 +44,14 @@ export const InvisibleLegend = styled.legend`
 `;
 
 export const GeneralErrorStyled = styled.p`
+  * {
+    box-sizing: border-box;
+  }
   margin-bottom: 30px;
   color: ${ErrorColor};
   font-size: 13px;
+`;
+
+export const FieldsetStyled = styled.fieldset`
+  border: none;
 `;

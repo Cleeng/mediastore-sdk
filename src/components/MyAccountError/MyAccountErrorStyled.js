@@ -36,6 +36,9 @@ export const IconStyled = styled.div.attrs(() => ({
 export const WrapStyled = styled.div.attrs(() => ({
   className: 'msd__info-box'
 }))`
+ * {
+    box-sizing: border-box;
+  }
   position: relative;
   max-width: ${props => (props.fullWidth ? 'unset' : '320px')};
 

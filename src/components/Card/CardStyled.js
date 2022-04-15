@@ -5,6 +5,9 @@ import { CardColor } from 'styles/variables';
 export const WrapStyled = styled.div.attrs(() => ({
   className: 'msd__account__card'
 }))`
+  * {
+    box-sizing: border-box;
+  }
   position: relative;
   width: 100%;
 

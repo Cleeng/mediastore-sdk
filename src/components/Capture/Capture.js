@@ -32,22 +32,20 @@ const Capture = ({ settings, onSuccess }) => {
   }, []);
 
   return (
-    <>
-      <CaptureStyled>
-        <Header />
-        <CaptureContentStyled>
-          {captureSettings ? (
-            <>
-              <CaptureTitle>{t('Confirm Registration')}</CaptureTitle>
-              <CaptureForm settings={captureSettings} onSuccess={onSuccess} />
-            </>
-          ) : (
-            <Loader />
-          )}
-        </CaptureContentStyled>
-        <Footer isCheckout={false} />
-      </CaptureStyled>
-    </>
+    <CaptureStyled>
+      <Header />
+      <CaptureContentStyled>
+        {captureSettings ? (
+          <>
+            <CaptureTitle>{t('Confirm Registration')}</CaptureTitle>
+            <CaptureForm settings={captureSettings} onSuccess={onSuccess} />
+          </>
+        ) : (
+          <Loader />
+        )}
+      </CaptureContentStyled>
+      <Footer isCheckout={false} />
+    </CaptureStyled>
   );
 };
 

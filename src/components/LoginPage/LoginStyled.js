@@ -7,6 +7,9 @@ export const LoginWrapperStyled = styled.div.attrs(() => ({
 }))`
   position: relative;
   background: ${colors.BackgroundColor};
+  * {
+    box-sizing: border-box;
+  }
 `;
 
 export const ContentWrapperStyled = styled.main.attrs(() => ({

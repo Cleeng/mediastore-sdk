@@ -1,6 +1,14 @@
 import styled from 'styled-components';
 import * as colors from 'styles/variables';
 
+export const ErrorPageWrapper = styled.div.attrs(() => ({
+  className: 'msd__error-page'
+}))`
+  * {
+    box-sizing: border-box;
+  }
+`;
+
 export const ErrorPageStyled = styled.div`
   display: flex;
   align-items: center;

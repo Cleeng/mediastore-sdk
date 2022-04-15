@@ -7,7 +7,8 @@ import {
   ConsentsWrapperStyled,
   ConsentsErrorStyled,
   InvisibleLegend,
-  GeneralErrorStyled
+  GeneralErrorStyled,
+  FieldsetStyled
 } from './ConsentsStyled';
 
 const regexHrefOpenTag = new RegExp(/<a(.|\n)*?>/);
@@ -137,7 +138,7 @@ export class Consents extends React.Component {
         {!consentLoaded ? (
           <Loader />
         ) : (
-          <fieldset>
+          <FieldsetStyled>
             <InvisibleLegend>Consents </InvisibleLegend>
             {consentDefinitions.map((consent, index) => {
               return (
@@ -152,7 +153,7 @@ export class Consents extends React.Component {
                 </Checkbox>
               );
             })}
-          </fieldset>
+          </FieldsetStyled>
         )}
         {error && <ConsentsErrorStyled>{error}</ConsentsErrorStyled>}
       </ConsentsWrapperStyled>

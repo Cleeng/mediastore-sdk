@@ -5,6 +5,9 @@ import { media } from 'styles/BreakPoints';
 export const CheckoutConsentsStyled = styled.div.attrs(() => ({
   className: 'msd__consents'
 }))`
+  * {
+    box-sizing: border-box;
+  }
   position: relative;
   background: ${colors.BackgroundColor};
 `;

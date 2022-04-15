@@ -5,6 +5,9 @@ import { White, BackgroundColor } from 'styles/variables';
 export const WrapperStyled = styled.div.attrs(() => ({
   className: 'msd__account-wrapper'
 }))`
+  * {
+    box-sizing: border-box;
+  }
   position: relative;
   display: flex;
   flex-direction: column;

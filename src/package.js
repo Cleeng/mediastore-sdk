@@ -18,7 +18,6 @@ import CheckoutConsents from 'components/CheckoutConsents';
 import PasswordReset from 'components/PasswordReset';
 import ThankYouPage from 'components/ThankYouPage';
 import Checkout from 'components/Checkout';
-import './styles/index.scss';
 
 export {
   // Identity Management

@@ -7,7 +7,12 @@ import deleteCreditCard from 'assets/images/errors/deleteCreditCard.svg';
 import lock from 'assets/images/errors/lock.svg';
 import warning from 'assets/images/errors/warning.svg';
 import Header from 'components/Header';
-import { ErrorPageStyled, MessageStyled, IconStyled } from './ErrorPageStyled';
+import {
+  ErrorPageWrapper,
+  ErrorPageStyled,
+  MessageStyled,
+  IconStyled
+} from './ErrorPageStyled';
 
 const errorTypes = {
   offerNotExist: {
@@ -34,13 +39,13 @@ const ErrorPage = ({ type, error, resetError }) => {
   const typeParams = errorTypes[type];
 
   return (
-    <>
+    <ErrorPageWrapper>
       <Header />
       <ErrorPageStyled>
         <IconStyled src={typeParams.icon} />
         <MessageStyled>{error || typeParams.description}</MessageStyled>
       </ErrorPageStyled>
-    </>
+    </ErrorPageWrapper>
   );
 };
 
