@@ -3,6 +3,9 @@ import * as variables from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const StyledOfferWrapper = styled.div`
+  * {
+    box-sizing: border-box;
+  }
   position: relative;
   width: 100%;
   background: ${variables.BackgroundColor};

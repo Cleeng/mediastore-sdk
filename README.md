@@ -32,6 +32,20 @@ or
 yarn add @cleeng/mediastore-sdk
 ```
 
+---
+
+You may need to install styled-components by:
+
+```
+npm i styled-components
+```
+
+or
+
+```
+yarn add styled-components
+```
+
 ## Usage
 
 ### Configuration
@@ -134,10 +148,7 @@ You can pass a function that will be called after a successful checkout process 
 Usage:
 
 ```javascript
-<Checkout
-  onSuccess={() => console.log("success")}}
-  offerId={'S531234647_PL'}
->
+<Checkout onSuccess={() => console.log("success")} offerId={"S531234647_PL"} />
 ```
 
 #### <a id="my-account-header"></a>MyAccount
@@ -152,8 +163,15 @@ Usage:
 Usage:
 
 ```javascript
-<MyAccount />
+import { MyAccount, store } from "@cleeng/mediastore-sdk";
+import { Provider } from "react-redux";
+
+<Provider store={store}>
+  <MyAccount />
+</Provider>;
 ```
+
+**All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
 
 #### <a id="register-header"></a>Register
 
@@ -301,6 +319,16 @@ Usage:
 ```
 
 ### <a id="styling-header"></a>Styling
+
+### Font
+
+If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSD components by:
+
+```javascript
+import "@cleeng/mediastore-sdk/dist/styles/msdFont.css";
+```
+
+### Styling options
 
 There are two ways of styling MediaStore SDK components:
 

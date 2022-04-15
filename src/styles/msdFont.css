@@ -1,0 +1,47 @@
+@font-face {
+  font-family: 'Open Sans';
+  font-style: 'normal';
+  font-weight: 300;
+  font-display: swap;
+  src:
+    url('./../assets/fonts/OpenSans/OpenSans-Light.ttf') format('truetype'),
+}
+@font-face {
+  font-family: 'Open Sans';
+  font-style: 'normal';
+  font-weight: 400;
+  font-display: swap;
+  src:
+    url('./../assets/fonts/OpenSans/OpenSans-Regular.ttf') format('truetype'),
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: 'normal';
+  font-weight: 600;
+  font-display: swap;
+  src:
+    url('./../assets/fonts/OpenSans/OpenSans-SemiBold.ttf') format('truetype'),
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: 'normal';
+  font-weight: 700;
+  font-display: swap;
+  src:
+    url('./../assets/fonts/OpenSans/OpenSans-Bold.ttf') format('truetype'),
+}
+
+@font-face {
+  font-family: 'Open Sans';
+  font-style: 'normal';
+  font-weight: 800;
+  font-display: swap;
+  src:
+    url('./../assets/fonts/OpenSans/OpenSans-ExtraBold.ttf') format('truetype'),
+}
+
+* [class^='msd'], * [class*=' msd'] {
+  font-family: 'Open Sans', sans-serif;
+}

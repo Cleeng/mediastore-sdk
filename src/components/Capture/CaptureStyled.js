@@ -2,7 +2,12 @@ import styled from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
-export const CaptureStyled = styled.div`
+export const CaptureStyled = styled.div.attrs(() => ({
+  className: 'msd__capture'
+}))`
+  * {
+    box-sizing: border-box;
+  }
   position: relative;
 `;
 

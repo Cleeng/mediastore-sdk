@@ -5,6 +5,9 @@ import { media } from 'styles/BreakPoints';
 export const PasswordResetWrapperStyled = styled.div`
   position: relative;
   background: ${colors.BackgroundColor};
+  * {
+    box-sizing: border-box;
+  }
 `;
 
 export const PasswordResetPageStyled = styled.main.attrs(() => ({

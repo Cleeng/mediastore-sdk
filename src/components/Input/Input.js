@@ -108,10 +108,7 @@ Input.propTypes = {
   icon: PropTypes.elementType,
   required: PropTypes.bool,
   floatingLabels: PropTypes.bool,
-  reference: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(HTMLInputElement) })
-  ])
+  reference: PropTypes.oneOfType([PropTypes.func, PropTypes.shape()])
 };
 
 Input.defaultProps = {
@@ -130,7 +127,7 @@ Input.defaultProps = {
   icon: null,
   required: false,
   floatingLabels: true,
-  reference: { current: null }
+  reference: () => {}
 };
 
 export default Input;

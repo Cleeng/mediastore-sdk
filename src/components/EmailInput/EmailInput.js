@@ -35,10 +35,7 @@ EmailInput.propTypes = {
   label: PropTypes.string,
   floatingLabels: PropTypes.bool,
   required: PropTypes.bool,
-  reference: PropTypes.oneOfType([
-    PropTypes.func,
-    PropTypes.shape({ current: PropTypes.instanceOf(HTMLInputElement) })
-  ])
+  reference: PropTypes.oneOfType([PropTypes.func, PropTypes.shape()])
 };
 
 EmailInput.defaultProps = {
@@ -49,7 +46,7 @@ EmailInput.defaultProps = {
   label: 'Email',
   floatingLabels: true,
   required: false,
-  reference: { current: null }
+  reference: () => {}
 };
 
 export default EmailInput;

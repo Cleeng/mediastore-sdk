@@ -3,6 +3,9 @@ import * as colors from 'styles/variables';
 
 export const ThankYouPageWrapperStyled = styled.div`
   position: relative;
+  * {
+    box-sizing: border-box;
+  }
 `;
 
 export const ThankYouPageStyled = styled.main`
