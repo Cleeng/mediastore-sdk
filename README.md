@@ -94,6 +94,8 @@ Config.setPaypalUrls({
 
 5. Setting Adyen configuration
 
+You need to set the `clientKey` and `adyenEnv`. For more information, please refer to the description of parameters in the [Set up Adyen Component section](https://developers.cleeng.com/docs/adyen-payment-setup#set-up-adyen-component) .
+
 ```javascript
 Config.setAdyenConfig({
   clientKey: "CLIENT_KEY",
