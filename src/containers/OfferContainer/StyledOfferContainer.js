@@ -6,6 +6,7 @@ export const StyledLoaderContainer = styled.div`
   * {
     box-sizing: border-box;
   }
+  box-sizing: border-box;
   position: relative;
 `;
 

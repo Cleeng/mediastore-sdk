@@ -6,6 +6,7 @@ export const StyledOfferWrapper = styled.div`
   * {
     box-sizing: border-box;
   }
+  box-sizing: border-box;
   position: relative;
   width: 100%;
   background: ${variables.BackgroundColor};

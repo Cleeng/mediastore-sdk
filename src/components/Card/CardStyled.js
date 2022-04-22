@@ -8,6 +8,7 @@ export const WrapStyled = styled.div.attrs(() => ({
   * {
     box-sizing: border-box;
   }
+  box-sizing: border-box;
   position: relative;
   width: 100%;
 

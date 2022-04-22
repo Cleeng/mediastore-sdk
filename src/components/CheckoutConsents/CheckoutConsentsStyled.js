@@ -8,6 +8,7 @@ export const CheckoutConsentsStyled = styled.div.attrs(() => ({
   * {
     box-sizing: border-box;
   }
+  box-sizing: border-box;
   position: relative;
   background: ${colors.BackgroundColor};
 `;

@@ -8,6 +8,7 @@ export const CaptureStyled = styled.div.attrs(() => ({
   * {
     box-sizing: border-box;
   }
+  box-sizing: border-box;
   position: relative;
 `;
 

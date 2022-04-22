@@ -10,6 +10,7 @@ export const LoginWrapperStyled = styled.div.attrs(() => ({
   * {
     box-sizing: border-box;
   }
+  box-sizing: border-box;
 `;
 
 export const ContentWrapperStyled = styled.main.attrs(() => ({

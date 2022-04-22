@@ -5,6 +5,7 @@ export const ConsentsWrapperStyled = styled.div`
   * {
     box-sizing: border-box;
   }
+  box-sizing: border-box;
   position: relative;
 
   padding-bottom: 10px;
@@ -47,6 +48,7 @@ export const GeneralErrorStyled = styled.p`
   * {
     box-sizing: border-box;
   }
+  box-sizing: border-box;
   margin-bottom: 30px;
   color: ${ErrorColor};
   font-size: 13px;

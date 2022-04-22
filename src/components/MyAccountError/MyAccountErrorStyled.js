@@ -39,6 +39,7 @@ export const WrapStyled = styled.div.attrs(() => ({
  * {
     box-sizing: border-box;
   }
+  box-sizing: border-box;
   position: relative;
   max-width: ${props => (props.fullWidth ? 'unset' : '320px')};
 
