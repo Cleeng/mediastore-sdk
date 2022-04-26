@@ -7,6 +7,7 @@ export const ErrorPageWrapper = styled.div.attrs(() => ({
   * {
     box-sizing: border-box;
   }
+  box-sizing: border-box;
 `;
 
 export const ErrorPageStyled = styled.div`

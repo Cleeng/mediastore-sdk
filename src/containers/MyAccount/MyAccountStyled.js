@@ -8,6 +8,7 @@ export const WrapperStyled = styled.div.attrs(() => ({
   * {
     box-sizing: border-box;
   }
+  box-sizing: border-box;
   position: relative;
   display: flex;
   flex-direction: column;

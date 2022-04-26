@@ -20,6 +20,7 @@ export const WrapperStyled = styled.div`
   * {
     box-sizing: border-box;
   }
+  box-sizing: border-box;
   height: 100%;
 
   display: flex;
