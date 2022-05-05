@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/no-dynamic-require */
 import React from 'react';
 import PropTypes from 'prop-types';
 import close from 'assets/images/errors/close.svg';
@@ -32,10 +30,14 @@ const errorTypes = {
     icon: deleteCreditCard,
     description:
       'We are sorry! The content you are trying to access is not available in your country.'
+  },
+  inactive: {
+    icon: close,
+    description: 'We are sorry! This offer is no longer available'
   }
 };
 
-const ErrorPage = ({ type, error, resetError }) => {
+const ErrorPage = ({ type, error }) => {
   const typeParams = errorTypes[type];
 
   return (
@@ -51,13 +53,11 @@ const ErrorPage = ({ type, error, resetError }) => {
 
 ErrorPage.propTypes = {
   type: PropTypes.oneOf(Object.keys(errorTypes)),
-  error: PropTypes.string,
-  resetError: PropTypes.func
+  error: PropTypes.string
 };
 ErrorPage.defaultProps = {
   type: 'generalError',
-  error: '',
-  resetError: () => {}
+  error: ''
 };
 
 export default ErrorPage;

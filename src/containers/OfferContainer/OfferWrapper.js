@@ -22,7 +22,7 @@ import {
 // import { withTranslation } from 'react-i18next';
 // import labeling from '../labeling';
 
-const OfferContainer = ({
+const OfferWrapper = ({
   urlProps: { location },
   offerId: propOfferId,
   onSuccess,
@@ -65,12 +65,13 @@ const OfferContainer = ({
     });
   };
 
-  const orderHandler = id => {
+  const reuseSavedOrder = id => {
     getOrder(id)
       .then(orderResponse => {
         if (orderResponse.errors.length) {
           removeData('CLEENG_ORDER_ID');
           createOrderHandler();
+          return;
         }
         const {
           responseData: { order }
@@ -137,7 +138,7 @@ const OfferContainer = ({
     if (location) {
       saveOfferId(location, setOfferId);
     }
-    if (offerId) {
+    if (offerId && !offerDetails) {
       getOfferDetails(offerId).then(offerDetailsResponse => {
         if (offerDetailsResponse.errors.length) {
           setErrorMsg(offerDetailsResponse.errors[0]);
@@ -146,10 +147,12 @@ const OfferContainer = ({
         const { responseData } = offerDetailsResponse;
         setOfferDetails(responseData);
         setOfferId(responseData.offerId);
+        setData('CLEENG_OFFER_ID', responseData.offerId);
+        setData('CLEENG_OFFER_TYPE', responseData.offerId.charAt(0));
 
         const orderId = getData('CLEENG_ORDER_ID');
         if (orderId) {
-          orderHandler(orderId);
+          reuseSavedOrder(orderId);
         } else {
           createOrderHandler();
         }
@@ -187,11 +190,12 @@ const OfferContainer = ({
         'Offer not set'
       ],
       alreadyHaveAccess: ['Access already granted'],
-      generalError: ['Request failed with status code 500']
+      generalError: ['Request failed with status code 500'],
+      inactive: ['inactive']
     };
     const types = Object.keys(errorTypes);
     return types.find(type =>
-      errorTypes[type].find(item => item.includes(err))
+      errorTypes[type].find(item => item.includes(err) || err.includes(item))
     );
   };
   if (errorMsg) {
@@ -221,7 +225,7 @@ const OfferContainer = ({
   );
 };
 
-OfferContainer.propTypes = {
+OfferWrapper.propTypes = {
   offerId: PropTypes.string,
   onSuccess: PropTypes.func,
   urlProps: PropTypes.shape({
@@ -229,7 +233,7 @@ OfferContainer.propTypes = {
   }),
   t: PropTypes.func
 };
-OfferContainer.defaultProps = {
+OfferWrapper.defaultProps = {
   offerId: '',
   onSuccess: () => {},
   urlProps: {},
@@ -239,4 +243,4 @@ OfferContainer.defaultProps = {
 // export { OfferContainer as PureOfferContainer };
 
 // export default withTranslation()(labeling()(OfferContainer));
-export default OfferContainer;
+export default OfferWrapper;
