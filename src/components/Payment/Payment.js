@@ -35,34 +35,42 @@ class Payment extends Component {
   }
 
   async componentDidMount() {
-    const { t } = this.props;
-    try {
-      const response = await getPaymentMethods();
-      const { paymentMethods } = response.responseData;
-      if (paymentMethods) {
-        if (!paymentMethods.length) {
+    const { t, availablePaymentMethods } = this.props;
+    if (availablePaymentMethods.length) {
+      this.setState({
+        paymentMethods: availablePaymentMethods
+      });
+      setData('CLEENG_PAYMENT_METHOD_ID', availablePaymentMethods[0].id);
+    } else {
+      try {
+        const response = await getPaymentMethods();
+        const { paymentMethods } = response.responseData;
+        if (paymentMethods) {
+          if (!paymentMethods.length) {
+            this.setState({
+              generalError: t('Payment methods are not defined')
+            });
+          } else {
+            this.setState({
+              paymentMethods: response.responseData.paymentMethods
+            });
+            setData(
+              'CLEENG_PAYMENT_METHOD_ID',
+              response.responseData.paymentMethods[0].id
+            );
+          }
+        } else if (!response.errors.length) {
           this.setState({
-            generalError: t('Payment methods are not defined')
+            generalError: t('Cannot fetch payment methods')
           });
-        } else {
-          this.setState({
-            paymentMethods: response.responseData.paymentMethods
-          });
-          setData(
-            'CLEENG_PAYMENT_METHOD_ID',
-            response.responseData.paymentMethods[0].id
-          );
         }
-      } else if (!response.errors.length) {
+      } catch {
         this.setState({
           generalError: t('Cannot fetch payment methods')
         });
       }
-    } catch {
-      this.setState({
-        generalError: t('Cannot fetch payment methods')
-      });
     }
+
     if (window.location.search && window.location.search.includes('message')) {
       this.setState({
         generalError: t('Your payment was not processed. Please, try again')
@@ -168,7 +176,6 @@ class Payment extends Component {
   };
 
   render() {
-    const availablePaymentMethods = ['adyen', 'paypal'];
     const { isPaymentDetailsRequired, t } = this.props;
     const {
       isPaymentFormDisplayed,
@@ -188,8 +195,7 @@ class Payment extends Component {
             <MethodsWrapperStyled>
               {paymentMethods.map(
                 method =>
-                  method.methodName !== 'manual' &&
-                  availablePaymentMethods.includes(method.paymentGateway) && (
+                  method.methodName !== 'manual' && (
                     <PaymentMethodButton
                       key={method.id}
                       methodName={method.methodName}
@@ -254,12 +260,19 @@ Payment.propTypes = {
   onPaymentComplete: PropTypes.func.isRequired,
   isPaymentDetailsRequired: PropTypes.bool,
   updatePriceBreakdown: PropTypes.func,
+  availablePaymentMethods: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      methodName: PropTypes.string
+    })
+  ),
   t: PropTypes.func
 };
 
 Payment.defaultProps = {
   isPaymentDetailsRequired: true,
   updatePriceBreakdown: () => {},
+  availablePaymentMethods: null,
   t: k => k
 };
 

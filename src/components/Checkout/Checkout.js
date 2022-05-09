@@ -57,7 +57,7 @@ class Checkout extends Component {
 
   render() {
     const { currentStep } = this.state;
-    const { onSuccess, offerId } = this.props;
+    const { onSuccess, offerId, availablePaymentMethods } = this.props;
 
     switch (currentStep) {
       case 0:
@@ -91,6 +91,7 @@ class Checkout extends Component {
         return (
           <OfferContainer
             offerId={offerId}
+            availablePaymentMethods={availablePaymentMethods}
             onSuccess={() => this.goToStep(CheckoutSteps.PURCHASE.nextStep)}
           />
         );
@@ -106,11 +107,18 @@ class Checkout extends Component {
 
 Checkout.propTypes = {
   offerId: PropTypes.string,
+  availablePaymentMethods: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      methodName: PropTypes.string
+    })
+  ),
   onSuccess: PropTypes.func
 };
 
 Checkout.defaultProps = {
   offerId: null,
+  availablePaymentMethods: null,
   onSuccess: () => {}
 };
 

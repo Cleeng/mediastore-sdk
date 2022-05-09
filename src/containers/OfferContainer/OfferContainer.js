@@ -182,7 +182,7 @@ class OfferContainer extends Component {
       isFreeOffer,
       isFreeOrderReady
     } = this.state;
-    const { onSuccess, t } = this.props;
+    const { onSuccess, availablePaymentMethods, t } = this.props;
     if (error) {
       if (error.includes('Offer is blocked for country')) {
         return <ErrorPage type="cannotPurchase" />;
@@ -214,6 +214,7 @@ class OfferContainer extends Component {
         }}
         onPaymentComplete={onSuccess}
         updatePriceBreakdown={this.updatePriceBreakdown}
+        availablePaymentMethods={availablePaymentMethods}
         t={t}
       />
     ) : (
@@ -234,13 +235,20 @@ OfferContainer.propTypes = {
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
   }),
-  t: PropTypes.func
+  t: PropTypes.func,
+  availablePaymentMethods: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      methodName: PropTypes.string
+    })
+  )
 };
 OfferContainer.defaultProps = {
   offerId: '',
   onSuccess: () => {},
   urlProps: {},
-  t: k => k
+  t: k => k,
+  availablePaymentMethods: null
 };
 
 export { OfferContainer as PureOfferContainer };
