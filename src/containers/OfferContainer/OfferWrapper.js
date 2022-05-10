@@ -53,7 +53,7 @@ const OfferWrapper = ({
   const createOrderHandler = () => {
     createOrder(offerId).then(orderDetailsResponse => {
       const { errors } = orderDetailsResponse;
-      if (orderDetailsResponse.errors.length) {
+      if (errors.length) {
         setErrorMsg(errors[0]);
         return;
       }
@@ -134,7 +134,7 @@ const OfferWrapper = ({
     });
   };
 
-  useState(() => {
+  useEffect(() => {
     if (location) {
       saveOfferId(location, setOfferId);
     }
