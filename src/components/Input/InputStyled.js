@@ -188,7 +188,7 @@ export const ErrorWrapper = styled.div.attrs(() => ({
     `}
 `;
 
-export const StyledPasswordVisibility = styled.img.attrs(() => ({
+export const StyledPasswordVisibility = styled.div.attrs(() => ({
   className: 'msd__icon--password'
 }))`
   height: 20px;
