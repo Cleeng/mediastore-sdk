@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isHeaderOff } from 'util/layoutHelper';
 import { getTheme } from 'util/appConfigHelper';
 import { HeaderStyled, LogoStyled } from './HeaderStyled';
 import headerLogo from './img/logo.png';
@@ -9,7 +8,7 @@ const Header = ({ withoutLogo, children }) => {
   const { logoUrl } = getTheme() || {};
   const logo = logoUrl || headerLogo;
   return (
-    <HeaderStyled switchOff={isHeaderOff()}>
+    <HeaderStyled>
       {!withoutLogo && <LogoStyled logoSrc={logo} />}
       {children}
     </HeaderStyled>

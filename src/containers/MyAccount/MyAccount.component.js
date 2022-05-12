@@ -15,7 +15,6 @@ import Login from 'components/LoginPage/Login';
 import { getCustomerOffers, getCustomer, getCustomerConsents } from 'api';
 import Footer from 'components/Footer';
 
-import { isHosted } from 'util/appConfigHelper';
 import MyAccountError from 'components/MyAccountError/MyAccountError';
 import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import Auth from 'services/auth';
@@ -255,7 +254,7 @@ class MyAccount extends Component {
             onSuccess={() => this.setState({ isLogged: true })}
           />
         ) : (
-          <WrapperStyled hosted={isHosted()}>
+          <WrapperStyled>
             <HeaderStyled>
               <MyAccountUserInfo
                 firstName={user ? user.firstName : ''}
