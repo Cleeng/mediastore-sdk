@@ -218,11 +218,24 @@ Usage:
 
 #### <a id="purchase-header"></a>Purchase
 
-`Purchase` is a component that gives you a possibility to buy an offer in the Cleeng system. You have to be logged in before showing that component. To do so, use the [Login](#login-header) / [Register](#register-header) component.
+`Purchase` is a component that gives you a possibility to buy an offer in the Cleeng system. You have to be logged in before showing that component.
 
-You can pass a function that will be called after a successful payment process by using `onSuccess` prop. You can also select which offer should be purchased by passing `offerId` prop.
+**Config**
+Props
 
-Usage:
+- `offerId` \* - ID of Cleeng offer, for which Purchase component should be opened. If not provided, it will use the item from local storage with name 'CLEENG_OFFER_ID'
+- `onSuccess` - function called after a successful payment process
+
+`* - required`
+
+Valid JWT required. To authorize customer use Login or Register components, or:
+
+- Cleeng.setJWT(jwt); \* (required conditionaly, if Login or Register component is not used)
+- Cleeng.setRefreshToken(token);
+
+* - required
+
+# Usage
 
 ```javascript
 <Purchase offerId={"S538257415_PL"} onSuccess={() => console.log("success")} />
