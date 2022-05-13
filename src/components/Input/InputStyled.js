@@ -188,13 +188,14 @@ export const ErrorWrapper = styled.div.attrs(() => ({
     `}
 `;
 
-export const StyledPasswordVisibility = styled.div.attrs(() => ({
+export const StyledPasswordVisibility = styled.img.attrs(() => ({
   className: 'msd__icon--password'
 }))`
   height: 20px;
   width: 20px;
   filter: ${Colors.TextFieldBorderFilter};
 `;
+
 export const StyledButton = styled.button`
   background: transparent;
   border: none;

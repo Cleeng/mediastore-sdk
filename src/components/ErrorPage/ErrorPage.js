@@ -1,5 +1,3 @@
-/* eslint-disable no-unused-vars */
-/* eslint-disable import/no-dynamic-require */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactComponent as Close } from 'assets/images/errors/close.svg';
@@ -35,7 +33,7 @@ const errorTypes = {
   }
 };
 
-const ErrorPage = ({ type, error, resetError }) => {
+const ErrorPage = ({ type, error }) => {
   const typeParams = errorTypes[type];
   const Icon = typeParams.icon;
 
@@ -43,7 +41,9 @@ const ErrorPage = ({ type, error, resetError }) => {
     <ErrorPageWrapper>
       <Header />
       <ErrorPageStyled>
-        <Icon />
+        <IconStyled>
+          <Icon />
+        </IconStyled>
         <MessageStyled>{error || typeParams.description}</MessageStyled>
       </ErrorPageStyled>
     </ErrorPageWrapper>
@@ -52,13 +52,11 @@ const ErrorPage = ({ type, error, resetError }) => {
 
 ErrorPage.propTypes = {
   type: PropTypes.oneOf(Object.keys(errorTypes)),
-  error: PropTypes.string,
-  resetError: PropTypes.func
+  error: PropTypes.string
 };
 ErrorPage.defaultProps = {
   type: 'generalError',
-  error: '',
-  resetError: () => {}
+  error: ''
 };
 
 export default ErrorPage;
