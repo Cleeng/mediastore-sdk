@@ -240,7 +240,5 @@ OfferWrapper.defaultProps = {
   t: k => k
 };
 
-// export { OfferContainer as PureOfferContainer };
-
 // export default withTranslation()(labeling()(OfferContainer));
 export default OfferWrapper;

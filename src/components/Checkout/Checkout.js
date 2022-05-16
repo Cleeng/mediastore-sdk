@@ -6,7 +6,7 @@ import Register from 'components/RegisterPage';
 import PasswordReset from 'components/PasswordReset';
 import Capture from 'components/Capture/Capture';
 import CheckoutConsents from 'components/CheckoutConsents';
-import OfferContainer from 'containers/OfferContainer/OfferContainer';
+import OfferContainer from 'containers/OfferContainer';
 import ThankYouPage from 'components/ThankYouPage';
 import Auth from 'services/auth';
 
