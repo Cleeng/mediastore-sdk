@@ -42,6 +42,21 @@ export const sendMessage = msg => {
   }
 };
 
+export const setJWT = jwt => {
+  if (jwt) {
+    setData('CLEENG_AUTH_TOKEN', jwt);
+    return true;
+  }
+  return false;
+};
+export const setRefreshToken = refreshToken => {
+  if (refreshToken) {
+    setData('CLEENG_REFRESH_TOKEN', refreshToken);
+    return true;
+  }
+  return false;
+};
+
 export const setPublisher = publisherId => {
   if (publisherId) {
     setData('CLEENG_PUBLISHER_ID', publisherId);
@@ -129,5 +144,7 @@ export default {
   setPaypalUrls,
   setMyAccountUrl,
   setAdyenConfig,
-  getAdyenConfig
+  getAdyenConfig,
+  setJWT,
+  setRefreshToken
 };

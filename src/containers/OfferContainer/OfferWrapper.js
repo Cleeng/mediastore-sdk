@@ -94,13 +94,8 @@ const OfferWrapper = ({
       const {
         responseData: { paymentMethods }
       } = paymentMethodResponse;
-      const properPaymentMethodId = paymentMethods.find(method =>
-        getData('CLEENG_OFFER_TYPE') === 'S'
-          ? method.methodName === 'manual'
-          : method.methodName !== 'manual'
-      );
       updateOrder(orderDetails.id, {
-        paymentMethodId: properPaymentMethodId ? properPaymentMethodId.id : 0
+        paymentMethodId: paymentMethods[0]
       });
     });
   };
@@ -148,7 +143,6 @@ const OfferWrapper = ({
         setOfferDetails(responseData);
         setOfferId(responseData.offerId);
         setData('CLEENG_OFFER_ID', responseData.offerId);
-        setData('CLEENG_OFFER_TYPE', responseData.offerId.charAt(0));
 
         const orderId = getData('CLEENG_ORDER_ID');
         if (orderId) {
