@@ -6,7 +6,6 @@ import Button from 'components/Button';
 import EmailInput from 'components/EmailInput';
 import PasswordInput from 'components/PasswordInput';
 import { validatePasswordField, validateEmailField } from 'util/validators';
-import getCustomerLocales from '../../api/Customer/getCustomerLocales';
 import loginCustomer from '../../api/Auth/loginCustomer';
 import { FromStyled, FormErrorStyled, FormSuccessStyled } from './LoginStyled';
 
@@ -102,13 +101,7 @@ class LoginForm extends Component {
       loginBy = { offerId };
     }
 
-    const locales = await getCustomerLocales();
-    const response = await loginCustomer(
-      email,
-      password,
-      loginBy,
-      locales.responseData ? locales.responseData.customerIP : null
-    );
+    const response = await loginCustomer(email, password, loginBy);
     if (response.status === 200) {
       Auth.login(
         !!isMyAccount,

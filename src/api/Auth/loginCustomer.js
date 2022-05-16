@@ -2,7 +2,7 @@ import { fetchWithHeaders } from 'util/fetchHelper';
 import { sendMessage } from 'util/appConfigHelper';
 import getApiURL from 'util/environmentHelper';
 
-const loginCustomer = async (email, password, loginBy, customerIP) => {
+const loginCustomer = async (email, password, loginBy) => {
   const API_URL = getApiURL();
   const url = `${API_URL}/auths`;
 
@@ -12,8 +12,7 @@ const loginCustomer = async (email, password, loginBy, customerIP) => {
       body: JSON.stringify({
         email,
         password,
-        ...loginBy,
-        ...(customerIP && { customerIP })
+        ...loginBy
       })
     });
     const json = await resp.json();

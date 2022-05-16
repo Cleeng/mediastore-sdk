@@ -5,6 +5,7 @@ import { MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
 import * as planHelper from 'util/planHelper';
+import { getData, getAdyenConfig } from 'util/appConfigHelper';
 import { PureOffer as Offer } from './Offer';
 import {
   offerDetailsMock,
@@ -33,8 +34,21 @@ const mockCouponProps = {
   messageType: MESSAGE_TYPE_SUCCESS,
   onSubmit: jest.fn().mockResolvedValue({})
 };
+jest.mock('util/appConfigHelper', () => ({
+  getData: jest.fn(),
+  getTheme: jest.fn(),
+  getAdyenConfig: jest.fn()
+}));
+
 describe('Offer', () => {
   describe('@render', () => {
+    beforeEach(() => {
+      getData.mockImplementation(() => 'S123456789_PL');
+      getAdyenConfig.mockImplementation(() => ({
+        clientKey: 'xxx',
+        adyenEnv: 'test'
+      }));
+    });
     it('displays basic details', () => {
       const wrapper = shallow(
         <Offer
@@ -118,6 +132,13 @@ describe('Offer', () => {
     });
   });
   describe('@events', () => {
+    beforeEach(() => {
+      getData.mockImplementation(() => 'S123456789_PL');
+      getAdyenConfig.mockImplementation(() => ({
+        clientKey: 'xxx',
+        adyenEnv: 'test'
+      }));
+    });
     it('should add coupon to state on coupon applied', () => {
       const couponCode = 'abc';
       const wrapper = shallow(
