@@ -195,6 +195,7 @@ export const StyledPasswordVisibility = styled.img.attrs(() => ({
   width: 20px;
   filter: ${Colors.TextFieldBorderFilter};
 `;
+
 export const StyledButton = styled.button`
   background: transparent;
   border: none;

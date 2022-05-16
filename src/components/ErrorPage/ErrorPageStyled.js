@@ -35,7 +35,7 @@ export const MessageStyled = styled.div`
   line-height: 1.3em;
   text-align: center;
 `;
-export const IconStyled = styled.img`
+export const IconStyled = styled.div`
   width: 100px;
   height: auto;
 `;

@@ -8,7 +8,7 @@ import {
   MediumFontWeight
 } from 'styles/variables';
 
-import portrait from './img/icon_myaccountIB.svg';
+import portrait from './img/avatarBase64';
 
 export const WrapStyled = styled.header.attrs(() => ({
   className: 'msd__account-header'

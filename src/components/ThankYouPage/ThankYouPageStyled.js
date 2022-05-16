@@ -21,8 +21,6 @@ export const ThankYouPageStyled = styled.main`
   font-weight: bold;
 `;
 
-export const IconStyled = styled.img``;
-
 export const TitleStyled = styled.div`
   font-size: 25px;
   margin: 30px 0;
@@ -44,3 +42,5 @@ export const LinkStyled = styled.a`
     text-decoration: underline;
   }
 `;
+
+export const IconStyled = styled.img``;

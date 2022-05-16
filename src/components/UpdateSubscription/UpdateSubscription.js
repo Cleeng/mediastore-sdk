@@ -5,7 +5,7 @@ import labeling from 'containers/labeling';
 
 import updateSubscription from 'api/Customer/updateSubscription';
 import { dateFormat } from 'util/planHelper';
-import checkmarkIcon from 'assets/images/checkmarkIB.svg';
+import checkmarkIcon from 'assets/images/checkmarkBase';
 
 import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
