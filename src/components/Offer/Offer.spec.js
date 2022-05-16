@@ -5,7 +5,7 @@ import { MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
 import * as planHelper from 'util/planHelper';
-import { getData, getAdyenConfig } from 'util/appConfigHelper';
+import { getData } from 'util/appConfigHelper';
 import { PureOffer as Offer } from './Offer';
 import {
   offerDetailsMock,
@@ -34,22 +34,15 @@ const mockCouponProps = {
   messageType: MESSAGE_TYPE_SUCCESS,
   onSubmit: jest.fn().mockResolvedValue({})
 };
-jest.mock('util/appConfigHelper', () => ({
-  getData: jest.fn(),
-  getTheme: jest.fn(),
-  getAdyenConfig: jest.fn()
-}));
+
+jest.mock('util/appConfigHelper');
 
 describe('Offer', () => {
   describe('@render', () => {
-    beforeEach(() => {
-      getData.mockImplementation(() => 'S123456789_PL');
-      getAdyenConfig.mockImplementation(() => ({
-        clientKey: 'xxx',
-        adyenEnv: 'test'
-      }));
-    });
     it('displays basic details', () => {
+      getData.mockImplementationOnce(() => {
+        return 'S123456789_PL';
+      });
       const wrapper = shallow(
         <Offer
           offerDetails={offerDetailsMock}
@@ -63,6 +56,9 @@ describe('Offer', () => {
       expect(wrapper.find(CheckoutPriceBox)).toHaveLength(1);
     });
     it('should render FreeOffer component if the offer is free', () => {
+      getData.mockImplementationOnce(() => {
+        return 'S123456789_PL';
+      });
       const wrapper = shallow(
         <Offer
           offerDetails={freeOfferDetailsMock}
@@ -77,6 +73,9 @@ describe('Offer', () => {
       expect(wrapper.find(FreeOffer)).toHaveLength(1);
     });
     it('should generate description for all offer types', () => {
+      getData.mockImplementationOnce(() => {
+        return 'S123456789_PL';
+      });
       const wrapper = shallow(
         <Offer
           offerDetails={offerDetailsMock}
@@ -105,6 +104,10 @@ describe('Offer', () => {
       expect(vodDescription).toContain('Unlimited access');
     });
     it('should generate description for subscription with trial', () => {
+      getData.mockImplementationOnce(() => {
+        return 'S123456789_PL';
+      });
+
       const wrapper = shallow(
         <Offer
           offerDetails={subWithTrialDetailsMock}
@@ -118,6 +121,9 @@ describe('Offer', () => {
       expect(description).toMatch(`You will be charged 20$ after 2 months.`);
     });
     it('should generate description for season pass with specific end date', () => {
+      getData.mockImplementationOnce(() => {
+        return 'P123456789_PL';
+      });
       const wrapper = shallow(
         <Offer
           offerDetails={seasonPassDetailsMock}
@@ -132,14 +138,10 @@ describe('Offer', () => {
     });
   });
   describe('@events', () => {
-    beforeEach(() => {
-      getData.mockImplementation(() => 'S123456789_PL');
-      getAdyenConfig.mockImplementation(() => ({
-        clientKey: 'xxx',
-        adyenEnv: 'test'
-      }));
-    });
     it('should add coupon to state on coupon applied', () => {
+      getData.mockImplementation(() => {
+        return 'S123456789_PL';
+      });
       const couponCode = 'abc';
       const wrapper = shallow(
         <Offer

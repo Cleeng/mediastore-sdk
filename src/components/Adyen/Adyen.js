@@ -6,14 +6,14 @@ import Loader from 'components/Loader';
 // import { withTranslation } from 'react-i18next';
 // import labeling from 'containers/labeling';
 import { FontColor } from 'styles/variables';
-import { getAdyenConfig } from 'util/appConfigHelper';
+import { getData } from 'util/appConfigHelper';
 import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
 
 const COMPONENT_CONTAINER_ID = 'component-container';
 const PAYMENT_METHOD_CARD = 'card';
-const { clientKey, adyenEnv } = getAdyenConfig();
 
-const ADYEN_ENV = adyenEnv || 'test';
+const ADYEN_ENV =
+  getData('CLEENG_ENVIRONMENT') === 'production' ? 'live' : 'test';
 
 const ADYEN_STYLESHEET_HREF = `https://checkoutshopper-${ADYEN_ENV}.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css`;
 
@@ -74,7 +74,10 @@ class Adyen extends Component {
       hasHolderName: true,
       holderNameRequired: true,
       environment: ADYEN_ENV,
-      clientKey: clientKey || 'test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K',
+      clientKey:
+        ADYEN_ENV === 'live'
+          ? 'live_BQDOFBYTGZB3XKF62GBYSLPUJ4YW2TPL'
+          : 'test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K',
       onSubmit,
       onChange
     };

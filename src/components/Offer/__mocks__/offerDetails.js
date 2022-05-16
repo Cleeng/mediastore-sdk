@@ -41,7 +41,7 @@ export const seasonPassDetailsMock = {
   discountAmount: 0,
   taxValue: 2.3,
   totalPrice: 12.3,
-  trialAvailable: true,
+  trialAvailable: false,
   description: 'Season pass',
   customerServiceFee: 0,
   requiredPaymentDetails: true,
