@@ -55,7 +55,19 @@ export const SecurityStyled = styled.div.attrs(() => ({
   color: ${colors.ConfirmColor};
 
   font-size: 14px;
-  & img {
+  min-width: 135px;
+
+  & svg {
     padding-right: 5px;
+    margin-bottom: -1px;
+    max-height: 13px;
+  }
+`;
+
+export const CleengLogoWrapperStyled = styled.a`
+  svg {
+    max-height: 12px;
+    margin-bottom: -1px;
+    width: 100%;
   }
 `;

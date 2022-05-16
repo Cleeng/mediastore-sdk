@@ -6,7 +6,7 @@ import Register from 'components/RegisterPage';
 import PasswordReset from 'components/PasswordReset';
 import Capture from 'components/Capture/Capture';
 import CheckoutConsents from 'components/CheckoutConsents';
-import OfferWrapper from 'containers/OfferContainer/OfferWrapper';
+import OfferContainer from 'containers/OfferContainer';
 import ThankYouPage from 'components/ThankYouPage';
 import Auth from 'services/auth';
 
@@ -89,7 +89,7 @@ class Checkout extends Component {
         );
       case 4:
         return (
-          <OfferWrapper
+          <OfferContainer
             offerId={offerId}
             onSuccess={() => this.goToStep(CheckoutSteps.PURCHASE.nextStep)}
           />

@@ -1,6 +1,6 @@
 import Card from 'components/Card';
 import Consents from 'components/Consents';
-import OfferContainer, { OfferWrapper } from 'containers/OfferContainer';
+import OfferContainer from 'containers/OfferContainer';
 import Login from 'components/LoginPage';
 import Register from 'components/RegisterPage';
 import MyAccount from 'containers/MyAccount';
@@ -27,7 +27,6 @@ export {
   // Checkout
   Checkout,
   OfferContainer as Purchase,
-  OfferWrapper as PurchaseV2,
   ThankYouPage,
   // My Account
   MyAccount,
