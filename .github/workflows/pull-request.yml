@@ -16,8 +16,6 @@ jobs:
           scope: '@cleeng'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: | 
-            cat package.json | grep -o  '"version": "[^"]*' | grep -o '[^"]*$'
       - run: git config --global user.name "GitHub CD bot"
       - run: git config --global user.email "pkaczmarek@cleeng.com"
       - run: npm ci
