@@ -1,8 +1,13 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
-import { FooterStyled, ProductByStyled, SecurityStyled } from './FooterStyled';
-import logo from './img/cleeng-logo-sm.png';
-import security from './img/securityIB.svg';
+import { ReactComponent as SecurityIcon } from 'assets/images/security.svg';
+import { ReactComponent as CleengLogo } from 'assets/images/cleeng.svg';
+import {
+  FooterStyled,
+  ProductByStyled,
+  SecurityStyled,
+  CleengLogoWrapperStyled
+} from './FooterStyled';
 
 const Footer = ({ className, isInPopup, isCheckout, isTransparent }) => (
   <FooterStyled
@@ -12,17 +17,17 @@ const Footer = ({ className, isInPopup, isCheckout, isTransparent }) => (
   >
     <ProductByStyled>
       Powered by
-      <a
+      <CleengLogoWrapperStyled
         href="https://cleeng.com/who-are-cleeng"
         rel="noopener noreferrer"
         target="_blank"
       >
-        <img src={logo} alt="Cleeng" />
-      </a>
+        <CleengLogo />
+      </CleengLogoWrapperStyled>
     </ProductByStyled>
     {isCheckout && (
       <SecurityStyled>
-        <img src={security} alt="" />
+        <SecurityIcon />
         Secured checkout
       </SecurityStyled>
     )}

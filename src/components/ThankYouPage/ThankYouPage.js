@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import labeling from 'containers/labeling';
-import checkmarkIcon from 'assets/images/checkmarkIB.svg';
+import checkmarkIconBase from 'assets/images/checkmarkBase';
 
 import {
   ThankYouPageWrapperStyled,
@@ -27,7 +27,7 @@ const ThankYouPage = ({ onSuccess, t }) => {
     <ThankYouPageWrapperStyled>
       <Header />
       <ThankYouPageStyled>
-        <IconStyled src={checkmarkIcon} alt="checkmark icon" />
+        <IconStyled src={checkmarkIconBase} />
         <TitleStyled>{t('Thank You!')}</TitleStyled>
         <MessageStyled>
           <strong>{t('Your purchase has been successfully completed.')}</strong>
