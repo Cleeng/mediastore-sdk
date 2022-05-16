@@ -22,7 +22,7 @@ import {
 // import { withTranslation } from 'react-i18next';
 // import labeling from '../labeling';
 
-const OfferWrapper = ({
+const OfferContainer = ({
   urlProps: { location },
   offerId: propOfferId,
   onSuccess,
@@ -225,7 +225,7 @@ const OfferWrapper = ({
   );
 };
 
-OfferWrapper.propTypes = {
+OfferContainer.propTypes = {
   offerId: PropTypes.string,
   onSuccess: PropTypes.func,
   urlProps: PropTypes.shape({
@@ -233,7 +233,7 @@ OfferWrapper.propTypes = {
   }),
   t: PropTypes.func
 };
-OfferWrapper.defaultProps = {
+OfferContainer.defaultProps = {
   offerId: '',
   onSuccess: () => {},
   urlProps: {},
@@ -241,4 +241,4 @@ OfferWrapper.defaultProps = {
 };
 
 // export default withTranslation()(labeling()(OfferContainer));
-export default OfferWrapper;
+export default OfferContainer;
