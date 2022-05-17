@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { HeaderStyled, LogoStyled } from './HeaderStyled';
-import headerLogo from './img/logo.png';
 
 const Header = ({ children }) => {
   return (
     <HeaderStyled>
-      <LogoStyled logoSrc={headerLogo} />
+      <LogoStyled />
       {children}
     </HeaderStyled>
   );
