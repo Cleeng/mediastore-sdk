@@ -32,7 +32,7 @@ const errorTypes = {
       'We are sorry! The content you are trying to access is not available in your country.'
   },
   inactive: {
-    icon: close,
+    icon: Close,
     description: 'We are sorry! This offer is no longer available'
   }
 };
