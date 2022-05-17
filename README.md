@@ -135,7 +135,15 @@ Usage:
 - [PaymentsInfo](#payment-info-header)
 - [UpdateProfile](#update-profile-header)
 
-Usage:
+**Config methods**
+
+```javascript
+-Config.setPublisher("111111111"); // required when no JWT or refreshToken
+-Config.setJWT("xxx"); // optional, when Login should be skipped
+-Config.setRefreshToken("yyy"); // optional
+```
+
+**Usage sample**
 
 ```javascript
 import { MyAccount, store } from "@cleeng/mediastore-sdk";
@@ -147,6 +155,30 @@ import { Provider } from "react-redux";
 ```
 
 **All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
+
+**Server-side rendering**
+This component should be rendered in the browser. Sample of usage with **NextJS**
+
+```javascript
+import dynamic from "next/dynamic";
+
+const MyAccount = dynamic(
+  () => import("@cleeng/mediastore-sdk").then(mod => mod.MyAccount),
+  { ssr: false }
+);
+
+function UserAccountPage() {
+  return (
+    <>
+      <Header />
+      <MyAccount />
+      <Footer />
+    </>
+  );
+}
+
+export default UserAccountPage;
+```
 
 #### <a id="register-header"></a>Register
 
