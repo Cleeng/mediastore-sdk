@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import Offer from 'components/Offer';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
-// import { withTranslation } from 'react-i18next';
 import ErrorPage from 'components/ErrorPage';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -11,223 +10,222 @@ import {
   getOfferDetails,
   createOrder,
   updateOrder,
-  getPaymentMethods
+  getPaymentMethods,
+  getOrder
 } from 'api';
 import saveOfferId from 'util/offerIdHelper';
-import { setData, getData } from 'util/appConfigHelper';
+import { setData, getData, removeData } from 'util/appConfigHelper';
 import {
   StyledLoaderContainer,
   StyledLoaderContent
 } from './StyledOfferContainer';
+// import { withTranslation } from 'react-i18next';
 // import labeling from '../labeling';
 
-class OfferContainer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      offerDetails: null,
-      couponProps: null,
-      error: '',
-      offerId: null,
-      isFreeOffer: false,
-      isFreeOrderReady: false,
-      orderDetails: {
-        priceBreakdown: {
-          offerPrice: 0,
-          discountedPrice: 0,
-          discountAmount: 0
-        },
-        discount: {
-          applied: false
-        }
-      },
-      isOrderCreated: false
-    };
-  }
+const OfferContainer = ({
+  urlProps: { location },
+  offerId: propOfferId,
+  onSuccess,
+  availablePaymentMethods,
+  t
+}) => {
+  const [offerId, setOfferId] = useState(
+    propOfferId || getData('CLEENG_OFFER_ID')
+  );
+  const [isOfferFree, setIsOfferFree] = useState(false);
 
-  componentDidMount() {
-    const { urlProps, offerId } = this.props;
-    if (urlProps.location) {
-      saveOfferId(urlProps.location, this.setOfferId);
-    } else if (offerId) {
-      this.setOfferId(offerId);
-    } else {
-      this.setOfferId(getData('CLEENG_OFFER_ID'));
+  const [offerDetails, setOfferDetails] = useState(null);
+  const [orderDetails, setOrderDetails] = useState({
+    priceBreakdown: {
+      offerPrice: 0,
+      discountedPrice: 0,
+      discountAmount: 0
+    },
+    discount: {
+      applied: false
     }
-  }
+  });
 
-  componentDidUpdate(prevProps, prevState) {
-    const { offerId } = this.state;
-    if (offerId !== prevState.offerId) {
-      if (offerId) {
-        getOfferDetails(offerId).then(offerDetailsResponse => {
-          if (offerDetailsResponse.errors.length) {
-            this.setState({ error: offerDetailsResponse.errors[0] });
-          } else {
-            this.setState({
-              offerId: offerDetailsResponse.offerId,
-              offerDetails: offerDetailsResponse.responseData
-            });
-            if (
-              offerDetailsResponse &&
-              offerDetailsResponse.responseData &&
-              offerDetailsResponse.responseData.offerId
-            )
-              createOrder(offerDetailsResponse.responseData.offerId).then(
-                orderDetailsResponse => {
-                  const { errors } = orderDetailsResponse;
-                  if (errors.length) {
-                    this.setState({ error: errors[0] });
-                    return;
-                  }
-                  const {
-                    responseData: { order }
-                  } = orderDetailsResponse;
-                  const isFreeOffer =
-                    order.totalPrice === 0 && !order.discount.applied;
-                  this.setState({
-                    orderDetails: order,
-                    isOrderCreated: true,
-                    isFreeOffer
-                  });
-                  setData('CLEENG_ORDER_ID', order.id);
+  const [errorMsg, setErrorMsg] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
-                  if (isFreeOffer) {
-                    getPaymentMethods().then(paymentMethodResponse => {
-                      const {
-                        responseData: { paymentMethods }
-                      } = paymentMethodResponse;
-                      const properPaymentMethodId = paymentMethods.find(
-                        method =>
-                          getData('CLEENG_OFFER_TYPE') === 'S'
-                            ? method.methodName === 'manual'
-                            : method.methodName !== 'manual'
-                      );
-                      updateOrder(order.id, {
-                        paymentMethodId: properPaymentMethodId
-                          ? properPaymentMethodId.id
-                          : 0
-                      }).then(() => {
-                        this.setState({
-                          isFreeOrderReady: true
-                        });
-                      });
-                    });
-                  }
-                }
-              );
-          }
-        });
-      } else if (offerId === '') {
-        // eslint-disable-next-line react/no-did-update-set-state
-        this.setState({ error: 'Offer not set' });
+  const [couponDetails, setCouponDetails] = useState(null);
+
+  const createOrderHandler = () => {
+    createOrder(offerId).then(orderDetailsResponse => {
+      const { errors } = orderDetailsResponse;
+      if (errors.length) {
+        setErrorMsg(errors[0]);
+        return;
       }
-    }
-  }
-
-  updatePriceBreakdown = updatedOrder => {
-    this.setState({
-      orderDetails: updatedOrder
+      const {
+        responseData: { order }
+      } = orderDetailsResponse;
+      setOrderDetails(order);
+      setData('CLEENG_ORDER_ID', order.id);
     });
   };
 
-  setOfferId = value => this.setState({ offerId: value });
+  const reuseSavedOrder = id => {
+    getOrder(id)
+      .then(orderResponse => {
+        if (orderResponse.errors.length) {
+          removeData('CLEENG_ORDER_ID');
+          createOrderHandler();
+          return;
+        }
+        const {
+          responseData: { order }
+        } = orderResponse;
+        if (order.offerId === offerId) {
+          setOrderDetails(order);
+        } else {
+          removeData('CLEENG_ORDER_ID');
+          createOrderHandler();
+        }
+      })
+      .catch(() => {
+        removeData('CLEENG_ORDER_ID');
+        createOrderHandler();
+      });
+  };
 
-  onCouponSubmit = couponCode => {
-    if (couponCode === '') {
-      return;
-    }
-    this.setState({
-      couponProps: {
-        couponLoading: true
-      }
+  const paymentMethodsHandler = () => {
+    getPaymentMethods().then(paymentMethodResponse => {
+      const {
+        responseData: { paymentMethods }
+      } = paymentMethodResponse;
+      const properPaymentMethodId = paymentMethods.find(method =>
+        getData('CLEENG_OFFER_TYPE') === 'S'
+          ? method.methodName === 'manual'
+          : method.methodName !== 'manual'
+      );
+      updateOrder(orderDetails.id, {
+        paymentMethodId: properPaymentMethodId ? properPaymentMethodId.id : 0
+      });
     });
-    const {
-      orderDetails: { id }
-    } = this.state;
-    updateOrder(id, {
+  };
+
+  const onCouponSubmit = couponCode => {
+    if (couponCode === '') return;
+    setCouponDetails(currentState => ({
+      ...currentState,
+      couponLoading: true
+    }));
+    updateOrder(orderDetails.id, {
       couponCode
     }).then(result => {
       if (result.errors.length) {
-        this.setState({
-          couponProps: {
-            couponLoading: false,
-            showMessage: true,
-            message:
-              'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
-            messageType: MESSAGE_TYPE_FAIL
-          }
+        setCouponDetails({
+          couponLoading: false,
+          showMessage: true,
+          message:
+            'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
+          messageType: MESSAGE_TYPE_FAIL
         });
       } else {
-        this.setState({
-          orderDetails: result.responseData.order,
-          couponProps: {
-            couponLoading: false,
-            showMessage: true,
-            message: 'Your coupon has been applied!',
-            messageType: MESSAGE_TYPE_SUCCESS
-          }
+        setOrderDetails(result.responseData.order);
+        setCouponDetails({
+          couponLoading: false,
+          showMessage: true,
+          message: 'Your coupon has been applied!',
+          messageType: MESSAGE_TYPE_SUCCESS
         });
       }
     });
   };
 
-  render() {
-    const {
-      error,
-      offerDetails,
-      couponProps,
-      orderDetails,
-      isOrderCreated,
-      isFreeOffer,
-      isFreeOrderReady
-    } = this.state;
-    const { onSuccess, availablePaymentMethods, t } = this.props;
-    if (error) {
-      if (error.includes('Offer is blocked for country')) {
-        return <ErrorPage type="cannotPurchase" />;
-      }
-      if (
-        error.includes(`doesn't exist.`) ||
-        error.includes('does not exist.') ||
-        error.includes('Invalid param offerId') ||
-        error.includes('Offer not set')
-      ) {
-        return <ErrorPage type="offerNotExist" />;
-      }
-      if (error.includes('Access already granted')) {
-        return <ErrorPage type="alreadyHaveAccess" />;
-      }
-      if (error.includes('Request failed with status code 500')) {
-        return <ErrorPage type="generalError" />;
-      }
+  useEffect(() => {
+    if (location) {
+      saveOfferId(location, setOfferId);
     }
-    return offerDetails &&
-      isOrderCreated &&
-      (isFreeOffer ? isFreeOrderReady : true) ? (
-      <Offer
-        offerDetails={offerDetails}
-        orderDetails={orderDetails}
-        couponProps={{
-          ...couponProps,
-          onSubmit: this.onCouponSubmit
-        }}
-        onPaymentComplete={onSuccess}
-        updatePriceBreakdown={this.updatePriceBreakdown}
-        availablePaymentMethods={availablePaymentMethods}
-        t={t}
-      />
-    ) : (
-      <StyledLoaderContainer>
-        <Header />
-        <StyledLoaderContent>
-          <Loader />
-        </StyledLoaderContent>
-        <Footer />
-      </StyledLoaderContainer>
+    if (offerId && !offerDetails) {
+      getOfferDetails(offerId).then(offerDetailsResponse => {
+        if (offerDetailsResponse.errors.length) {
+          setErrorMsg(offerDetailsResponse.errors[0]);
+          return;
+        }
+        const { responseData } = offerDetailsResponse;
+        setOfferDetails(responseData);
+        setOfferId(responseData.offerId);
+        setData('CLEENG_OFFER_ID', responseData.offerId);
+        setData('CLEENG_OFFER_TYPE', responseData.offerId.charAt(0));
+
+        const orderId = getData('CLEENG_ORDER_ID');
+        if (orderId) {
+          reuseSavedOrder(orderId);
+        } else {
+          createOrderHandler();
+        }
+      });
+    }
+    if (offerId === '') {
+      setErrorMsg('Offer not set');
+    }
+  }, []);
+
+  useEffect(() => {
+    if (
+      orderDetails &&
+      orderDetails.totalPrice === 0 &&
+      !orderDetails.discount.applied
+    ) {
+      setIsOfferFree(true);
+    }
+    if (orderDetails.id) {
+      setIsLoading(false);
+    }
+  }, [orderDetails]);
+
+  useEffect(() => {
+    if (isOfferFree) paymentMethodsHandler();
+  }, [isOfferFree]);
+
+  const errorMapping = err => {
+    const errorTypes = {
+      cannotPurchase: ['Offer is blocked for country'],
+      offerNotExist: [
+        "doesn't exist",
+        'does not exist',
+        'Invalid param offerId',
+        'Offer not set'
+      ],
+      alreadyHaveAccess: ['Access already granted'],
+      generalError: ['Request failed with status code 500'],
+      inactive: ['inactive']
+    };
+    const types = Object.keys(errorTypes);
+    return types.find(type =>
+      errorTypes[type].find(item => item.includes(err) || err.includes(item))
     );
+  };
+  if (errorMsg) {
+    return <ErrorPage type={errorMapping(errorMsg)} />;
   }
-}
+
+  return isLoading ? (
+    <StyledLoaderContainer>
+      <Header />
+      <StyledLoaderContent>
+        <Loader />
+      </StyledLoaderContent>
+      <Footer />
+    </StyledLoaderContainer>
+  ) : (
+    <Offer
+      offerDetails={offerDetails}
+      orderDetails={orderDetails}
+      couponProps={{
+        ...couponDetails,
+        onSubmit: onCouponSubmit
+      }}
+      onPaymentComplete={onSuccess}
+      updatePriceBreakdown={updatedOrder => setOrderDetails(updatedOrder)}
+      availablePaymentMethods={availablePaymentMethods}
+      t={t}
+    />
+  );
+};
 
 OfferContainer.propTypes = {
   offerId: PropTypes.string,
@@ -250,8 +248,6 @@ OfferContainer.defaultProps = {
   t: k => k,
   availablePaymentMethods: null
 };
-
-export { OfferContainer as PureOfferContainer };
 
 // export default withTranslation()(labeling()(OfferContainer));
 export default OfferContainer;

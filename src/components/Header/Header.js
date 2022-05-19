@@ -1,27 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { isHeaderOff } from 'util/layoutHelper';
-import { getTheme } from 'util/appConfigHelper';
 import { HeaderStyled, LogoStyled } from './HeaderStyled';
-import headerLogo from './img/logo.png';
 
-const Header = ({ withoutLogo, children }) => {
-  const { logoUrl } = getTheme() || {};
-  const logo = logoUrl || headerLogo;
+const Header = ({ children }) => {
   return (
-    <HeaderStyled switchOff={isHeaderOff()}>
-      {!withoutLogo && <LogoStyled logoSrc={logo} />}
+    <HeaderStyled>
+      <LogoStyled />
       {children}
     </HeaderStyled>
   );
 };
 
 Header.propTypes = {
-  withoutLogo: PropTypes.bool,
   children: PropTypes.node
 };
 Header.defaultProps = {
-  withoutLogo: false,
   children: null
 };
 

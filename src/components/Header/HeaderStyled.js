@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import * as colors from 'styles/variables';
+import logoSrc from './img/logoBase64';
 
 export const HeaderStyled = styled.header.attrs(() => ({
   className: 'msd__header'
@@ -27,7 +28,7 @@ export const LogoStyled = styled.div.attrs(() => ({
   height: 80px;
   width: 100%;
 
-  background-image: ${props => props.logoSrc && css`url(${props.logoSrc})`};
+  background-image: url(${logoSrc});
   background-size: auto 35%;
   background-position: center;
   background-repeat: no-repeat;
