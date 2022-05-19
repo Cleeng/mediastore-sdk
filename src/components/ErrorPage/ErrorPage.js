@@ -30,6 +30,10 @@ const errorTypes = {
     icon: DeleteCreditCard,
     description:
       'We are sorry! The content you are trying to access is not available in your country.'
+  },
+  inactive: {
+    icon: Close,
+    description: 'We are sorry! This offer is no longer available'
   }
 };
 

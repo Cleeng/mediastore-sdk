@@ -21,6 +21,7 @@ import updateCaptureAnswers from './Customer/updateCaptureAnswers';
 import submitConsents from './Customer/submitConsents';
 import getPaymentMethods from './Publisher/getPaymentMethods';
 import getConsents from './Publisher/getConsents';
+import getOrder from './Order/getOrder';
 
 export {
   getPaymentDetails,
@@ -45,5 +46,6 @@ export {
   applyCoupon,
   submitConsents,
   getPaymentMethods,
-  getConsents
+  getConsents,
+  getOrder
 };
