@@ -35,7 +35,7 @@ const mockPaymentMethods = {
       {
         id: 123,
         methodName: 'paypal',
-        paymentGateway: '',
+        paymentGateway: 'paypal',
         logoUrl: ''
       }
     ]
@@ -67,7 +67,7 @@ jest.mock('api', () => ({
           {
             id: 123,
             methodName: 'paypal',
-            paymentGateway: '',
+            paymentGateway: 'paypal',
             logoUrl: ''
           }
         ]

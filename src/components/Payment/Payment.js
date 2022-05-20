@@ -88,7 +88,7 @@ class Payment extends Component {
   validatePaymentMethods = (paymentMethods, showError = true) => {
     if (!paymentMethods) return [];
     const supportedPaymentMethods = ['card', 'paypal'];
-    const supportedPaymentGateways = ['adyen', ''];
+    const supportedPaymentGateways = ['adyen', 'paypal'];
     const validPaymentMethods = paymentMethods.filter(method => {
       if (
         supportedPaymentMethods.includes(method.methodName) &&
