@@ -242,7 +242,8 @@ Offer.propTypes = {
   availablePaymentMethods: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
-      methodName: PropTypes.string
+      methodName: PropTypes.string,
+      default: PropTypes.bool
     })
   ),
   t: PropTypes.func
