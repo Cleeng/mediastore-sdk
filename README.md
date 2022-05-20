@@ -52,6 +52,8 @@ yarn add styled-components
 
 If you have the package downloaded locally and you want to begin to use it, you should start with the configuration. You can do this by using the Config class which has a few important methods to do it. Components may require additional config, so check the requirements for a component that you want to use.
 
+Config functions save data to local storage (as `CLEENG_*` items). These data are required to make components work. <b>You need to call these functions, before MSSDK components mount, usually only once.</b>
+
 ##### Setting environment
 
 ```javascript
@@ -78,7 +80,7 @@ Config.setPaypalUrls({
   // PayPal URLs, needed for Checkout Paypal payments
   successUrl: "http://localhost:3000/my-account",
   cancelUrl: "http://localhost:3000/",
-  errorUrl: "http://localhost:3000/error"
+  errorUrl: "http://localhost:3000/error" // query param 'message' with a readable error message will be added to this URL when an error will occur
 });
 Config.setMyAccountUrl("http://localhost:3000/acc"); // needed for MyAccount update payment details
 
@@ -310,7 +312,7 @@ Usage:
 
 ### Font
 
-If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSD components by:
+If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSSDK components by:
 
 ```javascript
 import "@cleeng/mediastore-sdk/dist/styles/msdFont.css";
