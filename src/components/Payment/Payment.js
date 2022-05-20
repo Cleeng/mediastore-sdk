@@ -173,7 +173,9 @@ class Payment extends Component {
   gernerateLegalNote = () => {
     const { order, period } = this.props;
     const offerIsInTrial =
-      order.discount.applied && order.discount.type === 'trial';
+      order.discount &&
+      order.discount.applied &&
+      order.discount.type === 'trial';
 
     const readablePrice = `${currencyFormat[order.currency]}${
       order.priceBreakdown.offerPrice
