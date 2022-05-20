@@ -11,7 +11,7 @@ import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import SectionHeader from 'components/SectionHeader';
 import Loader from 'components/Loader';
-import { getData, setData } from 'util/appConfigHelper';
+import { getData } from 'util/appConfigHelper';
 import PaymentMethodButton from 'components/PaymentMethodButton';
 import Auth from 'services/auth';
 import {
@@ -36,35 +36,35 @@ class Payment extends Component {
 
   async componentDidMount() {
     const { t, availablePaymentMethods } = this.props;
-    if (availablePaymentMethods && availablePaymentMethods.length) {
+    const validPaymentMethods = this.validatePaymentMethods(
+      availablePaymentMethods
+    );
+    if (validPaymentMethods.length) {
       this.setState({
-        paymentMethods: availablePaymentMethods
+        paymentMethods: validPaymentMethods
       });
-      const defaultMethod = availablePaymentMethods.find(
-        method => method.default
-      );
+      const defaultMethod = validPaymentMethods.find(method => method.default);
       if (defaultMethod) {
         this.setState({ isPaymentFormDisplayed: true });
         this.choosePaymentMethod(defaultMethod.id, defaultMethod.methodName);
       }
-      setData('CLEENG_PAYMENT_METHOD_ID', availablePaymentMethods[0].id);
     } else {
       try {
         const response = await getPaymentMethods();
         const { paymentMethods } = response.responseData;
-        if (paymentMethods) {
-          if (!paymentMethods.length) {
+        const validMethodsFromResponse = this.validatePaymentMethods(
+          paymentMethods,
+          false
+        );
+        if (validMethodsFromResponse) {
+          if (!validMethodsFromResponse.length) {
             this.setState({
               generalError: t('Payment methods are not defined')
             });
           } else {
             this.setState({
-              paymentMethods: response.responseData.paymentMethods
+              paymentMethods: validMethodsFromResponse
             });
-            setData(
-              'CLEENG_PAYMENT_METHOD_ID',
-              response.responseData.paymentMethods[0].id
-            );
           }
         } else if (!response.errors.length) {
           this.setState({
@@ -84,6 +84,24 @@ class Payment extends Component {
       });
     }
   }
+
+  validatePaymentMethods = (paymentMethods, showError = true) => {
+    if (!paymentMethods) return [];
+    const supportedPaymentMethods = ['card', 'paypal'];
+    const supportedPaymentGateways = ['adyen', ''];
+    const validPaymentMethods = paymentMethods.filter(method => {
+      if (
+        supportedPaymentMethods.includes(method.methodName) &&
+        supportedPaymentGateways.includes(method.paymentGateway)
+      )
+        return true;
+
+      if (showError)
+        console.error(`Payment method not supported (id: ${method.id})`);
+      return false;
+    });
+    return validPaymentMethods;
+  };
 
   onAdyenSubmit = ({ data: { paymentMethod: card } }) => {
     const { onPaymentComplete, t } = this.props;
@@ -124,7 +142,6 @@ class Payment extends Component {
   choosePaymentMethod = (methodId, methodName) => {
     this.clearError();
     const orderId = getData('CLEENG_ORDER_ID');
-    setData('CLEENG_PAYMENT_METHOD_ID', methodId);
     if (orderId) {
       updateOrder(orderId, {
         paymentMethodId: methodId
@@ -200,19 +217,16 @@ class Payment extends Component {
               {t('Purchase using')}
             </SectionHeader>
             <MethodsWrapperStyled>
-              {paymentMethods.map(
-                method =>
-                  method.methodName !== 'manual' && (
-                    <PaymentMethodButton
-                      key={method.id}
-                      methodName={method.methodName}
-                      onClickFn={() => {
-                        this.setState({ isPaymentFormDisplayed: true });
-                        this.choosePaymentMethod(method.id, method.methodName);
-                      }}
-                    />
-                  )
-              )}
+              {paymentMethods.map(method => (
+                <PaymentMethodButton
+                  key={method.id}
+                  methodName={method.methodName}
+                  onClickFn={() => {
+                    this.setState({ isPaymentFormDisplayed: true });
+                    this.choosePaymentMethod(method.id, method.methodName);
+                  }}
+                />
+              ))}
             </MethodsWrapperStyled>
             {generalError && (
               <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
@@ -269,8 +283,9 @@ Payment.propTypes = {
   updatePriceBreakdown: PropTypes.func,
   availablePaymentMethods: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
-      methodName: PropTypes.string,
+      id: PropTypes.number.isRequired,
+      methodName: PropTypes.string.isRequired,
+      paymentGateway: PropTypes.string.isRequired,
       default: PropTypes.bool
     })
   ),

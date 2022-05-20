@@ -236,8 +236,9 @@ OfferContainer.propTypes = {
   t: PropTypes.func,
   availablePaymentMethods: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.number,
-      methodName: PropTypes.string,
+      id: PropTypes.number.isRequired,
+      methodName: PropTypes.string.isRequired,
+      paymentGateway: PropTypes.string.isRequired,
       default: PropTypes.bool
     })
   )

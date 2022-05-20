@@ -9,7 +9,7 @@ import {
   submitPayPalPayment,
   getPaymentMethods
 } from 'api';
-import { getData, setData } from 'util/appConfigHelper';
+import { setData } from 'util/appConfigHelper';
 import Payment from './Payment';
 import { PaymentErrorStyled } from './PaymentStyled';
 
@@ -35,7 +35,7 @@ const mockPaymentMethods = {
       {
         id: 123,
         methodName: 'paypal',
-        paymentGateway: 'paypal',
+        paymentGateway: '',
         logoUrl: ''
       }
     ]
@@ -67,7 +67,7 @@ jest.mock('api', () => ({
           {
             id: 123,
             methodName: 'paypal',
-            paymentGateway: 'paypal',
+            paymentGateway: '',
             logoUrl: ''
           }
         ]
@@ -109,10 +109,6 @@ describe('Payment', () => {
     setImmediate(() => {
       expect(wrapper.state().paymentMethods).toEqual(
         mockPaymentMethods.responseData.paymentMethods
-      );
-      const paymentMethodId = getData('CLEENG_PAYMENT_METHOD_ID');
-      expect(Number(paymentMethodId)).toBe(
-        mockPaymentMethods.responseData.paymentMethods[0].id
       );
       done();
     });
