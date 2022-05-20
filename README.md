@@ -205,6 +205,7 @@ Usage:
 ```javascript
 -Config.setJWT("xxx"); // required conditionally, if Login or Register component is not used
 -Config.setRefreshToken("yyy"); // optional
+-Config.setMyAccountUrl("https://your-website.com/user-profile"); // required for legal notes
 ```
 
 **Usage sample**

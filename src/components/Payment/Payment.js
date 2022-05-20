@@ -14,12 +14,15 @@ import Loader from 'components/Loader';
 import { getData, setData } from 'util/appConfigHelper';
 import PaymentMethodButton from 'components/PaymentMethodButton';
 import Auth from 'services/auth';
+import { currencyFormat } from 'util/planHelper';
 import {
   PaymentStyled,
   MethodsWrapperStyled,
   PaymentErrorStyled,
   PayPalWrapperStyled,
-  PayPalTextStyled
+  PayPalTextStyled,
+  LegalNoteWrapperStyled,
+  LegalTextStyled
 } from './PaymentStyled';
 
 class Payment extends Component {
@@ -167,6 +170,48 @@ class Payment extends Component {
     });
   };
 
+  gernerateLegalNote = () => {
+    const { order, period } = this.props;
+    const offerIsInTrial =
+      order.discount.applied && order.discount.type === 'trial';
+
+    const readablePrice = `${currencyFormat[order.currency]}${
+      order.priceBreakdown.offerPrice
+    }${period ? `/${period}` : ''}`;
+
+    return (
+      <LegalNoteWrapperStyled>
+        <LegalTextStyled>
+          <strong>
+            {offerIsInTrial
+              ? 'After any free trial and/or promotional period'
+              : `By clicking 'Complete purchase'`}
+            , you will be charged {readablePrice} or then-current price plus
+            applicable taxes on a recurring basis.{' '}
+          </strong>
+          Your subscription will automatically continue until you cancel. To
+          cancel, login into{' '}
+          <a
+            href={getData('CLEENG_MY_ACCOUNT_URL')}
+            style={{
+              textDecoration: getData('CLEENG_MY_ACCOUNT_URL')
+                ? 'underline'
+                : 'none'
+            }}
+          >
+            your account
+          </a>{' '}
+          and click &apos;Manage Subscription&apos;.
+        </LegalTextStyled>
+        <LegalTextStyled>
+          By clicking &apos;Complete Purchase&apos; above, I expressly
+          acknowledge and agree to the above terms as well as the full Terms of
+          Service.
+        </LegalTextStyled>
+      </LegalNoteWrapperStyled>
+    );
+  };
+
   render() {
     const availablePaymentMethods = ['adyen', 'paypal'];
     const { isPaymentDetailsRequired, t } = this.props;
@@ -223,11 +268,14 @@ class Payment extends Component {
               </PayPalWrapperStyled>
             )}
             {isPaymentFormDisplayed && !isPayPal && (
-              <Adyen
-                onSubmit={this.onAdyenSubmit}
-                onChange={this.clearError}
-                isPaymentProcessing={isLoading}
-              />
+              <>
+                <Adyen
+                  onSubmit={this.onAdyenSubmit}
+                  onChange={this.clearError}
+                  isPaymentProcessing={isLoading}
+                />
+                {this.gernerateLegalNote()}
+              </>
             )}
           </>
         ) : (
@@ -254,12 +302,16 @@ Payment.propTypes = {
   onPaymentComplete: PropTypes.func.isRequired,
   isPaymentDetailsRequired: PropTypes.bool,
   updatePriceBreakdown: PropTypes.func,
+  order: PropTypes.objectOf(PropTypes.any),
+  period: PropTypes.string,
   t: PropTypes.func
 };
 
 Payment.defaultProps = {
   isPaymentDetailsRequired: true,
   updatePriceBreakdown: () => {},
+  order: {},
+  period: null,
   t: k => k
 };
 
