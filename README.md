@@ -87,6 +87,34 @@ Config.setMyAccountUrl("http://localhost:3000/acc"); // needed for MyAccount upd
 Config.setTheme(); // more informations in the [Styling] section.
 ```
 
+**Usage sample**
+
+```javascript
+import { useEffect } from 'react';
+import { Config, Purchase, Auth } from '@cleeng/mediastore-sdk';
+
+export default function Home() {
+  Config.setEnvironment("sandbox");
+  Config.setPublisher('123456789');
+  Config.setJWT('customer-jwt-from-your-middleware');
+  Config.setRefreshToken('customer-refresh-token-from-your-middleware');
+
+  useEffect(() => {
+    // your logic on mount
+  }, []);
+
+  return (
+    <>
+     {Auth.isAuthenticated ? (
+        <Purchase offerId="S222222222_US"/>
+      ) : (
+        <YourCustomLogin>
+      )}
+    </>
+  )
+}
+```
+
 ### Available components
 
 You can build a complete flow - allowing customers to buy your offering and use their customer accounts - with two main components:
