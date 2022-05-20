@@ -36,10 +36,17 @@ class Payment extends Component {
 
   async componentDidMount() {
     const { t, availablePaymentMethods } = this.props;
-    if (availablePaymentMethods.length) {
+    if (availablePaymentMethods && availablePaymentMethods.length) {
       this.setState({
         paymentMethods: availablePaymentMethods
       });
+      const defaultMethod = availablePaymentMethods.find(
+        method => method.default
+      );
+      if (defaultMethod) {
+        this.setState({ isPaymentFormDisplayed: true });
+        this.choosePaymentMethod(defaultMethod.id, defaultMethod.methodName);
+      }
       setData('CLEENG_PAYMENT_METHOD_ID', availablePaymentMethods[0].id);
     } else {
       try {
