@@ -80,7 +80,7 @@ Config.setPaypalUrls({
   cancelUrl: "http://localhost:3000/",
   errorUrl: "http://localhost:3000/error"
 });
-Config.setMyAccountUrl("http://localhost:3000/acc"); // needed for MyAccount update payment details
+Config.setMyAccountUrl("http://localhost:3000/acc"); // needed for MyAccount update payment details and checkout legal notes
 
 Config.setTheme(); // more informations in the [Styling] section.
 ```
@@ -120,7 +120,23 @@ If you prefer smaller components, you can use these to implement the exact featu
 
 You can pass a function that will be called after a successful checkout process by using `onSuccess` prop. You can also select which offer should be purchased by passing `offerId` prop.
 
-Usage:
+**Props**
+
+- `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened
+
+**Config methods**
+
+```javascript
+Config.setMyAccountUrl("https://your-website.com/user-profile"); // required for legal notes
+Config.setPaypalUrls({
+  // PayPal URLs, needed for Checkout Paypal payments
+  successUrl: "http://localhost:3000/my-account",
+  cancelUrl: "http://localhost:3000/",
+  errorUrl: "http://localhost:3000/error"
+});
+```
+
+**Usage**
 
 ```javascript
 <Checkout onSuccess={() => console.log("success")} offerId={"S531234647_PL"} />
@@ -203,9 +219,9 @@ Usage:
 **Config methods**
 
 ```javascript
--Config.setJWT("xxx"); // required conditionally, if Login or Register component is not used
--Config.setRefreshToken("yyy"); // optional
--Config.setMyAccountUrl("https://your-website.com/user-profile"); // required for legal notes
+Config.setJWT("xxx"); // required conditionally, if Login or Register component is not used
+Config.setRefreshToken("yyy"); // optional
+Config.setMyAccountUrl("https://your-website.com/user-profile"); // required for legal notes
 ```
 
 **Usage sample**
