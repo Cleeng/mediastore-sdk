@@ -172,10 +172,7 @@ class Payment extends Component {
 
   gernerateLegalNote = () => {
     const { order, period } = this.props;
-    const offerIsInTrial =
-      order.discount &&
-      order.discount.applied &&
-      order.discount.type === 'trial';
+    const discountApplied = order.discount && order.discount.applied;
 
     const readablePrice = `${currencyFormat[order.currency]}${
       order.priceBreakdown.offerPrice
@@ -185,7 +182,7 @@ class Payment extends Component {
       <LegalNoteWrapperStyled>
         <LegalTextStyled>
           <strong>
-            {offerIsInTrial
+            {discountApplied
               ? 'After any free trial and/or promotional period'
               : `By clicking 'Complete purchase'`}
             , you will be charged {readablePrice} or then-current price plus
@@ -270,15 +267,13 @@ class Payment extends Component {
               </PayPalWrapperStyled>
             )}
             {isPaymentFormDisplayed && !isPayPal && (
-              <>
-                <Adyen
-                  onSubmit={this.onAdyenSubmit}
-                  onChange={this.clearError}
-                  isPaymentProcessing={isLoading}
-                />
-                {this.gernerateLegalNote()}
-              </>
+              <Adyen
+                onSubmit={this.onAdyenSubmit}
+                onChange={this.clearError}
+                isPaymentProcessing={isLoading}
+              />
             )}
+            {(isPayPal || isPaymentFormDisplayed) && this.gernerateLegalNote()}
           </>
         ) : (
           <Button

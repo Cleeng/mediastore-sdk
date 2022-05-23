@@ -156,6 +156,7 @@ class Offer extends Component {
                         currency={customerCurrencySymbol}
                         price={offerPrice}
                         isTrialAvailable={trialAvailable}
+                        offerType={offerType}
                       />
                     </OfferCardWrapperStyled>
                     <StyledOfferCouponWrapper>
