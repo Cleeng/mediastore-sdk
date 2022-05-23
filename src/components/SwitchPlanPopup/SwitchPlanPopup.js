@@ -16,6 +16,7 @@ import {
   TextStyled,
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
+import SkeletonWrapper from 'components/SkeletonWrapper';
 import {
   ImageWrapper,
   ArrowStyled,
@@ -28,6 +29,7 @@ const SwitchPlanPopup = ({
   fromOffer,
   hideInnerPopup,
   updateList,
+  isPopupLoading,
   t
 }) => {
   const [step, setStep] = useState(1);
@@ -61,6 +63,22 @@ const SwitchPlanPopup = ({
     updateList();
   };
 
+  if (isPopupLoading) {
+    return (
+      <InnerPopupWrapper
+        steps={2}
+        popupTitle={t('Change Plan')}
+        currentStep={1}
+      >
+        <SkeletonWrapper
+          showChildren={false}
+          height={200}
+          width={450}
+          margin="auto"
+        />
+      </InnerPopupWrapper>
+    );
+  }
   return (
     <InnerPopupWrapper
       steps={2}
@@ -152,6 +170,7 @@ SwitchPlanPopup.propTypes = {
   fromOffer: PropTypes.objectOf(PropTypes.any),
   hideInnerPopup: PropTypes.func,
   updateList: PropTypes.func,
+  isPopupLoading: PropTypes.bool,
   t: PropTypes.func
 };
 
@@ -160,6 +179,7 @@ SwitchPlanPopup.defaultProps = {
   fromOffer: {},
   hideInnerPopup: () => {},
   updateList: () => {},
+  isPopupLoading: false,
   t: k => k
 };
 

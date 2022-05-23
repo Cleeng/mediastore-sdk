@@ -5,13 +5,13 @@ import { PropTypes } from 'prop-types';
 
 import { getAvailableSwitches } from 'api';
 import SectionHeader from 'components/SectionHeader';
-import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
 import { WrapStyled } from './SubscriptionSwitchesStyled';
 
 const SubscriptionSwitches = ({
   offerId,
+  toOfferId,
   planDetails,
   updateList,
   innerPopup,
@@ -20,7 +20,7 @@ const SubscriptionSwitches = ({
   showInnerPopup,
   t
 }) => {
-  const [isLoadingChangePlan, setIsLoadingChangePlan] = useState(false);
+  const [isLoadingChangePlan, setIsLoadingChangePlan] = useState(true);
   const [isErrorChangePlan, setIsErrorChangePlan] = useState([]);
   const didMount = useRef(false);
 
@@ -32,6 +32,21 @@ const SubscriptionSwitches = ({
             offerId,
             settings: response.responseData
           });
+          if (toOfferId && response.responseData.available.length) {
+            const toOfferData = response.responseData.available.find(
+              item => item.toOfferId === toOfferId
+            );
+            if (toOfferData) {
+              showInnerPopup({
+                type: 'switchPlan',
+                data: {
+                  offerData: {
+                    ...toOfferData
+                  }
+                }
+              });
+            }
+          }
         } else {
           setIsErrorChangePlan(response.errors);
         }
@@ -63,35 +78,20 @@ const SubscriptionSwitches = ({
     }
   }, [offerId]);
 
-  const renderPopup = type => {
-    switch (type) {
-      case 'updateSubscription':
-        return (
-          <UpdateSubscription
-            hideInnerPopup={hideInnerPopup}
-            offerDetails={innerPopup.data.offerData}
-            updateList={updateList}
-            action={innerPopup.data.action}
-          />
-        );
-      case 'switchPlan':
-        return (
-          <SwitchPlanPopup
-            toOffer={innerPopup.data.offerData}
-            fromOffer={planDetails.offerToSwitch}
-            hideInnerPopup={hideInnerPopup}
-            updateList={updateList}
-          />
-        );
-      default:
-        return <></>;
-    }
-  };
-
   return (
     <WrapStyled>
-      {innerPopup.isOpen ? (
-        renderPopup(innerPopup.type)
+      {toOfferId ? (
+        <SwitchPlanPopup
+          toOffer={innerPopup.data.offerData}
+          fromOffer={planDetails.offerToSwitch}
+          hideInnerPopup={hideInnerPopup}
+          updateList={updateList}
+          isPopupLoading={
+            isLoadingChangePlan ||
+            !innerPopup.isOpen ||
+            innerPopup.type !== 'switchPlan'
+          }
+        />
       ) : (
         <>
           <SectionHeader>{t('Change Plan')}</SectionHeader>
@@ -119,12 +119,14 @@ SubscriptionSwitches.propTypes = {
   hideInnerPopup: PropTypes.func.isRequired,
   setSwitchSettings: PropTypes.func.isRequired,
   updateList: PropTypes.func.isRequired,
+  toOfferId: PropTypes.string,
   t: PropTypes.func
 };
 
 SubscriptionSwitches.defaultProps = {
   planDetails: { currentPlan: [] },
   innerPopup: {},
+  toOfferId: '',
   t: k => k
 };
 
