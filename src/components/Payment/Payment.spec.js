@@ -51,6 +51,7 @@ const orderMock = {
   priceBreakdown: {
     offerPrice: 12
   },
+  offerId: 'S123456789_PL',
   currency: 'EUR'
 };
 jest.mock('api', () => ({
