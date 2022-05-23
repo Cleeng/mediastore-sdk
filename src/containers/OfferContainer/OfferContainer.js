@@ -107,8 +107,7 @@ const OfferContainer = ({
 
   const onCouponSubmit = couponCode => {
     if (couponCode === '') return;
-    setCouponDetails(currentState => ({
-      ...currentState,
+    setCouponDetails(() => ({
       couponLoading: true
     }));
     updateOrder(orderDetails.id, {
