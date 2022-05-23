@@ -213,7 +213,7 @@ class Payment extends Component {
 
   render() {
     const availablePaymentMethods = ['adyen', 'paypal'];
-    const { isPaymentDetailsRequired, t } = this.props;
+    const { isPaymentDetailsRequired, order, t } = this.props;
     const {
       isPaymentFormDisplayed,
       generalError,
@@ -273,7 +273,9 @@ class Payment extends Component {
                 isPaymentProcessing={isLoading}
               />
             )}
-            {(isPayPal || isPaymentFormDisplayed) && this.gernerateLegalNote()}
+            {(isPayPal || isPaymentFormDisplayed) &&
+              order.offerId.charAt(0) === 'S' &&
+              this.gernerateLegalNote()}
           </>
         ) : (
           <Button
