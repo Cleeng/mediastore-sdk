@@ -52,6 +52,8 @@ yarn add styled-components
 
 If you have the package downloaded locally and you want to begin to use it, you should start with the configuration. You can do this by using the `Config` class which has a few important methods to do it. Components may require additional config, so check the requirements for a component that you want to use.
 
+Config functions save data to local storage (as `CLEENG_*` items). These data are required to make components work. <b>You need to call these functions, before MSSDK components mount, usually only once.</b>
+
 ##### Setting environment
 
 ```javascript
@@ -60,7 +62,7 @@ import { Config } from "@cleeng/mediastore-sdk";
 Config.setEnvironment("sandbox");
 ```
 
-Setting the environment is required for all components. The environment is one of the listed below:
+where the environment is one of the listed below:
 
 - `sandbox` (default)
 - `production`
@@ -76,13 +78,41 @@ Config.setOffer("offerId"); // `offerId` is the ID of the offer created for your
 
 Config.setPaypalUrls({
   // PayPal URLs, needed for Checkout Paypal payments
-  successUrl: "http://localhost:3000/success",
-  cancelUrl: "http://localhost:3000/checkout",
-  errorUrl: "http://localhost:3000/error"
+  successUrl: "http://localhost:3000/my-account",
+  cancelUrl: "http://localhost:3000/",
+  errorUrl: "http://localhost:3000/error" // query param 'message' with a readable error message will be added to this URL when an error will occur
 });
 Config.setMyAccountUrl("http://localhost:3000/acc"); // needed for MyAccount update payment details and checkout legal notes
 
 Config.setTheme(); // more informations in the [Styling] section.
+```
+
+**Usage sample**
+
+```javascript
+import { useEffect } from 'react';
+import { Config, Purchase, Auth } from '@cleeng/mediastore-sdk';
+
+export default function Home() {
+  Config.setEnvironment("sandbox");
+  Config.setPublisher('123456789');
+  Config.setJWT('customer-jwt-from-your-middleware');
+  Config.setRefreshToken('customer-refresh-token-from-your-middleware');
+
+  useEffect(() => {
+    // your logic on mount
+  }, []);
+
+  return (
+    <>
+     {Auth.isAuthenticated ? (
+        <Purchase offerId="S222222222_US"/>
+      ) : (
+        <YourCustomLogin>
+      )}
+    </>
+  )
+}
 ```
 
 ### Available components
@@ -376,7 +406,7 @@ Usage:
 
 ### Font
 
-If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSD components by:
+If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSSDK components by:
 
 ```javascript
 import "@cleeng/mediastore-sdk/dist/styles/msdFont.css";
