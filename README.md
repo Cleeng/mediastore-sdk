@@ -148,11 +148,13 @@ If you prefer smaller components, you can use these to implement the exact featu
 - [Purchase](#purchase-header)
 - [PasswordReset](#password-reset-header)
 
-You can pass a function that will be called after a successful checkout process by using `onSuccess` prop. You can also select which offer should be purchased by passing `offerId` prop.
+**Props**
 
 **Props**
 
 - `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened
+- `onSuccess` - function called after a successful checkout process
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
 
 **Config methods**
 
@@ -169,7 +171,23 @@ Config.setPaypalUrls({
 **Usage**
 
 ```javascript
-<Checkout onSuccess={() => console.log("success")} offerId={"S531234647_PL"} />
+const availablePaymentMethods = [
+  {
+    id: 142029029,
+    methodName: "card",
+    default: true
+  },
+  {
+    id: 153379135,
+    methodName: "paypal"
+  }
+];
+
+<Checkout
+  onSuccess={() => console.log("success")}
+  offerId={"S531234647_PL"}
+  availablePaymentMethods={availablePaymentMethods}
+/>;
 ```
 
 #### <a id="my-account-header"></a><h2 align="center">MyAccount</h2>

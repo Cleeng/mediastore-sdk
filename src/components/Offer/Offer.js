@@ -119,6 +119,7 @@ class Offer extends Component {
       },
       onPaymentComplete,
       updatePriceBreakdown,
+      availablePaymentMethods,
       t
     } = this.props;
     const isCouponApplied = applied;
@@ -192,6 +193,7 @@ class Offer extends Component {
                 onPaymentComplete={onPaymentComplete}
                 isPaymentDetailsRequired={requiredPaymentDetails}
                 updatePriceBreakdown={updatePriceBreakdown}
+                availablePaymentMethods={availablePaymentMethods}
                 t={t}
               />
             </>
@@ -243,6 +245,14 @@ Offer.propTypes = {
   }),
   onPaymentComplete: PropTypes.func.isRequired,
   updatePriceBreakdown: PropTypes.func.isRequired,
+  availablePaymentMethods: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      methodName: PropTypes.string.isRequired,
+      paymentGateway: PropTypes.string.isRequired,
+      default: PropTypes.bool
+    })
+  ),
   t: PropTypes.func
 };
 
@@ -263,6 +273,7 @@ Offer.defaultProps = {
     requiredPaymentDetails: true
   },
   couponProps: null,
+  availablePaymentMethods: null,
   t: k => k
 };
 
