@@ -123,7 +123,7 @@ class Offer extends Component {
     const isCouponApplied = applied;
     const { coupon } = this.state;
     const finalPrice = totalPrice;
-    const offerType = getData('CLEENG_OFFER_TYPE');
+    const offerType = getData('CLEENG_OFFER_ID').charAt(0);
     const isFree = totalPrice === 0 && !trialAvailable && !isCouponApplied;
     return (
       <StyledOfferWrapper>

@@ -1,12 +1,19 @@
 import { getData } from 'util/appConfigHelper';
 import { fetchWithHeaders } from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
+import getCustomer from './getCustomer';
 
-const getOfferDetails = offerId => {
+const getOfferDetails = async offerId => {
   const API_URL = getApiURL();
-  const customerEmail = getData('CLEENG_CUSTOMER_EMAIL') || '';
-  const customerIP = getData('CLEENG_CUSTOMER_IP') || '';
-  const url = `${API_URL}/offers/${offerId}/customers/${customerEmail}?customerIP=${customerIP}`;
+  let customerEmail = getData('CLEENG_CUSTOMER_EMAIL') || null;
+
+  if (!customerEmail) {
+    const customerResponse = await getCustomer();
+    if (customerResponse.responseData) {
+      customerEmail = customerResponse.responseData.email;
+    }
+  }
+  const url = `${API_URL}/offers/${offerId}/customers/${customerEmail}`;
 
   return fetchWithHeaders(url, {}).then(res => res.json());
 };

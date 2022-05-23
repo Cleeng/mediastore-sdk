@@ -42,8 +42,20 @@ export const sendMessage = msg => {
   }
 };
 
-export const isHosted = () =>
-  getData('CLEENG_HOSTED') && getData('CLEENG_HOSTED') === 'true';
+export const setJWT = jwt => {
+  if (jwt) {
+    setData('CLEENG_AUTH_TOKEN', jwt);
+    return true;
+  }
+  return false;
+};
+export const setRefreshToken = refreshToken => {
+  if (refreshToken) {
+    setData('CLEENG_REFRESH_TOKEN', refreshToken);
+    return true;
+  }
+  return false;
+};
 
 export const setPublisher = publisherId => {
   if (publisherId) {
@@ -106,24 +118,6 @@ export const getTheme = () => {
   return false;
 };
 
-export const setAdyenConfig = config => {
-  const configString = JSON.stringify(config);
-  if (configString) {
-    setData('CLEENG_ADYEN', configString);
-    return true;
-  }
-  return false;
-};
-
-export const getAdyenConfig = () => {
-  const config = getData('CLEENG_ADYEN');
-  if (config) {
-    const configJSON = JSON.parse(config);
-    return configJSON;
-  }
-  return false;
-};
-
 export default {
   setPublisher,
   setOffer,
@@ -131,6 +125,6 @@ export default {
   setTheme,
   setPaypalUrls,
   setMyAccountUrl,
-  setAdyenConfig,
-  getAdyenConfig
+  setJWT,
+  setRefreshToken
 };

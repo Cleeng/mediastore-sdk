@@ -28,7 +28,7 @@ class FreeOffer extends Component {
   }
 
   generateDescriptionForFreeOffer = (period, expiresAt, startTime) => {
-    const offerType = getData('CLEENG_OFFER_TYPE');
+    const offerType = getData('CLEENG_OFFER_ID').charAt(0);
     switch (offerType) {
       case 'S': {
         return `Free subscription`;
