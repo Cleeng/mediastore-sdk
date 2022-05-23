@@ -9,7 +9,7 @@ To find out more about MediaStore SDK, see:
 - [MediaStore SDK Components Library](https://developers.cleeng.com/docs/components-library)
 - [API documentation](https://developers.cleeng.com/reference/getting-started)
 
-## Prerequisites
+#### Prerequisites
 
 - node v14.15.0
 - react v16.14.0
@@ -34,7 +34,7 @@ yarn add @cleeng/mediastore-sdk
 
 ---
 
-You may need to install styled-components by:
+You may need to install `styled-components` by:
 
 ```
 npm i styled-components
@@ -50,7 +50,7 @@ yarn add styled-components
 
 ### Configuration
 
-If you have the package downloaded locally and you want to begin to use it, you should start with the configuration. You can do this by using the Config class which has a few important methods to do it. Components may require additional config, so check the requirements for a component that you want to use.
+If you have the package downloaded locally and you want to begin to use it, you should start with the configuration. You can do this by using the `Config` class which has a few important methods to do it. Components may require additional config, so check the requirements for a component that you want to use.
 
 ##### Setting environment
 
@@ -60,15 +60,15 @@ import { Config } from "@cleeng/mediastore-sdk";
 Config.setEnvironment("sandbox");
 ```
 
-where the environment is one of the listed below:
+Setting the environment is required for all components. The environment is one of the listed below:
 
-- `sandbox`
+- `sandbox` (default)
 - `production`
 
 ##### Other Config methods
 
 ```javascript
-Config.setJWT("xxx"); // save customer autorization token
+Config.setJWT("xxx"); // save customer authorization token (jwt)
 Config.setRefreshToken("yyy"); // save customer refresh token
 
 Config.setPublisher("publisherId"); // `publisherId` is your broadcaster ID in the Cleeng system.
@@ -76,8 +76,8 @@ Config.setOffer("offerId"); // `offerId` is the ID of the offer created for your
 
 Config.setPaypalUrls({
   // PayPal URLs, needed for Checkout Paypal payments
-  successUrl: "http://localhost:3000/my-account",
-  cancelUrl: "http://localhost:3000/",
+  successUrl: "http://localhost:3000/success",
+  cancelUrl: "http://localhost:3000/checkout",
   errorUrl: "http://localhost:3000/error"
 });
 Config.setMyAccountUrl("http://localhost:3000/acc"); // needed for MyAccount update payment details and checkout legal notes
@@ -107,7 +107,7 @@ If you prefer smaller components, you can use these to implement the exact featu
 - [TransactionList](#transaction-list-header)
 - [UpdateProfile](#update-profile-header)
 
-#### <a id="checkout-header"></a>Checkout
+#### <a id="checkout-header"></a><h2 align="center">Checkout</h2>
 
 `Checkout` is a big component that contains the whole checkout process (from registration to purchase). It contains components listed below:
 
@@ -142,7 +142,7 @@ Config.setPaypalUrls({
 <Checkout onSuccess={() => console.log("success")} offerId={"S531234647_PL"} />
 ```
 
-#### <a id="my-account-header"></a>MyAccount
+#### <a id="my-account-header"></a><h2 align="center">MyAccount</h2>
 
 `MyAccount` is a big component that contains the whole **My Account** feature. The following sections are available in `MyAccount`:
 
@@ -151,7 +151,15 @@ Config.setPaypalUrls({
 - [PaymentsInfo](#payment-info-header)
 - [UpdateProfile](#update-profile-header)
 
-Usage:
+**Config methods**
+
+```javascript
+-Config.setPublisher("111111111"); // required when JWT or refreshToken are not provided
+-Config.setJWT("xxx"); // optional, when Login should be skipped
+-Config.setRefreshToken("yyy"); // optional
+```
+
+**Usage sample**
 
 ```javascript
 import { MyAccount, store } from "@cleeng/mediastore-sdk";
@@ -164,7 +172,31 @@ import { Provider } from "react-redux";
 
 **All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
 
-#### <a id="register-header"></a>Register
+**Server-side rendering**
+This component should be rendered in the browser. Sample of usage with **NextJS**
+
+```javascript
+import dynamic from "next/dynamic";
+
+const MyAccount = dynamic(
+  () => import("@cleeng/mediastore-sdk").then(mod => mod.MyAccount),
+  { ssr: false }
+);
+
+function UserAccountPage() {
+  return (
+    <>
+      <Header />
+      <MyAccount />
+      <Footer />
+    </>
+  );
+}
+
+export default UserAccountPage;
+```
+
+#### <a id="register-header"></a><h2 align="center">Register</h2>
 
 `Register` component is a basic Cleeng registration form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#register)). You can pass a function that will be called after a successful registration process by using `onSuccess` prop.
 
@@ -179,7 +211,7 @@ Usage:
 />
 ```
 
-#### <a id="login-header"></a>Login
+#### <a id="login-header"></a><h2 align="center">Login</h2>
 
 `Login` component is a basic Cleeng login form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#login)). You can pass a function that will be called after a successful login process by using `onSuccess` prop.
 
@@ -195,7 +227,7 @@ Usage:
 />
 ```
 
-#### <a id="password-reset-header"></a>PasswordReset
+#### <a id="password-reset-header"></a><h2 align="center">PasswordReset</h2>
 
 `PasswordReset` is a basic reset password form that can be used for resetting passwords (see an example [here](https://developers.cleeng.com/docs/purchase-flow#passwordreset)). You can pass a function that will be called after successful processing of the request with `onSuccess` prop.
 
@@ -205,7 +237,7 @@ Usage:
 <PasswordReset onSuccess={() => console.log("success")} />
 ```
 
-#### <a id="purchase-header"></a>Purchase
+#### <a id="purchase-header"></a><h2 align="center">Purchase</h2>
 
 `Purchase` is a component that gives you a possibility to buy an offer in the Cleeng system. You have to be logged in before showing that component.
 
@@ -231,7 +263,7 @@ import { Config, Purchase } from "@cleeng/mediastore-sdk";
 <Purchase offerId="S538257415_PL" onSuccess={() => console.log("success")} />;
 ```
 
-#### <a id="subscriptions-header"></a>Subscriptions
+#### <a id="subscriptions-header"></a><h2 align="center">Subscriptions</h2>
 
 `Subscriptions` is a component that will list all subscriptions that are linked with a given logged in subscriber. There is an option to cancel or resume the selected subscription from the list of subscriptions.
 
@@ -241,7 +273,7 @@ Usage:
 <Subscriptions />
 ```
 
-#### <a id="subscription-switches-header"></a>SubscriptionSwitches
+#### <a id="subscription-switches-header"></a><h2 align="center">SubscriptionSwitches</h2>
 
 This component shows a list of available switches (upgrade options) for a given subscription passed in `offerId` prop.
 
@@ -251,33 +283,50 @@ Usage:
 <SubscriptionSwitches offerId={"S538257415_PL"} />
 ```
 
-#### <a id="plan-details-header"></a>PlanDetails
+#### <a id="plan-details-header"></a><h2 align="center">PlanDetails</h2>
 
 `PlanDetails` is a component that contains previously described components
 
 - [Subscriptions](#subscriptions-header)
 - [SubscriptionSwitches](#subscription-switches-header)
 
-Usage:
+**Config methods**
 
 ```javascript
-<PlanDetails />
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
 ```
 
-#### <a id="payment-info-header"></a>PaymentInfo
+**Usage sample**
+
+```javascript
+import { PlanDetails } from "@cleeng/mediastore-sdk";
+<PlanDetails />;
+```
+
+#### <a id="payment-info-header"></a><h2 align="center">PaymentInfo</h2>
 
 PaymentInfo is a component that contains all information about customer payments. A customer will be able to:
 
 - see or change his/her payment methods, and
 - check all transactions that took place in the past.
 
-Usage:
+**Config methods**
 
 ```javascript
-<PaymentInfo />
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
+Config.setMyAccountUrl("http://sample-brand.com/user-account"); // required for change PayPal payment details
 ```
 
-#### <a id="transaction-list-header"></a>TransactionList
+**Usage sample**
+
+```javascript
+import { PaymentInfo } from "@cleeng/mediastore-sdk";
+<PaymentInfo />;
+```
+
+#### <a id="transaction-list-header"></a><h2 align="center">TransactionList</h2>
 
 `TransactionList` is a part of the `PaymentInfo` component and contains only information about all transactions that took place in the past.
 
@@ -287,7 +336,7 @@ Usage:
 <TransactionList />
 ```
 
-#### <a id="update-profile-header"></a>UpdateProfile
+#### <a id="update-profile-header"></a><h2 align="center">UpdateProfile</h2>
 
 `UpdateProfile` is a component that displays all information about a current customer. It also gives the possibility to change that profile information.
 
@@ -299,7 +348,7 @@ Usage:
 <UpdateProfile />
 ```
 
-#### <a id="checkout-consents-header"></a>CheckoutConsents
+#### <a id="checkout-consents-header"></a><h2 align="center">CheckoutConsents</h2>
 
 `CheckoutConsents` is a simple form that contains all consents that have to be confirmed by a customer.
 
@@ -311,7 +360,7 @@ Usage:
 <CheckoutConsents onSuccess={() => console.log("success")} />
 ```
 
-#### <a id="capture-header"></a>Capture
+#### <a id="capture-header"></a><h2 align="center">Capture</h2>
 
 `Capture` component is a form that was created for collecting user data that a broadcaster wants to collect. A broadcaster can enable the capture feature and configure its settings in the Cleeng broadcaster dashboard. For more information, see [Cleeng Capture](https://publisher.support.cleeng.com/hc/en-us/articles/222325667-Cleeng-Capture).
 
@@ -323,7 +372,7 @@ Usage:
 <Capture onSuccess={() => console.log("success")} />
 ```
 
-### <a id="styling-header"></a>Styling
+### <a id="styling-header"></a><h2>Styling</h2>
 
 ### Font
 
