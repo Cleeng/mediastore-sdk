@@ -12,7 +12,6 @@ import { WrapStyled } from './SubscriptionSwitchesStyled';
 
 const SubscriptionSwitches = ({
   offerId,
-  toOfferId,
   planDetails,
   updateList,
   innerPopup,
@@ -20,11 +19,12 @@ const SubscriptionSwitches = ({
   setSwitchSettings,
   showInnerPopup,
   setOfferToSwitch,
+  toOfferId,
   onCancel,
   onSwitchSuccess,
   t
 }) => {
-  const [isLoadingChangePlan, setIsLoadingChangePlan] = useState(true);
+  const [isLoadingChangePlan, setIsLoadingChangePlan] = useState(false);
   const [isErrorChangePlan, setIsErrorChangePlan] = useState([]);
   const [switchSettingsError, setSwitchSettingsError] = useState(false);
   const didMount = useRef(false);
@@ -50,6 +50,8 @@ const SubscriptionSwitches = ({
                   }
                 }
               });
+            } else {
+              setSwitchSettingsError(true);
             }
           }
         } else {
