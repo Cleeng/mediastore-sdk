@@ -214,7 +214,6 @@ class MyAccount extends Component {
   }
 
   renderMyAccountContent = currentPage => {
-    // console.log('MyAccount props:', this.props);
     const { customCancellationReasons } = this.props;
 
     switch (currentPage) {
