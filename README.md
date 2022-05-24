@@ -260,7 +260,22 @@ Usage:
 
 This component shows a list of available switches (upgrade options) for a given subscription passed in `offerId` prop.
 
-Usage:
+**Config methods**
+
+```javascript
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
+```
+
+**Props**
+
+- `offerId` \* - ID of Cleeng offer, for which possible switches should be displayed. User has to have access to this offer
+
+- `toOfferId` - Use to open the switch popup by default. It's a ID of Cleeng offer to which user wants to switch.
+- `onCancel` - required when `toOfferId` is provided. A function that will be called when the user resigns from the switch
+- `onSwitchSuccess` - required when `toOfferId` is provided. A function that will be called when the switch succeeds and the user will click the 'Back to settings' button
+
+**Usage sample**
 
 ```javascript
 <SubscriptionSwitches offerId={"S538257415_PL"} />

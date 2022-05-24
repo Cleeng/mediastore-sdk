@@ -30,6 +30,8 @@ const SwitchPlanPopup = ({
   hideInnerPopup,
   updateList,
   isPopupLoading,
+  onCancel,
+  onSwitchSuccess,
   t
 }) => {
   const [step, setStep] = useState(1);
@@ -123,7 +125,7 @@ const SwitchPlanPopup = ({
             />
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={hideInnerPopup}>
+            <Button theme="simple" onClickFn={onCancel || hideInnerPopup}>
               {t('Keep Current Plan')}
             </Button>
             <Button theme="confirm" onClickFn={changePlan}>
@@ -155,7 +157,10 @@ const SwitchPlanPopup = ({
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme="confirm" onClickFn={closePopupAndRefresh}>
+            <Button
+              theme="confirm"
+              onClickFn={onSwitchSuccess || closePopupAndRefresh}
+            >
               {t('Back to settings')}
             </Button>
           </ButtonWrapperStyled>
@@ -171,7 +176,9 @@ SwitchPlanPopup.propTypes = {
   hideInnerPopup: PropTypes.func,
   updateList: PropTypes.func,
   isPopupLoading: PropTypes.bool,
-  t: PropTypes.func
+  t: PropTypes.func,
+  onCancel: PropTypes.func,
+  onSwitchSuccess: PropTypes.func
 };
 
 SwitchPlanPopup.defaultProps = {
@@ -180,7 +187,9 @@ SwitchPlanPopup.defaultProps = {
   hideInnerPopup: () => {},
   updateList: () => {},
   isPopupLoading: false,
-  t: k => k
+  t: k => k,
+  onCancel: null,
+  onSwitchSuccess: null
 };
 
 export { SwitchPlanPopup as PureSwitchPlanPopup };
