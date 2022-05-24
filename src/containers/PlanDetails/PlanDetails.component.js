@@ -20,6 +20,7 @@ const PlanDetails = ({
   setSwitchSettings,
   setOfferToSwitch,
   showInnerPopup,
+  customCancellationReasons,
   t
 }) => {
   const [isLoadingCurrentPlan, setIsLoadingCurrentPlan] = useState(false);
@@ -116,6 +117,7 @@ const PlanDetails = ({
             offerDetails={innerPopup.data.offerData}
             updateList={updateList}
             action={innerPopup.data.action}
+            customCancellationReasons={customCancellationReasons}
           />
         );
       case 'switchPlan':
@@ -184,12 +186,19 @@ PlanDetails.propTypes = {
   setOfferToSwitch: PropTypes.func.isRequired,
   setSwitchSettings: PropTypes.func.isRequired,
   updateList: PropTypes.func.isRequired,
+  customCancellationReasons: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })
+  ),
   t: PropTypes.func
 };
 
 PlanDetails.defaultProps = {
   planDetails: { currentPlan: [] },
   innerPopup: {},
+  customCancellationReasons: null,
   t: k => k
 };
 
