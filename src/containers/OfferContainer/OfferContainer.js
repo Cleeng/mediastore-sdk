@@ -26,6 +26,7 @@ const OfferContainer = ({
   urlProps: { location },
   offerId: propOfferId,
   onSuccess,
+  availablePaymentMethods,
   t
 }) => {
   const [offerId, setOfferId] = useState(
@@ -219,6 +220,7 @@ const OfferContainer = ({
       }}
       onPaymentComplete={onSuccess}
       updatePriceBreakdown={updatedOrder => setOrderDetails(updatedOrder)}
+      availablePaymentMethods={availablePaymentMethods}
       t={t}
     />
   );
@@ -230,13 +232,22 @@ OfferContainer.propTypes = {
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
   }),
-  t: PropTypes.func
+  t: PropTypes.func,
+  availablePaymentMethods: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      methodName: PropTypes.string.isRequired,
+      paymentGateway: PropTypes.string.isRequired,
+      default: PropTypes.bool
+    })
+  )
 };
 OfferContainer.defaultProps = {
   offerId: '',
   onSuccess: () => {},
   urlProps: {},
-  t: k => k
+  t: k => k,
+  availablePaymentMethods: null
 };
 
 // export default withTranslation()(labeling()(OfferContainer));

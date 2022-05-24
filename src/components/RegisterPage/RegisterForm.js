@@ -15,7 +15,6 @@ import {
 import registerCustomer from 'api/Auth/registerCustomer';
 import getCustomerLocales from 'api/Customer/getCustomerLocales';
 import Auth from 'services/auth';
-import { setData } from 'util/appConfigHelper';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -115,7 +114,6 @@ class RegisterForm extends Component {
       return false;
     }
     const locales = localesResponse.responseData;
-    setData('CLEENG_CUSTOMER_IP', locales.ipAddress);
     const response = await registerCustomer(
       email,
       password,

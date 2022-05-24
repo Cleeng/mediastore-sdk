@@ -50,67 +50,70 @@ yarn add styled-components
 
 ### Configuration
 
-If you have the package downloaded locally and you want to begin to use it, you should start configuration by setting broadcaster settings such as: `publisherId` (see more it [here](https://developers.cleeng.com/docs/prerequisites#step-3-obtain-publisher-token)), `offerId` (see more it [here](https://developers.cleeng.com/docs/prerequisites#step-4-create-an-offer)) or environment (if it's needed).
-You can do this by using the Config class which has few important methods to do it.
+If you have the package downloaded locally and you want to begin to use it, you should start with the configuration. You can do this by using the Config class which has a few important methods to do it. Components may require additional config, so check the requirements for a component that you want to use.
 
-1. Setting `publisherId`:
+Config functions save data to local storage (as `CLEENG_*` items). These data are required to make components work. <b>You need to call these functions, before MSSDK components mount, usually only once.</b>
 
-```javascript
-Config.setPublisher("publisherId");
-```
-
-where `publisherId` is your broadcaster ID in the Cleeng system.
-
-2. Setting `offerId`
+##### Setting environment
 
 ```javascript
-Config.setOffer("offerId");
+import { Config } from "@cleeng/mediastore-sdk";
+
+Config.setEnvironment("sandbox");
 ```
 
-where `offerId` is the ID of the offer created for your broadcaster in the Cleeng system.
+where the environment is one of the listed below:
 
-3. Setting environment:
-
-```javascript
-Config.setEnvironment("environment");
-```
-
-where environment is one of the environments listed below:
-
-- `staging`
 - `sandbox`
 - `production`
 
-4. Setting PayPal urls
+##### Other Config methods
 
 ```javascript
-// needed for Checkout Paypal payments
+Config.setJWT("xxx"); // save customer autorization token
+Config.setRefreshToken("yyy"); // save customer refresh token
+
+Config.setPublisher("publisherId"); // `publisherId` is your broadcaster ID in the Cleeng system.
+Config.setOffer("offerId"); // `offerId` is the ID of the offer created for your broadcaster in the Cleeng system.
+
 Config.setPaypalUrls({
+  // PayPal URLs, needed for Checkout Paypal payments
   successUrl: "http://localhost:3000/my-account",
   cancelUrl: "http://localhost:3000/",
-  errorUrl: "http://localhost:3000/error"
+  errorUrl: "http://localhost:3000/error" // query param 'message' with a readable error message will be added to this URL when an error will occur
 });
+Config.setMyAccountUrl("http://localhost:3000/acc"); // needed for MyAccount update payment details
+
+Config.setTheme(); // more informations in the [Styling] section.
 ```
 
-5. Setting Adyen configuration
-
-You need to set the `clientKey` and `adyenEnv`. For more information, please refer to the description of parameters in the [Set up Adyen Component section](https://developers.cleeng.com/docs/adyen-payment-setup#set-up-adyen-component) .
+**Usage sample**
 
 ```javascript
-Config.setAdyenConfig({
-  clientKey: "CLIENT_KEY",
-  adyenEnv: "test"
-});
+import { useEffect } from 'react';
+import { Config, Purchase, Auth } from '@cleeng/mediastore-sdk';
+
+export default function Home() {
+  Config.setEnvironment("sandbox");
+  Config.setPublisher('123456789');
+  Config.setJWT('customer-jwt-from-your-middleware');
+  Config.setRefreshToken('customer-refresh-token-from-your-middleware');
+
+  useEffect(() => {
+    // your logic on mount
+  }, []);
+
+  return (
+    <>
+     {Auth.isAuthenticated ? (
+        <Purchase offerId="S222222222_US"/>
+      ) : (
+        <YourCustomLogin>
+      )}
+    </>
+  )
+}
 ```
-
-6. Setting My Account url
-
-```javascript
-// needed for MyAccount update payment details
-Config.setMyAccountUrl("http://localhost:3000/acc");
-```
-
-You can also style the application by using one of the Config.setTheme() methods but there will be more information about that in the [Styling](#styling-header) section.
 
 ### Available components
 
@@ -145,12 +148,32 @@ If you prefer smaller components, you can use these to implement the exact featu
 - [Purchase](#purchase-header)
 - [PasswordReset](#password-reset-header)
 
-You can pass a function that will be called after a successful checkout process by using `onSuccess` prop. You can also select which offer should be purchased by passing `offerId` prop.
+**Props**
 
-Usage:
+- `offerId` - ID of Cleeng offer, for which Purchase component should be opened. If not provided, it will use the item from local storage with name 'CLEENG_OFFER_ID'
+- `onSuccess` - function called after a successful checkout process
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
+
+**Usage sample**
 
 ```javascript
-<Checkout onSuccess={() => console.log("success")} offerId={"S531234647_PL"} />
+const availablePaymentMethods = [
+  {
+    id: 142029029,
+    methodName: "card",
+    default: true
+  },
+  {
+    id: 153379135,
+    methodName: "paypal"
+  }
+];
+
+<Checkout
+  onSuccess={() => console.log("success")}
+  offerId={"S531234647_PL"}
+  availablePaymentMethods={availablePaymentMethods}
+/>;
 ```
 
 #### <a id="my-account-header"></a>MyAccount
@@ -218,14 +241,27 @@ Usage:
 
 #### <a id="purchase-header"></a>Purchase
 
-`Purchase` is a component that gives you a possibility to buy an offer in the Cleeng system. You have to be logged in before showing that component. To do so, use the [Login](#login-header) / [Register](#register-header) component.
+`Purchase` is a component that gives you a possibility to buy an offer in the Cleeng system. You have to be logged in before showing that component.
 
-You can pass a function that will be called after a successful payment process by using `onSuccess` prop. You can also select which offer should be purchased by passing `offerId` prop.
+**Props**
 
-Usage:
+- `offerId` \* - ID of Cleeng offer, for which Purchase component should be opened. If not provided, it will use the item from local storage with name 'CLEENG_OFFER_ID'
+- `onSuccess` - function called after a successful payment process
+
+\* - required
+
+**Config methods**
 
 ```javascript
-<Purchase offerId={"S538257415_PL"} onSuccess={() => console.log("success")} />
+-Config.setJWT("xxx"); // required conditionally, if Login or Register component is not used
+-Config.setRefreshToken("yyy"); // optional
+```
+
+**Usage sample**
+
+```javascript
+import { Config, Purchase } from "@cleeng/mediastore-sdk";
+<Purchase offerId="S538257415_PL" onSuccess={() => console.log("success")} />;
 ```
 
 #### <a id="subscriptions-header"></a>Subscriptions
@@ -324,7 +360,7 @@ Usage:
 
 ### Font
 
-If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSD components by:
+If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSSDK components by:
 
 ```javascript
 import "@cleeng/mediastore-sdk/dist/styles/msdFont.css";

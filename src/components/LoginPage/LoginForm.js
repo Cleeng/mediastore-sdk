@@ -6,8 +6,6 @@ import Button from 'components/Button';
 import EmailInput from 'components/EmailInput';
 import PasswordInput from 'components/PasswordInput';
 import { validatePasswordField, validateEmailField } from 'util/validators';
-import { setData } from 'util/appConfigHelper';
-import getCustomerLocales from '../../api/Customer/getCustomerLocales';
 import loginCustomer from '../../api/Auth/loginCustomer';
 import { FromStyled, FormErrorStyled, FormSuccessStyled } from './LoginStyled';
 
@@ -105,23 +103,16 @@ class LoginForm extends Component {
 
     const response = await loginCustomer(email, password, loginBy);
     if (response.status === 200) {
-      await getCustomerLocales()
-        .then(resp => {
-          setData('CLEENG_CUSTOMER_IP', resp.responseData.ipAddress);
-          Auth.login(
-            !!isMyAccount,
-            false,
-            email,
-            response.responseData.jwt,
-            response.responseData.refreshToken,
-            null,
-            null,
-            onSuccess
-          );
-        })
-        .catch(() => {
-          this.renderError();
-        });
+      Auth.login(
+        !!isMyAccount,
+        false,
+        email,
+        response.responseData.jwt,
+        response.responseData.refreshToken,
+        null,
+        null,
+        onSuccess
+      );
     } else if (response.status === 401 || response.status === 422) {
       this.renderError('Wrong email or password');
     } else if (response.status === 429) {
