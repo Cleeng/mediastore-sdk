@@ -29,7 +29,7 @@ const SubscriptionSwitches = ({
   const [switchSettingsError, setSwitchSettingsError] = useState(false);
   const didMount = useRef(false);
 
-  const getAndSaveSwitchSettings = async () => {
+  const fetchSwitchSettings = () => {
     getAvailableSwitches(offerId)
       .then(response => {
         if (!response.errors.length) {
@@ -67,7 +67,7 @@ const SubscriptionSwitches = ({
       });
   };
 
-  const getOfferAndSwitchData = async () => {
+  const fetchOffersData = () => {
     getCustomerSubscriptions()
       .then(response => {
         if (!response.errors.length) {
@@ -76,10 +76,8 @@ const SubscriptionSwitches = ({
             item => item.offerId === offerId
           );
           if (subscriptionData) {
-            setOfferToSwitch(
-              customerSubscriptions.find(item => item.offerId === offerId)
-            );
-            getAndSaveSwitchSettings();
+            setOfferToSwitch(subscriptionData);
+            fetchSwitchSettings();
           } else {
             setSwitchSettingsError(true);
           }
@@ -97,14 +95,10 @@ const SubscriptionSwitches = ({
 
   useEffect(() => {
     if (didMount.current) {
-      if (
-        offerId &&
-        planDetails.offerToSwitch &&
-        !Object.keys(planDetails.offerToSwitch).length
-      ) {
-        getOfferAndSwitchData();
+      if (offerId && !Object.keys(planDetails.offerToSwitch).length) {
+        fetchOffersData();
       } else {
-        getAndSaveSwitchSettings();
+        fetchSwitchSettings();
       }
     } else {
       didMount.current = true;
