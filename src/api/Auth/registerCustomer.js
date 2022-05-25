@@ -5,7 +5,7 @@ import getApiURL from 'util/environmentHelper';
 const registerCustomer = async (
   email,
   password,
-  offerId,
+  publisherId,
   locale,
   country,
   currency
@@ -18,7 +18,7 @@ const registerCustomer = async (
       body: JSON.stringify({
         email,
         password,
-        offerId,
+        publisherId,
         locale,
         country,
         currency

@@ -202,9 +202,9 @@ const availablePaymentMethods = [
 **Config methods**
 
 ```javascript
--Config.setPublisher("111111111"); // required when JWT or refreshToken are not provided
--Config.setJWT("xxx"); // optional, when Login should be skipped
--Config.setRefreshToken("yyy"); // optional
+Config.setPublisher("111111111"); // required when JWT or refreshToken are not provided
+Config.setJWT("xxx"); // optional, when Login should be skipped
+Config.setRefreshToken("yyy"); // optional
 ```
 
 **Usage sample**
@@ -246,33 +246,68 @@ export default UserAccountPage;
 
 #### <a id="register-header"></a><h2 align="center">Register</h2>
 
-`Register` component is a basic Cleeng registration form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#register)). You can pass a function that will be called after a successful registration process by using `onSuccess` prop.
+`Register` component is a basic Cleeng registration form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#register)).
 
-There is also a **Have an account?** button on that form. You can set what exactly will happen on clicking by using `onHaveAccountClick` prop.
-
-Usage:
+**Config methods**
 
 ```javascript
-<Register
-  onSuccess={() => console.log("success")}
-  onHaveAccountClick={() => console.log("have an account clicked")}
-/>
+Config.setPublisher("111111111"); // required
+```
+
+**Props**
+
+- `onSuccess` \* - callback function called aftersuccessful registration
+- `onHaveAccountClick` \* - function called when user clicks **Have an account?** below the registration form
+
+\* - required
+
+**Usage sample**
+
+```javascript
+import {Auth, Config, Register} from '@cleeng/mediastore-sdk';
+
+Config.setPublisher("111111111");
+
+{Auth.isLogged() ? (
+   // your content, the user is logged in
+  ) : (
+    <Register
+      onSuccess={() => console.log("success")}
+      onHaveAccountClick={() => console.log("have an account clicked")}
+    />
+)}
+
 ```
 
 #### <a id="login-header"></a><h2 align="center">Login</h2>
 
-`Login` component is a basic Cleeng login form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#login)). You can pass a function that will be called after a successful login process by using `onSuccess` prop.
+`Login` component is a basic Cleeng login form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#login)).
 
-There are two additional buttons on that form: **Go to register** and **Forgot password?**. You can set what exactly will happen on clicking each of them by using `onRegisterClick` and `onPasswordResetClick` props.
-
-Usage:
+**Config methods**
 
 ```javascript
+Config.setPublisher("111111111"); // required
+Config.setOffer("S123456789_US"); // optional, can be used as a replacement of setPublisher
+```
+
+**Props**
+
+- `onSuccess` \* - callback function called after successful login
+- `onRegisterClick` - function called when user clicks `Go to register` button
+- `onPasswordResetClick` - function called when user clicks `Forgot password?` button
+
+\* - required
+
+**Usage sample**
+
+```javascript
+Config.setPublisher("111111111");
+
 <Login
   onSuccess={() => console.log("success")}
   onRegisterClick={() => console.log("register button clicked")}
   onPasswordResetClick={() => console.log("password reset button clicked")}
-/>
+/>;
 ```
 
 #### <a id="password-reset-header"></a><h2 align="center">PasswordReset</h2>
