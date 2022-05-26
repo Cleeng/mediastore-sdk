@@ -97,6 +97,7 @@ class Offer extends Component {
         expiresAt,
         startTime
       },
+      orderDetails,
       orderDetails: {
         priceBreakdown: {
           offerPrice,
@@ -156,6 +157,7 @@ class Offer extends Component {
                         currency={customerCurrencySymbol}
                         price={offerPrice}
                         isTrialAvailable={trialAvailable}
+                        offerType={offerType}
                       />
                     </OfferCardWrapperStyled>
                     <StyledOfferCouponWrapper>
@@ -184,6 +186,10 @@ class Offer extends Component {
                 />
               </StyledOfferBody>
               <Payment
+                order={orderDetails}
+                period={
+                  period ? periodMapper[period].chargedForEveryText : null
+                }
                 onPaymentComplete={onPaymentComplete}
                 isPaymentDetailsRequired={requiredPaymentDetails}
                 updatePriceBreakdown={updatePriceBreakdown}

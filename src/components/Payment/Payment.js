@@ -14,12 +14,15 @@ import Loader from 'components/Loader';
 import { getData } from 'util/appConfigHelper';
 import PaymentMethodButton from 'components/PaymentMethodButton';
 import Auth from 'services/auth';
+import { currencyFormat } from 'util/planHelper';
 import {
   PaymentStyled,
   MethodsWrapperStyled,
   PaymentErrorStyled,
   PayPalWrapperStyled,
-  PayPalTextStyled
+  PayPalTextStyled,
+  LegalNoteWrapperStyled,
+  LegalTextStyled
 } from './PaymentStyled';
 
 class Payment extends Component {
@@ -199,8 +202,49 @@ class Payment extends Component {
     });
   };
 
+  gernerateLegalNote = () => {
+    const { order, period } = this.props;
+    const discountApplied = order.discount && order.discount.applied;
+
+    const readablePrice = `${currencyFormat[order.currency]}${
+      order.priceBreakdown.offerPrice
+    }${period ? `/${period}` : ''}`;
+
+    return (
+      <LegalNoteWrapperStyled>
+        <LegalTextStyled>
+          <strong>
+            {discountApplied
+              ? 'After any free trial and/or promotional period'
+              : `By clicking 'Complete purchase'`}
+            , you will be charged {readablePrice} or then-current price plus
+            applicable taxes on a recurring basis.{' '}
+          </strong>
+          Your subscription will automatically continue until you cancel. To
+          cancel, login into{' '}
+          <a
+            href={getData('CLEENG_MY_ACCOUNT_URL')}
+            style={{
+              textDecoration: getData('CLEENG_MY_ACCOUNT_URL')
+                ? 'underline'
+                : 'none'
+            }}
+          >
+            your account
+          </a>{' '}
+          and click &apos;Manage Subscription&apos;.
+        </LegalTextStyled>
+        <LegalTextStyled>
+          By clicking &apos;Complete Purchase&apos; above, I expressly
+          acknowledge and agree to the above terms as well as the full Terms of
+          Service.
+        </LegalTextStyled>
+      </LegalNoteWrapperStyled>
+    );
+  };
+
   render() {
-    const { isPaymentDetailsRequired, t } = this.props;
+    const { isPaymentDetailsRequired, order, t } = this.props;
     const {
       isPaymentFormDisplayed,
       generalError,
@@ -256,6 +300,9 @@ class Payment extends Component {
                 isPaymentProcessing={isLoading}
               />
             )}
+            {(isPayPal || isPaymentFormDisplayed) &&
+              order.offerId.charAt(0) === 'S' &&
+              this.gernerateLegalNote()}
           </>
         ) : (
           <Button
@@ -281,6 +328,8 @@ Payment.propTypes = {
   onPaymentComplete: PropTypes.func.isRequired,
   isPaymentDetailsRequired: PropTypes.bool,
   updatePriceBreakdown: PropTypes.func,
+  order: PropTypes.objectOf(PropTypes.any),
+  period: PropTypes.string,
   availablePaymentMethods: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number.isRequired,
@@ -295,6 +344,8 @@ Payment.propTypes = {
 Payment.defaultProps = {
   isPaymentDetailsRequired: true,
   updatePriceBreakdown: () => {},
+  order: {},
+  period: null,
   availablePaymentMethods: null,
   t: k => k
 };
