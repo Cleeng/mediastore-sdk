@@ -16,14 +16,18 @@ import {
 const Capture = ({ settings, onSuccess }) => {
   const [t] = useTranslation();
   const [captureSettings, setCaptureSettings] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    setIsLoading(true);
     if (settings.length) {
       setCaptureSettings(settings);
+      setIsLoading(false);
     } else {
       getCaptureStatus().then(resp => {
         if (resp.responseData.shouldCaptureBeDisplayed === true) {
           setCaptureSettings(resp.responseData.settings);
+          setIsLoading(false);
         } else {
           onSuccess();
         }
@@ -35,16 +39,16 @@ const Capture = ({ settings, onSuccess }) => {
     <CaptureStyled>
       <Header />
       <CaptureContentStyled>
-        {captureSettings ? (
+        {isLoading ? (
+          <Loader />
+        ) : (
           <>
             <CaptureTitle>{t('Confirm Registration')}</CaptureTitle>
             <CaptureForm settings={captureSettings} onSuccess={onSuccess} />
           </>
-        ) : (
-          <Loader />
         )}
       </CaptureContentStyled>
-      <Footer isCheckout={false} />
+      {!isLoading && captureSettings && <Footer isCheckout={false} />}
     </CaptureStyled>
   );
 };

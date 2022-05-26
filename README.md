@@ -148,14 +148,6 @@ If you prefer smaller components, you can use these to implement the exact featu
 - [Purchase](#purchase-header)
 - [PasswordReset](#password-reset-header)
 
-**Props**
-
-**Props**
-
-- `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened
-- `onSuccess` - function called after a successful checkout process
-- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
-
 **Config methods**
 
 ```javascript
@@ -167,6 +159,12 @@ Config.setPaypalUrls({
   errorUrl: "http://localhost:3000/error"
 });
 ```
+
+**Props**
+
+- `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened
+- `onSuccess` - function called after a successful checkout process
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
 
 **Usage**
 
@@ -337,7 +335,17 @@ Config.setPublisher("111111111");
 
 `PasswordReset` is a basic reset password form that can be used for resetting passwords (see an example [here](https://developers.cleeng.com/docs/purchase-flow#passwordreset)). You can pass a function that will be called after successful processing of the request with `onSuccess` prop.
 
-Usage:
+**Config methods**
+
+```javascript
+Config.setPublisher("111111111"); // required
+```
+
+**Props**
+
+- `onSuccess` \* - callback function called after a successful reset password request
+
+**Usage sample**
 
 ```javascript
 <PasswordReset onSuccess={() => console.log("success")} />
@@ -458,9 +466,16 @@ Usage:
 
 `CheckoutConsents` is a simple form that contains all consents that have to be confirmed by a customer.
 
-You can pass a function that will be called after successful form submission with `onSuccess` prop.
+**Config methods**
 
-Usage:
+```javascript
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
+```
+
+**Props**
+
+- `onSuccess` \* - callback function called after successful form submission, or, if there are no available consents fields to update, immediate
 
 ```javascript
 <CheckoutConsents onSuccess={() => console.log("success")} />
@@ -470,9 +485,20 @@ Usage:
 
 `Capture` component is a form that was created for collecting user data that a broadcaster wants to collect. A broadcaster can enable the capture feature and configure its settings in the Cleeng broadcaster dashboard. For more information, see [Cleeng Capture](https://publisher.support.cleeng.com/hc/en-us/articles/222325667-Cleeng-Capture).
 
-You can pass a function that will be called after successful form submission or if there are no available capture fields with `onSuccess` prop.
+If there are any capture questions to ask, this component will show a proper form. If there are no available capture fields and no `onSuccess` it will show the loader.
 
-Usage:
+**Config methods**
+
+```javascript
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
+```
+
+**Props**
+
+- `onSuccess` \* - callback function called after successful form submission, or, if there are no available capture fields, immediate
+
+**Usage sample**
 
 ```javascript
 <Capture onSuccess={() => console.log("success")} />

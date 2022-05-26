@@ -21,18 +21,21 @@ const CheckoutConsents = ({ onSuccess }) => {
   const [t] = useTranslation();
   const [consents, setConsents] = useState(null);
   const [processing, setProcessing] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [generalError, setGeneralError] = useState('');
 
   useEffect(() => {
-    getCustomerConsents().then(resp => {
-      const consentsToAccept = resp.responseData.consents.filter(
-        consent =>
-          consent.newestVersion > consent.version ||
-          consent.needsUpdate === true
-      );
-      if (consentsToAccept.length === 0) onSuccess();
-      else setConsents(consentsToAccept);
-    });
+    getCustomerConsents()
+      .then(resp => {
+        const consentsToAccept = resp.responseData.consents.filter(
+          consent =>
+            consent.newestVersion > consent.version ||
+            consent.needsUpdate === true
+        );
+        if (consentsToAccept.length === 0) onSuccess();
+        else setConsents(consentsToAccept);
+      })
+      .finally(() => setIsLoading(false));
   }, []);
 
   const handleClick = (e, isConsentDisabled, clicked) => {
@@ -90,7 +93,7 @@ const CheckoutConsents = ({ onSuccess }) => {
       <CheckoutConsentsStyled>
         <Header />
         <CheckoutConsentsContentStyled>
-          {consents ? (
+          {!isLoading && consents ? (
             <>
               <CheckoutConsentsTitleStyled>
                 {t('Terms & Conditions')}
@@ -134,7 +137,7 @@ const CheckoutConsents = ({ onSuccess }) => {
             <Loader />
           )}
         </CheckoutConsentsContentStyled>
-        <Footer isCheckout={false} />
+        {!isLoading && consents && <Footer isCheckout={false} />}
       </CheckoutConsentsStyled>
     </>
   );
