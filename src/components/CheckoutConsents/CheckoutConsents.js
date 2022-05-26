@@ -93,7 +93,9 @@ const CheckoutConsents = ({ onSuccess }) => {
       <CheckoutConsentsStyled>
         <Header />
         <CheckoutConsentsContentStyled>
-          {!isLoading && consents ? (
+          {isLoading || !consents ? (
+            <Loader />
+          ) : (
             <>
               <CheckoutConsentsTitleStyled>
                 {t('Terms & Conditions')}
@@ -133,8 +135,6 @@ const CheckoutConsents = ({ onSuccess }) => {
                 )}
               </Button>
             </>
-          ) : (
-            <Loader />
           )}
         </CheckoutConsentsContentStyled>
         {!isLoading && consents && <Footer isCheckout={false} />}

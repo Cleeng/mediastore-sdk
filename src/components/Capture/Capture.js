@@ -19,7 +19,6 @@ const Capture = ({ settings, onSuccess }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    setIsLoading(true);
     if (settings.length) {
       setCaptureSettings(settings);
       setIsLoading(false);

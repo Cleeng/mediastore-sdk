@@ -105,7 +105,7 @@ export default function Home() {
 
   return (
     <>
-     {Auth.isAuthenticated ? (
+     {Auth.isLogged() ? (
         <Purchase offerId="S222222222_US"/>
       ) : (
         <YourCustomLogin>
@@ -220,29 +220,6 @@ import { Provider } from "react-redux";
 
 **Server-side rendering**
 This component should be rendered in the browser. Sample of usage with **NextJS**
-
-```javascript
-import dynamic from "next/dynamic";
-
-const MyAccount = dynamic(
-  () => import("@cleeng/mediastore-sdk").then(mod => mod.MyAccount),
-  { ssr: false }
-);
-
-function UserAccountPage() {
-  return (
-    <>
-      <Header />
-      <MyAccount />
-      <Footer />
-    </>
-  );
-}
-
-export default UserAccountPage;
-```
-
-#### <a id="register-header"></a><h2 align="center">Register</h2>
 
 ```javascript
 import dynamic from "next/dynamic";
