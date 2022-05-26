@@ -43,6 +43,17 @@ const mockPaymentMethods = {
   errors: []
 };
 
+const orderMock = {
+  discount: {
+    applied: false,
+    type: ''
+  },
+  priceBreakdown: {
+    offerPrice: 12
+  },
+  offerId: 'S123456789_PL',
+  currency: 'EUR'
+};
 jest.mock('api', () => ({
   createOrder: jest
     .fn()
@@ -124,7 +135,9 @@ describe('Payment', () => {
     });
   });
   it('expands on button click', () => {
-    const wrapper = mount(<Payment onPaymentComplete={jest.fn()} />);
+    const wrapper = mount(
+      <Payment onPaymentComplete={jest.fn()} order={orderMock} />
+    );
     setData('CLEENG_ORDER_ID', 123123123);
     wrapper.setState({
       paymentMethods: mockPaymentMethods.responseData.paymentMethods
