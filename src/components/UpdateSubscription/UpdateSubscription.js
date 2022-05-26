@@ -40,6 +40,7 @@ class UpdateSubscription extends Component {
   unsubscribe = async () => {
     const { offerDetails } = this.props;
     const { checkedReason } = this.state;
+
     try {
       this.setState({
         isLoading: true
@@ -100,11 +101,20 @@ class UpdateSubscription extends Component {
 
   render() {
     const { checkedReason, isError, isLoading, currentStep } = this.state;
-    const { hideInnerPopup, offerDetails, updateList, action, t } = this.props;
+    const {
+      hideInnerPopup,
+      offerDetails,
+      updateList,
+      action,
+      customCancellationReasons,
+      t
+    } = this.props;
     const price = offerDetails.price ? offerDetails.price.slice(0, -1) : '';
     const priceRounded = Math.round(price * 100) / 100;
     const currency = offerDetails.price ? offerDetails.price.slice(-1) : '';
     const popupContent = content[action][currentStep - 1];
+    const calcellationReasonsToShow =
+      customCancellationReasons || cancellationReasons;
     const resubscribeText = (
       <>
         <b>{`${priceRounded}${currency}`}</b> {t(popupContent.startedFrom)}{' '}
@@ -130,7 +140,7 @@ class UpdateSubscription extends Component {
               </TextStyled>
               {popupContent.reasons && (
                 <ReasonsWrapper>
-                  {cancellationReasons.map(reason => (
+                  {calcellationReasonsToShow.map(reason => (
                     <StyledItem key={reason.key}>
                       <Checkbox
                         isRadioButton
@@ -194,10 +204,17 @@ UpdateSubscription.propTypes = {
   updateList: PropTypes.func.isRequired,
   action: PropTypes.string.isRequired,
   offerDetails: PropTypes.objectOf(PropTypes.any).isRequired,
+  customCancellationReasons: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })
+  ),
   t: PropTypes.func
 };
 
 UpdateSubscription.defaultProps = {
+  customCancellationReasons: null,
   t: k => k
 };
 

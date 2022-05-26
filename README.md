@@ -207,14 +207,23 @@ const availablePaymentMethods = [
 -Config.setRefreshToken("yyy"); // optional
 ```
 
+**Props**
+
+- `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
+
 **Usage sample**
 
 ```javascript
 import { MyAccount, store } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
+const cancellationReasons = [
+  { value: "Poor customer support", key: "support" },
+  { value: "Switch to a different service", key: "service" }
+];
+
 <Provider store={store}>
-  <MyAccount />
+  <MyAccount customCancellationReasons={cancellationReasons} />
 </Provider>;
 ```
 
@@ -345,11 +354,21 @@ Config.setJWT("xxx"); // required
 Config.setRefreshToken("yyy"); // optional
 ```
 
+**Props**
+
+- `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
+
 **Usage sample**
 
 ```javascript
 import { PlanDetails } from "@cleeng/mediastore-sdk";
-<PlanDetails />;
+
+const cancellationReasons = [
+  { value: "Poor customer support", key: "support" },
+  { value: "Switch to a different service", key: "service" }
+];
+
+<PlanDetails customCancellationReasons={cancellationReasons} />;
 ```
 
 #### <a id="payment-info-header"></a><h2 align="center">PaymentInfo</h2>
