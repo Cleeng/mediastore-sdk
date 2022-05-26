@@ -9,7 +9,7 @@ import {
   submitPayPalPayment,
   getPaymentMethods
 } from 'api';
-import { getData, setData } from 'util/appConfigHelper';
+import { setData } from 'util/appConfigHelper';
 import Payment from './Payment';
 import { PaymentErrorStyled } from './PaymentStyled';
 
@@ -43,6 +43,17 @@ const mockPaymentMethods = {
   errors: []
 };
 
+const orderMock = {
+  discount: {
+    applied: false,
+    type: ''
+  },
+  priceBreakdown: {
+    offerPrice: 12
+  },
+  offerId: 'S123456789_PL',
+  currency: 'EUR'
+};
 jest.mock('api', () => ({
   createOrder: jest
     .fn()
@@ -110,10 +121,6 @@ describe('Payment', () => {
       expect(wrapper.state().paymentMethods).toEqual(
         mockPaymentMethods.responseData.paymentMethods
       );
-      const paymentMethodId = getData('CLEENG_PAYMENT_METHOD_ID');
-      expect(Number(paymentMethodId)).toBe(
-        mockPaymentMethods.responseData.paymentMethods[0].id
-      );
       done();
     });
   });
@@ -128,7 +135,9 @@ describe('Payment', () => {
     });
   });
   it('expands on button click', () => {
-    const wrapper = mount(<Payment onPaymentComplete={jest.fn()} />);
+    const wrapper = mount(
+      <Payment onPaymentComplete={jest.fn()} order={orderMock} />
+    );
     setData('CLEENG_ORDER_ID', 123123123);
     wrapper.setState({
       paymentMethods: mockPaymentMethods.responseData.paymentMethods

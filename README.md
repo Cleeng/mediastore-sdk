@@ -52,6 +52,8 @@ yarn add styled-components
 
 If you have the package downloaded locally and you want to begin to use it, you should start with the configuration. You can do this by using the `Config` class which has a few important methods to do it. Components may require additional config, so check the requirements for a component that you want to use.
 
+Config functions save data to local storage (as `CLEENG_*` items). These data are required to make components work. <b>You need to call these functions, before MSSDK components mount, usually only once.</b>
+
 ##### Setting environment
 
 ```javascript
@@ -78,11 +80,39 @@ Config.setPaypalUrls({
   // PayPal URLs, needed for Checkout Paypal payments
   successUrl: "http://localhost:3000/success",
   cancelUrl: "http://localhost:3000/checkout",
-  errorUrl: "http://localhost:3000/error"
+  errorUrl: "http://localhost:3000/error" // query param 'message' with a readable error message will be added to this URL when an error will occur
 });
-Config.setMyAccountUrl("http://localhost:3000/user-account"); // needed for MyAccount update PayPal payment details
+Config.setMyAccountUrl("http://localhost:3000/acc"); // needed for MyAccount update payment details and checkout legal notes
 
 Config.setTheme(); // more informations in the [Styling] section.
+```
+
+**Usage sample**
+
+```javascript
+import { useEffect } from 'react';
+import { Config, Purchase, Auth } from '@cleeng/mediastore-sdk';
+
+export default function Home() {
+  Config.setEnvironment("sandbox");
+  Config.setPublisher('123456789');
+  Config.setJWT('customer-jwt-from-your-middleware');
+  Config.setRefreshToken('customer-refresh-token-from-your-middleware');
+
+  useEffect(() => {
+    // your logic on mount
+  }, []);
+
+  return (
+    <>
+     {Auth.isAuthenticated ? (
+        <Purchase offerId="S222222222_US"/>
+      ) : (
+        <YourCustomLogin>
+      )}
+    </>
+  )
+}
 ```
 
 ### Available components
@@ -118,12 +148,46 @@ If you prefer smaller components, you can use these to implement the exact featu
 - [Purchase](#purchase-header)
 - [PasswordReset](#password-reset-header)
 
-You can pass a function that will be called after a successful checkout process by using `onSuccess` prop. You can also select which offer should be purchased by passing `offerId` prop.
+**Props**
 
-Usage:
+**Props**
+
+- `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened
+- `onSuccess` - function called after a successful checkout process
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
+
+**Config methods**
 
 ```javascript
-<Checkout onSuccess={() => console.log("success")} offerId={"S531234647_PL"} />
+Config.setMyAccountUrl("https://your-website.com/user-profile"); // required for legal notes
+Config.setPaypalUrls({
+  // PayPal URLs, needed for Checkout Paypal payments
+  successUrl: "http://localhost:3000/my-account",
+  cancelUrl: "http://localhost:3000/",
+  errorUrl: "http://localhost:3000/error"
+});
+```
+
+**Usage**
+
+```javascript
+const availablePaymentMethods = [
+  {
+    id: 142029029,
+    methodName: "card",
+    default: true
+  },
+  {
+    id: 153379135,
+    methodName: "paypal"
+  }
+];
+
+<Checkout
+  onSuccess={() => console.log("success")}
+  offerId={"S531234647_PL"}
+  availablePaymentMethods={availablePaymentMethods}
+/>;
 ```
 
 #### <a id="my-account-header"></a><h2 align="center">MyAccount</h2>
@@ -235,8 +299,9 @@ Usage:
 **Config methods**
 
 ```javascript
--Config.setJWT("xxx"); // required conditionally, if Login or Register component is not used
--Config.setRefreshToken("yyy"); // optional
+Config.setJWT("xxx"); // required conditionally, if Login or Register component is not used
+Config.setRefreshToken("yyy"); // optional
+Config.setMyAccountUrl("https://your-website.com/user-profile"); // required for legal notes
 ```
 
 **Usage sample**
@@ -374,7 +439,7 @@ Usage:
 
 ### Font
 
-If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSD components by:
+If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSSDK components by:
 
 ```javascript
 import "@cleeng/mediastore-sdk/dist/styles/msdFont.css";

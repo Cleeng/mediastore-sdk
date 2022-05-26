@@ -69,3 +69,18 @@ export const PayPalTextStyled = styled.p.attrs(() => ({
     max-width: 400px;
   `}
 `;
+
+export const LegalNoteWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__payment__legal'
+}))`
+  margin: 25px auto 0 auto;
+  text-align: center;
+  max-width: 550px;
+`;
+
+export const LegalTextStyled = styled.p`
+  font-size: 11px;
+  line-height: 17px;
+  font-weight: 400;
+  color: ${colors.MyAccountTextGray};
+`;
