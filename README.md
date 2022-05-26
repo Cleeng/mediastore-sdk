@@ -246,6 +246,29 @@ export default UserAccountPage;
 
 #### <a id="register-header"></a><h2 align="center">Register</h2>
 
+```javascript
+import dynamic from "next/dynamic";
+
+const MyAccount = dynamic(
+  () => import("@cleeng/mediastore-sdk").then(mod => mod.MyAccount),
+  { ssr: false }
+);
+
+function UserAccountPage() {
+  return (
+    <>
+      <Header />
+      <MyAccount />
+      <Footer />
+    </>
+  );
+}
+
+export default UserAccountPage;
+```
+
+#### <a id="register-header"></a><h2 align="center">Register</h2>
+
 `Register` component is a basic Cleeng registration form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#register)).
 
 **Config methods**
