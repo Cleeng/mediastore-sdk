@@ -128,7 +128,10 @@ class UpdateProfile extends Component {
       <WrapStyled>
         {innerPopup.isOpen && innerPopup.type === 'editPassword' ? (
           <>
-            <EditPassword hideInnerPopup={hideInnerPopup} />
+            <EditPassword
+              hideInnerPopup={hideInnerPopup}
+              customerEmail={user.email}
+            />
           </>
         ) : (
           <>
