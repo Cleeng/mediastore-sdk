@@ -16,15 +16,24 @@ jest.mock('react-i18next', () => ({
     <Component t={k => k} {...props} />
   )
 }));
+jest.mock('jwt-decode', () => () => ({
+  customerId: 111111111,
+  publisherId: 111111111,
+  exp: 1653905050
+}));
 
 const hideInnerPopupMock = jest.fn();
+const customerEmailMock = 'test@test.com';
 
 describe('<EditPassword/>', () => {
   afterEach(() => jest.clearAllMocks());
   describe('@renders', () => {
     it('should render initial state', () => {
       const wrapper = mount(
-        <PureEditPassword hideInnerPopup={hideInnerPopupMock} />
+        <PureEditPassword
+          hideInnerPopup={hideInnerPopupMock}
+          customerEmail={customerEmailMock}
+        />
       );
       expect(wrapper.state('step')).toBe(1);
       expect(wrapper.state('isLoading')).toBe(false);
@@ -34,7 +43,10 @@ describe('<EditPassword/>', () => {
   describe('@actions', () => {
     it('should close popup on "no,thanks" button click', () => {
       const wrapper = mount(
-        <PureEditPassword hideInnerPopup={hideInnerPopupMock} />
+        <PureEditPassword
+          hideInnerPopup={hideInnerPopupMock}
+          customerEmail={customerEmailMock}
+        />
       );
       const buttons = wrapper.find(Button);
       const cancelButton = buttons.filterWhere(button => {
@@ -50,7 +62,10 @@ describe('<EditPassword/>', () => {
         errors: []
       });
       const wrapper = mount(
-        <PureEditPassword hideInnerPopup={hideInnerPopupMock} />
+        <PureEditPassword
+          hideInnerPopup={hideInnerPopupMock}
+          customerEmail={customerEmailMock}
+        />
       );
       const buttons = wrapper.find(Button);
       wrapper.setState({ step: 1 });
@@ -67,7 +82,10 @@ describe('<EditPassword/>', () => {
     });
     it('should logout customer on click button in step 2', () => {
       const wrapper = mount(
-        <PureEditPassword hideInnerPopup={hideInnerPopupMock} />
+        <PureEditPassword
+          hideInnerPopup={hideInnerPopupMock}
+          customerEmail={customerEmailMock}
+        />
       );
       const buttons = wrapper.find(Button);
       const confirmButton = buttons.filterWhere(button => {
