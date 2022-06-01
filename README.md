@@ -337,8 +337,10 @@ Config.setRefreshToken("yyy"); // optional
 - `offerId` \* - ID of Cleeng offer, for which possible switches should be displayed. User has to have access to this offer
 
 - `toOfferId` - Use to open the switch popup by default. It's a ID of Cleeng offer to which user wants to switch.
-- `onCancel` - required when `toOfferId` is provided. A function that will be called when the user resigns from the switch
-- `onSwitchSuccess` - required when `toOfferId` is provided. A function that will be called when the switch succeeds and the user will click the 'Back to settings' button
+- `onCancel` - required when `toOfferId` is provided. A function that will be called when the user resigns from the switch. This function should, at least, unmount the SubscriptionSwitches component
+- `onSwitchSuccess` - required when `toOfferId` is provided. A function that will be called when the switch succeeds and the user will click the 'Back to settings' button. This function should, at least, unmount the SubscriptionSwitches component
+
+If you are providing the `toOfferId` prop you need to validate if this switch is possible for the customer. It is, when <a href="https://developers.cleeng.com/reference/fetch-available-switches">available switches endpoint</a> for `offerId` will return `toOfferId` offer ID in `available` array.
 
 **Usage sample**
 

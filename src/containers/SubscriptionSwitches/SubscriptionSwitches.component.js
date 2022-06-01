@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { PropTypes } from 'prop-types';
@@ -27,7 +27,6 @@ const SubscriptionSwitches = ({
   const [isLoadingChangePlan, setIsLoadingChangePlan] = useState(false);
   const [isErrorChangePlan, setIsErrorChangePlan] = useState([]);
   const [switchSettingsError, setSwitchSettingsError] = useState(false);
-  const didMount = useRef(false);
 
   const fetchSwitchSettings = () => {
     getAvailableSwitches(offerId)
@@ -94,14 +93,10 @@ const SubscriptionSwitches = ({
   }, []);
 
   useEffect(() => {
-    if (didMount.current) {
-      if (offerId && !Object.keys(planDetails.offerToSwitch).length) {
-        fetchOffersData();
-      } else {
-        fetchSwitchSettings();
-      }
-    } else {
-      didMount.current = true;
+    if (offerId && !Object.keys(planDetails.offerToSwitch).length) {
+      fetchOffersData();
+    } else if (offerId && !Object.keys(planDetails.switchSettings).length) {
+      fetchSwitchSettings();
     }
   }, [offerId]);
 
