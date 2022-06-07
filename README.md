@@ -62,7 +62,7 @@ import { Config } from "@cleeng/mediastore-sdk";
 Config.setEnvironment("sandbox");
 ```
 
-where the environment is one of the listed below:
+Setting the environment is required for all components. The environment is one of the listed below:
 
 - `sandbox` (default)
 - `production`
@@ -78,8 +78,8 @@ Config.setOffer("offerId"); // `offerId` is the ID of the offer created for your
 
 Config.setPaypalUrls({
   // PayPal URLs, needed for Checkout Paypal payments
-  successUrl: "http://localhost:3000/my-account",
-  cancelUrl: "http://localhost:3000/",
+  successUrl: "http://localhost:3000/success",
+  cancelUrl: "http://localhost:3000/checkout",
   errorUrl: "http://localhost:3000/error" // query param 'message' with a readable error message will be added to this URL when an error will occur
 });
 Config.setMyAccountUrl("http://localhost:3000/acc"); // needed for MyAccount update payment details and checkout legal notes
@@ -334,7 +334,24 @@ Usage:
 
 This component shows a list of available switches (upgrade options) for a given subscription passed in `offerId` prop.
 
-Usage:
+**Config methods**
+
+```javascript
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
+```
+
+**Props**
+
+- `offerId` \* - ID of Cleeng offer, for which possible switches should be displayed. User has to have access to this offer
+
+- `toOfferId` - Use to open the switch popup by default. It's a ID of Cleeng offer to which user wants to switch.
+- `onCancel` - required when `toOfferId` is provided. A function that will be called when the user resigns from the switch. This function should, at least, unmount the SubscriptionSwitches component
+- `onSwitchSuccess` - required when `toOfferId` is provided. A function that will be called when the switch succeeds and the user will click the 'Back to settings' button. This function should, at least, unmount the SubscriptionSwitches component
+
+If you are providing the `toOfferId` prop you need to validate if this switch is possible for the customer. It is, when <a href="https://developers.cleeng.com/reference/fetch-available-switches">available switches endpoint</a> for `offerId` will return `toOfferId` offer ID in `available` array.
+
+**Usage sample**
 
 ```javascript
 <SubscriptionSwitches offerId={"S538257415_PL"} />
