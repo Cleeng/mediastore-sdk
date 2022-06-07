@@ -139,7 +139,7 @@ If you prefer smaller components, you can use these to implement the exact featu
 
 #### <a id="checkout-header"></a><h2 align="center">Checkout</h2>
 
-`Checkout` is a big component that contains the whole checkout process (from registration to purchase). It contains components listed below:
+`Checkout` is a complex component that covers the whole checkout process, from the registration to the purchase. It contains components listed below:
 
 - [Register](#register-header)
 - [Login](#login-header)
@@ -254,7 +254,7 @@ Config.setPublisher("111111111"); // required
 
 **Props**
 
-- `onSuccess` \* - callback function called aftersuccessful registration
+- `onSuccess` \* - callback function called after successful registration
 - `onHaveAccountClick` \* - function called when user clicks **Have an account?** below the registration form
 
 \* - required
@@ -267,7 +267,7 @@ import {Auth, Config, Register} from '@cleeng/mediastore-sdk';
 Config.setPublisher("111111111");
 
 {Auth.isLogged() ? (
-   // your content, the user is logged in
+   // your logic, when the user is logged in
   ) : (
     <Register
       onSuccess={() => console.log("success")}
@@ -462,7 +462,7 @@ Config.setRefreshToken("yyy"); // optional
 
 `Capture` component is a form that was created for collecting user data that a broadcaster wants to collect. A broadcaster can enable the capture feature and configure its settings in the Cleeng broadcaster dashboard. For more information, see [Cleeng Capture](https://publisher.support.cleeng.com/hc/en-us/articles/222325667-Cleeng-Capture).
 
-If there are any capture questions to ask, this component will show a proper form. If there are no available capture fields and no `onSuccess` it will show the loader.
+If there are any required, and unanswered, capture questions, this component will show a proper form. If there are no available capture fields and no `onSuccess` it will show the loader.
 
 **Config methods**
 
