@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import roundNumber from 'util/roundNumber';
+import formatNumber from 'util/formatNumber';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 
@@ -32,7 +32,7 @@ const CheckoutPriceBox = ({
           <StyledPriceWrapper>
             <StyledLabel>{t('Price')}:</StyledLabel>
             <StyledOfferPrice>
-              {`${customerCurrencySymbol}${offerPrice} `}
+              {`${customerCurrencySymbol}${formatNumber(offerPrice)} `}
               <span>{t('exVAT')}</span>
             </StyledOfferPrice>
           </StyledPriceWrapper>
@@ -40,7 +40,7 @@ const CheckoutPriceBox = ({
           <StyledPriceWrapper>
             <StyledLabel>{t('Coupon Discount')}</StyledLabel>
             <StyledOfferPrice>
-              {`${customerCurrencySymbol}${discountAmount}`}
+              {`${customerCurrencySymbol}${formatNumber(discountAmount)}`}
             </StyledOfferPrice>
           </StyledPriceWrapper>
         </>
@@ -49,7 +49,7 @@ const CheckoutPriceBox = ({
         <StyledPriceWrapper>
           <StyledLabel>{t('Applicable Tax')}</StyledLabel>
           <StyledOfferPrice>
-            {`${customerCurrencySymbol}${taxValue}`}
+            {`${customerCurrencySymbol}${formatNumber(taxValue)}`}
           </StyledOfferPrice>
         </StyledPriceWrapper>
       )}
@@ -57,7 +57,7 @@ const CheckoutPriceBox = ({
         <StyledPriceWrapper>
           <StyledLabel>{t('Service Fee')}</StyledLabel>
           <StyledOfferPrice>
-            {`${customerCurrencySymbol}${roundNumber(customerServiceFee)}`}
+            {`${customerCurrencySymbol}${formatNumber(customerServiceFee)}`}
           </StyledOfferPrice>
         </StyledPriceWrapper>
       )}
@@ -65,14 +65,14 @@ const CheckoutPriceBox = ({
         <StyledPriceWrapper>
           <StyledLabel>{t('Payment Method Fee')}</StyledLabel>
           <StyledOfferPrice>
-            {`${customerCurrencySymbol}${roundNumber(paymentMethodFee)}`}
+            {`${customerCurrencySymbol}${formatNumber(paymentMethodFee)}`}
           </StyledOfferPrice>
         </StyledPriceWrapper>
       )}
       <StyledPriceWrapper>
         <StyledTotalLabel>{t('Total')}:</StyledTotalLabel>
         <StyledTotalOfferPrice>
-          {`${customerCurrencySymbol}${roundNumber(finalPrice)}`}
+          {`${customerCurrencySymbol}${formatNumber(finalPrice)}`}
         </StyledTotalOfferPrice>
       </StyledPriceWrapper>
     </StyledPriceBoxWrapper>

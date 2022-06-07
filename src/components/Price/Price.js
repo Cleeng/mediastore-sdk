@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import roundNumber from 'util/roundNumber';
+import formatNumber from 'util/formatNumber';
 
 import {
   WrapperStyled,
@@ -21,7 +21,7 @@ const Price = ({ currency, price, period }) => (
   <WrapperStyled>
     <InnerWrapper>
       <CurrencyStyled>{currency}</CurrencyStyled>
-      <PriceStyled>{roundNumber(price)}</PriceStyled>
+      <PriceStyled>{formatNumber(price)}</PriceStyled>
     </InnerWrapper>
     {period && (
       <PeriodStyled>/&nbsp;{addSpaceAfterNumber(period)}</PeriodStyled>

@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { shallow } from 'enzyme';
-import roundNumber from 'util/roundNumber';
+import formatNumber from 'util/formatNumber';
 import { PureCheckoutPriceBox as CheckoutPriceBox } from './CheckoutPriceBox';
 import {
   StyledPriceBoxWrapper,
@@ -51,28 +51,28 @@ describe('CheckoutPriceBox', () => {
         .at(0)
         .find(StyledOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${offerPrice} exVAT`);
+    ).toBe(`${customerCurrencySymbol}${formatNumber(offerPrice)} exVAT`);
     expect(
       wrapper
         .find(StyledPriceWrapper)
         .at(1)
         .find(StyledOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${discountAmount}`);
+    ).toBe(`${customerCurrencySymbol}${formatNumber(discountAmount)}`);
     expect(
       wrapper
         .find(StyledPriceWrapper)
         .at(2)
         .find(StyledOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${taxValue}`);
+    ).toBe(`${customerCurrencySymbol}${formatNumber(taxValue)}`);
     expect(
       wrapper
         .find(StyledPriceWrapper)
         .at(3)
         .find(StyledTotalOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${finalPriceWithCoupon}`);
+    ).toBe(`${customerCurrencySymbol}${formatNumber(finalPriceWithCoupon)}`);
   });
   it('displays payment and service fee', () => {
     const wrapper = shallow(
@@ -97,20 +97,20 @@ describe('CheckoutPriceBox', () => {
         .at(0)
         .find(StyledOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${roundNumber(customerServiceFee)}`);
+    ).toBe(`${customerCurrencySymbol}${formatNumber(customerServiceFee)}`);
     expect(
       wrapper
         .find(StyledPriceWrapper)
         .at(1)
         .find(StyledOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${roundNumber(paymentFee)}`);
+    ).toBe(`${customerCurrencySymbol}${formatNumber(paymentFee)}`);
     expect(
       wrapper
         .find(StyledPriceWrapper)
         .at(2)
         .find(StyledTotalOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${roundNumber(finalPriceWithFees)}`);
+    ).toBe(`${customerCurrencySymbol}${formatNumber(finalPriceWithFees)}`);
   });
 });
