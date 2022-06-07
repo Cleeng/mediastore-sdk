@@ -205,7 +205,7 @@ class Payment extends Component {
   gernerateLegalNote = () => {
     const { order, period } = this.props;
     const discountApplied = order.discount && order.discount.applied;
-
+    const isInTrial = discountApplied && order.discount.type === 'trial';
     const readablePrice = `${currencyFormat[order.currency]}${
       order.priceBreakdown.offerPrice
     }${period ? `/${period}` : ''}`;
@@ -220,6 +220,8 @@ class Payment extends Component {
             , you will be charged {readablePrice} or then-current price plus
             applicable taxes on a recurring basis.{' '}
           </strong>
+          {isInTrial &&
+            'If you do not cancel the service during its free trial period, you will be charged. '}
           Your subscription will automatically continue until you cancel. To
           cancel, login into{' '}
           <a

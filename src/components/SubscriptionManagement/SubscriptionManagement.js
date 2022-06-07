@@ -102,8 +102,7 @@ const SubscriptionManagement = ({
                   data: {
                     action: 'unsubscribe',
                     offerData: {
-                      offerId: subscription.offerId,
-                      expiresAt: subscription.expiresAt
+                      ...subscription
                     }
                   }
                 });
@@ -122,8 +121,7 @@ const SubscriptionManagement = ({
                   data: {
                     action: 'resubscribe',
                     offerData: {
-                      offerId: subscription.offerId,
-                      expiresAt: subscription.expiresAt,
+                      ...subscription,
                       price: `${subscription.nextPaymentPrice}${
                         currencyFormat[subscription.nextPaymentCurrency]
                       }`
