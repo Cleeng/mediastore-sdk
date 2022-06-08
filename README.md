@@ -85,6 +85,10 @@ Config.setPaypalUrls({
 Config.setMyAccountUrl("http://localhost:3000/acc"); // needed for MyAccount update payment details and checkout legal notes
 
 Config.setTheme(); // more informations in the [Styling] section.
+
+// Auth methods
+Auth.isLogged(); // returns true if the user is authenticated (valid JWT or existing refresh token in local storage)
+Auth.logout(); // removes all Cleeng data from local storage
 ```
 
 **Usage sample**
@@ -151,6 +155,7 @@ If you prefer smaller components, you can use these to implement the exact featu
 **Config methods**
 
 ```javascript
+Config.setPublisherId("123456789"); // required
 Config.setMyAccountUrl("https://your-website.com/user-profile"); // required for legal notes
 Config.setPaypalUrls({
   // PayPal URLs, needed for Checkout Paypal payments
@@ -336,6 +341,7 @@ Config.setPublisher("111111111"); // required
 
 - `offerId` \* - ID of Cleeng offer, for which Purchase component should be opened. If not provided, it will use the item from local storage with name 'CLEENG_OFFER_ID'
 - `onSuccess` - function called after a successful payment process
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
 
 \* - required
 
@@ -351,7 +357,24 @@ Config.setMyAccountUrl("https://your-website.com/user-profile"); // required for
 
 ```javascript
 import { Config, Purchase } from "@cleeng/mediastore-sdk";
-<Purchase offerId="S538257415_PL" onSuccess={() => console.log("success")} />;
+
+const availablePaymentMethods = [
+  {
+    id: 142029029,
+    methodName: "card"
+  },
+  {
+    id: 153379135,
+    methodName: "paypal",
+    default: true
+  }
+];
+
+<Purchase
+  offerId="S538257415_PL"
+  onSuccess={() => console.log("success")}
+  availablePaymentMethods={availablePaymentMethods}
+/>;
 ```
 
 #### <a id="subscriptions-header"></a><h2 align="center">Subscriptions</h2>
