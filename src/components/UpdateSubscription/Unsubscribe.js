@@ -20,16 +20,6 @@ import {
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import { ReasonsWrapper, StyledItem } from './UpdateSubscriptionStyled';
 
-const cancellationReasons = [
-  { value: 'Poor customer support', key: 'support' },
-  { value: 'Switch to a different service', key: 'service' },
-  { value: 'Subscription is too expensive', key: 'expensive' },
-  { value: 'Video streaming issues', key: 'issues' },
-  { value: 'Not enough interesting content', key: 'content' },
-  { value: 'Service is hard to use', key: 'hardUse' },
-  { value: 'Content I like has ended', key: 'end' }
-];
-
 const Unsubscribe = ({
   offerDetails,
   hideInnerPopup,
@@ -42,8 +32,18 @@ const Unsubscribe = ({
   const [isError, setIsError] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
 
+  const defaultCancellationReasons = [
+    { value: 'Poor customer support', key: 'support' },
+    { value: 'Switch to a different service', key: 'service' },
+    { value: 'Subscription is too expensive', key: 'expensive' },
+    { value: 'Video streaming issues', key: 'issues' },
+    { value: 'Not enough interesting content', key: 'content' },
+    { value: 'Service is hard to use', key: 'hardUse' },
+    { value: 'Content I like has ended', key: 'end' }
+  ];
+
   const calcellationReasonsToShow =
-    customCancellationReasons || cancellationReasons;
+    customCancellationReasons || defaultCancellationReasons;
 
   const unsubscribe = async () => {
     try {
@@ -80,9 +80,9 @@ const Unsubscribe = ({
             <TextStyled>
               Your <strong>{offerDetails.offerTitle}</strong>{' '}
               {offerDetails.inTrial
-                ? `free trial will end on`
+                ? `free trial will end on `
                 : `subscription is
-                paid until`}{' '}
+                paid until `}
               <strong>{dateFormat(offerDetails.expiresAt)}</strong>. If you
               would like to proceed with cancelling your subscription, please
               select &apos;Unsubscribe&apos; below, and your subscription will

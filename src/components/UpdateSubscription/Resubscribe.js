@@ -61,7 +61,7 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
             <TextStyled>
               By clicking the button below you can resume your plan. Your next
               bill will be on <b>{dateFormat(offerDetails.expiresAt)} </b>
-              {t('and will be')} <b>{`${priceRounded}${currency}`}</b>
+              {t('and it will be')} <b>{`${priceRounded}${currency}`}</b>
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
@@ -83,9 +83,7 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
           <img src={checkmarkIcon} alt="checkmark icon" />
           <TitleStyled>{t('Your plan has been renewed')}</TitleStyled>
           <TextStyled>
-            {t(
-              'You have been successfully resubscribed. Your fee will be charged'
-            )}
+            {t('You have been successfully resubscribed. Your fee will be ')}
             <b>{`${priceRounded}${currency}`}</b> started from
             <b>{dateFormat(offerDetails.expiresAt)}.</b>
           </TextStyled>
