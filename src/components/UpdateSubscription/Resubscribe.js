@@ -21,11 +21,7 @@ import {
 const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [currentStep, setCurrentStep] = useState(false);
-
-  const price = offerDetails.price ? offerDetails.price.slice(0, -1) : '';
-  const priceRounded = Math.round(price * 100) / 100;
-  const currency = offerDetails.price ? offerDetails.price.slice(-1) : '';
+  const [currentStep, setCurrentStep] = useState(1);
 
   const resubscribe = async () => {
     try {
@@ -60,8 +56,9 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
             <TitleStyled>{t('Resume your plan')}</TitleStyled>
             <TextStyled>
               By clicking the button below you can resume your plan. Your next
-              bill will be on <b>{dateFormat(offerDetails.expiresAt)} </b>
-              {t('and it will be')} <b>{`${priceRounded}${currency}`}</b>
+              bill will be on <b>{dateFormat(offerDetails.nextPaymentAt)} </b>
+              {t('and it will be')}{' '}
+              <b>{`${offerDetails.nextPaymentPrice}${offerDetails.nextPaymentCurrency}`}</b>
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
@@ -84,8 +81,9 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
           <TitleStyled>{t('Your plan has been renewed')}</TitleStyled>
           <TextStyled>
             {t('You have been successfully resubscribed. Your fee will be ')}
-            <b>{`${priceRounded}${currency}`}</b> started from
-            <b>{dateFormat(offerDetails.expiresAt)}.</b>
+            <b>{`${offerDetails.nextPaymentPrice}${offerDetails.nextPaymentCurrency}`}</b>{' '}
+            started from
+            <b> {dateFormat(offerDetails.nextPaymentAt)}.</b>
           </TextStyled>
           <Button
             width="auto"
