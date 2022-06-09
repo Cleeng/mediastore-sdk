@@ -368,16 +368,16 @@ import { Provider } from 'react-redux';
 - [Subscriptions](#subscriptions-header)
 - [SubscriptionSwitches](#subscription-switches-header)
 
-**Props**
-
-- `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
-
 **Config methods**
 
 ```javascript
 Config.setJWT('xxx'); // required
 Config.setRefreshToken('yyy'); // optional
 ```
+
+**Props**
+
+- `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
 
 **Usage sample**
 
