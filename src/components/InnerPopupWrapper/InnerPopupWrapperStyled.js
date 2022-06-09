@@ -28,8 +28,11 @@ export const WrapperStyled = styled.div.attrs(() => ({
   display: flex;
   flex-direction: column;
   padding: 30px;
-  height: 100%;
   width: 100%;
+
+  ${media.small`
+    height: 100%;
+  `}
 `;
 
 export const DotsWrapperStyled = styled.div.attrs(() => ({

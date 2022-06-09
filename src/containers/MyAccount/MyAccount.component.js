@@ -214,9 +214,13 @@ class MyAccount extends Component {
   }
 
   renderMyAccountContent = currentPage => {
+    const { customCancellationReasons } = this.props;
+
     switch (currentPage) {
       case MY_ACCOUNT_PAGES.planDetails:
-        return <PlanDetails />;
+        return (
+          <PlanDetails customCancellationReasons={customCancellationReasons} />
+        );
       case MY_ACCOUNT_PAGES.paymentInfo:
         return <PaymentInfo />;
       case MY_ACCOUNT_PAGES.updateProfile:
@@ -290,11 +294,18 @@ MyAccount.propTypes = {
   planDetails: PropTypes.objectOf(PropTypes.any),
   popup: PropTypes.objectOf(PropTypes.any),
   showPopup: PropTypes.func.isRequired,
-  hidePopup: PropTypes.func.isRequired
+  hidePopup: PropTypes.func.isRequired,
+  customCancellationReasons: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired
+    })
+  )
 };
 
 MyAccount.defaultProps = {
   userProfile: { user: null },
   planDetails: { currentPlan: [] },
-  popup: { isPopupShown: false }
+  popup: { isPopupShown: false },
+  customCancellationReasons: null
 };

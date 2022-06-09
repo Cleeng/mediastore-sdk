@@ -136,6 +136,7 @@ class CurrentPlan extends PureComponent {
                     description={description}
                     currency={currencyFormat[currency]}
                     price={price}
+                    isMyAccount
                     showInfoBox={
                       subItem.offerType !== 'S' ||
                       supportedPaymentGateways.includes(subItem.paymentGateway)

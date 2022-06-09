@@ -62,7 +62,7 @@ import { Config } from '@cleeng/mediastore-sdk';
 Config.setEnvironment('sandbox');
 ```
 
-where the environment is one of the listed below:
+Setting the environment is required for all components. The environment is one of the listed below:
 
 - `sandbox` (default)
 - `production`
@@ -207,14 +207,31 @@ const availablePaymentMethods = [
 -Config.setRefreshToken('yyy'); // optional
 ```
 
+**Props**
+
+- `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
+
+**Usage sample**
+
+```javascript
+-Config.setPublisher('111111111'); // required when JWT or refreshToken are not provided
+-Config.setJWT('xxx'); // optional, when Login should be skipped
+-Config.setRefreshToken('yyy'); // optional
+```
+
 **Usage sample**
 
 ```javascript
 import { MyAccount, store } from '@cleeng/mediastore-sdk';
 import { Provider } from 'react-redux';
 
+const cancellationReasons = [
+  { value: 'Poor customer support', key: 'support' },
+  { value: 'Switch to a different service', key: 'service' }
+];
+
 <Provider store={store}>
-  <MyAccount />
+  <MyAccount customCancellationReasons={cancellationReasons} />
 </Provider>;
 ```
 
@@ -337,13 +354,24 @@ import { Provider } from 'react-redux';
 
 This component shows a list of available switches (upgrade options) for a given subscription passed in `offerId` prop.
 
+**Config methods**
+
+```javascript
+Config.setJWT('xxx'); // required
+Config.setRefreshToken('yyy'); // optional
+```
+
 **Props**
 
-- `offerId` \* - ID of Cleeng offer, for which SubscriptionSwitches component should be opened
+- `offerId` \* - ID of Cleeng offer, for which possible switches should be displayed. User has to have access to this offer
 
-\* - required
+- `toOfferId` - Use to open the switch popup by default. It's a ID of Cleeng offer to which user wants to switch.
+- `onCancel` - required when `toOfferId` is provided. A function that will be called when the user resigns from the switch. This function should, at least, unmount the SubscriptionSwitches component
+- `onSwitchSuccess` - required when `toOfferId` is provided. A function that will be called when the switch succeeds and the user will click the 'Back to settings' button. This function should, at least, unmount the SubscriptionSwitches component
 
-**Config methods**
+If you are providing the `toOfferId` prop you need to validate if this switch is possible for the customer. It is, when <a href="https://developers.cleeng.com/reference/fetch-available-switches">available switches endpoint</a> for `offerId` will return `toOfferId` offer ID in `available` array.
+
+**Usage sample**
 
 ```javascript
 Config.setJWT('xxx'); // required

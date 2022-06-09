@@ -16,6 +16,7 @@ import {
   TextStyled,
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
+import SkeletonWrapper from 'components/SkeletonWrapper';
 import {
   ImageWrapper,
   ArrowStyled,
@@ -28,6 +29,9 @@ const SwitchPlanPopup = ({
   fromOffer,
   hideInnerPopup,
   updateList,
+  isPopupLoading,
+  onCancel,
+  onSwitchSuccess,
   t
 }) => {
   const [step, setStep] = useState(1);
@@ -61,6 +65,22 @@ const SwitchPlanPopup = ({
     updateList();
   };
 
+  if (isPopupLoading) {
+    return (
+      <InnerPopupWrapper
+        steps={2}
+        popupTitle={t('Change Plan')}
+        currentStep={1}
+      >
+        <SkeletonWrapper
+          showChildren={false}
+          height={200}
+          width={450}
+          margin="auto"
+        />
+      </InnerPopupWrapper>
+    );
+  }
   return (
     <InnerPopupWrapper
       steps={2}
@@ -105,7 +125,7 @@ const SwitchPlanPopup = ({
             />
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={hideInnerPopup}>
+            <Button theme="simple" onClickFn={onCancel || hideInnerPopup}>
               {t('Keep Current Plan')}
             </Button>
             <Button theme="confirm" onClickFn={changePlan}>
@@ -137,7 +157,10 @@ const SwitchPlanPopup = ({
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme="confirm" onClickFn={closePopupAndRefresh}>
+            <Button
+              theme="confirm"
+              onClickFn={onSwitchSuccess || closePopupAndRefresh}
+            >
               {t('Back to settings')}
             </Button>
           </ButtonWrapperStyled>
@@ -152,7 +175,10 @@ SwitchPlanPopup.propTypes = {
   fromOffer: PropTypes.objectOf(PropTypes.any),
   hideInnerPopup: PropTypes.func,
   updateList: PropTypes.func,
-  t: PropTypes.func
+  isPopupLoading: PropTypes.bool,
+  t: PropTypes.func,
+  onCancel: PropTypes.func,
+  onSwitchSuccess: PropTypes.func
 };
 
 SwitchPlanPopup.defaultProps = {
@@ -160,7 +186,10 @@ SwitchPlanPopup.defaultProps = {
   fromOffer: {},
   hideInnerPopup: () => {},
   updateList: () => {},
-  t: k => k
+  isPopupLoading: false,
+  t: k => k,
+  onCancel: null,
+  onSwitchSuccess: null
 };
 
 export { SwitchPlanPopup as PureSwitchPlanPopup };

@@ -29,6 +29,7 @@ const OfferCard = ({
   showInfoBox,
   isDataLoaded,
   paymentMethod,
+  isMyAccount,
   t
 }) => {
   const mapCode = {
@@ -93,11 +94,13 @@ const OfferCard = ({
             {isTrialAvailable && (
               <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
             )}
-            <Price
-              currency={currency}
-              price={price}
-              period={offerType === 'S' ? period : null}
-            />
+            {((isMyAccount && offerType === 'S') || !isMyAccount) && (
+              <Price
+                currency={currency}
+                price={price}
+                period={offerType === 'S' ? period : null}
+              />
+            )}
           </SkeletonWrapper>
         </PriceWrapperStyled>
       </WrapperStyled>
@@ -126,7 +129,8 @@ OfferCard.propTypes = {
   showInfoBox: PropTypes.string,
   isDataLoaded: PropTypes.bool,
   paymentMethod: PropTypes.string,
-  t: PropTypes.func
+  t: PropTypes.func,
+  isMyAccount: PropTypes.bool
 };
 
 OfferCard.defaultProps = {
@@ -140,7 +144,8 @@ OfferCard.defaultProps = {
   showInfoBox: null,
   isDataLoaded: true,
   paymentMethod: '',
-  t: k => k
+  t: k => k,
+  isMyAccount: false
 };
 
 export { OfferCard as PureOfferCard };
