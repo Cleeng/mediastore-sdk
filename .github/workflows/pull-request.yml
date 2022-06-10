@@ -1,11 +1,19 @@
 name: Prepare feature package
+
 on:
   pull_request:
     types: [opened, synchronize]
+
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   publish:
     name: publish
     runs-on: ubuntu-latest
+    env:
+      NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -14,17 +22,10 @@ jobs:
           registry-url: 'https://npm.pkg.github.com'
           always-auth: true
           scope: '@cleeng'
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - run: git config --global user.name "GitHub CD bot"
       - run: git config --global user.email "pkaczmarek@cleeng.com"
       - run: npm ci
-      - run: |
-            echo "PACKAGE_VERSION=$(cat package.json | grep -o  '"version": "[^"]*' | grep -o '[^"]*$')" >> $GITHUB_ENV
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - run: npm version ${{ env.PACKAGE_VERSION}}-${{ github.event.number }}-${{ github.event.pull_request.head.sha }}
+      - run: echo PACKAGE_VERSION=$(node -e 'console.log(require("./package.json").version)') >> $GITHUB_ENV
+      - run: npm version ${{ env.PACKAGE_VERSION }}-${{ github.event.number }}-${{ github.event.pull_request.head.sha }}
       - run: npm run compile
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
