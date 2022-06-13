@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import ErrorPage from 'components/ErrorPage';
 import Button from 'components/Button';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -19,7 +18,6 @@ class Login extends Component {
     this.state = {
       offerId: '',
       publisherId: '',
-      isOfferError: false,
       emailChanged: false
     };
   }
@@ -45,10 +43,8 @@ class Login extends Component {
 
   setPublisherId = value => this.setState({ publisherId: value });
 
-  setOfferError = value => this.setState({ isOfferError: value });
-
   render() {
-    const { isOfferError, offerId, publisherId, emailChanged } = this.state;
+    const { offerId, publisherId, emailChanged } = this.state;
     const {
       isMyAccount,
       onSuccess,
@@ -57,12 +53,7 @@ class Login extends Component {
       t
     } = this.props;
 
-    return isOfferError ? (
-      <ErrorPage
-        type="offerNotExist"
-        resetError={() => this.setOfferError(false)}
-      />
-    ) : (
+    return (
       <LoginWrapperStyled>
         <Header />
         <ContentWrapperStyled>
@@ -70,7 +61,6 @@ class Login extends Component {
             t={t}
             offerId={offerId}
             publisherId={publisherId}
-            setOfferError={this.setOfferError}
             isMyAccount={isMyAccount}
             emailChanged={emailChanged}
             onSuccess={onSuccess}

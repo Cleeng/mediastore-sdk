@@ -75,33 +75,19 @@ class LoginForm extends Component {
   };
 
   login = async () => {
-    const {
-      offerId,
-      setOfferError,
-      isMyAccount,
-      publisherId,
-      onSuccess
-    } = this.props;
+    const { offerId, isMyAccount, publisherId, onSuccess } = this.props;
     const { email, password } = this.state;
-
-    if (!offerId && !isMyAccount) {
-      setOfferError(true);
-      return false;
-    }
 
     this.setState({
       processing: true,
       hideSuccessMessage: true
     });
 
-    let loginBy;
-    if (isMyAccount) {
-      loginBy = { publisherId };
-    } else {
-      loginBy = { offerId };
-    }
-
-    const response = await loginCustomer(email, password, loginBy);
+    const response = await loginCustomer(
+      email,
+      password,
+      publisherId ? { publisherId } : { offerId }
+    );
     if (response.status === 200) {
       Auth.login(
         !!isMyAccount,
@@ -193,7 +179,6 @@ LoginForm.propTypes = {
   offerId: PropTypes.string,
   publisherId: PropTypes.string,
   isMyAccount: PropTypes.bool,
-  setOfferError: PropTypes.func,
   emailChanged: PropTypes.bool,
   onSuccess: PropTypes.func,
   t: PropTypes.func
@@ -203,7 +188,6 @@ LoginForm.defaultProps = {
   offerId: '',
   publisherId: '',
   isMyAccount: false,
-  setOfferError: () => {},
   emailChanged: false,
   onSuccess: () => {},
   t: k => k

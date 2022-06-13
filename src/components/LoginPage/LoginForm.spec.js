@@ -9,7 +9,6 @@ import LoginForm from './LoginForm';
 
 jest.mock('api/Auth/loginCustomer');
 jest.mock('api/Customer/getCustomerLocales');
-const setOfferErrorMock = jest.fn();
 const mockInputValue = 'MOCK_INPUT_VALUE';
 const mockEmailValue = 'mockmail@mock.com';
 const mockNotValidEmail = 'mock';
@@ -290,31 +289,6 @@ describe('LoginForm', () => {
         expect(instance.state.errors.password).toBe('');
         expect(instance.state.generalError).toBe('An error occurred.');
         expect(onSubmitMock).not.toHaveBeenCalled();
-        done();
-      });
-    });
-
-    it('should return offer error when offerId is not given', done => {
-      const preventDefaultMock = jest.fn();
-      onSubmitMock.mockClear();
-      const wrapper = shallow(
-        <LoginForm
-          offerId=""
-          onLoginComplete={onSubmitMock}
-          setOfferError={setOfferErrorMock}
-        />
-      );
-      const instance = wrapper.instance();
-      instance.setState({
-        email: 'john@example.com',
-        password: 'testtest123'
-      });
-      expect(onSubmitMock).not.toHaveBeenCalled();
-
-      wrapper.simulate('submit', { preventDefault: preventDefaultMock });
-      expect(preventDefaultMock).toHaveBeenCalledTimes(1);
-      setImmediate(() => {
-        expect(setOfferErrorMock).toHaveBeenCalled();
         done();
       });
     });
