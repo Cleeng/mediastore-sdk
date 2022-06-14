@@ -53,7 +53,7 @@ const AddCard = ({
     <>
       <ContentStyled>
         <TitleStyled>{t('Add your card')}</TitleStyled>
-        <TextStyled>{t('Enter your card details here!')}</TextStyled>
+        <TextStyled>{t('Enter your card details here')}</TextStyled>
         <Adyen
           onSubmit={addAdyenPaymentDetails}
           isCheckout={false}
