@@ -46,13 +46,14 @@ class PasswordReset extends Component {
 
   onSubmit = async e => {
     e.preventDefault();
+    const publisherId = getData('CLEENG_PUBLISHER_ID');
     const { value, offerId } = this.state;
     const { onSuccess, t } = this.props;
     if (this.validateFields()) {
       this.setState({
         processing: true
       });
-      const response = await resetPassword(offerId, value);
+      const response = await resetPassword(offerId, value, publisherId);
       if (response.errors.length) {
         if (response.status === 429) {
           this.setState({

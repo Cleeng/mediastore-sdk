@@ -30,18 +30,5 @@ describe('Login', () => {
       expect(wrapper.find(ErrorPage).exists()).toBe(false);
       expect(wrapper.find(LoginForm).exists()).toBe(true);
     });
-    it('should show Error page when offer error occurred', () => {
-      const wrapper = mount(<PureLogin urlProps={mockUrlProps} />);
-      wrapper.setState({ isOfferError: true });
-      wrapper.update();
-      expect(wrapper.find(ErrorPage).exists()).toBe(true);
-    });
-    it('should update state when offerError occure', () => {
-      const wrapper = mount(<PureLogin urlProps={mockUrlProps} />);
-      wrapper.instance().setOfferError(true);
-      wrapper.update();
-      expect(wrapper.state().isOfferError).toBe(true);
-      expect(wrapper.find(ErrorPage).exists()).toBe(true);
-    });
   });
 });

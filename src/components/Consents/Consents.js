@@ -28,7 +28,6 @@ export class Consents extends React.Component {
 
   componentDidMount() {
     const { publisherId } = this.props;
-    localStorage.setItem('test_package', 'yes');
     if (publisherId) {
       this.getConsents(publisherId).then(() => {});
     }
