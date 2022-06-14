@@ -223,7 +223,7 @@ class Payment extends Component {
           {isInTrial &&
             'If you do not cancel the service during its free trial period, you will be charged. '}
           Your subscription will automatically continue until you cancel. To
-          cancel, login into{' '}
+          cancel, log into{' '}
           <a
             href={getData('CLEENG_MY_ACCOUNT_URL')}
             style={{
