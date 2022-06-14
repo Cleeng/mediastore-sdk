@@ -77,8 +77,7 @@ describe('<MessageBox/>', () => {
         data: {
           action: 'unsubscribe',
           offerData: {
-            offerId: 'S937144802_UA',
-            expiresAt: 1582706082
+            ...subscriptionMock
           }
         }
       });
@@ -100,8 +99,7 @@ describe('<MessageBox/>', () => {
         data: {
           action: 'resubscribe',
           offerData: {
-            offerId: subscriptionCancelledMock.offerId,
-            expiresAt: subscriptionCancelledMock.expiresAt,
+            ...subscriptionCancelledMock,
             price: `14.4€`
           }
         }
