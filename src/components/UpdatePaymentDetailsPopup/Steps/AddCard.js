@@ -6,7 +6,8 @@ import {
   ContentStyled,
   TitleStyled,
   TextStyled,
-  ButtonWrapperStyled
+  ButtonWrapperStyled,
+  WarningMessageStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
@@ -52,7 +53,7 @@ const AddCard = ({
     <>
       <ContentStyled>
         <TitleStyled>{t('Add your card')}</TitleStyled>
-        <TextStyled>{t('Enter your card details here')}</TextStyled>
+        <TextStyled>{t('Enter your card details here!')}</TextStyled>
         <Adyen
           onSubmit={addAdyenPaymentDetails}
           isCheckout={false}
@@ -72,6 +73,10 @@ const AddCard = ({
           {t('Back')}
         </Button>
       </ButtonWrapperStyled>
+      <WarningMessageStyled>
+        Your new details will replace the details used for your other active
+        subscriptions.
+      </WarningMessageStyled>
     </>
   );
 };

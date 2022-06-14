@@ -149,3 +149,13 @@ export const ButtonWrapperStyled = styled.div.attrs(() => ({
     }
   }
 `;
+
+export const WarningMessageStyled = styled.p.attrs(() => ({
+  className: 'msd__popup-content__warning'
+}))`
+  color: ${FontColor};
+  opacity: 0.8;
+  font-size: 11px;
+  margin: 15px 0 0 0;
+  text-align: center;
+`;
