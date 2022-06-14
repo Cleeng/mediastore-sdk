@@ -19,7 +19,7 @@ const UpdateSubscription = ({
         offerDetails={offerDetails}
         hideInnerPopup={hideInnerPopup}
         updateList={updateList}
-        customCancellationReason={customCancellationReasons}
+        customCancellationReasons={customCancellationReasons}
       />
     );
   }
