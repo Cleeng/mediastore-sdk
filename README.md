@@ -85,6 +85,10 @@ Config.setPaypalUrls({
 Config.setMyAccountUrl('http://localhost:3000/acc'); // needed for MyAccount update payment details and checkout legal notes
 
 Config.setTheme(); // more informations in the [Styling] section.
+
+// Auth methods
+Auth.isLogged(); // returns true if the user is authenticated (valid JWT or existing refresh token in local storage)
+Auth.logout(); // removes all Cleeng data from local storage
 ```
 
 **Usage sample**
@@ -105,7 +109,7 @@ export default function Home() {
 
   return (
     <>
-     {Auth.isAuthenticated ? (
+     {Auth.isLogged() ? (
         <Purchase offerId="S222222222_US"/>
       ) : (
         <YourCustomLogin>
@@ -139,7 +143,7 @@ If you prefer smaller components, you can use these to implement the exact featu
 
 #### <a id="checkout-header"></a><h2 align="center">Checkout</h2>
 
-`Checkout` is a big component that contains the whole checkout process (from registration to purchase). It contains components listed below:
+`Checkout` is a complex component that covers the whole checkout process, from the registration to the purchase. It contains components listed below:
 
 - [Register](#register-header)
 - [Login](#login-header)
@@ -148,17 +152,10 @@ If you prefer smaller components, you can use these to implement the exact featu
 - [Purchase](#purchase-header)
 - [PasswordReset](#password-reset-header)
 
-**Props**
-
-**Props**
-
-- `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened
-- `onSuccess` - function called after a successful checkout process
-- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
-
 **Config methods**
 
 ```javascript
+Config.setPublisherId('123456789'); // required
 Config.setMyAccountUrl('https://your-website.com/user-profile'); // required for legal notes
 Config.setPaypalUrls({
   // PayPal URLs, needed for Checkout Paypal payments
@@ -167,6 +164,12 @@ Config.setPaypalUrls({
   errorUrl: 'http://localhost:3000/error'
 });
 ```
+
+**Props**
+
+- `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened
+- `onSuccess` - function called after a successful checkout process
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
 
 **Usage**
 
@@ -202,9 +205,9 @@ const availablePaymentMethods = [
 **Config methods**
 
 ```javascript
--Config.setPublisher('111111111'); // required when JWT or refreshToken are not provided
--Config.setJWT('xxx'); // optional, when Login should be skipped
--Config.setRefreshToken('yyy'); // optional
+Config.setPublisher('111111111'); // required when JWT or refreshToken are not provided
+Config.setJWT('xxx'); // optional, when Login should be skipped
+Config.setRefreshToken('yyy'); // optional
 ```
 
 **Props**
@@ -263,40 +266,85 @@ export default UserAccountPage;
 
 #### <a id="register-header"></a><h2 align="center">Register</h2>
 
-`Register` component is a basic Cleeng registration form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#register)). You can pass a function that will be called after a successful registration process by using `onSuccess` prop.
+`Register` component is a basic Cleeng registration form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#register)).
 
-There is also a **Have an account?** button on that form. You can set what exactly will happen on clicking by using `onHaveAccountClick` prop.
-
-Usage:
+**Config methods**
 
 ```javascript
-<Register
-  onSuccess={() => console.log('success')}
-  onHaveAccountClick={() => console.log('have an account clicked')}
-/>
+Config.setPublisher('111111111'); // required
+```
+
+**Props**
+
+- `onSuccess` \* - callback function called after successful registration
+- `onHaveAccountClick` \* - function called when user clicks **Have an account?** below the registration form
+
+\* - required
+
+**Usage sample**
+
+```javascript
+import {Auth, Config, Register} from '@cleeng/mediastore-sdk';
+
+Config.setPublisher("111111111");
+
+{Auth.isLogged() ? (
+   // your logic, when the user is logged in
+  ) : (
+    <Register
+      onSuccess={() => console.log("success")}
+      onHaveAccountClick={() => console.log("have an account clicked")}
+    />
+)}
+
 ```
 
 #### <a id="login-header"></a><h2 align="center">Login</h2>
 
-`Login` component is a basic Cleeng login form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#login)). You can pass a function that will be called after a successful login process by using `onSuccess` prop.
+`Login` component is a basic Cleeng login form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#login)).
 
-There are two additional buttons on that form: **Go to register** and **Forgot password?**. You can set what exactly will happen on clicking each of them by using `onRegisterClick` and `onPasswordResetClick` props.
-
-Usage:
+**Config methods**
 
 ```javascript
+Config.setPublisher('111111111'); // required
+Config.setOffer('S123456789_US'); // optional, can be used as a replacement of setPublisher
+```
+
+**Props**
+
+- `onSuccess` \* - callback function called after successful login
+- `onRegisterClick` - function called when user clicks `Go to register` button
+- `onPasswordResetClick` - function called when user clicks `Forgot password?` button
+
+\* - required
+
+**Usage sample**
+
+```javascript
+Config.setPublisher('111111111');
+
 <Login
   onSuccess={() => console.log('success')}
   onRegisterClick={() => console.log('register button clicked')}
   onPasswordResetClick={() => console.log('password reset button clicked')}
-/>
+/>;
 ```
 
 #### <a id="password-reset-header"></a><h2 align="center">PasswordReset</h2>
 
 `PasswordReset` is a basic reset password form that can be used for resetting passwords (see an example [here](https://developers.cleeng.com/docs/purchase-flow#passwordreset)). You can pass a function that will be called after successful processing of the request with `onSuccess` prop.
 
-Usage:
+**Config methods**
+
+```javascript
+Config.setPublisher('111111111'); // required
+```
+
+**Props**
+
+- `onSuccess` \* - callback function called after a successful reset password request
+
+**Usage sample**
 
 ```javascript
 <PasswordReset onSuccess={() => console.log('success')} />
@@ -310,6 +358,7 @@ Usage:
 
 - `offerId` \* - ID of Cleeng offer, for which Purchase component should be opened. If not provided, it will use the item from local storage with name 'CLEENG_OFFER_ID'
 - `onSuccess` - function called after a successful payment process
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
 
 \* - required
 
@@ -325,7 +374,24 @@ Config.setMyAccountUrl('https://your-website.com/user-profile'); // required for
 
 ```javascript
 import { Config, Purchase } from '@cleeng/mediastore-sdk';
-<Purchase offerId="S538257415_PL" onSuccess={() => console.log('success')} />;
+
+const availablePaymentMethods = [
+  {
+    id: 142029029,
+    methodName: 'card'
+  },
+  {
+    id: 153379135,
+    methodName: 'paypal',
+    default: true
+  }
+];
+
+<Purchase
+  offerId="S538257415_PL"
+  onSuccess={() => console.log('success')}
+  availablePaymentMethods={availablePaymentMethods}
+/>;
 ```
 
 #### <a id="subscriptions-header"></a><h2 align="center">Subscriptions</h2>
@@ -507,9 +573,16 @@ import { Provider } from 'react-redux';
 
 `CheckoutConsents` is a simple form that contains all consents that have to be confirmed by a customer.
 
-You can pass a function that will be called after successful form submission with `onSuccess` prop.
+**Config methods**
 
-Usage:
+```javascript
+Config.setJWT('xxx'); // required
+Config.setRefreshToken('yyy'); // optional
+```
+
+**Props**
+
+- `onSuccess` \* - callback function called after successful form submission, or, if there are no available consents fields to update, immediate
 
 ```javascript
 <CheckoutConsents onSuccess={() => console.log('success')} />
@@ -519,9 +592,20 @@ Usage:
 
 `Capture` component is a form that was created for collecting user data that a broadcaster wants to collect. A broadcaster can enable the capture feature and configure its settings in the Cleeng broadcaster dashboard. For more information, see [Cleeng Capture](https://publisher.support.cleeng.com/hc/en-us/articles/222325667-Cleeng-Capture).
 
-You can pass a function that will be called after successful form submission or if there are no available capture fields with `onSuccess` prop.
+If there are any required, and unanswered, capture questions, this component will show a proper form. If there are no available capture fields and no `onSuccess` it will show the loader.
 
-Usage:
+**Config methods**
+
+```javascript
+Config.setJWT('xxx'); // required
+Config.setRefreshToken('yyy'); // optional
+```
+
+**Props**
+
+- `onSuccess` \* - callback function called after successful form submission, or, if there are no available capture fields, immediate
+
+**Usage sample**
 
 ```javascript
 <Capture onSuccess={() => console.log('success')} />
