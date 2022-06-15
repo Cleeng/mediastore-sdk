@@ -217,14 +217,6 @@ Config.setRefreshToken('yyy'); // optional
 **Usage sample**
 
 ```javascript
--Config.setPublisher('111111111'); // required when JWT or refreshToken are not provided
--Config.setJWT('xxx'); // optional, when Login should be skipped
--Config.setRefreshToken('yyy'); // optional
-```
-
-**Usage sample**
-
-```javascript
 import { MyAccount, store } from '@cleeng/mediastore-sdk';
 import { Provider } from 'react-redux';
 
