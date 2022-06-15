@@ -6,7 +6,8 @@ import {
   ContentStyled,
   TitleStyled,
   TextStyled,
-  ButtonWrapperStyled
+  ButtonWrapperStyled,
+  WarningMessageStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
@@ -72,6 +73,10 @@ const AddCard = ({
           {t('Back')}
         </Button>
       </ButtonWrapperStyled>
+      <WarningMessageStyled>
+        Your new details will replace the details used for your other active
+        subscriptions.
+      </WarningMessageStyled>
     </>
   );
 };
