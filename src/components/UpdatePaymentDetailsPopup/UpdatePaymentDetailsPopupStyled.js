@@ -93,6 +93,7 @@ export const RemoveLinkStyled = styled.a.attrs(() => ({
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 15px;
   &:hover {
     text-decoration: underline;
   }

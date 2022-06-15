@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
+import jwtDecode from 'jwt-decode';
 import labeling from 'containers/labeling';
 import { getData } from 'util/appConfigHelper';
 import resetPassword from 'api/Auth/resetPassword';
@@ -41,13 +42,17 @@ class EditPassword extends PureComponent {
   };
 
   resetPassword = async () => {
-    const customerEmail = getData('CLEENG_CUSTOMER_EMAIL');
-    const publisherId = getData('CLEENG_PUBLISHER_ID');
+    const { customerEmail } = this.props;
+    const { publisherId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
     this.setState({
       isLoading: true
     });
     try {
-      const response = await resetPassword('', customerEmail, publisherId);
+      const response = await resetPassword(
+        '',
+        customerEmail,
+        String(publisherId)
+      );
       if (!response.errors.length) {
         this.renderNextStep();
         this.setState({
@@ -69,10 +74,9 @@ class EditPassword extends PureComponent {
 
   render() {
     const { step, isLoading, isError } = this.state;
-    const { t, hideInnerPopup } = this.props;
+    const { t, customerEmail, hideInnerPopup } = this.props;
     const { steps } = data;
     const stepData = steps[step - 1];
-    const customerEmail = getData('CLEENG_CUSTOMER_EMAIL');
     return (
       <InnerPopupWrapper
         steps={2}
@@ -112,6 +116,7 @@ class EditPassword extends PureComponent {
 
 EditPassword.propTypes = {
   hideInnerPopup: PropTypes.func.isRequired,
+  customerEmail: PropTypes.string.isRequired,
   t: PropTypes.func
 };
 
