@@ -49,19 +49,7 @@ export const InsideWrapperStyled = styled.div.attrs(() => ({
 export const TransactionListStyled = styled.div.attrs(() => ({
   className: 'msd__transactions__list'
 }))`
-  height: 174px;
-  transition: all 0.3s ease-in-out;
   overflow: hidden;
-
-  ${props =>
-    props.length &&
-    css`
-      height: ${props.length === 1
-        ? '33px'
-        : props.length === 2
-        ? '103px'
-        : `${(props.length - 2) * 70 + 103}px`};
-    `};
 `;
 
 export const LeftBoxStyled = styled.div`
@@ -85,6 +73,7 @@ export const TitleStyled = styled.h3.attrs(() => ({
   font-size: 13px;
   font-weight: 700;
   line-height: 15px;
+  margin: 0;
 `;
 export const SubTitleStyled = styled.div.attrs(() => ({
   className: 'msd__transaction__subtitle'
