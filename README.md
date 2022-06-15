@@ -178,11 +178,13 @@ const availablePaymentMethods = [
   {
     id: 142029029,
     methodName: "card",
+    paymentGateway: "adyen",
     default: true
   },
   {
     id: 153379135,
-    methodName: "paypal"
+    methodName: "paypal",
+    paymentGateway: "paypal"
   }
 ];
 
@@ -370,12 +372,14 @@ import { Config, Purchase } from "@cleeng/mediastore-sdk";
 const availablePaymentMethods = [
   {
     id: 142029029,
-    methodName: "card"
+    methodName: "card",
+    paymentGateway: "adyen",
+    default: true
   },
   {
     id: 153379135,
     methodName: "paypal",
-    default: true
+    paymentGateway: "paypal"
   }
 ];
 

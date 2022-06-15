@@ -7,7 +7,8 @@ import {
   ContentStyled,
   TitleStyled,
   TextStyled,
-  ButtonWrapperStyled
+  ButtonWrapperStyled,
+  WarningMessageStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
 import { useTranslation } from 'react-i18next';
@@ -75,6 +76,10 @@ const AddPayPal = ({ selectedPaymentMethod, setStep }) => {
           {t('Back')}
         </Button>
       </ButtonWrapperStyled>
+      <WarningMessageStyled>
+        Your new details will replace the details used for your other active
+        subscriptions.
+      </WarningMessageStyled>
     </>
   );
 };
