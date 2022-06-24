@@ -51,8 +51,8 @@ const OfferContainer = ({
 
   const [couponDetails, setCouponDetails] = useState(null);
 
-  const createOrderHandler = () => {
-    createOrder(offerId).then(orderDetailsResponse => {
+  const createOrderHandler = longOfferId => {
+    createOrder(longOfferId).then(orderDetailsResponse => {
       const { errors } = orderDetailsResponse;
       if (errors.length) {
         setErrorMsg(errors[0]);
@@ -66,27 +66,27 @@ const OfferContainer = ({
     });
   };
 
-  const reuseSavedOrder = id => {
+  const reuseSavedOrder = (id, longOfferId) => {
     getOrder(id)
       .then(orderResponse => {
         if (orderResponse.errors.length) {
           removeData('CLEENG_ORDER_ID');
-          createOrderHandler();
+          createOrderHandler(longOfferId);
           return;
         }
         const {
           responseData: { order }
         } = orderResponse;
-        if (order.offerId === offerId) {
+        if (order.offerId === longOfferId) {
           setOrderDetails(order);
         } else {
           removeData('CLEENG_ORDER_ID');
-          createOrderHandler();
+          createOrderHandler(longOfferId);
         }
       })
       .catch(() => {
         removeData('CLEENG_ORDER_ID');
-        createOrderHandler();
+        createOrderHandler(longOfferId);
       });
   };
 
@@ -166,9 +166,9 @@ const OfferContainer = ({
 
         const orderId = getData('CLEENG_ORDER_ID');
         if (orderId) {
-          reuseSavedOrder(orderId);
+          reuseSavedOrder(orderId, responseData.offerId);
         } else {
-          createOrderHandler();
+          createOrderHandler(responseData.offerId);
         }
       });
     }
