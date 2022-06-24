@@ -122,6 +122,13 @@ const OfferContainer = ({
             'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
           messageType: MESSAGE_TYPE_FAIL
         });
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:redeem-coupon-failed', {
+            detail: {
+              coupon: couponCode
+            }
+          })
+        );
       } else {
         setOrderDetails(result.responseData.order);
         setCouponDetails({
@@ -130,6 +137,13 @@ const OfferContainer = ({
           message: 'Your coupon has been applied!',
           messageType: MESSAGE_TYPE_SUCCESS
         });
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:redeem-coupon-success', {
+            detail: {
+              coupon: couponCode
+            }
+          })
+        );
       }
     });
   };
@@ -179,6 +193,12 @@ const OfferContainer = ({
   useEffect(() => {
     if (isOfferFree) paymentMethodsHandler();
   }, [isOfferFree]);
+
+  useEffect(() => {
+    if (!isLoading || errorMsg) {
+      window.dispatchEvent(new CustomEvent('MSSDK:Purchase-loaded'));
+    }
+  }, [isLoading, errorMsg]);
 
   const errorMapping = err => {
     const errorTypes = {

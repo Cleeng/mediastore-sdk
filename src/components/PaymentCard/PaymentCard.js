@@ -64,12 +64,19 @@ const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
               </CardExpirationStyled>
             )}
           <CardEditStyled
-            onClick={() =>
+            onClick={() => {
               showInnerPopup({
                 type: POPUP_TYPES.paymentDetails,
                 data: details
-              })
-            }
+              });
+              window.dispatchEvent(
+                new CustomEvent('MSSDK:edit-payment-button-clicked', {
+                  detail: {
+                    paymentMethod
+                  }
+                })
+              );
+            }}
           >
             {t('Edit payment info')}
           </CardEditStyled>
