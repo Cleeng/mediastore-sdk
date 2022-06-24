@@ -701,7 +701,7 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 | `MSSDK:unsubscribe-action-confirmed` | `{offerId: "S123456789_US"}`   | The event will be emitted after clicking confirm unsubscribe button in my account. This button cancels the subscription. |
 | `MSSDK:resume-button-clicked`        | `{offerId: "S123456789_US"}`   | The event will be emitted after clicking the resume button in my account. This button opens a resume pop up.             |
 | `MSSDK:resume-action-confirmed`      | `{offerId: "S123456789_US"}`   | The event will be emitted after clicking confirm resume button in my account. This button reactivates the subscription.  |
-| `MSSDK:edit-payment-button-clicked`  | `{offerId: "S123456789_US"}`   | The event will be emitted after clicking Edit Payment button in my account.                                              |
+| `MSSDK:edit-payment-button-clicked`  | `{paymentMethod: "card"}`      | The event will be emitted after clicking Edit Payment button in my account.                                              |
 
 # Related documentation:
 
