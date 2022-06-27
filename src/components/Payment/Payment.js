@@ -138,6 +138,13 @@ class Payment extends Component {
           });
         }
       } else {
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:purchase-successful', {
+            detail: {
+              payment: paymentReponse.responseData
+            }
+          })
+        );
         onPaymentComplete();
       }
     });
