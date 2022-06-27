@@ -7,6 +7,7 @@ import Transactions from 'components/Transactions';
 import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
+import { areProvidedPaymentMethodIdsValid } from 'util/paymentMethodHelper';
 import { WrapStyled } from './PaymentInfoStyled';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
@@ -22,6 +23,7 @@ const PaymentInfoFn = ({
   setTransactionsListAsFetched,
   hideShowMoreButton,
   setPublisherPaymentMethods,
+  availablePaymentMethodIds,
   t
 }) => {
   const [paymentDetailsError, setPaymentDetailsError] = useState([]);
@@ -133,6 +135,12 @@ const PaymentInfoFn = ({
       setIsTransactionsSectionLoading(false);
     }
 
+    if (
+      !paymentInfo.publisherPaymentMethods &&
+      areProvidedPaymentMethodIdsValid(availablePaymentMethodIds)
+    ) {
+      setPublisherPaymentMethods(availablePaymentMethodIds);
+    }
     return () => {
       hideInnerPopup();
     };
@@ -185,11 +193,16 @@ PaymentInfoFn.propTypes = {
   hideInnerPopup: PropTypes.func.isRequired,
   innerPopup: PropTypes.objectOf(PropTypes.any).isRequired,
   setPublisherPaymentMethods: PropTypes.func.isRequired,
+  availablePaymentMethodIds: PropTypes.shape({
+    adyen: PropTypes.number,
+    paypal: PropTypes.number
+  }),
   t: PropTypes.func
 };
 
 PaymentInfoFn.defaultProps = {
   paymentInfo: { paymentMethod: [], transactionsList: [] },
+  availablePaymentMethodIds: null,
   t: k => k
 };
 

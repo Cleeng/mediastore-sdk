@@ -173,7 +173,7 @@ Config.setPaypalUrls({
 
 - `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened
 - `onSuccess` - function called after a successful checkout process
-- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have `id`, `methodName` and `paymentGateway`. Payment method can be selected as a default by adding default property.
 
 **Usage**
 
@@ -219,6 +219,7 @@ Config.setRefreshToken("yyy"); // optional
 **Props**
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
+- `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
 
 **Usage sample**
 
@@ -231,8 +232,16 @@ const cancellationReasons = [
   { value: "Switch to a different service", key: "service" }
 ];
 
+const availablePaymentMethodIds = {
+  adyen: 142029029,
+  paypal: 153379135
+};
+
 <Provider store={store}>
-  <MyAccount customCancellationReasons={cancellationReasons} />
+  <MyAccount
+    customCancellationReasons={cancellationReasons}
+    availablePaymentMethods={availablePaymentMethods}
+  />
 </Provider>;
 ```
 
@@ -356,7 +365,7 @@ Config.setPublisher("111111111"); // required
 
 - `offerId` \* - ID of Cleeng offer, for which Purchase component should be opened. If not provided, it will use the item from local storage with name 'CLEENG_OFFER_ID'
 - `onSuccess` - function called after a successful payment process
-- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have `id`, `methodName` and `paymentGateway`. Payment method can be selected as a default by adding default property.
 
 \* - required
 
@@ -506,14 +515,23 @@ Config.setRefreshToken("yyy"); // optional
 Config.setMyAccountUrl("http://sample-brand.com/user-account"); // required for change PayPal payment details
 ```
 
+**Props**
+
+- `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
+
 **Usage sample**
 
 ```javascript
 import { PaymentInfo, store } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
+const availablePaymentMethodIds = {
+  adyen: 142029029,
+  paypal: 153379135
+};
+
 <Provider store={store}>
-  <PaymentInfo />
+  <PaymentInfo availablePaymentMethodIds={availablePaymentMethodIds} />
 </Provider>;
 ```
 
