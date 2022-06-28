@@ -13,6 +13,7 @@ import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
+import { periodMapper } from 'util/planHelper';
 import mapErrorToText from './helper';
 
 const SubscriptionSwitchesList = ({
@@ -70,13 +71,17 @@ const SubscriptionSwitchesList = ({
       />
     );
   }
+  const availableSorted = [...switchSettings.available].sort(
+    (aOffer, bOffer) => bOffer.price - aOffer.price
+  );
   return (
     <>
       {areAvailable &&
-        switchSettings.available.map(subItem => (
+        availableSorted.map(subItem => (
           <SubscriptionStyled key={subItem.toOfferId}>
             <OfferCard
-              period={subItem.period}
+              period={periodMapper[subItem.period].chargedForEveryText}
+              offerType={subItem.toOfferId.charAt(0)}
               title={subItem.title}
               currency={subItem.nextPaymentPriceCurrencySymbol}
               price={Math.round(subItem.nextPaymentPrice * 100) / 100}
@@ -94,7 +99,9 @@ const SubscriptionSwitchesList = ({
                   });
                 }}
               >
-                {t('Choose')}
+                {subItem.switchDirection === 'downgrade'
+                  ? t('Downgrade')
+                  : t('Upgrade')}
               </SimpleButtonStyled>
             </WrapperStyled>
           </SubscriptionStyled>
