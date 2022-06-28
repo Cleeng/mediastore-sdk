@@ -117,7 +117,11 @@ const SubscriptionSwitchesList = ({
               showInfoBox={subItem.reason.code}
             />
             <WrapperStyled>
-              <SimpleButtonStyled disabled>{t('Choose')}</SimpleButtonStyled>
+              <SimpleButtonStyled disabled>
+                {subItem.switchDirection === 'downgrade'
+                  ? t('Downgrade')
+                  : t('Upgrade')}
+              </SimpleButtonStyled>
             </WrapperStyled>
           </SubscriptionStyled>
         ))}
