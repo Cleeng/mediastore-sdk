@@ -240,7 +240,7 @@ const availablePaymentMethodIds = {
 <Provider store={store}>
   <MyAccount
     customCancellationReasons={cancellationReasons}
-    availablePaymentMethods={availablePaymentMethods}
+    availablePaymentMethodIds={availablePaymentMethodIds}
   />
 </Provider>;
 ```
