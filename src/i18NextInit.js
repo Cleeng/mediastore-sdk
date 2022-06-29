@@ -6,7 +6,6 @@ i18n
   .use(initReactI18next)
   .use(LanguageDetector)
   .init({
-    lngs: ['en', 'pl'],
     fallbackLng: false,
     returnEmptyString: false,
     interpolation: {
@@ -21,6 +20,7 @@ i18n
     updateMissing: true,
     react: {
       wait: true,
-      bindI18n: 'languageChanged loaded'
+      bindI18n: 'languageChanged loaded',
+      useSuspense: false
     }
   });

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { withTranslation } from 'react-i18next';
-// import labeling from 'containers/labeling';
-import { PureCouponInput as CouponInput } from 'components/CouponInput/CouponInput';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
+import CouponInput from 'components/CouponInput/CouponInput';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Payment from 'components/Payment';
 import Header from 'components/Header';
@@ -169,7 +169,6 @@ class Offer extends Component {
                         value={coupon}
                         onChange={e => this.setState({ coupon: e })}
                         couponLoading={couponLoading}
-                        t={t}
                       />
                     </StyledOfferCouponWrapper>
                   </StyledOfferDetailsAndCoupon>
@@ -194,7 +193,7 @@ class Offer extends Component {
                 isPaymentDetailsRequired={requiredPaymentDetails}
                 updatePriceBreakdown={updatePriceBreakdown}
                 availablePaymentMethods={availablePaymentMethods}
-                t={t}
+                // t={t}
               />
             </>
           )}
@@ -279,5 +278,5 @@ Offer.defaultProps = {
 
 export { Offer as PureOffer };
 
-// export default withTranslation()(labeling()(Offer));
-export default Offer;
+export default withTranslation()(labeling()(Offer));
+// export default Offer;

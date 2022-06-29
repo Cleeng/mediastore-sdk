@@ -128,8 +128,8 @@ const Unsubscribe = ({
           <TitleStyled>{t('Miss you already.')}</TitleStyled>
           <TextStyled>
             {t(
-              'You have been successfully unsubscribed. Your current plan will expire on '
-            )}
+              'You have been successfully unsubscribed. Your current plan will expire on'
+            )}{' '}
             <b>{dateFormat(offerDetails.expiresAt)}</b>.
           </TextStyled>
           <Button

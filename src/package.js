@@ -1,3 +1,5 @@
+import 'i18NextInit';
+
 import Card from 'components/Card';
 import Consents from 'components/Consents';
 import OfferContainer from 'containers/OfferContainer';

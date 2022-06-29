@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import {
   submitPayment,
   submitPayPalPayment,
@@ -352,4 +354,4 @@ Payment.defaultProps = {
   t: k => k
 };
 
-export default Payment;
+export default withTranslation()(labeling()(Payment));
