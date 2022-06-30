@@ -110,7 +110,8 @@ const SubscriptionSwitchesList = ({
         switchSettings.unavailable.map(subItem => (
           <SubscriptionStyled key={subItem.toOfferId}>
             <OfferCard
-              period={subItem.period}
+              period={periodMapper[subItem.period].chargedForEveryText}
+              offerType="S"
               title={subItem.title}
               currency={subItem.nextPaymentPriceCurrencySymbol}
               price={Math.round(subItem.nextPaymentPrice * 100) / 100}

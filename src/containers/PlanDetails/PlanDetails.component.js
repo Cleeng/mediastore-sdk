@@ -114,6 +114,7 @@ const PlanDetails = ({
         return (
           <UpdateSubscription
             hideInnerPopup={hideInnerPopup}
+            showInnerPopup={showInnerPopup}
             offerDetails={innerPopup.data.offerData}
             updateList={updateList}
             action={innerPopup.data.action}
