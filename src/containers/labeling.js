@@ -22,7 +22,7 @@ export default function customLabeling() {
         const language = i18n.language || 'en';
         if (!i18n.hasResourceBundle(language, 'translation')) {
           const data = await fetch(
-            `${BASE_URL}/translations/${language}/translations.json`
+            `${BASE_URL}/cleeng-translations/${language}/translations.json`
           )
             .then(response => {
               return response.json();

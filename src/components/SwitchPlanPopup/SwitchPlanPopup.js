@@ -1,6 +1,7 @@
+/* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
 
 import { subscriptionSwitch } from 'api';
@@ -81,6 +82,14 @@ const SwitchPlanPopup = ({
       </InnerPopupWrapper>
     );
   }
+
+  const fromOfferTitle = fromOffer.offerTitle;
+  const fromExpiresAt = dateFormat(fromOffer.expiresAt);
+
+  const toOfferTitle = toOffer.title;
+  const toNextPaymentPrice = toOffer.nextPaymentPrice;
+  const toNextPaymentPriceCurrencySymbol = toOffer.nextPaymentPriceCurrencySymbol;
+
   return (
     <InnerPopupWrapper
       steps={2}
@@ -100,29 +109,21 @@ const SwitchPlanPopup = ({
               <SubscriptionIconStyled period={toOffer.period} showLabel="New" />
             </ImageWrapper>
             <TitleStyled step={step}>{t(toOffer.switchDirection)}</TitleStyled>
-            <TextStyled
-              step={step}
-              dangerouslySetInnerHTML={{
-                __html: `${t(`You are about to change your plan from <b>
-                  ${fromOffer.offerTitle}</b> to <b> 
-                  ${toOffer.title} </b>. You will be charged the new price <b>
-                  ${toOffer.nextPaymentPrice}${
-                  toOffer.nextPaymentPriceCurrencySymbol
-                } 
-                  </b> on your next billing date <b>
-                  ${dateFormat(fromOffer.expiresAt)}</b>.`)}
+            <TextStyled step={step}>
+              <Trans>
+                You are about to change your plan from <b>{{ fromOfferTitle }}</b> to <b>{{ toOfferTitle }}</b>. You will be charged the new price <b>{{ toNextPaymentPrice }}{{ toNextPaymentPriceCurrencySymbol }}</b> on your next billing date <b>{{ fromExpiresAt }}</b>.
+              </Trans>
+              <br />
+              { toOffer.couponNotApplicable && (
+                <>
                   <br />
-                  ${
-                    toOffer.couponNotApplicable
-                      ? `<br />
-                    ${t(
-                      'Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.'
-                    )} <br />`
-                      : ''
-                  }
-                  <br /> ${t('Do you want to apply the change now?')}`
-              }}
-            />
+                  {t('Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.')}
+                  <br />
+                </>
+              )}
+              <br />
+              {t('Do you want to apply the change now?')}
+            </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
             <Button theme="simple" onClickFn={onCancel || hideInnerPopup}>
