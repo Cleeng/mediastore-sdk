@@ -116,6 +116,13 @@ class Payment extends Component {
     });
     submitPayment(card).then(paymentReponse => {
       if (paymentReponse.errors.length) {
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:purchase-failed', {
+            detail: {
+              reason: paymentReponse.errors[0]
+            }
+          })
+        );
         const notSupportedMethod = paymentReponse.errors[0].includes(
           'Payment details are not supported'
         );
@@ -133,6 +140,13 @@ class Payment extends Component {
           });
         }
       } else {
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:purchase-successful', {
+            detail: {
+              payment: paymentReponse.responseData
+            }
+          })
+        );
         onPaymentComplete();
       }
     });

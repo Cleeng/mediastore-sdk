@@ -57,9 +57,9 @@ Config functions save data to local storage (as `CLEENG_*` items). These data ar
 ##### Setting environment
 
 ```javascript
-import { Config } from '@cleeng/mediastore-sdk';
+import { Config } from "@cleeng/mediastore-sdk";
 
-Config.setEnvironment('sandbox');
+Config.setEnvironment("sandbox");
 ```
 
 Setting the environment is required for all components. The environment is one of the listed below:
@@ -70,19 +70,19 @@ Setting the environment is required for all components. The environment is one o
 ##### Other Config methods
 
 ```javascript
-Config.setJWT('xxx'); // save customer authorization token (jwt)
-Config.setRefreshToken('yyy'); // save customer refresh token
+Config.setJWT("xxx"); // save customer authorization token (jwt)
+Config.setRefreshToken("yyy"); // save customer refresh token
 
-Config.setPublisher('publisherId'); // `publisherId` is your broadcaster ID in the Cleeng system.
-Config.setOffer('offerId'); // `offerId` is the ID of the offer created for your broadcaster in the Cleeng system.
+Config.setPublisher("publisherId"); // `publisherId` is your broadcaster ID in the Cleeng system.
+Config.setOffer("offerId"); // `offerId` is the ID of the offer created for your broadcaster in the Cleeng system.
 
 Config.setPaypalUrls({
   // PayPal URLs, needed for Checkout Paypal payments
-  successUrl: 'http://localhost:3000/my-account',
-  cancelUrl: 'http://localhost:3000/',
-  errorUrl: 'http://localhost:3000/error' // query param 'message' with a readable error message will be added to this URL when an error will occur
+  successUrl: "http://localhost:3000/my-account",
+  cancelUrl: "http://localhost:3000/",
+  errorUrl: "http://localhost:3000/error" // query param 'message' with a readable error message will be added to this URL when an error will occur
 });
-Config.setMyAccountUrl('http://localhost:3000/acc'); // needed for MyAccount update payment details and checkout legal notes
+Config.setMyAccountUrl("http://localhost:3000/acc"); // needed for MyAccount update payment details and checkout legal notes
 
 Config.setTheme(); // more informations in the [Styling] section.
 
@@ -141,6 +141,10 @@ If you prefer smaller components, you can use these to implement the exact featu
 - [TransactionList](#transaction-list-header)
 - [UpdateProfile](#update-profile-header)
 
+### Communication
+
+[See how you can react to the actions that happened in the components.](#events)
+
 #### <a id="checkout-header"></a><h2 align="center">Checkout</h2>
 
 `Checkout` is a complex component that covers the whole checkout process, from the registration to the purchase. It contains components listed below:
@@ -155,13 +159,13 @@ If you prefer smaller components, you can use these to implement the exact featu
 **Config methods**
 
 ```javascript
-Config.setPublisherId('123456789'); // required
-Config.setMyAccountUrl('https://your-website.com/user-profile'); // required for legal notes
+Config.setPublisherId("123456789"); // required
+Config.setMyAccountUrl("https://your-website.com/user-profile"); // required for legal notes
 Config.setPaypalUrls({
   // PayPal URLs, needed for Checkout Paypal payments
-  successUrl: 'http://localhost:3000/my-account',
-  cancelUrl: 'http://localhost:3000/',
-  errorUrl: 'http://localhost:3000/error'
+  successUrl: "http://localhost:3000/my-account",
+  cancelUrl: "http://localhost:3000/",
+  errorUrl: "http://localhost:3000/error"
 });
 ```
 
@@ -169,7 +173,7 @@ Config.setPaypalUrls({
 
 - `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened
 - `onSuccess` - function called after a successful checkout process
-- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have `id`, `methodName` and `paymentGateway`. Payment method can be selected as a default by adding default property.
 
 **Usage**
 
@@ -189,8 +193,8 @@ const availablePaymentMethods = [
 ];
 
 <Checkout
-  onSuccess={() => console.log('success')}
-  offerId={'S531234647_PL'}
+  onSuccess={() => console.log("success")}
+  offerId={"S531234647_PL"}
   availablePaymentMethods={availablePaymentMethods}
 />;
 ```
@@ -207,28 +211,37 @@ const availablePaymentMethods = [
 **Config methods**
 
 ```javascript
-Config.setPublisher('111111111'); // required when JWT or refreshToken are not provided
-Config.setJWT('xxx'); // optional, when Login should be skipped
-Config.setRefreshToken('yyy'); // optional
+Config.setPublisher("111111111"); // required when JWT or refreshToken are not provided
+Config.setJWT("xxx"); // optional, when Login should be skipped
+Config.setRefreshToken("yyy"); // optional
 ```
 
 **Props**
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
+- `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
 
 **Usage sample**
 
 ```javascript
-import { MyAccount, store } from '@cleeng/mediastore-sdk';
-import { Provider } from 'react-redux';
+import { MyAccount, store } from "@cleeng/mediastore-sdk";
+import { Provider } from "react-redux";
 
 const cancellationReasons = [
-  { value: 'Poor customer support', key: 'support' },
-  { value: 'Switch to a different service', key: 'service' }
+  { value: "Poor customer support", key: "support" },
+  { value: "Switch to a different service", key: "service" }
 ];
 
+const availablePaymentMethodIds = {
+  adyen: 142029029,
+  paypal: 153379135
+};
+
 <Provider store={store}>
-  <MyAccount customCancellationReasons={cancellationReasons} />
+  <MyAccount
+    customCancellationReasons={cancellationReasons}
+    availablePaymentMethodIds={availablePaymentMethodIds}
+  />
 </Provider>;
 ```
 
@@ -238,10 +251,10 @@ const cancellationReasons = [
 This component should be rendered in the browser. Sample of usage with **NextJS**
 
 ```javascript
-import dynamic from 'next/dynamic';
+import dynamic from "next/dynamic";
 
 const MyAccount = dynamic(
-  () => import('@cleeng/mediastore-sdk').then(mod => mod.MyAccount),
+  () => import("@cleeng/mediastore-sdk").then(mod => mod.MyAccount),
   { ssr: false }
 );
 
@@ -265,7 +278,7 @@ export default UserAccountPage;
 **Config methods**
 
 ```javascript
-Config.setPublisher('111111111'); // required
+Config.setPublisher("111111111"); // required
 ```
 
 **Props**
@@ -300,8 +313,8 @@ Config.setPublisher("111111111");
 **Config methods**
 
 ```javascript
-Config.setPublisher('111111111'); // required
-Config.setOffer('S123456789_US'); // optional, can be used as a replacement of setPublisher
+Config.setPublisher("111111111"); // required
+Config.setOffer("S123456789_US"); // optional, can be used as a replacement of setPublisher
 ```
 
 **Props**
@@ -315,12 +328,12 @@ Config.setOffer('S123456789_US'); // optional, can be used as a replacement of s
 **Usage sample**
 
 ```javascript
-Config.setPublisher('111111111');
+Config.setPublisher("111111111");
 
 <Login
-  onSuccess={() => console.log('success')}
-  onRegisterClick={() => console.log('register button clicked')}
-  onPasswordResetClick={() => console.log('password reset button clicked')}
+  onSuccess={() => console.log("success")}
+  onRegisterClick={() => console.log("register button clicked")}
+  onPasswordResetClick={() => console.log("password reset button clicked")}
 />;
 ```
 
@@ -331,7 +344,7 @@ Config.setPublisher('111111111');
 **Config methods**
 
 ```javascript
-Config.setPublisher('111111111'); // required
+Config.setPublisher("111111111"); // required
 ```
 
 **Props**
@@ -341,7 +354,7 @@ Config.setPublisher('111111111'); // required
 **Usage sample**
 
 ```javascript
-<PasswordReset onSuccess={() => console.log('success')} />
+<PasswordReset onSuccess={() => console.log("success")} />
 ```
 
 #### <a id="purchase-header"></a><h2 align="center">Purchase</h2>
@@ -352,22 +365,22 @@ Config.setPublisher('111111111'); // required
 
 - `offerId` \* - ID of Cleeng offer, for which Purchase component should be opened. If not provided, it will use the item from local storage with name 'CLEENG_OFFER_ID'
 - `onSuccess` - function called after a successful payment process
-- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have `id`, `methodName` and `paymentGateway`. Payment method can be selected as a default by adding default property.
 
 \* - required
 
 **Config methods**
 
 ```javascript
-Config.setJWT('xxx'); // required conditionally, if Login or Register component is not used
-Config.setRefreshToken('yyy'); // optional
-Config.setMyAccountUrl('https://your-website.com/user-profile'); // required for legal notes
+Config.setJWT("xxx"); // required conditionally, if Login or Register component is not used
+Config.setRefreshToken("yyy"); // optional
+Config.setMyAccountUrl("https://your-website.com/user-profile"); // required for legal notes
 ```
 
 **Usage sample**
 
 ```javascript
-import { Config, Purchase } from '@cleeng/mediastore-sdk';
+import { Config, Purchase } from "@cleeng/mediastore-sdk";
 
 const availablePaymentMethods = [
   {
@@ -385,7 +398,7 @@ const availablePaymentMethods = [
 
 <Purchase
   offerId="S538257415_PL"
-  onSuccess={() => console.log('success')}
+  onSuccess={() => console.log("success")}
   availablePaymentMethods={availablePaymentMethods}
 />;
 ```
@@ -397,15 +410,15 @@ const availablePaymentMethods = [
 **Config methods**
 
 ```javascript
-Config.setJWT('xxx'); // required
-Config.setRefreshToken('yyy'); // optional
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
 ```
 
 **Usage sample**
 
 ```javascript
-import { Subscriptions, store } from '@cleeng/mediastore-sdk';
-import { Provider } from 'react-redux';
+import { Subscriptions, store } from "@cleeng/mediastore-sdk";
+import { Provider } from "react-redux";
 
 <Provider store={store}>
   <Subscriptions />
@@ -419,8 +432,8 @@ This component shows a list of available switches (upgrade options) for a given 
 **Config methods**
 
 ```javascript
-Config.setJWT('xxx'); // required
-Config.setRefreshToken('yyy'); // optional
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
 ```
 
 **Props**
@@ -436,18 +449,18 @@ If you are providing the `toOfferId` prop you need to validate if this switch is
 **Usage sample**
 
 ```javascript
-Config.setJWT('xxx'); // required
-Config.setRefreshToken('yyy'); // optional
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
 ```
 
 **Usage sample**
 
 ```javascript
-import { SubscriptionSwitches, store } from '@cleeng/mediastore-sdk';
-import { Provider } from 'react-redux';
+import { SubscriptionSwitches, store } from "@cleeng/mediastore-sdk";
+import { Provider } from "react-redux";
 
 <Provider store={store}>
-  <SubscriptionSwitches offerId={'S538257415_PL'} />
+  <SubscriptionSwitches offerId={"S538257415_PL"} />
 </Provider>;
 ```
 
@@ -461,8 +474,8 @@ import { Provider } from 'react-redux';
 **Config methods**
 
 ```javascript
-Config.setJWT('xxx'); // required
-Config.setRefreshToken('yyy'); // optional
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
 ```
 
 **Props**
@@ -472,12 +485,12 @@ Config.setRefreshToken('yyy'); // optional
 **Usage sample**
 
 ```javascript
-import { PlanDetails } from '@cleeng/mediastore-sdk';
-import { Provider } from 'react-redux';
+import { PlanDetails } from "@cleeng/mediastore-sdk";
+import { Provider } from "react-redux";
 
 const cancellationReasons = [
-  { value: 'Poor customer support', key: 'support' },
-  { value: 'Switch to a different service', key: 'service' }
+  { value: "Poor customer support", key: "support" },
+  { value: "Switch to a different service", key: "service" }
 ];
 
 <Provider store={store}>
@@ -497,19 +510,28 @@ PaymentInfo is a component that contains all information about customer payments
 **Config methods**
 
 ```javascript
-Config.setJWT('xxx'); // required
-Config.setRefreshToken('yyy'); // optional
-Config.setMyAccountUrl('http://sample-brand.com/user-account'); // required for change PayPal payment details
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
+Config.setMyAccountUrl("http://sample-brand.com/user-account"); // required for change PayPal payment details
 ```
+
+**Props**
+
+- `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
 
 **Usage sample**
 
 ```javascript
-import { PaymentInfo, store } from '@cleeng/mediastore-sdk';
-import { Provider } from 'react-redux';
+import { PaymentInfo, store } from "@cleeng/mediastore-sdk";
+import { Provider } from "react-redux";
+
+const availablePaymentMethodIds = {
+  adyen: 142029029,
+  paypal: 153379135
+};
 
 <Provider store={store}>
-  <PaymentInfo />
+  <PaymentInfo availablePaymentMethodIds={availablePaymentMethodIds} />
 </Provider>;
 ```
 
@@ -522,15 +544,15 @@ import { Provider } from 'react-redux';
 **Config methods**
 
 ```javascript
-Config.setJWT('xxx'); // required
-Config.setRefreshToken('yyy'); // optional
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
 ```
 
 **Usage sample**
 
 ```javascript
-import { TransactionList, store } from '@cleeng/mediastore-sdk';
-import { Provider } from 'react-redux';
+import { TransactionList, store } from "@cleeng/mediastore-sdk";
+import { Provider } from "react-redux";
 
 <Provider store={store}>
   <TransactionList />
@@ -548,15 +570,15 @@ Customers will also be able to reset their password or update consents from the 
 **Config methods**
 
 ```javascript
-Config.setJWT('xxx'); // required
-Config.setRefreshToken('yyy'); // optional
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
 ```
 
 **Usage sample**
 
 ```javascript
-import { UpdateProfile, store } from '@cleeng/mediastore-sdk';
-import { Provider } from 'react-redux';
+import { UpdateProfile, store } from "@cleeng/mediastore-sdk";
+import { Provider } from "react-redux";
 
 <Provider store={store}>
   <UpdateProfile />
@@ -572,8 +594,8 @@ import { Provider } from 'react-redux';
 **Config methods**
 
 ```javascript
-Config.setJWT('xxx'); // required
-Config.setRefreshToken('yyy'); // optional
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
 ```
 
 **Props**
@@ -581,7 +603,7 @@ Config.setRefreshToken('yyy'); // optional
 - `onSuccess` \* - callback function called after successful form submission, or, if there are no available consents fields to update, immediate
 
 ```javascript
-<CheckoutConsents onSuccess={() => console.log('success')} />
+<CheckoutConsents onSuccess={() => console.log("success")} />
 ```
 
 #### <a id="capture-header"></a><h2 align="center">Capture</h2>
@@ -593,8 +615,8 @@ If there are any required, and unanswered, capture questions, this component wil
 **Config methods**
 
 ```javascript
-Config.setJWT('xxx'); // required
-Config.setRefreshToken('yyy'); // optional
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
 ```
 
 **Props**
@@ -604,7 +626,7 @@ Config.setRefreshToken('yyy'); // optional
 **Usage sample**
 
 ```javascript
-<Capture onSuccess={() => console.log('success')} />
+<Capture onSuccess={() => console.log("success")} />
 ```
 
 ### <a id="styling-header"></a><h2>Styling</h2>
@@ -614,7 +636,7 @@ Config.setRefreshToken('yyy'); // optional
 If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSSDK components by:
 
 ```javascript
-import '@cleeng/mediastore-sdk/dist/styles/msdFont.css';
+import "@cleeng/mediastore-sdk/dist/styles/msdFont.css";
 ```
 
 ### Styling options
@@ -632,14 +654,14 @@ Here is an example how to do it:
 
 ```javascript
 Config.setTheme({
-  fontColor: '#ffffff',
-  backgroundColor: '#292525',
-  cardColor: '#675d5d',
-  successColor: '#435dc5',
-  primaryColor: '#435dc5',
-  loaderColor: '#cccccc',
-  errorColor: 'red',
-  logoUrl: 'link-to-the-logo'
+  fontColor: "#ffffff",
+  backgroundColor: "#292525",
+  cardColor: "#675d5d",
+  successColor: "#435dc5",
+  primaryColor: "#435dc5",
+  loaderColor: "#cccccc",
+  errorColor: "red",
+  logoUrl: "link-to-the-logo"
 });
 ```
 
@@ -656,7 +678,7 @@ Here is a simple example how styles can be added:
   border-bottom: none;
 }
 .msd__header div {
-  background-image: url('./logo\ —\ white.png');
+  background-image: url("./logo\ —\ white.png");
   background-size: auto 60%;
 }
 .msd__auth-wrapper {
@@ -670,6 +692,35 @@ Here is a simple example how styles can be added:
   color: #fff;
 }
 ```
+
+### <a id="events"></a><h2>Communication</h2>
+
+Components provide a way of communication with your application. Components are sending the Events when important actions occur. Most of the events send additional data that is returned in the `detail` field. The `Event detail` coulmn, in the table below, presents what is returned from `detail` object.
+To react to events add an event listener, like in the sample below:
+
+```javascript
+window.addEventListener("MSSDK:Purchase-loaded", () =>
+  console.log("Purchase component loaded")
+);
+window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
+  console.log("User tried to apply coupon:", evt.detail.coupon)
+);
+```
+
+##### List of available events
+
+| Event                                | Event detail                      | Description                                                                                                                                                                                                           |
+| ------------------------------------ | --------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `MSSDK:Purchase-loaded`              | `null`                            | The event will be emitted when Purchase component data is loaded.                                                                                                                                                     |
+| `MSSDK:purchase-successful`          | `{payment: { ...paymentResponse}` | The event will be emitter after successful Adyen payment action. `paymentResponse` object is just as the repsonse from [Adyen payment response](https://developers.cleeng.com/reference/payment-with-adyen-connector) |
+| `MSSDK:purchase-failed`              | `{reason: "Rejection reason"}`    | The event will be emitter after failed Adyen payment action.                                                                                                                                                          |
+| `MSSDK:redeem-coupon-success`        | `{coupon: "coupon code"}`         | The event will be emitted after a successful coupon application in the checkout process.                                                                                                                              |
+| `MSSDK:redeem-coupon-failed`         | `{coupon: "coupon code"}`         | The event will be emitted after a failed coupon application in the checkout process.                                                                                                                                  |
+| `MSSDK:unsubscribe-button-clicked`   | `{offerId: "S123456789_US"}`      | The event will be emitted after clicking the unsubscribe button in my account. This button opens an unsubscribe pop up.                                                                                               |
+| `MSSDK:unsubscribe-action-confirmed` | `{offerId: "S123456789_US"}`      | The event will be emitted after clicking confirm unsubscribe button in my account. This button cancels the subscription.                                                                                              |
+| `MSSDK:resume-button-clicked`        | `{offerId: "S123456789_US"}`      | The event will be emitted after clicking the resume button in my account. This button opens a resume pop up.                                                                                                          |
+| `MSSDK:resume-action-confirmed`      | `{offerId: "S123456789_US"}`      | The event will be emitted after clicking confirm resume button in my account. This button reactivates the subscription.                                                                                               |
+| `MSSDK:edit-payment-button-clicked`  | `{paymentMethod: "card"}`         | The event will be emitted after clicking Edit Payment button in my account.                                                                                                                                           |
 
 # Related documentation:
 

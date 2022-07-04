@@ -24,6 +24,13 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
   const [currentStep, setCurrentStep] = useState(1);
 
   const resubscribe = async () => {
+    window.dispatchEvent(
+      new CustomEvent('MSSDK:resume-action-confirmed', {
+        detail: {
+          offerId: offerDetails.offerId
+        }
+      })
+    );
     try {
       setIsLoading(true);
       const response = await updateSubscription({

@@ -47,6 +47,13 @@ const Unsubscribe = ({
     customCancellationReasons || defaultCancellationReasons;
 
   const unsubscribe = async () => {
+    window.dispatchEvent(
+      new CustomEvent('MSSDK:unsubscribe-action-confirmed', {
+        detail: {
+          offerId: offerDetails.offerId
+        }
+      })
+    );
     try {
       setIsLoading(true);
       const response = await updateSubscription({

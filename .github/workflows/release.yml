@@ -1,7 +1,12 @@
 name: Publish library on npm registry
+
 on:
   release:
     types: [created]
+
+permissions:
+  contents: write
+
 jobs:
   publish:
     name: publish

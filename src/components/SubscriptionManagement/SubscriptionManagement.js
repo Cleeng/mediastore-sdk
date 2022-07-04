@@ -106,6 +106,13 @@ const SubscriptionManagement = ({
                     }
                   }
                 });
+                window.dispatchEvent(
+                  new CustomEvent('MSSDK:unsubscribe-button-clicked', {
+                    detail: {
+                      offerId: subscription.offerId
+                    }
+                  })
+                );
               }}
             >
               {t('Unsubscribe')}
@@ -128,6 +135,13 @@ const SubscriptionManagement = ({
                     }
                   }
                 });
+                window.dispatchEvent(
+                  new CustomEvent('MSSDK:resume-button-clicked', {
+                    detail: {
+                      offerId: subscription.offerId
+                    }
+                  })
+                );
               }}
             >
               {t('Resume')}

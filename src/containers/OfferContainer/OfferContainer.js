@@ -51,8 +51,8 @@ const OfferContainer = ({
 
   const [couponDetails, setCouponDetails] = useState(null);
 
-  const createOrderHandler = () => {
-    createOrder(offerId).then(orderDetailsResponse => {
+  const createOrderHandler = longOfferId => {
+    createOrder(longOfferId).then(orderDetailsResponse => {
       const { errors } = orderDetailsResponse;
       if (errors.length) {
         setErrorMsg(errors[0]);
@@ -66,27 +66,27 @@ const OfferContainer = ({
     });
   };
 
-  const reuseSavedOrder = id => {
+  const reuseSavedOrder = (id, longOfferId) => {
     getOrder(id)
       .then(orderResponse => {
         if (orderResponse.errors.length) {
           removeData('CLEENG_ORDER_ID');
-          createOrderHandler();
+          createOrderHandler(longOfferId);
           return;
         }
         const {
           responseData: { order }
         } = orderResponse;
-        if (order.offerId === offerId) {
+        if (order.offerId === longOfferId) {
           setOrderDetails(order);
         } else {
           removeData('CLEENG_ORDER_ID');
-          createOrderHandler();
+          createOrderHandler(longOfferId);
         }
       })
       .catch(() => {
         removeData('CLEENG_ORDER_ID');
-        createOrderHandler();
+        createOrderHandler(longOfferId);
       });
   };
 
@@ -122,6 +122,13 @@ const OfferContainer = ({
             'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
           messageType: MESSAGE_TYPE_FAIL
         });
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:redeem-coupon-failed', {
+            detail: {
+              coupon: couponCode
+            }
+          })
+        );
       } else {
         setOrderDetails(result.responseData.order);
         setCouponDetails({
@@ -130,6 +137,13 @@ const OfferContainer = ({
           message: 'Your coupon has been applied!',
           messageType: MESSAGE_TYPE_SUCCESS
         });
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:redeem-coupon-success', {
+            detail: {
+              coupon: couponCode
+            }
+          })
+        );
       }
     });
   };
@@ -152,9 +166,9 @@ const OfferContainer = ({
 
         const orderId = getData('CLEENG_ORDER_ID');
         if (orderId) {
-          reuseSavedOrder(orderId);
+          reuseSavedOrder(orderId, responseData.offerId);
         } else {
-          createOrderHandler();
+          createOrderHandler(responseData.offerId);
         }
       });
     }
@@ -179,6 +193,12 @@ const OfferContainer = ({
   useEffect(() => {
     if (isOfferFree) paymentMethodsHandler();
   }, [isOfferFree]);
+
+  useEffect(() => {
+    if (!isLoading || errorMsg) {
+      window.dispatchEvent(new CustomEvent('MSSDK:Purchase-loaded'));
+    }
+  }, [isLoading, errorMsg]);
 
   const errorMapping = err => {
     const errorTypes = {
