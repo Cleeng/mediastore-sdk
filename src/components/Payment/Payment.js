@@ -102,6 +102,7 @@ class Payment extends Component {
         return true;
 
       if (showError)
+        // eslint-disable-next-line no-console
         console.error(`Payment method not supported (id: ${method.id})`);
       return false;
     });
@@ -367,5 +368,7 @@ Payment.defaultProps = {
   availablePaymentMethods: null,
   t: k => k
 };
+
+export { Payment as PurePayment };
 
 export default withTranslation()(labeling()(Payment));

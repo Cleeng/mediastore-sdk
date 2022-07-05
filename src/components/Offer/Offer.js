@@ -193,7 +193,6 @@ class Offer extends Component {
                 isPaymentDetailsRequired={requiredPaymentDetails}
                 updatePriceBreakdown={updatePriceBreakdown}
                 availablePaymentMethods={availablePaymentMethods}
-                // t={t}
               />
             </>
           )}
