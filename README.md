@@ -173,7 +173,7 @@ Config.setPaypalUrls({
 
 - `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened
 - `onSuccess` - function called after a successful checkout process
-- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have `id`, `methodName` and `paymentGateway`. Payment method can be selected as a default by adding default property.
 
 **Usage**
 
@@ -219,6 +219,7 @@ Config.setRefreshToken("yyy"); // optional
 **Props**
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
+- `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
 
 **Usage sample**
 
@@ -231,8 +232,16 @@ const cancellationReasons = [
   { value: "Switch to a different service", key: "service" }
 ];
 
+const availablePaymentMethodIds = {
+  adyen: 142029029,
+  paypal: 153379135
+};
+
 <Provider store={store}>
-  <MyAccount customCancellationReasons={cancellationReasons} />
+  <MyAccount
+    customCancellationReasons={cancellationReasons}
+    availablePaymentMethodIds={availablePaymentMethodIds}
+  />
 </Provider>;
 ```
 
@@ -356,7 +365,7 @@ Config.setPublisher("111111111"); // required
 
 - `offerId` \* - ID of Cleeng offer, for which Purchase component should be opened. If not provided, it will use the item from local storage with name 'CLEENG_OFFER_ID'
 - `onSuccess` - function called after a successful payment process
-- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have id and methodName. Payment method can be selected as a default by adding default property.
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have `id`, `methodName` and `paymentGateway`. Payment method can be selected as a default by adding default property.
 
 \* - required
 
@@ -506,14 +515,23 @@ Config.setRefreshToken("yyy"); // optional
 Config.setMyAccountUrl("http://sample-brand.com/user-account"); // required for change PayPal payment details
 ```
 
+**Props**
+
+- `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
+
 **Usage sample**
 
 ```javascript
 import { PaymentInfo, store } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
+const availablePaymentMethodIds = {
+  adyen: 142029029,
+  paypal: 153379135
+};
+
 <Provider store={store}>
-  <PaymentInfo />
+  <PaymentInfo availablePaymentMethodIds={availablePaymentMethodIds} />
 </Provider>;
 ```
 
@@ -677,7 +695,7 @@ Here is a simple example how styles can be added:
 
 ### <a id="events"></a><h2>Communication</h2>
 
-Components provide a way of communication with your application. Components are sending the Events when important actions occur. Most of the events send additional data that is returned in the `detail` field. The `Event detail` coulmn, in the table below, presents what is returned from `detail` object.
+Components provide a way of communication with your application. Components are sending the Events when important actions occur. Most of the events send additional data that is returned in the `detail` field. The `Event detail` column, in the table below, presents what is returned from `detail` object.
 To react to events add an event listener, like in the sample below:
 
 ```javascript
@@ -703,6 +721,22 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 | `MSSDK:resume-button-clicked`        | `{offerId: "S123456789_US"}`      | The event will be emitted after clicking the resume button in my account. This button opens a resume pop up.                                                                                                          |
 | `MSSDK:resume-action-confirmed`      | `{offerId: "S123456789_US"}`      | The event will be emitted after clicking confirm resume button in my account. This button reactivates the subscription.                                                                                               |
 | `MSSDK:edit-payment-button-clicked`  | `{paymentMethod: "card"}`         | The event will be emitted after clicking Edit Payment button in my account.                                                                                                                                           |
+
+### <a id="Translations"></a><h2>Communication</h2>
+
+Translations allow you to add a new language version or to change default wording.
+Currently, `mediastore-sdk` components are available only in English.
+
+Below, you can find a short guide on how to implement custom copies or translations.
+
+1. Create a `cleeng-translations` folder inside `/public` folder in your application
+2. In previously created folder you can create separate folders for needed languages, eg. `/es` for Spanish.
+3. Create new file in language folder and name it `translations.json`. Copy the content from [English version](https://github.com/Cleeng/mediastore-sdk/tree/main/src/translations/en) and translate the values in that file to the needed language. If you only want to modify wording, you can add and update only the needed keys with values.
+4. To enable new language you have to add `?lng=es` at the end of your url or set an entry in your local storage.
+
+```
+localStorage.setItem('i18nextLng', 'es');
+```
 
 # Related documentation:
 

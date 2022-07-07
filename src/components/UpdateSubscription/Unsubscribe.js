@@ -1,6 +1,7 @@
+/* eslint-disable prettier/prettier */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
 import store from 'redux/store';
 
@@ -131,6 +132,9 @@ const Unsubscribe = ({
     }
   };
 
+  const { offerTitle, expiresAt } = offerDetails;
+  const formattedExpiresAt = dateFormat(expiresAt);
+
   return (
     <InnerPopupWrapper
       steps={shouldShowDowngrades ? 3 : 2}
@@ -203,19 +207,16 @@ const Unsubscribe = ({
           <ContentStyled>
             <TitleStyled>{t('We’re sorry to see you go')}</TitleStyled>
             <TextStyled>
-              Your <strong>{offerDetails.offerTitle}</strong>{' '}
+              <Trans>
+                Your <strong>{{ offerTitle }}</strong>
+              </Trans>{' '}
               {offerDetails.inTrial
-                ? `free trial will end on `
-                : `subscription is
-                paid until `}
-              <strong>{dateFormat(offerDetails.expiresAt)}</strong>. If you
-              would like to proceed with cancelling your subscription, please
-              select &apos;Unsubscribe&apos; below, and your subscription will
-              be cancelled as of{' '}
-              <strong>{dateFormat(offerDetails.expiresAt)}</strong>. Until then,
-              you will continue to have access to all of your current
-              subscription features. Before you go, please let us know why
-              you&apos;re leaving.
+                ? t('free trial will end on ')
+                : t('subscription is paid until ')}
+              <Trans>
+                {/* eslint-disable-next-line react/no-unescaped-entities */}
+                <strong>{{formattedExpiresAt}}</strong>. If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of <strong>{{formattedExpiresAt}}</strong>. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.
+              </Trans>
             </TextStyled>
             {calcellationReasonsToShow && (
               <ReasonsWrapper>
@@ -261,8 +262,8 @@ const Unsubscribe = ({
           <TitleStyled>{t('Miss you already.')}</TitleStyled>
           <TextStyled>
             {t(
-              'You have been successfully unsubscribed. Your current plan will expire on '
-            )}
+              'You have been successfully unsubscribed. Your current plan will expire on'
+            )}{' '}
             <b>{dateFormat(offerDetails.expiresAt)}</b>.
           </TextStyled>
           <Button

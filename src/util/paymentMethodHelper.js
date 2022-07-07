@@ -7,3 +7,18 @@ export const logos = {
 };
 
 export default logos;
+
+export const areProvidedPaymentMethodIdsValid = paymentMethodIds => {
+  if (
+    paymentMethodIds === null ||
+    paymentMethodIds === undefined ||
+    typeof paymentMethodIds !== 'object'
+  )
+    return false;
+
+  const supportedPaymentGateways = Object.keys(paymentMethodIds).filter(
+    item => item === 'paypal' || item === 'adyen'
+  );
+
+  return !!supportedPaymentGateways.length;
+};

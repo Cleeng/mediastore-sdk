@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as Close } from 'assets/images/errors/close.svg';
 import { ReactComponent as DeleteCreditCard } from 'assets/images/errors/deleteCreditCard.svg';
 import { ReactComponent as Lock } from 'assets/images/errors/lock.svg';
@@ -38,6 +39,7 @@ const errorTypes = {
 };
 
 const ErrorPage = ({ type, error }) => {
+  const { t } = useTranslation();
   const typeParams = errorTypes[type];
   const Icon = typeParams.icon;
 
@@ -48,7 +50,7 @@ const ErrorPage = ({ type, error }) => {
         <IconStyled>
           <Icon />
         </IconStyled>
-        <MessageStyled>{error || typeParams.description}</MessageStyled>
+        <MessageStyled>{error || t(typeParams.description)}</MessageStyled>
       </ErrorPageStyled>
     </ErrorPageWrapper>
   );

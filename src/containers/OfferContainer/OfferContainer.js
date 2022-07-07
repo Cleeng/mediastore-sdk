@@ -15,12 +15,12 @@ import {
 } from 'api';
 import saveOfferId from 'util/offerIdHelper';
 import { setData, getData, removeData } from 'util/appConfigHelper';
+import { withTranslation } from 'react-i18next';
+import labeling from '../labeling';
 import {
   StyledLoaderContainer,
   StyledLoaderContent
 } from './StyledOfferContainer';
-// import { withTranslation } from 'react-i18next';
-// import labeling from '../labeling';
 
 const OfferContainer = ({
   urlProps: { location },
@@ -270,5 +270,5 @@ OfferContainer.defaultProps = {
   availablePaymentMethods: null
 };
 
-// export default withTranslation()(labeling()(OfferContainer));
-export default OfferContainer;
+export default withTranslation()(labeling()(OfferContainer));
+// export default OfferContainer;

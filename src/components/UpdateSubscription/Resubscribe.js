@@ -62,8 +62,10 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
           <ContentStyled>
             <TitleStyled>{t('Resume your plan')}</TitleStyled>
             <TextStyled>
-              By clicking the button below you can resume your plan. Your next
-              bill will be on <b>{dateFormat(offerDetails.nextPaymentAt)} </b>
+              {t(
+                'By clicking the button below you can resume your plan. Your next bill will be on'
+              )}{' '}
+              <b>{dateFormat(offerDetails.nextPaymentAt)} </b>
               {t('and it will be')}{' '}
               <b>{`${offerDetails.nextPaymentPrice}${offerDetails.nextPaymentCurrency}`}</b>
             </TextStyled>
@@ -87,9 +89,9 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
           <img src={checkmarkIcon} alt="checkmark icon" />
           <TitleStyled>{t('Your plan has been renewed')}</TitleStyled>
           <TextStyled>
-            {t('You have been successfully resubscribed. Your fee will be ')}
+            {t('You have been successfully resubscribed. Your fee will be')}{' '}
             <b>{`${offerDetails.nextPaymentPrice}${offerDetails.nextPaymentCurrency}`}</b>{' '}
-            started from
+            {t('started from')}{' '}
             <b> {dateFormat(offerDetails.nextPaymentAt)}.</b>
           </TextStyled>
           <Button
