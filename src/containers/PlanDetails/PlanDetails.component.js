@@ -124,10 +124,12 @@ const PlanDetails = ({
       case 'switchPlan':
         return (
           <SwitchPlanPopup
+            showInnerPopup={showInnerPopup}
             toOffer={innerPopup.data.offerData}
             fromOffer={planDetails.offerToSwitch}
             hideInnerPopup={hideInnerPopup}
             updateList={updateList}
+            isPartOfCancellation={innerPopup.data.isPartOfCancellation}
           />
         );
       default:

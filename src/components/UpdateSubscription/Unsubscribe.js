@@ -38,23 +38,57 @@ const Unsubscribe = ({
     CONFIRMATION: 'CONFIRMATION'
   };
 
-  const stepsNumbersWithDowngrade = {
+  const EXTENDED_FLOW_STEP_NUMBER = {
     DOWNGRADES: 1,
     SURVEY: 2,
     CONFIRMATION: 3
   };
 
-  // TODO: use this when downgrades screen should be hidden
-  // const stepsNumbers = {
-  //   SURVEY: 1,
-  //   CONFIRMATION: 1
-  // };
+  const BASIC_FLOW_STEP_NUMBER = {
+    SURVEY: 1,
+    CONFIRMATION: 2
+  };
 
+  const [downgradesList, setDowngradesList] = useState([]);
   const [checkedReason, setCheckedReason] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [currentStep, setCurrentStep] = useState(STEPS.DOWNGRADES);
-  const [downgradesList, setDowngradesList] = useState([]);
+
+  const getDowngrades = () => {
+    const { planDetails } = store.getState();
+    if (planDetails && planDetails.switchSettings) {
+      const switchSettings = planDetails.switchSettings[offerDetails.offerId];
+      const availableSorted = [...switchSettings.available]
+        .filter(offer => offer.switchDirection === 'downgrade')
+        .sort((aOffer, bOffer) => bOffer.price - aOffer.price);
+      return availableSorted;
+    }
+    return [];
+  };
+
+  const shouldShowDowngradeScreen = () => {
+    const {
+      innerPopup: {
+        data: { offerData }
+      }
+    } = store.getState();
+    // to add: return false when downgrade is already pending
+    if (!offerData.inTrial && getDowngrades().length) {
+      return true;
+    }
+    return false;
+  };
+
+  const shouldShowDowngrades = shouldShowDowngradeScreen();
+  const [currentStep, setCurrentStep] = useState(
+    shouldShowDowngrades ? STEPS.DOWNGRADES : STEPS.SURVEY
+  );
+
+  useEffect(() => {
+    if (shouldShowDowngrades) {
+      setDowngradesList(() => getDowngrades());
+    }
+  }, []);
 
   const defaultCancellationReasons = [
     { value: 'Poor customer support', key: 'support' },
@@ -97,25 +131,16 @@ const Unsubscribe = ({
     }
   };
 
-  useEffect(() => {
-    const { planDetails } = store.getState();
-    if (planDetails && planDetails.switchSettings) {
-      const switchSettings = planDetails.switchSettings[offerDetails.offerId];
-      const availableSorted = [...switchSettings.available]
-        .filter(offer => offer.switchDirection === 'downgrade')
-        .sort((aOffer, bOffer) => bOffer.price - aOffer.price);
-      if (availableSorted.length) {
-        setDowngradesList(availableSorted);
-      }
-    }
-  }, []);
-
   return (
     <InnerPopupWrapper
-      steps={3}
+      steps={shouldShowDowngrades ? 3 : 2}
       popupTitle={t('Manage your plan')}
       isError={isError}
-      currentStep={stepsNumbersWithDowngrade[currentStep]}
+      currentStep={
+        shouldShowDowngrades
+          ? EXTENDED_FLOW_STEP_NUMBER[currentStep]
+          : BASIC_FLOW_STEP_NUMBER[currentStep]
+      }
     >
       {currentStep === STEPS.DOWNGRADES && (
         <ContentStyled>
@@ -123,7 +148,7 @@ const Unsubscribe = ({
             {t('How about a plan switch instead of cancellation?')}
           </TitleStyled>
           <TextStyled>
-            {t('Here are the plans that might match your needs: ')}
+            {t('Here are the plans that might match your needs:')}
           </TextStyled>
           <DowngradesWrapperStyled>
             {downgradesList.map(downgradeOffer => {
@@ -135,7 +160,8 @@ const Unsubscribe = ({
                       data: {
                         offerData: {
                           ...downgradeOffer
-                        }
+                        },
+                        isPartOfCancellation: true
                       }
                     })
                   }
@@ -206,7 +232,14 @@ const Unsubscribe = ({
             )}
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={hideInnerPopup}>
+            <Button
+              theme="simple"
+              onClickFn={() =>
+                shouldShowDowngrades
+                  ? setCurrentStep(STEPS.DOWNGRADES)
+                  : hideInnerPopup()
+              }
+            >
               {t('No, thanks')}
             </Button>
             <Button

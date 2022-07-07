@@ -119,6 +119,7 @@ const SubscriptionSwitches = ({
           }
           onCancel={onCancel}
           onSwitchSuccess={onSwitchSuccess}
+          showInnerPopup={showInnerPopup}
         />
       </WrapStyled>
     );
@@ -132,6 +133,8 @@ const SubscriptionSwitches = ({
           fromOffer={planDetails.offerToSwitch}
           hideInnerPopup={hideInnerPopup}
           updateList={updateList}
+          isPartOfCancellation={innerPopup.data.isPartOfCancellation}
+          showInnerPopup={showInnerPopup}
         />
       ) : (
         <>

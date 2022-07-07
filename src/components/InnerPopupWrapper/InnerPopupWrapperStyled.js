@@ -180,7 +180,6 @@ export const OfferCardWrapperStyled = styled.div.attrs(() => ({
   max-width: 550px;
 
   text-align: left;
-  font-size: 13px;
 
   ${props =>
     props.onClick &&
@@ -195,5 +194,14 @@ export const OfferCardWrapperStyled = styled.div.attrs(() => ({
   &:hover {
     transition: 0.3s ease-in-out;
     border: 1px solid #606376;
+  }
+  .msd__subscription-text__title {
+    font-size: 12px;
+  }
+  .msd__subscription-price__amount {
+    font-size: 15px;
+  }
+  .msd__subscription-price__period {
+    font-size: 11px;
   }
 `;

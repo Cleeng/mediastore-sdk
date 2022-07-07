@@ -17,6 +17,7 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import SkeletonWrapper from 'components/SkeletonWrapper';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import {
   ImageWrapper,
   ArrowStyled,
@@ -28,13 +29,25 @@ const SwitchPlanPopup = ({
   toOffer,
   fromOffer,
   hideInnerPopup,
+  showInnerPopup,
   updateList,
   isPopupLoading,
   onCancel,
   onSwitchSuccess,
+  isPartOfCancellation,
   t
 }) => {
-  const [step, setStep] = useState(1);
+  const STEPS = {
+    SWITCH_DETAILS: 'SWITCH_DETAILS',
+    CONFIRMATION: 'CONFIRMATION'
+  };
+
+  const STEPS_NUMBERS = {
+    SWITCH_DETAILS: 1,
+    CONFIRMATION: 2
+  };
+
+  const [step, setStep] = useState(STEPS.SWITCH_DETAILS);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
 
@@ -83,12 +96,14 @@ const SwitchPlanPopup = ({
   }
   return (
     <InnerPopupWrapper
-      steps={2}
+      steps={isPartOfCancellation ? 3 : 2}
       popupTitle={t('Change Plan')}
       isError={isError}
-      currentStep={step}
+      currentStep={
+        isPartOfCancellation ? STEPS_NUMBERS[step] + 1 : STEPS_NUMBERS[step]
+      }
     >
-      {step === 1 ? (
+      {step === STEPS.SWITCH_DETAILS && (
         <>
           <ContentStyled>
             <ImageWrapper>
@@ -125,7 +140,26 @@ const SwitchPlanPopup = ({
             />
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={onCancel || hideInnerPopup}>
+            <Button
+              theme="simple"
+              onClickFn={() => {
+                if (isPartOfCancellation) {
+                  showInnerPopup({
+                    type: POPUP_TYPES.updateSubscription,
+                    data: {
+                      action: 'unsubscribe',
+                      offerData: {
+                        ...fromOffer
+                      }
+                    }
+                  });
+                } else if (onCancel) {
+                  onCancel();
+                } else {
+                  hideInnerPopup();
+                }
+              }}
+            >
               {t('Keep Current Plan')}
             </Button>
             <Button theme="confirm" onClickFn={changePlan}>
@@ -137,7 +171,8 @@ const SwitchPlanPopup = ({
             </Button>
           </ButtonWrapperStyled>
         </>
-      ) : (
+      )}
+      {step === STEPS.CONFIRMATION && (
         <>
           <ContentStyled>
             <ImageWrapper>
@@ -178,18 +213,22 @@ SwitchPlanPopup.propTypes = {
   isPopupLoading: PropTypes.bool,
   t: PropTypes.func,
   onCancel: PropTypes.func,
-  onSwitchSuccess: PropTypes.func
+  onSwitchSuccess: PropTypes.func,
+  isPartOfCancellation: PropTypes.bool,
+  showInnerPopup: PropTypes.func
 };
 
 SwitchPlanPopup.defaultProps = {
   toOffer: {},
   fromOffer: {},
   hideInnerPopup: () => {},
+  showInnerPopup: () => {},
   updateList: () => {},
   isPopupLoading: false,
   t: k => k,
   onCancel: null,
-  onSwitchSuccess: null
+  onSwitchSuccess: null,
+  isPartOfCancellation: false
 };
 
 export { SwitchPlanPopup as PureSwitchPlanPopup };
