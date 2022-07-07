@@ -34,7 +34,7 @@ const SubscriptionSwitchesList = ({
     return (
       <MyAccountError
         icon={selectPlanIcon}
-        title={t('Start by selecting the plan that would like to switch from')}
+        title={t('Click on the plan that you would like to switch from')}
         margin="0 auto"
       />
     );
@@ -81,7 +81,7 @@ const SubscriptionSwitchesList = ({
           <SubscriptionStyled key={subItem.toOfferId}>
             <OfferCard
               period={periodMapper[subItem.period].chargedForEveryText}
-              offerType={subItem.toOfferId.charAt(0)}
+              offerType="S"
               title={subItem.title}
               currency={subItem.nextPaymentPriceCurrencySymbol}
               price={Math.round(subItem.nextPaymentPrice * 100) / 100}
@@ -99,9 +99,7 @@ const SubscriptionSwitchesList = ({
                   });
                 }}
               >
-                {subItem.switchDirection === 'downgrade'
-                  ? t('Downgrade')
-                  : t('Upgrade')}
+                {subItem.switchDirection}
               </SimpleButtonStyled>
             </WrapperStyled>
           </SubscriptionStyled>
@@ -119,9 +117,7 @@ const SubscriptionSwitchesList = ({
             />
             <WrapperStyled>
               <SimpleButtonStyled disabled>
-                {subItem.switchDirection === 'downgrade'
-                  ? t('Downgrade')
-                  : t('Upgrade')}
+                {subItem.switchDirection}
               </SimpleButtonStyled>
             </WrapperStyled>
           </SubscriptionStyled>

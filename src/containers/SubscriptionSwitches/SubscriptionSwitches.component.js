@@ -133,7 +133,7 @@ const SubscriptionSwitches = ({
           fromOffer={planDetails.offerToSwitch}
           hideInnerPopup={hideInnerPopup}
           updateList={updateList}
-          isPartOfCancellation={innerPopup.data.isPartOfCancellation}
+          isPartOfCancellationFlow={innerPopup.data.isPartOfCancellationFlow}
           showInnerPopup={showInnerPopup}
         />
       ) : (

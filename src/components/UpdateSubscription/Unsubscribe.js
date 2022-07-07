@@ -161,7 +161,7 @@ const Unsubscribe = ({
                         offerData: {
                           ...downgradeOffer
                         },
-                        isPartOfCancellation: true
+                        isPartOfCancellationFlow: true
                       }
                     })
                   }
@@ -182,7 +182,9 @@ const Unsubscribe = ({
               );
             })}
           </DowngradesWrapperStyled>
-          <TextStyled>Or still wants to cancel a subscription?</TextStyled>
+          <TextStyled>
+            {t('Or still wants to cancel a subscription?')}
+          </TextStyled>
           <ButtonWrapperStyled removeMargin>
             <Button theme="simple" onClickFn={hideInnerPopup}>
               {t('Back to settings')}

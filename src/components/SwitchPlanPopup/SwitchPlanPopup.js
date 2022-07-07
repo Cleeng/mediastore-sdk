@@ -34,7 +34,7 @@ const SwitchPlanPopup = ({
   isPopupLoading,
   onCancel,
   onSwitchSuccess,
-  isPartOfCancellation,
+  isPartOfCancellationFlow,
   t
 }) => {
   const STEPS = {
@@ -96,11 +96,11 @@ const SwitchPlanPopup = ({
   }
   return (
     <InnerPopupWrapper
-      steps={isPartOfCancellation ? 3 : 2}
+      steps={isPartOfCancellationFlow ? 3 : 2}
       popupTitle={t('Change Plan')}
       isError={isError}
       currentStep={
-        isPartOfCancellation ? STEPS_NUMBERS[step] + 1 : STEPS_NUMBERS[step]
+        isPartOfCancellationFlow ? STEPS_NUMBERS[step] + 1 : STEPS_NUMBERS[step]
       }
     >
       {step === STEPS.SWITCH_DETAILS && (
@@ -143,7 +143,7 @@ const SwitchPlanPopup = ({
             <Button
               theme="simple"
               onClickFn={() => {
-                if (isPartOfCancellation) {
+                if (isPartOfCancellationFlow) {
                   showInnerPopup({
                     type: POPUP_TYPES.updateSubscription,
                     data: {
@@ -214,7 +214,7 @@ SwitchPlanPopup.propTypes = {
   t: PropTypes.func,
   onCancel: PropTypes.func,
   onSwitchSuccess: PropTypes.func,
-  isPartOfCancellation: PropTypes.bool,
+  isPartOfCancellationFlow: PropTypes.bool,
   showInnerPopup: PropTypes.func
 };
 
@@ -228,7 +228,7 @@ SwitchPlanPopup.defaultProps = {
   t: k => k,
   onCancel: null,
   onSwitchSuccess: null,
-  isPartOfCancellation: false
+  isPartOfCancellationFlow: false
 };
 
 export { SwitchPlanPopup as PureSwitchPlanPopup };
