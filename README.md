@@ -722,18 +722,21 @@ window.addEventListener('MSSDK:redeem-coupon-failed', evt =>
 | `MSSDK:resume-action-confirmed`      | `{offerId: "S123456789_US"}`      | The event will be emitted after clicking confirm resume button in my account. This button reactivates the subscription.                                                                                               |
 | `MSSDK:edit-payment-button-clicked`  | `{paymentMethod: "card"}`         | The event will be emitted after clicking Edit Payment button in my account.                                                                                                                                           |
 
-### Translations
+### <a id="Translations"></a><h2>Communication</h2>
 
-Mediastore-sdk library does not have translation feature enabled by default and will require to do some work on applicaton that is using it. You can find a short step guide below.
+Translations allow you to add a new language version or to change default wording.
+Currently, `mediastore-sdk` components are available only in English.
 
-1. Create `cleeng-translations` folder inside your application `/public` folder
-2. Inside created folder you can now make folder for needed language. You can see an example [here](https://github.com/Cleeng/mediastore-sdk/tree/main/src/translations) for Polish language (`/pl` folder). It is important to have the same structure as it is in showed example.
-3. Create `translations.json` for new language.
-4. Copy content from [English version](https://github.com/Cleeng/mediastore-sdk/tree/main/src/translations/en) of the file.
-5. For each key edit value to be translated text.
-6. If you want to enable new language you can add `?lng=pl` at the end of your url. Another way is to add entry in your local storage with key `i18nextLng` and selected language as a value e.g. `pl`.
+Below, you can find a short guide on how to implement custom copies or translations.
 
-Translations feature can also be used to modify existing texts in our component library. You can create an English version of the translations file and only add texts that needs to be updated. You will still need edit your URL or add entry in local storage to enable that language but thats the way how you can do it.
+1. Create a `cleeng-translations` folder inside `/public` folder in your application
+2. In previously created folder you can create separate folders for needed languages, eg. `/es` for Spanish.
+3. Create new file in language folder and name it `translations.json`. Copy the content from [English version](https://github.com/Cleeng/mediastore-sdk/tree/main/src/translations/en) and translate the values in that file to the needed language. If you only want to modify wording, you can add and update only the needed keys with values.
+4. To enable new language you have to add `?lng=es` at the end of your url or set an entry in your local storage.
+
+```
+localStorage.setItem('i18nextLng', 'es');
+```
 
 # Related documentation:
 
