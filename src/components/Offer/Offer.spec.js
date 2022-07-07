@@ -137,24 +137,4 @@ describe('Offer', () => {
       expect(description).toMatch(`Access until 11/6/2020 02:31 PM GMT+1`);
     });
   });
-  describe('@events', () => {
-    it('should add coupon to state on coupon applied', () => {
-      getData.mockImplementation(() => {
-        return 'S123456789_PL';
-      });
-      const couponCode = 'abc';
-      const wrapper = shallow(
-        <Offer
-          offerDetails={offerDetailsMock}
-          orderDetails={orderDetailsMock}
-          couponProps={mockCouponProps}
-          onPaymentComplete={jest.fn()}
-          updatePriceBreakdown={jest.fn()}
-        />
-      );
-
-      wrapper.find('CouponInput').simulate('change', couponCode);
-      expect(wrapper.state().coupon).toBe(couponCode);
-    });
-  });
 });

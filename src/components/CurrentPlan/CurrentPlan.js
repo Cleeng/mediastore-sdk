@@ -87,18 +87,22 @@ class CurrentPlan extends PureComponent {
               let description;
               let price;
               let currency;
+              let nextPaymentDate;
+              let expiresAtDate;
               switch (subItem.offerType) {
                 case 'S':
                   price = subItem.nextPaymentPrice;
                   currency = subItem.nextPaymentCurrency;
+                  nextPaymentDate = dateFormat(subItem.nextPaymentAt);
+                  expiresAtDate = dateFormat(subItem.expiresAt);
                   description =
                     subItem.status === 'active'
-                      ? `Next payment is on ${dateFormat(
-                          subItem.nextPaymentAt
-                        )}`
-                      : `This plan will expire on ${dateFormat(
-                          subItem.expiresAt
-                        )}`;
+                      ? `${t('Next payment is on {{nextPaymentDate}}', {
+                          nextPaymentDate
+                        })}`
+                      : `${t('This plan will expire on {{expiresAtDate}', {
+                          expiresAtDate
+                        })}`;
                   break;
                 case 'P':
                   price = subItem.totalPrice;

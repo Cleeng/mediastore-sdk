@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
-// import { withTranslation } from 'react-i18next';
-// import labeling from 'containers/labeling';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import { FontColor } from 'styles/variables';
 import { getData } from 'util/appConfigHelper';
 import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
@@ -144,5 +144,4 @@ Adyen.defaultProps = {
 
 export { Adyen as PureAdyen };
 
-// export default withTranslation()(labeling()(Adyen));
-export default Adyen;
+export default withTranslation()(labeling()(Adyen));

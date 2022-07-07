@@ -16,12 +16,17 @@ export default function customLabeling() {
       }
 
       async addTranslations() {
+        const BASE_URL = window.location.origin;
         const { i18n } = this.props;
         if (typeof i18n === 'undefined') return false;
         const language = i18n.language || 'en';
-        if (false) {
-          const data = await fetch(`/locales/${language}/translations.json`)
-            .then(response => response.json())
+        if (!i18n.hasResourceBundle(language, 'translation')) {
+          const data = await fetch(
+            `${BASE_URL}/cleeng-translations/${language}/translations.json`
+          )
+            .then(response => {
+              return response.json();
+            })
             .catch(() => {});
           i18n.addResourceBundle(language, 'translation', data, true, true);
         }

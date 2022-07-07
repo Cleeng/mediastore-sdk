@@ -10,7 +10,7 @@ import {
   getPaymentMethods
 } from 'api';
 import { setData } from 'util/appConfigHelper';
-import Payment from './Payment';
+import { PurePayment as Payment } from './Payment';
 import { PaymentErrorStyled } from './PaymentStyled';
 
 jest.mock('containers/labeling', () => () => Component => props => (

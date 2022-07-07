@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import {
   submitPayment,
   submitPayPalPayment,
@@ -100,6 +102,7 @@ class Payment extends Component {
         return true;
 
       if (showError)
+        // eslint-disable-next-line no-console
         console.error(`Payment method not supported (id: ${method.id})`);
       return false;
     });
@@ -366,4 +369,6 @@ Payment.defaultProps = {
   t: k => k
 };
 
-export default Payment;
+export { Payment as PurePayment };
+
+export default withTranslation()(labeling()(Payment));
