@@ -13,6 +13,7 @@ import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
+import { periodMapper } from 'util/planHelper';
 import mapErrorToText from './helper';
 
 const SubscriptionSwitchesList = ({
@@ -33,7 +34,7 @@ const SubscriptionSwitchesList = ({
     return (
       <MyAccountError
         icon={selectPlanIcon}
-        title={t('Start by selecting the plan that would like to switch from')}
+        title={t('Click on the plan that you would like to switch from')}
         margin="0 auto"
       />
     );
@@ -70,13 +71,17 @@ const SubscriptionSwitchesList = ({
       />
     );
   }
+  const availableSorted = [...switchSettings.available].sort(
+    (aOffer, bOffer) => bOffer.price - aOffer.price
+  );
   return (
     <>
       {areAvailable &&
-        switchSettings.available.map(subItem => (
+        availableSorted.map(subItem => (
           <SubscriptionStyled key={subItem.toOfferId}>
             <OfferCard
-              period={subItem.period}
+              period={periodMapper[subItem.period].chargedForEveryText}
+              offerType="S"
               title={subItem.title}
               currency={subItem.nextPaymentPriceCurrencySymbol}
               price={Math.round(subItem.nextPaymentPrice * 100) / 100}
@@ -94,7 +99,7 @@ const SubscriptionSwitchesList = ({
                   });
                 }}
               >
-                {t('Choose')}
+                {subItem.switchDirection}
               </SimpleButtonStyled>
             </WrapperStyled>
           </SubscriptionStyled>
@@ -103,14 +108,17 @@ const SubscriptionSwitchesList = ({
         switchSettings.unavailable.map(subItem => (
           <SubscriptionStyled key={subItem.toOfferId}>
             <OfferCard
-              period={subItem.period}
+              period={periodMapper[subItem.period].chargedForEveryText}
+              offerType="S"
               title={subItem.title}
               currency={subItem.nextPaymentPriceCurrencySymbol}
               price={Math.round(subItem.nextPaymentPrice * 100) / 100}
               showInfoBox={subItem.reason.code}
             />
             <WrapperStyled>
-              <SimpleButtonStyled disabled>{t('Choose')}</SimpleButtonStyled>
+              <SimpleButtonStyled disabled>
+                {subItem.switchDirection}
+              </SimpleButtonStyled>
             </WrapperStyled>
           </SubscriptionStyled>
         ))}

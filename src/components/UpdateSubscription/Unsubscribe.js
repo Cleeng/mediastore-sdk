@@ -1,23 +1,27 @@
 /* eslint-disable prettier/prettier */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
+import store from 'redux/store';
 
 import updateSubscription from 'api/Customer/updateSubscription';
-import { dateFormat } from 'util/planHelper';
+import { dateFormat, periodMapper } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 
 import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
+import OfferCard from 'components/OfferCard';
 
 import {
   ContentStyled,
   TitleStyled,
   TextStyled,
-  ButtonWrapperStyled
+  ButtonWrapperStyled,
+  OfferCardWrapperStyled,
+  DowngradesWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import { ReasonsWrapper, StyledItem } from './UpdateSubscriptionStyled';
 
@@ -26,12 +30,66 @@ const Unsubscribe = ({
   hideInnerPopup,
   updateList,
   customCancellationReasons,
+  showInnerPopup,
   t
 }) => {
+  const STEPS = {
+    DOWNGRADES: 'DOWNGRADES',
+    SURVEY: 'SURVEY',
+    CONFIRMATION: 'CONFIRMATION'
+  };
+
+  const EXTENDED_FLOW_STEP_NUMBER = {
+    DOWNGRADES: 1,
+    SURVEY: 2,
+    CONFIRMATION: 3
+  };
+
+  const BASIC_FLOW_STEP_NUMBER = {
+    SURVEY: 1,
+    CONFIRMATION: 2
+  };
+
+  const [downgradesList, setDowngradesList] = useState([]);
   const [checkedReason, setCheckedReason] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [currentStep, setCurrentStep] = useState(1);
+
+  const getDowngrades = () => {
+    const { planDetails } = store.getState();
+    if (planDetails && planDetails.switchSettings) {
+      const switchSettings = planDetails.switchSettings[offerDetails.offerId];
+      const availableSorted = [...switchSettings.available]
+        .filter(offer => offer.switchDirection === 'downgrade')
+        .sort((aOffer, bOffer) => bOffer.price - aOffer.price);
+      return availableSorted;
+    }
+    return [];
+  };
+
+  const shouldShowDowngradeScreen = () => {
+    const {
+      innerPopup: {
+        data: { offerData }
+      }
+    } = store.getState();
+    // to add: return false when downgrade is already pending
+    if (!offerData.inTrial && getDowngrades().length) {
+      return true;
+    }
+    return false;
+  };
+
+  const shouldShowDowngrades = shouldShowDowngradeScreen();
+  const [currentStep, setCurrentStep] = useState(
+    shouldShowDowngrades ? STEPS.DOWNGRADES : STEPS.SURVEY
+  );
+
+  useEffect(() => {
+    if (shouldShowDowngrades) {
+      setDowngradesList(() => getDowngrades());
+    }
+  }, []);
 
   const defaultCancellationReasons = [
     { value: 'Poor customer support', key: 'support' },
@@ -65,7 +123,7 @@ const Unsubscribe = ({
         setIsError(true);
         setIsLoading(false);
       } else {
-        setCurrentStep(2);
+        setCurrentStep(STEPS.CONFIRMATION);
         setIsLoading(false);
       }
     } catch {
@@ -79,12 +137,72 @@ const Unsubscribe = ({
 
   return (
     <InnerPopupWrapper
-      steps={2}
+      steps={shouldShowDowngrades ? 3 : 2}
       popupTitle={t('Manage your plan')}
       isError={isError}
-      currentStep={currentStep}
+      currentStep={
+        shouldShowDowngrades
+          ? EXTENDED_FLOW_STEP_NUMBER[currentStep]
+          : BASIC_FLOW_STEP_NUMBER[currentStep]
+      }
     >
-      {currentStep === 1 ? (
+      {currentStep === STEPS.DOWNGRADES && (
+        <ContentStyled>
+          <TitleStyled>
+            {t('How about a plan switch instead of cancellation?')}
+          </TitleStyled>
+          <TextStyled>
+            {t('Here are the plans that might match your needs:')}
+          </TextStyled>
+          <DowngradesWrapperStyled>
+            {downgradesList.map(downgradeOffer => {
+              return (
+                <OfferCardWrapperStyled
+                  onClick={() =>
+                    showInnerPopup({
+                      type: 'switchPlan',
+                      data: {
+                        offerData: {
+                          ...downgradeOffer
+                        },
+                        isPartOfCancellationFlow: true
+                      }
+                    })
+                  }
+                  key={downgradeOffer.toOfferId}
+                >
+                  <OfferCard
+                    period={
+                      periodMapper[downgradeOffer.period].chargedForEveryText
+                    }
+                    offerType="S"
+                    title={downgradeOffer.title}
+                    currency={downgradeOffer.nextPaymentPriceCurrencySymbol}
+                    price={
+                      Math.round(downgradeOffer.nextPaymentPrice * 100) / 100
+                    }
+                  />
+                </OfferCardWrapperStyled>
+              );
+            })}
+          </DowngradesWrapperStyled>
+          <TextStyled>
+            {t('Or still wants to cancel a subscription?')}
+          </TextStyled>
+          <ButtonWrapperStyled removeMargin>
+            <Button theme="simple" onClickFn={hideInnerPopup}>
+              {t('Back to settings')}
+            </Button>
+            <Button
+              theme="confirm"
+              onClickFn={() => setCurrentStep(STEPS.SURVEY)}
+            >
+              {t('Unsubscribe')}
+            </Button>
+          </ButtonWrapperStyled>
+        </ContentStyled>
+      )}
+      {currentStep === STEPS.SURVEY && (
         <>
           <ContentStyled>
             <TitleStyled>{t('We’re sorry to see you go')}</TitleStyled>
@@ -117,7 +235,14 @@ const Unsubscribe = ({
             )}
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={hideInnerPopup}>
+            <Button
+              theme="simple"
+              onClickFn={() =>
+                shouldShowDowngrades
+                  ? setCurrentStep(STEPS.DOWNGRADES)
+                  : hideInnerPopup()
+              }
+            >
               {t('No, thanks')}
             </Button>
             <Button
@@ -130,7 +255,8 @@ const Unsubscribe = ({
             </Button>
           </ButtonWrapperStyled>
         </>
-      ) : (
+      )}
+      {currentStep === STEPS.CONFIRMATION && (
         <ContentStyled>
           <img src={checkmarkIcon} alt="checkmark icon" />
           <TitleStyled>{t('Miss you already.')}</TitleStyled>
@@ -158,6 +284,7 @@ const Unsubscribe = ({
 
 Unsubscribe.propTypes = {
   hideInnerPopup: PropTypes.func.isRequired,
+  showInnerPopup: PropTypes.func.isRequired,
   updateList: PropTypes.func.isRequired,
   offerDetails: PropTypes.objectOf(PropTypes.any).isRequired,
   customCancellationReasons: PropTypes.arrayOf(

@@ -10,6 +10,7 @@ const UpdateSubscription = ({
   action,
   offerDetails,
   hideInnerPopup,
+  showInnerPopup,
   updateList,
   customCancellationReasons
 }) => {
@@ -20,6 +21,7 @@ const UpdateSubscription = ({
         hideInnerPopup={hideInnerPopup}
         updateList={updateList}
         customCancellationReasons={customCancellationReasons}
+        showInnerPopup={showInnerPopup}
       />
     );
   }
@@ -39,6 +41,7 @@ UpdateSubscription.propTypes = {
   action: PropTypes.oneOf(['unsubscribe', 'resubscribe']).isRequired,
   offerDetails: PropTypes.objectOf(PropTypes.any).isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
+  showInnerPopup: PropTypes.func.isRequired,
   updateList: PropTypes.func.isRequired,
   customCancellationReasons: PropTypes.arrayOf(
     PropTypes.shape({
