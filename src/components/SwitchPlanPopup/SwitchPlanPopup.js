@@ -63,7 +63,7 @@ const SwitchPlanPopup = ({
       );
       if (!resp.errors.length) {
         setIsLoading(false);
-        setStep(2);
+        setStep(STEPS.CONFIRMATION);
       } else {
         setError(true);
         setIsLoading(false);
