@@ -100,7 +100,7 @@ class CurrentPlan extends PureComponent {
                       ? `${t('Next payment is on {{nextPaymentDate}}', {
                           nextPaymentDate
                         })}`
-                      : `${t('This plan will expire on {{expiresAtDate}', {
+                      : `${t('This plan will expire on {{expiresAtDate}}', {
                           expiresAtDate
                         })}`;
                   break;
