@@ -64,7 +64,7 @@
   "Confirm password": "Confirm password",
   "There are no subscriptions purchased yet.": "There are no subscriptions purchased yet.",
   "There are no payment methods configured": "There are no payment methods configured",
-  "Next payment is on {{nextPaymentDate}}": "Next payment is on {{nextPaymentDate}}",
+  "Renews automatically on {{renewalDate}}": "Renews automatically on {{renewalDate}}",
   "Expires on": "Expires on",
   "Expiry date": "Expiry date",
   "week": "week",
