@@ -98,7 +98,7 @@ class CurrentPlan extends PureComponent {
                       ? `${t('Renews automatically on {{renewalDate}}', {
                           renewalDate
                         })}`
-                      : `${t('This plan will expire on {{renewalDate}', {
+                      : `${t('This plan will expire on {{renewalDate}}', {
                           renewalDate
                         })}`;
                   break;
