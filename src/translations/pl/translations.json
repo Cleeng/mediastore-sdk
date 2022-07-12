@@ -64,7 +64,7 @@
   "Confirm password": "Potwierdź hasło",
   "There are no subscriptions purchased yet.": "Nie wykupiono jeszcze żadnej subskrypcji",
   "There are no payment methods configured": "Nie ustawiono jeszcze zadnej metody płatności",
-  "Next payment is on {{nextPaymentDate}}": "Następna opłata nastąpi {{nextPaymentDate}}",
+  "Renews automatically on {{renewalDate}}": "Subskrypcja odnowi się {{renewalDate}}",
   "Expires on": "Ważna do",
   "Expiry date": "Ważna do",
   "week": "tydzień",
