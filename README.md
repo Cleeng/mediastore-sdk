@@ -76,13 +76,19 @@ Config.setRefreshToken("yyy"); // save customer refresh token
 Config.setPublisher("publisherId"); // `publisherId` is your broadcaster ID in the Cleeng system.
 Config.setOffer("offerId"); // `offerId` is the ID of the offer created for your broadcaster in the Cleeng system.
 
-Config.setPaypalUrls({
-  // PayPal URLs, needed for Checkout Paypal payments
-  successUrl: "http://localhost:3000/my-account",
-  cancelUrl: "http://localhost:3000/",
-  errorUrl: "http://localhost:3000/error" // query param 'message' with a readable error message will be added to this URL when an error will occur
+Config.setCheckoutPayPalUrls({
+  // PayPal redirection URLs, required for Paypal payment
+  successUrl: "https://client-website.com/checkout/success",
+  cancelUrl: "https://client-website.com/checkout",
+  errorUrl: "https://client-website.com/checkout/error" // query param 'message' with a readable error message will be added to this URL when an error will occur
 });
-Config.setMyAccountUrl("http://localhost:3000/acc"); // needed for MyAccount update payment details and checkout legal notes
+Config.setMyAccountPayPalUrls({
+  // PayPal redirection URLs, required for update PayPal payment details
+  successUrl: "https://client-website.com/my-account/payment-info",
+  cancelUrl: "https://client-website.com/my-account/payment-info",
+  errorUrl: "https://client-website.com/my-account/paypal-error" // query param 'message' with a readable error message will be added to this URL when an error will occur
+});
+Config.setMyAccountUrl("https://client-website.com/my-account"); // needed checkout legal notes
 
 Config.setTheme(); // more informations in the [Styling] section.
 
@@ -160,12 +166,12 @@ If you prefer smaller components, you can use these to implement the exact featu
 
 ```javascript
 Config.setPublisherId("123456789"); // required
-Config.setMyAccountUrl("https://your-website.com/user-profile"); // required for legal notes
-Config.setPaypalUrls({
-  // PayPal URLs, needed for Checkout Paypal payments
-  successUrl: "http://localhost:3000/my-account",
-  cancelUrl: "http://localhost:3000/",
-  errorUrl: "http://localhost:3000/error"
+Config.setMyAccountUrl("https://client-website.com/my-account"); // required for legal notes
+Config.setCheckoutPayPalUrls({
+  // PayPal redirection URLs, required for PayPal payment
+  successUrl: "https://client-website.com/checkout/success",
+  cancelUrl: "https://client-website.com/checkout",
+  errorUrl: "https://client-website.com/checkout/error"
 });
 ```
 
@@ -214,6 +220,12 @@ const availablePaymentMethods = [
 Config.setPublisher("111111111"); // required when JWT or refreshToken are not provided
 Config.setJWT("xxx"); // optional, when Login should be skipped
 Config.setRefreshToken("yyy"); // optional
+Config.setMyAccountPayPalUrls({
+  // PayPal redirection URLs, required for update PayPal payment details
+  successUrl: "https://client-website.com/my-account/payment-info",
+  cancelUrl: "https://client-website.com/my-account/payment-info",
+  errorUrl: "https://client-website.com/my-account/paypal-error"
+});
 ```
 
 **Props**
@@ -374,7 +386,13 @@ Config.setPublisher("111111111"); // required
 ```javascript
 Config.setJWT("xxx"); // required conditionally, if Login or Register component is not used
 Config.setRefreshToken("yyy"); // optional
-Config.setMyAccountUrl("https://your-website.com/user-profile"); // required for legal notes
+Config.setMyAccountUrl("https://client-website.com/my-account"); // required for legal notes
+Config.setCheckoutPayPalUrls({
+  // PayPal redirection URLs, required for PayPal payment
+  successUrl: "https://client-website.com/my-account",
+  cancelUrl: "https://client-website.com/my-account",
+  errorUrl: "https://client-website.com/my-account/paypal-error"
+});
 ```
 
 **Usage sample**
@@ -512,7 +530,12 @@ PaymentInfo is a component that contains all information about customer payments
 ```javascript
 Config.setJWT("xxx"); // required
 Config.setRefreshToken("yyy"); // optional
-Config.setMyAccountUrl("http://sample-brand.com/user-account"); // required for change PayPal payment details
+Config.setMyAccountPayPalUrls({
+  // PayPal redirection URLs, required for update PayPal payment details
+  successUrl: "https://client-website.com/my-account/payment-info",
+  cancelUrl: "https://client-website.com/my-account/payment-info",
+  errorUrl: "https://client-website.com/my-account/paypal-error"
+});
 ```
 
 **Props**

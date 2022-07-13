@@ -96,13 +96,6 @@ class MyAccount extends Component {
         });
       }
 
-      // delete old payment details when paypal payment details were updated successfully
-      const paymentDetailsToDelete = new URLSearchParams(
-        window.location.search
-      ).get('deletepd');
-      if (parseInt(paymentDetailsToDelete, 10)) {
-        deletePaymentDetails(paymentDetailsToDelete);
-      }
       if (areProvidedPaymentMethodIdsValid(availablePaymentMethodIds)) {
         setPublisherPaymentMethods(availablePaymentMethodIds);
       }
