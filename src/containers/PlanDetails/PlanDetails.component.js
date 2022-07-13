@@ -168,6 +168,7 @@ const PlanDetails = ({
                   Object.keys(planDetails.switchSettings).length === 0
                 }
                 errors={isErrorChangePlan || []}
+                fromOfferId={planDetails.offerToSwitch.offerId}
               />
             </>
           )}
