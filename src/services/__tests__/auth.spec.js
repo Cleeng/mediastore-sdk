@@ -92,7 +92,7 @@ describe('Auth', () => {
   describe('@logout', () => {
     it('should update auth status to not authenticated and remove items from local storage on Logout', () => {
       Auth.logout();
-      expect(removeData).toHaveBeenCalledTimes(6);
+      expect(removeData).toHaveBeenCalledTimes(9);
     });
   });
 });
