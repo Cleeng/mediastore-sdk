@@ -57,7 +57,7 @@ const AddCard = ({ setStep, updatePaymentDetailsSection }) => {
           </ErrorMessage>
         )}
       </ContentStyled>
-      <ButtonWrapperStyled removeMargin>
+      <ButtonWrapperStyled style={{ margin: '10px 0 0 0' }}>
         <Button
           theme="simple"
           onClickFn={() => setStep(currentStep => currentStep - 1)}
