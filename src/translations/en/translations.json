@@ -165,7 +165,7 @@
   "You can't upgrade your subscription if coupon was applied.": "You can't upgrade your subscription if coupon was applied.",
   "Try again later.": "Try again later.",
   "It looks like you can't change your current plan.": "It looks like you can't change your current plan.",
-  "You are about to change your plan from <1>{{fromOfferTitle}}</1> to <3>{{toOfferTitle}}</3>. You will be charged the new price <5>{{toNextPaymentPrice}}{{toNextPaymentPriceCurrencySymbol}}</5> on your next billing date <7>{{fromExpiresAt}}</7>.": "You are about to change your plan from <1>{{fromOfferTitle}}</1> to <3>{{toOfferTitle}}</3>. You will be charged the new price <5>{{toNextPaymentPrice}}{{toNextPaymentPriceCurrencySymbol}}</5> on your next billing date <7>{{fromExpiresAt}}</7>.",
+  "You are about to change your plan from <1>{{fromOfferTitle}}</1> to <3>{{toOfferTitle}}</3>. You will be charged the new price <5>{{toNextPaymentPriceCurrencySymbol}}{{toNextPaymentPrice}}</5> on your next billing date <7>{{fromExpiresAt}}</7>.": "You are about to change your plan from <1>{{fromOfferTitle}}</1> to <3>{{toOfferTitle}}</3>. You will be charged the new price <5>{{toNextPaymentPriceCurrencySymbol}}{{toNextPaymentPrice}}</5> on your next billing date <7>{{fromExpiresAt}}</7>.",
   "Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.": "Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.",
   "Do you want to apply the change now?": "Do you want to apply the change now?",
   "trial period": "trial period",

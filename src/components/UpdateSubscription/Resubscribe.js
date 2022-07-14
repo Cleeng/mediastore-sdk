@@ -67,7 +67,7 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
               )}{' '}
               <b>{dateFormat(offerDetails.nextPaymentAt)} </b>
               {t('and it will be')}{' '}
-              <b>{`${offerDetails.nextPaymentPrice}${offerDetails.nextPaymentCurrency}`}</b>
+              <b>{`${offerDetails.nextPaymentCurrency}${offerDetails.nextPaymentPrice}`}</b>
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
