@@ -84,9 +84,12 @@ class Auth {
     removeData('CLEENG_AUTH_TOKEN');
     removeData('CLEENG_REFRESH_TOKEN');
     removeData('CLEENG_ORDER_ID');
-    removeData('CLEENG_PP_SUCCESS');
-    removeData('CLEENG_PP_CANCEL');
-    removeData('CLEENG_PP_ERROR');
+    removeData('CLEENG_CHECKOUT_PP_SUCCESS');
+    removeData('CLEENG_CHECKOUT_PP_CANCEL');
+    removeData('CLEENG_CHECKOUT_PP_ERROR');
+    removeData('CLEENG_MYACCOUNT_PP_SUCCESS');
+    removeData('CLEENG_MYACCOUNT_PP_CANCEL');
+    removeData('CLEENG_MYACCOUNT_PP_ERROR');
 
     callback();
   }

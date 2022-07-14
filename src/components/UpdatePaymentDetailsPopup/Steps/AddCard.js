@@ -12,14 +12,9 @@ import {
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import { useTranslation } from 'react-i18next';
-import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import { ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
-const AddCard = ({
-  setStep,
-  selectedPaymentMethod,
-  updatePaymentDetailsSection
-}) => {
+const AddCard = ({ setStep, updatePaymentDetailsSection }) => {
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const publisherPaymentMethods = useSelector(
@@ -36,9 +31,6 @@ const AddCard = ({
         if (!resp.errors.length) {
           setStep(currentStep => currentStep + 1);
           updatePaymentDetailsSection();
-          if (selectedPaymentMethod.id) {
-            deletePaymentDetails(selectedPaymentMethod.id);
-          }
         } else {
           setIsError(true);
         }
@@ -83,14 +75,12 @@ const AddCard = ({
 
 AddCard.propTypes = {
   setStep: PropTypes.func,
-  updatePaymentDetailsSection: PropTypes.func,
-  selectedPaymentMethod: PropTypes.objectOf(PropTypes.any)
+  updatePaymentDetailsSection: PropTypes.func
 };
 
 AddCard.defaultProps = {
   setStep: () => {},
-  updatePaymentDetailsSection: () => {},
-  selectedPaymentMethod: {}
+  updatePaymentDetailsSection: () => {}
 };
 
 export default AddCard;
