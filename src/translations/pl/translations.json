@@ -167,7 +167,7 @@
   "You can't upgrade your subscription if coupon was applied.": "Nie możesz zmienić subskrypcji, jeżeli kupon został zaaplikowany",
   "Try again later.": "Spróbuj później.",
   "It looks like you can't change your current plan.": "Wygląda na to, że nie możesz zmienić swojego planu.",
-  "You are about to change your plan from <1>{{fromOfferTitle}}</1> to <3>{{toOfferTitle}}</3>. You will be charged the new price <5>{{toNextPaymentPrice}}{{toNextPaymentPriceCurrencySymbol}}</5> on your next billing date <7>{{fromExpiresAt}}</7>.": "Zamierzasz zmienić plan z <1>{{fromOfferTitle}}</1> na <3>{{toOfferTitle}}</3>. Zostaniesz obciążony kwotą <5>{{toNextPaymentPrice}}{{toNextPaymentPriceCurrencySymbol}}</5> przy kolejnym okresie rozliczeniowym, czyli <7>{{fromExpiresAt}}</7>.",
+  "You are about to change your plan from <1>{{fromOfferTitle}}</1> to <3>{{toOfferTitle}}</3>. You will be charged the new price <5>{{toNextPaymentPriceCurrencySymbol}}{{toNextPaymentPrice}}</5> on your next billing date <7>{{fromExpiresAt}}</7>.": "Zamierzasz zmienić plan z <1>{{fromOfferTitle}}</1> na <3>{{toOfferTitle}}</3>. Zostaniesz obciążony kwotą <5>{{toNextPaymentPriceCurrencySymbol}}{{toNextPaymentPrice}}</5> przy kolejnym okresie rozliczeniowym, czyli <7>{{fromExpiresAt}}</7>.",
   "Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.": "Wcześniej zaaplikowany kupon nie przestanie działać. Jeśli posiadasz kupon dla nowej oferty, będziesz mógł go zaaplikować po zmianie planu.",
   "Do you want to apply the change now?": "Czy potwierdzasz zmianę planu na nowy?",
   "trial period": "okres próbny",

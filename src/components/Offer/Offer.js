@@ -48,10 +48,10 @@ class Offer extends Component {
           ? `${freeDays} days`
           : `${freePeriods > 1 ? `${freePeriods} ${period}s` : period}`;
         if (trialAvailable) {
-          return `You will be charged ${offerPrice}${customerCurrencySymbol} after ${trialPeriodText}. 
+          return `You will be charged ${customerCurrencySymbol}${offerPrice} after ${trialPeriodText}. 
               </br>Next payments will occur for every ${periodMapper[period].chargedForEveryText}.`;
         }
-        return `You will be charged ${offerPrice}${customerCurrencySymbol} for every ${periodMapper[period].chargedForEveryText}.`;
+        return `You will be charged ${customerCurrencySymbol}${offerPrice} for every ${periodMapper[period].chargedForEveryText}.`;
       }
       case 'P': {
         const {
