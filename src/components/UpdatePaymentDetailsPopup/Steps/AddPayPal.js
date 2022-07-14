@@ -14,7 +14,7 @@ import Button from 'components/Button';
 import { useTranslation } from 'react-i18next';
 import { PPIconStyled, ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
-const AddPayPal = ({ selectedPaymentMethod, setStep }) => {
+const AddPayPal = ({ setStep }) => {
   const { t } = useTranslation();
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
@@ -24,10 +24,7 @@ const AddPayPal = ({ selectedPaymentMethod, setStep }) => {
   const addPayPalPaymentDetails = () => {
     setIsButtonLoading(true);
     setIsError(false);
-    updatePayPalPaymentDetails(
-      publisherPaymentMethods.paypal,
-      selectedPaymentMethod.id
-    )
+    updatePayPalPaymentDetails(publisherPaymentMethods.paypal)
       .then(resp => {
         window.location.href = resp.responseData.redirectUrl;
       })
@@ -87,11 +84,9 @@ const AddPayPal = ({ selectedPaymentMethod, setStep }) => {
 export default AddPayPal;
 
 AddPayPal.propTypes = {
-  setStep: PropTypes.func,
-  selectedPaymentMethod: PropTypes.objectOf(PropTypes.any)
+  setStep: PropTypes.func
 };
 
 AddPayPal.defaultProps = {
-  setStep: () => {},
-  selectedPaymentMethod: {}
+  setStep: () => {}
 };

@@ -87,16 +87,10 @@ const UpdatePaymentDetailsPopup = ({
           <AddCard
             setStep={setStep}
             updatePaymentDetailsSection={updatePaymentDetailsSection}
-            selectedPaymentMethod={selectedPaymentMethod}
           />
         );
       case ACTIONS.addPayPal:
-        return (
-          <AddPayPal
-            setStep={setStep}
-            selectedPaymentMethod={selectedPaymentMethod}
-          />
-        );
+        return <AddPayPal setStep={setStep} />;
       case ACTIONS.delete:
         return (
           <DeletePaymentMethod

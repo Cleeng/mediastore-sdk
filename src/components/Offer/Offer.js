@@ -30,6 +30,7 @@ class Offer extends Component {
   }
 
   generateDescription = offerType => {
+    const { t } = this.props;
     switch (offerType) {
       case 'S': {
         const {
@@ -44,21 +45,28 @@ class Offer extends Component {
             priceBreakdown: { offerPrice }
           }
         } = this.props;
+        const periodText = periodMapper[period].chargedForEveryText;
         const trialPeriodText = freeDays
           ? `${freeDays} days`
           : `${freePeriods > 1 ? `${freePeriods} ${period}s` : period}`;
         if (trialAvailable) {
-          return `You will be charged ${customerCurrencySymbol}${offerPrice} after ${trialPeriodText}. 
-              </br>Next payments will occur for every ${periodMapper[period].chargedForEveryText}.`;
+          return t(
+            `You will be charged {{customerCurrencySymbol}}{{offerPrice}} after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.`,
+            { customerCurrencySymbol, offerPrice, trialPeriodText, periodText }
+          );
         }
-        return `You will be charged ${customerCurrencySymbol}${offerPrice} for every ${periodMapper[period].chargedForEveryText}.`;
+        return t(
+          `You will be charged {{customerCurrencySymbol}}{{offerPrice}} for every {{periodText}}.`,
+          { customerCurrencySymbol, offerPrice, periodText }
+        );
       }
       case 'P': {
         const {
           offerDetails: { period, expiresAt }
         } = this.props;
         if (!period) {
-          return `Access until ${dateFormat(expiresAt, true)}`;
+          const date = dateFormat(expiresAt, true);
+          return t(`Access until {{date}}`, { date });
         }
         return periodMapper[period]
           ? `${periodMapper[period].accessText} season pass`
@@ -81,7 +89,7 @@ class Offer extends Component {
           : '';
       }
       case 'A':
-        return 'Unlimited access';
+        return t('Unlimited access');
       default:
         return '';
     }

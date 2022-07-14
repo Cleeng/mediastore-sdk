@@ -2,22 +2,19 @@ import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import { getData } from 'util/appConfigHelper';
 
-const updatePayPalPaymentDetails = async (
-  paymentMethodId,
-  paymentDetailsToDelete = 0
-) => {
+const updatePayPalPaymentDetails = async paymentMethodId => {
   const API_URL = getApiURL();
   const url = `${API_URL}/connectors/paypal/v1/payment_details/tokens`;
 
   const redirectUrls = {
-    successUrl: getData('CLEENG_MY_ACCOUNT_URL')
-      ? `${getData('CLEENG_MY_ACCOUNT_URL')}?deletepd=${paymentDetailsToDelete}`
-      : `${window.location.origin}/my-account/payment-info?deletepd=${paymentDetailsToDelete}`,
+    successUrl: getData('CLEENG_MYACCOUNT_PP_SUCCESS')
+      ? `${getData('CLEENG_MYACCOUNT_PP_SUCCESS')}`
+      : `${window.location.origin}/my-account/payment-info`,
     cancelUrl:
-      getData('CLEENG_MY_ACCOUNT_URL') ||
+      getData('CLEENG_MYACCOUNT_PP_CANCEL') ||
       `${window.location.origin}/my-account/payment-info`,
     errorUrl:
-      getData('CLEENG_MY_ACCOUNT_URL') ||
+      getData('CLEENG_MYACCOUNT_PP_ERROR') ||
       `${window.location.origin}/my-account/payment-info`
   };
 
