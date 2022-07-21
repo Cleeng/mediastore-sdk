@@ -50,7 +50,7 @@ const SwitchPlanPopup = ({
     CONFIRMATION: 2
   };
 
-  const [step, setStep] = useState(STEPS.CONFIRMATION);
+  const [step, setStep] = useState(STEPS.SWITCH_DETAILS);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
 
