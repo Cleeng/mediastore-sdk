@@ -11,6 +11,12 @@ import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
 import { WrapStyled } from './PlanDetailsStyled';
 
+const algorithms = {
+  IMMEDIATE_WITHOUT_PRORATION: 'IMMEDIATE_WITHOUT_PRORATION',
+  IMMEDIATE_AND_CHARGE_WITH_REFUND: 'IMMEDIATE_AND_CHARGE_WITH_REFUND',
+  DEFERRED: 'DEFERRED'
+};
+
 const PlanDetails = ({
   planDetails,
   updateList,
@@ -124,6 +130,7 @@ const PlanDetails = ({
       case 'switchPlan':
         return (
           <SwitchPlanPopup
+            switchAlgorithm={algorithms.DEFERRED}
             showInnerPopup={showInnerPopup}
             toOffer={innerPopup.data.offerData}
             fromOffer={planDetails.offerToSwitch}
