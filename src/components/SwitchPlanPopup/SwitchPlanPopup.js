@@ -1,7 +1,6 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation, Trans } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 
 import { subscriptionSwitch } from 'api';
@@ -10,6 +9,7 @@ import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
 import { dateFormat } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
+import { ReactComponent as Close } from 'assets/images/errors/close.svg';
 
 import {
   ContentStyled,
@@ -36,11 +36,13 @@ const SwitchPlanPopup = ({
   onCancel,
   onSwitchSuccess,
   isPartOfCancellationFlow,
+  switchAlgorithm,
   t
 }) => {
   const STEPS = {
     SWITCH_DETAILS: 'SWITCH_DETAILS',
-    CONFIRMATION: 'CONFIRMATION'
+    CONFIRMATION: 'CONFIRMATION',
+    ERROR: 'ERROR'
   };
 
   const STEPS_NUMBERS = {
@@ -48,7 +50,7 @@ const SwitchPlanPopup = ({
     CONFIRMATION: 2
   };
 
-  const [step, setStep] = useState(STEPS.SWITCH_DETAILS);
+  const [step, setStep] = useState(STEPS.CONFIRMATION);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
 
@@ -101,18 +103,18 @@ const SwitchPlanPopup = ({
 
   const toOfferTitle = toOffer.title;
   const toNextPaymentPrice = toOffer.nextPaymentPrice;
-  const toNextPaymentPriceCurrencySymbol = toOffer.nextPaymentPriceCurrencySymbol;
+  const toNextPaymentPriceCurrencySymbol =
+    toOffer.nextPaymentPriceCurrencySymbol;
 
   return (
     <InnerPopupWrapper
       steps={isPartOfCancellationFlow ? 3 : 2}
       popupTitle={t('Change Plan')}
-      isError={isError}
       currentStep={
         isPartOfCancellationFlow ? STEPS_NUMBERS[step] + 1 : STEPS_NUMBERS[step]
       }
     >
-      {step === STEPS.SWITCH_DETAILS && (
+      {step === STEPS.SWITCH_DETAILS && !isError && (
         <>
           <ContentStyled>
             <ImageWrapper>
@@ -125,14 +127,47 @@ const SwitchPlanPopup = ({
             </ImageWrapper>
             <TitleStyled step={step}>{t(toOffer.switchDirection)}</TitleStyled>
             <TextStyled step={step}>
-              <Trans>
-                You are about to change your plan from <b>{{ fromOfferTitle }}</b> to <b>{{ toOfferTitle }}</b>. You will be charged the new price <b>{{ toNextPaymentPrice }}{{ toNextPaymentPriceCurrencySymbol }}</b> on your next billing date <b>{{ fromExpiresAt }}</b>.
-              </Trans>
+              {t(
+                'You are about to change your plan from {{ fromOfferTitle }} to {{ toOfferTitle }}.',
+                {
+                  fromOfferTitle,
+                  toOfferTitle
+                }
+              )}{' '}
+              {switchAlgorithm === 'IMMEDIATE_WITHOUT_PRORATION' &&
+                t(
+                  'You will be immediately granted with access to your selected plan and charged a new price {{ currencySymbol }}{{ nextPaymentPrice }} on your next billing date {{ expiresAt }}',
+                  {
+                    currencySymbol: toNextPaymentPriceCurrencySymbol,
+                    nextPaymentPrice: toNextPaymentPrice,
+                    expiresAt: fromExpiresAt
+                  }
+                )}
+              {switchAlgorithm === 'IMMEDIATE_AND_CHARGE_WITH_REFUND' &&
+                t(
+                  'You will be charged {{ currencySymbol }}{{ nextPaymentPrice }} and immediately granted with access to your selected plan. The remaining value from the previous subscription will be refunded. You will continue to be charged {{ currencySymbol }}{{ nextPaymentPrice }} on a recurring basis until you cancel.',
+                  {
+                    currencySymbol: toNextPaymentPriceCurrencySymbol,
+                    nextPaymentPrice: toNextPaymentPrice
+                  }
+                )}
+              {switchAlgorithm === 'DEFERRED' &&
+                t(
+                  'You will have access to {{ currentPlan }} until {{ expiresAt }} and from that time you will be charged {{ currencySymbol }}{{ nextPaymentPrice }} on a recurring basis and have access to your new subscription.',
+                  {
+                    currentPlan: fromOfferTitle,
+                    currencySymbol: toNextPaymentPriceCurrencySymbol,
+                    nextPaymentPrice: toNextPaymentPrice,
+                    expiresAt: fromExpiresAt
+                  }
+                )}
               <br />
-              { toOffer.couponNotApplicable && (
+              {toOffer.couponNotApplicable && (
                 <>
                   <br />
-                  {t('Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.')}
+                  {t(
+                    'Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.'
+                  )}
                   <br />
                 </>
               )}
@@ -173,7 +208,7 @@ const SwitchPlanPopup = ({
           </ButtonWrapperStyled>
         </>
       )}
-      {step === STEPS.CONFIRMATION && (
+      {step === STEPS.CONFIRMATION && !isError && (
         <>
           <ContentStyled>
             <ImageWrapper>
@@ -181,15 +216,61 @@ const SwitchPlanPopup = ({
             </ImageWrapper>
             <TitleStyled step={step}>{t('Thank you')}</TitleStyled>
             <TextStyled step={step}>
+              {switchAlgorithm === 'IMMEDIATE_WITHOUT_PRORATION' &&
+                t(
+                  'You have successfully changed your plan to {{ newPlan }}. Your new fee will be {{ currencySymbol }}{{ nextPaymentPrice }} starting from {{ expiresAt }}.',
+                  {
+                    newPlan: toOffer.title,
+                    currencySymbol: toOffer.nextPaymentPriceCurrencySymbol,
+                    nextPaymentPrice: toOffer.nextPaymentPrice,
+                    expiresAt: dateFormat(fromOffer.expiresAt)
+                  }
+                )}
+              {switchAlgorithm === 'IMMEDIATE_AND_CHARGE_WITH_REFUND' &&
+                t(
+                  'You have successfully changed your plan to {{ newPlan }}. Your new fee is {{ currencySymbol }}{{ nextPaymentPrice }} starting from now.',
+                  {
+                    newPlan: toOffer.title,
+                    currencySymbol: toOffer.nextPaymentPriceCurrencySymbol,
+                    nextPaymentPrice: toOffer.nextPaymentPrice
+                  }
+                )}
+              {switchAlgorithm === 'DEFERRED' &&
+                t(
+                  'You have successfully requested the switch to {{ newPlan }}. You will have access to your new plan on {{ expiresAt }} and be charged {{ currencySymbol }}{{ nextPaymentPrice }}.',
+                  {
+                    newPlan: toOffer.title,
+                    expiresAt: dateFormat(fromOffer.expiresAt),
+                    currencySymbol: toOffer.nextPaymentPriceCurrencySymbol,
+                    nextPaymentPrice: toOffer.nextPaymentPrice
+                  }
+                )}
+            </TextStyled>
+          </ContentStyled>
+          <ButtonWrapperStyled>
+            <Button
+              theme="confirm"
+              onClickFn={onSwitchSuccess || closePopupAndRefresh}
+            >
+              {t('Back to settings')}
+            </Button>
+          </ButtonWrapperStyled>
+        </>
+      )}
+      {isError && (
+        <>
+          <ContentStyled>
+            <ImageWrapper>
+              <Close />
+            </ImageWrapper>
+            <TitleStyled step={step}>{t('An error occurred.')}</TitleStyled>
+            <TextStyled step={step}>
               {t(
-                'You have successfully changed your plan. Your new fee will be '
+                'We have been unable to change your plan to {{ title }} as an error occurred. Sorry for the inconvenience, please try again.',
+                {
+                  title: toOffer.title
+                }
               )}
-              <strong>
-                {toOffer.nextPaymentPrice}
-                {toOffer.nextPaymentPriceCurrencySymbol}
-              </strong>{' '}
-              {t('starting from ')}
-              <strong> {dateFormat(fromOffer.expiresAt)}</strong>.
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
@@ -216,7 +297,8 @@ SwitchPlanPopup.propTypes = {
   onCancel: PropTypes.func,
   onSwitchSuccess: PropTypes.func,
   isPartOfCancellationFlow: PropTypes.bool,
-  showInnerPopup: PropTypes.func
+  showInnerPopup: PropTypes.func,
+  switchAlgorithm: PropTypes.string
 };
 
 SwitchPlanPopup.defaultProps = {
@@ -229,7 +311,8 @@ SwitchPlanPopup.defaultProps = {
   t: k => k,
   onCancel: null,
   onSwitchSuccess: null,
-  isPartOfCancellationFlow: false
+  isPartOfCancellationFlow: false,
+  switchAlgorithm: null
 };
 
 export { SwitchPlanPopup as PureSwitchPlanPopup };
