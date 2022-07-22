@@ -214,6 +214,13 @@ class Payment extends Component {
           isLoading: false
         });
       } else {
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:purchase-successful', {
+            detail: {
+              payment: paymentReponse.responseData
+            }
+          })
+        );
         onPaymentComplete();
       }
     });
