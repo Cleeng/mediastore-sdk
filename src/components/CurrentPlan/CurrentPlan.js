@@ -59,6 +59,7 @@ class CurrentPlan extends PureComponent {
   };
 
   showInfoBox = item => {
+    if (item.offerType !== 'S') return null;
     const { switchesInProgress } = this.props;
     // some old condition
     if (
@@ -234,7 +235,7 @@ CurrentPlan.defaultProps = {
   isLoading: false,
   errors: [],
   offerToSwitch: {},
-  switchesInProgress: {},
+  switchesInProgress: [],
   t: k => k
 };
 
