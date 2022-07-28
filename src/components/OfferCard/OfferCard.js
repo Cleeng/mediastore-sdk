@@ -6,6 +6,8 @@ import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price from 'components/Price';
 import { ReactComponent as BlockedIcon } from 'assets/images/blocked.svg';
 import { ReactComponent as EditBlockedIcon } from 'assets/images/noEdit.svg';
+import { ReactComponent as DowngradeIcon } from 'assets/images/downgrade_pending.svg';
+import { ReactComponent as UpgradeIcon } from 'assets/images/upgrade_pending.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import {
   WrapperStyled,
@@ -15,7 +17,9 @@ import {
   PriceWrapperStyled,
   TrialBadgeStyled,
   SubBoxStyled,
-  BoxTextStyled
+  BoxTextStyled,
+  SubBoxContentStyled,
+  SubBoxButtonStyled
 } from './OfferCardStyled';
 
 const OfferCard = ({
@@ -30,6 +34,8 @@ const OfferCard = ({
   isDataLoaded,
   paymentMethod,
   isMyAccount,
+  onInfoBoxButtonClick,
+  infoBoxButtonText,
   t
 }) => {
   const mapCode = {
@@ -58,6 +64,66 @@ const OfferCard = ({
         }Use an external service to edit the plan.`
       ),
       icon: EditBlockedIcon
+    },
+    PENDING_UPGRADE_IMMEDIATE_WITHOUT_PRORATION: {
+      text: t(
+        'Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{ nextBillingDate }}. {{ selectedPlan }} renews automatically. You can cancel anytime.',
+        {
+          nextBillingDate: 'nextBillingDate',
+          selectedPlan: 'New super plan'
+        }
+      ),
+      icon: UpgradeIcon
+    },
+    PENDING_UPGRADE_IMMEDIATE_AND_CHARGE_WITH_REFUND: {
+      text: t(
+        'Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{ selectedPlan }}. You can cancel anytime.',
+        {
+          selectedPlan: 'New super plan'
+        }
+      ),
+      icon: UpgradeIcon
+    },
+    PENDING_UPGRADE_DEFERRED: {
+      text: t(
+        'Your switch is pending. You will have access to {{ currentPlan }} until {{ expirationDate }}. From that time you will be charged a new price and have access to {{ selectedPlan }}. You can cancel anytime.',
+        {
+          currentPlan: title,
+          expirationDate: 'expirationDate',
+          selectedPlan: 'New super plan'
+        }
+      ),
+      icon: UpgradeIcon
+    },
+    PENDING_DOWNGRADE_IMMEDIATE_WITHOUT_PRORATION: {
+      text: t(
+        'Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{ nextBillingDate }}. {{ selectedPlan }} renews automatically. You can cancel anytime.',
+        {
+          nextBillingDate: 'nextBillingDate',
+          selectedPlan: 'New super plan'
+        }
+      ),
+      icon: DowngradeIcon
+    },
+    PENDING_DOWNGRADE_IMMEDIATE_AND_CHARGE_WITH_REFUND: {
+      text: t(
+        'Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{ selectedPlan }}. You can cancel anytime.',
+        {
+          selectedPlan: 'New super plan'
+        }
+      ),
+      icon: DowngradeIcon
+    },
+    PENDING_DOWNGRADE_DEFERRED: {
+      text: t(
+        'Your switch is pending. You will have access to {{ currentPlan }} until {{ expirationDate }}. From that time you will be charged a new price and have access to {{ selectedPlan }}. You can cancel anytime.',
+        {
+          currentPlan: title,
+          expirationDate: 'expirationDate',
+          selectedPlan: 'New super plan'
+        }
+      ),
+      icon: DowngradeIcon
     }
   };
 
@@ -107,9 +173,16 @@ const OfferCard = ({
       {showInfoBox ? (
         <SubBoxStyled>
           <IconComponent />
-          <BoxTextStyled
-            dangerouslySetInnerHTML={{ __html: mapCode[showInfoBox].text }}
-          />
+          <SubBoxContentStyled>
+            <BoxTextStyled
+              dangerouslySetInnerHTML={{ __html: mapCode[showInfoBox].text }}
+            />
+            {onInfoBoxButtonClick && (
+              <SubBoxButtonStyled onClick={() => onInfoBoxButtonClick()}>
+                {infoBoxButtonText}
+              </SubBoxButtonStyled>
+            )}
+          </SubBoxContentStyled>
         </SubBoxStyled>
       ) : (
         ''
@@ -129,6 +202,8 @@ OfferCard.propTypes = {
   showInfoBox: PropTypes.string,
   isDataLoaded: PropTypes.bool,
   paymentMethod: PropTypes.string,
+  onInfoBoxButtonClick: PropTypes.func,
+  infoBoxButtonText: PropTypes.string,
   t: PropTypes.func,
   isMyAccount: PropTypes.bool
 };
@@ -144,6 +219,8 @@ OfferCard.defaultProps = {
   showInfoBox: null,
   isDataLoaded: true,
   paymentMethod: '',
+  onInfoBoxButtonClick: null,
+  infoBoxButtonText: '',
   t: k => k,
   isMyAccount: false
 };

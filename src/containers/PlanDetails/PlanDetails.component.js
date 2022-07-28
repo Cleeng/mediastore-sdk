@@ -11,6 +11,8 @@ import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
 import { WrapStyled } from './PlanDetailsStyled';
 
+import pendingSwitchesMock from './pendingSwitchesMock';
+
 const PlanDetails = ({
   planDetails,
   updateList,
@@ -18,6 +20,7 @@ const PlanDetails = ({
   hideInnerPopup,
   setCurrentPlan,
   setSwitchSettings,
+  setSwitchInProgress,
   setOfferToSwitch,
   showInnerPopup,
   customCancellationReasons,
@@ -90,6 +93,12 @@ const PlanDetails = ({
       });
   };
 
+  const fetchPendingSwitches = async () => {
+    // here will be call for Pending switches endpoint
+    // console.log(pendingSwitchesMock);
+    setSwitchInProgress(pendingSwitchesMock);
+  };
+
   useEffect(() => {
     if (innerPopup.isOpen) {
       hideInnerPopup();
@@ -97,12 +106,14 @@ const PlanDetails = ({
     }
     if (planDetails.currentPlan.length === 0) {
       fetchSubscriptions();
+      fetchPendingSwitches();
     }
   }, []);
 
   useEffect(() => {
     if (didMount.current) {
       fetchSubscriptions();
+      fetchPendingSwitches();
     } else {
       didMount.current = true;
     }
@@ -155,6 +166,7 @@ const PlanDetails = ({
             showInnerPopup={showInnerPopup}
             setOfferToSwitch={setOfferToSwitch}
             offerToSwitch={planDetails.offerToSwitch}
+            switchesInProgress={planDetails.switchesInProgress}
             updateList={updateList}
           />
           {activeSubscriptions.length !== 0 && (
@@ -188,6 +200,7 @@ PlanDetails.propTypes = {
   hideInnerPopup: PropTypes.func.isRequired,
   setOfferToSwitch: PropTypes.func.isRequired,
   setSwitchSettings: PropTypes.func.isRequired,
+  setSwitchInProgress: PropTypes.func.isRequired,
   updateList: PropTypes.func.isRequired,
   customCancellationReasons: PropTypes.arrayOf(
     PropTypes.shape({

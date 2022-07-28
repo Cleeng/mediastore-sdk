@@ -39,6 +39,16 @@ class CurrentPlan extends PureComponent {
     };
   }
 
+  componentDidUpdate() {
+    console.log(this.props);
+    // console.log('componentDidMount');
+    // this.showMessageBox(
+    //   'upgrade',
+    //   'Your switch is pending. You will have access to <current plan> until <subscription end date>. From that time you will be charged a new price and have access to <selected plan>. You can cancel anytime.',
+    //   271645437
+    // );
+  }
+
   showMessageBox = (type, text, subscriptionId) => {
     this.setState({
       messageBoxType: type,
@@ -46,6 +56,34 @@ class CurrentPlan extends PureComponent {
       isMessageBoxOpened: true,
       messageSubscriptionId: subscriptionId
     });
+  };
+
+  showInfoBox = item => {
+    const { switchesInProgress } = this.props;
+    // some old condition
+    if (
+      !(
+        item.offerType !== 'S' ||
+        supportedPaymentGateways.includes(item.paymentGateway)
+      )
+    ) {
+      return 'INAPP_SUBSCRIPTION';
+    }
+    // check if that item have pending subscription
+    const pendingSwich = switchesInProgress.find(
+      switchInProgress => switchInProgress.fromOfferId === item.offerId
+    );
+    if (pendingSwich) {
+      console.log(pendingSwich);
+      return `PENDING_${pendingSwich.direction.toUpperCase()}_${
+        pendingSwich.algorithm
+      }`;
+    }
+    return null;
+  };
+
+  cancelDowngrading = () => {
+    console.log('Cancel downgrading button clicked');
   };
 
   render() {
@@ -144,13 +182,10 @@ class CurrentPlan extends PureComponent {
                     currency={currencyFormat[currency]}
                     price={price}
                     isMyAccount
-                    showInfoBox={
-                      subItem.offerType !== 'S' ||
-                      supportedPaymentGateways.includes(subItem.paymentGateway)
-                        ? ''
-                        : 'INAPP_SUBSCRIPTION'
-                    }
+                    showInfoBox={this.showInfoBox(subItem)}
                     paymentMethod={subItem.paymentMethod}
+                    onInfoBoxButtonClick={() => this.cancelDowngrading()}
+                    infoBoxButtonText="Cancel switch"
                   />
                   {isMessageBoxOpened &&
                     messageSubscriptionId === subItem.subscriptionId && (
@@ -189,6 +224,7 @@ CurrentPlan.propTypes = {
   showInnerPopup: PropTypes.func.isRequired,
   setOfferToSwitch: PropTypes.func.isRequired,
   offerToSwitch: PropTypes.objectOf(PropTypes.any),
+  switchesInProgress: PropTypes.objectOf(PropTypes.any),
   updateList: PropTypes.func.isRequired,
   t: PropTypes.func
 };
@@ -198,6 +234,7 @@ CurrentPlan.defaultProps = {
   isLoading: false,
   errors: [],
   offerToSwitch: {},
+  switchesInProgress: {},
   t: k => k
 };
 
