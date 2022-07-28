@@ -10,7 +10,8 @@ import {
   FontColor,
   White,
   LineColor,
-  BackgroundColor
+  BackgroundColor,
+  ConfirmColor
 } from 'styles/variables';
 
 export const WrapperStyled = styled.section`
@@ -84,12 +85,16 @@ export const SubBoxStyled = styled.div.attrs(() => ({
   display: flex;
   flex-direction: row;
   flex-wrap: nowrap;
-  align-items: center;
+  align-items: flex-start;
   margin: 15px 0;
   padding: 12px;
   border: 1px solid ${LineColor};
   background: ${BackgroundColor};
   border-radius: 4px;
+
+  svg {
+    min-width: 18px;
+  }
 `;
 
 export const BoxTextStyled = styled.p.attrs(() => ({
@@ -98,4 +103,13 @@ export const BoxTextStyled = styled.p.attrs(() => ({
   font-size: ${TinyFont};
   color: ${FontColor};
   margin: 0 0 0 10px;
+`;
+
+export const SubBoxContentStyled = styled.div``;
+
+export const SubBoxButtonStyled = styled.button`
+  padding: 0;
+  margin: 13px 0 0 13px;
+  background-color: transparent;
+  color: ${ConfirmColor};
 `;

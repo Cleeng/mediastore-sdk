@@ -3,7 +3,8 @@ import {
   setCurrentPlan,
   updateList,
   setOfferToSwitch,
-  setSwitchSettings
+  setSwitchSettings,
+  setSwitchInProgress
 } from 'redux/planDetails';
 import { showInnerPopup, hideInnerPopup } from 'redux/innerPopupReducer';
 
@@ -36,6 +37,9 @@ export const mapDispatchToProps = dispatch => {
     },
     setSwitchSettings: payload => {
       dispatch(setSwitchSettings(payload));
+    },
+    setSwitchInProgress: payload => {
+      dispatch(setSwitchInProgress(payload));
     }
   };
 };

@@ -13,11 +13,15 @@ export const setOfferToSwitch = createAction(SET_OFFER_TO_SWITCH);
 export const SET_SWITCH_SETTINGS = 'SET_SWITCH_SETTINGS';
 export const setSwitchSettings = createAction(SET_SWITCH_SETTINGS);
 
+export const SET_SWITCHES_IN_PROGRESS = 'SET_SWITCHES_IN_PROGRESS';
+export const setSwitchInProgress = createAction(SET_SWITCHES_IN_PROGRESS);
+
 const initialState = {
   currentPlan: [],
   updateList: false,
   offerToSwitch: {},
-  switchSettings: {}
+  switchSettings: {},
+  switchesInProgress: {}
 };
 
 const paymentDetailsReducer = createReducer(initialState, {
@@ -32,6 +36,9 @@ const paymentDetailsReducer = createReducer(initialState, {
   },
   SET_SWITCH_SETTINGS: (state, action) => {
     state.switchSettings[action.payload.offerId] = action.payload.settings;
+  },
+  SET_SWITCHES_IN_PROGRESS: (state, action) => {
+    state.switchesInProgress = action.payload;
   }
 });
 
