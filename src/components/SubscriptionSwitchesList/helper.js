@@ -14,7 +14,7 @@ const mapErrorToText = {
     icon: subscriptionCardPlaceholderIcon
   },
   SUBSCRIPTION_WITH_COUPON_NOT_ALLOWED: {
-    title: "You can't upgrade your subscription if coupon was applied.",
+    title: "You can't upgrade your subscription if a coupon was applied.",
     subtitle: '',
     icon: subscriptionCardPlaceholderIcon
   },
