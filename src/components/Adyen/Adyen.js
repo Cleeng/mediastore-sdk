@@ -12,13 +12,6 @@ import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
 const COMPONENT_CONTAINER_ID = 'component-container';
 const PAYMENT_METHOD_CARD = 'card';
 
-const ADYEN_ENV =
-  getData('CLEENG_ENVIRONMENT') === 'production' ? 'live' : 'test';
-
-const ADYEN_STYLESHEET_HREF = `https://checkoutshopper-${ADYEN_ENV}.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css`;
-
-const ADYEN_SCRIPT_HREF = `https://checkoutshopper-${ADYEN_ENV}.adyen.com/checkoutshopper/sdk/3.10.1/adyen.js`;
-
 class Adyen extends Component {
   constructor(props) {
     super(props);
@@ -45,8 +38,12 @@ class Adyen extends Component {
     }
   }
 
-  loadAdyenStylesheet = () =>
-    new Promise((resolve, reject) => {
+  getAdyenEnv = () =>
+    getData('CLEENG_ENVIRONMENT') === 'production' ? 'live' : 'test';
+
+  loadAdyenStylesheet = () => {
+    const ADYEN_STYLESHEET_HREF = `https://checkoutshopper-${this.getAdyenEnv()}.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css`;
+    return new Promise((resolve, reject) => {
       const linkEl = document.createElement('link');
       linkEl.onload = resolve;
       linkEl.onerror = reject;
@@ -54,28 +51,30 @@ class Adyen extends Component {
       linkEl.href = ADYEN_STYLESHEET_HREF;
       document.body.append(linkEl);
     });
+  };
 
   // we won't test chain loading resources from Adyen
   /* istanbul ignore next */
-  loadAdyenScript = () =>
-    new Promise((resolve, reject) => {
+  loadAdyenScript = () => {
+    const ADYEN_SCRIPT_HREF = `https://checkoutshopper-${this.getAdyenEnv()}.adyen.com/checkoutshopper/sdk/3.10.1/adyen.js`;
+    return new Promise((resolve, reject) => {
       const scriptEl = document.createElement('script');
       scriptEl.onload = resolve;
       scriptEl.onerror = reject;
       scriptEl.src = ADYEN_SCRIPT_HREF;
       document.body.append(scriptEl);
     });
+  };
 
   renderCheckout = () => {
     const { onSubmit, onChange } = this.props;
-
     const configuration = {
       showPayButton: false,
       hasHolderName: true,
       holderNameRequired: true,
-      environment: ADYEN_ENV,
+      environment: this.getAdyenEnv(),
       clientKey:
-        ADYEN_ENV === 'live'
+        this.getAdyenEnv() === 'live'
           ? 'live_BQDOFBYTGZB3XKF62GBYSLPUJ4YW2TPL'
           : 'test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K',
       onSubmit,
