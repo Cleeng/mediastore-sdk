@@ -10,7 +10,7 @@ export const AdyenStyled = styled.div.attrs(() => ({
   className: 'msd__payment__adyen'
 }))`
   max-width: 320px;
-  margin: 50px auto 0 auto;
+  margin: 0 auto 0 auto;
   ${props =>
     props.isMyAccount &&
     css`
