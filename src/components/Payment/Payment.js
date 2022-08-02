@@ -54,9 +54,9 @@ class Payment extends Component {
         this.choosePaymentMethod(defaultMethod.id, defaultMethod.methodName);
       }
       if (validPaymentMethods.length === 1) {
-        const peymentMethod = validPaymentMethods[0];
+        const paymentMethod = validPaymentMethods[0];
         this.setState({ isPaymentFormDisplayed: true });
-        this.choosePaymentMethod(peymentMethod.id, peymentMethod.methodName);
+        this.choosePaymentMethod(paymentMethod.id, paymentMethod.methodName);
       }
     } else {
       try {
@@ -288,22 +288,24 @@ class Payment extends Component {
       <PaymentStyled>
         {isPaymentDetailsRequired ? (
           <>
-            <SectionHeader marginTop="25px" center>
-              {t('Purchase using')}
-            </SectionHeader>
             {paymentMethods.length !== 1 && (
-              <MethodsWrapperStyled>
-                {paymentMethods.map(method => (
-                  <PaymentMethodButton
-                    key={method.id}
-                    methodName={method.methodName}
-                    onClickFn={() => {
-                      this.setState({ isPaymentFormDisplayed: true });
-                      this.choosePaymentMethod(method.id, method.methodName);
-                    }}
-                  />
-                ))}
-              </MethodsWrapperStyled>
+              <>
+                <SectionHeader marginTop="25px" center>
+                  {t('Purchase using')}
+                </SectionHeader>
+                <MethodsWrapperStyled>
+                  {paymentMethods.map(method => (
+                    <PaymentMethodButton
+                      key={method.id}
+                      methodName={method.methodName}
+                      onClickFn={() => {
+                        this.setState({ isPaymentFormDisplayed: true });
+                        this.choosePaymentMethod(method.id, method.methodName);
+                      }}
+                    />
+                  ))}
+                </MethodsWrapperStyled>
+              </>
             )}
             {generalError && (
               <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
