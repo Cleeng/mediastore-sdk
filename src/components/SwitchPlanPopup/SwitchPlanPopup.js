@@ -41,8 +41,7 @@ const SwitchPlanPopup = ({
 }) => {
   const STEPS = {
     SWITCH_DETAILS: 'SWITCH_DETAILS',
-    CONFIRMATION: 'CONFIRMATION',
-    ERROR: 'ERROR'
+    CONFIRMATION: 'CONFIRMATION'
   };
 
   const STEPS_NUMBERS = {
