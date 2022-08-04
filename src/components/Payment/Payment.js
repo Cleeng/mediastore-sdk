@@ -75,6 +75,14 @@ class Payment extends Component {
             this.setState({
               paymentMethods: validMethodsFromResponse
             });
+            if (validMethodsFromResponse.length === 1) {
+              const paymentMethod = validMethodsFromResponse[0];
+              this.setState({ isPaymentFormDisplayed: true });
+              this.choosePaymentMethod(
+                paymentMethod.id,
+                paymentMethod.methodName
+              );
+            }
           }
         } else if (!response.errors.length) {
           this.setState({
