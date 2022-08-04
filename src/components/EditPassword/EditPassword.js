@@ -7,7 +7,6 @@ import { getData } from 'util/appConfigHelper';
 import resetPassword from 'api/Auth/resetPassword';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
-import Auth from 'services/auth';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 
 import {
@@ -33,12 +32,6 @@ class EditPassword extends PureComponent {
     this.setState(prevState => {
       return { step: prevState.step + 1 };
     });
-  };
-
-  logout = () => {
-    const { hideInnerPopup } = this.props;
-    hideInnerPopup();
-    Auth.logout(true);
   };
 
   resetPassword = async () => {
