@@ -58,10 +58,9 @@ const generatePromiseWithHeaders = (url, options) => {
 const fetchWithJWT = async (url, options = {}) => {
   const isExpired = isJWTExpired();
   const refreshToken = retrieveRefreshToken();
-  const isMyAccount = window.location.pathname.includes('my-account');
 
   if (isExpired && !refreshToken) {
-    Auth.logout(isMyAccount);
+    Auth.logout();
   }
 
   if (isExpired && refreshToken) {
@@ -73,7 +72,7 @@ const fetchWithJWT = async (url, options = {}) => {
         .catch(() => {
           IS_FETCHING_REFRESH_TOKEN = false;
           REFRESH_TOKEN_ERROR = true;
-          Auth.logout(isMyAccount);
+          Auth.logout();
           return new Promise((resolve, reject) => reject());
         });
     } else {

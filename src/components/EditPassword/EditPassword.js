@@ -38,7 +38,7 @@ class EditPassword extends PureComponent {
   logout = () => {
     const { hideInnerPopup } = this.props;
     hideInnerPopup();
-    Auth.logout(true);
+    Auth.logout();
   };
 
   resetPassword = async () => {

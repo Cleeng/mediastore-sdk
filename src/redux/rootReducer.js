@@ -15,4 +15,5 @@ const rootReducer = combineReducers({
   innerPopup: innerPopupReducer
 });
 
-export default rootReducer;
+export default (state, action) =>
+  rootReducer(action.type === 'USER_LOGOUT' ? undefined : state, action);

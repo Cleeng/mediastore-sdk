@@ -94,7 +94,7 @@ Config.setTheme(); // more informations in the [Styling] section.
 
 // Auth methods
 Auth.isLogged(); // returns true if the user is authenticated (valid JWT or existing refresh token in local storage)
-Auth.logout(); // removes all Cleeng data from local storage
+Auth.logout(clb); // removes all Cleeng data from local storage and redux. clb - optional callback function
 ```
 
 **Usage sample**
