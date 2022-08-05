@@ -53,6 +53,11 @@ class Payment extends Component {
         this.setState({ isPaymentFormDisplayed: true });
         this.choosePaymentMethod(defaultMethod.id, defaultMethod.methodName);
       }
+      if (validPaymentMethods.length === 1) {
+        const paymentMethod = validPaymentMethods[0];
+        this.setState({ isPaymentFormDisplayed: true });
+        this.choosePaymentMethod(paymentMethod.id, paymentMethod.methodName);
+      }
     } else {
       try {
         const response = await getPaymentMethods();
@@ -70,6 +75,14 @@ class Payment extends Component {
             this.setState({
               paymentMethods: validMethodsFromResponse
             });
+            if (validMethodsFromResponse.length === 1) {
+              const paymentMethod = validMethodsFromResponse[0];
+              this.setState({ isPaymentFormDisplayed: true });
+              this.choosePaymentMethod(
+                paymentMethod.id,
+                paymentMethod.methodName
+              );
+            }
           }
         } else if (!response.errors.length) {
           this.setState({
@@ -283,21 +296,25 @@ class Payment extends Component {
       <PaymentStyled>
         {isPaymentDetailsRequired ? (
           <>
-            <SectionHeader marginTop="25px" center>
-              {t('Purchase using')}
-            </SectionHeader>
-            <MethodsWrapperStyled>
-              {paymentMethods.map(method => (
-                <PaymentMethodButton
-                  key={method.id}
-                  methodName={method.methodName}
-                  onClickFn={() => {
-                    this.setState({ isPaymentFormDisplayed: true });
-                    this.choosePaymentMethod(method.id, method.methodName);
-                  }}
-                />
-              ))}
-            </MethodsWrapperStyled>
+            {paymentMethods.length !== 1 && (
+              <>
+                <SectionHeader marginTop="25px" center>
+                  {t('Purchase using')}
+                </SectionHeader>
+                <MethodsWrapperStyled>
+                  {paymentMethods.map(method => (
+                    <PaymentMethodButton
+                      key={method.id}
+                      methodName={method.methodName}
+                      onClickFn={() => {
+                        this.setState({ isPaymentFormDisplayed: true });
+                        this.choosePaymentMethod(method.id, method.methodName);
+                      }}
+                    />
+                  ))}
+                </MethodsWrapperStyled>
+              </>
+            )}
             {generalError && (
               <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
             )}

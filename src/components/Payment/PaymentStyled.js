@@ -23,7 +23,7 @@ export const PaymentErrorStyled = styled.div.attrs(() => ({
 export const MethodsWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__payment__methods'
 }))`
-  margin-bottom: 10px;
+  margin-bottom: 50px;
   font-size: 20px;
   display: flex;
   flex-wrap: wrap;
