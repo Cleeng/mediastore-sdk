@@ -40,7 +40,11 @@ const AddPayPal = ({ setStep }) => {
         <TitleStyled>PayPal</TitleStyled>
         <TextStyled>
           {t(
-            'Paying with PayPal is easy. Click the button below and sign in to your PayPal account'
+            'Paying with PayPal is easy. Click the button below and sign in to your PayPal account.'
+          )}
+          <br />
+          {t(
+            'Note, PayPal is subject to an additional 8% fee that will be added to your next payments.'
           )}
         </TextStyled>
         <Button
