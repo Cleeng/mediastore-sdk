@@ -35,7 +35,7 @@ const OfferCard = ({
   const mapCode = {
     TO_OFFER_COUNTRY_NOT_ALLOWED: {
       text: t(
-        `This plan is <strong>not currently available</strong> in your country or region`
+        `This plan is <strong>currently unavailable</strong> in your country or region`
       ),
       icon: BlockedIcon
     },
@@ -48,7 +48,7 @@ const OfferCard = ({
       icon: BlockedIcon
     },
     SUBSCRIPTION_WITH_COUPON_NOT_ALLOWED: {
-      text: t("You can't upgrade your subscription if coupon was applied."),
+      text: t("You can't upgrade your subscription if a coupon was applied."),
       icon: BlockedIcon
     },
     INAPP_SUBSCRIPTION: {

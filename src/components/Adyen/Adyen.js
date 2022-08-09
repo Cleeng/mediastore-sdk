@@ -117,7 +117,7 @@ class Adyen extends Component {
               {isPaymentProcessing ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t('Confirm')
+                t('Complete purchase')
               )}
             </Button>
           </ConfirmButtonStyled>
