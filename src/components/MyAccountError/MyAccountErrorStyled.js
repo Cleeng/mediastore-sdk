@@ -33,7 +33,7 @@ export const IconStyled = styled.div.attrs(() => ({
 }))`
   margin: auto auto 10px auto;
   svg {
-    max-width: 100%;
+    max-width: 490px;
   }
 `;
 

@@ -48,7 +48,9 @@ const OfferCard = ({
       icon: BlockedIcon
     },
     SUBSCRIPTION_WITH_COUPON_NOT_ALLOWED: {
-      text: t("You can't upgrade your subscription if a coupon was applied."),
+      text: t(
+        "You can't change your subscription if a coupon was applied. To change plan, please cancel your current subscription and purchase a new one."
+      ),
       icon: BlockedIcon
     },
     INAPP_SUBSCRIPTION: {

@@ -162,7 +162,7 @@
   "Once the new one starts, you can switch to a new offer.": "Once the new one starts, you can switch to a new offer.",
   "Your payment method does not allow switching to a new plan from here.": "Your payment method does not allow switching to a new plan from here.",
   "If you signed up via a mobile app, it may be possible to change your plan there.": "If you signed up via a mobile app, it may be possible to change your plan there.",
-  "You can't upgrade your subscription if a coupon was applied.": "You can't upgrade your subscription if a coupon was applied.",
+  "You can't change your subscription if a coupon was applied. To change plan, please cancel your current subscription and purchase a new one": "You can't change your subscription if a coupon was applied. To change plan, please cancel your current subscription and purchase a new one",
   "Try again later.": "Try again later.",
   "It looks like you can't change your current plan.": "It looks like you can't change your current plan.",
   "You are about to change your plan from <1>{{fromOfferTitle}}</1> to <3>{{toOfferTitle}}</3>. You will be charged the new price <5>{{toNextPaymentPriceCurrencySymbol}}{{toNextPaymentPrice}}</5> on your next billing date <7>{{fromExpiresAt}}</7>.": "You are about to change your plan from <1>{{fromOfferTitle}}</1> to <3>{{toOfferTitle}}</3>. You will be charged the new price <5>{{toNextPaymentPriceCurrencySymbol}}{{toNextPaymentPrice}}</5> on your next billing date <7>{{fromExpiresAt}}</7>.",
