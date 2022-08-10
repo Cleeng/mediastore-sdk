@@ -2,10 +2,11 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
+import { getData } from 'util/appConfigHelper';
 
-import { ReactComponent as noSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
+import { ReactComponent as NoSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
 import { dateFormat, currencyFormat } from 'util/planHelper';
 
 import MyAccountError from 'components/MyAccountError';
@@ -13,6 +14,12 @@ import OfferCard from 'components/OfferCard';
 import SubscriptionManagement from 'components/SubscriptionManagement';
 import MessageBox from 'components/MessageBox';
 
+import {
+  WrapStyled as ErrorWrapStyled,
+  TitleStyled,
+  SubTitleStyled,
+  IconStyled
+} from 'components/MyAccountError/MyAccountErrorStyled';
 import {
   WrapStyled,
   SubscriptionStyled,
@@ -74,13 +81,31 @@ class CurrentPlan extends PureComponent {
         {errors.length !== 0 ? (
           <MyAccountError generalError />
         ) : subscriptions.length === 0 ? (
-          <MyAccountError
-            title={t('No offers yet!')}
-            subtitle={t(
-              'If you choose your plan, you will be able to manage your Offers here.'
-            )}
-            icon={noSubscriptionsIcon}
-          />
+          <ErrorWrapStyled>
+            <IconStyled>
+              <NoSubscriptionsIcon />
+            </IconStyled>
+            <TitleStyled>{t('No offers yet!')}</TitleStyled>
+            <SubTitleStyled>
+              {getData('CLEENG_OFFER_SELECTION_URL') ? (
+                <Trans i18nKey="myaccount-nooffers-withlink">
+                  If you{' '}
+                  <a
+                    href={getData('CLEENG_OFFER_SELECTION_URL')}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    choose your plan
+                  </a>
+                  , you will be able to manage your offers here.
+                </Trans>
+              ) : (
+                t(
+                  'If you choose your plan, you will be able to manage your offers here.'
+                )
+              )}
+            </SubTitleStyled>
+          </ErrorWrapStyled>
         ) : (
           <>
             {subscriptions.map(subItem => {
@@ -181,12 +206,46 @@ class CurrentPlan extends PureComponent {
 }
 
 CurrentPlan.propTypes = {
-  subscriptions: PropTypes.arrayOf(PropTypes.any),
+  subscriptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      subscriptionId: PropTypes.number,
+      offerId: PropTypes.string,
+      status: PropTypes.string,
+      startedAt: PropTypes.number,
+      expiresAt: PropTypes.number,
+      nextPaymentPrice: PropTypes.number,
+      nextPaymentCurrency: PropTypes.string,
+      nextPaymentAt: PropTypes.number,
+      paymentGateway: PropTypes.string,
+      paymentMethod: PropTypes.string,
+      externalPaymentId: PropTypes.string,
+      inTrial: PropTypes.bool,
+      offerTitle: PropTypes.string,
+      period: PropTypes.string,
+      totalPrice: PropTypes.number
+    })
+  ),
   isLoading: PropTypes.bool,
-  errors: PropTypes.arrayOf(PropTypes.any),
+  errors: PropTypes.arrayOf(PropTypes.string),
   showInnerPopup: PropTypes.func.isRequired,
   setOfferToSwitch: PropTypes.func.isRequired,
-  offerToSwitch: PropTypes.objectOf(PropTypes.any),
+  offerToSwitch: PropTypes.shape({
+    subscriptionId: PropTypes.number,
+    offerId: PropTypes.string,
+    status: PropTypes.string,
+    startedAt: PropTypes.number,
+    expiresAt: PropTypes.number,
+    nextPaymentPrice: PropTypes.number,
+    nextPaymentCurrency: PropTypes.string,
+    nextPaymentAt: PropTypes.number,
+    paymentGateway: PropTypes.string,
+    paymentMethod: PropTypes.string,
+    externalPaymentId: PropTypes.string,
+    inTrial: PropTypes.bool,
+    offerTitle: PropTypes.string,
+    period: PropTypes.string,
+    totalPrice: PropTypes.number
+  }),
   updateList: PropTypes.func.isRequired,
   t: PropTypes.func
 };
