@@ -13,6 +13,9 @@ export const setOfferToSwitch = createAction(SET_OFFER_TO_SWITCH);
 export const SET_SWITCH_SETTINGS = 'SET_SWITCH_SETTINGS';
 export const setSwitchSettings = createAction(SET_SWITCH_SETTINGS);
 
+export const SET_SWITCH_DETAILS = 'SET_SWITCH_DETAILS';
+export const setSwitchDetails = createAction(SET_SWITCH_DETAILS);
+
 const initialState = {
   currentPlan: [],
   updateList: false,
@@ -32,6 +35,9 @@ const paymentDetailsReducer = createReducer(initialState, {
   },
   SET_SWITCH_SETTINGS: (state, action) => {
     state.switchSettings[action.payload.offerId] = action.payload.settings;
+  },
+  SET_SWITCH_DETAILS: (state, action) => {
+    state.switchDetails[action.payload.switchId] = action.payload.switchData;
   }
 });
 

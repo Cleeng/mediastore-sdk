@@ -9,6 +9,7 @@ import CurrentPlan from 'components/CurrentPlan';
 import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
+import getSwitch from 'api/Customer/getSwitch';
 import { WrapStyled } from './PlanDetailsStyled';
 
 const PlanDetails = ({
@@ -21,6 +22,7 @@ const PlanDetails = ({
   setOfferToSwitch,
   showInnerPopup,
   customCancellationReasons,
+  setSwitchDetails,
   t
 }) => {
   const [isLoadingCurrentPlan, setIsLoadingCurrentPlan] = useState(false);
@@ -61,7 +63,10 @@ const PlanDetails = ({
         if (response.errors.length) {
           setIsErrorCurrentPlan(response.errors);
         } else {
-          const customerOffers = response.responseData.items;
+          const customerOffers = response.responseData.items.map(item => ({
+            ...item,
+            pendingSwitchId: 'xx'
+          }));
           const offersWithActivePasses = customerOffers.filter(
             offer =>
               !(offer.offerType === 'P' && offer.expiresAt * 1000 < Date.now())
@@ -73,7 +78,17 @@ const PlanDetails = ({
           const activeSubscriptions = customerSubscriptions.filter(
             sub => sub.status === 'active'
           );
-
+          console.log(activeSubscriptions.filter(sub => sub.pendingSwitchId));
+          activeSubscriptions
+            .filter(sub => sub.pendingSwitchId)
+            .forEach(subscription => {
+              return getSwitch(subscription.pendingSwitchId).then(resp =>
+                setSwitchDetails({
+                  switchId: subscription.pendingSwitchId,
+                  switchDetails: resp.responseData
+                })
+              );
+            });
           if (activeSubscriptions.length === 1) {
             setOfferToSwitch(activeSubscriptions[0]);
           }
@@ -189,6 +204,7 @@ PlanDetails.propTypes = {
   hideInnerPopup: PropTypes.func.isRequired,
   setOfferToSwitch: PropTypes.func.isRequired,
   setSwitchSettings: PropTypes.func.isRequired,
+  setSwitchDetails: PropTypes.func.isRequired,
   updateList: PropTypes.func.isRequired,
   customCancellationReasons: PropTypes.arrayOf(
     PropTypes.shape({
