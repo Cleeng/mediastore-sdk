@@ -81,12 +81,23 @@ export const setEnvironment = env => {
   return false;
 };
 
-export const setPaypalUrls = urls => {
+export const setCheckoutPayPalUrls = urls => {
   if (urls) {
     const { successUrl, cancelUrl, errorUrl } = urls;
-    setData('CLEENG_PP_SUCCESS', successUrl);
-    setData('CLEENG_PP_CANCEL', cancelUrl);
-    setData('CLEENG_PP_ERROR', errorUrl);
+    setData('CLEENG_CHECKOUT_PP_SUCCESS', successUrl);
+    setData('CLEENG_CHECKOUT_PP_CANCEL', cancelUrl);
+    setData('CLEENG_CHECKOUT_PP_ERROR', errorUrl);
+    return true;
+  }
+  return false;
+};
+
+export const setMyAccountPayPalUrls = urls => {
+  if (urls) {
+    const { successUrl, cancelUrl, errorUrl } = urls;
+    setData('CLEENG_MYACCOUNT_PP_SUCCESS', successUrl);
+    setData('CLEENG_MYACCOUNT_PP_CANCEL', cancelUrl);
+    setData('CLEENG_MYACCOUNT_PP_ERROR', errorUrl);
     return true;
   }
   return false;
@@ -123,7 +134,8 @@ export default {
   setOffer,
   setEnvironment,
   setTheme,
-  setPaypalUrls,
+  setCheckoutPayPalUrls,
+  setMyAccountPayPalUrls,
   setMyAccountUrl,
   setJWT,
   setRefreshToken

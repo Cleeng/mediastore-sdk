@@ -22,6 +22,7 @@ const SubscriptionSwitchesList = ({
   isOfferSelected,
   isLoading,
   errors,
+  fromOfferId,
   t
 }) => {
   if (isLoading) {
@@ -89,6 +90,15 @@ const SubscriptionSwitchesList = ({
             <WrapperStyled>
               <SimpleButtonStyled
                 onClickFn={() => {
+                  window.dispatchEvent(
+                    new CustomEvent('MSSDK:switch-button-clicked', {
+                      detail: {
+                        fromOfferId,
+                        toOfferId: subItem.toOfferId,
+                        switchDirection: subItem.switchDirection
+                      }
+                    })
+                  );
                   showInnerPopup({
                     type: POPUP_TYPES.switchPlan,
                     data: {
@@ -132,6 +142,7 @@ SubscriptionSwitchesList.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.string),
   showInnerPopup: PropTypes.func,
   isLoading: PropTypes.bool,
+  fromOfferId: PropTypes.string,
   t: PropTypes.func
 };
 
@@ -140,6 +151,7 @@ SubscriptionSwitchesList.defaultProps = {
   showInnerPopup: () => {},
   errors: [],
   isLoading: false,
+  fromOfferId: '',
   t: k => k
 };
 

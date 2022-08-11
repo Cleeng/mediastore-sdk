@@ -188,7 +188,7 @@ class ProfileDetails extends Component {
             successMessage: true
           });
           if (shouldLogOut) {
-            Auth.logout(true, '?emailChanged=true');
+            Auth.logout();
           }
         }
       });

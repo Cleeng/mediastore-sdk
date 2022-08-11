@@ -37,6 +37,7 @@ export const WrapperStyled = styled.div.attrs(() => ({
 
   ${media.small`
     height: 100%;
+    overflow: scroll;
   `}
 `;
 
@@ -144,6 +145,10 @@ export const ButtonWrapperStyled = styled.div.attrs(() => ({
   flex-direction: row;
   justify-content: center;
   margin-bottom: ${props => (props.removeMargin ? '0' : '60px')};
+
+  ${media.small`
+    margin-bottom: 60px;
+  `}
 
   button {
     text-transform: capitalize;

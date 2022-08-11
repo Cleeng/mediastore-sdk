@@ -87,22 +87,20 @@ class CurrentPlan extends PureComponent {
               let description;
               let price;
               let currency;
-              let nextPaymentDate;
-              let expiresAtDate;
+              let renewalDate;
               switch (subItem.offerType) {
                 case 'S':
                   price = subItem.nextPaymentPrice;
                   currency = subItem.nextPaymentCurrency;
-                  nextPaymentDate = dateFormat(subItem.nextPaymentAt);
-                  expiresAtDate = dateFormat(subItem.expiresAt);
+                  renewalDate = dateFormat(subItem.expiresAt);
                   description =
                     subItem.status === 'active'
-                      ? `${t('Next payment is on {{nextPaymentDate}}', {
-                          nextPaymentDate
-                        })}`
-                      : `${t('This plan will expire on {{expiresAtDate}}', {
-                          expiresAtDate
-                        })}`;
+                      ? `${t('Renews automatically on {{renewalDate}}', {
+                        renewalDate
+                      })}`
+                      : `${t('This plan will expire on {{renewalDate}}', {
+                        renewalDate
+                      })}`;
                   break;
                 case 'P':
                   price = subItem.totalPrice;
@@ -146,7 +144,7 @@ class CurrentPlan extends PureComponent {
                     isMyAccount
                     showInfoBox={
                       subItem.offerType !== 'S' ||
-                      supportedPaymentGateways.includes(subItem.paymentGateway)
+                        supportedPaymentGateways.includes(subItem.paymentGateway)
                         ? ''
                         : 'INAPP_SUBSCRIPTION'
                     }

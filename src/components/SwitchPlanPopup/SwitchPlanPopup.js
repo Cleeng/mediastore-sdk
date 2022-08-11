@@ -126,7 +126,7 @@ const SwitchPlanPopup = ({
             <TitleStyled step={step}>{t(toOffer.switchDirection)}</TitleStyled>
             <TextStyled step={step}>
               <Trans>
-                You are about to change your plan from <b>{{ fromOfferTitle }}</b> to <b>{{ toOfferTitle }}</b>. You will be charged the new price <b>{{ toNextPaymentPrice }}{{ toNextPaymentPriceCurrencySymbol }}</b> on your next billing date <b>{{ fromExpiresAt }}</b>.
+                You are about to change your plan from <b>{{ fromOfferTitle }}</b> to <b>{{ toOfferTitle }}</b>. You will be charged the new price <b>{{ toNextPaymentPriceCurrencySymbol }}{{ toNextPaymentPrice }}</b> on your next billing date <b>{{ fromExpiresAt }}</b>.
               </Trans>
               <br />
               { toOffer.couponNotApplicable && (
@@ -185,8 +185,8 @@ const SwitchPlanPopup = ({
                 'You have successfully changed your plan. Your new fee will be '
               )}
               <strong>
-                {toOffer.nextPaymentPrice}
                 {toOffer.nextPaymentPriceCurrencySymbol}
+                {toOffer.nextPaymentPrice}
               </strong>{' '}
               {t('starting from ')}
               <strong> {dateFormat(fromOffer.expiresAt)}</strong>.
