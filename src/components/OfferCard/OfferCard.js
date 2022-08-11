@@ -58,6 +58,10 @@ const OfferCard = ({
         }Use an external service to edit the plan.`
       ),
       icon: EditBlockedIcon
+    },
+    PENDING_DOWNGRADE_IMMEDIATE_WITHOUT_PRORATION: {
+      text: t('Downgrade'),
+      icon: BlockedIcon
     }
   };
 
@@ -65,6 +69,7 @@ const OfferCard = ({
     showInfoBox && mapCode[showInfoBox].icon
       ? mapCode[showInfoBox].icon
       : React.Fragment;
+
   return (
     <>
       <WrapperStyled>
