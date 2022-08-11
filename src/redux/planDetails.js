@@ -20,7 +20,8 @@ const initialState = {
   currentPlan: [],
   updateList: false,
   offerToSwitch: {},
-  switchSettings: {}
+  switchSettings: {},
+  switchDetails: {}
 };
 
 const paymentDetailsReducer = createReducer(initialState, {
@@ -37,7 +38,10 @@ const paymentDetailsReducer = createReducer(initialState, {
     state.switchSettings[action.payload.offerId] = action.payload.settings;
   },
   SET_SWITCH_DETAILS: (state, action) => {
-    state.switchDetails[action.payload.switchId] = action.payload.switchData;
+    state.switchDetails = {
+      ...state.switchDetails,
+      [action.payload.switchId]: action.payload.switchDetails
+    };
   }
 });
 

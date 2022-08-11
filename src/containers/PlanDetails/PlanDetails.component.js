@@ -65,7 +65,7 @@ const PlanDetails = ({
         } else {
           const customerOffers = response.responseData.items.map(item => ({
             ...item,
-            pendingSwitchId: 'xx'
+            pendingSwitchId: 'bb79fd32-04c9-4792-9f7a-963a31f6fe23'
           }));
           const offersWithActivePasses = customerOffers.filter(
             offer =>
@@ -78,11 +78,10 @@ const PlanDetails = ({
           const activeSubscriptions = customerSubscriptions.filter(
             sub => sub.status === 'active'
           );
-          console.log(activeSubscriptions.filter(sub => sub.pendingSwitchId));
           activeSubscriptions
             .filter(sub => sub.pendingSwitchId)
             .forEach(subscription => {
-              return getSwitch(subscription.pendingSwitchId).then(resp =>
+              getSwitch(subscription.pendingSwitchId).then(resp =>
                 setSwitchDetails({
                   switchId: subscription.pendingSwitchId,
                   switchDetails: resp.responseData
