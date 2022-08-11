@@ -321,7 +321,13 @@ class Payment extends Component {
             {isPayPal && (
               <PayPalWrapperStyled>
                 <PayPalTextStyled>
-                  {t('Click ‘Continue with PayPal’ to complete your purchase.')}
+                  {order.totalPrice === 0 && order.offerId.charAt(0) === 'S'
+                    ? t(
+                        'Click ‘Continue with PayPal‘ to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments.'
+                      )
+                    : t(
+                        'Click ‘Continue with PayPal‘ to complete your purchase.'
+                      )}
                 </PayPalTextStyled>
                 <Button
                   type="button"
