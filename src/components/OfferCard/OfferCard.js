@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import SubscriptionIcon from 'components/SubscriptionIcon';
@@ -7,6 +8,10 @@ import Price from 'components/Price';
 import { ReactComponent as BlockedIcon } from 'assets/images/blocked.svg';
 import { ReactComponent as EditBlockedIcon } from 'assets/images/noEdit.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
+import { ReactComponent as DowngradeIcon } from 'assets/images/downgrade_pending.svg';
+import { ReactComponent as UpgradeIcon } from 'assets/images/upgrade_pending.svg';
+import { dateFormat } from 'util/planHelper';
+
 import {
   WrapperStyled,
   InnerWrapper,
@@ -15,7 +20,9 @@ import {
   PriceWrapperStyled,
   TrialBadgeStyled,
   SubBoxStyled,
-  BoxTextStyled
+  BoxTextStyled,
+  SubBoxButtonStyled,
+  SubBoxContentStyled
 } from './OfferCardStyled';
 
 const OfferCard = ({
@@ -30,8 +37,60 @@ const OfferCard = ({
   isDataLoaded,
   paymentMethod,
   isMyAccount,
+  pendingSwitchId,
   t
 }) => {
+  const planDetailsState = useSelector(state => state.planDetails);
+  const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
+
+  const getSwitchCopy = () => {
+    // get main resources from store
+    const { switchSettings } = planDetailsState;
+    if (switchSettings && switchDetails) {
+      // mapping to get details about current subscription and target offer
+      const baseOfferSwitchSettings =
+        planDetailsState.switchSettings[switchDetails.fromOfferId];
+      const toOfferDetails =
+        baseOfferSwitchSettings &&
+        baseOfferSwitchSettings.available.find(
+          offer => offer.toOfferId === switchDetails.toOfferId
+        );
+      const switchOfferTitle = toOfferDetails
+        ? toOfferDetails.title
+        : 'New plan';
+      const subscriptionExpirationDate = planDetailsState.currentPlan.find(
+        sub => sub.pendingSwitchId === pendingSwitchId
+      ).expiresAt;
+
+      switch (switchDetails.algorithm) {
+        case 'IMMEDIATE_WITHOUT_PRORATION':
+          return `Your switch is pending and should be completed within few minutes. You will be charged a new price starting ${dateFormat(
+            subscriptionExpirationDate
+          )}.${switchOfferTitle} renews automatically. You can cancel anytime.`;
+        case 'IMMEDIATE_AND_CHARGE_WITH_REFUND':
+          return `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to ${switchOfferTitle}. You can cancel anytime.`;
+        case 'DEFERRED':
+          return `Your switch is pending. You will have access to ${title} until ${dateFormat(
+            subscriptionExpirationDate
+          )}. From that time you will be charged a new price and have access to ${switchOfferTitle}. You can cancel anytime.`;
+        default:
+          return '';
+      }
+    } else return '';
+  };
+  const getSwtichIcon = () => {
+    if (switchDetails) {
+      switch (switchDetails.direction) {
+        case 'downgrade':
+          return DowngradeIcon;
+        case 'upgrade':
+          return UpgradeIcon;
+        default:
+          return null;
+      }
+    } else return null;
+  };
+
   const mapCode = {
     TO_OFFER_COUNTRY_NOT_ALLOWED: {
       text: t(
@@ -59,9 +118,9 @@ const OfferCard = ({
       ),
       icon: EditBlockedIcon
     },
-    PENDING_DOWNGRADE_IMMEDIATE_WITHOUT_PRORATION: {
-      text: t('Downgrade'),
-      icon: BlockedIcon
+    SWITCH: {
+      text: getSwitchCopy(),
+      icon: getSwtichIcon()
     }
   };
 
@@ -109,16 +168,28 @@ const OfferCard = ({
           </SkeletonWrapper>
         </PriceWrapperStyled>
       </WrapperStyled>
-      {showInfoBox ? (
-        <SubBoxStyled>
-          <IconComponent />
-          <BoxTextStyled
-            dangerouslySetInnerHTML={{ __html: mapCode[showInfoBox].text }}
-          />
-        </SubBoxStyled>
-      ) : (
-        ''
-      )}
+      {showInfoBox
+        ? mapCode[showInfoBox].text && (
+            <SubBoxStyled>
+              <IconComponent />
+              <SubBoxContentStyled>
+                <BoxTextStyled
+                  dangerouslySetInnerHTML={{
+                    __html: mapCode[showInfoBox].text
+                  }}
+                />
+                {showInfoBox === 'SWITCH' &&
+                  switchDetails.algorithm === 'DEFERRED' && (
+                    <SubBoxButtonStyled
+                      onClick={() => console.log(pendingSwitchId)}
+                    >
+                      Cancel
+                    </SubBoxButtonStyled>
+                  )}
+              </SubBoxContentStyled>
+            </SubBoxStyled>
+          )
+        : ''}
     </>
   );
 };
@@ -135,7 +206,8 @@ OfferCard.propTypes = {
   isDataLoaded: PropTypes.bool,
   paymentMethod: PropTypes.string,
   t: PropTypes.func,
-  isMyAccount: PropTypes.bool
+  isMyAccount: PropTypes.bool,
+  pendingSwitchId: PropTypes.string
 };
 
 OfferCard.defaultProps = {
@@ -150,7 +222,8 @@ OfferCard.defaultProps = {
   isDataLoaded: true,
   paymentMethod: '',
   t: k => k,
-  isMyAccount: false
+  isMyAccount: false,
+  pendingSwitchId: null
 };
 
 export { OfferCard as PureOfferCard };

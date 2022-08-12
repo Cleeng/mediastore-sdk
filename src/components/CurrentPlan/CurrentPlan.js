@@ -39,16 +39,10 @@ class CurrentPlan extends PureComponent {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
   getInfoBoxType(subscription) {
     if (subscription.offerType !== 'S') return '';
-    if (subscription.pendingSwitchId) {
-      const { switchDetails } = this.props;
-      const details = switchDetails[subscription.pendingSwitchId];
-      if (details) {
-        return `PENDING_${details.direction.toUpperCase()}_
-          ${details.algorithm}`;
-      }
-    }
+    if (subscription.pendingSwitchId) return 'SWITCH';
     if (supportedPaymentGateways.includes(subscription.paymentGateway))
       return '';
     return 'INAPP_SUBSCRIPTION';
@@ -159,6 +153,7 @@ class CurrentPlan extends PureComponent {
                     isMyAccount
                     showInfoBox={this.getInfoBoxType(subItem)}
                     paymentMethod={subItem.paymentMethod}
+                    pendingSwitchId={subItem.pendingSwitchId}
                   />
                   {isMessageBoxOpened &&
                     messageSubscriptionId === subItem.subscriptionId && (

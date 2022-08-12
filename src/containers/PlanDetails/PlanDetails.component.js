@@ -58,50 +58,46 @@ const PlanDetails = ({
     setIsLoadingCurrentPlan(true);
     setIsLoadingChangePlan(true);
 
-    getCustomerOffers()
-      .then(response => {
-        if (response.errors.length) {
-          setIsErrorCurrentPlan(response.errors);
-        } else {
-          const customerOffers = response.responseData.items.map(item => ({
-            ...item,
-            pendingSwitchId: 'bb79fd32-04c9-4792-9f7a-963a31f6fe23'
-          }));
-          const offersWithActivePasses = customerOffers.filter(
-            offer =>
-              !(offer.offerType === 'P' && offer.expiresAt * 1000 < Date.now())
-          );
-          const customerSubscriptions = customerOffers.filter(
-            offer => offer.offerType === 'S'
-          );
-          setCurrentPlan(offersWithActivePasses);
-          const activeSubscriptions = customerSubscriptions.filter(
-            sub => sub.status === 'active'
-          );
-          activeSubscriptions
-            .filter(sub => sub.pendingSwitchId)
-            .forEach(subscription => {
-              getSwitch(subscription.pendingSwitchId).then(resp =>
-                setSwitchDetails({
-                  switchId: subscription.pendingSwitchId,
-                  switchDetails: resp.responseData
-                })
-              );
-            });
-          if (activeSubscriptions.length === 1) {
-            setOfferToSwitch(activeSubscriptions[0]);
-          }
+    const customerOffersResponse = await getCustomerOffers();
+    if (customerOffersResponse.errors.length) {
+      setIsErrorCurrentPlan(customerOffersResponse.errors);
+    } else {
+      const customerOffers = customerOffersResponse.responseData.items;
+      const offersWithActivePasses = customerOffers.filter(
+        offer =>
+          !(offer.offerType === 'P' && offer.expiresAt * 1000 < Date.now())
+      );
+      const customerSubscriptions = customerOffers.filter(
+        offer => offer.offerType === 'S'
+      );
+      setCurrentPlan(offersWithActivePasses);
 
-          if (activeSubscriptions.length > 0) {
-            getAndSaveSwitchSettings(customerSubscriptions);
-          }
-        }
-        setIsLoadingCurrentPlan(false);
-      })
-      .catch(() => {
-        setIsErrorCurrentPlan(t('Something went wrong..'));
-        setIsLoadingCurrentPlan(false);
-      });
+      const activeSubscriptions = customerSubscriptions.filter(
+        sub => sub.status === 'active'
+      );
+
+      const offersWithPendingSwitches = activeSubscriptions.filter(
+        sub => sub.pendingSwitchId
+      );
+
+      if (offersWithPendingSwitches.length) {
+        offersWithPendingSwitches.forEach(subscription => {
+          getSwitch(subscription.pendingSwitchId).then(resp =>
+            setSwitchDetails({
+              switchId: subscription.pendingSwitchId,
+              switchDetails: resp.responseData
+            })
+          );
+        });
+      }
+      if (activeSubscriptions.length === 1) {
+        setOfferToSwitch(activeSubscriptions[0]);
+      }
+      if (activeSubscriptions.length > 0) {
+        getAndSaveSwitchSettings(customerSubscriptions);
+      }
+    }
+    setIsLoadingCurrentPlan(false);
   };
 
   useEffect(() => {
