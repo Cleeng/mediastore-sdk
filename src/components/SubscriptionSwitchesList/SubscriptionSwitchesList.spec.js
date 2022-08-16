@@ -4,6 +4,7 @@ import { shallow } from 'enzyme';
 import MyAccountError from 'components/MyAccountError';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
+import * as redux from 'react-redux';
 import { PureSubscriptionSwitchesList } from './SubscriptionSwitchesList';
 
 jest.mock('containers/labeling', () => () => Component => props => (
@@ -14,6 +15,14 @@ jest.mock('react-i18next', () => ({
     <Component t={k => k} {...props} />
   )
 }));
+const spyStore = jest.spyOn(redux, 'useSelector');
+spyStore.mockReturnValue({
+  currentPlan: [],
+  updateList: false,
+  offerToSwitch: {},
+  switchSettings: {},
+  switchDetails: {}
+});
 
 describe('<SubscriptionSwitchesList/>', () => {
   afterEach(() => jest.clearAllMocks());
