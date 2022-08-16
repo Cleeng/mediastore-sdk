@@ -102,6 +102,8 @@ class Adyen extends Component {
       width: '60%',
       margin: 'auto'
     };
+    const confirmButtonText = isCheckout ? t('Complete purchase') : t('Update');
+
     return (
       <AdyenStyled isMyAccount={!isCheckout}>
         <div id={COMPONENT_CONTAINER_ID} />
@@ -117,7 +119,7 @@ class Adyen extends Component {
               {isPaymentProcessing ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t('Complete purchase')
+                confirmButtonText
               )}
             </Button>
           </ConfirmButtonStyled>
