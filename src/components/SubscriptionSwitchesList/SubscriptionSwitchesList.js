@@ -26,6 +26,13 @@ const SubscriptionSwitchesList = ({
   fromOfferId,
   t
 }) => {
+  const planDetailsState = useSelector(state => state.planDetails);
+  const pendingSwtichesToOfferIdsArray = Object.keys(
+    planDetailsState.switchDetails
+  ).map(item => {
+    return planDetailsState.switchDetails[item].toOfferId;
+  });
+
   if (isLoading) {
     return <SkeletonCard />;
   }
@@ -76,13 +83,6 @@ const SubscriptionSwitchesList = ({
   const availableSorted = [...switchSettings.available].sort(
     (aOffer, bOffer) => bOffer.price - aOffer.price
   );
-
-  const planDetailsState = useSelector(state => state.planDetails);
-  const pendingSwtichesToOfferIdsArray = Object.keys(
-    planDetailsState.switchDetails
-  ).map(item => {
-    return planDetailsState.switchDetails[item].toOfferId;
-  });
 
   return (
     <>
