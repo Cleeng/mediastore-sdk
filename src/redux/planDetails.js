@@ -34,14 +34,39 @@ const paymentDetailsReducer = createReducer(initialState, {
   SET_OFFER_TO_SWITCH: (state, action) => {
     state.offerToSwitch = action.payload;
   },
+  SET_SWITCH_DETAILS: (state, action) => {
+    if (state.switchSettings.available) {
+      const { title } = state.switchSettings.available.find(
+        item => item.toOfferId === action.payload.toOfferId
+      );
+      // save offer title in switchDetails object
+      state.switchDetails = {
+        ...state.switchDetails,
+        [action.payload.switchId]: {
+          ...action.payload.switchDetails,
+          title
+        }
+      };
+    } else {
+      state.switchDetails = {
+        ...state.switchDetails,
+        [action.payload.switchId]: action.payload.switchDetails
+      };
+    }
+  },
+
   SET_SWITCH_SETTINGS: (state, action) => {
     state.switchSettings[action.payload.offerId] = action.payload.settings;
-  },
-  SET_SWITCH_DETAILS: (state, action) => {
-    state.switchDetails = {
-      ...state.switchDetails,
-      [action.payload.switchId]: action.payload.switchDetails
-    };
+
+    // save offer title in switchDetails object
+    Object.keys(state.switchDetails).forEach(pendingSwitchId => {
+      const switchDetailsFormSwitchSettings = action.payload.settings.available.find(
+        item =>
+          item.toOfferId === state.switchDetails[pendingSwitchId].toOfferId
+      );
+      state.switchDetails[pendingSwitchId].title =
+        switchDetailsFormSwitchSettings.title;
+    });
   }
 });
 

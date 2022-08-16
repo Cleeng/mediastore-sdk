@@ -38,33 +38,13 @@ const OfferCard = ({
   paymentMethod,
   isMyAccount,
   pendingSwitchId,
-  setSwitchDetails,
   t
 }) => {
   const planDetailsState = useSelector(state => state.planDetails);
   const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
 
   const getSwitchCopy = () => {
-    // get main resources from store
-    const { switchSettings } = planDetailsState;
-    if (switchSettings && switchDetails) {
-      // mapping to get details about current subscription and target offer
-      const baseOfferSwitchSettings =
-        planDetailsState.switchSettings[switchDetails.fromOfferId];
-      const toOfferDetails =
-        baseOfferSwitchSettings &&
-        baseOfferSwitchSettings.available.find(
-          offer => offer.toOfferId === switchDetails.toOfferId
-        );
-      const switchOfferTitle = toOfferDetails
-        ? toOfferDetails.title
-        : 'New plan';
-      if (toOfferDetails && toOfferDetails.title && !switchDetails.title) {
-        setSwitchDetails({
-          switchId: pendingSwitchId,
-          switchDetails: { ...switchDetails, title: toOfferDetails.title }
-        });
-      }
+    if (switchDetails) {
       const subscriptionExpirationDate = planDetailsState.currentPlan.find(
         sub => sub.pendingSwitchId === pendingSwitchId
       ).expiresAt;
@@ -73,19 +53,24 @@ const OfferCard = ({
         case 'IMMEDIATE_WITHOUT_PRORATION':
           return `Your switch is pending and should be completed within few minutes. You will be charged a new price starting ${dateFormat(
             subscriptionExpirationDate
-          )}.${switchOfferTitle} renews automatically. You can cancel anytime.`;
+          )}.${
+            switchDetails.title
+          } renews automatically. You can cancel anytime.`;
         case 'IMMEDIATE_AND_CHARGE_WITH_REFUND':
-          return `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to ${switchOfferTitle}. You can cancel anytime.`;
+          return `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to ${switchDetails.title}. You can cancel anytime.`;
         case 'DEFERRED':
           return `Your switch is pending. You will have access to ${title} until ${dateFormat(
             subscriptionExpirationDate
-          )}. From that time you will be charged a new price and have access to ${switchOfferTitle}. You can cancel anytime.`;
+          )}. From that time you will be charged a new price and have access to ${
+            switchDetails.title
+          }. You can cancel anytime.`;
         default:
           return '';
       }
     } else return '';
   };
-  const getSwtichIcon = () => {
+
+  const getSwitchIcon = () => {
     if (switchDetails) {
       switch (switchDetails.direction) {
         case 'downgrade':
@@ -127,7 +112,7 @@ const OfferCard = ({
     },
     SWITCH: {
       text: getSwitchCopy(),
-      icon: getSwtichIcon()
+      icon: getSwitchIcon()
     }
   };
 
@@ -214,8 +199,7 @@ OfferCard.propTypes = {
   paymentMethod: PropTypes.string,
   t: PropTypes.func,
   isMyAccount: PropTypes.bool,
-  pendingSwitchId: PropTypes.string,
-  setSwitchDetails: PropTypes.func.isRequired
+  pendingSwitchId: PropTypes.string
 };
 
 OfferCard.defaultProps = {
