@@ -73,6 +73,7 @@ class CurrentPlan extends PureComponent {
       setOfferToSwitch,
       offerToSwitch,
       updateList,
+      setSwitchDetails,
       t
     } = this.props;
 
@@ -154,6 +155,7 @@ class CurrentPlan extends PureComponent {
                     showInfoBox={this.getInfoBoxType(subItem)}
                     paymentMethod={subItem.paymentMethod}
                     pendingSwitchId={subItem.pendingSwitchId}
+                    setSwitchDetails={setSwitchDetails}
                   />
                   {isMessageBoxOpened &&
                     messageSubscriptionId === subItem.subscriptionId && (
@@ -193,6 +195,7 @@ CurrentPlan.propTypes = {
   setOfferToSwitch: PropTypes.func.isRequired,
   offerToSwitch: PropTypes.objectOf(PropTypes.any),
   updateList: PropTypes.func.isRequired,
+  setSwitchDetails: PropTypes.func.isRequired,
   switchDetails: PropTypes.shape({
     [PropTypes.string]: PropTypes.shape({
       id: PropTypes.string,

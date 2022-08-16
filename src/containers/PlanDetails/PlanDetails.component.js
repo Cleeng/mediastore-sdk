@@ -167,6 +167,7 @@ const PlanDetails = ({
             offerToSwitch={planDetails.offerToSwitch}
             updateList={updateList}
             switchDetails={planDetails.switchDetails}
+            setSwitchDetails={setSwitchDetails}
           />
           {activeSubscriptions.length !== 0 && (
             <>

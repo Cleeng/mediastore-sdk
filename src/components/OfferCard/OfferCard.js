@@ -38,6 +38,7 @@ const OfferCard = ({
   paymentMethod,
   isMyAccount,
   pendingSwitchId,
+  setSwitchDetails,
   t
 }) => {
   const planDetailsState = useSelector(state => state.planDetails);
@@ -58,6 +59,12 @@ const OfferCard = ({
       const switchOfferTitle = toOfferDetails
         ? toOfferDetails.title
         : 'New plan';
+      if (toOfferDetails && toOfferDetails.title && !switchDetails.title) {
+        setSwitchDetails({
+          switchId: pendingSwitchId,
+          switchDetails: { ...switchDetails, title: toOfferDetails.title }
+        });
+      }
       const subscriptionExpirationDate = planDetailsState.currentPlan.find(
         sub => sub.pendingSwitchId === pendingSwitchId
       ).expiresAt;
@@ -207,7 +214,8 @@ OfferCard.propTypes = {
   paymentMethod: PropTypes.string,
   t: PropTypes.func,
   isMyAccount: PropTypes.bool,
-  pendingSwitchId: PropTypes.string
+  pendingSwitchId: PropTypes.string,
+  setSwitchDetails: PropTypes.func.isRequired
 };
 
 OfferCard.defaultProps = {

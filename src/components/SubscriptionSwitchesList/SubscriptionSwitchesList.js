@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
@@ -75,11 +76,24 @@ const SubscriptionSwitchesList = ({
   const availableSorted = [...switchSettings.available].sort(
     (aOffer, bOffer) => bOffer.price - aOffer.price
   );
+
+  const planDetailsState = useSelector(state => state.planDetails);
+  const pendingSwtichesToOfferIdsArray = Object.keys(
+    planDetailsState.switchDetails
+  ).map(item => {
+    return planDetailsState.switchDetails[item].toOfferId;
+  });
+
   return (
     <>
       {areAvailable &&
         availableSorted.map(subItem => (
-          <SubscriptionStyled key={subItem.toOfferId}>
+          <SubscriptionStyled
+            key={subItem.toOfferId}
+            hide={pendingSwtichesToOfferIdsArray.find(
+              item => item === subItem.toOfferId
+            )}
+          >
             <OfferCard
               period={periodMapper[subItem.period].chargedForEveryText}
               offerType="S"

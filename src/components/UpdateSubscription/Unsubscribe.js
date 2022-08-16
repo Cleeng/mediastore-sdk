@@ -67,13 +67,23 @@ const Unsubscribe = ({
     return [];
   };
 
+  const scheduledSwitch = () => {
+    if(offerDetails.pendingSwitchId){
+      const { planDetails } = store.getState();
+      return planDetails.switchDetails[offerDetails.pendingSwitchId];
+    }
+    return false;
+  }
+
   const shouldShowDowngradeScreen = () => {
     const {
       innerPopup: {
         data: { offerData }
       }
     } = store.getState();
-    // to add: return false when downgrade is already pending
+    if (offerDetails.pendingSwitchId && scheduledSwitch().direction === 'downgrade'){
+      return false;
+    }
     if (!offerData.inTrial && getDowngrades().length) {
       return true;
     }
@@ -207,16 +217,25 @@ const Unsubscribe = ({
           <ContentStyled>
             <TitleStyled>{t('We’re sorry to see you go')}</TitleStyled>
             <TextStyled>
-              <Trans>
-                Your <strong>{{ offerTitle }}</strong>
-              </Trans>{' '}
-              {offerDetails.inTrial
-                ? t('free trial will end on ')
-                : t('subscription is paid until ')}
-              <Trans>
-                {/* eslint-disable-next-line react/no-unescaped-entities */}
-                <strong>{{formattedExpiresAt}}</strong>. If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of <strong>{{formattedExpiresAt}}</strong>. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.
-              </Trans>
+                {scheduledSwitch() ?  
+                  <Trans>
+                     {/* eslint-disable-next-line react/no-unescaped-entities */}
+                    Your subscription switch is still pending. You will switch to {scheduledSwitch().title} and be charged a new price. If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of <strong>{formattedExpiresAt}</strong>. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.
+                  </Trans> : (
+                    <>
+                      <Trans>
+                        Your <strong>{{ offerTitle }}</strong>
+                      </Trans>{' '}
+                    {offerDetails.inTrial
+                      ? t('free trial will end on ')
+                      : t('subscription is paid until ')}
+                      <Trans>
+                        <strong>{{formattedExpiresAt}}</strong>.
+                        {/* eslint-disable-next-line react/no-unescaped-entities */}
+                        If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of <strong>{{formattedExpiresAt}}</strong>. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.
+                      </Trans>
+                  </>
+                  )}
             </TextStyled>
             {calcellationReasonsToShow && (
               <ReasonsWrapper>
