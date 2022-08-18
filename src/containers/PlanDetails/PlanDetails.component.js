@@ -52,7 +52,7 @@ const PlanDetails = ({
         setIsLoadingChangePlan(false);
       })
       .catch(() => {
-        setIsErrorChangePlan(t('Something went wrong..'));
+        setIsErrorChangePlan([t('Something went wrong..')]);
         setIsLoadingChangePlan(false);
       });
   };

@@ -48,9 +48,15 @@ const SubscriptionSwitchesList = ({
       />
     );
   }
+
   const areAvailable = !!(
-    switchSettings.available && switchSettings.available.length
+    switchSettings.available &&
+    switchSettings.available.length &&
+    switchSettings.available.filter(
+      item => !pendingSwtichesToOfferIdsArray.includes(item.toOfferId)
+    ).length
   );
+
   const areUnAvailable = !!(
     switchSettings.unavailable && switchSettings.unavailable.length
   );
