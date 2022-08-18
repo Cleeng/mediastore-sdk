@@ -32,6 +32,9 @@ const PlanDetails = ({
   const didMount = useRef(false);
 
   const getAndSaveSwitchSettings = async customerSubscriptions => {
+    if (customerSubscriptions.length > 1) {
+      setOfferToSwitch({}); // reset previously saved offer to switch
+    }
     const result = customerSubscriptions.map(offer =>
       getAvailableSwitches(offer.offerId).then(response => {
         if (!response.errors.length) {
