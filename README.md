@@ -89,6 +89,7 @@ Config.setMyAccountPayPalUrls({
   errorUrl: "https://client-website.com/my-account/paypal-error" // query param 'message' with a readable error message will be added to this URL when an error will occur
 });
 Config.setMyAccountUrl("https://client-website.com/my-account"); // needed checkout legal notes
+Config.setOfferSelectionUrl("https://client-website.com/plans"); // recommended for info page when the customer has no active plan
 
 Config.setTheme(); // more informations in the [Styling] section.
 
