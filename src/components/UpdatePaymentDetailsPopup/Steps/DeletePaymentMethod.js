@@ -33,6 +33,9 @@ const DeletePaymentMethod = ({
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   const deletePaymentMethod = () => {
+    window.dispatchEvent(
+      new CustomEvent('MSSDK:remove-payment-action-confirmed')
+    );
     setIsError(false);
     setIsButtonLoading(true);
     deletePaymentDetails(paymentDetailsToDelete.id)
@@ -51,6 +54,14 @@ const DeletePaymentMethod = ({
         setIsError(true);
       });
   };
+
+  const cancelDeleteAction = () => {
+    window.dispatchEvent(
+      new CustomEvent('MSSDK:remove-payment-action-cancelled')
+    );
+    hideInnerPopup();
+  };
+
   const { paymentMethodSpecificParams } = paymentDetailsToDelete;
   const LogoComponent = PaymentMethodIcons[paymentMethodSpecificParams.variant]
     ? PaymentMethodIcons[paymentMethodSpecificParams.variant]
@@ -82,7 +93,7 @@ const DeletePaymentMethod = ({
         )}
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
-        <Button theme="simple" onClickFn={() => hideInnerPopup()}>
+        <Button theme="simple" onClickFn={() => cancelDeleteAction()}>
           {t('No, thanks')}
         </Button>
         <Button theme="danger" onClickFn={deletePaymentMethod}>

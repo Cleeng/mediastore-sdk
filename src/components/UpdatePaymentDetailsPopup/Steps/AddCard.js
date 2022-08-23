@@ -29,9 +29,13 @@ const AddCard = ({ setStep, updatePaymentDetailsSection }) => {
       .then(resp => {
         setIsButtonLoading(false);
         if (!resp.errors.length) {
+          window.dispatchEvent(
+            new CustomEvent('MSSDK:update-payment-successful')
+          );
           setStep(currentStep => currentStep + 1);
           updatePaymentDetailsSection();
         } else {
+          window.dispatchEvent(new CustomEvent('MSSDK:update-payment-failed'));
           setIsError(true);
         }
       })

@@ -53,6 +53,11 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
     }
   };
 
+  const cancelResubscribeAction = () => {
+    window.dispatchEvent(new CustomEvent('MSSDK:resume-action-cancelled'));
+    hideInnerPopup();
+  };
+
   return (
     <InnerPopupWrapper
       steps={2}
@@ -74,7 +79,7 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme="simple" onClickFn={hideInnerPopup}>
+            <Button theme="simple" onClickFn={() => cancelResubscribeAction()}>
               {t('No, thanks')}
             </Button>
             <Button
