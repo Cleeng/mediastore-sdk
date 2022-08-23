@@ -1,4 +1,6 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable react/no-unescaped-entities */
+
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation, Trans } from 'react-i18next';
@@ -144,6 +146,7 @@ const Unsubscribe = ({
 
   const { offerTitle, expiresAt } = offerDetails;
   const formattedExpiresAt = dateFormat(expiresAt);
+  const scheduledSwitchTitle = scheduledSwitch().title;
 
   return (
     <InnerPopupWrapper
@@ -217,25 +220,18 @@ const Unsubscribe = ({
           <ContentStyled>
             <TitleStyled>{t('We’re sorry to see you go')}</TitleStyled>
             <TextStyled>
-                {scheduledSwitch() ?  
-                  <Trans>
-                     {/* eslint-disable-next-line react/no-unescaped-entities */}
-                    Your subscription switch is still pending. You will switch to {scheduledSwitch().title} and be charged a new price. If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of <strong>{formattedExpiresAt}</strong>. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.
-                  </Trans> : (
-                    <>
-                      <Trans>
-                        Your <strong>{{ offerTitle }}</strong>
-                      </Trans>{' '}
+                {scheduledSwitch() ? 
+                  t(`Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.`, { scheduledSwitchTitle })
+                 : (<>
                     {offerDetails.inTrial
-                      ? t('free trial will end on ')
-                      : t('subscription is paid until ')}
-                      <Trans>
-                        <strong>{{formattedExpiresAt}}</strong>.
-                        {/* eslint-disable-next-line react/no-unescaped-entities */}
-                        If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of <strong>{{formattedExpiresAt}}</strong>. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.
-                      </Trans>
-                  </>
-                  )}
+                        ? t('Your <strong>{{offerTitle}}</strong> free trial will end on <strong>{{formattedExpiresAt}}</strong>.', { offerTitle, formattedExpiresAt })
+                        : t('Your <strong>{{offerTitle}}</strong> subscription is paid until <strong>{{formattedExpiresAt}}</strong>.', { offerTitle, formattedExpiresAt })}
+                  </>)
+                  }
+                  {' '}
+                  <Trans>
+                    If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of {formattedExpiresAt}. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.
+                  </Trans>
             </TextStyled>
             {calcellationReasonsToShow && (
               <ReasonsWrapper>

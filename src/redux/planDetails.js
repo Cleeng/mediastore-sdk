@@ -64,8 +64,13 @@ const paymentDetailsReducer = createReducer(initialState, {
         item =>
           item.toOfferId === state.switchDetails[pendingSwitchId].toOfferId
       );
-      state.switchDetails[pendingSwitchId].title =
-        switchDetailsFormSwitchSettings.title;
+      if (
+        switchDetailsFormSwitchSettings &&
+        switchDetailsFormSwitchSettings.title
+      ) {
+        state.switchDetails[pendingSwitchId].title =
+          switchDetailsFormSwitchSettings.title;
+      }
     });
   }
 });

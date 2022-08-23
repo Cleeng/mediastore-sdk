@@ -89,7 +89,10 @@
   "Your <1>{{offerTitle}}</1>": "Your <1>{{offerTitle}}</1>",
   "free trial will end on ": "free trial will end on ",
   "subscription is paid until ": "subscription is paid until ",
-  "<0>{{formattedExpiresAt}}</0>. If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of <2>{{formattedExpiresAt}}</2>. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.": "<0>{{formattedExpiresAt}}</0>. If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of <2>{{formattedExpiresAt}}</2>. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.",
+  "Your {{htmltag}}{{offerTitle}}{{endhtmltag}} free trial will end on {{htmltag}}{{formattedExpiresAt}}{{endhtmltag}}.": "Your {{htmltag}}{{offerTitle}}{{endhtmltag}} free trial will end on {{htmltag}}{{formattedExpiresAt}}{{endhtmltag}}.",
+  "Your {{htmltag}}{{offerTitle}}{{endhtmltag}} subscription is paid until {{htmltag}}{{formattedExpiresAt}}{{endhtmltag}}.": "Your {{htmltag}}{{offerTitle}}{{endhtmltag}} subscription is paid until {{htmltag}}{{formattedExpiresAt}}{{endhtmltag}}.",
+  "If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of {{formattedExpiresAt}}. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.": "If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of {{formattedExpiresAt}}. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.",
+  "Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.": "Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.",
   "This plan will expire on {{expiresAtDate}": "Subskrypcja aktywna do {{expiresAtDate}",
   "Back to settings": "Back to settings",
   "No, thanks": "No, thanks",
@@ -287,5 +290,11 @@
   "We hope you love it. If you need help from us with your account, you can always find it": "",
   "here": "",
   "Have friends who would like to check this out?": "",
-  "Just click to share.": ""
+  "Just click to share.": "",
+  "Your switch is pending. You will have access to {{title}} until {{subscriptionExpirationDate}}. From that time you will be charged a new price and have access to {{switchTitle}}. You can cancel anytime.": "Your switch is pending. You will have access to {{title}} until {{subscriptionExpirationDate}}. From that time you will be charged a new price and have access to {{switchTitle}}. You can cancel anytime.",
+  "Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{switchTitle}}. You can cancel anytime.": "Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{switchTitle}}. You can cancel anytime.",
+  "Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{switchTitle}} renews automatically. You can cancel anytime.": "Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{switchTitle}} renews automatically. You can cancel anytime.",
+  "How about a plan switch instead of cancellation?": "How about a plan switch instead of cancellation?",
+  "Here are the plans that might match your needs:": "Here are the plans that might match your needs:",
+  "Or still wants to cancel a subscription?": "Or still wants to cancel a subscription?"
 }

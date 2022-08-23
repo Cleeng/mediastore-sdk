@@ -45,25 +45,32 @@ const OfferCard = ({
 
   const getSwitchCopy = () => {
     if (switchDetails) {
-      const subscriptionExpirationDate = planDetailsState.currentPlan.find(
-        sub => sub.pendingSwitchId === pendingSwitchId
-      ).expiresAt;
-
+      const subscriptionExpirationDate = dateFormat(
+        planDetailsState.currentPlan.find(
+          sub => sub.pendingSwitchId === pendingSwitchId
+        ).expiresAt
+      );
+      const { title: switchTitle } = switchDetails;
       switch (switchDetails.algorithm) {
         case 'IMMEDIATE_WITHOUT_PRORATION':
-          return `Your switch is pending and should be completed within few minutes. You will be charged a new price starting ${dateFormat(
-            subscriptionExpirationDate
-          )}.${
-            switchDetails.title
-          } renews automatically. You can cancel anytime.`;
+          return t(
+            `Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{switchTitle}} renews automatically. You can cancel anytime.`,
+            { subscriptionExpirationDate, switchTitle }
+          );
         case 'IMMEDIATE_AND_CHARGE_WITH_REFUND':
-          return `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to ${switchDetails.title}. You can cancel anytime.`;
+          return t(
+            `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{switchTitle}}. You can cancel anytime.`,
+            { switchTitle }
+          );
         case 'DEFERRED':
-          return `Your switch is pending. You will have access to ${title} until ${dateFormat(
-            subscriptionExpirationDate
-          )}. From that time you will be charged a new price and have access to ${
-            switchDetails.title
-          }. You can cancel anytime.`;
+          return t(
+            `Your switch is pending. You will have access to {{title}} until {{subscriptionExpirationDate}}. From that time you will be charged a new price and have access to {{switchTitle}}. You can cancel anytime.`,
+            {
+              title,
+              subscriptionExpirationDate,
+              switchTitle
+            }
+          );
         default:
           return '';
       }
