@@ -34,7 +34,7 @@ const DeletePaymentMethod = ({
 
   const deletePaymentMethod = () => {
     window.dispatchEvent(
-      new CustomEvent('MSSDK:remove-payment-action-confirmed')
+      new CustomEvent('MSSDK:remove-payment-details-action-confirmed')
     );
     setIsError(false);
     setIsButtonLoading(true);
@@ -57,7 +57,7 @@ const DeletePaymentMethod = ({
 
   const cancelDeleteAction = () => {
     window.dispatchEvent(
-      new CustomEvent('MSSDK:remove-payment-action-cancelled')
+      new CustomEvent('MSSDK:remove-payment-details-action-cancelled')
     );
     hideInnerPopup();
   };

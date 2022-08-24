@@ -193,7 +193,9 @@ const UpdatePaymentDetailsPopup = ({
                 <RemoveLinkStyled
                   onClick={() => {
                     window.dispatchEvent(
-                      new CustomEvent('MSSDK:remove-payment-button-clicked')
+                      new CustomEvent(
+                        'MSSDK:remove-payment-details-button-clicked'
+                      )
                     );
                     setStep(currentStep => currentStep + 1);
                     setAction(ACTIONS.delete);
