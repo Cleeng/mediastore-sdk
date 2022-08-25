@@ -39,6 +39,15 @@ class CurrentPlan extends PureComponent {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  getInfoBoxType(subscription) {
+    if (subscription.offerType !== 'S') return '';
+    if (subscription.pendingSwitchId) return 'SWITCH';
+    if (supportedPaymentGateways.includes(subscription.paymentGateway))
+      return '';
+    return 'INAPP_SUBSCRIPTION';
+  }
+
   showMessageBox = (type, text, subscriptionId) => {
     this.setState({
       messageBoxType: type,
@@ -96,11 +105,11 @@ class CurrentPlan extends PureComponent {
                   description =
                     subItem.status === 'active'
                       ? `${t('Renews automatically on {{renewalDate}}', {
-                        renewalDate
-                      })}`
+                          renewalDate
+                        })}`
                       : `${t('This plan will expire on {{renewalDate}}', {
-                        renewalDate
-                      })}`;
+                          renewalDate
+                        })}`;
                   break;
                 case 'P':
                   price = subItem.totalPrice;
@@ -142,13 +151,9 @@ class CurrentPlan extends PureComponent {
                     currency={currencyFormat[currency]}
                     price={price}
                     isMyAccount
-                    showInfoBox={
-                      subItem.offerType !== 'S' ||
-                        supportedPaymentGateways.includes(subItem.paymentGateway)
-                        ? ''
-                        : 'INAPP_SUBSCRIPTION'
-                    }
+                    showInfoBox={this.getInfoBoxType(subItem)}
                     paymentMethod={subItem.paymentMethod}
+                    pendingSwitchId={subItem.pendingSwitchId}
                   />
                   {isMessageBoxOpened &&
                     messageSubscriptionId === subItem.subscriptionId && (
@@ -188,6 +193,20 @@ CurrentPlan.propTypes = {
   setOfferToSwitch: PropTypes.func.isRequired,
   offerToSwitch: PropTypes.objectOf(PropTypes.any),
   updateList: PropTypes.func.isRequired,
+  switchDetails: PropTypes.shape({
+    [PropTypes.string]: PropTypes.shape({
+      id: PropTypes.string,
+      customerId: PropTypes.number,
+      direction: PropTypes.string,
+      algorithm: PropTypes.string,
+      fromOfferId: PropTypes.string,
+      toOfferId: PropTypes.string,
+      subscriptionId: PropTypes.string,
+      status: PropTypes.string,
+      createdAt: PropTypes.number,
+      updatedAt: PropTypes.number
+    })
+  }),
   t: PropTypes.func
 };
 
@@ -196,6 +215,7 @@ CurrentPlan.defaultProps = {
   isLoading: false,
   errors: [],
   offerToSwitch: {},
+  switchDetails: {},
   t: k => k
 };
 
