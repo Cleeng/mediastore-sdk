@@ -26,9 +26,15 @@ const AddPayPal = ({ setStep }) => {
     setIsError(false);
     updatePayPalPaymentDetails(publisherPaymentMethods.paypal)
       .then(resp => {
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:update-payment-details-successful')
+        );
         window.location.href = resp.responseData.redirectUrl;
       })
       .catch(() => {
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:update-payment-details-failed')
+        );
         setIsButtonLoading(false);
         setIsError(true);
       });

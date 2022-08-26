@@ -50,7 +50,8 @@ const Unsubscribe = ({
     window.dispatchEvent(
       new CustomEvent('MSSDK:unsubscribe-action-confirmed', {
         detail: {
-          offerId: offerDetails.offerId
+          offerId: offerDetails.offerId,
+          cancellationReason: checkedReason
         }
       })
     );
@@ -73,6 +74,11 @@ const Unsubscribe = ({
       setIsLoading(false);
     }
   };
+
+  const cancelUnsubscribeAction = () => {
+    window.dispatchEvent(new CustomEvent('MSSDK:unsubscribe-action-cancelled'));
+    hideInnerPopup();
+  }
 
   const { offerTitle, expiresAt } = offerDetails;
   const formattedExpiresAt = dateFormat(expiresAt);
@@ -117,7 +123,7 @@ const Unsubscribe = ({
             )}
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={hideInnerPopup}>
+            <Button theme="simple" onClickFn={() => cancelUnsubscribeAction()}>
               {t('No, thanks')}
             </Button>
             <Button
