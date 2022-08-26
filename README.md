@@ -240,7 +240,7 @@ Config.setMyAccountPayPalUrls({
 import { MyAccount, store } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
-const cancellationReasons = [
+const customCancellationReasons = [
   { value: "Poor customer support", key: "support" },
   { value: "Switch to a different service", key: "service" }
 ];
@@ -252,7 +252,7 @@ const availablePaymentMethodIds = {
 
 <Provider store={store}>
   <MyAccount
-    customCancellationReasons={cancellationReasons}
+    customCancellationReasons={customCancellationReasons}
     availablePaymentMethodIds={availablePaymentMethodIds}
   />
 </Provider>;
@@ -507,13 +507,13 @@ Config.setRefreshToken("yyy"); // optional
 import { PlanDetails } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
-const cancellationReasons = [
+const customCancellationReasons = [
   { value: "Poor customer support", key: "support" },
   { value: "Switch to a different service", key: "service" }
 ];
 
 <Provider store={store}>
-  <PlanDetails customCancellationReasons={cancellationReasons} />
+  <PlanDetails customCancellationReasons={customCancellationReasons} />
 </Provider>;
 ```
 
