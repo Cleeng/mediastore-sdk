@@ -14,7 +14,7 @@ import Button from 'components/Button';
 import { useTranslation } from 'react-i18next';
 import { PPIconStyled, ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
-const AddPayPal = ({ selectedPaymentMethod, setStep }) => {
+const AddPayPal = ({ setStep }) => {
   const { t } = useTranslation();
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
@@ -24,14 +24,17 @@ const AddPayPal = ({ selectedPaymentMethod, setStep }) => {
   const addPayPalPaymentDetails = () => {
     setIsButtonLoading(true);
     setIsError(false);
-    updatePayPalPaymentDetails(
-      publisherPaymentMethods.paypal,
-      selectedPaymentMethod.id
-    )
+    updatePayPalPaymentDetails(publisherPaymentMethods.paypal)
       .then(resp => {
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:update-payment-details-successful')
+        );
         window.location.href = resp.responseData.redirectUrl;
       })
       .catch(() => {
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:update-payment-details-failed')
+        );
         setIsButtonLoading(false);
         setIsError(true);
       });
@@ -43,7 +46,11 @@ const AddPayPal = ({ selectedPaymentMethod, setStep }) => {
         <TitleStyled>PayPal</TitleStyled>
         <TextStyled>
           {t(
-            'Paying with PayPal is easy. Click the button below and sign in to your PayPal account'
+            'Paying with PayPal is easy. Click the button below and sign in to your PayPal account.'
+          )}
+          <br />
+          {t(
+            'Note, PayPal is subject to an additional 8% fee that will be added to your next payments.'
           )}
         </TextStyled>
         <Button
@@ -87,11 +94,9 @@ const AddPayPal = ({ selectedPaymentMethod, setStep }) => {
 export default AddPayPal;
 
 AddPayPal.propTypes = {
-  setStep: PropTypes.func,
-  selectedPaymentMethod: PropTypes.objectOf(PropTypes.any)
+  setStep: PropTypes.func
 };
 
 AddPayPal.defaultProps = {
-  setStep: () => {},
-  selectedPaymentMethod: {}
+  setStep: () => {}
 };

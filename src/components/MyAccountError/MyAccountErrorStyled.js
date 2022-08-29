@@ -22,6 +22,10 @@ export const SubTitleStyled = styled.div.attrs(() => ({
 
   max-width: 310px;
   margin: 5px auto 0 auto;
+
+  a {
+    text-decoration: underline;
+  }
 `;
 
 export const IconStyled = styled.div.attrs(() => ({
@@ -29,7 +33,7 @@ export const IconStyled = styled.div.attrs(() => ({
 }))`
   margin: auto auto 10px auto;
   svg {
-    max-width: 100%;
+    max-width: 490px;
   }
 `;
 

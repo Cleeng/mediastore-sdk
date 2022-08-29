@@ -12,14 +12,9 @@ import {
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import { useTranslation } from 'react-i18next';
-import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import { ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
-const AddCard = ({
-  setStep,
-  selectedPaymentMethod,
-  updatePaymentDetailsSection
-}) => {
+const AddCard = ({ setStep, updatePaymentDetailsSection }) => {
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const publisherPaymentMethods = useSelector(
@@ -34,12 +29,15 @@ const AddCard = ({
       .then(resp => {
         setIsButtonLoading(false);
         if (!resp.errors.length) {
+          window.dispatchEvent(
+            new CustomEvent('MSSDK:update-payment-details-successful')
+          );
           setStep(currentStep => currentStep + 1);
           updatePaymentDetailsSection();
-          if (selectedPaymentMethod.id) {
-            deletePaymentDetails(selectedPaymentMethod.id);
-          }
         } else {
+          window.dispatchEvent(
+            new CustomEvent('MSSDK:update-payment-details-failed')
+          );
           setIsError(true);
         }
       })
@@ -65,7 +63,7 @@ const AddCard = ({
           </ErrorMessage>
         )}
       </ContentStyled>
-      <ButtonWrapperStyled removeMargin>
+      <ButtonWrapperStyled style={{ margin: '10px 0 0 0' }}>
         <Button
           theme="simple"
           onClickFn={() => setStep(currentStep => currentStep - 1)}
@@ -83,14 +81,12 @@ const AddCard = ({
 
 AddCard.propTypes = {
   setStep: PropTypes.func,
-  updatePaymentDetailsSection: PropTypes.func,
-  selectedPaymentMethod: PropTypes.objectOf(PropTypes.any)
+  updatePaymentDetailsSection: PropTypes.func
 };
 
 AddCard.defaultProps = {
   setStep: () => {},
-  updatePaymentDetailsSection: () => {},
-  selectedPaymentMethod: {}
+  updatePaymentDetailsSection: () => {}
 };
 
 export default AddCard;

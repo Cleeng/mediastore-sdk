@@ -9,6 +9,7 @@ import CurrentPlan from 'components/CurrentPlan';
 import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
+import getSwitch from 'api/Customer/getSwitch';
 import { WrapStyled } from './PlanDetailsStyled';
 
 const PlanDetails = ({
@@ -21,6 +22,7 @@ const PlanDetails = ({
   setOfferToSwitch,
   showInnerPopup,
   customCancellationReasons,
+  setSwitchDetails,
   t
 }) => {
   const [isLoadingCurrentPlan, setIsLoadingCurrentPlan] = useState(false);
@@ -30,6 +32,9 @@ const PlanDetails = ({
   const didMount = useRef(false);
 
   const getAndSaveSwitchSettings = async customerSubscriptions => {
+    if (customerSubscriptions.length > 1) {
+      setOfferToSwitch({}); // reset previously saved offer to switch
+    }
     const result = customerSubscriptions.map(offer =>
       getAvailableSwitches(offer.offerId).then(response => {
         if (!response.errors.length) {
@@ -47,7 +52,7 @@ const PlanDetails = ({
         setIsLoadingChangePlan(false);
       })
       .catch(() => {
-        setIsErrorChangePlan(t('Something went wrong..'));
+        setIsErrorChangePlan([t('Something went wrong..')]);
         setIsLoadingChangePlan(false);
       });
   };
@@ -56,38 +61,46 @@ const PlanDetails = ({
     setIsLoadingCurrentPlan(true);
     setIsLoadingChangePlan(true);
 
-    getCustomerOffers()
-      .then(response => {
-        if (response.errors.length) {
-          setIsErrorCurrentPlan(response.errors);
-        } else {
-          const customerOffers = response.responseData.items;
-          const offersWithActivePasses = customerOffers.filter(
-            offer =>
-              !(offer.offerType === 'P' && offer.expiresAt * 1000 < Date.now())
-          );
-          const customerSubscriptions = customerOffers.filter(
-            offer => offer.offerType === 'S'
-          );
-          setCurrentPlan(offersWithActivePasses);
-          const activeSubscriptions = customerSubscriptions.filter(
-            sub => sub.status === 'active'
-          );
+    const customerOffersResponse = await getCustomerOffers();
+    if (customerOffersResponse.errors.length) {
+      setIsErrorCurrentPlan(customerOffersResponse.errors);
+    } else {
+      const customerOffers = customerOffersResponse.responseData.items;
+      const offersWithActivePasses = customerOffers.filter(
+        offer =>
+          !(offer.offerType === 'P' && offer.expiresAt * 1000 < Date.now())
+      );
+      const customerSubscriptions = customerOffers.filter(
+        offer => offer.offerType === 'S'
+      );
+      setCurrentPlan(offersWithActivePasses);
 
-          if (activeSubscriptions.length === 1) {
-            setOfferToSwitch(activeSubscriptions[0]);
-          }
+      const activeSubscriptions = customerSubscriptions.filter(
+        sub => sub.status === 'active'
+      );
 
-          if (activeSubscriptions.length > 0) {
-            getAndSaveSwitchSettings(customerSubscriptions);
-          }
-        }
-        setIsLoadingCurrentPlan(false);
-      })
-      .catch(() => {
-        setIsErrorCurrentPlan(t('Something went wrong..'));
-        setIsLoadingCurrentPlan(false);
-      });
+      const offersWithPendingSwitches = activeSubscriptions.filter(
+        sub => sub.pendingSwitchId
+      );
+
+      if (offersWithPendingSwitches.length) {
+        offersWithPendingSwitches.forEach(subscription => {
+          getSwitch(subscription.pendingSwitchId).then(resp =>
+            setSwitchDetails({
+              switchId: subscription.pendingSwitchId,
+              switchDetails: resp.responseData
+            })
+          );
+        });
+      }
+      if (activeSubscriptions.length === 1) {
+        setOfferToSwitch(activeSubscriptions[0]);
+      }
+      if (activeSubscriptions.length > 0) {
+        getAndSaveSwitchSettings(customerSubscriptions);
+      }
+    }
+    setIsLoadingCurrentPlan(false);
   };
 
   useEffect(() => {
@@ -156,6 +169,7 @@ const PlanDetails = ({
             setOfferToSwitch={setOfferToSwitch}
             offerToSwitch={planDetails.offerToSwitch}
             updateList={updateList}
+            switchDetails={planDetails.switchDetails}
           />
           {activeSubscriptions.length !== 0 && (
             <>
@@ -171,6 +185,7 @@ const PlanDetails = ({
                   Object.keys(planDetails.switchSettings).length === 0
                 }
                 errors={isErrorChangePlan || []}
+                fromOfferId={planDetails.offerToSwitch.offerId}
               />
             </>
           )}
@@ -188,6 +203,7 @@ PlanDetails.propTypes = {
   hideInnerPopup: PropTypes.func.isRequired,
   setOfferToSwitch: PropTypes.func.isRequired,
   setSwitchSettings: PropTypes.func.isRequired,
+  setSwitchDetails: PropTypes.func.isRequired,
   updateList: PropTypes.func.isRequired,
   customCancellationReasons: PropTypes.arrayOf(
     PropTypes.shape({

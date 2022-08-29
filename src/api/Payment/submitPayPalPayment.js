@@ -9,9 +9,12 @@ const submitPayPalPayment = async () => {
 
   const redirectUrls = {
     successUrl:
-      getData('CLEENG_PP_SUCCESS') || `${window.location.origin}/thankyou`,
-    cancelUrl: getData('CLEENG_PP_CANCEL') || `${window.location.origin}/offer`,
-    errorUrl: getData('CLEENG_PP_ERROR') || `${window.location.origin}/offer`
+      getData('CLEENG_CHECKOUT_PP_SUCCESS') ||
+      `${window.location.origin}/thankyou`,
+    cancelUrl:
+      getData('CLEENG_CHECKOUT_PP_CANCEL') || `${window.location.origin}/offer`,
+    errorUrl:
+      getData('CLEENG_CHECKOUT_PP_ERROR') || `${window.location.origin}/offer`
   };
 
   try {

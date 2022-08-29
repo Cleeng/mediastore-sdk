@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
@@ -22,8 +23,16 @@ const SubscriptionSwitchesList = ({
   isOfferSelected,
   isLoading,
   errors,
+  fromOfferId,
   t
 }) => {
+  const planDetailsState = useSelector(state => state.planDetails);
+  const pendingSwtichesToOfferIdsArray = Object.keys(
+    planDetailsState.switchDetails
+  ).map(item => {
+    return planDetailsState.switchDetails[item].toOfferId;
+  });
+
   if (isLoading) {
     return <SkeletonCard />;
   }
@@ -39,9 +48,15 @@ const SubscriptionSwitchesList = ({
       />
     );
   }
+
   const areAvailable = !!(
-    switchSettings.available && switchSettings.available.length
+    switchSettings.available &&
+    switchSettings.available.length &&
+    switchSettings.available.filter(
+      item => !pendingSwtichesToOfferIdsArray.includes(item.toOfferId)
+    ).length
   );
+
   const areUnAvailable = !!(
     switchSettings.unavailable && switchSettings.unavailable.length
   );
@@ -74,11 +89,17 @@ const SubscriptionSwitchesList = ({
   const availableSorted = [...switchSettings.available].sort(
     (aOffer, bOffer) => bOffer.price - aOffer.price
   );
+
   return (
     <>
       {areAvailable &&
         availableSorted.map(subItem => (
-          <SubscriptionStyled key={subItem.toOfferId}>
+          <SubscriptionStyled
+            key={subItem.toOfferId}
+            hide={pendingSwtichesToOfferIdsArray.find(
+              item => item === subItem.toOfferId
+            )}
+          >
             <OfferCard
               period={periodMapper[subItem.period].chargedForEveryText}
               offerType="S"
@@ -89,6 +110,15 @@ const SubscriptionSwitchesList = ({
             <WrapperStyled>
               <SimpleButtonStyled
                 onClickFn={() => {
+                  window.dispatchEvent(
+                    new CustomEvent('MSSDK:switch-button-clicked', {
+                      detail: {
+                        fromOfferId,
+                        toOfferId: subItem.toOfferId,
+                        switchDirection: subItem.switchDirection
+                      }
+                    })
+                  );
                   showInnerPopup({
                     type: POPUP_TYPES.switchPlan,
                     data: {
@@ -132,6 +162,7 @@ SubscriptionSwitchesList.propTypes = {
   errors: PropTypes.arrayOf(PropTypes.string),
   showInnerPopup: PropTypes.func,
   isLoading: PropTypes.bool,
+  fromOfferId: PropTypes.string,
   t: PropTypes.func
 };
 
@@ -140,6 +171,7 @@ SubscriptionSwitchesList.defaultProps = {
   showInnerPopup: () => {},
   errors: [],
   isLoading: false,
+  fromOfferId: '',
   t: k => k
 };
 

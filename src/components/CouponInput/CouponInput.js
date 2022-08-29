@@ -87,9 +87,19 @@ class CouponInput extends Component {
     const { isOpened } = this.state;
     const { onSubmit, onInputToggle, value } = this.props;
     if (!isOpened) {
+      window.dispatchEvent(
+        new CustomEvent('MSSDK:redeem-coupon-button-clicked')
+      );
       onInputToggle();
       this.setState({ isOpened: true });
     } else {
+      window.dispatchEvent(
+        new CustomEvent('MSSDK:redeem-button-clicked', {
+          detail: {
+            coupon: value
+          }
+        })
+      );
       await onSubmit(value);
     }
   };

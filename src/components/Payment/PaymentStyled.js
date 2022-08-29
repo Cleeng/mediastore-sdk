@@ -23,7 +23,7 @@ export const PaymentErrorStyled = styled.div.attrs(() => ({
 export const MethodsWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__payment__methods'
 }))`
-  margin-bottom: 10px;
+  margin-bottom: 50px;
   font-size: 20px;
   display: flex;
   flex-wrap: wrap;
@@ -59,7 +59,7 @@ export const PayPalWrapperStyled = styled.div.attrs(() => ({
 export const PayPalTextStyled = styled.p.attrs(() => ({
   className: 'msd__payment__paypal-text'
 }))`
-  max-width: 50%;
+  max-width: 550px;
   margin-bottom: 20px;
   text-align: center;
   line-height: 1.4em;

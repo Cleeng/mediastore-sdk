@@ -2,10 +2,11 @@
 
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
+import { getData } from 'util/appConfigHelper';
 
-import { ReactComponent as noSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
+import { ReactComponent as NoSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
 import { dateFormat, currencyFormat } from 'util/planHelper';
 
 import MyAccountError from 'components/MyAccountError';
@@ -13,6 +14,12 @@ import OfferCard from 'components/OfferCard';
 import SubscriptionManagement from 'components/SubscriptionManagement';
 import MessageBox from 'components/MessageBox';
 
+import {
+  WrapStyled as ErrorWrapStyled,
+  TitleStyled,
+  SubTitleStyled,
+  IconStyled
+} from 'components/MyAccountError/MyAccountErrorStyled';
 import {
   WrapStyled,
   SubscriptionStyled,
@@ -37,6 +44,15 @@ class CurrentPlan extends PureComponent {
       messageBoxText: '',
       messageSubscriptionId: null
     };
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  getInfoBoxType(subscription) {
+    if (subscription.offerType !== 'S') return '';
+    if (subscription.pendingSwitchId) return 'SWITCH';
+    if (supportedPaymentGateways.includes(subscription.paymentGateway))
+      return '';
+    return 'INAPP_SUBSCRIPTION';
   }
 
   showMessageBox = (type, text, subscriptionId) => {
@@ -74,34 +90,50 @@ class CurrentPlan extends PureComponent {
         {errors.length !== 0 ? (
           <MyAccountError generalError />
         ) : subscriptions.length === 0 ? (
-          <MyAccountError
-            title={t('No offers yet!')}
-            subtitle={t(
-              'If you choose your plan, you will be able to manage your Offers here.'
-            )}
-            icon={noSubscriptionsIcon}
-          />
+          <ErrorWrapStyled>
+            <IconStyled>
+              <NoSubscriptionsIcon />
+            </IconStyled>
+            <TitleStyled>{t('No offers yet!')}</TitleStyled>
+            <SubTitleStyled>
+              {getData('CLEENG_OFFER_SELECTION_URL') ? (
+                <Trans i18nKey="myaccount-nooffers-withlink">
+                  If you{' '}
+                  <a
+                    href={getData('CLEENG_OFFER_SELECTION_URL')}
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    choose your plan
+                  </a>
+                  , you will be able to manage your offers here.
+                </Trans>
+              ) : (
+                t(
+                  'If you choose your plan, you will be able to manage your offers here.'
+                )
+              )}
+            </SubTitleStyled>
+          </ErrorWrapStyled>
         ) : (
           <>
             {subscriptions.map(subItem => {
               let description;
               let price;
               let currency;
-              let nextPaymentDate;
-              let expiresAtDate;
+              let renewalDate;
               switch (subItem.offerType) {
                 case 'S':
                   price = subItem.nextPaymentPrice;
                   currency = subItem.nextPaymentCurrency;
-                  nextPaymentDate = dateFormat(subItem.nextPaymentAt);
-                  expiresAtDate = dateFormat(subItem.expiresAt);
+                  renewalDate = dateFormat(subItem.expiresAt);
                   description =
                     subItem.status === 'active'
-                      ? `${t('Next payment is on {{nextPaymentDate}}', {
-                          nextPaymentDate
+                      ? `${t('Renews automatically on {{renewalDate}}', {
+                          renewalDate
                         })}`
-                      : `${t('This plan will expire on {{expiresAtDate}}', {
-                          expiresAtDate
+                      : `${t('This plan will expire on {{renewalDate}}', {
+                          renewalDate
                         })}`;
                   break;
                 case 'P':
@@ -144,13 +176,9 @@ class CurrentPlan extends PureComponent {
                     currency={currencyFormat[currency]}
                     price={price}
                     isMyAccount
-                    showInfoBox={
-                      subItem.offerType !== 'S' ||
-                      supportedPaymentGateways.includes(subItem.paymentGateway)
-                        ? ''
-                        : 'INAPP_SUBSCRIPTION'
-                    }
+                    showInfoBox={this.getInfoBoxType(subItem)}
                     paymentMethod={subItem.paymentMethod}
+                    pendingSwitchId={subItem.pendingSwitchId}
                   />
                   {isMessageBoxOpened &&
                     messageSubscriptionId === subItem.subscriptionId && (
@@ -183,13 +211,61 @@ class CurrentPlan extends PureComponent {
 }
 
 CurrentPlan.propTypes = {
-  subscriptions: PropTypes.arrayOf(PropTypes.any),
+  subscriptions: PropTypes.arrayOf(
+    PropTypes.shape({
+      subscriptionId: PropTypes.number,
+      offerId: PropTypes.string,
+      status: PropTypes.string,
+      startedAt: PropTypes.number,
+      expiresAt: PropTypes.number,
+      nextPaymentPrice: PropTypes.number,
+      nextPaymentCurrency: PropTypes.string,
+      nextPaymentAt: PropTypes.number,
+      paymentGateway: PropTypes.string,
+      paymentMethod: PropTypes.string,
+      externalPaymentId: PropTypes.string,
+      inTrial: PropTypes.bool,
+      offerTitle: PropTypes.string,
+      period: PropTypes.string,
+      totalPrice: PropTypes.number
+    })
+  ),
   isLoading: PropTypes.bool,
-  errors: PropTypes.arrayOf(PropTypes.any),
+  errors: PropTypes.arrayOf(PropTypes.string),
   showInnerPopup: PropTypes.func.isRequired,
   setOfferToSwitch: PropTypes.func.isRequired,
-  offerToSwitch: PropTypes.objectOf(PropTypes.any),
+  offerToSwitch: PropTypes.shape({
+    subscriptionId: PropTypes.number,
+    offerId: PropTypes.string,
+    status: PropTypes.string,
+    startedAt: PropTypes.number,
+    expiresAt: PropTypes.number,
+    nextPaymentPrice: PropTypes.number,
+    nextPaymentCurrency: PropTypes.string,
+    nextPaymentAt: PropTypes.number,
+    paymentGateway: PropTypes.string,
+    paymentMethod: PropTypes.string,
+    externalPaymentId: PropTypes.string,
+    inTrial: PropTypes.bool,
+    offerTitle: PropTypes.string,
+    period: PropTypes.string,
+    totalPrice: PropTypes.number
+  }),
   updateList: PropTypes.func.isRequired,
+  switchDetails: PropTypes.shape({
+    [PropTypes.string]: PropTypes.shape({
+      id: PropTypes.string,
+      customerId: PropTypes.number,
+      direction: PropTypes.string,
+      algorithm: PropTypes.string,
+      fromOfferId: PropTypes.string,
+      toOfferId: PropTypes.string,
+      subscriptionId: PropTypes.string,
+      status: PropTypes.string,
+      createdAt: PropTypes.number,
+      updatedAt: PropTypes.number
+    })
+  }),
   t: PropTypes.func
 };
 
@@ -198,6 +274,7 @@ CurrentPlan.defaultProps = {
   isLoading: false,
   errors: [],
   offerToSwitch: {},
+  switchDetails: {},
   t: k => k
 };
 

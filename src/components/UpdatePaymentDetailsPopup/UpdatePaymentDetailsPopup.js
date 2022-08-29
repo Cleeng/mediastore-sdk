@@ -87,16 +87,10 @@ const UpdatePaymentDetailsPopup = ({
           <AddCard
             setStep={setStep}
             updatePaymentDetailsSection={updatePaymentDetailsSection}
-            selectedPaymentMethod={selectedPaymentMethod}
           />
         );
       case ACTIONS.addPayPal:
-        return (
-          <AddPayPal
-            setStep={setStep}
-            selectedPaymentMethod={selectedPaymentMethod}
-          />
-        );
+        return <AddPayPal setStep={setStep} />;
       case ACTIONS.delete:
         return (
           <DeletePaymentMethod
@@ -198,6 +192,11 @@ const UpdatePaymentDetailsPopup = ({
               {selectedPaymentMethod.id && (
                 <RemoveLinkStyled
                   onClick={() => {
+                    window.dispatchEvent(
+                      new CustomEvent(
+                        'MSSDK:remove-payment-details-button-clicked'
+                      )
+                    );
                     setStep(currentStep => currentStep + 1);
                     setAction(ACTIONS.delete);
                   }}

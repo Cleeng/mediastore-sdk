@@ -94,7 +94,7 @@ describe('Offer', () => {
       const vodDescription = wrapper.instance().generateDescription('A');
 
       expect(subscriptionDescription).toMatch(
-        `You will be charged 20$ for every month.`
+        `You will be charged {{customerCurrencySymbol}}{{offerPrice}} for every {{periodText}}.`
       );
       expect(eventDescription).toContain(
         'Pay-per-view event 11/6/2020 02:31 PM GMT+1'
@@ -118,7 +118,9 @@ describe('Offer', () => {
         />
       );
       const description = wrapper.instance().generateDescription('S');
-      expect(description).toMatch(`You will be charged 20$ after 2 months.`);
+      expect(description).toMatch(
+        `You will be charged {{customerCurrencySymbol}}{{offerPrice}} after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.`
+      );
     });
     it('should generate description for season pass with specific end date', () => {
       getData.mockImplementationOnce(() => {
@@ -134,7 +136,7 @@ describe('Offer', () => {
         />
       );
       const description = wrapper.instance().generateDescription('P');
-      expect(description).toMatch(`Access until 11/6/2020 02:31 PM GMT+1`);
+      expect(description).toMatch(`Access until {{date}}`);
     });
   });
 });

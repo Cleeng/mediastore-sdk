@@ -54,6 +54,12 @@ export const SubscriptionStyled = styled.div.attrs(() => ({
         opacity: 1;
       }
     `}
+
+  ${props =>
+    props.hide &&
+    css`
+      display: none;
+    `}
 `;
 
 export const SubscriptionManageWrapStyled = styled.div`
