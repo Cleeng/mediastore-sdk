@@ -120,7 +120,8 @@ const Unsubscribe = ({
     window.dispatchEvent(
       new CustomEvent('MSSDK:unsubscribe-action-confirmed', {
         detail: {
-          offerId: offerDetails.offerId
+          offerId: offerDetails.offerId,
+          cancellationReason: checkedReason
         }
       })
     );
@@ -143,6 +144,11 @@ const Unsubscribe = ({
       setIsLoading(false);
     }
   };
+
+  const cancelUnsubscribeAction = () => {
+    window.dispatchEvent(new CustomEvent('MSSDK:unsubscribe-action-cancelled'));
+    hideInnerPopup();
+  }
 
   const { offerTitle, expiresAt } = offerDetails;
   const formattedExpiresAt = dateFormat(expiresAt);
@@ -255,7 +261,7 @@ const Unsubscribe = ({
               onClickFn={() =>
                 shouldShowDowngrades
                   ? setCurrentStep(STEPS.DOWNGRADES)
-                  : hideInnerPopup()
+                  : cancelUnsubscribeAction()
               }
             >
               {t('No, thanks')}

@@ -38,6 +38,18 @@ class Adyen extends Component {
     }
   }
 
+  onError = e => {
+    const { error, fieldType } = e;
+    window.dispatchEvent(
+      new CustomEvent('MSSDK:Adyen-error', {
+        detail: {
+          error,
+          fieldType
+        }
+      })
+    );
+  };
+
   getAdyenEnv = () =>
     getData('CLEENG_ENVIRONMENT') === 'production' ? 'live' : 'test';
 
@@ -78,7 +90,8 @@ class Adyen extends Component {
           ? 'live_BQDOFBYTGZB3XKF62GBYSLPUJ4YW2TPL'
           : 'test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K',
       onSubmit,
-      onChange
+      onChange,
+      onError: this.onError
     };
 
     const cardConfiguration = {
@@ -102,6 +115,8 @@ class Adyen extends Component {
       width: '60%',
       margin: 'auto'
     };
+    const confirmButtonText = isCheckout ? t('Complete purchase') : t('Update');
+
     return (
       <AdyenStyled isMyAccount={!isCheckout}>
         <div id={COMPONENT_CONTAINER_ID} />
@@ -117,7 +132,7 @@ class Adyen extends Component {
               {isPaymentProcessing ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t('Complete purchase')
+                confirmButtonText
               )}
             </Button>
           </ConfirmButtonStyled>

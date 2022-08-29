@@ -59,7 +59,7 @@ export const PayPalWrapperStyled = styled.div.attrs(() => ({
 export const PayPalTextStyled = styled.p.attrs(() => ({
   className: 'msd__payment__paypal-text'
 }))`
-  max-width: 50%;
+  max-width: 550px;
   margin-bottom: 20px;
   text-align: center;
   line-height: 1.4em;

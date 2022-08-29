@@ -111,6 +111,14 @@ export const setMyAccountUrl = url => {
   return false;
 };
 
+export const setOfferSelectionUrl = url => {
+  if (url) {
+    setData('CLEENG_OFFER_SELECTION_URL', url);
+    return true;
+  }
+  return false;
+};
+
 export const setTheme = theme => {
   const themeString = JSON.stringify(theme);
   if (theme) {
@@ -137,6 +145,7 @@ export default {
   setCheckoutPayPalUrls,
   setMyAccountPayPalUrls,
   setMyAccountUrl,
+  setOfferSelectionUrl,
   setJWT,
   setRefreshToken
 };
