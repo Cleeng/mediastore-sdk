@@ -296,5 +296,12 @@
   "We hope you love it. If you need help from us with your account, you can always find it": "",
   "here": "",
   "Have friends who would like to check this out?": "",
-  "Just click to share.": ""
+  "Just click to share.": "",
+  "switchplanpopup-info": "Zamierzasz zmienić plan z <2>{{ fromOfferTitle }}</2> na <5>{{ toOfferTitle }}</5>.",
+  "switchplanpopup-info-immediatewithoutproration": "Natychmiast otrzymasz dostęp do wybranego planu i zostaniesz obciążony kwotą <2>{{ currencySymbol }}{{ nextPaymentPrice }}</2> w następnym dniu rozliczenia <6>{{ expiresAt }}</6>",
+  "switchplanpopup-info-immediateandchargewithrefund": "Zostaniesz obciążony kwotą <2>{{ currencySymbol }}{{ nextPaymentPrice }}</2> oraz uzyszkasz natychmiastowy dostęp do wybranego planu. Pozostała kwota, wynikająca z poprzedniej subskrybcji, zostanie zwrócona. Do czasu rezygnacji z subskrybcji regularnie pobierana będzie kwota <6>{{ currencySymbol }}{{ nextPaymentPrice }}</6>",
+  "switchplanpopup-info-deferred": "Będziesz posiadał dostęp do oferty <2>{{ currentPlan }}</2> do dnia <5>{{ expiresAt }}</5>, kiedy to zostaniesz obciążony kwotą <9>{{ currencySymbol }}{{ nextPaymentPrice }}</9> i uzyskasz dostęp do nowej subskrybcji.",
+  "switchplanpopup-confirm-immediatewithoutproration": "Pomyślnie zmieniono plan na <2>{{ newPlan }}</2>. Twoja opłata będzie wynosiła  <5>{{ currencySymbol }}{{ nextPaymentPrice }}</5> zaczynając od <9>{{ expiresAt }}</9>.",
+  "switchplanpopup-confirm-immediateandchargewithrefund": "Pomyślnie zmieniono plan na <2>{{ newPlan }}</2>. Twoja opłata będzie wynosiła <5>{{ currencySymbol }}{{ nextPaymentPrice }}</5> zaczynając od teraz.",
+  "switchplanpopup-confirm-deferred": "Pomyślnie wniesiono o zmianę planu na <2>{{ newPlan }}</2>. Dostęp do nowego planu będzie przydzielony od <5>{{ expiresAt }}</5>, a opłata będzie wynosiła  <9>{{ currencySymbol }}{{ nextPaymentPrice }}</9>."
 }
