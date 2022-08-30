@@ -94,7 +94,7 @@ describe('Offer', () => {
       const vodDescription = wrapper.instance().generateDescription('A');
 
       expect(subscriptionDescription).toMatch(
-        `You will be charged {{customerCurrencySymbol}}{{offerPrice}} for every {{periodText}}.`
+        `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) for every {{periodText}}.`
       );
       expect(eventDescription).toContain(
         'Pay-per-view event 11/6/2020 02:31 PM GMT+1'
@@ -119,7 +119,7 @@ describe('Offer', () => {
       );
       const description = wrapper.instance().generateDescription('S');
       expect(description).toMatch(
-        `You will be charged {{customerCurrencySymbol}}{{offerPrice}} after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.`
+        `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.`
       );
     });
     it('should generate description for season pass with specific end date', () => {

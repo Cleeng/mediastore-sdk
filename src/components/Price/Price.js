@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import formatNumber from 'util/formatNumber';
 import { Trans } from 'react-i18next';
-
 import {
   WrapperStyled,
   CurrencyStyled,

@@ -28,6 +28,8 @@ describe('CheckoutPriceBox', () => {
   const taxValue = 0.23;
   const finalPriceWithCoupon = offerPrice + taxValue - discountAmount;
   const finalPriceWithFees = offerPrice + customerServiceFee + paymentFee;
+  const country = 'US';
+  const taxRate = 0.2;
   it('displays coupon discount', () => {
     const wrapper = shallow(
       <CheckoutPriceBox
@@ -39,6 +41,8 @@ describe('CheckoutPriceBox', () => {
         paymentMethodFee={0}
         customerCurrencySymbol={customerCurrencySymbol}
         offerPrice={offerPrice}
+        country={country}
+        taxRate={taxRate}
       />
     );
 
@@ -51,14 +55,14 @@ describe('CheckoutPriceBox', () => {
         .at(0)
         .find(StyledOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${formatNumber(offerPrice)} exVAT`);
+    ).toBe(`${customerCurrencySymbol}${formatNumber(offerPrice)} excl. Tax`);
     expect(
       wrapper
         .find(StyledPriceWrapper)
         .at(1)
         .find(StyledOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${formatNumber(discountAmount)}`);
+    ).toBe(`- ${customerCurrencySymbol}${formatNumber(discountAmount)}`);
     expect(
       wrapper
         .find(StyledPriceWrapper)
@@ -85,11 +89,13 @@ describe('CheckoutPriceBox', () => {
         paymentMethodFee={paymentFee}
         customerCurrencySymbol={customerCurrencySymbol}
         offerPrice={offerPrice}
+        country={country}
+        taxRate={0}
       />
     );
 
     expect(wrapper.find(StyledPriceBoxWrapper)).toHaveLength(1);
-    expect(wrapper.find(StyledPriceWrapper)).toHaveLength(3);
+    expect(wrapper.find(StyledPriceWrapper)).toHaveLength(4);
 
     expect(
       wrapper
@@ -97,18 +103,25 @@ describe('CheckoutPriceBox', () => {
         .at(0)
         .find(StyledOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${formatNumber(customerServiceFee)}`);
+    ).toBe(`${customerCurrencySymbol}${formatNumber(offerPrice)} excl. Tax`);
     expect(
       wrapper
         .find(StyledPriceWrapper)
         .at(1)
         .find(StyledOfferPrice)
         .text()
-    ).toBe(`${customerCurrencySymbol}${formatNumber(paymentFee)}`);
+    ).toBe(`${customerCurrencySymbol}${formatNumber(customerServiceFee)}`);
     expect(
       wrapper
         .find(StyledPriceWrapper)
         .at(2)
+        .find(StyledOfferPrice)
+        .text()
+    ).toBe(`${customerCurrencySymbol}${formatNumber(paymentFee)}`);
+    expect(
+      wrapper
+        .find(StyledPriceWrapper)
+        .at(3)
         .find(StyledTotalOfferPrice)
         .text()
     ).toBe(`${customerCurrencySymbol}${formatNumber(finalPriceWithFees)}`);
