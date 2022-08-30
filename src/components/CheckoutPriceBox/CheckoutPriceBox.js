@@ -24,6 +24,7 @@ const CheckoutPriceBox = ({
   customerCurrencySymbol,
   offerPrice,
   taxRate,
+  country,
   t
 }) => (
   <StyledPriceBox>
@@ -32,7 +33,7 @@ const CheckoutPriceBox = ({
         <StyledLabel>{t('Price')}</StyledLabel>
         <StyledOfferPrice>
           {`${customerCurrencySymbol}${formatNumber(offerPrice)} `}
-          <span>{t('exVAT')}</span>
+          <span>{country === 'US' ? t('excl. Tax') : t('excl. VAT')}</span>
         </StyledOfferPrice>
       </StyledPriceWrapper>
 
@@ -47,7 +48,9 @@ const CheckoutPriceBox = ({
       )}
       {(taxValue !== 0 || taxRate !== 0) && (
         <StyledPriceWrapper>
-          <StyledLabel>{t('Applicable Tax')}</StyledLabel>
+          <StyledLabel>
+            {country === 'US' ? t('Applicable Tax') : t('Applicable VAT')}
+          </StyledLabel>
           <StyledOfferPrice>
             {taxValue ? (
               `${customerCurrencySymbol}${formatNumber(taxValue)}`
@@ -101,6 +104,7 @@ CheckoutPriceBox.propTypes = {
   paymentMethodFee: PropTypes.number,
   isCouponApplied: PropTypes.bool,
   finalPrice: PropTypes.number,
+  country: PropTypes.string,
   t: PropTypes.func
 };
 
@@ -114,6 +118,7 @@ CheckoutPriceBox.defaultProps = {
   paymentMethodFee: 0,
   isCouponApplied: false,
   finalPrice: 0,
+  country: '',
   t: k => k
 };
 

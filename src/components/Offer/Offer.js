@@ -44,23 +44,32 @@ class Offer extends Component {
           },
           orderDetails: {
             priceBreakdown: { offerPrice },
-            taxRate
+            taxRate,
+            country
           }
         } = this.props;
         const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
+        let taxCopy = 'VAT';
+        if (country === 'US') taxCopy = 'Tax';
         const periodText = periodMapper[period].chargedForEveryText;
         const trialPeriodText = freeDays
           ? `${freeDays} days`
           : `${freePeriods > 1 ? `${freePeriods} ${period}s` : period}`;
         if (trialAvailable) {
           return t(
-            `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. tax) after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.`,
-            { customerCurrencySymbol, grossPrice, trialPeriodText, periodText }
+            `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.`,
+            {
+              customerCurrencySymbol,
+              grossPrice,
+              taxCopy,
+              trialPeriodText,
+              periodText
+            }
           );
         }
         return t(
-          `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. tax) for every {{periodText}}.`,
-          { customerCurrencySymbol, grossPrice, periodText }
+          `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) for every {{periodText}}.`,
+          { customerCurrencySymbol, grossPrice, taxCopy, periodText }
         );
       }
       case 'P': {
@@ -120,7 +129,8 @@ class Offer extends Component {
         discount: { applied },
         totalPrice,
         requiredPaymentDetails,
-        taxRate
+        taxRate,
+        country
       },
       couponProps: {
         showMessage,
@@ -195,6 +205,7 @@ class Offer extends Component {
                   customerCurrencySymbol={customerCurrencySymbol}
                   offerPrice={offerPrice}
                   taxRate={taxRate}
+                  country={country}
                 />
               </StyledOfferBody>
               <Payment
@@ -233,6 +244,7 @@ Offer.propTypes = {
     startTime: PropTypes.number
   }).isRequired,
   orderDetails: PropTypes.shape({
+    country: PropTypes.string,
     priceBreakdown: PropTypes.shape({
       offerPrice: PropTypes.number,
       discountedPrice: PropTypes.number,
