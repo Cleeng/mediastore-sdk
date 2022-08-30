@@ -245,8 +245,8 @@
   "Access for 6 months": "Access for 6 months",
   "Access for one year": "Access for one year",
   "Access until {{date}}": "Access until {{date}}",
-  "You will be charged {{offerPrice}}{{customerCurrencySymbol}} for every {{periodText}}.": "You will be charged {{offerPrice}}{{customerCurrencySymbol}} for every {{periodText}}.",
-  "You will be charged {{customerCurrencySymbol}}{{offerPrice}} after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.": "You will be charged {{customerCurrencySymbol}}{{offerPrice}} after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.",
+  "You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. tax) for every {{periodText}}.": "You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. tax) for every {{periodText}}.",
+  "You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. tax) after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.": "You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. tax) after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.",
   "Weekly plan.": "Weekly plan.",
   "Monthly plan.": "Monthly plan.",
   "3-month plan.": "3-month plan.",
@@ -293,5 +293,5 @@
   "Just click to share.": "",
   "If you choose your plan, you will be able to manage your offers here.": " If you choose your plan, you will be able to manage your offers here.",
   "myaccount-nooffers-withlink": "If you <2>choose your plan</2>, you will be able to manage your offers here.",
-  "price-additional-label": "+ TAX"
+  "price-additional-label": " "
 }

@@ -25,7 +25,7 @@ const Price = ({ currency, price, period }) => (
       <CurrencyStyled>{currency}</CurrencyStyled>
       <PriceStyled>{formatNumber(price)}</PriceStyled>
       <AdditionalLabelStyled>
-        <Trans i18nKey="price-additional-label" />
+        <Trans i18nKey="price-additional-label"> </Trans>
       </AdditionalLabelStyled>
     </InnerWrapper>
     {period && (
