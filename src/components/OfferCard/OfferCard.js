@@ -126,7 +126,7 @@ const OfferCard = ({
   };
 
   const IconComponent =
-    showInfoBox && mapCode[showInfoBox].icon
+    showInfoBox && mapCode[showInfoBox] && mapCode[showInfoBox].icon
       ? mapCode[showInfoBox].icon
       : React.Fragment;
 

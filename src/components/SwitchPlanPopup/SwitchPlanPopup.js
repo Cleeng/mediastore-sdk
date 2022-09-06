@@ -153,6 +153,23 @@ const SwitchPlanPopup = ({
                   on a recurring basis until you cancel.
                 </Trans>
               )}
+              {toOffer.algorithm ===
+                'IMMEDIATE_AND_CHARGE_WITH_FULL_REFUND' && (
+                <Trans i18nKey="switchplanpopup-info-immediateandchargewithfullrefund">
+                  You will be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  You will also be fully refunded for your previous
+                  subscription. You will continue to be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  plus applicable taxes on a recurring basis until you cancel.
+                </Trans>
+              )}
               {toOffer.algorithm === 'DEFERRED' && (
                 <Trans i18nKey="switchplanpopup-info-deferred">
                   You will have access to{' '}
@@ -285,6 +302,22 @@ const SwitchPlanPopup = ({
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (
                 <Trans i18nKey="switchplanpopup-confirm-immediateandchargefullprice">
+                  You have successfully changed your plan to{' '}
+                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
+                  will be{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  starting from{' '}
+                  <strong>
+                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                  </strong>
+                </Trans>
+              )}
+              {toOffer.algorithm ===
+                'IMMEDIATE_AND_CHARGE_WITH_FULL_REFUND' && (
+                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithfullrefund">
                   You have successfully changed your plan to{' '}
                   <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
                   will be{' '}
