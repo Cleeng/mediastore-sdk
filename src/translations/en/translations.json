@@ -301,5 +301,9 @@
   "Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{switchTitle}} renews automatically. You can cancel anytime.": "Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{switchTitle}} renews automatically. You can cancel anytime.",
   "How about a plan switch instead of cancellation?": "How about a plan switch instead of cancellation?",
   "Here are the plans that might match your needs:": "Here are the plans that might match your needs:",
-  "Or still wants to cancel a subscription?": "Or still wants to cancel a subscription?"
+  "Or still wants to cancel a subscription?": "Or still wants to cancel a subscription?",
+  "Stop switch": "Stop switch",
+  "Switch stopped": "Switch stopped",
+  "Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to stop the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.": "Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to stop the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.",
+  "You have successfully stopped your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}.": "You have successfully stopped your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}."
 }
