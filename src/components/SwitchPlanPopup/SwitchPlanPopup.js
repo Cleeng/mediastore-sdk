@@ -168,6 +168,23 @@ const SwitchPlanPopup = ({
                   on a recurring basis and have access to your new subscription.
                 </Trans>
               )}
+              {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (
+                <Trans i18nKey="switchplanpopup-info-immediateandchargefullprice">
+                  You will be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  and immediately granted access to the selected plan. The
+                  remaining value from the previous subscription won`t be
+                  refunded. You will continue to be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  plus applicable taxes on a recurring basis until you cancel.
+                </Trans>
+              )}
               <br />
               {toOffer.couponNotApplicable && (
                 <>
@@ -264,6 +281,21 @@ const SwitchPlanPopup = ({
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>
                   .
+                </Trans>
+              )}
+              {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (
+                <Trans i18nKey="switchplanpopup-confirm-immediateandchargefullprice">
+                  You have successfully changed your plan to{' '}
+                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
+                  will be{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  starting from{' '}
+                  <strong>
+                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                  </strong>
                 </Trans>
               )}
             </TextStyled>
