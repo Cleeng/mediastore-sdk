@@ -13,6 +13,7 @@ import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
 import { getData } from 'util/appConfigHelper';
 import { periodMapper, dateFormat } from 'util/planHelper';
+import formatNumber from 'util/formatNumber';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
@@ -42,22 +43,33 @@ class Offer extends Component {
             customerCurrencySymbol
           },
           orderDetails: {
-            priceBreakdown: { offerPrice }
+            priceBreakdown: { offerPrice },
+            taxRate,
+            country
           }
         } = this.props;
+        const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
+        let taxCopy = 'VAT';
+        if (country === 'US') taxCopy = 'Tax';
         const periodText = periodMapper[period].chargedForEveryText;
         const trialPeriodText = freeDays
           ? `${freeDays} days`
           : `${freePeriods > 1 ? `${freePeriods} ${period}s` : period}`;
         if (trialAvailable) {
           return t(
-            `You will be charged {{customerCurrencySymbol}}{{offerPrice}} after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.`,
-            { customerCurrencySymbol, offerPrice, trialPeriodText, periodText }
+            `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.`,
+            {
+              customerCurrencySymbol,
+              grossPrice,
+              taxCopy,
+              trialPeriodText,
+              periodText
+            }
           );
         }
         return t(
-          `You will be charged {{customerCurrencySymbol}}{{offerPrice}} for every {{periodText}}.`,
-          { customerCurrencySymbol, offerPrice, periodText }
+          `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) for every {{periodText}}.`,
+          { customerCurrencySymbol, grossPrice, taxCopy, periodText }
         );
       }
       case 'P': {
@@ -116,7 +128,9 @@ class Offer extends Component {
         },
         discount: { applied },
         totalPrice,
-        requiredPaymentDetails
+        requiredPaymentDetails,
+        taxRate,
+        country
       },
       couponProps: {
         showMessage,
@@ -163,7 +177,7 @@ class Offer extends Component {
                         title={offerTitle}
                         description={this.generateDescription(offerType)}
                         currency={customerCurrencySymbol}
-                        price={offerPrice}
+                        price={offerPrice + taxRate * offerPrice}
                         isTrialAvailable={trialAvailable}
                         offerType={offerType}
                       />
@@ -190,6 +204,8 @@ class Offer extends Component {
                   paymentMethodFee={paymentMethodFee}
                   customerCurrencySymbol={customerCurrencySymbol}
                   offerPrice={offerPrice}
+                  taxRate={taxRate}
+                  country={country}
                 />
               </StyledOfferBody>
               <Payment
@@ -228,6 +244,7 @@ Offer.propTypes = {
     startTime: PropTypes.number
   }).isRequired,
   orderDetails: PropTypes.shape({
+    country: PropTypes.string,
     priceBreakdown: PropTypes.shape({
       offerPrice: PropTypes.number,
       discountedPrice: PropTypes.number,
@@ -240,7 +257,8 @@ Offer.propTypes = {
       applied: PropTypes.bool
     }),
     totalPrice: PropTypes.number,
-    requiredPaymentDetails: PropTypes.bool
+    requiredPaymentDetails: PropTypes.bool,
+    taxRate: PropTypes.number
   }),
   couponProps: PropTypes.shape({
     showMessage: PropTypes.bool,
