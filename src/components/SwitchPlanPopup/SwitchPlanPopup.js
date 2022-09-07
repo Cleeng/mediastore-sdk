@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation, Trans } from 'react-i18next';
@@ -10,6 +9,7 @@ import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
 import { dateFormat } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
+import { ReactComponent as Close } from 'assets/images/errors/close.svg';
 
 import {
   ContentStyled,
@@ -96,23 +96,15 @@ const SwitchPlanPopup = ({
     );
   }
 
-  const fromOfferTitle = fromOffer.offerTitle;
-  const fromExpiresAt = dateFormat(fromOffer.expiresAt);
-
-  const toOfferTitle = toOffer.title;
-  const toNextPaymentPrice = toOffer.nextPaymentPrice;
-  const toNextPaymentPriceCurrencySymbol = toOffer.nextPaymentPriceCurrencySymbol;
-
   return (
     <InnerPopupWrapper
       steps={isPartOfCancellationFlow ? 3 : 2}
       popupTitle={t('Change Plan')}
-      isError={isError}
       currentStep={
         isPartOfCancellationFlow ? STEPS_NUMBERS[step] + 1 : STEPS_NUMBERS[step]
       }
     >
-      {step === STEPS.SWITCH_DETAILS && (
+      {step === STEPS.SWITCH_DETAILS && !isError && (
         <>
           <ContentStyled>
             <ImageWrapper>
@@ -125,14 +117,98 @@ const SwitchPlanPopup = ({
             </ImageWrapper>
             <TitleStyled step={step}>{t(toOffer.switchDirection)}</TitleStyled>
             <TextStyled step={step}>
-              <Trans>
-                You are about to change your plan from <b>{{ fromOfferTitle }}</b> to <b>{{ toOfferTitle }}</b>. You will be charged the new price <b>{{ toNextPaymentPriceCurrencySymbol }}{{ toNextPaymentPrice }}</b> on your next billing date <b>{{ fromExpiresAt }}</b>.
-              </Trans>
+              <Trans i18nKey="switchplanpopup-info">
+                You are about to change your plan from{' '}
+                <strong>{{ fromOfferTitle: fromOffer.offerTitle }}</strong> to{' '}
+                <strong>{{ toOfferTitle: toOffer.title }}</strong>.
+              </Trans>{' '}
+              {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
+                <Trans i18nKey="switchplanpopup-info-immediatewithoutproration">
+                  You will be immediately granted with access to your selected
+                  plan and charged a new price{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  on your next billing date{' '}
+                  <strong>
+                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                  </strong>
+                </Trans>
+              )}
+              {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_WITH_REFUND' && (
+                <Trans i18nKey="switchplanpopup-info-immediateandchargewithrefund">
+                  You will be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  and immediately granted with access to your selected plan. The
+                  remaining value from the previous subscription will be
+                  refunded. You will continue to be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  on a recurring basis until you cancel.
+                </Trans>
+              )}
+              {toOffer.algorithm ===
+                'IMMEDIATE_AND_CHARGE_WITH_FULL_REFUND' && (
+                <Trans i18nKey="switchplanpopup-info-immediateandchargewithfullrefund">
+                  You will be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  You will also be fully refunded for your previous
+                  subscription. You will continue to be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  plus applicable taxes on a recurring basis until you cancel.
+                </Trans>
+              )}
+              {toOffer.algorithm === 'DEFERRED' && (
+                <Trans i18nKey="switchplanpopup-info-deferred">
+                  You will have access to{' '}
+                  <strong>{{ currentPlan: fromOffer.offerTitle }}</strong> until{' '}
+                  <strong>
+                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                  </strong>{' '}
+                  and from that time you will be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  on a recurring basis and have access to your new subscription.
+                </Trans>
+              )}
+              {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (
+                <Trans i18nKey="switchplanpopup-info-immediateandchargefullprice">
+                  You will be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  and immediately granted access to the selected plan. The
+                  remaining value from the previous subscription won`t be
+                  refunded. You will continue to be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  plus applicable taxes on a recurring basis until you cancel.
+                </Trans>
+              )}
               <br />
-              { toOffer.couponNotApplicable && (
+              {toOffer.couponNotApplicable && (
                 <>
                   <br />
-                  {t('Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.')}
+                  {t(
+                    'Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.'
+                  )}
                   <br />
                 </>
               )}
@@ -173,23 +249,114 @@ const SwitchPlanPopup = ({
           </ButtonWrapperStyled>
         </>
       )}
-      {step === STEPS.CONFIRMATION && (
+      {step === STEPS.CONFIRMATION && !isError && (
         <>
           <ContentStyled>
             <ImageWrapper>
               <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
             </ImageWrapper>
-            <TitleStyled step={step}>{t('Thank you')}</TitleStyled>
+            <TitleStyled step={step}>{t('Thank you!')}</TitleStyled>
+            <TextStyled step={step}>
+              {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
+                <Trans i18nKey="switchplanpopup-confirm-immediatewithoutproration">
+                  You have successfully changed your plan to{' '}
+                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
+                  will be{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  starting from{' '}
+                  <strong>
+                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                  </strong>
+                  .
+                </Trans>
+              )}
+              {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_WITH_REFUND' && (
+                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithrefund">
+                  You have successfully changed your plan to{' '}
+                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee is{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  starting from now.
+                </Trans>
+              )}
+              {toOffer.algorithm === 'DEFERRED' && (
+                <Trans i18nKey="switchplanpopup-confirm-deferred">
+                  You have successfully requested the switch to{' '}
+                  <strong>{{ newPlan: toOffer.title }}</strong>. You will have
+                  access to your new plan on{' '}
+                  <strong>
+                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                  </strong>{' '}
+                  and be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>
+                  .
+                </Trans>
+              )}
+              {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (
+                <Trans i18nKey="switchplanpopup-confirm-immediateandchargefullprice">
+                  You have successfully changed your plan to{' '}
+                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
+                  will be{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  starting from{' '}
+                  <strong>
+                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                  </strong>
+                </Trans>
+              )}
+              {toOffer.algorithm ===
+                'IMMEDIATE_AND_CHARGE_WITH_FULL_REFUND' && (
+                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithfullrefund">
+                  You have successfully changed your plan to{' '}
+                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
+                  will be{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  starting from{' '}
+                  <strong>
+                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                  </strong>
+                </Trans>
+              )}
+            </TextStyled>
+          </ContentStyled>
+          <ButtonWrapperStyled>
+            <Button
+              theme="confirm"
+              onClickFn={onSwitchSuccess || closePopupAndRefresh}
+            >
+              {t('Back to settings')}
+            </Button>
+          </ButtonWrapperStyled>
+        </>
+      )}
+      {isError && (
+        <>
+          <ContentStyled>
+            <ImageWrapper>
+              <Close />
+            </ImageWrapper>
+            <TitleStyled step={step}>{t('An error occurred.')}</TitleStyled>
             <TextStyled step={step}>
               {t(
-                'You have successfully changed your plan. Your new fee will be '
+                'We have been unable to change your plan to {{ title }} as an error occurred. Sorry for the inconvenience, please try again.',
+                {
+                  title: toOffer.title
+                }
               )}
-              <strong>
-                {toOffer.nextPaymentPriceCurrencySymbol}
-                {toOffer.nextPaymentPrice}
-              </strong>{' '}
-              {t('starting from ')}
-              <strong> {dateFormat(fromOffer.expiresAt)}</strong>.
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
