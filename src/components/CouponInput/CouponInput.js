@@ -157,7 +157,12 @@ class CouponInput extends Component {
             aria-label={t('Your coupon')}
             aria-required={false}
           />
-          <Button width="auto" onClickFn={() => this.onRedeemClick()}>
+          <Button
+            width="auto"
+            onClickFn={async () => {
+              await this.onRedeemClick();
+            }}
+          >
             <>
               {couponLoading && <Loader buttonLoader color="#ffffff" />}
               {!couponLoading && isOpened && t('Redeem')}
