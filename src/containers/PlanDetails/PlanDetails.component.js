@@ -9,6 +9,7 @@ import CurrentPlan from 'components/CurrentPlan';
 import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
+import CancelSwitchPopup from 'components/CancelSwitchPopup';
 import getSwitch from 'api/Customer/getSwitch';
 import { WrapStyled } from './PlanDetailsStyled';
 
@@ -87,8 +88,9 @@ const PlanDetails = ({
         offersWithPendingSwitches.forEach(subscription => {
           getSwitch(subscription.pendingSwitchId).then(resp =>
             setSwitchDetails({
-              switchId: subscription.pendingSwitchId,
-              switchDetails: resp.responseData
+              details: {
+                [subscription.pendingSwitchId]: resp.responseData
+              }
             })
           );
         });
@@ -143,6 +145,16 @@ const PlanDetails = ({
             hideInnerPopup={hideInnerPopup}
             updateList={updateList}
             isPartOfCancellationFlow={innerPopup.data.isPartOfCancellationFlow}
+          />
+        );
+      case 'cancelSwitch':
+        return (
+          <CancelSwitchPopup
+            showInnerPopup={showInnerPopup}
+            hideInnerPopup={hideInnerPopup}
+            popupData={innerPopup.data}
+            updateList={updateList}
+            setSwitchDetails={setSwitchDetails}
           />
         );
       default:

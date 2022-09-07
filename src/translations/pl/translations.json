@@ -294,5 +294,8 @@
   "Just click to share.": "",
   "If you choose your plan, you will be able to manage your offers here.": "Jeśli wybierzesz plan, będziesz mógł nim zarządzać tutaj.",
   "myaccount-nooffers-withlink": "Jeśli <2>wybierzesz plan</2>, będziesz mógł nim zarządzać tutaj.",
-  "Your switch is pending. You will have access to {{title}} until {{subscriptionExpirationDate}}. From that time you will be charged a new price and have access to {{switchTitle}}. You can cancel anytime.": "Twoja zmiana planu jest w trakcie realizacji. Dostęp do {{title}} będzie ważny do {{subscriptionExpirationDate}}. Od tego czasu twoja opłata się zmieni i będziesz miał dostęp do {{switchTitle}}. Możesz anulować zmienę kiedy chcesz."
+  "Stop switch": "Stop switch",
+  "Switch stopped": "Switch stopped",
+  "Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to stop the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.": "Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to stop the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.",
+  "You have successfully stopped your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}.": "You have successfully stopped your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}."
 }

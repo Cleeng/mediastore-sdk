@@ -179,6 +179,8 @@ class CurrentPlan extends PureComponent {
                     showInfoBox={this.getInfoBoxType(subItem)}
                     paymentMethod={subItem.paymentMethod}
                     pendingSwitchId={subItem.pendingSwitchId}
+                    expiresAt={dateFormat(subItem.expiresAt)}
+                    showInnerPopup={showInnerPopup}
                   />
                   {isMessageBoxOpened &&
                     messageSubscriptionId === subItem.subscriptionId && (

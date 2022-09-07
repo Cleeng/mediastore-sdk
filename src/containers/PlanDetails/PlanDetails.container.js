@@ -4,7 +4,8 @@ import {
   updateList,
   setOfferToSwitch,
   setSwitchSettings,
-  setSwitchDetails
+  setSwitchDetails,
+  populateSwitchTitle
 } from 'redux/planDetails';
 import { showInnerPopup, hideInnerPopup } from 'redux/innerPopupReducer';
 
@@ -37,9 +38,11 @@ export const mapDispatchToProps = dispatch => {
     },
     setSwitchSettings: payload => {
       dispatch(setSwitchSettings(payload));
+      dispatch(populateSwitchTitle());
     },
     setSwitchDetails: payload => {
       dispatch(setSwitchDetails(payload));
+      dispatch(populateSwitchTitle());
     }
   };
 };
