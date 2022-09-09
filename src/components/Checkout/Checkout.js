@@ -9,6 +9,8 @@ import CheckoutConsents from 'components/CheckoutConsents';
 import OfferContainer from 'containers/OfferContainer';
 import ThankYouPage from 'components/ThankYouPage';
 import Auth from 'services/auth';
+import PasswordResetSuccess from 'components/PasswordResetSuccess';
+import { getData } from 'util/appConfigHelper';
 
 const CheckoutSteps = {
   LOGIN: {
@@ -30,6 +32,10 @@ const CheckoutSteps = {
   PURCHASE: {
     stepNumber: 4,
     nextStep: 5
+  },
+  PASSWORD_SUCCESS: {
+    stepNumber: 6,
+    nextStep: 7
   }
 };
 
@@ -57,7 +63,12 @@ class Checkout extends Component {
 
   render() {
     const { currentStep } = this.state;
-    const { onSuccess, offerId, availablePaymentMethods } = this.props;
+    const {
+      onSuccess,
+      offerId,
+      availablePaymentMethods,
+      resetPasswordCallback
+    } = this.props;
 
     switch (currentStep) {
       case 0:
@@ -98,7 +109,20 @@ class Checkout extends Component {
       case 5:
         return <ThankYouPage onSuccess={() => onSuccess()} />;
       case 6:
-        return <PasswordReset />;
+        return (
+          <PasswordReset
+            onSuccess={() =>
+              this.goToStep(CheckoutSteps.PASSWORD_SUCCESS.nextStep)
+            }
+          />
+        );
+      case 7:
+        return (
+          <PasswordResetSuccess
+            email={getData('CLEENG_CUSTOMER_EMAIL')}
+            resetPasswordCallback={resetPasswordCallback}
+          />
+        );
       default:
         return null;
     }
@@ -114,13 +138,15 @@ Checkout.propTypes = {
       default: PropTypes.bool
     })
   ),
-  onSuccess: PropTypes.func
+  onSuccess: PropTypes.func,
+  resetPasswordCallback: PropTypes.func
 };
 
 Checkout.defaultProps = {
   offerId: null,
   availablePaymentMethods: null,
-  onSuccess: () => {}
+  onSuccess: () => {},
+  resetPasswordCallback: () => {}
 };
 
 export default Checkout;

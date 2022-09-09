@@ -51,11 +51,21 @@ export const PriceStyled = styled.span.attrs(() => ({
 export const PeriodStyled = styled.span.attrs(() => ({
   className: 'msd__subscription-price__period'
 }))`
-  margin: auto 0 0 5px;
+  margin: auto 0 auto 5px;
 
   font-size: ${TinyFont};
 `;
 
 export const InnerWrapper = styled.div`
   line-height: 1rem;
+`;
+
+export const AdditionalLabelStyled = styled.p.attrs(() => ({
+  className: 'msd__subscription-price__additional-label'
+}))`
+  font-size: 10px;
+  line-height: 10px;
+  text-align: right;
+  color: inherit;
+  margin-top: 2px;
 `;

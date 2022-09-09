@@ -48,11 +48,7 @@ class EditPassword extends PureComponent {
       isLoading: true
     });
     try {
-      const response = await resetPassword(
-        '',
-        customerEmail,
-        String(publisherId)
-      );
+      const response = await resetPassword(customerEmail, String(publisherId));
       if (!response.errors.length) {
         this.renderNextStep();
         this.setState({

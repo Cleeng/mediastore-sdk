@@ -16,6 +16,9 @@ export const setSwitchSettings = createAction(SET_SWITCH_SETTINGS);
 export const SET_SWITCH_DETAILS = 'SET_SWITCH_DETAILS';
 export const setSwitchDetails = createAction(SET_SWITCH_DETAILS);
 
+export const POPULATE_SWITCH_TITLE = 'POPULATE_SWITCH_TITLE';
+export const populateSwitchTitle = createAction(POPULATE_SWITCH_TITLE);
+
 const initialState = {
   currentPlan: [],
   updateList: false,
@@ -35,43 +38,42 @@ const paymentDetailsReducer = createReducer(initialState, {
     state.offerToSwitch = action.payload;
   },
   SET_SWITCH_DETAILS: (state, action) => {
-    if (state.switchSettings.available) {
-      const { title } = state.switchSettings.available.find(
-        item => item.toOfferId === action.payload.toOfferId
-      );
-      // save offer title in switchDetails object
-      state.switchDetails = {
-        ...state.switchDetails,
-        [action.payload.switchId]: {
-          ...action.payload.switchDetails,
-          title
-        }
-      };
+    const { details, type } = action.payload;
+    if (type === 'delete') {
+      delete state.switchDetails[details.pendingSwitchId];
     } else {
-      state.switchDetails = {
-        ...state.switchDetails,
-        [action.payload.switchId]: action.payload.switchDetails
-      };
+      state.switchDetails = Object.assign(state.switchDetails, details);
     }
   },
-
   SET_SWITCH_SETTINGS: (state, action) => {
     state.switchSettings[action.payload.offerId] = action.payload.settings;
-
-    // save offer title in switchDetails object
+  },
+  POPULATE_SWITCH_TITLE: state => {
+    const switchesToFulfill = [];
     Object.keys(state.switchDetails).forEach(pendingSwitchId => {
-      const switchDetailsFormSwitchSettings = action.payload.settings.available.find(
-        item =>
-          item.toOfferId === state.switchDetails[pendingSwitchId].toOfferId
-      );
-      if (
-        switchDetailsFormSwitchSettings &&
-        switchDetailsFormSwitchSettings.title
-      ) {
-        state.switchDetails[pendingSwitchId].title =
-          switchDetailsFormSwitchSettings.title;
+      if (!state.switchDetails[pendingSwitchId].title) {
+        switchesToFulfill.push(pendingSwitchId);
       }
     });
+    if (switchesToFulfill.length && state.switchSettings) {
+      switchesToFulfill.forEach(pendingSwitchId => {
+        Object.keys(state.switchSettings).forEach(offerId => {
+          const switchSettingsDetails = state.switchSettings[
+            offerId
+          ].available.find(
+            item =>
+              item.toOfferId === state.switchDetails[pendingSwitchId].toOfferId
+          );
+          if (switchSettingsDetails) {
+            const { title } = switchSettingsDetails;
+            state.switchDetails[pendingSwitchId] = {
+              ...state.switchDetails[pendingSwitchId],
+              title
+            };
+          }
+        });
+      });
+    }
   }
 });
 
