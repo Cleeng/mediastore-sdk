@@ -181,6 +181,7 @@ Config.setCheckoutPayPalUrls({
 - `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened. Accepts `offerId` with or without the country suffix, eg. `S531234647_PL`, `S531234647`.
 - `onSuccess` - function called after a successful checkout process.
 - `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have `id`, `methodName` and `paymentGateway`. Payment method can be selected as a default by adding default property.
+- `resetPasswordCallback` - function called after a successful reset password request, when user clicks 'Go back to the login page'
 
 **Usage**
 
@@ -203,6 +204,7 @@ const availablePaymentMethods = [
   onSuccess={() => console.log("success")}
   offerId={"S531234647_PL"}
   availablePaymentMethods={availablePaymentMethods}
+  resetPasswordCallback={() => console.log("redirect user to the login page")}
 />;
 ```
 
