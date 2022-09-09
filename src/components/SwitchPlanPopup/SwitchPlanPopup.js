@@ -160,14 +160,14 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
-                  </strong>{' '}
-                  You will also be fully refunded for your previous
+                  </strong>
+                  . You will also be fully refunded for your previous
                   subscription. You will continue to be charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>{' '}
-                  plus applicable taxes on a recurring basis until you cancel.
+                  on a recurring basis until you cancel.
                 </Trans>
               )}
               {toOffer.algorithm === 'DEFERRED' && (
@@ -199,7 +199,7 @@ const SwitchPlanPopup = ({
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>{' '}
-                  plus applicable taxes on a recurring basis until you cancel.
+                  on a recurring basis until you cancel.
                 </Trans>
               )}
               {toOffer.algorithm ===
