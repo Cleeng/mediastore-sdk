@@ -187,7 +187,19 @@ const OfferCard = ({
                 {showInfoBox === 'SWITCH' &&
                   switchDetails.algorithm === 'DEFERRED' && (
                     <SubBoxButtonStyled
-                      onClick={() =>
+                      onClick={() => {
+                        window.dispatchEvent(
+                          new CustomEvent(
+                            'MSSDK:cancel-switch-button-clicked',
+                            {
+                              detail: {
+                                pendingSwitchId,
+                                fromOfferId: switchDetails.fromOfferId,
+                                toOfferId: switchDetails.toOfferId
+                              }
+                            }
+                          )
+                        );
                         showInnerPopup({
                           type: POPUP_TYPES.cancelSwitch,
                           data: {
@@ -198,8 +210,8 @@ const OfferCard = ({
                             baseOfferExpirationDate: expiresAt,
                             baseOfferPrice: `${currency}${price}`
                           }
-                        })
-                      }
+                        });
+                      }}
                     >
                       {t('Stop switch')}
                     </SubBoxButtonStyled>

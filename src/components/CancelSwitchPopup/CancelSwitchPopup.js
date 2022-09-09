@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -33,7 +34,19 @@ const CancelSwitchPopup = ({
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
 
+  const planDetailsState = useSelector(state => state.planDetails);
+  const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
+  const eventsPayload = {
+    pendingSwitchId,
+    fromOfferId: switchDetails && switchDetails.fromOfferId,
+    toOfferId: switchDetails && switchDetails.toOfferId
+  };
   const cancelSwitch = async () => {
+    window.dispatchEvent(
+      new CustomEvent('MSSDK:cancel-switch-action-triggered', {
+        detail: eventsPayload
+      })
+    );
     setIsLoading(true);
     try {
       const resp = await updateSwitch(pendingSwitchId);
@@ -41,13 +54,28 @@ const CancelSwitchPopup = ({
         setIsLoading(false);
         setSwitchDetails({ details: { pendingSwitchId }, type: 'delete' });
         setStep(2);
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:cancel-switch-action-successful', {
+            detail: eventsPayload
+          })
+        );
       } else {
         setIsError(true);
         setIsLoading(false);
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:cancel-switch-action-failed', {
+            detail: { ...eventsPayload, reason: resp.errors[0] }
+          })
+        );
       }
     } catch {
       setIsError(true);
       setIsLoading(false);
+      window.dispatchEvent(
+        new CustomEvent('MSSDK:cancel-switch-action-failed', {
+          detail: eventsPayload
+        })
+      );
     }
   };
 
@@ -78,7 +106,17 @@ const CancelSwitchPopup = ({
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={hideInnerPopup}>
+            <Button
+              theme="simple"
+              onClickFn={() => {
+                window.dispatchEvent(
+                  new CustomEvent('MSSDK:cancel-switch-action-cancelled', {
+                    detail: eventsPayload
+                  })
+                );
+                hideInnerPopup();
+              }}
+            >
               {t('No, thanks')}
             </Button>
             <Button theme="danger" onClickFn={cancelSwitch}>
