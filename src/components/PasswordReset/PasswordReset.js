@@ -6,7 +6,6 @@ import Button from 'components/Button';
 import Header from 'components/Header';
 import Loader from 'components/Loader';
 import resetPassword from 'api/Auth/resetPassword';
-import saveOfferId from 'util/offerIdHelper';
 import labeling from 'containers/labeling';
 import Footer from 'components/Footer';
 import { getData } from 'util/appConfigHelper';
@@ -25,7 +24,6 @@ class PasswordReset extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      offerId: '',
       value: '',
       message: '',
       processing: false,
@@ -33,27 +31,16 @@ class PasswordReset extends Component {
     };
   }
 
-  componentDidMount() {
-    const { urlProps } = this.props;
-    if (urlProps.location) {
-      saveOfferId(urlProps.location, this.setOfferId);
-    } else {
-      this.setOfferId(getData('CLEENG_OFFER_ID'));
-    }
-  }
-
-  setOfferId = value => this.setState({ offerId: value });
-
   onSubmit = async e => {
     e.preventDefault();
     const publisherId = getData('CLEENG_PUBLISHER_ID');
-    const { value, offerId } = this.state;
+    const { value } = this.state;
     const { onSuccess, t } = this.props;
     if (this.validateFields()) {
       this.setState({
         processing: true
       });
-      const response = await resetPassword(offerId, value, publisherId);
+      const response = await resetPassword(value, publisherId);
       if (response.errors.length) {
         if (response.status === 429) {
           this.setState({

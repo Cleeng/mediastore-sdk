@@ -41,11 +41,12 @@ InnerPopupWrapper.propTypes = {
   popupTitle: PropTypes.string,
   currentStep: PropTypes.number.isRequired,
   children: PropTypes.node.isRequired,
-  isError: PropTypes.bool.isRequired
+  isError: PropTypes.bool
 };
 
 InnerPopupWrapper.defaultProps = {
-  popupTitle: ''
+  popupTitle: '',
+  isError: false
 };
 
 export default InnerPopupWrapper;

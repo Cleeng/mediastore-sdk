@@ -202,6 +202,17 @@ const SwitchPlanPopup = ({
                   plus applicable taxes on a recurring basis until you cancel.
                 </Trans>
               )}
+              {toOffer.algorithm ===
+                'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION' && (
+                <Trans i18nKey="switchplanpopup-info-immediateandchargewithoutproration">
+                  You will be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  and immediately granted with access to the selected plan.
+                </Trans>
+              )}
               <br />
               {toOffer.couponNotApplicable && (
                 <>
@@ -329,6 +340,19 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
                   </strong>
+                </Trans>
+              )}
+              {toOffer.algorithm ===
+                'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION' && (
+                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithoutproration">
+                  You have successfully changed your plan to{' '}
+                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
+                  will be{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  starting from now.
                 </Trans>
               )}
             </TextStyled>

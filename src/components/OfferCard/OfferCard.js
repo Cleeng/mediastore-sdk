@@ -61,6 +61,7 @@ const OfferCard = ({
             { subscriptionExpirationDate, switchTitle }
           );
         case 'IMMEDIATE_AND_CHARGE_WITH_REFUND':
+        case 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION':
           return t(
             `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{switchTitle}}. You can cancel anytime.`,
             { switchTitle }
@@ -173,7 +174,8 @@ const OfferCard = ({
         </PriceWrapperStyled>
       </WrapperStyled>
       {showInfoBox
-        ? mapCode[showInfoBox].text && (
+        ? mapCode[showInfoBox] &&
+          mapCode[showInfoBox].text && (
             <SubBoxStyled>
               <IconComponent />
               <SubBoxContentStyled>
