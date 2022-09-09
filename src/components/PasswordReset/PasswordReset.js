@@ -8,7 +8,7 @@ import Loader from 'components/Loader';
 import resetPassword from 'api/Auth/resetPassword';
 import labeling from 'containers/labeling';
 import Footer from 'components/Footer';
-import { getData } from 'util/appConfigHelper';
+import { getData, setData } from 'util/appConfigHelper';
 import {
   PasswordResetPageStyled,
   StyledTitle,
@@ -61,6 +61,7 @@ class PasswordReset extends Component {
           });
         }
       } else {
+        setData('CLEENG_CUSTOMER_EMAIL', value);
         onSuccess(value);
       }
     }

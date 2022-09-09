@@ -4,7 +4,7 @@ import * as colors from 'styles/variables';
 export const PasswordResetSuccessPageStyled = styled.div`
   width: 80%;
   margin: 0 auto;
-  padding: 40px 0;
+  padding: 40px 0 60px 0;
   text-align: center;
   line-height: 1.3em;
   font-size: 15px;
@@ -15,7 +15,7 @@ export const PasswordResetSuccessPageStyled = styled.div`
 
 export const StyledTitle = styled.div`
   font-size: 25px;
-  margin-top: 75px;
+  margin-top: 35px;
   margin-bottom: 25px;
   font-weight: 600;
 `;
@@ -36,9 +36,7 @@ export const StyledLink = styled.span`
 `;
 
 export const NoteStyled = styled.div`
-  margin: 35px 35px 0;
-  padding-top: 20px;
-  border-top: 1px ${colors.MediumGrey} solid;
+  margin: 5px auto 20px;
   font-size: 13px;
 `;
 
