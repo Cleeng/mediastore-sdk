@@ -230,8 +230,8 @@ const Unsubscribe = ({
                   t(`Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.`, { scheduledSwitchTitle })
                  : (<>
                     {offerDetails.inTrial
-                        ? t('Your <strong>{{offerTitle}}</strong> free trial will end on <strong>{{formattedExpiresAt}}</strong>.', { offerTitle, formattedExpiresAt })
-                        : t('Your <strong>{{offerTitle}}</strong> subscription is paid until <strong>{{formattedExpiresAt}}</strong>.', { offerTitle, formattedExpiresAt })}
+                        ? t('Your {{offerTitle}} free trial will end on {{formattedExpiresAt}}.', { offerTitle, formattedExpiresAt })
+                        : t('Your {{offerTitle}} subscription is paid until {{formattedExpiresAt}}.', { offerTitle, formattedExpiresAt })}
                   </>)
                   }
                   {' '}

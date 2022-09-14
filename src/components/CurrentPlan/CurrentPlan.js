@@ -49,7 +49,8 @@ class CurrentPlan extends PureComponent {
   // eslint-disable-next-line class-methods-use-this
   getInfoBoxType(subscription) {
     if (subscription.offerType !== 'S') return '';
-    if (subscription.pendingSwitchId) return 'SWITCH';
+    if (subscription.status === 'active' && subscription.pendingSwitchId)
+      return 'SWITCH';
     if (supportedPaymentGateways.includes(subscription.paymentGateway))
       return '';
     return 'INAPP_SUBSCRIPTION';
@@ -200,6 +201,7 @@ class CurrentPlan extends PureComponent {
                         showInnerPopup={showInnerPopup}
                         updateList={updateList}
                         showMessageBox={this.showMessageBox}
+                        setOfferToSwitch={setOfferToSwitch}
                       />
                     )}
                 </SubscriptionStyled>
