@@ -115,6 +115,12 @@ const OfferCard = ({
       ),
       icon: BlockedIcon
     },
+    SWITCH_IN_PROGRESS: {
+      text: t(
+        'Another switch is already in progress. Wait until the process finalization'
+      ),
+      icon: BlockedIcon
+    },
     INAPP_SUBSCRIPTION: {
       text: t(
         `${
