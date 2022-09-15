@@ -35,6 +35,7 @@ const SwitchPlanPopup = ({
   isPopupLoading,
   onCancel,
   onSwitchSuccess,
+  onSwitchError,
   isPartOfCancellationFlow,
   t
 }) => {
@@ -386,7 +387,7 @@ const SwitchPlanPopup = ({
           <ButtonWrapperStyled>
             <Button
               theme="confirm"
-              onClickFn={onSwitchSuccess || closePopupAndRefresh}
+              onClickFn={onSwitchError || closePopupAndRefresh}
             >
               {t('Back to settings')}
             </Button>
@@ -406,6 +407,7 @@ SwitchPlanPopup.propTypes = {
   t: PropTypes.func,
   onCancel: PropTypes.func,
   onSwitchSuccess: PropTypes.func,
+  onSwitchError: PropTypes.func,
   isPartOfCancellationFlow: PropTypes.bool,
   showInnerPopup: PropTypes.func
 };
@@ -420,6 +422,7 @@ SwitchPlanPopup.defaultProps = {
   t: k => k,
   onCancel: null,
   onSwitchSuccess: null,
+  onSwitchError: null,
   isPartOfCancellationFlow: false
 };
 
