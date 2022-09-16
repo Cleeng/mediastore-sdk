@@ -115,7 +115,8 @@ const SubscriptionSwitchesList = ({
                       detail: {
                         fromOfferId,
                         toOfferId: subItem.toOfferId,
-                        switchDirection: subItem.switchDirection
+                        switchDirection: subItem.switchDirection,
+                        algorithm: subItem.algorithm
                       }
                     })
                   );

@@ -63,13 +63,29 @@ const SwitchPlanPopup = ({
         toOffer.switchDirection
       );
       if (!resp.errors.length) {
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:switch-popup-action-successful', {
+            detail: {
+              fromOfferId: fromOffer.offerId,
+              toOfferId: toOffer.toOfferId,
+              switchDirection: toOffer.switchDirection,
+              algorithm: toOffer.algorithm
+            }
+          })
+        );
         setIsLoading(false);
         setStep(STEPS.CONFIRMATION);
       } else {
+        window.dispatchEvent(
+          new CustomEvent('MSSDK:switch-popup-action-failed', {
+            detail: { reason: resp.errors[0] }
+          })
+        );
         setError(true);
         setIsLoading(false);
       }
     } catch {
+      window.dispatchEvent(new CustomEvent('MSSDK:switch-popup-action-failed'));
       setError(true);
       setIsLoading(false);
     }
@@ -245,6 +261,16 @@ const SwitchPlanPopup = ({
                 } else if (onCancel) {
                   onCancel();
                 } else {
+                  window.dispatchEvent(
+                    new CustomEvent('MSSDK:switch-popup-action-cancelled', {
+                      detail: {
+                        fromOfferId: fromOffer.offerId,
+                        toOfferId: toOffer.toOfferId,
+                        switchDirection: toOffer.switchDirection,
+                        algorithm: toOffer.algorithm
+                      }
+                    })
+                  );
                   hideInnerPopup();
                 }
               }}
