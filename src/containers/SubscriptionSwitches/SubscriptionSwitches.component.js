@@ -22,6 +22,7 @@ const SubscriptionSwitches = ({
   toOfferId,
   onCancel,
   onSwitchSuccess,
+  onSwitchError,
   t
 }) => {
   const [isLoadingChangePlan, setIsLoadingChangePlan] = useState(false);
@@ -119,6 +120,7 @@ const SubscriptionSwitches = ({
           }
           onCancel={onCancel}
           onSwitchSuccess={onSwitchSuccess}
+          onSwitchError={onSwitchError}
           showInnerPopup={showInnerPopup}
         />
       </WrapStyled>
@@ -135,6 +137,7 @@ const SubscriptionSwitches = ({
           updateList={updateList}
           isPartOfCancellationFlow={innerPopup.data.isPartOfCancellationFlow}
           showInnerPopup={showInnerPopup}
+          onSwitchError={onSwitchError}
         />
       ) : (
         <>
@@ -167,6 +170,7 @@ SubscriptionSwitches.propTypes = {
   setOfferToSwitch: PropTypes.func,
   onCancel: PropTypes.func,
   onSwitchSuccess: PropTypes.func,
+  onSwitchError: PropTypes.func,
   t: PropTypes.func
 };
 
@@ -177,6 +181,7 @@ SubscriptionSwitches.defaultProps = {
   onCancel: null,
   onSwitchSuccess: null,
   toOfferId: '',
+  onSwitchError: null,
   t: k => k
 };
 
