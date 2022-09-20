@@ -119,7 +119,7 @@ describe('Offer', () => {
       );
       const description = wrapper.instance().generateDescription('S');
       expect(description).toMatch(
-        `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.`
+        `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{trialPeriodText}}. </br>Next payments will occur every {{periodText}}.`
       );
     });
     it('should generate description for season pass with specific end date', () => {
