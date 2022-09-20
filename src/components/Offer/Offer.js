@@ -57,7 +57,7 @@ class Offer extends Component {
           : `${freePeriods > 1 ? `${freePeriods} ${period}s` : period}`;
         if (trialAvailable) {
           return t(
-            `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{trialPeriodText}}. </br>Next payments will occur for every {{periodText}}.`,
+            `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{trialPeriodText}}. </br>Next payments will occur every {{periodText}}.`,
             {
               customerCurrencySymbol,
               grossPrice,

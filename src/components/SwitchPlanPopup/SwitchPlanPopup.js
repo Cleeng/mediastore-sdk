@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
+import formatNumber from 'util/formatNumber';
 
 import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
@@ -141,11 +142,13 @@ const SwitchPlanPopup = ({
               </Trans>{' '}
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
                 <Trans i18nKey="switchplanpopup-info-immediatewithoutproration">
-                  You will be immediately granted with access to your selected
-                  plan and charged a new price{' '}
+                  You will be immediately granted access to your selected plan
+                  and charged a new price{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>{' '}
                   on your next billing date{' '}
                   <strong>
@@ -158,14 +161,18 @@ const SwitchPlanPopup = ({
                   You will be charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>{' '}
                   and immediately granted with access to your selected plan. The
                   remaining value from the previous subscription will be
                   refunded. You will continue to be charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>{' '}
                   on a recurring basis until you cancel.
                 </Trans>
@@ -176,30 +183,36 @@ const SwitchPlanPopup = ({
                   You will be charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>
                   . You will also be fully refunded for your previous
                   subscription. You will continue to be charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>{' '}
                   on a recurring basis until you cancel.
                 </Trans>
               )}
               {toOffer.algorithm === 'DEFERRED' && (
                 <Trans i18nKey="switchplanpopup-info-deferred">
-                  You will have access to{' '}
+                  You will continue to have access to{' '}
                   <strong>{{ currentPlan: fromOffer.offerTitle }}</strong> until{' '}
                   <strong>
                     {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
-                  </strong>{' '}
-                  and from that time you will be charged{' '}
+                  </strong>
+                  . From that time you will be charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>{' '}
-                  on a recurring basis and have access to your new subscription.
+                  on a recurring basis for your new subscription.
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (
@@ -207,14 +220,18 @@ const SwitchPlanPopup = ({
                   You will be charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>{' '}
                   and immediately granted access to the selected plan. The
                   remaining value from the previous subscription won`t be
                   refunded. You will continue to be charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>{' '}
                   on a recurring basis until you cancel.
                 </Trans>
@@ -225,7 +242,9 @@ const SwitchPlanPopup = ({
                   You will be charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>{' '}
                   and immediately granted with access to the selected plan.
                 </Trans>
@@ -302,7 +321,9 @@ const SwitchPlanPopup = ({
                   will be{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>{' '}
                   starting from{' '}
                   <strong>
@@ -317,7 +338,9 @@ const SwitchPlanPopup = ({
                   <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee is{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>{' '}
                   starting from now.
                 </Trans>
@@ -351,6 +374,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
                   </strong>
+                  .
                 </Trans>
               )}
               {toOffer.algorithm ===
@@ -367,6 +391,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
                   </strong>
+                  .
                 </Trans>
               )}
               {toOffer.algorithm ===

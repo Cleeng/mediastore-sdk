@@ -168,10 +168,10 @@ const Unsubscribe = ({
       {currentStep === STEPS.DOWNGRADES && (
         <ContentStyled>
           <TitleStyled>
-            {t('How about a plan switch instead of cancellation?')}
+            {t('How about a plan downgrade instead of cancellation?')}
           </TitleStyled>
           <TextStyled>
-            {t('Here are the plans that might match your needs:')}
+            {t('Here are the plans that might suit your needs:')}
           </TextStyled>
           <DowngradesWrapperStyled>
             {downgradesList.map(downgradeOffer => {
@@ -264,7 +264,7 @@ const Unsubscribe = ({
                   : cancelUnsubscribeAction()
               }
             >
-              {t('No, thanks')}
+              {t('Go back')}
             </Button>
             <Button
               theme="confirm"
