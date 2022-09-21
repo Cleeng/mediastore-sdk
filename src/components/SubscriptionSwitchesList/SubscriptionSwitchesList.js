@@ -1,6 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
@@ -13,6 +14,7 @@ import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
+import { periodMapper } from 'util/planHelper';
 import mapErrorToText from './helper';
 
 const SubscriptionSwitchesList = ({
@@ -24,6 +26,13 @@ const SubscriptionSwitchesList = ({
   fromOfferId,
   t
 }) => {
+  const planDetailsState = useSelector(state => state.planDetails);
+  const pendingSwtichesToOfferIdsArray = Object.keys(
+    planDetailsState.switchDetails
+  ).map(item => {
+    return planDetailsState.switchDetails[item].toOfferId;
+  });
+
   if (isLoading) {
     return <SkeletonCard />;
   }
@@ -34,14 +43,20 @@ const SubscriptionSwitchesList = ({
     return (
       <MyAccountError
         icon={selectPlanIcon}
-        title={t('Start by selecting the plan that would like to switch from')}
+        title={t('Click on the plan that you would like to switch from')}
         margin="0 auto"
       />
     );
   }
+
   const areAvailable = !!(
-    switchSettings.available && switchSettings.available.length
+    switchSettings.available &&
+    switchSettings.available.length &&
+    switchSettings.available.filter(
+      item => !pendingSwtichesToOfferIdsArray.includes(item.toOfferId)
+    ).length
   );
+
   const areUnAvailable = !!(
     switchSettings.unavailable && switchSettings.unavailable.length
   );
@@ -71,13 +86,23 @@ const SubscriptionSwitchesList = ({
       />
     );
   }
+  const availableSorted = [...switchSettings.available].sort(
+    (aOffer, bOffer) => bOffer.price - aOffer.price
+  );
+
   return (
     <>
       {areAvailable &&
-        switchSettings.available.map(subItem => (
-          <SubscriptionStyled key={subItem.toOfferId}>
+        availableSorted.map(subItem => (
+          <SubscriptionStyled
+            key={subItem.toOfferId}
+            hide={pendingSwtichesToOfferIdsArray.find(
+              item => item === subItem.toOfferId
+            )}
+          >
             <OfferCard
-              period={subItem.period}
+              period={periodMapper[subItem.period].chargedForEveryText}
+              offerType="S"
               title={subItem.title}
               currency={subItem.nextPaymentPriceCurrencySymbol}
               price={Math.round(subItem.nextPaymentPrice * 100) / 100}
@@ -90,7 +115,8 @@ const SubscriptionSwitchesList = ({
                       detail: {
                         fromOfferId,
                         toOfferId: subItem.toOfferId,
-                        switchDirection: subItem.switchDirection
+                        switchDirection: subItem.switchDirection,
+                        algorithm: subItem.algorithm
                       }
                     })
                   );
@@ -104,7 +130,7 @@ const SubscriptionSwitchesList = ({
                   });
                 }}
               >
-                {t('Choose')}
+                {subItem.switchDirection}
               </SimpleButtonStyled>
             </WrapperStyled>
           </SubscriptionStyled>
@@ -113,14 +139,17 @@ const SubscriptionSwitchesList = ({
         switchSettings.unavailable.map(subItem => (
           <SubscriptionStyled key={subItem.toOfferId}>
             <OfferCard
-              period={subItem.period}
+              period={periodMapper[subItem.period].chargedForEveryText}
+              offerType="S"
               title={subItem.title}
               currency={subItem.nextPaymentPriceCurrencySymbol}
               price={Math.round(subItem.nextPaymentPrice * 100) / 100}
               showInfoBox={subItem.reason.code}
             />
             <WrapperStyled>
-              <SimpleButtonStyled disabled>{t('Choose')}</SimpleButtonStyled>
+              <SimpleButtonStyled disabled>
+                {subItem.switchDirection}
+              </SimpleButtonStyled>
             </WrapperStyled>
           </SubscriptionStyled>
         ))}

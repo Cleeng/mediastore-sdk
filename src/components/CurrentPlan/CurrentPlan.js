@@ -46,6 +46,16 @@ class CurrentPlan extends PureComponent {
     };
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  getInfoBoxType(subscription) {
+    if (subscription.offerType !== 'S') return '';
+    if (subscription.status === 'active' && subscription.pendingSwitchId)
+      return 'SWITCH';
+    if (supportedPaymentGateways.includes(subscription.paymentGateway))
+      return '';
+    return 'INAPP_SUBSCRIPTION';
+  }
+
   showMessageBox = (type, text, subscriptionId) => {
     this.setState({
       messageBoxType: type,
@@ -167,13 +177,11 @@ class CurrentPlan extends PureComponent {
                     currency={currencyFormat[currency]}
                     price={price}
                     isMyAccount
-                    showInfoBox={
-                      subItem.offerType !== 'S' ||
-                      supportedPaymentGateways.includes(subItem.paymentGateway)
-                        ? ''
-                        : 'INAPP_SUBSCRIPTION'
-                    }
+                    showInfoBox={this.getInfoBoxType(subItem)}
                     paymentMethod={subItem.paymentMethod}
+                    pendingSwitchId={subItem.pendingSwitchId}
+                    expiresAt={dateFormat(subItem.expiresAt)}
+                    showInnerPopup={showInnerPopup}
                   />
                   {isMessageBoxOpened &&
                     messageSubscriptionId === subItem.subscriptionId && (
@@ -193,6 +201,7 @@ class CurrentPlan extends PureComponent {
                         showInnerPopup={showInnerPopup}
                         updateList={updateList}
                         showMessageBox={this.showMessageBox}
+                        setOfferToSwitch={setOfferToSwitch}
                       />
                     )}
                 </SubscriptionStyled>
@@ -247,6 +256,20 @@ CurrentPlan.propTypes = {
     totalPrice: PropTypes.number
   }),
   updateList: PropTypes.func.isRequired,
+  switchDetails: PropTypes.shape({
+    [PropTypes.string]: PropTypes.shape({
+      id: PropTypes.string,
+      customerId: PropTypes.number,
+      direction: PropTypes.string,
+      algorithm: PropTypes.string,
+      fromOfferId: PropTypes.string,
+      toOfferId: PropTypes.string,
+      subscriptionId: PropTypes.string,
+      status: PropTypes.string,
+      createdAt: PropTypes.number,
+      updatedAt: PropTypes.number
+    })
+  }),
   t: PropTypes.func
 };
 
@@ -255,6 +278,7 @@ CurrentPlan.defaultProps = {
   isLoading: false,
   errors: [],
   offerToSwitch: {},
+  switchDetails: {},
   t: k => k
 };
 

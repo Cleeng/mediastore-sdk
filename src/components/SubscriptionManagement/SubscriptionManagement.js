@@ -25,6 +25,7 @@ const SubscriptionManagement = ({
   updateList,
   showInnerPopup,
   showMessageBox,
+  setOfferToSwitch,
   t
 }) => {
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
@@ -97,6 +98,7 @@ const SubscriptionManagement = ({
               theme="simple"
               onClickFn={event => {
                 event.stopPropagation();
+                setOfferToSwitch(subscription);
                 showInnerPopup({
                   type: POPUP_TYPES.updateSubscription,
                   data: {
@@ -173,7 +175,8 @@ SubscriptionManagement.propTypes = {
   updateList: PropTypes.func,
   showInnerPopup: PropTypes.func,
   showMessageBox: PropTypes.func,
-  t: PropTypes.func
+  t: PropTypes.func,
+  setOfferToSwitch: PropTypes.func
 };
 
 SubscriptionManagement.defaultProps = {
@@ -181,7 +184,8 @@ SubscriptionManagement.defaultProps = {
   updateList: () => {},
   showInnerPopup: () => {},
   showMessageBox: () => {},
-  t: k => k
+  t: k => k,
+  setOfferToSwitch: () => {}
 };
 
 export { SubscriptionManagement as PureSubscriptionManagement };

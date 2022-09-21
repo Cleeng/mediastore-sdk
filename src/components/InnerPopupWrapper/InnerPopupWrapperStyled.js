@@ -1,5 +1,10 @@
 import styled, { css } from 'styled-components';
-import { FontColor, LineColor, ConfirmColor } from 'styles/variables';
+import {
+  FontColor,
+  LineColor,
+  ConfirmColor,
+  CardColor
+} from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 import Card from 'components/Card';
 
@@ -163,4 +168,45 @@ export const WarningMessageStyled = styled.p.attrs(() => ({
   font-size: 11px;
   margin: 15px 0 0 0;
   text-align: center;
+`;
+
+export const DowngradesWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__popup-content__downgrades-wrapper'
+}))``;
+
+export const OfferCardWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__popup-content__downgrade-wrapper'
+}))`
+  background: ${CardColor};
+  border: 1px solid ${LineColor};
+  border-radius: 12px;
+
+  padding: 15px;
+  max-width: 550px;
+
+  text-align: left;
+
+  ${props =>
+    props.onClick &&
+    css`
+      cursor: pointer;
+    `}
+
+  margin: 10px auto 10px auto;
+  &:last-child {
+    margin: 10px auto 40px auto;
+  }
+  &:hover {
+    transition: 0.3s ease-in-out;
+    border: 1px solid #606376;
+  }
+  .msd__subscription-text__title {
+    font-size: 12px;
+  }
+  .msd__subscription-price__amount {
+    font-size: 15px;
+  }
+  .msd__subscription-price__period {
+    font-size: 11px;
+  }
 `;

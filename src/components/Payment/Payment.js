@@ -254,7 +254,7 @@ class Payment extends Component {
             {discountApplied
               ? 'After any free trial and/or promotional period'
               : `By clicking 'Complete purchase'`}
-            , you will be charged {readablePrice} or then-current price plus
+            , you will be charged {readablePrice} or the then-current price plus
             applicable taxes on a recurring basis.{' '}
           </strong>
           {isInTrial &&

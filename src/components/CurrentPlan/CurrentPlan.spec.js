@@ -3,6 +3,7 @@
 import React from 'react';
 import { mount } from 'enzyme';
 import SubscriptionManagement from 'components/SubscriptionManagement';
+import * as redux from 'react-redux';
 import { PureCurrentPlan } from './CurrentPlan';
 import { SubscriptionStyled } from './CurrentPlanStyled';
 import 'jest-styled-components';
@@ -46,6 +47,15 @@ const planDetailsMock = [
 const showInnerPopupMock = jest.fn();
 const setOfferToSwitchMock = jest.fn();
 const updateList = jest.fn();
+
+const spy = jest.spyOn(redux, 'useSelector');
+spy.mockReturnValue({
+  currentPlan: [],
+  updateList: false,
+  offerToSwitch: {},
+  switchSettings: {},
+  switchDetails: {}
+});
 
 describe('<CurrentPlan/>', () => {
   afterEach(() => jest.clearAllMocks());

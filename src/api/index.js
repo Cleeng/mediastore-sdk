@@ -22,6 +22,7 @@ import submitConsents from './Customer/submitConsents';
 import getPaymentMethods from './Publisher/getPaymentMethods';
 import getConsents from './Publisher/getConsents';
 import getOrder from './Order/getOrder';
+import updateSwitch from './Customer/updateSwitch';
 
 export {
   getPaymentDetails,
@@ -47,5 +48,6 @@ export {
   submitConsents,
   getPaymentMethods,
   getConsents,
-  getOrder
+  getOrder,
+  updateSwitch
 };

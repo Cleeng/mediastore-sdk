@@ -5,6 +5,7 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import labeling from 'containers/labeling';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
+import { getData } from 'util/appConfigHelper';
 
 import {
   ThankYouPageWrapperStyled,
@@ -33,11 +34,9 @@ const ThankYouPage = ({ onSuccess, t }) => {
           <strong>{t('Your purchase has been successfully completed.')}</strong>
         </MessageStyled>
         <MessageStyled>
-          {t(
-            'We hope you love it. If you need help from us with your account, you can always find it'
-          )}
+          {t('We hope you love it. You can manage your account from')}
           <LinkStyled
-            href="https://www.cleeng.com"
+            href={getData('CLEENG_MY_ACCOUNT_URL')}
             target="_blank"
             rel="noopener noreferrer"
           >
