@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import jwtDecode from 'jwt-decode';
 import PropTypes from 'prop-types';
 import Offer from 'components/Offer';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
@@ -77,7 +78,10 @@ const OfferContainer = ({
         const {
           responseData: { order }
         } = orderResponse;
-        if (order.offerId === longOfferId) {
+        if (
+          order.offerId === longOfferId &&
+          order.customerId === jwtDecode(getData('CLEENG_AUTH_TOKEN'))
+        ) {
           setOrderDetails(order);
         } else {
           removeData('CLEENG_ORDER_ID');
