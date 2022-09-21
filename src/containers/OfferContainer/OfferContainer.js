@@ -78,10 +78,8 @@ const OfferContainer = ({
         const {
           responseData: { order }
         } = orderResponse;
-        if (
-          order.offerId === longOfferId &&
-          order.customerId === jwtDecode(getData('CLEENG_AUTH_TOKEN'))
-        ) {
+        const { customerId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
+        if (order.offerId === longOfferId && order.customerId === customerId) {
           setOrderDetails(order);
         } else {
           removeData('CLEENG_ORDER_ID');
