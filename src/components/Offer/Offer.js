@@ -68,7 +68,7 @@ class Offer extends Component {
           );
         }
         return t(
-          `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) for every {{periodText}}.`,
+          `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every {{periodText}}.`,
           { customerCurrencySymbol, grossPrice, taxCopy, periodText }
         );
       }
