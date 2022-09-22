@@ -94,7 +94,7 @@ describe('Offer', () => {
       const vodDescription = wrapper.instance().generateDescription('A');
 
       expect(subscriptionDescription).toMatch(
-        `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) for every {{periodText}}.`
+        `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every {{periodText}}.`
       );
       expect(eventDescription).toContain(
         'Pay-per-view event 11/6/2020 02:31 PM GMT+1'
