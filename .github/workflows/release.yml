@@ -27,6 +27,6 @@ jobs:
       - run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      - run: git push
+      - run: git push --force-with-lease
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
