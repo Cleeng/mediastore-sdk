@@ -28,6 +28,7 @@ const PlanDetails = ({
 }) => {
   const [isLoadingCurrentPlan, setIsLoadingCurrentPlan] = useState(false);
   const [isLoadingChangePlan, setIsLoadingChangePlan] = useState(false);
+  const [isSwitchInProgress, setIsSwitchInProgress] = useState(false);
   const [isErrorCurrentPlan, setIsErrorCurrentPlan] = useState([]);
   const [isErrorChangePlan, setIsErrorChangePlan] = useState([]);
   const didMount = useRef(false);
@@ -37,15 +38,16 @@ const PlanDetails = ({
       setOfferToSwitch({}); // reset previously saved offer to switch
     }
     const result = customerSubscriptions.map(offer =>
-      getAvailableSwitches(offer.offerId).then(response => {
+      getAvailableSwitches(offer.offerId).then(data => {
+        const { response, status } = data;
         if (!response.errors.length) {
           setSwitchSettings({
             offerId: offer.offerId,
             settings: response.responseData
           });
-        } else {
-          setIsErrorChangePlan(response.errors);
-        }
+        } else if (status === 404) {
+          setIsSwitchInProgress(true);
+        } else setIsErrorChangePlan(response.errors);
       })
     );
     await Promise.all(result)
@@ -194,8 +196,10 @@ const PlanDetails = ({
                 isOfferSelected={!!planDetails.offerToSwitch.offerId}
                 isLoading={
                   isLoadingChangePlan ||
-                  Object.keys(planDetails.switchSettings).length === 0
+                  (Object.keys(planDetails.switchSettings).length === 0 &&
+                    !isSwitchInProgress)
                 }
+                isSwitchInProgress={isSwitchInProgress}
                 errors={isErrorChangePlan || []}
                 fromOfferId={planDetails.offerToSwitch.offerId}
               />
