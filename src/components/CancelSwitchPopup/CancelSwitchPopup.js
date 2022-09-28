@@ -154,7 +154,7 @@ const CancelSwitchPopup = ({
                 hideInnerPopup();
               }}
             >
-              {t('Back to settings')}
+              {t('Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>

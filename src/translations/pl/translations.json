@@ -92,7 +92,7 @@
   "subscription is paid until ": "subskrypcja jest opłacona do ",
   "If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of {{formattedExpiresAt}}. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.": "Jeśli chesz zrezygnować z subskrypcji, kliknij 'Zrezygnuj', a Twoja subskrypcja zostanie wstrzymana {{formattedExpiresAt}}. Do tego czasu nadal będziesz posiadał dostęp do zawartości aktualnej sulbskrypcji. Zanim zrezygnujesz, powiedz nam jaki jest powód takiej decyzji.",
   "This plan will expire on {{expiresAtDate}": "Subskrypcja aktywna do {{expiresAtDate}",
-  "Back to settings": "Powrót do ustawień",
+  "Back to My Account": "Powrót do ustawień",
   "No, thanks": "Nie, dziękuje",
   "Resume your plan": "Odnów swoją subskrypcję",
   "By clicking the button below you can resume your plan. Your next bill will be on": "Klikając poniższy przycisk możesz odnowić subskrypcję. Twój kolejny rachunek będzie",

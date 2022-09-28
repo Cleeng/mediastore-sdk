@@ -133,7 +133,9 @@ const SwitchPlanPopup = ({
               <ArrowStyled />
               <SubscriptionIconStyled period={toOffer.period} showLabel="New" />
             </ImageWrapper>
-            <TitleStyled step={step}>{t(toOffer.switchDirection)}</TitleStyled>
+            <TitleStyled step={step} textTransform="capitalize">
+              {t(toOffer.switchDirection)}
+            </TitleStyled>
             <TextStyled step={step}>
               <Trans i18nKey="switchplanpopup-info">
                 You are about to change your plan from{' '}
@@ -409,7 +411,7 @@ const SwitchPlanPopup = ({
               theme="confirm"
               onClickFn={onSwitchSuccess || closePopupAndRefresh}
             >
-              {t('Back to settings')}
+              {t('Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>
@@ -435,7 +437,7 @@ const SwitchPlanPopup = ({
               theme="confirm"
               onClickFn={onSwitchError || closePopupAndRefresh}
             >
-              {t('Back to settings')}
+              {t('Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>

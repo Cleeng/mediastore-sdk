@@ -210,7 +210,7 @@ const Unsubscribe = ({
           </TextStyled>
           <ButtonWrapperStyled removeMargin>
             <Button theme="simple" onClickFn={hideInnerPopup}>
-              {t('Back to settings')}
+              {t('Back to My Account')}
             </Button>
             <Button
               theme="confirm"
@@ -295,7 +295,7 @@ const Unsubscribe = ({
               updateList();
             }}
           >
-            {t('Back to settings')}
+            {t('Back to My Account')}
           </Button>
         </ContentStyled>
       )}

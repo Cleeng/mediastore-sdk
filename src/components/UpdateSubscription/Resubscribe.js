@@ -109,7 +109,7 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
               updateList();
             }}
           >
-            {t('Back to settings')}
+            {t('Back to My Account')}
           </Button>
         </ContentStyled>
       )}
