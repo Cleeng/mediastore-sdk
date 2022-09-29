@@ -129,6 +129,7 @@ const SwitchPlanPopup = ({
               <SubscriptionIconStyled
                 period={fromOffer.period}
                 showLabel="Current"
+                gray
               />
               <ArrowStyled />
               <SubscriptionIconStyled period={toOffer.period} showLabel="New" />
