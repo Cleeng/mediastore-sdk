@@ -24,7 +24,7 @@ const Success = ({ hideInnerPopup }) => {
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
         <Button theme="simple" onClickFn={() => hideInnerPopup()}>
-          {t('Back to My Account')}
+          {t('Back to Payment Details')}
         </Button>
       </ButtonWrapperStyled>
     </>

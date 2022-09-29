@@ -68,7 +68,7 @@ const OfferCard = ({
           );
         case 'DEFERRED':
           return t(
-            `Your switch is pending. You will have access to {{title}} until {{subscriptionExpirationDate}}. From that time you will be charged a new price and have access to {{switchTitle}}. You can cancel anytime.`,
+            `Your switch is pending. You will have access to {{title}} until {{subscriptionExpirationDate}}. From that time you will be charged your new price and will have access to {{switchTitle}}. You can cancel this at any time.`,
             {
               title,
               subscriptionExpirationDate,
@@ -219,7 +219,7 @@ const OfferCard = ({
                         });
                       }}
                     >
-                      {t('Stop switch')}
+                      {t('Cancel switch')}
                     </SubBoxButtonStyled>
                   )}
               </SubBoxContentStyled>
