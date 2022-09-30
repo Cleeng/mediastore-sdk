@@ -82,17 +82,17 @@ const CancelSwitchPopup = ({
   return (
     <InnerPopupWrapper
       steps={2}
-      popupTitle={t('Stop switch')}
+      popupTitle={t('Cancel switch')}
       currentStep={step}
       isError={isError}
     >
       {step === 1 && (
         <>
           <ContentStyled>
-            <TitleStyled>{t('Stop switch')}</TitleStyled>
+            <TitleStyled>{t('Cancel switch')}</TitleStyled>
             <TextStyled>
               {t(
-                `Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to stop the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.`,
+                `Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to cancel the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.`,
                 {
                   switchDirection,
                   switchOfferTitle,
@@ -102,7 +102,7 @@ const CancelSwitchPopup = ({
               )}
               <br />
               <br />
-              {t('Are you sure you want to stop the switch?')}
+              {t('Are you sure you want to cancel the switch?')}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
@@ -123,7 +123,7 @@ const CancelSwitchPopup = ({
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t(`Stop switch`)
+                t(`Cancel switch`)
               )}
             </Button>
           </ButtonWrapperStyled>
@@ -133,10 +133,10 @@ const CancelSwitchPopup = ({
         <>
           <ContentStyled>
             <img src={checkmarkIconBase} alt="checkmark icon" />
-            <TitleStyled>{t('Switch stopped')}</TitleStyled>
+            <TitleStyled>{t('Switch canceled')}</TitleStyled>
             <TextStyled>
               {t(
-                `You have successfully stopped your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}.`,
+                `You have successfully canceled your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}.`,
                 {
                   switchDirection,
                   switchOfferTitle,
