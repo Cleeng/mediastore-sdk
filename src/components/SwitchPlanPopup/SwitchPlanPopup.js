@@ -168,7 +168,7 @@ const SwitchPlanPopup = ({
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
-                  and immediately granted with access to your selected plan. The
+                  and immediately granted access to your selected plan. The
                   remaining value from the previous subscription will be
                   refunded. You will continue to be charged{' '}
                   <strong>
@@ -248,7 +248,7 @@ const SwitchPlanPopup = ({
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
-                  and immediately granted with access to the selected plan.
+                  and immediately granted access to the selected plan.
                 </Trans>
               )}
               <br />
