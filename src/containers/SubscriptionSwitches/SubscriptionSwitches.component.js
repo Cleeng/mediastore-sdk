@@ -27,11 +27,13 @@ const SubscriptionSwitches = ({
 }) => {
   const [isLoadingChangePlan, setIsLoadingChangePlan] = useState(false);
   const [isErrorChangePlan, setIsErrorChangePlan] = useState([]);
+  const [isSwitchInProgress, setIsSwitchInProgress] = useState(false);
   const [switchSettingsError, setSwitchSettingsError] = useState(false);
 
   const fetchSwitchSettings = () => {
     getAvailableSwitches(offerId)
-      .then(response => {
+      .then(data => {
+        const { response, status } = data;
         if (!response.errors.length) {
           setSwitchSettings({
             offerId,
@@ -54,6 +56,8 @@ const SubscriptionSwitches = ({
               setSwitchSettingsError(true);
             }
           }
+        } else if (status === 404) {
+          setIsSwitchInProgress(true);
         } else {
           setIsErrorChangePlan(response.errors);
           setSwitchSettingsError(true);
@@ -148,8 +152,10 @@ const SubscriptionSwitches = ({
             isOfferSelected={!!offerId}
             isLoading={
               isLoadingChangePlan ||
-              Object.keys(planDetails.switchSettings).length === 0
+              (Object.keys(planDetails.switchSettings).length === 0 &&
+                !isSwitchInProgress)
             }
+            isSwitchInProgress={isSwitchInProgress}
             errors={isErrorChangePlan || []}
           />
         </>

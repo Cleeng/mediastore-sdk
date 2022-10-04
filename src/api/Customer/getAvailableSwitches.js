@@ -10,8 +10,11 @@ const getAvailableSwitches = async offerId => {
   const url = `${API_URL}/customers/${customerId}/subscription_switches/${offerId}/availability`;
   return fetchWithJWT(url, {
     method: 'GET'
-  }).then(res => {
-    return res.json();
+  }).then(requestRes => {
+    return requestRes.json().then(data => ({
+      response: data,
+      status: requestRes.status
+    }));
   });
 };
 

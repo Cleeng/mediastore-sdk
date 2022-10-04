@@ -12,6 +12,7 @@ import {
 import OfferCard from 'components/OfferCard';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
+import { ReactComponent as happyData } from 'assets/images/happyData.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { periodMapper } from 'util/planHelper';
@@ -23,6 +24,7 @@ const SubscriptionSwitchesList = ({
   isOfferSelected,
   isLoading,
   errors,
+  isSwitchInProgress,
   fromOfferId,
   t
 }) => {
@@ -44,6 +46,16 @@ const SubscriptionSwitchesList = ({
       <MyAccountError
         icon={selectPlanIcon}
         title={t('Click on the plan that you would like to switch from')}
+        margin="0 auto"
+      />
+    );
+  }
+  if (isSwitchInProgress) {
+    return (
+      <MyAccountError
+        icon={happyData}
+        title={t('Subscription switch in progress!')}
+        subtitle={t('Please try again in a few moments.')}
         margin="0 auto"
       />
     );
@@ -164,6 +176,7 @@ SubscriptionSwitchesList.propTypes = {
   showInnerPopup: PropTypes.func,
   isLoading: PropTypes.bool,
   fromOfferId: PropTypes.string,
+  isSwitchInProgress: PropTypes.bool,
   t: PropTypes.func
 };
 
@@ -173,6 +186,7 @@ SubscriptionSwitchesList.defaultProps = {
   errors: [],
   isLoading: false,
   fromOfferId: '',
+  isSwitchInProgress: false,
   t: k => k
 };
 
