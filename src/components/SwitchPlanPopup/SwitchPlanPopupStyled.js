@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import { LineColor } from 'styles/variables';
 
@@ -12,6 +12,11 @@ export const SubscriptionIconStyled = styled(SubscriptionIcon)`
 
   line-height: 70px;
   font-size: 30px;
+  ${props =>
+    props.gray &&
+    css`
+      filter: grayscale(80%);
+    `}
 `;
 
 export const ImageWrapper = styled.div`

@@ -105,7 +105,7 @@ export const TitleStyled = styled.h1.attrs(() => ({
   color: ${FontColor};
   font-weight: 600;
   text-transform: ${props =>
-    props.textTransform ? props.textTransform : 'capitalize'};
+    props.textTransform ? props.textTransform : 'none'};
   line-height: 1.2;
 
   ${media.small`

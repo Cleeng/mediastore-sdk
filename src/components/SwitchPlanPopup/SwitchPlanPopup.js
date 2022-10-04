@@ -129,11 +129,14 @@ const SwitchPlanPopup = ({
               <SubscriptionIconStyled
                 period={fromOffer.period}
                 showLabel="Current"
+                gray
               />
               <ArrowStyled />
               <SubscriptionIconStyled period={toOffer.period} showLabel="New" />
             </ImageWrapper>
-            <TitleStyled step={step}>{t(toOffer.switchDirection)}</TitleStyled>
+            <TitleStyled step={step} textTransform="capitalize">
+              {t(toOffer.switchDirection)}
+            </TitleStyled>
             <TextStyled step={step}>
               <Trans i18nKey="switchplanpopup-info">
                 You are about to change your plan from{' '}
@@ -165,7 +168,7 @@ const SwitchPlanPopup = ({
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
-                  and immediately granted with access to your selected plan. The
+                  and immediately granted access to your selected plan. The
                   remaining value from the previous subscription will be
                   refunded. You will continue to be charged{' '}
                   <strong>
@@ -245,7 +248,7 @@ const SwitchPlanPopup = ({
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
-                  and immediately granted with access to the selected plan.
+                  and immediately granted access to the selected plan.
                 </Trans>
               )}
               <br />
@@ -409,7 +412,7 @@ const SwitchPlanPopup = ({
               theme="confirm"
               onClickFn={onSwitchSuccess || closePopupAndRefresh}
             >
-              {t('Back to settings')}
+              {t('Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>
@@ -435,7 +438,7 @@ const SwitchPlanPopup = ({
               theme="confirm"
               onClickFn={onSwitchError || closePopupAndRefresh}
             >
-              {t('Back to settings')}
+              {t('Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>
