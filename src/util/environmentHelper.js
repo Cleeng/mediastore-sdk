@@ -3,8 +3,8 @@ import { getData } from 'util/appConfigHelper';
 const ENVIRONMENTS = {
   DEVELOPMENT: '',
   STAGING: 'https://hc0f1jaa70.execute-api.eu-west-1.amazonaws.com/staging',
-  SANDBOX: 'https://mediastore-sandbox.cleeng.com',
-  PRODUCTION: 'https://mediastore.cleeng.com'
+  SANDBOX: 'https://mediastoreapi-sandbox.cleeng.com',
+  PRODUCTION: 'https://mediastoreapi.cleeng.com'
 };
 
 const getApiURL = () => {
