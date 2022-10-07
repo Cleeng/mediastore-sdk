@@ -19,10 +19,18 @@ const isLocalStorageAvailable = () => {
   }
 };
 
-export const getData = name =>
-  isLocalStorageAvailable()
+export const getData = name => {
+  const result = isLocalStorageAvailable()
     ? localStorage.getItem(name)
     : store.getState().appConfig[name];
+  if (!result && name === 'CLEENG_AUTH_TOKEN') {
+    console.error(
+      `Unable to get CLEENG_AUTH_TOKEN from local storage or redux store`
+    );
+    return null;
+  }
+  return result;
+};
 
 export const setData = (name, value) =>
   isLocalStorageAvailable()
