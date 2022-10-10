@@ -324,4 +324,6 @@ MyAccount.defaultProps = {
   t: k => k
 };
 
+export { MyAccount as PureMyAccount };
+
 export default withTranslation()(labeling()(MyAccount));
