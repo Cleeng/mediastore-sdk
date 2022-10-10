@@ -192,6 +192,7 @@ class CurrentPlan extends PureComponent {
                     pendingSwitchId={subItem.pendingSwitchId}
                     expiresAt={dateFormat(subItem.expiresAt)}
                     showInnerPopup={showInnerPopup}
+                    offerId={subItem.offerId}
                   />
                   {isMessageBoxOpened &&
                     messageSubscriptionId === subItem.subscriptionId && (

@@ -115,7 +115,8 @@ class Offer extends Component {
         trialAvailable,
         period,
         expiresAt,
-        startTime
+        startTime,
+        offerId
       },
       orderDetails,
       orderDetails: {
@@ -161,6 +162,7 @@ class Offer extends Component {
               expiresAt={expiresAt}
               startTime={startTime}
               onPaymentComplete={onPaymentComplete}
+              offerId={offerId}
             />
           ) : (
             <>
@@ -180,6 +182,7 @@ class Offer extends Component {
                         price={offerPrice + taxRate * offerPrice}
                         isTrialAvailable={trialAvailable}
                         offerType={offerType}
+                        offerId={offerId}
                       />
                     </OfferCardWrapperStyled>
                     <StyledOfferCouponWrapper>
@@ -241,7 +244,8 @@ Offer.propTypes = {
     priceExclTax: PropTypes.number,
     priceExclTaxBeforeDiscount: PropTypes.number,
     errors: PropTypes.arrayOf(PropTypes.string),
-    startTime: PropTypes.number
+    startTime: PropTypes.number,
+    offerId: PropTypes.string
   }).isRequired,
   orderDetails: PropTypes.shape({
     country: PropTypes.string,

@@ -41,6 +41,7 @@ const OfferCard = ({
   pendingSwitchId,
   expiresAt,
   showInnerPopup,
+  offerId,
   t
 }) => {
   const planDetailsState = useSelector(state => state.planDetails);
@@ -53,7 +54,8 @@ const OfferCard = ({
           sub => sub.pendingSwitchId === pendingSwitchId
         ).expiresAt
       );
-      const { title: switchTitle } = switchDetails;
+      const { title: switchTitle, fromOfferId } = switchDetails;
+      const translatedTitle = t(`offerTitle-${fromOfferId}`, title);
       switch (switchDetails.algorithm) {
         case 'IMMEDIATE_WITHOUT_PRORATION':
           return t(
@@ -68,9 +70,9 @@ const OfferCard = ({
           );
         case 'DEFERRED':
           return t(
-            `Your switch is pending. You will have access to {{title}} until {{subscriptionExpirationDate}}. From that time you will be charged your new price and will have access to {{switchTitle}}. You can cancel this at any time.`,
+            `Your switch is pending. You will have access to {{translatedTitle}} until {{subscriptionExpirationDate}}. From that time you will be charged your new price and will have access to {{switchTitle}}. You can cancel this at any time.`,
             {
-              title,
+              translatedTitle,
               subscriptionExpirationDate,
               switchTitle
             }
@@ -152,7 +154,7 @@ const OfferCard = ({
             width={200}
             margin="0 0 10px 10px"
           >
-            <TitleStyled>{title}</TitleStyled>
+            <TitleStyled>{t(`offerTitle-${offerId}`, title)}</TitleStyled>
           </SkeletonWrapper>
           <SkeletonWrapper
             showChildren={isDataLoaded}
@@ -245,7 +247,8 @@ OfferCard.propTypes = {
   isMyAccount: PropTypes.bool,
   pendingSwitchId: PropTypes.string,
   expiresAt: PropTypes.string,
-  showInnerPopup: PropTypes.func
+  showInnerPopup: PropTypes.func,
+  offerId: PropTypes.string
 };
 
 OfferCard.defaultProps = {
@@ -263,7 +266,8 @@ OfferCard.defaultProps = {
   isMyAccount: false,
   pendingSwitchId: null,
   expiresAt: '',
-  showInnerPopup: () => {}
+  showInnerPopup: () => {},
+  offerId: ''
 };
 
 export { OfferCard as PureOfferCard };

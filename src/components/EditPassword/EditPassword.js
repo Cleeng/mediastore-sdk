@@ -76,7 +76,7 @@ class EditPassword extends PureComponent {
     return (
       <InnerPopupWrapper
         steps={2}
-        popupTitle="Edit Password"
+        popupTitle={t('Edit Password')}
         isError={isError}
         currentStep={step}
       >

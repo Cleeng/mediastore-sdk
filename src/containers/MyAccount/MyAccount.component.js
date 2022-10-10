@@ -2,7 +2,8 @@
 /* eslint-disable no-nested-ternary */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import MyAccountMenu from 'components/MyAccountMenu';
 import MyAccountUserInfo from 'components/MyAccountUserInfo';
 import MyAccountContent from 'components/MyAccountContent';
@@ -235,7 +236,8 @@ class MyAccount extends Component {
       userProfile: { user, consentsError },
       setConsents,
       popup: { isPopupShown, popupType, consents },
-      hidePopup
+      hidePopup,
+      t
     } = this.props;
     const { currentPage } = this.state;
 
@@ -263,7 +265,14 @@ class MyAccount extends Component {
                 firstName={user ? user.firstName : ''}
                 lastName={user ? user.lastName : ''}
                 email={user ? user.email : ''}
-                subscription={currentPlan[0] ? currentPlan[0].offerTitle : ''}
+                subscription={
+                  currentPlan[0]
+                    ? t(
+                        `offerTitle-${currentPlan[0].offerId}`,
+                        currentPlan[0].offerTitle
+                      )
+                    : ''
+                }
                 isDataLoaded={!!user && !!currentPlan}
               />
               <MyAccountMenu
@@ -281,8 +290,6 @@ class MyAccount extends Component {
     );
   }
 }
-
-export default MyAccount;
 
 MyAccount.propTypes = {
   setCurrentPlan: PropTypes.func.isRequired,
@@ -304,7 +311,8 @@ MyAccount.propTypes = {
   availablePaymentMethodIds: PropTypes.shape({
     adyen: PropTypes.number,
     paypal: PropTypes.number
-  })
+  }),
+  t: PropTypes.func
 };
 
 MyAccount.defaultProps = {
@@ -312,5 +320,8 @@ MyAccount.defaultProps = {
   planDetails: { currentPlan: [] },
   popup: { isPopupShown: false },
   customCancellationReasons: null,
-  availablePaymentMethodIds: null
+  availablePaymentMethodIds: null,
+  t: k => k
 };
+
+export default withTranslation()(labeling()(MyAccount));

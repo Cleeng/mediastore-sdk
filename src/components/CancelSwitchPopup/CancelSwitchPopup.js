@@ -20,8 +20,8 @@ const CancelSwitchPopup = ({
   popupData: {
     pendingSwitchId,
     switchDirection,
-    switchOfferTitle,
-    baseOfferTitle,
+    switchOfferTitle: untranslatedSwitchOfferTitle,
+    baseOfferTitle: untranslatedBaseOfferTitle,
     baseOfferExpirationDate,
     baseOfferPrice
   },
@@ -41,6 +41,16 @@ const CancelSwitchPopup = ({
     fromOfferId: switchDetails && switchDetails.fromOfferId,
     toOfferId: switchDetails && switchDetails.toOfferId
   };
+
+  const baseOfferTitle = t(
+    `offerTitle-${switchDetails && switchDetails.fromOfferId}`,
+    untranslatedBaseOfferTitle
+  );
+  const switchOfferTitle = t(
+    `offerTitle-${switchDetails && switchDetails.toOfferId}`,
+    untranslatedSwitchOfferTitle
+  );
+
   const cancelSwitch = async () => {
     window.dispatchEvent(
       new CustomEvent('MSSDK:cancel-switch-action-triggered', {
