@@ -25,7 +25,8 @@ export const ImageWrapper = styled.div`
   justify-content: center;
   align-items: center;
 
-  margin: 0 auto 40px auto;
+  padding-top: 10px;
+  margin: 10px auto 40px auto;
 `;
 
 export const ArrowStyled = styled.span`
