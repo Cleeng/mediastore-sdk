@@ -175,7 +175,11 @@ const OfferCard = ({
               <Price
                 currency={currency}
                 price={price}
-                period={offerType === 'S' ? period : null}
+                period={
+                  offerType === 'S'
+                    ? t(`offerPrice-period_${period}`, period)
+                    : null
+                }
               />
             )}
           </SkeletonWrapper>

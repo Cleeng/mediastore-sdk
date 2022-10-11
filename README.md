@@ -770,6 +770,8 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 
 ### <a id="Translations"></a><h2>Translations</h2>
 
+<b>This feature is during the development process. Some texts may not be ready for translation yet.</b>
+
 Translations allow you to add a new language version or to change default wording.
 Currently, `mediastore-sdk` components are available only in English.
 
