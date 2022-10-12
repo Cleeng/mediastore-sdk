@@ -33,6 +33,7 @@ const Unsubscribe = ({
   updateList,
   customCancellationReasons,
   showInnerPopup,
+  skipAvailableDowngradesStep,
   t
 }) => {
   const STEPS = {
@@ -83,6 +84,9 @@ const Unsubscribe = ({
         data: { offerData }
       }
     } = store.getState();
+    if (skipAvailableDowngradesStep) {
+      return false
+    };
     if (offerDetails.pendingSwitchId && scheduledSwitch().direction === 'downgrade'){
       return false;
     }
@@ -314,11 +318,13 @@ Unsubscribe.propTypes = {
       value: PropTypes.string.isRequired
     })
   ),
+  skipAvailableDowngradesStep: PropTypes.bool,
   t: PropTypes.func
 };
 
 Unsubscribe.defaultProps = {
   customCancellationReasons: null,
+  skipAvailableDowngradesStep: false,
   t: k => k
 };
 
