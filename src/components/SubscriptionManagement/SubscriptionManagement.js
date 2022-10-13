@@ -50,6 +50,14 @@ const SubscriptionManagement = ({
                 t('Your Coupon has been successfully reedemed.'),
                 subscriptionId
               );
+              window.dispatchEvent(
+                new CustomEvent('MSSDK:redeem-coupon-success', {
+                  detail: {
+                    coupon: couponValue,
+                    source: 'myaccount'
+                  }
+                })
+              );
               break;
             case 422:
               if (resp.errors.some(e => e.includes('not found')))
@@ -58,6 +66,14 @@ const SubscriptionManagement = ({
                 setErrorMsg('Coupon already used');
               setIsError(true);
               setIsLoading(false);
+              window.dispatchEvent(
+                new CustomEvent('MSSDK:redeem-coupon-failed', {
+                  detail: {
+                    coupon: couponValue,
+                    source: 'myaccount'
+                  }
+                })
+              );
               break;
             default:
               setErrorMsg('Invalid coupon code.');
@@ -67,6 +83,14 @@ const SubscriptionManagement = ({
           }
         })
         .catch(() => {
+          window.dispatchEvent(
+            new CustomEvent('MSSDK:redeem-coupon-failed', {
+              detail: {
+                coupon: couponValue,
+                source: 'myaccount'
+              }
+            })
+          );
           setErrorMsg('Ooops. Something went wrong.');
           setIsError(true);
           setIsLoading(false);
@@ -161,6 +185,7 @@ const SubscriptionManagement = ({
                 onChange={e => setCouponValue(e)}
                 onClose={() => setIsCouponInputOpened(val => !val)}
                 onInputToggle={() => setIsCouponInputOpened(val => !val)}
+                source="myaccount"
               />
             </CouponWrapStyled>
           )}

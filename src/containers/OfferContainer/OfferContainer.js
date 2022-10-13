@@ -127,7 +127,8 @@ const OfferContainer = ({
         window.dispatchEvent(
           new CustomEvent('MSSDK:redeem-coupon-failed', {
             detail: {
-              coupon: couponCode
+              coupon: couponCode,
+              source: 'checkout'
             }
           })
         );
@@ -142,7 +143,8 @@ const OfferContainer = ({
         window.dispatchEvent(
           new CustomEvent('MSSDK:redeem-coupon-success', {
             detail: {
-              coupon: couponCode
+              coupon: couponCode,
+              source: 'checkout'
             }
           })
         );
