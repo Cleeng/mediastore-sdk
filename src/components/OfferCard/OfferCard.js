@@ -55,7 +55,7 @@ const OfferCard = ({
         ).expiresAt
       );
       const { title: switchTitle, fromOfferId } = switchDetails;
-      const translatedTitle = t(`offerTitle-${fromOfferId}`, title);
+      const translatedTitle = t(`offer-title-${fromOfferId}`, title);
       switch (switchDetails.algorithm) {
         case 'IMMEDIATE_WITHOUT_PRORATION':
           return t(
@@ -154,7 +154,7 @@ const OfferCard = ({
             width={200}
             margin="0 0 10px 10px"
           >
-            <TitleStyled>{t(`offerTitle-${offerId}`, title)}</TitleStyled>
+            <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
           </SkeletonWrapper>
           <SkeletonWrapper
             showChildren={isDataLoaded}
@@ -177,7 +177,7 @@ const OfferCard = ({
                 price={price}
                 period={
                   offerType === 'S'
-                    ? t(`offerPrice-period_${period}`, period)
+                    ? t(`offer-price.period-${period}`, period)
                     : null
                 }
               />

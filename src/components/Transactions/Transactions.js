@@ -86,7 +86,7 @@ const Transactions = ({
               >
                 <LeftBoxStyled>
                   <TitleStyled>
-                    {t(`offerTitle-${subItem.offerId}`, subItem.offerTitle)}
+                    {t(`offer-title-${subItem.offerId}`, subItem.offerTitle)}
                   </TitleStyled>
                   <SubTitleStyled>
                     {t(`Paid with`)}{' '}

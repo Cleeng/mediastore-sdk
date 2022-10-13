@@ -152,8 +152,8 @@ const Unsubscribe = ({
 
   const { offerTitle, expiresAt , offerId} = offerDetails;
   const formattedExpiresAt = dateFormat(expiresAt);
-  const scheduledSwitchTitle = t(`offerTitle-${scheduledSwitch().toOfferId}`, scheduledSwitch().title);
-  const translatedTitle = t(`offerTitle-${offerId}`, offerTitle);
+  const scheduledSwitchTitle = t(`offer-title-${scheduledSwitch().toOfferId}`, scheduledSwitch().title);
+  const translatedTitle = t(`offer-title-${offerId}`, offerTitle);
   return (
     <InnerPopupWrapper
       steps={shouldShowDowngrades ? 3 : 2}

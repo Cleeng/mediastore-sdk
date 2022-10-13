@@ -100,7 +100,7 @@ class FreeOffer extends Component {
       <WrapStyled>
         <CardStyled>
           <SubscriptionIconStyled icon={icon} />
-          <TitleStyled>{t(`offerTitle-${offerId}`, title)}</TitleStyled>
+          <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
           <DescriptionStyled>
             {this.generateDescriptionForFreeOffer(period, expiresAt, startTime)}
           </DescriptionStyled>

@@ -74,7 +74,7 @@ class Offer extends Component {
               period
             )}`;
             return t(
-              `checkout-subscriptionDesc-trial_days-period_${period}`,
+              `subscription-desc.trial-days.period-${period}`,
               description,
               {
                 customerCurrencySymbol,
@@ -110,9 +110,9 @@ class Offer extends Component {
                 description = '';
             }
             return t(
-              `checkout-subscriptionDesc-trial_period${
+              `subscription-desc.trial-period${
                 freePeriods === 1 ? '' : 's'
-              }-period_${period}`,
+              }.period-${period}`,
               description,
               {
                 customerCurrencySymbol,
@@ -126,7 +126,7 @@ class Offer extends Component {
         const description = `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${this.getReadablePeriod(
           period
         )}`;
-        return t(`checkout-subscriptionDesc-period_${period}`, description, {
+        return t(`subscription-desc.period-${period}`, description, {
           customerCurrencySymbol,
           grossPrice,
           taxCopy
@@ -138,7 +138,7 @@ class Offer extends Component {
         } = this.props;
         if (!period) {
           const date = dateFormat(expiresAt, true);
-          return t('checkout-passDesc-date', `Access until {{date}}`, { date });
+          return t('pass-desc.date', `Access until {{date}}`, { date });
         }
         return periodMapper[period]
           ? `${periodMapper[period].accessText} season pass`

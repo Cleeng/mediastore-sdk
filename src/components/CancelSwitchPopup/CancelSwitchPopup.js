@@ -43,11 +43,11 @@ const CancelSwitchPopup = ({
   };
 
   const baseOfferTitle = t(
-    `offerTitle-${switchDetails && switchDetails.fromOfferId}`,
+    `offer-title-${switchDetails && switchDetails.fromOfferId}`,
     untranslatedBaseOfferTitle
   );
   const switchOfferTitle = t(
-    `offerTitle-${switchDetails && switchDetails.toOfferId}`,
+    `offer-title-${switchDetails && switchDetails.toOfferId}`,
     untranslatedSwitchOfferTitle
   );
 

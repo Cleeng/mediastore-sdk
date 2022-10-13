@@ -268,7 +268,7 @@ class MyAccount extends Component {
                 subscription={
                   currentPlan[0]
                     ? t(
-                        `offerTitle-${currentPlan[0].offerId}`,
+                        `offer-title-${currentPlan[0].offerId}`,
                         currentPlan[0].offerTitle
                       )
                     : ''

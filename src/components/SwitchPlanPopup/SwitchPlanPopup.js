@@ -143,7 +143,7 @@ const SwitchPlanPopup = ({
                 <strong>
                   {{
                     fromOfferTitle: t(
-                      `offerTitle-${fromOffer.offerId}`,
+                      `offer-title-${fromOffer.offerId}`,
                       fromOffer.offerTitle
                     )
                   }}
@@ -152,7 +152,7 @@ const SwitchPlanPopup = ({
                 <strong>
                   {{
                     toOfferTitle: t(
-                      `offerTitle-${toOffer.toOfferId}`,
+                      `offer-title-${toOffer.toOfferId}`,
                       toOffer.title
                     )
                   }}
@@ -223,7 +223,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{
                       currentPlan: t(
-                        `offerTitle-${fromOffer.offerId}`,
+                        `offer-title-${fromOffer.offerId}`,
                         fromOffer.offerTitle
                       )
                     }}
@@ -346,7 +346,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{
                       newPlan: t(
-                        `offerTitle-${toOffer.toOfferId}`,
+                        `offer-title-${toOffer.toOfferId}`,
                         toOffer.title
                       )
                     }}
@@ -371,7 +371,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{
                       newPlan: t(
-                        `offerTitle-${toOffer.toOfferId}`,
+                        `offer-title-${toOffer.toOfferId}`,
                         toOffer.title
                       )
                     }}
@@ -392,7 +392,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{
                       newPlan: t(
-                        `offerTitle-${toOffer.toOfferId}`,
+                        `offer-title-${toOffer.toOfferId}`,
                         toOffer.title
                       )
                     }}
@@ -415,7 +415,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{
                       newPlan: t(
-                        `offerTitle-${toOffer.toOfferId}`,
+                        `offer-title-${toOffer.toOfferId}`,
                         toOffer.title
                       )
                     }}
@@ -439,7 +439,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{
                       newPlan: t(
-                        `offerTitle-${toOffer.toOfferId}`,
+                        `offer-title-${toOffer.toOfferId}`,
                         toOffer.title
                       )
                     }}
@@ -459,7 +459,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{
                       newPlan: t(
-                        `offerTitle-${toOffer.toOfferId}`,
+                        `offer-title-${toOffer.toOfferId}`,
                         toOffer.title
                       )
                     }}
