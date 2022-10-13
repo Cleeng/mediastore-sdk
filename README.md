@@ -430,6 +430,10 @@ const availablePaymentMethods = [
 
 `Subscriptions` is a component that will list all subscriptions that are linked with a given logged in subscriber. There is an option to cancel or resume the selected subscription from the list of subscriptions.
 
+
+**Props**
+- `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+
 **Config methods**
 
 ```javascript
@@ -444,7 +448,7 @@ import { Subscriptions, store } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
 <Provider store={store}>
-  <Subscriptions />
+  <Subscriptions skipAvailableDowngradesStep />
 </Provider>;
 ```
 
