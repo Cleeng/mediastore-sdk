@@ -60,7 +60,7 @@ const Unsubscribe = ({
 
   const getDowngrades = () => {
     const { planDetails } = store.getState();
-    if (planDetails && planDetails.switchSettings) {
+    if (planDetails && Object.keys(planDetails.switchSettings).length) {
       const switchSettings = planDetails.switchSettings[offerDetails.offerId];
       const availableSorted = [...switchSettings.available]
         .filter(offer => offer.switchDirection === 'downgrade')
