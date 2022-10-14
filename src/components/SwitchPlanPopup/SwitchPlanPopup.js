@@ -425,11 +425,7 @@ const SwitchPlanPopup = ({
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>{' '}
-                  starting from{' '}
-                  <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
-                  </strong>
-                  .
+                  starting from now.
                 </Trans>
               )}
               {toOffer.algorithm ===
