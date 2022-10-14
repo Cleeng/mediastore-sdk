@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
@@ -42,12 +42,22 @@ const CancelSwitchPopup = ({
     toOfferId: switchDetails && switchDetails.toOfferId
   };
 
+  const [offerIdsFallback, setOfferIdsFallback] = useState({}); // required to keep translations in step 2
+  useEffect(() => {
+    if (switchDetails) {
+      setOfferIdsFallback({
+        fromOfferId: switchDetails && switchDetails.fromOfferId,
+        toOfferId: switchDetails && switchDetails.toOfferId
+      });
+    }
+  }, [switchDetails]);
+
   const baseOfferTitle = t(
-    `offer-title-${switchDetails && switchDetails.fromOfferId}`,
+    `offer-title-${offerIdsFallback.offerIdsFallback}`,
     untranslatedBaseOfferTitle
   );
   const switchOfferTitle = t(
-    `offer-title-${switchDetails && switchDetails.toOfferId}`,
+    `offer-title-${offerIdsFallback.toOfferId}`,
     untranslatedSwitchOfferTitle
   );
 
