@@ -54,27 +54,28 @@ const OfferCard = ({
           sub => sub.pendingSwitchId === pendingSwitchId
         ).expiresAt
       );
-      const { title: switchTitle, fromOfferId } = switchDetails;
+      const { title: switchTitle, fromOfferId, toOfferId } = switchDetails;
       const translatedTitle = t(`offer-title-${fromOfferId}`, title);
+      const translatedSwitchTitle = t(`offer-title-${toOfferId}`, switchTitle);
       switch (switchDetails.algorithm) {
         case 'IMMEDIATE_WITHOUT_PRORATION':
           return t(
-            `Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{switchTitle}} renews automatically. You can cancel anytime.`,
-            { subscriptionExpirationDate, switchTitle }
+            `Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{translatedSwitchTitle}} renews automatically. You can cancel anytime.`,
+            { subscriptionExpirationDate, translatedSwitchTitle }
           );
         case 'IMMEDIATE_AND_CHARGE_WITH_REFUND':
         case 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION':
           return t(
-            `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{switchTitle}}. You can cancel anytime.`,
-            { switchTitle }
+            `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{translatedSwitchTitle}}. You can cancel anytime.`,
+            { translatedSwitchTitle }
           );
         case 'DEFERRED':
           return t(
-            `Your switch is pending. You will have access to {{translatedTitle}} until {{subscriptionExpirationDate}}. From that time you will be charged your new price and will have access to {{switchTitle}}. You can cancel this at any time.`,
+            `Your switch is pending. You will have access to {{translatedTitle}} until {{subscriptionExpirationDate}}. From that time you will be charged your new price and will have access to {{translatedSwitchTitle}}. You can cancel this at any time.`,
             {
               translatedTitle,
               subscriptionExpirationDate,
-              switchTitle
+              translatedSwitchTitle
             }
           );
         default:
