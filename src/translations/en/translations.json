@@ -304,7 +304,7 @@
   "switchplanpopup-confirm-immediateandchargefullprice": "You have successfully changed your plan to <strong>{{ newPlan }}</strong>. Your new fee will be <strong>{{ currencySymbol }}{{ nextPaymentPrice }}</strong> starting from <strong>{{ expiresAt }}</strong>.",
   "switchplanpopup-confirm-immediateandchargewithfullrefund": "You have successfully changed your plan to <strong>{{ newPlan }}</strong>. Your new fee will be <strong>{{ currencySymbol }}{{ nextPaymentPrice }}</strong> starting from <strong>{{ expiresAt }}</strong>.",
   "switchplanpopup-info-immediateandchargewithoutproration": "You will be charged <strong>{{ currencySymbol }}{{ nextPaymentPrice }}</strong> and immediately granted access to the selected plan.",
-  "switchplanpopup-confirm-immediateandchargewithoutproration": "You have successfully changed your plan to <strong>{{ newPlan }}</strong>. Your new fee will be <strong>{{ currencySymbol }}{{ nextPaymentPrice }}</strong> starting from now",
+  "switchplanpopup-confirm-immediateandchargewithoutproration": "You have successfully changed your plan to <strong>{{ newPlan }}</strong>. Your new fee will be <strong>{{ currencySymbol }}{{ nextPaymentPrice }}</strong> starting from now.",
   "If you choose your plan, you will be able to manage your offers here.": " If you choose your plan, you will be able to manage your offers here.",
   "myaccount-nooffers-withlink": "If you <2>choose your plan</2>, you will be able to manage your offers here.",
   "price-additional-label": " ",
