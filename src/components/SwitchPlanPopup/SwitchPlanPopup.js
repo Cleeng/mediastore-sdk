@@ -251,6 +251,36 @@ const SwitchPlanPopup = ({
                   and immediately granted access to the selected plan.
                 </Trans>
               )}
+              {toOffer.algorithm === 'IMMEDIATE_WITH_TIME_PRORATION' && (
+                <Trans i18nKey="switchplanpopup-info-immediatewithtimeproration">
+                  You will be immediately granted access to your selected plan.
+                  Your next billing date will be changed and pushed towards,
+                  based on the time left on your previous subscription. From
+                  that time, you will be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
+                  </strong>{' '}
+                  on a recurring basis.
+                </Trans>
+              )}
+              {toOffer.algorithm ===
+                'IMMEDIATE_AND_CHARGE_WITH_TIME_PRORATION' && (
+                <Trans i18nKey="switchplanpopup-info-immediateandchargewithtimeproration">
+                  You will be immediately charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
+                  </strong>{' '}
+                  plus applicable taxes and granted access to the selected plan.
+                  Your next billing date will be changed and pushed towards,
+                  based on the time left on your previous subscription.{' '}
+                </Trans>
+              )}
               <br />
               {toOffer.couponNotApplicable && (
                 <>
@@ -403,6 +433,37 @@ const SwitchPlanPopup = ({
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>{' '}
                   starting from now.
+                </Trans>
+              )}
+              {toOffer.algorithm === 'IMMEDIATE_WITH_TIME_PRORATION' && (
+                <Trans i18nKey="switchplanpopup-confirm-immediatewithtimeproration">
+                  You have successfully changed your plan to{' '}
+                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
+                  will be{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  starting from{' '}
+                  <strong>
+                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                  </strong>
+                </Trans>
+              )}
+              {toOffer.algorithm ===
+                'IMMEDIATE_AND_CHARGE_WITH_TIME_PRORATION' && (
+                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithtimeproration">
+                  You have successfully changed your plan to{' '}
+                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
+                  will be{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  starting from{' '}
+                  <strong>
+                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                  </strong>
                 </Trans>
               )}
             </TextStyled>
