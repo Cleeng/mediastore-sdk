@@ -86,9 +86,11 @@ const SubscriptionSwitchesList = ({
       />
     );
   }
-  const availableSorted = [...switchSettings.available].sort(
-    (aOffer, bOffer) => bOffer.price - aOffer.price
-  );
+  const availableSorted = Array.isArray(switchSettings.available)
+    ? [...switchSettings.available].sort(
+        (aOffer, bOffer) => bOffer.price - aOffer.price
+      )
+    : [];
 
   return (
     <>
