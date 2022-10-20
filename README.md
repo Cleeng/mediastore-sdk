@@ -235,6 +235,7 @@ Config.setMyAccountPayPalUrls({
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
 - `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
+- `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
 
 **Usage sample**
 
@@ -256,6 +257,7 @@ const availablePaymentMethodIds = {
   <MyAccount
     customCancellationReasons={customCancellationReasons}
     availablePaymentMethodIds={availablePaymentMethodIds}
+    skipAvailableDowngradesStep
   />
 </Provider>;
 ```
@@ -428,6 +430,10 @@ const availablePaymentMethods = [
 
 `Subscriptions` is a component that will list all subscriptions that are linked with a given logged in subscriber. There is an option to cancel or resume the selected subscription from the list of subscriptions.
 
+
+**Props**
+- `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+
 **Config methods**
 
 ```javascript
@@ -442,7 +448,7 @@ import { Subscriptions, store } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
 <Provider store={store}>
-  <Subscriptions />
+  <Subscriptions skipAvailableDowngradesStep />
 </Provider>;
 ```
 
@@ -503,6 +509,7 @@ Config.setRefreshToken("yyy"); // optional
 **Props**
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
+- `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
 
 **Usage sample**
 
@@ -516,7 +523,10 @@ const customCancellationReasons = [
 ];
 
 <Provider store={store}>
-  <PlanDetails customCancellationReasons={customCancellationReasons} />
+  <PlanDetails
+    customCancellationReasons={customCancellationReasons}
+    skipAvailableDowngradesStep 
+  />
 </Provider>;
 ```
 
