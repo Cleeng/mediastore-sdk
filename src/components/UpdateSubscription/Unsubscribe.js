@@ -154,10 +154,10 @@ const Unsubscribe = ({
     hideInnerPopup();
   }
 
-  const { offerTitle, expiresAt } = offerDetails;
+  const { offerTitle, expiresAt , offerId} = offerDetails;
   const formattedExpiresAt = dateFormat(expiresAt);
-  const scheduledSwitchTitle = scheduledSwitch().title;
-
+  const scheduledSwitchTitle = t(`offer-title-${scheduledSwitch().toOfferId}`, scheduledSwitch().title);
+  const translatedTitle = t(`offer-title-${offerId}`, offerTitle);
   return (
     <InnerPopupWrapper
       steps={shouldShowDowngrades ? 3 : 2}
@@ -204,6 +204,7 @@ const Unsubscribe = ({
                     price={
                       Math.round(downgradeOffer.nextPaymentPrice * 100) / 100
                     }
+                    offerId={downgradeOffer.toOfferId}
                   />
                 </OfferCardWrapperStyled>
               );
@@ -234,8 +235,8 @@ const Unsubscribe = ({
                   t(`Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.`, { scheduledSwitchTitle })
                  : (<>
                     {offerDetails.inTrial
-                        ? t('Your {{offerTitle}} free trial will end on {{formattedExpiresAt}}.', { offerTitle, formattedExpiresAt })
-                        : t('Your {{offerTitle}} subscription is paid until {{formattedExpiresAt}}.', { offerTitle, formattedExpiresAt })}
+                        ? t('Your {{translatedTitle}} free trial will end on {{formattedExpiresAt}}.', { translatedTitle, formattedExpiresAt })
+                        : t('Your {{translatedTitle}} subscription is paid until {{formattedExpiresAt}}.', { translatedTitle, formattedExpiresAt })}
                   </>)
                   }
                   {' '}
