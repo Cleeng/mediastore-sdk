@@ -23,7 +23,7 @@ const Checkbox = ({
       onClick={e => onClickFn(e, disabled)}
       role="checkbox"
       tabIndex="-1"
-      aria-checked="false"
+      aria-checked={checked}
       checked={checked}
       aria-label={children}
       className={className}
@@ -41,6 +41,7 @@ const Checkbox = ({
       >
         {checked && (
           <CheckMarkStyled
+            data-testid="checkmark"
             isMyAccount={isMyAccount}
             isRadioButton={isRadioButton}
           />
