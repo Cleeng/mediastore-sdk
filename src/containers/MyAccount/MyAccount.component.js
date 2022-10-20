@@ -214,12 +214,18 @@ class MyAccount extends Component {
   }
 
   renderMyAccountContent = currentPage => {
-    const { customCancellationReasons } = this.props;
+    const {
+      customCancellationReasons,
+      skipAvailableDowngradesStep
+    } = this.props;
 
     switch (currentPage) {
       case MY_ACCOUNT_PAGES.planDetails:
         return (
-          <PlanDetails customCancellationReasons={customCancellationReasons} />
+          <PlanDetails
+            customCancellationReasons={customCancellationReasons}
+            skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+          />
         );
       case MY_ACCOUNT_PAGES.paymentInfo:
         return <PaymentInfo />;
@@ -308,6 +314,7 @@ MyAccount.propTypes = {
       value: PropTypes.string.isRequired
     })
   ),
+  skipAvailableDowngradesStep: PropTypes.bool,
   availablePaymentMethodIds: PropTypes.shape({
     adyen: PropTypes.number,
     paypal: PropTypes.number
@@ -321,7 +328,8 @@ MyAccount.defaultProps = {
   popup: { isPopupShown: false },
   customCancellationReasons: null,
   availablePaymentMethodIds: null,
-  t: k => k
+  t: k => k,
+  skipAvailableDowngradesStep: false,
 };
 
 export { MyAccount as PureMyAccount };

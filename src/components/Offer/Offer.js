@@ -254,6 +254,7 @@ class Offer extends Component {
                         value={coupon}
                         onChange={e => this.setState({ coupon: e })}
                         couponLoading={couponLoading}
+                        source="checkout"
                       />
                     </StyledOfferCouponWrapper>
                   </StyledOfferDetailsAndCoupon>

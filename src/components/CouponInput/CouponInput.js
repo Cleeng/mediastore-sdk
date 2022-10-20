@@ -85,10 +85,12 @@ class CouponInput extends Component {
 
   onRedeemClick = async () => {
     const { isOpened } = this.state;
-    const { onSubmit, onInputToggle, value } = this.props;
+    const { onSubmit, onInputToggle, value, source } = this.props;
     if (!isOpened) {
       window.dispatchEvent(
-        new CustomEvent('MSSDK:redeem-coupon-button-clicked')
+        new CustomEvent('MSSDK:redeem-coupon-button-clicked', {
+          detail: { source }
+        })
       );
       onInputToggle();
       this.setState({ isOpened: true });
@@ -96,7 +98,8 @@ class CouponInput extends Component {
       window.dispatchEvent(
         new CustomEvent('MSSDK:redeem-button-clicked', {
           detail: {
-            coupon: value
+            coupon: value,
+            source
           }
         })
       );
@@ -194,7 +197,8 @@ CouponInput.propTypes = {
   onClose: PropTypes.func,
   onInputToggle: PropTypes.func,
   t: PropTypes.func,
-  couponLoading: PropTypes.bool
+  couponLoading: PropTypes.bool,
+  source: PropTypes.oneOf(['myaccount', 'checkout', ''])
 };
 
 CouponInput.defaultProps = {
@@ -207,7 +211,8 @@ CouponInput.defaultProps = {
   onClose: () => {},
   onInputToggle: () => {},
   t: k => k,
-  couponLoading: false
+  couponLoading: false,
+  source: ''
 };
 
 export { CouponInput as PureCouponInput };

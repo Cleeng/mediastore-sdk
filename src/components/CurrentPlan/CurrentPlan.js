@@ -123,6 +123,7 @@ class CurrentPlan extends PureComponent {
               let price;
               let currency;
               let renewalDate;
+
               switch (subItem.offerType) {
                 case 'S':
                   price = subItem.nextPaymentPrice;

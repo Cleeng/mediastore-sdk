@@ -33,6 +33,7 @@ const Unsubscribe = ({
   updateList,
   customCancellationReasons,
   showInnerPopup,
+  skipAvailableDowngradesStep,
   t
 }) => {
   const STEPS = {
@@ -59,7 +60,7 @@ const Unsubscribe = ({
 
   const getDowngrades = () => {
     const { planDetails } = store.getState();
-    if (planDetails && planDetails.switchSettings) {
+    if (planDetails && Object.keys(planDetails.switchSettings).length) {
       const switchSettings = planDetails.switchSettings[offerDetails.offerId];
       const availableSorted = [...switchSettings.available]
         .filter(offer => offer.switchDirection === 'downgrade')
@@ -83,6 +84,9 @@ const Unsubscribe = ({
         data: { offerData }
       }
     } = store.getState();
+    if (skipAvailableDowngradesStep) {
+      return false
+    };
     if (offerDetails.pendingSwitchId && scheduledSwitch().direction === 'downgrade'){
       return false;
     }
@@ -315,11 +319,13 @@ Unsubscribe.propTypes = {
       value: PropTypes.string.isRequired
     })
   ),
+  skipAvailableDowngradesStep: PropTypes.bool,
   t: PropTypes.func
 };
 
 Unsubscribe.defaultProps = {
   customCancellationReasons: null,
+  skipAvailableDowngradesStep: false,
   t: k => k
 };
 

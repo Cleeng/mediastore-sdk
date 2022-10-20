@@ -235,6 +235,7 @@ Config.setMyAccountPayPalUrls({
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
 - `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
+- `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
 
 **Usage sample**
 
@@ -256,6 +257,7 @@ const availablePaymentMethodIds = {
   <MyAccount
     customCancellationReasons={customCancellationReasons}
     availablePaymentMethodIds={availablePaymentMethodIds}
+    skipAvailableDowngradesStep
   />
 </Provider>;
 ```
@@ -428,6 +430,10 @@ const availablePaymentMethods = [
 
 `Subscriptions` is a component that will list all subscriptions that are linked with a given logged in subscriber. There is an option to cancel or resume the selected subscription from the list of subscriptions.
 
+
+**Props**
+- `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+
 **Config methods**
 
 ```javascript
@@ -442,7 +448,7 @@ import { Subscriptions, store } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
 <Provider store={store}>
-  <Subscriptions />
+  <Subscriptions skipAvailableDowngradesStep />
 </Provider>;
 ```
 
@@ -503,6 +509,7 @@ Config.setRefreshToken("yyy"); // optional
 **Props**
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
+- `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
 
 **Usage sample**
 
@@ -516,7 +523,10 @@ const customCancellationReasons = [
 ];
 
 <Provider store={store}>
-  <PlanDetails customCancellationReasons={customCancellationReasons} />
+  <PlanDetails
+    customCancellationReasons={customCancellationReasons}
+    skipAvailableDowngradesStep 
+  />
 </Provider>;
 ```
 
@@ -742,10 +752,10 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 | `MSSDK:purchase-successful`                     | `{payment: { ...paymentResponse}`                                                                                   | The event will be emitter after successful Adyen payment action. `paymentResponse` object is just as the repsonse from [Adyen payment response](https://developers.cleeng.com/reference/payment-with-adyen-connector)                                                                                                                                                                                                                 |
 | `MSSDK:purchase-failed`                         | `{reason: "Rejection reason"}`                                                                                      | The event will be emitter after failed Adyen payment action.                                                                                                                                                                                                                                                                                                                                                                          |
 | `MSSDK:Adyen-error`                             | `{error: "Error message", fieldType: "fieldType"}`                                                                  | The event will be emitted when any of the Adyen errors occur, or when the user fixes the input and the error message disappears. <ul><li>`error` - string with an error message. It will be empty when the error message disappears from the form.</li><li>`fieldType` - informs for which field error occurred. Possible values:<br/> - `encryptedCardNumber`<br/> - `encryptedExpiryDate`<br/> - `encryptedSecurityCode`.</li></ul> |
-| `MSSDK:redeem-coupon-success`                   | `{coupon: "coupon code"}`                                                                                           | The event will be emitted after a successful coupon application in the checkout process.                                                                                                                                                                                                                                                                                                                                              |
-| `MSSDK:redeem-coupon-failed`                    | `{coupon: "coupon code"}`                                                                                           | The event will be emitted after a failed coupon application in the checkout process.                                                                                                                                                                                                                                                                                                                                                  |
-| `MSSDK:redeem-coupon-button-clicked`            | `null`                                                                                                              | The event will be emitted after clicking 'Redeem coupon' button in my account.                                                                                                                                                                                                                                                                                                                                                        |
-| `MSSDK:redeem-button-clicked`                   | `{coupon: "coupon code"}`                                                                                           | The event will be emitted after clicking 'Redeem' button in my account.                                                                                                                                                                                                                                                                                                                                                               |
+| `MSSDK:redeem-coupon-success`                   | <code>{coupon: "coupon code", source: "checkout"&#124;"myaccount"}</code>                                           | The event will be emitted after a successful coupon application in the checkout or in my account.                                                                                                                                                                                                                                                                                                                                     |
+| `MSSDK:redeem-coupon-failed`                    | <code>{coupon: "coupon code", source: "checkout"&#124;"myaccount"</code>                                            | The event will be emitted after a failed coupon application in the checkout or in my account.                                                                                                                                                                                                                                                                                                                                         |
+| `MSSDK:redeem-coupon-button-clicked`            | <code>{source: "checkout"&#124;"myaccount"}</code>                                                                  | The event will be emitted after clicking 'Redeem coupon' button in the checkout or my account.                                                                                                                                                                                                                                                                                                                                        |
+| `MSSDK:redeem-button-clicked`                   | <code>{coupon: "coupon code", source: "checkout"&#124;"myaccount"}</code>                                           | The event will be emitted after clicking 'Redeem' button in the checkout or my account.                                                                                                                                                                                                                                                                                                                                               |
 | `MSSDK:unsubscribe-button-clicked`              | `{offerId: "S123456789_US"}`                                                                                        | The event will be emitted after clicking the unsubscribe button in my account. This button opens an unsubscribe pop up.                                                                                                                                                                                                                                                                                                               |
 | `MSSDK:unsubscribe-action-confirmed`            | `{cancellationReason: "Selected reason", offerId: "S123456789_US"}`                                                 | The event will be emitted after clicking confirm unsubscribe button in my account. This button cancels the subscription.                                                                                                                                                                                                                                                                                                              |
 | `MSSDK:unsubscribe-action-cancelled`            | `null`                                                                                                              | The event will be emitted after clicking unsubscribe cancellation button in my account unsubscribe popup. This button cancels the unsubscribe process.                                                                                                                                                                                                                                                                                |
