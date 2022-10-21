@@ -120,6 +120,7 @@ const SubscriptionSwitchesList = ({
               title={subItem.title}
               currency={subItem.nextPaymentPriceCurrencySymbol}
               price={Math.round(subItem.nextPaymentPrice * 100) / 100}
+              offerId={subItem.toOfferId}
             />
             <WrapperStyled>
               <SimpleButtonStyled
@@ -159,6 +160,7 @@ const SubscriptionSwitchesList = ({
               currency={subItem.nextPaymentPriceCurrencySymbol}
               price={Math.round(subItem.nextPaymentPrice * 100) / 100}
               showInfoBox={subItem.reason.code}
+              offerId={subItem.toOfferId}
             />
             <WrapperStyled>
               <SimpleButtonStyled disabled>

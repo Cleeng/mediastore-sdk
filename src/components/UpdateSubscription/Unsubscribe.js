@@ -33,6 +33,7 @@ const Unsubscribe = ({
   updateList,
   customCancellationReasons,
   showInnerPopup,
+  skipAvailableDowngradesStep,
   t
 }) => {
   const STEPS = {
@@ -59,7 +60,7 @@ const Unsubscribe = ({
 
   const getDowngrades = () => {
     const { planDetails } = store.getState();
-    if (planDetails && planDetails.switchSettings) {
+    if (planDetails && Object.keys(planDetails.switchSettings).length) {
       const switchSettings = planDetails.switchSettings[offerDetails.offerId];
       const availableSorted = [...switchSettings.available]
         .filter(offer => offer.switchDirection === 'downgrade')
@@ -83,6 +84,9 @@ const Unsubscribe = ({
         data: { offerData }
       }
     } = store.getState();
+    if (skipAvailableDowngradesStep) {
+      return false
+    };
     if (offerDetails.pendingSwitchId && scheduledSwitch().direction === 'downgrade'){
       return false;
     }
@@ -150,10 +154,10 @@ const Unsubscribe = ({
     hideInnerPopup();
   }
 
-  const { offerTitle, expiresAt } = offerDetails;
+  const { offerTitle, expiresAt , offerId} = offerDetails;
   const formattedExpiresAt = dateFormat(expiresAt);
-  const scheduledSwitchTitle = scheduledSwitch().title;
-
+  const scheduledSwitchTitle = t(`offer-title-${scheduledSwitch().toOfferId}`, scheduledSwitch().title);
+  const translatedTitle = t(`offer-title-${offerId}`, offerTitle);
   return (
     <InnerPopupWrapper
       steps={shouldShowDowngrades ? 3 : 2}
@@ -200,6 +204,7 @@ const Unsubscribe = ({
                     price={
                       Math.round(downgradeOffer.nextPaymentPrice * 100) / 100
                     }
+                    offerId={downgradeOffer.toOfferId}
                   />
                 </OfferCardWrapperStyled>
               );
@@ -230,8 +235,8 @@ const Unsubscribe = ({
                   t(`Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.`, { scheduledSwitchTitle })
                  : (<>
                     {offerDetails.inTrial
-                        ? t('Your {{offerTitle}} free trial will end on {{formattedExpiresAt}}.', { offerTitle, formattedExpiresAt })
-                        : t('Your {{offerTitle}} subscription is paid until {{formattedExpiresAt}}.', { offerTitle, formattedExpiresAt })}
+                        ? t('Your {{translatedTitle}} free trial will end on {{formattedExpiresAt}}.', { translatedTitle, formattedExpiresAt })
+                        : t('Your {{translatedTitle}} subscription is paid until {{formattedExpiresAt}}.', { translatedTitle, formattedExpiresAt })}
                   </>)
                   }
                   {' '}
@@ -314,11 +319,13 @@ Unsubscribe.propTypes = {
       value: PropTypes.string.isRequired
     })
   ),
+  skipAvailableDowngradesStep: PropTypes.bool,
   t: PropTypes.func
 };
 
 Unsubscribe.defaultProps = {
   customCancellationReasons: null,
+  skipAvailableDowngradesStep: false,
   t: k => k
 };
 

@@ -17,7 +17,6 @@ import {
   ButtonWrapperStyled,
   MailStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
-import data from './EditPassword.const';
 
 class EditPassword extends PureComponent {
   constructor(props) {
@@ -71,40 +70,54 @@ class EditPassword extends PureComponent {
   render() {
     const { step, isLoading, isError } = this.state;
     const { t, customerEmail, hideInnerPopup } = this.props;
-    const { steps } = data;
-    const stepData = steps[step - 1];
+
     return (
       <InnerPopupWrapper
         steps={2}
-        popupTitle="Edit Password"
+        popupTitle={t('Edit Password')}
         isError={isError}
         currentStep={step}
       >
-        <ContentStyled>
-          <TitleStyled step={step}>{t(stepData.title)}</TitleStyled>
-          <TextStyled step={step}>
-            {t(stepData.text)}
-            {step === 1 && <MailStyled>{customerEmail}</MailStyled>}
-            {t(stepData.secondText) && (
-              <>
-                <br />
-                <br />
-                {t(stepData.secondText)}
-              </>
-            )}
-          </TextStyled>
-        </ContentStyled>
-        <ButtonWrapperStyled>
-          {stepData.undoButton && (
-            <Button theme="simple" onClickFn={() => hideInnerPopup()}>
-              {t(stepData.undoButton)}
-            </Button>
-          )}
-          <Button theme="confirm" onClickFn={this[stepData.buttonAction]}>
-            {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
-              t(stepData.buttonText)}
-          </Button>
-        </ButtonWrapperStyled>
+        {step === 1 && (
+          <>
+            <ContentStyled>
+              <TitleStyled step={step}>{t('Edit Password')}</TitleStyled>
+              <TextStyled step={step}>
+                {t(
+                  "If you want to edit your password, click 'YES, Reset' to receive password reset instruction on your mail"
+                )}
+                <MailStyled> {customerEmail}.</MailStyled>
+              </TextStyled>
+            </ContentStyled>
+            <ButtonWrapperStyled>
+              <Button theme="simple" onClickFn={() => hideInnerPopup()}>
+                {t('No, thanks')}
+              </Button>
+              <Button theme="confirm" onClickFn={this.resetPassword}>
+                {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
+                  t('Yes, Reset')}
+              </Button>
+            </ButtonWrapperStyled>
+          </>
+        )}
+        {step === 2 && (
+          <>
+            <ContentStyled>
+              <TitleStyled step={step}>{t('Email has been sent!')}</TitleStyled>
+              <TextStyled step={step}>
+                {t(
+                  'Please check your inbox and check the Instruction to change a password'
+                )}
+              </TextStyled>
+            </ContentStyled>
+            <ButtonWrapperStyled>
+              <Button theme="confirm" onClickFn={this.logout}>
+                {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
+                  t('Thanks!')}
+              </Button>
+            </ButtonWrapperStyled>
+          </>
+        )}
       </InnerPopupWrapper>
     );
   }

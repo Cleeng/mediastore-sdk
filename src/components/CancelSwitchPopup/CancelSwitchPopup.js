@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
@@ -20,8 +20,8 @@ const CancelSwitchPopup = ({
   popupData: {
     pendingSwitchId,
     switchDirection,
-    switchOfferTitle,
-    baseOfferTitle,
+    switchOfferTitle: untranslatedSwitchOfferTitle,
+    baseOfferTitle: untranslatedBaseOfferTitle,
     baseOfferExpirationDate,
     baseOfferPrice
   },
@@ -41,6 +41,26 @@ const CancelSwitchPopup = ({
     fromOfferId: switchDetails && switchDetails.fromOfferId,
     toOfferId: switchDetails && switchDetails.toOfferId
   };
+
+  const [offerIdsFallback, setOfferIdsFallback] = useState({}); // required to keep translations in step 2
+  useEffect(() => {
+    if (switchDetails) {
+      setOfferIdsFallback({
+        fromOfferId: switchDetails && switchDetails.fromOfferId,
+        toOfferId: switchDetails && switchDetails.toOfferId
+      });
+    }
+  }, [switchDetails]);
+
+  const baseOfferTitle = t(
+    `offer-title-${offerIdsFallback.fromOfferId}`,
+    untranslatedBaseOfferTitle
+  );
+  const switchOfferTitle = t(
+    `offer-title-${offerIdsFallback.toOfferId}`,
+    untranslatedSwitchOfferTitle
+  );
+
   const cancelSwitch = async () => {
     window.dispatchEvent(
       new CustomEvent('MSSDK:cancel-switch-action-triggered', {

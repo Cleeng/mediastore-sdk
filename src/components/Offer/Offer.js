@@ -30,6 +30,23 @@ class Offer extends Component {
     };
   }
 
+  getReadablePeriod = period => {
+    switch (period) {
+      case 'week':
+        return 'week.';
+      case 'month':
+        return 'month.';
+      case '3months':
+        return '3 months.';
+      case '6months':
+        return '6 months.';
+      case 'year':
+        return 'year.';
+      default:
+        return '';
+    }
+  };
+
   generateDescription = offerType => {
     const { t } = this.props;
     switch (offerType) {
@@ -51,26 +68,69 @@ class Offer extends Component {
         const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
         let taxCopy = 'VAT';
         if (country === 'US') taxCopy = 'Tax';
-        const periodText = periodMapper[period].chargedForEveryText;
-        const trialPeriodText = freeDays
-          ? `${freeDays} days`
-          : `${freePeriods > 1 ? `${freePeriods} ${period}s` : period}`;
         if (trialAvailable) {
-          return t(
-            `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{trialPeriodText}}. </br>Next payments will occur every {{periodText}}.`,
-            {
-              customerCurrencySymbol,
-              grossPrice,
-              taxCopy,
-              trialPeriodText,
-              periodText
+          if (freeDays) {
+            const description = `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${this.getReadablePeriod(
+              period
+            )}`;
+            return t(
+              `subscription-desc.trial-days.period-${period}`,
+              description,
+              {
+                customerCurrencySymbol,
+                grossPrice,
+                taxCopy,
+                freeDays
+              }
+            );
+          }
+          if (freePeriods) {
+            let description =
+              'You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) ';
+            switch (period) {
+              case 'month':
+                if (freePeriods === 1) {
+                  description +=
+                    'after month. </br>Next payments will occur every month.';
+                } else {
+                  description +=
+                    'after {{freePeriods}} months. </br>Next payments will occur every month.';
+                }
+                break;
+              case 'week':
+                if (freePeriods === 1) {
+                  description +=
+                    'after week. </br>Next payments will occur every week.';
+                } else {
+                  description +=
+                    'after {{freePeriods}} weeks. </br>Next payments will occur every week.';
+                }
+                break;
+              default:
+                description = '';
             }
-          );
+            return t(
+              `subscription-desc.trial-period${
+                freePeriods === 1 ? '' : 's'
+              }.period-${period}`,
+              description,
+              {
+                customerCurrencySymbol,
+                grossPrice,
+                taxCopy,
+                freePeriods
+              }
+            );
+          }
         }
-        return t(
-          `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every {{periodText}}.`,
-          { customerCurrencySymbol, grossPrice, taxCopy, periodText }
-        );
+        const description = `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${this.getReadablePeriod(
+          period
+        )}`;
+        return t(`subscription-desc.period-${period}`, description, {
+          customerCurrencySymbol,
+          grossPrice,
+          taxCopy
+        });
       }
       case 'P': {
         const {
@@ -78,7 +138,7 @@ class Offer extends Component {
         } = this.props;
         if (!period) {
           const date = dateFormat(expiresAt, true);
-          return t(`Access until {{date}}`, { date });
+          return t('pass-desc.date', `Access until {{date}}`, { date });
         }
         return periodMapper[period]
           ? `${periodMapper[period].accessText} season pass`
@@ -115,7 +175,8 @@ class Offer extends Component {
         trialAvailable,
         period,
         expiresAt,
-        startTime
+        startTime,
+        offerId
       },
       orderDetails,
       orderDetails: {
@@ -161,6 +222,7 @@ class Offer extends Component {
               expiresAt={expiresAt}
               startTime={startTime}
               onPaymentComplete={onPaymentComplete}
+              offerId={offerId}
             />
           ) : (
             <>
@@ -180,6 +242,7 @@ class Offer extends Component {
                         price={offerPrice + taxRate * offerPrice}
                         isTrialAvailable={trialAvailable}
                         offerType={offerType}
+                        offerId={offerId}
                       />
                     </OfferCardWrapperStyled>
                     <StyledOfferCouponWrapper>
@@ -242,7 +305,8 @@ Offer.propTypes = {
     priceExclTax: PropTypes.number,
     priceExclTaxBeforeDiscount: PropTypes.number,
     errors: PropTypes.arrayOf(PropTypes.string),
-    startTime: PropTypes.number
+    startTime: PropTypes.number,
+    offerId: PropTypes.string
   }).isRequired,
   orderDetails: PropTypes.shape({
     country: PropTypes.string,

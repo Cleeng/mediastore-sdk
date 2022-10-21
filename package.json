@@ -64,8 +64,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm run test -- --watchAll=false"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
