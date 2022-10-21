@@ -235,6 +235,7 @@ Config.setMyAccountPayPalUrls({
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
 - `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
+- `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
 
 **Usage sample**
 
@@ -256,6 +257,7 @@ const availablePaymentMethodIds = {
   <MyAccount
     customCancellationReasons={customCancellationReasons}
     availablePaymentMethodIds={availablePaymentMethodIds}
+    skipAvailableDowngradesStep
   />
 </Provider>;
 ```
@@ -428,6 +430,10 @@ const availablePaymentMethods = [
 
 `Subscriptions` is a component that will list all subscriptions that are linked with a given logged in subscriber. There is an option to cancel or resume the selected subscription from the list of subscriptions.
 
+**Props**
+
+- `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+
 **Config methods**
 
 ```javascript
@@ -442,7 +448,7 @@ import { Subscriptions, store } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
 <Provider store={store}>
-  <Subscriptions />
+  <Subscriptions skipAvailableDowngradesStep />
 </Provider>;
 ```
 
@@ -463,8 +469,8 @@ Config.setRefreshToken("yyy"); // optional
 
 - `toOfferId` - Use to open the switch popup by default. It's a ID of Cleeng offer to which user wants to switch.
 - `onCancel` - required when `toOfferId` is provided. A function that will be called when the user resigns from the switch. This function should, at least, unmount the SubscriptionSwitches component
-- `onSwitchSuccess` - required when `toOfferId` is provided. A function will be called when the switch succeeds and the user clicked the 'Back to settings' button. This function should, at least, unmount the SubscriptionSwitches component
-- `onSwitchError` - required when `toOfferId` is provided. A function will be called when the switch failed and the user clicked the 'Back to settings' button. This function should, at least, unmount the SubscriptionSwitches component
+- `onSwitchSuccess` - required when `toOfferId` is provided. A function will be called when the switch succeeds and the user clicked the 'Back to My Account' button. This function should, at least, unmount the SubscriptionSwitches component
+- `onSwitchError` - required when `toOfferId` is provided. A function will be called when the switch failed and the user clicked the 'Back to My Account' button. This function should, at least, unmount the SubscriptionSwitches component
 
 If you are providing the `toOfferId` prop you need to validate if this switch is possible for the customer. It is, when <a href="https://developers.cleeng.com/reference/fetch-available-switches">available switches endpoint</a> for `offerId` will return `toOfferId` offer ID in `available` array.
 
@@ -503,6 +509,7 @@ Config.setRefreshToken("yyy"); // optional
 **Props**
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
+- `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
 
 **Usage sample**
 
@@ -516,7 +523,10 @@ const customCancellationReasons = [
 ];
 
 <Provider store={store}>
-  <PlanDetails customCancellationReasons={customCancellationReasons} />
+  <PlanDetails
+    customCancellationReasons={customCancellationReasons}
+    skipAvailableDowngradesStep
+  />
 </Provider>;
 ```
 
@@ -742,10 +752,10 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 | `MSSDK:purchase-successful`                     | `{payment: { ...paymentResponse}`                                                                                   | The event will be emitter after successful Adyen payment action. `paymentResponse` object is just as the repsonse from [Adyen payment response](https://developers.cleeng.com/reference/payment-with-adyen-connector)                                                                                                                                                                                                                 |
 | `MSSDK:purchase-failed`                         | `{reason: "Rejection reason"}`                                                                                      | The event will be emitter after failed Adyen payment action.                                                                                                                                                                                                                                                                                                                                                                          |
 | `MSSDK:Adyen-error`                             | `{error: "Error message", fieldType: "fieldType"}`                                                                  | The event will be emitted when any of the Adyen errors occur, or when the user fixes the input and the error message disappears. <ul><li>`error` - string with an error message. It will be empty when the error message disappears from the form.</li><li>`fieldType` - informs for which field error occurred. Possible values:<br/> - `encryptedCardNumber`<br/> - `encryptedExpiryDate`<br/> - `encryptedSecurityCode`.</li></ul> |
-| `MSSDK:redeem-coupon-success`                   | `{coupon: "coupon code"}`                                                                                           | The event will be emitted after a successful coupon application in the checkout process.                                                                                                                                                                                                                                                                                                                                              |
-| `MSSDK:redeem-coupon-failed`                    | `{coupon: "coupon code"}`                                                                                           | The event will be emitted after a failed coupon application in the checkout process.                                                                                                                                                                                                                                                                                                                                                  |
-| `MSSDK:redeem-coupon-button-clicked`            | `null`                                                                                                              | The event will be emitted after clicking 'Redeem coupon' button in my account.                                                                                                                                                                                                                                                                                                                                                        |
-| `MSSDK:redeem-button-clicked`                   | `{coupon: "coupon code"}`                                                                                           | The event will be emitted after clicking 'Redeem' button in my account.                                                                                                                                                                                                                                                                                                                                                               |
+| `MSSDK:redeem-coupon-success`                   | <code>{coupon: "coupon code", source: "checkout"&#124;"myaccount"}</code>                                           | The event will be emitted after a successful coupon application in the checkout or in my account.                                                                                                                                                                                                                                                                                                                                     |
+| `MSSDK:redeem-coupon-failed`                    | <code>{coupon: "coupon code", source: "checkout"&#124;"myaccount"</code>                                            | The event will be emitted after a failed coupon application in the checkout or in my account.                                                                                                                                                                                                                                                                                                                                         |
+| `MSSDK:redeem-coupon-button-clicked`            | <code>{source: "checkout"&#124;"myaccount"}</code>                                                                  | The event will be emitted after clicking 'Redeem coupon' button in the checkout or my account.                                                                                                                                                                                                                                                                                                                                        |
+| `MSSDK:redeem-button-clicked`                   | <code>{coupon: "coupon code", source: "checkout"&#124;"myaccount"}</code>                                           | The event will be emitted after clicking 'Redeem' button in the checkout or my account.                                                                                                                                                                                                                                                                                                                                               |
 | `MSSDK:unsubscribe-button-clicked`              | `{offerId: "S123456789_US"}`                                                                                        | The event will be emitted after clicking the unsubscribe button in my account. This button opens an unsubscribe pop up.                                                                                                                                                                                                                                                                                                               |
 | `MSSDK:unsubscribe-action-confirmed`            | `{cancellationReason: "Selected reason", offerId: "S123456789_US"}`                                                 | The event will be emitted after clicking confirm unsubscribe button in my account. This button cancels the subscription.                                                                                                                                                                                                                                                                                                              |
 | `MSSDK:unsubscribe-action-cancelled`            | `null`                                                                                                              | The event will be emitted after clicking unsubscribe cancellation button in my account unsubscribe popup. This button cancels the unsubscribe process.                                                                                                                                                                                                                                                                                |
@@ -756,7 +766,7 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 | `MSSDK:switch-popup-action-cancelled`           | `{fromOfferId: 'S123456789_US', toOfferId: 'S987654321_US', switchDirection: 'downgrade', algorithm: 'DEFERRED'}`   | The event will be emitted when the user resigns to switch the subscription (upgrade/downgrade). This button cancels the subscription switch process and closes an offer switch popup.                                                                                                                                                                                                                                                 |
 | `MSSDK:switch-popup-action-successful`          | `{fromOfferId: "S123456789_US", toOfferId: "S123336741_US", switchDirection: "upgrade", algorithm: "DEFERRED"}`     | The event will be emitted when a request to switch the subscription succeed.                                                                                                                                                                                                                                                                                                                                                          |
 | `MSSDK:switch-popup-action-failed`              | `{reason: "Error message"}`                                                                                         | The event will be emitted when a request to switch the subscription failed.                                                                                                                                                                                                                                                                                                                                                           |
-| `MSSDK:cancel-switch-button-clicked`            | `{ pendingSwitchId: 'aaa-bbb', fromOfferId: 'S123456789_US', toOfferId: 'S987654321_US'}`                           | The event will be emitted when a user clicks the 'Stop switch' button.                                                                                                                                                                                                                                                                                                                                                                |
+| `MSSDK:cancel-switch-button-clicked`            | `{ pendingSwitchId: 'aaa-bbb', fromOfferId: 'S123456789_US', toOfferId: 'S987654321_US'}`                           | The event will be emitted when a user clicks the 'Cancel switch' button.                                                                                                                                                                                                                                                                                                                                                              |
 | `MSSDK:cancel-switch-action-cancelled`          | `{ pendingSwitchId: 'aaa-bbb', fromOfferId: 'S123456789_US', toOfferId: 'S987654321_US'}`                           | The event will be emitted when a user resigns to cancel the switch.                                                                                                                                                                                                                                                                                                                                                                   |
 | `MSSDK:cancel-switch-action-triggered`          | `{ pendingSwitchId: 'aaa-bbb', fromOfferId: 'S123456789_US', toOfferId: 'S987654321_US'}`                           | The event will be emitted when a user confirms the intention to stop the switch.                                                                                                                                                                                                                                                                                                                                                      |
 | `MSSDK:cancel-switch-action-successful`         | `{ pendingSwitchId: 'aaa-bbb', fromOfferId: 'S123456789_US', toOfferId: 'S987654321_US'}`                           | The event will be emitted when a request to stop the switch succeed                                                                                                                                                                                                                                                                                                                                                                   |
@@ -769,6 +779,8 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 | `MSSDK:remove-payment-details-action-cancelled` | `null`                                                                                                              | This event will be emitted when the user resigns to remove payment details.                                                                                                                                                                                                                                                                                                                                                           |
 
 ### <a id="Translations"></a><h2>Translations</h2>
+
+<b>This feature is during the development process. Some texts may not be ready for translation yet.</b>
 
 Translations allow you to add a new language version or to change default wording.
 Currently, `mediastore-sdk` components are available only in English.

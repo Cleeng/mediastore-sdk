@@ -123,19 +123,30 @@ class CurrentPlan extends PureComponent {
               let price;
               let currency;
               let renewalDate;
+
               switch (subItem.offerType) {
                 case 'S':
                   price = subItem.nextPaymentPrice;
                   currency = subItem.nextPaymentCurrency;
                   renewalDate = dateFormat(subItem.expiresAt);
-                  description =
-                    subItem.status === 'active'
-                      ? `${t('Renews automatically on {{renewalDate}}', {
-                          renewalDate
-                        })}`
-                      : `${t('This plan will expire on {{renewalDate}}', {
-                          renewalDate
-                        })}`;
+                  if (subItem.status === 'active' && !subItem.pendingSwitchId) {
+                    description = `${t(
+                      'Renews automatically on {{renewalDate}}',
+                      {
+                        renewalDate
+                      }
+                    )}`;
+                  } else if (subItem.status === 'cancelled') {
+                    description = `${t(
+                      'This plan will expire on {{renewalDate}}',
+                      {
+                        renewalDate
+                      }
+                    )}`;
+                  } else {
+                    description = '';
+                  }
+
                   break;
                 case 'P':
                   price = subItem.totalPrice;
@@ -182,6 +193,7 @@ class CurrentPlan extends PureComponent {
                     pendingSwitchId={subItem.pendingSwitchId}
                     expiresAt={dateFormat(subItem.expiresAt)}
                     showInnerPopup={showInnerPopup}
+                    offerId={subItem.offerId}
                   />
                   {isMessageBoxOpened &&
                     messageSubscriptionId === subItem.subscriptionId && (

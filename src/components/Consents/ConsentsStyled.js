@@ -8,7 +8,7 @@ export const ConsentsWrapperStyled = styled.div`
   box-sizing: border-box;
   position: relative;
 
-  padding-bottom: 10px;
+  padding: 10px;
 
   font-weight: 300;
 

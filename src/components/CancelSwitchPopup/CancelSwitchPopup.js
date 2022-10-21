@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
@@ -20,8 +20,8 @@ const CancelSwitchPopup = ({
   popupData: {
     pendingSwitchId,
     switchDirection,
-    switchOfferTitle,
-    baseOfferTitle,
+    switchOfferTitle: untranslatedSwitchOfferTitle,
+    baseOfferTitle: untranslatedBaseOfferTitle,
     baseOfferExpirationDate,
     baseOfferPrice
   },
@@ -41,6 +41,26 @@ const CancelSwitchPopup = ({
     fromOfferId: switchDetails && switchDetails.fromOfferId,
     toOfferId: switchDetails && switchDetails.toOfferId
   };
+
+  const [offerIdsFallback, setOfferIdsFallback] = useState({}); // required to keep translations in step 2
+  useEffect(() => {
+    if (switchDetails) {
+      setOfferIdsFallback({
+        fromOfferId: switchDetails && switchDetails.fromOfferId,
+        toOfferId: switchDetails && switchDetails.toOfferId
+      });
+    }
+  }, [switchDetails]);
+
+  const baseOfferTitle = t(
+    `offer-title-${offerIdsFallback.fromOfferId}`,
+    untranslatedBaseOfferTitle
+  );
+  const switchOfferTitle = t(
+    `offer-title-${offerIdsFallback.toOfferId}`,
+    untranslatedSwitchOfferTitle
+  );
+
   const cancelSwitch = async () => {
     window.dispatchEvent(
       new CustomEvent('MSSDK:cancel-switch-action-triggered', {
@@ -82,17 +102,17 @@ const CancelSwitchPopup = ({
   return (
     <InnerPopupWrapper
       steps={2}
-      popupTitle={t('Stop switch')}
+      popupTitle={t('Cancel switch')}
       currentStep={step}
       isError={isError}
     >
       {step === 1 && (
         <>
           <ContentStyled>
-            <TitleStyled>{t('Stop switch')}</TitleStyled>
+            <TitleStyled>{t('Cancel switch')}</TitleStyled>
             <TextStyled>
               {t(
-                `Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to stop the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.`,
+                `Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to cancel the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.`,
                 {
                   switchDirection,
                   switchOfferTitle,
@@ -102,7 +122,7 @@ const CancelSwitchPopup = ({
               )}
               <br />
               <br />
-              {t('Are you sure you want to stop the switch?')}
+              {t('Are you sure you want to cancel the switch?')}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
@@ -123,7 +143,7 @@ const CancelSwitchPopup = ({
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t(`Stop switch`)
+                t(`Cancel switch`)
               )}
             </Button>
           </ButtonWrapperStyled>
@@ -133,10 +153,10 @@ const CancelSwitchPopup = ({
         <>
           <ContentStyled>
             <img src={checkmarkIconBase} alt="checkmark icon" />
-            <TitleStyled>{t('Switch stopped')}</TitleStyled>
+            <TitleStyled>{t('Switch canceled')}</TitleStyled>
             <TextStyled>
               {t(
-                `You have successfully stopped your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}.`,
+                `You have successfully canceled your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}.`,
                 {
                   switchDirection,
                   switchOfferTitle,
@@ -154,7 +174,7 @@ const CancelSwitchPopup = ({
                 hideInnerPopup();
               }}
             >
-              {t('Back to settings')}
+              {t('Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>

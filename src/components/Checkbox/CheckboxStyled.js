@@ -23,6 +23,9 @@ export const CheckboxStyled = styled.div.attrs(props => ({
   &:focus {
     outline: none;
   }
+  &:first-of-type {
+    margin-top: 0px;
+  }
   ${props =>
     props.disabled &&
     css`

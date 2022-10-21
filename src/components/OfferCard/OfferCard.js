@@ -41,6 +41,7 @@ const OfferCard = ({
   pendingSwitchId,
   expiresAt,
   showInnerPopup,
+  offerId,
   t
 }) => {
   const planDetailsState = useSelector(state => state.planDetails);
@@ -53,26 +54,28 @@ const OfferCard = ({
           sub => sub.pendingSwitchId === pendingSwitchId
         ).expiresAt
       );
-      const { title: switchTitle } = switchDetails;
+      const { title: switchTitle, fromOfferId, toOfferId } = switchDetails;
+      const translatedTitle = t(`offer-title-${fromOfferId}`, title);
+      const translatedSwitchTitle = t(`offer-title-${toOfferId}`, switchTitle);
       switch (switchDetails.algorithm) {
         case 'IMMEDIATE_WITHOUT_PRORATION':
           return t(
-            `Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{switchTitle}} renews automatically. You can cancel anytime.`,
-            { subscriptionExpirationDate, switchTitle }
+            `Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{translatedSwitchTitle}} renews automatically. You can cancel anytime.`,
+            { subscriptionExpirationDate, translatedSwitchTitle }
           );
         case 'IMMEDIATE_AND_CHARGE_WITH_REFUND':
         case 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION':
           return t(
-            `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{switchTitle}}. You can cancel anytime.`,
-            { switchTitle }
+            `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{translatedSwitchTitle}}. You can cancel anytime.`,
+            { translatedSwitchTitle }
           );
         case 'DEFERRED':
           return t(
-            `Your switch is pending. You will have access to {{title}} until {{subscriptionExpirationDate}}. From that time you will be charged a new price and have access to {{switchTitle}}. You can cancel anytime.`,
+            `Your switch is pending. You will have access to {{translatedTitle}} until {{subscriptionExpirationDate}}. From that time you will be charged your new price and will have access to {{translatedSwitchTitle}}. You can cancel this at any time.`,
             {
-              title,
+              translatedTitle,
               subscriptionExpirationDate,
-              switchTitle
+              translatedSwitchTitle
             }
           );
         default:
@@ -152,7 +155,7 @@ const OfferCard = ({
             width={200}
             margin="0 0 10px 10px"
           >
-            <TitleStyled>{title}</TitleStyled>
+            <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
           </SkeletonWrapper>
           <SkeletonWrapper
             showChildren={isDataLoaded}
@@ -173,7 +176,11 @@ const OfferCard = ({
               <Price
                 currency={currency}
                 price={price}
-                period={offerType === 'S' ? period : null}
+                period={
+                  offerType === 'S'
+                    ? t(`offer-price.period-${period}`, period)
+                    : null
+                }
               />
             )}
           </SkeletonWrapper>
@@ -219,7 +226,7 @@ const OfferCard = ({
                         });
                       }}
                     >
-                      {t('Stop switch')}
+                      {t('Cancel switch')}
                     </SubBoxButtonStyled>
                   )}
               </SubBoxContentStyled>
@@ -245,7 +252,8 @@ OfferCard.propTypes = {
   isMyAccount: PropTypes.bool,
   pendingSwitchId: PropTypes.string,
   expiresAt: PropTypes.string,
-  showInnerPopup: PropTypes.func
+  showInnerPopup: PropTypes.func,
+  offerId: PropTypes.string
 };
 
 OfferCard.defaultProps = {
@@ -263,7 +271,8 @@ OfferCard.defaultProps = {
   isMyAccount: false,
   pendingSwitchId: null,
   expiresAt: '',
-  showInnerPopup: () => {}
+  showInnerPopup: () => {},
+  offerId: ''
 };
 
 export { OfferCard as PureOfferCard };

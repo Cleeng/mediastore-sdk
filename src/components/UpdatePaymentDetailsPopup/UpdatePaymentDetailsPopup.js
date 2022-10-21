@@ -120,7 +120,7 @@ const UpdatePaymentDetailsPopup = ({
               <LogoComponent />
             </PopupImageStyled>
           )}
-          <TitleStyled textTransform="normal">
+          <TitleStyled>
             {t('It looks like your payments cannot be managed from here')}
           </TitleStyled>
           <TextStyled>
