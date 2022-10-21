@@ -6,18 +6,18 @@ import '@testing-library/jest-dom';
 import Checkbox from 'components/Checkbox';
 
 describe('Checkbox component', () => {
-  test('renders correctly without props', async () => {
+  test('should render correctly without props', async () => {
     render(<Checkbox />);
     expect(screen.getByRole('checkbox')).toBeInTheDocument();
   });
 
-  test('renders correctly with children', async () => {
+  test('should render correctly with children', async () => {
     render(<Checkbox>Test label</Checkbox>);
     expect(screen.getByRole('checkbox')).toBeInTheDocument();
     expect(screen.getByRole('checkbox')).toHaveTextContent('Test label');
   });
 
-  test('renders as radio button when isRadioButton prop is passed', async () => {
+  test('should render as radio button when isRadioButton prop is passed', async () => {
     const { container } = render(<Checkbox isRadioButton />);
     expect(screen.getByRole('checkbox')).toBeInTheDocument();
     expect(
@@ -25,19 +25,19 @@ describe('Checkbox component', () => {
     ).toBe(1);
   });
 
-  test('is disabled when disabled prop is passed', async () => {
+  test('should be disabled when disabled prop is passed', async () => {
     render(<Checkbox disabled />);
     expect(screen.getByRole('checkbox')).toBeInTheDocument();
     expect(screen.getByRole('checkbox')).toHaveClass('msd__consents--disabled');
   });
 
-  test('is checked when checked prop is true', async () => {
+  test('should be checked when checked prop is true', async () => {
     render(<Checkbox checked />);
     expect(screen.getByRole('checkbox')).toBeInTheDocument();
-    expect(screen.getByTestId('checkmark')).toBeTruthy();
+    expect(screen.getByTestId('checkmark')).toBeInTheDocument();
   });
 
-  test('is calling onClick when user click', async () => {
+  test('should be calling onClick when user click', async () => {
     const onClickFunction = jest.fn();
     render(<Checkbox onClickFn={onClickFunction} />);
     await userEvent.click(screen.getByRole('checkbox'));
