@@ -430,8 +430,8 @@ const availablePaymentMethods = [
 
 `Subscriptions` is a component that will list all subscriptions that are linked with a given logged in subscriber. There is an option to cancel or resume the selected subscription from the list of subscriptions.
 
-
 **Props**
+
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
 
 **Config methods**
@@ -454,7 +454,7 @@ import { Provider } from "react-redux";
 
 #### <a id="subscription-switches-header"></a><h2 align="center">SubscriptionSwitches</h2>
 
-This component shows a list of available switches (upgrade options) for a given subscription passed in `offerId` prop.
+This component shows a list of available switches for a given subscription passed in `offerId` prop.
 
 **Config methods**
 
@@ -525,7 +525,7 @@ const customCancellationReasons = [
 <Provider store={store}>
   <PlanDetails
     customCancellationReasons={customCancellationReasons}
-    skipAvailableDowngradesStep 
+    skipAvailableDowngradesStep
   />
 </Provider>;
 ```
@@ -798,7 +798,7 @@ localStorage.setItem('i18nextLng', 'es');
 
 # Related documentation:
 
-- [MediaStore SDK Reference Materials](https://developers.cleeng.com/docs/mediastore-overview)
+- [MediaStore SDK Reference Materials](https://publisher.support.cleeng.com/hc/en-us/articles/360017107279-What-is-MediaStore-SDK-And-any-additional-information-you-may-need-to-know)
 - [API documentation](https://developers.cleeng.com/reference/getting-started)
 
 # License
