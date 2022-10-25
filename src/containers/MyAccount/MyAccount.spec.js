@@ -6,7 +6,7 @@ import getCustomerRequest from 'api/Customer/getCustomer';
 import getCustomerConsentsRequest from 'api/Customer/getCustomerConsents';
 import Auth from 'services/auth';
 
-import MyAccount from './MyAccount.component';
+import { PureMyAccount as MyAccount } from './MyAccount.component';
 
 jest.mock('api/Customer/getCustomerOffers');
 jest.mock('api/Customer/getCustomer');

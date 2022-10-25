@@ -23,6 +23,7 @@ const PlanDetails = ({
   setOfferToSwitch,
   showInnerPopup,
   customCancellationReasons,
+  skipAvailableDowngradesStep,
   setSwitchDetails,
   t
 }) => {
@@ -136,6 +137,7 @@ const PlanDetails = ({
             updateList={updateList}
             action={innerPopup.data.action}
             customCancellationReasons={customCancellationReasons}
+            skipAvailableDowngradesStep={skipAvailableDowngradesStep}
           />
         );
       case 'switchPlan':
@@ -227,6 +229,7 @@ PlanDetails.propTypes = {
       value: PropTypes.string.isRequired
     })
   ),
+  skipAvailableDowngradesStep: PropTypes.bool,
   t: PropTypes.func
 };
 
@@ -234,6 +237,7 @@ PlanDetails.defaultProps = {
   planDetails: { currentPlan: [] },
   innerPopup: {},
   customCancellationReasons: null,
+  skipAvailableDowngradesStep: false,
   t: k => k
 };
 

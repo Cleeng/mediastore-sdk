@@ -123,6 +123,7 @@ class CurrentPlan extends PureComponent {
               let price;
               let currency;
               let renewalDate;
+
               switch (subItem.offerType) {
                 case 'S':
                   price = subItem.nextPaymentPrice;
@@ -192,6 +193,7 @@ class CurrentPlan extends PureComponent {
                     pendingSwitchId={subItem.pendingSwitchId}
                     expiresAt={dateFormat(subItem.expiresAt)}
                     showInnerPopup={showInnerPopup}
+                    offerId={subItem.offerId}
                   />
                   {isMessageBoxOpened &&
                     messageSubscriptionId === subItem.subscriptionId && (

@@ -12,7 +12,8 @@ const UpdateSubscription = ({
   hideInnerPopup,
   showInnerPopup,
   updateList,
-  customCancellationReasons
+  customCancellationReasons,
+  skipAvailableDowngradesStep
 }) => {
   if (action === 'unsubscribe') {
     return (
@@ -21,6 +22,7 @@ const UpdateSubscription = ({
         hideInnerPopup={hideInnerPopup}
         updateList={updateList}
         customCancellationReasons={customCancellationReasons}
+        skipAvailableDowngradesStep={skipAvailableDowngradesStep}
         showInnerPopup={showInnerPopup}
       />
     );
@@ -48,11 +50,13 @@ UpdateSubscription.propTypes = {
       key: PropTypes.string.isRequired,
       value: PropTypes.string.isRequired
     })
-  )
+  ),
+  skipAvailableDowngradesStep: PropTypes.bool
 };
 
 UpdateSubscription.defaultProps = {
-  customCancellationReasons: null
+  customCancellationReasons: null,
+  skipAvailableDowngradesStep: false
 };
 
 export { UpdateSubscription as PureUpdateSubscription };

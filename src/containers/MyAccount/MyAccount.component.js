@@ -2,7 +2,8 @@
 /* eslint-disable no-nested-ternary */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
+import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import MyAccountMenu from 'components/MyAccountMenu';
 import MyAccountUserInfo from 'components/MyAccountUserInfo';
 import MyAccountContent from 'components/MyAccountContent';
@@ -213,12 +214,18 @@ class MyAccount extends Component {
   }
 
   renderMyAccountContent = currentPage => {
-    const { customCancellationReasons } = this.props;
+    const {
+      customCancellationReasons,
+      skipAvailableDowngradesStep
+    } = this.props;
 
     switch (currentPage) {
       case MY_ACCOUNT_PAGES.planDetails:
         return (
-          <PlanDetails customCancellationReasons={customCancellationReasons} />
+          <PlanDetails
+            customCancellationReasons={customCancellationReasons}
+            skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+          />
         );
       case MY_ACCOUNT_PAGES.paymentInfo:
         return <PaymentInfo />;
@@ -235,7 +242,8 @@ class MyAccount extends Component {
       userProfile: { user, consentsError },
       setConsents,
       popup: { isPopupShown, popupType, consents },
-      hidePopup
+      hidePopup,
+      t
     } = this.props;
     const { currentPage } = this.state;
 
@@ -263,7 +271,14 @@ class MyAccount extends Component {
                 firstName={user ? user.firstName : ''}
                 lastName={user ? user.lastName : ''}
                 email={user ? user.email : ''}
-                subscription={currentPlan[0] ? currentPlan[0].offerTitle : ''}
+                subscription={
+                  currentPlan[0]
+                    ? t(
+                        `offer-title-${currentPlan[0].offerId}`,
+                        currentPlan[0].offerTitle
+                      )
+                    : ''
+                }
                 isDataLoaded={!!user && !!currentPlan}
               />
               <MyAccountMenu
@@ -282,8 +297,6 @@ class MyAccount extends Component {
   }
 }
 
-export default MyAccount;
-
 MyAccount.propTypes = {
   setCurrentPlan: PropTypes.func.isRequired,
   setCurrentUser: PropTypes.func.isRequired,
@@ -301,10 +314,12 @@ MyAccount.propTypes = {
       value: PropTypes.string.isRequired
     })
   ),
+  skipAvailableDowngradesStep: PropTypes.bool,
   availablePaymentMethodIds: PropTypes.shape({
     adyen: PropTypes.number,
     paypal: PropTypes.number
-  })
+  }),
+  t: PropTypes.func
 };
 
 MyAccount.defaultProps = {
@@ -312,5 +327,11 @@ MyAccount.defaultProps = {
   planDetails: { currentPlan: [] },
   popup: { isPopupShown: false },
   customCancellationReasons: null,
-  availablePaymentMethodIds: null
+  availablePaymentMethodIds: null,
+  t: k => k,
+  skipAvailableDowngradesStep: false,
 };
+
+export { MyAccount as PureMyAccount };
+
+export default withTranslation()(labeling()(MyAccount));

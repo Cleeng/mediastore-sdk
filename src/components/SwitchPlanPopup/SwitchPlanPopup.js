@@ -140,8 +140,24 @@ const SwitchPlanPopup = ({
             <TextStyled step={step}>
               <Trans i18nKey="switchplanpopup-info">
                 You are about to change your plan from{' '}
-                <strong>{{ fromOfferTitle: fromOffer.offerTitle }}</strong> to{' '}
-                <strong>{{ toOfferTitle: toOffer.title }}</strong>.
+                <strong>
+                  {{
+                    fromOfferTitle: t(
+                      `offer-title-${fromOffer.offerId}`,
+                      fromOffer.offerTitle
+                    )
+                  }}
+                </strong>{' '}
+                to{' '}
+                <strong>
+                  {{
+                    toOfferTitle: t(
+                      `offer-title-${toOffer.toOfferId}`,
+                      toOffer.title
+                    )
+                  }}
+                </strong>
+                .
               </Trans>{' '}
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
                 <Trans i18nKey="switchplanpopup-info-immediatewithoutproration">
@@ -204,7 +220,15 @@ const SwitchPlanPopup = ({
               {toOffer.algorithm === 'DEFERRED' && (
                 <Trans i18nKey="switchplanpopup-info-deferred">
                   You will continue to have access to{' '}
-                  <strong>{{ currentPlan: fromOffer.offerTitle }}</strong> until{' '}
+                  <strong>
+                    {{
+                      currentPlan: t(
+                        `offer-title-${fromOffer.offerId}`,
+                        fromOffer.offerTitle
+                      )
+                    }}
+                  </strong>{' '}
+                  until{' '}
                   <strong>
                     {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
                   </strong>
@@ -349,8 +373,15 @@ const SwitchPlanPopup = ({
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
                 <Trans i18nKey="switchplanpopup-confirm-immediatewithoutproration">
                   You have successfully changed your plan to{' '}
-                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
-                  will be{' '}
+                  <strong>
+                    {{
+                      newPlan: t(
+                        `offer-title-${toOffer.toOfferId}`,
+                        toOffer.title
+                      )
+                    }}
+                  </strong>
+                  . Your new fee will be{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
@@ -367,7 +398,15 @@ const SwitchPlanPopup = ({
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_WITH_REFUND' && (
                 <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithrefund">
                   You have successfully changed your plan to{' '}
-                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee is{' '}
+                  <strong>
+                    {{
+                      newPlan: t(
+                        `offer-title-${toOffer.toOfferId}`,
+                        toOffer.title
+                      )
+                    }}
+                  </strong>
+                  . Your new fee is{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
@@ -380,8 +419,15 @@ const SwitchPlanPopup = ({
               {toOffer.algorithm === 'DEFERRED' && (
                 <Trans i18nKey="switchplanpopup-confirm-deferred">
                   You have successfully requested the switch to{' '}
-                  <strong>{{ newPlan: toOffer.title }}</strong>. You will have
-                  access to your new plan on{' '}
+                  <strong>
+                    {{
+                      newPlan: t(
+                        `offer-title-${toOffer.toOfferId}`,
+                        toOffer.title
+                      )
+                    }}
+                  </strong>
+                  . You will have access to your new plan on{' '}
                   <strong>
                     {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
                   </strong>{' '}
@@ -396,25 +442,35 @@ const SwitchPlanPopup = ({
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (
                 <Trans i18nKey="switchplanpopup-confirm-immediateandchargefullprice">
                   You have successfully changed your plan to{' '}
-                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
-                  will be{' '}
+                  <strong>
+                    {{
+                      newPlan: t(
+                        `offer-title-${toOffer.toOfferId}`,
+                        toOffer.title
+                      )
+                    }}
+                  </strong>
+                  . Your new fee will be{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>{' '}
-                  starting from{' '}
-                  <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
-                  </strong>
-                  .
+                  starting from now.
                 </Trans>
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITH_FULL_REFUND' && (
                 <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithfullrefund">
                   You have successfully changed your plan to{' '}
-                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
-                  will be{' '}
+                  <strong>
+                    {{
+                      newPlan: t(
+                        `offer-title-${toOffer.toOfferId}`,
+                        toOffer.title
+                      )
+                    }}
+                  </strong>
+                  . Your new fee will be{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
@@ -426,8 +482,15 @@ const SwitchPlanPopup = ({
                 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION' && (
                 <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithoutproration">
                   You have successfully changed your plan to{' '}
-                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
-                  will be{' '}
+                  <strong>
+                    {{
+                      newPlan: t(
+                        `offer-title-${toOffer.toOfferId}`,
+                        toOffer.title
+                      )
+                    }}
+                  </strong>
+                  . Your new fee will be{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}

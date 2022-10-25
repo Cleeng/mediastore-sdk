@@ -235,6 +235,7 @@ Config.setMyAccountPayPalUrls({
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
 - `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
+- `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
 
 **Usage sample**
 
@@ -256,6 +257,7 @@ const availablePaymentMethodIds = {
   <MyAccount
     customCancellationReasons={customCancellationReasons}
     availablePaymentMethodIds={availablePaymentMethodIds}
+    skipAvailableDowngradesStep
   />
 </Provider>;
 ```
@@ -428,6 +430,10 @@ const availablePaymentMethods = [
 
 `Subscriptions` is a component that will list all subscriptions that are linked with a given logged in subscriber. There is an option to cancel or resume the selected subscription from the list of subscriptions.
 
+**Props**
+
+- `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+
 **Config methods**
 
 ```javascript
@@ -442,13 +448,13 @@ import { Subscriptions, store } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
 <Provider store={store}>
-  <Subscriptions />
+  <Subscriptions skipAvailableDowngradesStep />
 </Provider>;
 ```
 
 #### <a id="subscription-switches-header"></a><h2 align="center">SubscriptionSwitches</h2>
 
-This component shows a list of available switches (upgrade options) for a given subscription passed in `offerId` prop.
+This component shows a list of available switches for a given subscription passed in `offerId` prop.
 
 **Config methods**
 
@@ -503,6 +509,7 @@ Config.setRefreshToken("yyy"); // optional
 **Props**
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
+- `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
 
 **Usage sample**
 
@@ -516,7 +523,10 @@ const customCancellationReasons = [
 ];
 
 <Provider store={store}>
-  <PlanDetails customCancellationReasons={customCancellationReasons} />
+  <PlanDetails
+    customCancellationReasons={customCancellationReasons}
+    skipAvailableDowngradesStep
+  />
 </Provider>;
 ```
 
@@ -770,6 +780,8 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 
 ### <a id="Translations"></a><h2>Translations</h2>
 
+<b>This feature is during the development process. Some texts may not be ready for translation yet.</b>
+
 Translations allow you to add a new language version or to change default wording.
 Currently, `mediastore-sdk` components are available only in English.
 
@@ -786,7 +798,7 @@ localStorage.setItem('i18nextLng', 'es');
 
 # Related documentation:
 
-- [MediaStore SDK Reference Materials](https://developers.cleeng.com/docs/mediastore-overview)
+- [MediaStore SDK Reference Materials](https://publisher.support.cleeng.com/hc/en-us/articles/360017107279-What-is-MediaStore-SDK-And-any-additional-information-you-may-need-to-know)
 - [API documentation](https://developers.cleeng.com/reference/getting-started)
 
 # License

@@ -86,13 +86,21 @@ class FreeOffer extends Component {
   };
 
   render() {
-    const { icon, period, expiresAt, startTime, title, t } = this.props;
+    const {
+      icon,
+      period,
+      expiresAt,
+      startTime,
+      title,
+      offerId,
+      t
+    } = this.props;
     const { isLoading, error } = this.state;
     return (
       <WrapStyled>
         <CardStyled>
           <SubscriptionIconStyled icon={icon} />
-          <TitleStyled>{title}</TitleStyled>
+          <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
           <DescriptionStyled>
             {this.generateDescriptionForFreeOffer(period, expiresAt, startTime)}
           </DescriptionStyled>
@@ -125,6 +133,7 @@ FreeOffer.propTypes = {
   expiresAt: PropTypes.string,
   startTime: PropTypes.number,
   onPaymentComplete: PropTypes.func.isRequired,
+  offerId: PropTypes.string,
   t: PropTypes.func
 };
 
@@ -134,6 +143,7 @@ FreeOffer.defaultProps = {
   period: '',
   expiresAt: null,
   startTime: null,
+  offerId: '',
   t: k => k
 };
 
