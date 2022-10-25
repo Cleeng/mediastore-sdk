@@ -444,10 +444,7 @@ const SwitchPlanPopup = ({
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>{' '}
-                  starting from{' '}
-                  <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
-                  </strong>
+                  and you will be charged on a recurring basis until you cancel.
                 </Trans>
               )}
               {toOffer.algorithm ===
@@ -460,10 +457,7 @@ const SwitchPlanPopup = ({
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>{' '}
-                  starting from{' '}
-                  <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
-                  </strong>
+                  and you will be charged on a recurring basis until you cancel.
                 </Trans>
               )}
             </TextStyled>
