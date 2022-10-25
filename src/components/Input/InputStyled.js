@@ -224,20 +224,6 @@ export const StyledButton = styled.button`
   }
 `;
 
-export const InputIconStyled = styled.div.attrs(() => ({
-  className: 'msd__input__icon'
-}))`
-  height: 18px;
-  width: 18px;
-  margin-left: 14px;
-
-  svg {
-    height: 100%;
-    width: auto;
-    fill: ${Colors.MediumGrey};
-  }
-`;
-
 export const InputRequiredStyled = styled.span.attrs(() => ({
   className: 'msd__icon__required--error'
 }))`

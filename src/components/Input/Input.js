@@ -10,7 +10,6 @@ import {
   StyledButton,
   StyledPasswordVisibility,
   LabelStyled,
-  // InputIconStyled,
   InputRequiredStyled
 } from './InputStyled';
 
@@ -38,7 +37,6 @@ const Input = ({
         error={error}
         passwordStrength={passwordStrength}
       >
-        {/* {icon && <InputIconStyled>{icon.render()}</InputIconStyled>} */}
         {required && <InputRequiredStyled>*</InputRequiredStyled>}
         <InputElementStyled
           data-testid="input"
@@ -92,7 +90,7 @@ const Input = ({
 
 Input.propTypes = {
   placeholder: PropTypes.string,
-  type: PropTypes.string,
+  type: PropTypes.oneOf(['text', 'password', 'date', 'email']),
   value: PropTypes.string,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
@@ -100,7 +98,7 @@ Input.propTypes = {
   showVisibilityIcon: PropTypes.bool,
   handleClickShowPassword: PropTypes.func,
   showPassword: PropTypes.bool,
-  passwordStrength: PropTypes.string,
+  passwordStrength: PropTypes.oneOf(['Weak', 'Fair', 'Good', 'Strong', '']),
   ariaRequired: PropTypes.bool,
   ariaInvalid: PropTypes.bool,
   icon: PropTypes.elementType,
