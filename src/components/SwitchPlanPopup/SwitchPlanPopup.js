@@ -300,9 +300,9 @@ const SwitchPlanPopup = ({
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
-                  plus applicable taxes and granted access to the selected plan.
-                  Your next billing date will be changed and pushed towards,
-                  based on the time left on your previous subscription.{' '}
+                  and granted access to the selected plan. Your next billing
+                  date will be changed and pushed towards, based on the time
+                  left on your previous subscription.{' '}
                 </Trans>
               )}
               <br />
@@ -501,8 +501,15 @@ const SwitchPlanPopup = ({
               {toOffer.algorithm === 'IMMEDIATE_WITH_TIME_PRORATION' && (
                 <Trans i18nKey="switchplanpopup-confirm-immediatewithtimeproration">
                   You have successfully changed your plan to{' '}
-                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
-                  will be{' '}
+                  <strong>
+                    {{
+                      newPlan: t(
+                        `offer-title-${toOffer.toOfferId}`,
+                        toOffer.title
+                      )
+                    }}
+                  </strong>
+                  . Your new fee will be{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
@@ -514,8 +521,15 @@ const SwitchPlanPopup = ({
                 'IMMEDIATE_AND_CHARGE_WITH_TIME_PRORATION' && (
                 <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithtimeproration">
                   You have successfully changed your plan to{' '}
-                  <strong>{{ newPlan: toOffer.title }}</strong>. Your new fee
-                  will be{' '}
+                  <strong>
+                    {{
+                      newPlan: t(
+                        `offer-title-${toOffer.toOfferId}`,
+                        toOffer.title
+                      )
+                    }}
+                  </strong>
+                  . Your new fee will be{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
