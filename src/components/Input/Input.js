@@ -79,6 +79,7 @@ const Input = ({
       </InputElementWrapperStyled>
 
       <ErrorWrapper
+        data-testid="input-error"
         passwordStrength={passwordStrength}
         id={`${placeholder}-desc`}
       >
@@ -98,7 +99,14 @@ Input.propTypes = {
   showVisibilityIcon: PropTypes.bool,
   handleClickShowPassword: PropTypes.func,
   showPassword: PropTypes.bool,
-  passwordStrength: PropTypes.oneOf(['Weak', 'Fair', 'Good', 'Strong', '']),
+  passwordStrength: PropTypes.oneOf([
+    'Weak',
+    'Fair',
+    'Good',
+    'Strong',
+    'NotValid',
+    ''
+  ]),
   ariaRequired: PropTypes.bool,
   ariaInvalid: PropTypes.bool,
   icon: PropTypes.elementType,
