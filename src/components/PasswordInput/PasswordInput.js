@@ -1,29 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Input from 'components/Input';
 
-class PasswordInput extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      passError: '',
-      errorLabel: ''
-    };
-  }
+const PasswordInput = ({
+  value,
+  onChange,
+  onBlur,
+  error,
+  showVisibilityIcon,
+  showPassword,
+  handleClickShowPassword,
+  label,
+  floatingLabels,
+  showPasswordStrength,
+  t
+}) => {
+  const [passError, setPassError] = useState('');
+  const [errorLabel, setErrorLabel] = useState('');
 
-  onChangeFunction = value => {
-    const { onChange, showPasswordStrength } = this.props;
-    if (showPasswordStrength) {
-      const passwordStrength = this.validateNewPassword(value);
-      this.setState({
-        passError: this.getErrorMessage(passwordStrength),
-        errorLabel: passwordStrength
-      });
-    }
-    onChange(value);
-  };
-
-  validateNewPassword = pass => {
+  const validateNewPassword = pass => {
     let score = 0;
     if (
       pass &&
@@ -79,9 +74,8 @@ class PasswordInput extends React.Component {
     return 'NotValid';
   };
 
-  getErrorMessage = msg => {
-    const { t } = this.props;
-    const errorLabel = {
+  const getErrorMessage = msg => {
+    const errorLabels = {
       Weak: t('Weak'),
       Fair: t('Could be stronger'),
       Good: t('Good password'),
@@ -91,43 +85,39 @@ class PasswordInput extends React.Component {
       )
     };
 
-    return errorLabel[msg];
+    return errorLabels[msg];
   };
 
-  render() {
-    const {
-      value,
-      onBlur,
-      error,
-      showVisibilityIcon,
-      showPassword,
-      handleClickShowPassword,
-      label,
-      floatingLabels
-    } = this.props;
-    const { passError, errorLabel } = this.state;
-    const errorMsg = error || passError;
-    return (
-      <>
-        <Input
-          placeholder={label}
-          floatingLabels={floatingLabels}
-          type={showPassword ? 'text' : 'password'}
-          value={value}
-          onChange={this.onChangeFunction}
-          onBlur={onBlur}
-          error={errorMsg}
-          showVisibilityIcon={showVisibilityIcon}
-          handleClickShowPassword={handleClickShowPassword}
-          showPassword={showPassword}
-          passwordStrength={errorLabel}
-          ariaRequired
-          ariaInvalid={errorLabel === 'NotValid'}
-        />
-      </>
-    );
-  }
-}
+  const onChangeFunction = currentValue => {
+    if (showPasswordStrength) {
+      const passwordStrength = validateNewPassword(currentValue);
+      setPassError(getErrorMessage(passwordStrength));
+      setErrorLabel(passwordStrength);
+    }
+    onChange(currentValue);
+  };
+
+  const errorMsg = error || passError;
+  return (
+    <>
+      <Input
+        placeholder={label}
+        floatingLabels={floatingLabels}
+        type={showPassword ? 'text' : 'password'}
+        value={value}
+        onChange={onChangeFunction}
+        onBlur={onBlur}
+        error={errorMsg}
+        showVisibilityIcon={showVisibilityIcon}
+        handleClickShowPassword={handleClickShowPassword}
+        showPassword={showPassword}
+        passwordStrength={errorLabel}
+        ariaRequired
+        ariaInvalid={errorLabel === 'NotValid'}
+      />
+    </>
+  );
+};
 
 PasswordInput.propTypes = {
   value: PropTypes.string,
