@@ -122,13 +122,15 @@ class Payment extends Component {
     return validPaymentMethods;
   };
 
-  onAdyenSubmit = ({ data: { paymentMethod: card } }) => {
+  onAdyenSubmit = ({ data: { paymentMethod } }) => {
+    console.log('passed data', paymentMethod);
     const { onPaymentComplete, t } = this.props;
     this.setState({
       generalError: '',
       isLoading: true
     });
-    submitPayment(card).then(paymentReponse => {
+    submitPayment(paymentMethod).then(paymentReponse => {
+      console.log('Adyen initial payment response:', paymentReponse);
       if (paymentReponse.errors.length) {
         window.dispatchEvent(
           new CustomEvent('MSSDK:purchase-failed', {
