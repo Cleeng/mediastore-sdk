@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
@@ -11,28 +11,25 @@ import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
 import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
 import '@adyen/adyen-web/dist/adyen.css';
-
-const COMPONENT_CONTAINER_ID = 'component-container';
+import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
+import { CLIENT_KEY_LIVE, CLIENT_KEY_TEST } from './Adyen.utils';
 
 const Adyen = ({ onSubmit, onChange, t, isPaymentProcessing, isCheckout }) => {
   // const [isLoaded, setIsLoaded] = useState(false);
-  const [dropInInstance, setDropInInstance] = useState();
+  const containerRef = useRef(null);
+  const [dropInInstance, setDropInInstance] = useState(null);
   const getAdyenEnv = () =>
     getData('CLEENG_ENVIRONMENT') === 'production' ? 'live' : 'test';
 
   const onError = e => {
     const { error, fieldType } = e;
-    window.dispatchEvent(
-      new CustomEvent('MSSDK:Adyen-error', {
-        detail: {
-          error,
-          fieldType
-        }
-      })
-    );
+    eventDispatcher(MSSDK_ADYEN_ERROR, {
+      error,
+      fieldType
+    });
   };
 
-  const renderCheckout = async (id, sessionData) => {
+  const createDropInInstance = async (id, sessionData) => {
     const configuration = {
       environment: getAdyenEnv(),
       analytics: {
@@ -42,13 +39,10 @@ const Adyen = ({ onSubmit, onChange, t, isPaymentProcessing, isCheckout }) => {
         id,
         sessionData
       },
-      clientKey:
-        getAdyenEnv() === 'live'
-          ? 'live_BQDOFBYTGZB3XKF62GBYSLPUJ4YW2TPL'
-          : 'test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K',
+      clientKey: getAdyenEnv() === 'live' ? CLIENT_KEY_LIVE : CLIENT_KEY_TEST,
       onSubmit,
       // onChange, // supported ?
-      onError,
+      onError, // TODO: is it working?
       paymentMethodsConfiguration: {
         card: {
           hasHolderName: true,
@@ -68,27 +62,28 @@ const Adyen = ({ onSubmit, onChange, t, isPaymentProcessing, isCheckout }) => {
 
     const checkout = await AdyenCheckout(configuration);
     const dropin = checkout.create('dropin');
-    dropin.mount(`#${COMPONENT_CONTAINER_ID}`);
+    dropin.mount(containerRef.current);
     setDropInInstance(dropin);
   };
 
   useEffect(() => {
-    createPaymentSession().then(resp => {
+    const createSession = async () => {
       const {
         responseData: { id, sessionData }
-      } = resp;
+      } = await createPaymentSession();
+      // TODO: handle error when id is missing
       if (id) {
-        renderCheckout(id, sessionData);
+        createDropInInstance(id, sessionData);
       }
-    });
-    // setIsLoaded(false);
-    return () => {};
+    };
+    createSession();
+    // TODO: add loading indicator
   }, []);
 
   const confirmButtonText = isCheckout ? t('Complete purchase') : t('Update');
   return (
     <AdyenStyled isMyAccount={!isCheckout}>
-      <div id={COMPONENT_CONTAINER_ID} />
+      <div ref={containerRef} />
       <ConfirmButtonStyled>
         <Button
           size="big"
