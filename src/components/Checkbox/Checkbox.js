@@ -32,9 +32,7 @@ const Checkbox = ({
       <CheckFrameStyled
         error={error && required && !checked}
         tabIndex="0"
-        onKeyDown={e => {
-          return e.keyCode === 32 ? onClickFn() : null;
-        }}
+        onKeyDown={e => (e.keyCode === 32 ? onClickFn() : null)}
         isMyAccount={isMyAccount}
         isRadioButton={isRadioButton}
         checked={checked}

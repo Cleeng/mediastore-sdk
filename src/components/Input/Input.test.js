@@ -2,7 +2,6 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-
 import Input from 'components/Input';
 
 describe('Input component', () => {
@@ -15,12 +14,12 @@ describe('Input component', () => {
     const testPlaceholder = 'test-input';
     render(<Input placeholder={testPlaceholder} />);
 
-    expect(screen.getByTestId('input')).toBeInTheDocument();
-    expect(screen.getByTestId('input')).toHaveAttribute('id', testPlaceholder);
-    expect(screen.getByTestId('input-label')).toBeInTheDocument();
-    expect(screen.getByTestId('input-label')).toHaveTextContent(
-      testPlaceholder
-    );
+    const inputEl = screen.getByTestId('input');
+    const inputLabelEl = screen.getByTestId('input-label');
+    expect(inputEl).toBeInTheDocument();
+    expect(inputEl).toHaveAttribute('id', testPlaceholder);
+    expect(inputLabelEl).toBeInTheDocument();
+    expect(inputLabelEl).toHaveTextContent(testPlaceholder);
   });
   test('should show visibility icon when showVisibilityIcon is passed', () => {
     render(<Input showVisibilityIcon />);
