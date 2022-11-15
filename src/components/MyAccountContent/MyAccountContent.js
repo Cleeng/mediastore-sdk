@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Scrollbars } from 'react-custom-scrollbars';
+import { Scrollbars } from 'react-custom-scrollbars-2';
 
 import { breakPoints } from 'styles/BreakPoints';
 import { WrapStyled } from './MyAccountContentStyled';
@@ -22,7 +22,7 @@ class MyAccountContent extends Component {
           <WrapStyled>{children}</WrapStyled>
         ) : (
           <Scrollbars
-            style={{ flexGrow: '1', width: 'unset' }}
+            style={{ height: '100%', flexGrow: '1', width: 'unset' }}
             renderTrackHorizontal={props => (
               <div {...props} style={{ display: 'none' }} />
             )}

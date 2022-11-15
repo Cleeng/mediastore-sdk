@@ -14,7 +14,6 @@ export const WrapperStyled = styled.div.attrs(() => ({
   flex-direction: column;
 
   height: 100%;
-  min-height: 100vh;
 
   padding-top: 44px;
 
@@ -34,7 +33,6 @@ export const HeaderStyled = styled.div.attrs(() => ({
 }))`
   position: relative;
   padding: 0 26px;
-  overflow: hidden;
 
   background: ${BackgroundColor};
 

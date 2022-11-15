@@ -2,7 +2,7 @@ module.exports = {
   env: {
     browser: true,
     es6: true,
-    'jest/globals': true
+    jest: true
   },
   extends: ['airbnb', 'plugin:prettier/recommended', 'prettier/react'],
   globals: {
@@ -19,7 +19,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module'
   },
-  plugins: ['react', 'jest'],
+  plugins: ['react'],
   rules: {
     'prettier/prettier': ['error', { singleQuote: true, endOfLine: 'auto' }],
     'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }]

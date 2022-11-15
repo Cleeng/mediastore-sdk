@@ -205,7 +205,7 @@ UpdateProfile.propTypes = {
   setUserCapture: PropTypes.func.isRequired,
   updateCaptureOption: PropTypes.func.isRequired,
   consentsError: PropTypes.string,
-  userProfile: PropTypes.objectOf({
+  userProfile: PropTypes.shape({
     id: PropTypes.number,
     email: PropTypes.string,
     firstName: PropTypes.string,
@@ -219,10 +219,10 @@ UpdateProfile.propTypes = {
   }),
   showInnerPopup: PropTypes.func.isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
-  innerPopup: PropTypes.objectOf({
+  innerPopup: PropTypes.shape({
     isOpen: PropTypes.bool,
     type: PropTypes.string,
-    data: PropTypes.shape()
+    data: PropTypes.object
   }).isRequired,
   t: PropTypes.func
 };

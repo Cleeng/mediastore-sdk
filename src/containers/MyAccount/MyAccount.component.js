@@ -329,7 +329,7 @@ MyAccount.defaultProps = {
   customCancellationReasons: null,
   availablePaymentMethodIds: null,
   t: k => k,
-  skipAvailableDowngradesStep: false,
+  skipAvailableDowngradesStep: false
 };
 
 export { MyAccount as PureMyAccount };
