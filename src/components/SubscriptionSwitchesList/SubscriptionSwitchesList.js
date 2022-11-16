@@ -108,8 +108,7 @@ const SubscriptionSwitchesList = ({
       {areAvailable &&
         availableSorted.map(subItem => {
           const price =
-            isNFLOffer(subItem.toOfferId) &&
-            subItem.switchDirection === 'upgrade'
+            isNFLOffer(subItem.toOfferId) && subItem.algorithm !== 'DEFERRED'
               ? subItem.price
               : subItem.nextPaymentPrice;
           return (
