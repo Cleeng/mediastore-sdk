@@ -8,12 +8,10 @@ const NFLOffers = [
   'S869341037_US',
   'S537531369_US',
   'S248815997_US'
-]
+];
 
-const isNFLOffer = (offerId) => {
-  console.log(offerId);
-  console.log(NFLOffers.includes(offerId));
+const isNFLOffer = offerId => {
   return NFLOffers.includes(offerId);
-}
+};
 
 export default isNFLOffer;
