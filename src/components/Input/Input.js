@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import visibility from './icons/visibleBase64';
 import visibilityOff from './icons/unvisibleBase64';
@@ -10,91 +10,87 @@ import {
   StyledButton,
   StyledPasswordVisibility,
   LabelStyled,
-  // InputIconStyled,
   InputRequiredStyled
 } from './InputStyled';
 
-class Input extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    const {
-      type,
-      placeholder,
-      value,
-      onChange,
-      onBlur,
-      error,
-      showVisibilityIcon,
-      handleClickShowPassword,
-      showPassword,
-      passwordStrength,
-      ariaRequired,
-      ariaInvalid,
-      icon,
-      required,
-      floatingLabels,
-      reference
-    } = this.props;
-
-    return (
-      <InputComponentStyled>
-        <InputElementWrapperStyled
-          error={error}
-          passwordStrength={passwordStrength}
+const Input = ({
+  type,
+  placeholder,
+  value,
+  onChange,
+  onBlur,
+  error,
+  showVisibilityIcon,
+  handleClickShowPassword,
+  showPassword,
+  passwordStrength,
+  ariaRequired,
+  ariaInvalid,
+  icon,
+  required,
+  floatingLabels,
+  reference
+}) => {
+  return (
+    <InputComponentStyled>
+      <InputElementWrapperStyled
+        error={error}
+        passwordStrength={passwordStrength}
+      >
+        {required && <InputRequiredStyled>*</InputRequiredStyled>}
+        <InputElementStyled
+          data-testid="input"
+          id={placeholder}
+          autoComplete="off"
+          value={value}
+          onChange={event => onChange(event.target.value)}
+          type={type}
+          onBlur={onBlur}
+          ref={reference}
+          aria-required={ariaRequired}
+          aria-invalid={ariaInvalid}
+          aria-describedby={`${placeholder}-desc`}
+          withIcon={icon}
+          floatingLabels={floatingLabels}
+        />
+        <LabelStyled
+          data-testid="input-label"
+          htmlFor={placeholder}
+          hasValue={value}
+          withIcon={icon}
         >
-          {/* {icon && <InputIconStyled>{icon.render()}</InputIconStyled>} */}
-          {required && <InputRequiredStyled>*</InputRequiredStyled>}
-          <InputElementStyled
-            id={placeholder}
-            autoComplete="off"
-            value={value}
-            onChange={event => onChange(event.target.value)}
-            type={type}
-            onBlur={onBlur}
-            ref={reference}
-            aria-required={ariaRequired}
-            aria-invalid={ariaInvalid}
-            aria-describedby={`${placeholder}-desc`}
-            withIcon={icon}
-            floatingLabels={floatingLabels}
-          />
-          <LabelStyled htmlFor={placeholder} hasValue={value} withIcon={icon}>
-            {placeholder}
-          </LabelStyled>
-          {showVisibilityIcon && (
-            <StyledButton
-              onClick={handleClickShowPassword}
-              tabIndex="0"
-              aria-label="toggle password visibility"
-              type="button"
-            >
-              {showPassword ? (
-                <StyledPasswordVisibility src={visibilityOff} alt="" />
-              ) : (
-                <StyledPasswordVisibility src={visibility} alt="" />
-              )}
-            </StyledButton>
-          )}
-        </InputElementWrapperStyled>
+          {placeholder}
+        </LabelStyled>
+        {showVisibilityIcon && (
+          <StyledButton
+            data-testid="input-visibility-icon"
+            onClick={handleClickShowPassword}
+            tabIndex="0"
+            aria-label="toggle password visibility"
+            type="button"
+          >
+            {showPassword ? (
+              <StyledPasswordVisibility src={visibilityOff} alt="" />
+            ) : (
+              <StyledPasswordVisibility src={visibility} alt="" />
+            )}
+          </StyledButton>
+        )}
+      </InputElementWrapperStyled>
 
-        <ErrorWrapper
-          passwordStrength={passwordStrength}
-          id={`${placeholder}-desc`}
-        >
-          {error}
-        </ErrorWrapper>
-      </InputComponentStyled>
-    );
-  }
-}
+      <ErrorWrapper
+        passwordStrength={passwordStrength}
+        id={`${placeholder}-desc`}
+      >
+        {error}
+      </ErrorWrapper>
+    </InputComponentStyled>
+  );
+};
 
 Input.propTypes = {
   placeholder: PropTypes.string,
-  type: PropTypes.string,
+  type: PropTypes.oneOf(['text', 'password', 'date', 'email']),
   value: PropTypes.string,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
@@ -102,7 +98,7 @@ Input.propTypes = {
   showVisibilityIcon: PropTypes.bool,
   handleClickShowPassword: PropTypes.func,
   showPassword: PropTypes.bool,
-  passwordStrength: PropTypes.string,
+  passwordStrength: PropTypes.oneOf(['Weak', 'Fair', 'Good', 'Strong', '']),
   ariaRequired: PropTypes.bool,
   ariaInvalid: PropTypes.bool,
   icon: PropTypes.elementType,
