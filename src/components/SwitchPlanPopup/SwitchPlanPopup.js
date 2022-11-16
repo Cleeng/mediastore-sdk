@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
 import formatNumber from 'util/formatNumber';
+import isNFLOffer from 'util/isNFLOffer';
 
 import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
@@ -166,7 +167,9 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: isNFLOffer(toOffer.toOfferId)
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   on your next billing date{' '}
@@ -181,7 +184,9 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: isNFLOffer(toOffer.toOfferId)
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   and immediately granted access to your selected plan. The
@@ -203,7 +208,9 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: isNFLOffer(toOffer.toOfferId)
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>
                   . You will also be fully refunded for your previous
@@ -248,7 +255,9 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: isNFLOffer(toOffer.toOfferId)
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   and immediately granted access to the selected plan. You will
@@ -269,7 +278,9 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: isNFLOffer(toOffer.toOfferId)
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   and immediately granted access to the selected plan.
@@ -297,7 +308,9 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: isNFLOffer(toOffer.toOfferId)
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   and granted access to the selected plan. Your next billing
@@ -312,6 +325,14 @@ const SwitchPlanPopup = ({
                   {t(
                     'Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.'
                   )}
+                  <br />
+                </>
+              )}
+              <br />
+              {isNFLOffer(toOffer.toOfferId) && (
+                <>
+                  <br />
+                  {t('Note, the presented price does not include taxes.')}
                   <br />
                 </>
               )}
