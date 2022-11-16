@@ -16,7 +16,7 @@ import { ReactComponent as happyData } from 'assets/images/happyData.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { periodMapper } from 'util/planHelper';
-import isNFLOffer from 'util/isNFLOffer';
+import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
 import mapErrorToText from './helper';
 
 const SubscriptionSwitchesList = ({
@@ -108,7 +108,8 @@ const SubscriptionSwitchesList = ({
       {areAvailable &&
         availableSorted.map(subItem => {
           const price =
-            isNFLOffer(subItem.toOfferId) && subItem.algorithm !== 'DEFERRED'
+            isPriceTemporaryModified(subItem.toOfferId) &&
+            subItem.algorithm !== 'DEFERRED'
               ? subItem.price
               : subItem.nextPaymentPrice;
           return (
@@ -158,7 +159,8 @@ const SubscriptionSwitchesList = ({
       {areUnAvailable &&
         switchSettings.unavailable.map(subItem => {
           const price =
-            isNFLOffer(subItem.toOfferId) && subItem.algorithm !== 'DEFERRED'
+            isPriceTemporaryModified(subItem.toOfferId) &&
+            subItem.algorithm !== 'DEFERRED'
               ? subItem.price
               : subItem.nextPaymentPrice;
           return (

@@ -1,4 +1,4 @@
-const NFLOffers = [
+const modifiedOffers = [
   'S675017829_PL',
   'S117251403_PL',
   'S680269209_US',
@@ -10,8 +10,8 @@ const NFLOffers = [
   'S248815997_US'
 ];
 
-const isNFLOffer = offerId => {
-  return NFLOffers.includes(offerId);
+const isPriceTemporaryModified = offerId => {
+  return modifiedOffers.includes(offerId);
 };
 
-export default isNFLOffer;
+export default isPriceTemporaryModified;

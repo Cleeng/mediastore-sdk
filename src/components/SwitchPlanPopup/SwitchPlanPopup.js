@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
 import formatNumber from 'util/formatNumber';
-import isNFLOffer from 'util/isNFLOffer';
+import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
 
 import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
@@ -167,7 +167,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      currentPrice: isNFLOffer(toOffer.toOfferId)
+                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
                         ? formatNumber(toOffer.price)
                         : formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -184,7 +184,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      currentPrice: isNFLOffer(toOffer.toOfferId)
+                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
                         ? formatNumber(toOffer.price)
                         : formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -208,7 +208,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      currentPrice: isNFLOffer(toOffer.toOfferId)
+                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
                         ? formatNumber(toOffer.price)
                         : formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -255,7 +255,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      currentPrice: isNFLOffer(toOffer.toOfferId)
+                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
                         ? formatNumber(toOffer.price)
                         : formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -278,7 +278,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      currentPrice: isNFLOffer(toOffer.toOfferId)
+                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
                         ? formatNumber(toOffer.price)
                         : formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -308,7 +308,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      currentPrice: isNFLOffer(toOffer.toOfferId)
+                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
                         ? formatNumber(toOffer.price)
                         : formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -329,7 +329,7 @@ const SwitchPlanPopup = ({
                 </>
               )}
               <br />
-              {isNFLOffer(toOffer.toOfferId) && (
+              {isPriceTemporaryModified(toOffer.toOfferId) && (
                 <>
                   <br />
                   {t('Note, the presented price does not include taxes.')}
