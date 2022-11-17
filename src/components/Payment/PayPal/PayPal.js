@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { ReactComponent as PaypalFullLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
 import { PayPalContentStyled, PayPalIconContentStyled } from './PayPalStyled';
 
-const PayPal = ({ order, t }) => {
+const PayPal = ({ totalPrice, offerId, t }) => {
   return (
     <PayPalContentStyled>
       <PayPalIconContentStyled>
         <PaypalFullLogo />
       </PayPalIconContentStyled>
       <>
-        {order.totalPrice === 0 && order.offerId.charAt(0) === 'S'
+        {totalPrice === 0 && offerId.charAt(0) === 'S'
           ? t(
               'Click ‘Continue with PayPal‘ to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments.'
             )
@@ -21,12 +21,12 @@ const PayPal = ({ order, t }) => {
 };
 
 PayPal.propTypes = {
-  order: PropTypes.objectOf(PropTypes.any),
+  totalPrice: PropTypes.string.isRequired,
+  offerId: PropTypes.string.isRequired,
   t: PropTypes.func
 };
 
 PayPal.defaultProps = {
-  order: {},
   t: k => k
 };
 

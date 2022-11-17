@@ -34,16 +34,11 @@ const DropInSection = ({
 };
 
 DropInSection.propTypes = {
-  order: PropTypes.objectOf(PropTypes.any),
   selectPaymentMethod: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   logo: PropTypes.node.isRequired,
   children: PropTypes.node.isRequired
-};
-
-DropInSection.defaultProps = {
-  order: {}
 };
 
 export default DropInSection;

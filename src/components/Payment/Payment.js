@@ -251,7 +251,7 @@ const Payment = ({
             title="PayPal"
             logo={<PaypalLogo />}
           >
-            <PayPal order={order} />
+            <PayPal totalPrice={order.totalPrice} offerId={order.offerId} />
           </DropInSection>
         </Adyen>
       )}
