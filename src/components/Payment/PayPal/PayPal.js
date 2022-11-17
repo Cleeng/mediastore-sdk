@@ -18,13 +18,17 @@ const PayPal = ({ order, t, selectPaymentMethod, isActive }) => {
         <PayPalIconWrapperStyled><PaypalLogo /></PayPalIconWrapperStyled>
         <PayPalTitleStyled>PayPal</PayPalTitleStyled>
         <ChevronIconWrapperStyled isActive={isActive}><Chevron /></ChevronIconWrapperStyled>
-        {/* {order.totalPrice === 0 && order.offerId.charAt(0) === 'S' */}
-        {/*   ? t( */}
-        {/*       'Click ‘Continue with PayPal‘ to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments.' */}
-        {/*     ) */}
-        {/*   : t('Click ‘Continue with PayPal‘ to complete your purchase.')} */}
       </PayPalTextStyled>
-      {isActive && <PayPalContentStyled><PayPalIconContentStyled><PaypalFullLogo/></PayPalIconContentStyled>Paying with PayPal is easy. <b>Click ‘Continue with PayPal’ button below</b> and sign in to your PayPal account. Note, Paypal is subject to an <b>additional 8% fee</b> that will be added to your next payments.</PayPalContentStyled>}
+      {isActive && <PayPalContentStyled>
+        <PayPalIconContentStyled>
+          <PaypalFullLogo/>
+        </PayPalIconContentStyled>
+        <>{order.totalPrice === 0 && order.offerId.charAt(0) === 'S'
+          ? t(
+            'Click ‘Continue with PayPal‘ to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments.'
+          )
+          : t('Click ‘Continue with PayPal‘ to complete your purchase.')}</>
+      </PayPalContentStyled>}
     </PayPalWrapperStyled>
   );
 };

@@ -90,6 +90,8 @@ export const PayPalContentStyled = styled.div`
   align-items: center;
   justify-content: center;
   padding-bottom: 26px;
+  padding-left: 16px;
+  padding-right: 16px;
   font-size: 11px;
 `;
 
