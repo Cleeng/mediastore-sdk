@@ -99,13 +99,14 @@ const Adyen = ({
     }
   }, [selectedPaymentMethod]);
 
-  const confirmButtonText = isCheckout ? t('Complete purchase') : t('Update');
+  const isPayPalText =
+    selectedPaymentMethod === 'paypal'
+      ? 'Continue with PayPal'
+      : t('Complete purchase');
+  const confirmButtonText = isCheckout ? isPayPalText : t('Update');
   return (
     <AdyenStyled isMyAccount={!isCheckout}>
-      <div
-        ref={containerRef}
-        onClick={() => selectPaymentMethod('card')}
-      />
+      <div ref={containerRef} onClick={() => selectPaymentMethod('card')} />
       {children}
       <ConfirmButtonStyled>
         <Button
@@ -140,7 +141,7 @@ Adyen.propTypes = {
   isCheckout: PropTypes.bool,
   selectPaymentMethod: PropTypes.func.isRequired,
   children: PropTypes.node,
-  selectedPaymentMethod: PropTypes.string.isRequired,
+  selectedPaymentMethod: PropTypes.string.isRequired
 };
 
 Adyen.defaultProps = {
