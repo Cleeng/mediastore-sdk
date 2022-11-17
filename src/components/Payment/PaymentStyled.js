@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
+import { ConfirmColor } from 'styles/variables';
 
 export const PaymentStyled = styled.div.attrs(() => ({
   className: 'msd__payment'
@@ -49,16 +50,14 @@ export const MethodsWrapperStyled = styled.div.attrs(() => ({
 export const PayPalWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__payment__paypal'
 }))`
-  height: 58px;
+  min-height: 58px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border: 1px solid #D3DBE6;
   border-radius: 0 0 12px 12px;
-  border-top: none;
   cursor: pointer;
   background-color: ${colors.White};
-  padding-left: 25px;
+  border: 1px solid ${({ isActive }) => isActive ? ConfirmColor : "#D3DBE6"};
 `;
 
 export const PayPalTextStyled = styled.p.attrs(() => ({
@@ -66,7 +65,7 @@ export const PayPalTextStyled = styled.p.attrs(() => ({
 }))`
   max-width: 550px;
   margin: 0;
-  padding: 4px;
+  padding: 16px 16px 16px 25px;
   text-align: center;
   line-height: 1.4em;
   color: #00112c;
@@ -79,6 +78,19 @@ export const PayPalTextStyled = styled.p.attrs(() => ({
     width: 90%;
     max-width: 400px;
   `}
+`;
+
+export const PayPalTitleStyled = styled.span`
+  margin-left: 15px;
+`;
+
+export const PayPalContentStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 26px;
+  font-size: 11px;
 `;
 
 export const LegalNoteWrapperStyled = styled.div.attrs(() => ({
@@ -96,7 +108,7 @@ export const LegalTextStyled = styled.p`
   color: ${colors.MyAccountTextGray};
 `;
 
-export const PayPalIconWrapper = styled.div`
+export const PayPalIconWrapperStyled = styled.div`
   border: 1px solid #A9A9BF;
   display: flex;
   justify-content: center;
@@ -104,4 +116,15 @@ export const PayPalIconWrapper = styled.div`
   width: 40px;
   height: 26px;
   border-radius: 4px;
+`;
+
+export const PayPalIconContentStyled = styled.div`
+  padding-bottom: 20px;
+`;
+
+export const ChevronIconWrapperStyled = styled.div`
+  margin-left: auto;
+  svg {
+    rotate: ${({ isActive }) => isActive ? "180deg" : "0"};
+  }
 `;

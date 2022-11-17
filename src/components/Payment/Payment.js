@@ -236,21 +236,15 @@ const Payment = ({
     <PaymentStyled>
       {selectedPaymentMethod}
       {generalError && <PaymentErrorStyled>{generalError}</PaymentErrorStyled>}
-      {isPayPal && (
-        <PayPal
-          isLoading={isLoading}
-          submitPayPal={submitPayPal}
-          order={order}
-        />
-      )}
-      {isPaymentFormDisplayed && !isPayPal && (
+      {isPaymentFormDisplayed && (
         <Adyen
           onSubmit={onAdyenSubmit}
           onChange={() => setGeneralError('')}
           isPaymentProcessing={isLoading}
           selectPaymentMethod={selectPaymentMethod}
+          selectedPaymentMethod={selectedPaymentMethod}
         >
-          <PayPal order={order} selectPaymentMethod={selectPaymentMethod} />
+          <PayPal order={order} selectPaymentMethod={selectPaymentMethod} isActive={selectedPaymentMethod === 'paypal'} />
         </Adyen>
       )}
       {(isPayPal || isPaymentFormDisplayed) &&

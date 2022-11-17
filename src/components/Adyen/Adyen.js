@@ -21,7 +21,8 @@ const Adyen = ({
   isPaymentProcessing,
   isCheckout,
   selectPaymentMethod,
-  children
+  children,
+  selectedPaymentMethod
 }) => {
   // const [isLoaded, setIsLoaded] = useState(false);
   const containerRef = useRef(null);
@@ -88,6 +89,17 @@ const Adyen = ({
     // TODO: add loading indicator
   }, []);
 
+  useEffect(() => {
+    if (!selectedPaymentMethod || !dropInInstance) {
+      return;
+    }
+
+    if (selectedPaymentMethod === 'paypal') {
+      console.log(selectedPaymentMethod);
+      dropInInstance.closeActivePaymentMethod()
+    }
+  }, [selectedPaymentMethod]);
+
   const confirmButtonText = isCheckout ? t('Complete purchase') : t('Update');
   return (
     <AdyenStyled isMyAccount={!isCheckout}>
@@ -128,7 +140,8 @@ Adyen.propTypes = {
   isPaymentProcessing: PropTypes.bool,
   isCheckout: PropTypes.bool,
   selectPaymentMethod: PropTypes.func.isRequired,
-  children: PropTypes.node
+  children: PropTypes.node,
+  selectedPaymentMethod: PropTypes.string.isRequired,
 };
 
 Adyen.defaultProps = {
