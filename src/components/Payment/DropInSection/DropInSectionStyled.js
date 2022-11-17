@@ -27,7 +27,7 @@ export const WrapperStyled = styled.div.attrs(() => ({
     ${({ isSelected }) => (isSelected ? ConfirmColor : '#D3DBE6')};
 `;
 
-export const TextStyled = styled.p.attrs(() => ({
+export const TextStyled = styled.div.attrs(() => ({
   className: 'msd__payment-text'
 }))`
   max-width: 550px;
