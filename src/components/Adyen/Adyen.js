@@ -95,8 +95,7 @@ const Adyen = ({
     }
 
     if (selectedPaymentMethod === 'paypal') {
-      console.log(selectedPaymentMethod);
-      dropInInstance.closeActivePaymentMethod()
+      dropInInstance.closeActivePaymentMethod();
     }
   }, [selectedPaymentMethod]);
 

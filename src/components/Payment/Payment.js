@@ -14,6 +14,7 @@ import Adyen from 'components/Adyen';
 import Loader from 'components/Loader';
 import { getData } from 'util/appConfigHelper';
 import Auth from 'services/auth';
+import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/payment-paypal.svg';
 import { PaymentErrorStyled, PaymentStyled } from './PaymentStyled';
 import {
   supportedPaymentGateways,
@@ -25,6 +26,7 @@ import eventDispatcher, {
 } from '../../util/eventDispatcher';
 import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
+import DropInSection from './DropInSection/DropInSection';
 
 const Payment = ({
   t,
@@ -234,7 +236,6 @@ const Payment = ({
 
   return (
     <PaymentStyled>
-      {selectedPaymentMethod}
       {generalError && <PaymentErrorStyled>{generalError}</PaymentErrorStyled>}
       {isPaymentFormDisplayed && (
         <Adyen
@@ -244,7 +245,14 @@ const Payment = ({
           selectPaymentMethod={selectPaymentMethod}
           selectedPaymentMethod={selectedPaymentMethod}
         >
-          <PayPal order={order} selectPaymentMethod={selectPaymentMethod} isActive={selectedPaymentMethod === 'paypal'} />
+          <DropInSection
+            selectPaymentMethod={selectPaymentMethod}
+            isSelected={selectedPaymentMethod === 'paypal'}
+            title="PayPal"
+            logo={<PaypalLogo />}
+          >
+            <PayPal order={order} />
+          </DropInSection>
         </Adyen>
       )}
       {(isPayPal || isPaymentFormDisplayed) &&
