@@ -54,6 +54,8 @@ export const PayPalWrapperStyled = styled.div.attrs(() => ({
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  border: 1px solid black;
+  border-radius: 6px;
 `;
 
 export const PayPalTextStyled = styled.p.attrs(() => ({

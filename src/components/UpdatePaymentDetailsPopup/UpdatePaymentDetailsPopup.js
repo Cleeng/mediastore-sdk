@@ -31,6 +31,8 @@ import supportedPaymentGateways, {
   ACTIONS
 } from './definedPaymentMethods.const';
 import { AddCard, AddPayPal, Success, DeletePaymentMethod } from './Steps';
+import Adyen from '../Adyen';
+import PayPal from '../Payment/PayPal/PayPal';
 
 const PaymentMethodIcons = {
   amazon: AmazonIcon,
@@ -50,9 +52,12 @@ const UpdatePaymentDetailsPopup = ({
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [action, setAction] = useState(null);
+  const [selectedMethod, setSelectedMethod] = useState('');
   const publisherPaymentMethods = useSelector(
     state => state.paymentInfo.publisherPaymentMethods
   );
+
+  const selectMethod = method => selectedMethod(method);
 
   useEffect(() => {
     if (!publisherPaymentMethods) {
@@ -157,36 +162,9 @@ const UpdatePaymentDetailsPopup = ({
               {t('Update your current payment method, or add a new one.')}
             </TextStyled>
             <SkeletonWrapper showChildren={!isLoading} height={90}>
-              {supportedPaymentGateways.map(item => {
-                const IconComponent = item.icon ? item.icon : React.Fragment;
-                if (
-                  publisherPaymentMethods &&
-                  publisherPaymentMethods[item.paymentGateway]
-                ) {
-                  return (
-                    <PaymentMethodStyled
-                      key={item.key}
-                      onClick={() => {
-                        setStep(currentStep => currentStep + 1);
-                        setAction(item.key);
-                      }}
-                    >
-                      <PaymentMethodIconStyled>
-                        <IconComponent />
-                      </PaymentMethodIconStyled>
-                      <PaymentMethodTextStyled>
-                        <PaymentMethodTitleStyled>
-                          {t(item.title)}
-                        </PaymentMethodTitleStyled>
-                        <PaymentMethodDescStyled>
-                          {t(item.description)}
-                        </PaymentMethodDescStyled>
-                      </PaymentMethodTextStyled>
-                    </PaymentMethodStyled>
-                  );
-                }
-                return null;
-              })}
+              <Adyen selectPaymentMethod={selectMethod} onSubmit={() => {}}>
+                <PayPal order={{}} selectPaymentMethod={selectMethod} />
+              </Adyen>
             </SkeletonWrapper>
             <SkeletonWrapper showChildren={!isLoading}>
               {selectedPaymentMethod.id && (

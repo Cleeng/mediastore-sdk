@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { PayPalTextStyled, PayPalWrapperStyled } from '../PaymentStyled';
-import Button from '../../Button';
-import Loader from '../../Loader';
 
-const PayPal = ({ order, submitPayPal, isLoading, t }) => {
+const PayPal = ({ order, t, selectPaymentMethod }) => {
   return (
-    <PayPalWrapperStyled>
+    <PayPalWrapperStyled onClick={() => selectPaymentMethod('paypal')}>
       <PayPalTextStyled>
         {order.totalPrice === 0 && order.offerId.charAt(0) === 'S'
           ? t(
@@ -14,13 +12,6 @@ const PayPal = ({ order, submitPayPal, isLoading, t }) => {
             )
           : t('Click ‘Continue with PayPal‘ to complete your purchase.')}
       </PayPalTextStyled>
-      <Button type="button" theme="payment" onClickFn={submitPayPal}>
-        {isLoading ? (
-          <Loader buttonLoader color="#ffffff" />
-        ) : (
-          t('Continue with PayPal')
-        )}
-      </Button>
     </PayPalWrapperStyled>
   );
 };
@@ -28,8 +19,7 @@ const PayPal = ({ order, submitPayPal, isLoading, t }) => {
 PayPal.propTypes = {
   order: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func,
-  submitPayPal: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool.isRequired
+  selectPaymentMethod: PropTypes.func.isRequired
 };
 
 PayPal.defaultProps = {

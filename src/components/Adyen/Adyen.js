@@ -14,7 +14,15 @@ import '@adyen/adyen-web/dist/adyen.css';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
 import { CLIENT_KEY_LIVE, CLIENT_KEY_TEST } from './Adyen.utils';
 
-const Adyen = ({ onSubmit, onChange, t, isPaymentProcessing, isCheckout }) => {
+const Adyen = ({
+  onSubmit,
+  onChange,
+  t,
+  isPaymentProcessing,
+  isCheckout,
+  selectPaymentMethod,
+  children
+}) => {
   // const [isLoaded, setIsLoaded] = useState(false);
   const containerRef = useRef(null);
   const [dropInInstance, setDropInInstance] = useState(null);
@@ -83,7 +91,11 @@ const Adyen = ({ onSubmit, onChange, t, isPaymentProcessing, isCheckout }) => {
   const confirmButtonText = isCheckout ? t('Complete purchase') : t('Update');
   return (
     <AdyenStyled isMyAccount={!isCheckout}>
-      <div ref={containerRef} />
+      <div
+        ref={containerRef}
+        onClick={() => selectPaymentMethod('card')}
+      />
+      {children}
       <ConfirmButtonStyled>
         <Button
           size="big"
@@ -114,10 +126,13 @@ Adyen.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func,
   isPaymentProcessing: PropTypes.bool,
-  isCheckout: PropTypes.bool
+  isCheckout: PropTypes.bool,
+  selectPaymentMethod: PropTypes.func.isRequired,
+  children: PropTypes.node
 };
 
 Adyen.defaultProps = {
+  children: '',
   t: k => k,
   onChange: () => {},
   isPaymentProcessing: false,

@@ -21,7 +21,7 @@ export const AdyenStyled = styled.div.attrs(() => ({
       }
     `}
 
-  .adyen-checkout__label--focused 
+  .adyen-checkout__label--focused
     .adyen-checkout__label__text {
     color: ${FontColor};
     opacity: 1;

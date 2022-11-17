@@ -11,16 +11,10 @@ import {
 } from 'api';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
-import SectionHeader from 'components/SectionHeader';
 import Loader from 'components/Loader';
 import { getData } from 'util/appConfigHelper';
-import PaymentMethodButton from 'components/PaymentMethodButton';
 import Auth from 'services/auth';
-import {
-  MethodsWrapperStyled,
-  PaymentErrorStyled,
-  PaymentStyled
-} from './PaymentStyled';
+import { PaymentErrorStyled, PaymentStyled } from './PaymentStyled';
 import {
   supportedPaymentGateways,
   supportedPaymentMethods
@@ -41,11 +35,12 @@ const Payment = ({
   order,
   period
 }) => {
-  const [isPaymentFormDisplayed, setIsPaymentFormDisplayed] = useState(false);
+  const [isPaymentFormDisplayed, setIsPaymentFormDisplayed] = useState(true);
   const [isPayPal, setIsPayPal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [validPaymentMethods, setValidPaymentMethods] = useState([]);
   const [generalError, setGeneralError] = useState('');
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
 
   const validatePaymentMethods = (paymentMethods, showError = true) => {
     if (!paymentMethods) return [];
@@ -78,6 +73,15 @@ const Payment = ({
 
     setIsPayPal(methodName === 'paypal');
   };
+
+  const selectPaymentMethod = method => {
+    setSelectedPaymentMethod(method);
+    choosePaymentMethod(
+      validPaymentMethods.find(({ methodName }) => methodName === method).id,
+      method
+    );
+  };
+
   const handlePayPalError = () => {
     const { search } = window.location;
     if (search?.includes('message')) {
@@ -142,9 +146,26 @@ const Payment = ({
     handlePayPalError();
   }, []);
 
+  const submitPayPal = async () => {
+    setIsLoading(true);
+    const {
+      responseData: { redirectUrl }
+    } = await submitPayPalPayment();
+    if (redirectUrl) {
+      window.location.href = redirectUrl;
+    } else {
+      setIsLoading(false);
+      setGeneralError(t('The payment failed. Please try again.'));
+    }
+  };
+
   const onAdyenSubmit = async ({ data: { paymentMethod } }) => {
     setGeneralError('');
     setIsLoading(true);
+    if (selectedPaymentMethod === 'paypal') {
+      submitPayPal();
+      return;
+    }
 
     const {
       errors,
@@ -171,19 +192,6 @@ const Payment = ({
         : t('The payment failed. Please try again.')
     );
     setIsLoading(false);
-  };
-
-  const submitPayPal = async () => {
-    setIsLoading(true);
-    const {
-      responseData: { redirectUrl }
-    } = await submitPayPalPayment();
-    if (redirectUrl) {
-      window.location.href = redirectUrl;
-    } else {
-      setIsLoading(false);
-      setGeneralError(t('The payment failed. Please try again.'));
-    }
   };
 
   const paymentWithoutDetails = async () => {
@@ -226,25 +234,7 @@ const Payment = ({
 
   return (
     <PaymentStyled>
-      {validPaymentMethods.length !== 1 && (
-        <>
-          <SectionHeader marginTop="25px" center>
-            {t('Purchase using')}
-          </SectionHeader>
-          <MethodsWrapperStyled>
-            {validPaymentMethods.map(({ id, methodName }) => (
-              <PaymentMethodButton
-                key={id}
-                methodName={methodName}
-                onClickFn={() => {
-                  setIsPaymentFormDisplayed(true);
-                  choosePaymentMethod(id, methodName);
-                }}
-              />
-            ))}
-          </MethodsWrapperStyled>
-        </>
-      )}
+      {selectedPaymentMethod}
       {generalError && <PaymentErrorStyled>{generalError}</PaymentErrorStyled>}
       {isPayPal && (
         <PayPal
@@ -258,7 +248,10 @@ const Payment = ({
           onSubmit={onAdyenSubmit}
           onChange={() => setGeneralError('')}
           isPaymentProcessing={isLoading}
-        />
+          selectPaymentMethod={selectPaymentMethod}
+        >
+          <PayPal order={order} selectPaymentMethod={selectPaymentMethod} />
+        </Adyen>
       )}
       {(isPayPal || isPaymentFormDisplayed) &&
         order.offerId.charAt(0) === 'S' && (
