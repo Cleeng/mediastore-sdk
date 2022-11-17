@@ -49,23 +49,32 @@ export const MethodsWrapperStyled = styled.div.attrs(() => ({
 export const PayPalWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__payment__paypal'
 }))`
-  height: 180px;
+  height: 58px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  border: 1px solid black;
-  border-radius: 6px;
+  border: 1px solid #D3DBE6;
+  border-radius: 0 0 12px 12px;
+  border-top: none;
+  cursor: pointer;
+  background-color: ${colors.White};
+  padding-left: 25px;
 `;
 
 export const PayPalTextStyled = styled.p.attrs(() => ({
   className: 'msd__payment__paypal-text'
 }))`
   max-width: 550px;
-  margin-bottom: 20px;
+  margin: 0;
+  padding: 4px;
   text-align: center;
   line-height: 1.4em;
-  font-size: 13px;
+  color: #00112c;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
   ${media.small`
     width: 90%;
     max-width: 400px;
@@ -85,4 +94,14 @@ export const LegalTextStyled = styled.p`
   line-height: 17px;
   font-weight: 400;
   color: ${colors.MyAccountTextGray};
+`;
+
+export const PayPalIconWrapper = styled.div`
+  border: 1px solid #A9A9BF;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 26px;
+  border-radius: 4px;
 `;
