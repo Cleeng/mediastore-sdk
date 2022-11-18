@@ -13,20 +13,41 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: main
       - uses: actions/setup-node@v2
         with:
           node-version: '16'
           registry-url: 'https://registry.npmjs.org'
-      - run: npm ci
-      - run: git config --global user.name "GitHub CD bot"
-      - run: git config --global user.email "pkaczmarek@cleeng.com"
-      - run: npm version ${{ github.event.release.tag_name }}
-      - run: npm run compile
-      - run: npm publish --access public
+
+      - name: install deps
+        run: npm ci
+
+      - name: bump version
+        run: npm version ${{ github.event.release.tag_name }}
+
+      - name: compile the bundle
+        run: npm run compile
+
+      - name: push the bundle to registry
+        run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-      - run: git push --force-with-lease
+
+      - name: get pushbot token
+        id: pushbot
+        uses: tibdex/github-app-token@v1
+        with:
+          app_id: ${{ secrets.PUSHBOT_APP_ID }}
+          private_key: ${{ secrets.PUSHBOT_PRIVATE_KEY }}
+
+      - name: configure git
         env:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          this: https://x-access-token:${{ steps.pushbot.outputs.token }}@github.com/Cleeng/
+          that: https://github.com/Cleeng/
+        run: |
+          git config --local --unset http.https://github.com/.extraheader
+          git config --global url."${{ env.this }}".insteadOf "${{ env.that }}"
+          git config --global user.email "cleeng-devops@cleeng.com"
+          git config --global user.name "GitHub Actions"
+
+      - name: push updated package.json
+        run: git push --force-with-lease
