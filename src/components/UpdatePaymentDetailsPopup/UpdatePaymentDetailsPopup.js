@@ -17,20 +17,23 @@ import { ReactComponent as AppleIcon } from 'assets/images/paymentMethods/apple_
 import { ReactComponent as AndroidIcon } from 'assets/images/paymentMethods/android_color.svg';
 import { ReactComponent as PaypalIcon } from 'assets/images/paymentMethods/paypal_color.svg';
 import { ReactComponent as RokuIcon } from 'assets/images/paymentMethods/roku_color.svg';
+import updateAdyenPaymentDetails from 'api/PaymentDetails/updateAdyenPaymentDetails';
+import eventDispatcher, {
+  MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL,
+  MSSDK_UPDATE_PAYMENT_DETAILS_FAILED,
+  MSSDK_REMOVE_PAYMENT_DETAILS_BUTTON_CLICKED
+} from 'util/eventDispatcher';
 import {
-  PaymentMethodStyled,
-  PaymentMethodTextStyled,
-  PaymentMethodTitleStyled,
-  PaymentMethodDescStyled,
-  PaymentMethodIconStyled,
+  // PaymentMethodStyled,
+  // PaymentMethodTextStyled,
+  // PaymentMethodTitleStyled,
+  // PaymentMethodDescStyled,
+  // PaymentMethodIconStyled,
   RemoveLinkStyled,
   DeleteIconStyled,
   PopupImageStyled
 } from './UpdatePaymentDetailsPopupStyled';
-import supportedPaymentGateways, {
-  ACTIONS
-} from './definedPaymentMethods.const';
-import { AddCard, AddPayPal, Success, DeletePaymentMethod } from './Steps';
+import { Success, DeletePaymentMethod } from './Steps';
 import Adyen from '../Adyen';
 import PayPal from '../Payment/PayPal/PayPal';
 
@@ -48,16 +51,27 @@ const UpdatePaymentDetailsPopup = ({
   updatePaymentDetailsSection,
   selectedPaymentMethod
 }) => {
+  const STEPS = {
+    PAYMENT_DETAILS_UPDATE: 'PAYMENT_DETAILS_UPDATE',
+    DELETE_PAYMENT_DETAILS: 'DELETE_PAYMENT_DETAILS',
+    SUCCESS: 'SUCCESS'
+  };
+
+  const STEPS_NUMBERS = {
+    PAYMENT_DETAILS_UPDATE: 1,
+    DELETE_PAYMENT_DETAILS: 2,
+    SUCCESS: 2
+  };
+
   const { t } = useTranslation();
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(STEPS.PAYMENT_DETAILS_UPDATE);
   const [isLoading, setIsLoading] = useState(false);
-  const [action, setAction] = useState(null);
   const [selectedMethod, setSelectedMethod] = useState('');
   const publisherPaymentMethods = useSelector(
     state => state.paymentInfo.publisherPaymentMethods
   );
 
-  const selectMethod = method => selectedMethod(method);
+  const selectMethod = method => setSelectedMethod(method);
 
   useEffect(() => {
     if (!publisherPaymentMethods) {
@@ -85,30 +99,6 @@ const UpdatePaymentDetailsPopup = ({
     }
   }, []);
 
-  const renderMainStep = () => {
-    switch (action) {
-      case ACTIONS.addCard:
-        return (
-          <AddCard
-            setStep={setStep}
-            updatePaymentDetailsSection={updatePaymentDetailsSection}
-          />
-        );
-      case ACTIONS.addPayPal:
-        return <AddPayPal setStep={setStep} />;
-      case ACTIONS.delete:
-        return (
-          <DeletePaymentMethod
-            hideInnerPopup={hideInnerPopup}
-            paymentDetailsToDelete={selectedPaymentMethod}
-            setStep={setStep}
-            updatePaymentDetailsSection={updatePaymentDetailsSection}
-          />
-        );
-      default:
-        return '';
-    }
-  };
   if (selectedPaymentMethod.bound) {
     const LogoComponent =
       PaymentMethodIcons[selectedPaymentMethod.paymentMethod];
@@ -147,14 +137,29 @@ const UpdatePaymentDetailsPopup = ({
     );
   }
 
+  const addAdyenPaymentDetails = async ({ data: { paymentMethod } }) => {
+    // TODO: handle loading and errors
+    const { errors } = await updateAdyenPaymentDetails(
+      publisherPaymentMethods.adyen,
+      paymentMethod
+    );
+    if (errors.length) {
+      eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED);
+      return;
+    }
+    eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL);
+    setStep(STEPS.SUCCESS);
+    updatePaymentDetailsSection();
+  };
+
   return (
     <InnerPopupWrapper
-      steps={3}
+      steps={2}
       isError={false}
-      currentStep={step}
+      currentStep={STEPS_NUMBERS[step]}
       popupTitle={t('Update payment details')}
     >
-      {step === 1 && (
+      {step === STEPS.PAYMENT_DETAILS_UPDATE && (
         <>
           <ContentStyled>
             <TitleStyled>{t('Update payment details')}</TitleStyled>
@@ -162,7 +167,11 @@ const UpdatePaymentDetailsPopup = ({
               {t('Update your current payment method, or add a new one.')}
             </TextStyled>
             <SkeletonWrapper showChildren={!isLoading} height={90}>
-              <Adyen selectPaymentMethod={selectMethod} onSubmit={() => {}}>
+              <Adyen
+                isCheckout={false}
+                selectPaymentMethod={selectMethod}
+                onSubmit={addAdyenPaymentDetails}
+              >
                 <PayPal order={{}} selectPaymentMethod={selectMethod} />
               </Adyen>
             </SkeletonWrapper>
@@ -170,13 +179,10 @@ const UpdatePaymentDetailsPopup = ({
               {selectedPaymentMethod.id && (
                 <RemoveLinkStyled
                   onClick={() => {
-                    window.dispatchEvent(
-                      new CustomEvent(
-                        'MSSDK:remove-payment-details-button-clicked'
-                      )
+                    eventDispatcher(
+                      MSSDK_REMOVE_PAYMENT_DETAILS_BUTTON_CLICKED
                     );
-                    setStep(currentStep => currentStep + 1);
-                    setAction(ACTIONS.delete);
+                    setStep(STEPS.DELETE_PAYMENT_DETAILS);
                   }}
                 >
                   <DeleteIconStyled />
@@ -192,8 +198,15 @@ const UpdatePaymentDetailsPopup = ({
           </ButtonWrapperStyled>
         </>
       )}
-      {step === 2 && renderMainStep()}
-      {step === 3 && <Success hideInnerPopup={hideInnerPopup} />}
+      {step === STEPS.DELETE_PAYMENT_DETAILS && (
+        <DeletePaymentMethod
+          hideInnerPopup={hideInnerPopup}
+          paymentDetailsToDelete={selectedPaymentMethod}
+          setStep={setStep}
+          updatePaymentDetailsSection={updatePaymentDetailsSection}
+        />
+      )}
+      {step === STEPS.SUCCESS && <Success hideInnerPopup={hideInnerPopup} />}
     </InnerPopupWrapper>
   );
 };

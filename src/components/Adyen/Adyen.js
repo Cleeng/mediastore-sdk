@@ -79,7 +79,7 @@ const Adyen = ({
     const createSession = async () => {
       const {
         responseData: { id, sessionData }
-      } = await createPaymentSession();
+      } = await createPaymentSession(isCheckout);
       // TODO: handle error when id is missing
       if (id) {
         createDropInInstance(id, sessionData);
