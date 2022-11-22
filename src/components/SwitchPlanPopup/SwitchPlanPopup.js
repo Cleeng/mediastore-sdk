@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
 import formatNumber from 'util/formatNumber';
+import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
 
 import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
@@ -166,7 +167,9 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   on your next billing date{' '}
@@ -181,7 +184,9 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   and immediately granted access to your selected plan. The
@@ -203,7 +208,9 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>
                   . You will also be fully refunded for your previous
@@ -248,7 +255,9 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   and immediately granted access to the selected plan. You will
@@ -269,10 +278,44 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   and immediately granted access to the selected plan.
+                </Trans>
+              )}
+              {toOffer.algorithm === 'IMMEDIATE_WITH_TIME_PRORATION' && (
+                <Trans i18nKey="switchplanpopup-info-immediatewithtimeproration">
+                  You will be immediately granted access to your selected plan.
+                  Your next billing date will be changed and pushed towards,
+                  based on the time left on your previous subscription. From
+                  that time, you will be charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                    }}
+                  </strong>{' '}
+                  on a recurring basis.
+                </Trans>
+              )}
+              {toOffer.algorithm ===
+                'IMMEDIATE_AND_CHARGE_WITH_TIME_PRORATION' && (
+                <Trans i18nKey="switchplanpopup-info-immediateandchargewithtimeproration">
+                  You will be immediately charged{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
+                    }}
+                  </strong>{' '}
+                  and granted access to the selected plan. Your next billing
+                  date will be changed and pushed towards, based on the time
+                  left on your previous subscription.{' '}
                 </Trans>
               )}
               <br />
@@ -282,6 +325,14 @@ const SwitchPlanPopup = ({
                   {t(
                     'Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.'
                   )}
+                  <br />
+                </>
+              )}
+              <br />
+              {isPriceTemporaryModified(toOffer.toOfferId) && (
+                <>
+                  <br />
+                  {t('Note, the presented price does not include taxes.')}
                   <br />
                 </>
               )}
@@ -466,6 +517,45 @@ const SwitchPlanPopup = ({
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>{' '}
                   starting from now.
+                </Trans>
+              )}
+              {toOffer.algorithm === 'IMMEDIATE_WITH_TIME_PRORATION' && (
+                <Trans i18nKey="switchplanpopup-confirm-immediatewithtimeproration">
+                  You have successfully changed your plan to{' '}
+                  <strong>
+                    {{
+                      newPlan: t(
+                        `offer-title-${toOffer.toOfferId}`,
+                        toOffer.title
+                      )
+                    }}
+                  </strong>
+                  . Your new fee will be{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  and you will be charged on a recurring basis until you cancel.
+                </Trans>
+              )}
+              {toOffer.algorithm ===
+                'IMMEDIATE_AND_CHARGE_WITH_TIME_PRORATION' && (
+                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithtimeproration">
+                  You have successfully changed your plan to{' '}
+                  <strong>
+                    {{
+                      newPlan: t(
+                        `offer-title-${toOffer.toOfferId}`,
+                        toOffer.title
+                      )
+                    }}
+                  </strong>
+                  . Your new fee will be{' '}
+                  <strong>
+                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                  </strong>{' '}
+                  and you will be charged on a recurring basis until you cancel.
                 </Trans>
               )}
             </TextStyled>
