@@ -1,0 +1,82 @@
+{
+  "name": "@cleeng/mediastore-sdk",
+  "version": "2.2.0",
+  "private": false,
+  "main": "dist/package.js",
+  "files": [
+    "dist",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Cleeng/mediastore-sdk"
+  },
+  "peerDependencies": {
+    "react": ">= 18.2.0",
+    "react-dom": "^18.2.0",
+    "styled-components": ">= 4"
+  },
+  "dependencies": {
+    "@adyen/adyen-web": "5.29.0",
+    "@cleeng/mediastore-sdk": "file:.yalc/@cleeng/mediastore-sdk",
+    "@reduxjs/toolkit": "^1.7.2",
+    "camelcase": "^5.3.1",
+    "dotenv": "6.2.0",
+    "dotenv-expand": "4.2.0",
+    "glob": "^7.2.0",
+    "i18next": "^17.3.1",
+    "i18next-browser-languagedetector": "^4.3.1",
+    "identity-obj-proxy": "3.0.0",
+    "jwt-decode": "^2.2.0",
+    "lodash.merge": "^4.6.2",
+    "prop-types": "^15.8.1",
+    "react-app-polyfill": "^1.0.6",
+    "react-custom-scrollbars-2": "^4.5.0",
+    "react-i18next": "^10.13.2",
+    "react-loading-skeleton": "^3.1.0",
+    "react-redux": "^7.2.6",
+    "react-select": "^5.5.4",
+    "redux": "^4.1.2",
+    "resolve": "1.22.0",
+    "svgo": "^2.8.0"
+  },
+  "scripts": {
+    "test": "jest --watch",
+    "scan-translations": "node -e 'require(`./scripts/translationsBundle.js`).run(false)'",
+    "clean": "rimraf dist",
+    "compile": "npm run clean && cross-env NODE_ENV=production babel src --ignore spec.js,test.js,stories.js --out-dir dist --copy-files ",
+    "publish-dev": "npm run compile && yalc publish --push"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --no-ignore --fix",
+      "git add --force"
+    ],
+    "*.{json,md,graphql}": [
+      "prettier --write",
+      "git add --force"
+    ],
+    "*.{css,less,styl,scss,sass,sss}": [
+      "stylelint",
+      "git add --force"
+    ]
+  },
+  "yalcSig": "1f9fdb6c1aa81bb216ffa3c15ac3bb91"
+}

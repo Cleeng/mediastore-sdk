@@ -1,0 +1,9 @@
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var visibleBase64 = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIxNiIgdmlld0JveD0iMCAwIDI0IDE2Ij48cGF0aCBkPSJNMTUsMTJhMywzLDAsMSwxLTMtM0EzLDMsMCwwLDEsMTUsMTJabTktLjQ0OVMxOS43NDgsMjAsMTIuMDE1LDIwQzQuODM1LDIwLDAsMTEuNTUxLDAsMTEuNTUxUzQuNDQ2LDQsMTIuMDE1LDRDMTkuNzA5LDQsMjQsMTEuNTUxLDI0LDExLjU1MVpNMTcsMTJhNSw1LDAsMSwwLTUsNUE1LjAwNiw1LjAwNiwwLDAsMCwxNywxMloiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDAgLTQpIi8+PC9zdmc+';
+var _default = visibleBase64;
+exports.default = _default;
