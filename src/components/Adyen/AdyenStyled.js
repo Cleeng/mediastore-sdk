@@ -80,6 +80,11 @@ export const AdyenStyled = styled.div.attrs(() => ({
     border-radius: 12px 12px 0 0;
   }
 
+  .adyen-checkout__payment-method:last-child {
+    border-radius: ${({ isAdditionalPayment }) =>
+      !isAdditionalPayment ? '0 0 12px 12px' : 'none'};
+  }
+
   .adyen-checkout__payment-method__radio {
     display: none;
   }
@@ -100,7 +105,6 @@ export const AdyenStyled = styled.div.attrs(() => ({
 
   .adyen-checkout__payment-method--selected
     .adyen-checkout__payment-method__header:before {
-    // content: url("data:image/svg+xml;charset=UTF-8,%3csvg id='Component_60_1' data-name='Component 60 – 1' xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3e%3cg id='Group_3522' data-name='Group 3522' transform='translate(-1246 -422)'%3e%3cg id='Group_3513' data-name='Group 3513' transform='translate(1246 422)'%3e%3cg id='Group_3515' data-name='Group 3515'%3e%3cpath id='Path_2546' data-name='Path 2546' d='M7316.21-6266.358l4.922,4.921,4.921-4.921' transform='translate(-7311.131 6274.746)' fill='none' stroke='%234EB7A1' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.2'/%3e%3cg id='Ellipse_461' data-name='Ellipse 461' transform='translate(0)' fill='none' stroke='%234EB7A1' stroke-width='1.2'%3e%3ccircle cx='10' cy='10' r='10' stroke='none'/%3e%3ccircle cx='10' cy='10' r='9.4' fill='none'/%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/g%3e%3c/svg%3e ");
     rotate: 180deg;
   }
 

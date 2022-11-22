@@ -15,7 +15,11 @@ import Loader from 'components/Loader';
 import { getData } from 'util/appConfigHelper';
 import Auth from 'services/auth';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/payment-paypal.svg';
-import { PaymentErrorStyled, PaymentStyled } from './PaymentStyled';
+import {
+  PaymentErrorStyled,
+  PaymentStyled,
+  PaymentWrapperStyled
+} from './PaymentStyled';
 import {
   supportedPaymentGateways,
   supportedPaymentMethods
@@ -27,6 +31,7 @@ import eventDispatcher, {
 import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
+import { ConfirmButtonStyled } from '../Adyen/AdyenStyled';
 
 const Payment = ({
   t,
@@ -43,6 +48,7 @@ const Payment = ({
   const [validPaymentMethods, setValidPaymentMethods] = useState([]);
   const [generalError, setGeneralError] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
+  const [dropInInstance, setDropInInstance] = useState(null);
 
   const validatePaymentMethods = (paymentMethods, showError = true) => {
     if (!paymentMethods) return [];
@@ -59,7 +65,7 @@ const Payment = ({
       );
     });
   };
-  const choosePaymentMethod = async (methodId, methodName) => {
+  const choosePaymentMethod = async (methodId, paymentGateway) => {
     setGeneralError('');
     const orderId = getData('CLEENG_ORDER_ID');
     if (orderId) {
@@ -73,16 +79,23 @@ const Payment = ({
       updatePriceBreakdown(responseData.order);
     }
 
-    setIsPayPal(methodName === 'paypal');
+    setIsPayPal(paymentGateway === 'paypal');
   };
 
-  const selectPaymentMethod = method => {
-    setSelectedPaymentMethod(method);
+  const selectPaymentMethod = gateway => {
+    setSelectedPaymentMethod(gateway);
     choosePaymentMethod(
-      validPaymentMethods.find(({ methodName }) => methodName === method).id,
-      method
+      validPaymentMethods.find(
+        ({ paymentGateway }) => paymentGateway === gateway
+      ).id,
+      gateway
     );
   };
+
+  const isGatewayAvailable = gateway =>
+    !!validPaymentMethods.find(
+      ({ paymentGateway }) => paymentGateway === gateway
+    );
 
   const handlePayPalError = () => {
     const { search } = window.location;
@@ -98,13 +111,16 @@ const Payment = ({
     );
     if (defaultMethod) {
       setIsPaymentFormDisplayed(true);
-      choosePaymentMethod(defaultMethod.id, defaultMethod.methodName);
+      setSelectedPaymentMethod(defaultMethod.paymentGateway);
+      choosePaymentMethod(defaultMethod.id, defaultMethod.paymentGateway);
     }
     if (availableValidPaymentMethods.length === 1) {
       const [paymentMethod] = availableValidPaymentMethods;
       setIsPaymentFormDisplayed(true);
-      choosePaymentMethod(paymentMethod.id, paymentMethod.methodName);
+      setSelectedPaymentMethod(paymentMethod.paymentGateway);
+      choosePaymentMethod(paymentMethod.id, paymentMethod.paymentGateway);
     }
+    setSelectedPaymentMethod(availableValidPaymentMethods[0].paymentGateway);
   };
   const fetchPaymentMethods = async () => {
     const response = await getPaymentMethods();
@@ -128,9 +144,10 @@ const Payment = ({
     if (validMethodsFromResponse.length === 1) {
       const [paymentMethod] = validMethodsFromResponse;
       setIsPaymentFormDisplayed(true);
-      choosePaymentMethod(paymentMethod.id, paymentMethod.methodName);
+      setSelectedPaymentMethod(paymentMethod.paymentGateway);
+      choosePaymentMethod(paymentMethod.id, paymentMethod.paymentGateway);
     }
-
+    setSelectedPaymentMethod(validMethodsFromResponse[0].paymentGateway);
     setValidPaymentMethods(validMethodsFromResponse);
   };
   useEffect(() => {
@@ -164,16 +181,11 @@ const Payment = ({
   const onAdyenSubmit = async ({ data: { paymentMethod } }) => {
     setGeneralError('');
     setIsLoading(true);
-    if (selectedPaymentMethod === 'paypal') {
-      submitPayPal();
-      return;
-    }
 
     const {
       errors,
       responseData: { payment }
     } = await submitPayment(paymentMethod);
-
     if (!errors.length) {
       eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
         payment
@@ -214,6 +226,27 @@ const Payment = ({
     onPaymentComplete();
   };
 
+  const getDropIn = drop => {
+    setDropInInstance(drop);
+  };
+
+  const confirmButtonText =
+    selectedPaymentMethod === 'paypal'
+      ? 'Continue with PayPal'
+      : t('Complete purchase');
+
+  const handleConfirm = () => {
+    if (selectedPaymentMethod === 'paypal') {
+      submitPayPal();
+      return;
+    }
+    if (!dropInInstance) {
+      return;
+    }
+
+    dropInInstance.submit();
+  };
+
   if (!isPaymentDetailsRequired) {
     return (
       <PaymentStyled>
@@ -238,22 +271,49 @@ const Payment = ({
     <PaymentStyled>
       {generalError && <PaymentErrorStyled>{generalError}</PaymentErrorStyled>}
       {isPaymentFormDisplayed && (
-        <Adyen
-          onSubmit={onAdyenSubmit}
-          onChange={() => setGeneralError('')}
-          isPaymentProcessing={isLoading}
-          selectPaymentMethod={selectPaymentMethod}
-          selectedPaymentMethod={selectedPaymentMethod}
-        >
-          <DropInSection
-            selectPaymentMethod={selectPaymentMethod}
-            isSelected={selectedPaymentMethod === 'paypal'}
-            title="PayPal"
-            logo={<PaypalLogo />}
-          >
-            <PayPal totalPrice={order.totalPrice} offerId={order.offerId} />
-          </DropInSection>
-        </Adyen>
+        <PaymentWrapperStyled>
+          {isGatewayAvailable('adyen') && (
+            <Adyen
+              onSubmit={onAdyenSubmit}
+              onChange={() => setGeneralError('')}
+              isPaymentProcessing={isLoading}
+              selectPaymentMethod={selectPaymentMethod}
+              selectedPaymentMethod={selectedPaymentMethod}
+              isPayPalAvailable={isGatewayAvailable('paypal')}
+              getDropIn={getDropIn}
+            />
+          )}
+          {isGatewayAvailable('paypal') && (
+            <DropInSection
+              isCardAvailable={isGatewayAvailable('adyen')}
+              selectPaymentMethod={selectPaymentMethod}
+              isSelected={selectedPaymentMethod === 'paypal'}
+              title="PayPal"
+              logo={<PaypalLogo />}
+            >
+              <PayPal totalPrice={order.totalPrice} offerId={order.offerId} />
+            </DropInSection>
+          )}
+          <ConfirmButtonStyled>
+            <Button
+              size="big"
+              {...{
+                size: 'normal',
+                width: '60%',
+                margin: 'auto'
+              }}
+              theme="confirm"
+              onClickFn={handleConfirm}
+              disabled={isLoading || !selectedPaymentMethod}
+            >
+              {isLoading ? (
+                <Loader buttonLoader color="#ffffff" />
+              ) : (
+                confirmButtonText
+              )}
+            </Button>
+          </ConfirmButtonStyled>
+        </PaymentWrapperStyled>
       )}
       {(isPayPal || isPaymentFormDisplayed) &&
         order.offerId.charAt(0) === 'S' && (

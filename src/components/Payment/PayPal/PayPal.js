@@ -21,7 +21,7 @@ const PayPal = ({ totalPrice, offerId, t }) => {
 };
 
 PayPal.propTypes = {
-  totalPrice: PropTypes.string.isRequired,
+  totalPrice: PropTypes.number.isRequired,
   offerId: PropTypes.string.isRequired,
   t: PropTypes.func
 };

@@ -20,7 +20,8 @@ export const WrapperStyled = styled.div.attrs(() => ({
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-radius: 0 0 12px 12px;
+  border-radius: ${({ isCardAvailable }) =>
+    isCardAvailable ? '0 0 12px 12px' : '12px;'};
   cursor: pointer;
   background-color: ${colors.White};
   border: 1px solid

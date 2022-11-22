@@ -1,30 +1,27 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'components/Button';
-import Loader from 'components/Loader';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { FontColor } from 'styles/variables';
 import { getData } from 'util/appConfigHelper';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
-import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
+import { AdyenStyled } from './AdyenStyled';
 import '@adyen/adyen-web/dist/adyen.css';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
 import { CLIENT_KEY_LIVE, CLIENT_KEY_TEST } from './Adyen.utils';
+import Loader from '../Loader';
 
 const Adyen = ({
   onSubmit,
-  onChange,
-  t,
-  isPaymentProcessing,
   isCheckout,
   selectPaymentMethod,
-  children,
-  selectedPaymentMethod
+  isPayPalAvailable,
+  selectedPaymentMethod,
+  getDropIn
 }) => {
-  // const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef(null);
   const [dropInInstance, setDropInInstance] = useState(null);
   const getAdyenEnv = () =>
@@ -70,9 +67,13 @@ const Adyen = ({
     // };
 
     const checkout = await AdyenCheckout(configuration);
-    const dropin = checkout.create('dropin');
-    dropin.mount(containerRef.current);
-    setDropInInstance(dropin);
+    if (containerRef.current) {
+      const dropin = checkout.create('dropin');
+      dropin.mount(containerRef.current);
+      setDropInInstance(dropin);
+      getDropIn(dropin);
+    }
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -99,56 +100,27 @@ const Adyen = ({
     }
   }, [selectedPaymentMethod]);
 
-  const isPayPalText =
-    selectedPaymentMethod === 'paypal'
-      ? 'Continue with PayPal'
-      : t('Complete purchase');
-  const confirmButtonText = isCheckout ? isPayPalText : t('Update');
   return (
-    <AdyenStyled isMyAccount={!isCheckout}>
-      <div ref={containerRef} onClick={() => selectPaymentMethod('card')} />
-      {children}
-      <ConfirmButtonStyled>
-        <Button
-          size="big"
-          {...(isCheckout
-            ? {}
-            : {
-                size: 'normal',
-                width: '60%',
-                margin: 'auto'
-              })}
-          theme="confirm"
-          onClickFn={dropInInstance ? () => dropInInstance.submit() : () => {}}
-          disabled={isPaymentProcessing}
-        >
-          {isPaymentProcessing ? (
-            <Loader buttonLoader color="#ffffff" />
-          ) : (
-            confirmButtonText
-          )}
-        </Button>
-      </ConfirmButtonStyled>
+    <AdyenStyled
+      isMyAccount={!isCheckout}
+      isAdditionalPayment={isPayPalAvailable}
+    >
+      {isLoading && <Loader />}
+      <div ref={containerRef} onClick={() => selectPaymentMethod('adyen')} />
     </AdyenStyled>
   );
 };
 
 Adyen.propTypes = {
-  t: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func,
-  isPaymentProcessing: PropTypes.bool,
   isCheckout: PropTypes.bool,
   selectPaymentMethod: PropTypes.func.isRequired,
-  children: PropTypes.node,
-  selectedPaymentMethod: PropTypes.string.isRequired
+  isPayPalAvailable: PropTypes.bool.isRequired,
+  selectedPaymentMethod: PropTypes.string.isRequired,
+  getDropIn: PropTypes.func.isRequired
 };
 
 Adyen.defaultProps = {
-  children: '',
-  t: k => k,
-  onChange: () => {},
-  isPaymentProcessing: false,
   isCheckout: true
 };
 

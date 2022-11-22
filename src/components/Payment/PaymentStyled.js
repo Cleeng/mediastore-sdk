@@ -11,6 +11,13 @@ export const PaymentStyled = styled.div.attrs(() => ({
   border-bottom: 1px solid ${colors.LineColor};
 `;
 
+export const PaymentWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__payment__wrapper'
+}))`
+  max-width: 375px;
+  margin: 12px auto 0 auto;
+`;
+
 export const PaymentErrorStyled = styled.div.attrs(() => ({
   className: 'msd__payment--error'
 }))`

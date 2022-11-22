@@ -14,11 +14,13 @@ const DropInSection = ({
   selectPaymentMethod,
   isSelected,
   title,
-  logo
+  logo,
+  isCardAvailable
 }) => {
   return (
     <WrapperStyled
       isSelected={isSelected}
+      isCardAvailable={isCardAvailable}
       onClick={() => selectPaymentMethod('paypal')}
     >
       <TextStyled>
@@ -38,7 +40,8 @@ DropInSection.propTypes = {
   isSelected: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   logo: PropTypes.node.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  isCardAvailable: PropTypes.bool.isRequired
 };
 
 export default DropInSection;
