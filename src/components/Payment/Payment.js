@@ -81,7 +81,6 @@ const Payment = ({
 
     setIsPayPal(paymentGateway === 'paypal');
   };
-
   const selectPaymentMethod = gateway => {
     setSelectedPaymentMethod(gateway);
     choosePaymentMethod(
@@ -113,14 +112,15 @@ const Payment = ({
       setIsPaymentFormDisplayed(true);
       setSelectedPaymentMethod(defaultMethod.paymentGateway);
       choosePaymentMethod(defaultMethod.id, defaultMethod.paymentGateway);
+      return;
     }
-    if (availableValidPaymentMethods.length === 1) {
+    if (availableValidPaymentMethods.length >= 1) {
       const [paymentMethod] = availableValidPaymentMethods;
+      const { id, paymentGateway } = paymentMethod;
       setIsPaymentFormDisplayed(true);
-      setSelectedPaymentMethod(paymentMethod.paymentGateway);
-      choosePaymentMethod(paymentMethod.id, paymentMethod.paymentGateway);
+      setSelectedPaymentMethod(paymentGateway);
+      choosePaymentMethod(id, paymentGateway);
     }
-    setSelectedPaymentMethod(availableValidPaymentMethods[0].paymentGateway);
   };
   const fetchPaymentMethods = async () => {
     const response = await getPaymentMethods();
@@ -141,14 +141,13 @@ const Payment = ({
       return;
     }
 
-    if (validMethodsFromResponse.length === 1) {
+    if (validMethodsFromResponse.length >= 1) {
       const [paymentMethod] = validMethodsFromResponse;
+      const { id, paymentGateway } = paymentMethod;
       setIsPaymentFormDisplayed(true);
-      setSelectedPaymentMethod(paymentMethod.paymentGateway);
-      choosePaymentMethod(paymentMethod.id, paymentMethod.paymentGateway);
+      setSelectedPaymentMethod(paymentGateway);
+      choosePaymentMethod(id, paymentGateway);
     }
-    setSelectedPaymentMethod(validMethodsFromResponse[0].paymentGateway);
-    setValidPaymentMethods(validMethodsFromResponse);
   };
   useEffect(() => {
     const availableValidPaymentMethods = validatePaymentMethods(
@@ -161,7 +160,6 @@ const Payment = ({
     }
 
     fetchPaymentMethods();
-
     handlePayPalError();
   }, []);
 
