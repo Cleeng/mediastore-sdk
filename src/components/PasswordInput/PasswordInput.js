@@ -99,23 +99,21 @@ const PasswordInput = ({
 
   const errorMsg = error || passError;
   return (
-    <>
-      <Input
-        placeholder={label}
-        floatingLabels={floatingLabels}
-        type={showPassword ? 'text' : 'password'}
-        value={value}
-        onChange={onChangeFunction}
-        onBlur={onBlur}
-        error={errorMsg}
-        showVisibilityIcon={showVisibilityIcon}
-        handleClickShowPassword={handleClickShowPassword}
-        showPassword={showPassword}
-        passwordStrength={errorLabel}
-        ariaRequired
-        ariaInvalid={errorLabel === 'NotValid'}
-      />
-    </>
+    <Input
+      placeholder={label}
+      floatingLabels={floatingLabels}
+      type={showPassword ? 'text' : 'password'}
+      value={value}
+      onChange={onChangeFunction}
+      onBlur={onBlur}
+      error={errorMsg}
+      showVisibilityIcon={showVisibilityIcon}
+      handleClickShowPassword={handleClickShowPassword}
+      showPassword={showPassword}
+      passwordStrength={errorLabel}
+      ariaRequired
+      ariaInvalid={errorLabel === 'NotValid'}
+    />
   );
 };
 
