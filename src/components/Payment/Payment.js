@@ -91,12 +91,10 @@ const Payment = ({
     );
   };
 
-  const isGatewayAvailable = gateway => {
-    console.log(gateway, validPaymentMethods);
-    return !!validPaymentMethods.find(
+  const isGatewayAvailable = gateway =>
+    !!validPaymentMethods.find(
       ({ paymentGateway }) => paymentGateway === gateway
-    )
-  };
+    );
 
   const handlePayPalError = () => {
     const { search } = window.location;
@@ -104,6 +102,7 @@ const Payment = ({
       setGeneralError(t('Your payment was not processed. Please, try again'));
     }
   };
+
   const selectAvailablePaymentMethod = availableValidPaymentMethods => {
     setValidPaymentMethods(availableValidPaymentMethods);
 
@@ -131,7 +130,7 @@ const Payment = ({
       paymentMethods,
       false
     );
-
+    setValidPaymentMethods(validMethodsFromResponse);
     if (response.errors.length) {
       setGeneralError(t('Cannot fetch payment methods'));
       return;
