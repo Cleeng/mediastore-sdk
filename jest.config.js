@@ -1,5 +1,6 @@
 const config = {
-  testEnvironment: 'jsdom'
+  testEnvironment: 'jsdom',
+  modulePathIgnorePatterns: ['<rootDir>/dist/']
 };
 
 module.exports = config;
