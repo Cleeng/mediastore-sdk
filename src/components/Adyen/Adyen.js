@@ -70,9 +70,11 @@ const Adyen = ({
     // };
 
     const checkout = await AdyenCheckout(configuration);
-    const dropin = checkout.create('dropin');
-    dropin.mount(containerRef.current);
-    setDropInInstance(dropin);
+    if (containerRef.current) {
+      const dropin = checkout.create('dropin');
+      dropin.mount(containerRef.current);
+      setDropInInstance(dropin);
+    }
   };
 
   useEffect(() => {

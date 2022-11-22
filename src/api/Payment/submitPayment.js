@@ -11,7 +11,11 @@ const submitPayment = async paymentMethod => {
   try {
     const res = await fetchWithJWT(url, {
       method: 'POST',
-      body: JSON.stringify({ orderId, paymentMethod })
+      body: JSON.stringify({
+        orderId,
+        paymentMethod,
+        returnUrl: 'https://cleeng.com'
+      })
     });
     return res.json();
   } catch (e) {
