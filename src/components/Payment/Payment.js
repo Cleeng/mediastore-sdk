@@ -91,10 +91,12 @@ const Payment = ({
     );
   };
 
-  const isGatewayAvailable = gateway =>
-    !!validPaymentMethods.find(
+  const isGatewayAvailable = gateway => {
+    console.log(gateway, validPaymentMethods);
+    return !!validPaymentMethods.find(
       ({ paymentGateway }) => paymentGateway === gateway
-    );
+    )
+  };
 
   const handlePayPalError = () => {
     const { search } = window.location;
