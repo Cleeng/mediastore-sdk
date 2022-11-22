@@ -282,7 +282,7 @@ const Payment = ({
               getDropIn={getDropIn}
             />
           )}
-          {isGatewayAvailable('paypal') && (
+          {isGatewayAvailable('paypal') && dropInInstance && (
             <DropInSection
               isCardAvailable={isGatewayAvailable('adyen')}
               selectPaymentMethod={selectPaymentMethod}
