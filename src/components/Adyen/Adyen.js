@@ -56,6 +56,14 @@ const Adyen = ({
           hasHolderName: true,
           holderNameRequired: true,
           billingAddressRequired: true // recommended for 3DS
+        },
+        applepay: {
+          // TODO: get values from the redux -> order
+          amount: {
+            value: 1000,
+            currency: 'EUR'
+          },
+          countryCode: 'PL'
         }
       },
       showPayButton: false
