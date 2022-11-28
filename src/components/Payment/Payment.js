@@ -177,14 +177,29 @@ const Payment = ({
     }
   };
 
-  const onAdyenSubmit = async ({ data: { paymentMethod } }) => {
+  const onAdditionalDetails = async state => {
+    console.log('onAdditionalDetails event');
+    const {
+      data: { details }
+    } = state;
+    console.log('data for finilize initial payment', details);
+  };
+
+  const onAdyenSubmit = async (state, component) => {
+    const {
+      data: { paymentMethod, browserInfo, billingAddress }
+    } = state;
     setGeneralError('');
     setIsLoading(true);
-
     const {
       errors,
-      responseData: { payment }
-    } = await submitPayment(paymentMethod);
+      responseData: { payment, action }
+    } = await submitPayment(paymentMethod, browserInfo, billingAddress);
+    console.log('action', action);
+    if (action) {
+      component.handleAction(action);
+      return;
+    }
     if (!errors.length) {
       eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
         payment
@@ -280,6 +295,7 @@ const Payment = ({
               selectedPaymentMethod={selectedPaymentMethod}
               isPayPalAvailable={isGatewayAvailable('paypal')}
               getDropIn={getDropIn}
+              onAdditionalDetails={onAdditionalDetails}
             />
           )}
           {isGatewayAvailable('paypal') && dropInInstance && (

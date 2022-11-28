@@ -19,7 +19,8 @@ const Adyen = ({
   selectPaymentMethod,
   isPayPalAvailable,
   selectedPaymentMethod,
-  getDropIn
+  getDropIn,
+  onAdditionalDetails
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef(null);
@@ -47,12 +48,14 @@ const Adyen = ({
       },
       clientKey: getAdyenEnv() === 'live' ? CLIENT_KEY_LIVE : CLIENT_KEY_TEST,
       onSubmit,
+      onAdditionalDetails,
       // onChange, // supported ?
       onError, // TODO: is it working?
       paymentMethodsConfiguration: {
         card: {
           hasHolderName: true,
-          holderNameRequired: true
+          holderNameRequired: true,
+          billingAddressRequired: true // recommended for 3DS
         }
       },
       showPayButton: false
@@ -117,7 +120,8 @@ Adyen.propTypes = {
   selectPaymentMethod: PropTypes.func.isRequired,
   isPayPalAvailable: PropTypes.bool.isRequired,
   selectedPaymentMethod: PropTypes.string.isRequired,
-  getDropIn: PropTypes.func.isRequired
+  getDropIn: PropTypes.func.isRequired,
+  onAdditionalDetails: PropTypes.func.isRequired
 };
 
 Adyen.defaultProps = {
