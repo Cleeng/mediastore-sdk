@@ -49,7 +49,7 @@ const Adyen = ({
       clientKey: getAdyenEnv() === 'live' ? CLIENT_KEY_LIVE : CLIENT_KEY_TEST,
       onSubmit,
       onAdditionalDetails,
-      paymentMethods,
+      paymentMethods: { paymentMethods },
       // onChange, // supported ?
       onError, // TODO: is it working?
       paymentMethodsConfiguration: {
