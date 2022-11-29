@@ -12,9 +12,7 @@ const createPaymentSession = async isCheckout => {
   try {
     const res = await fetchWithJWT(url, {
       method: 'POST',
-      body: isCheckout
-        ? JSON.stringify({ orderId, returnUrl: 'https://cleeng.com' })
-        : JSON.stringify({ returnUrl: 'https://cleeng.com' })
+      body: JSON.stringify({ orderId, returnUrl: 'https://cleeng.com' })
     });
     return res.json();
   } catch (e) {
