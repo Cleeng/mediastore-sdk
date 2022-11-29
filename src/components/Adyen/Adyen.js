@@ -36,7 +36,7 @@ const Adyen = ({
     });
   };
 
-  const createDropInInstance = async (id, sessionData, paymentMethods) => {
+  const createDropInInstance = async (id, sessionData) => {
     const configuration = {
       environment: getAdyenEnv(),
       analytics: {
@@ -49,7 +49,6 @@ const Adyen = ({
       clientKey: getAdyenEnv() === 'live' ? CLIENT_KEY_LIVE : CLIENT_KEY_TEST,
       onSubmit,
       onAdditionalDetails,
-      paymentMethods: { paymentMethods },
       // onChange, // supported ?
       onError, // TODO: is it working?
       paymentMethodsConfiguration: {
@@ -57,15 +56,15 @@ const Adyen = ({
           hasHolderName: true,
           holderNameRequired: true,
           billingAddressRequired: true // recommended for 3DS
-        },
-        applepay: {
-          // TODO: get values from the redux -> order, check if this is really needed
-          amount: {
-            value: 1000,
-            currency: 'EUR'
-          },
-          countryCode: 'PL'
         }
+        // applepay: {
+        //   // TODO: get values from the redux -> order, check if this is really needed
+        //   amount: {
+        //     value: 1000,
+        //     currency: 'EUR'
+        //   },
+        //   countryCode: 'PL'
+        // }
       },
       showPayButton: false
     };
@@ -91,11 +90,11 @@ const Adyen = ({
   useEffect(() => {
     const createSession = async () => {
       const {
-        responseData: { id, sessionData, paymentMethods }
+        responseData: { id, sessionData }
       } = await createPaymentSession();
       // TODO: handle error when id is missing
       if (id) {
-        createDropInInstance(id, sessionData, paymentMethods);
+        createDropInInstance(id, sessionData);
       }
     };
     createSession();
