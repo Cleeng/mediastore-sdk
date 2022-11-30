@@ -17,11 +17,16 @@ import {
 import saveOfferId from 'util/offerIdHelper';
 import { setData, getData, removeData } from 'util/appConfigHelper';
 import { withTranslation } from 'react-i18next';
+import { useDispatch } from 'react-redux';
+import { unwrapResult } from '@reduxjs/toolkit';
 import labeling from '../labeling';
 import {
   StyledLoaderContainer,
   StyledLoaderContent
 } from './StyledOfferContainer';
+import { fetchOffer, setFreeOffer } from '../../redux/offerSlice';
+import { fetchCreateOrder, fetchUpdateOrder } from '../../redux/orderSlice';
+import { setAvailablePaymentMethods } from '../../redux/paymentMethodsSlice';
 
 const OfferContainer = ({
   urlProps: { location },
@@ -30,6 +35,7 @@ const OfferContainer = ({
   availablePaymentMethods,
   t
 }) => {
+  const dispatch = useDispatch();
   const [offerId, setOfferId] = useState(
     propOfferId || getData('CLEENG_OFFER_ID')
   );
@@ -110,6 +116,12 @@ const OfferContainer = ({
 
   const onCouponSubmit = couponCode => {
     if (couponCode === '') return;
+    dispatch(
+      fetchUpdateOrder({
+        id: orderDetails.id,
+        couponCode
+      })
+    );
     setCouponDetails(() => ({
       couponLoading: true
     }));
@@ -153,6 +165,29 @@ const OfferContainer = ({
   };
 
   useEffect(() => {
+    if (!offerId) {
+      setErrorMsg('Offer not set');
+      return;
+    }
+
+    if (availablePaymentMethods) {
+      dispatch(setAvailablePaymentMethods(availablePaymentMethods));
+    }
+
+    const init = async () => {
+      const resultOfferAction = await dispatch(fetchOffer(offerId));
+      const { offerId: id } = unwrapResult(resultOfferAction);
+      const resultOrderAction = await dispatch(fetchCreateOrder(id));
+      const {
+        totalPrice,
+        discount: { applied }
+      } = unwrapResult(resultOrderAction);
+      if (totalPrice === 0 && !applied) {
+        dispatch(setFreeOffer(true));
+      }
+    };
+    init();
+
     if (location) {
       saveOfferId(location, setOfferId);
     }
@@ -226,15 +261,19 @@ const OfferContainer = ({
     return <ErrorPage type={errorMapping(errorMsg)} />;
   }
 
-  return isLoading ? (
-    <StyledLoaderContainer>
-      <Header />
-      <StyledLoaderContent>
-        <Loader />
-      </StyledLoaderContent>
-      <Footer />
-    </StyledLoaderContainer>
-  ) : (
+  if (isLoading) {
+    return (
+      <StyledLoaderContainer>
+        <Header />
+        <StyledLoaderContent>
+          <Loader />
+        </StyledLoaderContent>
+        <Footer />
+      </StyledLoaderContainer>
+    );
+  }
+
+  return (
     <Offer
       offerDetails={offerDetails}
       orderDetails={orderDetails}

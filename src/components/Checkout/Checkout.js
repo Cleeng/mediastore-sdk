@@ -11,6 +11,8 @@ import ThankYouPage from 'components/ThankYouPage';
 import Auth from 'services/auth';
 import PasswordResetSuccess from 'components/PasswordResetSuccess';
 import { getData } from 'util/appConfigHelper';
+import { connect } from 'react-redux';
+import { changeStep, init } from '../../redux/checkoutSlice';
 
 const CheckoutSteps = {
   LOGIN: {
@@ -48,6 +50,16 @@ class Checkout extends Component {
   }
 
   componentDidMount() {
+    const {
+      changeCurrentStep,
+      initValues,
+      offerId,
+      availablePaymentMethods
+    } = this.props;
+    initValues({
+      offerId,
+      availablePaymentMethods
+    });
     if (Auth.isLogged()) {
       this.setState({
         currentStep: 3
@@ -149,4 +161,17 @@ Checkout.defaultProps = {
   resetPasswordCallback: () => {}
 };
 
-export default Checkout;
+const mapStateToProps = state => ({
+  currentStep: state.checkout.currentStep
+});
+
+export const mapDispatchToProps = dispatch => ({
+  changeCurrentStep: step => {
+    dispatch(changeStep(step));
+  },
+  initValues: values => {
+    dispatch(init(values));
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

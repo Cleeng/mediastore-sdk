@@ -15,6 +15,7 @@ import Loader from 'components/Loader';
 import { getData } from 'util/appConfigHelper';
 import Auth from 'services/auth';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/payment-paypal.svg';
+import { useSelector } from 'react-redux';
 import {
   PaymentErrorStyled,
   PaymentStyled,
@@ -32,16 +33,22 @@ import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { ConfirmButtonStyled } from '../Adyen/AdyenStyled';
+import { periodMapper } from '../../util';
 
 const Payment = ({
   t,
   isPaymentDetailsRequired,
-  availablePaymentMethods,
   onPaymentComplete,
-  updatePriceBreakdown,
-  order,
-  period
+  updatePriceBreakdown
 }) => {
+  const { availablePaymentMethods } = useSelector(
+    state => state.paymentMethods
+  );
+  const order = useSelector(state => state.order.order);
+  const { period: offerPeriod } = useSelector(state => state.offer.offer);
+  const period = offerPeriod
+    ? periodMapper[offerPeriod].chargedForEveryText
+    : null;
   const [isPaymentFormDisplayed, setIsPaymentFormDisplayed] = useState(true);
   const [isPayPal, setIsPayPal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
