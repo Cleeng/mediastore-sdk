@@ -296,6 +296,7 @@ const Payment = ({
               isPayPalAvailable={isGatewayAvailable('paypal')}
               getDropIn={getDropIn}
               onAdditionalDetails={onAdditionalDetails}
+              order={order}
             />
           )}
           {isGatewayAvailable('paypal') && dropInInstance && (
