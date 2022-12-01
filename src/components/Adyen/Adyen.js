@@ -12,6 +12,7 @@ import '@adyen/adyen-web/dist/adyen.css';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
 import { CLIENT_KEY_LIVE, CLIENT_KEY_TEST } from './Adyen.utils';
 import Loader from '../Loader';
+import { toMinor } from './util/toMinor';
 
 const Adyen = ({
   onSubmit,
@@ -57,6 +58,13 @@ const Adyen = ({
           hasHolderName: true,
           holderNameRequired: true,
           billingAddressRequired: true // recommended for 3DS
+        },
+        applepay: {
+          amount: {
+            value: totalPrice ? toMinor(currency, totalPrice) : 0,
+            currency
+          },
+          countryCode: country
         }
       },
       showPayButton: false
