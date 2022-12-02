@@ -79,9 +79,12 @@ const Adyen = ({
     // };
 
     const checkout = await AdyenCheckout(configuration);
+    console.log('checkout after the initialization', checkout);
     if (containerRef.current) {
+      console.log('in if', containerRef.current);
       const dropin = checkout.create('dropin');
       dropin.mount(containerRef.current);
+      console.log('dropin', dropin);
       setDropInInstance(dropin);
       getDropIn(dropin);
     }
