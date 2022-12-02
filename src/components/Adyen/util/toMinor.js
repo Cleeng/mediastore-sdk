@@ -28,12 +28,8 @@ const minorUnitMultiplier = {
 };
 const defaultMultiplier = 100;
 
-export const getMultiplier = currency => {
-  console.log('getMultiplier', currency);
-  return new Big(minorUnitMultiplier[currency] || defaultMultiplier);
-};
+export const getMultiplier = currency =>
+  new Big(minorUnitMultiplier[currency] || defaultMultiplier);
 
-export const toMinor = (currency, amount) => {
-  console.log('to minor', currency, amount);
-  return new Big(amount).times(getMultiplier(currency)).toNumber();
-};
+export const toMinor = (currency, amount) =>
+  new Big(amount).times(getMultiplier(currency)).toNumber();

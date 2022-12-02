@@ -88,19 +88,28 @@ const Adyen = ({
     setIsLoading(false);
   };
 
+  const createSession = async () => {
+    const {
+      responseData: { id, sessionData }
+    } = await createPaymentSession();
+    // TODO: handle error when id is missing
+    if (id) {
+      createDropInInstance(id, sessionData);
+    }
+  };
+
   useEffect(() => {
-    const createSession = async () => {
-      const {
-        responseData: { id, sessionData }
-      } = await createPaymentSession();
-      // TODO: handle error when id is missing
-      if (id) {
-        createDropInInstance(id, sessionData);
-      }
-    };
     createSession();
     // TODO: add loading indicator
   }, []);
+
+  useEffect(() => {
+    if (dropInInstance) {
+      // recreate Adyen Instance if price was changed
+      console.log('in change of totla price', totalPrice);
+      createSession();
+    }
+  }, [totalPrice]);
 
   useEffect(() => {
     if (!selectedPaymentMethod || !dropInInstance) {
