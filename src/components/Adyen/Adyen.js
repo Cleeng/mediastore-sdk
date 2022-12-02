@@ -77,6 +77,11 @@ const Adyen = ({
     //     }
     //   }
     // };
+    if (dropInInstance) {
+      console.log('dropin already created');
+      setIsLoading(true);
+      dropInInstance.unmount();
+    }
 
     const checkout = await AdyenCheckout(configuration);
     console.log('checkout after the initialization', checkout);
