@@ -109,7 +109,9 @@ export const AdyenStyled = styled.div.attrs(() => ({
   }
 
   .adyen-checkout__payment-method--googlepay
-    .adyen-checkout__payment-method__header:before {
+    .adyen-checkout__payment-method__header:before,
+  .adyen-checkout__payment-method--applepay,
+  .adyen-checkout__payment-method__header:before {
     content: none;
     display: none;
   }

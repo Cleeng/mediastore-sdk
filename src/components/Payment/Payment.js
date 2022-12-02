@@ -186,6 +186,7 @@ const Payment = ({
   };
 
   const onAdyenSubmit = async (state, component) => {
+    console.log('onSubmit');
     const {
       data: { paymentMethod, browserInfo, billingAddress }
     } = state;

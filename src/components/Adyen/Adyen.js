@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { FontColor } from 'styles/variables';
-import { getData } from 'util/appConfigHelper';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
 import { AdyenStyled } from './AdyenStyled';
@@ -13,6 +12,7 @@ import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
 import { CLIENT_KEY_LIVE, CLIENT_KEY_TEST } from './Adyen.utils';
 import Loader from '../Loader';
 import { toMinor } from './util/toMinor';
+import getAdyenEnv from './util/getAdyenEnv';
 
 const Adyen = ({
   onSubmit,
@@ -27,8 +27,6 @@ const Adyen = ({
   const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef(null);
   const [dropInInstance, setDropInInstance] = useState(null);
-  const getAdyenEnv = () =>
-    getData('CLEENG_ENVIRONMENT') === 'production' ? 'live' : 'test';
 
   const onError = e => {
     const { error, fieldType } = e;
@@ -42,22 +40,22 @@ const Adyen = ({
     const configuration = {
       environment: getAdyenEnv(),
       analytics: {
-        enabled: false // Set to false to not send analytics data to Adyen.
+        enabled: true //  analytics data for Adyen
       },
       session: {
         id,
         sessionData
       },
-      clientKey: getAdyenEnv() === 'live' ? CLIENT_KEY_LIVE : CLIENT_KEY_TEST,
+      clientKey: getAdyenEnv() === 'test' ? CLIENT_KEY_TEST : CLIENT_KEY_LIVE,
       onSubmit,
+      // onPaymentCompleted, TODO: most likely not needed, will be reviewed with redirect flow https://docs.adyen.com/online-payments/web-drop-in#handle-redirect-result
       onAdditionalDetails,
-      // onChange, // supported ?
-      onError, // TODO: is it working?
+      onError, // TODO: handle errors
       paymentMethodsConfiguration: {
         card: {
           hasHolderName: true,
           holderNameRequired: true,
-          billingAddressRequired: true // recommended for 3DS
+          billingAddressRequired: true // required for 3DS
         },
         applepay: {
           amount: {
@@ -69,27 +67,17 @@ const Adyen = ({
       },
       showPayButton: false
     };
-    console.log(configuration);
-    // const cardConfiguration = {
-    //   styles: {
-    //     base: {
-    //       color: FontColor
-    //     }
-    //   }
-    // };
+
     if (dropInInstance) {
-      console.log('dropin already created');
+      // recreate dropin when coupon was applied
       setIsLoading(true);
       dropInInstance.unmount();
     }
 
     const checkout = await AdyenCheckout(configuration);
-    console.log('checkout after the initialization', checkout);
     if (containerRef.current) {
-      console.log('in if', containerRef.current);
       const dropin = checkout.create('dropin');
       dropin.mount(containerRef.current);
-      console.log('dropin', dropin);
       setDropInInstance(dropin);
       getDropIn(dropin);
     }
@@ -114,7 +102,6 @@ const Adyen = ({
   useEffect(() => {
     if (dropInInstance) {
       // recreate Adyen Instance if price was changed
-      console.log('in change of totla price', totalPrice);
       createSession();
     }
   }, [totalPrice]);
