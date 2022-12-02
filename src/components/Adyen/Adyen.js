@@ -66,6 +66,7 @@ const Adyen = ({
         }
       },
       showPayButton: false
+      // instantPaymentTypes: ['applepay'] // defines which payment method should be on top - should be configurable by publisher
     };
 
     if (dropInInstance) {
