@@ -123,6 +123,13 @@ const Adyen = ({
         value: totalPrice ? toMinor(currency, totalPrice) : 0,
         currency
       };
+      checkoutInstance.options.paymentMethodsConfiguration.applepay = {
+        amount: {
+          value: totalPrice ? toMinor(currency, totalPrice) : 0,
+          currency
+        },
+        countryCode: country
+      };
     }
   }, [totalPrice]);
 
