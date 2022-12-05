@@ -6,6 +6,7 @@ import labeling from 'containers/labeling';
 import { FontColor } from 'styles/variables';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
+import usePrevious from 'util/usePreviousHook';
 import { AdyenStyled } from './AdyenStyled';
 import '@adyen/adyen-web/dist/adyen.css';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
@@ -27,6 +28,8 @@ const Adyen = ({
   const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef(null);
   const [dropInInstance, setDropInInstance] = useState(null);
+  const [checkoutInstance, setCheckoutInstance] = useState(null);
+  const prevTotalPrice = usePrevious(totalPrice);
 
   const onError = e => {
     const { error, fieldType } = e;
@@ -34,6 +37,15 @@ const Adyen = ({
       error,
       fieldType
     });
+  };
+
+  const onSelect = component => {
+    if (selectedPaymentMethod === component.data.paymentMethod.type) return;
+    if (component.data.paymentMethod.type === 'scheme') {
+      selectPaymentMethod('card');
+      return;
+    }
+    selectPaymentMethod(component.data.paymentMethod.type);
   };
 
   const createDropInInstance = async (id, sessionData) => {
@@ -76,8 +88,11 @@ const Adyen = ({
     }
 
     const checkout = await AdyenCheckout(configuration);
+    setCheckoutInstance(checkout);
     if (containerRef.current) {
-      const dropin = checkout.create('dropin');
+      const dropin = checkout.create('dropin', {
+        onSelect
+      });
       dropin.mount(containerRef.current);
       setDropInInstance(dropin);
       getDropIn(dropin);
@@ -101,9 +116,16 @@ const Adyen = ({
   }, []);
 
   useEffect(() => {
-    if (dropInInstance) {
+    if (dropInInstance && prevTotalPrice !== totalPrice) {
+      // TODO:: add nice loader
       // recreate Adyen Instance if price was changed
-      createSession();
+      checkoutInstance.options.paymentMethodsConfiguration.applepay = {
+        amount: {
+          value: totalPrice ? toMinor(currency, totalPrice) : 0,
+          currency
+        },
+        countryCode: country
+      };
     }
   }, [totalPrice]);
 
@@ -123,7 +145,8 @@ const Adyen = ({
       isAdditionalPayment={isPayPalAvailable}
     >
       {isLoading && <Loader />}
-      <div ref={containerRef} onClick={() => selectPaymentMethod('adyen')} />
+      {console.log(checkoutInstance)}
+      <div ref={containerRef} />
     </AdyenStyled>
   );
 };

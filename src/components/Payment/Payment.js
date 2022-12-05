@@ -81,13 +81,14 @@ const Payment = ({
 
     setIsPayPal(paymentGateway === 'paypal');
   };
-  const selectPaymentMethod = gateway => {
-    setSelectedPaymentMethod(gateway);
+  const selectPaymentMethod = paymentMethodName => {
+    if (selectedPaymentMethod === paymentMethodName) return;
+    setSelectedPaymentMethod(paymentMethodName);
     choosePaymentMethod(
       validPaymentMethods.find(
-        ({ paymentGateway }) => paymentGateway === gateway
+        ({ methodName }) => methodName === paymentMethodName
       ).id,
-      gateway
+      paymentMethodName
     );
   };
 
@@ -186,7 +187,6 @@ const Payment = ({
   };
 
   const onAdyenSubmit = async (state, component) => {
-    console.log('onSubmit');
     const {
       data: { paymentMethod, browserInfo, billingAddress }
     } = state;
