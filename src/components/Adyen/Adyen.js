@@ -119,12 +119,9 @@ const Adyen = ({
     if (dropInInstance && prevTotalPrice !== totalPrice) {
       // TODO:: add nice loader
       // recreate Adyen Instance if price was changed
-      checkoutInstance.options.paymentMethodsConfiguration.applepay = {
-        amount: {
-          value: totalPrice ? toMinor(currency, totalPrice) : 0,
-          currency
-        },
-        countryCode: country
+      checkoutInstance.options.amount = {
+        value: totalPrice ? toMinor(currency, totalPrice) : 0,
+        currency
       };
     }
   }, [totalPrice]);
