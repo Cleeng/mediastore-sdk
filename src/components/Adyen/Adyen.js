@@ -3,7 +3,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import { FontColor } from 'styles/variables';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
 import usePrevious from 'util/usePreviousHook';
@@ -11,10 +10,13 @@ import useScript from 'util/useScriptHook';
 import { AdyenStyled } from './AdyenStyled';
 import '@adyen/adyen-web/dist/adyen.css';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
-import { CLIENT_KEY_LIVE, CLIENT_KEY_TEST } from './Adyen.utils';
 import Loader from '../Loader';
 import { toMinor } from './util/toMinor';
-import getAdyenEnv from './util/getAdyenEnv';
+import {
+  getAdyenEnv,
+  getAdyenClientKey,
+  getGooglePayEnv
+} from './util/getAdyenConfig';
 
 const Adyen = ({
   onSubmit,
@@ -59,7 +61,7 @@ const Adyen = ({
         id,
         sessionData
       },
-      clientKey: getAdyenEnv() === 'test' ? CLIENT_KEY_TEST : CLIENT_KEY_LIVE,
+      clientKey: getAdyenClientKey(),
       onSubmit,
       // onPaymentCompleted, TODO: most likely not needed, will be reviewed with redirect flow https://docs.adyen.com/online-payments/web-drop-in#handle-redirect-result
       onAdditionalDetails,
@@ -69,26 +71,27 @@ const Adyen = ({
           hasHolderName: true,
           holderNameRequired: true,
           billingAddressRequired: true // required for 3DS
+        },
+        // TODO: test applepay and googlepay on production without these config object - probably it will work
+        applepay: {
+          amount: {
+            value: totalPrice ? toMinor(currency, totalPrice) : 0,
+            currency
+          },
+          countryCode: country
+        },
+        googlepay: {
+          amount: {
+            value: totalPrice ? toMinor(currency, totalPrice) : 0,
+            currency
+          },
+          countryCode: country,
+          environment: getGooglePayEnv()
+          // TODO: support for optional config https://docs.adyen.com/payment-methods/google-pay/web-drop-in?tab=_code_payments_code__2#payment-data
         }
-        // applepay: {
-        //   amount: {
-        //     value: totalPrice ? toMinor(currency, totalPrice) : 0,
-        //     currency
-        //   },
-        //   countryCode: country
-        // },
-        // googlepay: {
-        //   amount: {
-        //     value: totalPrice ? toMinor(currency, totalPrice) : 0,
-        //     currency
-        //   },
-        //   countryCode: country,
-        //   environment: getAdyenEnv() === 'test' ? 'TEST' : 'PRODUCTION'
-        //   // TODO: support for optional config https://docs.adyen.com/payment-methods/google-pay/web-drop-in?tab=_code_payments_code__2#payment-data
-        // }
       },
       showPayButton: false
-      // instantPaymentTypes: ['applepay'] // defines which payment method should be on top - should be configurable by publisher
+      // TODO: instantPaymentTypes: ['applepay'] // defines which payment method should be on top - should be configurable by publisher
     };
 
     if (dropInInstance) {
@@ -131,8 +134,7 @@ const Adyen = ({
       selectedPaymentMethod !== 'paypal'
     ) {
       // TODO:: add nice loader
-      // recreate Adyen Instance if price was changed
-      createSession();
+      createSession(); // recreate Adyen Instance if price was changed
     }
   }, [totalPrice]);
 
