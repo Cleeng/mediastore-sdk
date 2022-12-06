@@ -24,7 +24,8 @@ import {
 } from '../../redux/orderSlice';
 import eventDispatcher, {
   MSSDK_COUPON_FAILED,
-  MSSDK_COUPON_SUCCESSFUL, MSSDK_PURCHASE_LOADED
+  MSSDK_COUPON_SUCCESSFUL,
+  MSSDK_PURCHASE_LOADED
 } from '../../util/eventDispatcher';
 
 const OfferContainer = ({ onSuccess, t }) => {
@@ -40,14 +41,31 @@ const OfferContainer = ({ onSuccess, t }) => {
   });
 
   const [errorMsg, setErrorMsg] = useState();
-  const [isLoading, setIsLoading] = useState(true);
 
   const dispatch = useDispatch();
   const { availablePaymentMethods, offerId } = useSelector(
     state => state.checkout
   );
-  const { order, loading: isOrderLoading } = useSelector(state => state.order);
-  const { offer, loading: isOfferLoading, isOfferFree } = useSelector(state => state.offer);
+  const { order, loading: isOrderLoading, error: orderError } = useSelector(
+    state => state.order
+  );
+  const { offer, error: offerError } = useSelector(state => state.offer);
+
+  const paymentMethodsHandler = () => {
+    getPaymentMethods().then(paymentMethodResponse => {
+      const {
+        responseData: { paymentMethods }
+      } = paymentMethodResponse;
+      const properPaymentMethodId = paymentMethods.find(method =>
+        getData('CLEENG_OFFER_TYPE') === 'S'
+          ? method.methodName === 'manual'
+          : method.methodName !== 'manual'
+      );
+      updateOrder(orderDetails.id, {
+        paymentMethodId: properPaymentMethodId ? properPaymentMethodId.id : 0
+      });
+    });
+  };
 
   const createOrderHandler = async longOfferId => {
     const resultOrderAction = await dispatch(fetchCreateOrder(longOfferId));
@@ -57,6 +75,7 @@ const OfferContainer = ({ onSuccess, t }) => {
       discount: { applied }
     } = unwrapResult(resultOrderAction);
     if (totalPrice === 0 && !applied) {
+      paymentMethodsHandler();
       dispatch(setFreeOffer(true));
     }
     setData('CLEENG_ORDER_ID', id);
@@ -77,22 +96,6 @@ const OfferContainer = ({ onSuccess, t }) => {
         removeData('CLEENG_ORDER_ID');
         createOrderHandler(longOfferId);
       });
-  };
-
-  const paymentMethodsHandler = () => {
-    getPaymentMethods().then(paymentMethodResponse => {
-      const {
-        responseData: { paymentMethods }
-      } = paymentMethodResponse;
-      const properPaymentMethodId = paymentMethods.find(method =>
-        getData('CLEENG_OFFER_TYPE') === 'S'
-          ? method.methodName === 'manual'
-          : method.methodName !== 'manual'
-      );
-      updateOrder(orderDetails.id, {
-        paymentMethodId: properPaymentMethodId ? properPaymentMethodId.id : 0
-      });
-    });
   };
 
   const onCouponSubmit = couponCode => {
@@ -136,7 +139,7 @@ const OfferContainer = ({ onSuccess, t }) => {
       if (orderId) {
         reuseSavedOrder(orderId, id);
       } else {
-        createOrderHandler(id);
+        await createOrderHandler(id);
       }
     };
     init();
@@ -147,20 +150,10 @@ const OfferContainer = ({ onSuccess, t }) => {
   }, []);
 
   useEffect(() => {
-    if (order.id) {
-      setIsLoading(false);
-    }
-  }, [order]);
-
-  useEffect(() => {
-    if (isOfferFree) paymentMethodsHandler();
-  }, [isOfferFree]);
-
-  useEffect(() => {
-    if (!isLoading || errorMsg) {
+    if (!isOrderLoading || errorMsg || offerError || orderError) {
       eventDispatcher(MSSDK_PURCHASE_LOADED);
     }
-  }, [isLoading, errorMsg]);
+  }, [isOrderLoading, errorMsg, offerError, offerError]);
 
   const errorMapping = err => {
     const errorTypes = {
@@ -180,11 +173,13 @@ const OfferContainer = ({ onSuccess, t }) => {
       errorTypes[type].find(item => item.includes(err) || err.includes(item))
     );
   };
-  if (errorMsg) {
-    return <ErrorPage type={errorMapping(errorMsg)} />;
+  if (errorMsg || offerError || orderError) {
+    return (
+      <ErrorPage type={errorMapping(errorMsg || offerError || orderError)} />
+    );
   }
 
-  if (isLoading || isOfferLoading || isOrderLoading) {
+  if (isOrderLoading) {
     return (
       <StyledLoaderContainer>
         <Header />

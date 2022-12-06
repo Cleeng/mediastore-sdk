@@ -327,14 +327,6 @@ Payment.propTypes = {
   isPaymentDetailsRequired: PropTypes.bool,
   updatePriceBreakdown: PropTypes.func,
   period: PropTypes.string,
-  availablePaymentMethods: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      methodName: PropTypes.string.isRequired,
-      paymentGateway: PropTypes.string.isRequired,
-      default: PropTypes.bool
-    })
-  ),
   t: PropTypes.func
 };
 
@@ -342,7 +334,6 @@ Payment.defaultProps = {
   isPaymentDetailsRequired: true,
   updatePriceBreakdown: () => {},
   period: null,
-  availablePaymentMethods: null,
   t: k => k
 };
 

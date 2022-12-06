@@ -16,7 +16,7 @@ const initialState = {
     country: '',
     totalPrice: 0
   },
-  loading: false,
+  loading: true,
   error: null,
   couponDetails: null,
   isCouponLoading: false
