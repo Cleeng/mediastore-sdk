@@ -69,23 +69,23 @@ const Adyen = ({
           hasHolderName: true,
           holderNameRequired: true,
           billingAddressRequired: true // required for 3DS
-        },
-        applepay: {
-          amount: {
-            value: totalPrice ? toMinor(currency, totalPrice) : 0,
-            currency
-          },
-          countryCode: country
-        },
-        googlepay: {
-          amount: {
-            value: totalPrice ? toMinor(currency, totalPrice) : 0,
-            currency
-          },
-          countryCode: country,
-          environment: getAdyenEnv() === 'test' ? 'TEST' : 'PRODUCTION'
-          // TODO: support for optional config https://docs.adyen.com/payment-methods/google-pay/web-drop-in?tab=_code_payments_code__2#payment-data
         }
+        // applepay: {
+        //   amount: {
+        //     value: totalPrice ? toMinor(currency, totalPrice) : 0,
+        //     currency
+        //   },
+        //   countryCode: country
+        // },
+        // googlepay: {
+        //   amount: {
+        //     value: totalPrice ? toMinor(currency, totalPrice) : 0,
+        //     currency
+        //   },
+        //   countryCode: country,
+        //   environment: getAdyenEnv() === 'test' ? 'TEST' : 'PRODUCTION'
+        //   // TODO: support for optional config https://docs.adyen.com/payment-methods/google-pay/web-drop-in?tab=_code_payments_code__2#payment-data
+        // }
       },
       showPayButton: false
       // instantPaymentTypes: ['applepay'] // defines which payment method should be on top - should be configurable by publisher

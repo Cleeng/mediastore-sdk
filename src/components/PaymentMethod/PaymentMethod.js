@@ -24,6 +24,8 @@ const PaymentMethod = ({
       case 'android':
       case 'amazon':
       case 'roku':
+      case 'googlepay':
+      case 'applepay':
         return (
           <PaymentCard
             key={id}
