@@ -25,8 +25,7 @@ import {
   StyledLoaderContent
 } from './StyledOfferContainer';
 import { fetchOffer, setFreeOffer } from '../../redux/offerSlice';
-import { fetchCreateOrder, fetchUpdateOrder } from '../../redux/orderSlice';
-import { setAvailablePaymentMethods } from '../../redux/paymentMethodsSlice';
+import { fetchCreateOrder } from '../../redux/orderSlice';
 
 const OfferContainer = ({
   urlProps: { location },
@@ -116,12 +115,6 @@ const OfferContainer = ({
 
   const onCouponSubmit = couponCode => {
     if (couponCode === '') return;
-    dispatch(
-      fetchUpdateOrder({
-        id: orderDetails.id,
-        couponCode
-      })
-    );
     setCouponDetails(() => ({
       couponLoading: true
     }));
@@ -168,10 +161,6 @@ const OfferContainer = ({
     if (!offerId) {
       setErrorMsg('Offer not set');
       return;
-    }
-
-    if (availablePaymentMethods) {
-      dispatch(setAvailablePaymentMethods(availablePaymentMethods));
     }
 
     const init = async () => {
