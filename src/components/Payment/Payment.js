@@ -322,7 +322,7 @@ const Payment = ({
         </PaymentWrapperStyled>
       )}
       {(isPayPal || isPaymentFormDisplayed) &&
-        order.offerId.charAt(0) === 'S' && (
+        order?.offerId?.charAt(0) === 'S' && (
           <LegalNote order={order} period={period} />
         )}
     </PaymentStyled>

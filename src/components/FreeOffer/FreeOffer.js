@@ -20,9 +20,9 @@ import { fetchPaymentWithoutDetails } from '../../redux/paymentMethodsSlice';
 
 const FreeOffer = ({ onPaymentComplete, t }) => {
   const { loading: isLoading, error } = useSelector(
-    state => state.paymentMethod
+    state => state.paymentMethods
   );
-  const { period, expiresAt, startTime, title, offerId } = useSelector(
+  const { period, expiresAt, startTime, offerTitle, offerId } = useSelector(
     state => state.offer.offer
   );
   const dispatch = useDispatch();
@@ -61,7 +61,7 @@ const FreeOffer = ({ onPaymentComplete, t }) => {
     <WrapStyled>
       <CardStyled>
         <SubscriptionIconStyled icon={icon} />
-        <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
+        <TitleStyled>{t(`offer-title-${offerId}`, offerTitle)}</TitleStyled>
         <DescriptionStyled>
           {generateDescriptionForFreeOffer()}
         </DescriptionStyled>

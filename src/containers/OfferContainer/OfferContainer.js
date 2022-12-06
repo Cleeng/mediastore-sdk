@@ -14,7 +14,6 @@ import {
   getPaymentMethods,
   getOrder
 } from 'api';
-import saveOfferId from 'util/offerIdHelper';
 import { setData, getData, removeData } from 'util/appConfigHelper';
 import { withTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
@@ -28,7 +27,6 @@ import { fetchOffer, setFreeOffer } from '../../redux/offerSlice';
 import { fetchCreateOrder } from '../../redux/orderSlice';
 
 const OfferContainer = ({
-  urlProps: { location },
   offerId: propOfferId,
   onSuccess,
   availablePaymentMethods,
@@ -177,9 +175,6 @@ const OfferContainer = ({
     };
     init();
 
-    if (location) {
-      saveOfferId(location, setOfferId);
-    }
     if (offerId && !offerDetails) {
       getOfferDetails(offerId).then(offerDetailsResponse => {
         if (offerDetailsResponse.errors.length) {
