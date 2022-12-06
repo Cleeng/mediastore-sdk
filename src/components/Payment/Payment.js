@@ -35,14 +35,10 @@ import DropInSection from './DropInSection/DropInSection';
 import { ConfirmButtonStyled } from '../Adyen/AdyenStyled';
 import { periodMapper } from '../../util';
 
-const Payment = ({
-  t,
-  isPaymentDetailsRequired,
-  onPaymentComplete,
-  updatePriceBreakdown
-}) => {
+const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
   const { availablePaymentMethods } = useSelector(state => state.checkout);
   const order = useSelector(state => state.order.order);
+  const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
   const { period: offerPeriod } = useSelector(state => state.offer.offer);
   const period = offerPeriod
     ? periodMapper[offerPeriod].chargedForEveryText
@@ -330,7 +326,6 @@ Payment.propTypes = {
   onPaymentComplete: PropTypes.func.isRequired,
   isPaymentDetailsRequired: PropTypes.bool,
   updatePriceBreakdown: PropTypes.func,
-  order: PropTypes.objectOf(PropTypes.any),
   period: PropTypes.string,
   availablePaymentMethods: PropTypes.arrayOf(
     PropTypes.shape({
@@ -346,7 +341,6 @@ Payment.propTypes = {
 Payment.defaultProps = {
   isPaymentDetailsRequired: true,
   updatePriceBreakdown: () => {},
-  order: {},
   period: null,
   availablePaymentMethods: null,
   t: k => k

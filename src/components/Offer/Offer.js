@@ -10,7 +10,6 @@ import SectionHeader from 'components/SectionHeader';
 import Footer from 'components/Footer';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
-import { periodMapper } from 'util/planHelper';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
@@ -30,23 +29,13 @@ class Offer extends Component {
 
   render() {
     const {
-      offerDetails: { trialAvailable, period },
-      orderDetails,
+      offerDetails: { trialAvailable },
       orderDetails: {
         discount: { applied },
-        totalPrice,
-        requiredPaymentDetails
+        totalPrice
       },
-      couponProps: {
-        showMessage,
-        message,
-        messageType,
-        onSubmit,
-        couponLoading
-      },
+      couponProps: { showMessage, message, messageType, onSubmit },
       onPaymentComplete,
-      updatePriceBreakdown,
-      availablePaymentMethods,
       t
     } = this.props;
     const isCouponApplied = applied;
@@ -86,7 +75,6 @@ class Offer extends Component {
                       onSubmit={onSubmit}
                       value={coupon}
                       onChange={e => this.setState({ coupon: e })}
-                      couponLoading={couponLoading}
                       source="checkout"
                     />
                   </StyledOfferCouponWrapper>
@@ -94,14 +82,7 @@ class Offer extends Component {
               </>
               <CheckoutPriceBox />
             </StyledOfferBody>
-            <Payment
-              order={orderDetails}
-              period={period ? periodMapper[period].chargedForEveryText : null}
-              onPaymentComplete={onPaymentComplete}
-              isPaymentDetailsRequired={requiredPaymentDetails}
-              updatePriceBreakdown={updatePriceBreakdown}
-              availablePaymentMethods={availablePaymentMethods}
-            />
+            <Payment onPaymentComplete={onPaymentComplete} />
           </>
           )
         </main>
@@ -153,15 +134,6 @@ Offer.propTypes = {
     couponLoading: PropTypes.bool
   }),
   onPaymentComplete: PropTypes.func.isRequired,
-  updatePriceBreakdown: PropTypes.func.isRequired,
-  availablePaymentMethods: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      methodName: PropTypes.string.isRequired,
-      paymentGateway: PropTypes.string.isRequired,
-      default: PropTypes.bool
-    })
-  ),
   t: PropTypes.func
 };
 
@@ -182,7 +154,6 @@ Offer.defaultProps = {
     requiredPaymentDetails: true
   },
   couponProps: null,
-  availablePaymentMethods: null,
   t: k => k
 };
 
