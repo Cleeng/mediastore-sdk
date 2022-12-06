@@ -7,6 +7,7 @@ import { FontColor } from 'styles/variables';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
 import usePrevious from 'util/usePreviousHook';
+import useScript from 'util/useScriptHook';
 import { AdyenStyled } from './AdyenStyled';
 import '@adyen/adyen-web/dist/adyen.css';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
@@ -28,8 +29,8 @@ const Adyen = ({
   const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef(null);
   const [dropInInstance, setDropInInstance] = useState(null);
-  const [checkoutInstance, setCheckoutInstance] = useState(null);
   const prevTotalPrice = usePrevious(totalPrice);
+  useScript('https://pay.google.com/gp/p/js/pay.js');
 
   const onError = e => {
     const { error, fieldType } = e;
@@ -75,6 +76,15 @@ const Adyen = ({
             currency
           },
           countryCode: country
+        },
+        googlepay: {
+          amount: {
+            value: totalPrice ? toMinor(currency, totalPrice) : 0,
+            currency
+          },
+          countryCode: country,
+          environment: getAdyenEnv() === 'test' ? 'TEST' : 'PRODUCTION'
+          // TODO: support for optional config https://docs.adyen.com/payment-methods/google-pay/web-drop-in?tab=_code_payments_code__2#payment-data
         }
       },
       showPayButton: false
@@ -88,7 +98,6 @@ const Adyen = ({
     }
 
     const checkout = await AdyenCheckout(configuration);
-    setCheckoutInstance(checkout);
     if (containerRef.current) {
       const dropin = checkout.create('dropin', {
         onSelect
@@ -116,20 +125,14 @@ const Adyen = ({
   }, []);
 
   useEffect(() => {
-    if (dropInInstance && prevTotalPrice !== totalPrice) {
+    if (
+      dropInInstance &&
+      prevTotalPrice !== totalPrice &&
+      selectedPaymentMethod !== 'paypal'
+    ) {
       // TODO:: add nice loader
       // recreate Adyen Instance if price was changed
-      checkoutInstance.options.amount = {
-        value: totalPrice ? toMinor(currency, totalPrice) : 0,
-        currency
-      };
-      checkoutInstance.options.paymentMethodsConfiguration.applepay = {
-        amount: {
-          value: totalPrice ? toMinor(currency, totalPrice) : 0,
-          currency
-        },
-        countryCode: country
-      };
+      createSession();
     }
   }, [totalPrice]);
 
@@ -149,7 +152,6 @@ const Adyen = ({
       isAdditionalPayment={isPayPalAvailable}
     >
       {isLoading && <Loader />}
-      {console.log(checkoutInstance)}
       <div ref={containerRef} />
     </AdyenStyled>
   );
