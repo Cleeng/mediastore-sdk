@@ -7,6 +7,7 @@ import { ReactComponent as CloseIcon } from 'assets/images/xmark.svg';
 
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
+import { connect } from 'react-redux';
 import {
   InputComponentStyled,
   MessageStyled,
@@ -197,7 +198,7 @@ CouponInput.propTypes = {
   onClose: PropTypes.func,
   onInputToggle: PropTypes.func,
   t: PropTypes.func,
-  couponLoading: PropTypes.bool,
+  couponLoading: PropTypes.bool.isRequired,
   source: PropTypes.oneOf(['myaccount', 'checkout', ''])
 };
 
@@ -211,10 +212,15 @@ CouponInput.defaultProps = {
   onClose: () => {},
   onInputToggle: () => {},
   t: k => k,
-  couponLoading: false,
   source: ''
 };
 
 export { CouponInput as PureCouponInput };
 
-export default withTranslation()(labeling()(CouponInput));
+export const mapStateToProps = state => ({
+  couponLoading: state.order.isCouponLoading
+});
+
+export default withTranslation()(
+  labeling()(connect(mapStateToProps)(CouponInput))
+);

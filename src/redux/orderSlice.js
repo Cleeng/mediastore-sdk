@@ -18,7 +18,8 @@ const initialState = {
   },
   loading: false,
   error: null,
-  couponDetails: null
+  couponDetails: null,
+  isCouponLoading: false
 };
 
 export const fetchCreateOrder = createAsyncThunk(
@@ -36,7 +37,7 @@ export const fetchUpdateOrder = createAsyncThunk(
   async ({ id, couponCode }) => {
     const {
       responseData: { order }
-    } = await updateOrder(id, couponCode);
+    } = await updateOrder(id, { couponCode });
     return order;
   }
 );
@@ -65,10 +66,10 @@ export const orderSlice = createSlice({
       state.error = errors[0];
     },
     [fetchUpdateOrder.pending]: state => {
-      state.loading = true;
+      state.isCouponLoading = true;
     },
     [fetchUpdateOrder.fulfilled]: (state, { payload }) => {
-      state.loading = false;
+      state.isCouponLoading = false;
       state.order = payload;
       state.couponDetails = {
         showMessage: true,
@@ -77,7 +78,7 @@ export const orderSlice = createSlice({
       };
     },
     [fetchUpdateOrder.rejected]: (state, { errors }) => {
-      state.loading = false;
+      state.isCouponLoading = false;
       state.error = errors[0];
       state.couponDetails = {
         showMessage: true,

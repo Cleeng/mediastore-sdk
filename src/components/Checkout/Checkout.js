@@ -50,12 +50,7 @@ class Checkout extends Component {
   }
 
   componentDidMount() {
-    const {
-      changeCurrentStep,
-      initValues,
-      offerId,
-      availablePaymentMethods
-    } = this.props;
+    const { initValues, offerId, availablePaymentMethods } = this.props;
     initValues({
       offerId,
       availablePaymentMethods
@@ -151,7 +146,8 @@ Checkout.propTypes = {
     })
   ),
   onSuccess: PropTypes.func,
-  resetPasswordCallback: PropTypes.func
+  resetPasswordCallback: PropTypes.func,
+  initValues: PropTypes.func.isRequired
 };
 
 Checkout.defaultProps = {
@@ -161,17 +157,10 @@ Checkout.defaultProps = {
   resetPasswordCallback: () => {}
 };
 
-const mapStateToProps = state => ({
-  currentStep: state.checkout.currentStep
-});
-
 export const mapDispatchToProps = dispatch => ({
-  changeCurrentStep: step => {
-    dispatch(changeStep(step));
-  },
   initValues: values => {
     dispatch(init(values));
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
+export default connect(null, mapDispatchToProps)(Checkout);

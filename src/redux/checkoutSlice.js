@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  currentStep: 0,
   offerId: '',
   availablePaymentMethods: []
 };
@@ -11,10 +10,8 @@ export const checkoutSlice = createSlice({
   initialState,
   reducers: {
     init: (state, { payload }) => {
-      state = { ...initialState, ...payload };
-    },
-    changeStep: (state, { payload }) => {
-      state.currentStep = payload;
+      state.offerId = payload.offerId || '';
+      state.availablePaymentMethods = payload.availablePaymentMethods || [];
     }
   }
 });

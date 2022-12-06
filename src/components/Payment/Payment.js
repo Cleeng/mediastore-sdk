@@ -41,9 +41,7 @@ const Payment = ({
   onPaymentComplete,
   updatePriceBreakdown
 }) => {
-  const { availablePaymentMethods } = useSelector(
-    state => state.paymentMethods
-  );
+  const { availablePaymentMethods } = useSelector(state => state.checkout);
   const order = useSelector(state => state.order.order);
   const { period: offerPeriod } = useSelector(state => state.offer.offer);
   const period = offerPeriod
@@ -59,17 +57,17 @@ const Payment = ({
 
   const validatePaymentMethods = (paymentMethods, showError = true) => {
     if (!paymentMethods) return [];
-    return paymentMethods.filter(({ methodName, paymentGateway, id }) => {
-      if (showError) {
-        // eslint-disable-next-line no-console
-        console.error(`Payment method not supported (id: ${id})`);
-        return false;
-      }
+    return paymentMethods.filter(method => {
+      if (
+        supportedPaymentMethods.includes(method.methodName) &&
+        supportedPaymentGateways.includes(method.paymentGateway)
+      )
+        return true;
 
-      return (
-        supportedPaymentMethods.includes(methodName) &&
-        supportedPaymentGateways.includes(paymentGateway)
-      );
+      if (showError)
+        // eslint-disable-next-line no-console
+        console.error(`Payment method not supported (id: ${method.id})`);
+      return false;
     });
   };
   const choosePaymentMethod = async (methodId, paymentGateway) => {
@@ -161,7 +159,6 @@ const Payment = ({
     const availableValidPaymentMethods = validatePaymentMethods(
       availablePaymentMethods
     );
-
     if (availableValidPaymentMethods.length) {
       selectAvailablePaymentMethod(availableValidPaymentMethods);
       return;
