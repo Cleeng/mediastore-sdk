@@ -26,7 +26,7 @@ const Adyen = ({
   selectedPaymentMethod,
   getDropIn,
   onAdditionalDetails,
-  order: { currency, totalPrice, country }
+  order: { currency, totalPrice, country, discount }
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef(null);
@@ -94,12 +94,6 @@ const Adyen = ({
       // TODO: instantPaymentTypes: ['applepay'] // defines which payment method should be on top - should be configurable by publisher
     };
 
-    if (dropInInstance) {
-      // recreate dropin when coupon was applied
-      setIsLoading(true);
-      dropInInstance.unmount();
-    }
-
     const checkout = await AdyenCheckout(configuration);
     if (containerRef.current) {
       const dropin = checkout.create('dropin', {
@@ -128,12 +122,10 @@ const Adyen = ({
   }, []);
 
   useEffect(() => {
-    if (
-      dropInInstance &&
-      prevTotalPrice !== totalPrice &&
-      selectedPaymentMethod !== 'paypal'
-    ) {
-      // TODO:: add nice loader
+    if (dropInInstance && prevTotalPrice !== totalPrice && discount.applied) {
+      // recreate dropin when coupon was applied
+      dropInInstance.unmount();
+      setIsLoading(true); // TODO: hide paypal when dropin is rerendering
       createSession(); // recreate Adyen Instance if price was changed
     }
   }, [totalPrice]);
