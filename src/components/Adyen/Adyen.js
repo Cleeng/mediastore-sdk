@@ -42,13 +42,17 @@ const Adyen = ({
     });
   };
 
-  const onSelect = component => {
-    if (selectedPaymentMethod === component.data.paymentMethod.type) return;
-    if (component.data.paymentMethod.type === 'scheme') {
+  const onSelect = ({
+    data: {
+      paymentMethod: { type }
+    }
+  }) => {
+    if (selectedPaymentMethod === type) return;
+    if (type === 'scheme') {
       selectPaymentMethod('card');
       return;
     }
-    selectPaymentMethod(component.data.paymentMethod.type);
+    selectPaymentMethod(type);
   };
 
   const createDropInInstance = async (id, sessionData) => {
