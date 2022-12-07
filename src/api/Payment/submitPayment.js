@@ -2,7 +2,7 @@ import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-const submitPayment = async paymentMethod => {
+const submitPayment = async (paymentMethod, browserInfo, billingAddress) => {
   const API_URL = getApiURL();
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
@@ -14,6 +14,9 @@ const submitPayment = async paymentMethod => {
       body: JSON.stringify({
         orderId,
         paymentMethod,
+        browserInfo,
+        billingAddress,
+        origin: window.location.origin,
         returnUrl: 'https://cleeng.com'
       })
     });

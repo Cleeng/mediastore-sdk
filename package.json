@@ -19,6 +19,7 @@
   "dependencies": {
     "@adyen/adyen-web": "5.29.0",
     "@reduxjs/toolkit": "^1.7.2",
+    "big.js": "^6.2.1",
     "camelcase": "^5.3.1",
     "dotenv": "6.2.0",
     "dotenv-expand": "4.2.0",

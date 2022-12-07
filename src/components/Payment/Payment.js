@@ -82,13 +82,14 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
 
     setIsPayPal(paymentGateway === 'paypal');
   };
-  const selectPaymentMethod = gateway => {
-    setSelectedPaymentMethod(gateway);
+  const selectPaymentMethod = paymentMethodName => {
+    if (selectedPaymentMethod === paymentMethodName) return;
+    setSelectedPaymentMethod(paymentMethodName);
     choosePaymentMethod(
       validPaymentMethods.find(
-        ({ paymentGateway }) => paymentGateway === gateway
+        ({ methodName }) => methodName === paymentMethodName
       ).id,
-      gateway
+      paymentMethodName
     );
   };
 
@@ -177,14 +178,29 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
     }
   };
 
-  const onAdyenSubmit = async ({ data: { paymentMethod } }) => {
+  const onAdditionalDetails = async state => {
+    console.log('onAdditionalDetails event');
+    const {
+      data: { details }
+    } = state;
+    console.log('data for finilize initial payment', details);
+  };
+
+  const onAdyenSubmit = async (state, component) => {
+    const {
+      data: { paymentMethod, browserInfo, billingAddress }
+    } = state;
     setGeneralError('');
     setIsLoading(true);
-
     const {
       errors,
-      responseData: { payment }
-    } = await submitPayment(paymentMethod);
+      responseData: { payment, action }
+    } = await submitPayment(paymentMethod, browserInfo, billingAddress);
+    console.log('action', action);
+    if (action) {
+      component.handleAction(action);
+      return;
+    }
     if (!errors.length) {
       eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
         payment
@@ -280,6 +296,8 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
               selectedPaymentMethod={selectedPaymentMethod}
               isPayPalAvailable={isGatewayAvailable('paypal')}
               getDropIn={getDropIn}
+              onAdditionalDetails={onAdditionalDetails}
+              order={order}
             />
           )}
           {isGatewayAvailable('paypal') && dropInInstance && (
