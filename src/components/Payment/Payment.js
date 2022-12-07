@@ -12,6 +12,7 @@ import {
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import Loader from 'components/Loader';
+import SectionHeader from 'components/SectionHeader';
 import { getData } from 'util/appConfigHelper';
 import Auth from 'services/auth';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/payment-paypal.svg';
@@ -284,6 +285,9 @@ const Payment = ({
 
   return (
     <PaymentStyled>
+      <SectionHeader marginTop="25px" center>
+        {t('Purchase using')}
+      </SectionHeader>
       {generalError && <PaymentErrorStyled>{generalError}</PaymentErrorStyled>}
       {isPaymentFormDisplayed && (
         <PaymentWrapperStyled>
@@ -307,6 +311,7 @@ const Payment = ({
               isSelected={selectedPaymentMethod === 'paypal'}
               title="PayPal"
               logo={<PaypalLogo />}
+              fadeOutSection={isLoading && selectedPaymentMethod !== 'paypal'}
             >
               <PayPal totalPrice={order.totalPrice} offerId={order.offerId} />
             </DropInSection>

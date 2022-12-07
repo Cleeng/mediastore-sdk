@@ -129,6 +129,7 @@ const Adyen = ({
     if (dropInInstance && prevTotalPrice !== totalPrice && discount.applied) {
       // recreate dropin when coupon was applied
       dropInInstance.unmount();
+      getDropIn(null);
       setIsLoading(true); // TODO: hide paypal when dropin is rerendering
       createSession(); // recreate Adyen Instance if price was changed
     }
