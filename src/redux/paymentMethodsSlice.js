@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getPaymentMethods } from '../api';
-import submitPaymentWithoutDetails from '../api/Payment/submitPaymentWithoutDetails';
+import { getPaymentMethods, submitPaymentWithoutDetails } from 'api';
 
 const initialState = {
   paymentMethods: null,
@@ -30,11 +29,7 @@ export const fetchPaymentWithoutDetails = createAsyncThunk(
 export const paymentMethodsSlice = createSlice({
   name: 'paymentMethods',
   initialState,
-  reducers: {
-    setAvailablePaymentMethods(state, { payload }) {
-      state.availablePaymentMethods = payload;
-    }
-  },
+  reducers: {},
   extraReducers: {
     [fetchPaymentMethods.pending]: state => {
       state.loading = true;
@@ -66,5 +61,4 @@ export const paymentMethodsSlice = createSlice({
   }
 });
 
-export const { setAvailablePaymentMethods } = paymentMethodsSlice.actions;
 export default paymentMethodsSlice.reducer;

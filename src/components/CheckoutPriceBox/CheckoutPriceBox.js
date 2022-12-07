@@ -27,9 +27,9 @@ const CheckoutPriceBox = ({ t }) => {
     discount: { applied: isCouponApplied },
     taxRate,
     country,
-    totalPrice: finalPrice
+    totalPrice: finalPrice,
+    currency
   } = useSelector(state => state.order.order);
-  const { customerCurrencySymbol } = useSelector(state => state.offer.offer);
 
   return (
     <StyledPriceBox>
@@ -37,7 +37,7 @@ const CheckoutPriceBox = ({ t }) => {
         <StyledPriceWrapper>
           <StyledLabel>{t('Price')}</StyledLabel>
           <StyledOfferPrice>
-            {`${customerCurrencySymbol}${formatNumber(offerPrice)} `}
+            {`${currency}${formatNumber(offerPrice)} `}
             <span>{country === 'US' ? t('excl. Tax') : t('excl. VAT')}</span>
           </StyledOfferPrice>
         </StyledPriceWrapper>
@@ -46,7 +46,7 @@ const CheckoutPriceBox = ({ t }) => {
           <StyledPriceWrapper>
             <StyledLabel>{t('Coupon Discount')}</StyledLabel>
             <StyledOfferPrice>
-              - {customerCurrencySymbol}
+              - {currency}
               {formatNumber(discountAmount)}
             </StyledOfferPrice>
           </StyledPriceWrapper>
@@ -57,14 +57,10 @@ const CheckoutPriceBox = ({ t }) => {
               {country === 'US' ? t('Applicable Tax') : t('Applicable VAT')}
             </StyledLabel>
             <StyledOfferPrice>
-              {taxValue ? (
-                `${customerCurrencySymbol}${formatNumber(taxValue)}`
-              ) : (
-                <></>
-              )}
+              {taxValue ? `${currency}${formatNumber(taxValue)}` : <></>}
               {!taxValue && taxRate && isCouponApplied && (
                 <p style={{ textDecoration: 'line-through' }}>
-                  {customerCurrencySymbol} {formatNumber(taxRate * offerPrice)}
+                  {currency} {formatNumber(taxRate * offerPrice)}
                 </p>
               )}
             </StyledOfferPrice>
@@ -75,7 +71,7 @@ const CheckoutPriceBox = ({ t }) => {
           <StyledPriceWrapper>
             <StyledLabel>{t('Service Fee')}</StyledLabel>
             <StyledOfferPrice>
-              {`${customerCurrencySymbol}${formatNumber(customerServiceFee)}`}
+              {`${currency}${formatNumber(customerServiceFee)}`}
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
@@ -84,7 +80,7 @@ const CheckoutPriceBox = ({ t }) => {
           <StyledPriceWrapper>
             <StyledLabel>{t('Payment Method Fee')}</StyledLabel>
             <StyledOfferPrice>
-              {`${customerCurrencySymbol}${formatNumber(paymentMethodFee)}`}
+              {`${currency}${formatNumber(paymentMethodFee)}`}
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
@@ -92,7 +88,7 @@ const CheckoutPriceBox = ({ t }) => {
         <StyledPriceWrapper>
           <StyledTotalLabel>{t('Total')}</StyledTotalLabel>
           <StyledTotalOfferPrice>
-            {`${customerCurrencySymbol}${formatNumber(finalPrice)}`}
+            {`${currency}${formatNumber(finalPrice)}`}
           </StyledTotalOfferPrice>
         </StyledPriceWrapper>
       </StyledPriceBoxWrapper>
