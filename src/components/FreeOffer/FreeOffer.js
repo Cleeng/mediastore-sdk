@@ -6,6 +6,7 @@ import labeling from 'containers/labeling';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
+import { fetchPaymentWithoutDetails } from 'redux/paymentMethodsSlice';
 import {
   WrapStyled,
   TitleStyled,
@@ -16,7 +17,6 @@ import {
   ButtonWrapperStyled,
   ErrorMessageStyled
 } from './FreeOfferStyled';
-import { fetchPaymentWithoutDetails } from '../../redux/paymentMethodsSlice';
 
 const FreeOffer = ({ onPaymentComplete, t }) => {
   const { loading: isLoading, error } = useSelector(
