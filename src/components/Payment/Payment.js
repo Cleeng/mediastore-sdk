@@ -81,13 +81,14 @@ const Payment = ({
 
     setIsPayPal(paymentGateway === 'paypal');
   };
-  const selectPaymentMethod = gateway => {
-    setSelectedPaymentMethod(gateway);
+  const selectPaymentMethod = paymentMethodName => {
+    if (selectedPaymentMethod === paymentMethodName) return;
+    setSelectedPaymentMethod(paymentMethodName);
     choosePaymentMethod(
       validPaymentMethods.find(
-        ({ paymentGateway }) => paymentGateway === gateway
+        ({ methodName }) => methodName === paymentMethodName
       ).id,
-      gateway
+      paymentMethodName
     );
   };
 
@@ -296,6 +297,7 @@ const Payment = ({
               isPayPalAvailable={isGatewayAvailable('paypal')}
               getDropIn={getDropIn}
               onAdditionalDetails={onAdditionalDetails}
+              order={order}
             />
           )}
           {isGatewayAvailable('paypal') && dropInInstance && (
