@@ -20,7 +20,7 @@ export const WrapperStyled = styled.section`
   width: 100%;
 `;
 export const InnerWrapper = styled.div.attrs(() => ({
-  className: 'msd__subscription-text__wrapper'
+  className: 'msd__checkout-card-text__wrapper'
 }))`
   max-width: 50%;
   color: ${FontColor};
@@ -33,7 +33,7 @@ export const InnerWrapper = styled.div.attrs(() => ({
 `;
 
 export const TitleStyled = styled.h1.attrs(() => ({
-  className: 'msd__subscription-text__title'
+  className: 'msd__checkout-card-text__title'
 }))`
   margin: 0 auto 3px 0;
 
@@ -47,7 +47,7 @@ export const TitleStyled = styled.h1.attrs(() => ({
   `};
 `;
 export const DescriptionStyled = styled.h2.attrs(() => ({
-  className: 'msd__subscription-text__description'
+  className: 'msd__checkout-card-text__description'
 }))`
   font-size: ${TinyFont};
   font-weight: ${MediumFontWeight};
@@ -55,7 +55,7 @@ export const DescriptionStyled = styled.h2.attrs(() => ({
 `;
 
 export const PriceWrapperStyled = styled.div.attrs(() => ({
-  className: 'msd__subscription-price__wrapper'
+  className: 'msd__checkout-card-price__wrapper'
 }))`
   display: flex;
   flex-direction: column;
@@ -63,7 +63,7 @@ export const PriceWrapperStyled = styled.div.attrs(() => ({
 `;
 
 export const TrialBadgeStyled = styled.div.attrs(() => ({
-  className: 'msd__subscription-price__badge'
+  className: 'msd__checkout-card-price__badge'
 }))`
   width: 80px;
   padding: 4px 8px;
