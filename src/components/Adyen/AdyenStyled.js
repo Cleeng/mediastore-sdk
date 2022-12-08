@@ -58,12 +58,14 @@ export const AdyenStyled = styled.div.attrs(() => ({
     border-bottom-color: ${ConfirmColor};
   }
 
-  .adyen-checkout__input {
+  .adyen-checkout__input,
+  .adyen-checkout__dropdown__button {
     color: ${FontColor} !important;
     border-color: #d8ddea;
   }
 
-  .input-field {
+  .input-field,
+  .adyen-checkout__dropdown__list {
     color: ${FontColor} !important;
   }
 

@@ -15,13 +15,15 @@ const DropInSection = ({
   isSelected,
   title,
   logo,
-  isCardAvailable
+  isCardAvailable,
+  fadeOutSection
 }) => {
   return (
     <WrapperStyled
       isSelected={isSelected}
       isCardAvailable={isCardAvailable}
-      onClick={() => selectPaymentMethod('paypal')}
+      onClick={() => !fadeOutSection && selectPaymentMethod('paypal')}
+      fadeOutSection={fadeOutSection}
     >
       <TextStyled>
         <IconWrapperStyled>{logo}</IconWrapperStyled>
@@ -41,7 +43,8 @@ DropInSection.propTypes = {
   title: PropTypes.string.isRequired,
   logo: PropTypes.node.isRequired,
   children: PropTypes.node.isRequired,
-  isCardAvailable: PropTypes.bool.isRequired
+  isCardAvailable: PropTypes.bool.isRequired,
+  fadeOutSection: PropTypes.bool.isRequired
 };
 
 export default DropInSection;

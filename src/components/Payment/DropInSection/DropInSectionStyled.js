@@ -22,10 +22,11 @@ export const WrapperStyled = styled.div.attrs(() => ({
   justify-content: center;
   border-radius: ${({ isCardAvailable }) =>
     isCardAvailable ? '0 0 12px 12px' : '12px;'};
-  cursor: pointer;
   background-color: ${colors.White};
   border: 1px solid
     ${({ isSelected }) => (isSelected ? ConfirmColor : '#D3DBE6')};
+  cursor: ${({ fadeOutSection }) => (fadeOutSection ? 'default' : 'pointer')};
+  opacity: ${({ fadeOutSection }) => (fadeOutSection ? '.2' : '1')};
 `;
 
 export const TextStyled = styled.div.attrs(() => ({
@@ -37,7 +38,6 @@ export const TextStyled = styled.div.attrs(() => ({
   text-align: center;
   line-height: 1.4em;
   color: #00112c;
-  cursor: pointer;
   font-size: 1em;
   font-weight: 400;
   display: flex;
