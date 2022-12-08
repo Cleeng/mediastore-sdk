@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import { periodMapper, dateFormat } from 'util/planHelper';
@@ -53,9 +53,9 @@ const FreeOffer = ({ onPaymentComplete, t }) => {
     }
   };
 
-  const getAccessToFreeOffer = () => {
+  const getAccessToFreeOffer = useCallback(() => {
     dispatch(submitPaymentWithoutDetails()).then(onPaymentComplete);
-  };
+  }, []);
 
   return (
     <WrapStyled>
@@ -69,7 +69,7 @@ const FreeOffer = ({ onPaymentComplete, t }) => {
           <Button
             theme="confirm"
             width="200px"
-            onClickFn={() => getAccessToFreeOffer()}
+            onClickFn={getAccessToFreeOffer}
             disabled={isLoading}
           >
             {isLoading ? (
