@@ -44,69 +44,68 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
         const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
         let taxCopy = 'VAT';
         if (country === 'US') taxCopy = 'Tax';
-        if (isTrialAvailable) {
-          if (freeDays) {
-            const description = `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
-              period
-            )}`;
-            return t(
-              `subscription-desc.trial-days.period-${period}`,
-              description,
-              {
-                currency,
-                grossPrice,
-                taxCopy,
-                freeDays
-              }
-            );
-          }
-          if (freePeriods) {
-            let formattedDescription =
-              'You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) ';
-            switch (period) {
-              case 'month':
-                if (freePeriods === 1) {
-                  formattedDescription +=
-                    'after month. </br>Next payments will occur every month.';
-                } else {
-                  formattedDescription +=
-                    'after {{freePeriods}} months. </br>Next payments will occur every month.';
-                }
-                break;
-              case 'week':
-                if (freePeriods === 1) {
-                  formattedDescription +=
-                    'after week. </br>Next payments will occur every week.';
-                } else {
-                  formattedDescription +=
-                    'after {{freePeriods}} weeks. </br>Next payments will occur every week.';
-                }
-                break;
-              default:
-                formattedDescription = '';
-            }
-            return t(
-              `subscription-desc.trial-period${
-                freePeriods === 1 ? '' : 's'
-              }.period-${period}`,
-              formattedDescription,
-              {
-                currency,
-                grossPrice,
-                taxCopy,
-                freePeriods
-              }
-            );
-          }
+
+        if (!isTrialAvailable) {
+          const formattedDescription = `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
+            period
+          )}`;
+          return t(`subscription-desc.period-${period}`, formattedDescription, {
+            currency,
+            grossPrice,
+            taxCopy
+          });
         }
-        const formattedDescription = `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
-          period
-        )}`;
-        return t(`subscription-desc.period-${period}`, formattedDescription, {
-          currency,
-          grossPrice,
-          taxCopy
-        });
+
+        if (freeDays) {
+          const description = `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
+            period
+          )}`;
+          return t(
+            `subscription-desc.trial-days.period-${period}`,
+            description,
+            {
+              currency,
+              grossPrice,
+              taxCopy,
+              freeDays
+            }
+          );
+        }
+
+        if (freePeriods) {
+          let formattedDescription =
+            'You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) ';
+          if (period === 'month' && freePeriods === 1) {
+            formattedDescription +=
+              'after month. </br>Next payments will occur every month.';
+          }
+          if (period === 'month' && freePeriods !== 1) {
+            formattedDescription +=
+              'after {{freePeriods}} months. </br>Next payments will occur every month.';
+          }
+
+          if (period === 'week' && freePeriods === 1) {
+            formattedDescription +=
+              'after week. </br>Next payments will occur every week.';
+          }
+          if (period === 'week' && freePeriods !== 1) {
+            formattedDescription +=
+              'after {{freePeriods}} weeks. </br>Next payments will occur every week.';
+          }
+          return t(
+            `subscription-desc.trial-period${
+              freePeriods === 1 ? '' : 's'
+            }.period-${period}`,
+            formattedDescription,
+            {
+              currency,
+              grossPrice,
+              taxCopy,
+              freePeriods
+            }
+          );
+        }
+        break;
       }
       case 'P': {
         if (!period) {
@@ -153,7 +152,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
           margin="0 0 10px 10px"
         >
           <DescriptionStyled
-            dangerouslySetInnerHTML={{ __html: generateDescription(offerType) }}
+            dangerouslySetInnerHTML={{ __html: generateDescription() }}
           />
         </SkeletonWrapper>
       </InnerWrapper>
