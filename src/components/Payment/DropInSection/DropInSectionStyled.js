@@ -3,18 +3,8 @@ import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 import { ConfirmColor } from 'styles/variables';
 
-export const PaymentStyled = styled.div.attrs(() => ({
-  className: 'msd__payment'
-}))`
-  padding: 20px 35px 70px 35px;
-  width: 100%;
-  background-color: ${colors.BackgroundColor};
-  border-top: 1px solid ${colors.LineColor};
-  border-bottom: 1px solid ${colors.LineColor};
-`;
-
 export const WrapperStyled = styled.div.attrs(() => ({
-  className: 'msd__payment'
+  className: 'msd__custom-dropin--wrapper'
 }))`
   min-height: 58px;
   display: flex;
@@ -30,7 +20,7 @@ export const WrapperStyled = styled.div.attrs(() => ({
 `;
 
 export const TextStyled = styled.div.attrs(() => ({
-  className: 'msd__payment-text'
+  className: 'msd__custom-dropin-text'
 }))`
   max-width: 550px;
   margin: 0;
@@ -48,11 +38,15 @@ export const TextStyled = styled.div.attrs(() => ({
   `}
 `;
 
-export const TitleStyled = styled.span`
+export const TitleStyled = styled.span.attrs(() => ({
+  className: 'msd__custom-dropin-title'
+}))`
   margin-left: 15px;
 `;
 
-export const IconWrapperStyled = styled.div`
+export const IconWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__custom-dropin--payment-icon'
+}))`
   border: 1px solid #a9a9bf;
   display: flex;
   justify-content: center;
@@ -62,7 +56,9 @@ export const IconWrapperStyled = styled.div`
   border-radius: 4px;
 `;
 
-export const ChevronIconWrapperStyled = styled.div`
+export const ChevronIconWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__custom-dropin--arrow-icon'
+}))`
   margin-left: auto;
   svg {
     rotate: ${({ isSelected }) => (isSelected ? '180deg' : 0)};

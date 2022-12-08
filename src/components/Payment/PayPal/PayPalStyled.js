@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-export const PayPalContentStyled = styled.div`
+export const PayPalContentStyled = styled.div.attrs(() => ({
+  className: 'msd__paypal--wrapper'
+}))`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -11,6 +13,8 @@ export const PayPalContentStyled = styled.div`
   font-size: 11px;
 `;
 
-export const PayPalIconContentStyled = styled.div`
+export const PayPalIconContentStyled = styled.div.attrs(() => ({
+  className: 'msd__paypal--icon'
+}))`
   padding-bottom: 20px;
 `;
