@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import formatNumber from 'util/formatNumber';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
+import { currencyFormat } from 'util/planHelper';
 
 import { useSelector } from 'react-redux';
 import {
@@ -37,7 +38,7 @@ const CheckoutPriceBox = ({ t }) => {
         <StyledPriceWrapper>
           <StyledLabel>{t('Price')}</StyledLabel>
           <StyledOfferPrice>
-            {`${currency}${formatNumber(offerPrice)} `}
+            {`${currencyFormat[currency]}${formatNumber(offerPrice)} `}
             <span>{country === 'US' ? t('excl. Tax') : t('excl. VAT')}</span>
           </StyledOfferPrice>
         </StyledPriceWrapper>
@@ -46,7 +47,7 @@ const CheckoutPriceBox = ({ t }) => {
           <StyledPriceWrapper>
             <StyledLabel>{t('Coupon Discount')}</StyledLabel>
             <StyledOfferPrice>
-              - {currency}
+              - {currencyFormat[currency]}
               {formatNumber(discountAmount)}
             </StyledOfferPrice>
           </StyledPriceWrapper>
@@ -57,10 +58,15 @@ const CheckoutPriceBox = ({ t }) => {
               {country === 'US' ? t('Applicable Tax') : t('Applicable VAT')}
             </StyledLabel>
             <StyledOfferPrice>
-              {taxValue ? `${currency}${formatNumber(taxValue)}` : <></>}
+              {taxValue ? (
+                `${currencyFormat[currency]}${formatNumber(taxValue)}`
+              ) : (
+                <></>
+              )}
               {!taxValue && taxRate && isCouponApplied && (
                 <p style={{ textDecoration: 'line-through' }}>
-                  {currency} {formatNumber(taxRate * offerPrice)}
+                  {currencyFormat[currency]}{' '}
+                  {formatNumber(taxRate * offerPrice)}
                 </p>
               )}
             </StyledOfferPrice>
@@ -71,7 +77,7 @@ const CheckoutPriceBox = ({ t }) => {
           <StyledPriceWrapper>
             <StyledLabel>{t('Service Fee')}</StyledLabel>
             <StyledOfferPrice>
-              {`${currency}${formatNumber(customerServiceFee)}`}
+              {`${currencyFormat[currency]}${formatNumber(customerServiceFee)}`}
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
@@ -80,7 +86,7 @@ const CheckoutPriceBox = ({ t }) => {
           <StyledPriceWrapper>
             <StyledLabel>{t('Payment Method Fee')}</StyledLabel>
             <StyledOfferPrice>
-              {`${currency}${formatNumber(paymentMethodFee)}`}
+              {`${currencyFormat[currency]}${formatNumber(paymentMethodFee)}`}
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
@@ -88,7 +94,7 @@ const CheckoutPriceBox = ({ t }) => {
         <StyledPriceWrapper>
           <StyledTotalLabel>{t('Total')}</StyledTotalLabel>
           <StyledTotalOfferPrice>
-            {`${currency}${formatNumber(finalPrice)}`}
+            {`${currencyFormat[currency]}${formatNumber(finalPrice)}`}
           </StyledTotalOfferPrice>
         </StyledPriceWrapper>
       </StyledPriceBoxWrapper>

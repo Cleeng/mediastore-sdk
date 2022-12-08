@@ -6,7 +6,7 @@ import SubscriptionIcon from 'components/SubscriptionIcon';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { useSelector } from 'react-redux';
 import formatNumber from 'util/formatNumber';
-import { dateFormat, periodMapper } from 'util/planHelper';
+import { currencyFormat, dateFormat, periodMapper } from 'util/planHelper';
 import getReadablePeriod from './OfferCheckoutCard.utils';
 
 import {
@@ -42,11 +42,11 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
     if (freeDays) {
-      const description = `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
+      const description = `You will be charged {{currency}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
         period
       )}`;
       return t(`subscription-desc.trial-days.period-${period}`, description, {
-        currency,
+        currency: currencyFormat[currency],
         grossPrice,
         taxCopy,
         freeDays
@@ -55,7 +55,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
 
     // freePeriods
     let formattedDescription =
-      'You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) ';
+      'You will be charged {{currency}}{{grossPrice}} (incl. {{taxCopy}}) ';
     if (period === 'month') {
       formattedDescription +=
         freePeriods === 1
@@ -73,7 +73,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
       }.period-${period}`,
       formattedDescription,
       {
-        currency,
+        currency: currencyFormat[currency],
         grossPrice,
         taxCopy,
         freePeriods
@@ -86,11 +86,11 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 
     if (!isTrialAvailable) {
-      const formattedDescription = `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
+      const formattedDescription = `You will be charged {{currency}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
         period
       )}`;
       return t(`subscription-desc.period-${period}`, formattedDescription, {
-        currency,
+        currency: currencyFormat[currency],
         grossPrice,
         taxCopy
       });
@@ -157,7 +157,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
             <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
           )}
           <Price
-            currency={currency}
+            currency={currencyFormat[currency]}
             price={offerPrice + taxRate * offerPrice}
             period={
               offerType === 'S'
