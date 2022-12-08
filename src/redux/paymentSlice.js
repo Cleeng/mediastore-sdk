@@ -8,10 +8,8 @@ const initialState = {
 export const submitPaymentWithoutDetails = createAsyncThunk(
   'payment/submitPaymentWithoutDetails',
   async () => {
-    const {
-      responseData: { paymentMethods }
-    } = await submitPaymentWithoutDetails();
-    return paymentMethods;
+    const { responseData } = await submitPaymentWithoutDetails();
+    return responseData;
   }
 );
 
