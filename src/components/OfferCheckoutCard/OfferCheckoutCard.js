@@ -5,6 +5,8 @@ import labeling from 'containers/labeling';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { useSelector } from 'react-redux';
+import formatNumber from 'util/formatNumber';
+import { dateFormat, periodMapper } from 'util/planHelper';
 import getReadablePeriod from './OfferCheckoutCard.utils';
 
 import {
@@ -16,13 +18,10 @@ import {
   TrialBadgeStyled
 } from './OfferCheckoutCardStyled';
 import Price from '../Price';
-import { dateFormat, periodMapper } from '../../util';
-import formatNumber from '../../util/formatNumber';
 
 const OfferCheckoutCard = ({ isDataLoaded, t }) => {
   const {
     offerTitle: title,
-    customerCurrencySymbol: currency,
     trialAvailable: isTrialAvailable,
     period,
     offerId,
@@ -34,7 +33,8 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
   const {
     priceBreakdown: { offerPrice },
     taxRate,
-    country
+    country,
+    currency
   } = useSelector(state => state.order.order);
   const offerType = offerId?.charAt(0);
 

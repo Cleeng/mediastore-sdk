@@ -11,22 +11,22 @@ import { setData, getData, removeData } from 'util/appConfigHelper';
 import { withTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
-import labeling from '../labeling';
-import {
-  StyledLoaderContainer,
-  StyledLoaderContent
-} from './StyledOfferContainer';
-import { fetchOffer, setFreeOffer } from '../../redux/offerSlice';
+import { fetchOffer, setFreeOffer } from 'redux/offerSlice';
 import {
   fetchCreateOrder,
   fetchGetOrder,
   fetchUpdateOrder
-} from '../../redux/orderSlice';
+} from 'redux/orderSlice';
 import eventDispatcher, {
   MSSDK_COUPON_FAILED,
   MSSDK_COUPON_SUCCESSFUL,
   MSSDK_PURCHASE_LOADED
-} from '../../util/eventDispatcher';
+} from 'util/eventDispatcher';
+import {
+  StyledLoaderContainer,
+  StyledLoaderContent
+} from './StyledOfferContainer';
+import labeling from '../labeling';
 
 const OfferContainer = ({ onSuccess, t }) => {
   const [orderDetails, setOrderDetails] = useState({

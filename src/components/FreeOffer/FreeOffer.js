@@ -6,7 +6,7 @@ import labeling from 'containers/labeling';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchPaymentWithoutDetails } from 'redux/paymentMethodsSlice';
+import { submitPaymentWithoutDetails } from 'redux/paymentSlice';
 import {
   WrapStyled,
   TitleStyled,
@@ -54,7 +54,7 @@ const FreeOffer = ({ onPaymentComplete, t }) => {
   };
 
   const getAccessToFreeOffer = () => {
-    dispatch(fetchPaymentWithoutDetails()).then(onPaymentComplete);
+    dispatch(submitPaymentWithoutDetails()).then(onPaymentComplete);
   };
 
   return (

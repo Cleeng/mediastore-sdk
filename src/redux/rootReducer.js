@@ -9,6 +9,7 @@ import offerReducer from './offerSlice';
 import orderReducer from './orderSlice';
 import paymentMethodsReducer from './paymentMethodsSlice';
 import checkoutReducer from './checkoutSlice';
+import paymentReducer from './paymentSlice';
 
 const rootReducer = combineReducers({
   paymentInfo: paymentInfoReducer,
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   offer: offerReducer,
   order: orderReducer,
   paymentMethods: paymentMethodsReducer,
-  checkout: checkoutReducer
+  checkout: checkoutReducer,
+  payment: paymentReducer
 });
 
 export default (state, action) =>
