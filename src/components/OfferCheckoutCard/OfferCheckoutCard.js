@@ -38,93 +38,94 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
   } = useSelector(state => state.order.order);
   const offerType = offerId?.charAt(0);
 
-  const generateDescription = () => {
-    switch (offerType) {
-      case 'S': {
-        const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
-        let taxCopy = 'VAT';
-        if (country === 'US') taxCopy = 'Tax';
-
-        if (!isTrialAvailable) {
-          const formattedDescription = `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
-            period
-          )}`;
-          return t(`subscription-desc.period-${period}`, formattedDescription, {
-            currency,
-            grossPrice,
-            taxCopy
-          });
-        }
-
-        if (freeDays) {
-          const description = `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
-            period
-          )}`;
-          return t(
-            `subscription-desc.trial-days.period-${period}`,
-            description,
-            {
-              currency,
-              grossPrice,
-              taxCopy,
-              freeDays
-            }
-          );
-        }
-
-        if (freePeriods) {
-          let formattedDescription =
-            'You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) ';
-          if (period === 'month') {
-            formattedDescription +=
-              freePeriods === 1
-                ? 'after month. </br>Next payments will occur every month.'
-                : 'after {{freePeriods}} months. </br>Next payments will occur every month.';
-          } else if (period === 'week') {
-            formattedDescription +=
-              freePeriods === 1
-                ? 'after week. </br>Next payments will occur every week.'
-                : 'after {{freePeriods}} weeks. </br>Next payments will occur every week.';
-          }
-          return t(
-            `subscription-desc.trial-period${
-              freePeriods === 1 ? '' : 's'
-            }.period-${period}`,
-            formattedDescription,
-            {
-              currency,
-              grossPrice,
-              taxCopy,
-              freePeriods
-            }
-          );
-        }
-        break;
-      }
-      case 'P': {
-        if (!period) {
-          const date = dateFormat(expiresAt, true);
-          return t('pass-desc.date', `Access until {{date}}`, { date });
-        }
-        return periodMapper[period]
-          ? `${periodMapper[period].accessText} season pass`
-          : '';
-      }
-      case 'E': {
-        return `Pay-per-view event ${
-          startTime ? dateFormat(startTime, true) : ''
-        }`;
-      }
-      case 'R': {
-        return periodMapper[period]
-          ? `${periodMapper[period].accessText} access`
-          : '';
-      }
-      case 'A':
-        return t('Unlimited access');
-      default:
-        return '';
+  const generateTrialDescription = () => {
+    const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
+    const taxCopy = country === 'US' ? 'Tax' : 'VAT';
+    if (freeDays) {
+      const description = `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
+        period
+      )}`;
+      return t(`subscription-desc.trial-days.period-${period}`, description, {
+        currency,
+        grossPrice,
+        taxCopy,
+        freeDays
+      });
     }
+
+    // freePeriods
+    let formattedDescription =
+      'You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) ';
+    if (period === 'month') {
+      formattedDescription +=
+        freePeriods === 1
+          ? 'after month. </br>Next payments will occur every month.'
+          : 'after {{freePeriods}} months. </br>Next payments will occur every month.';
+    } else if (period === 'week') {
+      formattedDescription +=
+        freePeriods === 1
+          ? 'after week. </br>Next payments will occur every week.'
+          : 'after {{freePeriods}} weeks. </br>Next payments will occur every week.';
+    }
+    return t(
+      `subscription-desc.trial-period${
+        freePeriods === 1 ? '' : 's'
+      }.period-${period}`,
+      formattedDescription,
+      {
+        currency,
+        grossPrice,
+        taxCopy,
+        freePeriods
+      }
+    );
+  };
+
+  const generateSubscriptionDescription = () => {
+    const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
+    const taxCopy = country === 'US' ? 'Tax' : 'VAT';
+
+    if (!isTrialAvailable) {
+      const formattedDescription = `You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
+        period
+      )}`;
+      return t(`subscription-desc.period-${period}`, formattedDescription, {
+        currency,
+        grossPrice,
+        taxCopy
+      });
+    }
+
+    return generateTrialDescription();
+  };
+
+  const generateDescription = () => {
+    if (offerType === 'S') {
+      return generateSubscriptionDescription();
+    }
+    if (offerType === 'P') {
+      if (!period) {
+        const date = dateFormat(expiresAt, true);
+        return t('pass-desc.date', `Access until {{date}}`, { date });
+      }
+      return periodMapper[period]
+        ? `${periodMapper[period].accessText} season pass`
+        : '';
+    }
+    if (offerType === 'E') {
+      return `Pay-per-view event ${
+        startTime ? dateFormat(startTime, true) : ''
+      }`;
+    }
+    if (offerType === 'R') {
+      return periodMapper[period]
+        ? `${periodMapper[period].accessText} access`
+        : '';
+    }
+    if (offerType === 'A') {
+      return t('Unlimited access');
+    }
+    return '';
   };
 
   return (
