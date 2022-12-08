@@ -12,7 +12,7 @@ import Auth from 'services/auth';
 import PasswordResetSuccess from 'components/PasswordResetSuccess';
 import { getData } from 'util/appConfigHelper';
 import { connect } from 'react-redux';
-import { changeStep, init } from '../../redux/checkoutSlice';
+import { init } from 'redux/checkoutSlice';
 
 const CheckoutSteps = {
   LOGIN: {

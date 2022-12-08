@@ -69,7 +69,7 @@ const FreeOffer = ({ onPaymentComplete, t }) => {
           <Button
             theme="confirm"
             width="200px"
-            onClickFn={getAccessToFreeOffer}
+            onClickFn={() => getAccessToFreeOffer()}
             disabled={isLoading}
           >
             {isLoading ? (

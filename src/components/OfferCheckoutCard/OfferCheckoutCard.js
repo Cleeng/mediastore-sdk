@@ -75,22 +75,16 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
         if (freePeriods) {
           let formattedDescription =
             'You will be charged {{customerCurrencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) ';
-          if (period === 'month' && freePeriods === 1) {
+          if (period === 'month') {
             formattedDescription +=
-              'after month. </br>Next payments will occur every month.';
-          }
-          if (period === 'month' && freePeriods !== 1) {
+              freePeriods === 1
+                ? 'after month. </br>Next payments will occur every month.'
+                : 'after {{freePeriods}} months. </br>Next payments will occur every month.';
+          } else if (period === 'week') {
             formattedDescription +=
-              'after {{freePeriods}} months. </br>Next payments will occur every month.';
-          }
-
-          if (period === 'week' && freePeriods === 1) {
-            formattedDescription +=
-              'after week. </br>Next payments will occur every week.';
-          }
-          if (period === 'week' && freePeriods !== 1) {
-            formattedDescription +=
-              'after {{freePeriods}} weeks. </br>Next payments will occur every week.';
+              freePeriods === 1
+                ? 'after week. </br>Next payments will occur every week.'
+                : 'after {{freePeriods}} weeks. </br>Next payments will occur every week.';
           }
           return t(
             `subscription-desc.trial-period${

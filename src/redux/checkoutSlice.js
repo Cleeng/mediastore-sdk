@@ -16,5 +16,5 @@ export const checkoutSlice = createSlice({
   }
 });
 
-export const { changeStep, init } = checkoutSlice.actions;
+export const { init } = checkoutSlice.actions;
 export default checkoutSlice.reducer;
