@@ -60,7 +60,6 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
         supportedPaymentGateways.includes(method.paymentGateway)
       )
         return true;
-
       if (showError)
         // eslint-disable-next-line no-console
         console.error(`Payment method not supported (id: ${method.id})`);
@@ -109,15 +108,6 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
   const selectAvailablePaymentMethod = availableValidPaymentMethods => {
     setValidPaymentMethods(availableValidPaymentMethods);
 
-    const defaultMethod = availableValidPaymentMethods.find(
-      method => method.default
-    );
-    if (defaultMethod) {
-      setIsPaymentFormDisplayed(true);
-      setSelectedPaymentMethod(defaultMethod.paymentGateway);
-      choosePaymentMethod(defaultMethod.id, defaultMethod.paymentGateway);
-      return;
-    }
     if (availableValidPaymentMethods.length >= 1) {
       const [paymentMethod] = availableValidPaymentMethods;
       const { id, paymentGateway } = paymentMethod;
