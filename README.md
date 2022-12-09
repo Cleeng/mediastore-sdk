@@ -150,8 +150,13 @@ If you prefer smaller components, you can use these to implement the exact featu
 
 ### Communication
 
-[See how you can react to the actions that happened in the components.](#events)
+[List of events that components emit to communicate with your application.](#events)
 
+### Adyen configuration
+[Configuration options for Adyen.](#adyenConfiguration)
+
+### Translations
+[Customize copies or translate them to another language.](#Translations)
 #### <a id="checkout-header"></a><h2 align="center">Checkout</h2>
 
 `Checkout` is a complex component that covers the whole checkout process, from the registration to the purchase. It contains components listed below:
@@ -778,6 +783,7 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 | `MSSDK:remove-payment-details-action-confirmed` | `null`                                                                                                              | The event will be emitted after clicking Remove button in my account update payment details survey. This button removes selected payment method.                                                                                                                                                                                                                                                                                      |
 | `MSSDK:remove-payment-details-action-cancelled` | `null`                                                                                                              | This event will be emitted when the user resigns to remove payment details.                                                                                                                                                                                                                                                                                                                                                           |
 
+### <a id="adyenConfiguration"></a><h2>Adyen configuration</h2>
 ### <a id="Translations"></a><h2>Translations</h2>
 
 <b>This feature is during the development process. Some texts may not be ready for translation yet.</b>
