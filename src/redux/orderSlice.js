@@ -18,7 +18,11 @@ const initialState = {
   },
   loading: true,
   error: null,
-  couponDetails: null,
+  couponDetails: {
+    showMessage: false,
+    message: '',
+    messageType: MESSAGE_TYPE_SUCCESS
+  },
   isCouponLoading: false
 };
 
