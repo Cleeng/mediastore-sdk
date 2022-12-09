@@ -53,17 +53,16 @@ const Payment = ({
 
   const validatePaymentMethods = (paymentMethods, showError = true) => {
     if (!paymentMethods) return [];
-    return paymentMethods.filter(({ methodName, paymentGateway, id }) => {
-      if (showError) {
+    return paymentMethods.filter(method => {
+      if (
+        supportedPaymentMethods.includes(method.methodName) &&
+        supportedPaymentGateways.includes(method.paymentGateway)
+      )
+        return true;
+      if (showError)
         // eslint-disable-next-line no-console
-        console.error(`Payment method not supported (id: ${id})`);
-        return false;
-      }
-
-      return (
-        supportedPaymentMethods.includes(methodName) &&
-        supportedPaymentGateways.includes(paymentGateway)
-      );
+        console.error(`Payment method not supported (id: ${method.id})`);
+      return false;
     });
   };
   const choosePaymentMethod = async (methodId, paymentGateway) => {
@@ -108,15 +107,6 @@ const Payment = ({
   const selectAvailablePaymentMethod = availableValidPaymentMethods => {
     setValidPaymentMethods(availableValidPaymentMethods);
 
-    const defaultMethod = availableValidPaymentMethods.find(
-      method => method.default
-    );
-    if (defaultMethod) {
-      setIsPaymentFormDisplayed(true);
-      setSelectedPaymentMethod(defaultMethod.paymentGateway);
-      choosePaymentMethod(defaultMethod.id, defaultMethod.paymentGateway);
-      return;
-    }
     if (availableValidPaymentMethods.length >= 1) {
       const [paymentMethod] = availableValidPaymentMethods;
       const { id, paymentGateway } = paymentMethod;
