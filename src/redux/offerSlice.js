@@ -10,9 +10,12 @@ const initialState = {
 
 export const fetchOffer = createAsyncThunk(
   'offer/fetchOffer',
-  async orderId => {
-    const { responseData } = await getOfferDetails(orderId);
-    return responseData;
+  async (orderId, { rejectWithValue }) => {
+    try {
+      return getOfferDetails(orderId);
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
   }
 );
 
@@ -29,12 +32,15 @@ export const offerSlice = createSlice({
       state.loading = true;
     },
     [fetchOffer.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.offer = payload;
+      if (payload.errors.length) {
+        state.error = payload.errors[0];
+      } else {
+        state.offer = payload.responseData;
+      }
     },
-    [fetchOffer.rejected]: (state, { errors }) => {
+    [fetchOffer.rejected]: (state, { payload }) => {
       state.loading = false;
-      state.error = errors[0];
+      state.error = payload;
     }
   }
 });

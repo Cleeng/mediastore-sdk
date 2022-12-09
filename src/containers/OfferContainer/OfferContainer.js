@@ -131,10 +131,10 @@ const OfferContainer = ({ onSuccess, t }) => {
     }
 
     const init = async () => {
-      const resultOfferAction = await dispatch(fetchOffer(offerId));
-      const { offerId: id } = unwrapResult(resultOfferAction);
+      const { responseData } = await dispatch(fetchOffer(offerId));
+      const { offerId: id } = unwrapResult(responseData);
       setData('CLEENG_OFFER_ID', id);
-      setData('CLEENG_OFFER_TYPE', id.charAt(0));
+      setData('CLEENG_OFFER_TYPE', id?.charAt(0));
       const orderId = getData('CLEENG_ORDER_ID');
       if (orderId) {
         reuseSavedOrder(orderId, id);
