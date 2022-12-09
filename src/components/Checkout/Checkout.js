@@ -11,6 +11,8 @@ import ThankYouPage from 'components/ThankYouPage';
 import Auth from 'services/auth';
 import PasswordResetSuccess from 'components/PasswordResetSuccess';
 import { getData } from 'util/appConfigHelper';
+import { connect } from 'react-redux';
+import { init } from 'redux/checkoutSlice';
 
 const CheckoutSteps = {
   LOGIN: {
@@ -48,6 +50,11 @@ class Checkout extends Component {
   }
 
   componentDidMount() {
+    const { initValues, offerId, availablePaymentMethods } = this.props;
+    initValues({
+      offerId,
+      availablePaymentMethods
+    });
     if (Auth.isLogged()) {
       this.setState({
         currentStep: 3
@@ -139,7 +146,8 @@ Checkout.propTypes = {
     })
   ),
   onSuccess: PropTypes.func,
-  resetPasswordCallback: PropTypes.func
+  resetPasswordCallback: PropTypes.func,
+  initValues: PropTypes.func.isRequired
 };
 
 Checkout.defaultProps = {
@@ -149,4 +157,10 @@ Checkout.defaultProps = {
   resetPasswordCallback: () => {}
 };
 
-export default Checkout;
+export const mapDispatchToProps = dispatch => ({
+  initValues: values => {
+    dispatch(init(values));
+  }
+});
+
+export default connect(null, mapDispatchToProps)(Checkout);

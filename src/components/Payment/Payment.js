@@ -16,6 +16,7 @@ import SectionHeader from 'components/SectionHeader';
 import { getData } from 'util/appConfigHelper';
 import Auth from 'services/auth';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/payment-paypal.svg';
+import { useSelector } from 'react-redux';
 import {
   PaymentErrorStyled,
   PaymentStyled,
@@ -33,16 +34,16 @@ import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { ConfirmButtonStyled } from '../Adyen/AdyenStyled';
+import { periodMapper } from '../../util';
 
-const Payment = ({
-  t,
-  isPaymentDetailsRequired,
-  availablePaymentMethods,
-  onPaymentComplete,
-  updatePriceBreakdown,
-  order,
-  period
-}) => {
+const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
+  const { availablePaymentMethods } = useSelector(state => state.checkout);
+  const order = useSelector(state => state.order.order);
+  const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
+  const { period: offerPeriod } = useSelector(state => state.offer.offer);
+  const period = offerPeriod
+    ? periodMapper[offerPeriod].chargedForEveryText
+    : null;
   const [isPaymentFormDisplayed, setIsPaymentFormDisplayed] = useState(true);
   const [isPayPal, setIsPayPal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,17 +54,17 @@ const Payment = ({
 
   const validatePaymentMethods = (paymentMethods, showError = true) => {
     if (!paymentMethods) return [];
-    return paymentMethods.filter(({ methodName, paymentGateway, id }) => {
-      if (showError) {
-        // eslint-disable-next-line no-console
-        console.error(`Payment method not supported (id: ${id})`);
-        return false;
-      }
+    return paymentMethods.filter(method => {
+      if (
+        supportedPaymentMethods.includes(method.methodName) &&
+        supportedPaymentGateways.includes(method.paymentGateway)
+      )
+        return true;
 
-      return (
-        supportedPaymentMethods.includes(methodName) &&
-        supportedPaymentGateways.includes(paymentGateway)
-      );
+      if (showError)
+        // eslint-disable-next-line no-console
+        console.error(`Payment method not supported (id: ${method.id})`);
+      return false;
     });
   };
   const choosePaymentMethod = async (methodId, paymentGateway) => {
@@ -156,7 +157,6 @@ const Payment = ({
     const availableValidPaymentMethods = validatePaymentMethods(
       availablePaymentMethods
     );
-
     if (availableValidPaymentMethods.length) {
       selectAvailablePaymentMethod(availableValidPaymentMethods);
       return;
@@ -338,7 +338,7 @@ const Payment = ({
         </PaymentWrapperStyled>
       )}
       {(isPayPal || isPaymentFormDisplayed) &&
-        order.offerId.charAt(0) === 'S' && (
+        order?.offerId?.charAt(0) === 'S' && (
           <LegalNote order={order} period={period} />
         )}
     </PaymentStyled>
@@ -349,25 +349,14 @@ Payment.propTypes = {
   onPaymentComplete: PropTypes.func.isRequired,
   isPaymentDetailsRequired: PropTypes.bool,
   updatePriceBreakdown: PropTypes.func,
-  order: PropTypes.objectOf(PropTypes.any),
   period: PropTypes.string,
-  availablePaymentMethods: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      methodName: PropTypes.string.isRequired,
-      paymentGateway: PropTypes.string.isRequired,
-      default: PropTypes.bool
-    })
-  ),
   t: PropTypes.func
 };
 
 Payment.defaultProps = {
   isPaymentDetailsRequired: true,
   updatePriceBreakdown: () => {},
-  order: {},
   period: null,
-  availablePaymentMethods: null,
   t: k => k
 };
 
