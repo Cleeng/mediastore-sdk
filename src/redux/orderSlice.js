@@ -14,6 +14,7 @@ const initialState = {
     discount: { applied: false },
     taxRate: 0,
     country: '',
+    currency: '',
     totalPrice: 0
   },
   loading: true,

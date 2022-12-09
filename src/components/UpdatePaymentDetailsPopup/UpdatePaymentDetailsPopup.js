@@ -67,6 +67,7 @@ const UpdatePaymentDetailsPopup = ({
   const [step, setStep] = useState(STEPS.PAYMENT_DETAILS_UPDATE);
   const [isLoading, setIsLoading] = useState(false);
   const [selectedMethod, setSelectedMethod] = useState('');
+  const [dropInInstance, setDropInInstance] = useState(null);
   const publisherPaymentMethods = useSelector(
     state => state.paymentInfo.publisherPaymentMethods
   );
@@ -152,6 +153,21 @@ const UpdatePaymentDetailsPopup = ({
     updatePaymentDetailsSection();
   };
 
+  const getDropIn = drop => {
+    setDropInInstance(drop);
+  };
+
+  const handleConfirm = () => {
+    if (selectedPaymentMethod === 'paypal') {
+      submitPayPal();
+      return;
+    }
+    if (!dropInInstance) {
+      return;
+    }
+    dropInInstance.submit();
+  };
+
   return (
     <InnerPopupWrapper
       steps={2}
@@ -168,12 +184,16 @@ const UpdatePaymentDetailsPopup = ({
             </TextStyled>
             <SkeletonWrapper showChildren={!isLoading} height={90}>
               <Adyen
-                isCheckout={false}
-                selectPaymentMethod={selectMethod}
+                isMyAccount
                 onSubmit={addAdyenPaymentDetails}
-              >
-                <PayPal order={{}} selectPaymentMethod={selectMethod} />
-              </Adyen>
+                // onChange={() => setGeneralError('')}
+                // isPaymentProcessing={isLoading}
+                selectPaymentMethod={selectMethod}
+                selectedPaymentMethod={selectedPaymentMethod}
+                // isPayPalAvailable={isGatewayAvailable('paypal')}
+                getDropIn={getDropIn}
+                // onAdditionalDetails={onAdditionalDetails}
+              />
             </SkeletonWrapper>
             <SkeletonWrapper showChildren={!isLoading}>
               {selectedPaymentMethod.id && (
@@ -192,6 +212,9 @@ const UpdatePaymentDetailsPopup = ({
             </SkeletonWrapper>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
+            <Button theme="primary" onClickFn={handleConfirm}>
+              {t('Update payment details')}
+            </Button>
             <Button theme="simple" onClickFn={() => hideInnerPopup()}>
               {t('Cancel')}
             </Button>

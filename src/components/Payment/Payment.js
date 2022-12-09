@@ -291,7 +291,6 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
               isPayPalAvailable={isGatewayAvailable('paypal')}
               getDropIn={getDropIn}
               onAdditionalDetails={onAdditionalDetails}
-              order={order}
             />
           )}
           {isGatewayAvailable('paypal') && dropInInstance && (
