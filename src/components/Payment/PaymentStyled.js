@@ -24,7 +24,7 @@ export const PaymentErrorStyled = styled.div.attrs(() => ({
   text-align: center;
   font-size: 15px;
   color: ${colors.ErrorColor};
-  margin-bottom: 30px;
+  margin: 30px auto;
 `;
 
 export const LegalNoteWrapperStyled = styled.div.attrs(() => ({
