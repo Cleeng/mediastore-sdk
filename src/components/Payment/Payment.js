@@ -177,41 +177,48 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
     console.log('data for finilize initial payment', details);
   };
 
+  const setDropInState = (drop, state) => {
+    drop.setState(state);
+  };
+
   const onAdyenSubmit = async (state, component) => {
     const {
       data: { paymentMethod, browserInfo, billingAddress }
     } = state;
     setGeneralError('');
     setIsLoading(true);
-    const {
-      errors,
-      responseData: { payment, action }
-    } = await submitPayment(paymentMethod, browserInfo, billingAddress);
+    const { errors, responseData } = await submitPayment(
+      paymentMethod,
+      browserInfo,
+      billingAddress
+    );
+
+    if (errors.length) {
+      eventDispatcher(MSSDK_PURCHASE_FAILED, {
+        reason: errors[0]
+      });
+      const notSupportedMethod = errors[0].includes(
+        'Payment details are not supported'
+      );
+      setGeneralError(
+        notSupportedMethod
+          ? t('Payment method not supported. Try different payment method')
+          : t('The payment failed. Please try again.')
+      );
+      setIsLoading(false);
+      return;
+    }
+
+    const { action, payment } = responseData;
     console.log('action', action);
     if (action) {
       component.handleAction(action);
       return;
     }
-    if (!errors.length) {
-      eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
-        payment
-      });
-      onPaymentComplete();
-      return;
-    }
-
-    eventDispatcher(MSSDK_PURCHASE_FAILED, {
-      reason: errors[0]
+    eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
+      payment
     });
-    const notSupportedMethod = errors[0].includes(
-      'Payment details are not supported'
-    );
-    setGeneralError(
-      notSupportedMethod
-        ? t('Payment method not supported. Try different payment method')
-        : t('The payment failed. Please try again.')
-    );
-    setIsLoading(false);
+    onPaymentComplete();
   };
 
   const paymentWithoutDetails = async () => {
@@ -278,7 +285,6 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
       <SectionHeader marginTop="25px" center>
         {t('Purchase using')}
       </SectionHeader>
-      {generalError && <PaymentErrorStyled>{generalError}</PaymentErrorStyled>}
       {isPaymentFormDisplayed && (
         <PaymentWrapperStyled>
           {isGatewayAvailable('adyen') && (
@@ -305,7 +311,14 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
               <PayPal totalPrice={order.totalPrice} offerId={order.offerId} />
             </DropInSection>
           )}
+
           <ConfirmButtonStyled>
+            {generalError && (
+              <PaymentErrorStyled>
+                The payment has not been processed. Please, try again with a
+                different payment method.
+              </PaymentErrorStyled>
+            )}
             <Button
               size="big"
               {...{
