@@ -8,7 +8,17 @@ const updateOrder = (orderId, params) => {
   return fetchWithJWT(url, {
     method: 'PATCH',
     body: JSON.stringify({ ...params })
-  }).then(res => res.json());
+  })
+    .then(async res => {
+      const { responseData, errors } = await res.json();
+      if (!res.ok) {
+        throw new Error(errors[0]);
+      }
+      return responseData;
+    })
+    .catch(err => {
+      throw new Error(err);
+    });
 };
 
 export default updateOrder;

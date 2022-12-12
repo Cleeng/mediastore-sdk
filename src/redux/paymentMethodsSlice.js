@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getPaymentMethods } from 'api';
+import { getPaymentMethods } from '../api';
 
 const initialState = {
   paymentMethods: null,
@@ -28,9 +28,9 @@ export const paymentMethodsSlice = createSlice({
       state.loading = false;
       state.offer = payload;
     },
-    [fetchPaymentMethods.rejected]: (state, { errors }) => {
+    [fetchPaymentMethods.rejected]: (state, { errors: [error] }) => {
       state.loading = false;
-      state.error = errors[0];
+      state.error = error;
     }
   }
 });

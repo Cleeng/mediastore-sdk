@@ -98,32 +98,6 @@ const OfferContainer = ({ onSuccess, t }) => {
       });
   };
 
-  const onCouponSubmit = couponCode => {
-    if (couponCode === '') return;
-    dispatch(
-      fetchUpdateOrder({
-        id: order.id,
-        couponCode
-      })
-    )
-      .then(() => {
-        eventDispatcher(MSSDK_COUPON_SUCCESSFUL, {
-          detail: {
-            coupon: couponCode,
-            source: 'checkout'
-          }
-        });
-      })
-      .catch(() => {
-        eventDispatcher(MSSDK_COUPON_FAILED, {
-          detail: {
-            coupon: couponCode,
-            source: 'checkout'
-          }
-        });
-      });
-  };
-
   useEffect(() => {
     if (!offerId) {
       setErrorMsg('Offer not set');
@@ -132,9 +106,7 @@ const OfferContainer = ({ onSuccess, t }) => {
 
     const init = async () => {
       const resultOfferAction = await dispatch(fetchOffer(offerId));
-      const result = unwrapResult(resultOfferAction);
-      if (result.errors.length) return;
-      const { offerId: id } = result.responseData;
+      const { offerId: id } = unwrapResult(resultOfferAction);
       setData('CLEENG_OFFER_ID', id);
       setData('CLEENG_OFFER_TYPE', id.charAt(0));
       const orderId = getData('CLEENG_ORDER_ID');
@@ -197,10 +169,6 @@ const OfferContainer = ({ onSuccess, t }) => {
     <Offer
       offerDetails={offer}
       orderDetails={order}
-      couponProps={{
-        ...order.couponDetails,
-        onSubmit: onCouponSubmit
-      }}
       onPaymentComplete={onSuccess}
       updatePriceBreakdown={updatedOrder => setOrderDetails(updatedOrder)}
       availablePaymentMethods={availablePaymentMethods}

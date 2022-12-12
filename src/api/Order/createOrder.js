@@ -16,7 +16,17 @@ const createOrder = (offerId, paymentMethodId = 0) => {
       customerId,
       paymentMethodId
     })
-  }).then(res => res.json());
+  })
+    .then(async res => {
+      const { responseData, errors } = await res.json();
+      if (!res.ok) {
+        throw new Error(errors[0]);
+      }
+      return responseData;
+    })
+    .catch(err => {
+      throw new Error(err);
+    });
 };
 
 export default createOrder;

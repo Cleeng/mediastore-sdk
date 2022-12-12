@@ -15,6 +15,11 @@ import {
   InputElementStyled,
   CloseButtonStyled
 } from './CouponInputStyled';
+import { fetchUpdateOrder } from '../../redux/orderSlice';
+import eventDispatcher, {
+  MSSDK_COUPON_FAILED,
+  MSSDK_COUPON_SUCCESSFUL
+} from '../../util/eventDispatcher';
 
 const FADE_OUT_DELAY = 5000;
 
@@ -77,10 +82,26 @@ class CouponInput extends Component {
     });
   };
 
+  onSubmit = async coupon => {
+    const { orderId, updateCoupon } = this.props;
+    const detail = {
+      detail: {
+        coupon,
+        source: 'checkout'
+      }
+    };
+    updateCoupon(orderId, coupon)
+      .then(() => {
+        eventDispatcher(MSSDK_COUPON_SUCCESSFUL, detail);
+      })
+      .catch(() => {
+        eventDispatcher(MSSDK_COUPON_FAILED, detail);
+      });
+  };
+
   handleSubmit = async event => {
-    const { onSubmit } = this.props;
     event.target.blur();
-    await onSubmit(event.target.value);
+    await this.onSubmit(event.target.value);
     this.setState({
       suppressMessage: false
     });
@@ -88,7 +109,7 @@ class CouponInput extends Component {
 
   onRedeemClick = async () => {
     const { isOpened } = this.state;
-    const { onSubmit, onInputToggle, value, source } = this.props;
+    const { onInputToggle, value, source } = this.props;
     if (!isOpened) {
       window.dispatchEvent(
         new CustomEvent('MSSDK:redeem-coupon-button-clicked', {
@@ -106,7 +127,7 @@ class CouponInput extends Component {
           }
         })
       );
-      await onSubmit(value);
+      await this.onSubmit(value);
     }
   };
 
@@ -195,11 +216,12 @@ CouponInput.propTypes = {
     message: PropTypes.node,
     messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS])
   }),
-  onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func,
   onClose: PropTypes.func,
   onInputToggle: PropTypes.func,
   t: PropTypes.func,
+  updateCoupon: PropTypes.func.isRequired,
+  orderId: PropTypes.number.isRequired,
   couponLoading: PropTypes.bool.isRequired,
   source: PropTypes.oneOf(['myaccount', 'checkout', ''])
 };
@@ -223,9 +245,15 @@ export { CouponInput as PureCouponInput };
 
 export const mapStateToProps = state => ({
   couponLoading: state.order.isCouponLoading,
-  couponDetails: state.order.couponDetails
+  couponDetails: state.order.couponDetails,
+  orderId: state.order.order.id
+});
+
+export const mapDispatchToProps = dispatch => ({
+  updateCoupon: (id, couponCode) =>
+    dispatch(fetchUpdateOrder({ id, couponCode }))
 });
 
 export default withTranslation()(
-  labeling()(connect(mapStateToProps)(CouponInput))
+  labeling()(connect(mapStateToProps, mapDispatchToProps)(CouponInput))
 );

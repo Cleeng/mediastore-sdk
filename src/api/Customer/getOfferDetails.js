@@ -3,7 +3,7 @@ import { fetchWithHeaders } from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import getCustomer from './getCustomer';
 
-const getOfferDetails = async offerId => {
+const getOfferDetailsUrl = async offerId => {
   const API_URL = getApiURL();
   let customerEmail = getData('CLEENG_CUSTOMER_EMAIL') || null;
 
@@ -15,7 +15,17 @@ const getOfferDetails = async offerId => {
   }
   const url = `${API_URL}/offers/${offerId}/customers/${customerEmail}`;
 
-  return fetchWithHeaders(url, {}).then(res => res.json());
+  return fetchWithHeaders(url, {})
+    .then(async res => {
+      const { responseData, errors } = await res.json();
+      if (!res.ok) {
+        throw new Error(errors[0]);
+      }
+      return responseData;
+    })
+    .catch(err => {
+      throw new Error(err);
+    });
 };
 
-export default getOfferDetails;
+export default getOfferDetailsUrl;

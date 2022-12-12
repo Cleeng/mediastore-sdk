@@ -12,7 +12,8 @@ export const fetchOffer = createAsyncThunk(
   'offer/fetchOffer',
   async (orderId, { rejectWithValue }) => {
     try {
-      return getOfferDetails(orderId);
+      const result = await getOfferDetails(orderId);
+      return result;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -32,11 +33,8 @@ export const offerSlice = createSlice({
       state.loading = true;
     },
     [fetchOffer.fulfilled]: (state, { payload }) => {
-      if (payload.errors.length) {
-        state.error = payload.errors[0];
-      } else {
-        state.offer = payload.responseData;
-      }
+      state.loading = false;
+      state.offer = payload;
     },
     [fetchOffer.rejected]: (state, { payload }) => {
       state.loading = false;
