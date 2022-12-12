@@ -4,10 +4,6 @@ import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
 import { ReactComponent as CloseIcon } from 'assets/images/xmark.svg';
-
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
-import { connect } from 'react-redux';
 import {
   InputComponentStyled,
   MessageStyled,
@@ -219,14 +215,4 @@ CouponInput.defaultProps = {
   source: ''
 };
 
-export { CouponInput as PureCouponInput };
-
-export const mapStateToProps = state => ({
-  couponLoading: state.order.isCouponLoading,
-  couponDetails: state.order.couponDetails,
-  orderId: state.order.order.id
-});
-
-export default withTranslation()(
-  labeling()(connect(mapStateToProps)(CouponInput))
-);
+export default CouponInput;

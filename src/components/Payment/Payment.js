@@ -253,6 +253,9 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
     dropInInstance.submit();
   };
 
+  const showPayPalWhenAdyenIsReady = () =>
+    isGatewayAvailable('adyen') ? !!dropInInstance : true;
+
   if (!isPaymentDetailsRequired) {
     return (
       <PaymentStyled>
@@ -293,7 +296,7 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
               onAdditionalDetails={onAdditionalDetails}
             />
           )}
-          {isGatewayAvailable('paypal') && dropInInstance && (
+          {isGatewayAvailable('paypal') && showPayPalWhenAdyenIsReady() && (
             <DropInSection
               isCardAvailable={isGatewayAvailable('adyen')}
               selectPaymentMethod={selectPaymentMethod}

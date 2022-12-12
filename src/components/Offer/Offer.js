@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import CouponInput from 'components/CouponInput/CouponInput';
+import CouponInput from 'containers/CouponInput/CouponInput.container';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Payment from 'components/Payment';
 import Header from 'components/Header';
