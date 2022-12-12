@@ -51,6 +51,7 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
   const [generalError, setGeneralError] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('');
   const [dropInInstance, setDropInInstance] = useState(null);
+  const [adyenKey, setAdyenKey] = useState(false);
 
   const validatePaymentMethods = (paymentMethods, showError = true) => {
     if (!paymentMethods) return [];
@@ -158,11 +159,9 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
 
   const submitPayPal = async () => {
     setIsLoading(true);
-    const {
-      responseData: { redirectUrl }
-    } = await submitPayPalPayment();
-    if (redirectUrl) {
-      window.location.href = redirectUrl;
+    const { responseData } = await submitPayPalPayment();
+    if (responseData?.redirectUrl) {
+      window.location.href = responseData.redirectUrl;
     } else {
       setIsLoading(false);
       setGeneralError(t('The payment failed. Please try again.'));
@@ -175,10 +174,6 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
       data: { details }
     } = state;
     console.log('data for finilize initial payment', details);
-  };
-
-  const setDropInState = (drop, state) => {
-    drop.setState(state);
   };
 
   const onAdyenSubmit = async (state, component) => {
@@ -206,6 +201,9 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
           : t('The payment failed. Please try again.')
       );
       setIsLoading(false);
+      // force Adyen remount
+      setDropInInstance(null);
+      setAdyenKey(key => !key);
       return;
     }
 
@@ -263,6 +261,11 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
   if (!isPaymentDetailsRequired) {
     return (
       <PaymentStyled>
+        {generalError && (
+          <PaymentErrorStyled>
+            The payment has not been processed. Please, try again.
+          </PaymentErrorStyled>
+        )}
         <Button
           onClickFn={paymentWithoutDetails}
           theme="confirm"
@@ -289,8 +292,8 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
         <PaymentWrapperStyled>
           {isGatewayAvailable('adyen') && (
             <Adyen
+              key={adyenKey}
               onSubmit={onAdyenSubmit}
-              onChange={() => setGeneralError('')}
               isPaymentProcessing={isLoading}
               selectPaymentMethod={selectPaymentMethod}
               selectedPaymentMethod={selectedPaymentMethod}
