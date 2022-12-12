@@ -116,3 +116,7 @@ export const PopupImageStyled = styled.div.attrs(() => ({
   justify-content: center;
   align-items: center;
 `;
+
+export const PaymentMethodsWrapperStyled = styled.div`
+  margin-bottom: 40px;
+`;

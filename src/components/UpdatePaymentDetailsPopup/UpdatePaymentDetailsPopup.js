@@ -31,7 +31,8 @@ import {
   // PaymentMethodIconStyled,
   RemoveLinkStyled,
   DeleteIconStyled,
-  PopupImageStyled
+  PopupImageStyled,
+  PaymentMethodsWrapperStyled
 } from './UpdatePaymentDetailsPopupStyled';
 import { Success, DeletePaymentMethod } from './Steps';
 import Adyen from '../Adyen';
@@ -51,6 +52,13 @@ const UpdatePaymentDetailsPopup = ({
   updatePaymentDetailsSection,
   selectedPaymentMethod
 }) => {
+  // 1. Get payment methods from prop / fetch payment methods, validate and save in redux
+  // 2. Connect correctly to redux
+  // 3. Show PayPal dropin
+  // 4. Store selected payment method
+  // 5. Handle add Adyen Payment Details
+  // 6. Handle add PayPal Payment details
+  // 6. Handle errors
   const STEPS = {
     PAYMENT_DETAILS_UPDATE: 'PAYMENT_DETAILS_UPDATE',
     DELETE_PAYMENT_DETAILS: 'DELETE_PAYMENT_DETAILS',
@@ -183,17 +191,19 @@ const UpdatePaymentDetailsPopup = ({
               {t('Update your current payment method, or add a new one.')}
             </TextStyled>
             <SkeletonWrapper showChildren={!isLoading} height={90}>
-              <Adyen
-                isMyAccount
-                onSubmit={addAdyenPaymentDetails}
-                // onChange={() => setGeneralError('')}
-                // isPaymentProcessing={isLoading}
-                selectPaymentMethod={selectMethod}
-                selectedPaymentMethod={selectedPaymentMethod}
-                // isPayPalAvailable={isGatewayAvailable('paypal')}
-                getDropIn={getDropIn}
-                // onAdditionalDetails={onAdditionalDetails}
-              />
+              <PaymentMethodsWrapperStyled>
+                <Adyen
+                  isMyAccount
+                  onSubmit={addAdyenPaymentDetails}
+                  // onChange={() => setGeneralError('')}
+                  // isPaymentProcessing={isLoading}
+                  selectPaymentMethod={selectMethod}
+                  selectedPaymentMethod={selectedPaymentMethod}
+                  // isPayPalAvailable={isGatewayAvailable('paypal')}
+                  getDropIn={getDropIn}
+                  // onAdditionalDetails={onAdditionalDetails}
+                />
+              </PaymentMethodsWrapperStyled>
             </SkeletonWrapper>
             <SkeletonWrapper showChildren={!isLoading}>
               {selectedPaymentMethod.id && (
