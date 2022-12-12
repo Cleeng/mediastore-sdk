@@ -24,16 +24,15 @@ const initialState = {
     message: '',
     messageType: MESSAGE_TYPE_SUCCESS
   },
-  isCouponLoading: false
+  isCouponLoading: false,
+  couponError: null
 };
 
 export const fetchCreateOrder = createAsyncThunk(
   'order/createOrder',
   async (offerId, { rejectWithValue }) => {
     try {
-      const {
-        responseData: { order }
-      } = await createOrder(offerId);
+      const { order } = await createOrder(offerId);
       return order;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -43,20 +42,27 @@ export const fetchCreateOrder = createAsyncThunk(
 
 export const fetchUpdateOrder = createAsyncThunk(
   'order/updateOrder',
-  async ({ id, couponCode }) => {
-    const {
-      responseData: { order }
-    } = await updateOrder(id, { couponCode });
-    return order;
+  async ({ id, couponCode }, { rejectWithValue }) => {
+    try {
+      const { order } = await updateOrder(id, { couponCode });
+      return order;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
   }
 );
 
-export const fetchGetOrder = createAsyncThunk('order/getOrder', async id => {
-  const {
-    responseData: { order }
-  } = await getOrder(id);
-  return order;
-});
+export const fetchGetOrder = createAsyncThunk(
+  'order/getOrder',
+  async (id, { rejectWithValue }) => {
+    try {
+      const { order } = await getOrder(id);
+      return order;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
 
 export const orderSlice = createSlice({
   name: 'order',
@@ -74,8 +80,24 @@ export const orderSlice = createSlice({
       state.loading = false;
       state.error = payload;
     },
+    [fetchGetOrder.pending]: state => {
+      state.loading = true;
+    },
+    [fetchGetOrder.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.order = payload;
+    },
+    [fetchGetOrder.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
     [fetchUpdateOrder.pending]: state => {
       state.isCouponLoading = true;
+      state.couponDetails = {
+        showMessage: false,
+        message: '',
+        messageType: MESSAGE_TYPE_SUCCESS
+      };
     },
     [fetchUpdateOrder.fulfilled]: (state, { payload }) => {
       state.isCouponLoading = false;
@@ -86,9 +108,9 @@ export const orderSlice = createSlice({
         messageType: MESSAGE_TYPE_SUCCESS
       };
     },
-    [fetchUpdateOrder.rejected]: (state, { errors }) => {
+    [fetchUpdateOrder.rejected]: (state, { payload }) => {
       state.isCouponLoading = false;
-      state.error = errors[0];
+      state.couponError = payload;
       state.couponDetails = {
         showMessage: true,
         message:

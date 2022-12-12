@@ -83,10 +83,14 @@ const OfferContainer = ({ onSuccess, t }) => {
 
   const reuseSavedOrder = (id, longOfferId) => {
     dispatch(fetchGetOrder(id))
-      .then(() => {
+      .unwrap()
+      .then(orderResponse => {
         const { customerId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
         if (
-          !(order.offerId === longOfferId && order.customerId === customerId)
+          !(
+            orderResponse.offerId === longOfferId &&
+            orderResponse.customerId === customerId
+          )
         ) {
           removeData('CLEENG_ORDER_ID');
           createOrderHandler(longOfferId);
@@ -132,9 +136,7 @@ const OfferContainer = ({ onSuccess, t }) => {
 
     const init = async () => {
       const resultOfferAction = await dispatch(fetchOffer(offerId));
-      const result = unwrapResult(resultOfferAction);
-      if (result.errors.length) return;
-      const { offerId: id } = result.responseData;
+      const { offerId: id } = unwrapResult(resultOfferAction);
       setData('CLEENG_OFFER_ID', id);
       setData('CLEENG_OFFER_TYPE', id.charAt(0));
       const orderId = getData('CLEENG_ORDER_ID');

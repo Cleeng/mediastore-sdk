@@ -7,7 +7,6 @@ import { ReactComponent as CloseIcon } from 'assets/images/xmark.svg';
 
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import { connect } from 'react-redux';
 import {
   InputComponentStyled,
   MessageStyled,
@@ -220,12 +219,4 @@ CouponInput.defaultProps = {
 };
 
 export { CouponInput as PureCouponInput };
-
-export const mapStateToProps = state => ({
-  couponLoading: state.order.isCouponLoading,
-  couponDetails: state.order.couponDetails
-});
-
-export default withTranslation()(
-  labeling()(connect(mapStateToProps)(CouponInput))
-);
+export default withTranslation()(labeling()(CouponInput));
