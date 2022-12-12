@@ -73,11 +73,11 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
       const { errors, responseData } = await updateOrder(orderId, {
         paymentMethodId: methodId
       });
-
-      if (errors[0]?.includes('JWT')) {
+      if (errors && errors[0]?.includes('JWT')) {
         Auth.logout();
+      } else if (responseData) {
+        updatePriceBreakdown(responseData.order);
       }
-      updatePriceBreakdown(responseData.order);
     }
 
     setIsPayPal(paymentGateway === 'paypal');

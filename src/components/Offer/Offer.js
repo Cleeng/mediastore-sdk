@@ -34,6 +34,7 @@ class Offer extends Component {
         discount: { applied },
         totalPrice
       },
+      couponProps: { onSubmit },
       onPaymentComplete,
       t
     } = this.props;
@@ -68,6 +69,7 @@ class Offer extends Component {
                   </OfferCardWrapperStyled>
                   <StyledOfferCouponWrapper>
                     <CouponInput
+                      onSubmit={onSubmit}
                       value={coupon}
                       onChange={e => this.setState({ coupon: e })}
                       source="checkout"
@@ -120,6 +122,13 @@ Offer.propTypes = {
     totalPrice: PropTypes.number,
     requiredPaymentDetails: PropTypes.bool,
     taxRate: PropTypes.number
+  }),
+  couponProps: PropTypes.shape({
+    showMessage: PropTypes.bool,
+    message: PropTypes.node,
+    messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS]),
+    onSubmit: PropTypes.func.isRequired,
+    couponLoading: PropTypes.bool
   }),
   onPaymentComplete: PropTypes.func.isRequired,
   t: PropTypes.func

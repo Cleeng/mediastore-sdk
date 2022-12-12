@@ -98,6 +98,32 @@ const OfferContainer = ({ onSuccess, t }) => {
       });
   };
 
+  const onCouponSubmit = couponCode => {
+    if (couponCode === '') return;
+    dispatch(
+      fetchUpdateOrder({
+        id: order.id,
+        couponCode
+      })
+    )
+      .then(() => {
+        eventDispatcher(MSSDK_COUPON_SUCCESSFUL, {
+          detail: {
+            coupon: couponCode,
+            source: 'checkout'
+          }
+        });
+      })
+      .catch(() => {
+        eventDispatcher(MSSDK_COUPON_FAILED, {
+          detail: {
+            coupon: couponCode,
+            source: 'checkout'
+          }
+        });
+      });
+  };
+
   useEffect(() => {
     if (!offerId) {
       setErrorMsg('Offer not set');
@@ -169,6 +195,10 @@ const OfferContainer = ({ onSuccess, t }) => {
     <Offer
       offerDetails={offer}
       orderDetails={order}
+      couponProps={{
+        ...order.couponDetails,
+        onSubmit: onCouponSubmit
+      }}
       onPaymentComplete={onSuccess}
       updatePriceBreakdown={updatedOrder => setOrderDetails(updatedOrder)}
       availablePaymentMethods={availablePaymentMethods}

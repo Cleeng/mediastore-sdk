@@ -3,7 +3,7 @@ import { fetchWithHeaders } from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import getCustomer from './getCustomer';
 
-const getOfferDetailsUrl = async offerId => {
+const getOfferDetails = async offerId => {
   const API_URL = getApiURL();
   let customerEmail = getData('CLEENG_CUSTOMER_EMAIL') || null;
 
@@ -28,4 +28,4 @@ const getOfferDetailsUrl = async offerId => {
     });
 };
 
-export default getOfferDetailsUrl;
+export default getOfferDetails;
