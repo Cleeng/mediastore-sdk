@@ -16,6 +16,7 @@ import { ReactComponent as happyData } from 'assets/images/happyData.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { periodMapper } from 'util/planHelper';
+import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
 import mapErrorToText from './helper';
 
 const SubscriptionSwitchesList = ({
@@ -107,68 +108,82 @@ const SubscriptionSwitchesList = ({
   return (
     <>
       {areAvailable &&
-        availableSorted.map(subItem => (
-          <SubscriptionStyled
-            key={subItem.toOfferId}
-            hide={pendingSwtichesToOfferIdsArray.find(
-              item => item === subItem.toOfferId
-            )}
-          >
-            <OfferCard
-              period={periodMapper[subItem.period].chargedForEveryText}
-              offerType="S"
-              title={subItem.title}
-              currency={subItem.nextPaymentPriceCurrencySymbol}
-              price={Math.round(subItem.nextPaymentPrice * 100) / 100}
-              offerId={subItem.toOfferId}
-            />
-            <WrapperStyled>
-              <SimpleButtonStyled
-                onClickFn={() => {
-                  window.dispatchEvent(
-                    new CustomEvent('MSSDK:switch-button-clicked', {
-                      detail: {
-                        fromOfferId,
-                        toOfferId: subItem.toOfferId,
-                        switchDirection: subItem.switchDirection,
-                        algorithm: subItem.algorithm
+        availableSorted.map(subItem => {
+          const price =
+            isPriceTemporaryModified(subItem.toOfferId) &&
+            subItem.algorithm !== 'DEFERRED'
+              ? subItem.price
+              : subItem.nextPaymentPrice;
+          return (
+            <SubscriptionStyled
+              key={subItem.toOfferId}
+              hide={pendingSwtichesToOfferIdsArray.find(
+                item => item === subItem.toOfferId
+              )}
+            >
+              <OfferCard
+                period={periodMapper[subItem.period].chargedForEveryText}
+                offerType="S"
+                title={subItem.title}
+                currency={subItem.nextPaymentPriceCurrencySymbol}
+                price={Math.round(price * 100) / 100}
+                offerId={subItem.toOfferId}
+              />
+              <WrapperStyled>
+                <SimpleButtonStyled
+                  onClickFn={() => {
+                    window.dispatchEvent(
+                      new CustomEvent('MSSDK:switch-button-clicked', {
+                        detail: {
+                          fromOfferId,
+                          toOfferId: subItem.toOfferId,
+                          switchDirection: subItem.switchDirection,
+                          algorithm: subItem.algorithm
+                        }
+                      })
+                    );
+                    showInnerPopup({
+                      type: POPUP_TYPES.switchPlan,
+                      data: {
+                        offerData: {
+                          ...subItem
+                        }
                       }
-                    })
-                  );
-                  showInnerPopup({
-                    type: POPUP_TYPES.switchPlan,
-                    data: {
-                      offerData: {
-                        ...subItem
-                      }
-                    }
-                  });
-                }}
-              >
-                {subItem.switchDirection}
-              </SimpleButtonStyled>
-            </WrapperStyled>
-          </SubscriptionStyled>
-        ))}
+                    });
+                  }}
+                >
+                  {subItem.switchDirection}
+                </SimpleButtonStyled>
+              </WrapperStyled>
+            </SubscriptionStyled>
+          );
+        })}
       {areUnAvailable &&
-        switchSettings.unavailable.map(subItem => (
-          <SubscriptionStyled key={subItem.toOfferId}>
-            <OfferCard
-              period={periodMapper[subItem.period].chargedForEveryText}
-              offerType="S"
-              title={subItem.title}
-              currency={subItem.nextPaymentPriceCurrencySymbol}
-              price={Math.round(subItem.nextPaymentPrice * 100) / 100}
-              showInfoBox={subItem.reason.code}
-              offerId={subItem.toOfferId}
-            />
-            <WrapperStyled>
-              <SimpleButtonStyled disabled>
-                {subItem.switchDirection}
-              </SimpleButtonStyled>
-            </WrapperStyled>
-          </SubscriptionStyled>
-        ))}
+        switchSettings.unavailable.map(subItem => {
+          const price =
+            isPriceTemporaryModified(subItem.toOfferId) &&
+            subItem.algorithm !== 'DEFERRED'
+              ? subItem.price
+              : subItem.nextPaymentPrice;
+          return (
+            <SubscriptionStyled key={subItem.toOfferId}>
+              <OfferCard
+                period={periodMapper[subItem.period].chargedForEveryText}
+                offerType="S"
+                title={subItem.title}
+                currency={subItem.nextPaymentPriceCurrencySymbol}
+                price={Math.round(price * 100) / 100}
+                showInfoBox={subItem.reason.code}
+                offerId={subItem.toOfferId}
+              />
+              <WrapperStyled>
+                <SimpleButtonStyled disabled>
+                  {subItem.switchDirection}
+                </SimpleButtonStyled>
+              </WrapperStyled>
+            </SubscriptionStyled>
+          );
+        })}
     </>
   );
 };
