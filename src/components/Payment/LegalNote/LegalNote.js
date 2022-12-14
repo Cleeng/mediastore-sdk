@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Trans } from 'react-i18next';
+import { Trans, withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import { LegalNoteWrapperStyled, LegalTextStyled } from '../PaymentStyled';
 import { getData, currencyFormat } from '../../../util';
 // TODO: check barel? file
@@ -94,4 +95,4 @@ LegalNote.defaultProps = {
   period: null
 };
 
-export default LegalNote;
+export default withTranslation()(labeling()(LegalNote));
