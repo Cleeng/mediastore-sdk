@@ -304,7 +304,7 @@ class Payment extends Component {
         <LegalTextStyled>
           {t(
             'legal-notes-acknowledge',
-            'By clicking &apos;Complete Purchase&apos; above, I expressly acknowledge and agree to the above terms as well as the full Terms of Service.'
+            "By clicking 'Complete Purchase' above, I expressly acknowledge and agree to the above terms as well as the full Terms of Service."
           )}
         </LegalTextStyled>
       </LegalNoteWrapperStyled>
