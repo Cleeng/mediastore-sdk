@@ -241,8 +241,11 @@ class Payment extends Component {
 
   gernerateLegalNote = () => {
     const { t, order, period } = this.props;
-    const discountApplied = order.discount && order.discount.applied;
-    const isInTrial = discountApplied && order.discount.type === 'trial';
+
+    const isInTrial =
+      order?.discount?.applied && order.discount.type === 'trial';
+    const couponApplied =
+      order?.discount?.applied && order.discount.type !== 'trial';
     const readablePrice = `${currencyFormat[order.currency]}${
       order.priceBreakdown.offerPrice
     }`;
@@ -252,7 +255,7 @@ class Payment extends Component {
       <LegalNoteWrapperStyled>
         <LegalTextStyled>
           {(() => {
-            if (discountApplied && isInTrial) {
+            if (isInTrial) {
               return (
                 <Trans i18nKey={`legal-notes.trial.period-${period}`}>
                   <strong>
@@ -269,7 +272,7 @@ class Payment extends Component {
                 </Trans>
               );
             }
-            if (discountApplied && !isInTrial) {
+            if (couponApplied) {
               return (
                 <Trans i18nKey={`legal-notes.discount.period-${period}`}>
                   <strong>
