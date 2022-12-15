@@ -233,7 +233,7 @@ Config.setMyAccountPayPalUrls({
 **Props**
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
-- `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Every payment method object should have `id`, `methodName` and `paymentGateway`.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
 
 **Usage sample**
@@ -247,15 +247,23 @@ const customCancellationReasons = [
   { value: "Switch to a different service", key: "service" }
 ];
 
-const availablePaymentMethodIds = {
-  adyen: 142029029,
-  paypal: 153379135
-};
+const availablePaymentMethods = [
+  {
+    id: 142029029,
+    methodName: "card",
+    paymentGateway: "adyen"
+  },
+  {
+    id: 153379135,
+    methodName: "paypal",
+    paymentGateway: "paypal"
+  }
+];
 
 <Provider store={store}>
   <MyAccount
     customCancellationReasons={customCancellationReasons}
-    availablePaymentMethodIds={availablePaymentMethodIds}
+    availablePaymentMethods={availablePaymentMethods}
     skipAvailableDowngradesStep
   />
 </Provider>;
@@ -552,7 +560,7 @@ Config.setMyAccountPayPalUrls({
 
 **Props**
 
-- `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
+- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Every payment method object should have `id`, `methodName` and `paymentGateway`.
 
 **Usage sample**
 
@@ -560,13 +568,21 @@ Config.setMyAccountPayPalUrls({
 import { PaymentInfo, store } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
-const availablePaymentMethodIds = {
-  adyen: 142029029,
-  paypal: 153379135
-};
+const availablePaymentMethods = [
+  {
+    id: 142029029,
+    methodName: "card",
+    paymentGateway: "adyen"
+  },
+  {
+    id: 153379135,
+    methodName: "paypal",
+    paymentGateway: "paypal"
+  }
+];
 
 <Provider store={store}>
-  <PaymentInfo availablePaymentMethodIds={availablePaymentMethodIds} />
+  <PaymentInfo availablePaymentMethods={availablePaymentMethods} />
 </Provider>;
 ```
 
