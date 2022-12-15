@@ -80,8 +80,6 @@ const UpdatePaymentDetailsPopup = ({
     state => state.paymentInfo.publisherPaymentMethods
   );
 
-  const selectMethod = method => setSelectedMethod(method);
-
   useEffect(() => {
     if (!publisherPaymentMethods) {
       setIsLoading(true);
@@ -197,7 +195,7 @@ const UpdatePaymentDetailsPopup = ({
                   onSubmit={addAdyenPaymentDetails}
                   // onChange={() => setGeneralError('')}
                   // isPaymentProcessing={isLoading}
-                  selectPaymentMethod={selectMethod}
+                  selectPaymentMethod={method => setSelectedMethod(method)}
                   selectedPaymentMethod={selectedPaymentMethod}
                   // isPayPalAvailable={isGatewayAvailable('paypal')}
                   getDropIn={getDropIn}
