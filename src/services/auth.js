@@ -1,10 +1,7 @@
-/* eslint-disable no-unused-vars */
 import jwtDecode from 'jwt-decode';
-import { getData, setData, removeData } from 'util/appConfigHelper';
+import { getData, setData } from 'util/appConfigHelper';
 import getCaptureStatus from 'api/Customer/getCaptureStatus';
 import getCustomerConsents from 'api/Customer/getCustomerConsents';
-import store from 'redux/store';
-import { createAction } from '@reduxjs/toolkit';
 
 class Auth {
   constructor() {
@@ -83,16 +80,7 @@ class Auth {
 
   logout(callback = () => {}) {
     this.isAuthenticated = false;
-    removeData('CLEENG_AUTH_TOKEN');
-    removeData('CLEENG_REFRESH_TOKEN');
-    removeData('CLEENG_ORDER_ID');
-    removeData('CLEENG_CHECKOUT_PP_SUCCESS');
-    removeData('CLEENG_CHECKOUT_PP_CANCEL');
-    removeData('CLEENG_CHECKOUT_PP_ERROR');
-    removeData('CLEENG_MYACCOUNT_PP_SUCCESS');
-    removeData('CLEENG_MYACCOUNT_PP_CANCEL');
-    removeData('CLEENG_MYACCOUNT_PP_ERROR');
-    store.dispatch(createAction('USER_LOGOUT')());
+    localStorage.clear();
 
     callback();
   }
