@@ -1,5 +1,3 @@
-/* istanbul ignore file */
-
 export const getData = name => {
   const result = localStorage.getItem(name);
   if (!result && name === 'CLEENG_AUTH_TOKEN') {
