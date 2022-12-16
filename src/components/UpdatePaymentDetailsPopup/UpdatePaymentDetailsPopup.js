@@ -49,8 +49,7 @@ const PaymentMethodIcons = {
 const UpdatePaymentDetailsPopup = ({
   hideInnerPopup,
   setPublisherPaymentMethods,
-  updatePaymentDetailsSection,
-  selectedPaymentMethod
+  updatePaymentDetailsSection
 }) => {
   // 1. Get payment methods from prop / fetch payment methods, validate and save in redux
   // 2. Connect correctly to redux
@@ -79,6 +78,9 @@ const UpdatePaymentDetailsPopup = ({
   const publisherPaymentMethods = useSelector(
     state => state.paymentInfo.publisherPaymentMethods
   );
+  const selectedPaymentMethod = useSelector(state =>
+    state.paymentInfo.paymentDetails.find(item => item.active)
+  );
 
   useEffect(() => {
     if (!publisherPaymentMethods) {
@@ -89,16 +91,7 @@ const UpdatePaymentDetailsPopup = ({
             responseData: { paymentMethods }
           } = resp;
           if (paymentMethods) {
-            const adyenData = paymentMethods.find(
-              item => item.methodName === 'card'
-            );
-            const paypalData = paymentMethods.find(
-              item => item.methodName === 'paypal'
-            );
-            setPublisherPaymentMethods({
-              paypal: paypalData?.id,
-              adyen: adyenData?.id
-            });
+            setPublisherPaymentMethods(paymentMethods);
           }
           setIsLoading(false);
         }
@@ -164,8 +157,8 @@ const UpdatePaymentDetailsPopup = ({
   };
 
   const handleConfirm = () => {
-    if (selectedPaymentMethod === 'paypal') {
-      submitPayPal();
+    if (selectedPaymentMethod.paymentMethod === 'paypal') {
+      // submitPayPal();
       return;
     }
     if (!dropInInstance) {

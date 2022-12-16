@@ -1,5 +1,6 @@
 export const getData = name => {
-  const result = localStorage.getItem(name);
+  const result =
+    typeof window !== 'undefined' ? localStorage.getItem(name) : null;
   if (!result && name === 'CLEENG_AUTH_TOKEN') {
     console.error(`Unable to get CLEENG_AUTH_TOKEN from local storage`);
     return null;

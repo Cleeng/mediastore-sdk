@@ -7,7 +7,7 @@ import Transactions from 'components/Transactions';
 import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
-import { areProvidedPaymentMethodIdsValid } from 'util/paymentMethodHelper';
+import { validatePaymentMethods } from 'util/paymentMethodHelper';
 import { WrapStyled } from './PaymentInfoStyled';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
@@ -31,7 +31,7 @@ const PaymentInfoFn = ({
   setTransactionsListAsFetched,
   hideShowMoreButton,
   setPublisherPaymentMethods,
-  availablePaymentMethodIds,
+  availablePaymentMethods,
   t
 }) => {
   const [paymentDetailsError, setPaymentDetailsError] = useState([]);
@@ -145,9 +145,9 @@ const PaymentInfoFn = ({
 
     if (
       !publisherPaymentMethods &&
-      areProvidedPaymentMethodIdsValid(availablePaymentMethodIds)
+      validatePaymentMethods(availablePaymentMethods, true)
     ) {
-      setPublisherPaymentMethods(availablePaymentMethodIds);
+      setPublisherPaymentMethods(availablePaymentMethods);
     }
     return () => {
       hideInnerPopup();
@@ -161,7 +161,6 @@ const PaymentInfoFn = ({
           hideInnerPopup={hideInnerPopup}
           setPublisherPaymentMethods={setPublisherPaymentMethods}
           updatePaymentDetailsSection={updatePaymentDetailsSection}
-          selectedPaymentMethod={innerPopup.data}
         />
       ) : (
         <>
@@ -207,16 +206,19 @@ PaymentInfoFn.propTypes = {
   hideInnerPopup: PropTypes.func.isRequired,
   innerPopup: PropTypes.objectOf(PropTypes.any).isRequired,
   setPublisherPaymentMethods: PropTypes.func.isRequired,
-  availablePaymentMethodIds: PropTypes.shape({
-    adyen: PropTypes.number,
-    paypal: PropTypes.number
-  }),
+  availablePaymentMethods: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      methodName: PropTypes.string,
+      default: PropTypes.bool
+    })
+  ),
   t: PropTypes.func
 };
 
 PaymentInfoFn.defaultProps = {
   paymentInfo: { paymentMethod: [], transactionsList: [] },
-  availablePaymentMethodIds: null,
+  availablePaymentMethods: null,
   t: k => k
 };
 

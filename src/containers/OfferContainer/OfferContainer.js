@@ -8,7 +8,6 @@ import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import { updateOrder, getPaymentMethods } from 'api';
 import { setData, getData, removeData } from 'util/appConfigHelper';
-import { withTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { fetchOffer, setFreeOffer } from 'redux/offerSlice';
@@ -26,9 +25,8 @@ import {
   StyledLoaderContainer,
   StyledLoaderContent
 } from './StyledOfferContainer';
-import labeling from '../labeling';
 
-const OfferContainer = ({ onSuccess, t }) => {
+const OfferContainer = ({ onSuccess }) => {
   const [orderDetails, setOrderDetails] = useState({
     priceBreakdown: {
       offerPrice: 0,
@@ -43,13 +41,11 @@ const OfferContainer = ({ onSuccess, t }) => {
   const [errorMsg, setErrorMsg] = useState();
 
   const dispatch = useDispatch();
-  const { availablePaymentMethods, offerId } = useSelector(
-    state => state.checkout
-  );
+  const { offerId } = useSelector(state => state.publisherConfig);
   const { order, loading: isOrderLoading, error: orderError } = useSelector(
     state => state.order
   );
-  const { offer, error: offerError } = useSelector(state => state.offer);
+  const { error: offerError } = useSelector(state => state.offer);
 
   const paymentMethodsHandler = () => {
     getPaymentMethods().then(paymentMethodResponse => {
@@ -197,16 +193,12 @@ const OfferContainer = ({ onSuccess, t }) => {
 
   return (
     <Offer
-      offerDetails={offer}
-      orderDetails={order}
       couponProps={{
         ...order.couponDetails,
         onSubmit: onCouponSubmit
       }}
       onPaymentComplete={onSuccess}
       updatePriceBreakdown={updatedOrder => setOrderDetails(updatedOrder)}
-      availablePaymentMethods={availablePaymentMethods}
-      t={t}
     />
   );
 };
@@ -215,14 +207,11 @@ OfferContainer.propTypes = {
   onSuccess: PropTypes.func,
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
-  }),
-  t: PropTypes.func
+  })
 };
 OfferContainer.defaultProps = {
   onSuccess: () => {},
-  urlProps: {},
-  t: k => k
+  urlProps: {}
 };
 
-export default withTranslation()(labeling()(OfferContainer));
-// export default OfferContainer;
+export default OfferContainer;

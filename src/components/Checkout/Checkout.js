@@ -12,7 +12,7 @@ import Auth from 'services/auth';
 import PasswordResetSuccess from 'components/PasswordResetSuccess';
 import { getData } from 'util/appConfigHelper';
 import { connect } from 'react-redux';
-import { init } from 'redux/checkoutSlice';
+import { init } from 'redux/publisherConfigSlice';
 
 const CheckoutSteps = {
   LOGIN: {
@@ -50,10 +50,14 @@ class Checkout extends Component {
   }
 
   componentDidMount() {
-    const { initValues, offerId, availablePaymentMethods } = this.props;
+    const {
+      initValues,
+      offerId,
+      availablePaymentMethods: paymentMethodsProvidedByPublisher
+    } = this.props;
     initValues({
       offerId,
-      availablePaymentMethods
+      paymentMethodsProvidedByPublisher
     });
     if (Auth.isLogged()) {
       this.setState({
@@ -70,12 +74,7 @@ class Checkout extends Component {
 
   render() {
     const { currentStep } = this.state;
-    const {
-      onSuccess,
-      offerId,
-      availablePaymentMethods,
-      resetPasswordCallback
-    } = this.props;
+    const { onSuccess, offerId, resetPasswordCallback } = this.props;
 
     switch (currentStep) {
       case 0:
@@ -109,7 +108,6 @@ class Checkout extends Component {
         return (
           <OfferContainer
             offerId={offerId}
-            availablePaymentMethods={availablePaymentMethods}
             onSuccess={() => this.goToStep(CheckoutSteps.PURCHASE.nextStep)}
           />
         );

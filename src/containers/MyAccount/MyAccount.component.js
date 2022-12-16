@@ -19,7 +19,7 @@ import Footer from 'components/Footer';
 import MyAccountError from 'components/MyAccountError/MyAccountError';
 import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import Auth from 'services/auth';
-import { areProvidedPaymentMethodIdsValid } from 'util/paymentMethodHelper';
+import { validatePaymentMethods } from 'util/paymentMethodHelper';
 import { WrapperStyled, HeaderStyled } from './MyAccountStyled';
 
 const POPUP_TYPE = {
@@ -54,7 +54,7 @@ class MyAccount extends Component {
       setConsents,
       setConsentsError,
       setPublisherPaymentMethods,
-      availablePaymentMethodIds
+      availablePaymentMethods
     } = this.props;
 
     document.title = 'My Account';
@@ -97,8 +97,8 @@ class MyAccount extends Component {
         });
       }
 
-      if (areProvidedPaymentMethodIdsValid(availablePaymentMethodIds)) {
-        setPublisherPaymentMethods(availablePaymentMethodIds);
+      if (validatePaymentMethods(availablePaymentMethods, true)) {
+        setPublisherPaymentMethods(availablePaymentMethods);
       }
     }
   }
@@ -315,10 +315,13 @@ MyAccount.propTypes = {
     })
   ),
   skipAvailableDowngradesStep: PropTypes.bool,
-  availablePaymentMethodIds: PropTypes.shape({
-    adyen: PropTypes.number,
-    paypal: PropTypes.number
-  }),
+  availablePaymentMethods: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      methodName: PropTypes.string,
+      default: PropTypes.bool
+    })
+  ),
   t: PropTypes.func
 };
 
@@ -327,7 +330,7 @@ MyAccount.defaultProps = {
   planDetails: { currentPlan: [] },
   popup: { isPopupShown: false },
   customCancellationReasons: null,
-  availablePaymentMethodIds: null,
+  availablePaymentMethods: null,
   t: k => k,
   skipAvailableDowngradesStep: false
 };

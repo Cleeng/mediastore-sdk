@@ -111,12 +111,10 @@ const Adyen = ({
   };
 
   const createSession = async () => {
-    const {
-      responseData: { id, sessionData }
-    } = await createPaymentSession(isMyAccount);
+    const { responseData } = await createPaymentSession(isMyAccount);
     // TODO: handle error when id is missing
-    if (id) {
-      createDropInInstance(id, sessionData);
+    if (responseData?.id) {
+      createDropInInstance(responseData.id, responseData.sessionData);
     }
   };
 
