@@ -83,12 +83,10 @@ const UpdatePaymentDetailsPopup = ({
   const { paymentDetails } = useSelector(state => state.paymentInfo);
 
   const selectPaymentMethodHandler = paymentMethodName => {
-    console.log('selectPaymentMethodHandler', paymentMethodName);
     if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = publisherPaymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
-    console.log({ paymentMethodObj });
     setSelectedPaymentMethod(paymentMethodObj);
   };
 
@@ -263,7 +261,6 @@ const UpdatePaymentDetailsPopup = ({
       currentStep={STEPS_NUMBERS[step]}
       popupTitle={t('Update payment details')}
     >
-      {console.log({ selectedPaymentMethod })}
       <ContentStyled>
         <TitleStyled>{t('Update payment details')}</TitleStyled>
         <TextStyled>
