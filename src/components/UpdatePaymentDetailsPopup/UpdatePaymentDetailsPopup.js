@@ -75,7 +75,6 @@ const UpdatePaymentDetailsPopup = ({
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [step, setStep] = useState(STEPS.PAYMENT_DETAILS_UPDATE);
-  const [isLoading, setIsLoading] = useState(false);
   const [dropInInstance, setDropInInstance] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const {
@@ -84,22 +83,22 @@ const UpdatePaymentDetailsPopup = ({
   const { paymentDetails } = useSelector(state => state.paymentInfo);
 
   const selectPaymentMethodHandler = paymentMethodName => {
+    console.log('selectPaymentMethodHandler', paymentMethodName);
     if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = publisherPaymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
+    console.log({ paymentMethodObj });
     setSelectedPaymentMethod(paymentMethodObj);
   };
 
   useEffect(() => {
     if (!publisherPaymentMethods.length) {
-      setIsLoading(true);
       getPaymentMethods().then(resp => {
         const { responseData } = resp;
         if (responseData) {
           const { paymentMethods } = responseData;
           dispatch(updateAvailableAndValidPaymentMethods(paymentMethods));
-          setIsLoading(false);
         }
       });
     }
@@ -158,11 +157,13 @@ const UpdatePaymentDetailsPopup = ({
     } = state;
 
     // TODO: handle loading and errors
+    const selectedPaymentMethodName =
+      paymentMethod.type === 'scheme' ? 'card' : paymentMethod.type;
     const paymentMethodId = publisherPaymentMethods.find(
       item =>
         item.paymentGateway === 'adyen' &&
-        item.methodName === selectedPaymentMethod.methodName
-    );
+        item.methodName === selectedPaymentMethodName
+    )?.id;
 
     const { errors, action } = await updateAdyenPaymentDetails(
       paymentMethodId,
@@ -262,6 +263,7 @@ const UpdatePaymentDetailsPopup = ({
       currentStep={STEPS_NUMBERS[step]}
       popupTitle={t('Update payment details')}
     >
+      {console.log({ selectedPaymentMethod })}
       <ContentStyled>
         <TitleStyled>{t('Update payment details')}</TitleStyled>
         <TextStyled>
@@ -286,9 +288,7 @@ const UpdatePaymentDetailsPopup = ({
               isSelected={selectedPaymentMethod?.methodName === 'paypal'}
               title="PayPal"
               logo={<PaypalLogo />}
-              fadeOutSection={
-                isLoading && selectedPaymentMethod?.methodName !== 'paypal'
-              }
+              fadeOutSection={selectedPaymentMethod?.methodName !== 'paypal'}
             >
               <PayPal />
             </DropInSection>
