@@ -38,7 +38,7 @@ import {
   PopupImageStyled,
   PaymentMethodsWrapperStyled
 } from './UpdatePaymentDetailsPopupStyled';
-import { Success, DeletePaymentMethod } from './Steps';
+import { Success, DeletePaymentMethod, Error } from './Steps';
 import Adyen from '../Adyen';
 import PayPal from '../Payment/PayPal/PayPal';
 
@@ -57,24 +57,27 @@ const UpdatePaymentDetailsPopup = ({
   // 5. Handle add Adyen Payment Details
   // 6. Handle add PayPal Payment details
   // remove add PayPal
-  // 7. Handle delete payment details
-  // 6. Handle errors
+
   const STEPS = {
     PAYMENT_DETAILS_UPDATE: 'PAYMENT_DETAILS_UPDATE',
     DELETE_PAYMENT_DETAILS: 'DELETE_PAYMENT_DETAILS',
-    SUCCESS: 'SUCCESS'
-    // TODO: add error step
+    SUCCESS: 'SUCCESS',
+    ERROR: 'ERROR'
   };
 
   const STEPS_NUMBERS = {
     PAYMENT_DETAILS_UPDATE: 1,
     DELETE_PAYMENT_DETAILS: 2,
-    SUCCESS: 2
+    SUCCESS: 2,
+    ERROR: 2
   };
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [step, setStep] = useState(STEPS.PAYMENT_DETAILS_UPDATE);
+  const [isUpdatingPaymentDetails, setIsUpdatingPaymentDetails] = useState(
+    false
+  );
   const [dropInInstance, setDropInInstance] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const {
@@ -162,7 +165,7 @@ const UpdatePaymentDetailsPopup = ({
         item.paymentGateway === 'adyen' &&
         item.methodName === selectedPaymentMethodName
     )?.id;
-
+    setIsUpdatingPaymentDetails(true);
     const { errors, action } = await updateAdyenPaymentDetails(
       paymentMethodId,
       paymentMethod,
@@ -171,6 +174,7 @@ const UpdatePaymentDetailsPopup = ({
     );
     if (errors.length) {
       eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED);
+      setStep(STEPS.ERROR);
       return;
     }
     if (action) {
@@ -178,6 +182,7 @@ const UpdatePaymentDetailsPopup = ({
       return;
     }
     eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL);
+    setIsUpdatingPaymentDetails(false);
     setStep(STEPS.SUCCESS);
     updatePaymentDetailsSection();
   };
@@ -190,6 +195,7 @@ const UpdatePaymentDetailsPopup = ({
     const paymentMethodId = publisherPaymentMethods.find(
       item => item.paymentGateway === 'paypal' && item.methodName === 'paypal'
     );
+    setIsUpdatingPaymentDetails(true);
     updatePayPalPaymentDetails(paymentMethodId)
       .then(resp => {
         eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL);
@@ -197,7 +203,10 @@ const UpdatePaymentDetailsPopup = ({
       })
       .catch(() => {
         eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED);
-        // setStep(STEPS.ERROR);
+        setStep(STEPS.ERROR);
+      })
+      .finally(() => {
+        setIsUpdatingPaymentDetails(false);
       });
   };
 
@@ -253,6 +262,18 @@ const UpdatePaymentDetailsPopup = ({
       </InnerPopupWrapper>
     );
   }
+  if (step === STEPS.ERROR) {
+    return (
+      <InnerPopupWrapper
+        steps={2}
+        isError={false}
+        currentStep={STEPS_NUMBERS[step]}
+        popupTitle={t('Update payment details')}
+      >
+        <Error hideInnerPopup={hideInnerPopup} />
+      </InnerPopupWrapper>
+    );
+  }
 
   return (
     <InnerPopupWrapper
@@ -285,7 +306,10 @@ const UpdatePaymentDetailsPopup = ({
               isSelected={selectedPaymentMethod?.methodName === 'paypal'}
               title="PayPal"
               logo={<PaypalLogo />}
-              fadeOutSection={selectedPaymentMethod?.methodName !== 'paypal'}
+              fadeOutSection={
+                isUpdatingPaymentDetails &&
+                selectedPaymentMethod?.methodName !== 'paypal'
+              }
             >
               <PayPal />
             </DropInSection>
@@ -304,8 +328,14 @@ const UpdatePaymentDetailsPopup = ({
         )}
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
-        <Button theme="primary" onClickFn={handleConfirm}>
-          {t('Update payment details')}
+        <Button
+          theme="primary"
+          onClickFn={handleConfirm}
+          disabled={isUpdatingPaymentDetails}
+        >
+          {isUpdatingPaymentDetails
+            ? t('Loading...')
+            : t('Update payment details')}
         </Button>
         <Button theme="simple" onClickFn={() => hideInnerPopup()}>
           {t('Cancel')}

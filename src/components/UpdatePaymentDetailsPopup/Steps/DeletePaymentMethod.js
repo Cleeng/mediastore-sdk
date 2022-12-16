@@ -71,7 +71,7 @@ const DeletePaymentMethod = ({
   };
 
   const { paymentMethodSpecificParams } = paymentDetailsToDelete;
-  const LogoComponent = PaymentMethodIcons[paymentMethodSpecificParams.variant]
+  const LogoComponent = PaymentMethodIcons[paymentMethodSpecificParams?.variant]
     ? PaymentMethodIcons[paymentMethodSpecificParams.variant]
     : PaymentMethodIcons[paymentDetailsToDelete.paymentMethod];
 
