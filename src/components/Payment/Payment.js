@@ -78,6 +78,7 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
     }
   }, [selectedPaymentMethod]);
 
+  // payment methods
   const selectPaymentMethodHandler = paymentMethodName => {
     if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = availableAndValidPaymentMethods.find(
@@ -86,7 +87,6 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
     setSelectedPaymentMethod(paymentMethodObj);
   };
 
-  // payment methods
   const fetchPaymentMethods = async () => {
     const response = await getPaymentMethods();
     const { paymentMethods } = response.responseData;
@@ -94,11 +94,12 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
       paymentMethods,
       false
     );
-    dispatch(updateAvailableAndValidPaymentMethods(validMethodsFromResponse));
     if (response.errors.length) {
       setGeneralError(t('Cannot fetch payment methods'));
       return;
     }
+
+    dispatch(updateAvailableAndValidPaymentMethods(validMethodsFromResponse));
 
     if (!validMethodsFromResponse?.length) {
       setGeneralError(t('Payment methods are not defined'));

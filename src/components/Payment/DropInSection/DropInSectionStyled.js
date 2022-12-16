@@ -6,6 +6,8 @@ import { ConfirmColor } from 'styles/variables';
 export const WrapperStyled = styled.div.attrs(() => ({
   className: 'msd__custom-dropin--wrapper'
 }))`
+  max-width: 375px;
+  margin: 0 auto;
   min-height: 58px;
   display: flex;
   flex-direction: column;

@@ -11,6 +11,7 @@ import { setData, getData, removeData } from 'util/appConfigHelper';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { fetchOffer, setFreeOffer } from 'redux/offerSlice';
+import { init as initValues } from 'redux/publisherConfigSlice';
 import {
   fetchCreateOrder,
   fetchGetOrder,
@@ -26,7 +27,10 @@ import {
   StyledLoaderContent
 } from './StyledOfferContainer';
 
-const OfferContainer = ({ onSuccess }) => {
+const OfferContainer = ({
+  onSuccess,
+  availablePaymentMethods: paymentMethodsProvidedByPublisher
+}) => {
   const [orderDetails, setOrderDetails] = useState({
     priceBreakdown: {
       offerPrice: 0,
@@ -125,6 +129,12 @@ const OfferContainer = ({ onSuccess }) => {
   };
 
   useEffect(() => {
+    dispatch(
+      initValues({
+        offerId,
+        paymentMethodsProvidedByPublisher
+      })
+    );
     if (!offerId) {
       setErrorMsg('Offer not set');
       return;
@@ -207,11 +217,13 @@ OfferContainer.propTypes = {
   onSuccess: PropTypes.func,
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
-  })
+  }),
+  availablePaymentMethods: PropTypes.arrayOf(PropTypes.shape({}))
 };
 OfferContainer.defaultProps = {
   onSuccess: () => {},
-  urlProps: {}
+  urlProps: {},
+  availablePaymentMethods: []
 };
 
 export default OfferContainer;

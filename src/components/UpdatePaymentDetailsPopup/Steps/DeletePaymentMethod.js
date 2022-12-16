@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   ContentStyled,
@@ -23,7 +24,7 @@ const PaymentMethodIcons = {
 
 const DeletePaymentMethod = ({
   hideInnerPopup,
-  setStep,
+  showSuccessPage,
   updatePaymentDetailsSection,
   paymentDetailsToDelete
 }) => {
@@ -32,17 +33,24 @@ const DeletePaymentMethod = ({
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
+  const { activeOrBoundPaymentDetails } = useSelector(
+    state => state.paymentInfo
+  );
+  const activePaymentDetails = activeOrBoundPaymentDetails.find(
+    item => item.active
+  );
+
   const deletePaymentMethod = () => {
     window.dispatchEvent(
       new CustomEvent('MSSDK:remove-payment-details-action-confirmed')
     );
     setIsError(false);
     setIsButtonLoading(true);
-    deletePaymentDetails(paymentDetailsToDelete.id)
+    deletePaymentDetails(activePaymentDetails.id)
       .then(resp => {
         if (!resp.errors.length) {
           setIsButtonLoading(false);
-          setStep(currentStep => currentStep + 1);
+          showSuccessPage();
           updatePaymentDetailsSection();
         } else {
           setIsButtonLoading(false);
@@ -114,12 +122,12 @@ DeletePaymentMethod.propTypes = {
   paymentDetailsToDelete: PropTypes.objectOf(PropTypes.any),
   hideInnerPopup: PropTypes.func,
   updatePaymentDetailsSection: PropTypes.func,
-  setStep: PropTypes.func
+  showSuccessPage: PropTypes.func
 };
 
 DeletePaymentMethod.defaultProps = {
   paymentDetailsToDelete: {},
   hideInnerPopup: () => {},
   updatePaymentDetailsSection: () => {},
-  setStep: () => {}
+  showSuccessPage: () => {}
 };

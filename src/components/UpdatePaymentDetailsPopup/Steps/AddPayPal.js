@@ -19,7 +19,7 @@ const AddPayPal = ({ setStep }) => {
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
   const publisherPaymentMethods = useSelector(
-    state => state.paymentInfo.publisherPaymentMethods
+    state => state.publisherConfig.availableAndValidPaymentMethods
   );
   const addPayPalPaymentDetails = () => {
     setIsButtonLoading(true);

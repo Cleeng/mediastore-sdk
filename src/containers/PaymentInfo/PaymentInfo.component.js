@@ -7,7 +7,6 @@ import Transactions from 'components/Transactions';
 import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
-import { validatePaymentMethods } from 'util/paymentMethodHelper';
 import { WrapStyled } from './PaymentInfoStyled';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
@@ -17,7 +16,6 @@ const PaymentInfoFn = ({
     isTransactionListFetched,
     paymentDetails,
     transactionsList,
-    publisherPaymentMethods,
     activeOrBoundPaymentDetails,
     transactionsToShow,
     isShowMoreButtonHidden
@@ -30,8 +28,8 @@ const PaymentInfoFn = ({
   setTransactionsList,
   setTransactionsListAsFetched,
   hideShowMoreButton,
-  setPublisherPaymentMethods,
-  availablePaymentMethods,
+  availablePaymentMethods: paymentMethodsProvidedByPublisher,
+  initPublisherConfig,
   t
 }) => {
   const [paymentDetailsError, setPaymentDetailsError] = useState([]);
@@ -143,12 +141,10 @@ const PaymentInfoFn = ({
       setIsTransactionsSectionLoading(false);
     }
 
-    if (
-      !publisherPaymentMethods &&
-      validatePaymentMethods(availablePaymentMethods, true)
-    ) {
-      setPublisherPaymentMethods(availablePaymentMethods);
+    if (paymentMethodsProvidedByPublisher) {
+      initPublisherConfig({ paymentMethodsProvidedByPublisher });
     }
+
     return () => {
       hideInnerPopup();
     };
@@ -159,7 +155,6 @@ const PaymentInfoFn = ({
       {innerPopup.isOpen && innerPopup.type === 'paymentDetails' ? (
         <UpdatePaymentDetailsPopup
           hideInnerPopup={hideInnerPopup}
-          setPublisherPaymentMethods={setPublisherPaymentMethods}
           updatePaymentDetailsSection={updatePaymentDetailsSection}
         />
       ) : (
@@ -205,7 +200,6 @@ PaymentInfoFn.propTypes = {
   showInnerPopup: PropTypes.func.isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
   innerPopup: PropTypes.objectOf(PropTypes.any).isRequired,
-  setPublisherPaymentMethods: PropTypes.func.isRequired,
   availablePaymentMethods: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.number,
@@ -213,6 +207,7 @@ PaymentInfoFn.propTypes = {
       default: PropTypes.bool
     })
   ),
+  initPublisherConfig: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 

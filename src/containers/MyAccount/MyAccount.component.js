@@ -19,7 +19,6 @@ import Footer from 'components/Footer';
 import MyAccountError from 'components/MyAccountError/MyAccountError';
 import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import Auth from 'services/auth';
-import { validatePaymentMethods } from 'util/paymentMethodHelper';
 import { WrapperStyled, HeaderStyled } from './MyAccountStyled';
 
 const POPUP_TYPE = {
@@ -53,8 +52,8 @@ class MyAccount extends Component {
       setCurrentUser,
       setConsents,
       setConsentsError,
-      setPublisherPaymentMethods,
-      availablePaymentMethods
+      initPublisherConfig,
+      availablePaymentMethods: paymentMethodsProvidedByPublisher
     } = this.props;
 
     document.title = 'My Account';
@@ -97,9 +96,7 @@ class MyAccount extends Component {
         });
       }
 
-      if (validatePaymentMethods(availablePaymentMethods, true)) {
-        setPublisherPaymentMethods(availablePaymentMethods);
-      }
+      initPublisherConfig({ paymentMethodsProvidedByPublisher });
     }
   }
 
@@ -302,7 +299,6 @@ MyAccount.propTypes = {
   setCurrentUser: PropTypes.func.isRequired,
   setConsents: PropTypes.func.isRequired,
   setConsentsError: PropTypes.func.isRequired,
-  setPublisherPaymentMethods: PropTypes.func.isRequired,
   userProfile: PropTypes.objectOf(PropTypes.any),
   planDetails: PropTypes.objectOf(PropTypes.any),
   popup: PropTypes.objectOf(PropTypes.any),
@@ -322,6 +318,7 @@ MyAccount.propTypes = {
       default: PropTypes.bool
     })
   ),
+  initPublisherConfig: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 
