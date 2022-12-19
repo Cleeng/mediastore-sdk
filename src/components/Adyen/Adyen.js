@@ -79,7 +79,7 @@ const Adyen = ({
       onSubmit,
       // onPaymentCompleted, TODO: most likely not needed, will be reviewed with redirect flow https://docs.adyen.com/online-payments/web-drop-in#handle-redirect-result
       onAdditionalDetails,
-      onError, // TODO: handle errors
+      onError,
       paymentMethodsConfiguration: {
         card: {
           hasHolderName: true,
@@ -87,16 +87,15 @@ const Adyen = ({
           billingAddressRequired: true // required for 3DS
         },
         // TODO: test applepay and googlepay on production without these config object - probably it will work
-        applepay: isMyAccount ? amountObj : {},
+        applepay: isMyAccount ? {} : amountObj,
         googlepay: {
           ...(!isMyAccount && amountObj),
           environment: getGooglePayEnv()
-          // TODO: support for optional config https://docs.adyen.com/payment-methods/google-pay/web-drop-in?tab=_code_payments_code__2#payment-data
         }
       },
       showPayButton: false
-      // TODO: instantPaymentTypes: ['applepay'] // defines which payment method should be on top - should be configurable by publisher
     };
+    console.log({ configuration });
 
     const checkout = await AdyenCheckout(configuration);
     if (containerRef.current) {
