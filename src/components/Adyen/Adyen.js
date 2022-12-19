@@ -161,12 +161,13 @@ Adyen.propTypes = {
   isMyAccount: PropTypes.bool,
   selectPaymentMethod: PropTypes.func.isRequired,
   isPayPalAvailable: PropTypes.bool.isRequired,
-  selectedPaymentMethod: PropTypes.string.isRequired,
+  selectedPaymentMethod: PropTypes.string,
   getDropIn: PropTypes.func.isRequired,
   onAdditionalDetails: PropTypes.func.isRequired
 };
 
 Adyen.defaultProps = {
+  selectedPaymentMethod: '',
   isMyAccount: false
 };
 

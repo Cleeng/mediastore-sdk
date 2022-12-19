@@ -54,10 +54,6 @@ const UpdatePaymentDetailsPopup = ({
   hideInnerPopup,
   updatePaymentDetailsSection
 }) => {
-  // 5. Handle add Adyen Payment Details
-  // 6. Handle add PayPal Payment details
-  // remove add PayPal
-
   const STEPS = {
     PAYMENT_DETAILS_UPDATE: 'PAYMENT_DETAILS_UPDATE',
     DELETE_PAYMENT_DETAILS: 'DELETE_PAYMENT_DETAILS',
@@ -194,7 +190,7 @@ const UpdatePaymentDetailsPopup = ({
   const submitPayPal = () => {
     const paymentMethodId = publisherPaymentMethods.find(
       item => item.paymentGateway === 'paypal' && item.methodName === 'paypal'
-    );
+    )?.id;
     setIsUpdatingPaymentDetails(true);
     updatePayPalPaymentDetails(paymentMethodId)
       .then(resp => {
@@ -211,7 +207,7 @@ const UpdatePaymentDetailsPopup = ({
   };
 
   const handleConfirm = () => {
-    if (selectedPaymentMethod?.paymentMethod === 'paypal') {
+    if (selectedPaymentMethod?.methodName === 'paypal') {
       submitPayPal();
       return;
     }

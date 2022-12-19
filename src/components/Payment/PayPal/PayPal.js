@@ -10,23 +10,42 @@ const PayPal = ({ totalPrice, offerId, t }) => {
         <PaypalFullLogo />
       </PayPalIconContentStyled>
       <>
-        {totalPrice === 0 && offerId.charAt(0) === 'S'
-          ? t(
-              'Click ‘Continue with PayPal‘ to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments.'
-            )
-          : t('Click ‘Continue with PayPal‘ to complete your purchase.')}
+        {/* my account */}
+        {!offerId && (
+          <>
+            {t(
+              'Paying with PayPal is easy. Click the button below and sign in to your PayPal account.'
+            )}
+            <br />
+            <br />
+            {t(
+              'Note, PayPal is subject to an additional 8% fee that will be added to your next payments.'
+            )}
+          </>
+        )}
+        {/* checkout */}
+        {offerId &&
+          totalPrice !== 0 &&
+          t('Click ‘Continue with PayPal‘ to complete your purchase.')}
+        {offerId?.charAt(0) === 'S' &&
+          totalPrice === 0 &&
+          t(
+            'Click ‘Continue with PayPal‘ to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments.'
+          )}
       </>
     </PayPalContentStyled>
   );
 };
 
 PayPal.propTypes = {
-  totalPrice: PropTypes.number.isRequired,
-  offerId: PropTypes.string.isRequired,
+  totalPrice: PropTypes.number,
+  offerId: PropTypes.string,
   t: PropTypes.func
 };
 
 PayPal.defaultProps = {
+  totalPrice: null,
+  offerId: null,
   t: k => k
 };
 
