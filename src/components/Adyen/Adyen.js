@@ -58,7 +58,11 @@ const Adyen = ({
     selectPaymentMethod(type);
   };
 
-  const createDropInInstance = async (id, sessionData) => {
+  const createDropInInstance = async ({
+    id,
+    sessionData,
+    shopperStatement: merchantName
+  }) => {
     const amountObj = {
       amount: {
         value: totalPrice ? toMinor(currency, totalPrice) : 0,
@@ -87,10 +91,13 @@ const Adyen = ({
           billingAddressRequired: true // required for 3DS
         },
         // TODO: test applepay and googlepay on production without these config object - probably it will work
-        applepay: isMyAccount ? {} : amountObj,
+        applepay: {
+          configuration: { merchantName },
+          ...(!isMyAccount && amountObj)
+        },
         googlepay: {
-          ...(!isMyAccount && amountObj),
-          environment: getGooglePayEnv()
+          environment: getGooglePayEnv(),
+          ...(!isMyAccount && amountObj)
         }
       },
       showPayButton: false
@@ -113,7 +120,7 @@ const Adyen = ({
     const { responseData } = await createPaymentSession(isMyAccount);
     // TODO: handle error when id is missing
     if (responseData?.id) {
-      createDropInInstance(responseData.id, responseData.sessionData);
+      createDropInInstance(responseData);
     }
   };
 
