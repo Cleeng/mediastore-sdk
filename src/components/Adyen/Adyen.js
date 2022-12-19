@@ -97,6 +97,7 @@ const Adyen = ({
         },
         googlepay: {
           environment: getGooglePayEnv(),
+          configuration: { merchantName },
           ...(!isMyAccount && amountObj)
         }
       },
