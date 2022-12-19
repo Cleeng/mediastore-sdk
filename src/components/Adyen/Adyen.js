@@ -92,7 +92,6 @@ const Adyen = ({
         },
         // TODO: test applepay and googlepay on production without these config object - probably it will work
         applepay: {
-          configuration: { merchantName },
           ...(!isMyAccount && amountObj)
         },
         googlepay: {
