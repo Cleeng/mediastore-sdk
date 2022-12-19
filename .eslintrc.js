@@ -22,7 +22,8 @@ module.exports = {
   plugins: ['react'],
   rules: {
     'prettier/prettier': ['error', { singleQuote: true, endOfLine: 'auto' }],
-    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }]
+    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
+    'import/no-cycle': 'off' // TODO: remove after clean localstorage
   },
   settings: {
     'import/resolver': {

@@ -15,7 +15,7 @@ import { init as initValues } from 'redux/publisherConfigSlice';
 import {
   fetchCreateOrder,
   fetchGetOrder,
-  fetchUpdateOrder
+  fetchUpdateCoupon
 } from 'redux/orderSlice';
 import eventDispatcher, {
   MSSDK_COUPON_FAILED,
@@ -105,7 +105,7 @@ const OfferContainer = ({
   const onCouponSubmit = couponCode => {
     if (couponCode === '') return;
     dispatch(
-      fetchUpdateOrder({
+      fetchUpdateCoupon({
         id: order.id,
         couponCode
       })

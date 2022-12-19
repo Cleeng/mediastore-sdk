@@ -6,8 +6,7 @@ import {
   getPaymentMethods,
   submitPayment,
   submitPaymentWithoutDetails,
-  submitPayPalPayment,
-  updateOrder
+  submitPayPalPayment
 } from 'api';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
@@ -22,6 +21,7 @@ import {
 } from 'util/paymentMethodHelper';
 import { updateAvailableAndValidPaymentMethods } from 'redux/publisherConfigSlice';
 import usePrevious from 'util/usePreviousHook';
+import { fetchUpdateOrder } from 'redux/orderSlice';
 import {
   PaymentErrorStyled,
   PaymentStyled,
@@ -61,22 +61,23 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
     setGeneralError('');
     const { id, paymentMethodId } = order;
     if (id && methodId && methodId !== paymentMethodId) {
-      const { errors, responseData } = await updateOrder(id, {
-        paymentMethodId: methodId
-      });
-      if (errors && errors[0]?.includes('JWT')) {
-        Auth.logout();
-      } else if (responseData) {
-        updatePriceBreakdown(responseData.order);
-      }
+      dispatch(
+        fetchUpdateOrder({
+          id,
+          payload: { paymentMethodId: methodId }
+        })
+      )
+        .unwrap()
+        .then(responseData => {
+          updatePriceBreakdown(responseData.order);
+        })
+        .catch(errors => {
+          if (errors && errors[0]?.includes('JWT')) {
+            Auth.logout();
+          }
+        });
     }
   };
-
-  useEffect(() => {
-    if (prevSelectedPaymentMethod !== selectedPaymentMethod) {
-      updateOrderWithPaymentMethodId(selectedPaymentMethod?.id);
-    }
-  }, [selectedPaymentMethod]);
 
   // payment methods
   const selectPaymentMethodHandler = paymentMethodName => {
@@ -85,6 +86,9 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
       ({ methodName }) => methodName === paymentMethodName
     );
     setSelectedPaymentMethod(paymentMethodObj);
+    if (prevSelectedPaymentMethod !== paymentMethodObj.id) {
+      updateOrderWithPaymentMethodId(paymentMethodObj.id);
+    }
   };
 
   const fetchPaymentMethods = async () => {

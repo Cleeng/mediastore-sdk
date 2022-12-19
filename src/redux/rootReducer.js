@@ -25,4 +25,5 @@ const rootReducer = combineReducers({
   payment: paymentReducer
 });
 
-export default rootReducer;
+export default (state, action) =>
+  rootReducer(action.type === 'USER_LOGOUT' ? undefined : state, action);
