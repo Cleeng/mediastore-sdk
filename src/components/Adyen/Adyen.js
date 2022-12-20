@@ -95,7 +95,6 @@ const Adyen = ({
           holderNameRequired: true,
           billingAddressRequired: true // required for 3DS
         },
-        // TODO: test applepay and googlepay on production without these config object - probably it will work
         applepay: {
           ...amountObj,
           configuration: {
@@ -115,7 +114,6 @@ const Adyen = ({
       },
       showPayButton: false
     };
-    console.log({ configuration });
 
     const checkout = await AdyenCheckout(configuration);
     if (containerRef.current) {
