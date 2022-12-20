@@ -12,7 +12,6 @@ import { AdyenStyled } from './AdyenStyled';
 import '@adyen/adyen-web/dist/adyen.css';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
 import Loader from '../Loader';
-import { toMinor } from './util/toMinor';
 import {
   getAdyenEnv,
   getAdyenClientKey,
@@ -28,9 +27,7 @@ const Adyen = ({
   getDropIn,
   onAdditionalDetails
 }) => {
-  const { currency, totalPrice, country, discount } = useSelector(
-    state => state.order.order
-  );
+  const { totalPrice, discount } = useSelector(state => state.order.order);
   const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef(null);
   const [dropInInstance, setDropInInstance] = useState(null);
@@ -61,15 +58,23 @@ const Adyen = ({
   const createDropInInstance = async ({
     id,
     sessionData,
-    shopperStatement: merchantName
+    shopperStatement: merchantName,
+    amount,
+    countryCode,
+    paymentMethods
   }) => {
     const amountObj = {
-      amount: {
-        value: totalPrice ? toMinor(currency, totalPrice) : 0,
-        currency
-      },
-      countryCode: country
+      amount,
+      countryCode
     };
+    const { merchantId: merchantIdentifier } = paymentMethods.find(
+      item => item.type === 'applepay'
+    )?.configuration;
+    const {
+      gatewayMerchantId,
+      merchantId: googlePayMerchantId
+    } = paymentMethods.find(item => item.type === 'googlepay')?.configuration;
+
     const configuration = {
       environment: getAdyenEnv(),
       analytics: {
@@ -92,12 +97,20 @@ const Adyen = ({
         },
         // TODO: test applepay and googlepay on production without these config object - probably it will work
         applepay: {
-          ...(!isMyAccount && amountObj)
+          ...amountObj,
+          configuration: {
+            merchantName,
+            merchantIdentifier
+          }
         },
         googlepay: {
           environment: getGooglePayEnv(),
-          configuration: { merchantName },
-          ...(!isMyAccount && amountObj)
+          configuration: {
+            merchantName,
+            gatewayMerchantId,
+            merchantId: googlePayMerchantId
+          },
+          ...amountObj
         }
       },
       showPayButton: false
