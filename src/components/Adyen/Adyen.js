@@ -67,7 +67,7 @@ const Adyen = ({
       amount,
       countryCode
     };
-    const { merchantId: merchantIdentifier } = paymentMethods.find(
+    const { merchantId: applePayMerchantId } = paymentMethods.find(
       item => item.type === 'applepay'
     )?.configuration;
     const {
@@ -77,7 +77,6 @@ const Adyen = ({
 
     const configuration = {
       environment: getAdyenEnv(),
-      paymentMethods,
       analytics: {
         enabled: true //  analytics data for Adyen
       },
@@ -101,7 +100,7 @@ const Adyen = ({
           ...amountObj,
           configuration: {
             merchantName,
-            merchantIdentifier
+            merchantId: applePayMerchantId
           }
         },
         googlepay: {
