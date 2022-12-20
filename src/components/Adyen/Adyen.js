@@ -77,6 +77,7 @@ const Adyen = ({
 
     const configuration = {
       environment: getAdyenEnv(),
+      paymentMethods,
       analytics: {
         enabled: true //  analytics data for Adyen
       },
