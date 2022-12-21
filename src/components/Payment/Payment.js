@@ -86,7 +86,7 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
       ({ methodName }) => methodName === paymentMethodName
     );
     setSelectedPaymentMethod(paymentMethodObj);
-    if (prevSelectedPaymentMethod !== paymentMethodObj.id) {
+    if (prevSelectedPaymentMethod !== paymentMethodObj?.id) {
       updateOrderWithPaymentMethodId(paymentMethodObj.id);
     }
   };
@@ -249,7 +249,8 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
     'paypal',
     availableAndValidPaymentMethods
   );
-
+  console.log({ availableAndValidPaymentMethods });
+  console.log({ shouldShowPayPal });
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!dropInInstance : true;
 

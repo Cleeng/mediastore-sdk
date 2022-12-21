@@ -13,6 +13,7 @@ To find out more about MediaStore SDK, see:
 
 - node v14.15.0
 - react v16.14.0
+  <!-- TODO: validate these Prerequisites -->
 
 ## Installation
 
@@ -67,6 +68,8 @@ Setting the environment is required for all components. The environment is one o
 - `sandbox` (default)
 - `production`
 
+**Each component needs to be wrapper into Provider, as in the example below.**
+
 ##### Other Config methods
 
 ```javascript
@@ -102,7 +105,8 @@ Auth.logout(clb); // removes all Cleeng data from local storage and redux. clb -
 
 ```javascript
 import { useEffect } from 'react';
-import { Config, Purchase, Auth } from '@cleeng/mediastore-sdk';
+import { Config, Purchase, Auth, store  } from '@cleeng/mediastore-sdk';
+import { Provider } from "react-redux";
 
 export default function Home() {
   Config.setEnvironment("sandbox");
@@ -117,7 +121,9 @@ export default function Home() {
   return (
     <>
      {Auth.isLogged() ? (
-        <Purchase offerId="S222222222_US"/>
+        <Provider store={store}>
+          <Purchase offerId="S222222222_US"/>
+        </Provider>
       ) : (
         <YourCustomLogin>
       )}
@@ -268,8 +274,6 @@ const availablePaymentMethods = [
   />
 </Provider>;
 ```
-
-**All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
 
 **Server-side rendering**
 This component should be rendered in the browser. Sample of usage with **NextJS**

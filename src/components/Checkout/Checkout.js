@@ -74,7 +74,12 @@ class Checkout extends Component {
 
   render() {
     const { currentStep } = this.state;
-    const { onSuccess, offerId, resetPasswordCallback } = this.props;
+    const {
+      onSuccess,
+      offerId,
+      resetPasswordCallback,
+      availablePaymentMethods: paymentMethodsProvidedByPublisher
+    } = this.props;
 
     switch (currentStep) {
       case 0:
@@ -109,6 +114,7 @@ class Checkout extends Component {
           <OfferContainer
             offerId={offerId}
             onSuccess={() => this.goToStep(CheckoutSteps.PURCHASE.nextStep)}
+            availablePaymentMethods={paymentMethodsProvidedByPublisher}
           />
         );
       case 5:

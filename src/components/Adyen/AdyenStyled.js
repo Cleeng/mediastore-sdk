@@ -84,7 +84,7 @@ export const AdyenStyled = styled.div.attrs(() => ({
 
   .adyen-checkout__payment-method:last-child {
     border-radius: ${({ isAdditionalPayment }) =>
-      !isAdditionalPayment ? '0 0 12px 12px' : 'none'};
+      isAdditionalPayment ? 'none' : '12px'};
   }
 
   .adyen-checkout__payment-method__radio {
