@@ -206,17 +206,6 @@ const UpdatePaymentDetailsPopup = ({
       });
   };
 
-  const handleConfirm = () => {
-    if (selectedPaymentMethod?.methodName === 'paypal') {
-      submitPayPal();
-      return;
-    }
-    if (!dropInInstance) {
-      return;
-    }
-    dropInInstance.submit();
-  };
-
   const shouldShowAdyen = shouldShowGatewayComponent(
     'adyen',
     publisherPaymentMethods
@@ -307,7 +296,7 @@ const UpdatePaymentDetailsPopup = ({
                 selectedPaymentMethod?.methodName !== 'paypal'
               }
             >
-              <PayPal />
+              <PayPal onSubmit={submitPayPal} />
             </DropInSection>
           )}
         </PaymentMethodsWrapperStyled>
@@ -324,15 +313,6 @@ const UpdatePaymentDetailsPopup = ({
         )}
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
-        <Button
-          theme="primary"
-          onClickFn={handleConfirm}
-          disabled={isUpdatingPaymentDetails}
-        >
-          {isUpdatingPaymentDetails
-            ? t('Loading...')
-            : t('Update payment details')}
-        </Button>
         <Button theme="simple" onClickFn={() => hideInnerPopup()}>
           {t('Cancel')}
         </Button>

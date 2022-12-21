@@ -45,7 +45,7 @@ export const AdyenStyled = styled.div.attrs(() => ({
   .adyen-checkout__input:active:hover,
   .adyen-checkout__input:focus,
   .adyen-checkout__input:focus:hover {
-    border: 1px solid rgb(81 83 100 / 80%);
+    border: 1px solid ${ConfirmColor};
     box-shadow: 0 0 5px 2px #f3f3f3;
   }
 
@@ -62,6 +62,11 @@ export const AdyenStyled = styled.div.attrs(() => ({
   .adyen-checkout__dropdown__button {
     color: ${FontColor} !important;
     border-color: #d8ddea;
+    box-shadow: none;
+  }
+  .adyen-checkout__dropdown__button--active {
+    border: 1px solid ${ConfirmColor};
+    box-shadow: 0 0 5px 2px #f3f3f3;
   }
 
   .input-field,

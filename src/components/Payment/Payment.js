@@ -34,7 +34,6 @@ import eventDispatcher, {
 import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
-import { ConfirmButtonStyled } from '../Adyen/AdyenStyled';
 import { periodMapper } from '../../util';
 
 const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
@@ -223,24 +222,6 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
     onPaymentComplete();
   };
 
-  const handleConfirm = () => {
-    if (selectedPaymentMethod.methodName === 'paypal') {
-      submitPayPal();
-      return;
-    }
-    if (!dropInInstance) {
-      return;
-    }
-
-    dropInInstance.submit();
-  };
-
-  // helpers
-  const confirmButtonText =
-    selectedPaymentMethod?.methodName === 'paypal'
-      ? 'Continue with PayPal'
-      : t('Complete purchase');
-
   const shouldShowAdyen = shouldShowGatewayComponent(
     'adyen',
     availableAndValidPaymentMethods
@@ -249,8 +230,7 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
     'paypal',
     availableAndValidPaymentMethods
   );
-  console.log({ availableAndValidPaymentMethods });
-  console.log({ shouldShowPayPal });
+
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!dropInInstance : true;
 
@@ -319,32 +299,16 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
               isLoading && selectedPaymentMethod?.methodName !== 'paypal'
             }
           >
-            <PayPal totalPrice={order.totalPrice} offerId={order.offerId} />
+            <PayPal
+              totalPrice={order.totalPrice}
+              offerId={order.offerId}
+              onSubmit={submitPayPal}
+            />
           </DropInSection>
         )}
-
-        <ConfirmButtonStyled>
-          {generalError && (
-            <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
-          )}
-          <Button
-            size="big"
-            {...{
-              size: 'normal',
-              width: '60%',
-              margin: 'auto'
-            }}
-            theme="confirm"
-            onClickFn={handleConfirm}
-            disabled={isLoading || !selectedPaymentMethod}
-          >
-            {isLoading ? (
-              <Loader buttonLoader color="#ffffff" />
-            ) : (
-              confirmButtonText
-            )}
-          </Button>
-        </ConfirmButtonStyled>
+        {generalError && (
+          <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
+        )}
       </PaymentWrapperStyled>
       {order?.offerId?.charAt(0) === 'S' && (
         <LegalNote order={order} period={period} />
@@ -355,16 +319,12 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
 
 Payment.propTypes = {
   onPaymentComplete: PropTypes.func.isRequired,
-  isPaymentDetailsRequired: PropTypes.bool,
   updatePriceBreakdown: PropTypes.func,
-  period: PropTypes.string,
   t: PropTypes.func
 };
 
 Payment.defaultProps = {
-  isPaymentDetailsRequired: true,
   updatePriceBreakdown: () => {},
-  period: null,
   t: k => k
 };
 

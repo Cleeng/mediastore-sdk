@@ -17,6 +17,7 @@ import {
   getAdyenClientKey,
   getGooglePayEnv
 } from './util/getAdyenConfig';
+import adyenTranslations from './util/AdyenTranslations';
 
 const Adyen = ({
   onSubmit,
@@ -73,10 +74,10 @@ const Adyen = ({
     const googlePayConfigurationObj =
       paymentMethods &&
       paymentMethods.find(item => item.type === 'googlepay').configuration;
-    console.log({ applePayConfigurationObj });
-    console.log({ googlePayConfigurationObj });
 
     const configuration = {
+      locale: 'en-US',
+      translations: adyenTranslations,
       environment: getAdyenEnv(),
       analytics: {
         enabled: true //  analytics data for Adyen
@@ -116,11 +117,9 @@ const Adyen = ({
           }),
           ...amountObj
         }
-      },
-      showPayButton: false
+      }
     };
 
-    console.log({ configuration });
     const checkout = await AdyenCheckout(configuration);
     if (containerRef.current) {
       const dropin = checkout.create('dropin', {

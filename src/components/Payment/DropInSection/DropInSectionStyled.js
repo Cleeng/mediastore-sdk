@@ -26,7 +26,7 @@ export const TextStyled = styled.div.attrs(() => ({
 }))`
   max-width: 550px;
   margin: 0;
-  padding: 16px 16px 16px 25px;
+  padding: 16px 16px 16px 30px;
   text-align: center;
   line-height: 1.4em;
   color: #00112c;
@@ -43,7 +43,7 @@ export const TextStyled = styled.div.attrs(() => ({
 export const TitleStyled = styled.span.attrs(() => ({
   className: 'msd__custom-dropin-title'
 }))`
-  margin-left: 15px;
+  margin-left: 10px;
 `;
 
 export const IconWrapperStyled = styled.div.attrs(() => ({
