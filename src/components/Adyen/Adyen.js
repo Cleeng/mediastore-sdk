@@ -68,9 +68,13 @@ const Adyen = ({
       countryCode
     };
     const applePayConfigurationObj =
-      paymentMethods && paymentMethods.find(item => item.type === 'applepay');
+      paymentMethods &&
+      paymentMethods.find(item => item.type === 'applepay').configuration;
     const googlePayConfigurationObj =
-      paymentMethods && paymentMethods.find(item => item.type === 'googlepay');
+      paymentMethods &&
+      paymentMethods.find(item => item.type === 'googlepay').configuration;
+    console.log({ applePayConfigurationObj });
+    console.log({ googlePayConfigurationObj });
 
     const configuration = {
       environment: getAdyenEnv(),
@@ -106,7 +110,7 @@ const Adyen = ({
           ...(googlePayConfigurationObj && {
             configuration: {
               merchantName,
-              gatewayMerchantId: googlePayConfigurationObj,
+              gatewayMerchantId: googlePayConfigurationObj.gatewayMerchantId,
               merchantId: googlePayConfigurationObj.merchantId
             }
           }),
