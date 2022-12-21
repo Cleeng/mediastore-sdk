@@ -116,6 +116,7 @@ const Adyen = ({
       showPayButton: false
     };
 
+    console.log({ configuration });
     const checkout = await AdyenCheckout(configuration);
     if (containerRef.current) {
       const dropin = checkout.create('dropin', {
