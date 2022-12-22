@@ -1,61 +1,9 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import styled from 'styled-components';
-import { LineColor, FontColor, ErrorColor } from 'styles/variables';
+import { LineColor, ErrorColor } from 'styles/variables';
 import { ReactComponent as PPIcon } from 'assets/images/paymentMethods/paypal_short.svg';
 import { ReactComponent as DeleteIcon } from 'assets/images/remove_icon.svg';
-
-export const PaymentMethodStyled = styled.button.attrs(() => ({
-  className: 'msd__popup-content__payment-method'
-}))`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  max-width: 350px;
-  margin: auto auto 15px auto;
-  padding: 30px;
-
-  border: 1px solid ${LineColor};
-  border-radius: 12px;
-  background: transparent;
-
-  color: ${FontColor};
-  text-align: left;
-  cursor: pointer;
-  &:active {
-    border: 1px solid ${LineColor};
-  }
-  &:hover {
-    border: 1px solid ${FontColor};
-  }
-`;
-
-export const PaymentMethodTextStyled = styled.div`
-  margin-left: 20px;
-`;
-
-export const PaymentMethodTitleStyled = styled.div.attrs(() => ({
-  className: 'msd__popup-content__payment-method-title'
-}))`
-  font-weight: 600;
-  margin-bottom: 10px;
-  font-size: 14px;
-  width: 100%;
-`;
-
-export const PaymentMethodDescStyled = styled.div.attrs(() => ({
-  className: 'msd__popup-content__payment-method-description'
-}))`
-  font-weight: 300;
-  font-size: 12px;
-`;
-export const PaymentMethodIconStyled = styled.div.attrs(() => ({
-  className: 'msd__popup-content__payment-method-icon'
-}))`
-  path {
-    fill: ${FontColor};
-  }
-`;
 
 export const ImageWrapper = styled.div.attrs(() => ({
   className: 'msd__popup-content__payment-method-img'

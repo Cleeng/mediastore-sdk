@@ -1,3 +1,5 @@
+/* eslint-disable react/forbid-prop-types */
+
 import React, { useState, useEffect } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -28,8 +30,6 @@ const PaymentInfoFn = ({
   setTransactionsList,
   setTransactionsListAsFetched,
   hideShowMoreButton,
-  availablePaymentMethods: paymentMethodsProvidedByPublisher,
-  initPublisherConfig,
   t
 }) => {
   const [paymentDetailsError, setPaymentDetailsError] = useState([]);
@@ -141,10 +141,6 @@ const PaymentInfoFn = ({
       setIsTransactionsSectionLoading(false);
     }
 
-    if (paymentMethodsProvidedByPublisher) {
-      initPublisherConfig({ paymentMethodsProvidedByPublisher });
-    }
-
     return () => {
       hideInnerPopup();
     };
@@ -200,20 +196,11 @@ PaymentInfoFn.propTypes = {
   showInnerPopup: PropTypes.func.isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
   innerPopup: PropTypes.objectOf(PropTypes.any).isRequired,
-  availablePaymentMethods: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      methodName: PropTypes.string,
-      default: PropTypes.bool
-    })
-  ),
-  initPublisherConfig: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 
 PaymentInfoFn.defaultProps = {
   paymentInfo: { paymentMethod: [], transactionsList: [] },
-  availablePaymentMethods: null,
   t: k => k
 };
 

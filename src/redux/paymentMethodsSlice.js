@@ -4,10 +4,10 @@ import { getPaymentMethods } from '../api';
 const initialState = {
   paymentMethods: null,
   loading: false,
-  error: null,
-  availablePaymentMethods: null
+  error: null
 };
 
+// TODO: use slice (currently not used anywhere)
 export const fetchPaymentMethods = createAsyncThunk(
   'paymentMethods/fetchPaymentMethods',
   async () => {

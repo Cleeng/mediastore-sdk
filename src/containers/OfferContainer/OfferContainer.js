@@ -27,10 +27,7 @@ import {
   StyledLoaderContent
 } from './StyledOfferContainer';
 
-const OfferContainer = ({
-  onSuccess,
-  availablePaymentMethods: paymentMethodsProvidedByPublisher
-}) => {
+const OfferContainer = ({ onSuccess }) => {
   const [orderDetails, setOrderDetails] = useState({
     priceBreakdown: {
       offerPrice: 0,
@@ -131,8 +128,7 @@ const OfferContainer = ({
   useEffect(() => {
     dispatch(
       initValues({
-        offerId,
-        paymentMethodsProvidedByPublisher
+        offerId
       })
     );
     if (!offerId) {
@@ -161,7 +157,7 @@ const OfferContainer = ({
 
   useEffect(() => {
     if (!isOrderLoading || errorMsg || offerError || orderError) {
-      eventDispatcher(MSSDK_PURCHASE_LOADED);
+      eventDispatcher(MSSDK_PURCHASE_LOADED); // TODO: validate
     }
   }, [isOrderLoading, errorMsg, offerError, offerError]);
 
@@ -217,13 +213,11 @@ OfferContainer.propTypes = {
   onSuccess: PropTypes.func,
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
-  }),
-  availablePaymentMethods: PropTypes.arrayOf(PropTypes.shape({}))
+  })
 };
 OfferContainer.defaultProps = {
   onSuccess: () => {},
-  urlProps: {},
-  availablePaymentMethods: []
+  urlProps: {}
 };
 
 export default OfferContainer;

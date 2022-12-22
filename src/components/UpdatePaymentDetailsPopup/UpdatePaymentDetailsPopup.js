@@ -12,7 +12,10 @@ import {
   ButtonWrapperStyled,
   WarningMessageStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
-import { shouldShowGatewayComponent } from 'util/paymentMethodHelper';
+import {
+  shouldShowGatewayComponent,
+  validatePaymentMethods
+} from 'util/paymentMethodHelper';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/payment-paypal.svg';
 import { ReactComponent as AmazonIcon } from 'assets/images/paymentMethods/amazon_color.svg';
 import { ReactComponent as AppleIcon } from 'assets/images/paymentMethods/apple_color.svg';
@@ -25,14 +28,9 @@ import eventDispatcher, {
   MSSDK_UPDATE_PAYMENT_DETAILS_FAILED,
   MSSDK_REMOVE_PAYMENT_DETAILS_BUTTON_CLICKED
 } from 'util/eventDispatcher';
-import { updateAvailableAndValidPaymentMethods } from 'redux/publisherConfigSlice';
+import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import DropInSection from 'components/Payment/DropInSection/DropInSection';
 import {
-  // PaymentMethodStyled,
-  // PaymentMethodTextStyled,
-  // PaymentMethodTitleStyled,
-  // PaymentMethodDescStyled,
-  // PaymentMethodIconStyled,
   RemoveLinkStyled,
   DeleteIconStyled,
   PopupImageStyled,
@@ -76,26 +74,28 @@ const UpdatePaymentDetailsPopup = ({
   );
   const [dropInInstance, setDropInInstance] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
-  const {
-    availableAndValidPaymentMethods: publisherPaymentMethods
-  } = useSelector(state => state.publisherConfig);
+  const { paymentMethods } = useSelector(state => state.publisherConfig);
   const { paymentDetails } = useSelector(state => state.paymentInfo);
 
   const selectPaymentMethodHandler = paymentMethodName => {
     if (selectedPaymentMethod?.methodName === paymentMethodName) return;
-    const paymentMethodObj = publisherPaymentMethods.find(
+    const paymentMethodObj = paymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
     setSelectedPaymentMethod(paymentMethodObj);
   };
 
   useEffect(() => {
-    if (!publisherPaymentMethods.length) {
+    if (!paymentMethods.length) {
       getPaymentMethods().then(resp => {
         const { responseData } = resp;
         if (responseData) {
-          const { paymentMethods } = responseData;
-          dispatch(updateAvailableAndValidPaymentMethods(paymentMethods));
+          const { paymentMethods: paymentMethodsFromBackend } = responseData;
+          dispatch(
+            updatePaymentMethods(
+              validatePaymentMethods(paymentMethodsFromBackend)
+            )
+          );
         }
       });
     }
@@ -156,7 +156,7 @@ const UpdatePaymentDetailsPopup = ({
     // TODO: handle loading and errors
     const selectedPaymentMethodName =
       paymentMethod.type === 'scheme' ? 'card' : paymentMethod.type;
-    const paymentMethodId = publisherPaymentMethods.find(
+    const paymentMethodId = paymentMethods.find(
       item =>
         item.paymentGateway === 'adyen' &&
         item.methodName === selectedPaymentMethodName
@@ -188,7 +188,7 @@ const UpdatePaymentDetailsPopup = ({
   };
 
   const submitPayPal = () => {
-    const paymentMethodId = publisherPaymentMethods.find(
+    const paymentMethodId = paymentMethods.find(
       item => item.paymentGateway === 'paypal' && item.methodName === 'paypal'
     )?.id;
     setIsUpdatingPaymentDetails(true);
@@ -206,14 +206,8 @@ const UpdatePaymentDetailsPopup = ({
       });
   };
 
-  const shouldShowAdyen = shouldShowGatewayComponent(
-    'adyen',
-    publisherPaymentMethods
-  );
-  const shouldShowPayPal = shouldShowGatewayComponent(
-    'paypal',
-    publisherPaymentMethods
-  );
+  const shouldShowAdyen = shouldShowGatewayComponent('adyen', paymentMethods);
+  const shouldShowPayPal = shouldShowGatewayComponent('paypal', paymentMethods);
 
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!dropInInstance : true;

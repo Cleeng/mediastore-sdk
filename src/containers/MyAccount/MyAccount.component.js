@@ -1,5 +1,5 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-unused-state */
-/* eslint-disable no-nested-ternary */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
@@ -51,9 +51,7 @@ class MyAccount extends Component {
       setCurrentPlan,
       setCurrentUser,
       setConsents,
-      setConsentsError,
-      initPublisherConfig,
-      availablePaymentMethods: paymentMethodsProvidedByPublisher
+      setConsentsError
     } = this.props;
 
     document.title = 'My Account';
@@ -95,8 +93,6 @@ class MyAccount extends Component {
           }
         });
       }
-
-      initPublisherConfig({ paymentMethodsProvidedByPublisher });
     }
   }
 
@@ -244,52 +240,49 @@ class MyAccount extends Component {
     } = this.props;
     const { currentPage } = this.state;
 
+    if (consentsError) {
+      return <MyAccountError generalError fullHeight />;
+    }
+    if (isPopupShown) {
+      return (
+        <Popup
+          setConsents={setConsents}
+          popupType={popupType}
+          consents={consents}
+          customerEmail={user ? user.email : ''}
+          hidePopup={hidePopup}
+        />
+      );
+    }
+    if (Auth.isLogged()) {
+      return (
+        <WrapperStyled>
+          <HeaderStyled>
+            <MyAccountUserInfo
+              firstName={user ? user.firstName : ''}
+              lastName={user ? user.lastName : ''}
+              email={user ? user.email : ''}
+              subscription={
+                currentPlan[0]
+                  ? t(
+                      `offer-title-${currentPlan[0].offerId}`,
+                      currentPlan[0].offerTitle
+                    )
+                  : ''
+              }
+              isDataLoaded={!!user && !!currentPlan}
+            />
+            <MyAccountMenu currentPage={currentPage} goToPage={this.goToPage} />
+            <Footer isCheckout={false} isTransparent />
+          </HeaderStyled>
+          <MyAccountContent>
+            {this.renderMyAccountContent(currentPage)}
+          </MyAccountContent>
+        </WrapperStyled>
+      );
+    }
     return (
-      <>
-        {consentsError ? (
-          <MyAccountError generalError fullHeight />
-        ) : isPopupShown ? (
-          <Popup
-            setConsents={setConsents}
-            popupType={popupType}
-            consents={consents}
-            customerEmail={user ? user.email : ''}
-            hidePopup={hidePopup}
-          />
-        ) : !Auth.isLogged() ? (
-          <Login
-            isMyAccount
-            onSuccess={() => this.setState({ isLogged: true })}
-          />
-        ) : (
-          <WrapperStyled>
-            <HeaderStyled>
-              <MyAccountUserInfo
-                firstName={user ? user.firstName : ''}
-                lastName={user ? user.lastName : ''}
-                email={user ? user.email : ''}
-                subscription={
-                  currentPlan[0]
-                    ? t(
-                        `offer-title-${currentPlan[0].offerId}`,
-                        currentPlan[0].offerTitle
-                      )
-                    : ''
-                }
-                isDataLoaded={!!user && !!currentPlan}
-              />
-              <MyAccountMenu
-                currentPage={currentPage}
-                goToPage={this.goToPage}
-              />
-              <Footer isCheckout={false} isTransparent />
-            </HeaderStyled>
-            <MyAccountContent>
-              {this.renderMyAccountContent(currentPage)}
-            </MyAccountContent>
-          </WrapperStyled>
-        )}
-      </>
+      <Login isMyAccount onSuccess={() => this.setState({ isLogged: true })} /> // onSuccess required to rerender
     );
   }
 }
@@ -311,14 +304,6 @@ MyAccount.propTypes = {
     })
   ),
   skipAvailableDowngradesStep: PropTypes.bool,
-  availablePaymentMethods: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      methodName: PropTypes.string,
-      default: PropTypes.bool
-    })
-  ),
-  initPublisherConfig: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 
@@ -327,7 +312,6 @@ MyAccount.defaultProps = {
   planDetails: { currentPlan: [] },
   popup: { isPopupShown: false },
   customCancellationReasons: null,
-  availablePaymentMethods: null,
   t: k => k,
   skipAvailableDowngradesStep: false
 };

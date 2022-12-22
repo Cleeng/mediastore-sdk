@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { validatePaymentMethods } from 'util/paymentMethodHelper';
 
 const initialState = {
   offerId: '',
-  availableAndValidPaymentMethods: []
+  paymentMethods: []
 };
 
 export const publisherConfigSlice = createSlice({
@@ -12,18 +11,12 @@ export const publisherConfigSlice = createSlice({
   reducers: {
     init: (state, { payload }) => {
       state.offerId = payload.offerId || '';
-      state.availableAndValidPaymentMethods = validatePaymentMethods(
-        payload.paymentMethodsProvidedByPublisher
-      );
     },
-    updateAvailableAndValidPaymentMethods: (state, { payload }) => {
-      state.availableAndValidPaymentMethods = payload;
+    updatePaymentMethods: (state, { payload }) => {
+      state.paymentMethods = payload;
     }
   }
 });
 
-export const {
-  init,
-  updateAvailableAndValidPaymentMethods
-} = publisherConfigSlice.actions;
+export const { init, updatePaymentMethods } = publisherConfigSlice.actions;
 export default publisherConfigSlice.reducer;

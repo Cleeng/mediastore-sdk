@@ -19,7 +19,7 @@ import {
   validatePaymentMethods,
   shouldShowGatewayComponent
 } from 'util/paymentMethodHelper';
-import { updateAvailableAndValidPaymentMethods } from 'redux/publisherConfigSlice';
+import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import usePrevious from 'util/usePreviousHook';
 import { fetchUpdateOrder } from 'redux/orderSlice';
 import {
@@ -37,9 +37,7 @@ import DropInSection from './DropInSection/DropInSection';
 import { periodMapper } from '../../util';
 
 const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
-  const { availableAndValidPaymentMethods } = useSelector(
-    state => state.publisherConfig
-  );
+  const { paymentMethods } = useSelector(state => state.publisherConfig);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const prevSelectedPaymentMethod = usePrevious(selectedPaymentMethod);
 
@@ -72,6 +70,7 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
         })
         .catch(errors => {
           if (errors && errors[0]?.includes('JWT')) {
+            // TODO: test
             Auth.logout();
           }
         });
@@ -81,7 +80,7 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
   // payment methods
   const selectPaymentMethodHandler = paymentMethodName => {
     if (selectedPaymentMethod?.methodName === paymentMethodName) return;
-    const paymentMethodObj = availableAndValidPaymentMethods.find(
+    const paymentMethodObj = paymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
     setSelectedPaymentMethod(paymentMethodObj);
@@ -92,9 +91,9 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
 
   const fetchPaymentMethods = async () => {
     const response = await getPaymentMethods();
-    const { paymentMethods } = response.responseData;
+    const { paymentMethods: paymentMethodsFromBackend } = response.responseData;
     const validMethodsFromResponse = validatePaymentMethods(
-      paymentMethods,
+      paymentMethodsFromBackend,
       false
     );
     if (response.errors.length) {
@@ -102,7 +101,7 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
       return;
     }
 
-    dispatch(updateAvailableAndValidPaymentMethods(validMethodsFromResponse));
+    dispatch(updatePaymentMethods(validMethodsFromResponse));
 
     if (!validMethodsFromResponse?.length) {
       setGeneralError(t('Payment methods are not defined'));
@@ -123,12 +122,6 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
   };
 
   useEffect(() => {
-    if (availableAndValidPaymentMethods.length) {
-      const [paymentMethod] = availableAndValidPaymentMethods;
-      setSelectedPaymentMethod(paymentMethod);
-      return;
-    }
-
     fetchPaymentMethods();
     handlePayPalError();
   }, []);
@@ -222,19 +215,13 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
     onPaymentComplete();
   };
 
-  const shouldShowAdyen = shouldShowGatewayComponent(
-    'adyen',
-    availableAndValidPaymentMethods
-  );
-  const shouldShowPayPal = shouldShowGatewayComponent(
-    'paypal',
-    availableAndValidPaymentMethods
-  );
+  const shouldShowAdyen = shouldShowGatewayComponent('adyen', paymentMethods);
+  const shouldShowPayPal = shouldShowGatewayComponent('paypal', paymentMethods);
 
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!dropInInstance : true;
 
-  if (!availableAndValidPaymentMethods.length) {
+  if (!paymentMethods.length) {
     return (
       <PaymentStyled>
         <SectionHeader marginTop="25px" center>
