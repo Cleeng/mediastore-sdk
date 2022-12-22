@@ -26,7 +26,7 @@ export const TextStyled = styled.div.attrs(() => ({
 }))`
   max-width: 550px;
   margin: 0;
-  padding: 16px 16px 16px 30px;
+  padding: 16px;
   text-align: center;
   line-height: 1.4em;
   color: #00112c;

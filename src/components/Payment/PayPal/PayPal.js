@@ -38,11 +38,10 @@ const PayPal = ({ totalPrice, offerId, onSubmit, isLoading, t }) => {
         theme="confirm"
         onClickFn={onSubmit}
         disabled={isLoading}
-        {...{
-          size: 'normal',
-          width: '60%',
-          margin: '20px auto auto auto'
-        }}
+        sieze="big"
+        margin="20px auto auto auto"
+        fontSize="15px"
+        fontWeight="400"
       >
         {isLoading ? 'Loading...' : ' Continue with PayPal'}
       </Button>

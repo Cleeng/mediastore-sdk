@@ -22,8 +22,12 @@ export const AdyenStyled = styled.div.attrs(() => ({
         opacity: 0.8;
       }
     `}
-  .adyen-checkout__label--focused
-  .adyen-checkout__label__text {
+  .adyen-checkout__button.adyen-checkout__button--pay {
+    background: ${ConfirmColor};
+    border-radius: 30px;
+  }
+
+  .adyen-checkout__label--focused .adyen-checkout__label__text {
     color: ${FontColor};
     opacity: 1;
   }
@@ -97,7 +101,7 @@ export const AdyenStyled = styled.div.attrs(() => ({
   }
 
   .adyen-checkout__payment-method__header {
-    padding: 12px 16px 12px 25px;
+    padding: 12px 16px 12px 12px;
     position: relative;
   }
 
@@ -113,14 +117,6 @@ export const AdyenStyled = styled.div.attrs(() => ({
   .adyen-checkout__payment-method--selected
     .adyen-checkout__payment-method__header:before {
     rotate: 180deg;
-  }
-
-  .adyen-checkout__payment-method--googlepay
-    .adyen-checkout__payment-method__header:before,
-  .adyen-checkout__payment-method--applepay
-    .adyen-checkout__payment-method__header:before {
-    content: none;
-    display: none;
   }
 
   .adyen-checkout__payment-method__header:before {
