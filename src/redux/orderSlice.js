@@ -100,9 +100,8 @@ export const orderSlice = createSlice({
       state.loading = false;
       state.order = payload;
     },
-    [fetchGetOrder.rejected]: (state, { payload }) => {
+    [fetchGetOrder.rejected]: state => {
       state.loading = false;
-      state.error = payload;
     },
     [fetchUpdateCoupon.pending]: state => {
       state.isCouponLoading = true;
