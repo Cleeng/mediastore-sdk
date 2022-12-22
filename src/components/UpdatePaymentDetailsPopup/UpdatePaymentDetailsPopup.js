@@ -153,7 +153,6 @@ const UpdatePaymentDetailsPopup = ({
       data: { paymentMethod, browserInfo, billingAddress }
     } = state;
 
-    // TODO: handle loading and errors
     const selectedPaymentMethodName =
       paymentMethod.type === 'scheme' ? 'card' : paymentMethod.type;
     const paymentMethodId = paymentMethods.find(

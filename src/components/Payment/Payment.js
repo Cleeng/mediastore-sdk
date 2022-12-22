@@ -69,9 +69,8 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
           updatePriceBreakdown(responseData.order);
         })
         .catch(errors => {
-          if (errors && errors[0]?.includes('JWT')) {
-            // TODO: test
-            Auth.logout();
+          if (errors.includes('JWT')) {
+            Auth.logout(); // TODO: support properly the logout function
           }
         });
     }

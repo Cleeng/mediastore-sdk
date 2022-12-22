@@ -157,7 +157,7 @@ const OfferContainer = ({ onSuccess }) => {
 
   useEffect(() => {
     if (!isOrderLoading || errorMsg || offerError || orderError) {
-      eventDispatcher(MSSDK_PURCHASE_LOADED); // TODO: validate
+      eventDispatcher(MSSDK_PURCHASE_LOADED);
     }
   }, [isOrderLoading, errorMsg, offerError, offerError]);
 

@@ -134,7 +134,6 @@ const Adyen = ({
 
   const createSession = async () => {
     const { responseData } = await createPaymentSession(isMyAccount);
-    // TODO: handle error when id is missing
     if (responseData?.id) {
       createDropInInstance(responseData);
     }
@@ -142,7 +141,6 @@ const Adyen = ({
 
   useEffect(() => {
     createSession();
-    // TODO: add loading indicator
   }, []);
 
   useEffect(() => {
@@ -155,7 +153,7 @@ const Adyen = ({
       // recreate dropin when coupon was applied
       dropInInstance.unmount();
       getDropIn(null);
-      setIsLoading(true); // TODO: hide paypal when dropin is rerendering
+      setIsLoading(true);
       createSession(); // recreate Adyen Instance if price was changed
     }
   }, [totalPrice]);

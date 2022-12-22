@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Trans, withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
+import { getData, currencyFormat } from 'util';
 import { LegalNoteWrapperStyled, LegalTextStyled } from '../PaymentStyled';
-import { getData, currencyFormat } from '../../../util';
-// TODO: check barel? file
 
 const LegalNote = ({
   order: {
@@ -87,12 +86,14 @@ const LegalNote = ({
 
 LegalNote.propTypes = {
   order: PropTypes.objectOf(PropTypes.any),
-  period: PropTypes.string
+  period: PropTypes.string,
+  t: PropTypes.func
 };
 
 LegalNote.defaultProps = {
   order: {},
-  period: null
+  period: null,
+  t: k => k
 };
 
 export default withTranslation()(labeling()(LegalNote));
