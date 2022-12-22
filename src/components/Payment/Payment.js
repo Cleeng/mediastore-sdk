@@ -13,7 +13,6 @@ import Adyen from 'components/Adyen';
 import Loader from 'components/Loader';
 import SectionHeader from 'components/SectionHeader';
 import Auth from 'services/auth';
-import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/payment-paypal.svg';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   validatePaymentMethods,
@@ -279,7 +278,7 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
             selectPaymentMethod={selectPaymentMethodHandler}
             isSelected={selectedPaymentMethod?.methodName === 'paypal'}
             title="PayPal"
-            logo={<PaypalLogo />}
+            logo="paypal"
             fadeOutSection={
               isLoading && selectedPaymentMethod?.methodName !== 'paypal'
             }

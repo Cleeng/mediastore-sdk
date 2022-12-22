@@ -16,7 +16,6 @@ import {
   shouldShowGatewayComponent,
   validatePaymentMethods
 } from 'util/paymentMethodHelper';
-import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/payment-paypal.svg';
 import { ReactComponent as AmazonIcon } from 'assets/images/paymentMethods/amazon_color.svg';
 import { ReactComponent as AppleIcon } from 'assets/images/paymentMethods/apple_color.svg';
 import { ReactComponent as AndroidIcon } from 'assets/images/paymentMethods/android_color.svg';
@@ -283,7 +282,7 @@ const UpdatePaymentDetailsPopup = ({
               selectPaymentMethod={selectPaymentMethodHandler}
               isSelected={selectedPaymentMethod?.methodName === 'paypal'}
               title="PayPal"
-              logo={<PaypalLogo />}
+              logo="paypal"
               fadeOutSection={
                 isUpdatingPaymentDetails &&
                 selectedPaymentMethod?.methodName !== 'paypal'

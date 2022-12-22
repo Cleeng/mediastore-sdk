@@ -20,7 +20,7 @@ export const MyAccountTextLightGray = '#F2F5FC';
 export const CardSecondaryColor = '#182c7a';
 export const MyAccountMenu = '#f2f5fc';
 export const MyAccountMenuActive = successColor || '#4EB7A1';
-export const PayPal = '#61AEF0';
+export const PayPal = '#ffc439';
 
 // Payment Methods
 export const paymentMethodColors = {

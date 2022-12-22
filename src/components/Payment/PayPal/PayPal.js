@@ -1,22 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ReactComponent as PaypalFullLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
+import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
 import Button from 'components/Button';
-import { PayPalContentStyled, PayPalIconContentStyled } from './PayPalStyled';
+import { PayPalContentStyled } from './PayPalStyled';
 
 const PayPal = ({ totalPrice, offerId, onSubmit, isLoading, t }) => {
   return (
     <PayPalContentStyled>
-      <PayPalIconContentStyled>
-        <PaypalFullLogo />
-      </PayPalIconContentStyled>
       <>
         {/* my account */}
         {!offerId && (
           <>
-            {t(
-              'Paying with PayPal is easy. Click the button below and sign in to your PayPal account.'
-            )}
+            {t("We'll redirect you to PayPal to update your payment details.")}
             <br />
             <br />
             {t(
@@ -27,15 +22,15 @@ const PayPal = ({ totalPrice, offerId, onSubmit, isLoading, t }) => {
         {/* checkout */}
         {offerId &&
           totalPrice !== 0 &&
-          t('Click ‘Continue with PayPal‘ to complete your purchase.')}
+          t("We'll redirect you to PayPal to complete your purchase.")}
         {offerId?.charAt(0) === 'S' &&
           totalPrice === 0 &&
           t(
-            'Click ‘Continue with PayPal‘ to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments.'
+            "We'll redirect you to PayPal to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments."
           )}
       </>
       <Button
-        theme="confirm"
+        theme="paypal"
         onClickFn={onSubmit}
         disabled={isLoading}
         sieze="big"
@@ -43,7 +38,7 @@ const PayPal = ({ totalPrice, offerId, onSubmit, isLoading, t }) => {
         fontSize="15px"
         fontWeight="400"
       >
-        {isLoading ? 'Loading...' : ' Continue with PayPal'}
+        <PaypalLogo />
       </Button>
     </PayPalContentStyled>
   );

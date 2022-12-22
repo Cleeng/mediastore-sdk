@@ -49,7 +49,8 @@ export const TitleStyled = styled.span.attrs(() => ({
 export const IconWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__custom-dropin--payment-icon'
 }))`
-  border: 1px solid #a9a9bf;
+  /* border: 1px solid #a9a9bf; */
+  /* TODO: uncomment when proper paypal icon will be added */
   display: flex;
   justify-content: center;
   align-items: center;

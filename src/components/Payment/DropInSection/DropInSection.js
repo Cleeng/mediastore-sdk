@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactComponent as Chevron } from 'assets/images/chevron.svg';
+import { ReactComponent as PayPalIcon } from 'assets/images/paymentMethods/paypal_short.svg';
 import {
   ChevronIconWrapperStyled,
   IconWrapperStyled,
@@ -18,6 +19,10 @@ const DropInSection = ({
   isCardAvailable,
   fadeOutSection
 }) => {
+  const mapImage = {
+    paypal: PayPalIcon
+  };
+  const LogoComponent = mapImage[logo];
   return (
     <WrapperStyled
       isSelected={isSelected}
@@ -26,7 +31,9 @@ const DropInSection = ({
       fadeOutSection={fadeOutSection}
     >
       <TextStyled>
-        <IconWrapperStyled>{logo}</IconWrapperStyled>
+        <IconWrapperStyled>
+          {LogoComponent && <LogoComponent />}
+        </IconWrapperStyled>
         <TitleStyled>{title}</TitleStyled>
         <ChevronIconWrapperStyled isSelected={isSelected}>
           <Chevron />
@@ -41,7 +48,7 @@ DropInSection.propTypes = {
   selectPaymentMethod: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
-  logo: PropTypes.node.isRequired,
+  logo: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   isCardAvailable: PropTypes.bool.isRequired,
   fadeOutSection: PropTypes.bool.isRequired

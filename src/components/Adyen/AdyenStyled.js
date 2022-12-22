@@ -26,6 +26,9 @@ export const AdyenStyled = styled.div.attrs(() => ({
     background: ${ConfirmColor};
     border-radius: 30px;
   }
+  .adyen-checkout__payment-method__details__content {
+    margin: 2px 0 20px;
+  }
 
   .adyen-checkout__label--focused .adyen-checkout__label__text {
     color: ${FontColor};
