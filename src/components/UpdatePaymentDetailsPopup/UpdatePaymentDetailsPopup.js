@@ -296,7 +296,10 @@ const UpdatePaymentDetailsPopup = ({
                 selectedPaymentMethod?.methodName !== 'paypal'
               }
             >
-              <PayPal onSubmit={submitPayPal} />
+              <PayPal
+                onSubmit={submitPayPal}
+                isLoading={isUpdatingPaymentDetails}
+              />
             </DropInSection>
           )}
         </PaymentMethodsWrapperStyled>

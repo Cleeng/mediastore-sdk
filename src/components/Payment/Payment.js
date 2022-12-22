@@ -280,7 +280,6 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
           <Adyen
             key={adyenKey}
             onSubmit={onAdyenSubmit}
-            isPaymentProcessing={isLoading}
             selectPaymentMethod={selectPaymentMethodHandler}
             selectedPaymentMethod={selectedPaymentMethod?.methodName}
             isPayPalAvailable={shouldShowPayPal}
@@ -303,6 +302,7 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
               totalPrice={order.totalPrice}
               offerId={order.offerId}
               onSubmit={submitPayPal}
+              isLoading={isLoading}
             />
           </DropInSection>
         )}

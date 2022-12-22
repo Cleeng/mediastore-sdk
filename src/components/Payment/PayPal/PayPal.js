@@ -4,7 +4,7 @@ import { ReactComponent as PaypalFullLogo } from 'assets/images/paymentMethods/P
 import Button from 'components/Button';
 import { PayPalContentStyled, PayPalIconContentStyled } from './PayPalStyled';
 
-const PayPal = ({ totalPrice, offerId, onSubmit, t }) => {
+const PayPal = ({ totalPrice, offerId, onSubmit, isLoading, t }) => {
   return (
     <PayPalContentStyled>
       <PayPalIconContentStyled>
@@ -34,17 +34,17 @@ const PayPal = ({ totalPrice, offerId, onSubmit, t }) => {
             'Click ‘Continue with PayPal‘ to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments.'
           )}
       </>
-      {/* TODO: add loader and disable button when onSubmit is in progress */}
       <Button
         theme="confirm"
         onClickFn={onSubmit}
+        disabled={isLoading}
         {...{
           size: 'normal',
           width: '60%',
           margin: '20px auto auto auto'
         }}
       >
-        Continue with PayPal
+        {isLoading ? 'Loading...' : ' Continue with PayPal'}
       </Button>
     </PayPalContentStyled>
   );
@@ -54,12 +54,14 @@ PayPal.propTypes = {
   totalPrice: PropTypes.number,
   offerId: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool,
   t: PropTypes.func
 };
 
 PayPal.defaultProps = {
   totalPrice: null,
   offerId: null,
+  isLoading: false,
   t: k => k
 };
 

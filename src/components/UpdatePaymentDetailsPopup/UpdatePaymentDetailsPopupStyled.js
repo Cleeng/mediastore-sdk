@@ -118,5 +118,5 @@ export const PopupImageStyled = styled.div.attrs(() => ({
 `;
 
 export const PaymentMethodsWrapperStyled = styled.div`
-  margin-bottom: 40px;
+  margin-bottom: 20px;
 `;
