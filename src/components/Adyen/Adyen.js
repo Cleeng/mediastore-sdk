@@ -12,12 +12,12 @@ import { AdyenStyled } from './AdyenStyled';
 import '@adyen/adyen-web/dist/adyen.css';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
 import Loader from '../Loader';
-import { toMinor } from './util/toMinor';
 import {
   getAdyenEnv,
   getAdyenClientKey,
   getGooglePayEnv
 } from './util/getAdyenConfig';
+import adyenTranslations from './util/AdyenTranslations';
 
 const Adyen = ({
   onSubmit,
@@ -28,9 +28,7 @@ const Adyen = ({
   getDropIn,
   onAdditionalDetails
 }) => {
-  const { currency, totalPrice, country, discount } = useSelector(
-    state => state.order.order
-  );
+  const { totalPrice, discount } = useSelector(state => state.order.order);
   const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef(null);
   const [dropInInstance, setDropInInstance] = useState(null);
@@ -58,15 +56,28 @@ const Adyen = ({
     selectPaymentMethod(type);
   };
 
-  const createDropInInstance = async (id, sessionData) => {
+  const createDropInInstance = async ({
+    id,
+    sessionData,
+    shopperStatement: merchantName,
+    amount,
+    countryCode,
+    paymentMethods
+  }) => {
     const amountObj = {
-      amount: {
-        value: totalPrice ? toMinor(currency, totalPrice) : 0,
-        currency
-      },
-      countryCode: country
+      amount,
+      countryCode
     };
+    const applePayConfigurationObj =
+      paymentMethods &&
+      paymentMethods.find(item => item.type === 'applepay').configuration;
+    const googlePayConfigurationObj =
+      paymentMethods &&
+      paymentMethods.find(item => item.type === 'googlepay').configuration;
+
     const configuration = {
+      locale: 'en-US',
+      translations: adyenTranslations,
       environment: getAdyenEnv(),
       analytics: {
         enabled: true //  analytics data for Adyen
@@ -79,23 +90,34 @@ const Adyen = ({
       onSubmit,
       // onPaymentCompleted, TODO: most likely not needed, will be reviewed with redirect flow https://docs.adyen.com/online-payments/web-drop-in#handle-redirect-result
       onAdditionalDetails,
-      onError, // TODO: handle errors
+      onError,
       paymentMethodsConfiguration: {
         card: {
           hasHolderName: true,
           holderNameRequired: true,
           billingAddressRequired: true // required for 3DS
         },
-        // TODO: test applepay and googlepay on production without these config object - probably it will work
-        applepay: isMyAccount ? amountObj : {},
+        applepay: {
+          ...amountObj,
+          ...(applePayConfigurationObj && {
+            configuration: {
+              merchantName,
+              merchantId: applePayConfigurationObj.merchantId
+            }
+          })
+        },
         googlepay: {
-          ...(!isMyAccount && amountObj),
-          environment: getGooglePayEnv()
-          // TODO: support for optional config https://docs.adyen.com/payment-methods/google-pay/web-drop-in?tab=_code_payments_code__2#payment-data
+          environment: getGooglePayEnv(),
+          ...(googlePayConfigurationObj && {
+            configuration: {
+              merchantName,
+              gatewayMerchantId: googlePayConfigurationObj.gatewayMerchantId,
+              merchantId: googlePayConfigurationObj.merchantId
+            }
+          }),
+          ...amountObj
         }
-      },
-      showPayButton: false
-      // TODO: instantPaymentTypes: ['applepay'] // defines which payment method should be on top - should be configurable by publisher
+      }
     };
 
     const checkout = await AdyenCheckout(configuration);
@@ -111,18 +133,14 @@ const Adyen = ({
   };
 
   const createSession = async () => {
-    const {
-      responseData: { id, sessionData }
-    } = await createPaymentSession(isMyAccount);
-    // TODO: handle error when id is missing
-    if (id) {
-      createDropInInstance(id, sessionData);
+    const { responseData } = await createPaymentSession(isMyAccount);
+    if (responseData?.id) {
+      createDropInInstance(responseData);
     }
   };
 
   useEffect(() => {
     createSession();
-    // TODO: add loading indicator
   }, []);
 
   useEffect(() => {
@@ -135,7 +153,7 @@ const Adyen = ({
       // recreate dropin when coupon was applied
       dropInInstance.unmount();
       getDropIn(null);
-      setIsLoading(true); // TODO: hide paypal when dropin is rerendering
+      setIsLoading(true);
       createSession(); // recreate Adyen Instance if price was changed
     }
   }, [totalPrice]);
@@ -163,12 +181,13 @@ Adyen.propTypes = {
   isMyAccount: PropTypes.bool,
   selectPaymentMethod: PropTypes.func.isRequired,
   isPayPalAvailable: PropTypes.bool.isRequired,
-  selectedPaymentMethod: PropTypes.string.isRequired,
+  selectedPaymentMethod: PropTypes.string,
   getDropIn: PropTypes.func.isRequired,
   onAdditionalDetails: PropTypes.func.isRequired
 };
 
 Adyen.defaultProps = {
+  selectedPaymentMethod: '',
   isMyAccount: false
 };
 

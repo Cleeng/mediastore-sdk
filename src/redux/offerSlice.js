@@ -2,7 +2,9 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getOfferDetails } from '../api';
 
 const initialState = {
-  offer: null,
+  offer: {
+    trialAvailable: false
+  },
   loading: false,
   error: null,
   isOfferFree: false

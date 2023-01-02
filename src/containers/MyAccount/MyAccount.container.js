@@ -5,9 +5,8 @@ import {
   setConsentsError
 } from 'redux/userProfile';
 import { setCurrentPlan } from 'redux/planDetails';
-import { setPublisherPaymentMethods } from 'redux/paymentInfo';
 import { showPopup, hidePopup } from 'redux/popup';
-
+import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
 import MyAccount from './MyAccount.component';
 
 export const mapStateToProps = state => {
@@ -39,8 +38,8 @@ export const mapDispatchToProps = dispatch => {
     hidePopup: () => {
       dispatch(hidePopup());
     },
-    setPublisherPaymentMethods: paymentMethodIds => {
-      dispatch(setPublisherPaymentMethods(paymentMethodIds));
+    initPublisherConfig: payload => {
+      dispatch(initPublisherConfig(payload));
     }
   };
 };

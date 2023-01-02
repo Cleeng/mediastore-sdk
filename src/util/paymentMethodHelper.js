@@ -1,6 +1,14 @@
 import { ReactComponent as CardLogo } from 'assets/images/paymentMethods/card.svg';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/paypal.svg';
 
+export const supportedPaymentMethods = [
+  'card',
+  'paypal',
+  'applepay',
+  'googlepay'
+];
+export const supportedPaymentGateways = ['adyen', 'paypal'];
+
 export const logos = {
   card: CardLogo,
   paypal: PaypalLogo
@@ -8,17 +16,25 @@ export const logos = {
 
 export default logos;
 
-export const areProvidedPaymentMethodIdsValid = paymentMethodIds => {
-  if (
-    paymentMethodIds === null ||
-    paymentMethodIds === undefined ||
-    typeof paymentMethodIds !== 'object'
-  )
+export const validatePaymentMethods = (
+  paymentMethods,
+  arePaymentMethodsProvidedByPublisher
+) => {
+  if (!paymentMethods) return [];
+  return paymentMethods.filter(method => {
+    if (
+      supportedPaymentMethods.includes(method.methodName) &&
+      supportedPaymentGateways.includes(method.paymentGateway)
+    ) {
+      return true;
+    }
+    if (arePaymentMethodsProvidedByPublisher) {
+      // eslint-disable-next-line no-console
+      console.error(`Payment method not supported (id: ${method.id})`);
+    }
     return false;
-
-  const supportedPaymentGateways = Object.keys(paymentMethodIds).filter(
-    item => item === 'paypal' || item === 'adyen'
-  );
-
-  return !!supportedPaymentGateways.length;
+  });
 };
+
+export const shouldShowGatewayComponent = (gateway, paymentMethods) =>
+  !!paymentMethods.find(({ paymentGateway }) => paymentGateway === gateway);

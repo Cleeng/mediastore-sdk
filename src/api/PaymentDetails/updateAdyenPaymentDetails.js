@@ -1,7 +1,12 @@
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-const updateAdyenPaymentDetails = async (paymentMethodId, paymentMethod) => {
+const updateAdyenPaymentDetails = async (
+  paymentMethodId,
+  paymentMethod,
+  browserInfo,
+  billingAddress
+) => {
   const API_URL = getApiURL();
   const url = `${API_URL}/connectors/adyen/payment-details`;
 
@@ -11,6 +16,8 @@ const updateAdyenPaymentDetails = async (paymentMethodId, paymentMethod) => {
       body: JSON.stringify({
         paymentMethod,
         paymentMethodId,
+        browserInfo,
+        billingAddress,
         returnUrl: 'https://cleeng.com'
       })
     });

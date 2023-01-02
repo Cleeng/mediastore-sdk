@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -29,18 +30,15 @@ class Offer extends Component {
 
   render() {
     const {
-      offerDetails: { trialAvailable },
-      orderDetails: {
-        discount: { applied },
-        totalPrice
-      },
+      trialAvailable,
+      discountApplied,
+      totalPrice,
       couponProps: { onSubmit },
       onPaymentComplete,
       t
     } = this.props;
-    const isCouponApplied = applied;
     const { coupon } = this.state;
-    const isFree = totalPrice === 0 && !trialAvailable && !isCouponApplied;
+    const isFree = totalPrice === 0 && !trialAvailable && !discountApplied;
 
     if (isFree) {
       return (
@@ -81,7 +79,6 @@ class Offer extends Component {
             </StyledOfferBody>
             <Payment onPaymentComplete={onPaymentComplete} />
           </>
-          )
         </main>
         <Footer />
       </StyledOfferWrapper>
@@ -90,39 +87,9 @@ class Offer extends Component {
 }
 
 Offer.propTypes = {
-  offerDetails: PropTypes.shape({
-    offerTitle: PropTypes.string,
-    description: PropTypes.string,
-    imageUrl: PropTypes.string,
-    customerCurrencySymbol: PropTypes.string,
-    trialAvailable: PropTypes.bool,
-    freePeriods: PropTypes.number,
-    freeDays: PropTypes.number,
-    period: PropTypes.string,
-    expiresAt: PropTypes.string,
-    priceExclTax: PropTypes.number,
-    priceExclTaxBeforeDiscount: PropTypes.number,
-    errors: PropTypes.arrayOf(PropTypes.string),
-    startTime: PropTypes.number,
-    offerId: PropTypes.string
-  }).isRequired,
-  orderDetails: PropTypes.shape({
-    country: PropTypes.string,
-    priceBreakdown: PropTypes.shape({
-      offerPrice: PropTypes.number,
-      discountedPrice: PropTypes.number,
-      discountAmount: PropTypes.number,
-      taxValue: PropTypes.number,
-      customerServiceFee: PropTypes.number,
-      paymentMethodFee: PropTypes.number
-    }),
-    discount: PropTypes.shape({
-      applied: PropTypes.bool
-    }),
-    totalPrice: PropTypes.number,
-    requiredPaymentDetails: PropTypes.bool,
-    taxRate: PropTypes.number
-  }),
+  trialAvailable: PropTypes.bool.isRequired,
+  totalPrice: PropTypes.number.isRequired,
+  discountApplied: PropTypes.bool.isRequired,
   couponProps: PropTypes.shape({
     showMessage: PropTypes.bool,
     message: PropTypes.node,
@@ -135,26 +102,18 @@ Offer.propTypes = {
 };
 
 Offer.defaultProps = {
-  orderDetails: {
-    priceBreakdown: {
-      offerPrice: 0,
-      discountedPrice: 0,
-      discountAmount: 0,
-      taxValue: 0,
-      customerServiceFee: 0,
-      paymentMethodFee: 0
-    },
-    discount: {
-      applied: false
-    },
-    totalPrice: 0,
-    requiredPaymentDetails: true
-  },
   couponProps: null,
   t: k => k
 };
 
 export { Offer as PureOffer };
 
-export default withTranslation()(labeling()(Offer));
+export const mapStateToProps = state => ({
+  trialAvailable: state.offer.offer.trialAvailable,
+  totalPrice: state.order.order.totalPrice,
+  discountApplied: state.order.order.discount.applied
+});
+
+export default withTranslation()(labeling()(connect(mapStateToProps)(Offer)));
+
 // export default Offer;

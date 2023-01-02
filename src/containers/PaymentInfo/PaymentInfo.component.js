@@ -1,3 +1,5 @@
+/* eslint-disable react/forbid-prop-types */
+
 import React, { useState, useEffect } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -7,13 +9,19 @@ import Transactions from 'components/Transactions';
 import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
-import { areProvidedPaymentMethodIdsValid } from 'util/paymentMethodHelper';
 import { WrapStyled } from './PaymentInfoStyled';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
 
 const PaymentInfoFn = ({
-  paymentInfo,
+  paymentInfo: {
+    isTransactionListFetched,
+    paymentDetails,
+    transactionsList,
+    activeOrBoundPaymentDetails,
+    transactionsToShow,
+    isShowMoreButtonHidden
+  },
   setPaymentDetails,
   setTransactionsToShow,
   hideInnerPopup,
@@ -22,8 +30,6 @@ const PaymentInfoFn = ({
   setTransactionsList,
   setTransactionsListAsFetched,
   hideShowMoreButton,
-  setPublisherPaymentMethods,
-  availablePaymentMethodIds,
   t
 }) => {
   const [paymentDetailsError, setPaymentDetailsError] = useState([]);
@@ -46,7 +52,7 @@ const PaymentInfoFn = ({
     if (isTransactionListExpanded) {
       setIsTransactionListExpanded(false);
       setTransactionsToShow(DEFAULT_TRANSACTIONS_NUMBER);
-    } else if (paymentInfo.isTransactionListFetched) {
+    } else if (isTransactionListFetched) {
       // if transactions was fetched - show all of them without calling API
       setIsTransactionListExpanded(true);
       setTransactionsToShow();
@@ -123,24 +129,18 @@ const PaymentInfoFn = ({
   };
 
   useEffect(() => {
-    if (paymentInfo.paymentDetails && paymentInfo.paymentDetails.length === 0) {
+    if (paymentDetails?.length === 0) {
       fetchPaymentDetials();
     } else {
       setPaymentDetailsLoading(false);
     }
-    if (paymentInfo.transactionsList.length === 0) {
+    if (transactionsList?.length === 0) {
       fetchTransactionsList();
-    } else if (paymentInfo.transactionsList.length !== 0) {
+    } else {
       setTransactionsToShow(DEFAULT_TRANSACTIONS_NUMBER); // if transactions are in state - show default number of them
       setIsTransactionsSectionLoading(false);
     }
 
-    if (
-      !paymentInfo.publisherPaymentMethods &&
-      areProvidedPaymentMethodIdsValid(availablePaymentMethodIds)
-    ) {
-      setPublisherPaymentMethods(availablePaymentMethodIds);
-    }
     return () => {
       hideInnerPopup();
     };
@@ -151,28 +151,24 @@ const PaymentInfoFn = ({
       {innerPopup.isOpen && innerPopup.type === 'paymentDetails' ? (
         <UpdatePaymentDetailsPopup
           hideInnerPopup={hideInnerPopup}
-          setPublisherPaymentMethods={setPublisherPaymentMethods}
           updatePaymentDetailsSection={updatePaymentDetailsSection}
-          selectedPaymentMethod={innerPopup.data}
         />
       ) : (
         <>
           <SectionHeader>{t('Current payment method')}</SectionHeader>
           <PaymentMethod
             paymentDetailsLoading={paymentDetailsLoading}
-            activeOrBoundPaymentDetails={
-              paymentInfo.activeOrBoundPaymentDetails
-            }
+            activeOrBoundPaymentDetails={activeOrBoundPaymentDetails}
             showInnerPopup={showInnerPopup}
             error={paymentDetailsError}
           />
           <SectionHeader marginTop="25px">{t('Payment history')}</SectionHeader>
           <Transactions
-            transactions={paymentInfo.transactionsToShow}
+            transactions={transactionsToShow}
             toggleTransactionsList={toggleTransactionsList}
             isTransactionsItemsLoading={isTransactionsItemsLoading}
             isTransactionsSectionLoading={isTransactionsSectionLoading}
-            isShowMoreButtonHidden={paymentInfo.isShowMoreButtonHidden}
+            isShowMoreButtonHidden={isShowMoreButtonHidden}
             isExpanded={isTransactionListExpanded}
             error={transactionsError}
           />
@@ -188,21 +184,23 @@ PaymentInfoFn.propTypes = {
   setTransactionsToShow: PropTypes.func.isRequired,
   setTransactionsListAsFetched: PropTypes.func.isRequired,
   hideShowMoreButton: PropTypes.func.isRequired,
-  paymentInfo: PropTypes.objectOf(PropTypes.any),
+  paymentInfo: PropTypes.shape({
+    isTransactionListFetched: PropTypes.bool,
+    paymentDetails: PropTypes.arrayOf(PropTypes.shape({})),
+    transactionsList: PropTypes.arrayOf(PropTypes.shape({})),
+    publisherPaymentMethods: PropTypes.arrayOf(PropTypes.shape({})),
+    activeOrBoundPaymentDetails: PropTypes.arrayOf(PropTypes.shape({})),
+    transactionsToShow: PropTypes.arrayOf(PropTypes.shape({})),
+    isShowMoreButtonHidden: PropTypes.bool
+  }),
   showInnerPopup: PropTypes.func.isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
   innerPopup: PropTypes.objectOf(PropTypes.any).isRequired,
-  setPublisherPaymentMethods: PropTypes.func.isRequired,
-  availablePaymentMethodIds: PropTypes.shape({
-    adyen: PropTypes.number,
-    paypal: PropTypes.number
-  }),
   t: PropTypes.func
 };
 
 PaymentInfoFn.defaultProps = {
   paymentInfo: { paymentMethod: [], transactionsList: [] },
-  availablePaymentMethodIds: null,
   t: k => k
 };
 

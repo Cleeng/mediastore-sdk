@@ -8,7 +8,7 @@ import innerPopupReducer from './innerPopupReducer';
 import offerReducer from './offerSlice';
 import orderReducer from './orderSlice';
 import paymentMethodsReducer from './paymentMethodsSlice';
-import checkoutReducer from './checkoutSlice';
+import publisherConfigReducer from './publisherConfigSlice';
 import paymentReducer from './paymentSlice';
 
 const rootReducer = combineReducers({
@@ -21,8 +21,9 @@ const rootReducer = combineReducers({
   offer: offerReducer,
   order: orderReducer,
   paymentMethods: paymentMethodsReducer,
-  checkout: checkoutReducer,
+  publisherConfig: publisherConfigReducer,
   payment: paymentReducer
 });
 
-export default rootReducer;
+export default (state, action) =>
+  rootReducer(action.type === 'USER_LOGOUT' ? undefined : state, action);

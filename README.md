@@ -13,6 +13,7 @@ To find out more about MediaStore SDK, see:
 
 - node v14.15.0
 - react v16.14.0
+  <!-- TODO: validate these Prerequisites -->
 
 ## Installation
 
@@ -67,6 +68,8 @@ Setting the environment is required for all components. The environment is one o
 - `sandbox` (default)
 - `production`
 
+**Each component needs to be wrapper into Provider, as in the example below.**
+
 ##### Other Config methods
 
 ```javascript
@@ -102,7 +105,8 @@ Auth.logout(clb); // removes all Cleeng data from local storage and redux. clb -
 
 ```javascript
 import { useEffect } from 'react';
-import { Config, Purchase, Auth } from '@cleeng/mediastore-sdk';
+import { Config, Purchase, Auth, store  } from '@cleeng/mediastore-sdk';
+import { Provider } from "react-redux";
 
 export default function Home() {
   Config.setEnvironment("sandbox");
@@ -117,7 +121,9 @@ export default function Home() {
   return (
     <>
      {Auth.isLogged() ? (
-        <Purchase offerId="S222222222_US"/>
+        <Provider store={store}>
+          <Purchase offerId="S222222222_US"/>
+        </Provider>
       ) : (
         <YourCustomLogin>
       )}
@@ -180,31 +186,21 @@ Config.setCheckoutPayPalUrls({
 
 - `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened. Accepts `offerId` with or without the country suffix, eg. `S531234647_PL`, `S531234647`.
 - `onSuccess` - function called after a successful checkout process.
-- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have `id`, `methodName` and `paymentGateway`.
 - `resetPasswordCallback` - function called after a successful reset password request, when user clicks 'Go back to the login page'
 
 **Usage**
 
 ```javascript
-const availablePaymentMethods = [
-  {
-    id: 142029029,
-    methodName: "card",
-    paymentGateway: "adyen"
-  },
-  {
-    id: 153379135,
-    methodName: "paypal",
-    paymentGateway: "paypal"
-  }
-];
+import { Checkout, store } from "@cleeng/mediastore-sdk";
+import { Provider } from "react-redux";
 
-<Checkout
-  onSuccess={() => console.log("success")}
-  offerId={"S531234647_PL"}
-  availablePaymentMethods={availablePaymentMethods}
-  resetPasswordCallback={() => console.log("redirect user to the login page")}
-/>;
+<Provider store={store}>
+  <Checkout
+    onSuccess={() => console.log("success")}
+    offerId={"S531234647_PL"}
+    resetPasswordCallback={() => console.log("redirect user to the login page")}
+  />
+</Provider>;
 ```
 
 #### <a id="my-account-header"></a><h2 align="center">MyAccount</h2>
@@ -233,7 +229,6 @@ Config.setMyAccountPayPalUrls({
 **Props**
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
-- `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
 
 **Usage sample**
@@ -247,21 +242,13 @@ const customCancellationReasons = [
   { value: "Switch to a different service", key: "service" }
 ];
 
-const availablePaymentMethodIds = {
-  adyen: 142029029,
-  paypal: 153379135
-};
-
 <Provider store={store}>
   <MyAccount
     customCancellationReasons={customCancellationReasons}
-    availablePaymentMethodIds={availablePaymentMethodIds}
     skipAvailableDowngradesStep
   />
 </Provider>;
 ```
-
-**All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
 
 **Server-side rendering**
 This component should be rendered in the browser. Sample of usage with **NextJS**
@@ -380,10 +367,7 @@ Config.setPublisher("111111111"); // required
 **Props**
 
 - `offerId` \* - ID of Cleeng offer, for which Purchase component should be opened. If not provided, it will use the item from local storage with name 'CLEENG_OFFER_ID'
-- `onSuccess` - function called after a successful payment process
-- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have `id`, `methodName` and `paymentGateway`.
-
-\* - required
+- `onSuccess` - function called after a successful payment process \* - required
 
 **Config methods**
 
@@ -402,26 +386,12 @@ Config.setCheckoutPayPalUrls({
 **Usage sample**
 
 ```javascript
-import { Config, Purchase } from "@cleeng/mediastore-sdk";
+import { Purchase, Config, store } from "@cleeng/mediastore-sdk";
+import { Provider } from "react-redux";
 
-const availablePaymentMethods = [
-  {
-    id: 142029029,
-    methodName: "card",
-    paymentGateway: "adyen"
-  },
-  {
-    id: 153379135,
-    methodName: "paypal",
-    paymentGateway: "paypal"
-  }
-];
-
-<Purchase
-  offerId="S538257415_PL"
-  onSuccess={() => console.log("success")}
-  availablePaymentMethods={availablePaymentMethods}
-/>;
+<Provider store={store}>
+  <Purchase offerId="S538257415_PL" onSuccess={() => console.log("success")} />
+</Provider>;
 ```
 
 #### <a id="subscriptions-header"></a><h2 align="center">Subscriptions</h2>
@@ -528,7 +498,7 @@ const customCancellationReasons = [
 </Provider>;
 ```
 
-**All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
+**All components require to be wrapped by the store.**
 
 #### <a id="payment-info-header"></a><h2 align="center">PaymentInfo</h2>
 
@@ -550,27 +520,16 @@ Config.setMyAccountPayPalUrls({
 });
 ```
 
-**Props**
-
-- `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
-
 **Usage sample**
 
 ```javascript
 import { PaymentInfo, store } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
-const availablePaymentMethodIds = {
-  adyen: 142029029,
-  paypal: 153379135
-};
-
 <Provider store={store}>
-  <PaymentInfo availablePaymentMethodIds={availablePaymentMethodIds} />
+  <PaymentInfo />
 </Provider>;
 ```
-
-**All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
 
 #### <a id="transaction-list-header"></a><h2 align="center">TransactionList</h2>
 
@@ -594,7 +553,7 @@ import { Provider } from "react-redux";
 </Provider>;
 ```
 
-**All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
+**All components require to be wrapped by the store.**
 
 #### <a id="update-profile-header"></a><h2 align="center">UpdateProfile</h2>
 
@@ -620,7 +579,7 @@ import { Provider } from "react-redux";
 </Provider>;
 ```
 
-**All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
+**All components require to be wrapped by the store.**
 
 #### <a id="checkout-consents-header"></a><h2 align="center">CheckoutConsents</h2>
 
