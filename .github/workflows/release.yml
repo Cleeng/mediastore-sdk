@@ -21,6 +21,11 @@ jobs:
       - name: install deps
         run: npm ci
 
+      - name: Configure git user details
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "cleeng-devops@cleeng.com"
+
       - name: bump version
         run: npm version ${{ github.event.release.tag_name }}
 
@@ -39,15 +44,13 @@ jobs:
           app_id: ${{ secrets.PUSHBOT_APP_ID }}
           private_key: ${{ secrets.PUSHBOT_PRIVATE_KEY }}
 
-      - name: configure git
+      - name: configure git token
         env:
           this: https://x-access-token:${{ steps.pushbot.outputs.token }}@github.com/Cleeng/
           that: https://github.com/Cleeng/
         run: |
           git config --local --unset http.https://github.com/.extraheader
           git config --global url."${{ env.this }}".insteadOf "${{ env.that }}"
-          git config --global user.email "cleeng-devops@cleeng.com"
-          git config --global user.name "GitHub Actions"
 
       - name: push updated package.json
         run: git push --force-with-lease
