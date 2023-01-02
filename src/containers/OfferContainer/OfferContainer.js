@@ -28,7 +28,7 @@ import {
 } from './StyledOfferContainer';
 import labeling from '../labeling';
 
-const OfferContainer = ({ onSuccess, t }) => {
+const OfferContainer = ({ offerId: offerIdProp, onSuccess, t }) => {
   const [orderDetails, setOrderDetails] = useState({
     priceBreakdown: {
       offerPrice: 0,
@@ -43,7 +43,7 @@ const OfferContainer = ({ onSuccess, t }) => {
   const [errorMsg, setErrorMsg] = useState();
 
   const dispatch = useDispatch();
-  const { availablePaymentMethods, offerId } = useSelector(
+  const { availablePaymentMethods, offerId: offerIdStore } = useSelector(
     state => state.checkout
   );
   const { order, loading: isOrderLoading, error: orderError } = useSelector(
@@ -51,6 +51,7 @@ const OfferContainer = ({ onSuccess, t }) => {
   );
   const { offer, error: offerError } = useSelector(state => state.offer);
 
+  const offerId = offerIdProp || offerIdStore;
   const paymentMethodsHandler = () => {
     getPaymentMethods().then(paymentMethodResponse => {
       const {
@@ -216,12 +217,14 @@ OfferContainer.propTypes = {
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
   }),
-  t: PropTypes.func
+  t: PropTypes.func,
+  offerId: PropTypes.string
 };
 OfferContainer.defaultProps = {
   onSuccess: () => {},
   urlProps: {},
-  t: k => k
+  t: k => k,
+  offerId: ''
 };
 
 export default withTranslation()(labeling()(OfferContainer));
