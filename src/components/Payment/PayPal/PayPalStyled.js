@@ -7,10 +7,13 @@ export const PayPalContentStyled = styled.div.attrs(() => ({
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-bottom: 26px;
+  padding-bottom: 20px;
   padding-left: 16px;
   padding-right: 16px;
   font-size: 11px;
+  button {
+    height: 48px;
+  }
 `;
 
 export const PayPalIconContentStyled = styled.div.attrs(() => ({

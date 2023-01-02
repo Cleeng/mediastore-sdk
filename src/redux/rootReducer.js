@@ -8,7 +8,7 @@ import innerPopupReducer from './innerPopupReducer';
 import offerReducer from './offerSlice';
 import orderReducer from './orderSlice';
 import paymentMethodsReducer from './paymentMethodsSlice';
-import checkoutReducer from './checkoutSlice';
+import publisherConfigReducer from './publisherConfigSlice';
 import paymentReducer from './paymentSlice';
 
 const rootReducer = combineReducers({
@@ -21,7 +21,7 @@ const rootReducer = combineReducers({
   offer: offerReducer,
   order: orderReducer,
   paymentMethods: paymentMethodsReducer,
-  checkout: checkoutReducer,
+  publisherConfig: publisherConfigReducer,
   payment: paymentReducer
 });
 

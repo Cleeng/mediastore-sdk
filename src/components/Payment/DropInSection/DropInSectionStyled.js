@@ -6,6 +6,8 @@ import { ConfirmColor } from 'styles/variables';
 export const WrapperStyled = styled.div.attrs(() => ({
   className: 'msd__custom-dropin--wrapper'
 }))`
+  max-width: 375px;
+  margin: 0 auto;
   min-height: 58px;
   display: flex;
   flex-direction: column;
@@ -24,7 +26,7 @@ export const TextStyled = styled.div.attrs(() => ({
 }))`
   max-width: 550px;
   margin: 0;
-  padding: 16px 16px 16px 25px;
+  padding: 16px;
   text-align: center;
   line-height: 1.4em;
   color: #00112c;
@@ -33,7 +35,6 @@ export const TextStyled = styled.div.attrs(() => ({
   display: flex;
   align-items: center;
   ${media.small`
-    width: 90%;
     max-width: 400px;
   `}
 `;
@@ -41,19 +42,24 @@ export const TextStyled = styled.div.attrs(() => ({
 export const TitleStyled = styled.span.attrs(() => ({
   className: 'msd__custom-dropin-title'
 }))`
-  margin-left: 15px;
+  margin-left: 10px;
 `;
 
 export const IconWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__custom-dropin--payment-icon'
 }))`
   border: 1px solid #a9a9bf;
+  padding: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 40px;
   height: 26px;
   border-radius: 4px;
+  svg {
+    max-height: 100%;
+    max-width: 100%;
+  }
 `;
 
 export const ChevronIconWrapperStyled = styled.div.attrs(() => ({

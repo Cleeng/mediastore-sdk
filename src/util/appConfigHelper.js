@@ -1,5 +1,3 @@
-/* istanbul ignore file */
-
 import store from 'redux/store';
 import {
   setData as setDataInRedux,
@@ -139,8 +137,7 @@ export const setTheme = theme => {
 export const getTheme = () => {
   const theme = getData('CLEENG_THEME');
   if (theme) {
-    const themeJSON = JSON.parse(theme);
-    return themeJSON;
+    return JSON.parse(theme);
   }
   return false;
 };

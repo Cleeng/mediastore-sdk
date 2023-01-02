@@ -25,7 +25,8 @@ const initialState = {
     messageType: MESSAGE_TYPE_SUCCESS
   },
   isCouponLoading: false,
-  couponError: null
+  couponError: null,
+  isUpdateLoading: false
 };
 
 export const fetchCreateOrder = createAsyncThunk(
@@ -42,6 +43,18 @@ export const fetchCreateOrder = createAsyncThunk(
 
 export const fetchUpdateOrder = createAsyncThunk(
   'order/updateOrder',
+  async ({ id, payload }, { rejectWithValue }) => {
+    try {
+      const { order } = await updateOrder(id, payload);
+      return order;
+    } catch (err) {
+      return rejectWithValue(err.message);
+    }
+  }
+);
+
+export const fetchUpdateCoupon = createAsyncThunk(
+  'order/updateCoupon',
   async ({ id, couponCode }, { rejectWithValue }) => {
     try {
       const { order } = await updateOrder(id, { couponCode });
@@ -87,11 +100,10 @@ export const orderSlice = createSlice({
       state.loading = false;
       state.order = payload;
     },
-    [fetchGetOrder.rejected]: (state, { payload }) => {
+    [fetchGetOrder.rejected]: state => {
       state.loading = false;
-      state.error = payload;
     },
-    [fetchUpdateOrder.pending]: state => {
+    [fetchUpdateCoupon.pending]: state => {
       state.isCouponLoading = true;
       state.couponDetails = {
         showMessage: false,
@@ -99,7 +111,7 @@ export const orderSlice = createSlice({
         messageType: MESSAGE_TYPE_SUCCESS
       };
     },
-    [fetchUpdateOrder.fulfilled]: (state, { payload }) => {
+    [fetchUpdateCoupon.fulfilled]: (state, { payload }) => {
       state.isCouponLoading = false;
       state.order = payload;
       state.couponDetails = {
@@ -108,7 +120,7 @@ export const orderSlice = createSlice({
         messageType: MESSAGE_TYPE_SUCCESS
       };
     },
-    [fetchUpdateOrder.rejected]: (state, { payload }) => {
+    [fetchUpdateCoupon.rejected]: (state, { payload }) => {
       state.isCouponLoading = false;
       state.couponError = payload;
       state.couponDetails = {
@@ -117,6 +129,17 @@ export const orderSlice = createSlice({
           'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
         messageType: MESSAGE_TYPE_FAIL
       };
+    },
+    [fetchUpdateOrder.pending]: state => {
+      state.isUpdateLoading = true;
+    },
+    [fetchUpdateOrder.fulfilled]: (state, { payload }) => {
+      state.isUpdateLoading = false;
+      state.order = payload;
+    },
+    [fetchUpdateOrder.rejected]: (state, { payload }) => {
+      state.isUpdateLoading = false;
+      state.error = payload;
     }
   }
 });

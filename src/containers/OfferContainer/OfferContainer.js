@@ -8,14 +8,14 @@ import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import { updateOrder, getPaymentMethods } from 'api';
 import { setData, getData, removeData } from 'util/appConfigHelper';
-import { withTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { fetchOffer, setFreeOffer } from 'redux/offerSlice';
+import { init as initValues } from 'redux/publisherConfigSlice';
 import {
   fetchCreateOrder,
   fetchGetOrder,
-  fetchUpdateOrder
+  fetchUpdateCoupon
 } from 'redux/orderSlice';
 import eventDispatcher, {
   MSSDK_COUPON_FAILED,
@@ -26,9 +26,8 @@ import {
   StyledLoaderContainer,
   StyledLoaderContent
 } from './StyledOfferContainer';
-import labeling from '../labeling';
 
-const OfferContainer = ({ offerId: offerIdProp, onSuccess, t }) => {
+const OfferContainer = ({ offerId: offerIdProp, onSuccess }) => {
   const [orderDetails, setOrderDetails] = useState({
     priceBreakdown: {
       offerPrice: 0,
@@ -43,13 +42,11 @@ const OfferContainer = ({ offerId: offerIdProp, onSuccess, t }) => {
   const [errorMsg, setErrorMsg] = useState();
 
   const dispatch = useDispatch();
-  const { availablePaymentMethods, offerId: offerIdStore } = useSelector(
-    state => state.checkout
-  );
+  const { offerId: offerIdStore } = useSelector(state => state.publisherConfig);
   const { order, loading: isOrderLoading, error: orderError } = useSelector(
     state => state.order
   );
-  const { offer, error: offerError } = useSelector(state => state.offer);
+  const { error: offerError } = useSelector(state => state.offer);
 
   const offerId = offerIdProp || offerIdStore;
   const paymentMethodsHandler = () => {
@@ -106,7 +103,7 @@ const OfferContainer = ({ offerId: offerIdProp, onSuccess, t }) => {
   const onCouponSubmit = couponCode => {
     if (couponCode === '') return;
     dispatch(
-      fetchUpdateOrder({
+      fetchUpdateCoupon({
         id: order.id,
         couponCode
       })
@@ -130,6 +127,11 @@ const OfferContainer = ({ offerId: offerIdProp, onSuccess, t }) => {
   };
 
   useEffect(() => {
+    dispatch(
+      initValues({
+        offerId
+      })
+    );
     if (!offerId) {
       setErrorMsg('Offer not set');
       return;
@@ -198,16 +200,12 @@ const OfferContainer = ({ offerId: offerIdProp, onSuccess, t }) => {
 
   return (
     <Offer
-      offerDetails={offer}
-      orderDetails={order}
       couponProps={{
         ...order.couponDetails,
         onSubmit: onCouponSubmit
       }}
       onPaymentComplete={onSuccess}
       updatePriceBreakdown={updatedOrder => setOrderDetails(updatedOrder)}
-      availablePaymentMethods={availablePaymentMethods}
-      t={t}
     />
   );
 };
@@ -217,15 +215,12 @@ OfferContainer.propTypes = {
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
   }),
-  t: PropTypes.func,
   offerId: PropTypes.string
 };
 OfferContainer.defaultProps = {
   onSuccess: () => {},
   urlProps: {},
-  t: k => k,
   offerId: ''
 };
 
-export default withTranslation()(labeling()(OfferContainer));
-// export default OfferContainer;
+export default OfferContainer;
