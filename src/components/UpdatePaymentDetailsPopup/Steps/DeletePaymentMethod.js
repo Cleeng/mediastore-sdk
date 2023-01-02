@@ -37,7 +37,7 @@ const DeletePaymentMethod = ({
     state => state.paymentInfo
   );
   const activePaymentDetails = activeOrBoundPaymentDetails.find(
-    item => item.active
+    ({ active }) => active
   );
 
   const deletePaymentMethod = () => {

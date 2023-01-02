@@ -1,5 +1,5 @@
 import jwtDecode from 'jwt-decode';
-import { getData, setData } from 'util/appConfigHelper';
+import { getData, setData, removeData } from 'util/appConfigHelper';
 import getCaptureStatus from 'api/Customer/getCaptureStatus';
 import getCustomerConsents from 'api/Customer/getCustomerConsents';
 
@@ -80,7 +80,15 @@ class Auth {
 
   logout(callback = () => {}) {
     this.isAuthenticated = false;
-    localStorage.clear();
+    removeData('CLEENG_AUTH_TOKEN');
+    removeData('CLEENG_REFRESH_TOKEN');
+    removeData('CLEENG_ORDER_ID');
+    removeData('CLEENG_CHECKOUT_PP_SUCCESS');
+    removeData('CLEENG_CHECKOUT_PP_CANCEL');
+    removeData('CLEENG_CHECKOUT_PP_ERROR');
+    removeData('CLEENG_MYACCOUNT_PP_SUCCESS');
+    removeData('CLEENG_MYACCOUNT_PP_CANCEL');
+    removeData('CLEENG_MYACCOUNT_PP_ERROR');
 
     callback();
   }
