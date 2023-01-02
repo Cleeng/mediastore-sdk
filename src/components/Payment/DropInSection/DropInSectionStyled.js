@@ -35,7 +35,6 @@ export const TextStyled = styled.div.attrs(() => ({
   display: flex;
   align-items: center;
   ${media.small`
-    width: 90%;
     max-width: 400px;
   `}
 `;
