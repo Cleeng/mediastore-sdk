@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactComponent as Chevron } from 'assets/images/chevron.svg';
-import { ReactComponent as PayPalIcon } from 'assets/images/paymentMethods/paypal_short.svg';
+import { ReactComponent as PayPalIcon } from 'assets/images/paymentMethods/PPicon.svg';
 import {
   ChevronIconWrapperStyled,
   IconWrapperStyled,

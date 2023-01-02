@@ -48,14 +48,18 @@ export const TitleStyled = styled.span.attrs(() => ({
 export const IconWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__custom-dropin--payment-icon'
 }))`
-  /* border: 1px solid #a9a9bf; */
-  /* TODO: uncomment when proper paypal icon will be added */
+  border: 1px solid #a9a9bf;
+  padding: 3px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 40px;
   height: 26px;
   border-radius: 4px;
+  svg {
+    max-height: 100%;
+    max-width: 100%;
+  }
 `;
 
 export const ChevronIconWrapperStyled = styled.div.attrs(() => ({
