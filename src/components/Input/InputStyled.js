@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 import {
   FontColor,
   BackgroundColor,
-  MediumGrey,
   ConfirmColor,
   ErrorColor,
   TextFieldBorderFilter,
@@ -81,7 +80,7 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
   padding: 13px 0 14px;
 
   background: transparent;
-  border: 1px solid ${MediumGrey};
+  border: 1px solid #b7bfca;
   transition: 0.2s ease-in-out;
 
   &:focus-within {
