@@ -27,7 +27,7 @@ import {
   StyledLoaderContent
 } from './StyledOfferContainer';
 
-const OfferContainer = ({ onSuccess }) => {
+const OfferContainer = ({ offerId: offerIdProp, onSuccess }) => {
   const [orderDetails, setOrderDetails] = useState({
     priceBreakdown: {
       offerPrice: 0,
@@ -42,12 +42,13 @@ const OfferContainer = ({ onSuccess }) => {
   const [errorMsg, setErrorMsg] = useState();
 
   const dispatch = useDispatch();
-  const { offerId } = useSelector(state => state.publisherConfig);
+  const { offerId: offerIdStore } = useSelector(state => state.publisherConfig);
   const { order, loading: isOrderLoading, error: orderError } = useSelector(
     state => state.order
   );
   const { error: offerError } = useSelector(state => state.offer);
 
+  const offerId = offerIdProp || offerIdStore;
   const paymentMethodsHandler = () => {
     getPaymentMethods().then(paymentMethodResponse => {
       const {
@@ -213,11 +214,13 @@ OfferContainer.propTypes = {
   onSuccess: PropTypes.func,
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
-  })
+  }),
+  offerId: PropTypes.string
 };
 OfferContainer.defaultProps = {
   onSuccess: () => {},
-  urlProps: {}
+  urlProps: {},
+  offerId: ''
 };
 
 export default OfferContainer;
