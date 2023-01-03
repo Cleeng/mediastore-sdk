@@ -100,17 +100,19 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
     }
 
     dispatch(updatePaymentMethods(validMethodsFromResponse));
+  };
 
-    if (!validMethodsFromResponse?.length) {
+  useEffect(() => {
+    if (!paymentMethods?.length) {
       setGeneralError(t('Payment methods are not defined'));
       return;
     }
 
-    if (validMethodsFromResponse.length === 1) {
-      const [paymentMethod] = validMethodsFromResponse;
-      setSelectedPaymentMethod(paymentMethod);
+    if (paymentMethods.length === 1) {
+      const [paymentMethod] = paymentMethods;
+      selectPaymentMethodHandler(paymentMethod.methodName);
     }
-  };
+  }, [paymentMethods]);
 
   const handlePayPalError = () => {
     const { search } = window.location;
