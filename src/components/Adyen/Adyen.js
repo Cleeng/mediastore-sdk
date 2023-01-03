@@ -70,10 +70,10 @@ const Adyen = ({
     };
     const applePayConfigurationObj =
       paymentMethods &&
-      paymentMethods.find(item => item.type === 'applepay').configuration;
+      paymentMethods.find(item => item.type === 'applepay')?.configuration;
     const googlePayConfigurationObj =
       paymentMethods &&
-      paymentMethods.find(item => item.type === 'googlepay').configuration;
+      paymentMethods.find(item => item.type === 'googlepay')?.configuration;
 
     const configuration = {
       locale: 'en-US',
