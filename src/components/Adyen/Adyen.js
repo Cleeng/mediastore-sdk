@@ -123,7 +123,8 @@ const Adyen = ({
     const checkout = await AdyenCheckout(configuration);
     if (containerRef.current) {
       const dropin = checkout.create('dropin', {
-        onSelect
+        onSelect,
+        openFirstPaymentMethod: !window.matchMedia('(max-width:991px)').matches
       });
       dropin.mount(containerRef.current);
       setDropInInstance(dropin);
