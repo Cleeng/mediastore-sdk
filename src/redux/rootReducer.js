@@ -5,6 +5,11 @@ import userProfileReducer from './userProfile';
 import popupReducer from './popup';
 import appConfigReducer from './appConfig';
 import innerPopupReducer from './innerPopupReducer';
+import offerReducer from './offerSlice';
+import orderReducer from './orderSlice';
+import paymentMethodsReducer from './paymentMethodsSlice';
+import publisherConfigReducer from './publisherConfigSlice';
+import paymentReducer from './paymentSlice';
 
 const rootReducer = combineReducers({
   paymentInfo: paymentInfoReducer,
@@ -12,7 +17,12 @@ const rootReducer = combineReducers({
   userProfile: userProfileReducer,
   popup: popupReducer,
   appConfig: appConfigReducer,
-  innerPopup: innerPopupReducer
+  innerPopup: innerPopupReducer,
+  offer: offerReducer,
+  order: orderReducer,
+  paymentMethods: paymentMethodsReducer,
+  publisherConfig: publisherConfigReducer,
+  payment: paymentReducer
 });
 
 export default (state, action) =>

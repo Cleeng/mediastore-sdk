@@ -7,15 +7,20 @@ const submitPaymentWithoutDetails = async () => {
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
   const url = `${API_URL}/payments`;
 
-  try {
-    const res = await fetchWithJWT(url, {
-      method: 'POST',
-      body: JSON.stringify({ orderId })
+  return fetchWithJWT(url, {
+    method: 'POST',
+    body: JSON.stringify({ orderId })
+  })
+    .then(async res => {
+      const { responseData, errors } = await res.json();
+      if (!res.ok) {
+        throw new Error(errors[0]);
+      }
+      return responseData;
+    })
+    .catch(err => {
+      throw new Error(err);
     });
-    return res.json();
-  } catch (e) {
-    return e;
-  }
 };
 
 export default submitPaymentWithoutDetails;

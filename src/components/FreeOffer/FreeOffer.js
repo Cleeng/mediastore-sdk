@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import submitPaymentWithoutDetails from 'api/Payment/submitPaymentWithoutDetails';
-import { getData } from 'util/appConfigHelper';
 import { periodMapper, dateFormat } from 'util/planHelper';
 import labeling from 'containers/labeling';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { submitPaymentWithoutDetails } from 'redux/paymentSlice';
 import {
   WrapStyled,
   TitleStyled,
@@ -18,17 +18,16 @@ import {
   ErrorMessageStyled
 } from './FreeOfferStyled';
 
-class FreeOffer extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoading: false,
-      error: ''
-    };
-  }
+const FreeOffer = ({ onPaymentComplete, t }) => {
+  const { loading: isLoading, error } = useSelector(state => state.payment);
+  const { period, expiresAt, startTime, offerTitle, offerId } = useSelector(
+    state => state.offer.offer
+  );
+  const dispatch = useDispatch();
 
-  generateDescriptionForFreeOffer = (period, expiresAt, startTime) => {
-    const offerType = getData('CLEENG_OFFER_ID').charAt(0);
+  const offerType = offerId?.charAt(0);
+  const icon = period || offerType;
+  const generateDescriptionForFreeOffer = () => {
     switch (offerType) {
       case 'S': {
         return `Free subscription`;
@@ -52,98 +51,47 @@ class FreeOffer extends Component {
     }
   };
 
-  getAccessToFreeOffer = () => {
-    const { onPaymentComplete, t } = this.props;
-    this.setState({
-      isLoading: true,
-      error: ''
-    });
-    submitPaymentWithoutDetails().then(paymentReponse => {
-      if (paymentReponse.errors.length) {
-        if (
-          paymentReponse.errors[0].includes(
-            "Order doesn't have paymentMethodId"
-          )
-        ) {
-          this.setState({
-            isLoading: false,
-            error: t(
-              'Unable to proceed, because of wrong offer settings. Please, contact the owner of the offer'
-            )
-          });
-        } else {
-          this.setState({
-            isLoading: false,
-            error: t(
-              'Oops, something went wrong! Please, reload the page and try again'
-            )
-          });
-        }
-      } else {
-        onPaymentComplete();
-      }
-    });
-  };
+  const getAccessToFreeOffer = useCallback(() => {
+    dispatch(submitPaymentWithoutDetails())
+      .unwrap()
+      .then(onPaymentComplete);
+  }, []);
 
-  render() {
-    const {
-      icon,
-      period,
-      expiresAt,
-      startTime,
-      title,
-      offerId,
-      t
-    } = this.props;
-    const { isLoading, error } = this.state;
-    return (
-      <WrapStyled>
-        <CardStyled>
-          <SubscriptionIconStyled icon={icon} />
-          <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
-          <DescriptionStyled>
-            {this.generateDescriptionForFreeOffer(period, expiresAt, startTime)}
-          </DescriptionStyled>
-          <ButtonWrapperStyled>
-            <Button
-              theme="confirm"
-              width="200px"
-              onClickFn={this.getAccessToFreeOffer}
-              disabled={isLoading}
-            >
-              {isLoading ? (
-                <Loader buttonLoader color="#ffffff" />
-              ) : (
-                t('Get Access')
-              )}
-            </Button>
-            {error && <ErrorMessageStyled>{error}</ErrorMessageStyled>}
-          </ButtonWrapperStyled>
-          <SubTextStyled>{t('Free, no additional cost')}</SubTextStyled>
-        </CardStyled>
-      </WrapStyled>
-    );
-  }
-}
+  return (
+    <WrapStyled>
+      <CardStyled>
+        <SubscriptionIconStyled icon={icon} />
+        <TitleStyled>{t(`offer-title-${offerId}`, offerTitle)}</TitleStyled>
+        <DescriptionStyled>
+          {generateDescriptionForFreeOffer()}
+        </DescriptionStyled>
+        <ButtonWrapperStyled>
+          <Button
+            theme="confirm"
+            width="200px"
+            onClickFn={getAccessToFreeOffer}
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <Loader buttonLoader color="#ffffff" />
+            ) : (
+              t('Get Access')
+            )}
+          </Button>
+          {error && <ErrorMessageStyled>{t(error)}</ErrorMessageStyled>}
+        </ButtonWrapperStyled>
+        <SubTextStyled>{t('Free, no additional cost')}</SubTextStyled>
+      </CardStyled>
+    </WrapStyled>
+  );
+};
 
 FreeOffer.propTypes = {
-  icon: PropTypes.string,
-  title: PropTypes.string,
-  period: PropTypes.string,
-  expiresAt: PropTypes.string,
-  startTime: PropTypes.number,
   onPaymentComplete: PropTypes.func.isRequired,
-  offerId: PropTypes.string,
   t: PropTypes.func
 };
 
 FreeOffer.defaultProps = {
-  icon: '',
-  title: '',
-  period: '',
-  expiresAt: null,
-  startTime: null,
-  offerId: '',
   t: k => k
 };
 

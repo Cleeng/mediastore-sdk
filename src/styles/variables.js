@@ -20,7 +20,7 @@ export const MyAccountTextLightGray = '#F2F5FC';
 export const CardSecondaryColor = '#182c7a';
 export const MyAccountMenu = '#f2f5fc';
 export const MyAccountMenuActive = successColor || '#4EB7A1';
-export const PayPal = '#61AEF0';
+export const PayPal = '#ffc439';
 
 // Payment Methods
 export const paymentMethodColors = {
@@ -54,10 +54,12 @@ export const TextFieldBorderFilter =
 export const FocusColor = '#80b4ea';
 export const PaymentButtonBgn = '#00112c';
 
-export const Weak = '#ea753c';
-export const Fair = '#e7ca27';
-export const Good = '#5da3bd';
-export const Strong = '#5db98f';
+export const PasswordStrengthColors = {
+  Weak: '#ea753c',
+  Fair: '#e7ca27',
+  Good: '#5da3bd',
+  Strong: '#5db98f'
+};
 
 // Fonts
 export const LargeFont = '25px';

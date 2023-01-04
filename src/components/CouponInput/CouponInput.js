@@ -28,11 +28,13 @@ class CouponInput extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { showMessage, message, messageType } = this.props;
+    const {
+      couponDetails: { showMessage, message, messageType }
+    } = this.props;
     if (
-      showMessage !== prevProps.showMessage ||
-      message !== prevProps.message ||
-      messageType !== prevProps.messageType
+      showMessage !== prevProps.couponDetails.showMessage ||
+      message !== prevProps.couponDetails.message ||
+      messageType !== prevProps.couponDetails.messageType
     ) {
       this.disableSuppressMessage();
       this.clearFadeOutTimeout();
@@ -118,10 +120,8 @@ class CouponInput extends Component {
 
   render() {
     const {
-      showMessage,
+      couponDetails: { message, messageType, showMessage },
       fullWidth,
-      message,
-      messageType,
       value,
       onChange,
       couponLoading,
@@ -188,33 +188,35 @@ class CouponInput extends Component {
 
 CouponInput.propTypes = {
   value: PropTypes.string,
-  showMessage: PropTypes.bool,
   fullWidth: PropTypes.bool,
-  message: PropTypes.node,
-  messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS]),
+  couponDetails: PropTypes.shape({
+    showMessage: PropTypes.bool,
+    message: PropTypes.node,
+    messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS])
+  }),
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func,
   onClose: PropTypes.func,
   onInputToggle: PropTypes.func,
   t: PropTypes.func,
-  couponLoading: PropTypes.bool,
+  couponLoading: PropTypes.bool.isRequired,
   source: PropTypes.oneOf(['myaccount', 'checkout', ''])
 };
 
 CouponInput.defaultProps = {
   value: '',
-  showMessage: false,
+  couponDetails: {
+    showMessage: false,
+    message: '',
+    messageType: MESSAGE_TYPE_SUCCESS
+  },
   fullWidth: false,
-  message: null,
-  messageType: MESSAGE_TYPE_FAIL,
   onChange: () => {},
   onClose: () => {},
   onInputToggle: () => {},
   t: k => k,
-  couponLoading: false,
   source: ''
 };
 
 export { CouponInput as PureCouponInput };
-
 export default withTranslation()(labeling()(CouponInput));

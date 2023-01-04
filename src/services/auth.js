@@ -1,10 +1,7 @@
-/* eslint-disable no-unused-vars */
 import jwtDecode from 'jwt-decode';
 import { getData, setData, removeData } from 'util/appConfigHelper';
 import getCaptureStatus from 'api/Customer/getCaptureStatus';
 import getCustomerConsents from 'api/Customer/getCustomerConsents';
-import store from 'redux/store';
-import { createAction } from '@reduxjs/toolkit';
 
 class Auth {
   constructor() {
@@ -92,7 +89,6 @@ class Auth {
     removeData('CLEENG_MYACCOUNT_PP_SUCCESS');
     removeData('CLEENG_MYACCOUNT_PP_CANCEL');
     removeData('CLEENG_MYACCOUNT_PP_ERROR');
-    store.dispatch(createAction('USER_LOGOUT')());
 
     callback();
   }

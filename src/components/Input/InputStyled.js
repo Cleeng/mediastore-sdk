@@ -1,6 +1,13 @@
 import styled, { css } from 'styled-components';
-import * as Colors from '../../styles/variables';
-import { media } from '../../styles/BreakPoints';
+import {
+  FontColor,
+  BackgroundColor,
+  ConfirmColor,
+  ErrorColor,
+  TextFieldBorderFilter,
+  PasswordStrengthColors
+} from 'styles/variables';
+import { media } from 'styles/BreakPoints';
 
 export const InputComponentStyled = styled.div`
   display: flex;
@@ -21,7 +28,7 @@ export const LabelStyled = styled.label.attrs(() => ({
   margin: 0;
   padding: 0 3px;
 
-  color: ${Colors.FontColor};
+  color: ${FontColor};
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
   ${props =>
@@ -39,7 +46,7 @@ export const LabelStyled = styled.label.attrs(() => ({
     width: 100%;
     height: 15px;
 
-    background: ${Colors.BackgroundColor};
+    background: ${BackgroundColor};
 
     z-index: -1;
     opacity: 0;
@@ -73,13 +80,13 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
   padding: 13px 0 14px;
 
   background: transparent;
-  border: 1px solid ${Colors.MediumGrey};
+  border: 1px solid #b7bfca;
   transition: 0.2s ease-in-out;
 
   &:focus-within {
-    border-color: ${Colors.ConfirmColor};
+    border-color: ${ConfirmColor};
     ${LabelStyled} {
-      color: ${Colors.ConfirmColor};
+      color: ${ConfirmColor};
       transform: translate(0, -25px) scaleY(0.9);
       &::after {
         opacity: 1;
@@ -105,7 +112,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
 
   margin: 0 15px;
 
-  color: ${Colors.FontColor};
+  color: ${FontColor};
   background: transparent;
   border: none;
   outline: none;
@@ -115,7 +122,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
 
   &:focus + label {
     transform: translate(0, -25px) scaleY(0.9);
-    color: ${Colors.ConfirmColor};
+    color: ${ConfirmColor};
     ${props =>
       props.withIcon &&
       css`
@@ -167,13 +174,13 @@ export const ErrorWrapper = styled.div.attrs(() => ({
   margin-top: 8px;
 
   content: '';
-  color: ${Colors.ErrorColor};
+  color: ${ErrorColor};
   transition: 0.2s ease-in-out;
 
   ${props =>
     props.passwordStrength &&
     css`
-      color: ${Colors[props.passwordStrength]};
+      color: ${PasswordStrengthColors[props.passwordStrength]};
     `}
 
   font-size: 13px;
@@ -193,7 +200,7 @@ export const StyledPasswordVisibility = styled.img.attrs(() => ({
 }))`
   height: 20px;
   width: 20px;
-  filter: ${Colors.TextFieldBorderFilter};
+  filter: ${TextFieldBorderFilter};
 `;
 
 export const StyledButton = styled.button`
@@ -234,7 +241,7 @@ export const InputRequiredStyled = styled.span.attrs(() => ({
   font-size: 12px;
   line-height: 12px;
   top: 50%;
-  color: ${Colors.ErrorColor};
+  color: ${ErrorColor};
   transform: translate(0, -50%);
   z-index: 1;
 `;

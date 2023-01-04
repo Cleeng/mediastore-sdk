@@ -11,6 +11,8 @@ import ThankYouPage from 'components/ThankYouPage';
 import Auth from 'services/auth';
 import PasswordResetSuccess from 'components/PasswordResetSuccess';
 import { getData } from 'util/appConfigHelper';
+import { connect } from 'react-redux';
+import { init } from 'redux/publisherConfigSlice';
 
 const CheckoutSteps = {
   LOGIN: {
@@ -48,6 +50,10 @@ class Checkout extends Component {
   }
 
   componentDidMount() {
+    const { initValues, offerId } = this.props;
+    initValues({
+      offerId
+    });
     if (Auth.isLogged()) {
       this.setState({
         currentStep: 3
@@ -63,12 +69,7 @@ class Checkout extends Component {
 
   render() {
     const { currentStep } = this.state;
-    const {
-      onSuccess,
-      offerId,
-      availablePaymentMethods,
-      resetPasswordCallback
-    } = this.props;
+    const { onSuccess, offerId, resetPasswordCallback } = this.props;
 
     switch (currentStep) {
       case 0:
@@ -102,7 +103,6 @@ class Checkout extends Component {
         return (
           <OfferContainer
             offerId={offerId}
-            availablePaymentMethods={availablePaymentMethods}
             onSuccess={() => this.goToStep(CheckoutSteps.PURCHASE.nextStep)}
           />
         );
@@ -131,22 +131,21 @@ class Checkout extends Component {
 
 Checkout.propTypes = {
   offerId: PropTypes.string,
-  availablePaymentMethods: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number,
-      methodName: PropTypes.string,
-      default: PropTypes.bool
-    })
-  ),
   onSuccess: PropTypes.func,
-  resetPasswordCallback: PropTypes.func
+  resetPasswordCallback: PropTypes.func,
+  initValues: PropTypes.func.isRequired
 };
 
 Checkout.defaultProps = {
   offerId: null,
-  availablePaymentMethods: null,
   onSuccess: () => {},
   resetPasswordCallback: () => {}
 };
 
-export default Checkout;
+export const mapDispatchToProps = dispatch => ({
+  initValues: values => {
+    dispatch(init(values));
+  }
+});
+
+export default connect(null, mapDispatchToProps)(Checkout);

@@ -1,433 +1,307 @@
-import React, { Component } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation, Trans } from 'react-i18next';
+import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import {
+  getPaymentMethods,
   submitPayment,
-  submitPayPalPayment,
   submitPaymentWithoutDetails,
-  updateOrder,
-  getPaymentMethods
+  submitPayPalPayment
 } from 'api';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
-import SectionHeader from 'components/SectionHeader';
 import Loader from 'components/Loader';
-import { getData } from 'util/appConfigHelper';
-import PaymentMethodButton from 'components/PaymentMethodButton';
+import SectionHeader from 'components/SectionHeader';
 import Auth from 'services/auth';
-import { currencyFormat } from 'util/planHelper';
+import { useDispatch, useSelector } from 'react-redux';
 import {
-  PaymentStyled,
-  MethodsWrapperStyled,
+  validatePaymentMethods,
+  shouldShowGatewayComponent
+} from 'util/paymentMethodHelper';
+import { updatePaymentMethods } from 'redux/publisherConfigSlice';
+import { fetchUpdateOrder } from 'redux/orderSlice';
+import {
   PaymentErrorStyled,
-  PayPalWrapperStyled,
-  PayPalTextStyled,
-  LegalNoteWrapperStyled,
-  LegalTextStyled
+  PaymentStyled,
+  PaymentWrapperStyled
 } from './PaymentStyled';
+import eventDispatcher, {
+  MSSDK_PURCHASE_FAILED,
+  MSSDK_PURCHASE_SUCCESSFUL
+} from '../../util/eventDispatcher';
+import LegalNote from './LegalNote/LegalNote';
+import PayPal from './PayPal/PayPal';
+import DropInSection from './DropInSection/DropInSection';
+import { periodMapper } from '../../util';
 
-class Payment extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isPaymentFormDisplayed: false,
-      isPayPal: false,
-      isLoading: false,
-      paymentMethods: [],
-      generalError: ''
-    };
-  }
+const Payment = ({ t, onPaymentComplete }) => {
+  const { paymentMethods } = useSelector(state => state.publisherConfig);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 
-  async componentDidMount() {
-    const { t, availablePaymentMethods } = this.props;
-    const validPaymentMethods = this.validatePaymentMethods(
-      availablePaymentMethods
-    );
-    if (validPaymentMethods.length) {
-      this.setState({
-        paymentMethods: validPaymentMethods
-      });
-      const defaultMethod = validPaymentMethods.find(method => method.default);
-      if (defaultMethod) {
-        this.setState({ isPaymentFormDisplayed: true });
-        this.choosePaymentMethod(defaultMethod.id, defaultMethod.methodName);
-      }
-      if (validPaymentMethods.length === 1) {
-        const paymentMethod = validPaymentMethods[0];
-        this.setState({ isPaymentFormDisplayed: true });
-        this.choosePaymentMethod(paymentMethod.id, paymentMethod.methodName);
-      }
-    } else {
-      try {
-        const response = await getPaymentMethods();
-        const { paymentMethods } = response.responseData;
-        const validMethodsFromResponse = this.validatePaymentMethods(
-          paymentMethods,
-          false
-        );
-        if (validMethodsFromResponse) {
-          if (!validMethodsFromResponse.length) {
-            this.setState({
-              generalError: t('Payment methods are not defined')
-            });
-          } else {
-            this.setState({
-              paymentMethods: validMethodsFromResponse
-            });
-            if (validMethodsFromResponse.length === 1) {
-              const paymentMethod = validMethodsFromResponse[0];
-              this.setState({ isPaymentFormDisplayed: true });
-              this.choosePaymentMethod(
-                paymentMethod.id,
-                paymentMethod.methodName
-              );
-            }
-          }
-        } else if (!response.errors.length) {
-          this.setState({
-            generalError: t('Cannot fetch payment methods')
-          });
-        }
-      } catch {
-        this.setState({
-          generalError: t('Cannot fetch payment methods')
-        });
-      }
-    }
+  const order = useSelector(state => state.order.order);
+  const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
+  const { period: offerPeriod } = useSelector(state => state.offer.offer);
+  const period = offerPeriod
+    ? periodMapper[offerPeriod].chargedForEveryText
+    : null;
+  const [isLoading, setIsLoading] = useState(false);
+  const [generalError, setGeneralError] = useState('');
+  const [dropInInstance, setDropInInstance] = useState(null);
+  const [adyenKey, setAdyenKey] = useState(false);
+  const dispatch = useDispatch();
 
-    if (window.location.search && window.location.search.includes('message')) {
-      this.setState({
-        generalError: t('Your payment was not processed. Please, try again')
-      });
-    }
-  }
-
-  validatePaymentMethods = (paymentMethods, showError = true) => {
-    if (!paymentMethods) return [];
-    const supportedPaymentMethods = ['card', 'paypal'];
-    const supportedPaymentGateways = ['adyen', 'paypal'];
-    const validPaymentMethods = paymentMethods.filter(method => {
-      if (
-        supportedPaymentMethods.includes(method.methodName) &&
-        supportedPaymentGateways.includes(method.paymentGateway)
-      )
-        return true;
-
-      if (showError)
-        // eslint-disable-next-line no-console
-        console.error(`Payment method not supported (id: ${method.id})`);
-      return false;
-    });
-    return validPaymentMethods;
-  };
-
-  onAdyenSubmit = ({ data: { paymentMethod: card } }) => {
-    const { onPaymentComplete, t } = this.props;
-    this.setState({
-      generalError: '',
-      isLoading: true
-    });
-    submitPayment(card).then(paymentReponse => {
-      if (paymentReponse.errors.length) {
-        window.dispatchEvent(
-          new CustomEvent('MSSDK:purchase-failed', {
-            detail: {
-              reason: paymentReponse.errors[0]
-            }
-          })
-        );
-        const notSupportedMethod = paymentReponse.errors[0].includes(
-          'Payment details are not supported'
-        );
-        if (notSupportedMethod) {
-          this.setState({
-            generalError: t(
-              'Payment method not supported. Try different payment method'
-            ),
-            isLoading: false
-          });
-        } else {
-          this.setState({
-            generalError: t('The payment failed. Please try again.'),
-            isLoading: false
-          });
-        }
-      } else {
-        window.dispatchEvent(
-          new CustomEvent('MSSDK:purchase-successful', {
-            detail: {
-              payment: paymentReponse.responseData
-            }
-          })
-        );
-        onPaymentComplete();
-      }
-    });
-  };
-
-  clearError = () => {
-    this.setState({
-      generalError: ''
-    });
-  };
-
-  choosePaymentMethod = (methodId, methodName) => {
-    this.clearError();
-    const orderId = getData('CLEENG_ORDER_ID');
-    if (orderId) {
-      updateOrder(orderId, {
-        paymentMethodId: methodId
-      }).then(response => {
-        const { updatePriceBreakdown } = this.props;
-        if (response.errors.length && response.errors[0].includes('JWT')) {
-          Auth.logout();
-        }
-        updatePriceBreakdown(response.responseData.order);
-      });
-    }
-    if (methodName === 'paypal') {
-      this.setState({
-        isPayPal: true
-      });
-    } else {
-      this.setState({
-        isPayPal: false
-      });
-    }
-  };
-
-  submitPayPal = () => {
-    const { t } = this.props;
-    this.setState({
-      isLoading: true
-    });
-    submitPayPalPayment()
-      .then(resp => {
-        window.location.href = resp.responseData.redirectUrl;
-      })
-      .catch(() =>
-        this.setState({
-          generalError: t('The payment failed. Please try again.'),
-          isLoading: false
+  // order updates
+  const updateOrderWithPaymentMethodId = async methodId => {
+    setGeneralError('');
+    const { id } = order;
+    if (id && methodId) {
+      // TODO: (nice to have) validate if order.paymentId !== methodId. Pay attention to redux store and async
+      dispatch(
+        fetchUpdateOrder({
+          id,
+          payload: { paymentMethodId: methodId }
         })
-      );
-  };
-
-  finishTransaction = () => {
-    const { onPaymentComplete, t } = this.props;
-    this.setState({
-      isLoading: true,
-      generalError: ''
-    });
-    submitPaymentWithoutDetails().then(paymentReponse => {
-      if (paymentReponse.errors.length) {
-        this.setState({
-          generalError: t('The payment failed. Please try again.'),
-          isLoading: false
+      )
+        .unwrap()
+        .catch(errors => {
+          if (errors.includes('JWT')) {
+            Auth.logout(); // TODO: support properly the logout function
+          }
         });
-      } else {
-        window.dispatchEvent(
-          new CustomEvent('MSSDK:purchase-successful', {
-            detail: {
-              payment: paymentReponse.responseData
-            }
-          })
-        );
-        onPaymentComplete();
-      }
-    });
+    }
   };
 
-  gernerateLegalNote = () => {
-    const { t, order, period } = this.props;
-
-    const isInTrial =
-      order?.discount?.applied && order.discount.type === 'trial';
-    const couponApplied =
-      order?.discount?.applied && order.discount.type !== 'trial';
-    const readablePrice = `${currencyFormat[order.currency]}${
-      order.priceBreakdown.offerPrice
-    }`;
-    const readablePeriod = `${period ? `/${period}` : ''}`;
-
-    return (
-      <LegalNoteWrapperStyled>
-        <LegalTextStyled>
-          {(() => {
-            if (isInTrial) {
-              return (
-                <Trans i18nKey={`legal-notes.trial.period-${period}`}>
-                  <strong>
-                    After any free trial and/or promotional period, you will be
-                    charged {{ readablePrice }}
-                    {{ readablePeriod }} or the then-current price plus
-                    applicable taxes on a recurring basis.
-                  </strong>{' '}
-                  If you do not cancel the service during its free trial period,
-                  you will be charged. Your subscription will automatically
-                  continue until you cancel. To cancel, log into{' '}
-                  <a href={getData('CLEENG_MY_ACCOUNT_URL')}>your account</a>{' '}
-                  and click &apos;Manage Subscription&apos;.
-                </Trans>
-              );
-            }
-            if (couponApplied) {
-              return (
-                <Trans i18nKey={`legal-notes.discount.period-${period}`}>
-                  <strong>
-                    After any free trial and/or promotional period, you will be
-                    charged {{ readablePrice }}
-                    {{ readablePeriod }} or the then-current price plus
-                    applicable taxes on a recurring basis.
-                  </strong>{' '}
-                  Your subscription will automatically continue until you
-                  cancel. To cancel, log into{' '}
-                  <a href={getData('CLEENG_MY_ACCOUNT_URL')}>your account</a>{' '}
-                  and click &apos;Manage Subscription&apos;.
-                </Trans>
-              );
-            }
-            return (
-              <Trans i18nKey={`legal-notes.period-${period}`}>
-                <strong>
-                  By clicking &apos;Complete purchase&apos;, you will be charged{' '}
-                  {{ readablePrice }}
-                  {{ readablePeriod }} or the then-current price plus applicable
-                  taxes on a recurring basis.
-                </strong>
-                Your subscription will automatically continue until you cancel.
-                To cancel, log into{' '}
-                <a href={getData('CLEENG_MY_ACCOUNT_URL')}>your account</a> and
-                click &apos;Manage Subscription&apos;.
-              </Trans>
-            );
-          })()}
-        </LegalTextStyled>
-        <LegalTextStyled>
-          {t(
-            'legal-notes-acknowledge',
-            "By clicking 'Complete Purchase' above, I expressly acknowledge and agree to the above terms as well as the full Terms of Service."
-          )}
-        </LegalTextStyled>
-      </LegalNoteWrapperStyled>
+  // payment methods
+  const selectPaymentMethodHandler = paymentMethodName => {
+    if (selectedPaymentMethod?.methodName === paymentMethodName) return;
+    const paymentMethodObj = paymentMethods.find(
+      ({ methodName }) => methodName === paymentMethodName
     );
+    setSelectedPaymentMethod(paymentMethodObj);
+    updateOrderWithPaymentMethodId(paymentMethodObj.id);
   };
 
-  render() {
-    const { isPaymentDetailsRequired, order, t } = this.props;
-    const {
-      isPaymentFormDisplayed,
-      generalError,
-      paymentMethods,
-      isPayPal,
-      isLoading
-    } = this.state;
+  const fetchPaymentMethods = async () => {
+    const response = await getPaymentMethods();
+    const { paymentMethods: paymentMethodsFromBackend } = response.responseData;
+    const validMethodsFromResponse = validatePaymentMethods(
+      paymentMethodsFromBackend,
+      false
+    );
+    if (response.errors.length) {
+      setGeneralError(t('Cannot fetch payment methods'));
+      return;
+    }
 
+    dispatch(updatePaymentMethods(validMethodsFromResponse));
+    if (!validMethodsFromResponse?.length) {
+      setGeneralError(t('Payment methods are not defined'));
+    }
+  };
+
+  useEffect(() => {
+    if (paymentMethods.length === 1) {
+      const [paymentMethod] = paymentMethods;
+      selectPaymentMethodHandler(paymentMethod.methodName);
+    }
+  }, [paymentMethods]);
+
+  const handlePayPalError = () => {
+    const { search } = window.location;
+    if (search?.includes('message')) {
+      setGeneralError(t('Your payment was not processed. Please, try again'));
+    }
+  };
+
+  useEffect(() => {
+    fetchPaymentMethods();
+    handlePayPalError();
+  }, []);
+
+  // PayPal
+  const submitPayPal = async () => {
+    setIsLoading(true);
+    const { responseData } = await submitPayPalPayment();
+    if (responseData?.redirectUrl) {
+      window.location.href = responseData.redirectUrl;
+    } else {
+      setIsLoading(false);
+      setGeneralError(t('The payment failed. Please try again.'));
+    }
+  };
+
+  // Adyen
+  const onAdditionalDetails = async state => {
+    console.log('onAdditionalDetails event');
+    const {
+      data: { details }
+    } = state;
+    console.log('data for finilize initial payment', details);
+  };
+
+  const onAdyenSubmit = async (state, component) => {
+    const {
+      data: { paymentMethod, browserInfo, billingAddress }
+    } = state;
+    setGeneralError('');
+    setIsLoading(true);
+    const { errors, responseData } = await submitPayment(
+      paymentMethod,
+      browserInfo,
+      billingAddress
+    );
+
+    if (errors.length) {
+      eventDispatcher(MSSDK_PURCHASE_FAILED, {
+        reason: errors[0]
+      });
+      const notSupportedMethod = errors[0].includes(
+        'Payment details are not supported'
+      );
+      setGeneralError(
+        notSupportedMethod
+          ? t('Payment method not supported. Try different payment method')
+          : t(
+              'The payment has not been processed. Please, try again with a different payment method.'
+            )
+      );
+      setIsLoading(false);
+      // force Adyen remount
+      setDropInInstance(null);
+      setAdyenKey(key => !key);
+      return;
+    }
+
+    const { action, payment } = responseData;
+    console.log('action', action);
+    if (action) {
+      component.handleAction(action);
+      return;
+    }
+    eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
+      payment
+    });
+    onPaymentComplete();
+  };
+
+  const getDropIn = drop => {
+    setDropInInstance(drop);
+  };
+
+  // Payment without payment details
+  const paymentWithoutDetails = async () => {
+    setIsLoading(true);
+    setGeneralError('');
+
+    const { errors, responseData } = await submitPaymentWithoutDetails();
+    if (errors.length) {
+      setIsLoading(false);
+      setGeneralError(t('The payment failed. Please try again.'));
+      return;
+    }
+
+    eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
+      payment: responseData
+    });
+
+    onPaymentComplete();
+  };
+
+  const shouldShowAdyen = shouldShowGatewayComponent('adyen', paymentMethods);
+  const shouldShowPayPal = shouldShowGatewayComponent('paypal', paymentMethods);
+
+  const showPayPalWhenAdyenIsReady = () =>
+    shouldShowAdyen ? !!dropInInstance : true;
+
+  if (!paymentMethods.length) {
     return (
       <PaymentStyled>
-        {isPaymentDetailsRequired ? (
-          <>
-            {paymentMethods.length !== 1 && (
-              <>
-                <SectionHeader marginTop="25px" center>
-                  {t('Purchase using')}
-                </SectionHeader>
-                <MethodsWrapperStyled>
-                  {paymentMethods.map(method => (
-                    <PaymentMethodButton
-                      key={method.id}
-                      methodName={method.methodName}
-                      onClickFn={() => {
-                        this.setState({ isPaymentFormDisplayed: true });
-                        this.choosePaymentMethod(method.id, method.methodName);
-                      }}
-                    />
-                  ))}
-                </MethodsWrapperStyled>
-              </>
-            )}
-            {generalError && (
-              <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
-            )}
-            {isPayPal && (
-              <PayPalWrapperStyled>
-                <PayPalTextStyled>
-                  {order.totalPrice === 0 && order.offerId.charAt(0) === 'S'
-                    ? t(
-                        'Click ‘Continue with PayPal‘ to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments.'
-                      )
-                    : t(
-                        'Click ‘Continue with PayPal‘ to complete your purchase.'
-                      )}
-                </PayPalTextStyled>
-                <Button
-                  type="button"
-                  theme="payment"
-                  onClickFn={this.submitPayPal}
-                >
-                  {isLoading ? (
-                    <Loader buttonLoader color="#ffffff" />
-                  ) : (
-                    t('Continue with PayPal')
-                  )}
-                </Button>
-              </PayPalWrapperStyled>
-            )}
-            {isPaymentFormDisplayed && !isPayPal && (
-              <Adyen
-                onSubmit={this.onAdyenSubmit}
-                onChange={this.clearError}
-                isPaymentProcessing={isLoading}
-              />
-            )}
-            {(isPayPal || isPaymentFormDisplayed) &&
-              order.offerId.charAt(0) === 'S' &&
-              this.gernerateLegalNote()}
-          </>
-        ) : (
-          <Button
-            onClickFn={this.finishTransaction}
-            theme="confirm"
-            width="250px"
-            size="big"
-            margin="20px auto 0 auto"
-          >
-            {isLoading ? (
-              <Loader buttonLoader color="#ffffff" />
-            ) : (
-              t('Complete purchase')
-            )}
-          </Button>
+        <SectionHeader marginTop="25px" center>
+          {t('Purchase using')}
+        </SectionHeader>
+        {generalError && (
+          <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
         )}
       </PaymentStyled>
     );
   }
-}
+
+  if (!isPaymentDetailsRequired) {
+    return (
+      <PaymentStyled>
+        {generalError && (
+          <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
+        )}
+        <Button
+          onClickFn={paymentWithoutDetails}
+          theme="confirm"
+          width="250px"
+          size="big"
+          margin="20px auto 0 auto"
+        >
+          {isLoading ? (
+            <Loader buttonLoader color="#ffffff" />
+          ) : (
+            t('Complete purchase')
+          )}
+        </Button>
+      </PaymentStyled>
+    );
+  }
+
+  return (
+    <PaymentStyled>
+      <SectionHeader marginTop="25px" center>
+        {t('Purchase using')}
+      </SectionHeader>
+      <PaymentWrapperStyled>
+        {shouldShowAdyen && (
+          <Adyen
+            key={adyenKey}
+            onSubmit={onAdyenSubmit}
+            selectPaymentMethod={selectPaymentMethodHandler}
+            selectedPaymentMethod={selectedPaymentMethod?.methodName}
+            isPayPalAvailable={shouldShowPayPal}
+            getDropIn={getDropIn}
+            onAdditionalDetails={onAdditionalDetails}
+          />
+        )}
+        {shouldShowPayPal && showPayPalWhenAdyenIsReady() && (
+          <DropInSection
+            isCardAvailable={shouldShowAdyen}
+            selectPaymentMethod={selectPaymentMethodHandler}
+            isSelected={selectedPaymentMethod?.methodName === 'paypal'}
+            title="PayPal"
+            logo="paypal"
+            fadeOutSection={
+              isLoading && selectedPaymentMethod?.methodName !== 'paypal'
+            }
+          >
+            <PayPal
+              totalPrice={order.totalPrice}
+              offerId={order.offerId}
+              onSubmit={submitPayPal}
+              isLoading={isLoading}
+            />
+          </DropInSection>
+        )}
+        {generalError && (
+          <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
+        )}
+      </PaymentWrapperStyled>
+      {order?.offerId?.charAt(0) === 'S' && (
+        <LegalNote order={order} period={period} />
+      )}
+    </PaymentStyled>
+  );
+};
 
 Payment.propTypes = {
   onPaymentComplete: PropTypes.func.isRequired,
-  isPaymentDetailsRequired: PropTypes.bool,
-  updatePriceBreakdown: PropTypes.func,
-  order: PropTypes.objectOf(PropTypes.any),
-  period: PropTypes.string,
-  availablePaymentMethods: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      methodName: PropTypes.string.isRequired,
-      paymentGateway: PropTypes.string.isRequired,
-      default: PropTypes.bool
-    })
-  ),
   t: PropTypes.func
 };
 
 Payment.defaultProps = {
-  isPaymentDetailsRequired: true,
-  updatePriceBreakdown: () => {},
-  order: {},
-  period: null,
-  availablePaymentMethods: null,
   t: k => k
 };
 
