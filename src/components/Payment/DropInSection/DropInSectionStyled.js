@@ -59,6 +59,8 @@ export const IconWrapperStyled = styled.div.attrs(() => ({
   svg {
     max-height: 100%;
     max-width: 100%;
+    height: 26px;
+    width: 31px;
   }
 `;
 
