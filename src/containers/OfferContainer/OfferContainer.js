@@ -28,17 +28,6 @@ import {
 } from './StyledOfferContainer';
 
 const OfferContainer = ({ offerId: offerIdProp, onSuccess }) => {
-  const [orderDetails, setOrderDetails] = useState({
-    priceBreakdown: {
-      offerPrice: 0,
-      discountedPrice: 0,
-      discountAmount: 0
-    },
-    discount: {
-      applied: false
-    }
-  });
-
   const [errorMsg, setErrorMsg] = useState();
 
   const dispatch = useDispatch();
@@ -49,7 +38,8 @@ const OfferContainer = ({ offerId: offerIdProp, onSuccess }) => {
   const { error: offerError } = useSelector(state => state.offer);
 
   const offerId = offerIdProp || offerIdStore;
-  const paymentMethodsHandler = () => {
+
+  const paymentMethodsHandler = orderId => {
     getPaymentMethods().then(paymentMethodResponse => {
       const {
         responseData: { paymentMethods }
@@ -59,9 +49,11 @@ const OfferContainer = ({ offerId: offerIdProp, onSuccess }) => {
           ? method.methodName === 'manual'
           : method.methodName !== 'manual'
       );
-      updateOrder(orderDetails.id, {
-        paymentMethodId: properPaymentMethodId ? properPaymentMethodId.id : 0
-      });
+      if (properPaymentMethodId) {
+        updateOrder(orderId, {
+          paymentMethodId: properPaymentMethodId.id
+        });
+      }
     });
   };
 
@@ -73,7 +65,7 @@ const OfferContainer = ({ offerId: offerIdProp, onSuccess }) => {
       discount: { applied }
     } = unwrapResult(resultOrderAction);
     if (totalPrice === 0 && !applied) {
-      paymentMethodsHandler();
+      paymentMethodsHandler(id);
       dispatch(setFreeOffer(true));
     }
     setData('CLEENG_ORDER_ID', id);
@@ -205,7 +197,6 @@ const OfferContainer = ({ offerId: offerIdProp, onSuccess }) => {
         onSubmit: onCouponSubmit
       }}
       onPaymentComplete={onSuccess}
-      updatePriceBreakdown={updatedOrder => setOrderDetails(updatedOrder)}
     />
   );
 };

@@ -19,9 +19,7 @@ import {
 } from './FreeOfferStyled';
 
 const FreeOffer = ({ onPaymentComplete, t }) => {
-  const { loading: isLoading, error } = useSelector(
-    state => state.paymentMethods
-  );
+  const { loading: isLoading, error } = useSelector(state => state.payment);
   const { period, expiresAt, startTime, offerTitle, offerId } = useSelector(
     state => state.offer.offer
   );
@@ -54,7 +52,9 @@ const FreeOffer = ({ onPaymentComplete, t }) => {
   };
 
   const getAccessToFreeOffer = useCallback(() => {
-    dispatch(submitPaymentWithoutDetails()).then(onPaymentComplete);
+    dispatch(submitPaymentWithoutDetails())
+      .unwrap()
+      .then(onPaymentComplete);
   }, []);
 
   return (

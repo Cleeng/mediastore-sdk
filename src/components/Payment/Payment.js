@@ -35,7 +35,7 @@ import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { periodMapper } from '../../util';
 
-const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
+const Payment = ({ t, onPaymentComplete }) => {
   const { paymentMethods } = useSelector(state => state.publisherConfig);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const prevSelectedPaymentMethod = usePrevious(selectedPaymentMethod);
@@ -64,9 +64,6 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
         })
       )
         .unwrap()
-        .then(responseData => {
-          updatePriceBreakdown(responseData.order);
-        })
         .catch(errors => {
           if (errors.includes('JWT')) {
             Auth.logout(); // TODO: support properly the logout function
@@ -100,14 +97,12 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
     }
 
     dispatch(updatePaymentMethods(validMethodsFromResponse));
+    if (!validMethodsFromResponse?.length) {
+      setGeneralError(t('Payment methods are not defined'));
+    }
   };
 
   useEffect(() => {
-    if (!paymentMethods?.length) {
-      setGeneralError(t('Payment methods are not defined'));
-      return;
-    }
-
     if (paymentMethods.length === 1) {
       const [paymentMethod] = paymentMethods;
       selectPaymentMethodHandler(paymentMethod.methodName);
@@ -306,12 +301,10 @@ const Payment = ({ t, onPaymentComplete, updatePriceBreakdown }) => {
 
 Payment.propTypes = {
   onPaymentComplete: PropTypes.func.isRequired,
-  updatePriceBreakdown: PropTypes.func,
   t: PropTypes.func
 };
 
 Payment.defaultProps = {
-  updatePriceBreakdown: () => {},
   t: k => k
 };
 
