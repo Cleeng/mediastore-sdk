@@ -19,7 +19,6 @@ import {
   shouldShowGatewayComponent
 } from 'util/paymentMethodHelper';
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
-import usePrevious from 'util/usePreviousHook';
 import { fetchUpdateOrder } from 'redux/orderSlice';
 import {
   PaymentErrorStyled,
@@ -38,7 +37,6 @@ import { periodMapper } from '../../util';
 const Payment = ({ t, onPaymentComplete }) => {
   const { paymentMethods } = useSelector(state => state.publisherConfig);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
-  const prevSelectedPaymentMethod = usePrevious(selectedPaymentMethod);
 
   const order = useSelector(state => state.order.order);
   const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
@@ -55,8 +53,9 @@ const Payment = ({ t, onPaymentComplete }) => {
   // order updates
   const updateOrderWithPaymentMethodId = async methodId => {
     setGeneralError('');
-    const { id, paymentMethodId } = order;
-    if (id && methodId && methodId !== paymentMethodId) {
+    const { id } = order;
+    if (id && methodId) {
+      // TODO: (nice to have) validate if order.paymentId !== methodId. Pay attention to redux store and async
       dispatch(
         fetchUpdateOrder({
           id,
@@ -79,9 +78,7 @@ const Payment = ({ t, onPaymentComplete }) => {
       ({ methodName }) => methodName === paymentMethodName
     );
     setSelectedPaymentMethod(paymentMethodObj);
-    if (prevSelectedPaymentMethod !== paymentMethodObj?.id) {
-      updateOrderWithPaymentMethodId(paymentMethodObj.id);
-    }
+    updateOrderWithPaymentMethodId(paymentMethodObj.id);
   };
 
   const fetchPaymentMethods = async () => {

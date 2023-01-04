@@ -48,7 +48,6 @@ const Adyen = ({
       paymentMethod: { type }
     }
   }) => {
-    if (selectedPaymentMethod === type) return;
     if (type === 'scheme') {
       selectPaymentMethod('card');
       return;
