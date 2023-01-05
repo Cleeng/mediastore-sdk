@@ -35,6 +35,9 @@ jobs:
       - name: get current git tag
         run: echo tag=$(git describe --tags) >> $GITHUB_ENV
 
+      - name: test
+        run: git tag
+
       - name: patch sdk version
         env:
           public:  ${{ github.event.release.tag_name }}
@@ -51,6 +54,6 @@ jobs:
         run: npm run compile
 
       - name: push the bundle to ${{ inputs.access }} registry
-        run: npm publish --access ${{ inputs.access }}
+        run: echo npm publish --access ${{ inputs.access }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
