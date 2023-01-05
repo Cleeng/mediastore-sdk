@@ -20,7 +20,7 @@ export const LabelStyled = styled.label.attrs(() => ({
   margin: 0;
   padding: 0 3px;
 
-  color: ${props => props.theme.FontColor};
+  color: ${({ theme }) => theme.FontColor};
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
   ${props =>
@@ -38,7 +38,7 @@ export const LabelStyled = styled.label.attrs(() => ({
     width: 100%;
     height: 15px;
 
-    background: ${props => props.theme.BackgroundColor};
+    background: ${({ theme }) => theme.BackgroundColor};
 
     z-index: -1;
     opacity: 0;
@@ -76,9 +76,9 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
   transition: 0.2s ease-in-out;
 
   &:focus-within {
-    border-color: ${props => props.theme.ConfirmColor};
+    border-color: ${({ theme }) => theme.ConfirmColor};
     ${LabelStyled} {
-      color: ${props => props.theme.ConfirmColor};
+      color: ${({ theme }) => theme.ConfirmColor};
       transform: translate(0, -25px) scaleY(0.9);
       &::after {
         opacity: 1;
@@ -104,7 +104,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
 
   margin: 0 15px;
 
-  color: ${props => props.theme.FontColor};
+  color: ${({ theme }) => theme.FontColor};
   background: transparent;
   border: none;
   outline: none;
@@ -114,7 +114,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
 
   &:focus + label {
     transform: translate(0, -25px) scaleY(0.9);
-    color: ${props => props.theme.ConfirmColor};
+    color: ${({ theme }) => theme.ConfirmColor};
     ${props =>
       props.withIcon &&
       css`
@@ -166,7 +166,7 @@ export const ErrorWrapper = styled.div.attrs(() => ({
   margin-top: 8px;
 
   content: '';
-  color: ${props => props.theme.ErrorColor};
+  color: ${({ theme }) => theme.ErrorColor};
   transition: 0.2s ease-in-out;
 
   ${props =>
@@ -192,7 +192,7 @@ export const StyledPasswordVisibility = styled.img.attrs(() => ({
 }))`
   height: 20px;
   width: 20px;
-  filter: ${props => props.theme.TextFieldBorderFilter};
+  filter: ${({ theme }) => theme.TextFieldBorderFilter};
 `;
 
 export const StyledButton = styled.button`
@@ -233,7 +233,7 @@ export const InputRequiredStyled = styled.span.attrs(() => ({
   font-size: 12px;
   line-height: 12px;
   top: 50%;
-  color: ${props => props.theme.ErrorColor};
+  color: ${({ theme }) => theme.ErrorColor};
   transform: translate(0, -50%);
   z-index: 1;
 `;
