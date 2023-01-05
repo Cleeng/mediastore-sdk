@@ -57,7 +57,8 @@ export const PasswordStrengthColors = {
   Weak: '#ea753c',
   Fair: '#e7ca27',
   Good: '#5da3bd',
-  Strong: '#5db98f'
+  Strong: '#5db98f',
+  NotValid: '#CB4477'
 };
 
 // Fonts
