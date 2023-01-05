@@ -34,7 +34,7 @@ jobs:
 
       - name: get current git tag
         run: >
-          git fetch -t && echo tag=$(git describe --abbrev=0) >> $GITHUB_ENV
+          git fetch -t && echo tag=$(git tag | tail -1) >> $GITHUB_ENV
 
       - name: patch sdk version
         env:
