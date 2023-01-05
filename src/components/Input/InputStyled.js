@@ -46,7 +46,7 @@ export const LabelStyled = styled.label.attrs(() => ({
     width: 100%;
     height: 15px;
 
-    background: ${BackgroundColor};
+    background: ${props => props.theme.BackgroundColor};
 
     z-index: -1;
     opacity: 0;
