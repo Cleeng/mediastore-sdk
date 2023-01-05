@@ -34,15 +34,15 @@ jobs:
 
       - name: get current git tag
         run: >
-          git fetch -t && echo tag=$(git tag | tail -1) >> $GITHUB_ENV
+          git fetch -t && echo tag=$(git tag | sort -V | tail -1) >> $GITHUB_ENV
 
       - name: patch sdk version
         env:
-          public:  ${{ github.event.release.tag_name }}
-          private: ${{ env.tag }}-${{ github.event.number }}-${{ github.event.pull_request.head.sha }}
+          public: ${{ github.event.release.tag_name }}
+          restricted: ${{ env.tag }}-${{ github.event.number }}-${{ github.event.pull_request.head.sha }}
         run: >
           sed -i
-          "s/0.0.0-development/${{ inputs.access == 'public' && env.public || env.private }}/"
+          "s/0.0.0-development/${{ inputs.access == 'public' && env.public || env.restricted }}/"
           package.json
 
       - name: install deps
