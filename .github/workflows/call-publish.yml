@@ -52,6 +52,6 @@ jobs:
         run: npm run compile
 
       - name: push the bundle to ${{ inputs.access }} registry
-        run: echo npm publish --access ${{ inputs.access }}
+        run: npm publish --access ${{ inputs.access }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
