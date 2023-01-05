@@ -35,7 +35,7 @@ export const paymentMethodColors = {
   rokuMainColor: '#662C91',
   rokuSecondaryColor: '#7838A8'
 };
-
+console.log(backgroundColor);
 // Common colors
 export const BackgroundColor = backgroundColor || '#F8FAFD';
 export const CardColor = cardColor || '#ffffff';
