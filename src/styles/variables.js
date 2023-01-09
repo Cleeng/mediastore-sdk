@@ -35,7 +35,6 @@ export const paymentMethodColors = {
   rokuMainColor: '#662C91',
   rokuSecondaryColor: '#7838A8'
 };
-
 // Common colors
 export const BackgroundColor = backgroundColor || '#F8FAFD';
 export const CardColor = cardColor || '#ffffff';
@@ -58,7 +57,8 @@ export const PasswordStrengthColors = {
   Weak: '#ea753c',
   Fair: '#e7ca27',
   Good: '#5da3bd',
-  Strong: '#5db98f'
+  Strong: '#5db98f',
+  NotValid: '#CB4477'
 };
 
 // Fonts
@@ -72,3 +72,12 @@ export const MicroFont = '9px';
 export const BoldFont = '700';
 export const MediumFontWeight = '600';
 export const LightFont = '300';
+
+export const inputTheme = {
+  FontColor,
+  BackgroundColor,
+  ConfirmColor,
+  ErrorColor,
+  TextFieldBorderFilter,
+  PasswordStrengthColors
+};
