@@ -11,7 +11,6 @@ export const CardTypeStyled = styled.div.attrs(() => ({
 }))`
   display: flex;
   width: 38px;
-  height: 23px;
 
   svg {
     width: 100%;

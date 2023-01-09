@@ -21,6 +21,32 @@ import {
   CardInfoWrapStyled
 } from './PaymentCardStyled';
 
+const PaymentCardSkeleton = () => (
+  <CardStyled>
+    <CardHeaderStyled>
+      <SkeletonWrapper width={140} />
+    </CardHeaderStyled>
+    <CardInfoWrapStyled>
+      <CardInfoStyled>
+        <CardTypeStyled>
+          <SkeletonWrapper height={30} width={40} />
+        </CardTypeStyled>
+        <CardDetailsStyled>
+          <CardDetailsNameWrapStyled>
+            <CardDetailsNameStyled>
+              <SkeletonWrapper width={140} />
+            </CardDetailsNameStyled>
+          </CardDetailsNameWrapStyled>
+          <CardExpirationStyled>
+            <SkeletonWrapper width={100} />
+          </CardExpirationStyled>
+        </CardDetailsStyled>
+      </CardInfoStyled>
+      <SkeletonWrapper height={43} width={170} />
+    </CardInfoWrapStyled>
+  </CardStyled>
+);
+
 const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
   const { t } = useTranslation();
   const { paymentMethodSpecificParams, paymentMethod } = details;
@@ -94,7 +120,7 @@ const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
           </CardInfoWrapStyled>
         </CardStyled>
       ) : (
-        <SkeletonWrapper height={166} />
+        <PaymentCardSkeleton />
       )}
     </Card>
   );
