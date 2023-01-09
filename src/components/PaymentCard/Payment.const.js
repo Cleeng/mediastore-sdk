@@ -1,21 +1,58 @@
 import { ReactComponent as Visa } from 'assets/images/paymentMethods/visa_small.svg';
 import { ReactComponent as AmericanExpress } from 'assets/images/paymentMethods/american_express.svg';
 import { ReactComponent as MasterCard } from 'assets/images/paymentMethods/master_card.svg';
-import { ReactComponent as Paypal } from 'assets/images/paymentMethods/paypal_small.svg';
+import { ReactComponent as Paypal } from 'assets/images/paymentMethods/PPicon.svg';
 import { ReactComponent as Android } from 'assets/images/paymentMethods/android.svg';
 import { ReactComponent as Amazon } from 'assets/images/paymentMethods/amazon.svg';
 import { ReactComponent as Apple } from 'assets/images/paymentMethods/apple.svg';
 import { ReactComponent as Roku } from 'assets/images/paymentMethods/roku.svg';
+import { ReactComponent as ApplePayLogo } from 'assets/images/paymentMethods/applePay.svg';
+import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/googlepay.svg';
 
 // eslint-disable-next-line import/prefer-default-export
-export const CardTypesIcons = {
-  visa: Visa,
-  visacredit: Visa,
-  amex: AmericanExpress,
-  mc: MasterCard,
-  paypal: Paypal,
-  apple: Apple,
-  android: Android,
-  amazon: Amazon,
-  roku: Roku
+export const CardTypes = {
+  visa: {
+    icon: Visa,
+    title: 'Credit Card'
+  },
+  visacredit: {
+    icon: Visa,
+    title: 'Credit Card'
+  },
+  amex: {
+    icon: AmericanExpress,
+    title: 'Credit Card'
+  },
+  mc: {
+    icon: MasterCard,
+    title: 'Credit Card'
+  },
+  paypal: {
+    icon: Paypal,
+    title: 'PayPal'
+  },
+  apple: {
+    icon: Apple,
+    title: 'Apple Pay'
+  },
+  android: {
+    icon: Android,
+    title: 'Google Pay'
+  },
+  amazon: {
+    icon: Amazon,
+    title: 'Amazon'
+  },
+  roku: {
+    icon: Roku,
+    title: 'Roku'
+  },
+  applepay: {
+    icon: ApplePayLogo,
+    title: 'Apple Pay'
+  },
+  googlepay: {
+    icon: GooglePayLogo,
+    title: 'Google Pay'
+  }
 };

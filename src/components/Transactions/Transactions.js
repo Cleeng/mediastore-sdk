@@ -10,6 +10,8 @@ import Button from 'components/Button';
 import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import Loader from 'components/Loader';
+import { logos } from 'util/paymentMethodHelper';
+
 import {
   WrapStyled,
   InsideWrapperStyled,
@@ -20,7 +22,9 @@ import {
   IdStyled,
   DateStyled,
   ButtonTextStyled,
-  TransactionListStyled
+  TransactionListStyled,
+  LogoWrapStyled,
+  InfoStyled
 } from './TransactionsStyled';
 
 const TransactionsSkeleton = () => (
@@ -29,12 +33,15 @@ const TransactionsSkeleton = () => (
       // eslint-disable-next-line react/no-array-index-key
       <InsideWrapperStyled key={`skeleton-item-${k}`} length={3}>
         <LeftBoxStyled>
-          <TitleStyled>
-            <SkeletonWrapper width={300} />
-          </TitleStyled>
-          <SubTitleStyled>
-            <SkeletonWrapper width={100} />
-          </SubTitleStyled>
+          <SkeletonWrapper height={40} width={40} />
+          <InfoStyled>
+            <TitleStyled>
+              <SkeletonWrapper width={260} />
+            </TitleStyled>
+            <SubTitleStyled>
+              <SkeletonWrapper width={100} />
+            </SubTitleStyled>
+          </InfoStyled>
         </LeftBoxStyled>
         <RightBoxStyled>
           <IdStyled>
@@ -79,28 +86,41 @@ const Transactions = ({
             isExpanded={isExpanded}
             length={transactions.length}
           >
-            {transactions.map(subItem => (
-              <InsideWrapperStyled
-                key={subItem.transactionId}
-                length={transactions.length}
-              >
-                <LeftBoxStyled>
-                  <TitleStyled>
-                    {t(`offer-title-${subItem.offerId}`, subItem.offerTitle)}
-                  </TitleStyled>
-                  <SubTitleStyled>
-                    {t(`Paid with`)}{' '}
-                    {subItem.paymentMethod === 'card'
-                      ? t('card')
-                      : subItem.paymentMethod}
-                  </SubTitleStyled>
-                </LeftBoxStyled>
-                <RightBoxStyled>
-                  <IdStyled>{subItem.transactionId}</IdStyled>
-                  <DateStyled>{dateFormat(subItem.transactionDate)}</DateStyled>
-                </RightBoxStyled>
-              </InsideWrapperStyled>
-            ))}
+            {transactions.map(subItem => {
+              const LogoComponent = logos[subItem.paymentMethod];
+              return (
+                <InsideWrapperStyled
+                  key={subItem.transactionId}
+                  length={transactions.length}
+                >
+                  <LeftBoxStyled>
+                    <LogoWrapStyled>
+                      <LogoComponent />
+                    </LogoWrapStyled>
+                    <InfoStyled>
+                      <TitleStyled>
+                        {t(
+                          `offer-title-${subItem.offerId}`,
+                          subItem.offerTitle
+                        )}
+                      </TitleStyled>
+                      <SubTitleStyled>
+                        {t(`Paid with`)}{' '}
+                        {subItem.paymentMethod === 'card'
+                          ? t('card')
+                          : subItem.paymentMethod}
+                      </SubTitleStyled>
+                    </InfoStyled>
+                  </LeftBoxStyled>
+                  <RightBoxStyled>
+                    <IdStyled>{subItem.transactionId}</IdStyled>
+                    <DateStyled>
+                      {dateFormat(subItem.transactionDate)}
+                    </DateStyled>
+                  </RightBoxStyled>
+                </InsideWrapperStyled>
+              );
+            })}
           </TransactionListStyled>
           {!isShowMoreButtonHidden && (
             <Button
