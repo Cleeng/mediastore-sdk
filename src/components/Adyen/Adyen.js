@@ -93,8 +93,8 @@ const Adyen = ({
       paymentMethodsConfiguration: {
         card: {
           hasHolderName: true,
-          holderNameRequired: true,
-          billingAddressRequired: true // required for 3DS
+          holderNameRequired: true
+          // billingAddressRequired: true // recommended for 3DS, to validate
         },
         applepay: {
           ...amountObj,
