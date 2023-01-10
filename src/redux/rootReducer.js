@@ -10,6 +10,7 @@ import orderReducer from './orderSlice';
 import paymentMethodsReducer from './paymentMethodsSlice';
 import publisherConfigReducer from './publisherConfigSlice';
 import paymentReducer from './paymentSlice';
+import finalizeInitialPaymentReducer from './finalizePaymentSlice';
 
 const rootReducer = combineReducers({
   paymentInfo: paymentInfoReducer,
@@ -22,7 +23,8 @@ const rootReducer = combineReducers({
   order: orderReducer,
   paymentMethods: paymentMethodsReducer,
   publisherConfig: publisherConfigReducer,
-  payment: paymentReducer
+  payment: paymentReducer,
+  finalizeInitialPayment: finalizeInitialPaymentReducer
 });
 
 export default (state, action) =>

@@ -17,7 +17,7 @@ const submitPayment = async (paymentMethod, browserInfo, billingAddress) => {
         browserInfo,
         billingAddress,
         origin: window.location.origin,
-        returnUrl: 'https://cleeng.com'
+        returnUrl: `${window.location.origin}?orderId=${orderId}` // TODO:: should be taken from publisher configuration object
       })
     });
     return res.json();

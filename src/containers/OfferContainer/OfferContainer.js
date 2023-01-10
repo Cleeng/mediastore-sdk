@@ -6,6 +6,7 @@ import ErrorPage from 'components/ErrorPage';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Loader from 'components/Loader';
+import PaymentResultPage from 'components/PaymentResultPage';
 import { updateOrder, getPaymentMethods } from 'api';
 import { setData, getData, removeData } from 'util/appConfigHelper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,6 +39,10 @@ const OfferContainer = ({ offerId: offerIdProp, onSuccess }) => {
   const { error: offerError } = useSelector(state => state.offer);
 
   const offerId = offerIdProp || offerIdStore;
+
+  const adyenRedirectResult = new URLSearchParams(window.location.search).get(
+    'redirectResult'
+  );
 
   const paymentMethodsHandler = orderId => {
     getPaymentMethods().then(paymentMethodResponse => {
@@ -176,6 +181,10 @@ const OfferContainer = ({ offerId: offerIdProp, onSuccess }) => {
     return (
       <ErrorPage type={errorMapping(errorMsg || offerError || orderError)} />
     );
+  }
+
+  if (adyenRedirectResult) {
+    return <PaymentResultPage />;
   }
 
   if (isOrderLoading) {
