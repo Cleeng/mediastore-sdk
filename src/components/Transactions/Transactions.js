@@ -86,41 +86,42 @@ const Transactions = ({
             isExpanded={isExpanded}
             length={transactions.length}
           >
-            {transactions.map(subItem => {
-              const LogoComponent = logos[subItem.paymentMethod];
-              return (
-                <InsideWrapperStyled
-                  key={subItem.transactionId}
-                  length={transactions.length}
-                >
-                  <LeftBoxStyled>
-                    <LogoWrapStyled>
-                      <LogoComponent />
-                    </LogoWrapStyled>
-                    <InfoStyled>
-                      <TitleStyled>
-                        {t(
-                          `offer-title-${subItem.offerId}`,
-                          subItem.offerTitle
-                        )}
-                      </TitleStyled>
-                      <SubTitleStyled>
-                        {t(`Paid with`)}{' '}
-                        {subItem.paymentMethod === 'card'
-                          ? t('card')
-                          : subItem.paymentMethod}
-                      </SubTitleStyled>
-                    </InfoStyled>
-                  </LeftBoxStyled>
-                  <RightBoxStyled>
-                    <IdStyled>{subItem.transactionId}</IdStyled>
-                    <DateStyled>
-                      {dateFormat(subItem.transactionDate)}
-                    </DateStyled>
-                  </RightBoxStyled>
-                </InsideWrapperStyled>
-              );
-            })}
+            {transactions.map(
+              ({
+                paymentMethod,
+                transactionId,
+                offerId,
+                offerTitle,
+                transactionDate
+              }) => {
+                const LogoComponent = logos[paymentMethod];
+                return (
+                  <InsideWrapperStyled
+                    key={transactionId}
+                    length={transactions.length}
+                  >
+                    <LeftBoxStyled>
+                      <LogoWrapStyled>
+                        <LogoComponent />
+                      </LogoWrapStyled>
+                      <InfoStyled>
+                        <TitleStyled>
+                          {t(`offer-title-${offerId}`, offerTitle)}
+                        </TitleStyled>
+                        <SubTitleStyled>
+                          {t(`Paid with`)}{' '}
+                          {paymentMethod === 'card' ? t('card') : paymentMethod}
+                        </SubTitleStyled>
+                      </InfoStyled>
+                    </LeftBoxStyled>
+                    <RightBoxStyled>
+                      <IdStyled>{transactionId}</IdStyled>
+                      <DateStyled>{dateFormat(transactionDate)}</DateStyled>
+                    </RightBoxStyled>
+                  </InsideWrapperStyled>
+                );
+              }
+            )}
           </TransactionListStyled>
           {!isShowMoreButtonHidden && (
             <Button

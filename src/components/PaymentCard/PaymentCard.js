@@ -4,6 +4,9 @@ import { useTranslation } from 'react-i18next';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import Card from 'components/Card';
+import eventDispatcher, {
+  MSSDK_EDIT_PAYMENT_BUTTON_CLICKED
+} from 'util/eventDispatcher';
 import { CardTypes } from './Payment.const';
 import {
   CardStyled,
@@ -13,23 +16,20 @@ import {
   CardExpirationLabel,
   CardExpirationDateStyled,
   CardEditStyled,
-  CardHeaderStyled,
   CardInfoStyled,
   CardDetailsStyled,
   CardDetailsNameStyled,
   CardDetailsNameWrapStyled,
-  CardInfoWrapStyled
+  CardInfoWrapStyled,
+  HolderNameStyled
 } from './PaymentCardStyled';
 
 const PaymentCardSkeleton = () => (
   <CardStyled>
-    <CardHeaderStyled>
-      <SkeletonWrapper width={140} />
-    </CardHeaderStyled>
     <CardInfoWrapStyled>
       <CardInfoStyled>
         <CardTypeStyled>
-          <SkeletonWrapper height={30} width={40} />
+          <SkeletonWrapper height={16} width={28} />
         </CardTypeStyled>
         <CardDetailsStyled>
           <CardDetailsNameWrapStyled>
@@ -47,31 +47,26 @@ const PaymentCardSkeleton = () => (
   </CardStyled>
 );
 
+const getSpecificPaymentMethod = (
+  paymentMethodSpecificParams,
+  paymentMethod
+) => {
+  if (paymentMethod === 'card') return paymentMethodSpecificParams.variant;
+  return paymentMethod;
+};
+
 const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
   const { t } = useTranslation();
   const { paymentMethodSpecificParams, paymentMethod } = details;
 
-  let LogoComponent = null;
-  let methodTitle = '';
-  if (
-    paymentMethod === 'card' &&
-    CardTypes[paymentMethodSpecificParams.variant]
-  ) {
-    LogoComponent = CardTypes[paymentMethodSpecificParams.variant]?.icon;
-    methodTitle = CardTypes[paymentMethodSpecificParams.variant]?.title;
-  } else if (paymentMethod === 'paypal') {
-    LogoComponent = CardTypes[paymentMethod]?.icon;
-    methodTitle = CardTypes[paymentMethod]?.title;
-  } else {
-    LogoComponent = CardTypes[details.paymentMethod]?.icon;
-    methodTitle = CardTypes[details.paymentMethod]?.title;
-  }
+  const { icon: LogoComponent, title: methodTitle } = CardTypes[
+    getSpecificPaymentMethod(paymentMethodSpecificParams, paymentMethod)
+  ] || { icon: null, title: '' };
 
   return (
     <Card withBorder type={details.paymentMethod}>
       {isDataLoaded ? (
         <CardStyled>
-          <CardHeaderStyled>Payment method</CardHeaderStyled>
           <CardInfoWrapStyled>
             <CardInfoStyled>
               {LogoComponent && (
@@ -86,6 +81,11 @@ const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
                     <CardNumberStyled>
                       (**** {paymentMethodSpecificParams.lastCardFourDigits})
                     </CardNumberStyled>
+                  )}
+                  {paymentMethod === 'paypal' && (
+                    <HolderNameStyled>
+                      ({paymentMethodSpecificParams.holderName})
+                    </HolderNameStyled>
                   )}
                 </CardDetailsNameWrapStyled>
                 {paymentMethodSpecificParams?.cardExpirationDate && (
@@ -106,13 +106,11 @@ const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
                   type: POPUP_TYPES.paymentDetails,
                   data: details
                 });
-                window.dispatchEvent(
-                  new CustomEvent('MSSDK:edit-payment-button-clicked', {
-                    detail: {
-                      paymentMethod
-                    }
-                  })
-                );
+                eventDispatcher(MSSDK_EDIT_PAYMENT_BUTTON_CLICKED, {
+                  detail: {
+                    paymentMethod
+                  }
+                });
               }}
             >
               {t('Edit payment info')}

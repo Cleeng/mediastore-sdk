@@ -33,11 +33,11 @@ export const CardTypes = {
   },
   apple: {
     icon: Apple,
-    title: 'Apple Pay'
+    title: 'Apple'
   },
   android: {
     icon: Android,
-    title: 'Google Pay'
+    title: 'Android'
   },
   amazon: {
     icon: Amazon,
