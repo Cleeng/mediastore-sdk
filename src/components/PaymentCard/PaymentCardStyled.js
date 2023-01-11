@@ -87,7 +87,9 @@ export const CardEditStyled = styled.button.attrs(() => ({
   }
 `;
 
-export const CardInfoStyled = styled.div`
+export const CardInfoStyled = styled.div.attrs(() => ({
+  className: 'msd__payment-method__information'
+}))`
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -98,12 +100,16 @@ export const CardInfoStyled = styled.div`
   `}
 `;
 
-export const CardDetailsStyled = styled.div`
+export const CardDetailsStyled = styled.div.attrs(() => ({
+  className: 'msd__payment-method__details'
+}))`
   margin-left: 20px;
   margin-right: auto;
 `;
 
-export const CardDetailsNameStyled = styled.div`
+export const CardDetailsNameStyled = styled.div.attrs(() => ({
+  className: 'msd__payment-method__name'
+}))`
   color: ${FontColor};
   font-size: 13px;
   font-weight: 600;
@@ -111,12 +117,16 @@ export const CardDetailsNameStyled = styled.div`
   margin-right: 4px;
 `;
 
-export const CardDetailsNameWrapStyled = styled.div`
+export const CardDetailsNameWrapStyled = styled.div.attrs(() => ({
+  className: 'msd__payment-method__nameWrapper'
+}))`
   display: flex;
   margin-bottom: 4px;
 `;
 
-export const CardInfoWrapStyled = styled.div`
+export const CardInfoWrapStyled = styled.div.attrs(() => ({
+  className: 'msd__payment-method__wrapper'
+}))`
   display: flex;
   flex-direction: column;
   justify-content: space-between;

@@ -47,19 +47,17 @@ const PaymentCardSkeleton = () => (
   </CardStyled>
 );
 
-const getSpecificPaymentMethod = ({ variant }, paymentMethod) => {
-  if (paymentMethod === 'card') return variant;
-  return paymentMethod;
-};
-
 const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
   const { t } = useTranslation();
   const { paymentMethodSpecificParams, paymentMethod } = details;
 
+  const getSpecificPaymentMethod = () => {
+    if (paymentMethod === 'card') return paymentMethodSpecificParams.variant;
+    return paymentMethod;
+  };
+
   const { icon: LogoComponent, title: methodTitle } = isDataLoaded
-    ? CardTypes[
-        getSpecificPaymentMethod(paymentMethodSpecificParams, paymentMethod)
-      ]
+    ? CardTypes[getSpecificPaymentMethod()]
     : { icon: null, title: '' };
 
   return (
