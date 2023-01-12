@@ -64,24 +64,6 @@ export const WrapStyled = styled.div.attrs(() => ({
       max-width: unset;
     `}
     
-  ${props =>
-    props.direction === 'row' &&
-    css`
-      display: flex;
-      flex-direction: row-reverse;
-      justify-content: space-between;
-
-      ${DetailsStyled} {
-        text-align: left;
-        margin: auto 40px auto 40px;
-      }
-      ${TitleStyled} {
-        margin: auto 0 auto 0;
-      }
-      ${IconStyled} {
-        margin: auto 40px auto 40px;
-      }
-    `}
   
   ${props =>
     props.withBorder &&
@@ -89,6 +71,26 @@ export const WrapStyled = styled.div.attrs(() => ({
       border: 1px dashed ${IconsColor};
       border-radius: 20px;
       padding: 35px 0;
+    `}
+
+  ${props =>
+    props.direction === 'row' &&
+    css`
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+      padding: 20px 0;
+
+      ${DetailsStyled} {
+        text-align: left;
+        margin: auto 20px auto 20px;
+      }
+      ${TitleStyled} {
+        margin: auto 0 auto 0;
+      }
+      ${IconStyled} {
+        margin: auto 20px auto 20px;
+      }
     `}
 
   ${props =>
