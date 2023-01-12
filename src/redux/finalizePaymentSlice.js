@@ -28,6 +28,7 @@ export const finalizePaymentSlice = createSlice({
       state.loading = true;
     },
     [fetchFinalizeInitialPayment.fulfilled]: (state, { payload }) => {
+      console.log('fullfilled', { payload });
       state.loading = false;
       state.payment = payload;
     },

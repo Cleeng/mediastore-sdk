@@ -12,6 +12,7 @@ import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import Loader from 'components/Loader';
 import SectionHeader from 'components/SectionHeader';
+import { fetchFinalizeInitialPayment } from 'redux/finalizePaymentSlice';
 import Auth from 'services/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -48,6 +49,11 @@ const Payment = ({ t, onPaymentComplete }) => {
   const [generalError, setGeneralError] = useState('');
   const [dropInInstance, setDropInInstance] = useState(null);
   const [adyenKey, setAdyenKey] = useState(false);
+  const {
+    error: finilizePaymentError,
+    payment: finalizedPayment
+  } = useSelector(state => state.finalizeInitialPayment);
+  console.log({ finilizePaymentError, finalizedPayment });
   const dispatch = useDispatch();
 
   // order updates
@@ -132,11 +138,13 @@ const Payment = ({ t, onPaymentComplete }) => {
 
   // Adyen
   const onAdditionalDetails = async state => {
-    console.log('onAdditionalDetails event');
     const {
       data: { details }
     } = state;
     console.log('data for finilize initial payment', details);
+    dispatch(
+      fetchFinalizeInitialPayment({ orderId: order.id, details })
+    ).unwrap();
   };
 
   const onAdyenSubmit = async (state, component) => {
