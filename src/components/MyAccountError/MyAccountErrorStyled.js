@@ -37,6 +37,10 @@ export const IconStyled = styled.div.attrs(() => ({
   }
 `;
 
+export const DetailsStyled = styled.div.attrs(() => ({
+  className: 'msd__info-details'
+}))``;
+
 export const WrapStyled = styled.div.attrs(() => ({
   className: 'msd__info-box'
 }))`
@@ -45,13 +49,39 @@ export const WrapStyled = styled.div.attrs(() => ({
   }
   box-sizing: border-box;
   position: relative;
-  max-width: ${props => (props.fullWidth ? 'unset' : '320px')};
+  max-width: 320px;
 
   padding: 18px;
   margin: ${props => (props.margin ? props.margin : '0 auto 32px auto')} ;
 
   text-align: center;
   line-height: 1.4;
+
+  ${props =>
+    props.fullWidth &&
+    css`
+      width: 100%;
+      max-width: unset;
+    `}
+    
+  ${props =>
+    props.direction === 'row' &&
+    css`
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: space-between;
+
+      ${DetailsStyled} {
+        text-align: left;
+        margin: auto 40px auto 40px;
+      }
+      ${TitleStyled} {
+        margin: auto 0 auto 0;
+      }
+      ${IconStyled} {
+        margin: auto 40px auto 40px;
+      }
+    `}
   
   ${props =>
     props.withBorder &&
