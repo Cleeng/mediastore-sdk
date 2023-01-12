@@ -5,7 +5,6 @@ import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
-import usePrevious from 'util/usePreviousHook';
 import useScript from 'util/useScriptHook';
 import { useSelector } from 'react-redux';
 import AdyenStyled from './AdyenStyled';
@@ -28,11 +27,10 @@ const Adyen = ({
   getDropIn,
   onAdditionalDetails
 }) => {
-  const { totalPrice, discount } = useSelector(state => state.order.order);
+  const { discount } = useSelector(state => state.order.order);
   const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef(null);
   const [dropInInstance, setDropInInstance] = useState(null);
-  const prevTotalPrice = usePrevious(totalPrice);
   useScript('https://pay.google.com/gp/p/js/pay.js');
 
   const onError = e => {
@@ -144,19 +142,14 @@ const Adyen = ({
   }, []);
 
   useEffect(() => {
-    if (
-      !isMyAccount &&
-      dropInInstance &&
-      prevTotalPrice !== totalPrice &&
-      discount.applied
-    ) {
+    if (dropInInstance && discount?.applied) {
       // recreate dropin when coupon was applied
       dropInInstance.unmount();
       getDropIn(null);
       setIsLoading(true);
       createSession(); // recreate Adyen Instance if price was changed
     }
-  }, [totalPrice]);
+  }, [discount.applied]);
 
   useEffect(() => {
     if (!selectedPaymentMethod || !dropInInstance) {
