@@ -1,5 +1,7 @@
 import { ReactComponent as CardLogo } from 'assets/images/paymentMethods/card.svg';
-import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/paypal.svg';
+import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PPicon.svg';
+import { ReactComponent as ApplePayLogo } from 'assets/images/paymentMethods/applePay.svg';
+import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/googlepay.svg';
 
 export const supportedPaymentMethods = [
   'card',
@@ -11,7 +13,9 @@ export const supportedPaymentGateways = ['adyen', 'paypal'];
 
 export const logos = {
   card: CardLogo,
-  paypal: PaypalLogo
+  paypal: PaypalLogo,
+  applepay: ApplePayLogo,
+  googlepay: GooglePayLogo
 };
 
 export default logos;
