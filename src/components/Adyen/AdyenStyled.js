@@ -103,7 +103,9 @@ const AdyenStyled = styled.div.attrs(() => ({
     border-color: ${ConfirmColor};
     background-color: ${White};
   }
-
+  .adyen-checkout__payment-method__radio--selected {
+    background-color: ${ConfirmColor};
+  }
   ${({ isAdditionalPayment }) =>
     isAdditionalPayment &&
     css`

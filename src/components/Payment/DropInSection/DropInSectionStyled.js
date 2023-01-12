@@ -23,6 +23,9 @@ export const WrapperStyled = styled.div.attrs(() => ({
   &:hover .adyen-checkout__payment-method__radio {
     box-shadow: 0 0 3px 1px #808080;
   }
+  .adyen-checkout__payment-method__radio--selected {
+    background-color: ${ConfirmColor};
+  }
 `;
 
 export const TextStyled = styled.div.attrs(() => ({
