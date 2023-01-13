@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { StyledLoaderContent } from 'containers/OfferContainer/StyledOfferContainer';
 import Loader from 'components/Loader';
 import { ThankYouPage } from 'package';
-import { BodyStyled } from './PaymentResultPageStyled';
+import FailedPaymentPage from 'components/FailedPaymentPage';
 
 const PaymentResultPage = () => {
   const adyenRedirectResult = new URLSearchParams(window.location.search).get(
@@ -23,7 +23,6 @@ const PaymentResultPage = () => {
         details: { redirectResult: adyenRedirectResult }
       })
     ).unwrap();
-    // TODO:: redirect back to checkout when the transaction was cancelled, resultCode = 'Cancelled'
   };
   const { error, payment } = useSelector(state => state.finalizeInitialPayment);
 
@@ -31,21 +30,12 @@ const PaymentResultPage = () => {
     submitRedirectResult();
   }, []);
 
-  if (payment) {
-    return <ThankYouPage />;
+  if (error && error !== 'Cancelled') {
+    return <FailedPaymentPage />;
   }
 
-  if (error) {
-    // TODO:: adjust copy on error page
-    return (
-      <StyledOfferWrapper>
-        <Header />
-        <BodyStyled>
-          <>error occured {error}</>
-        </BodyStyled>
-        <Footer />
-      </StyledOfferWrapper>
-    );
+  if (payment.id) {
+    return <ThankYouPage />;
   }
 
   return (

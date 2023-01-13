@@ -7,7 +7,8 @@ const initialState = {
     paymentMethod: null,
     currency: null
   },
-  error: null
+  error: null,
+  shouldShowFinalizePaymentComponent: false
 };
 
 export const fetchFinalizeInitialPayment = createAsyncThunk(
@@ -25,7 +26,11 @@ export const fetchFinalizeInitialPayment = createAsyncThunk(
 export const finalizePaymentSlice = createSlice({
   name: 'finalizeInitialPayment',
   initialState,
-  reducers: {},
+  reducers: {
+    setShouldShowFinalizePaymentComponent(state, { payload }) {
+      state.shouldShowFinalizePaymentComponent = payload;
+    }
+  },
   extraReducers: {
     [fetchFinalizeInitialPayment.pending]: state => {
       state.loading = true;
@@ -36,9 +41,17 @@ export const finalizePaymentSlice = createSlice({
     },
     [fetchFinalizeInitialPayment.rejected]: (state, { payload }) => {
       state.loading = false;
-      state.error = payload; // TODO: check if this can be displayer or we need to show custom nice message
+      // Final version
+      // state.error = payload;
+      // state.shouldShowFinalizePaymentComponent = payload !== 'Cancelled'; TODO: uncomment
+
+      // Cancel flow
+      state.error = 'Cancelled';
+      state.shouldShowFinalizePaymentComponent = false;
     }
   }
 });
-
+export const {
+  setShouldShowFinalizePaymentComponent
+} = finalizePaymentSlice.actions;
 export default finalizePaymentSlice.reducer;

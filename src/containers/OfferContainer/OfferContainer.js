@@ -6,7 +6,6 @@ import ErrorPage from 'components/ErrorPage';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Loader from 'components/Loader';
-import PaymentResultPage from 'components/PaymentResultPage';
 import { updateOrder, getPaymentMethods } from 'api';
 import { setData, getData, removeData } from 'util/appConfigHelper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -23,6 +22,7 @@ import eventDispatcher, {
   MSSDK_COUPON_SUCCESSFUL,
   MSSDK_PURCHASE_LOADED
 } from 'util/eventDispatcher';
+import HOCPayment from 'containers/HOCPayment/HOCPayment';
 import {
   StyledLoaderContainer,
   StyledLoaderContent
@@ -39,10 +39,6 @@ const OfferContainer = ({ offerId: offerIdProp, onSuccess }) => {
   const { error: offerError } = useSelector(state => state.offer);
 
   const offerId = offerIdProp || offerIdStore;
-
-  const adyenRedirectResult = new URLSearchParams(window.location.search).get(
-    'redirectResult'
-  );
 
   const paymentMethodsHandler = orderId => {
     getPaymentMethods().then(paymentMethodResponse => {
@@ -183,10 +179,6 @@ const OfferContainer = ({ offerId: offerIdProp, onSuccess }) => {
     );
   }
 
-  if (adyenRedirectResult) {
-    return <PaymentResultPage />;
-  }
-
   if (isOrderLoading) {
     return (
       <StyledLoaderContainer>
@@ -223,4 +215,4 @@ OfferContainer.defaultProps = {
   offerId: ''
 };
 
-export default OfferContainer;
+export default HOCPayment(OfferContainer);
