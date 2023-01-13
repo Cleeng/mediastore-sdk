@@ -8,7 +8,8 @@ import {
   WrapStyled,
   TitleStyled,
   SubTitleStyled,
-  IconStyled
+  IconStyled,
+  DetailsStyled
 } from './MyAccountErrorStyled';
 
 const MyAccountError = ({
@@ -22,7 +23,8 @@ const MyAccountError = ({
   margin,
   fullWidth,
   onClick,
-  isSmallCard
+  isSmallCard,
+  direction
 }) => {
   const { t } = useTranslation();
 
@@ -36,18 +38,21 @@ const MyAccountError = ({
       fullWidth={fullWidth}
       onClick={onClick}
       isSmallCard={isSmallCard}
+      direction={direction}
     >
       {(icon || generalError) && (
         <IconStyled>
           <IconComponent />
         </IconStyled>
       )}
-      <TitleStyled>
-        {generalError ? t('Oops, something went wrong!') : t(title)}
-      </TitleStyled>
-      <SubTitleStyled>
-        {generalError ? t('Please try again in a few moments.') : t(subtitle)}
-      </SubTitleStyled>
+      <DetailsStyled>
+        <TitleStyled>
+          {generalError ? t('Oops, something went wrong!') : t(title)}
+        </TitleStyled>
+        <SubTitleStyled>
+          {generalError ? t('Please try again in a few moments.') : t(subtitle)}
+        </SubTitleStyled>
+      </DetailsStyled>
       {generalError && (
         <Button
           margin="20px auto auto auto"
@@ -72,7 +77,8 @@ MyAccountError.propTypes = {
   margin: PropTypes.string,
   fullWidth: PropTypes.bool,
   onClick: PropTypes.func,
-  isSmallCard: PropTypes.bool
+  isSmallCard: PropTypes.bool,
+  direction: PropTypes.oneOf(['row', 'column'])
 };
 
 MyAccountError.defaultProps = {
@@ -86,7 +92,8 @@ MyAccountError.defaultProps = {
   margin: '',
   fullWidth: false,
   onClick: null,
-  isSmallCard: false
+  isSmallCard: false,
+  direction: 'column'
 };
 
 export default MyAccountError;

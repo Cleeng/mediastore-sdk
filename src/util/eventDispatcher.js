@@ -18,3 +18,5 @@ export const MSSDK_REMOVE_PAYMENT_DETAILS_BUTTON_CLICKED =
 export const MSSDK_COUPON_SUCCESSFUL = 'MSSDK:redeem-coupon-success';
 export const MSSDK_COUPON_FAILED = 'MSSDK:redeem-coupon-failed';
 export const MSSDK_PURCHASE_LOADED = 'MSSDK:Purchase-loaded';
+export const MSSDK_EDIT_PAYMENT_BUTTON_CLICKED =
+  'MSSDK:edit-payment-button-clicked';

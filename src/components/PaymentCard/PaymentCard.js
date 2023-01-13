@@ -3,88 +3,121 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
-import { CardTypesIcons } from './Payment.const';
+import Card from 'components/Card';
+import eventDispatcher, {
+  MSSDK_EDIT_PAYMENT_BUTTON_CLICKED
+} from 'util/eventDispatcher';
+import { CardTypes } from './Payment.const';
 import {
   CardStyled,
-  CardWrapStyled,
   CardTypeStyled,
   CardNumberStyled,
   CardExpirationStyled,
   CardExpirationLabel,
   CardExpirationDateStyled,
   CardEditStyled,
-  MethodNameStyled
+  CardInfoStyled,
+  CardDetailsStyled,
+  CardDetailsNameStyled,
+  CardDetailsNameWrapStyled,
+  CardInfoWrapStyled,
+  HolderNameStyled
 } from './PaymentCardStyled';
 
-const INAPPS = ['android', 'apple', 'amazon', 'roku'];
+const PaymentCardSkeleton = () => (
+  <CardStyled>
+    <CardInfoWrapStyled>
+      <CardInfoStyled>
+        <CardTypeStyled>
+          <SkeletonWrapper height={16} width={28} />
+        </CardTypeStyled>
+        <CardDetailsStyled>
+          <CardDetailsNameWrapStyled>
+            <CardDetailsNameStyled>
+              <SkeletonWrapper width={140} />
+            </CardDetailsNameStyled>
+          </CardDetailsNameWrapStyled>
+          <CardExpirationStyled>
+            <SkeletonWrapper width={100} />
+          </CardExpirationStyled>
+        </CardDetailsStyled>
+      </CardInfoStyled>
+      <SkeletonWrapper height={43} width={170} />
+    </CardInfoWrapStyled>
+  </CardStyled>
+);
+
 const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
   const { t } = useTranslation();
   const { paymentMethodSpecificParams, paymentMethod } = details;
-  const LogoComponent =
-    paymentMethodSpecificParams &&
-    CardTypesIcons[paymentMethodSpecificParams.variant]
-      ? CardTypesIcons[paymentMethodSpecificParams.variant]
-      : CardTypesIcons[details.paymentMethod] || null;
+
+  const getSpecificPaymentMethod = () => {
+    if (paymentMethod === 'card') return paymentMethodSpecificParams.variant;
+    return paymentMethod;
+  };
+
+  const { icon: LogoComponent, title: methodTitle } = isDataLoaded
+    ? CardTypes[getSpecificPaymentMethod()]
+    : { icon: null, title: '' };
 
   return (
-    <CardWrapStyled type={details.paymentMethod}>
+    <Card withBorder type={details.paymentMethod}>
       {isDataLoaded ? (
         <CardStyled>
-          {LogoComponent && (
-            <CardTypeStyled>
-              <LogoComponent />
-            </CardTypeStyled>
-          )}
-          {paymentMethodSpecificParams?.lastCardFourDigits && (
-            <CardNumberStyled>
-              **** **** **** {paymentMethodSpecificParams.lastCardFourDigits}
-            </CardNumberStyled>
-          )}
-          {INAPPS.includes(paymentMethod) && (
-            <CardNumberStyled>
-              {t('Billing via')}{' '}
-              <MethodNameStyled>{paymentMethod}</MethodNameStyled>
-            </CardNumberStyled>
-          )}
-          {paymentMethodSpecificParams?.cardExpirationDate && (
-            <CardExpirationStyled>
-              <CardExpirationLabel>{t('Expiry date')}</CardExpirationLabel>
-              <CardExpirationDateStyled>
-                {paymentMethodSpecificParams.cardExpirationDate}
-              </CardExpirationDateStyled>
-            </CardExpirationStyled>
-          )}
-          {paymentMethodSpecificParams?.holderName &&
-            !paymentMethodSpecificParams?.cardExpirationDate && (
-              <CardExpirationStyled>
-                <CardExpirationLabel>{t('Holder name')}</CardExpirationLabel>
-                <CardExpirationDateStyled>
-                  {paymentMethodSpecificParams.holderName}
-                </CardExpirationDateStyled>
-              </CardExpirationStyled>
-            )}
-          <CardEditStyled
-            onClick={() => {
-              showInnerPopup({
-                type: POPUP_TYPES.paymentDetails,
-                data: details
-              });
-              window.dispatchEvent(
-                new CustomEvent('MSSDK:edit-payment-button-clicked', {
+          <CardInfoWrapStyled>
+            <CardInfoStyled>
+              {LogoComponent && (
+                <CardTypeStyled>
+                  <LogoComponent />
+                </CardTypeStyled>
+              )}
+              <CardDetailsStyled>
+                <CardDetailsNameWrapStyled>
+                  <CardDetailsNameStyled>{methodTitle}</CardDetailsNameStyled>
+                  {paymentMethodSpecificParams?.lastCardFourDigits && (
+                    <CardNumberStyled>
+                      (**** {paymentMethodSpecificParams.lastCardFourDigits})
+                    </CardNumberStyled>
+                  )}
+                  {paymentMethod === 'paypal' && (
+                    <HolderNameStyled>
+                      ({paymentMethodSpecificParams.holderName})
+                    </HolderNameStyled>
+                  )}
+                </CardDetailsNameWrapStyled>
+                {paymentMethodSpecificParams?.cardExpirationDate && (
+                  <CardExpirationStyled>
+                    <CardExpirationLabel>
+                      {t('Expiry date')}
+                    </CardExpirationLabel>
+                    <CardExpirationDateStyled>
+                      {paymentMethodSpecificParams.cardExpirationDate}
+                    </CardExpirationDateStyled>
+                  </CardExpirationStyled>
+                )}
+              </CardDetailsStyled>
+            </CardInfoStyled>
+            <CardEditStyled
+              onClick={() => {
+                showInnerPopup({
+                  type: POPUP_TYPES.paymentDetails,
+                  data: details
+                });
+                eventDispatcher(MSSDK_EDIT_PAYMENT_BUTTON_CLICKED, {
                   detail: {
                     paymentMethod
                   }
-                })
-              );
-            }}
-          >
-            {t('Edit payment info')}
-          </CardEditStyled>
+                });
+              }}
+            >
+              {t('Edit payment info')}
+            </CardEditStyled>
+          </CardInfoWrapStyled>
         </CardStyled>
       ) : (
-        <SkeletonWrapper height={166} />
+        <PaymentCardSkeleton />
       )}
-    </CardWrapStyled>
+    </Card>
   );
 };
 

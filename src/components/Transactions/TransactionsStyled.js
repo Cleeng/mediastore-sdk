@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import styled, { css } from 'styled-components';
-import { LineColor, FontColor } from 'styles/variables';
+import { LineColor, FontColor, White } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const WrapStyled = styled.div.attrs(() => ({
@@ -54,6 +54,7 @@ export const TransactionListStyled = styled.div.attrs(() => ({
 
 export const LeftBoxStyled = styled.div`
   max-width: 70%;
+  display: flex;
 `;
 
 export const RightBoxStyled = styled.div`
@@ -119,4 +120,22 @@ export const ButtonTextStyled = styled.span.attrs(() => ({
         transform: scaleY(0.8) rotateX(180deg);
       `}
   }
+`;
+
+export const LogoWrapStyled = styled.div`
+  display: flex;
+  height: 38px;
+  width: 38px;
+  padding: 8px;
+  background: ${White} 0% 0% no-repeat padding-box;
+  border: 1px solid #d4d4df;
+  border-radius: 6px;
+  svg {
+    width: 100%;
+    height: auto;
+  }
+`;
+
+export const InfoStyled = styled.div`
+  margin-left: 18px;
 `;

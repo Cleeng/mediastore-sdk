@@ -67,7 +67,8 @@ const PaymentMethod = ({
               onClick={() =>
                 showInnerPopup({ type: POPUP_TYPES.paymentDetails })
               }
-              isSmallCard
+              direction="row"
+              fullWidth
             />
           )}
         </CardsWrapper>
