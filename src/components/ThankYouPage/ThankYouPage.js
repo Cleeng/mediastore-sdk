@@ -1,4 +1,7 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { currencyFormat } from 'util/planHelper';
+
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import Header from 'components/Header';
@@ -17,6 +20,15 @@ import {
 } from './ThankYouPageStyled';
 
 const ThankYouPage = ({ onSuccess, t }) => {
+  const {
+    payment: { paymentMethod, totalAmount, currency }
+  } = useSelector(state => state.finalizeInitialPayment);
+  const readablePaymentMethod = {
+    card: 'Credit Card',
+    paypa: 'PayPal',
+    googlepay: 'GooglePay',
+    applepay: 'ApplePay'
+  };
   useEffect(() => {
     const timer = setTimeout(() => {
       onSuccess();
@@ -31,10 +43,23 @@ const ThankYouPage = ({ onSuccess, t }) => {
         <IconStyled src={checkmarkIconBase} />
         <TitleStyled>{t('Thank You!')}</TitleStyled>
         <MessageStyled>
-          <strong>{t('Your purchase has been successfully completed.')}</strong>
+          {readablePaymentMethod[paymentMethod] ? (
+            <strong>
+              {t(
+                `Your purchase was successfully processed using ${readablePaymentMethod[paymentMethod]}!`
+              )}
+            </strong>
+          ) : (
+            <strong>{t('Your purchase was successfully processed!')}</strong>
+          )}
         </MessageStyled>
         <MessageStyled>
-          {t('We hope you love it. You can manage your account from')}
+          {totalAmount &&
+            currency &&
+            t(
+              `You have been charged ${currencyFormat[currency]}${totalAmount}. `
+            )}
+          {t('You can manage your account from')}
           <LinkStyled
             href={getData('CLEENG_MY_ACCOUNT_URL')}
             target="_blank"

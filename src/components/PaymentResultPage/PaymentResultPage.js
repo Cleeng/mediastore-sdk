@@ -18,7 +18,10 @@ const PaymentResultPage = () => {
 
   const submitRedirectResult = async () => {
     dispatch(
-      fetchFinalizeInitialPayment({ orderId, details: adyenRedirectResult })
+      fetchFinalizeInitialPayment({
+        orderId,
+        details: { redirectResult: adyenRedirectResult }
+      })
     ).unwrap();
     // TODO:: redirect back to checkout when the transaction was cancelled, resultCode = 'Cancelled'
   };
@@ -29,7 +32,6 @@ const PaymentResultPage = () => {
   }, []);
 
   if (payment) {
-    // TODO:: adjust copy on thank you page
     return <ThankYouPage />;
   }
 

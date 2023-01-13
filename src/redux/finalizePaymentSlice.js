@@ -3,7 +3,10 @@ import { finalizeInitialPayment } from 'api';
 
 const initialState = {
   loading: false,
-  payment: null,
+  payment: {
+    paymentMethod: null,
+    currency: null
+  },
   error: null
 };
 
@@ -11,8 +14,8 @@ export const fetchFinalizeInitialPayment = createAsyncThunk(
   'finalizeInitialPayment',
   async ({ orderId, details }, { rejectWithValue }) => {
     try {
-      const { responseData } = await finalizeInitialPayment(orderId, details);
-      return responseData;
+      const { payment } = await finalizeInitialPayment(orderId, details);
+      return payment;
     } catch (err) {
       return rejectWithValue(err.message);
     }
@@ -28,7 +31,6 @@ export const finalizePaymentSlice = createSlice({
       state.loading = true;
     },
     [fetchFinalizeInitialPayment.fulfilled]: (state, { payload }) => {
-      console.log('fullfilled', { payload });
       state.loading = false;
       state.payment = payload;
     },
