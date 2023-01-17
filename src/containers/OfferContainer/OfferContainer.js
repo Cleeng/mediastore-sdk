@@ -22,7 +22,7 @@ import eventDispatcher, {
   MSSDK_COUPON_SUCCESSFUL,
   MSSDK_PURCHASE_LOADED
 } from 'util/eventDispatcher';
-import handlePaymentFinalization from 'containers/handlePaymentFinalization';
+import PaymentFinalizationHandler from 'containers/PaymentFinalizationHandler';
 import {
   StyledLoaderContainer,
   StyledLoaderContent
@@ -215,4 +215,4 @@ OfferContainer.defaultProps = {
   offerId: ''
 };
 
-export default handlePaymentFinalization(OfferContainer);
+export default PaymentFinalizationHandler(OfferContainer);

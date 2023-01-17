@@ -5,8 +5,8 @@ import PaymentResultPage from 'components/PaymentResultPage';
 import { setShouldShowFinalizePaymentComponent } from 'redux/finalizePaymentSlice';
 import useFirstRender from 'hooks/useFirstRender';
 
-const HandlePaymentFinalization = Component => {
-  return function withHandlePaymentFinalization(props) {
+const PaymentFinalizationHandler = Component => {
+  return function WithPaymentFinalizationHandler(props) {
     const dispatch = useDispatch();
     const firstRender = useFirstRender(null);
 
@@ -36,12 +36,12 @@ const HandlePaymentFinalization = Component => {
   };
 };
 
-HandlePaymentFinalization.propTypes = {
+PaymentFinalizationHandler.propTypes = {
   children: PropTypes.node
 };
 
-HandlePaymentFinalization.defaultProps = {
+PaymentFinalizationHandler.defaultProps = {
   children: ''
 };
 
-export default HandlePaymentFinalization;
+export default PaymentFinalizationHandler;
