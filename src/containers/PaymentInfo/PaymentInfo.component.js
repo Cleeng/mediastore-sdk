@@ -9,8 +9,8 @@ import Transactions from 'components/Transactions';
 import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
+import GracePeriodError from 'components/GracePeriodError';
 import { WrapStyled } from './PaymentInfoStyled';
-import GracePeriodError from '../../components/GracePeriodError/GracePeriodError';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
 

@@ -11,8 +11,8 @@ import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
 import CancelSwitchPopup from 'components/CancelSwitchPopup';
 import getSwitch from 'api/Customer/getSwitch';
+import GracePeriodError from 'components/GracePeriodError';
 import { WrapStyled } from './PlanDetailsStyled';
-import GracePeriodError from '../../components/GracePeriodError/GracePeriodError';
 
 const PlanDetails = ({
   planDetails,
