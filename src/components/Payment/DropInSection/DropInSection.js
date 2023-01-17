@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ReactComponent as Chevron } from 'assets/images/chevron.svg';
 import { ReactComponent as PayPalIcon } from 'assets/images/paymentMethods/PPicon.svg';
+import classNames from 'classnames';
 import {
-  ChevronIconWrapperStyled,
   IconWrapperStyled,
   TextStyled,
   TitleStyled,
@@ -31,13 +30,16 @@ const DropInSection = ({
       fadeOutSection={fadeOutSection}
     >
       <TextStyled>
+        <span
+          className={classNames('adyen-checkout__payment-method__radio', {
+            'adyen-checkout__payment-method__radio--selected': isSelected
+          })}
+          aria-hidden={!isSelected}
+        />
         <IconWrapperStyled>
           {LogoComponent && <LogoComponent />}
         </IconWrapperStyled>
         <TitleStyled>{title}</TitleStyled>
-        <ChevronIconWrapperStyled isSelected={isSelected}>
-          <Chevron />
-        </ChevronIconWrapperStyled>
       </TextStyled>
       {isSelected && children}
     </WrapperStyled>

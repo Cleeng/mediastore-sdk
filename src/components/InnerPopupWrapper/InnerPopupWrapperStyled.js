@@ -10,7 +10,6 @@ import Card from 'components/Card';
 
 export const CardStyled = styled(Card)`
   border: 1px solid ${LineColor};
-  height: 100%;
   min-height: 500px;
   display: flex;
   padding: 0;
