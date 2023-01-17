@@ -38,6 +38,11 @@ export const LinkStyled = styled.a`
   color: ${colors.FontColor};
   padding-left: 4px;
   font-weight: bold;
+  outline: none;
+  border: none;
+  background: transparent;
+  padding: 0;
+  margin: 0 5px;
   &:hover {
     text-decoration: underline;
   }

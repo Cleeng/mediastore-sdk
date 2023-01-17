@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import PaymentResultPage from 'components/PaymentResultPage';
 import { setShouldShowFinalizePaymentComponent } from 'redux/finalizePaymentSlice';
+import useFirstRender from 'hooks/useFirstRender';
 
-const HOCPayment = Component => ({ ...props }) => {
+const handlePaymentFinalization = Component => ({ ...props }) => {
   const dispatch = useDispatch();
-  const { error } = useSelector(state => state.finalizeInitialPayment);
+  const firstRender = useFirstRender(null);
+
+  const { error, shouldShowFinalizePaymentComponent } = useSelector(
+    state => state.finalizeInitialPayment
+  );
 
   const adyenRedirectResult = new URLSearchParams(window.location.search).get(
     'redirectResult'
@@ -16,30 +21,25 @@ const HOCPayment = Component => ({ ...props }) => {
     dispatch(setShouldShowFinalizePaymentComponent(true));
   }
 
-  const { shouldShowFinalizePaymentComponent } = useSelector(
-    state => state.finalizeInitialPayment
-  );
-
   useEffect(() => {
-    if (!shouldShowFinalizePaymentComponent) {
+    if (!firstRender && !shouldShowFinalizePaymentComponent) {
       window.history.replaceState(null, null, window.location.pathname);
     }
-  }, [shouldShowFinalizePaymentComponent]);
+  }, [firstRender, shouldShowFinalizePaymentComponent]);
 
   if (shouldShowFinalizePaymentComponent) {
     return <PaymentResultPage />;
   }
-
   // eslint-disable-next-line react/jsx-props-no-spreading
   return <Component {...props} />;
 };
 
-HOCPayment.propTypes = {
+handlePaymentFinalization.propTypes = {
   children: PropTypes.node
 };
 
-HOCPayment.defaultProps = {
+handlePaymentFinalization.defaultProps = {
   children: ''
 };
 
-export default HOCPayment;
+export default handlePaymentFinalization;

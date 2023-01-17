@@ -41,13 +41,8 @@ export const finalizePaymentSlice = createSlice({
     },
     [fetchFinalizeInitialPayment.rejected]: (state, { payload }) => {
       state.loading = false;
-      // Final version
-      // state.error = payload;
-      // state.shouldShowFinalizePaymentComponent = payload !== 'Cancelled'; TODO: uncomment
-
-      // Cancel flow
-      state.error = 'Cancelled';
-      state.shouldShowFinalizePaymentComponent = false;
+      state.error = payload;
+      state.shouldShowFinalizePaymentComponent = payload !== 'Cancelled';
     }
   }
 });

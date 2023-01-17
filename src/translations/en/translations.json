@@ -359,5 +359,9 @@
   "legal-notes.period-3months": "<strong>By clicking 'Complete purchase', you will be charged {{ readablePrice }}{{ readablePeriod }} or the then-current price plus applicable taxes on a recurring basis.</strong> Your subscription will automatically continue until you cancel. To cancel, log into <3>your account</3> and click 'Manage Subscription'.",
   "legal-notes.period-6months": "<strong>By clicking 'Complete purchase', you will be charged {{ readablePrice }}{{ readablePeriod }} or the then-current price plus applicable taxes on a recurring basis.</strong> Your subscription will automatically continue until you cancel. To cancel, log into <3>your account</3> and click 'Manage Subscription'.",
   "legal-notes.period-year": "<strong>By clicking 'Complete purchase', you will be charged {{ readablePrice }}{{ readablePeriod }} or the then-current price plus applicable taxes on a recurring basis.</strong> Your subscription will automatically continue until you cancel. To cancel, log into <3>your account</3> and click 'Manage Subscription'.",
-  "legal-notes-acknowledge": "By clicking 'Complete Purchase' above, I expressly acknowledge and agree to the above terms as well as the full Terms of Service."
+  "legal-notes-acknowledge": "By clicking 'Complete Purchase' above, I expressly acknowledge and agree to the above terms as well as the full Terms of Service.",
+  "payment-error-title": "Oops! Something went wrong",
+  "payment-error-subtitle": "We weren't able to process your payment.",
+  "payment-error-desc.refused": "To complete your purchase, please <1>try again</1> using a different payment method.",
+  "payment-error-desc.error": "To complete your purchase, please <1>try again</1>."
 }
