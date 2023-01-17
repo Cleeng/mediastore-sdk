@@ -5,9 +5,12 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import GracePeriodError from './GracePeriodError';
 
-const store = currentPlan => ({
+const store = (currentPlan, displayGracePeriodError = true) => ({
   planDetails: {
     currentPlan
+  },
+  publisherConfig: {
+    displayGracePeriodError
   }
 });
 
@@ -154,6 +157,48 @@ describe('GracePeriodError component', () => {
       </Provider>
     );
 
+    expect(queryByTestId('grace-period-error')).toBeNull();
+  });
+
+  test('render error when displayGracePeriodError is provided - set to true', () => {
+    const { getByTestId } = render(
+      <Provider
+        store={mockStore(
+          store(
+            [
+              {
+                status: 'active',
+                expiresAt: pastDate
+              }
+            ],
+            true
+          )
+        )}
+      >
+        <GracePeriodError />
+      </Provider>
+    );
+    getByTestId('grace-period-error');
+  });
+
+  test('does not render error when displayGracePeriodError is NOT provided', () => {
+    const { queryByTestId } = render(
+      <Provider
+        store={mockStore(
+          store(
+            [
+              {
+                status: 'active',
+                expiresAt: pastDate
+              }
+            ],
+            false
+          )
+        )}
+      >
+        <GracePeriodError />
+      </Provider>
+    );
     expect(queryByTestId('grace-period-error')).toBeNull();
   });
 });

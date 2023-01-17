@@ -10,11 +10,16 @@ import {
 
 const GracePeriodError = () => {
   const currentPlan = useSelector(state => state.planDetails.currentPlan);
-
-  const isPeriodError = currentPlan.some(
-    ({ status, expiresAt }) =>
-      status === 'active' && new Date(expiresAt) < new Date()
+  const displayGracePeriodError = useSelector(
+    state => state.publisherConfig.displayGracePeriodError
   );
+
+  const isPeriodError =
+    displayGracePeriodError &&
+    currentPlan.some(
+      ({ status, expiresAt }) =>
+        status === 'active' && new Date(expiresAt) < new Date()
+    );
 
   if (!isPeriodError) return null;
 

@@ -12,6 +12,8 @@ import SwitchPlanPopup from 'components/SwitchPlanPopup';
 import CancelSwitchPopup from 'components/CancelSwitchPopup';
 import getSwitch from 'api/Customer/getSwitch';
 import GracePeriodError from 'components/GracePeriodError';
+import { useDispatch } from 'react-redux';
+import { init } from 'redux/publisherConfigSlice';
 import { WrapStyled } from './PlanDetailsStyled';
 
 const PlanDetails = ({
@@ -26,7 +28,8 @@ const PlanDetails = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
   setSwitchDetails,
-  t
+  t,
+  displayGracePeriodError
 }) => {
   const [isLoadingCurrentPlan, setIsLoadingCurrentPlan] = useState(false);
   const [isLoadingChangePlan, setIsLoadingChangePlan] = useState(false);
@@ -34,6 +37,7 @@ const PlanDetails = ({
   const [isErrorCurrentPlan, setIsErrorCurrentPlan] = useState([]);
   const [isErrorChangePlan, setIsErrorChangePlan] = useState([]);
   const didMount = useRef(false);
+  const dispatch = useDispatch();
 
   const getAndSaveSwitchSettings = async customerSubscriptions => {
     if (customerSubscriptions.length > 1) {
@@ -116,6 +120,13 @@ const PlanDetails = ({
     }
     if (planDetails.currentPlan.length === 0) {
       fetchSubscriptions();
+    }
+    if (displayGracePeriodError !== null) {
+      dispatch(
+        init({
+          displayGracePeriodError
+        })
+      );
     }
   }, []);
 
@@ -232,7 +243,8 @@ PlanDetails.propTypes = {
     })
   ),
   skipAvailableDowngradesStep: PropTypes.bool,
-  t: PropTypes.func
+  t: PropTypes.func,
+  displayGracePeriodError: PropTypes.bool
 };
 
 PlanDetails.defaultProps = {
@@ -240,7 +252,8 @@ PlanDetails.defaultProps = {
   innerPopup: {},
   customCancellationReasons: null,
   skipAvailableDowngradesStep: false,
-  t: k => k
+  t: k => k,
+  displayGracePeriodError: null
 };
 
 export { PlanDetails as PurePlanDetails };

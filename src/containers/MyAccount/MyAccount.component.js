@@ -51,7 +51,9 @@ class MyAccount extends Component {
       setCurrentPlan,
       setCurrentUser,
       setConsents,
-      setConsentsError
+      setConsentsError,
+      initPublisherConfig,
+      displayGracePeriodError
     } = this.props;
 
     document.title = 'My Account';
@@ -93,6 +95,9 @@ class MyAccount extends Component {
           }
         });
       }
+    }
+    if (displayGracePeriodError !== null) {
+      initPublisherConfig({ displayGracePeriodError });
     }
   }
 
@@ -304,7 +309,9 @@ MyAccount.propTypes = {
     })
   ),
   skipAvailableDowngradesStep: PropTypes.bool,
-  t: PropTypes.func
+  t: PropTypes.func,
+  displayGracePeriodError: PropTypes.bool,
+  initPublisherConfig: PropTypes.func.isRequired
 };
 
 MyAccount.defaultProps = {
@@ -313,7 +320,8 @@ MyAccount.defaultProps = {
   popup: { isPopupShown: false },
   customCancellationReasons: null,
   t: k => k,
-  skipAvailableDowngradesStep: false
+  skipAvailableDowngradesStep: false,
+  displayGracePeriodError: null
 };
 
 export { MyAccount as PureMyAccount };
