@@ -12,6 +12,7 @@ import SwitchPlanPopup from 'components/SwitchPlanPopup';
 import CancelSwitchPopup from 'components/CancelSwitchPopup';
 import getSwitch from 'api/Customer/getSwitch';
 import { WrapStyled } from './PlanDetailsStyled';
+import GracePeriodError from '../../components/GracePeriodError/GracePeriodError';
 
 const PlanDetails = ({
   planDetails,
@@ -172,6 +173,7 @@ const PlanDetails = ({
 
   return (
     <WrapStyled>
+      <GracePeriodError />
       {innerPopup.isOpen ? (
         renderPopup(innerPopup.type)
       ) : (

@@ -10,6 +10,7 @@ import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
 import { WrapStyled } from './PaymentInfoStyled';
+import GracePeriodError from '../../components/GracePeriodError/GracePeriodError';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
 
@@ -148,6 +149,7 @@ const PaymentInfoFn = ({
 
   return (
     <WrapStyled>
+      <GracePeriodError />
       {innerPopup.isOpen && innerPopup.type === 'paymentDetails' ? (
         <UpdatePaymentDetailsPopup
           hideInnerPopup={hideInnerPopup}

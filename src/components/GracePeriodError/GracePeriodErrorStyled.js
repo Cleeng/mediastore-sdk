@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { media, mediaFrom } from 'styles/BreakPoints';
+import { media } from 'styles/BreakPoints';
 
 export const GracePeriodErrorStyled = styled.div.attrs(() => ({
   className: 'msd__grace-period-error'
@@ -17,8 +17,7 @@ export const GracePeriodErrorStyled = styled.div.attrs(() => ({
   letter-spacing: 0.28px;
   ${media.small`
     border-radius: 0;
-    margin: -35px;
-    margin-bottom: 0;
+    margin: -55px -46px 0;
     font-size: 10px;
     line-height: 16px;
     letter-spacing: 0.25px;
@@ -36,13 +35,4 @@ export const IconStyled = styled.div.attrs(() => ({
   className: 'msd__grace-period-error-alert-icon'
 }))`
   padding-left: 23px;
-`;
-
-export const GracePeriodWrapperStyled = styled.div.attrs(() => ({
-  className: 'msd__grace-period-wrapper'
-}))`
-  ${mediaFrom.small`
-     padding: 20px;
-     padding-top: 0;
-  `}
 `;
