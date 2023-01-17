@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   offerId: '',
-  paymentMethods: []
+  paymentMethods: [],
+  adyenConfiguration: null
 };
 
 export const publisherConfigSlice = createSlice({
@@ -11,6 +12,7 @@ export const publisherConfigSlice = createSlice({
   reducers: {
     init: (state, { payload }) => {
       state.offerId = payload.offerId || '';
+      state.adyenConfiguration = payload.adyenConfiguration || null;
     },
     updatePaymentMethods: (state, { payload }) => {
       state.paymentMethods = payload;

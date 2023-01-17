@@ -51,7 +51,9 @@ class MyAccount extends Component {
       setCurrentPlan,
       setCurrentUser,
       setConsents,
-      setConsentsError
+      setConsentsError,
+      initPublisherConfig,
+      adyenConfiguration
     } = this.props;
 
     document.title = 'My Account';
@@ -91,6 +93,12 @@ class MyAccount extends Component {
           } else {
             setCurrentUser(response.responseData);
           }
+        });
+      }
+
+      if (adyenConfiguration) {
+        initPublisherConfig({
+          adyenConfiguration
         });
       }
     }
@@ -304,12 +312,15 @@ MyAccount.propTypes = {
     })
   ),
   skipAvailableDowngradesStep: PropTypes.bool,
+  initPublisherConfig: PropTypes.func.isRequired,
+  adyenConfiguration: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func
 };
 
 MyAccount.defaultProps = {
   userProfile: { user: null },
   planDetails: { currentPlan: [] },
+  adyenConfiguration: null,
   popup: { isPopupShown: false },
   customCancellationReasons: null,
   t: k => k,

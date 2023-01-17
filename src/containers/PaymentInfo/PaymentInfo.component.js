@@ -9,6 +9,7 @@ import Transactions from 'components/Transactions';
 import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
+import { useSelector } from 'react-redux';
 import { WrapStyled } from './PaymentInfoStyled';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
@@ -25,11 +26,13 @@ const PaymentInfoFn = ({
   setPaymentDetails,
   setTransactionsToShow,
   hideInnerPopup,
+  initPublisherConfig,
   innerPopup,
   showInnerPopup,
   setTransactionsList,
   setTransactionsListAsFetched,
   hideShowMoreButton,
+  adyenConfiguration: adyenConfigurationProp,
   t
 }) => {
   const [paymentDetailsError, setPaymentDetailsError] = useState([]);
@@ -47,6 +50,11 @@ const PaymentInfoFn = ({
   const [isTransactionsItemsLoading, setIsTransactionsItemsLoading] = useState(
     false
   );
+  const { adyenConfiguration: adyenConfigurationStore } = useSelector(
+    state => state.publisherConfig
+  );
+
+  const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
   const toggleTransactionsList = () => {
     if (isTransactionListExpanded) {
@@ -141,6 +149,8 @@ const PaymentInfoFn = ({
       setIsTransactionsSectionLoading(false);
     }
 
+    initPublisherConfig({ adyenConfiguration });
+
     return () => {
       hideInnerPopup();
     };
@@ -195,12 +205,15 @@ PaymentInfoFn.propTypes = {
   }),
   showInnerPopup: PropTypes.func.isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
+  initPublisherConfig: PropTypes.func.isRequired,
   innerPopup: PropTypes.objectOf(PropTypes.any).isRequired,
+  adyenConfiguration: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func
 };
 
 PaymentInfoFn.defaultProps = {
   paymentInfo: { paymentMethod: [], transactionsList: [] },
+  adyenConfiguration: null,
   t: k => k
 };
 
