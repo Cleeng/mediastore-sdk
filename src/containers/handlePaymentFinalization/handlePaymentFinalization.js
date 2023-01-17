@@ -5,41 +5,43 @@ import PaymentResultPage from 'components/PaymentResultPage';
 import { setShouldShowFinalizePaymentComponent } from 'redux/finalizePaymentSlice';
 import useFirstRender from 'hooks/useFirstRender';
 
-const handlePaymentFinalization = Component => ({ ...props }) => {
-  const dispatch = useDispatch();
-  const firstRender = useFirstRender(null);
+const HandlePaymentFinalization = Component => {
+  return function withHandlePaymentFinalization(props) {
+    const dispatch = useDispatch();
+    const firstRender = useFirstRender(null);
 
-  const { error, shouldShowFinalizePaymentComponent } = useSelector(
-    state => state.finalizeInitialPayment
-  );
+    const { error, shouldShowFinalizePaymentComponent } = useSelector(
+      state => state.finalizeInitialPayment
+    );
 
-  const adyenRedirectResult = new URLSearchParams(window.location.search).get(
-    'redirectResult'
-  );
+    const adyenRedirectResult = new URLSearchParams(window.location.search).get(
+      'redirectResult'
+    );
 
-  if (adyenRedirectResult && !error) {
-    dispatch(setShouldShowFinalizePaymentComponent(true));
-  }
-
-  useEffect(() => {
-    if (!firstRender && !shouldShowFinalizePaymentComponent) {
-      window.history.replaceState(null, null, window.location.pathname);
+    if (adyenRedirectResult && !error) {
+      dispatch(setShouldShowFinalizePaymentComponent(true));
     }
-  }, [firstRender, shouldShowFinalizePaymentComponent]);
 
-  if (shouldShowFinalizePaymentComponent) {
-    return <PaymentResultPage />;
-  }
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  return <Component {...props} />;
+    useEffect(() => {
+      if (!firstRender && !shouldShowFinalizePaymentComponent) {
+        window.history.replaceState(null, null, window.location.pathname);
+      }
+    }, [firstRender, shouldShowFinalizePaymentComponent]);
+
+    if (shouldShowFinalizePaymentComponent) {
+      return <PaymentResultPage />;
+    }
+    // eslint-disable-next-line react/jsx-props-no-spreading
+    return <Component {...props} />;
+  };
 };
 
-handlePaymentFinalization.propTypes = {
+HandlePaymentFinalization.propTypes = {
   children: PropTypes.node
 };
 
-handlePaymentFinalization.defaultProps = {
+HandlePaymentFinalization.defaultProps = {
   children: ''
 };
 
-export default handlePaymentFinalization;
+export default HandlePaymentFinalization;
