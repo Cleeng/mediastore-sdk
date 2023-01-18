@@ -71,10 +71,10 @@ const PlanDetails = ({
     setIsLoadingChangePlan(true);
 
     const customerOffersResponse = await getCustomerOffers();
-    if (customerOffersResponse.errors.length) {
+    if (customerOffersResponse.errors?.length) {
       setIsErrorCurrentPlan(customerOffersResponse.errors);
     } else {
-      const customerOffers = customerOffersResponse.responseData.items;
+      const customerOffers = customerOffersResponse.items;
       const offersWithActivePasses = customerOffers.filter(
         offer =>
           !(offer.offerType === 'P' && offer.expiresAt * 1000 < Date.now())

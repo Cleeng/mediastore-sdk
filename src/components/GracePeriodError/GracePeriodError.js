@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ReactComponent as AlertIcon } from 'assets/images/errors/alert.svg';
 import { Trans } from 'react-i18next';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchCustomerOffers } from 'redux/planDetailsSlice';
 import {
   GracePeriodErrorStyled,
   WarningMessageStyled,
@@ -9,14 +10,21 @@ import {
 } from './GracePeriodErrorStyled';
 
 const GracePeriodError = () => {
-  const currentPlan = useSelector(state => state.planDetails.currentPlan);
+  const dispatch = useDispatch();
+  const currentPlan = useSelector(state => state.plan.currentPlan);
   const displayGracePeriodError = useSelector(
     state => state.publisherConfig.displayGracePeriodError
   );
 
+  useEffect(() => {
+    if (displayGracePeriodError) {
+      dispatch(fetchCustomerOffers());
+    }
+  }, [displayGracePeriodError]);
+
   const isPeriodError =
     displayGracePeriodError &&
-    currentPlan.some(
+    currentPlan?.some(
       ({ status, expiresAt }) =>
         status === 'active' && new Date(expiresAt) < new Date()
     );

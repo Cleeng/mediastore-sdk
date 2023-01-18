@@ -74,12 +74,12 @@ class MyAccount extends Component {
 
       if (planDetails.currentPlan.length === 0) {
         getCustomerOffers().then(response => {
-          if (response.errors.length) {
+          if (response.errors?.length) {
             this.setState({
               errors: response.errors
             });
           } else {
-            setCurrentPlan(response.responseData.items);
+            setCurrentPlan(response.items);
           }
         });
       }

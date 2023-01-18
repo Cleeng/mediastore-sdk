@@ -3,10 +3,11 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
 import GracePeriodError from './GracePeriodError';
 
 const store = (currentPlan, displayGracePeriodError = true) => ({
-  planDetails: {
+  plan: {
     currentPlan
   },
   publisherConfig: {
@@ -17,7 +18,8 @@ const store = (currentPlan, displayGracePeriodError = true) => ({
 const pastDate = 1676277169;
 const futureDate = 99999999999999;
 
-const mockStore = configureStore();
+const middleware = [thunk];
+const mockStore = configureStore(middleware);
 
 describe('GracePeriodError component', () => {
   test('renders warning with correct styles', async () => {
