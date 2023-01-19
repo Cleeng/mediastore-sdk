@@ -16,7 +16,7 @@ import {
   getAdyenClientKey,
   getGooglePayEnv
 } from './util/getAdyenConfig';
-import adyenTranslations from './util/AdyenTranslations';
+import defaultAdyenTranslations from './util/defaultAdyenTranslations';
 
 const Adyen = ({
   onSubmit,
@@ -75,7 +75,10 @@ const Adyen = ({
 
     const configuration = {
       locale: adyenConfiguration?.locale || 'en-US',
-      translations: adyenConfiguration?.translations || adyenTranslations,
+      translations: {
+        ...defaultAdyenTranslations,
+        ...adyenConfiguration?.translations
+      },
       environment: getAdyenEnv(),
       analytics: adyenConfiguration?.analytics || {
         enabled: true //  analytics data for Adyen
@@ -93,7 +96,6 @@ const Adyen = ({
         card: {
           hasHolderName: true,
           holderNameRequired: true,
-          // billingAddressRequired: true // recommended for 3DS, to validate
           ...adyenConfiguration?.card
         },
         applepay: {
@@ -124,8 +126,9 @@ const Adyen = ({
       const dropin = checkout.create('dropin', {
         onSelect,
         openFirstPaymentMethod:
-          adyenConfiguration?.openFirstPaymentMethod ||
-          !window.matchMedia('(max-width:991px)').matches
+          adyenConfiguration.openFirstPaymentMethod == null
+            ? !window.matchMedia('(max-width:991px)').matches
+            : adyenConfiguration?.openFirstPaymentMethod
       });
       dropin.mount(containerRef.current);
       setDropInInstance(dropin);
