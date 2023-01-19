@@ -477,7 +477,7 @@ Config.setRefreshToken("yyy"); // optional
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
-- `displayGracePeriodError` - an optional parameter that can be used to display error when payment method has expired.
+- `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
 **Usage sample**
 
@@ -523,7 +523,7 @@ Config.setMyAccountPayPalUrls({
 
 **Props**
 
-- `displayGracePeriodError` - an optional parameter that can be used to display error when payment method has expired.
+- `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
 **Usage sample**
 
@@ -575,7 +575,7 @@ Config.setRefreshToken("yyy"); // optional
 
 **Props**
 
-- `displayGracePeriodError` - an optional parameter that can be used to display error when payment method has expired.
+- `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
 **Usage sample**
 
