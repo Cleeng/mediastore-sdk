@@ -477,6 +477,7 @@ Config.setRefreshToken("yyy"); // optional
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+- `displayGracePeriodError` - an optional parameter that can be used to display error when payment method has expired.
 
 **Usage sample**
 
@@ -493,6 +494,7 @@ const customCancellationReasons = [
   <PlanDetails
     customCancellationReasons={customCancellationReasons}
     skipAvailableDowngradesStep
+    displayGracePeriodError
   />
 </Provider>;
 ```
@@ -519,6 +521,10 @@ Config.setMyAccountPayPalUrls({
 });
 ```
 
+**Props**
+
+- `displayGracePeriodError` - an optional parameter that can be used to display error when payment method has expired.
+
 **Usage sample**
 
 ```javascript
@@ -526,7 +532,7 @@ import { PaymentInfo, store } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
 <Provider store={store}>
-  <PaymentInfo />
+  <PaymentInfo displayGracePeriodError />
 </Provider>;
 ```
 
@@ -567,6 +573,10 @@ Config.setJWT("xxx"); // required
 Config.setRefreshToken("yyy"); // optional
 ```
 
+**Props**
+
+- `displayGracePeriodError` - an optional parameter that can be used to display error when payment method has expired.
+
 **Usage sample**
 
 ```javascript
@@ -574,7 +584,7 @@ import { UpdateProfile, store } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
 <Provider store={store}>
-  <UpdateProfile />
+  <UpdateProfile displayGracePeriodError />
 </Provider>;
 ```
 

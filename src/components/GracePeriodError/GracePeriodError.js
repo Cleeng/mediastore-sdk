@@ -17,7 +17,7 @@ const GracePeriodError = () => {
   );
 
   useEffect(() => {
-    if (displayGracePeriodError) {
+    if (displayGracePeriodError && !currentPlan) {
       dispatch(fetchCustomerOffers());
     }
   }, [displayGracePeriodError]);
