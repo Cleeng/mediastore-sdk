@@ -85,14 +85,12 @@ const Adyen = ({
       },
       clientKey: getAdyenClientKey(),
       onSubmit,
-      // onPaymentCompleted, TODO: most likely not needed, will be reviewed with redirect flow https://docs.adyen.com/online-payments/web-drop-in#handle-redirect-result
       onAdditionalDetails,
       onError,
       paymentMethodsConfiguration: {
         card: {
           hasHolderName: true,
           holderNameRequired: true
-          // billingAddressRequired: true // recommended for 3DS, to validate
         },
         applepay: {
           ...amountObj,
