@@ -31,7 +31,7 @@ const PaymentResultPage = ({ onSuccess }) => {
     submitRedirectResult();
   }, []);
 
-  if (error && error !== 'Cancelled') {
+  if (error) {
     return <FailedPaymentPage />;
   }
 

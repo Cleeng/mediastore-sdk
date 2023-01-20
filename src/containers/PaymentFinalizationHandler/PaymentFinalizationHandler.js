@@ -17,6 +17,7 @@ const PaymentFinalizationHandler = Component => {
     const adyenRedirectResult = new URLSearchParams(window.location.search).get(
       'redirectResult'
     );
+    const orderId = new URLSearchParams(window.location.search).get('orderId');
 
     useEffect(() => {
       if (!firstRender && !shouldShowFinalizePaymentComponent) {
@@ -24,7 +25,7 @@ const PaymentFinalizationHandler = Component => {
       }
     }, [firstRender, shouldShowFinalizePaymentComponent]);
 
-    if (adyenRedirectResult && !error) {
+    if (adyenRedirectResult && orderId && !error) {
       dispatch(setShouldShowFinalizePaymentComponent(true));
       return <PaymentResultPage onSuccess={onSuccess} />;
     }
