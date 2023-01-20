@@ -26,7 +26,7 @@ const GracePeriodError = () => {
     displayGracePeriodError &&
     currentPlan?.some(
       ({ status, expiresAt }) =>
-        status === 'active' && new Date(expiresAt) < new Date()
+        status === 'active' && new Date(expiresAt * 1000) < new Date()
     );
 
   if (!isPeriodError) return null;
