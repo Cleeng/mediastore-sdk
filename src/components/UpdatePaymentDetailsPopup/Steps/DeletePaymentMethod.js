@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   ContentStyled,
@@ -15,6 +15,10 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as PaypalIcon } from 'assets/images/paymentMethods/paypal_color.svg';
 import { ReactComponent as VisaIcon } from 'assets/images/paymentMethods/visa_color.svg';
 
+import {
+  PAYMENT_DETAILS_STEPS,
+  updatePaymentDetailsPopup
+} from 'redux/popupSlice';
 import { ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
 const PaymentMethodIcons = {
@@ -23,13 +27,11 @@ const PaymentMethodIcons = {
 };
 
 const DeletePaymentMethod = ({
-  hideInnerPopup,
-  showSuccessPage,
   updatePaymentDetailsSection,
   paymentDetailsToDelete
 }) => {
   const { t } = useTranslation();
-
+  const dispatch = useDispatch();
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
@@ -50,7 +52,9 @@ const DeletePaymentMethod = ({
       .then(resp => {
         if (!resp.errors.length) {
           setIsButtonLoading(false);
-          showSuccessPage();
+          dispatch(
+            updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.SUCCESS })
+          );
           updatePaymentDetailsSection();
         } else {
           setIsButtonLoading(false);
@@ -67,7 +71,7 @@ const DeletePaymentMethod = ({
     window.dispatchEvent(
       new CustomEvent('MSSDK:remove-payment-details-action-cancelled')
     );
-    hideInnerPopup();
+    dispatch(updatePaymentDetailsPopup({ isOpen: false }));
   };
 
   const { paymentMethodSpecificParams } = paymentDetailsToDelete;
@@ -120,14 +124,10 @@ export default DeletePaymentMethod;
 
 DeletePaymentMethod.propTypes = {
   paymentDetailsToDelete: PropTypes.objectOf(PropTypes.any),
-  hideInnerPopup: PropTypes.func,
-  updatePaymentDetailsSection: PropTypes.func,
-  showSuccessPage: PropTypes.func
+  updatePaymentDetailsSection: PropTypes.func
 };
 
 DeletePaymentMethod.defaultProps = {
   paymentDetailsToDelete: {},
-  hideInnerPopup: () => {},
-  updatePaymentDetailsSection: () => {},
-  showSuccessPage: () => {}
+  updatePaymentDetailsSection: () => {}
 };

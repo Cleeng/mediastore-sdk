@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { ReactComponent as WarningIcon } from 'assets/images/errors/warning.svg';
 import {
   ContentStyled,
@@ -9,10 +9,12 @@ import {
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
 import { useTranslation } from 'react-i18next';
+import { updatePaymentDetailsPopup } from 'redux/popupSlice';
 import { ImageWrapper } from '../UpdatePaymentDetailsPopupStyled';
 
-const Error = ({ hideInnerPopup }) => {
+const Error = () => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   return (
     <>
       <ContentStyled>
@@ -25,20 +27,17 @@ const Error = ({ hideInnerPopup }) => {
         </TextStyled>
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
-        <Button theme="simple" onClickFn={() => hideInnerPopup()}>
+        <Button
+          theme="simple"
+          onClickFn={() =>
+            dispatch(updatePaymentDetailsPopup({ isOpen: false }))
+          }
+        >
           {t('Back to Payment Details')}
         </Button>
       </ButtonWrapperStyled>
     </>
   );
-};
-
-Error.propTypes = {
-  hideInnerPopup: PropTypes.func
-};
-
-Error.defaultProps = {
-  hideInnerPopup: () => {}
 };
 
 export default Error;

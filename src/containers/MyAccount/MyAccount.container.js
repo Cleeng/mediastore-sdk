@@ -7,6 +7,7 @@ import {
 import { setCurrentPlan } from 'redux/planDetails';
 import { showPopup, hidePopup } from 'redux/popup';
 import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
+import { setActiveTab } from 'redux/myaccountSlice';
 import MyAccount from './MyAccount.component';
 
 export const mapStateToProps = state => {
@@ -14,7 +15,8 @@ export const mapStateToProps = state => {
     userProfile: state.userProfile,
     planDetails: state.planDetails,
     consents: state.consents,
-    popup: state.popup
+    popup: state.popup,
+    myaccountState: state.myaccount
   };
 };
 
@@ -40,6 +42,9 @@ export const mapDispatchToProps = dispatch => {
     },
     initPublisherConfig: payload => {
       dispatch(initPublisherConfig(payload));
+    },
+    setActiveTab: payload => {
+      dispatch(setActiveTab(payload));
     }
   };
 };

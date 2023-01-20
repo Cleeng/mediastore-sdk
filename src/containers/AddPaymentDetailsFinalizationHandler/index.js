@@ -1,0 +1,3 @@
+import AddPaymentDetailsFinalizationHandler from './AddPaymentDetailsFinalizationHandler';
+
+export default AddPaymentDetailsFinalizationHandler;

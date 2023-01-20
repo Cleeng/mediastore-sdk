@@ -18,7 +18,7 @@ const updateAdyenPaymentDetails = async (
         paymentMethodId,
         browserInfo,
         billingAddress,
-        returnUrl: 'https://cleeng.com'
+        returnUrl: `${window.location.origin}?paymentMethodId=${paymentMethodId}` // TODO:: should be taken from publisher configuration object
       })
     });
     return res.json();

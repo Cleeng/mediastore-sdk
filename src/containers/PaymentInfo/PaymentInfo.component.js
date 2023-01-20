@@ -25,11 +25,11 @@ const PaymentInfoFn = ({
   setPaymentDetails,
   setTransactionsToShow,
   hideInnerPopup,
-  innerPopup,
   showInnerPopup,
   setTransactionsList,
   setTransactionsListAsFetched,
   hideShowMoreButton,
+  popupManager,
   t
 }) => {
   const [paymentDetailsError, setPaymentDetailsError] = useState([]);
@@ -143,14 +143,14 @@ const PaymentInfoFn = ({
 
     return () => {
       hideInnerPopup();
+      // replace with: hide payment info popup?
     };
   }, []);
 
   return (
     <WrapStyled>
-      {innerPopup.isOpen && innerPopup.type === 'paymentDetails' ? (
+      {popupManager.paymentDetails.isOpen ? (
         <UpdatePaymentDetailsPopup
-          hideInnerPopup={hideInnerPopup}
           updatePaymentDetailsSection={updatePaymentDetailsSection}
         />
       ) : (
@@ -195,7 +195,7 @@ PaymentInfoFn.propTypes = {
   }),
   showInnerPopup: PropTypes.func.isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
-  innerPopup: PropTypes.objectOf(PropTypes.any).isRequired,
+  popupManager: PropTypes.objectOf(PropTypes.any).isRequired,
   t: PropTypes.func
 };
 

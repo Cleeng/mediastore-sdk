@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
+import AddPaymentDetailsFinalizationHandler from 'containers/AddPaymentDetailsFinalizationHandler';
 import MyAccountMenu from 'components/MyAccountMenu';
 import MyAccountUserInfo from 'components/MyAccountUserInfo';
 import MyAccountContent from 'components/MyAccountContent';
@@ -304,6 +305,11 @@ MyAccount.propTypes = {
     })
   ),
   skipAvailableDowngradesStep: PropTypes.bool,
+  // TODO: manipulate myaccount by global state
+  // myaccountState: PropTypes.shape({
+  //   activeTab: PropTypes.string.isRequired
+  // }).isRequired,
+  // setActiveTab: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 
@@ -318,4 +324,6 @@ MyAccount.defaultProps = {
 
 export { MyAccount as PureMyAccount };
 
-export default withTranslation()(labeling()(MyAccount));
+export default withTranslation()(
+  labeling()(AddPaymentDetailsFinalizationHandler(MyAccount))
+);

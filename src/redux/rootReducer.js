@@ -11,6 +11,8 @@ import paymentMethodsReducer from './paymentMethodsSlice';
 import publisherConfigReducer from './publisherConfigSlice';
 import paymentReducer from './paymentSlice';
 import finalizeInitialPaymentReducer from './finalizePaymentSlice';
+import finalizeAddPaymentDetailsReducer from './finalizeAddPaymentDetailsSlice';
+import popupManagerReducer from './popupSlice';
 
 const rootReducer = combineReducers({
   paymentInfo: paymentInfoReducer,
@@ -24,7 +26,9 @@ const rootReducer = combineReducers({
   paymentMethods: paymentMethodsReducer,
   publisherConfig: publisherConfigReducer,
   payment: paymentReducer,
-  finalizeInitialPayment: finalizeInitialPaymentReducer
+  finalizeInitialPayment: finalizeInitialPaymentReducer,
+  finalizeAddPaymentDetails: finalizeAddPaymentDetailsReducer,
+  popupManager: popupManagerReducer
 });
 
 export default (state, action) =>

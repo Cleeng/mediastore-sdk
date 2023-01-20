@@ -13,7 +13,7 @@ import PaymentInfo from './PaymentInfo.component';
 export const mapStateToProps = state => {
   return {
     paymentInfo: state.paymentInfo,
-    innerPopup: state.innerPopup
+    popupManager: state.popupManager
   };
 };
 

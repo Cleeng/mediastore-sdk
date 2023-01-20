@@ -1,7 +1,7 @@
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-const finalizeAddPaymentDetails = async (orderId, details) => {
+const finalizeAddPaymentDetails = async (paymentMethodId, details) => {
   const API_URL = getApiURL();
 
   const url = `${API_URL}/connectors/adyen/payment-details/finalize`;
@@ -9,8 +9,8 @@ const finalizeAddPaymentDetails = async (orderId, details) => {
   return fetchWithJWT(url, {
     method: 'POST',
     body: JSON.stringify({
-      orderId,
-      details
+      details,
+      paymentMethodId
     })
   })
     .then(async res => {
