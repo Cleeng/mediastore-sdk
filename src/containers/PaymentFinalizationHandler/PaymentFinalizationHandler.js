@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import PaymentResultPage from 'components/PaymentResultPage';
 import { setShouldShowFinalizePaymentComponent } from 'redux/finalizePaymentSlice';
 import useFirstRender from 'hooks/useFirstRender';
 
 const PaymentFinalizationHandler = Component => {
-  return function WithPaymentFinalizationHandler(props) {
+  // eslint-disable-next-line react/prop-types
+  return function WithPaymentFinalizationHandler({ onSuccess, ...props }) {
     const dispatch = useDispatch();
     const firstRender = useFirstRender(null);
 
@@ -18,30 +18,23 @@ const PaymentFinalizationHandler = Component => {
       'redirectResult'
     );
 
-    if (adyenRedirectResult && !error) {
-      dispatch(setShouldShowFinalizePaymentComponent(true));
-    }
-
     useEffect(() => {
       if (!firstRender && !shouldShowFinalizePaymentComponent) {
         window.history.replaceState(null, null, window.location.pathname);
       }
     }, [firstRender, shouldShowFinalizePaymentComponent]);
 
+    if (adyenRedirectResult && !error) {
+      dispatch(setShouldShowFinalizePaymentComponent(true));
+      return <PaymentResultPage onSuccess={onSuccess} />;
+    }
+
     if (shouldShowFinalizePaymentComponent) {
-      return <PaymentResultPage />;
+      return <PaymentResultPage onSuccess={onSuccess} />;
     }
     // eslint-disable-next-line react/jsx-props-no-spreading
-    return <Component {...props} />;
+    return <Component onSuccess={onSuccess} {...props} />;
   };
-};
-
-PaymentFinalizationHandler.propTypes = {
-  children: PropTypes.node
-};
-
-PaymentFinalizationHandler.defaultProps = {
-  children: ''
 };
 
 export default PaymentFinalizationHandler;

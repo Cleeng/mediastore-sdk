@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { StyledOfferWrapper } from 'components/Offer/OfferStyled';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -9,7 +10,7 @@ import Loader from 'components/Loader';
 import { ThankYouPage } from 'package';
 import FailedPaymentPage from 'components/FailedPaymentPage';
 
-const PaymentResultPage = () => {
+const PaymentResultPage = ({ onSuccess }) => {
   const adyenRedirectResult = new URLSearchParams(window.location.search).get(
     'redirectResult'
   );
@@ -35,6 +36,10 @@ const PaymentResultPage = () => {
   }
 
   if (payment.id) {
+    if (onSuccess) {
+      onSuccess();
+      return null;
+    }
     return <ThankYouPage />;
   }
 
@@ -50,3 +55,11 @@ const PaymentResultPage = () => {
 };
 
 export default PaymentResultPage;
+
+PaymentResultPage.propTypes = {
+  onSuccess: PropTypes.func
+};
+
+PaymentResultPage.defaultProps = {
+  onSuccess: null
+};
