@@ -13,11 +13,14 @@ export const GracePeriodErrorStyled = styled.div.attrs(() => ({
   padding: 14px 26px 15px 0;
   text-align: left;
   font-size: 11px;
+  color: #515364;
+  font-family: 'Open Sans', sans-serif;
   line-height: 17px;
   letter-spacing: 0.28px;
+  margin-bottom: 38px;
   ${media.small`
     border-radius: 0;
-    margin: -55px -46px 0;
+    margin: -55px -46px 32px;
     font-size: 10px;
     line-height: 16px;
     letter-spacing: 0.25px;
