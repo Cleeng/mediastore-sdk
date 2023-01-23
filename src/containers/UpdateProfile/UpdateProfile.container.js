@@ -7,6 +7,7 @@ import {
 } from 'redux/userProfile';
 import { showInnerPopup, hideInnerPopup } from 'redux/innerPopupReducer';
 
+import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
 import UpdateProfile from './UpdateProfile.component';
 
 export const mapStateToProps = state => {
@@ -37,6 +38,9 @@ export const mapDispatchToProps = dispatch => {
     },
     hideInnerPopup: () => {
       dispatch(hideInnerPopup());
+    },
+    initPublisherConfig: payload => {
+      dispatch(initPublisherConfig(payload));
     }
   };
 };

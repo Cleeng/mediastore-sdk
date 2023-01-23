@@ -11,6 +11,7 @@ import paymentMethodsReducer from './paymentMethodsSlice';
 import publisherConfigReducer from './publisherConfigSlice';
 import paymentReducer from './paymentSlice';
 import finalizeInitialPaymentReducer from './finalizePaymentSlice';
+import planDetailsReducer from './planDetailsSlice';
 
 const rootReducer = combineReducers({
   paymentInfo: paymentInfoReducer,
@@ -24,7 +25,8 @@ const rootReducer = combineReducers({
   paymentMethods: paymentMethodsReducer,
   publisherConfig: publisherConfigReducer,
   payment: paymentReducer,
-  finalizeInitialPayment: finalizeInitialPaymentReducer
+  finalizeInitialPayment: finalizeInitialPaymentReducer,
+  plan: planDetailsReducer
 });
 
 export default (state, action) =>

@@ -10,7 +10,7 @@ const {
   cardColor,
   primaryColor,
   secondaryColor
-} = getTheme() || {};
+} = (typeof getTheme === 'function' && getTheme()) || {};
 
 // My Account
 export const MyAccountBlue = '#031a6e';

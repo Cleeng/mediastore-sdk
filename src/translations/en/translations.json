@@ -363,5 +363,6 @@
   "payment-error-title": "Oops! Something went wrong",
   "payment-error-subtitle": "We weren't able to process your payment.",
   "payment-error-desc.refused": "To complete your purchase, please <1>try again</1> using a different payment method.",
-  "payment-error-desc.error": "To complete your purchase, please <1>try again</1>."
+  "payment-error-desc.error": "To complete your purchase, please <1>try again</1>.",
+  "grace-period-error": "Your payment method has expired. Please <2>make sure to update</2> it to avoid losing access to your subscription."
 }
