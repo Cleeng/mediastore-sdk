@@ -149,6 +149,7 @@ const PaymentInfoFn = ({
 
   return (
     <WrapStyled>
+      {console.log('PaymentInfo render')}
       {popupManager.paymentDetails.isOpen ? (
         <UpdatePaymentDetailsPopup
           updatePaymentDetailsSection={updatePaymentDetailsSection}

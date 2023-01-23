@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const TABS = {
-  PLAN_DETAILS: 'PLAN_DETAILS',
-  YOUR_PAYMENTS: 'YOUR_PAYMENTS',
-  USER_PROFILE: 'USER_PROFILE'
+export const MYACCCOUNT_TABS = {
+  planDetails: 'planDetails',
+  paymentInfo: 'paymentInfo',
+  updateProfile: 'updateProfile'
 };
 
 const initialState = {
-  activeTab: TABS.PLAN_DETAILS
+  activeTab: MYACCCOUNT_TABS.planDetails
 };
 
 export const myaccountSlice = createSlice({

@@ -15,6 +15,7 @@ export const fetchFinalizeAddPaymentDetails = createAsyncThunk(
         paymentMethodId,
         details
       );
+      console.log({ paymentDetails });
       return paymentDetails;
     } catch (err) {
       return rejectWithValue(err.message);
@@ -27,14 +28,14 @@ export const finalizeAddPaymentDetalisSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [finalizeAddPaymentDetails.pending]: state => {
+    [fetchFinalizeAddPaymentDetails.pending]: state => {
       state.loading = true;
     },
-    [finalizeAddPaymentDetails.fulfilled]: (state, { payload }) => {
+    [fetchFinalizeAddPaymentDetails.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.paymentDetails = payload;
     },
-    [finalizeAddPaymentDetails.rejected]: (state, { payload }) => {
+    [fetchFinalizeAddPaymentDetails.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     }

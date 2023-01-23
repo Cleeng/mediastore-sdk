@@ -64,8 +64,8 @@ const PaymentMethod = ({
               title={t('Add a payment method!')}
               subtitle={t('Set up a new payment method for your account')}
               withBorder
-              onClick={() =>
-                showInnerPopup({ type: POPUP_TYPES.paymentDetails })
+              onClick={
+                () => showInnerPopup({ type: POPUP_TYPES.paymentDetails }) // TODO: cover in 3DS
               }
               direction="row"
               fullWidth

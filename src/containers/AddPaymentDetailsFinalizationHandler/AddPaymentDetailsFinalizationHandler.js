@@ -1,7 +1,11 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import useFirstRender from 'hooks/useFirstRender';
-import { showInnerPopup } from 'redux/innerPopupReducer';
+import React from 'react';
+import { useDispatch } from 'react-redux';
+// import useFirstRender from 'hooks/useFirstRender';
+import {
+  updatePaymentDetailsPopup,
+  PAYMENT_DETAILS_STEPS
+} from 'redux/popupSlice';
+import { setActiveTab, MYACCCOUNT_TABS } from 'redux/myaccountSlice';
 
 const AddPaymentDetailsFinalizationHandler = Component => {
   return function WithAddPaymentDetailsFinalizationHandler({
@@ -10,11 +14,9 @@ const AddPaymentDetailsFinalizationHandler = Component => {
     ...props
   }) {
     const dispatch = useDispatch();
-    const firstRender = useFirstRender(null);
+    // const firstRender = useFirstRender(null);
 
-    const { error, shouldShowFinalizePaymentComponent } = useSelector(
-      state => state.finalizeInitialPayment
-    );
+    // const { error } = useSelector(state => state.popupManager.paymentDetails);
 
     const adyenRedirectResult = new URLSearchParams(window.location.search).get(
       'redirectResult'
@@ -23,14 +25,21 @@ const AddPaymentDetailsFinalizationHandler = Component => {
       'paymentMethodId'
     );
 
-    useEffect(() => {
-      if (!firstRender && !shouldShowFinalizePaymentComponent) {
-        window.history.replaceState(null, null, window.location.pathname);
-      }
-    }, [firstRender, shouldShowFinalizePaymentComponent]);
+    // useEffect(() => { //TODO: do it after call to finalize
+    //   if (!firstRender) {
+    //     window.history.replaceState(null, null, window.location.pathname);
+    //   }
+    // }, [firstRender]);
 
-    if (adyenRedirectResult && paymentMethodId && !error) {
-      dispatch(showInnerPopup({ type: 'paymentDetails' }));
+    if (adyenRedirectResult && paymentMethodId) {
+      dispatch(setActiveTab(MYACCCOUNT_TABS.paymentInfo));
+      dispatch(
+        updatePaymentDetailsPopup({
+          isOpen: true,
+          isLoading: true,
+          step: PAYMENT_DETAILS_STEPS.FINALIZE_ADYEN
+        })
+      );
     }
 
     // eslint-disable-next-line react/jsx-props-no-spreading

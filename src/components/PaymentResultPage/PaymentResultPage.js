@@ -23,7 +23,7 @@ const PaymentResultPage = ({ onSuccess }) => {
         orderId,
         details: { redirectResult: adyenRedirectResult }
       })
-    ).unwrap();
+    );
   };
   const { error, payment } = useSelector(state => state.finalizeInitialPayment);
 

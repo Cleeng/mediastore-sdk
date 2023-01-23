@@ -20,6 +20,7 @@ import Footer from 'components/Footer';
 import MyAccountError from 'components/MyAccountError/MyAccountError';
 import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import Auth from 'services/auth';
+import { MYACCCOUNT_TABS } from 'redux/myaccountSlice';
 import { WrapperStyled, HeaderStyled } from './MyAccountStyled';
 
 const POPUP_TYPE = {
@@ -29,18 +30,11 @@ const POPUP_TYPE = {
   consentsUpdateRequired: 'consentsUpdateRequired'
 };
 
-export const MY_ACCOUNT_PAGES = {
-  planDetails: 'planDetails',
-  paymentInfo: 'paymentInfo',
-  updateProfile: 'updateProfile'
-};
-
 class MyAccount extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLogged: false,
-      currentPage: MY_ACCOUNT_PAGES.planDetails,
       errors: []
     };
   }
@@ -147,9 +141,8 @@ class MyAccount extends Component {
   }
 
   goToPage = pageName => {
-    this.setState({
-      currentPage: pageName
-    });
+    const { setActiveTab } = this.props;
+    setActiveTab(pageName);
   };
 
   checkTerms() {
@@ -207,23 +200,25 @@ class MyAccount extends Component {
     } else hidePopup();
   }
 
-  renderMyAccountContent = currentPage => {
+  renderMyAccountContent = () => {
     const {
       customCancellationReasons,
-      skipAvailableDowngradesStep
+      skipAvailableDowngradesStep,
+      myaccountState: { activeTab }
     } = this.props;
 
-    switch (currentPage) {
-      case MY_ACCOUNT_PAGES.planDetails:
+    switch (activeTab) {
+      case MYACCCOUNT_TABS.planDetails:
         return (
           <PlanDetails
             customCancellationReasons={customCancellationReasons}
             skipAvailableDowngradesStep={skipAvailableDowngradesStep}
           />
         );
-      case MY_ACCOUNT_PAGES.paymentInfo:
+      case MYACCCOUNT_TABS.paymentInfo:
+        console.log('render payment info from my account');
         return <PaymentInfo />;
-      case MY_ACCOUNT_PAGES.updateProfile:
+      case MYACCCOUNT_TABS.updateProfile:
         return <UpdateProfile />;
       default:
         return null;
@@ -237,9 +232,9 @@ class MyAccount extends Component {
       setConsents,
       popup: { isPopupShown, popupType, consents },
       hidePopup,
+      myaccountState: { activeTab },
       t
     } = this.props;
-    const { currentPage } = this.state;
 
     if (consentsError) {
       return <MyAccountError generalError fullHeight />;
@@ -273,11 +268,11 @@ class MyAccount extends Component {
               }
               isDataLoaded={!!user && !!currentPlan}
             />
-            <MyAccountMenu currentPage={currentPage} goToPage={this.goToPage} />
+            <MyAccountMenu currentPage={activeTab} goToPage={this.goToPage} />
             <Footer isCheckout={false} isTransparent />
           </HeaderStyled>
           <MyAccountContent>
-            {this.renderMyAccountContent(currentPage)}
+            {this.renderMyAccountContent(activeTab)}
           </MyAccountContent>
         </WrapperStyled>
       );
@@ -305,11 +300,10 @@ MyAccount.propTypes = {
     })
   ),
   skipAvailableDowngradesStep: PropTypes.bool,
-  // TODO: manipulate myaccount by global state
-  // myaccountState: PropTypes.shape({
-  //   activeTab: PropTypes.string.isRequired
-  // }).isRequired,
-  // setActiveTab: PropTypes.func.isRequired,
+  myaccountState: PropTypes.shape({
+    activeTab: PropTypes.string.isRequired
+  }).isRequired,
+  setActiveTab: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 

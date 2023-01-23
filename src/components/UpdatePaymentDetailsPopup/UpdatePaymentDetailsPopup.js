@@ -41,7 +41,12 @@ import {
   PopupImageStyled,
   PaymentMethodsWrapperStyled
 } from './UpdatePaymentDetailsPopupStyled';
-import { Success, DeletePaymentMethod, Error } from './Steps';
+import {
+  Success,
+  DeletePaymentMethod,
+  Error,
+  FinalizeAddPaymentDetails
+} from './Steps';
 import Adyen from '../Adyen';
 import PayPal from '../Payment/PayPal/PayPal';
 
@@ -56,6 +61,7 @@ const PaymentMethodIcons = {
 const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
   const STEPS_NUMBERS = {
     PAYMENT_DETAILS_UPDATE: 1,
+    FINALIZE_ADYEN: 2,
     DELETE_PAYMENT_DETAILS: 2,
     SUCCESS: 2,
     ERROR: 2
@@ -239,6 +245,20 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
         <DeletePaymentMethod
           updatePaymentDetailsSection={updatePaymentDetailsSection}
         />
+      </InnerPopupWrapper>
+    );
+  }
+
+  if (step === PAYMENT_DETAILS_STEPS.FINALIZE_ADYEN) {
+    console.log('setp FINALIZE_ADYEN');
+    return (
+      <InnerPopupWrapper
+        steps={2}
+        isError={false}
+        currentStep={STEPS_NUMBERS[step]}
+        popupTitle={t('Update payment details')}
+      >
+        <FinalizeAddPaymentDetails />
       </InnerPopupWrapper>
     );
   }
