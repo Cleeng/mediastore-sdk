@@ -359,5 +359,6 @@
   "legal-notes.period-3months": "<strong>By clicking 'Complete purchase', you will be charged {{ readablePrice }}{{ readablePeriod }} or the then-current price plus applicable taxes on a recurring basis.</strong> Your subscription will automatically continue until you cancel. To cancel, log into <3>your account</3> and click 'Manage Subscription'.",
   "legal-notes.period-6months": "<strong>By clicking 'Complete purchase', you will be charged {{ readablePrice }}{{ readablePeriod }} or the then-current price plus applicable taxes on a recurring basis.</strong> Your subscription will automatically continue until you cancel. To cancel, log into <3>your account</3> and click 'Manage Subscription'.",
   "legal-notes.period-year": "<strong>By clicking 'Complete purchase', you will be charged {{ readablePrice }}{{ readablePeriod }} or the then-current price plus applicable taxes on a recurring basis.</strong> Your subscription will automatically continue until you cancel. To cancel, log into <3>your account</3> and click 'Manage Subscription'.",
-  "legal-notes-acknowledge": "By clicking 'Complete Purchase' above, I expressly acknowledge and agree to the above terms as well as the full Terms of Service."
+  "legal-notes-acknowledge": "By clicking 'Complete Purchase' above, I expressly acknowledge and agree to the above terms as well as the full Terms of Service.",
+  "grace-period-error": "Your payment method has expired. Please <2>make sure to update</2> it to avoid losing access to your subscription."
 }

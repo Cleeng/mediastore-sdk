@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   offerId: '',
-  paymentMethods: []
+  paymentMethods: [],
+  displayGracePeriodError: false
 };
 
 export const publisherConfigSlice = createSlice({
@@ -11,6 +12,7 @@ export const publisherConfigSlice = createSlice({
   reducers: {
     init: (state, { payload }) => {
       state.offerId = payload.offerId || '';
+      state.displayGracePeriodError = payload.displayGracePeriodError;
     },
     updatePaymentMethods: (state, { payload }) => {
       state.paymentMethods = payload;
