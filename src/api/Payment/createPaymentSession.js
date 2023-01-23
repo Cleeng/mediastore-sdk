@@ -13,8 +13,13 @@ const createPaymentSession = async isMyAccount => {
     const res = await fetchWithJWT(url, {
       method: 'POST',
       body: isMyAccount
-        ? JSON.stringify({ returnUrl: 'https://cleeng.com' })
-        : JSON.stringify({ orderId, returnUrl: 'https://cleeng.com' })
+        ? JSON.stringify({
+            returnUrl: window.location.origin + window.location.pathname
+          })
+        : JSON.stringify({
+            orderId,
+            returnUrl: window.location.origin + window.location.pathname
+          })
     });
     return res.json();
   } catch (e) {

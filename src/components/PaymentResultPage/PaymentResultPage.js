@@ -7,7 +7,7 @@ import { fetchFinalizeInitialPayment } from 'redux/finalizePaymentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { StyledLoaderContent } from 'containers/OfferContainer/StyledOfferContainer';
 import Loader from 'components/Loader';
-import { ThankYouPage } from 'package';
+import ThankYouPage from 'components/ThankYouPage';
 import FailedPaymentPage from 'components/FailedPaymentPage';
 
 const PaymentResultPage = ({ onSuccess }) => {
@@ -23,9 +23,10 @@ const PaymentResultPage = ({ onSuccess }) => {
         orderId,
         details: { redirectResult: adyenRedirectResult }
       })
-    ).unwrap();
+    );
   };
   const { error, payment } = useSelector(state => state.finalizeInitialPayment);
+  console.log({ error, payment });
 
   useEffect(() => {
     submitRedirectResult();
@@ -40,11 +41,12 @@ const PaymentResultPage = ({ onSuccess }) => {
       onSuccess();
       return null;
     }
-    return <ThankYouPage />;
+    console.log('return Tahnk');
+    return <ThankYouPage data-testid="thankyou-component" />;
   }
 
   return (
-    <StyledOfferWrapper>
+    <StyledOfferWrapper data-testid="paymentResultPage-loader">
       <Header />
       <StyledLoaderContent>
         <Loader />

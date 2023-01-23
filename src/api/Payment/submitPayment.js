@@ -17,7 +17,8 @@ const submitPayment = async (paymentMethod, browserInfo, billingAddress) => {
         browserInfo,
         billingAddress,
         origin: window.location.origin,
-        returnUrl: `${window.location.origin}?orderId=${orderId}` // TODO:: should be taken from publisher configuration object
+        returnUrl: `${window.location.origin +
+          window.location.pathname}?orderId=${orderId}` // TODO:: should be taken from publisher configuration object, shoud it??
       })
     });
     return res.json();
