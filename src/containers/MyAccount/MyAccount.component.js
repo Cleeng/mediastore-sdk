@@ -227,47 +227,22 @@ class MyAccount extends Component {
 
   render() {
     const {
-      planDetails: { currentPlan },
-      userProfile: { user, consentsError },
-      setConsents,
-      popup: { isPopupShown, popupType, consents },
-      hidePopup,
-      myaccountState: { activeTab },
-      t
+      userProfile: { consentsError },
+      popup: { isPopupShown },
+      myaccountState: { activeTab }
     } = this.props;
 
     if (consentsError) {
       return <MyAccountError generalError fullHeight />;
     }
     if (isPopupShown) {
-      return (
-        <Popup
-          setConsents={setConsents}
-          popupType={popupType}
-          consents={consents}
-          customerEmail={user ? user.email : ''}
-          hidePopup={hidePopup}
-        />
-      );
+      return <Popup />;
     }
     if (Auth.isLogged()) {
       return (
         <WrapperStyled>
           <HeaderStyled>
-            <MyAccountUserInfo
-              firstName={user ? user.firstName : ''}
-              lastName={user ? user.lastName : ''}
-              email={user ? user.email : ''}
-              subscription={
-                currentPlan[0]
-                  ? t(
-                      `offer-title-${currentPlan[0].offerId}`,
-                      currentPlan[0].offerTitle
-                    )
-                  : ''
-              }
-              isDataLoaded={!!user && !!currentPlan}
-            />
+            <MyAccountUserInfo />
             <MyAccountMenu currentPage={activeTab} goToPage={this.goToPage} />
             <Footer isCheckout={false} isTransparent />
           </HeaderStyled>

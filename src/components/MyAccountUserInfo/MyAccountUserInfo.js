@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 
+import { useSelector } from 'react-redux';
+import { withTranslation } from 'react-i18next';
 import {
   WrapStyled,
   DetailsStyled,
@@ -10,15 +12,19 @@ import {
   MailStyled,
   TextStyled
 } from './MyAccountUserInfoStyled';
+import labeling from '../../containers/labeling';
 
-const MyAccountUserInfo = ({
-  firstName,
-  lastName,
-  email,
-  subscription,
-  isDataLoaded
-}) => {
-  const isNameSetted = firstName || lastName;
+const MyAccountUserInfo = ({ t }) => {
+  const { user } = useSelector(state => state.userProfile);
+  const {
+    currentPlan: [plan]
+  } = useSelector(state => state.planDetails);
+  const isDataLoaded = !!user;
+  const subscription =
+    plan && t(`offer-title-${plan.offerId}`, plan.offerTitle);
+
+  const isNameSet = user?.firstName || user?.lastName;
+
   return (
     <WrapStyled>
       <SkeletonWrapper
@@ -29,16 +35,16 @@ const MyAccountUserInfo = ({
       >
         <PhotoStyled />
       </SkeletonWrapper>
-      <DetailsStyled isEmpty={!email}>
+      <DetailsStyled isEmpty={!user?.email}>
         <SkeletonWrapper showChildren={isDataLoaded} height={26}>
-          {isNameSetted && (
-            <NameStyled>{`${firstName} ${lastName}`}</NameStyled>
+          {isNameSet && (
+            <NameStyled>{`${user?.firstName} ${user?.lastName}`}</NameStyled>
           )}
         </SkeletonWrapper>
         <SkeletonWrapper showChildren={isDataLoaded}>
-          <MailStyled bigger={!isNameSetted}>{email}</MailStyled>
+          <MailStyled bigger={!isNameSet}>{user?.email}</MailStyled>
         </SkeletonWrapper>
-        <SkeletonWrapper showChildren={isDataLoaded} height={36} margin="0px">
+        <SkeletonWrapper showChildren={isDataLoaded} height={36} margin="0">
           {subscription && <TextStyled>{subscription}</TextStyled>}
         </SkeletonWrapper>
       </DetailsStyled>
@@ -46,20 +52,12 @@ const MyAccountUserInfo = ({
   );
 };
 
-export default MyAccountUserInfo;
-
 MyAccountUserInfo.propTypes = {
-  firstName: PropTypes.string,
-  lastName: PropTypes.string,
-  email: PropTypes.string,
-  subscription: PropTypes.string,
-  isDataLoaded: PropTypes.bool
+  t: PropTypes.func
 };
 
 MyAccountUserInfo.defaultProps = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  subscription: '',
-  isDataLoaded: false
+  t: k => k
 };
+
+export default withTranslation()(labeling()(MyAccountUserInfo));
