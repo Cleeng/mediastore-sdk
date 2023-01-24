@@ -4,7 +4,7 @@ import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import PaymentResultPage from './PaymentResultPage';
+import PaymentFinalizationPage from './PaymentFinalizationPage';
 
 const store = {
   finalizeInitialPayment: {
@@ -24,15 +24,15 @@ jest.mock('../../containers/labeling', () =>
   jest.fn(() => jest.fn(Component => Component))
 );
 
-describe('PaymentResultPage component', () => {
+describe('PaymentFinalizationPage component', () => {
   test('renders Loader on mount', async () => {
     const { getByTestId } = render(
       <Provider store={mockStore(store)}>
-        <PaymentResultPage />
+        <PaymentFinalizationPage />
       </Provider>
     );
 
-    getByTestId('paymentResultPage-loader');
+    getByTestId('PaymentFinalizationPage-loader');
   });
   describe('successful payment finalization', () => {
     test('render ThankYou page when onSuccess was NOT passed', async () => {
@@ -47,7 +47,7 @@ describe('PaymentResultPage component', () => {
             }
           })}
         >
-          <PaymentResultPage />
+          <PaymentFinalizationPage />
         </Provider>
       );
 
@@ -66,7 +66,7 @@ describe('PaymentResultPage component', () => {
             }
           })}
         >
-          <PaymentResultPage onSuccess={mockFn} />
+          <PaymentFinalizationPage onSuccess={mockFn} />
         </Provider>
       );
       expect(queryByTestId('ThankYouPage-component')).toBeNull();
@@ -84,7 +84,7 @@ describe('PaymentResultPage component', () => {
           }
         })}
       >
-        <PaymentResultPage />
+        <PaymentFinalizationPage />
       </Provider>
     );
 

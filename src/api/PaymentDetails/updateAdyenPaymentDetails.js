@@ -18,7 +18,7 @@ const updateAdyenPaymentDetails = async (
         paymentMethodId,
         browserInfo,
         billingAddress,
-        returnUrl: window.location.origin + window.location.pathname
+        returnUrl: window.location.href
       })
     });
     return res.json();

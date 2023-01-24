@@ -10,7 +10,7 @@ import Loader from 'components/Loader';
 import ThankYouPage from 'components/ThankYouPage';
 import FailedPaymentPage from 'components/FailedPaymentPage';
 
-const PaymentResultPage = ({ onSuccess }) => {
+const PaymentFinalizationPage = ({ onSuccess }) => {
   const adyenRedirectResult = new URLSearchParams(window.location.search).get(
     'redirectResult'
   );
@@ -46,7 +46,7 @@ const PaymentResultPage = ({ onSuccess }) => {
   }
 
   return (
-    <StyledOfferWrapper data-testid="paymentResultPage-loader">
+    <StyledOfferWrapper data-testid="PaymentFinalizationPage-loader">
       <Header />
       <StyledLoaderContent>
         <Loader />
@@ -56,12 +56,12 @@ const PaymentResultPage = ({ onSuccess }) => {
   );
 };
 
-export default PaymentResultPage;
+export default PaymentFinalizationPage;
 
-PaymentResultPage.propTypes = {
+PaymentFinalizationPage.propTypes = {
   onSuccess: PropTypes.func
 };
 
-PaymentResultPage.defaultProps = {
+PaymentFinalizationPage.defaultProps = {
   onSuccess: null
 };

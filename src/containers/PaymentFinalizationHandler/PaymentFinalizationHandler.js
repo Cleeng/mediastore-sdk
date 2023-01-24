@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PaymentResultPage from 'components/PaymentResultPage';
+import PaymentFinalizationPage from 'components/PaymentFinalizationPage';
 import { setShouldShowFinalizePaymentComponent } from 'redux/finalizePaymentSlice';
 
 const PaymentFinalizationHandler = Component => {
@@ -19,11 +19,11 @@ const PaymentFinalizationHandler = Component => {
 
     if (adyenRedirectResult && orderId && !error) {
       dispatch(setShouldShowFinalizePaymentComponent(true));
-      return <PaymentResultPage onSuccess={onSuccess} />;
+      return <PaymentFinalizationPage onSuccess={onSuccess} />;
     }
 
     if (shouldShowFinalizePaymentComponent) {
-      return <PaymentResultPage onSuccess={onSuccess} />;
+      return <PaymentFinalizationPage onSuccess={onSuccess} />;
     }
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <Component onSuccess={onSuccess} {...props} />;

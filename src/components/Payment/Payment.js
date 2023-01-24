@@ -49,11 +49,7 @@ const Payment = ({ t, onPaymentComplete }) => {
   const [generalError, setGeneralError] = useState('');
   const [dropInInstance, setDropInInstance] = useState(null);
   const [adyenKey, setAdyenKey] = useState(false);
-  const {
-    error: finilizePaymentError,
-    payment: finalizedPayment
-  } = useSelector(state => state.finalizeInitialPayment);
-  console.log({ finilizePaymentError, finalizedPayment });
+
   const dispatch = useDispatch();
 
   // order updates

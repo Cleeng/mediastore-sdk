@@ -27,19 +27,19 @@ const FailedPaymentPage = ({ t }) => {
       <ThankYouPageStyled>
         <WarningIcon />
         <TitleStyled>
-          {t('payment-error-title', `Oops! Something went wrong`)}
+          {t('failed-payment-page.title', `Oops! Something went wrong`)}
         </TitleStyled>
         <MessageStyled>
           <strong>
             {t(
-              'payment-error-subtitle',
+              'failed-payment-page.subtitle',
               `We weren't able to process your payment.`
             )}
           </strong>
         </MessageStyled>
         <MessageStyled>
           {error === 'Refused' ? (
-            <Trans i18nKey="payment-error-desc.refused">
+            <Trans i18nKey="failed-payment-page.desc-refused">
               To complete your purchase, please
               <LinkStyled
                 as="button"
@@ -54,7 +54,7 @@ const FailedPaymentPage = ({ t }) => {
               using a different payment method.
             </Trans>
           ) : (
-            <Trans i18nKey="payment-error-desc.error">
+            <Trans i18nKey="failed-payment-page.desc-error">
               To complete your purchase, please
               <LinkStyled
                 as="button"

@@ -34,7 +34,7 @@ describe('PaymentFinalizationHandler component', () => {
     getByTestId('testComponent');
   });
 
-  test('return PaymentResultPage if shouldShowFinalizePaymentComponent is set to true', async () => {
+  test('return PaymentFinalizationPage if shouldShowFinalizePaymentComponent is set to true', async () => {
     const { getByTestId, queryByTestId } = render(
       <Provider
         store={mockStore({
@@ -48,7 +48,7 @@ describe('PaymentFinalizationHandler component', () => {
       </Provider>
     );
 
-    getByTestId('paymentResultPage-loader');
+    getByTestId('PaymentFinalizationPage-loader');
     expect(queryByTestId('testComponent')).toBeNull();
   });
 });
