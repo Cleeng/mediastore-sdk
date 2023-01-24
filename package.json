@@ -61,16 +61,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run test --watchAll=false --testPathIgnorePatterns=dist"
     }
   },
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint --no-ignore --fix",
-      "git add --force"
-    ],
-    "*.{js}": [
-      "npm run test --testPathIgnorePatterns=dist",
       "git add --force"
     ],
     "*.{json,md,graphql}": [
