@@ -53,7 +53,7 @@ const Payment = ({ t, onPaymentComplete }) => {
   const dispatch = useDispatch();
 
   // order updates
-  const updateOrderWithPaymentMethodId = async methodId => {
+  const updateOrderWithPaymentMethodId = methodId => {
     setGeneralError('');
     const { id } = order;
     if (id && methodId) {
@@ -137,9 +137,7 @@ const Payment = ({ t, onPaymentComplete }) => {
     const {
       data: { details }
     } = state;
-    dispatch(
-      fetchFinalizeInitialPayment({ orderId: order.id, details })
-    ).unwrap();
+    dispatch(fetchFinalizeInitialPayment({ orderId: order.id, details }));
   };
 
   const onAdyenSubmit = async (state, component) => {

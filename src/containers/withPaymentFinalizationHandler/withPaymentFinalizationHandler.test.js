@@ -4,10 +4,10 @@ import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import PaymentFinalizationHandler from 'containers/PaymentFinalizationHandler';
+import withPaymentFinalizationHandler from 'containers/withPaymentFinalizationHandler';
 
 const TestComponent = () => <div data-testid="testComponent">Test</div>;
-const WrappedComponent = PaymentFinalizationHandler(TestComponent);
+const WrappedComponent = withPaymentFinalizationHandler(TestComponent);
 
 const store = {
   finalizeInitialPayment: {
@@ -23,7 +23,7 @@ const store = {
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
 
-describe('PaymentFinalizationHandler component', () => {
+describe('withPaymentFinalizationHandler component', () => {
   test('by deafult should return wrapped component', async () => {
     const { getByTestId } = render(
       <Provider store={mockStore(store)}>

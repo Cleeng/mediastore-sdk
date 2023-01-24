@@ -17,7 +17,7 @@ const PaymentFinalizationPage = ({ onSuccess }) => {
   const orderId = new URLSearchParams(window.location.search).get('orderId');
   const dispatch = useDispatch();
 
-  const submitRedirectResult = async () => {
+  const submitRedirectResult = () => {
     dispatch(
       fetchFinalizeInitialPayment({
         orderId,
