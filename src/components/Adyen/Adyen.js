@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';

@@ -1,5 +1,6 @@
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
+import generateReturnUrl from 'util/returnUrlHelper';
 
 const updateAdyenPaymentDetails = async (
   paymentMethodId,
@@ -18,7 +19,7 @@ const updateAdyenPaymentDetails = async (
         paymentMethodId,
         browserInfo,
         billingAddress,
-        returnUrl: `${window.location.origin}?paymentMethodId=${paymentMethodId}` // TODO:: should be taken from publisher configuration object
+        returnUrl: generateReturnUrl({ paymentMethodId })
       })
     });
     return res.json();

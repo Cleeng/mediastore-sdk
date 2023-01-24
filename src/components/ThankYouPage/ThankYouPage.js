@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { currencyFormat } from 'util/planHelper';
 
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { withTranslation, Trans } from 'react-i18next';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import labeling from 'containers/labeling';
@@ -24,11 +24,13 @@ const ThankYouPage = ({ onSuccess, t }) => {
     payment: { paymentMethod, totalAmount, currency }
   } = useSelector(state => state.finalizeInitialPayment);
   const readablePaymentMethod = {
-    card: 'Credit Card',
+    card: 'Card',
     paypa: 'PayPal',
     googlepay: 'GooglePay',
     applepay: 'ApplePay'
   };
+  const paymentMethodName = readablePaymentMethod[paymentMethod];
+  const currencySymbol = currencyFormat[currency];
   useEffect(() => {
     const timer = setTimeout(() => {
       onSuccess();
@@ -37,36 +39,50 @@ const ThankYouPage = ({ onSuccess, t }) => {
   }, []);
 
   return (
-    <ThankYouPageWrapperStyled>
+    <ThankYouPageWrapperStyled data-testid="ThankYouPage-component">
       <Header />
       <ThankYouPageStyled>
         <IconStyled src={checkmarkIconBase} />
-        <TitleStyled>{t('Thank You!')}</TitleStyled>
+        <TitleStyled>{t('thank-you-page.header', 'Thank You!')}</TitleStyled>
         <MessageStyled>
           {readablePaymentMethod[paymentMethod] ? (
             <strong>
               {t(
-                `Your purchase was successfully processed using ${readablePaymentMethod[paymentMethod]}!`
+                'thank-you-page.text-with-payment-method',
+                `Your purchase was successfully processed using {{paymentMethodName}}!`,
+                { paymentMethodName }
               )}
             </strong>
           ) : (
-            <strong>{t('Your purchase was successfully processed!')}</strong>
+            <strong>
+              {t(
+                'thank-you-page.text',
+                'Your purchase was successfully processed!'
+              )}
+            </strong>
           )}
         </MessageStyled>
         <MessageStyled>
           {totalAmount &&
-            currency &&
+            currencySymbol &&
             t(
-              `You have been charged ${currencyFormat[currency]}${totalAmount}. `
+              'thank-you-page.sub-text-with-price',
+              `You have been charged {{currencySymbol}}{{totalAmount}}.`,
+              {
+                currencySymbol,
+                totalAmount
+              }
             )}
-          {t('You can manage your account from')}
-          <LinkStyled
-            href={getData('CLEENG_MY_ACCOUNT_URL')}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {t('here')}.
-          </LinkStyled>
+          <Trans i18nKey="thank-you-page.manage-text">
+            You can manage your account from
+            <LinkStyled
+              href={getData('CLEENG_MY_ACCOUNT_URL')}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              here.
+            </LinkStyled>
+          </Trans>
         </MessageStyled>
       </ThankYouPageStyled>
       <Footer />
@@ -79,7 +95,6 @@ ThankYouPage.propTypes = {
   t: PropTypes.func
 };
 
-/* istanbul ignore next */
 ThankYouPage.defaultProps = {
   onSuccess: () => {},
   t: k => k

@@ -7,23 +7,25 @@ import { fetchFinalizeInitialPayment } from 'redux/finalizePaymentSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { StyledLoaderContent } from 'containers/OfferContainer/StyledOfferContainer';
 import Loader from 'components/Loader';
-import { ThankYouPage } from 'package';
+import ThankYouPage from 'components/ThankYouPage';
 import FailedPaymentPage from 'components/FailedPaymentPage';
 
-const PaymentResultPage = ({ onSuccess }) => {
+const PaymentFinalizationPage = ({ onSuccess }) => {
   const adyenRedirectResult = new URLSearchParams(window.location.search).get(
     'redirectResult'
   );
   const orderId = new URLSearchParams(window.location.search).get('orderId');
   const dispatch = useDispatch();
 
-  const submitRedirectResult = async () => {
+  const submitRedirectResult = () => {
     dispatch(
       fetchFinalizeInitialPayment({
         orderId,
         details: { redirectResult: adyenRedirectResult }
       })
-    );
+    ).then(() => {
+      window.history.replaceState(null, null, window.location.pathname);
+    });
   };
   const { error, payment } = useSelector(state => state.finalizeInitialPayment);
 
@@ -44,7 +46,7 @@ const PaymentResultPage = ({ onSuccess }) => {
   }
 
   return (
-    <StyledOfferWrapper>
+    <StyledOfferWrapper data-testid="PaymentFinalizationPage-loader">
       <Header />
       <StyledLoaderContent>
         <Loader />
@@ -54,12 +56,12 @@ const PaymentResultPage = ({ onSuccess }) => {
   );
 };
 
-export default PaymentResultPage;
+export default PaymentFinalizationPage;
 
-PaymentResultPage.propTypes = {
+PaymentFinalizationPage.propTypes = {
   onSuccess: PropTypes.func
 };
 
-PaymentResultPage.defaultProps = {
+PaymentFinalizationPage.defaultProps = {
   onSuccess: null
 };

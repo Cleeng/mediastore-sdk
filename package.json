@@ -36,11 +36,12 @@
     "react-redux": "^7.2.6",
     "react-select": "^5.5.4",
     "redux": "^4.1.2",
+    "redux-thunk": "^2.4.2",
     "resolve": "1.22.0",
     "svgo": "^2.8.0"
   },
   "scripts": {
-    "test": "jest --watch",
+    "test": "jest test --watchAll=false",
     "scan-translations": "node -e 'require(`./scripts/translationsBundle.js`).run(false)'",
     "clean": "rimraf dist",
     "compile": "npm run clean && cross-env NODE_ENV=production babel src --ignore spec.js,test.js,stories.js --out-dir dist --copy-files ",
@@ -60,7 +61,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && npm run test"
     }
   },
   "lint-staged": {
@@ -78,15 +79,15 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.17.5",
-    "babel-eslint": "^10.1.0",
     "@babel/cli": "^7.17.3",
+    "@babel/core": "^7.17.5",
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
+    "babel-eslint": "^10.1.0",
     "babel-plugin-inline-react-svg": "^2.0.1",
     "babel-plugin-module-resolver": "^4.1.0",
     "cross-env": "^7.0.3",
@@ -106,6 +107,7 @@
     "mkdirp": "^0.5.5",
     "prettier": "^1.19.1",
     "react": "^18.2.0",
+    "redux-mock-store": "^1.5.4",
     "regenerator-runtime": "^0.13.9",
     "styled-components": "^5.3.6",
     "stylelint": "^14.13.0",

@@ -46,7 +46,9 @@ class MyAccount extends Component {
       setCurrentPlan,
       setCurrentUser,
       setConsents,
-      setConsentsError
+      setConsentsError,
+      initPublisherConfig,
+      displayGracePeriodError
     } = this.props;
 
     document.title = 'My Account';
@@ -67,12 +69,12 @@ class MyAccount extends Component {
 
       if (planDetails.currentPlan.length === 0) {
         getCustomerOffers().then(response => {
-          if (response.errors.length) {
+          if (response.errors?.length) {
             this.setState({
               errors: response.errors
             });
           } else {
-            setCurrentPlan(response.responseData.items);
+            setCurrentPlan(response.items);
           }
         });
       }
@@ -88,6 +90,9 @@ class MyAccount extends Component {
           }
         });
       }
+    }
+    if (displayGracePeriodError !== null) {
+      initPublisherConfig({ displayGracePeriodError });
     }
   }
 
@@ -211,8 +216,7 @@ class MyAccount extends Component {
           />
         );
       case MYACCCOUNT_TABS.paymentInfo:
-        console.log('render payment info from my account');
-        return <PaymentInfo />;
+         return <PaymentInfo />;
       case MYACCCOUNT_TABS.updateProfile:
         return <UpdateProfile />;
       default:
@@ -236,7 +240,6 @@ class MyAccount extends Component {
     if (Auth.isLogged()) {
       return (
         <WrapperStyled>
-          {console.log('myaccount')}
           <HeaderStyled>
             <MyAccountUserInfo />
             <MyAccountMenu />
@@ -271,6 +274,8 @@ MyAccount.propTypes = {
     })
   ),
   skipAvailableDowngradesStep: PropTypes.bool,
+  displayGracePeriodError: PropTypes.bool,
+  initPublisherConfig: PropTypes.func.isRequired,
   myaccountState: PropTypes.shape({
     activeTab: PropTypes.string.isRequired
   }).isRequired
@@ -281,7 +286,8 @@ MyAccount.defaultProps = {
   planDetails: { currentPlan: [] },
   popup: { isPopupShown: false },
   customCancellationReasons: null,
-  skipAvailableDowngradesStep: false
+  skipAvailableDowngradesStep: false,
+  displayGracePeriodError: null
 };
 
 export { MyAccount as PureMyAccount };

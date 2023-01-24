@@ -1,5 +1,7 @@
 const config = {
-  testEnvironment: 'jsdom'
+  testEnvironment: 'jsdom',
+  testMatch: ['<rootDir>/src/**/?(*.)(spec|test).{js,jsx,ts,tsx}'],
+  testPathIgnorePatterns: ['<rootDir>/(build|config|node_modules|dist)/']
 };
 
 module.exports = config;
