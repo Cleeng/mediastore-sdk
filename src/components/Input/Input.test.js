@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import Input from 'components/Input/Input';
+import Input from 'components/Input';
 
 describe('Input component', () => {
   test('should render correctly without props', () => {
