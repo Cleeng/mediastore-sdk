@@ -41,7 +41,7 @@
     "svgo": "^2.8.0"
   },
   "scripts": {
-    "test": "jest --watch",
+    "test": "npm run test --testPathIgnorePatterns=dist",
     "scan-translations": "node -e 'require(`./scripts/translationsBundle.js`).run(false)'",
     "clean": "rimraf dist",
     "compile": "npm run clean && cross-env NODE_ENV=production babel src --ignore spec.js,test.js,stories.js --out-dir dist --copy-files ",
@@ -62,7 +62,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "npm run test --testPathIgnorePatterns=dist"
+      "pre-push": "npm run test"
     }
   },
   "lint-staged": {
