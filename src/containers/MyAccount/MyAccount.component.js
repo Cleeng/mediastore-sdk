@@ -53,7 +53,8 @@ class MyAccount extends Component {
       setConsents,
       setConsentsError,
       initPublisherConfig,
-      adyenConfiguration
+      adyenConfiguration,
+      displayGracePeriodError
     } = this.props;
 
     document.title = 'My Account';
@@ -74,12 +75,12 @@ class MyAccount extends Component {
 
       if (planDetails.currentPlan.length === 0) {
         getCustomerOffers().then(response => {
-          if (response.errors.length) {
+          if (response.errors?.length) {
             this.setState({
               errors: response.errors
             });
           } else {
-            setCurrentPlan(response.responseData.items);
+            setCurrentPlan(response.items);
           }
         });
       }
@@ -101,6 +102,9 @@ class MyAccount extends Component {
           adyenConfiguration
         });
       }
+    }
+    if (displayGracePeriodError !== null) {
+      initPublisherConfig({ displayGracePeriodError });
     }
   }
 
@@ -314,7 +318,8 @@ MyAccount.propTypes = {
   skipAvailableDowngradesStep: PropTypes.bool,
   initPublisherConfig: PropTypes.func.isRequired,
   adyenConfiguration: PropTypes.objectOf(PropTypes.any),
-  t: PropTypes.func
+  t: PropTypes.func,
+  displayGracePeriodError: PropTypes.bool
 };
 
 MyAccount.defaultProps = {
@@ -324,7 +329,8 @@ MyAccount.defaultProps = {
   popup: { isPopupShown: false },
   customCancellationReasons: null,
   t: k => k,
-  skipAvailableDowngradesStep: false
+  skipAvailableDowngradesStep: false,
+  displayGracePeriodError: null
 };
 
 export { MyAccount as PureMyAccount };

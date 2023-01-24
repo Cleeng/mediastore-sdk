@@ -10,6 +10,9 @@ import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
 import { useSelector } from 'react-redux';
+import GracePeriodError from 'components/GracePeriodError';
+import { useDispatch } from 'react-redux';
+import { init } from 'redux/publisherConfigSlice';
 import { WrapStyled } from './PaymentInfoStyled';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
@@ -33,7 +36,8 @@ const PaymentInfoFn = ({
   setTransactionsListAsFetched,
   hideShowMoreButton,
   adyenConfiguration: adyenConfigurationProp,
-  t
+  t,
+  displayGracePeriodError
 }) => {
   const [paymentDetailsError, setPaymentDetailsError] = useState([]);
   const [paymentDetailsLoading, setPaymentDetailsLoading] = useState(true);
@@ -55,6 +59,7 @@ const PaymentInfoFn = ({
   );
 
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
+  const dispatch = useDispatch();
 
   const toggleTransactionsList = () => {
     if (isTransactionListExpanded) {
@@ -150,6 +155,13 @@ const PaymentInfoFn = ({
     }
 
     initPublisherConfig({ adyenConfiguration });
+    if (displayGracePeriodError !== null) {
+      dispatch(
+        init({
+          displayGracePeriodError
+        })
+      );
+    }
 
     return () => {
       hideInnerPopup();
@@ -158,6 +170,7 @@ const PaymentInfoFn = ({
 
   return (
     <WrapStyled>
+      <GracePeriodError />
       {innerPopup.isOpen && innerPopup.type === 'paymentDetails' ? (
         <UpdatePaymentDetailsPopup
           hideInnerPopup={hideInnerPopup}
@@ -208,13 +221,15 @@ PaymentInfoFn.propTypes = {
   initPublisherConfig: PropTypes.func.isRequired,
   innerPopup: PropTypes.objectOf(PropTypes.any).isRequired,
   adyenConfiguration: PropTypes.objectOf(PropTypes.any),
-  t: PropTypes.func
+  t: PropTypes.func,
+  displayGracePeriodError: PropTypes.bool
 };
 
 PaymentInfoFn.defaultProps = {
   paymentInfo: { paymentMethod: [], transactionsList: [] },
   adyenConfiguration: null,
-  t: k => k
+  t: k => k,
+  displayGracePeriodError: null
 };
 
 export default withTranslation()(labeling()(PaymentInfoFn));

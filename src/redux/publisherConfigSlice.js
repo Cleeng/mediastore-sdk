@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   offerId: '',
   paymentMethods: [],
-  adyenConfiguration: null
+  adyenConfiguration: null,
+  displayGracePeriodError: false
 };
 
 export const publisherConfigSlice = createSlice({
@@ -13,6 +14,7 @@ export const publisherConfigSlice = createSlice({
     init: (state, { payload }) => {
       state.offerId = payload.offerId || '';
       state.adyenConfiguration = payload.adyenConfiguration || null;
+      state.displayGracePeriodError = payload.displayGracePeriodError;
     },
     updatePaymentMethods: (state, { payload }) => {
       state.paymentMethods = payload;
