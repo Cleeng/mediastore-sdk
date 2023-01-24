@@ -26,7 +26,6 @@ const PaymentResultPage = ({ onSuccess }) => {
     );
   };
   const { error, payment } = useSelector(state => state.finalizeInitialPayment);
-  console.log({ error, payment });
 
   useEffect(() => {
     submitRedirectResult();
@@ -41,8 +40,7 @@ const PaymentResultPage = ({ onSuccess }) => {
       onSuccess();
       return null;
     }
-    console.log('return Tahnk');
-    return <ThankYouPage data-testid="thankyou-component" />;
+    return <ThankYouPage />;
   }
 
   return (

@@ -37,7 +37,7 @@ const ThankYouPage = ({ onSuccess, t }) => {
   }, []);
 
   return (
-    <ThankYouPageWrapperStyled>
+    <ThankYouPageWrapperStyled data-testid="ThankYouPage-component">
       <Header />
       <ThankYouPageStyled>
         <IconStyled src={checkmarkIconBase} />

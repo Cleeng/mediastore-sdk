@@ -22,7 +22,7 @@ const FailedPaymentPage = ({ t }) => {
   const dispatch = useDispatch();
 
   return (
-    <StyledOfferWrapper>
+    <StyledOfferWrapper data-testid="FailedPaymentPage-component">
       <Header />
       <ThankYouPageStyled>
         <WarningIcon />
