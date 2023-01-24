@@ -67,8 +67,7 @@
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint --no-ignore --fix",
-      "npm run test",
-      "git add --force"
+      "npm run test"
     ],
     "*.{json,md,graphql}": [
       "prettier --write",
