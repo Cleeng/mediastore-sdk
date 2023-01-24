@@ -1,6 +1,7 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
+import generateReturnUrl from 'util/returnUrlHelper';
 
 const submitPayment = async (paymentMethod, browserInfo, billingAddress) => {
   const API_URL = getApiURL();
@@ -17,7 +18,7 @@ const submitPayment = async (paymentMethod, browserInfo, billingAddress) => {
         browserInfo,
         billingAddress,
         origin: window.location.origin,
-        returnUrl: `${window.location.href}?orderId=${orderId}` // TODO:: should be taken from publisher configuration object, shoud it??
+        returnUrl: generateReturnUrl({ orderId })
       })
     });
     return res.json();

@@ -1,6 +1,7 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
+import generateReturnUrl from 'util/returnUrlHelper';
 
 const createPaymentSession = async isMyAccount => {
   const API_URL = getApiURL();
@@ -14,11 +15,11 @@ const createPaymentSession = async isMyAccount => {
       method: 'POST',
       body: isMyAccount
         ? JSON.stringify({
-            returnUrl: window.location.href
+            returnUrl: generateReturnUrl()
           })
         : JSON.stringify({
             orderId,
-            returnUrl: window.location.href
+            returnUrl: generateReturnUrl({ orderId })
           })
     });
     return res.json();
