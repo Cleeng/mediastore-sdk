@@ -69,7 +69,7 @@
       "eslint --no-ignore --fix",
       "git add --force"
     ],
-    "*.{test.js}": [
+    "*.test.{js}": [
       "npm run test --testPathIgnorePatterns=dist",
       "git add --force"
     ],
