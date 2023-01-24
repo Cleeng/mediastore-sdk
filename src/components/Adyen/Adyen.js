@@ -96,7 +96,7 @@ const Adyen = ({
         card: {
           hasHolderName: true,
           holderNameRequired: true,
-          ...adyenConfiguration?.card
+          ...adyenConfiguration?.paymentMethodsConfiguration?.card
         },
         applepay: {
           ...amountObj,

@@ -5,7 +5,8 @@ const updateAdyenPaymentDetails = async (
   paymentMethodId,
   paymentMethod,
   browserInfo,
-  billingAddress
+  billingAddress,
+  returnUrl
 ) => {
   const API_URL = getApiURL();
   const url = `${API_URL}/connectors/adyen/payment-details`;
@@ -18,7 +19,7 @@ const updateAdyenPaymentDetails = async (
         paymentMethodId,
         browserInfo,
         billingAddress,
-        returnUrl: 'https://cleeng.com'
+        returnUrl
       })
     });
     return res.json();
