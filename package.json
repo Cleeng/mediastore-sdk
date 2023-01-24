@@ -62,7 +62,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "npm run test --watchAll=false --testPathIgnorePatterns=dist"
+      "pre-push": "npm run test --testPathIgnorePatterns=dist"
     }
   },
   "lint-staged": {
