@@ -23,7 +23,9 @@ const PaymentResultPage = ({ onSuccess }) => {
         orderId,
         details: { redirectResult: adyenRedirectResult }
       })
-    );
+    ).then(() => {
+      window.history.replaceState(null, null, window.location.pathname);
+    });
   };
   const { error, payment } = useSelector(state => state.finalizeInitialPayment);
 

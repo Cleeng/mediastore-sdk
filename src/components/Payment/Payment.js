@@ -141,7 +141,6 @@ const Payment = ({ t, onPaymentComplete }) => {
     const {
       data: { details }
     } = state;
-    console.log('data for finilize initial payment', details);
     dispatch(
       fetchFinalizeInitialPayment({ orderId: order.id, details })
     ).unwrap();
