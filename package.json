@@ -61,13 +61,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged && npm run test"
     }
   },
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint --no-ignore --fix",
-      "npm run test"
+      "git add --force"
     ],
     "*.{json,md,graphql}": [
       "prettier --write",
