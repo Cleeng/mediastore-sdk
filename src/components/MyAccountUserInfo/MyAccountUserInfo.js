@@ -4,6 +4,7 @@ import SkeletonWrapper from 'components/SkeletonWrapper';
 
 import { useSelector } from 'react-redux';
 import { withTranslation } from 'react-i18next';
+import labeling from 'containers/labeling';
 import {
   WrapStyled,
   DetailsStyled,
@@ -12,7 +13,6 @@ import {
   MailStyled,
   TextStyled
 } from './MyAccountUserInfoStyled';
-import labeling from '../../containers/labeling';
 
 const MyAccountUserInfo = ({ t }) => {
   const { user } = useSelector(state => state.userProfile);

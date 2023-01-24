@@ -140,11 +140,6 @@ class MyAccount extends Component {
     }
   }
 
-  goToPage = pageName => {
-    const { setActiveTab } = this.props;
-    setActiveTab(pageName);
-  };
-
   checkTerms() {
     const {
       userProfile: { consents }
@@ -241,9 +236,10 @@ class MyAccount extends Component {
     if (Auth.isLogged()) {
       return (
         <WrapperStyled>
+          {console.log('myaccount')}
           <HeaderStyled>
             <MyAccountUserInfo />
-            <MyAccountMenu currentPage={activeTab} goToPage={this.goToPage} />
+            <MyAccountMenu />
             <Footer isCheckout={false} isTransparent />
           </HeaderStyled>
           <MyAccountContent>
@@ -277,9 +273,7 @@ MyAccount.propTypes = {
   skipAvailableDowngradesStep: PropTypes.bool,
   myaccountState: PropTypes.shape({
     activeTab: PropTypes.string.isRequired
-  }).isRequired,
-  setActiveTab: PropTypes.func.isRequired,
-  t: PropTypes.func
+  }).isRequired
 };
 
 MyAccount.defaultProps = {
@@ -287,7 +281,6 @@ MyAccount.defaultProps = {
   planDetails: { currentPlan: [] },
   popup: { isPopupShown: false },
   customCancellationReasons: null,
-  t: k => k,
   skipAvailableDowngradesStep: false
 };
 

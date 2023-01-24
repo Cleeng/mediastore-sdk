@@ -6,9 +6,9 @@ import Input from 'components/Input';
 
 describe('Input component', () => {
   test('should render correctly without props', () => {
-    render(<Input />);
+    const { getByTestId } = render(<Input />);
 
-    expect(screen.getByTestId('input')).toBeInTheDocument();
+    getByTestId('input');
   });
   test('should have correct id and label when placeholder is passed', () => {
     const testPlaceholder = 'test-input';

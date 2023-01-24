@@ -24,37 +24,29 @@ const FinalizeAddPaymentDetails = () => {
         paymentMethodId,
         details: { redirectResult: adyenRedirectResult }
       })
-    );
+    )
+      .unwrap()
+      .then(addPaymentDetailsResponse => {
+        console.log({ addPaymentDetailsResponse });
+        dispatch(
+          updatePaymentDetailsPopup({
+            step: PAYMENT_DETAILS_STEPS.SUCCESS,
+            isLoading: false
+          })
+        );
+      })
+      .catch(errors => {
+        console.log({ errors });
+        dispatch(
+          updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.ERROR }) // TODO: customize texts
+        );
+      });
   };
-  const { error, paymentDetails } = useSelector(
-    state => state.finalizeAddPaymentDetails
-  );
 
   useEffect(() => {
     console.log('call submitRedirectResult');
     submitRedirectResult();
   }, []);
-
-  if (error) {
-    dispatch(
-      updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.ERROR }) // TODO: customize texts
-    );
-    return null;
-  }
-
-  if (paymentDetails?.id) {
-    // if (onSuccess) { //TODO: check callback functions
-    //   onSuccess();
-    //   return null;
-    // }
-    dispatch(
-      updatePaymentDetailsPopup({
-        step: PAYMENT_DETAILS_STEPS.SUCCESS,
-        isLoading: false
-      })
-    );
-    return null;
-  }
 
   return <Loader />;
 };

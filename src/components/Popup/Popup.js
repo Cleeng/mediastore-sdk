@@ -15,7 +15,6 @@ import {
   ContentStyled,
   TitleStyled,
   TextStyled,
-  ImageStyled,
   ButtonWrapperStyled,
   ButtonStyled,
   HeaderStyled,

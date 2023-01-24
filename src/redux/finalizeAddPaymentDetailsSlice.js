@@ -23,7 +23,7 @@ export const fetchFinalizeAddPaymentDetails = createAsyncThunk(
   }
 );
 
-export const finalizeAddPaymentDetalisSlice = createSlice({
+export const finalizeAddPaymentDetailsSlice = createSlice({
   name: 'finalizeAddPaymentDetails',
   initialState,
   reducers: {},
@@ -42,4 +42,4 @@ export const finalizeAddPaymentDetalisSlice = createSlice({
   }
 });
 
-export default finalizeAddPaymentDetalisSlice.reducer;
+export default finalizeAddPaymentDetailsSlice.reducer;

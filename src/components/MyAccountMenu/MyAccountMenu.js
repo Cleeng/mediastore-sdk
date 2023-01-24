@@ -1,7 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveTab } from 'redux/myaccountSlice';
 import { MenuItems } from './MyAccountMenu.const';
 
 import {
@@ -13,59 +15,44 @@ import {
   ItemStyled
 } from './MyAccountMenuStyled';
 
-class MyAccountMenu extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  onMenuItemClick = id => {
-    const { goToPage } = this.props;
-    goToPage(id);
+const MyAccountMenu = ({ t }) => {
+  const { activeTab } = useSelector(state => state.myaccount);
+  const dispatch = useDispatch();
+  const onMenuItemClick = id => {
+    dispatch(setActiveTab(id));
   };
 
-  render() {
-    const { currentPage, t } = this.props;
-    return (
-      <WrapStyled>
-        <ItemsStyled>
-          {MenuItems.map(menuItem => {
-            const IconComponent = menuItem.icon
-              ? menuItem.icon
-              : React.Fragment;
-            return (
-              <ItemWrapStyled
-                key={menuItem.label}
-                visibleOnDesktop={menuItem.visibleOnDesktop}
-                onClick={() => this.onMenuItemClick(menuItem.id)}
-              >
-                <ItemStyled isActive={currentPage === menuItem.id}>
-                  <ItemIconWrapStyled>
-                    <IconComponent />
-                  </ItemIconWrapStyled>
-                  <ItemLabelStyled>{t(menuItem.label)}</ItemLabelStyled>
-                </ItemStyled>
-              </ItemWrapStyled>
-            );
-          })}
-        </ItemsStyled>
-      </WrapStyled>
-    );
-  }
-}
+  return (
+    <WrapStyled>
+      <ItemsStyled>
+        {MenuItems.map(({ icon, label, visibleOnDesktop, id }) => {
+          const IconComponent = icon || React.Fragment;
+          return (
+            <ItemWrapStyled
+              key={label}
+              visibleOnDesktop={visibleOnDesktop}
+              onClick={() => onMenuItemClick(id)}
+            >
+              <ItemStyled isActive={activeTab === id}>
+                <ItemIconWrapStyled>
+                  <IconComponent />
+                </ItemIconWrapStyled>
+                <ItemLabelStyled>{t(label)}</ItemLabelStyled>
+              </ItemStyled>
+            </ItemWrapStyled>
+          );
+        })}
+      </ItemsStyled>
+    </WrapStyled>
+  );
+};
 
 MyAccountMenu.propTypes = {
-  currentPage: PropTypes.string,
-  goToPage: PropTypes.func,
   t: PropTypes.func
 };
 
 MyAccountMenu.defaultProps = {
-  currentPage: '',
-  goToPage: () => {},
   t: k => k
 };
-
-export { MyAccountMenu as PureMyAccountMenu };
 
 export default withTranslation()(labeling()(MyAccountMenu));

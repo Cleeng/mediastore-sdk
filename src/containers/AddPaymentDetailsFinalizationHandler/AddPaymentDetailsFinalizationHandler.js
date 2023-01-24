@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 // import useFirstRender from 'hooks/useFirstRender';
 import {
@@ -31,16 +31,29 @@ const AddPaymentDetailsFinalizationHandler = Component => {
     //   }
     // }, [firstRender]);
 
-    if (adyenRedirectResult && paymentMethodId) {
-      dispatch(setActiveTab(MYACCCOUNT_TABS.paymentInfo));
-      dispatch(
-        updatePaymentDetailsPopup({
-          isOpen: true,
-          isLoading: true,
-          step: PAYMENT_DETAILS_STEPS.FINALIZE_ADYEN
-        })
-      );
-    }
+    // if (adyenRedirectResult && paymentMethodId) {
+    //   dispatch(setActiveTab(MYACCCOUNT_TABS.paymentInfo));
+    //   dispatch(
+    //     updatePaymentDetailsPopup({
+    //       isOpen: true,
+    //       isLoading: true,
+    //       step: PAYMENT_DETAILS_STEPS.FINALIZE_ADYEN
+    //     })
+    //   );
+    // }
+
+    useEffect(() => {
+      if (adyenRedirectResult && paymentMethodId) {
+        dispatch(setActiveTab(MYACCCOUNT_TABS.paymentInfo));
+        dispatch(
+          updatePaymentDetailsPopup({
+            isOpen: true,
+            isLoading: true,
+            step: PAYMENT_DETAILS_STEPS.FINALIZE_ADYEN
+          })
+        );
+      }
+    }, []);
 
     // eslint-disable-next-line react/jsx-props-no-spreading
     return <Component onSuccess={onSuccess} {...props} />;
