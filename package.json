@@ -41,7 +41,7 @@
     "svgo": "^2.8.0"
   },
   "scripts": {
-    "test": "jest --watch",
+    "test": "jest test --watchAll=false --testPathIgnorePatterns=dist",
     "scan-translations": "node -e 'require(`./scripts/translationsBundle.js`).run(false)'",
     "clean": "rimraf dist",
     "compile": "npm run clean && cross-env NODE_ENV=production babel src --ignore spec.js,test.js,stories.js --out-dir dist --copy-files ",
@@ -67,7 +67,7 @@
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint --no-ignore --fix",
-      "npm run test -- --watchAll=false",
+      "npm run test",
       "git add --force"
     ],
     "*.{json,md,graphql}": [
