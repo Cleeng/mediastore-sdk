@@ -61,13 +61,13 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm run test"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint --no-ignore --fix",
+      "npm run test -- --watchAll=false",
       "git add --force"
     ],
     "*.{json,md,graphql}": [
