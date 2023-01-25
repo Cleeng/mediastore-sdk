@@ -137,14 +137,7 @@ const Adyen = ({
   };
 
   const createSession = async () => {
-    const returnURLs = {
-      checkout: adyenConfiguration?.checkoutReturnUrl || 'https://cleeng.com',
-      myAccount: adyenConfiguration?.myaccountReturnUrl || 'https://cleeng.com'
-    };
-    const { responseData } = await createPaymentSession(
-      isMyAccount,
-      returnURLs
-    );
+    const { responseData } = await createPaymentSession(isMyAccount);
     if (responseData?.id) {
       createDropInInstance(responseData);
     }

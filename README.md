@@ -777,8 +777,8 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
 
 ```javascript
 {
-  checkoutReturnUrl: 'https://www.test.com', // The url to return the customer in case of a redirection during payment process in checkout component
-  myaccountReturnUrl: 'https://www.test.com', // The url to return the customer in case of a redirection during add/update payment details process in my account component
+  checkoutReturnUrl: 'https://www.test.com', // Optional - use only if you provide support to payment finalization in checkoutReturnUrl. The url to return the customer in case of a redirection during the payment process in checkout component. By default user is redirected to the page where the payment was triggered and components handles payment finalization.
+  myaccountReturnUrl: 'https://www.test.com', // Optional - use only if you provide support to add payment details finalization in myaccountReturnUrl. The url to return the customer in case of a redirection during add/update payment details process in my account component. By default user is redirected to the page where the action was triggered and components handle finalization.
   analytics: {
       enabled: false, // Indicates if you're sending analytics data to Adyen. Default: true.
   },

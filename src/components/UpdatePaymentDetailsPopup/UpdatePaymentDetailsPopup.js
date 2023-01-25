@@ -73,9 +73,7 @@ const UpdatePaymentDetailsPopup = ({
   );
   const [dropInInstance, setDropInInstance] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
-  const { paymentMethods, adyenConfiguration } = useSelector(
-    state => state.publisherConfig
-  );
+  const { paymentMethods } = useSelector(state => state.publisherConfig);
   const { paymentDetails } = useSelector(state => state.paymentInfo);
 
   const selectPaymentMethodHandler = paymentMethodName => {
@@ -161,15 +159,13 @@ const UpdatePaymentDetailsPopup = ({
         item.paymentGateway === 'adyen' &&
         item.methodName === selectedPaymentMethodName
     )?.id;
-    const returnUrl =
-      adyenConfiguration?.myaccountReturnUrl || 'https://cleeng.com';
+
     setIsUpdatingPaymentDetails(true);
     const { errors, action } = await updateAdyenPaymentDetails(
       paymentMethodId,
       paymentMethod,
       browserInfo,
-      billingAddress,
-      returnUrl
+      billingAddress
     );
     if (errors.length) {
       eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED);

@@ -3,7 +3,7 @@ import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import generateReturnUrl from 'util/returnUrlHelper';
 
-const createPaymentSession = async (isMyAccount, returnUrls) => {
+const createPaymentSession = async isMyAccount => {
   const API_URL = getApiURL();
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
@@ -15,11 +15,13 @@ const createPaymentSession = async (isMyAccount, returnUrls) => {
       method: 'POST',
       body: isMyAccount
         ? JSON.stringify({
-            returnUrl: generateReturnUrl()
+            returnUrl: generateReturnUrl({ isMyAccount: true })
           })
         : JSON.stringify({
             orderId,
-            returnUrl: generateReturnUrl({ orderId })
+            returnUrl: generateReturnUrl({
+              queryParams: { orderId }
+            })
           })
     });
     return res.json();
