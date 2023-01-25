@@ -9,9 +9,8 @@ import Transactions from 'components/Transactions';
 import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import GracePeriodError from 'components/GracePeriodError';
-import { useDispatch } from 'react-redux';
 import { init } from 'redux/publisherConfigSlice';
 import { WrapStyled } from './PaymentInfoStyled';
 

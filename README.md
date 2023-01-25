@@ -798,7 +798,7 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       positionHolderNameOnTop: true, // Renders the cardholder name field at the top of the payment form. Default: false
       styles: {}, // Set a style object to customize the card input fields. For a list of supported properties, refer to https://docs.adyen.com/payment-methods/cards/custom-card-integration#styling
       billingAddressAllowedCountries: ['US', 'CA', 'BR', 'PL'], // Specify allowed country codes for the billing address. Default: The Country field dropdown menu shows a list of all countries.
-      minimumExpiryDate: null, // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: mm/yy
+      minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'
       autoFocus: true // Automatically move the focus from date field to the CVC field. The focus also moves to the date field when the entered card number reaches the expected length. Default: true
     },
   },
