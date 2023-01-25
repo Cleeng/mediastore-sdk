@@ -35,7 +35,9 @@ import DropInSection from './DropInSection/DropInSection';
 import { periodMapper } from '../../util';
 
 const Payment = ({ t, onPaymentComplete }) => {
-  const { paymentMethods } = useSelector(state => state.publisherConfig);
+  const { paymentMethods, adyenConfiguration } = useSelector(
+    state => state.publisherConfig
+  );
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 
   const order = useSelector(state => state.order.order);
@@ -143,12 +145,15 @@ const Payment = ({ t, onPaymentComplete }) => {
     const {
       data: { paymentMethod, browserInfo, billingAddress }
     } = state;
+    const returnUrl =
+      adyenConfiguration?.checkoutReturnUrl || 'https://cleeng.com';
     setGeneralError('');
     setIsLoading(true);
     const { errors, responseData } = await submitPayment(
       paymentMethod,
       browserInfo,
-      billingAddress
+      billingAddress,
+      returnUrl
     );
 
     if (errors.length) {
