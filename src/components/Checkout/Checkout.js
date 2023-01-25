@@ -50,9 +50,11 @@ class Checkout extends Component {
   }
 
   componentDidMount() {
-    const { initValues, offerId } = this.props;
+    const { initValues, offerId, adyenConfiguration } = this.props;
+
     initValues({
-      offerId
+      offerId,
+      adyenConfiguration
     });
     if (Auth.isLogged()) {
       this.setState({
@@ -133,13 +135,15 @@ Checkout.propTypes = {
   offerId: PropTypes.string,
   onSuccess: PropTypes.func,
   resetPasswordCallback: PropTypes.func,
+  adyenConfiguration: PropTypes.objectOf(PropTypes.any),
   initValues: PropTypes.func.isRequired
 };
 
 Checkout.defaultProps = {
   offerId: null,
   onSuccess: () => {},
-  resetPasswordCallback: () => {}
+  resetPasswordCallback: () => {},
+  adyenConfiguration: null
 };
 
 export const mapDispatchToProps = dispatch => ({

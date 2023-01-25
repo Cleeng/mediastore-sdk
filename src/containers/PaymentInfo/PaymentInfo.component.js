@@ -9,8 +9,8 @@ import Transactions from 'components/Transactions';
 import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
+import { useSelector, useDispatch } from 'react-redux';
 import GracePeriodError from 'components/GracePeriodError';
-import { useDispatch } from 'react-redux';
 import { init } from 'redux/publisherConfigSlice';
 import { WrapStyled } from './PaymentInfoStyled';
 
@@ -28,11 +28,13 @@ const PaymentInfoFn = ({
   setPaymentDetails,
   setTransactionsToShow,
   hideInnerPopup,
+  initPublisherConfig,
   innerPopup,
   showInnerPopup,
   setTransactionsList,
   setTransactionsListAsFetched,
   hideShowMoreButton,
+  adyenConfiguration: adyenConfigurationProp,
   t,
   displayGracePeriodError
 }) => {
@@ -51,6 +53,11 @@ const PaymentInfoFn = ({
   const [isTransactionsItemsLoading, setIsTransactionsItemsLoading] = useState(
     false
   );
+  const { adyenConfiguration: adyenConfigurationStore } = useSelector(
+    state => state.publisherConfig
+  );
+
+  const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
   const dispatch = useDispatch();
 
   const toggleTransactionsList = () => {
@@ -146,6 +153,7 @@ const PaymentInfoFn = ({
       setIsTransactionsSectionLoading(false);
     }
 
+    initPublisherConfig({ adyenConfiguration });
     if (displayGracePeriodError !== null) {
       dispatch(
         init({
@@ -209,13 +217,16 @@ PaymentInfoFn.propTypes = {
   }),
   showInnerPopup: PropTypes.func.isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
+  initPublisherConfig: PropTypes.func.isRequired,
   innerPopup: PropTypes.objectOf(PropTypes.any).isRequired,
+  adyenConfiguration: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func,
   displayGracePeriodError: PropTypes.bool
 };
 
 PaymentInfoFn.defaultProps = {
   paymentInfo: { paymentMethod: [], transactionsList: [] },
+  adyenConfiguration: null,
   t: k => k,
   displayGracePeriodError: null
 };

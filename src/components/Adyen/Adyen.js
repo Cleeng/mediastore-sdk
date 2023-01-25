@@ -16,7 +16,7 @@ import {
   getAdyenClientKey,
   getGooglePayEnv
 } from './util/getAdyenConfig';
-import adyenTranslations from './util/AdyenTranslations';
+import defaultAdyenTranslations from './util/defaultAdyenTranslations';
 
 const Adyen = ({
   onSubmit,
@@ -28,6 +28,7 @@ const Adyen = ({
   onAdditionalDetails
 }) => {
   const { discount } = useSelector(state => state.order.order);
+  const { adyenConfiguration } = useSelector(state => state.publisherConfig);
   const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef(null);
   const [dropInInstance, setDropInInstance] = useState(null);
@@ -73,10 +74,13 @@ const Adyen = ({
       paymentMethods.find(item => item.type === 'googlepay')?.configuration;
 
     const configuration = {
-      locale: 'en-US',
-      translations: adyenTranslations,
+      locale: adyenConfiguration?.locale || 'en-US',
+      translations: {
+        ...defaultAdyenTranslations,
+        ...adyenConfiguration?.translations
+      },
       environment: getAdyenEnv(),
-      analytics: {
+      analytics: adyenConfiguration?.analytics || {
         enabled: true //  analytics data for Adyen
       },
       session: {
@@ -90,7 +94,8 @@ const Adyen = ({
       paymentMethodsConfiguration: {
         card: {
           hasHolderName: true,
-          holderNameRequired: true
+          holderNameRequired: true,
+          ...adyenConfiguration?.paymentMethodsConfiguration?.card
         },
         applepay: {
           ...amountObj,
@@ -119,7 +124,10 @@ const Adyen = ({
     if (containerRef.current) {
       const dropin = checkout.create('dropin', {
         onSelect,
-        openFirstPaymentMethod: !window.matchMedia('(max-width:991px)').matches
+        openFirstPaymentMethod:
+          adyenConfiguration.openFirstPaymentMethod == null
+            ? !window.matchMedia('(max-width:991px)').matches
+            : adyenConfiguration?.openFirstPaymentMethod
       });
       dropin.mount(containerRef.current);
       setDropInInstance(dropin);
@@ -129,7 +137,14 @@ const Adyen = ({
   };
 
   const createSession = async () => {
-    const { responseData } = await createPaymentSession(isMyAccount);
+    const returnURLs = {
+      checkout: adyenConfiguration?.checkoutReturnUrl || 'https://cleeng.com',
+      myAccount: adyenConfiguration?.myaccountReturnUrl || 'https://cleeng.com'
+    };
+    const { responseData } = await createPaymentSession(
+      isMyAccount,
+      returnURLs
+    );
     if (responseData?.id) {
       createDropInInstance(responseData);
     }

@@ -3,7 +3,7 @@ import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import generateReturnUrl from 'util/returnUrlHelper';
 
-const createPaymentSession = async isMyAccount => {
+const createPaymentSession = async (isMyAccount, returnUrls) => {
   const API_URL = getApiURL();
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);

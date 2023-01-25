@@ -28,17 +28,25 @@ import {
   StyledLoaderContent
 } from './StyledOfferContainer';
 
-const OfferContainer = ({ offerId: offerIdProp, onSuccess }) => {
+const OfferContainer = ({
+  offerId: offerIdProp,
+  adyenConfiguration: adyenConfigurationProp,
+  onSuccess
+}) => {
   const [errorMsg, setErrorMsg] = useState();
 
   const dispatch = useDispatch();
-  const { offerId: offerIdStore } = useSelector(state => state.publisherConfig);
+  const {
+    offerId: offerIdStore,
+    adyenConfiguration: adyenConfigurationStore
+  } = useSelector(state => state.publisherConfig);
   const { order, loading: isOrderLoading, error: orderError } = useSelector(
     state => state.order
   );
   const { error: offerError } = useSelector(state => state.offer);
 
   const offerId = offerIdProp || offerIdStore;
+  const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
   const paymentMethodsHandler = orderId => {
     getPaymentMethods().then(paymentMethodResponse => {
@@ -122,7 +130,8 @@ const OfferContainer = ({ offerId: offerIdProp, onSuccess }) => {
   useEffect(() => {
     dispatch(
       initValues({
-        offerId
+        offerId,
+        adyenConfiguration
       })
     );
     if (!offerId) {
@@ -207,12 +216,14 @@ OfferContainer.propTypes = {
   urlProps: PropTypes.shape({
     location: PropTypes.shape({ search: PropTypes.string })
   }),
-  offerId: PropTypes.string
+  offerId: PropTypes.string,
+  adyenConfiguration: PropTypes.objectOf(PropTypes.any)
 };
 OfferContainer.defaultProps = {
   onSuccess: () => {},
   urlProps: {},
-  offerId: ''
+  offerId: '',
+  adyenConfiguration: null
 };
 
 export default withPaymentFinalizationHandler(OfferContainer);

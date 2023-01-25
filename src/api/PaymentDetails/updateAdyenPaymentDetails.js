@@ -6,7 +6,8 @@ const updateAdyenPaymentDetails = async (
   paymentMethodId,
   paymentMethod,
   browserInfo,
-  billingAddress
+  billingAddress,
+  returnUrl
 ) => {
   const API_URL = getApiURL();
   const url = `${API_URL}/connectors/adyen/payment-details`;
