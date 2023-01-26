@@ -38,7 +38,7 @@ const FailedPaymentPage = ({ t }) => {
           </strong>
         </MessageStyled>
         <MessageStyled>
-          {error === 'Refused' ? (
+          {error.includes('Refused') ? (
             <Trans i18nKey="failed-payment-page.desc-refused">
               To complete your purchase, please
               <LinkStyled
