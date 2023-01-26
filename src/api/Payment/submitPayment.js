@@ -18,7 +18,7 @@ const submitPayment = async (paymentMethod, browserInfo, billingAddress) => {
         browserInfo,
         billingAddress,
         origin: window.location.origin,
-        returnUrl: generateReturnUrl({ orderId })
+        returnUrl: generateReturnUrl({ queryParams: { orderId } })
       })
     });
     return res.json();

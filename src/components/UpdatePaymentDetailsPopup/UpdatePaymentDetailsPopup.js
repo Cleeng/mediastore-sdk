@@ -148,7 +148,7 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
     );
   }
 
-  const onAdditionalDetails = async state => {
+  const onAdditionalDetails = state => {
     const {
       data: { details }
     } = state;
@@ -157,7 +157,7 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
         details,
         paymentMethodId: selectedPaymentMethod.id
       })
-    ).unwrap();
+    );
   };
 
   const addAdyenPaymentDetails = async (state, component) => {
@@ -250,7 +250,6 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
   }
 
   if (step === PAYMENT_DETAILS_STEPS.FINALIZE_ADYEN) {
-    console.log('setp FINALIZE_ADYEN');
     return (
       <InnerPopupWrapper
         steps={2}

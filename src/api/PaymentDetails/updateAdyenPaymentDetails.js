@@ -19,7 +19,10 @@ const updateAdyenPaymentDetails = async (
         paymentMethodId,
         browserInfo,
         billingAddress,
-        returnUrl: generateReturnUrl({ paymentMethodId })
+        returnUrl: generateReturnUrl({
+          queryParams: { paymentMethodId },
+          isMyAccount: true
+        })
       })
     });
     return res.json();

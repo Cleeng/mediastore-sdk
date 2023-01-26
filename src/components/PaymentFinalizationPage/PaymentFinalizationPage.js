@@ -30,7 +30,9 @@ const PaymentFinalizationPage = ({ onSuccess }) => {
   const { error, payment } = useSelector(state => state.finalizeInitialPayment);
 
   useEffect(() => {
-    submitRedirectResult();
+    if (adyenRedirectResult && orderId) {
+      submitRedirectResult();
+    }
   }, []);
 
   if (error) {

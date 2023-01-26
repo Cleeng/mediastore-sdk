@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { fetchFinalizeAddPaymentDetails } from 'redux/finalizeAddPaymentDetailsSlice';
 import { useDispatch } from 'react-redux';
 import Loader from 'components/Loader';
@@ -9,7 +8,6 @@ import {
 } from 'redux/popupSlice';
 
 const FinalizeAddPaymentDetails = () => {
-  // TODO: check { onSuccess } callback
   const adyenRedirectResult = new URLSearchParams(window.location.search).get(
     'redirectResult'
   );
@@ -26,8 +24,7 @@ const FinalizeAddPaymentDetails = () => {
       })
     )
       .unwrap()
-      .then(addPaymentDetailsResponse => {
-        console.log({ addPaymentDetailsResponse });
+      .then(() => {
         dispatch(
           updatePaymentDetailsPopup({
             step: PAYMENT_DETAILS_STEPS.SUCCESS,
@@ -35,8 +32,7 @@ const FinalizeAddPaymentDetails = () => {
           })
         );
       })
-      .catch(errors => {
-        console.log({ errors });
+      .catch(() => {
         dispatch(
           updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.ERROR }) // TODO: customize texts
         );
@@ -44,7 +40,6 @@ const FinalizeAddPaymentDetails = () => {
   };
 
   useEffect(() => {
-    console.log('call submitRedirectResult');
     submitRedirectResult();
   }, []);
 
@@ -52,11 +47,3 @@ const FinalizeAddPaymentDetails = () => {
 };
 
 export default FinalizeAddPaymentDetails;
-
-FinalizeAddPaymentDetails.propTypes = {
-  onSuccess: PropTypes.func
-};
-
-FinalizeAddPaymentDetails.defaultProps = {
-  onSuccess: null
-};
