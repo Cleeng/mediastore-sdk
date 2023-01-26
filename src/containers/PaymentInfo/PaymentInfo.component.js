@@ -13,6 +13,7 @@ import GracePeriodError from 'components/GracePeriodError';
 import { useDispatch } from 'react-redux';
 import { init } from 'redux/publisherConfigSlice';
 import { WrapStyled } from './PaymentInfoStyled';
+import AddPaymentDetailsFinalizationHandler from '../AddPaymentDetailsFinalizationHandler';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
 
@@ -220,4 +221,6 @@ PaymentInfoFn.defaultProps = {
   displayGracePeriodError: null
 };
 
-export default withTranslation()(labeling()(PaymentInfoFn));
+export default withTranslation()(
+  labeling()(AddPaymentDetailsFinalizationHandler(PaymentInfoFn))
+);

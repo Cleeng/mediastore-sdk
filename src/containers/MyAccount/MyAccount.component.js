@@ -216,7 +216,7 @@ class MyAccount extends Component {
           />
         );
       case MYACCCOUNT_TABS.paymentInfo:
-         return <PaymentInfo />;
+        return <PaymentInfo />;
       case MYACCCOUNT_TABS.updateProfile:
         return <UpdateProfile />;
       default:
