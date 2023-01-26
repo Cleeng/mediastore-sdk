@@ -127,7 +127,7 @@ const Adyen = ({
         openFirstPaymentMethod:
           adyenConfiguration?.openFirstPaymentMethod == null
             ? !window.matchMedia('(max-width:991px)').matches
-            : adyenConfiguration.openFirstPaymentMethod
+            : adyenConfiguration?.openFirstPaymentMethod
       });
       dropin.mount(containerRef.current);
       setDropInInstance(dropin);
