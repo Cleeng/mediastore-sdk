@@ -9,7 +9,7 @@ import {
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
 import { useTranslation } from 'react-i18next';
-import { updatePaymentDetailsPopup } from 'redux/popupSlice';
+import { resetPaymentDetailsPopupState } from 'redux/popupSlice';
 import { ImageWrapper } from '../UpdatePaymentDetailsPopupStyled';
 
 const Success = () => {
@@ -28,9 +28,7 @@ const Success = () => {
       <ButtonWrapperStyled removeMargin>
         <Button
           theme="simple"
-          onClickFn={() =>
-            dispatch(updatePaymentDetailsPopup({ isOpen: false }))
-          }
+          onClickFn={() => dispatch(resetPaymentDetailsPopupState())}
         >
           {t('Back to Payment Details')}
         </Button>

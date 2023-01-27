@@ -6,8 +6,9 @@ import {
   PAYMENT_DETAILS_STEPS,
   updatePaymentDetailsPopup
 } from 'redux/popupSlice';
+import PropTypes from 'prop-types';
 
-const FinalizeAddPaymentDetails = () => {
+const FinalizeAddPaymentDetails = ({ updatePaymentDetailsSection }) => {
   const adyenRedirectResult = new URLSearchParams(window.location.search).get(
     'redirectResult'
   );
@@ -31,11 +32,15 @@ const FinalizeAddPaymentDetails = () => {
             isLoading: false
           })
         );
+        updatePaymentDetailsSection();
       })
       .catch(() => {
         dispatch(
           updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.ERROR })
         );
+      })
+      .finally(() => {
+        window.history.replaceState(null, null, window.location.pathname);
       });
   };
 
@@ -46,6 +51,14 @@ const FinalizeAddPaymentDetails = () => {
   }, []);
 
   return <Loader />;
+};
+
+FinalizeAddPaymentDetails.propTypes = {
+  updatePaymentDetailsSection: PropTypes.func
+};
+
+FinalizeAddPaymentDetails.defaultProps = {
+  updatePaymentDetailsSection: () => {}
 };
 
 export default FinalizeAddPaymentDetails;

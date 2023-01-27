@@ -19,16 +19,7 @@ const Error = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { error } = useSelector(state => state.finalizeAddPaymentDetails);
-  const handleTryAgain = () => {
-    window.history.replaceState(null, null, window.location.pathname);
 
-    dispatch(
-      updatePaymentDetailsPopup({
-        step: PAYMENT_DETAILS_STEPS.PAYMENT_DETAILS_UPDATE,
-        isLoading: false
-      })
-    );
-  };
   return (
     <>
       <ContentStyled>
@@ -51,7 +42,17 @@ const Error = () => {
         </TextStyled>
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
-        <Button theme="simple" onClickFn={handleTryAgain}>
+        <Button
+          theme="simple"
+          onClickFn={() =>
+            dispatch(
+              updatePaymentDetailsPopup({
+                step: PAYMENT_DETAILS_STEPS.PAYMENT_DETAILS_UPDATE,
+                isLoading: false
+              })
+            )
+          }
+        >
           {t('Try again')}
         </Button>
       </ButtonWrapperStyled>
