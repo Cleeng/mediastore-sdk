@@ -42,10 +42,9 @@ const Payment = ({ t, onPaymentComplete }) => {
   const order = useSelector(state => state.order.order);
   const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
   const { period: offerPeriod } = useSelector(state => state.offer.offer);
-  const {
-    loading: isPaymentFinalizationInProgress,
-    error: finalizePaymentError
-  } = useSelector(state => state.finalizeInitialPayment);
+  const { loading: isPaymentFinalizationInProgress } = useSelector(
+    state => state.finalizeInitialPayment
+  );
   const period = offerPeriod
     ? periodMapper[offerPeriod].chargedForEveryText
     : null;
@@ -56,16 +55,6 @@ const Payment = ({ t, onPaymentComplete }) => {
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
     false
   );
-
-  useEffect(() => {
-    if (finalizePaymentError) {
-      // rerender payment components when there was error 'Cancelled'
-      setDropInInstance(null);
-      setAdyenKey(key => !key);
-      setIsActionHandlingProcessing(false);
-      setIsLoading(false);
-    }
-  }, [finalizePaymentError]);
 
   const dispatch = useDispatch();
 
