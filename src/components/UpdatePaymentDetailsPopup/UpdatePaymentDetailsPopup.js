@@ -12,6 +12,12 @@ import {
   ButtonWrapperStyled,
   WarningMessageStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
+import { fetchFinalizeAddPaymentDetails } from 'redux/finalizeAddPaymentDetailsSlice';
+import {
+  updatePaymentDetailsPopup,
+  resetPaymentDetailsPopupState,
+  PAYMENT_DETAILS_STEPS
+} from 'redux/popupSlice';
 import {
   shouldShowGatewayComponent,
   validatePaymentMethods
@@ -35,7 +41,12 @@ import {
   PopupImageStyled,
   PaymentMethodsWrapperStyled
 } from './UpdatePaymentDetailsPopupStyled';
-import { Success, DeletePaymentMethod, Error } from './Steps';
+import {
+  Success,
+  DeletePaymentMethod,
+  Error,
+  FinalizeAddPaymentDetails
+} from './Steps';
 import Adyen from '../Adyen';
 import PayPal from '../Payment/PayPal/PayPal';
 
@@ -47,30 +58,21 @@ const PaymentMethodIcons = {
   roku: RokuIcon
 };
 
-const UpdatePaymentDetailsPopup = ({
-  hideInnerPopup,
-  updatePaymentDetailsSection
-}) => {
-  const STEPS = {
-    PAYMENT_DETAILS_UPDATE: 'PAYMENT_DETAILS_UPDATE',
-    DELETE_PAYMENT_DETAILS: 'DELETE_PAYMENT_DETAILS',
-    SUCCESS: 'SUCCESS',
-    ERROR: 'ERROR'
-  };
-
+const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
   const STEPS_NUMBERS = {
     PAYMENT_DETAILS_UPDATE: 1,
+    FINALIZE_ADYEN: 2,
     DELETE_PAYMENT_DETAILS: 2,
     SUCCESS: 2,
     ERROR: 2
   };
 
+  const { isLoading, step } = useSelector(
+    state => state.popupManager.paymentDetails
+  );
+
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const [step, setStep] = useState(STEPS.PAYMENT_DETAILS_UPDATE);
-  const [isUpdatingPaymentDetails, setIsUpdatingPaymentDetails] = useState(
-    false
-  );
   const [dropInInstance, setDropInInstance] = useState(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const { paymentMethods } = useSelector(state => state.publisherConfig);
@@ -98,6 +100,9 @@ const UpdatePaymentDetailsPopup = ({
         }
       });
     }
+    return () => {
+      dispatch(resetPaymentDetailsPopupState());
+    };
   }, []);
 
   if (selectedPaymentMethod?.bound) {
@@ -107,7 +112,7 @@ const UpdatePaymentDetailsPopup = ({
       <InnerPopupWrapper
         steps={1}
         isError={false}
-        currentStep={step}
+        currentStep={STEPS_NUMBERS[step]}
         popupTitle={t('Update payment details')}
       >
         <ContentStyled>
@@ -130,7 +135,12 @@ const UpdatePaymentDetailsPopup = ({
           </TextStyled>
         </ContentStyled>
         <ButtonWrapperStyled removeMargin>
-          <Button theme="simple" onClickFn={() => hideInnerPopup()}>
+          <Button
+            theme="simple"
+            onClickFn={() =>
+              dispatch(updatePaymentDetailsPopup({ isOpen: false }))
+            }
+          >
             {t('Back')}
           </Button>
         </ButtonWrapperStyled>
@@ -138,13 +148,16 @@ const UpdatePaymentDetailsPopup = ({
     );
   }
 
-  const onAdditionalDetails = async state => {
-    // TODO: handle additional actions (3DSecure)
-    console.log('onAdditionalDetails event');
+  const onAdditionalDetails = state => {
     const {
       data: { details }
     } = state;
-    console.log('data for finilize update payment details', details);
+    dispatch(
+      fetchFinalizeAddPaymentDetails({
+        details,
+        paymentMethodId: selectedPaymentMethod.id
+      })
+    );
   };
 
   const addAdyenPaymentDetails = async (state, component) => {
@@ -159,9 +172,8 @@ const UpdatePaymentDetailsPopup = ({
         item.paymentGateway === 'adyen' &&
         item.methodName === selectedPaymentMethodName
     )?.id;
-
-    setIsUpdatingPaymentDetails(true);
-    const { errors, action } = await updateAdyenPaymentDetails(
+    dispatch(updatePaymentDetailsPopup({ isLoading: true }));
+    const { errors, responseData } = await updateAdyenPaymentDetails(
       paymentMethodId,
       paymentMethod,
       browserInfo,
@@ -169,16 +181,22 @@ const UpdatePaymentDetailsPopup = ({
     );
     if (errors.length) {
       eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED);
-      setStep(STEPS.ERROR);
+      dispatch(
+        updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.ERROR })
+      );
       return;
     }
-    if (action) {
-      component.handleAction(action);
+    if (responseData?.action) {
+      component.handleAction(responseData.action);
       return;
     }
     eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL);
-    setIsUpdatingPaymentDetails(false);
-    setStep(STEPS.SUCCESS);
+    dispatch(
+      updatePaymentDetailsPopup({
+        isLoading: false,
+        step: PAYMENT_DETAILS_STEPS.SUCCESS
+      })
+    );
     updatePaymentDetailsSection();
   };
 
@@ -190,7 +208,7 @@ const UpdatePaymentDetailsPopup = ({
     const paymentMethodId = paymentMethods.find(
       item => item.paymentGateway === 'paypal' && item.methodName === 'paypal'
     )?.id;
-    setIsUpdatingPaymentDetails(true);
+    dispatch(updatePaymentDetailsPopup({ isLoading: true }));
     updatePayPalPaymentDetails(paymentMethodId)
       .then(resp => {
         eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL);
@@ -198,10 +216,12 @@ const UpdatePaymentDetailsPopup = ({
       })
       .catch(() => {
         eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED);
-        setStep(STEPS.ERROR);
+        dispatch(
+          updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.ERROR })
+        );
       })
       .finally(() => {
-        setIsUpdatingPaymentDetails(false);
+        dispatch(updatePaymentDetailsPopup({ isLoading: false }));
       });
   };
 
@@ -211,7 +231,7 @@ const UpdatePaymentDetailsPopup = ({
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!dropInInstance : true;
 
-  if (step === STEPS.DELETE_PAYMENT_DETAILS) {
+  if (step === PAYMENT_DETAILS_STEPS.DELETE_PAYMENT_DETAILS) {
     return (
       <InnerPopupWrapper
         steps={2}
@@ -220,15 +240,13 @@ const UpdatePaymentDetailsPopup = ({
         popupTitle={t('Update payment details')}
       >
         <DeletePaymentMethod
-          hideInnerPopup={hideInnerPopup}
-          showSuccessPage={() => setStep(STEPS.SUCCESS)}
           updatePaymentDetailsSection={updatePaymentDetailsSection}
         />
       </InnerPopupWrapper>
     );
   }
 
-  if (step === STEPS.SUCCESS) {
+  if (step === PAYMENT_DETAILS_STEPS.FINALIZE_ADYEN) {
     return (
       <InnerPopupWrapper
         steps={2}
@@ -236,11 +254,12 @@ const UpdatePaymentDetailsPopup = ({
         currentStep={STEPS_NUMBERS[step]}
         popupTitle={t('Update payment details')}
       >
-        <Success hideInnerPopup={hideInnerPopup} />
+        <FinalizeAddPaymentDetails />
       </InnerPopupWrapper>
     );
   }
-  if (step === STEPS.ERROR) {
+
+  if (step === PAYMENT_DETAILS_STEPS.SUCCESS) {
     return (
       <InnerPopupWrapper
         steps={2}
@@ -248,7 +267,23 @@ const UpdatePaymentDetailsPopup = ({
         currentStep={STEPS_NUMBERS[step]}
         popupTitle={t('Update payment details')}
       >
-        <Error hideInnerPopup={hideInnerPopup} />
+        <Success
+          hideInnerPopup={() =>
+            dispatch(updatePaymentDetailsPopup({ isOpen: false }))
+          }
+        />
+      </InnerPopupWrapper>
+    );
+  }
+  if (step === PAYMENT_DETAILS_STEPS.ERROR) {
+    return (
+      <InnerPopupWrapper
+        steps={2}
+        isError={false}
+        currentStep={STEPS_NUMBERS[step]}
+        popupTitle={t('Update payment details')}
+      >
+        <Error />
       </InnerPopupWrapper>
     );
   }
@@ -285,14 +320,10 @@ const UpdatePaymentDetailsPopup = ({
               title="PayPal"
               logo="paypal"
               fadeOutSection={
-                isUpdatingPaymentDetails &&
-                selectedPaymentMethod?.methodName !== 'paypal'
+                isLoading && selectedPaymentMethod?.methodName !== 'paypal'
               }
             >
-              <PayPal
-                onSubmit={submitPayPal}
-                isLoading={isUpdatingPaymentDetails}
-              />
+              <PayPal onSubmit={submitPayPal} isLoading={isLoading} />
             </DropInSection>
           )}
         </PaymentMethodsWrapperStyled>
@@ -300,7 +331,11 @@ const UpdatePaymentDetailsPopup = ({
           <RemoveLinkStyled
             onClick={() => {
               eventDispatcher(MSSDK_REMOVE_PAYMENT_DETAILS_BUTTON_CLICKED);
-              setStep(STEPS.DELETE_PAYMENT_DETAILS);
+              dispatch(
+                updatePaymentDetailsPopup({
+                  step: PAYMENT_DETAILS_STEPS.DELETE_PAYMENT_DETAILS
+                })
+              );
             }}
           >
             <DeleteIconStyled />
@@ -309,7 +344,16 @@ const UpdatePaymentDetailsPopup = ({
         )}
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
-        <Button theme="simple" onClickFn={() => hideInnerPopup()}>
+        <Button
+          theme="simple"
+          onClickFn={() =>
+            dispatch(
+              updatePaymentDetailsPopup({
+                isOpen: false
+              })
+            )
+          }
+        >
           {t('Cancel')}
         </Button>
       </ButtonWrapperStyled>
@@ -322,12 +366,10 @@ const UpdatePaymentDetailsPopup = ({
 };
 
 UpdatePaymentDetailsPopup.propTypes = {
-  hideInnerPopup: PropTypes.func,
   updatePaymentDetailsSection: PropTypes.func
 };
 
 UpdatePaymentDetailsPopup.defaultProps = {
-  hideInnerPopup: () => {},
   updatePaymentDetailsSection: () => {}
 };
 

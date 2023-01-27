@@ -25,7 +25,6 @@ const withPaymentFinalizationHandler = Component => {
     if (shouldShowFinalizePaymentComponent) {
       return <PaymentFinalizationPage onSuccess={onSuccess} />;
     }
-    // eslint-disable-next-line react/jsx-props-no-spreading
     return <Component onSuccess={onSuccess} {...props} />;
   };
 };

@@ -369,5 +369,7 @@
   "thank-you-page.text-with-payment-method": "Your purchase was successfully processed using {{paymentMethodName}}!",
   "thank-you-page.text": "Your purchase was successfully processed!",
   "thank-you-page.sub-text-with-price": "You have been charged {{currencySymbol}}{{totalAmount}}.",
-  "thank-you-page.manage-text": "You can manage your account from <1>here</1>."
+  "thank-you-page.manage-text": "You can manage your account from <1>here</1>.",
+  "update-payment-details.refused": "We weren’t able to update your payment method. Please try again.",
+  "update-payment-details.error": "We weren’t able to update your payment details. Please try again using different payment method."
 }

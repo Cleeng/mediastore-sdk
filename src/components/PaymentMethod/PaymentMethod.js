@@ -5,8 +5,12 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as AddIcon } from 'assets/images/add.svg';
 import MyAccountError from 'components/MyAccountError';
 import PaymentCard from 'components/PaymentCard';
-import { POPUP_TYPES } from 'redux/innerPopupReducer';
+import { useDispatch } from 'react-redux';
 import { WrapStyled, CardsWrapper, Message } from './PaymentMethodStyled';
+import {
+  PAYMENT_DETAILS_STEPS,
+  updatePaymentDetailsPopup
+} from '../../redux/popupSlice';
 
 const PaymentMethod = ({
   paymentDetailsLoading,
@@ -15,6 +19,7 @@ const PaymentMethod = ({
   error
 }) => {
   const { t } = useTranslation();
+  const dispatch = useDispatch();
   const renderPaymentMethodItem = paymentDetail => {
     const { paymentMethod, id } = paymentDetail;
     switch (paymentMethod) {
@@ -65,7 +70,13 @@ const PaymentMethod = ({
               subtitle={t('Set up a new payment method for your account')}
               withBorder
               onClick={() =>
-                showInnerPopup({ type: POPUP_TYPES.paymentDetails })
+                dispatch(
+                  updatePaymentDetailsPopup({
+                    isOpen: true,
+                    isLoading: true,
+                    step: PAYMENT_DETAILS_STEPS.PAYMENT_DETAILS_UPDATE
+                  })
+                )
               }
               direction="row"
               fullWidth

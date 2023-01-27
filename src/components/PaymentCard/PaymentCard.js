@@ -2,11 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import SkeletonWrapper from 'components/SkeletonWrapper';
-import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import Card from 'components/Card';
 import eventDispatcher, {
   MSSDK_EDIT_PAYMENT_BUTTON_CLICKED
 } from 'util/eventDispatcher';
+import { updatePaymentDetailsPopup } from 'redux/popupSlice';
+import { useDispatch } from 'react-redux';
 import { CardTypes } from './Payment.const';
 import {
   CardStyled,
@@ -47,7 +48,8 @@ const PaymentCardSkeleton = () => (
   </CardStyled>
 );
 
-const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
+const PaymentCard = ({ isDataLoaded, details }) => {
+  const dispatch = useDispatch();
   const { t } = useTranslation();
   const { paymentMethodSpecificParams, paymentMethod } = details;
 
@@ -99,10 +101,11 @@ const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
             </CardInfoStyled>
             <CardEditStyled
               onClick={() => {
-                showInnerPopup({
-                  type: POPUP_TYPES.paymentDetails,
-                  data: details
-                });
+                dispatch(
+                  updatePaymentDetailsPopup({
+                    isOpen: true
+                  })
+                );
                 eventDispatcher(MSSDK_EDIT_PAYMENT_BUTTON_CLICKED, {
                   detail: {
                     paymentMethod
@@ -122,13 +125,11 @@ const PaymentCard = ({ isDataLoaded, details, showInnerPopup }) => {
 };
 
 PaymentCard.propTypes = {
-  showInnerPopup: PropTypes.func,
   details: PropTypes.objectOf(PropTypes.any),
   isDataLoaded: PropTypes.bool
 };
 
 PaymentCard.defaultProps = {
-  showInnerPopup: () => {},
   details: {},
   isDataLoaded: true
 };
