@@ -37,7 +37,7 @@ export const mapDispatchToProps = dispatch => {
     showInnerPopup: payload => {
       dispatch(showInnerPopup(payload));
     },
-    hideInnerPopup: () => {
+    hidePaymentInfoPopup: () => {
       dispatch(hideInnerPopup());
     },
     initPublisherConfig: payload => {

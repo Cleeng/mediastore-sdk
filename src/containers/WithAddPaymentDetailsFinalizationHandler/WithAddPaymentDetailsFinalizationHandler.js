@@ -6,12 +6,12 @@ import {
 } from 'redux/popupSlice';
 import { setActiveTab, MYACCCOUNT_TABS } from 'redux/myaccountSlice';
 
-const AddPaymentDetailsFinalizationHandler = Component => {
-  return function WithAddPaymentDetailsFinalizationHandler({
+const withAddPaymentDetailsFinalizationHandler = Component => {
+  return ({
     // eslint-disable-next-line react/prop-types
     onSuccess,
     ...props
-  }) {
+  }) => {
     const dispatch = useDispatch();
 
     const adyenRedirectResult = new URLSearchParams(window.location.search).get(
@@ -38,4 +38,4 @@ const AddPaymentDetailsFinalizationHandler = Component => {
   };
 };
 
-export default AddPaymentDetailsFinalizationHandler;
+export default withAddPaymentDetailsFinalizationHandler;

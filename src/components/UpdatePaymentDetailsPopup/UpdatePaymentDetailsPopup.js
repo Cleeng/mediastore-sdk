@@ -173,10 +173,7 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
         item.methodName === selectedPaymentMethodName
     )?.id;
     dispatch(updatePaymentDetailsPopup({ isLoading: true }));
-    const {
-      errors,
-      responseData: { action }
-    } = await updateAdyenPaymentDetails(
+    const { errors, responseData } = await updateAdyenPaymentDetails(
       paymentMethodId,
       paymentMethod,
       browserInfo,
@@ -189,8 +186,8 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
       );
       return;
     }
-    if (action) {
-      component.handleAction(action);
+    if (responseData?.action) {
+      component.handleAction(responseData.action);
       return;
     }
     eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL);

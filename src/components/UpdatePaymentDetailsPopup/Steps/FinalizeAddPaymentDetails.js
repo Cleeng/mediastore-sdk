@@ -34,13 +34,15 @@ const FinalizeAddPaymentDetails = () => {
       })
       .catch(() => {
         dispatch(
-          updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.ERROR }) // TODO: customize texts
+          updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.ERROR })
         );
       });
   };
 
   useEffect(() => {
-    submitRedirectResult();
+    if (adyenRedirectResult && paymentMethodId) {
+      submitRedirectResult();
+    }
   }, []);
 
   return <Loader />;

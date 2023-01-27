@@ -1,4 +1,3 @@
-/* eslint-disable no-debugger */
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
@@ -36,10 +35,10 @@ const Popup = ({ t }) => {
   const dispatch = useDispatch();
 
   const checkAccess = items => {
-    const notCheckedTerm = items.find(
+    const shouldBlockConfirmButton = items.find(
       ({ required, state }) => required && state === 'declined'
     );
-    setAllowSubmitConsents(!notCheckedTerm);
+    setAllowSubmitConsents(!shouldBlockConfirmButton);
   };
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import AddPaymentDetailsFinalizationHandler from 'containers/AddPaymentDetailsFinalizationHandler';
+import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
 import MyAccountMenu from 'components/MyAccountMenu';
 import MyAccountUserInfo from 'components/MyAccountUserInfo';
 import MyAccountContent from 'components/MyAccountContent';
@@ -302,5 +302,5 @@ MyAccount.defaultProps = {
 export { MyAccount as PureMyAccount };
 
 export default withTranslation()(
-  labeling()(AddPaymentDetailsFinalizationHandler(MyAccount))
+  labeling()(withAddPaymentDetailsFinalizationHandler(MyAccount))
 );

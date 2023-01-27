@@ -13,7 +13,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import GracePeriodError from 'components/GracePeriodError';
 import { init } from 'redux/publisherConfigSlice';
 import { WrapStyled } from './PaymentInfoStyled';
-import AddPaymentDetailsFinalizationHandler from '../AddPaymentDetailsFinalizationHandler';
+import withAddPaymentDetailsFinalizationHandler from '../WithAddPaymentDetailsFinalizationHandler';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
 
@@ -28,7 +28,7 @@ const PaymentInfoFn = ({
   },
   setPaymentDetails,
   setTransactionsToShow,
-  hideInnerPopup,
+  hidePaymentInfoPopup,
   initPublisherConfig,
   showInnerPopup,
   setTransactionsList,
@@ -92,7 +92,7 @@ const PaymentInfoFn = ({
     }
   };
 
-  const fetchPaymentDetials = () => {
+  const fetchPaymentDetails = () => {
     getPaymentDetails()
       .then(response => {
         if (response.errors.length) {
@@ -110,7 +110,7 @@ const PaymentInfoFn = ({
   };
 
   const fetchTransactionsList = () => {
-    listCustomerTransactions(DEFAULT_TRANSACTIONS_NUMBER + 1, 0) // fetching +1 transaction to check if have to show 'show more' button
+    listCustomerTransactions(DEFAULT_TRANSACTIONS_NUMBER + 1, 0) // fetching +1 transaction to check if you have to show 'show more' button
       .then(response => {
         if (response.errors.length) {
           setTransactionsError(response.errors);
@@ -138,12 +138,12 @@ const PaymentInfoFn = ({
 
   const updatePaymentDetailsSection = () => {
     setPaymentDetailsLoading(true);
-    fetchPaymentDetials();
+    fetchPaymentDetails();
   };
 
   useEffect(() => {
     if (paymentDetails?.length === 0) {
-      fetchPaymentDetials();
+      fetchPaymentDetails();
     } else {
       setPaymentDetailsLoading(false);
     }
@@ -164,8 +164,7 @@ const PaymentInfoFn = ({
     }
 
     return () => {
-      hideInnerPopup();
-      // replace with: hide payment info popup?
+      hidePaymentInfoPopup();
     };
   }, []);
 
@@ -217,7 +216,7 @@ PaymentInfoFn.propTypes = {
     isShowMoreButtonHidden: PropTypes.bool
   }),
   showInnerPopup: PropTypes.func.isRequired,
-  hideInnerPopup: PropTypes.func.isRequired,
+  hidePaymentInfoPopup: PropTypes.func.isRequired,
   popupManager: PropTypes.objectOf(PropTypes.any).isRequired,
   initPublisherConfig: PropTypes.func.isRequired,
   adyenConfiguration: PropTypes.objectOf(PropTypes.any),
@@ -233,5 +232,5 @@ PaymentInfoFn.defaultProps = {
 };
 
 export default withTranslation()(
-  labeling()(AddPaymentDetailsFinalizationHandler(PaymentInfoFn))
+  labeling()(withAddPaymentDetailsFinalizationHandler(PaymentInfoFn))
 );

@@ -34,6 +34,7 @@ export const finalizeAddPaymentDetailsSlice = createSlice({
     [fetchFinalizeAddPaymentDetails.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.paymentDetails = payload;
+      state.error = null;
     },
     [fetchFinalizeAddPaymentDetails.rejected]: (state, { payload }) => {
       state.loading = false;

@@ -38,12 +38,12 @@ const Error = () => {
         <TitleStyled>{t('Oops, something went wrong')}</TitleStyled>
         <TextStyled>
           {error?.includes('Refused') ? (
-            <Trans i18nKey="update-payment-error-method">
+            <Trans i18nKey="update-payment-error.method">
               We weren’t able to update your payment method. <br /> Please try
               again.
             </Trans>
           ) : (
-            <Trans i18nKey="update-payment-error-details">
+            <Trans i18nKey="update-payment-error.details">
               We weren’t able to update your payment details. <br /> Please try
               again using different payment method.
             </Trans>
