@@ -12,8 +12,8 @@ import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
 import { useSelector, useDispatch } from 'react-redux';
 import GracePeriodError from 'components/GracePeriodError';
 import { init } from 'redux/publisherConfigSlice';
+import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
 import { WrapStyled } from './PaymentInfoStyled';
-import withAddPaymentDetailsFinalizationHandler from '../WithAddPaymentDetailsFinalizationHandler';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
 
