@@ -73,7 +73,7 @@ const PaymentMethod = ({
                 dispatch(
                   updatePaymentDetailsPopup({
                     isOpen: true,
-                    isLoading: true,
+                    isLoading: false,
                     step: PAYMENT_DETAILS_STEPS.PAYMENT_DETAILS_UPDATE
                   })
                 )
