@@ -12,7 +12,7 @@ export const ThankYouPageWrapperStyled = styled.div`
 export const ThankYouPageStyled = styled.main`
   width: 100%;
   margin: 0 auto;
-  padding: 50px 120px 80px;
+  padding: 50px 20px 80px;
   text-align: center;
   line-height: 1.3em;
   font-size: 15px;
