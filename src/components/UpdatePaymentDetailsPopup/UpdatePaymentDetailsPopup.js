@@ -35,6 +35,7 @@ import eventDispatcher, {
 } from 'util/eventDispatcher';
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import DropInSection from 'components/Payment/DropInSection/DropInSection';
+import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
 import {
   RemoveLinkStyled,
   DeleteIconStyled,
@@ -74,16 +75,16 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [dropInInstance, setDropInInstance] = useState(null);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const { paymentMethods } = useSelector(state => state.publisherConfig);
   const { paymentDetails } = useSelector(state => state.paymentInfo);
+  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
 
   const selectPaymentMethodHandler = paymentMethodName => {
     if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = paymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
-    setSelectedPaymentMethod(paymentMethodObj);
+    dispatch(setSelectedPaymentMethod(paymentMethodObj));
   };
 
   useEffect(() => {
@@ -154,8 +155,7 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
     } = state;
     dispatch(
       fetchFinalizeAddPaymentDetails({
-        details,
-        paymentMethodId: selectedPaymentMethod.id
+        details
       })
     );
   };
@@ -309,7 +309,6 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
               onSubmit={addAdyenPaymentDetails}
               selectPaymentMethod={selectPaymentMethodHandler}
               isPayPalAvailable={shouldShowPayPal}
-              selectedPaymentMethod={selectedPaymentMethod?.methodName}
               getDropIn={getDropIn}
               onAdditionalDetails={onAdditionalDetails}
             />
@@ -318,12 +317,9 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
             <DropInSection
               isCardAvailable={shouldShowAdyen}
               selectPaymentMethod={selectPaymentMethodHandler}
-              isSelected={selectedPaymentMethod?.methodName === 'paypal'}
               title="PayPal"
               logo="paypal"
-              fadeOutSection={
-                isLoading && selectedPaymentMethod?.methodName !== 'paypal'
-              }
+              isLoading={isLoading}
             >
               <PayPal onSubmit={submitPayPal} isLoading={isLoading} />
             </DropInSection>

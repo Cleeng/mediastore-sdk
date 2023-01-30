@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactComponent as PayPalIcon } from 'assets/images/paymentMethods/PPicon.svg';
 import classNames from 'classnames';
+import { useSelector } from 'react-redux';
 import {
   IconWrapperStyled,
   TextStyled,
@@ -12,12 +13,15 @@ import {
 const DropInSection = ({
   children,
   selectPaymentMethod,
-  isSelected,
   title,
   logo,
   isCardAvailable,
-  fadeOutSection
+  isLoading
 }) => {
+  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
+  const isSelected = selectedPaymentMethod?.methodName === title.toLowerCase();
+  const fadeOutSection =
+    isLoading && selectedPaymentMethod?.methodName !== title.toLowerCase();
   const mapImage = {
     paypal: PayPalIcon
   };
@@ -48,12 +52,11 @@ const DropInSection = ({
 
 DropInSection.propTypes = {
   selectPaymentMethod: PropTypes.func.isRequired,
-  isSelected: PropTypes.bool.isRequired,
   title: PropTypes.string.isRequired,
   logo: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   isCardAvailable: PropTypes.bool.isRequired,
-  fadeOutSection: PropTypes.bool.isRequired
+  isLoading: PropTypes.bool.isRequired
 };
 
 export default DropInSection;

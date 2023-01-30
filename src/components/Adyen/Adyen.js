@@ -22,7 +22,6 @@ const Adyen = ({
   isMyAccount,
   selectPaymentMethod,
   isPayPalAvailable,
-  selectedPaymentMethod,
   getDropIn,
   onAdditionalDetails
 }) => {
@@ -31,6 +30,7 @@ const Adyen = ({
   const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef(null);
   const [dropInInstance, setDropInInstance] = useState(null);
+  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
   useScript('https://pay.google.com/gp/p/js/pay.js');
 
   const onError = e => {
@@ -157,11 +157,11 @@ const Adyen = ({
   }, [discount.applied]);
 
   useEffect(() => {
-    if (!selectedPaymentMethod || !dropInInstance) {
+    if (!selectedPaymentMethod?.methodName || !dropInInstance) {
       return;
     }
 
-    if (selectedPaymentMethod === 'paypal') {
+    if (selectedPaymentMethod?.methodName === 'paypal') {
       dropInInstance.closeActivePaymentMethod();
     }
   }, [selectedPaymentMethod]);
@@ -179,16 +179,12 @@ Adyen.propTypes = {
   isMyAccount: PropTypes.bool,
   selectPaymentMethod: PropTypes.func.isRequired,
   isPayPalAvailable: PropTypes.bool.isRequired,
-  selectedPaymentMethod: PropTypes.string,
   getDropIn: PropTypes.func.isRequired,
   onAdditionalDetails: PropTypes.func.isRequired
 };
 
 Adyen.defaultProps = {
-  selectedPaymentMethod: '',
   isMyAccount: false
 };
-
-export { Adyen as PureAdyen };
 
 export default withTranslation()(labeling()(Adyen));

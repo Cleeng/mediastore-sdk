@@ -21,6 +21,7 @@ import {
 } from 'util/paymentMethodHelper';
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import { fetchUpdateOrder } from 'redux/orderSlice';
+import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
 import {
   PaymentErrorStyled,
   PaymentStyled,
@@ -37,7 +38,6 @@ import { periodMapper } from '../../util';
 
 const Payment = ({ t, onPaymentComplete }) => {
   const { paymentMethods } = useSelector(state => state.publisherConfig);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
 
   const order = useSelector(state => state.order.order);
   const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
@@ -55,6 +55,7 @@ const Payment = ({ t, onPaymentComplete }) => {
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
     false
   );
+  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
 
   const dispatch = useDispatch();
 
@@ -85,7 +86,7 @@ const Payment = ({ t, onPaymentComplete }) => {
     const paymentMethodObj = paymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
-    setSelectedPaymentMethod(paymentMethodObj);
+    dispatch(setSelectedPaymentMethod(paymentMethodObj));
     updateOrderWithPaymentMethodId(paymentMethodObj.id);
   };
 
@@ -271,7 +272,6 @@ const Payment = ({ t, onPaymentComplete }) => {
             key={adyenKey}
             onSubmit={onAdyenSubmit}
             selectPaymentMethod={selectPaymentMethodHandler}
-            selectedPaymentMethod={selectedPaymentMethod?.methodName}
             isPayPalAvailable={shouldShowPayPal}
             getDropIn={getDropIn}
             onAdditionalDetails={onAdditionalDetails}
@@ -283,12 +283,9 @@ const Payment = ({ t, onPaymentComplete }) => {
             <DropInSection
               isCardAvailable={shouldShowAdyen}
               selectPaymentMethod={selectPaymentMethodHandler}
-              isSelected={selectedPaymentMethod?.methodName === 'paypal'}
               title="PayPal"
               logo="paypal"
-              fadeOutSection={
-                isLoading && selectedPaymentMethod?.methodName !== 'paypal'
-              }
+              isLoading={isLoading}
             >
               <PayPal
                 totalPrice={order.totalPrice}
