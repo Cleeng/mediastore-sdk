@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { finalizeInitialPayment } from 'api';
+import eventDispatcher, {
+  MSSDK_PURCHASE_FAILED,
+  MSSDK_PURCHASE_SUCCESSFUL
+} from 'util/eventDispatcher';
 
 const initialState = {
   loading: false,
@@ -40,11 +44,17 @@ export const finalizePaymentSlice = createSlice({
       state.error = null;
       state.payment = payload;
       state.shouldShowFinalizePaymentComponent = true;
+      eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
+        payload
+      });
     },
     [fetchFinalizeInitialPayment.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
       state.shouldShowFinalizePaymentComponent = true;
+      eventDispatcher(MSSDK_PURCHASE_FAILED, {
+        payload
+      });
     }
   }
 });
