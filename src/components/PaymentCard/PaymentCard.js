@@ -58,9 +58,12 @@ const PaymentCard = ({ isDataLoaded, details }) => {
     return paymentMethod;
   };
 
-  const { icon: LogoComponent, title: methodTitle } = isDataLoaded
+  const card = isDataLoaded
     ? CardTypes[getSpecificPaymentMethod()]
     : { icon: null, title: '' };
+
+  const LogoComponent = card?.icon || null;
+  const methodTitle = card?.title || '';
 
   return (
     <Card withBorder type={details.paymentMethod}>
