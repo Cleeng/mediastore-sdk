@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
@@ -23,7 +22,6 @@ const Adyen = ({
   isMyAccount,
   selectPaymentMethod,
   isPayPalAvailable,
-  selectedPaymentMethod,
   getDropIn,
   onAdditionalDetails
 }) => {
@@ -32,6 +30,7 @@ const Adyen = ({
   const [isLoading, setIsLoading] = useState(true);
   const containerRef = useRef(null);
   const [dropInInstance, setDropInInstance] = useState(null);
+  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
   useScript('https://pay.google.com/gp/p/js/pay.js');
 
   const onError = e => {
@@ -89,7 +88,6 @@ const Adyen = ({
       },
       clientKey: getAdyenClientKey(),
       onSubmit,
-      // onPaymentCompleted, TODO: most likely not needed, will be reviewed with redirect flow https://docs.adyen.com/online-payments/web-drop-in#handle-redirect-result
       onAdditionalDetails,
       onError,
       paymentMethodsConfiguration: {
@@ -138,14 +136,7 @@ const Adyen = ({
   };
 
   const createSession = async () => {
-    const returnURLs = {
-      checkout: adyenConfiguration?.checkoutReturnUrl || 'https://cleeng.com',
-      myAccount: adyenConfiguration?.myaccountReturnUrl || 'https://cleeng.com'
-    };
-    const { responseData } = await createPaymentSession(
-      isMyAccount,
-      returnURLs
-    );
+    const { responseData } = await createPaymentSession(isMyAccount);
     if (responseData?.id) {
       createDropInInstance(responseData);
     }
@@ -166,11 +157,11 @@ const Adyen = ({
   }, [discount.applied]);
 
   useEffect(() => {
-    if (!selectedPaymentMethod || !dropInInstance) {
+    if (!selectedPaymentMethod?.methodName || !dropInInstance) {
       return;
     }
 
-    if (selectedPaymentMethod === 'paypal') {
+    if (selectedPaymentMethod?.methodName === 'paypal') {
       dropInInstance.closeActivePaymentMethod();
     }
   }, [selectedPaymentMethod]);
@@ -188,16 +179,12 @@ Adyen.propTypes = {
   isMyAccount: PropTypes.bool,
   selectPaymentMethod: PropTypes.func.isRequired,
   isPayPalAvailable: PropTypes.bool.isRequired,
-  selectedPaymentMethod: PropTypes.string,
   getDropIn: PropTypes.func.isRequired,
   onAdditionalDetails: PropTypes.func.isRequired
 };
 
 Adyen.defaultProps = {
-  selectedPaymentMethod: '',
   isMyAccount: false
 };
-
-export { Adyen as PureAdyen };
 
 export default withTranslation()(labeling()(Adyen));

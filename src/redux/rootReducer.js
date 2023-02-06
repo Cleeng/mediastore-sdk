@@ -10,6 +10,10 @@ import orderReducer from './orderSlice';
 import paymentMethodsReducer from './paymentMethodsSlice';
 import publisherConfigReducer from './publisherConfigSlice';
 import paymentReducer from './paymentSlice';
+import finalizeInitialPaymentReducer from './finalizePaymentSlice';
+import finalizeAddPaymentDetailsReducer from './finalizeAddPaymentDetailsSlice';
+import popupManagerReducer from './popupSlice';
+import myaccountReducer from './myaccountSlice';
 import planDetailsReducer from './planDetailsSlice';
 
 const rootReducer = combineReducers({
@@ -24,6 +28,10 @@ const rootReducer = combineReducers({
   paymentMethods: paymentMethodsReducer,
   publisherConfig: publisherConfigReducer,
   payment: paymentReducer,
+  finalizeAddPaymentDetails: finalizeAddPaymentDetailsReducer,
+  popupManager: popupManagerReducer,
+  myaccount: myaccountReducer,
+  finalizeInitialPayment: finalizeInitialPaymentReducer,
   plan: planDetailsReducer
 });
 

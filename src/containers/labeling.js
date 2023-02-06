@@ -1,7 +1,6 @@
 import React from 'react';
 
 /* eslint-disable react/prop-types  */
-/* eslint-disable react/jsx-props-no-spreading */
 export default function customLabeling() {
   // ...and returns another component...
   return WrappedComponent =>

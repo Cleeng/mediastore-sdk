@@ -1,13 +1,9 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
+import generateReturnUrl from 'util/returnUrlHelper';
 
-const submitPayment = async (
-  paymentMethod,
-  browserInfo,
-  billingAddress,
-  returnUrl
-) => {
+const submitPayment = async (paymentMethod, browserInfo, billingAddress) => {
   const API_URL = getApiURL();
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
@@ -22,7 +18,7 @@ const submitPayment = async (
         browserInfo,
         billingAddress,
         origin: window.location.origin,
-        returnUrl
+        returnUrl: generateReturnUrl({ queryParams: { orderId } })
       })
     });
     return res.json();

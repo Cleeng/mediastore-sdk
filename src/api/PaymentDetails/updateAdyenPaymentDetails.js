@@ -1,12 +1,12 @@
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
+import generateReturnUrl from 'util/returnUrlHelper';
 
 const updateAdyenPaymentDetails = async (
   paymentMethodId,
   paymentMethod,
   browserInfo,
-  billingAddress,
-  returnUrl
+  billingAddress
 ) => {
   const API_URL = getApiURL();
   const url = `${API_URL}/connectors/adyen/payment-details`;
@@ -19,7 +19,11 @@ const updateAdyenPaymentDetails = async (
         paymentMethodId,
         browserInfo,
         billingAddress,
-        returnUrl
+        origin: window.location.origin,
+        returnUrl: generateReturnUrl({
+          queryParams: { paymentMethodId },
+          isMyAccount: true
+        })
       })
     });
     return res.json();

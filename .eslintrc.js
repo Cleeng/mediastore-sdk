@@ -24,7 +24,8 @@ module.exports = {
     'prettier/prettier': ['error', { singleQuote: true, endOfLine: 'auto' }],
     'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
     'import/no-cycle': 'off', // TODO: remove after clean localstorage
-    'react/forbid-prop-types': 'off' // TODO: remove after moving to redux
+    'react/forbid-prop-types': 'off', // TODO: remove after moving to redux
+    'react/jsx-props-no-spreading': 'off'
   },
   settings: {
     'import/resolver': {

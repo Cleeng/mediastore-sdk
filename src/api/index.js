@@ -24,6 +24,8 @@ import getConsents from './Publisher/getConsents';
 import getOrder from './Order/getOrder';
 import updateSwitch from './Customer/updateSwitch';
 import updatePayPalPaymentDetails from './PaymentDetails/updatePayPalPaymentDetails';
+import finalizeInitialPayment from './Payment/finalizeInitialPayment';
+import finalizeAddPaymentDetails from './Payment/finalizeAddPaymentDetails';
 
 export {
   getPaymentDetails,
@@ -51,5 +53,7 @@ export {
   getConsents,
   getOrder,
   updateSwitch,
-  updatePayPalPaymentDetails
+  updatePayPalPaymentDetails,
+  finalizeInitialPayment,
+  finalizeAddPaymentDetails
 };

@@ -22,6 +22,7 @@ import eventDispatcher, {
   MSSDK_COUPON_SUCCESSFUL,
   MSSDK_PURCHASE_LOADED
 } from 'util/eventDispatcher';
+import withPaymentFinalizationHandler from 'containers/withPaymentFinalizationHandler';
 import {
   StyledLoaderContainer,
   StyledLoaderContent
@@ -225,4 +226,4 @@ OfferContainer.defaultProps = {
   adyenConfiguration: null
 };
 
-export default OfferContainer;
+export default withPaymentFinalizationHandler(OfferContainer);

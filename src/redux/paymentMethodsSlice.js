@@ -1,38 +1,19 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getPaymentMethods } from '../api';
+import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  paymentMethods: null,
-  loading: false,
-  error: null
+  selectedPaymentMethod: null
 };
-
-// TODO: use slice (currently not used anywhere)
-export const fetchPaymentMethods = createAsyncThunk(
-  'paymentMethods/fetchPaymentMethods',
-  async () => {
-    const { paymentMethods } = await getPaymentMethods();
-    return paymentMethods;
-  }
-);
 
 export const paymentMethodsSlice = createSlice({
   name: 'paymentMethods',
   initialState,
-  reducers: {},
-  extraReducers: {
-    [fetchPaymentMethods.pending]: state => {
-      state.loading = true;
-    },
-    [fetchPaymentMethods.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.offer = payload;
-    },
-    [fetchPaymentMethods.rejected]: (state, { errors: [error] }) => {
-      state.loading = false;
-      state.error = error;
+  reducers: {
+    setSelectedPaymentMethod(state, { payload }) {
+      state.selectedPaymentMethod = payload;
     }
   }
 });
+
+export const { setSelectedPaymentMethod } = paymentMethodsSlice.actions;
 
 export default paymentMethodsSlice.reducer;
