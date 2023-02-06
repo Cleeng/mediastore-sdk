@@ -35,6 +35,7 @@ import eventDispatcher, {
 } from 'util/eventDispatcher';
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import DropInSection from 'components/Payment/DropInSection/DropInSection';
+import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
 import {
   RemoveLinkStyled,
   DeleteIconStyled,
@@ -49,6 +50,7 @@ import {
 } from './Steps';
 import Adyen from '../Adyen';
 import PayPal from '../Payment/PayPal/PayPal';
+import Loader from '../Loader';
 
 const PaymentMethodIcons = {
   amazon: AmazonIcon,
@@ -74,16 +76,21 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
   const [dropInInstance, setDropInInstance] = useState(null);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
   const { paymentMethods } = useSelector(state => state.publisherConfig);
   const { paymentDetails } = useSelector(state => state.paymentInfo);
-
+  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
+  const { loading: isFinalizeAddPaymentDetailsLoading } = useSelector(
+    state => state.finalizeAddPaymentDetails
+  );
+  const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
+    false
+  );
   const selectPaymentMethodHandler = paymentMethodName => {
     if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = paymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
-    setSelectedPaymentMethod(paymentMethodObj);
+    dispatch(setSelectedPaymentMethod(paymentMethodObj));
   };
 
   useEffect(() => {
@@ -154,10 +161,32 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
     } = state;
     dispatch(
       fetchFinalizeAddPaymentDetails({
-        details,
-        paymentMethodId: selectedPaymentMethod.id
+        details
       })
-    );
+    )
+      .unwrap()
+      .then(() => {
+        dispatch(
+          updatePaymentDetailsPopup({
+            isOpen: true,
+            isLoading: false,
+            step: PAYMENT_DETAILS_STEPS.SUCCESS
+          })
+        );
+      })
+      .catch(() => {
+        dispatch(
+          updatePaymentDetailsPopup({
+            isOpen: true,
+            isLoading: false,
+            step: PAYMENT_DETAILS_STEPS.ERROR
+          })
+        );
+      })
+      .finally(() => {
+        setIsActionHandlingProcessing(false);
+        updatePaymentDetailsSection();
+      });
   };
 
   const addAdyenPaymentDetails = async (state, component) => {
@@ -187,6 +216,9 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
       return;
     }
     if (responseData?.action) {
+      if (responseData.action.type !== 'redirect') {
+        setIsActionHandlingProcessing(true);
+      }
       component.handleAction(responseData.action);
       return;
     }
@@ -254,9 +286,11 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
         currentStep={STEPS_NUMBERS[step]}
         popupTitle={t('Update payment details')}
       >
-        <FinalizeAddPaymentDetails
-          updatePaymentDetailsSection={updatePaymentDetailsSection}
-        />
+        <ContentStyled>
+          <FinalizeAddPaymentDetails
+            updatePaymentDetailsSection={updatePaymentDetailsSection}
+          />
+        </ContentStyled>
       </InnerPopupWrapper>
     );
   }
@@ -289,6 +323,20 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
       </InnerPopupWrapper>
     );
   }
+  if (isFinalizeAddPaymentDetailsLoading) {
+    return (
+      <InnerPopupWrapper
+        steps={2}
+        isError={false}
+        currentStep={STEPS_NUMBERS[step]}
+        popupTitle={t('Update payment details')}
+      >
+        <ContentStyled>
+          <Loader />
+        </ContentStyled>
+      </InnerPopupWrapper>
+    );
+  }
 
   return (
     <InnerPopupWrapper
@@ -309,25 +357,23 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
               onSubmit={addAdyenPaymentDetails}
               selectPaymentMethod={selectPaymentMethodHandler}
               isPayPalAvailable={shouldShowPayPal}
-              selectedPaymentMethod={selectedPaymentMethod?.methodName}
               getDropIn={getDropIn}
               onAdditionalDetails={onAdditionalDetails}
             />
           )}
-          {shouldShowPayPal && showPayPalWhenAdyenIsReady() && (
-            <DropInSection
-              isCardAvailable={shouldShowAdyen}
-              selectPaymentMethod={selectPaymentMethodHandler}
-              isSelected={selectedPaymentMethod?.methodName === 'paypal'}
-              title="PayPal"
-              logo="paypal"
-              fadeOutSection={
-                isLoading && selectedPaymentMethod?.methodName !== 'paypal'
-              }
-            >
-              <PayPal onSubmit={submitPayPal} isLoading={isLoading} />
-            </DropInSection>
-          )}
+          {shouldShowPayPal &&
+            showPayPalWhenAdyenIsReady() &&
+            !isActionHandlingProcessing && (
+              <DropInSection
+                isCardAvailable={shouldShowAdyen}
+                selectPaymentMethod={selectPaymentMethodHandler}
+                title="PayPal"
+                logo="paypal"
+                isLoading={isLoading}
+              >
+                <PayPal onSubmit={submitPayPal} isLoading={isLoading} />
+              </DropInSection>
+            )}
         </PaymentMethodsWrapperStyled>
         {paymentDetails.find(item => item.active)?.id && (
           <RemoveLinkStyled
