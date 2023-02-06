@@ -819,7 +819,7 @@ Website security is a crucial thing nowadays and it is good to secure the websit
 One of the possibilities to secure your website is [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) and it is also an [Adyen recommendation](https://docs.adyen.com/pt/development-resources/integration-security-guide#third-party-components) to do so.
 
 There are several ways to implement Content Security Policy. One of the way is to add the `<meta>` element in the header of the web application.
-Below you can find an example of the Content Security Policy which can be set the secure your website. This one example allows an application only to use resources that are needed for mediastore-sdk `mediastore-sdk`:
+Below you can find an example of the Content Security Policy which can be set the secure your website. This one example allows an application only to use resources that are needed for `mediastore-sdk`:
 
 ```html
 <meta
