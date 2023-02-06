@@ -165,6 +165,10 @@ If you prefer smaller components, you can use these to implement the exact featu
 
 [Customize copies or translate them to another language.](#Translations)
 
+### Security
+
+[Secure your application by using CSP.](#securityConfiguration)
+
 #### <a id="checkout-header"></a><h2 align="center">Checkout</h2>
 
 `Checkout` is a complex component that covers the whole checkout process, from the registration to the purchase. It contains components listed below:
@@ -808,14 +812,14 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
 }
 ```
 
-### <a id="security"></a><h2>Security</h2>
+### <a id="securityConfiguration"></a><h2>Security</h2>
 
 Website security is a crucial thing nowadays and it is good to secure the website as much as it can be. Because part of the `mediastore-sdk` components library is a payment process, we wanna give you the possibility to make your website secure and safe.
 
 One of the possibilities to secure your website is [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) and it is also an [Adyen recommendation](https://docs.adyen.com/pt/development-resources/integration-security-guide#third-party-components) to do so.
 
 There are several ways to implement Content Security Policy. One of the way is to add the `<meta>` element in the header of the web application.
-Below you can find an example of the Content Security Policy which can be set the secure your website. This one exaplme allowing an application only to use resources that needed for woriking of the `mediastore-sdk`:
+Below you can find an example of the Content Security Policy which can be set the secure your website. This one example allows an application only to use resources that are needed for mediastore-sdk `mediastore-sdk`:
 
 ```html
 <meta
