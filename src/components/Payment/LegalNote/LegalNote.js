@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Trans, withTranslation } from 'react-i18next';
@@ -11,8 +12,7 @@ const LegalNote = ({
     currency,
     priceBreakdown: { offerPrice }
   },
-  period,
-  t
+  period
 }) => {
   const isInTrial = discount?.applied && discount.type === 'trial';
   const couponApplied = discount?.applied && discount.type !== 'trial';
@@ -20,6 +20,14 @@ const LegalNote = ({
   const readablePeriod = `${period ? `/${period}` : ''}`;
 
   const CLEENG_MY_ACCOUNT_URL = 'CLEENG_MY_ACCOUNT_URL';
+  const CLEENG_TERMS_URL = 'CLEENG_TERMS_URL';
+
+  const generateLinkAttributes = href => ({
+    href: getData(href),
+    target: '_blank',
+    rel: 'noreferrer',
+    style: getData(href) ? { textDecoration: 'underline' } : {}
+  });
 
   return (
     <LegalNoteWrapperStyled>
@@ -37,8 +45,10 @@ const LegalNote = ({
                 If you do not cancel the service during its free trial period,
                 you will be charged. Your subscription will automatically
                 continue until you cancel. To cancel, log into{' '}
-                <a href={getData(CLEENG_MY_ACCOUNT_URL)}>your account</a> and
-                click &apos;Manage Subscription&apos;.
+                <a {...generateLinkAttributes(CLEENG_MY_ACCOUNT_URL)}>
+                  your account
+                </a>{' '}
+                and click &apos;Manage Subscription&apos;.
               </Trans>
             );
           }
@@ -53,8 +63,10 @@ const LegalNote = ({
                 </strong>{' '}
                 Your subscription will automatically continue until you cancel.
                 To cancel, log into{' '}
-                <a href={getData(CLEENG_MY_ACCOUNT_URL)}>your account</a> and
-                click &apos;Manage Subscription&apos;.
+                <a {...generateLinkAttributes(CLEENG_MY_ACCOUNT_URL)}>
+                  your account
+                </a>{' '}
+                and click &apos;Manage Subscription&apos;.
               </Trans>
             );
           }
@@ -68,17 +80,20 @@ const LegalNote = ({
               </strong>
               Your subscription will automatically continue until you cancel. To
               cancel, log into{' '}
-              <a href={getData(CLEENG_MY_ACCOUNT_URL)}>your account</a> and
-              click &apos;Manage Subscription&apos;.
+              <a {...generateLinkAttributes(CLEENG_MY_ACCOUNT_URL)}>
+                your account
+              </a>{' '}
+              and click &apos;Manage Subscription&apos;.
             </Trans>
           );
         })()}
       </LegalTextStyled>
       <LegalTextStyled>
-        {t(
-          'legal-notes-acknowledge',
-          "By clicking 'Complete Purchase' above, I expressly acknowledge and agree to the above terms as well as the full Terms of Service."
-        )}
+        <Trans i18nKey="legal-notes-acknowledge">
+          By clicking &apos;Complete Purchase&apos; above, I expressly
+          acknowledge and agree to the above terms as well as the full{' '}
+          <a {...generateLinkAttributes(CLEENG_TERMS_URL)}>Terms of Service</a>.
+        </Trans>
       </LegalTextStyled>
     </LegalNoteWrapperStyled>
   );
@@ -86,14 +101,12 @@ const LegalNote = ({
 
 LegalNote.propTypes = {
   order: PropTypes.objectOf(PropTypes.any),
-  period: PropTypes.string,
-  t: PropTypes.func
+  period: PropTypes.string
 };
 
 LegalNote.defaultProps = {
   order: {},
-  period: null,
-  t: k => k
+  period: null
 };
 
 export default withTranslation()(labeling()(LegalNote));
