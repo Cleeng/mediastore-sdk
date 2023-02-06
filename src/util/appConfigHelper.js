@@ -1,5 +1,3 @@
-/* istanbul ignore file */
-
 import store from 'redux/store';
 import {
   setData as setDataInRedux,
@@ -127,6 +125,14 @@ export const setOfferSelectionUrl = url => {
   return false;
 };
 
+export const setTermsUrl = url => {
+  if (url) {
+    setData('CLEENG_TERMS_URL', url);
+    return true;
+  }
+  return false;
+};
+
 export const setTheme = theme => {
   const themeString = JSON.stringify(theme);
   if (theme) {
@@ -139,8 +145,7 @@ export const setTheme = theme => {
 export const getTheme = () => {
   const theme = getData('CLEENG_THEME');
   if (theme) {
-    const themeJSON = JSON.parse(theme);
-    return themeJSON;
+    return JSON.parse(theme);
   }
   return false;
 };
@@ -155,5 +160,6 @@ export default {
   setMyAccountUrl,
   setOfferSelectionUrl,
   setJWT,
-  setRefreshToken
+  setRefreshToken,
+  setTermsUrl
 };

@@ -12,7 +12,7 @@ To find out more about MediaStore SDK, see:
 #### Prerequisites
 
 - node v14.15.0
-- react v16.14.0
+- react (components are using v18.2.0)
 
 ## Installation
 
@@ -67,6 +67,8 @@ Setting the environment is required for all components. The environment is one o
 - `sandbox` (default)
 - `production`
 
+**Each component needs to be wrapper into Provider, as in the example below.**
+
 ##### Other Config methods
 
 ```javascript
@@ -102,7 +104,8 @@ Auth.logout(clb); // removes all Cleeng data from local storage and redux. clb -
 
 ```javascript
 import { useEffect } from 'react';
-import { Config, Purchase, Auth } from '@cleeng/mediastore-sdk';
+import { Config, Purchase, Auth, store  } from '@cleeng/mediastore-sdk';
+import { Provider } from "react-redux";
 
 export default function Home() {
   Config.setEnvironment("sandbox");
@@ -117,7 +120,9 @@ export default function Home() {
   return (
     <>
      {Auth.isLogged() ? (
-        <Purchase offerId="S222222222_US"/>
+        <Provider store={store}>
+          <Purchase offerId="S222222222_US"/>
+        </Provider>
       ) : (
         <YourCustomLogin>
       )}
@@ -150,7 +155,15 @@ If you prefer smaller components, you can use these to implement the exact featu
 
 ### Communication
 
-[See how you can react to the actions that happened in the components.](#events)
+[List of events that components emit to communicate with your application.](#events)
+
+### Adyen configuration
+
+[Configuration options for Adyen.](#adyenConfiguration)
+
+### Translations
+
+[Customize copies or translate them to another language.](#Translations)
 
 #### <a id="checkout-header"></a><h2 align="center">Checkout</h2>
 
@@ -174,38 +187,31 @@ Config.setCheckoutPayPalUrls({
   cancelUrl: 'https://client-website.com/checkout',
   errorUrl: 'https://client-website.com/checkout/error'
 });
+Config.setTermsUrls('https://client-website.com/terms'); // optional, for legal notes in the checkout
 ```
 
 **Props**
 
 - `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened. Accepts `offerId` with or without the country suffix, eg. `S531234647_PL`, `S531234647`.
 - `onSuccess` - function called after a successful checkout process.
-- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have `id`, `methodName` and `paymentGateway`. Payment method can be selected as a default by adding default property.
 - `resetPasswordCallback` - function called after a successful reset password request, when user clicks 'Go back to the login page'
+- `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in purchase section. Read more information about adyen configuration [here](#adyenConfiguration).
 
 **Usage**
 
 ```javascript
-const availablePaymentMethods = [
-  {
-    id: 142029029,
-    methodName: 'card',
-    paymentGateway: 'adyen',
-    default: true
-  },
-  {
-    id: 153379135,
-    methodName: 'paypal',
-    paymentGateway: 'paypal'
-  }
-];
+import { Checkout, store } from '@cleeng/mediastore-sdk';
+import { Provider } from 'react-redux';
+import adyenConfiguration from './adyenConfiguration';
 
-<Checkout
-  onSuccess={() => console.log('success')}
-  offerId={'S531234647_PL'}
-  availablePaymentMethods={availablePaymentMethods}
-  resetPasswordCallback={() => console.log('redirect user to the login page')}
-/>;
+<Provider store={store}>
+  <Checkout
+    onSuccess={() => console.log('success')}
+    offerId={'S531234647_PL'}
+    adyenConfiguration={adyenConfiguration}
+    resetPasswordCallback={() => console.log('redirect user to the login page')}
+  />
+</Provider>;
 ```
 
 #### <a id="my-account-header"></a><h2 align="center">MyAccount</h2>
@@ -234,35 +240,31 @@ Config.setMyAccountPayPalUrls({
 **Props**
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
-- `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+- `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in update payment details section. Read more information about adyen configuration [here](#adyenConfiguration).
+- `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
 **Usage sample**
 
 ```javascript
 import { MyAccount, store } from '@cleeng/mediastore-sdk';
 import { Provider } from 'react-redux';
+import adyenConfiguration from './adyenConfiguration';
 
 const customCancellationReasons = [
   { value: 'Poor customer support', key: 'support' },
   { value: 'Switch to a different service', key: 'service' }
 ];
 
-const availablePaymentMethodIds = {
-  adyen: 142029029,
-  paypal: 153379135
-};
-
 <Provider store={store}>
   <MyAccount
     customCancellationReasons={customCancellationReasons}
-    availablePaymentMethodIds={availablePaymentMethodIds}
+    adyenConfiguration={adyenConfiguration}
     skipAvailableDowngradesStep
+    displayGracePeriodError
   />
 </Provider>;
 ```
-
-**All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
 
 **Server-side rendering**
 This component should be rendered in the browser. Sample of usage with **NextJS**
@@ -381,10 +383,8 @@ Config.setPublisher('111111111'); // required
 **Props**
 
 - `offerId` \* - ID of Cleeng offer, for which Purchase component should be opened. If not provided, it will use the item from local storage with name 'CLEENG_OFFER_ID'
-- `onSuccess` - function called after a successful payment process
-- `availablePaymentMethods` - array of the available payment methods. If provided, call for payment-methods will be skipped. Every payment method object should have `id`, `methodName` and `paymentGateway`. Payment method can be selected as a default by adding default property.
-
-\* - required
+- `onSuccess` - function called after a successful payment process \* - required
+- `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in purchase section. Read more information about adyen configuration [here](#adyenConfiguration).
 
 **Config methods**
 
@@ -398,32 +398,22 @@ Config.setCheckoutPayPalUrls({
   cancelUrl: 'https://client-website.com/my-account',
   errorUrl: 'https://client-website.com/my-account/paypal-error'
 });
+Config.setTermsUrls('https://client-website.com/terms'); // optional, for legal notes in the checkout
 ```
 
 **Usage sample**
 
-```javascript
-import { Config, Purchase } from '@cleeng/mediastore-sdk';
+import { Purchase, Config, store } from '@cleeng/mediastore-sdk';
+import { Provider } from 'react-redux';
+import adyenConfiguration from './adyenConfiguration';
 
-const availablePaymentMethods = [
-  {
-    id: 142029029,
-    methodName: 'card',
-    paymentGateway: 'adyen',
-    default: true
-  },
-  {
-    id: 153379135,
-    methodName: 'paypal',
-    paymentGateway: 'paypal'
-  }
-];
-
-<Purchase
-  offerId="S538257415_PL"
-  onSuccess={() => console.log('success')}
-  availablePaymentMethods={availablePaymentMethods}
-/>;
+<Provider store={store}>
+  <Purchase
+    offerId="S538257415_PL"
+    adyenConfiguration={adyenConfiguration}
+    onSuccess={() => console.log('success')}
+  />
+</Provider>;
 ```
 
 #### <a id="subscriptions-header"></a><h2 align="center">Subscriptions</h2>
@@ -510,6 +500,7 @@ Config.setRefreshToken('yyy'); // optional
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+- `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
 **Usage sample**
 
@@ -526,11 +517,12 @@ const customCancellationReasons = [
   <PlanDetails
     customCancellationReasons={customCancellationReasons}
     skipAvailableDowngradesStep
+    displayGracePeriodError
   />
 </Provider>;
 ```
 
-**All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
+**All components require to be wrapped by the store.**
 
 #### <a id="payment-info-header"></a><h2 align="center">PaymentInfo</h2>
 
@@ -554,25 +546,23 @@ Config.setMyAccountPayPalUrls({
 
 **Props**
 
-- `availablePaymentMethodIds` - object of the available payment methods IDs. If provided, call for payment-methods will be skipped (used in 'Edit payment method' section). Object properties should have a payment gateway name as a key, and a paymentMethodId as a value.
+- `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in update payment details section. Read more information about adyen configuration [here](#adyenConfiguration).
+- `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
 **Usage sample**
 
 ```javascript
 import { PaymentInfo, store } from '@cleeng/mediastore-sdk';
 import { Provider } from 'react-redux';
-
-const availablePaymentMethodIds = {
-  adyen: 142029029,
-  paypal: 153379135
-};
+import adyenConfiguration from './adyenConfiguration';
 
 <Provider store={store}>
-  <PaymentInfo availablePaymentMethodIds={availablePaymentMethodIds} />
+  <PaymentInfo
+    adyenConfiguration={adyenConfiguration}
+    displayGracePeriodError
+  />
 </Provider>;
 ```
-
-**All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
 
 #### <a id="transaction-list-header"></a><h2 align="center">TransactionList</h2>
 
@@ -596,7 +586,7 @@ import { Provider } from 'react-redux';
 </Provider>;
 ```
 
-**All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
+**All components require to be wrapped by the store.**
 
 #### <a id="update-profile-header"></a><h2 align="center">UpdateProfile</h2>
 
@@ -611,6 +601,10 @@ Config.setJWT('xxx'); // required
 Config.setRefreshToken('yyy'); // optional
 ```
 
+**Props**
+
+- `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
+
 **Usage sample**
 
 ```javascript
@@ -618,11 +612,11 @@ import { UpdateProfile, store } from '@cleeng/mediastore-sdk';
 import { Provider } from 'react-redux';
 
 <Provider store={store}>
-  <UpdateProfile />
+  <UpdateProfile displayGracePeriodError />
 </Provider>;
 ```
 
-**All MyAccount components (PlanDetails, PaymentInfo, UpdateProfile, and all inside) require to be wrapped by the store.**
+**All components require to be wrapped by the store.**
 
 #### <a id="checkout-consents-header"></a><h2 align="center">CheckoutConsents</h2>
 
@@ -777,6 +771,43 @@ window.addEventListener('MSSDK:redeem-coupon-failed', evt =>
 | `MSSDK:remove-payment-details-button-clicked`   | `null`                                                                                                              | The event will be emitted after clicking 'Remove your payment method' button in my account.                                                                                                                                                                                                                                                                                                                                           |
 | `MSSDK:remove-payment-details-action-confirmed` | `null`                                                                                                              | The event will be emitted after clicking Remove button in my account update payment details survey. This button removes selected payment method.                                                                                                                                                                                                                                                                                      |
 | `MSSDK:remove-payment-details-action-cancelled` | `null`                                                                                                              | This event will be emitted when the user resigns to remove payment details.                                                                                                                                                                                                                                                                                                                                                           |
+
+### <a id="adyenConfiguration"></a><h2>Adyen configuration</h2>
+
+By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#my-account-header), [Checkout](#checkout-header), [PaymentInfo](#payment-info-header) and [Purchase](#purchase-header). The example Adyen configuration object with described properties is shown below:
+
+```javascript
+{
+  checkoutReturnUrl: 'https://www.test.com', // The url to return the customer in case of a redirection during payment process in checkout component
+  myaccountReturnUrl: 'https://www.test.com', // The url to return the customer in case of a redirection during add/update payment details process in my account component
+  analytics: {
+      enabled: false, // Indicates if you're sending analytics data to Adyen. Default: true.
+  },
+  paymentMethodsConfiguration: {
+    card: {
+      name: 'Credit Card', //	String that is used to display the payment method name to the shopper.
+      billingAddressRequired: true, // Set to true to collect the shopper's billing address and mark the fields as required. Default: false
+      billingAddressMode: 'partial', // If billingAddressRequired is set to true, you can set this to partial to require the shopper's postal code instead of the full address. Default: 'full'
+      brands: ['visa'], // Array of card brands that will be recognized. For a list of possible values, refer to https://docs.adyen.com/payment-methods/cards/custom-card-integration#supported-card-types. Default: ['mc','visa','amex']
+      brandsConfiguration: { // Object where you can customize the icons for different brands.
+        visa: {
+            icon: 'https://...'
+        }
+      },
+      showBrandIcon: true, // Set to false to not show the brand logo when the card brand has been recognized. Default: true
+      showBrandsUnderCardNumber: true, // Shows brand logos under the card number field when the shopper selects the card payment method. Default: true
+      positionHolderNameOnTop: true, // Renders the cardholder name field at the top of the payment form. Default: false
+      styles: {}, // Set a style object to customize the card input fields. For a list of supported properties, refer to https://docs.adyen.com/payment-methods/cards/custom-card-integration#styling
+      billingAddressAllowedCountries: ['US', 'CA', 'BR', 'PL'], // Specify allowed country codes for the billing address. Default: The Country field dropdown menu shows a list of all countries.
+      minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'
+      autoFocus: true // Automatically move the focus from date field to the CVC field. The focus also moves to the date field when the entered card number reaches the expected length. Default: true
+    },
+  },
+  locale: 'en-US', // The language used in the Drop-in UI. For possible values, see the https://docs.adyen.com/online-payments/web-drop-in/customization#supported-languages,
+  translations: {}, // The text displayed in each localization can be customized, allowing you to replace the default text with your own. You can read more about it here https://docs.adyen.com/online-payments/web-drop-in/customization#customizing-a-localization
+  openFirstPaymentMethod: true // When enabled, Drop-in opens the first payment method automatically on page load. Default: (screen < 991px) false / (screen > 991px) true.
+}
+```
 
 ### <a id="Translations"></a><h2>Translations</h2>
 

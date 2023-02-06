@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ThemeProvider } from 'styled-components';
+import { inputTheme } from 'styles/variables';
 import visibility from './icons/visibleBase64';
 import visibilityOff from './icons/unvisibleBase64';
 import {
@@ -32,60 +34,62 @@ const Input = ({
   reference
 }) => {
   return (
-    <InputComponentStyled>
-      <InputElementWrapperStyled
-        error={error}
-        passwordStrength={passwordStrength}
-      >
-        {required && <InputRequiredStyled>*</InputRequiredStyled>}
-        <InputElementStyled
-          data-testid="input"
-          id={placeholder}
-          autoComplete="off"
-          value={value}
-          onChange={event => onChange(event.target.value)}
-          type={type}
-          onBlur={onBlur}
-          ref={reference}
-          aria-required={ariaRequired}
-          aria-invalid={ariaInvalid}
-          aria-describedby={`${placeholder}-desc`}
-          withIcon={icon}
-          floatingLabels={floatingLabels}
-        />
-        <LabelStyled
-          data-testid="input-label"
-          htmlFor={placeholder}
-          hasValue={value}
-          withIcon={icon}
+    <ThemeProvider theme={inputTheme}>
+      <InputComponentStyled>
+        <InputElementWrapperStyled
+          error={error}
+          passwordStrength={passwordStrength}
         >
-          {placeholder}
-        </LabelStyled>
-        {showVisibilityIcon && (
-          <StyledButton
-            data-testid="input-visibility-icon"
-            onClick={handleClickShowPassword}
-            tabIndex="0"
-            aria-label="toggle password visibility"
-            type="button"
+          {required && <InputRequiredStyled>*</InputRequiredStyled>}
+          <InputElementStyled
+            data-testid="input"
+            id={placeholder}
+            autoComplete="off"
+            value={value}
+            onChange={event => onChange(event.target.value)}
+            type={type}
+            onBlur={onBlur}
+            ref={reference}
+            aria-required={ariaRequired}
+            aria-invalid={ariaInvalid}
+            aria-describedby={`${placeholder}-desc`}
+            withIcon={icon}
+            floatingLabels={floatingLabels}
+          />
+          <LabelStyled
+            data-testid="input-label"
+            htmlFor={placeholder}
+            hasValue={value}
+            withIcon={icon}
           >
-            {showPassword ? (
-              <StyledPasswordVisibility src={visibilityOff} alt="" />
-            ) : (
-              <StyledPasswordVisibility src={visibility} alt="" />
-            )}
-          </StyledButton>
-        )}
-      </InputElementWrapperStyled>
+            {placeholder}
+          </LabelStyled>
+          {showVisibilityIcon && (
+            <StyledButton
+              data-testid="input-visibility-icon"
+              onClick={handleClickShowPassword}
+              tabIndex="0"
+              aria-label="toggle password visibility"
+              type="button"
+            >
+              {showPassword ? (
+                <StyledPasswordVisibility src={visibilityOff} alt="" />
+              ) : (
+                <StyledPasswordVisibility src={visibility} alt="" />
+              )}
+            </StyledButton>
+          )}
+        </InputElementWrapperStyled>
 
-      <ErrorWrapper
-        data-testid="input-error"
-        passwordStrength={passwordStrength}
-        id={`${placeholder}-desc`}
-      >
-        {error}
-      </ErrorWrapper>
-    </InputComponentStyled>
+        <ErrorWrapper
+          data-testid="input-error"
+          passwordStrength={passwordStrength}
+          id={`${placeholder}-desc`}
+        >
+          {error}
+        </ErrorWrapper>
+      </InputComponentStyled>
+    </ThemeProvider>
   );
 };
 

@@ -176,6 +176,10 @@ const SubscriptionManagement = ({
           {subscription.status !== 'cancelled' && (
             <CouponWrapStyled>
               <CouponInput
+                couponDetails={{
+                  showMessage: isError,
+                  message: errorMsg
+                }}
                 fullWidth
                 showMessage={isError}
                 value={couponValue}

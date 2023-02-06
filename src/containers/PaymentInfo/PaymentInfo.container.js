@@ -4,10 +4,10 @@ import {
   setTransactionsList,
   setTransactionsToShow,
   setTransactionsListAsFetched,
-  hideShowMoreButton,
-  setPublisherPaymentMethods
+  hideShowMoreButton
 } from 'redux/paymentInfo';
 import { showInnerPopup, hideInnerPopup } from 'redux/innerPopupReducer';
+import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
 import PaymentInfo from './PaymentInfo.component';
 
 export const mapStateToProps = state => {
@@ -40,15 +40,15 @@ export const mapDispatchToProps = dispatch => {
     hideInnerPopup: () => {
       dispatch(hideInnerPopup());
     },
-    setPublisherPaymentMethods: payload => {
-      dispatch(setPublisherPaymentMethods(payload));
+    initPublisherConfig: payload => {
+      dispatch(initPublisherConfig(payload));
     }
   };
 };
 
-const PlanDetailsContainer = connect(
+const PaymentInfoContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(PaymentInfo);
 
-export default PlanDetailsContainer;
+export default PaymentInfoContainer;

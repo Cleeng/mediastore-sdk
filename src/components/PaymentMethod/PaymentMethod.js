@@ -24,6 +24,8 @@ const PaymentMethod = ({
       case 'android':
       case 'amazon':
       case 'roku':
+      case 'googlepay':
+      case 'applepay':
         return (
           <PaymentCard
             key={id}
@@ -65,7 +67,8 @@ const PaymentMethod = ({
               onClick={() =>
                 showInnerPopup({ type: POPUP_TYPES.paymentDetails })
               }
-              isSmallCard
+              direction="row"
+              fullWidth
             />
           )}
         </CardsWrapper>

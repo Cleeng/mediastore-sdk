@@ -1,5 +1,5 @@
+/* eslint-disable react/forbid-prop-types */
 /* eslint-disable react/no-unused-state */
-/* eslint-disable no-nested-ternary */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
@@ -19,7 +19,6 @@ import Footer from 'components/Footer';
 import MyAccountError from 'components/MyAccountError/MyAccountError';
 import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import Auth from 'services/auth';
-import { areProvidedPaymentMethodIdsValid } from 'util/paymentMethodHelper';
 import { WrapperStyled, HeaderStyled } from './MyAccountStyled';
 
 const POPUP_TYPE = {
@@ -53,8 +52,9 @@ class MyAccount extends Component {
       setCurrentUser,
       setConsents,
       setConsentsError,
-      setPublisherPaymentMethods,
-      availablePaymentMethodIds
+      initPublisherConfig,
+      adyenConfiguration,
+      displayGracePeriodError
     } = this.props;
 
     document.title = 'My Account';
@@ -75,12 +75,12 @@ class MyAccount extends Component {
 
       if (planDetails.currentPlan.length === 0) {
         getCustomerOffers().then(response => {
-          if (response.errors.length) {
+          if (response.errors?.length) {
             this.setState({
               errors: response.errors
             });
           } else {
-            setCurrentPlan(response.responseData.items);
+            setCurrentPlan(response.items);
           }
         });
       }
@@ -97,9 +97,14 @@ class MyAccount extends Component {
         });
       }
 
-      if (areProvidedPaymentMethodIdsValid(availablePaymentMethodIds)) {
-        setPublisherPaymentMethods(availablePaymentMethodIds);
+      if (adyenConfiguration) {
+        initPublisherConfig({
+          adyenConfiguration
+        });
       }
+    }
+    if (displayGracePeriodError !== null) {
+      initPublisherConfig({ displayGracePeriodError });
     }
   }
 
@@ -247,52 +252,49 @@ class MyAccount extends Component {
     } = this.props;
     const { currentPage } = this.state;
 
+    if (consentsError) {
+      return <MyAccountError generalError fullHeight />;
+    }
+    if (isPopupShown) {
+      return (
+        <Popup
+          setConsents={setConsents}
+          popupType={popupType}
+          consents={consents}
+          customerEmail={user ? user.email : ''}
+          hidePopup={hidePopup}
+        />
+      );
+    }
+    if (Auth.isLogged()) {
+      return (
+        <WrapperStyled>
+          <HeaderStyled>
+            <MyAccountUserInfo
+              firstName={user ? user.firstName : ''}
+              lastName={user ? user.lastName : ''}
+              email={user ? user.email : ''}
+              subscription={
+                currentPlan[0]
+                  ? t(
+                      `offer-title-${currentPlan[0].offerId}`,
+                      currentPlan[0].offerTitle
+                    )
+                  : ''
+              }
+              isDataLoaded={!!user && !!currentPlan}
+            />
+            <MyAccountMenu currentPage={currentPage} goToPage={this.goToPage} />
+            <Footer isCheckout={false} isTransparent />
+          </HeaderStyled>
+          <MyAccountContent>
+            {this.renderMyAccountContent(currentPage)}
+          </MyAccountContent>
+        </WrapperStyled>
+      );
+    }
     return (
-      <>
-        {consentsError ? (
-          <MyAccountError generalError fullHeight />
-        ) : isPopupShown ? (
-          <Popup
-            setConsents={setConsents}
-            popupType={popupType}
-            consents={consents}
-            customerEmail={user ? user.email : ''}
-            hidePopup={hidePopup}
-          />
-        ) : !Auth.isLogged() ? (
-          <Login
-            isMyAccount
-            onSuccess={() => this.setState({ isLogged: true })}
-          />
-        ) : (
-          <WrapperStyled>
-            <HeaderStyled>
-              <MyAccountUserInfo
-                firstName={user ? user.firstName : ''}
-                lastName={user ? user.lastName : ''}
-                email={user ? user.email : ''}
-                subscription={
-                  currentPlan[0]
-                    ? t(
-                        `offer-title-${currentPlan[0].offerId}`,
-                        currentPlan[0].offerTitle
-                      )
-                    : ''
-                }
-                isDataLoaded={!!user && !!currentPlan}
-              />
-              <MyAccountMenu
-                currentPage={currentPage}
-                goToPage={this.goToPage}
-              />
-              <Footer isCheckout={false} isTransparent />
-            </HeaderStyled>
-            <MyAccountContent>
-              {this.renderMyAccountContent(currentPage)}
-            </MyAccountContent>
-          </WrapperStyled>
-        )}
-      </>
+      <Login isMyAccount onSuccess={() => this.setState({ isLogged: true })} /> // onSuccess required to rerender
     );
   }
 }
@@ -302,7 +304,6 @@ MyAccount.propTypes = {
   setCurrentUser: PropTypes.func.isRequired,
   setConsents: PropTypes.func.isRequired,
   setConsentsError: PropTypes.func.isRequired,
-  setPublisherPaymentMethods: PropTypes.func.isRequired,
   userProfile: PropTypes.objectOf(PropTypes.any),
   planDetails: PropTypes.objectOf(PropTypes.any),
   popup: PropTypes.objectOf(PropTypes.any),
@@ -315,21 +316,21 @@ MyAccount.propTypes = {
     })
   ),
   skipAvailableDowngradesStep: PropTypes.bool,
-  availablePaymentMethodIds: PropTypes.shape({
-    adyen: PropTypes.number,
-    paypal: PropTypes.number
-  }),
-  t: PropTypes.func
+  initPublisherConfig: PropTypes.func.isRequired,
+  adyenConfiguration: PropTypes.objectOf(PropTypes.any),
+  t: PropTypes.func,
+  displayGracePeriodError: PropTypes.bool
 };
 
 MyAccount.defaultProps = {
   userProfile: { user: null },
   planDetails: { currentPlan: [] },
+  adyenConfiguration: null,
   popup: { isPopupShown: false },
   customCancellationReasons: null,
-  availablePaymentMethodIds: null,
   t: k => k,
-  skipAvailableDowngradesStep: false
+  skipAvailableDowngradesStep: false,
+  displayGracePeriodError: null
 };
 
 export { MyAccount as PureMyAccount };

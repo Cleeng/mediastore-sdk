@@ -10,9 +10,17 @@ const getCustomerOffers = async () => {
   const url = `${API_URL}/customers/${customerId}/offers`;
   return fetchWithJWT(url, {
     method: 'GET'
-  }).then(res => {
-    return res.json();
-  });
+  })
+    .then(async res => {
+      const { responseData, errors } = await res.json();
+      if (!res.ok) {
+        throw new Error(errors[0]);
+      }
+      return responseData;
+    })
+    .catch(err => {
+      throw new Error(err);
+    });
 };
 
 export default getCustomerOffers;

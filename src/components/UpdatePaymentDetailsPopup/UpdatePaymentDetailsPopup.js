@@ -1,36 +1,43 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
-import SkeletonWrapper from 'components/SkeletonWrapper';
 import Button from 'components/Button';
-import { getPaymentMethods } from 'api';
+import { getPaymentMethods, updatePayPalPaymentDetails } from 'api';
 import {
   ContentStyled,
   TitleStyled,
   TextStyled,
-  ButtonWrapperStyled
+  ButtonWrapperStyled,
+  WarningMessageStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
+import {
+  shouldShowGatewayComponent,
+  validatePaymentMethods
+} from 'util/paymentMethodHelper';
 import { ReactComponent as AmazonIcon } from 'assets/images/paymentMethods/amazon_color.svg';
 import { ReactComponent as AppleIcon } from 'assets/images/paymentMethods/apple_color.svg';
 import { ReactComponent as AndroidIcon } from 'assets/images/paymentMethods/android_color.svg';
 import { ReactComponent as PaypalIcon } from 'assets/images/paymentMethods/paypal_color.svg';
 import { ReactComponent as RokuIcon } from 'assets/images/paymentMethods/roku_color.svg';
+import updateAdyenPaymentDetails from 'api/PaymentDetails/updateAdyenPaymentDetails';
+import eventDispatcher, {
+  MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL,
+  MSSDK_UPDATE_PAYMENT_DETAILS_FAILED,
+  MSSDK_REMOVE_PAYMENT_DETAILS_BUTTON_CLICKED
+} from 'util/eventDispatcher';
+import { updatePaymentMethods } from 'redux/publisherConfigSlice';
+import DropInSection from 'components/Payment/DropInSection/DropInSection';
 import {
-  PaymentMethodStyled,
-  PaymentMethodTextStyled,
-  PaymentMethodTitleStyled,
-  PaymentMethodDescStyled,
-  PaymentMethodIconStyled,
   RemoveLinkStyled,
   DeleteIconStyled,
-  PopupImageStyled
+  PopupImageStyled,
+  PaymentMethodsWrapperStyled
 } from './UpdatePaymentDetailsPopupStyled';
-import supportedPaymentGateways, {
-  ACTIONS
-} from './definedPaymentMethods.const';
-import { AddCard, AddPayPal, Success, DeletePaymentMethod } from './Steps';
+import { Success, DeletePaymentMethod, Error } from './Steps';
+import Adyen from '../Adyen';
+import PayPal from '../Payment/PayPal/PayPal';
 
 const PaymentMethodIcons = {
   amazon: AmazonIcon,
@@ -42,69 +49,60 @@ const PaymentMethodIcons = {
 
 const UpdatePaymentDetailsPopup = ({
   hideInnerPopup,
-  setPublisherPaymentMethods,
-  updatePaymentDetailsSection,
-  selectedPaymentMethod
+  updatePaymentDetailsSection
 }) => {
+  const STEPS = {
+    PAYMENT_DETAILS_UPDATE: 'PAYMENT_DETAILS_UPDATE',
+    DELETE_PAYMENT_DETAILS: 'DELETE_PAYMENT_DETAILS',
+    SUCCESS: 'SUCCESS',
+    ERROR: 'ERROR'
+  };
+
+  const STEPS_NUMBERS = {
+    PAYMENT_DETAILS_UPDATE: 1,
+    DELETE_PAYMENT_DETAILS: 2,
+    SUCCESS: 2,
+    ERROR: 2
+  };
+
+  const dispatch = useDispatch();
   const { t } = useTranslation();
-  const [step, setStep] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
-  const [action, setAction] = useState(null);
-  const publisherPaymentMethods = useSelector(
-    state => state.paymentInfo.publisherPaymentMethods
+  const [step, setStep] = useState(STEPS.PAYMENT_DETAILS_UPDATE);
+  const [isUpdatingPaymentDetails, setIsUpdatingPaymentDetails] = useState(
+    false
   );
+  const [dropInInstance, setDropInInstance] = useState(null);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const { paymentMethods, adyenConfiguration } = useSelector(
+    state => state.publisherConfig
+  );
+  const { paymentDetails } = useSelector(state => state.paymentInfo);
+
+  const selectPaymentMethodHandler = paymentMethodName => {
+    if (selectedPaymentMethod?.methodName === paymentMethodName) return;
+    const paymentMethodObj = paymentMethods.find(
+      ({ methodName }) => methodName === paymentMethodName
+    );
+    setSelectedPaymentMethod(paymentMethodObj);
+  };
 
   useEffect(() => {
-    if (!publisherPaymentMethods) {
-      setIsLoading(true);
+    if (!paymentMethods.length) {
       getPaymentMethods().then(resp => {
-        if (resp.responseData) {
-          const {
-            responseData: { paymentMethods }
-          } = resp;
-          if (paymentMethods) {
-            const adyenData = paymentMethods.find(
-              item => item.methodName === 'card'
-            );
-            const paypalData = paymentMethods.find(
-              item => item.methodName === 'paypal'
-            );
-            setPublisherPaymentMethods({
-              paypal: paypalData?.id,
-              adyen: adyenData?.id
-            });
-          }
-          setIsLoading(false);
+        const { responseData } = resp;
+        if (responseData) {
+          const { paymentMethods: paymentMethodsFromBackend } = responseData;
+          dispatch(
+            updatePaymentMethods(
+              validatePaymentMethods(paymentMethodsFromBackend)
+            )
+          );
         }
       });
     }
   }, []);
 
-  const renderMainStep = () => {
-    switch (action) {
-      case ACTIONS.addCard:
-        return (
-          <AddCard
-            setStep={setStep}
-            updatePaymentDetailsSection={updatePaymentDetailsSection}
-          />
-        );
-      case ACTIONS.addPayPal:
-        return <AddPayPal setStep={setStep} />;
-      case ACTIONS.delete:
-        return (
-          <DeletePaymentMethod
-            hideInnerPopup={hideInnerPopup}
-            paymentDetailsToDelete={selectedPaymentMethod}
-            setStep={setStep}
-            updatePaymentDetailsSection={updatePaymentDetailsSection}
-          />
-        );
-      default:
-        return '';
-    }
-  };
-  if (selectedPaymentMethod.bound) {
+  if (selectedPaymentMethod?.bound) {
     const LogoComponent =
       PaymentMethodIcons[selectedPaymentMethod.paymentMethod];
     return (
@@ -142,96 +140,199 @@ const UpdatePaymentDetailsPopup = ({
     );
   }
 
+  const onAdditionalDetails = async state => {
+    // TODO: handle additional actions (3DSecure)
+    console.log('onAdditionalDetails event');
+    const {
+      data: { details }
+    } = state;
+    console.log('data for finilize update payment details', details);
+  };
+
+  const addAdyenPaymentDetails = async (state, component) => {
+    const {
+      data: { paymentMethod, browserInfo, billingAddress }
+    } = state;
+
+    const selectedPaymentMethodName =
+      paymentMethod.type === 'scheme' ? 'card' : paymentMethod.type;
+    const paymentMethodId = paymentMethods.find(
+      item =>
+        item.paymentGateway === 'adyen' &&
+        item.methodName === selectedPaymentMethodName
+    )?.id;
+    const returnUrl =
+      adyenConfiguration?.myaccountReturnUrl || 'https://cleeng.com';
+    setIsUpdatingPaymentDetails(true);
+    const { errors, action } = await updateAdyenPaymentDetails(
+      paymentMethodId,
+      paymentMethod,
+      browserInfo,
+      billingAddress,
+      returnUrl
+    );
+    if (errors.length) {
+      eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED);
+      setStep(STEPS.ERROR);
+      return;
+    }
+    if (action) {
+      component.handleAction(action);
+      return;
+    }
+    eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL);
+    setIsUpdatingPaymentDetails(false);
+    setStep(STEPS.SUCCESS);
+    updatePaymentDetailsSection();
+  };
+
+  const getDropIn = drop => {
+    setDropInInstance(drop);
+  };
+
+  const submitPayPal = () => {
+    const paymentMethodId = paymentMethods.find(
+      item => item.paymentGateway === 'paypal' && item.methodName === 'paypal'
+    )?.id;
+    setIsUpdatingPaymentDetails(true);
+    updatePayPalPaymentDetails(paymentMethodId)
+      .then(resp => {
+        eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL);
+        window.location.href = resp.responseData.redirectUrl;
+      })
+      .catch(() => {
+        eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED);
+        setStep(STEPS.ERROR);
+      })
+      .finally(() => {
+        setIsUpdatingPaymentDetails(false);
+      });
+  };
+
+  const shouldShowAdyen = shouldShowGatewayComponent('adyen', paymentMethods);
+  const shouldShowPayPal = shouldShowGatewayComponent('paypal', paymentMethods);
+
+  const showPayPalWhenAdyenIsReady = () =>
+    shouldShowAdyen ? !!dropInInstance : true;
+
+  if (step === STEPS.DELETE_PAYMENT_DETAILS) {
+    return (
+      <InnerPopupWrapper
+        steps={2}
+        isError={false}
+        currentStep={STEPS_NUMBERS[step]}
+        popupTitle={t('Update payment details')}
+      >
+        <DeletePaymentMethod
+          hideInnerPopup={hideInnerPopup}
+          showSuccessPage={() => setStep(STEPS.SUCCESS)}
+          updatePaymentDetailsSection={updatePaymentDetailsSection}
+        />
+      </InnerPopupWrapper>
+    );
+  }
+
+  if (step === STEPS.SUCCESS) {
+    return (
+      <InnerPopupWrapper
+        steps={2}
+        isError={false}
+        currentStep={STEPS_NUMBERS[step]}
+        popupTitle={t('Update payment details')}
+      >
+        <Success hideInnerPopup={hideInnerPopup} />
+      </InnerPopupWrapper>
+    );
+  }
+  if (step === STEPS.ERROR) {
+    return (
+      <InnerPopupWrapper
+        steps={2}
+        isError={false}
+        currentStep={STEPS_NUMBERS[step]}
+        popupTitle={t('Update payment details')}
+      >
+        <Error hideInnerPopup={hideInnerPopup} />
+      </InnerPopupWrapper>
+    );
+  }
+
   return (
     <InnerPopupWrapper
-      steps={3}
+      steps={2}
       isError={false}
-      currentStep={step}
+      currentStep={STEPS_NUMBERS[step]}
       popupTitle={t('Update payment details')}
     >
-      {step === 1 && (
-        <>
-          <ContentStyled>
-            <TitleStyled>{t('Update payment details')}</TitleStyled>
-            <TextStyled>
-              {t('Update your current payment method, or add a new one.')}
-            </TextStyled>
-            <SkeletonWrapper showChildren={!isLoading} height={90}>
-              {supportedPaymentGateways.map(item => {
-                const IconComponent = item.icon ? item.icon : React.Fragment;
-                if (
-                  publisherPaymentMethods &&
-                  publisherPaymentMethods[item.paymentGateway]
-                ) {
-                  return (
-                    <PaymentMethodStyled
-                      key={item.key}
-                      onClick={() => {
-                        setStep(currentStep => currentStep + 1);
-                        setAction(item.key);
-                      }}
-                    >
-                      <PaymentMethodIconStyled>
-                        <IconComponent />
-                      </PaymentMethodIconStyled>
-                      <PaymentMethodTextStyled>
-                        <PaymentMethodTitleStyled>
-                          {t(item.title)}
-                        </PaymentMethodTitleStyled>
-                        <PaymentMethodDescStyled>
-                          {t(item.description)}
-                        </PaymentMethodDescStyled>
-                      </PaymentMethodTextStyled>
-                    </PaymentMethodStyled>
-                  );
-                }
-                return null;
-              })}
-            </SkeletonWrapper>
-            <SkeletonWrapper showChildren={!isLoading}>
-              {selectedPaymentMethod.id && (
-                <RemoveLinkStyled
-                  onClick={() => {
-                    window.dispatchEvent(
-                      new CustomEvent(
-                        'MSSDK:remove-payment-details-button-clicked'
-                      )
-                    );
-                    setStep(currentStep => currentStep + 1);
-                    setAction(ACTIONS.delete);
-                  }}
-                >
-                  <DeleteIconStyled />
-                  {t('Remove your payment method')}
-                </RemoveLinkStyled>
-              )}
-            </SkeletonWrapper>
-          </ContentStyled>
-          <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={() => hideInnerPopup()}>
-              {t('Cancel')}
-            </Button>
-          </ButtonWrapperStyled>
-        </>
-      )}
-      {step === 2 && renderMainStep()}
-      {step === 3 && <Success hideInnerPopup={hideInnerPopup} />}
+      <ContentStyled>
+        <TitleStyled>{t('Update payment details')}</TitleStyled>
+        <TextStyled>
+          {t('Update your current payment method, or add a new one.')}
+        </TextStyled>
+        <PaymentMethodsWrapperStyled>
+          {shouldShowAdyen && (
+            <Adyen
+              isMyAccount
+              onSubmit={addAdyenPaymentDetails}
+              selectPaymentMethod={selectPaymentMethodHandler}
+              isPayPalAvailable={shouldShowPayPal}
+              selectedPaymentMethod={selectedPaymentMethod?.methodName}
+              getDropIn={getDropIn}
+              onAdditionalDetails={onAdditionalDetails}
+            />
+          )}
+          {shouldShowPayPal && showPayPalWhenAdyenIsReady() && (
+            <DropInSection
+              isCardAvailable={shouldShowAdyen}
+              selectPaymentMethod={selectPaymentMethodHandler}
+              isSelected={selectedPaymentMethod?.methodName === 'paypal'}
+              title="PayPal"
+              logo="paypal"
+              fadeOutSection={
+                isUpdatingPaymentDetails &&
+                selectedPaymentMethod?.methodName !== 'paypal'
+              }
+            >
+              <PayPal
+                onSubmit={submitPayPal}
+                isLoading={isUpdatingPaymentDetails}
+              />
+            </DropInSection>
+          )}
+        </PaymentMethodsWrapperStyled>
+        {paymentDetails.find(item => item.active)?.id && (
+          <RemoveLinkStyled
+            onClick={() => {
+              eventDispatcher(MSSDK_REMOVE_PAYMENT_DETAILS_BUTTON_CLICKED);
+              setStep(STEPS.DELETE_PAYMENT_DETAILS);
+            }}
+          >
+            <DeleteIconStyled />
+            {t('Remove your payment method')}
+          </RemoveLinkStyled>
+        )}
+      </ContentStyled>
+      <ButtonWrapperStyled removeMargin>
+        <Button theme="simple" onClickFn={() => hideInnerPopup()}>
+          {t('Cancel')}
+        </Button>
+      </ButtonWrapperStyled>
+      <WarningMessageStyled>
+        Your new details will replace the details used for your other active
+        subscriptions.
+      </WarningMessageStyled>
     </InnerPopupWrapper>
   );
 };
 
 UpdatePaymentDetailsPopup.propTypes = {
   hideInnerPopup: PropTypes.func,
-  setPublisherPaymentMethods: PropTypes.func,
-  updatePaymentDetailsSection: PropTypes.func,
-  selectedPaymentMethod: PropTypes.objectOf(PropTypes.any)
+  updatePaymentDetailsSection: PropTypes.func
 };
 
 UpdatePaymentDetailsPopup.defaultProps = {
   hideInnerPopup: () => {},
-  setPublisherPaymentMethods: () => {},
-  updatePaymentDetailsSection: () => {},
-  selectedPaymentMethod: {}
+  updatePaymentDetailsSection: () => {}
 };
 
 export default UpdatePaymentDetailsPopup;
