@@ -165,6 +165,10 @@ If you prefer smaller components, you can use these to implement the exact featu
 
 [Customize copies or translate them to another language.](#Translations)
 
+### Security
+
+[Secure your application by using CSP.](#securityConfiguration)
+
 #### <a id="checkout-header"></a><h2 align="center">Checkout</h2>
 
 `Checkout` is a complex component that covers the whole checkout process, from the registration to the purchase. It contains components listed below:
@@ -807,6 +811,28 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
   translations: {}, // The text displayed in each localization can be customized, allowing you to replace the default text with your own. You can read more about it here https://docs.adyen.com/online-payments/web-drop-in/customization#customizing-a-localization
   openFirstPaymentMethod: true // When enabled, Drop-in opens the first payment method automatically on page load. Default: (screen < 991px) false / (screen > 991px) true.
 }
+```
+
+### <a id="securityConfiguration"></a><h2>Security</h2>
+
+Website security is a crucial thing nowadays and it is good to secure the website as much as it can be. Because part of the `mediastore-sdk` components library is a payment process, we wanna give you the possibility to make your website secure and safe.
+
+One of the possibilities to secure your website is [Content Security Policy](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) and it is also an [Adyen recommendation](https://docs.adyen.com/pt/development-resources/integration-security-guide#third-party-components) to do so.
+
+There are several ways to implement Content Security Policy. One of the way is to add the `<meta>` element in the header of the web application.
+Below you can find an example of the Content Security Policy which can be set the secure your website. This one example allows an application only to use resources that are needed for `mediastore-sdk`:
+
+```html
+<meta
+  http-equiv="Content-Security-Policy"
+  content="
+    default-src 'self';
+    script-src 'self' https://*.adyen.com https://*.payments-amazon.com https://*.paypal.com https://*.google.com;
+    style-src 'self' https://*.adyen.com https://*.media-amazon.com https://*.paypal.com https://*.google.com 'unsafe-inline';
+    img-src 'self' data: https://*.adyen.com https://*.media-amazon.com https://*.paypal.com https://*.google.com https://*.gstatic.com;
+    connect-src 'self' *.amazonaws.com *.adyen.com;
+    frame-src 'self' *.adyen.com *.google.com;"
+/>
 ```
 
 ### <a id="Translations"></a><h2>Translations</h2>
