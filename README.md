@@ -187,6 +187,7 @@ Config.setCheckoutPayPalUrls({
   cancelUrl: "https://client-website.com/checkout",
   errorUrl: "https://client-website.com/checkout/error"
 });
+Config.setTermsUrls("https://client-website.com/terms"); // optional, for legal notes in the checkout
 ```
 
 **Props**
@@ -397,6 +398,7 @@ Config.setCheckoutPayPalUrls({
   cancelUrl: "https://client-website.com/my-account",
   errorUrl: "https://client-website.com/my-account/paypal-error"
 });
+Config.setTermsUrls("https://client-website.com/terms"); // optional, for legal notes in the checkout
 ```
 
 **Usage sample**
