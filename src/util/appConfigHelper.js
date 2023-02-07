@@ -125,6 +125,14 @@ export const setOfferSelectionUrl = url => {
   return false;
 };
 
+export const setTermsUrl = url => {
+  if (url) {
+    setData('CLEENG_TERMS_URL', url);
+    return true;
+  }
+  return false;
+};
+
 export const setTheme = theme => {
   const themeString = JSON.stringify(theme);
   if (theme) {
@@ -152,5 +160,6 @@ export default {
   setMyAccountUrl,
   setOfferSelectionUrl,
   setJWT,
-  setRefreshToken
+  setRefreshToken,
+  setTermsUrl
 };

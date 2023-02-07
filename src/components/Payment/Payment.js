@@ -12,6 +12,7 @@ import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import Loader from 'components/Loader';
 import SectionHeader from 'components/SectionHeader';
+import { fetchFinalizeInitialPayment } from 'redux/finalizePaymentSlice';
 import Auth from 'services/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -20,6 +21,7 @@ import {
 } from 'util/paymentMethodHelper';
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import { fetchUpdateOrder } from 'redux/orderSlice';
+import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
 import {
   PaymentErrorStyled,
   PaymentStyled,
@@ -35,14 +37,14 @@ import DropInSection from './DropInSection/DropInSection';
 import { periodMapper } from '../../util';
 
 const Payment = ({ t, onPaymentComplete }) => {
-  const { paymentMethods, adyenConfiguration } = useSelector(
-    state => state.publisherConfig
-  );
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(null);
+  const { paymentMethods } = useSelector(state => state.publisherConfig);
 
   const order = useSelector(state => state.order.order);
   const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
   const { period: offerPeriod } = useSelector(state => state.offer.offer);
+  const { loading: isPaymentFinalizationInProgress } = useSelector(
+    state => state.finalizeInitialPayment
+  );
   const period = offerPeriod
     ? periodMapper[offerPeriod].chargedForEveryText
     : null;
@@ -50,10 +52,15 @@ const Payment = ({ t, onPaymentComplete }) => {
   const [generalError, setGeneralError] = useState('');
   const [dropInInstance, setDropInInstance] = useState(null);
   const [adyenKey, setAdyenKey] = useState(false);
+  const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
+    false
+  );
+  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
+
   const dispatch = useDispatch();
 
   // order updates
-  const updateOrderWithPaymentMethodId = async methodId => {
+  const updateOrderWithPaymentMethodId = methodId => {
     setGeneralError('');
     const { id } = order;
     if (id && methodId) {
@@ -79,7 +86,7 @@ const Payment = ({ t, onPaymentComplete }) => {
     const paymentMethodObj = paymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
-    setSelectedPaymentMethod(paymentMethodObj);
+    dispatch(setSelectedPaymentMethod(paymentMethodObj));
     updateOrderWithPaymentMethodId(paymentMethodObj.id);
   };
 
@@ -134,26 +141,23 @@ const Payment = ({ t, onPaymentComplete }) => {
 
   // Adyen
   const onAdditionalDetails = async state => {
-    console.log('onAdditionalDetails event');
     const {
       data: { details }
     } = state;
-    console.log('data for finilize initial payment', details);
+    dispatch(fetchFinalizeInitialPayment({ orderId: order.id, details }));
   };
 
   const onAdyenSubmit = async (state, component) => {
     const {
       data: { paymentMethod, browserInfo, billingAddress }
     } = state;
-    const returnUrl =
-      adyenConfiguration?.checkoutReturnUrl || 'https://cleeng.com';
+
     setGeneralError('');
     setIsLoading(true);
     const { errors, responseData } = await submitPayment(
       paymentMethod,
       browserInfo,
-      billingAddress,
-      returnUrl
+      billingAddress
     );
 
     if (errors.length) {
@@ -178,8 +182,10 @@ const Payment = ({ t, onPaymentComplete }) => {
     }
 
     const { action, payment } = responseData;
-    console.log('action', action);
     if (action) {
+      if (action.type !== 'redirect') {
+        setIsActionHandlingProcessing(true);
+      }
       component.handleAction(action);
       return;
     }
@@ -260,36 +266,35 @@ const Payment = ({ t, onPaymentComplete }) => {
         {t('Purchase using')}
       </SectionHeader>
       <PaymentWrapperStyled>
+        {isPaymentFinalizationInProgress && <Loader />}
         {shouldShowAdyen && (
           <Adyen
             key={adyenKey}
             onSubmit={onAdyenSubmit}
             selectPaymentMethod={selectPaymentMethodHandler}
-            selectedPaymentMethod={selectedPaymentMethod?.methodName}
             isPayPalAvailable={shouldShowPayPal}
             getDropIn={getDropIn}
             onAdditionalDetails={onAdditionalDetails}
           />
         )}
-        {shouldShowPayPal && showPayPalWhenAdyenIsReady() && (
-          <DropInSection
-            isCardAvailable={shouldShowAdyen}
-            selectPaymentMethod={selectPaymentMethodHandler}
-            isSelected={selectedPaymentMethod?.methodName === 'paypal'}
-            title="PayPal"
-            logo="paypal"
-            fadeOutSection={
-              isLoading && selectedPaymentMethod?.methodName !== 'paypal'
-            }
-          >
-            <PayPal
-              totalPrice={order.totalPrice}
-              offerId={order.offerId}
-              onSubmit={submitPayPal}
+        {shouldShowPayPal &&
+          showPayPalWhenAdyenIsReady() &&
+          !isActionHandlingProcessing && (
+            <DropInSection
+              isCardAvailable={shouldShowAdyen}
+              selectPaymentMethod={selectPaymentMethodHandler}
+              title="PayPal"
+              logo="paypal"
               isLoading={isLoading}
-            />
-          </DropInSection>
-        )}
+            >
+              <PayPal
+                totalPrice={order.totalPrice}
+                offerId={order.offerId}
+                onSubmit={submitPayPal}
+                isLoading={isLoading}
+              />
+            </DropInSection>
+          )}
         {generalError && (
           <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
         )}
