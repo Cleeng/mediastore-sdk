@@ -67,7 +67,7 @@ const SubscriptionSwitchesList = ({
     switchSettings.available &&
     switchSettings.available.length &&
     switchSettings.available.filter(
-      item => !pendingSwtichesToOfferIdsArray.includes(item.toOfferId)
+      ({ toOfferId }) => !pendingSwtichesToOfferIdsArray.includes(toOfferId)
     ).length
   );
 
