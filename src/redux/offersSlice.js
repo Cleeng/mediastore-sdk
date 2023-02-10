@@ -4,19 +4,19 @@ import { getOffers } from 'api';
 const initialState = {
   offers: [],
   pauseOffers: [],
-  pauseOfferIDs: [],
+  pauseOffersIDs: [],
   loading: false,
   error: null
 };
 
 export const fetchOffers = createAsyncThunk(
   'offers/fetchOffers',
-  async thunkAPI => {
+  async (arg, { rejectWithValue }) => {
     try {
       const result = await getOffers();
       return result;
     } catch (err) {
-      return thunkAPI.rejectWithValue(err.message);
+      return rejectWithValue(err.message);
     }
   }
 );
@@ -31,16 +31,14 @@ export const offersSlice = createSlice({
     [fetchOffers.fulfilled]: (state, { payload }) => {
       state.loading = false;
       state.offers = payload;
-      state.pauseOffers = Array.isArray(payload)
-        ? payload.filter(
-            offer => offer.externalProperties.PAUSE_OFFER === 'true'
-          )
-        : [];
-      state.pauseOfferIDs = Array.isArray(payload)
-        ? payload
-            .filter(offer => offer.externalProperties.PAUSE_OFFER === 'true')
-            .map(item => item.longId)
-        : [];
+      state.pauseOffers = payload.filter(
+        ({ externalProperties }) => externalProperties.PAUSE_OFFER === 'true'
+      );
+      state.pauseOffersIDs = payload
+        .filter(
+          ({ externalProperties }) => externalProperties.PAUSE_OFFER === 'true'
+        )
+        .map(item => item.longId);
     },
     [fetchOffers.rejected]: (state, { payload }) => {
       state.loading = false;
