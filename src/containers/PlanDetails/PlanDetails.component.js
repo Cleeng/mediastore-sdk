@@ -12,8 +12,9 @@ import SwitchPlanPopup from 'components/SwitchPlanPopup';
 import CancelSwitchPopup from 'components/CancelSwitchPopup';
 import getSwitch from 'api/Customer/getSwitch';
 import GracePeriodError from 'components/GracePeriodError';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { init } from 'redux/publisherConfigSlice';
+import { fetchOffers } from 'redux/offersSlice';
 import { WrapStyled } from './PlanDetailsStyled';
 
 const PlanDetails = ({
@@ -36,6 +37,7 @@ const PlanDetails = ({
   const [isSwitchInProgress, setIsSwitchInProgress] = useState(false);
   const [isErrorCurrentPlan, setIsErrorCurrentPlan] = useState([]);
   const [isErrorChangePlan, setIsErrorChangePlan] = useState([]);
+  const { offers } = useSelector(state => state.offers);
   const didMount = useRef(false);
   const dispatch = useDispatch();
 
@@ -128,6 +130,7 @@ const PlanDetails = ({
         })
       );
     }
+    if (offers.length === 0) dispatch(fetchOffers());
   }, []);
 
   useEffect(() => {

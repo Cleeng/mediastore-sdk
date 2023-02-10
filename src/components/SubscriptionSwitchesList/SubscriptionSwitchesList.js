@@ -30,6 +30,7 @@ const SubscriptionSwitchesList = ({
   t
 }) => {
   const planDetailsState = useSelector(state => state.planDetails);
+  const { pauseOffersIDs } = useSelector(state => state.offers);
   const pendingSwtichesToOfferIdsArray = Object.keys(
     planDetailsState.switchDetails
   ).map(item => {
@@ -66,7 +67,7 @@ const SubscriptionSwitchesList = ({
     switchSettings.available &&
     switchSettings.available.length &&
     switchSettings.available.filter(
-      item => !pendingSwtichesToOfferIdsArray.includes(item.toOfferId)
+      ({ toOfferId }) => !pendingSwtichesToOfferIdsArray.includes(toOfferId)
     ).length
   );
 
@@ -105,10 +106,15 @@ const SubscriptionSwitchesList = ({
       )
     : [];
 
+  // Filter out the pause subscription
+  const availableFiltered = availableSorted?.filter(
+    offer => !pauseOffersIDs.includes(offer.toOfferId)
+  );
+
   return (
     <>
       {areAvailable &&
-        availableSorted.map(subItem => {
+        availableFiltered.map(subItem => {
           const price =
             isPriceTemporaryModified(subItem.toOfferId) &&
             subItem.algorithm !== 'DEFERRED'
