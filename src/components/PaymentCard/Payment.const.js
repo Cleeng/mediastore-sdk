@@ -8,6 +8,8 @@ import { ReactComponent as Apple } from 'assets/images/paymentMethods/apple.svg'
 import { ReactComponent as Roku } from 'assets/images/paymentMethods/roku.svg';
 import { ReactComponent as ApplePayLogo } from 'assets/images/paymentMethods/applePay.svg';
 import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/googlepay.svg';
+import { ReactComponent as Discover } from 'assets/images/paymentMethods/discover.svg';
+import { ReactComponent as Diners } from 'assets/images/paymentMethods/diners.svg';
 
 // eslint-disable-next-line import/prefer-default-export
 export const CardTypes = {
@@ -54,5 +56,13 @@ export const CardTypes = {
   googlepay: {
     icon: GooglePayLogo,
     title: 'Google Pay'
+  },
+  discover: {
+    icon: Discover,
+    title: 'Discover'
+  },
+  diners: {
+    icon: Diners,
+    title: 'Diners'
   }
 };
