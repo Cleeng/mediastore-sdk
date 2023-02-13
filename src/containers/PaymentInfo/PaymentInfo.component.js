@@ -11,9 +11,9 @@ import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
 import { useSelector, useDispatch } from 'react-redux';
 import GracePeriodError from 'components/GracePeriodError';
-import { init } from 'redux/publisherConfigSlice';
+import { init, init as initPublisherConfig } from 'redux/publisherConfigSlice';
 import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
-import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
+import { updatePaymentDetailsPopup } from 'redux/popupSlice';
 import { WrapStyled } from './PaymentInfoStyled';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
@@ -26,8 +26,6 @@ const PaymentInfoFn = ({
     isShowMoreButtonHidden
   },
   setTransactionsToShow,
-  hidePaymentInfoPopup,
-  initPublisherConfig,
   setTransactionsList,
   setTransactionsListAsFetched,
   hideShowMoreButton,
@@ -113,10 +111,6 @@ const PaymentInfoFn = ({
       });
   };
 
-  const updatePaymentDetailsSection = () => {
-    dispatch(fetchPaymentDetails());
-  };
-
   useEffect(() => {
     if (transactionsList?.length === 0) {
       fetchTransactionsList();
@@ -125,7 +119,7 @@ const PaymentInfoFn = ({
       setIsTransactionsSectionLoading(false);
     }
 
-    initPublisherConfig({ adyenConfiguration });
+    dispatch(initPublisherConfig({ adyenConfiguration }));
     if (displayGracePeriodError !== null) {
       dispatch(
         init({
@@ -135,7 +129,7 @@ const PaymentInfoFn = ({
     }
 
     return () => {
-      hidePaymentInfoPopup();
+      dispatch(updatePaymentDetailsPopup({ isOpen: false }));
     };
   }, []);
 
@@ -143,9 +137,7 @@ const PaymentInfoFn = ({
     <WrapStyled>
       <GracePeriodError />
       {popupManager.paymentDetails.isOpen ? (
-        <UpdatePaymentDetailsPopup
-          updatePaymentDetailsSection={updatePaymentDetailsSection}
-        />
+        <UpdatePaymentDetailsPopup />
       ) : (
         <>
           <SectionHeader>{t('Current payment method')}</SectionHeader>
@@ -178,9 +170,7 @@ PaymentInfoFn.propTypes = {
     transactionsToShow: PropTypes.arrayOf(PropTypes.shape({})),
     isShowMoreButtonHidden: PropTypes.bool
   }),
-  hidePaymentInfoPopup: PropTypes.func.isRequired,
   popupManager: PropTypes.objectOf(PropTypes.any).isRequired,
-  initPublisherConfig: PropTypes.func.isRequired,
   adyenConfiguration: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func,
   displayGracePeriodError: PropTypes.bool

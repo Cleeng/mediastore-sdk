@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Button from 'components/Button';
@@ -36,6 +35,7 @@ import eventDispatcher, {
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import DropInSection from 'components/Payment/DropInSection/DropInSection';
 import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
+import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
 import {
   RemoveLinkStyled,
   DeleteIconStyled,
@@ -60,7 +60,7 @@ const PaymentMethodIcons = {
   roku: RokuIcon
 };
 
-const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
+const UpdatePaymentDetailsPopup = () => {
   const STEPS_NUMBERS = {
     PAYMENT_DETAILS_UPDATE: 1,
     FINALIZE_ADYEN: 2,
@@ -85,6 +85,9 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
     false
   );
+  const updatePaymentDetailsSection = () => {
+    dispatch(fetchPaymentDetails());
+  };
   const selectPaymentMethodHandler = paymentMethodName => {
     if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = paymentMethods.find(
@@ -411,14 +414,6 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
       </WarningMessageStyled>
     </InnerPopupWrapper>
   );
-};
-
-UpdatePaymentDetailsPopup.propTypes = {
-  updatePaymentDetailsSection: PropTypes.func
-};
-
-UpdatePaymentDetailsPopup.defaultProps = {
-  updatePaymentDetailsSection: () => {}
 };
 
 export default UpdatePaymentDetailsPopup;
