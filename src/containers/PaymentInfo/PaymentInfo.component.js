@@ -28,7 +28,6 @@ const PaymentInfoFn = ({
   setTransactionsToShow,
   hidePaymentInfoPopup,
   initPublisherConfig,
-  showInnerPopup,
   setTransactionsList,
   setTransactionsListAsFetched,
   hideShowMoreButton,
@@ -37,13 +36,6 @@ const PaymentInfoFn = ({
   t,
   displayGracePeriodError
 }) => {
-  const {
-    paymentDetails,
-    paymentDetailsError,
-    paymentDetailsLoading,
-    activeOrBoundPaymentDetails
-  } = useSelector(state => state.paymentDetails);
-
   const [transactionsError, setTransactionsError] = useState([]);
   const [
     isTransactionsSectionLoading,
@@ -126,9 +118,6 @@ const PaymentInfoFn = ({
   };
 
   useEffect(() => {
-    if (paymentDetails?.length === 0) {
-      dispatch(fetchPaymentDetails());
-    }
     if (transactionsList?.length === 0) {
       fetchTransactionsList();
     } else {
@@ -160,12 +149,7 @@ const PaymentInfoFn = ({
       ) : (
         <>
           <SectionHeader>{t('Current payment method')}</SectionHeader>
-          <PaymentMethod
-            paymentDetailsLoading={paymentDetailsLoading}
-            activeOrBoundPaymentDetails={activeOrBoundPaymentDetails}
-            showInnerPopup={showInnerPopup}
-            error={paymentDetailsError}
-          />
+          <PaymentMethod />
           <SectionHeader marginTop="25px">{t('Payment history')}</SectionHeader>
           <Transactions
             transactions={transactionsToShow}
@@ -194,7 +178,6 @@ PaymentInfoFn.propTypes = {
     transactionsToShow: PropTypes.arrayOf(PropTypes.shape({})),
     isShowMoreButtonHidden: PropTypes.bool
   }),
-  showInnerPopup: PropTypes.func.isRequired,
   hidePaymentInfoPopup: PropTypes.func.isRequired,
   popupManager: PropTypes.objectOf(PropTypes.any).isRequired,
   initPublisherConfig: PropTypes.func.isRequired,

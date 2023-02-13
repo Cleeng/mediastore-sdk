@@ -1,25 +1,28 @@
 /* eslint-disable no-nested-ternary */
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as AddIcon } from 'assets/images/add.svg';
 import MyAccountError from 'components/MyAccountError';
 import PaymentCard from 'components/PaymentCard';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
 import { WrapStyled, CardsWrapper, Message } from './PaymentMethodStyled';
 import {
   PAYMENT_DETAILS_STEPS,
   updatePaymentDetailsPopup
 } from '../../redux/popupSlice';
 
-const PaymentMethod = ({
-  paymentDetailsLoading,
-  activeOrBoundPaymentDetails,
-  showInnerPopup,
-  error
-}) => {
+const PaymentMethod = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+
+  const {
+    paymentDetails,
+    paymentDetailsError,
+    paymentDetailsLoading,
+    activeOrBoundPaymentDetails
+  } = useSelector(state => state.paymentDetails);
+
   const renderPaymentMethodItem = paymentDetail => {
     const { paymentMethod, id } = paymentDetail;
     switch (paymentMethod) {
@@ -31,18 +34,18 @@ const PaymentMethod = ({
       case 'roku':
       case 'googlepay':
       case 'applepay':
-        return (
-          <PaymentCard
-            key={id}
-            details={paymentDetail}
-            showInnerPopup={showInnerPopup}
-          />
-        );
+        return <PaymentCard key={id} details={paymentDetail} />;
       default:
         return <Message>{t('Managed by external service')}</Message>;
     }
   };
   const activeItems = activeOrBoundPaymentDetails.find(item => item.active);
+
+  useEffect(() => {
+    if (paymentDetails?.length === 0) {
+      dispatch(fetchPaymentDetails());
+    }
+  }, []);
 
   return paymentDetailsLoading ? (
     <CardsWrapper numberOfItems={1}>
@@ -50,7 +53,7 @@ const PaymentMethod = ({
     </CardsWrapper>
   ) : (
     <WrapStyled>
-      {error.length !== 0 ? (
+      {paymentDetailsError.length !== 0 ? (
         <MyAccountError generalError />
       ) : (
         <CardsWrapper
@@ -86,22 +89,6 @@ const PaymentMethod = ({
       )}
     </WrapStyled>
   );
-};
-
-PaymentMethod.propTypes = {
-  activeOrBoundPaymentDetails: PropTypes.arrayOf(
-    PropTypes.objectOf(PropTypes.any)
-  ),
-  error: PropTypes.arrayOf(PropTypes.string),
-  paymentDetailsLoading: PropTypes.bool,
-  showInnerPopup: PropTypes.func
-};
-
-PaymentMethod.defaultProps = {
-  activeOrBoundPaymentDetails: [],
-  error: [],
-  paymentDetailsLoading: false,
-  showInnerPopup: () => {}
 };
 
 export default PaymentMethod;

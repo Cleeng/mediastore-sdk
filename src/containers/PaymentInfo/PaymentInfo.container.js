@@ -5,7 +5,6 @@ import {
   setTransactionsListAsFetched,
   hideShowMoreButton
 } from 'redux/paymentInfo';
-import { showInnerPopup } from 'redux/innerPopupReducer';
 import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
 import { updatePaymentDetailsPopup } from 'redux/popupSlice';
 import PaymentInfo from './PaymentInfo.component';
@@ -30,9 +29,6 @@ export const mapDispatchToProps = dispatch => {
     },
     hideShowMoreButton: () => {
       dispatch(hideShowMoreButton());
-    },
-    showInnerPopup: payload => {
-      dispatch(showInnerPopup(payload));
     },
     hidePaymentInfoPopup: () => {
       dispatch(updatePaymentDetailsPopup({ isOpen: false }));
