@@ -36,7 +36,7 @@ const DeletePaymentMethod = ({
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   const { activeOrBoundPaymentDetails } = useSelector(
-    state => state.paymentInfo
+    state => state.paymentDetails
   );
   const activePaymentDetails = activeOrBoundPaymentDetails.find(
     ({ active }) => active

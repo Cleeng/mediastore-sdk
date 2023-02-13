@@ -6,13 +6,14 @@ import labeling from 'containers/labeling';
 import PaymentMethod from 'components/PaymentMethod';
 import SectionHeader from 'components/SectionHeader';
 import Transactions from 'components/Transactions';
-import { getPaymentDetails, listCustomerTransactions } from 'api';
+import { listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
 import { useSelector, useDispatch } from 'react-redux';
 import GracePeriodError from 'components/GracePeriodError';
 import { init } from 'redux/publisherConfigSlice';
 import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
+import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
 import { WrapStyled } from './PaymentInfoStyled';
 
 const DEFAULT_TRANSACTIONS_NUMBER = 3;
@@ -20,13 +21,10 @@ const DEFAULT_TRANSACTIONS_NUMBER = 3;
 const PaymentInfoFn = ({
   paymentInfo: {
     isTransactionListFetched,
-    paymentDetails,
     transactionsList,
-    activeOrBoundPaymentDetails,
     transactionsToShow,
     isShowMoreButtonHidden
   },
-  setPaymentDetails,
   setTransactionsToShow,
   hidePaymentInfoPopup,
   initPublisherConfig,
@@ -39,8 +37,12 @@ const PaymentInfoFn = ({
   t,
   displayGracePeriodError
 }) => {
-  const [paymentDetailsError, setPaymentDetailsError] = useState([]);
-  const [paymentDetailsLoading, setPaymentDetailsLoading] = useState(true);
+  const {
+    paymentDetails,
+    paymentDetailsError,
+    paymentDetailsLoading,
+    activeOrBoundPaymentDetails
+  } = useSelector(state => state.paymentDetails);
 
   const [transactionsError, setTransactionsError] = useState([]);
   const [
@@ -92,23 +94,6 @@ const PaymentInfoFn = ({
     }
   };
 
-  const fetchPaymentDetails = () => {
-    getPaymentDetails()
-      .then(response => {
-        if (response.errors.length) {
-          setPaymentDetailsError(response.errors);
-        } else {
-          setPaymentDetails(response.responseData.paymentDetails);
-        }
-      })
-      .catch(() => {
-        setPaymentDetailsError(['Something went wrong..']);
-      })
-      .finally(() => {
-        setPaymentDetailsLoading(false);
-      });
-  };
-
   const fetchTransactionsList = () => {
     listCustomerTransactions(DEFAULT_TRANSACTIONS_NUMBER + 1, 0) // fetching +1 transaction to check if you have to show 'show more' button
       .then(response => {
@@ -137,15 +122,12 @@ const PaymentInfoFn = ({
   };
 
   const updatePaymentDetailsSection = () => {
-    setPaymentDetailsLoading(true);
-    fetchPaymentDetails();
+    dispatch(fetchPaymentDetails());
   };
 
   useEffect(() => {
     if (paymentDetails?.length === 0) {
-      fetchPaymentDetails();
-    } else {
-      setPaymentDetailsLoading(false);
+      dispatch(fetchPaymentDetails());
     }
     if (transactionsList?.length === 0) {
       fetchTransactionsList();
@@ -201,17 +183,14 @@ const PaymentInfoFn = ({
 };
 
 PaymentInfoFn.propTypes = {
-  setPaymentDetails: PropTypes.func.isRequired,
   setTransactionsList: PropTypes.func.isRequired,
   setTransactionsToShow: PropTypes.func.isRequired,
   setTransactionsListAsFetched: PropTypes.func.isRequired,
   hideShowMoreButton: PropTypes.func.isRequired,
   paymentInfo: PropTypes.shape({
     isTransactionListFetched: PropTypes.bool,
-    paymentDetails: PropTypes.arrayOf(PropTypes.shape({})),
     transactionsList: PropTypes.arrayOf(PropTypes.shape({})),
     publisherPaymentMethods: PropTypes.arrayOf(PropTypes.shape({})),
-    activeOrBoundPaymentDetails: PropTypes.arrayOf(PropTypes.shape({})),
     transactionsToShow: PropTypes.arrayOf(PropTypes.shape({})),
     isShowMoreButtonHidden: PropTypes.bool
   }),

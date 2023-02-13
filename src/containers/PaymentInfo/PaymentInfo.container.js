@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
 import {
-  setPaymentDetails,
   setTransactionsList,
   setTransactionsToShow,
   setTransactionsListAsFetched,
@@ -20,9 +19,6 @@ export const mapStateToProps = state => {
 
 export const mapDispatchToProps = dispatch => {
   return {
-    setPaymentDetails: newPaymentDetails => {
-      dispatch(setPaymentDetails(newPaymentDetails));
-    },
     setTransactionsList: newTransactionList => {
       dispatch(setTransactionsList(newTransactionList));
     },

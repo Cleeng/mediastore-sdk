@@ -1,9 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createAction, createReducer } from '@reduxjs/toolkit';
 
-export const SET_PAYMENT_DETAILS = 'SET_PAYMENT_DETAILS';
-export const setPaymentDetails = createAction(SET_PAYMENT_DETAILS);
-
 export const SET_TRANSACTIONS_LIST = 'SET_TRANSACTIONS_LIST';
 export const setTransactionsList = createAction(SET_TRANSACTIONS_LIST);
 
@@ -20,21 +17,13 @@ export const HIDE_SHOW_MORE_BUTTON = 'HIDE_SHOW_MORE_BUTTON';
 export const hideShowMoreButton = createAction(HIDE_SHOW_MORE_BUTTON);
 
 const initialState = {
-  paymentDetails: [],
   transactionsList: [],
   transactionsToShow: [],
   isTransactionListFetched: false,
-  isShowMoreButtonHidden: false,
-  activeOrBoundPaymentDetails: []
+  isShowMoreButtonHidden: false
 };
 
 const paymentMethodReducer = createReducer(initialState, {
-  SET_PAYMENT_DETAILS: (state, action) => {
-    state.paymentDetails = action.payload;
-    state.activeOrBoundPaymentDetails = action.payload.filter(
-      item => item.active || item.bound
-    );
-  },
   SET_TRANSACTIONS_LIST: (state, action) => {
     state.transactionsList = action.payload;
   },

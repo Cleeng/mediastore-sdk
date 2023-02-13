@@ -77,7 +77,7 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
   const { t } = useTranslation();
   const [dropInInstance, setDropInInstance] = useState(null);
   const { paymentMethods } = useSelector(state => state.publisherConfig);
-  const { paymentDetails } = useSelector(state => state.paymentInfo);
+  const { paymentDetails } = useSelector(state => state.paymentDetails);
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
   const { loading: isFinalizeAddPaymentDetailsLoading } = useSelector(
     state => state.finalizeAddPaymentDetails
