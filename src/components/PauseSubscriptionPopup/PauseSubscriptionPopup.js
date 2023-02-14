@@ -204,7 +204,7 @@ const PauseSubscriptionPopup = ({
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t(`Pause subscription`)
+                t('Pause subscription')
               )}
             </Button>
           </ButtonWrapperStyled>

@@ -176,8 +176,6 @@ const Unsubscribe = ({
     pauseOffersIDs.includes(toOfferId)
   );
 
-  console.log(pauseOffer);
-
   return (
     <InnerPopupWrapper
       steps={shouldShowDowngrades ? 3 : 2}
@@ -222,10 +220,14 @@ const Unsubscribe = ({
               >
                 <OfferCard
                   offerType="S"
-                  title="Pause subscription"
-                  description={`Your current plan will be paused for ${
-                    periodMapper[pauseOffer[0].period].chargedForEveryText
-                  }`}
+                  title={t('Pause subscription')}
+                  description={t(
+                    'Your current plan will be paused for {{ pausePeriod }}',
+                    {
+                      pausePeriod:
+                        periodMapper[pauseOffer[0].period].chargedForEveryText
+                    }
+                  )}
                   offerId={pauseOffer[0].toOfferId}
                   isPriceBoxHidden
                   isPaused
