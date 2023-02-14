@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -9,8 +9,13 @@ import MyAccountError from 'components/MyAccountError';
 import Button from 'components/Button';
 import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
-import Loader from 'components/Loader';
 import { logos } from 'util/paymentMethodHelper';
+import {
+  DEFAULT_TRANSACTIONS_NUMBER,
+  fetchListCustomerTransactions,
+  setIsTransactionListExpanded
+} from 'redux/transactionsSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   WrapStyled,
@@ -56,23 +61,42 @@ const TransactionsSkeleton = () => (
   </Card>
 );
 
-const Transactions = ({
-  transactions,
-  toggleTransactionsList,
-  isTransactionsItemsLoading,
-  isExpanded,
-  isShowMoreButtonHidden,
-  error,
-  isTransactionsSectionLoading,
-  t
-}) =>
-  isTransactionsSectionLoading ? (
+const Transactions = ({ t }) => {
+  const {
+    transactionsList,
+    showToggleButton,
+    transactionsError,
+    isTransactionsSectionLoading,
+    isTransactionListExpanded
+  } = useSelector(state => state.transactions);
+
+  const transactionsToShow = isTransactionListExpanded
+    ? transactionsList
+    : transactionsList.slice(0, DEFAULT_TRANSACTIONS_NUMBER);
+
+  const dispatch = useDispatch();
+
+  const toggleTransactionsList = () => {
+    if (isTransactionListExpanded) {
+      dispatch(setIsTransactionListExpanded(false));
+    } else {
+      dispatch(setIsTransactionListExpanded(true));
+    }
+  };
+
+  useEffect(() => {
+    if (transactionsList?.length === 0) {
+      dispatch(fetchListCustomerTransactions());
+    }
+  });
+
+  return isTransactionsSectionLoading ? (
     <TransactionsSkeleton />
   ) : (
     <WrapStyled>
-      {error.length !== 0 ? (
+      {transactionsError.length !== 0 ? (
         <MyAccountError generalError />
-      ) : transactions.length === 0 ? (
+      ) : transactionsList.length === 0 ? (
         <MyAccountError
           icon={noTransactionsIcon}
           title={t('No transactions found!')}
@@ -83,10 +107,10 @@ const Transactions = ({
       ) : (
         <Card withBorder>
           <TransactionListStyled
-            isExpanded={isExpanded}
-            length={transactions.length}
+            isExpanded={isTransactionListExpanded}
+            length={transactionsToShow.length}
           >
-            {transactions.map(
+            {transactionsToShow.map(
               ({
                 paymentMethod,
                 transactionId,
@@ -98,7 +122,7 @@ const Transactions = ({
                 return (
                   <InsideWrapperStyled
                     key={transactionId}
-                    length={transactions.length}
+                    length={transactionsToShow.length}
                   >
                     <LeftBoxStyled>
                       <LogoWrapStyled>
@@ -123,20 +147,19 @@ const Transactions = ({
               }
             )}
           </TransactionListStyled>
-          {!isShowMoreButtonHidden && (
+          {showToggleButton && (
             <Button
               theme="primary"
               margin="20px 0 0 auto"
               width="unset"
-              label={(isExpanded && t('Show less')) || t('Show more')}
+              label={
+                (isTransactionListExpanded && t('Show less')) || t('Show more')
+              }
               onClickFn={() => toggleTransactionsList()}
               padding="12px 33px 12px 20px"
             >
-              <ButtonTextStyled isExpanded={isExpanded}>
-                {(isTransactionsItemsLoading && (
-                  <Loader buttonLoader color="#ffffff" />
-                )) ||
-                  (isExpanded && t('Show less')) ||
+              <ButtonTextStyled isExpanded={isTransactionListExpanded}>
+                {(isTransactionListExpanded && t('Show less')) ||
                   t('Show more')}
               </ButtonTextStyled>
             </Button>
@@ -145,26 +168,14 @@ const Transactions = ({
       )}
     </WrapStyled>
   );
+};
 
 Transactions.propTypes = {
-  transactions: PropTypes.arrayOf(PropTypes.any),
-  error: PropTypes.arrayOf(PropTypes.any),
-  toggleTransactionsList: PropTypes.func.isRequired,
-  isTransactionsItemsLoading: PropTypes.bool,
-  isExpanded: PropTypes.bool,
-  t: PropTypes.func,
-  isShowMoreButtonHidden: PropTypes.bool,
-  isTransactionsSectionLoading: PropTypes.bool
+  t: PropTypes.func
 };
 
 Transactions.defaultProps = {
-  transactions: [],
-  error: [],
-  isTransactionsItemsLoading: false,
-  isExpanded: false,
-  t: k => k,
-  isShowMoreButtonHidden: false,
-  isTransactionsSectionLoading: false
+  t: k => k
 };
 
 export { Transactions as PureTransactions };
