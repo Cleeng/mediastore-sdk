@@ -42,6 +42,8 @@ const OfferCard = ({
   expiresAt,
   showInnerPopup,
   offerId,
+  isPriceBoxHidden,
+  isPaused,
   t
 }) => {
   const planDetailsState = useSelector(state => state.planDetails);
@@ -147,7 +149,7 @@ const OfferCard = ({
     <>
       <WrapperStyled>
         <SkeletonWrapper showChildren={isDataLoaded} width={50} height={50}>
-          <SubscriptionIcon period={period || offerType} />
+          <SubscriptionIcon period={period || offerType} isPaused={isPaused} />
         </SkeletonWrapper>
         <InnerWrapper>
           <SkeletonWrapper
@@ -167,24 +169,26 @@ const OfferCard = ({
             />
           </SkeletonWrapper>
         </InnerWrapper>
-        <PriceWrapperStyled>
-          <SkeletonWrapper showChildren={isDataLoaded} width={80} height={30}>
-            {isTrialAvailable && (
-              <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
-            )}
-            {((isMyAccount && offerType === 'S') || !isMyAccount) && (
-              <Price
-                currency={currency}
-                price={price}
-                period={
-                  offerType === 'S'
-                    ? t(`offer-price.period-${period}`, period)
-                    : null
-                }
-              />
-            )}
-          </SkeletonWrapper>
-        </PriceWrapperStyled>
+        {!isPriceBoxHidden && (
+          <PriceWrapperStyled>
+            <SkeletonWrapper showChildren={isDataLoaded} width={80} height={30}>
+              {isTrialAvailable && (
+                <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
+              )}
+              {((isMyAccount && offerType === 'S') || !isMyAccount) && (
+                <Price
+                  currency={currency}
+                  price={price}
+                  period={
+                    offerType === 'S'
+                      ? t(`offer-price.period-${period}`, period)
+                      : null
+                  }
+                />
+              )}
+            </SkeletonWrapper>
+          </PriceWrapperStyled>
+        )}
       </WrapperStyled>
       {showInfoBox
         ? mapCode[showInfoBox] &&
@@ -253,7 +257,9 @@ OfferCard.propTypes = {
   pendingSwitchId: PropTypes.string,
   expiresAt: PropTypes.string,
   showInnerPopup: PropTypes.func,
-  offerId: PropTypes.string
+  offerId: PropTypes.string,
+  isPriceBoxHidden: PropTypes.bool,
+  isPaused: PropTypes.bool
 };
 
 OfferCard.defaultProps = {
@@ -272,7 +278,9 @@ OfferCard.defaultProps = {
   pendingSwitchId: null,
   expiresAt: '',
   showInnerPopup: () => {},
-  offerId: ''
+  offerId: '',
+  isPriceBoxHidden: false,
+  isPaused: false
 };
 
 export { OfferCard as PureOfferCard };

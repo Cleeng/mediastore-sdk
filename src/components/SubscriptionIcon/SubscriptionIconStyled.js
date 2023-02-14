@@ -21,6 +21,13 @@ export const WrapperStyled = styled.div.attrs(() => ({
   color: ${props => props.color};
   border: 1px solid ${props => props.border};
 
+  svg {
+    path:first-of-type,
+    path:last-of-type {
+      fill: ${ConfirmColor};
+    }
+  }
+
   ${mediaFrom.small`
     flex: 0 0 50px;
     margin-right: 15px;
