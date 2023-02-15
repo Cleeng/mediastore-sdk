@@ -274,9 +274,7 @@ const UpdatePaymentDetailsPopup = () => {
         currentStep={STEPS_NUMBERS[step]}
         popupTitle={t('Update payment details')}
       >
-        <DeletePaymentMethod
-          updatePaymentDetailsSection={updatePaymentDetailsSection}
-        />
+        <DeletePaymentMethod />
       </InnerPopupWrapper>
     );
   }
@@ -290,9 +288,7 @@ const UpdatePaymentDetailsPopup = () => {
         popupTitle={t('Update payment details')}
       >
         <ContentStyled>
-          <FinalizeAddPaymentDetails
-            updatePaymentDetailsSection={updatePaymentDetailsSection}
-          />
+          <FinalizeAddPaymentDetails />
         </ContentStyled>
       </InnerPopupWrapper>
     );

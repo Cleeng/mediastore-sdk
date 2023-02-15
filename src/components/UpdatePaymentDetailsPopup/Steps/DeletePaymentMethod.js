@@ -14,6 +14,7 @@ import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as PaypalIcon } from 'assets/images/paymentMethods/paypal_color.svg';
 import { ReactComponent as VisaIcon } from 'assets/images/paymentMethods/visa_color.svg';
+import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
 
 import {
   PAYMENT_DETAILS_STEPS,
@@ -26,14 +27,15 @@ const PaymentMethodIcons = {
   visa: VisaIcon
 };
 
-const DeletePaymentMethod = ({
-  updatePaymentDetailsSection,
-  paymentDetailsToDelete
-}) => {
+const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
+
+  const updatePaymentDetailsSection = () => {
+    dispatch(fetchPaymentDetails());
+  };
 
   const { activeOrBoundPaymentDetails } = useSelector(
     state => state.paymentDetails
@@ -123,11 +125,9 @@ const DeletePaymentMethod = ({
 export default DeletePaymentMethod;
 
 DeletePaymentMethod.propTypes = {
-  paymentDetailsToDelete: PropTypes.objectOf(PropTypes.any),
-  updatePaymentDetailsSection: PropTypes.func
+  paymentDetailsToDelete: PropTypes.objectOf(PropTypes.any)
 };
 
 DeletePaymentMethod.defaultProps = {
-  paymentDetailsToDelete: {},
-  updatePaymentDetailsSection: () => {}
+  paymentDetailsToDelete: {}
 };
