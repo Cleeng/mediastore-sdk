@@ -10,7 +10,7 @@ import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
 import { useSelector, useDispatch } from 'react-redux';
 import GracePeriodError from 'components/GracePeriodError';
-import { init, init as initPublisherConfig } from 'redux/publisherConfigSlice';
+import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
 import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
 import { updatePaymentDetailsPopup } from 'redux/popupSlice';
 import { WrapStyled } from './PaymentInfoStyled';
@@ -34,7 +34,7 @@ const PaymentInfoFn = ({
 
     if (displayGracePeriodError !== null) {
       dispatch(
-        init({
+        initPublisherConfig({
           displayGracePeriodError
         })
       );

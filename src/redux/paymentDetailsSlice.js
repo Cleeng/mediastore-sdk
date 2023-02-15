@@ -9,7 +9,7 @@ const initialState = {
 };
 
 export const fetchPaymentDetails = createAsyncThunk(
-  'paymentDetails/paymentDetails',
+  'paymentDetails',
   async (_, { rejectWithValue }) => {
     try {
       const responseData = await getPaymentDetails();
