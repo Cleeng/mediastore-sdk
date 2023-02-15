@@ -143,7 +143,6 @@ const PlanDetails = ({
   }, [planDetails.updateList]);
 
   const renderPopup = type => {
-    console.log('renderPopup->type', type);
     switch (type) {
       case 'updateSubscription':
         return (

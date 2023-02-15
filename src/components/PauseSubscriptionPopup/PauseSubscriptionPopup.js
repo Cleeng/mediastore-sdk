@@ -11,6 +11,11 @@ import Loader from 'components/Loader';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 import { ReactComponent as Close } from 'assets/images/errors/close.svg';
 import { periodMapper, dateFormat, currencyFormat } from 'util/planHelper';
+import eventDispatcher, {
+  MSSDK_SWITCH_POPUP_ACTION_SUCCESSFUL,
+  MSSDK_SWITCH_POPUP_ACTION_FAILED,
+  MSSDK_SWITCH_POPUP_ACTION_CANCELLED
+} from 'util/eventDispatcher';
 
 import {
   ContentStyled,
@@ -60,29 +65,23 @@ const PauseSubscriptionPopup = ({
         toOffer.switchDirection
       );
       if (!resp.errors.length) {
-        window.dispatchEvent(
-          new CustomEvent('MSSDK:switch-popup-action-successful', {
-            detail: {
-              fromOfferId: fromOffer.offerId,
-              toOfferId: toOffer.toOfferId,
-              switchDirection: toOffer.switchDirection,
-              algorithm: toOffer.algorithm
-            }
-          })
-        );
+        eventDispatcher(MSSDK_SWITCH_POPUP_ACTION_SUCCESSFUL, {
+          fromOfferId: fromOffer.offerId,
+          toOfferId: toOffer.toOfferId,
+          switchDirection: toOffer.switchDirection,
+          algorithm: toOffer.algorithm
+        });
         setIsLoading(false);
         setStep(STEPS.CONFIRMATION);
       } else {
-        window.dispatchEvent(
-          new CustomEvent('MSSDK:switch-popup-action-failed', {
-            detail: { reason: resp.errors[0] }
-          })
-        );
+        eventDispatcher(MSSDK_SWITCH_POPUP_ACTION_FAILED, {
+          reason: resp.errors[0]
+        });
         setError(true);
         setIsLoading(false);
       }
     } catch {
-      window.dispatchEvent(new CustomEvent('MSSDK:switch-popup-action-failed'));
+      eventDispatcher(MSSDK_SWITCH_POPUP_ACTION_FAILED);
       setError(true);
       setIsLoading(false);
     }
@@ -110,6 +109,44 @@ const PauseSubscriptionPopup = ({
     );
   }
 
+  if (isError) {
+    return (
+      <InnerPopupWrapper
+        steps={isPartOfCancellationFlow ? 3 : 2}
+        popupTitle={t('Pausing plan')}
+        currentStep={
+          isPartOfCancellationFlow
+            ? STEPS_NUMBERS[step] + 1
+            : STEPS_NUMBERS[step]
+        }
+      >
+        <>
+          <ContentStyled>
+            <ImageWrapper>
+              <Close />
+            </ImageWrapper>
+            <TitleStyled step={step}>{t('An error occurred.')}</TitleStyled>
+            <TextStyled step={step}>
+              {t(
+                'We have been unable to pause your plan as an error occurred. Sorry for the inconvenience, please try again.'
+              )}
+            </TextStyled>
+          </ContentStyled>
+          <ButtonWrapperStyled>
+            <Button theme="confirm" onClickFn={closePopupAndRefresh}>
+              {t('Back to My Account')}
+            </Button>
+          </ButtonWrapperStyled>
+        </>
+      </InnerPopupWrapper>
+    );
+  }
+
+  const pausePeriod = periodMapper[toOffer.period].chargedForEveryText;
+  const currencySymbol = currencyFormat[fromOffer.nextPaymentCurrency];
+  const currentPrice = formatNumber(fromOffer.nextPaymentPrice);
+  const pauseStartingDate = dateFormat(fromOffer.expiresAt);
+
   return (
     <InnerPopupWrapper
       steps={isPartOfCancellationFlow ? 3 : 2}
@@ -118,7 +155,7 @@ const PauseSubscriptionPopup = ({
         isPartOfCancellationFlow ? STEPS_NUMBERS[step] + 1 : STEPS_NUMBERS[step]
       }
     >
-      {step === STEPS.PAUSE_DETAILS && !isError && (
+      {step === STEPS.PAUSE_DETAILS && (
         <>
           <ContentStyled>
             <ImageWrapper>
@@ -135,29 +172,14 @@ const PauseSubscriptionPopup = ({
             </TitleStyled>
             <TextStyled>
               <Trans i18nKey="pausesubscriptionpopup-info">
-                Your subscription will be paused for{' '}
-                {{
-                  pausePeriod: periodMapper[toOffer.period].chargedForEveryText
-                }}{' '}
-                starting{' '}
+                Your subscription will be paused for {{ pausePeriod }} starting{' '}
+                <strong>{{ pauseStartingDate }}</strong>. During the
+                subscription pause period, you will not be charged. Your
+                subscription will be automatically resumed after a{' '}
+                {{ pausePeriod }} and you will continue to be charged{' '}
                 <strong>
-                  {{ pauseStartingDate: dateFormat(fromOffer.expiresAt) }}
-                </strong>
-                . During the subscription pause period, you will not be charged.
-                Your subscription will be automatically resumed after a{' '}
-                {{
-                  pausePeriod: periodMapper[toOffer.period].chargedForEveryText
-                }}{' '}
-                and you will continue to be charged
-                <strong>
-                  {' '}
-                  {{
-                    currencySymbol:
-                      currencyFormat[fromOffer.nextPaymentCurrency]
-                  }}
-                  {{
-                    currentPrice: formatNumber(fromOffer.nextPaymentPrice)
-                  }}
+                  {{ currencySymbol }}
+                  {{ currentPrice }}
                 </strong>{' '}
                 on a recurring basis.
               </Trans>
@@ -184,16 +206,12 @@ const PauseSubscriptionPopup = ({
                     }
                   });
                 } else {
-                  window.dispatchEvent(
-                    new CustomEvent('MSSDK:switch-popup-action-cancelled', {
-                      detail: {
-                        fromOfferId: fromOffer.offerId,
-                        toOfferId: toOffer.toOfferId,
-                        switchDirection: toOffer.switchDirection,
-                        algorithm: toOffer.algorithm
-                      }
-                    })
-                  );
+                  eventDispatcher(MSSDK_SWITCH_POPUP_ACTION_CANCELLED, {
+                    fromOfferId: fromOffer.offerId,
+                    toOfferId: toOffer.toOfferId,
+                    switchDirection: toOffer.switchDirection,
+                    algorithm: toOffer.algorithm
+                  });
                   hideInnerPopup();
                 }
               }}
@@ -210,7 +228,7 @@ const PauseSubscriptionPopup = ({
           </ButtonWrapperStyled>
         </>
       )}
-      {step === STEPS.CONFIRMATION && !isError && (
+      {step === STEPS.CONFIRMATION && (
         <>
           <ContentStyled>
             <ImageWrapper>
@@ -222,26 +240,6 @@ const PauseSubscriptionPopup = ({
                 You have successfully paused your plan{' '}
                 <strong>{{ planName: fromOffer.offerTitle }}.</strong>
               </Trans>
-            </TextStyled>
-          </ContentStyled>
-          <ButtonWrapperStyled>
-            <Button theme="confirm" onClickFn={closePopupAndRefresh}>
-              {t('Back to My Account')}
-            </Button>
-          </ButtonWrapperStyled>
-        </>
-      )}
-      {isError && (
-        <>
-          <ContentStyled>
-            <ImageWrapper>
-              <Close />
-            </ImageWrapper>
-            <TitleStyled step={step}>{t('An error occurred.')}</TitleStyled>
-            <TextStyled step={step}>
-              {t(
-                'We have been unable to pause your plan as an error occurred. Sorry for the inconvenience, please try again.'
-              )}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
