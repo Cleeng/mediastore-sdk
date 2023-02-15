@@ -18,8 +18,8 @@ const PaymentMethod = () => {
 
   const {
     paymentDetails,
-    paymentDetailsError,
-    paymentDetailsLoading,
+    error: paymentDetailsError,
+    loading: paymentDetailsLoading,
     activeOrBoundPaymentDetails
   } = useSelector(state => state.paymentDetails);
 

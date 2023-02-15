@@ -3,9 +3,9 @@ import { getPaymentDetails } from '../api';
 
 const initialState = {
   paymentDetails: [],
-  paymentDetailsLoading: true,
-  paymentDetailsError: [],
-  activeOrBoundPaymentDetails: []
+  activeOrBoundPaymentDetails: [],
+  loading: true,
+  error: []
 };
 
 export const fetchPaymentDetails = createAsyncThunk(
@@ -26,18 +26,18 @@ export const paymentDetailsSlice = createSlice({
   reducers: {},
   extraReducers: {
     [fetchPaymentDetails.pending]: state => {
-      state.paymentDetailsLoading = true;
+      state.loading = true;
     },
     [fetchPaymentDetails.fulfilled]: (state, { payload }) => {
-      state.paymentDetailsLoading = false;
+      state.loading = false;
       state.paymentDetails = payload?.paymentDetails;
       state.activeOrBoundPaymentDetails = payload?.paymentDetails.filter(
         item => item.active || item.bound
       );
     },
     [fetchPaymentDetails.rejected]: (state, { payload }) => {
-      state.paymentDetailsLoading = false;
-      state.paymentDetailsError = payload;
+      state.loading = false;
+      state.error = payload;
     }
   }
 });
