@@ -13,8 +13,7 @@ import { ReactComponent as Close } from 'assets/images/errors/close.svg';
 import { periodMapper, dateFormat, currencyFormat } from 'util/planHelper';
 import eventDispatcher, {
   MSSDK_SWITCH_POPUP_ACTION_SUCCESSFUL,
-  MSSDK_SWITCH_POPUP_ACTION_FAILED,
-  MSSDK_SWITCH_POPUP_ACTION_CANCELLED
+  MSSDK_SWITCH_POPUP_ACTION_FAILED
 } from 'util/eventDispatcher';
 
 import {
@@ -39,7 +38,6 @@ const PauseSubscriptionPopup = ({
   showInnerPopup,
   updateList,
   isPopupLoading,
-  isPartOfCancellationFlow,
   t
 }) => {
   const STEPS = {
@@ -112,13 +110,9 @@ const PauseSubscriptionPopup = ({
   if (isError) {
     return (
       <InnerPopupWrapper
-        steps={isPartOfCancellationFlow ? 3 : 2}
+        steps={3}
         popupTitle={t('Pausing plan')}
-        currentStep={
-          isPartOfCancellationFlow
-            ? STEPS_NUMBERS[step] + 1
-            : STEPS_NUMBERS[step]
-        }
+        currentStep={STEPS_NUMBERS[step] + 1}
       >
         <>
           <ContentStyled>
@@ -149,11 +143,9 @@ const PauseSubscriptionPopup = ({
 
   return (
     <InnerPopupWrapper
-      steps={isPartOfCancellationFlow ? 3 : 2}
+      steps={3}
       popupTitle={t('Pausing plan')}
-      currentStep={
-        isPartOfCancellationFlow ? STEPS_NUMBERS[step] + 1 : STEPS_NUMBERS[step]
-      }
+      currentStep={STEPS_NUMBERS[step] + 1}
     >
       {step === STEPS.PAUSE_DETAILS && (
         <>
@@ -195,28 +187,18 @@ const PauseSubscriptionPopup = ({
             <Button
               theme="simple"
               onClickFn={() => {
-                if (isPartOfCancellationFlow) {
-                  showInnerPopup({
-                    type: POPUP_TYPES.updateSubscription,
-                    data: {
-                      action: 'unsubscribe',
-                      offerData: {
-                        ...fromOffer
-                      }
+                showInnerPopup({
+                  type: POPUP_TYPES.updateSubscription,
+                  data: {
+                    action: 'unsubscribe',
+                    offerData: {
+                      ...fromOffer
                     }
-                  });
-                } else {
-                  eventDispatcher(MSSDK_SWITCH_POPUP_ACTION_CANCELLED, {
-                    fromOfferId: fromOffer.offerId,
-                    toOfferId: toOffer.toOfferId,
-                    switchDirection: toOffer.switchDirection,
-                    algorithm: toOffer.algorithm
-                  });
-                  hideInnerPopup();
-                }
+                  }
+                });
               }}
             >
-              {t('Continue current Plan')}
+              {t('Back')}
             </Button>
             <Button theme="confirm" onClickFn={pauseSubscription}>
               {isLoading ? (
@@ -260,7 +242,6 @@ PauseSubscriptionPopup.propTypes = {
   updateList: PropTypes.func,
   isPopupLoading: PropTypes.bool,
   t: PropTypes.func,
-  isPartOfCancellationFlow: PropTypes.bool,
   showInnerPopup: PropTypes.func
 };
 
@@ -271,8 +252,7 @@ PauseSubscriptionPopup.defaultProps = {
   showInnerPopup: () => {},
   updateList: () => {},
   isPopupLoading: false,
-  t: k => k,
-  isPartOfCancellationFlow: false
+  t: k => k
 };
 
 export { PauseSubscriptionPopup as PureSubscriptionPopup };

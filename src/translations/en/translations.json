@@ -385,5 +385,6 @@
   "thank-you-page.manage-text": "You can manage your account from <1>here</1>.",
   "update-payment-details.refused": "We weren’t able to update your payment method. Please try again.",
   "update-payment-details.error": "We weren’t able to update your payment details. Please try again using different payment method.",
-  "legal-notes-acknowledge": "By clicking 'Complete Purchase' above, I expressly acknowledge and agree to the above terms as well as the full <2>Terms of Service</2>."
+  "legal-notes-acknowledge": "By clicking 'Complete Purchase' above, I expressly acknowledge and agree to the above terms as well as the full <2>Terms of Service</2>.",
+  "unsubscribe-info": "If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of {{ formattedExpiresAt }}. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving."
 }

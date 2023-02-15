@@ -317,10 +317,10 @@ const Unsubscribe = ({
                       )}
                 </>
               )}{' '}
-              <Trans>
+              <Trans i18nKey="unsubscribe-info">
                 If you would like to proceed with cancelling your subscription,
                 please select 'Unsubscribe' below, and your subscription will be
-                cancelled as of {formattedExpiresAt}. Until then, you will
+                cancelled as of {{ formattedExpiresAt }}. Until then, you will
                 continue to have access to all of your current subscription
                 features. Before you go, please let us know why you're leaving.
               </Trans>
