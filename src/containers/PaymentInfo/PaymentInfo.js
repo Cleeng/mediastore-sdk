@@ -16,7 +16,6 @@ import { updatePaymentDetailsPopup } from 'redux/popupSlice';
 import { WrapStyled } from './PaymentInfoStyled';
 
 const PaymentInfoFn = ({
-  popupManager,
   adyenConfiguration: adyenConfigurationProp,
   t,
   displayGracePeriodError
@@ -26,6 +25,8 @@ const PaymentInfoFn = ({
   const { adyenConfiguration: adyenConfigurationStore } = useSelector(
     state => state.publisherConfig
   );
+
+  const popupManager = useSelector(state => state.popupManager);
 
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
@@ -63,7 +64,6 @@ const PaymentInfoFn = ({
 };
 
 PaymentInfoFn.propTypes = {
-  popupManager: PropTypes.objectOf(PropTypes.any).isRequired,
   adyenConfiguration: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func,
   displayGracePeriodError: PropTypes.bool
