@@ -11,6 +11,7 @@ import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
 import PauseSubscriptionPopup from 'components/PauseSubscriptionPopup';
 import CancelSwitchPopup from 'components/CancelSwitchPopup';
+import CancelPausePopup from 'components/CancelPausePopup';
 import getSwitch from 'api/Customer/getSwitch';
 import GracePeriodError from 'components/GracePeriodError';
 import { useDispatch, useSelector } from 'react-redux';
@@ -181,6 +182,16 @@ const PlanDetails = ({
       case 'cancelSwitch':
         return (
           <CancelSwitchPopup
+            showInnerPopup={showInnerPopup}
+            hideInnerPopup={hideInnerPopup}
+            popupData={innerPopup.data}
+            updateList={updateList}
+            setSwitchDetails={setSwitchDetails}
+          />
+        );
+      case 'cancelPause':
+        return (
+          <CancelPausePopup
             showInnerPopup={showInnerPopup}
             hideInnerPopup={hideInnerPopup}
             popupData={innerPopup.data}

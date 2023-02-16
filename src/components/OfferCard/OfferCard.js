@@ -234,7 +234,9 @@ const OfferCard = ({
                           )
                         );
                         showInnerPopup({
-                          type: POPUP_TYPES.cancelSwitch,
+                          type: isPauseInProgress
+                            ? POPUP_TYPES.cancelPause
+                            : POPUP_TYPES.cancelSwitch,
                           data: {
                             pendingSwitchId,
                             switchDirection: switchDetails.direction,
