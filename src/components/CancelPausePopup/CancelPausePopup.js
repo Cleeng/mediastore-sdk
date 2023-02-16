@@ -17,7 +17,7 @@ import {
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
 const CancelPausePopup = ({
-  popupData: { pendingSwitchId, baseOfferExpirationDate },
+  popupData: { pendingSwitchId, baseOfferExpirationDate, baseOfferPrice },
   hideInnerPopup,
   updateList,
   setSwitchDetails,
@@ -88,7 +88,8 @@ const CancelPausePopup = ({
               {t(
                 `The subscription pause will take effect on  {{baseOfferExpirationDate}}. Are you sure you want to cancel the scheduled pause and resume your subscription? If you resume your plan, you will be charged {{baseOfferPrice}} on the next billing date.`,
                 {
-                  baseOfferExpirationDate
+                  baseOfferExpirationDate,
+                  baseOfferPrice
                 }
               )}
             </TextStyled>
@@ -146,7 +147,8 @@ const CancelPausePopup = ({
 CancelPausePopup.propTypes = {
   popupData: PropTypes.shape({
     pendingSwitchId: PropTypes.string.isRequired,
-    baseOfferExpirationDate: PropTypes.string.isRequired
+    baseOfferExpirationDate: PropTypes.string.isRequired,
+    baseOfferPrice: PropTypes.string.isRequired
   }).isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
   updateList: PropTypes.func,
