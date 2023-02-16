@@ -1,4 +1,4 @@
-import { ReactComponent as Visa } from 'assets/images/paymentMethods/visa_small.svg';
+import { ReactComponent as Visa } from 'assets/images/paymentMethods/visa_payment_method.svg';
 import { ReactComponent as AmericanExpress } from 'assets/images/paymentMethods/american_express.svg';
 import { ReactComponent as MasterCard } from 'assets/images/paymentMethods/master_card.svg';
 import { ReactComponent as Paypal } from 'assets/images/paymentMethods/PPicon.svg';
@@ -59,10 +59,10 @@ export const CardTypes = {
   },
   discover: {
     icon: Discover,
-    title: 'Discover'
+    title: 'Credit Card'
   },
   diners: {
     icon: Diners,
-    title: 'Diners'
+    title: 'Credit Card'
   }
 };
