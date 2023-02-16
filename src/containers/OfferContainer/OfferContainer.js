@@ -48,7 +48,7 @@ const OfferContainer = ({
   const offerId = offerIdProp || offerIdStore;
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
-  const paymentMethodsHandler = orderId => {
+  const freeOfferPaymentMethodHandler = orderId => {
     getPaymentMethods().then(paymentMethodResponse => {
       const {
         responseData: { paymentMethods }
@@ -74,7 +74,7 @@ const OfferContainer = ({
       discount: { applied }
     } = unwrapResult(resultOrderAction);
     if (totalPrice === 0 && !applied) {
-      paymentMethodsHandler(id);
+      freeOfferPaymentMethodHandler(id);
       dispatch(setFreeOffer(true));
     }
     setData('CLEENG_ORDER_ID', id);
