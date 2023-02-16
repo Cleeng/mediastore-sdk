@@ -9,6 +9,7 @@ import CurrentPlan from 'components/CurrentPlan';
 import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
+import PauseSubscriptionPopup from 'components/PauseSubscriptionPopup';
 import CancelSwitchPopup from 'components/CancelSwitchPopup';
 import getSwitch from 'api/Customer/getSwitch';
 import GracePeriodError from 'components/GracePeriodError';
@@ -158,6 +159,17 @@ const PlanDetails = ({
       case 'switchPlan':
         return (
           <SwitchPlanPopup
+            showInnerPopup={showInnerPopup}
+            toOffer={innerPopup.data.offerData}
+            fromOffer={planDetails.offerToSwitch}
+            hideInnerPopup={hideInnerPopup}
+            updateList={updateList}
+            isPartOfCancellationFlow={innerPopup.data.isPartOfCancellationFlow}
+          />
+        );
+      case 'pauseSubscription':
+        return (
+          <PauseSubscriptionPopup
             showInnerPopup={showInnerPopup}
             toOffer={innerPopup.data.offerData}
             fromOffer={planDetails.offerToSwitch}

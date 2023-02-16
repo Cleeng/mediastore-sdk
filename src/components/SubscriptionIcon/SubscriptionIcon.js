@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { periodMapper } from 'util/planHelper';
+import { ReactComponent as PauseIcon } from 'assets/images/pause.svg';
 
 import { WrapperStyled, LabelStyled } from './SubscriptionIconStyled';
 
-const SubscriptionIcon = ({ period, showLabel, className }) => {
+const SubscriptionIcon = ({ period, showLabel, className, isPaused }) => {
   const { color, bg, label, border } =
     periodMapper[period] || periodMapper.default;
   return (
@@ -16,7 +17,7 @@ const SubscriptionIcon = ({ period, showLabel, className }) => {
         className={className}
       >
         {showLabel && <LabelStyled label={showLabel}>{showLabel}</LabelStyled>}
-        {label || ''}
+        {isPaused ? <PauseIcon /> : label || ''}
       </WrapperStyled>
     </>
   );
@@ -25,13 +26,15 @@ const SubscriptionIcon = ({ period, showLabel, className }) => {
 SubscriptionIcon.propTypes = {
   period: PropTypes.string,
   showLabel: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
+  isPaused: PropTypes.bool
 };
 
 SubscriptionIcon.defaultProps = {
   period: 'default',
   showLabel: '',
-  className: ''
+  className: '',
+  isPaused: false
 };
 
 export default SubscriptionIcon;
