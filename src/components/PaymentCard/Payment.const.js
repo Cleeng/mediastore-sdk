@@ -1,4 +1,4 @@
-import { ReactComponent as Visa } from 'assets/images/paymentMethods/visa_small.svg';
+import { ReactComponent as Visa } from 'assets/images/paymentMethods/visa_payment_method.svg';
 import { ReactComponent as AmericanExpress } from 'assets/images/paymentMethods/american_express.svg';
 import { ReactComponent as MasterCard } from 'assets/images/paymentMethods/master_card.svg';
 import { ReactComponent as Paypal } from 'assets/images/paymentMethods/PPicon.svg';
@@ -8,6 +8,8 @@ import { ReactComponent as Apple } from 'assets/images/paymentMethods/apple.svg'
 import { ReactComponent as Roku } from 'assets/images/paymentMethods/roku.svg';
 import { ReactComponent as ApplePayLogo } from 'assets/images/paymentMethods/applePay.svg';
 import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/googlepay.svg';
+import { ReactComponent as Discover } from 'assets/images/paymentMethods/discover.svg';
+import { ReactComponent as Diners } from 'assets/images/paymentMethods/diners.svg';
 
 // eslint-disable-next-line import/prefer-default-export
 export const CardTypes = {
@@ -54,5 +56,13 @@ export const CardTypes = {
   googlepay: {
     icon: GooglePayLogo,
     title: 'Google Pay'
+  },
+  discover: {
+    icon: Discover,
+    title: 'Credit Card'
+  },
+  diners: {
+    icon: Diners,
+    title: 'Credit Card'
   }
 };
