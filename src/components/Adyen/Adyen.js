@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import AdyenCheckout from '@adyen/adyen-web';
+// import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
 import useScript from 'util/useScriptHook';
 import { useSelector } from 'react-redux';

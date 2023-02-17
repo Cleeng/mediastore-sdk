@@ -47,7 +47,7 @@ const PaymentInfoFn = ({
   }, []);
 
   return (
-    <WrapStyled>
+    <WrapStyled data-testid="payment-info">
       <GracePeriodError />
       {popupManager.paymentDetails.isOpen ? (
         <UpdatePaymentDetailsPopup />
