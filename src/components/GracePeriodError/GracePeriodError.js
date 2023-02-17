@@ -38,9 +38,9 @@ const GracePeriodError = () => {
       </IconStyled>
       <p>
         <Trans i18nKey="grace-period-error">
-          Your payment method has expired. Please{' '}
-          <WarningMessageStyled>make sure to update</WarningMessageStyled> it to
-          avoid losing access to your subscription.
+          Your subscription couldn&apos;t be renewed due to a payment method
+          issue. Please <WarningMessageStyled>update it</WarningMessageStyled>{' '}
+          to avoid losing access to the content.
         </Trans>
       </p>
     </GracePeriodErrorStyled>

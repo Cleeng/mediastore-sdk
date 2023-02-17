@@ -38,9 +38,7 @@ describe('GracePeriodError component', () => {
       </Provider>
     );
 
-    expect(getByText('make sure to update')).toHaveStyle(
-      'text-decoration: underline;'
-    );
+    expect(getByText('update it')).toHaveStyle('text-decoration: underline;');
   });
 
   test('renders svg image', async () => {
