@@ -47,10 +47,12 @@ const PaymentInfoFn = ({
   }, []);
 
   return (
-    <WrapStyled data-testid="payment-info">
+    <WrapStyled>
       <GracePeriodError />
       {popupManager.paymentDetails.isOpen ? (
-        <UpdatePaymentDetailsPopup />
+        <div data-testid="payment-info__update-payment-details-popup">
+          <UpdatePaymentDetailsPopup />
+        </div>
       ) : (
         <>
           <SectionHeader>{t('Current payment method')}</SectionHeader>

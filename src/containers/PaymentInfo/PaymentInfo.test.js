@@ -1,22 +1,28 @@
 import React from 'react';
-import { render, waitFor, screen } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import PaymentInfo from 'containers/PaymentInfo';
 import 'i18NextInit';
-import fetchMock from "jest-fetch-mock";
-
+// eslint-disable-next-line no-unused-vars, import/no-extraneous-dependencies
+import fetchMock from 'jest-fetch-mock';
 
 const pastDate = 16762771;
 
-const store = (displayGracePeriodError = true) => ({
+const store = (isOpen = false) => ({
   paymentDetails: {
     paymentDetails: [],
     activeOrBoundPaymentDetails: [],
     loading: false,
     error: []
+  },
+  paymentMethods: {
+    selectedPaymentMethod: []
+  },
+  finalizeAddPaymentDetails: {
+    loading: false
   },
   transactions: {
     transactionsList: [],
@@ -26,13 +32,14 @@ const store = (displayGracePeriodError = true) => ({
     isTransactionListExpanded: false
   },
   publisherConfig: {
-    displayGracePeriodError,
+    displayGracePeriodError: true,
     adyenConfiguration: null,
-    t: k => k
+    t: k => k,
+    paymentMethods: []
   },
   popupManager: {
     paymentDetails: {
-      isOpen: false,
+      isOpen,
       isLoading: false
     }
   },
@@ -49,14 +56,31 @@ const store = (displayGracePeriodError = true) => ({
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
 
-describe('PaymentInfo component',  () => {
-  test('should render', async () => {
-    const { getByTestId } = render(
-      <Provider store={mockStore(store)}>
+jest.mock('../../containers/labeling', () =>
+  jest.fn(() => jest.fn(Component => Component))
+);
+
+describe('PaymentInfo component', () => {
+  test('should render PaymentMethod and Transactions component', async () => {
+    const { getByText } = render(
+      <Provider store={mockStore(store(false))}>
         <PaymentInfo />
       </Provider>
     );
 
-    getByTestId('payment-info');
+    expect(getByText(/Current payment method/i)).toBeInTheDocument();
+    expect(getByText(/Payment history/i)).toBeInTheDocument();
+  });
+
+  test('should render UpdatePaymentDetailsPopup component', async () => {
+    const { getByTestId } = render(
+      <Provider store={mockStore(store(true))}>
+        <PaymentInfo />
+      </Provider>
+    );
+
+    expect(
+      getByTestId('payment-info__update-payment-details-popup')
+    ).toBeInTheDocument();
   });
 });
