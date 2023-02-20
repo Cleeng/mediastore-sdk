@@ -3,8 +3,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { withTranslation, Trans, useTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { Trans, useTranslation } from 'react-i18next';
 import { getData } from 'util/appConfigHelper';
 
 import { ReactComponent as NoSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
@@ -86,13 +85,13 @@ const CurrentPlan = ({
   showInnerPopup,
   setOfferToSwitch,
   offerToSwitch,
-  updateList,
-  t
+  updateList
 }) => {
   const [isMessageBoxOpened, setIsMessageBoxOpened] = useState(false);
   const [messageBoxType, setMessageBoxType] = useState(null);
   const [messageBoxText, setMessageBoxText] = useState('');
   const [messageSubscriptionId, setMessageSubscriptionId] = useState(null);
+  const { t } = useTranslation();
   const { pauseOffersIDs } = useSelector(store => store.offers);
 
   const getInfoBoxType = subscription => {
@@ -289,6 +288,4 @@ CurrentPlan.defaultProps = {
   t: k => k
 };
 
-export { CurrentPlan as PureCurrentPlan };
-
-export default withTranslation()(labeling()(CurrentPlan));
+export default CurrentPlan;
