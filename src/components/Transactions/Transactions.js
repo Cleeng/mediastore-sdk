@@ -88,7 +88,7 @@ const Transactions = ({ t }) => {
     if (transactionsList?.length === 0) {
       dispatch(fetchListCustomerTransactions());
     }
-  });
+  }, []);
 
   return isTransactionsSectionLoading ? (
     <TransactionsSkeleton />
