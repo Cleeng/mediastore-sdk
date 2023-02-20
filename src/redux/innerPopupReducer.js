@@ -6,7 +6,8 @@ export const POPUP_TYPES = {
   paymentDetails: 'paymentDetails',
   updateSubscription: 'updateSubscription',
   switchPlan: 'switchPlan',
-  cancelSwitch: 'cancelSwitch'
+  cancelSwitch: 'cancelSwitch',
+  cancelPause: 'cancelPause'
 };
 
 export const SHOW_INNER_POPUP = 'SHOW_INNER_POPUP';

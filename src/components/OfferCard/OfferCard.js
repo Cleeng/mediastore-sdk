@@ -10,6 +10,7 @@ import { ReactComponent as EditBlockedIcon } from 'assets/images/noEdit.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { ReactComponent as DowngradeIcon } from 'assets/images/downgrade_pending.svg';
 import { ReactComponent as UpgradeIcon } from 'assets/images/upgrade_pending.svg';
+import { ReactComponent as PauseIcon } from 'assets/images/pause_noti.svg';
 import { dateFormat } from 'util/planHelper';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 
@@ -47,7 +48,9 @@ const OfferCard = ({
   t
 }) => {
   const planDetailsState = useSelector(state => state.planDetails);
+  const { pauseOffersIDs } = useSelector(state => state.offers);
   const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
+  const isPauseInProgress = pauseOffersIDs.includes(switchDetails?.toOfferId);
 
   const getSwitchCopy = () => {
     if (switchDetails) {
@@ -59,6 +62,16 @@ const OfferCard = ({
       const { title: switchTitle, fromOfferId, toOfferId } = switchDetails;
       const translatedTitle = t(`offer-title-${fromOfferId}`, title);
       const translatedSwitchTitle = t(`offer-title-${toOfferId}`, switchTitle);
+      // if pause is in progress
+      if (isPauseInProgress) {
+        return t(
+          'offer-card.info-box.pause-information-text',
+          'Your current plan will be paused starting on {{subscriptionExpirationDate}}. During the subscription pause period, you will not be charged. You can cancel the scheduled pause anytime.',
+          {
+            subscriptionExpirationDate
+          }
+        );
+      }
       switch (switchDetails.algorithm) {
         case 'IMMEDIATE_WITHOUT_PRORATION':
           return t(
@@ -88,6 +101,10 @@ const OfferCard = ({
 
   const getSwitchIcon = () => {
     if (switchDetails) {
+      // if pause is in progress
+      if (isPauseInProgress) {
+        return PauseIcon;
+      }
       switch (switchDetails.direction) {
         case 'downgrade':
           return DowngradeIcon;
@@ -218,7 +235,9 @@ const OfferCard = ({
                           )
                         );
                         showInnerPopup({
-                          type: POPUP_TYPES.cancelSwitch,
+                          type: isPauseInProgress
+                            ? POPUP_TYPES.cancelPause
+                            : POPUP_TYPES.cancelSwitch,
                           data: {
                             pendingSwitchId,
                             switchDirection: switchDetails.direction,
@@ -230,7 +249,9 @@ const OfferCard = ({
                         });
                       }}
                     >
-                      {t('Cancel switch')}
+                      {isPauseInProgress
+                        ? t('offer-card.cancel-pause-button', 'Cancel pause')
+                        : t('Cancel switch')}
                     </SubBoxButtonStyled>
                   )}
               </SubBoxContentStyled>
