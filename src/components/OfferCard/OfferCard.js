@@ -65,6 +65,7 @@ const OfferCard = ({
       // if pause is in progress
       if (isPauseInProgress) {
         return t(
+          'offer-card.info-box.pause-information-text',
           'Your current plan will be paused starting on {{subscriptionExpirationDate}}. During the subscription pause period, you will not be charged. You can cancel the scheduled pause anytime.',
           {
             subscriptionExpirationDate
@@ -249,7 +250,7 @@ const OfferCard = ({
                       }}
                     >
                       {isPauseInProgress
-                        ? t('Cancel pause')
+                        ? t('offer-card.cancel-pause-button', 'Cancel pause')
                         : t('Cancel switch')}
                     </SubBoxButtonStyled>
                   )}

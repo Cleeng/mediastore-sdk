@@ -8,6 +8,12 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
+import eventDispatcher, {
+  MSSDK_CANCEL_SWITCH_ACTION_TRIGGERED,
+  MSSDK_CANCEL_SWITCH_ACTION_SUCCESSFUL,
+  MSSDK_CANCEL_SWITCH_ACTION_FAILED,
+  MSSDK_CANCEL_SWITCH_ACTION_CANCELLED
+} from 'util/eventDispatcher';
 
 import {
   ContentStyled,
@@ -31,62 +37,52 @@ const CancelPausePopup = ({
   const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
   const eventsPayload = {
     pendingSwitchId,
-    fromOfferId: switchDetails && switchDetails.fromOfferId,
-    toOfferId: switchDetails && switchDetails.toOfferId
+    fromOfferId: switchDetails?.fromOfferId,
+    toOfferId: switchDetails?.toOfferId
   };
 
   const cancelPause = async () => {
-    window.dispatchEvent(
-      new CustomEvent('MSSDK:cancel-switch-action-triggered', {
-        detail: eventsPayload
-      })
-    );
+    eventDispatcher(MSSDK_CANCEL_SWITCH_ACTION_TRIGGERED, eventsPayload);
     setIsLoading(true);
     try {
-      const resp = await updateSwitch(pendingSwitchId);
-      if (!resp.errors.length) {
+      const { errors } = await updateSwitch(pendingSwitchId);
+      if (!errors.length) {
         setIsLoading(false);
         setSwitchDetails({ details: { pendingSwitchId }, type: 'delete' });
         setStep(2);
-        window.dispatchEvent(
-          new CustomEvent('MSSDK:cancel-switch-action-successful', {
-            detail: eventsPayload
-          })
-        );
+        eventDispatcher(MSSDK_CANCEL_SWITCH_ACTION_SUCCESSFUL, eventsPayload);
       } else {
         setIsError(true);
         setIsLoading(false);
-        window.dispatchEvent(
-          new CustomEvent('MSSDK:cancel-switch-action-failed', {
-            detail: { ...eventsPayload, reason: resp.errors[0] }
-          })
-        );
+        eventDispatcher(MSSDK_CANCEL_SWITCH_ACTION_FAILED, {
+          ...eventsPayload,
+          reason: errors[0]
+        });
       }
     } catch {
       setIsError(true);
       setIsLoading(false);
-      window.dispatchEvent(
-        new CustomEvent('MSSDK:cancel-switch-action-failed', {
-          detail: eventsPayload
-        })
-      );
+      eventDispatcher(MSSDK_CANCEL_SWITCH_ACTION_FAILED, eventsPayload);
     }
   };
 
   return (
     <InnerPopupWrapper
       steps={2}
-      popupTitle={t('Cancel pause')}
+      popupTitle={t('cancel-pause-popup.title', 'Cancel pause')}
       currentStep={step}
       isError={isError}
     >
       {step === 1 && (
         <>
           <ContentStyled>
-            <TitleStyled>{t('Cancel pause')}</TitleStyled>
+            <TitleStyled>
+              {t('cancel-pause-popup.title', 'Cancel pause')}
+            </TitleStyled>
             <TextStyled>
               {t(
-                `The subscription pause will take effect on  {{baseOfferExpirationDate}}. Are you sure you want to cancel the scheduled pause and resume your subscription? If you resume your plan, you will be charged {{baseOfferPrice}} on the next billing date.`,
+                'cancel-pause-popup.information-text',
+                'The subscription pause will take effect on  {{baseOfferExpirationDate}}. Are you sure you want to cancel the scheduled pause and resume your subscription? If you resume your plan, you will be charged {{baseOfferPrice}} on the next billing date.',
                 {
                   baseOfferExpirationDate,
                   baseOfferPrice
@@ -98,10 +94,9 @@ const CancelPausePopup = ({
             <Button
               theme="simple"
               onClickFn={() => {
-                window.dispatchEvent(
-                  new CustomEvent('MSSDK:cancel-switch-action-cancelled', {
-                    detail: eventsPayload
-                  })
+                eventDispatcher(
+                  MSSDK_CANCEL_SWITCH_ACTION_CANCELLED,
+                  eventsPayload
                 );
                 hideInnerPopup();
               }}
@@ -112,7 +107,7 @@ const CancelPausePopup = ({
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t(`Cancel pause`)
+                t('cancel-pause-popup.confirm-button-text', 'Cancel pause')
               )}
             </Button>
           </ButtonWrapperStyled>
@@ -122,9 +117,14 @@ const CancelPausePopup = ({
         <>
           <ContentStyled>
             <img src={checkmarkIconBase} alt="checkmark icon" />
-            <TitleStyled>{t('Pause canceled')}</TitleStyled>
+            <TitleStyled>
+              {t('cancel-pause-popup.confirmation-title', 'Pause canceled')}
+            </TitleStyled>
             <TextStyled>
-              {t('You have successfully canceled subscription pause.')}
+              {t(
+                'cancel-pause-popup.confirmation-text',
+                'You have successfully canceled subscription pause.'
+              )}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
