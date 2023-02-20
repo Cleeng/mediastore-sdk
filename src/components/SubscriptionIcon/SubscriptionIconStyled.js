@@ -5,6 +5,7 @@ import { BoldFont, FontColor, White, ConfirmColor } from 'styles/variables';
 export const WrapperStyled = styled.div.attrs(() => ({
   className: 'msd__subscription-card__icon'
 }))`
+  display: flex;
   position: relative;
   padding: 10px;
   margin-right: 10px;
