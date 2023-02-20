@@ -15,8 +15,8 @@ export const fetchListCustomerTransactions = createAsyncThunk(
   'transactions/listCustomerTransactions',
   async (_, { rejectWithValue }) => {
     try {
-      const responseData = await listCustomerTransactions();
-      return responseData;
+      const { items } = await listCustomerTransactions();
+      return items;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -27,8 +27,8 @@ export const transactionsSlice = createSlice({
   name: 'transactions',
   initialState,
   reducers: {
-    setIsTransactionListExpanded(state, { payload }) {
-      state.isListExpanded = payload;
+    toggleTransactionList(state) {
+      state.isListExpanded = !state.isListExpanded;
     }
   },
   extraReducers: {
@@ -37,9 +37,8 @@ export const transactionsSlice = createSlice({
     },
     [fetchListCustomerTransactions.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.transactions = payload.items;
-      state.showToggleButton =
-        payload.items.length > DEFAULT_TRANSACTIONS_NUMBER;
+      state.transactions = payload;
+      state.showToggleButton = payload.length > DEFAULT_TRANSACTIONS_NUMBER;
     },
     [fetchListCustomerTransactions.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -48,5 +47,5 @@ export const transactionsSlice = createSlice({
   }
 });
 
-export const { setIsTransactionListExpanded } = transactionsSlice.actions;
+export const { toggleTransactionList } = transactionsSlice.actions;
 export default transactionsSlice.reducer;

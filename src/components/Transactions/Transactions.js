@@ -13,7 +13,7 @@ import { logos } from 'util/paymentMethodHelper';
 import {
   DEFAULT_TRANSACTIONS_NUMBER,
   fetchListCustomerTransactions,
-  setIsTransactionListExpanded
+  toggleTransactionList
 } from 'redux/transactionsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -76,8 +76,7 @@ const Transactions = ({ t }) => {
 
   const dispatch = useDispatch();
 
-  const toggleTransactionsList = () =>
-    dispatch(setIsTransactionListExpanded(!isTransactionListExpanded));
+  const toggleTransactionsList = () => dispatch(toggleTransactionList());
 
   useEffect(() => {
     if (transactionsList?.length === 0) {
