@@ -76,13 +76,8 @@ const Transactions = ({ t }) => {
 
   const dispatch = useDispatch();
 
-  const toggleTransactionsList = () => {
-    if (isTransactionListExpanded) {
-      dispatch(setIsTransactionListExpanded(false));
-    } else {
-      dispatch(setIsTransactionListExpanded(true));
-    }
-  };
+  const toggleTransactionsList = () =>
+    dispatch(setIsTransactionListExpanded(!isTransactionListExpanded));
 
   useEffect(() => {
     if (transactionsList?.length === 0) {

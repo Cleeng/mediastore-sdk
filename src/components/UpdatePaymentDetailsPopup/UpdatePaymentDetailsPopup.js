@@ -85,9 +85,6 @@ const UpdatePaymentDetailsPopup = () => {
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
     false
   );
-  const updatePaymentDetailsSection = () => {
-    dispatch(fetchPaymentDetails());
-  };
   const selectPaymentMethodHandler = paymentMethodName => {
     if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = paymentMethods.find(
@@ -188,7 +185,7 @@ const UpdatePaymentDetailsPopup = () => {
       })
       .finally(() => {
         setIsActionHandlingProcessing(false);
-        updatePaymentDetailsSection();
+        dispatch(fetchPaymentDetails());
       });
   };
 
@@ -232,7 +229,7 @@ const UpdatePaymentDetailsPopup = () => {
         step: PAYMENT_DETAILS_STEPS.SUCCESS
       })
     );
-    updatePaymentDetailsSection();
+    dispatch(fetchPaymentDetails());
   };
 
   const getDropIn = drop => {
