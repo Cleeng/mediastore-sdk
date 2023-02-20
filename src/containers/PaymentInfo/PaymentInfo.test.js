@@ -25,11 +25,11 @@ const store = (isOpen = false) => ({
     loading: false
   },
   transactions: {
-    transactionsList: [],
-    transactionsError: [],
+    transactions: [],
+    error: [],
     showToggleButton: false,
-    isTransactionsSectionLoading: false,
-    isTransactionListExpanded: false
+    loading: false,
+    isListExpanded: false
   },
   publisherConfig: {
     displayGracePeriodError: true,

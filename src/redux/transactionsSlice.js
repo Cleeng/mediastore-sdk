@@ -4,11 +4,11 @@ import { listCustomerTransactions } from 'api';
 export const DEFAULT_TRANSACTIONS_NUMBER = 3;
 
 const initialState = {
-  transactionsList: [],
-  transactionsError: [],
+  transactions: [],
+  error: [],
   showToggleButton: false,
-  isTransactionsSectionLoading: false,
-  isTransactionListExpanded: false
+  loading: false,
+  isListExpanded: false
 };
 
 export const fetchListCustomerTransactions = createAsyncThunk(
@@ -28,22 +28,22 @@ export const transactionsSlice = createSlice({
   initialState,
   reducers: {
     setIsTransactionListExpanded(state, { payload }) {
-      state.isTransactionListExpanded = payload;
+      state.isListExpanded = payload;
     }
   },
   extraReducers: {
     [fetchListCustomerTransactions.pending]: state => {
-      state.isTransactionsSectionLoading = true;
+      state.loading = true;
     },
     [fetchListCustomerTransactions.fulfilled]: (state, { payload }) => {
-      state.isTransactionsSectionLoading = false;
-      state.transactionsList = payload.items;
+      state.loading = false;
+      state.transactions = payload.items;
       state.showToggleButton =
         payload.items.length > DEFAULT_TRANSACTIONS_NUMBER;
     },
     [fetchListCustomerTransactions.rejected]: (state, { payload }) => {
-      state.isTransactionsSectionLoading = false;
-      state.transactionsError = payload;
+      state.loading = false;
+      state.error = payload;
     }
   }
 });
