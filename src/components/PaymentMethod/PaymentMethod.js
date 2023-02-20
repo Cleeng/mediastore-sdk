@@ -47,46 +47,52 @@ const PaymentMethod = () => {
     }
   }, []);
 
-  return paymentDetailsLoading ? (
-    <CardsWrapper numberOfItems={1}>
-      <PaymentCard isDataLoaded={false} />
-    </CardsWrapper>
-  ) : (
-    <WrapStyled>
-      {paymentDetailsError.length !== 0 ? (
+  if (paymentDetailsLoading)
+    return (
+      <CardsWrapper numberOfItems={1}>
+        <PaymentCard isDataLoaded={false} />
+      </CardsWrapper>
+    );
+
+  if (paymentDetailsError.length !== 0)
+    return (
+      <WrapStyled>
         <MyAccountError generalError />
-      ) : (
-        <CardsWrapper
-          numberOfItems={
-            !activeItems
-              ? activeOrBoundPaymentDetails.length + 1
-              : activeOrBoundPaymentDetails.length
-          }
-        >
-          {activeOrBoundPaymentDetails.map(paymentDetail =>
-            renderPaymentMethodItem(paymentDetail)
-          )}
-          {!activeItems && (
-            <MyAccountError
-              icon={AddIcon}
-              title={t('Add a payment method!')}
-              subtitle={t('Set up a new payment method for your account')}
-              withBorder
-              onClick={() =>
-                dispatch(
-                  updatePaymentDetailsPopup({
-                    isOpen: true,
-                    isLoading: false,
-                    step: PAYMENT_DETAILS_STEPS.PAYMENT_DETAILS_UPDATE
-                  })
-                )
-              }
-              direction="row"
-              fullWidth
-            />
-          )}
-        </CardsWrapper>
-      )}
+      </WrapStyled>
+    );
+
+  return (
+    <WrapStyled>
+      <CardsWrapper
+        numberOfItems={
+          !activeItems
+            ? activeOrBoundPaymentDetails.length + 1
+            : activeOrBoundPaymentDetails.length
+        }
+      >
+        {activeOrBoundPaymentDetails.map(paymentDetail =>
+          renderPaymentMethodItem(paymentDetail)
+        )}
+        {!activeItems && (
+          <MyAccountError
+            icon={AddIcon}
+            title={t('Add a payment method!')}
+            subtitle={t('Set up a new payment method for your account')}
+            withBorder
+            onClick={() =>
+              dispatch(
+                updatePaymentDetailsPopup({
+                  isOpen: true,
+                  isLoading: false,
+                  step: PAYMENT_DETAILS_STEPS.PAYMENT_DETAILS_UPDATE
+                })
+              )
+            }
+            direction="row"
+            fullWidth
+          />
+        )}
+      </CardsWrapper>
     </WrapStyled>
   );
 };

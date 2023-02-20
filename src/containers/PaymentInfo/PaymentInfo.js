@@ -15,7 +15,7 @@ import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentD
 import { updatePaymentDetailsPopup } from 'redux/popupSlice';
 import { WrapStyled } from './PaymentInfoStyled';
 
-const PaymentInfoFn = ({
+const PaymentInfo = ({
   adyenConfiguration: adyenConfigurationProp,
   t,
   displayGracePeriodError
@@ -26,7 +26,9 @@ const PaymentInfoFn = ({
     state => state.publisherConfig
   );
 
-  const popupManager = useSelector(state => state.popupManager);
+  const { paymentDetails: paymentDetailsPopup } = useSelector(
+    state => state.popupManager
+  );
 
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
@@ -49,7 +51,7 @@ const PaymentInfoFn = ({
   return (
     <WrapStyled>
       <GracePeriodError />
-      {popupManager.paymentDetails.isOpen ? (
+      {paymentDetailsPopup.isOpen ? (
         <div data-testid="payment-info__update-payment-details-popup">
           <UpdatePaymentDetailsPopup />
         </div>
@@ -65,18 +67,18 @@ const PaymentInfoFn = ({
   );
 };
 
-PaymentInfoFn.propTypes = {
+PaymentInfo.propTypes = {
   adyenConfiguration: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func,
   displayGracePeriodError: PropTypes.bool
 };
 
-PaymentInfoFn.defaultProps = {
+PaymentInfo.defaultProps = {
   adyenConfiguration: null,
   t: k => k,
   displayGracePeriodError: null
 };
 
 export default withTranslation()(
-  labeling()(withAddPaymentDetailsFinalizationHandler(PaymentInfoFn))
+  labeling()(withAddPaymentDetailsFinalizationHandler(PaymentInfo))
 );
