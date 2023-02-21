@@ -106,6 +106,14 @@ const AdyenStyled = styled.div.attrs(() => ({
   .adyen-checkout__payment-method__radio--selected {
     background-color: ${ConfirmColor};
   }
+  .adyen__legal-copy {
+    font-size: 11px;
+    margin-top: 20px;
+    line-height: 17px;
+    font-weight: 400;
+    color: #7b849d;
+    text-align: center;
+  }
   ${({ isAdditionalPayment }) =>
     isAdditionalPayment &&
     css`
