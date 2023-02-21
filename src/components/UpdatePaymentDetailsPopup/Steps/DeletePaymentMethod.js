@@ -33,10 +33,6 @@ const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
-  const updatePaymentDetailsSection = () => {
-    dispatch(fetchPaymentDetails());
-  };
-
   const { activeOrBoundPaymentDetails } = useSelector(
     state => state.paymentDetails
   );
@@ -57,7 +53,7 @@ const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
           dispatch(
             updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.SUCCESS })
           );
-          updatePaymentDetailsSection();
+          dispatch(fetchPaymentDetails());
         } else {
           setIsButtonLoading(false);
           setIsError(true);

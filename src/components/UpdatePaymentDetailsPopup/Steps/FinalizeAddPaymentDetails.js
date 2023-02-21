@@ -17,10 +17,6 @@ const FinalizeAddPaymentDetails = () => {
   );
   const dispatch = useDispatch();
 
-  const updatePaymentDetailsSection = () => {
-    dispatch(fetchPaymentDetails());
-  };
-
   const submitRedirectResult = async () => {
     dispatch(
       fetchFinalizeAddPaymentDetails({
@@ -36,7 +32,7 @@ const FinalizeAddPaymentDetails = () => {
             isLoading: false
           })
         );
-        updatePaymentDetailsSection();
+        dispatch(fetchPaymentDetails());
       })
       .catch(() => {
         dispatch(
