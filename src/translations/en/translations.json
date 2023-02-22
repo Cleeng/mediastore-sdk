@@ -341,7 +341,7 @@
   "offer-card.cancel-pause-button": "Cancel pause",
   "cancel-pause-popup.title": "Cancel pause",
   "cancel-pause-popup.confirm-button-text": "Cancel pause",
-  "cancel-pause-popup.information-text":  "The subscription pause will take effect on  {{baseOfferExpirationDate}}. Are you sure you want to cancel the scheduled pause and resume your subscription? If you resume your plan, you will be charged {{baseOfferPrice}} on the next billing date.",
+  "cancel-pause-popup.information-text": "The subscription pause will take effect on  {{baseOfferExpirationDate}}. Are you sure you want to cancel the scheduled pause and resume your subscription? If you resume your plan, you will be charged {{baseOfferPrice}} on the next billing date.",
   "cancel-pause-popup.confirmation-title": "Pause canceled",
   "cancel-pause-popup.confirmation-text": "You have successfully canceled subscription pause.",
   "offer-card.info-box.pause-information-text": "Your current plan will be paused starting on {{subscriptionExpirationDate}}. During the subscription pause period, you will not be charged. You can cancel the scheduled pause anytime.",
@@ -393,5 +393,6 @@
   "update-payment-details.refused": "We weren’t able to update your payment method. Please try again.",
   "update-payment-details.error": "We weren’t able to update your payment details. Please try again using different payment method.",
   "legal-notes-acknowledge": "By clicking 'Complete Purchase' above, I expressly acknowledge and agree to the above terms as well as the full <2>Terms of Service</2>.",
-  "unsubscribe-info": "If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of {{ formattedExpiresAt }}. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving."
+  "unsubscribe-info": "If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of {{ formattedExpiresAt }}. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.",
+  "subscription-management.resume-button": "Resume subscription"
 }

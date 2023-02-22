@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Button from 'components/Button';
 import { currencyFormat } from 'util/planHelper';
 
+import { useSelector } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { applyCoupon } from 'api';
@@ -34,6 +35,8 @@ const SubscriptionManagement = ({
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [couponValue, setCouponValue] = useState('');
+  const { pauseOffersIDs } = useSelector(store => store.offers);
+  const isPaused = pauseOffersIDs.includes(subscription.offerId);
 
   const submitCoupon = subscriptionId => {
     if (couponValue) {
@@ -173,7 +176,7 @@ const SubscriptionManagement = ({
               {t('Resume')}
             </FullWidthButtonStyled>
           )}
-          {subscription.status !== 'cancelled' && (
+          {subscription.status !== 'cancelled' && !isPaused && (
             <CouponWrapStyled>
               <CouponInput
                 couponDetails={{
@@ -192,6 +195,20 @@ const SubscriptionManagement = ({
                 source="myaccount"
               />
             </CouponWrapStyled>
+          )}
+          {isPaused && (
+            <SimpleButtonStyled
+              theme="primary"
+              onClickFn={event => {
+                event.stopPropagation();
+                console.log('Resume subscription');
+              }}
+            >
+              {t(
+                'subscription-management.resume-button',
+                'Resume subscription'
+              )}
+            </SimpleButtonStyled>
           )}
         </WrapperStyled>
       </SubscriptionActionsStyled>
