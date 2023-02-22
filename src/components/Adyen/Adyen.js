@@ -16,7 +16,6 @@ import {
   getGooglePayEnv
 } from './util/getAdyenConfig';
 import defaultAdyenTranslations from './util/defaultAdyenTranslations';
-import waitForEl from './util/waitForElement';
 
 const Adyen = ({
   onSubmit,
@@ -145,14 +144,6 @@ const Adyen = ({
 
   useEffect(() => {
     createSession();
-
-    waitForEl('.adyen-checkout__button').then(btn => {
-      const legalCopy = document.createElement('p');
-      legalCopy.textContent +=
-        "By clicking 'Complete Purchase' above, I expressly acknowledge and agree to the above terms as well as the full Terms of Service.";
-      legalCopy.classList.add('adyen__legal-copy');
-      btn.parentNode.insertBefore(legalCopy, btn);
-    });
   }, []);
 
   useEffect(() => {
