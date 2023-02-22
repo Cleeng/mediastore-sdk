@@ -6,6 +6,7 @@ export const WrapperStyled = styled.div.attrs(() => ({
   className: 'msd__subscription-card__icon'
 }))`
   display: flex;
+  justify-content: center;
   position: relative;
   padding: 10px;
   margin-right: 10px;
