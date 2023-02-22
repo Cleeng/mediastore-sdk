@@ -1,5 +1,4 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import paymentInfoReducer from './paymentInfo';
 import paymentDetailsReducer from './planDetails';
 import userProfileReducer from './userProfile';
 import popupReducer from './popup';
@@ -19,7 +18,6 @@ import paymentDetailsSliceReducer from './paymentDetailsSlice';
 import transactionsReducer from './transactionsSlice';
 
 const rootReducer = combineReducers({
-  paymentInfo: paymentInfoReducer,
   planDetails: paymentDetailsReducer,
   userProfile: userProfileReducer,
   popup: popupReducer,
