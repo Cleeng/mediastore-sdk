@@ -18,8 +18,8 @@ const PaymentMethod = () => {
 
   const {
     paymentDetails,
-    error: paymentDetailsError,
-    loading: paymentDetailsLoading,
+    error,
+    loading,
     activeOrBoundPaymentDetails
   } = useSelector(state => state.paymentDetails);
 
@@ -47,14 +47,14 @@ const PaymentMethod = () => {
     }
   }, []);
 
-  if (paymentDetailsLoading)
+  if (loading)
     return (
       <CardsWrapper numberOfItems={1}>
         <PaymentCard isDataLoaded={false} />
       </CardsWrapper>
     );
 
-  if (paymentDetailsError.length !== 0)
+  if (error.length !== 0)
     return (
       <WrapStyled>
         <MyAccountError generalError />

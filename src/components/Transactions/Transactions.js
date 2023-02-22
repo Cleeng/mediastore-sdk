@@ -63,37 +63,35 @@ const TransactionsSkeleton = () => (
 
 const Transactions = ({ t }) => {
   const {
-    transactions: transactionsList,
+    transactions,
     showToggleButton,
-    error: transactionsError,
-    loading: isTransactionsSectionLoading,
-    isListExpanded: isTransactionListExpanded
+    error,
+    loading,
+    isListExpanded
   } = useSelector(state => state.transactions);
 
-  const transactionsToShow = isTransactionListExpanded
-    ? transactionsList
-    : transactionsList.slice(0, DEFAULT_TRANSACTIONS_NUMBER);
+  const transactionsToShow = isListExpanded
+    ? transactions
+    : transactions.slice(0, DEFAULT_TRANSACTIONS_NUMBER);
 
   const dispatch = useDispatch();
 
-  const toggleTransactionsList = () => dispatch(toggleTransactionList());
-
   useEffect(() => {
-    if (transactionsList?.length === 0) {
+    if (transactions?.length === 0) {
       dispatch(fetchListCustomerTransactions());
     }
   }, []);
 
-  if (isTransactionsSectionLoading) return <TransactionsSkeleton />;
+  if (loading) return <TransactionsSkeleton />;
 
-  if (transactionsError.length !== 0)
+  if (error.length !== 0)
     return (
       <WrapStyled>
         <MyAccountError generalError />
       </WrapStyled>
     );
 
-  if (transactionsList.length === 0)
+  if (transactions.length === 0)
     return (
       <WrapStyled>
         <MyAccountError
@@ -110,7 +108,7 @@ const Transactions = ({ t }) => {
     <WrapStyled>
       <Card withBorder>
         <TransactionListStyled
-          isExpanded={isTransactionListExpanded}
+          isExpanded={isListExpanded}
           length={transactionsToShow.length}
         >
           {transactionsToShow.map(
@@ -155,12 +153,12 @@ const Transactions = ({ t }) => {
             theme="primary"
             margin="20px 0 0 auto"
             width="unset"
-            label={isTransactionListExpanded ? t('Show less') : t('Show more')}
-            onClickFn={() => toggleTransactionsList()}
+            label={isListExpanded ? t('Show less') : t('Show more')}
+            onClickFn={() => dispatch(toggleTransactionList())}
             padding="12px 33px 12px 20px"
           >
-            <ButtonTextStyled isExpanded={isTransactionListExpanded}>
-              {isTransactionListExpanded ? t('Show less') : t('Show more')}
+            <ButtonTextStyled isExpanded={isListExpanded}>
+              {isListExpanded ? t('Show less') : t('Show more')}
             </ButtonTextStyled>
           </Button>
         )}
