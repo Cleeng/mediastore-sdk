@@ -10,6 +10,7 @@ import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
 import PauseSubscriptionPopup from 'components/PauseSubscriptionPopup';
+import ResumeSubscriptionPopup from 'components/ResumeSubscriptionPopup';
 import CancelSwitchPopup from 'components/CancelSwitchPopup';
 import CancelPausePopup from 'components/CancelPausePopup';
 import getSwitch from 'api/Customer/getSwitch';
@@ -40,6 +41,7 @@ const PlanDetails = ({
   const [isErrorCurrentPlan, setIsErrorCurrentPlan] = useState([]);
   const [isErrorChangePlan, setIsErrorChangePlan] = useState([]);
   const { offers } = useSelector(state => state.offers);
+  const { pauseOffersIDs } = useSelector(store => store.offers);
   const didMount = useRef(false);
   const dispatch = useDispatch();
 
@@ -199,6 +201,17 @@ const PlanDetails = ({
             setSwitchDetails={setSwitchDetails}
           />
         );
+      case 'resumeSubscription':
+        return (
+          <ResumeSubscriptionPopup
+            showInnerPopup={showInnerPopup}
+            toOffer={innerPopup.data.offerData}
+            fromOffer={planDetails.offerToSwitch}
+            hideInnerPopup={hideInnerPopup}
+            updateList={updateList}
+            isPartOfCancellationFlow={innerPopup.data.isPartOfCancellationFlow}
+          />
+        );
       default:
         return <></>;
     }
@@ -206,6 +219,10 @@ const PlanDetails = ({
 
   const activeSubscriptions = planDetails.currentPlan.filter(
     offer => offer.status === 'active' && offer.offerType === 'S'
+  );
+
+  const isPauseActive = pauseOffersIDs.includes(
+    planDetails.offerToSwitch.offerId
   );
 
   return (
@@ -226,7 +243,7 @@ const PlanDetails = ({
             updateList={updateList}
             switchDetails={planDetails.switchDetails}
           />
-          {activeSubscriptions.length !== 0 && (
+          {activeSubscriptions.length !== 0 && !isPauseActive && (
             <>
               <SectionHeader>{t('Change Plan')}</SectionHeader>
               <SubscriptionSwitchesList

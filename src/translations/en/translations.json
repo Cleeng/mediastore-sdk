@@ -394,5 +394,16 @@
   "update-payment-details.error": "We weren’t able to update your payment details. Please try again using different payment method.",
   "legal-notes-acknowledge": "By clicking 'Complete Purchase' above, I expressly acknowledge and agree to the above terms as well as the full <2>Terms of Service</2>.",
   "unsubscribe-info": "If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of {{ formattedExpiresAt }}. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.",
-  "subscription-management.resume-button": "Resume subscription"
+  "subscription-management.resume-button": "Resume subscription",
+  "resume-subscription-popup.title": "Resume plan",
+  "resume-subscription-popup.error-header": "An error occurred.",
+  "resume-subscription-popup.error-text": "We have been unable to resume your plan as an error occurred. Sorry for the inconvenience, please try again.",
+  "resume-subscription-popup.error-back-button": "Back to My Account",
+  "resume-subscription-popup.header": "Resume your subscription",
+  "resume-subscription-popup.info": "You are about to resume your plan <strong>{{ planName }}</strong>. You will be charged <strong>{{ currency }}{{ price }}</strong> on the next billing date.",
+  "resume-subscription-popup.question": "Do you want to apply the change now?",
+  "resume-subscription-popup.confirm-button-text": "Resume subscription",
+  "resume-subscription-popup.back-button-text": "Continue Pause",
+  "resume-subscription-popup.success-header": "Thank you!",
+  "resume-subscription-popup.success-text": "You have successfully resumed your plan <strong>{{ planName }}.</strong>"
 }

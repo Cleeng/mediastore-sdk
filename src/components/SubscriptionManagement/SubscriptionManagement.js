@@ -29,13 +29,14 @@ const SubscriptionManagement = ({
   setOfferToSwitch,
   t
 }) => {
+  const { pauseOffersIDs } = useSelector(store => store.offers);
+  const { switchSettings } = useSelector(store => store.planDetails);
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isCouponInputOpened, setIsCouponInputOpened] = useState(false);
   const [isError, setIsError] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [couponValue, setCouponValue] = useState('');
-  const { pauseOffersIDs } = useSelector(store => store.offers);
   const isPaused = pauseOffersIDs.includes(subscription.offerId);
 
   const submitCoupon = subscriptionId => {
@@ -201,7 +202,14 @@ const SubscriptionManagement = ({
               theme="primary"
               onClickFn={event => {
                 event.stopPropagation();
-                console.log('Resume subscription');
+                showInnerPopup({
+                  type: POPUP_TYPES.resumeSubscription,
+                  data: {
+                    offerData: {
+                      ...switchSettings[subscription?.offerId].available[0]
+                    }
+                  }
+                });
               }}
             >
               {t(
