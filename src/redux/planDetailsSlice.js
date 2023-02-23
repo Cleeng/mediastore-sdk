@@ -9,7 +9,7 @@ const initialState = {
 
 export const fetchCustomerOffers = createAsyncThunk(
   'plan/fetchCustomerOffers',
-  async (arg, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const { items } = await getCustomerOffers();
       return items;

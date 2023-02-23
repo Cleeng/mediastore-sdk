@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Button from 'components/Button';
@@ -36,6 +35,7 @@ import eventDispatcher, {
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import DropInSection from 'components/Payment/DropInSection/DropInSection';
 import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
+import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
 import {
   RemoveLinkStyled,
   DeleteIconStyled,
@@ -60,7 +60,7 @@ const PaymentMethodIcons = {
   roku: RokuIcon
 };
 
-const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
+const UpdatePaymentDetailsPopup = () => {
   const STEPS_NUMBERS = {
     PAYMENT_DETAILS_UPDATE: 1,
     FINALIZE_ADYEN: 2,
@@ -77,7 +77,7 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
   const { t } = useTranslation();
   const [dropInInstance, setDropInInstance] = useState(null);
   const { paymentMethods } = useSelector(state => state.publisherConfig);
-  const { paymentDetails } = useSelector(state => state.paymentInfo);
+  const { paymentDetails } = useSelector(state => state.paymentDetails);
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
   const { loading: isFinalizeAddPaymentDetailsLoading } = useSelector(
     state => state.finalizeAddPaymentDetails
@@ -185,7 +185,7 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
       })
       .finally(() => {
         setIsActionHandlingProcessing(false);
-        updatePaymentDetailsSection();
+        dispatch(fetchPaymentDetails());
       });
   };
 
@@ -229,7 +229,7 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
         step: PAYMENT_DETAILS_STEPS.SUCCESS
       })
     );
-    updatePaymentDetailsSection();
+    dispatch(fetchPaymentDetails());
   };
 
   const getDropIn = drop => {
@@ -271,9 +271,7 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
         currentStep={STEPS_NUMBERS[step]}
         popupTitle={t('Update payment details')}
       >
-        <DeletePaymentMethod
-          updatePaymentDetailsSection={updatePaymentDetailsSection}
-        />
+        <DeletePaymentMethod />
       </InnerPopupWrapper>
     );
   }
@@ -287,9 +285,7 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
         popupTitle={t('Update payment details')}
       >
         <ContentStyled>
-          <FinalizeAddPaymentDetails
-            updatePaymentDetailsSection={updatePaymentDetailsSection}
-          />
+          <FinalizeAddPaymentDetails />
         </ContentStyled>
       </InnerPopupWrapper>
     );
@@ -411,14 +407,6 @@ const UpdatePaymentDetailsPopup = ({ updatePaymentDetailsSection }) => {
       </WarningMessageStyled>
     </InnerPopupWrapper>
   );
-};
-
-UpdatePaymentDetailsPopup.propTypes = {
-  updatePaymentDetailsSection: PropTypes.func
-};
-
-UpdatePaymentDetailsPopup.defaultProps = {
-  updatePaymentDetailsSection: () => {}
 };
 
 export default UpdatePaymentDetailsPopup;
