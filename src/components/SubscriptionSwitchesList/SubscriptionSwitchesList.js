@@ -5,10 +5,7 @@ import { useSelector } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
-import {
-  WrapperStyled,
-  SimpleButtonStyled
-} from 'components/SubscriptionManagement/SubscriptionManagementStyled';
+import { SimpleButtonStyled } from 'components/SubscriptionManagement/SubscriptionManagementStyled';
 import OfferCard from 'components/OfferCard';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
@@ -17,6 +14,7 @@ import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { periodMapper } from 'util/planHelper';
 import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
+import { ButtonWrapperStyled } from './SubscriptionSwitchesListStyled';
 import mapErrorToText from './helper';
 
 const SubscriptionSwitchesList = ({
@@ -135,7 +133,7 @@ const SubscriptionSwitchesList = ({
                 price={Math.round(price * 100) / 100}
                 offerId={subItem.toOfferId}
               />
-              <WrapperStyled>
+              <ButtonWrapperStyled>
                 <SimpleButtonStyled
                   onClickFn={() => {
                     window.dispatchEvent(
@@ -160,7 +158,7 @@ const SubscriptionSwitchesList = ({
                 >
                   {subItem.switchDirection}
                 </SimpleButtonStyled>
-              </WrapperStyled>
+              </ButtonWrapperStyled>
             </SubscriptionStyled>
           );
         })}
