@@ -206,7 +206,7 @@ const SubscriptionManagement = ({
                   type: POPUP_TYPES.resumeSubscription,
                   data: {
                     offerData: {
-                      ...switchSettings[subscription?.offerId].unavailable[0]
+                      ...switchSettings[subscription?.offerId].available[0]
                     }
                   }
                 });
