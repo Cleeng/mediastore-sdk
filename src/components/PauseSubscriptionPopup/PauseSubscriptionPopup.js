@@ -10,7 +10,7 @@ import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 import { ReactComponent as Close } from 'assets/images/errors/close.svg';
-import { periodMapper, dateFormat, currencyFormat } from 'util/planHelper';
+import { dateFormat, currencyFormat } from 'util/planHelper';
 import eventDispatcher, {
   MSSDK_SWITCH_POPUP_ACTION_SUCCESSFUL,
   MSSDK_SWITCH_POPUP_ACTION_FAILED
@@ -136,7 +136,6 @@ const PauseSubscriptionPopup = ({
     );
   }
 
-  const pausePeriod = periodMapper[toOffer.period].chargedForEveryText;
   const currencySymbol = currencyFormat[fromOffer.nextPaymentCurrency];
   const currentPrice = formatNumber(fromOffer.nextPaymentPrice);
   const pauseStartingDate = dateFormat(fromOffer.expiresAt);
@@ -164,11 +163,11 @@ const PauseSubscriptionPopup = ({
             </TitleStyled>
             <TextStyled>
               <Trans i18nKey="pausesubscriptionpopup-info">
-                Your subscription will be paused for {{ pausePeriod }} starting{' '}
+                Your subscription will be paused starting{' '}
                 <strong>{{ pauseStartingDate }}</strong>. During the
                 subscription pause period, you will not be charged. Your
-                subscription will be automatically resumed after a{' '}
-                {{ pausePeriod }} and you will continue to be charged{' '}
+                subscription will be automatically resumed at the beginning of
+                the next season and you will continue to be charged{' '}
                 <strong>
                   {{ currencySymbol }}
                   {{ currentPrice }}

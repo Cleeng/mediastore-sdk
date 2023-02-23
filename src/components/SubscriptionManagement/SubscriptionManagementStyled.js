@@ -87,7 +87,7 @@ export const SimpleButtonStyled = styled(Button).attrs(() => ({
   }
   ${mediaFrom.small &&
     css`
-      margin: 0 0 0 auto;
+      margin: 0;
       width: unset;
       max-width: unset;
     `}
