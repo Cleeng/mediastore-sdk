@@ -1,5 +1,4 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import paymentInfoReducer from './paymentInfo';
 import paymentDetailsReducer from './planDetails';
 import userProfileReducer from './userProfile';
 import popupReducer from './popup';
@@ -16,9 +15,10 @@ import popupManagerReducer from './popupSlice';
 import myaccountReducer from './myaccountSlice';
 import planDetailsReducer from './planDetailsSlice';
 import offersReducer from './offersSlice';
+import paymentDetailsSliceReducer from './paymentDetailsSlice';
+import transactionsReducer from './transactionsSlice';
 
 const rootReducer = combineReducers({
-  paymentInfo: paymentInfoReducer,
   planDetails: paymentDetailsReducer,
   userProfile: userProfileReducer,
   popup: popupReducer,
@@ -34,7 +34,9 @@ const rootReducer = combineReducers({
   myaccount: myaccountReducer,
   finalizeInitialPayment: finalizeInitialPaymentReducer,
   plan: planDetailsReducer,
-  offers: offersReducer
+  offers: offersReducer,
+  paymentDetails: paymentDetailsSliceReducer,
+  transactions: transactionsReducer
 });
 
 export default (state, action) =>
