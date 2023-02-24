@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from 'components/Checkbox';
-import { getConsents as fetchConsents } from 'api';
 import Loader from 'components/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchConsents, setChecked } from 'redux/consentsSlice';
 import {
   ConsentsWrapperStyled,
   ConsentsErrorStyled,
@@ -14,68 +15,33 @@ import {
 const regexHrefOpenTag = new RegExp(/<a(.|\n)*?>/);
 const regexHrefCloseTag = new RegExp(/<\/a(.|\n)*?>/);
 
-const Consents = ({
-  publisherId,
-  error,
-  disabledRegisterButton,
-  onChangeFn,
-  t
-}) => {
-  const [consentDefinitions, setConsentDefinitions] = useState([]);
-  const [checked, setChecked] = useState([]);
-  const [consentsLabels, setConsentsLabels] = useState([]);
-  const [consentLoaded, setConsentLoaded] = useState(false);
-  const [generalError, setGeneralError] = useState('');
+const Consents = ({ publisherId, error, onChangeFn, t }) => {
+  const {
+    definitions: consentDefinitions,
+    labels,
+    checked,
+    loading,
+    error: generalError
+  } = useSelector(state => state.consents);
 
-  const getConsents = async pubId => {
-    try {
-      const consentsIncome = await fetchConsents(pubId);
-      if (consentsIncome.responseData && consentsIncome.responseData.consents) {
-        const consentsDetails = consentsIncome.responseData.consents.map(
-          element => {
-            return {
-              name: element.name,
-              version: element.version,
-              required: element.required
-            };
-          }
-        );
-        const labels = consentsIncome.responseData.consents.map(
-          element => element.label
-        );
-        const initArray = new Array(consentsDetails.length).fill(false);
-        setConsentDefinitions(consentsDetails);
-        setConsentLoaded(true);
-        setConsentsLabels(labels);
-        setChecked(initArray);
-      } else if (consentsIncome.errors.includes('Invalid param pubId')) {
-        setConsentLoaded(true);
-        setGeneralError('noPublisherId');
-        disabledRegisterButton();
-      }
-    } catch (getConsentsError) {
-      return getConsentsError;
-    }
-    return false;
-  };
+  const dispatch = useDispatch();
 
   const validateConsents = () => {
     onChangeFn(checked, consentDefinitions);
   };
 
   useEffect(() => {
-    if (publisherId) {
-      getConsents(publisherId).then(() => {
+    async function getConsents() {
+      if (publisherId) {
+        await dispatch(fetchConsents(publisherId));
         validateConsents();
-      });
+      }
     }
+    getConsents();
   }, [publisherId]);
 
   const changeConsentState = consentID => {
-    if (consentDefinitions.length > 0) {
-      checked[consentID] = !checked[consentID];
-      setChecked(checked);
-    }
+    dispatch(setChecked(consentID));
     validateConsents();
   };
 
@@ -107,7 +73,7 @@ const Consents = ({
       </GeneralErrorStyled>
     );
   }
-  if (!consentLoaded) {
+  if (loading) {
     return (
       <ConsentsWrapperStyled>
         <Loader />
@@ -124,10 +90,10 @@ const Consents = ({
               onClickFn={() => changeConsentState(index)}
               checked={checked[index]}
               error={error}
-              key={consentsLabels[index]}
+              key={labels[index]}
               required={consent.required && !checked[index]}
             >
-              {consentsLabels[index]}
+              {labels[index]}
             </Checkbox>
           );
         })}
@@ -141,7 +107,6 @@ Consents.propTypes = {
   publisherId: PropTypes.string,
   error: PropTypes.string,
   onChangeFn: PropTypes.func,
-  disabledRegisterButton: PropTypes.func,
   t: PropTypes.func
 };
 
@@ -149,7 +114,6 @@ Consents.defaultProps = {
   publisherId: '',
   error: '',
   onChangeFn: () => {},
-  disabledRegisterButton: () => {},
   t: k => k
 };
 

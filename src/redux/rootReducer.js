@@ -16,6 +16,7 @@ import myaccountReducer from './myaccountSlice';
 import planDetailsReducer from './planDetailsSlice';
 import paymentDetailsSliceReducer from './paymentDetailsSlice';
 import transactionsReducer from './transactionsSlice';
+import consentsReducer from './consentsSlice';
 
 const rootReducer = combineReducers({
   planDetails: paymentDetailsReducer,
@@ -34,7 +35,8 @@ const rootReducer = combineReducers({
   finalizeInitialPayment: finalizeInitialPaymentReducer,
   plan: planDetailsReducer,
   paymentDetails: paymentDetailsSliceReducer,
-  transactions: transactionsReducer
+  transactions: transactionsReducer,
+  consents: consentsReducer
 });
 
 export default (state, action) =>
