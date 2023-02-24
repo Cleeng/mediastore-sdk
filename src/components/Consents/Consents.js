@@ -107,28 +107,31 @@ const Consents = ({
       </GeneralErrorStyled>
     );
   }
+  if (!consentLoaded) {
+    return (
+      <ConsentsWrapperStyled>
+        <Loader />
+      </ConsentsWrapperStyled>
+    );
+  }
   return (
     <ConsentsWrapperStyled>
-      {!consentLoaded ? (
-        <Loader />
-      ) : (
-        <FieldsetStyled>
-          <InvisibleLegend>Consents </InvisibleLegend>
-          {consentDefinitions.map((consent, index) => {
-            return (
-              <Checkbox
-                onClickFn={() => changeConsentState(index)}
-                checked={checked[index]}
-                error={error}
-                key={consentsLabels[index]}
-                required={consent.required && !checked[index]}
-              >
-                {consentsLabels[index]}
-              </Checkbox>
-            );
-          })}
-        </FieldsetStyled>
-      )}
+      <FieldsetStyled>
+        <InvisibleLegend>Consents </InvisibleLegend>
+        {consentDefinitions.map((consent, index) => {
+          return (
+            <Checkbox
+              onClickFn={() => changeConsentState(index)}
+              checked={checked[index]}
+              error={error}
+              key={consentsLabels[index]}
+              required={consent.required && !checked[index]}
+            >
+              {consentsLabels[index]}
+            </Checkbox>
+          );
+        })}
+      </FieldsetStyled>
       {error && <ConsentsErrorStyled>{error}</ConsentsErrorStyled>}
     </ConsentsWrapperStyled>
   );
