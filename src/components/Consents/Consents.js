@@ -15,7 +15,7 @@ import {
 const regexHrefOpenTag = new RegExp(/<a(.|\n)*?>/);
 const regexHrefCloseTag = new RegExp(/<\/a(.|\n)*?>/);
 
-const Consents = ({ publisherId, error, onChangeFn, t }) => {
+const Consents = ({ error, onChangeFn, t }) => {
   const {
     definitions: consentDefinitions,
     labels,
@@ -23,6 +23,7 @@ const Consents = ({ publisherId, error, onChangeFn, t }) => {
     loading,
     error: generalError
   } = useSelector(state => state.consents);
+  const { publisherId } = useSelector(state => state.publisherConfig);
 
   const dispatch = useDispatch();
 
@@ -103,14 +104,12 @@ const Consents = ({ publisherId, error, onChangeFn, t }) => {
 };
 
 Consents.propTypes = {
-  publisherId: PropTypes.string,
   error: PropTypes.string,
   onChangeFn: PropTypes.func,
   t: PropTypes.func
 };
 
 Consents.defaultProps = {
-  publisherId: '',
   error: '',
   onChangeFn: () => {},
   t: k => k

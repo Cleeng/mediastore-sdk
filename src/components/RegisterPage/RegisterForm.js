@@ -192,7 +192,7 @@ class RegisterForm extends Component {
       processing,
       consentError
     } = this.state;
-    const { publisherId, t } = this.props;
+    const { t } = this.props;
 
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
@@ -220,7 +220,6 @@ class RegisterForm extends Component {
         />
         <Consent
           t={t}
-          publisherId={publisherId}
           error={errors.consents}
           onChangeFn={this.handleConsentsChange}
         />
