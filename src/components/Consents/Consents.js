@@ -45,7 +45,6 @@ const Consents = ({ publisherId, error, onChangeFn, t }) => {
     validateConsents();
   };
 
-  // eslint-disable-next-line no-unused-vars
   const translateConsents = consentContent => {
     const openTagContent = regexHrefOpenTag.exec(consentContent);
     const closeTagContent = regexHrefCloseTag.exec(consentContent);
@@ -93,7 +92,7 @@ const Consents = ({ publisherId, error, onChangeFn, t }) => {
               key={labels[index]}
               required={consent.required && !checked[index]}
             >
-              {labels[index]}
+              {translateConsents(labels[index])}
             </Checkbox>
           );
         })}
