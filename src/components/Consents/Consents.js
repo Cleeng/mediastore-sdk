@@ -75,7 +75,7 @@ const Consents = ({ error, onChangeFn, t }) => {
   }
   if (loading) {
     return (
-      <ConsentsWrapperStyled>
+      <ConsentsWrapperStyled data-testid="consents__loader">
         <Loader />
       </ConsentsWrapperStyled>
     );
