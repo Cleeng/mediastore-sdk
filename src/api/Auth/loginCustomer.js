@@ -1,5 +1,4 @@
 import { fetchWithHeaders } from 'util/fetchHelper';
-import { sendMessage } from 'util/appConfigHelper';
 import getApiURL from 'util/environmentHelper';
 
 const loginCustomer = async (email, password, loginBy) => {
@@ -16,9 +15,6 @@ const loginCustomer = async (email, password, loginBy) => {
       })
     });
     const json = await resp.json();
-    sendMessage({
-      ...json.responseData
-    });
     return {
       status: resp.status,
       ...json

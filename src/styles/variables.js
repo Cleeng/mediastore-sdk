@@ -10,7 +10,7 @@ const {
   cardColor,
   primaryColor,
   secondaryColor
-} = getTheme() || {};
+} = (typeof getTheme === 'function' && getTheme()) || {};
 
 // My Account
 export const MyAccountBlue = '#031a6e';
@@ -20,7 +20,7 @@ export const MyAccountTextLightGray = '#F2F5FC';
 export const CardSecondaryColor = '#182c7a';
 export const MyAccountMenu = '#f2f5fc';
 export const MyAccountMenuActive = successColor || '#4EB7A1';
-export const PayPal = '#61AEF0';
+export const PayPal = '#ffc439';
 
 // Payment Methods
 export const paymentMethodColors = {
@@ -35,7 +35,6 @@ export const paymentMethodColors = {
   rokuMainColor: '#662C91',
   rokuSecondaryColor: '#7838A8'
 };
-
 // Common colors
 export const BackgroundColor = backgroundColor || '#F8FAFD';
 export const CardColor = cardColor || '#ffffff';
@@ -54,10 +53,13 @@ export const TextFieldBorderFilter =
 export const FocusColor = '#80b4ea';
 export const PaymentButtonBgn = '#00112c';
 
-export const Weak = '#ea753c';
-export const Fair = '#e7ca27';
-export const Good = '#5da3bd';
-export const Strong = '#5db98f';
+export const PasswordStrengthColors = {
+  Weak: '#ea753c',
+  Fair: '#e7ca27',
+  Good: '#5da3bd',
+  Strong: '#5db98f',
+  NotValid: '#CB4477'
+};
 
 // Fonts
 export const LargeFont = '25px';
@@ -70,3 +72,12 @@ export const MicroFont = '9px';
 export const BoldFont = '700';
 export const MediumFontWeight = '600';
 export const LightFont = '300';
+
+export const inputTheme = {
+  FontColor,
+  BackgroundColor,
+  ConfirmColor,
+  ErrorColor,
+  TextFieldBorderFilter,
+  PasswordStrengthColors
+};

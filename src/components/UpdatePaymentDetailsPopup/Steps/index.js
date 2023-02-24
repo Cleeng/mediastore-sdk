@@ -1,6 +1,6 @@
-import AddCard from './AddCard';
-import AddPayPal from './AddPayPal';
 import Success from './Success';
 import DeletePaymentMethod from './DeletePaymentMethod';
+import Error from './Error';
+import FinalizeAddPaymentDetails from './FinalizeAddPaymentDetails';
 
-export { AddCard, AddPayPal, Success, DeletePaymentMethod };
+export { Success, DeletePaymentMethod, Error, FinalizeAddPaymentDetails };

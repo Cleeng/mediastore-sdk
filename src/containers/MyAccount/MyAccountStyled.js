@@ -22,7 +22,6 @@ export const WrapperStyled = styled.div.attrs(() => ({
   ${mediaFrom.small`
     flex-direction: row;
     min-height: unset;
-    height: 700px;
 
     padding: 0;
   `}

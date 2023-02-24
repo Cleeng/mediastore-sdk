@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import * as colors from 'styles/variables';
-import { media } from 'styles/BreakPoints';
 
 export const PaymentStyled = styled.div.attrs(() => ({
   className: 'msd__payment'
@@ -12,62 +11,20 @@ export const PaymentStyled = styled.div.attrs(() => ({
   border-bottom: 1px solid ${colors.LineColor};
 `;
 
+export const PaymentWrapperStyled = styled.div.attrs(() => ({
+  className: 'msd__payment__wrapper'
+}))`
+  max-width: 375px;
+  margin: 12px auto 0 auto;
+`;
+
 export const PaymentErrorStyled = styled.div.attrs(() => ({
   className: 'msd__payment--error'
 }))`
   text-align: center;
   font-size: 15px;
   color: ${colors.ErrorColor};
-`;
-
-export const MethodsWrapperStyled = styled.div.attrs(() => ({
-  className: 'msd__payment__methods'
-}))`
-  margin-bottom: 50px;
-  font-size: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  align-items: center;
-  button {
-    flex-basis: 200px;
-    margin: 10px;
-
-    :not(:disabled):hover,
-    :active,
-    :focus {
-      background-color: ${colors.MediumGrey};
-    }
-  }
-  ${media.smallest`
-    button{
-      flex-basis: 100%;
-    }
-  `}
-`;
-
-export const PayPalWrapperStyled = styled.div.attrs(() => ({
-  className: 'msd__payment__paypal'
-}))`
-  height: 180px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const PayPalTextStyled = styled.p.attrs(() => ({
-  className: 'msd__payment__paypal-text'
-}))`
-  max-width: 550px;
-  margin-bottom: 20px;
-  text-align: center;
-  line-height: 1.4em;
-  font-size: 13px;
-  ${media.small`
-    width: 90%;
-    max-width: 400px;
-  `}
+  margin: 30px auto;
 `;
 
 export const LegalNoteWrapperStyled = styled.div.attrs(() => ({
@@ -80,6 +37,7 @@ export const LegalNoteWrapperStyled = styled.div.attrs(() => ({
 
 export const LegalTextStyled = styled.p`
   font-size: 11px;
+  margin-bottom: 12px;
   line-height: 17px;
   font-weight: 400;
   color: ${colors.MyAccountTextGray};

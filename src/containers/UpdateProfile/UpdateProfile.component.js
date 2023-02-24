@@ -12,6 +12,7 @@ import MyAccountConsents from 'components/MyAccountConsents';
 import EditPassword from 'components/EditPassword/EditPassword';
 import AdditionalProfileInfo from 'components/AdditionalProfileInfo';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
+import GracePeriodError from 'components/GracePeriodError';
 import WrapStyled from './UpdateProfileStyled';
 
 class UpdateProfile extends Component {
@@ -26,7 +27,14 @@ class UpdateProfile extends Component {
   }
 
   componentDidMount() {
-    const { userProfile, setCurrentUser, setUserCapture, t } = this.props;
+    const {
+      userProfile,
+      setCurrentUser,
+      setUserCapture,
+      t,
+      initPublisherConfig,
+      displayGracePeriodError
+    } = this.props;
     if (!userProfile.user) {
       this.setState({
         isUserDetailsLoading: true
@@ -74,6 +82,10 @@ class UpdateProfile extends Component {
             isCaptureLoading: false
           });
         });
+    }
+
+    if (displayGracePeriodError !== null) {
+      initPublisherConfig({ displayGracePeriodError });
     }
   }
 
@@ -126,6 +138,7 @@ class UpdateProfile extends Component {
         : null;
     return (
       <WrapStyled>
+        <GracePeriodError />
         {innerPopup.isOpen && innerPopup.type === 'editPassword' ? (
           <>
             <EditPassword
@@ -224,13 +237,16 @@ UpdateProfile.propTypes = {
     type: PropTypes.string,
     data: PropTypes.object
   }).isRequired,
-  t: PropTypes.func
+  t: PropTypes.func,
+  displayGracePeriodError: PropTypes.bool,
+  initPublisherConfig: PropTypes.func.isRequired
 };
 
 UpdateProfile.defaultProps = {
   userProfile: { user: null },
   consentsError: '',
-  t: k => k
+  t: k => k,
+  displayGracePeriodError: null
 };
 
 export { UpdateProfile as PureUpdateProfile };

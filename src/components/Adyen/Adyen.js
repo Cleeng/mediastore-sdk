@@ -1,161 +1,190 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import React, { Component } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'components/Button';
-import Loader from 'components/Loader';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import { FontColor } from 'styles/variables';
-import { getData } from 'util/appConfigHelper';
-import { AdyenStyled, ConfirmButtonStyled } from './AdyenStyled';
+import AdyenCheckout from '@adyen/adyen-web';
+import createPaymentSession from 'api/Payment/createPaymentSession';
+import useScript from 'util/useScriptHook';
+import { useSelector } from 'react-redux';
+import AdyenStyled from './AdyenStyled';
+import '@adyen/adyen-web/dist/adyen.css';
+import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
+import Loader from '../Loader';
+import {
+  getAdyenEnv,
+  getAdyenClientKey,
+  getGooglePayEnv
+} from './util/getAdyenConfig';
+import defaultAdyenTranslations from './util/defaultAdyenTranslations';
 
-const COMPONENT_CONTAINER_ID = 'component-container';
-const PAYMENT_METHOD_CARD = 'card';
+const Adyen = ({
+  onSubmit,
+  isMyAccount,
+  selectPaymentMethod,
+  isPayPalAvailable,
+  getDropIn,
+  onAdditionalDetails
+}) => {
+  const { discount } = useSelector(state => state.order.order);
+  const { adyenConfiguration } = useSelector(state => state.publisherConfig);
+  const [isLoading, setIsLoading] = useState(true);
+  const containerRef = useRef(null);
+  const [dropInInstance, setDropInInstance] = useState(null);
+  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
+  useScript('https://pay.google.com/gp/p/js/pay.js');
 
-class Adyen extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isLoaded: false
-    };
-  }
-
-  componentDidMount() {
-    if (window.AdyenCheckout === undefined) {
-      this.loadAdyenStylesheet()
-        .then(this.loadAdyenScript)
-        .then(this.renderCheckout)
-        .then(() => {
-          this.setState({
-            isLoaded: true
-          });
-        });
-    } else {
-      this.renderCheckout();
-      this.setState({
-        isLoaded: true
-      });
-    }
-  }
-
-  onError = e => {
+  const onError = e => {
     const { error, fieldType } = e;
-    window.dispatchEvent(
-      new CustomEvent('MSSDK:Adyen-error', {
-        detail: {
-          error,
-          fieldType
-        }
-      })
-    );
-  };
-
-  getAdyenEnv = () =>
-    getData('CLEENG_ENVIRONMENT') === 'production' ? 'live' : 'test';
-
-  loadAdyenStylesheet = () => {
-    const ADYEN_STYLESHEET_HREF = `https://checkoutshopper-${this.getAdyenEnv()}.adyen.com/checkoutshopper/sdk/3.11.4/adyen.css`;
-    return new Promise((resolve, reject) => {
-      const linkEl = document.createElement('link');
-      linkEl.onload = resolve;
-      linkEl.onerror = reject;
-      linkEl.rel = 'stylesheet';
-      linkEl.href = ADYEN_STYLESHEET_HREF;
-      document.body.append(linkEl);
+    eventDispatcher(MSSDK_ADYEN_ERROR, {
+      error,
+      fieldType
     });
   };
 
-  // we won't test chain loading resources from Adyen
-  /* istanbul ignore next */
-  loadAdyenScript = () => {
-    const ADYEN_SCRIPT_HREF = `https://checkoutshopper-${this.getAdyenEnv()}.adyen.com/checkoutshopper/sdk/3.10.1/adyen.js`;
-    return new Promise((resolve, reject) => {
-      const scriptEl = document.createElement('script');
-      scriptEl.onload = resolve;
-      scriptEl.onerror = reject;
-      scriptEl.src = ADYEN_SCRIPT_HREF;
-      document.body.append(scriptEl);
-    });
+  const onSelect = ({
+    data: {
+      paymentMethod: { type }
+    }
+  }) => {
+    if (type === 'scheme') {
+      selectPaymentMethod('card');
+      return;
+    }
+    selectPaymentMethod(type);
   };
 
-  renderCheckout = () => {
-    const { onSubmit, onChange } = this.props;
-    const configuration = {
-      showPayButton: false,
-      hasHolderName: true,
-      holderNameRequired: true,
-      environment: this.getAdyenEnv(),
-      clientKey:
-        this.getAdyenEnv() === 'live'
-          ? 'live_BQDOFBYTGZB3XKF62GBYSLPUJ4YW2TPL'
-          : 'test_I4OFGUUCEVB5TI222AS3N2Y2LY6PJM3K',
-      onSubmit,
-      onChange,
-      onError: this.onError
+  const createDropInInstance = async ({
+    id,
+    sessionData,
+    shopperStatement: merchantName,
+    amount,
+    countryCode,
+    paymentMethods
+  }) => {
+    const amountObj = {
+      amount,
+      countryCode
     };
+    const applePayConfigurationObj =
+      paymentMethods &&
+      paymentMethods.find(item => item.type === 'applepay')?.configuration;
+    const googlePayConfigurationObj =
+      paymentMethods &&
+      paymentMethods.find(item => item.type === 'googlepay')?.configuration;
 
-    const cardConfiguration = {
-      styles: {
-        base: {
-          color: FontColor
+    const configuration = {
+      locale: adyenConfiguration?.locale || 'en-US',
+      translations: {
+        ...defaultAdyenTranslations,
+        ...adyenConfiguration?.translations
+      },
+      environment: getAdyenEnv(),
+      analytics: adyenConfiguration?.analytics || {
+        enabled: true //  analytics data for Adyen
+      },
+      session: {
+        id,
+        sessionData
+      },
+      clientKey: getAdyenClientKey(),
+      onSubmit,
+      onAdditionalDetails,
+      onError,
+      paymentMethodsConfiguration: {
+        card: {
+          hasHolderName: true,
+          holderNameRequired: true,
+          ...adyenConfiguration?.paymentMethodsConfiguration?.card
+        },
+        applepay: {
+          ...amountObj,
+          ...(applePayConfigurationObj && {
+            configuration: {
+              merchantName,
+              merchantId: applePayConfigurationObj.merchantId
+            }
+          })
+        },
+        googlepay: {
+          environment: getGooglePayEnv(),
+          ...(googlePayConfigurationObj && {
+            configuration: {
+              merchantName,
+              gatewayMerchantId: googlePayConfigurationObj.gatewayMerchantId,
+              merchantId: googlePayConfigurationObj.merchantId
+            }
+          }),
+          ...amountObj
         }
       }
     };
 
-    this.checkout = new window.AdyenCheckout(configuration)
-      .create(PAYMENT_METHOD_CARD, cardConfiguration)
-      .mount(`#${COMPONENT_CONTAINER_ID}`);
+    const checkout = await AdyenCheckout(configuration);
+    if (containerRef.current) {
+      const dropin = checkout.create('dropin', {
+        onSelect,
+        openFirstPaymentMethod:
+          adyenConfiguration?.openFirstPaymentMethod == null
+            ? !window.matchMedia('(max-width:991px)').matches
+            : adyenConfiguration?.openFirstPaymentMethod
+      });
+      dropin.mount(containerRef.current);
+      setDropInInstance(dropin);
+      getDropIn(dropin);
+    }
+    setIsLoading(false);
   };
 
-  render() {
-    const { isLoaded } = this.state;
-    const { t, isPaymentProcessing, isCheckout } = this.props;
-    const myAccountProps = {
-      size: 'normal',
-      width: '60%',
-      margin: 'auto'
-    };
-    const confirmButtonText = isCheckout ? t('Complete purchase') : t('Update');
+  const createSession = async () => {
+    const { responseData } = await createPaymentSession(isMyAccount);
+    if (responseData?.id) {
+      createDropInInstance(responseData);
+    }
+  };
 
-    return (
-      <AdyenStyled isMyAccount={!isCheckout}>
-        <div id={COMPONENT_CONTAINER_ID} />
-        {isLoaded && (
-          <ConfirmButtonStyled>
-            <Button
-              size="big"
-              {...(isCheckout ? {} : myAccountProps)}
-              theme="confirm"
-              onClickFn={() => this.checkout.submit()}
-              disabled={isPaymentProcessing}
-            >
-              {isPaymentProcessing ? (
-                <Loader buttonLoader color="#ffffff" />
-              ) : (
-                confirmButtonText
-              )}
-            </Button>
-          </ConfirmButtonStyled>
-        )}
-      </AdyenStyled>
-    );
-  }
-}
+  useEffect(() => {
+    createSession();
+  }, []);
+
+  useEffect(() => {
+    if (dropInInstance && discount?.applied) {
+      // recreate dropin when coupon was applied
+      dropInInstance.unmount();
+      getDropIn(null);
+      setIsLoading(true);
+      createSession(); // recreate Adyen Instance if price was changed
+    }
+  }, [discount.applied]);
+
+  useEffect(() => {
+    if (!selectedPaymentMethod?.methodName || !dropInInstance) {
+      return;
+    }
+
+    if (selectedPaymentMethod?.methodName === 'paypal') {
+      dropInInstance.closeActivePaymentMethod();
+    }
+  }, [selectedPaymentMethod]);
+
+  return (
+    <AdyenStyled isMyAccount isAdditionalPayment={isPayPalAvailable}>
+      {isLoading && <Loader />}
+      <div ref={containerRef} />
+    </AdyenStyled>
+  );
+};
+
 Adyen.propTypes = {
-  t: PropTypes.func,
   onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func,
-  isPaymentProcessing: PropTypes.bool,
-  isCheckout: PropTypes.bool
+  isMyAccount: PropTypes.bool,
+  selectPaymentMethod: PropTypes.func.isRequired,
+  isPayPalAvailable: PropTypes.bool.isRequired,
+  getDropIn: PropTypes.func.isRequired,
+  onAdditionalDetails: PropTypes.func.isRequired
 };
 
 Adyen.defaultProps = {
-  t: k => k,
-  onChange: () => {},
-  isPaymentProcessing: false,
-  isCheckout: true
+  isMyAccount: false
 };
-
-export { Adyen as PureAdyen };
 
 export default withTranslation()(labeling()(Adyen));

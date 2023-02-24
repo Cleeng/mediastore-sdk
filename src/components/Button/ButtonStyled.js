@@ -53,7 +53,7 @@ const ButtonStyled = styled.button.attrs(props => ({
       font-size: 13px;
       font-weight: 600;
     `}
-  
+
   ${props =>
     (props.theme === 'confirm' &&
       css`

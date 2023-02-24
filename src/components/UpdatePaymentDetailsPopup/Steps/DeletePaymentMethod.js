@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
   ContentStyled,
@@ -13,7 +14,12 @@ import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as PaypalIcon } from 'assets/images/paymentMethods/paypal_color.svg';
 import { ReactComponent as VisaIcon } from 'assets/images/paymentMethods/visa_color.svg';
+import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
 
+import {
+  PAYMENT_DETAILS_STEPS,
+  updatePaymentDetailsPopup
+} from 'redux/popupSlice';
 import { ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
 const PaymentMethodIcons = {
@@ -21,16 +27,18 @@ const PaymentMethodIcons = {
   visa: VisaIcon
 };
 
-const DeletePaymentMethod = ({
-  hideInnerPopup,
-  setStep,
-  updatePaymentDetailsSection,
-  paymentDetailsToDelete
-}) => {
+const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
   const { t } = useTranslation();
-
+  const dispatch = useDispatch();
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
+
+  const { activeOrBoundPaymentDetails } = useSelector(
+    state => state.paymentDetails
+  );
+  const activePaymentDetails = activeOrBoundPaymentDetails.find(
+    ({ active }) => active
+  );
 
   const deletePaymentMethod = () => {
     window.dispatchEvent(
@@ -38,12 +46,14 @@ const DeletePaymentMethod = ({
     );
     setIsError(false);
     setIsButtonLoading(true);
-    deletePaymentDetails(paymentDetailsToDelete.id)
+    deletePaymentDetails(activePaymentDetails.id)
       .then(resp => {
         if (!resp.errors.length) {
           setIsButtonLoading(false);
-          setStep(currentStep => currentStep + 1);
-          updatePaymentDetailsSection();
+          dispatch(
+            updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.SUCCESS })
+          );
+          dispatch(fetchPaymentDetails());
         } else {
           setIsButtonLoading(false);
           setIsError(true);
@@ -59,11 +69,11 @@ const DeletePaymentMethod = ({
     window.dispatchEvent(
       new CustomEvent('MSSDK:remove-payment-details-action-cancelled')
     );
-    hideInnerPopup();
+    dispatch(updatePaymentDetailsPopup({ isOpen: false }));
   };
 
   const { paymentMethodSpecificParams } = paymentDetailsToDelete;
-  const LogoComponent = PaymentMethodIcons[paymentMethodSpecificParams.variant]
+  const LogoComponent = PaymentMethodIcons[paymentMethodSpecificParams?.variant]
     ? PaymentMethodIcons[paymentMethodSpecificParams.variant]
     : PaymentMethodIcons[paymentDetailsToDelete.paymentMethod];
 
@@ -111,15 +121,9 @@ const DeletePaymentMethod = ({
 export default DeletePaymentMethod;
 
 DeletePaymentMethod.propTypes = {
-  paymentDetailsToDelete: PropTypes.objectOf(PropTypes.any),
-  hideInnerPopup: PropTypes.func,
-  updatePaymentDetailsSection: PropTypes.func,
-  setStep: PropTypes.func
+  paymentDetailsToDelete: PropTypes.objectOf(PropTypes.any)
 };
 
 DeletePaymentMethod.defaultProps = {
-  paymentDetailsToDelete: {},
-  hideInnerPopup: () => {},
-  updatePaymentDetailsSection: () => {},
-  setStep: () => {}
+  paymentDetailsToDelete: {}
 };
