@@ -33,17 +33,8 @@ export const consentsSlice = createSlice({
       state.loading = true;
     },
     [fetchPublisherConsents.fulfilled]: (state, { payload }) => {
-      const publisherConsents = payload.map(element => {
-        return {
-          name: element.name,
-          label: element.label,
-          version: element.version,
-          required: element.required
-        };
-      });
-      const checked = new Array(publisherConsents.length).fill(false);
-      state.publisherConsents = publisherConsents;
-      state.checked = checked;
+      state.publisherConsents = payload;
+      state.checked = new Array(payload.length).fill(false);
       state.loading = false;
     },
     [fetchPublisherConsents.rejected]: (state, { payload }) => {
