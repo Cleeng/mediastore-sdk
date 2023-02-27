@@ -12,8 +12,8 @@ export const fetchPublisherConsents = createAsyncThunk(
   'publisherConsents',
   async (publisherId, { rejectWithValue }) => {
     try {
-      const responseData = await getConsents(publisherId);
-      return responseData;
+      const { consents } = await getConsents(publisherId);
+      return consents;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -33,27 +33,24 @@ export const consentsSlice = createSlice({
       state.loading = true;
     },
     [fetchPublisherConsents.fulfilled]: (state, { payload }) => {
-      if (payload.responseData && payload.responseData.consents) {
-        const publisherConsents = payload.responseData.consents.map(element => {
-          return {
-            name: element.name,
-            label: element.label,
-            version: element.version,
-            required: element.required
-          };
-        });
-        const checked = new Array(publisherConsents.length).fill(false);
-        state.publisherConsents = publisherConsents;
-        state.checked = checked;
-        state.loading = false;
-      } else if (payload.errors.includes('Invalid param pubId')) {
-        state.loading = false;
-        state.error = 'noPublisherId';
-      }
+      const publisherConsents = payload.map(element => {
+        return {
+          name: element.name,
+          label: element.label,
+          version: element.version,
+          required: element.required
+        };
+      });
+      const checked = new Array(publisherConsents.length).fill(false);
+      state.publisherConsents = publisherConsents;
+      state.checked = checked;
+      state.loading = false;
     },
     [fetchPublisherConsents.rejected]: (state, { payload }) => {
+      if (payload.includes('Invalid param publisherId')) {
+        state.error = 'noPublisherId';
+      } else state.error = payload;
       state.loading = false;
-      state.error = payload;
     }
   }
 });
