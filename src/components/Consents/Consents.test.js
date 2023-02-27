@@ -11,12 +11,10 @@ const store = (
   loading = false,
   error = '',
   publisherConsents = [],
-  labels = [],
   checked = []
 ) => ({
   publisherConsents: {
     publisherConsents,
-    labels,
     checked,
     loading,
     error
@@ -57,25 +55,32 @@ describe('Consents component', () => {
   });
   test('should render consents', async () => {
     const publisherConsents = [
-      { name: 'broadcaster_terms', version: '1', required: true },
-      { name: 'broadcaster_marketing', version: '1', required: false }
+      {
+        name: 'broadcaster_terms',
+        label: 'Label 1',
+        version: '1',
+        required: true
+      },
+      {
+        name: 'broadcaster_marketing',
+        label: 'Label 2',
+        version: '1',
+        required: false
+      }
     ];
-    const labels = ['Label 1', 'Label 2'];
     const checked = [false, true];
 
     render(
-      <Provider
-        store={mockStore(store(false, '', publisherConsents, labels, checked))}
-      >
+      <Provider store={mockStore(store(false, '', publisherConsents, checked))}>
         <Consent />
       </Provider>
     );
 
     expect(screen.getByRole('checkbox', { checked: false })).toHaveTextContent(
-      labels[0]
+      publisherConsents[0].label
     );
     expect(screen.getByRole('checkbox', { checked: true })).toHaveTextContent(
-      labels[1]
+      publisherConsents[1].label
     );
   });
 });

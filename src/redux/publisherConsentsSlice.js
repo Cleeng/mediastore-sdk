@@ -3,7 +3,6 @@ import { getConsents } from 'api';
 
 const initialState = {
   publisherConsents: [],
-  labels: [],
   checked: [],
   loading: false,
   error: ''
@@ -38,16 +37,13 @@ export const consentsSlice = createSlice({
         const publisherConsents = payload.responseData.consents.map(element => {
           return {
             name: element.name,
+            label: element.label,
             version: element.version,
             required: element.required
           };
         });
-        const labels = payload.responseData.consents.map(
-          element => element.label
-        );
         const checked = new Array(publisherConsents.length).fill(false);
         state.publisherConsents = publisherConsents;
-        state.labels = labels;
         state.checked = checked;
         state.loading = false;
       } else if (payload.errors.includes('Invalid param pubId')) {

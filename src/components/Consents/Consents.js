@@ -21,7 +21,6 @@ const regexHrefCloseTag = new RegExp(/<\/a(.|\n)*?>/);
 const Consents = ({ error, onChangeFn, t }) => {
   const {
     publisherConsents,
-    labels,
     checked,
     loading,
     error: generalError
@@ -93,10 +92,10 @@ const Consents = ({ error, onChangeFn, t }) => {
               onClickFn={() => changeConsentState(index)}
               checked={checked[index]}
               error={error}
-              key={labels[index]}
+              key={consent.label}
               required={consent.required && !checked[index]}
             >
-              {translateConsents(labels[index])}
+              {translateConsents(consent.label)}
             </Checkbox>
           );
         })}
