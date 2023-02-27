@@ -163,7 +163,7 @@ If you prefer smaller components, you can use these to implement the exact featu
 
 ### Translations
 
-[Customize copies or translate them to another language.](#Translations)
+[Customize copies or translate them to another language.](#translations-section)
 
 ### Security
 
@@ -836,7 +836,7 @@ Below you can find an example of the Content Security Policy which can be set th
 />
 ```
 
-### <a id="Translations"></a><h2>Translations</h2>
+### <a id="translations-section"></a><h2>Translations</h2>
 
 <b>This feature is during the development process. Some texts may not be ready for translation yet.</b>
 
