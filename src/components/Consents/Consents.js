@@ -29,24 +29,19 @@ const Consents = ({ error, onChangeFn, t }) => {
 
   const dispatch = useDispatch();
 
-  const validateConsents = () => {
-    onChangeFn(checked, publisherConsents);
-  };
-
   useEffect(() => {
     async function getConsents() {
       if (publisherId) {
         await dispatch(fetchPublisherConsents(publisherId));
-        validateConsents();
       }
     }
     getConsents();
   }, [publisherId]);
 
-  const changeConsentState = consentID => {
-    dispatch(setChecked(consentID));
-    validateConsents();
-  };
+  useEffect(() => {
+    // validate consents
+    onChangeFn(checked, publisherConsents);
+  }, [checked, publisherConsents]);
 
   const translateConsents = consentContent => {
     const openTagContent = regexHrefOpenTag.exec(consentContent);
@@ -89,7 +84,7 @@ const Consents = ({ error, onChangeFn, t }) => {
         {publisherConsents.map((consent, index) => {
           return (
             <Checkbox
-              onClickFn={() => changeConsentState(index)}
+              onClickFn={() => dispatch(setChecked(index))}
               checked={checked[index]}
               error={error}
               key={consent.label}
