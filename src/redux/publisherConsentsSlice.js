@@ -2,15 +2,15 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getConsents } from 'api';
 
 const initialState = {
-  definitions: [],
+  publisherConsents: [],
   labels: [],
   checked: [],
   loading: false,
   error: ''
 };
 
-export const fetchConsents = createAsyncThunk(
-  'consents',
+export const fetchPublisherConsents = createAsyncThunk(
+  'publisherConsents',
   async (publisherId, { rejectWithValue }) => {
     try {
       const responseData = await getConsents(publisherId);
@@ -22,7 +22,7 @@ export const fetchConsents = createAsyncThunk(
 );
 
 export const consentsSlice = createSlice({
-  name: 'consents',
+  name: 'publisherConsents',
   initialState,
   reducers: {
     setChecked(state, { payload }) {
@@ -30,12 +30,12 @@ export const consentsSlice = createSlice({
     }
   },
   extraReducers: {
-    [fetchConsents.pending]: state => {
+    [fetchPublisherConsents.pending]: state => {
       state.loading = true;
     },
-    [fetchConsents.fulfilled]: (state, { payload }) => {
+    [fetchPublisherConsents.fulfilled]: (state, { payload }) => {
       if (payload.responseData && payload.responseData.consents) {
-        const definitions = payload.responseData.consents.map(element => {
+        const publisherConsents = payload.responseData.consents.map(element => {
           return {
             name: element.name,
             version: element.version,
@@ -45,8 +45,8 @@ export const consentsSlice = createSlice({
         const labels = payload.responseData.consents.map(
           element => element.label
         );
-        const checked = new Array(definitions.length).fill(false);
-        state.definitions = definitions;
+        const checked = new Array(publisherConsents.length).fill(false);
+        state.publisherConsents = publisherConsents;
         state.labels = labels;
         state.checked = checked;
         state.loading = false;
@@ -55,7 +55,7 @@ export const consentsSlice = createSlice({
         state.error = 'noPublisherId';
       }
     },
-    [fetchConsents.rejected]: (state, { payload }) => {
+    [fetchPublisherConsents.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     }

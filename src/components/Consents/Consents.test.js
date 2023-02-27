@@ -10,12 +10,12 @@ import 'i18NextInit';
 const store = (
   loading = false,
   error = '',
-  definitions = [],
+  publisherConsents = [],
   labels = [],
   checked = []
 ) => ({
-  consents: {
-    definitions,
+  publisherConsents: {
+    publisherConsents,
     labels,
     checked,
     loading,
@@ -27,32 +27,24 @@ const store = (
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
 
-describe('PaymentInfo component', () => {
-  test('should render GeneralErrorStyled (if loading = false)', async () => {
-    const { getByText } = render(
+describe('Consents component', () => {
+  test('should render GeneralErrorStyled when publisherId is not given (if loading = false)', async () => {
+    const { getByTestId } = render(
       <Provider store={mockStore(store(false, 'noPublisherId'))}>
         <Consent />
       </Provider>
     );
 
-    expect(
-      getByText(
-        /Unable to fetch terms & conditions. Publisher is not recognized/i
-      )
-    ).toBeInTheDocument();
+    expect(getByTestId('consents__general-error')).toBeInTheDocument();
   });
-  test('should render GeneralErrorStyled (if loading = true)', async () => {
-    const { getByText } = render(
+  test('should render GeneralErrorStyled when publisherId is not given (if loading = true)', async () => {
+    const { getByTestId } = render(
       <Provider store={mockStore(store(true, 'noPublisherId'))}>
         <Consent />
       </Provider>
     );
 
-    expect(
-      getByText(
-        /Unable to fetch terms & conditions. Publisher is not recognized/i
-      )
-    ).toBeInTheDocument();
+    expect(getByTestId('consents__general-error')).toBeInTheDocument();
   });
   test('should render Loader component', async () => {
     const { getByTestId } = render(
@@ -64,7 +56,7 @@ describe('PaymentInfo component', () => {
     expect(getByTestId('consents__loader')).toBeInTheDocument();
   });
   test('should render consents', async () => {
-    const definitions = [
+    const publisherConsents = [
       { name: 'broadcaster_terms', version: '1', required: true },
       { name: 'broadcaster_marketing', version: '1', required: false }
     ];
@@ -73,7 +65,7 @@ describe('PaymentInfo component', () => {
 
     render(
       <Provider
-        store={mockStore(store(false, '', definitions, labels, checked))}
+        store={mockStore(store(false, '', publisherConsents, labels, checked))}
       >
         <Consent />
       </Provider>

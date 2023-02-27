@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import Checkbox from 'components/Checkbox';
 import Loader from 'components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchConsents, setChecked } from 'redux/consentsSlice';
+import {
+  fetchPublisherConsents,
+  setChecked
+} from 'redux/publisherConsentsSlice';
 import {
   ConsentsWrapperStyled,
   ConsentsErrorStyled,
@@ -17,24 +20,24 @@ const regexHrefCloseTag = new RegExp(/<\/a(.|\n)*?>/);
 
 const Consents = ({ error, onChangeFn, t }) => {
   const {
-    definitions: consentDefinitions,
+    publisherConsents,
     labels,
     checked,
     loading,
     error: generalError
-  } = useSelector(state => state.consents);
+  } = useSelector(state => state.publisherConsents);
   const { publisherId } = useSelector(state => state.publisherConfig);
 
   const dispatch = useDispatch();
 
   const validateConsents = () => {
-    onChangeFn(checked, consentDefinitions);
+    onChangeFn(checked, publisherConsents);
   };
 
   useEffect(() => {
     async function getConsents() {
       if (publisherId) {
-        await dispatch(fetchConsents(publisherId));
+        await dispatch(fetchPublisherConsents(publisherId));
         validateConsents();
       }
     }
@@ -68,7 +71,7 @@ const Consents = ({ error, onChangeFn, t }) => {
 
   if (generalError === 'noPublisherId') {
     return (
-      <GeneralErrorStyled>
+      <GeneralErrorStyled data-testid="consents__general-error">
         {t('Unable to fetch terms & conditions. Publisher is not recognized')}
       </GeneralErrorStyled>
     );
@@ -84,7 +87,7 @@ const Consents = ({ error, onChangeFn, t }) => {
     <ConsentsWrapperStyled>
       <FieldsetStyled>
         <InvisibleLegend>Consents </InvisibleLegend>
-        {consentDefinitions.map((consent, index) => {
+        {publisherConsents.map((consent, index) => {
           return (
             <Checkbox
               onClickFn={() => changeConsentState(index)}

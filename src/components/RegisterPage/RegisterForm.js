@@ -190,7 +190,7 @@ class RegisterForm extends Component {
       showPassword,
       disableActionButton,
       processing,
-      consentError
+      publisherConsentsError
     } = this.state;
     const { t } = this.props;
 
@@ -228,7 +228,7 @@ class RegisterForm extends Component {
           size="big"
           theme="confirm"
           margin="10px 0"
-          disabled={processing || disableActionButton || consentError}
+          disabled={processing || disableActionButton || publisherConsentsError}
         >
           {processing ? <Loader buttonLoader color="#ffffff" /> : t('Register')}
         </Button>
@@ -250,7 +250,7 @@ RegisterForm.defaultProps = {
 };
 
 export const mapStateToProps = state => ({
-  consentError: state.consents.error
+  publisherConsentsError: state.publisherConsents.error
 });
 
 export default connect(mapStateToProps)(RegisterForm);
