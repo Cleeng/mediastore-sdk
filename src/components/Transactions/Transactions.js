@@ -69,10 +69,14 @@ const Transactions = ({ t }) => {
     loading,
     isListExpanded
   } = useSelector(state => state.transactions);
+  const { pauseOffersIDs } = useSelector(state => state.offers);
+  const trasnactionsFiltered = transactions.filter(
+    ({ offerId }) => !pauseOffersIDs.includes(offerId)
+  );
 
   const transactionsToShow = isListExpanded
-    ? transactions
-    : transactions.slice(0, DEFAULT_TRANSACTIONS_NUMBER);
+    ? trasnactionsFiltered
+    : trasnactionsFiltered.slice(0, DEFAULT_TRANSACTIONS_NUMBER);
 
   const dispatch = useDispatch();
 
