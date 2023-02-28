@@ -70,13 +70,13 @@ const Transactions = ({ t }) => {
     isListExpanded
   } = useSelector(state => state.transactions);
   const { pauseOffersIDs } = useSelector(state => state.offers);
-  const trasnactionsFiltered = transactions.filter(
+  const transactionsFiltered = transactions.filter(
     ({ offerId }) => !pauseOffersIDs.includes(offerId)
   );
 
   const transactionsToShow = isListExpanded
-    ? trasnactionsFiltered
-    : trasnactionsFiltered.slice(0, DEFAULT_TRANSACTIONS_NUMBER);
+    ? transactionsFiltered
+    : transactionsFiltered.slice(0, DEFAULT_TRANSACTIONS_NUMBER);
 
   const dispatch = useDispatch();
 
@@ -95,7 +95,7 @@ const Transactions = ({ t }) => {
       </WrapStyled>
     );
 
-  if (trasnactionsFiltered.length === 0)
+  if (transactionsFiltered.length === 0)
     return (
       <WrapStyled>
         <MyAccountError
