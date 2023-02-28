@@ -95,7 +95,7 @@ const Transactions = ({ t }) => {
       </WrapStyled>
     );
 
-  if (transactions.length === 0)
+  if (trasnactionsFiltered.length === 0)
     return (
       <WrapStyled>
         <MyAccountError
