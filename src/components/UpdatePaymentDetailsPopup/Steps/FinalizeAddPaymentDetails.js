@@ -6,6 +6,7 @@ import {
   PAYMENT_DETAILS_STEPS,
   updatePaymentDetailsPopup
 } from 'redux/popupSlice';
+import { init } from 'redux/publisherConfigSlice';
 import PropTypes from 'prop-types';
 
 const FinalizeAddPaymentDetails = ({ updatePaymentDetailsSection }) => {
@@ -32,6 +33,7 @@ const FinalizeAddPaymentDetails = ({ updatePaymentDetailsSection }) => {
             isLoading: false
           })
         );
+        dispatch(init({ displayGracePeriodError: false }));
         updatePaymentDetailsSection();
       })
       .catch(() => {

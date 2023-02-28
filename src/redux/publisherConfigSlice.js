@@ -11,11 +11,10 @@ export const publisherConfigSlice = createSlice({
   name: 'publisherConfig',
   initialState,
   reducers: {
-    init: (state, { payload }) => {
-      state.offerId = payload.offerId || '';
-      state.adyenConfiguration = payload.adyenConfiguration || null;
-      state.displayGracePeriodError = payload.displayGracePeriodError;
-    },
+    init: (state, { payload }) => ({
+      ...state,
+      ...payload
+    }),
     updatePaymentMethods: (state, { payload }) => {
       state.paymentMethods = payload;
     }

@@ -9,9 +9,8 @@ import Transactions from 'components/Transactions';
 import { getPaymentDetails, listCustomerTransactions } from 'api';
 import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import GracePeriodError from 'components/GracePeriodError';
-import { init } from 'redux/publisherConfigSlice';
 import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
 import { WrapStyled } from './PaymentInfoStyled';
 
@@ -59,7 +58,6 @@ const PaymentInfoFn = ({
   );
 
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
-  const dispatch = useDispatch();
 
   const toggleTransactionsList = () => {
     if (isTransactionListExpanded) {
@@ -155,12 +153,9 @@ const PaymentInfoFn = ({
     }
 
     initPublisherConfig({ adyenConfiguration });
+
     if (displayGracePeriodError !== null) {
-      dispatch(
-        init({
-          displayGracePeriodError
-        })
-      );
+      initPublisherConfig({ displayGracePeriodError });
     }
 
     return () => {
