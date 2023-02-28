@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
-import { fetchFinalizeAddPaymentDetails } from 'redux/finalizeAddPaymentDetailsSlice';
-import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
 import { useDispatch } from 'react-redux';
 import Loader from 'components/Loader';
+import { fetchFinalizeAddPaymentDetails } from 'redux/finalizeAddPaymentDetailsSlice';
+import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
 import {
   PAYMENT_DETAILS_STEPS,
   updatePaymentDetailsPopup
 } from 'redux/popupSlice';
-import { init } from 'redux/publisherConfigSlice';
+import { setGracePeriodError } from 'redux/publisherConfigSlice';
 
 const FinalizeAddPaymentDetails = () => {
   const adyenRedirectResult = new URLSearchParams(window.location.search).get(
@@ -34,7 +34,7 @@ const FinalizeAddPaymentDetails = () => {
           })
         );
         dispatch(fetchPaymentDetails());
-        dispatch(init({ displayGracePeriodError: false }));
+        dispatch(setGracePeriodError(false));
       })
       .catch(() => {
         dispatch(
