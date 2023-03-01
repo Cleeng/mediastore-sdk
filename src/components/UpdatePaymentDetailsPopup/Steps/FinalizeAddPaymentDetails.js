@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { fetchFinalizeAddPaymentDetails } from 'redux/finalizeAddPaymentDetailsSlice';
-import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
 import { useDispatch } from 'react-redux';
 import Loader from 'components/Loader';
+import { fetchFinalizeAddPaymentDetails } from 'redux/finalizeAddPaymentDetailsSlice';
+import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
 import {
   PAYMENT_DETAILS_STEPS,
   updatePaymentDetailsPopup
