@@ -18,16 +18,9 @@ export const publisherConfigSlice = createSlice({
     }),
     updatePaymentMethods: (state, { payload }) => {
       state.paymentMethods = payload;
-    },
-    setPublisherId: (state, { payload }) => {
-      state.publisherId = payload;
     }
   }
 });
 
-export const {
-  init,
-  updatePaymentMethods,
-  setPublisherId
-} = publisherConfigSlice.actions;
+export const { init, updatePaymentMethods } = publisherConfigSlice.actions;
 export default publisherConfigSlice.reducer;
