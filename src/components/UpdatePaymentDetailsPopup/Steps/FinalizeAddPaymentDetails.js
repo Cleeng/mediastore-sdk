@@ -7,7 +7,6 @@ import {
   PAYMENT_DETAILS_STEPS,
   updatePaymentDetailsPopup
 } from 'redux/popupSlice';
-import { setGracePeriodError } from 'redux/publisherConfigSlice';
 
 const FinalizeAddPaymentDetails = () => {
   const adyenRedirectResult = new URLSearchParams(window.location.search).get(
@@ -34,7 +33,6 @@ const FinalizeAddPaymentDetails = () => {
           })
         );
         dispatch(fetchPaymentDetails());
-        dispatch(setGracePeriodError(false));
       })
       .catch(() => {
         dispatch(

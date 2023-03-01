@@ -17,16 +17,9 @@ export const publisherConfigSlice = createSlice({
     }),
     updatePaymentMethods: (state, { payload }) => {
       state.paymentMethods = payload;
-    },
-    setGracePeriodError: (state, { payload }) => {
-      state.displayGracePeriodError = payload;
     }
   }
 });
 
-export const {
-  init,
-  updatePaymentMethods,
-  setGracePeriodError
-} = publisherConfigSlice.actions;
+export const { init, updatePaymentMethods } = publisherConfigSlice.actions;
 export default publisherConfigSlice.reducer;

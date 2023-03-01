@@ -32,10 +32,7 @@ import eventDispatcher, {
   MSSDK_UPDATE_PAYMENT_DETAILS_FAILED,
   MSSDK_REMOVE_PAYMENT_DETAILS_BUTTON_CLICKED
 } from 'util/eventDispatcher';
-import {
-  setGracePeriodError,
-  updatePaymentMethods
-} from 'redux/publisherConfigSlice';
+import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import DropInSection from 'components/Payment/DropInSection/DropInSection';
 import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
 import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
@@ -176,7 +173,6 @@ const UpdatePaymentDetailsPopup = () => {
             step: PAYMENT_DETAILS_STEPS.SUCCESS
           })
         );
-        dispatch(setGracePeriodError(false));
       })
       .catch(() => {
         dispatch(
@@ -234,7 +230,6 @@ const UpdatePaymentDetailsPopup = () => {
       })
     );
     dispatch(fetchPaymentDetails());
-    dispatch(setGracePeriodError(false));
   };
 
   const getDropIn = drop => {
