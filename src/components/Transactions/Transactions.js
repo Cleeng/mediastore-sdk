@@ -13,7 +13,8 @@ import { logos } from 'util/paymentMethodHelper';
 import {
   DEFAULT_TRANSACTIONS_NUMBER,
   fetchListCustomerTransactions,
-  toggleTransactionList
+  toggleTransactionList,
+  removePausedTransactions
 } from 'redux/transactionsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -70,19 +71,18 @@ const Transactions = ({ t }) => {
     isListExpanded
   } = useSelector(state => state.transactions);
   const { pauseOffersIDs } = useSelector(state => state.offers);
-  const transactionsFiltered = transactions.filter(
-    ({ offerId }) => !pauseOffersIDs.includes(offerId)
-  );
-
-  const transactionsToShow = isListExpanded
-    ? transactionsFiltered
-    : transactionsFiltered.slice(0, DEFAULT_TRANSACTIONS_NUMBER);
 
   const dispatch = useDispatch();
 
+  const transactionsToShow = isListExpanded
+    ? transactions
+    : transactions.slice(0, DEFAULT_TRANSACTIONS_NUMBER);
+
   useEffect(() => {
     if (transactions?.length === 0) {
-      dispatch(fetchListCustomerTransactions());
+      dispatch(fetchListCustomerTransactions()).then(() => {
+        dispatch(removePausedTransactions(pauseOffersIDs));
+      });
     }
   }, []);
 
@@ -95,7 +95,7 @@ const Transactions = ({ t }) => {
       </WrapStyled>
     );
 
-  if (transactionsFiltered.length === 0)
+  if (transactions.length === 0)
     return (
       <WrapStyled>
         <MyAccountError
