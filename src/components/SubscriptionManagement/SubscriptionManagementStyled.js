@@ -7,7 +7,7 @@ export const WrapperStyled = styled.div.attrs(() => ({
   className: 'msd__manage-box__actions-wrapper'
 }))`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: flex-start;
 
   border-top: 1px solid ${IconsColor};
