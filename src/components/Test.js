@@ -1,4 +1,4 @@
-import TestTS from './TestTS/TestTS';
+import TestTS from 'components/TestTS/TestTS';
 
 const Test = () => (
   <aside>

@@ -50,7 +50,8 @@ module.exports = function(api) {
         root: ['./src'],
         alias: {
           test: './test',
-          underscore: 'lodash'
+          underscore: 'lodash',
+          components: './src/components'
         }
       }
     ]
