@@ -137,9 +137,10 @@ const Unsubscribe = ({
     );
     try {
       setIsLoading(true);
+      const isPauseActive = pauseOffersIDs.includes(offerDetails.offerId);
       const response = await updateSubscription({
         offerId: offerDetails.offerId,
-        status: 'cancelled',
+        status: isPauseActive ? 'terminated' : 'cancelled',
         cancellationReason: checkedReason
       });
       if (response.errors.length) {
