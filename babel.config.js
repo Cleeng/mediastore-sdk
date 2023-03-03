@@ -51,7 +51,10 @@ module.exports = function(api) {
         alias: {
           test: './test',
           underscore: 'lodash',
-          components: './src/components'
+          components: './src/components',
+          containers: './src/containers',
+          redux: './src/redux',
+          util: './src/util'
         }
       }
     ]

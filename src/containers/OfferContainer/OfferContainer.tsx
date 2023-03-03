@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+// @ts-ignore
 import jwtDecode from 'jwt-decode';
-import PropTypes from 'prop-types';
 import Offer from 'components/Offer';
 import ErrorPage from 'components/ErrorPage';
 import Header from 'components/Header';
@@ -8,7 +8,8 @@ import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import { updateOrder, getPaymentMethods } from 'api';
 import { setData, getData, removeData } from 'util/appConfigHelper';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { useAppDispatch as useDispatch } from 'redux/store';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { fetchOffer, setFreeOffer } from 'redux/offerSlice';
 import { init as initValues } from 'redux/publisherConfigSlice';
@@ -27,28 +28,30 @@ import {
   StyledLoaderContainer,
   StyledLoaderContent
 } from './StyledOfferContainer';
+import { Props } from './OfferContainerTypes';
+import { RootState } from 'redux/rootReducer';
 
 const OfferContainer = ({
-  offerId: offerIdProp,
+  offerId: offerIdProp = '',
   adyenConfiguration: adyenConfigurationProp,
-  onSuccess
-}) => {
-  const [errorMsg, setErrorMsg] = useState();
+  onSuccess = () => { }
+}: Props) => {
+  const [errorMsg, setErrorMsg] = useState<string>();
 
   const dispatch = useDispatch();
   const {
     offerId: offerIdStore,
     adyenConfiguration: adyenConfigurationStore
-  } = useSelector(state => state.publisherConfig);
+  } = useSelector((state: RootState) => state.publisherConfig);
   const { order, loading: isOrderLoading, error: orderError } = useSelector(
-    state => state.order
+    (state: RootState) => state.order
   );
-  const { error: offerError } = useSelector(state => state.offer);
+  const { error: offerError } = useSelector((state: RootState) => state.offer);
 
   const offerId = offerIdProp || offerIdStore;
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
-  const freeOfferPaymentMethodHandler = orderId => {
+  const freeOfferPaymentMethodHandler = (orderId: string) => {
     getPaymentMethods().then(paymentMethodResponse => {
       const {
         responseData: { paymentMethods }
@@ -66,7 +69,7 @@ const OfferContainer = ({
     });
   };
 
-  const createOrderHandler = async longOfferId => {
+  const createOrderHandler = async (longOfferId: string) => {
     const resultOrderAction = await dispatch(fetchCreateOrder(longOfferId));
     const {
       id,
@@ -80,7 +83,7 @@ const OfferContainer = ({
     setData('CLEENG_ORDER_ID', id);
   };
 
-  const reuseSavedOrder = (id, longOfferId) => {
+  const reuseSavedOrder = (id: string, longOfferId: string) => {
     dispatch(fetchGetOrder(id))
       .unwrap()
       .then(orderResponse => {
@@ -101,7 +104,7 @@ const OfferContainer = ({
       });
   };
 
-  const onCouponSubmit = couponCode => {
+  const onCouponSubmit = (couponCode: string) => {
     if (couponCode === '') return;
     dispatch(
       fetchUpdateCoupon({
@@ -164,7 +167,7 @@ const OfferContainer = ({
     }
   }, [isOrderLoading, errorMsg, offerError, offerError]);
 
-  const errorMapping = err => {
+  const errorMapping = (err: string | null | undefined) => {
     const errorTypes = {
       cannotPurchase: ['Offer is blocked for country'],
       offerNotExist: [
@@ -178,8 +181,11 @@ const OfferContainer = ({
       inactive: ['inactive']
     };
     const types = Object.keys(errorTypes);
+    if (!err) return null;
     return types.find(type =>
-      errorTypes[type].find(item => item.includes(err) || err.includes(item))
+      errorTypes[type as keyof typeof errorTypes].find(
+        item => item.includes(err) || err.includes(item)
+      )
     );
   };
   if (errorMsg || offerError || orderError) {
@@ -209,21 +215,6 @@ const OfferContainer = ({
       onPaymentComplete={onSuccess}
     />
   );
-};
-
-OfferContainer.propTypes = {
-  onSuccess: PropTypes.func,
-  urlProps: PropTypes.shape({
-    location: PropTypes.shape({ search: PropTypes.string })
-  }),
-  offerId: PropTypes.string,
-  adyenConfiguration: PropTypes.objectOf(PropTypes.any)
-};
-OfferContainer.defaultProps = {
-  onSuccess: () => {},
-  urlProps: {},
-  offerId: '',
-  adyenConfiguration: null
 };
 
 export default withPaymentFinalizationHandler(OfferContainer);

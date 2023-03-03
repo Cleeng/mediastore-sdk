@@ -1,13 +1,17 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
+// @ts-ignore
 import jwtDecode from 'jwt-decode';
 
-const getPaymentDetails = async () => {
+const listCustomerTransactions = async (
+  limit = 50,
+  offset = 0
+): Promise<{ items: unknown }> => {
   const API_URL = getApiURL();
   const { customerId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
 
-  const url = `${API_URL}/customers/${customerId}/payment_details`;
+  const url = `${API_URL}/customers/${customerId}/transactions?limit=${limit}&offset=${offset}`;
   return fetchWithJWT(url, {
     method: 'GET'
   })
@@ -23,4 +27,4 @@ const getPaymentDetails = async () => {
     });
 };
 
-export default getPaymentDetails;
+export default listCustomerTransactions;

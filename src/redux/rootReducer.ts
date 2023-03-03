@@ -1,4 +1,4 @@
-import { combineReducers } from '@reduxjs/toolkit';
+import { AnyAction, combineReducers } from '@reduxjs/toolkit';
 import paymentDetailsReducer from './planDetails';
 import userProfileReducer from './userProfile';
 import popupReducer from './popup';
@@ -37,5 +37,7 @@ const rootReducer = combineReducers({
   transactions: transactionsReducer
 });
 
-export default (state, action) =>
+export type RootState = ReturnType<typeof rootReducer>;
+
+export default (state: Parameters<typeof rootReducer>[0], action: AnyAction) =>
   rootReducer(action.type === 'USER_LOGOUT' ? undefined : state, action);

@@ -1,15 +1,22 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
+// @ts-ignore
 import jwtDecode from 'jwt-decode';
 
-const getCustomerOffers = async () => {
+const createOrder = (offerId: string, paymentMethodId = 0): Promise<any> => {
   const API_URL = getApiURL();
   const { customerId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
 
-  const url = `${API_URL}/customers/${customerId}/offers`;
+  const url = `${API_URL}/orders`;
+
   return fetchWithJWT(url, {
-    method: 'GET'
+    method: 'POST',
+    body: JSON.stringify({
+      offerId,
+      customerId,
+      paymentMethodId
+    })
   })
     .then(async res => {
       const { responseData, errors } = await res.json();
@@ -23,4 +30,4 @@ const getCustomerOffers = async () => {
     });
 };
 
-export default getCustomerOffers;
+export default createOrder;

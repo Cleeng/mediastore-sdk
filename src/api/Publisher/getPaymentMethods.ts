@@ -1,7 +1,15 @@
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-const getPaymentMethods = () => {
+const getPaymentMethods = (): Promise<{
+  responseData: {
+    paymentMethods: {
+      methodName: string;
+      id: string;
+      [key: string]: unknown;
+    }[];
+  };
+}> => {
   const API_URL = getApiURL();
 
   return fetchWithJWT(`${API_URL}/payment-methods`, {
