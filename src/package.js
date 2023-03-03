@@ -20,7 +20,6 @@ import CheckoutConsents from 'components/CheckoutConsents';
 import PasswordReset from 'components/PasswordReset';
 import ThankYouPage from 'components/ThankYouPage';
 import Checkout from 'components/Checkout';
-import Test from 'components/Test';
 
 export {
   // Identity Management
@@ -46,6 +45,5 @@ export {
   TransactionList,
   Subscriptions,
   Subscriptions as Offers,
-  store,
-  Test
+  store
 };
