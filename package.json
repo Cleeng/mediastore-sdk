@@ -45,8 +45,9 @@
     "test": "jest test --watchAll=false",
     "scan-translations": "node -e 'require(`./scripts/translationsBundle.js`).run(false)'",
     "clean": "rimraf dist",
-    "compile": "npm run clean && cross-env NODE_ENV=production babel src --ignore spec.js,test.js,stories.js --out-dir dist --copy-files ",
-    "publish-dev": "npm run compile && yalc publish --push"
+    "compile": "npm run clean && cross-env NODE_ENV=production babel src --ignore spec.js,test.js,stories.js --out-dir dist --copy-files --extensions '.ts,.tsx,.js'",
+    "publish-dev": "npm run compile && yalc publish --push",
+    "ts-coverage": "typescript-coverage-report --project \"./tsconfig.json\" --ignore-files \"src/**/index.js\""
   },
   "browserslist": {
     "production": [
@@ -85,9 +86,13 @@
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
+    "@babel/preset-typescript": "^7.21.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
+    "@types/jest": "^29.4.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.11",
     "babel-eslint": "^10.1.0",
     "babel-plugin-inline-react-svg": "^2.0.1",
     "babel-plugin-module-resolver": "^4.1.0",
@@ -114,6 +119,7 @@
     "stylelint": "^14.13.0",
     "stylelint-config-standard": "^28.0.0",
     "stylelint-config-styled-components": "^0.1.1",
-    "stylelint-processor-styled-components": "^1.10.0"
+    "stylelint-processor-styled-components": "^1.10.0",
+    "typescript-coverage-report": "^0.7.0"
   }
 }

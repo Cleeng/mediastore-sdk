@@ -22,15 +22,31 @@ module.exports = {
   plugins: ['react'],
   rules: {
     'prettier/prettier': ['error', { singleQuote: true, endOfLine: 'auto' }],
-    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
+    'react/jsx-filename-extension': [
+      'error',
+      { extensions: ['.ts', '.tsx', '.js', '.jsx'] }
+    ],
     'import/no-cycle': 'off', // TODO: remove after clean localstorage
     'react/forbid-prop-types': 'off', // TODO: remove after moving to redux
-    'react/jsx-props-no-spreading': 'off'
+    'react/jsx-props-no-spreading': 'off',
+    'react/react-in-jsx-scope': 'off',
+    'import/extensions': [
+      'error',
+      'ignorePackages',
+      {
+        js: 'never',
+        jsx: 'never',
+        ts: 'never',
+        tsx: 'never'
+      }
+    ]
   },
   settings: {
     'import/resolver': {
       node: {
-        paths: ['src']
+        paths: ['src'],
+        moduleDirectory: ['node_modules', 'src/'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx']
       }
     }
   }
