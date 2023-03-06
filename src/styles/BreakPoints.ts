@@ -23,9 +23,6 @@ export const media = Object.keys(breakPoints).reduce((acc, label) => {
   return acc;
 }, {} as { [key in BreakPoints]: (l: TemplateStringsArray, ...p: any[]) => FlattenSimpleInterpolation });
 
-console.log('media')
-console.log(media)
-
 export const mediaFrom = Object.keys(breakPoints).reduce((acc, label) => {
   acc[label as BreakPoints] = (literals: TemplateStringsArray, ...placeholders: any[]) => css`
     @media only screen and (min-width: ${breakPoints[label as BreakPoints]}px) {
@@ -35,6 +32,3 @@ export const mediaFrom = Object.keys(breakPoints).reduce((acc, label) => {
 
   return acc;
 }, {} as { [key in BreakPoints]: (l: TemplateStringsArray, ...p: any[]) => FlattenSimpleInterpolation });
-
-console.log('mediaFrom')
-console.log(mediaFrom)
