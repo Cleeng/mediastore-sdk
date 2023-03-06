@@ -83,15 +83,15 @@ export const offerSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchOffer.pending, state => {
       state.loading = true;
-    }),
-      builder.addCase(fetchOffer.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.offer = payload;
-      }),
-      builder.addCase(fetchOffer.rejected, (state, { payload }) => {
-        state.loading = false;
-        state.error = payload as typeof initialState['error'];
-      });
+    });
+    builder.addCase(fetchOffer.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.offer = payload;
+    });
+    builder.addCase(fetchOffer.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload as typeof initialState['error'];
+    });
   }
 });
 

@@ -126,59 +126,59 @@ export const orderSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchCreateOrder.pending, state => {
       state.loading = true;
-    }),
-      builder.addCase(fetchCreateOrder.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.order = payload;
-      }),
-      builder.addCase(fetchCreateOrder.rejected, (state, { payload }) => {
-        state.loading = false;
-        state.error = payload as typeof initialState['error'];
-      }),
-      builder.addCase(fetchGetOrder.pending, state => {
-        state.loading = true;
-      }),
-      builder.addCase(fetchGetOrder.fulfilled, (state, { payload }) => {
-        state.loading = false;
-        state.order = payload;
-      }),
-      builder.addCase(fetchGetOrder.rejected, state => {
-        state.loading = false;
-      }),
-      builder.addCase(fetchUpdateCoupon.pending, state => {
-        state.isCouponLoading = true;
-        state.couponDetails = {
-          showMessage: false,
-          message: '',
-          messageType: MESSAGE_TYPE_SUCCESS
-        };
-      }),
-      builder.addCase(fetchUpdateCoupon.fulfilled, (state, { payload }) => {
-        state.isCouponLoading = false;
-        state.order = payload;
-        state.couponDetails = {
-          showMessage: true,
-          message: 'Your coupon has been applied!',
-          messageType: MESSAGE_TYPE_SUCCESS
-        };
-      }),
-      builder.addCase(fetchUpdateCoupon.rejected, (state, { payload }) => {
-        state.isCouponLoading = false;
-        state.couponError = payload as typeof initialState['couponError'];
-        state.couponDetails = {
-          showMessage: true,
-          message:
-            'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
-          messageType: MESSAGE_TYPE_FAIL
-        };
-      }),
-      builder.addCase(fetchUpdateOrder.pending, state => {
-        state.isUpdateLoading = true;
-      }),
-      builder.addCase(fetchUpdateOrder.fulfilled, (state, { payload }) => {
-        state.isUpdateLoading = false;
-        state.order = payload;
-      });
+    });
+    builder.addCase(fetchCreateOrder.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.order = payload;
+    });
+    builder.addCase(fetchCreateOrder.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload as typeof initialState['error'];
+    });
+    builder.addCase(fetchGetOrder.pending, state => {
+      state.loading = true;
+    });
+    builder.addCase(fetchGetOrder.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.order = payload;
+    });
+    builder.addCase(fetchGetOrder.rejected, state => {
+      state.loading = false;
+    });
+    builder.addCase(fetchUpdateCoupon.pending, state => {
+      state.isCouponLoading = true;
+      state.couponDetails = {
+        showMessage: false,
+        message: '',
+        messageType: MESSAGE_TYPE_SUCCESS
+      };
+    });
+    builder.addCase(fetchUpdateCoupon.fulfilled, (state, { payload }) => {
+      state.isCouponLoading = false;
+      state.order = payload;
+      state.couponDetails = {
+        showMessage: true,
+        message: 'Your coupon has been applied!',
+        messageType: MESSAGE_TYPE_SUCCESS
+      };
+    });
+    builder.addCase(fetchUpdateCoupon.rejected, (state, { payload }) => {
+      state.isCouponLoading = false;
+      state.couponError = payload as typeof initialState['couponError'];
+      state.couponDetails = {
+        showMessage: true,
+        message:
+          'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
+        messageType: MESSAGE_TYPE_FAIL
+      };
+    });
+    builder.addCase(fetchUpdateOrder.pending, state => {
+      state.isUpdateLoading = true;
+    });
+    builder.addCase(fetchUpdateOrder.fulfilled, (state, { payload }) => {
+      state.isUpdateLoading = false;
+      state.order = payload;
+    });
     builder.addCase(fetchUpdateOrder.rejected, (state, { payload }) => {
       state.isUpdateLoading = false;
       state.error = payload as typeof initialState['error'];
