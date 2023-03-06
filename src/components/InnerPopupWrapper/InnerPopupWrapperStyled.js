@@ -209,3 +209,11 @@ export const OfferCardWrapperStyled = styled.div.attrs(() => ({
     font-size: 11px;
   }
 `;
+
+export const HorizontalLineStyled = styled.div`
+  height: 1px;
+  width: 100%;
+  margin: 16px auto;
+  max-width: 550px;
+  background-color: ${LineColor};
+`;

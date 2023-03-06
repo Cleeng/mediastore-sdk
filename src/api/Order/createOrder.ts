@@ -1,12 +1,11 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
-// @ts-ignore
 import jwtDecode from 'jwt-decode';
 
 const createOrder = (offerId: string, paymentMethodId = 0): Promise<any> => {
   const API_URL = getApiURL();
-  const { customerId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
+  const { customerId } = jwtDecode<{ customerId: string }>(getData('CLEENG_AUTH_TOKEN'));
 
   const url = `${API_URL}/orders`;
 

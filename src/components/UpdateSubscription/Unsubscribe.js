@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
+import { useSelector } from 'react-redux';
 import store from 'redux/store';
 
 import updateSubscription from 'api/Customer/updateSubscription';
@@ -23,7 +24,8 @@ import {
   TextStyled,
   ButtonWrapperStyled,
   OfferCardWrapperStyled,
-  DowngradesWrapperStyled
+  DowngradesWrapperStyled,
+  HorizontalLineStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import { ReasonsWrapper, StyledItem } from './UpdateSubscriptionStyled';
 
@@ -57,6 +59,7 @@ const Unsubscribe = ({
   const [checkedReason, setCheckedReason] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const { pauseOffersIDs } = useSelector(state => state.offers);
 
   const getDowngrades = () => {
     const { planDetails } = store.getState();
@@ -71,12 +74,12 @@ const Unsubscribe = ({
   };
 
   const scheduledSwitch = () => {
-    if(offerDetails.pendingSwitchId){
+    if (offerDetails.pendingSwitchId) {
       const { planDetails } = store.getState();
       return planDetails.switchDetails[offerDetails.pendingSwitchId];
     }
     return false;
-  }
+  };
 
   const shouldShowDowngradeScreen = () => {
     const {
@@ -85,9 +88,12 @@ const Unsubscribe = ({
       }
     } = store.getState();
     if (skipAvailableDowngradesStep) {
-      return false
-    };
-    if (offerDetails.pendingSwitchId && scheduledSwitch().direction === 'downgrade'){
+      return false;
+    }
+    if (
+      offerDetails.pendingSwitchId &&
+      scheduledSwitch().direction === 'downgrade'
+    ) {
       return false;
     }
     if (!offerData.inTrial && getDowngrades().length) {
@@ -131,9 +137,10 @@ const Unsubscribe = ({
     );
     try {
       setIsLoading(true);
+      const isPauseActive = pauseOffersIDs.includes(offerDetails.offerId);
       const response = await updateSubscription({
         offerId: offerDetails.offerId,
-        status: 'cancelled',
+        status: isPauseActive ? 'terminated' : 'cancelled',
         cancellationReason: checkedReason
       });
       if (response.errors.length) {
@@ -152,12 +159,24 @@ const Unsubscribe = ({
   const cancelUnsubscribeAction = () => {
     window.dispatchEvent(new CustomEvent('MSSDK:unsubscribe-action-cancelled'));
     hideInnerPopup();
-  }
+  };
 
-  const { offerTitle, expiresAt , offerId} = offerDetails;
+  const { offerTitle, expiresAt, offerId } = offerDetails;
   const formattedExpiresAt = dateFormat(expiresAt);
-  const scheduledSwitchTitle = t(`offer-title-${scheduledSwitch().toOfferId}`, scheduledSwitch().title);
+  const scheduledSwitchTitle = t(
+    `offer-title-${scheduledSwitch().toOfferId}`,
+    scheduledSwitch().title
+  );
   const translatedTitle = t(`offer-title-${offerId}`, offerTitle);
+
+  // Filter out the pause subscription
+  const downgradesListFiltered = downgradesList?.filter(
+    ({ toOfferId }) => !pauseOffersIDs.includes(toOfferId)
+  );
+  const pauseOffer = downgradesList?.filter(({ toOfferId }) =>
+    pauseOffersIDs.includes(toOfferId)
+  );
+
   return (
     <InnerPopupWrapper
       steps={shouldShowDowngrades ? 3 : 2}
@@ -171,14 +190,64 @@ const Unsubscribe = ({
     >
       {currentStep === STEPS.DOWNGRADES && (
         <ContentStyled>
-          <TitleStyled>
-            {t('How about a plan downgrade instead of cancellation?')}
-          </TitleStyled>
-          <TextStyled>
-            {t('Here are the plans that might suit your needs:')}
-          </TextStyled>
+          {pauseOffer.length ? (
+            <>
+              <TitleStyled>
+                {downgradesListFiltered.length
+                  ? t('We’re sorry to see you go!')
+                  : t('How about pausing your subscription?')}
+              </TitleStyled>
+              <TextStyled>
+                {downgradesListFiltered.length
+                  ? t(
+                      'You might want to pause your subscription instead or find another plan that will suit you better'
+                    )
+                  : t(
+                      'You won’t be charged for your current plan until your subscription is resumed.'
+                    )}
+              </TextStyled>
+              <OfferCardWrapperStyled
+                onClick={() =>
+                  showInnerPopup({
+                    type: 'pauseSubscription',
+                    data: {
+                      offerData: {
+                        ...pauseOffer[0]
+                      },
+                      isPartOfCancellationFlow: true
+                    }
+                  })
+                }
+              >
+                <OfferCard
+                  offerType="S"
+                  title={t('Pause subscription')}
+                  description={t(
+                    'Your current plan will be paused for {{ pausePeriod }}',
+                    {
+                      pausePeriod:
+                        periodMapper[pauseOffer[0].period].chargedForEveryText
+                    }
+                  )}
+                  offerId={pauseOffer[0].toOfferId}
+                  isPriceBoxHidden
+                  isPaused
+                />
+              </OfferCardWrapperStyled>
+              {downgradesListFiltered.length !== 0 && <HorizontalLineStyled />}
+            </>
+          ) : (
+            <>
+              <TitleStyled>
+                {t('How about a plan downgrade instead of cancellation?')}
+              </TitleStyled>
+              <TextStyled>
+                {t('Here are the plans that might suit your needs:')}
+              </TextStyled>
+            </>
+          )}
           <DowngradesWrapperStyled>
-            {downgradesList.map(downgradeOffer => {
+            {downgradesListFiltered.map(downgradeOffer => {
               return (
                 <OfferCardWrapperStyled
                   onClick={() =>
@@ -231,18 +300,31 @@ const Unsubscribe = ({
           <ContentStyled>
             <TitleStyled>{t('We’re sorry to see you go')}</TitleStyled>
             <TextStyled>
-                {scheduledSwitch() ? 
-                  t(`Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.`, { scheduledSwitchTitle })
-                 : (<>
-                    {offerDetails.inTrial
-                        ? t('Your {{translatedTitle}} free trial will end on {{formattedExpiresAt}}.', { translatedTitle, formattedExpiresAt })
-                        : t('Your {{translatedTitle}} subscription is paid until {{formattedExpiresAt}}.', { translatedTitle, formattedExpiresAt })}
-                  </>)
-                  }
-                  {' '}
-                  <Trans>
-                    If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of {formattedExpiresAt}. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.
-                  </Trans>
+              {scheduledSwitch() ? (
+                t(
+                  `Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.`,
+                  { scheduledSwitchTitle }
+                )
+              ) : (
+                <>
+                  {offerDetails.inTrial
+                    ? t(
+                        'Your {{translatedTitle}} free trial will end on {{formattedExpiresAt}}.',
+                        { translatedTitle, formattedExpiresAt }
+                      )
+                    : t(
+                        'Your {{translatedTitle}} subscription is paid until {{formattedExpiresAt}}.',
+                        { translatedTitle, formattedExpiresAt }
+                      )}
+                </>
+              )}{' '}
+              <Trans i18nKey="unsubscribe-info">
+                If you would like to proceed with cancelling your subscription,
+                please select 'Unsubscribe' below, and your subscription will be
+                cancelled as of {{ formattedExpiresAt }}. Until then, you will
+                continue to have access to all of your current subscription
+                features. Before you go, please let us know why you're leaving.
+              </Trans>
             </TextStyled>
             {calcellationReasonsToShow && (
               <ReasonsWrapper>

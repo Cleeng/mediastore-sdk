@@ -10,6 +10,7 @@ import { ReactComponent as EditBlockedIcon } from 'assets/images/noEdit.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { ReactComponent as DowngradeIcon } from 'assets/images/downgrade_pending.svg';
 import { ReactComponent as UpgradeIcon } from 'assets/images/upgrade_pending.svg';
+import { ReactComponent as PauseIcon } from 'assets/images/pause_noti.svg';
 import { dateFormat } from 'util/planHelper';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 
@@ -42,10 +43,14 @@ const OfferCard = ({
   expiresAt,
   showInnerPopup,
   offerId,
+  isPriceBoxHidden,
+  isPaused,
   t
 }) => {
   const planDetailsState = useSelector(state => state.planDetails);
+  const { pauseOffersIDs } = useSelector(state => state.offers);
   const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
+  const isPauseInProgress = pauseOffersIDs.includes(switchDetails?.toOfferId);
 
   const getSwitchCopy = () => {
     if (switchDetails) {
@@ -57,6 +62,16 @@ const OfferCard = ({
       const { title: switchTitle, fromOfferId, toOfferId } = switchDetails;
       const translatedTitle = t(`offer-title-${fromOfferId}`, title);
       const translatedSwitchTitle = t(`offer-title-${toOfferId}`, switchTitle);
+      // if pause is in progress
+      if (isPauseInProgress) {
+        return t(
+          'offer-card.info-box.pause-information-text',
+          'Your current plan will be paused starting on {{subscriptionExpirationDate}}. During the subscription pause period, you will not be charged. You can cancel the scheduled pause anytime.',
+          {
+            subscriptionExpirationDate
+          }
+        );
+      }
       switch (switchDetails.algorithm) {
         case 'IMMEDIATE_WITHOUT_PRORATION':
           return t(
@@ -86,6 +101,10 @@ const OfferCard = ({
 
   const getSwitchIcon = () => {
     if (switchDetails) {
+      // if pause is in progress
+      if (isPauseInProgress) {
+        return PauseIcon;
+      }
       switch (switchDetails.direction) {
         case 'downgrade':
           return DowngradeIcon;
@@ -147,7 +166,7 @@ const OfferCard = ({
     <>
       <WrapperStyled>
         <SkeletonWrapper showChildren={isDataLoaded} width={50} height={50}>
-          <SubscriptionIcon period={period || offerType} />
+          <SubscriptionIcon period={period || offerType} isPaused={isPaused} />
         </SkeletonWrapper>
         <InnerWrapper>
           <SkeletonWrapper
@@ -167,24 +186,26 @@ const OfferCard = ({
             />
           </SkeletonWrapper>
         </InnerWrapper>
-        <PriceWrapperStyled>
-          <SkeletonWrapper showChildren={isDataLoaded} width={80} height={30}>
-            {isTrialAvailable && (
-              <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
-            )}
-            {((isMyAccount && offerType === 'S') || !isMyAccount) && (
-              <Price
-                currency={currency}
-                price={price}
-                period={
-                  offerType === 'S'
-                    ? t(`offer-price.period-${period}`, period)
-                    : null
-                }
-              />
-            )}
-          </SkeletonWrapper>
-        </PriceWrapperStyled>
+        {!isPriceBoxHidden && (
+          <PriceWrapperStyled>
+            <SkeletonWrapper showChildren={isDataLoaded} width={80} height={30}>
+              {isTrialAvailable && (
+                <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
+              )}
+              {((isMyAccount && offerType === 'S') || !isMyAccount) && (
+                <Price
+                  currency={currency}
+                  price={price}
+                  period={
+                    offerType === 'S'
+                      ? t(`offer-price.period-${period}`, period)
+                      : null
+                  }
+                />
+              )}
+            </SkeletonWrapper>
+          </PriceWrapperStyled>
+        )}
       </WrapperStyled>
       {showInfoBox
         ? mapCode[showInfoBox] &&
@@ -214,7 +235,9 @@ const OfferCard = ({
                           )
                         );
                         showInnerPopup({
-                          type: POPUP_TYPES.cancelSwitch,
+                          type: isPauseInProgress
+                            ? POPUP_TYPES.cancelPause
+                            : POPUP_TYPES.cancelSwitch,
                           data: {
                             pendingSwitchId,
                             switchDirection: switchDetails.direction,
@@ -226,7 +249,9 @@ const OfferCard = ({
                         });
                       }}
                     >
-                      {t('Cancel switch')}
+                      {isPauseInProgress
+                        ? t('offer-card.cancel-pause-button', 'Cancel pause')
+                        : t('Cancel switch')}
                     </SubBoxButtonStyled>
                   )}
               </SubBoxContentStyled>
@@ -253,7 +278,9 @@ OfferCard.propTypes = {
   pendingSwitchId: PropTypes.string,
   expiresAt: PropTypes.string,
   showInnerPopup: PropTypes.func,
-  offerId: PropTypes.string
+  offerId: PropTypes.string,
+  isPriceBoxHidden: PropTypes.bool,
+  isPaused: PropTypes.bool
 };
 
 OfferCard.defaultProps = {
@@ -272,7 +299,9 @@ OfferCard.defaultProps = {
   pendingSwitchId: null,
   expiresAt: '',
   showInnerPopup: () => {},
-  offerId: ''
+  offerId: '',
+  isPriceBoxHidden: false,
+  isPaused: false
 };
 
 export { OfferCard as PureOfferCard };
