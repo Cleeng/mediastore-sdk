@@ -50,6 +50,13 @@ const store = (isOpen = false) => ({
         expiresAt: pastDate
       }
     ]
+  },
+  offers: {
+    offers: [],
+    pauseOffers: [],
+    pauseOffersIDs: [],
+    loading: false,
+    error: null
   }
 });
 
