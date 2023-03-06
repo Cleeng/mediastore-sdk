@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 export const PAYMENT_DETAILS_STEPS = {
   PAYMENT_DETAILS_UPDATE: 'PAYMENT_DETAILS_UPDATE',
@@ -6,9 +6,34 @@ export const PAYMENT_DETAILS_STEPS = {
   FINALIZE_ADYEN: 'FINALIZE_ADYEN',
   SUCCESS: 'SUCCESS',
   ERROR: 'ERROR'
+} as const;
+
+type Keys = keyof typeof PAYMENT_DETAILS_STEPS;
+type Steps = typeof PAYMENT_DETAILS_STEPS[Keys];
+
+type PaymentDetails = {
+  isOpen: boolean;
+  isLoading: boolean;
+  step: Steps;
 };
 
-const initialState = {
+type IsOpen = {
+  isOpen: boolean;
+};
+
+type IsLoading = {
+  isLoading: boolean;
+};
+
+type Step = {
+  step: Steps;
+};
+
+type PopupManager = {
+  paymentDetails: PaymentDetails;
+};
+
+const initialState: PopupManager = {
   paymentDetails: {
     isOpen: false,
     isLoading: false,
@@ -20,14 +45,16 @@ export const popupSlice = createSlice({
   name: 'popupManager',
   initialState,
   reducers: {
-    updatePaymentDetailsPopup(state, { payload }) {
-      state.paymentDetails = { ...state.paymentDetails, ...payload };
+    updatePaymentDetailsPopup(
+      state,
+      action: PayloadAction<IsOpen | IsLoading | Step>
+    ) {
+      state.paymentDetails = { ...state.paymentDetails, ...action.payload };
     },
     resetPaymentDetailsPopupState(state) {
       state.paymentDetails = initialState.paymentDetails;
     }
-  },
-  extraReducers: {}
+  }
 });
 
 export const {

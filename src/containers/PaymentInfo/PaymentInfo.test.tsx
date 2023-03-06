@@ -1,4 +1,3 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
@@ -6,8 +5,6 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import PaymentInfo from 'containers/PaymentInfo';
 import 'i18NextInit';
-// eslint-disable-next-line no-unused-vars, import/no-extraneous-dependencies
-import fetchMock from 'jest-fetch-mock';
 
 const pastDate = 16762771;
 
@@ -34,7 +31,6 @@ const store = (isOpen = false) => ({
   publisherConfig: {
     displayGracePeriodError: true,
     adyenConfiguration: null,
-    t: k => k,
     paymentMethods: []
   },
   popupManager: {

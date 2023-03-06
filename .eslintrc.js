@@ -4,14 +4,20 @@ module.exports = {
     es6: true,
     jest: true
   },
-  extends: ['airbnb', 'plugin:prettier/recommended', 'prettier/react'],
+  extends: [
+    'airbnb',
+    'plugin:prettier/recommended',
+    'prettier/react',
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended'
+  ],
   globals: {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
     document: true,
     ENVIRONMENT_CONFIGURATION: true
   },
-  parser: 'babel-eslint',
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true
@@ -19,7 +25,7 @@ module.exports = {
     ecmaVersion: 2018,
     sourceType: 'module'
   },
-  plugins: ['react'],
+  plugins: ['react', '@typescript-eslint'],
   rules: {
     'prettier/prettier': ['error', { singleQuote: true, endOfLine: 'auto' }],
     'react/jsx-filename-extension': [
@@ -38,6 +44,19 @@ module.exports = {
         jsx: 'never',
         ts: 'never',
         tsx: 'never'
+      }
+    ],
+    'import/no-extraneous-dependencies': [
+      'error',
+      {
+        devDependencies: [
+          'test.{ts,tsx}', // repos with a single test file
+          'test-*.{ts,tsx}', // repos with multiple top-level test files
+          '**/*{.,_}{test,spec}.{ts,tsx}', // tests where the extension or filename suffix denotes that it is a test
+          '**/jest.config.ts', // jest config
+          '**/jest.setup.ts' // jest setup
+        ],
+        optionalDependencies: false
       }
     ]
   },
