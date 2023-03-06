@@ -28,7 +28,7 @@ import {
   StyledLoaderContainer,
   StyledLoaderContent
 } from './StyledOfferContainer';
-import { Props } from './OfferContainerTypes';
+import { Props } from './OfferContainer.types';
 import { RootState } from 'redux/rootReducer';
 
 const OfferContainer = ({
