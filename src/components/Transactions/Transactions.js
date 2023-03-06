@@ -13,7 +13,8 @@ import { logos } from 'util/paymentMethodHelper';
 import {
   DEFAULT_TRANSACTIONS_NUMBER,
   fetchListCustomerTransactions,
-  toggleTransactionList
+  toggleTransactionList,
+  removePausedTransactions
 } from 'redux/transactionsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -69,16 +70,19 @@ const Transactions = ({ t }) => {
     loading,
     isListExpanded
   } = useSelector(state => state.transactions);
+  const { pauseOffersIDs } = useSelector(state => state.offers);
+
+  const dispatch = useDispatch();
 
   const transactionsToShow = isListExpanded
     ? transactions
     : transactions.slice(0, DEFAULT_TRANSACTIONS_NUMBER);
 
-  const dispatch = useDispatch();
-
   useEffect(() => {
     if (transactions?.length === 0) {
-      dispatch(fetchListCustomerTransactions());
+      dispatch(fetchListCustomerTransactions()).then(() => {
+        dispatch(removePausedTransactions(pauseOffersIDs));
+      });
     }
   }, []);
 
