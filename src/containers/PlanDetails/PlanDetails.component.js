@@ -9,11 +9,15 @@ import CurrentPlan from 'components/CurrentPlan';
 import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
+import PauseSubscriptionPopup from 'components/PauseSubscriptionPopup';
+import ResumeSubscriptionPopup from 'components/ResumeSubscriptionPopup';
 import CancelSwitchPopup from 'components/CancelSwitchPopup';
+import CancelPausePopup from 'components/CancelPausePopup';
 import getSwitch from 'api/Customer/getSwitch';
 import GracePeriodError from 'components/GracePeriodError';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { init } from 'redux/publisherConfigSlice';
+import { fetchOffers } from 'redux/offersSlice';
 import { WrapStyled } from './PlanDetailsStyled';
 
 const PlanDetails = ({
@@ -36,6 +40,8 @@ const PlanDetails = ({
   const [isSwitchInProgress, setIsSwitchInProgress] = useState(false);
   const [isErrorCurrentPlan, setIsErrorCurrentPlan] = useState([]);
   const [isErrorChangePlan, setIsErrorChangePlan] = useState([]);
+  const { offers } = useSelector(state => state.offers);
+  const { pauseOffersIDs } = useSelector(store => store.offers);
   const didMount = useRef(false);
   const dispatch = useDispatch();
 
@@ -128,6 +134,7 @@ const PlanDetails = ({
         })
       );
     }
+    if (offers.length === 0) dispatch(fetchOffers());
   }, []);
 
   useEffect(() => {
@@ -163,6 +170,17 @@ const PlanDetails = ({
             isPartOfCancellationFlow={innerPopup.data.isPartOfCancellationFlow}
           />
         );
+      case 'pauseSubscription':
+        return (
+          <PauseSubscriptionPopup
+            showInnerPopup={showInnerPopup}
+            toOffer={innerPopup.data.offerData}
+            fromOffer={planDetails.offerToSwitch}
+            hideInnerPopup={hideInnerPopup}
+            updateList={updateList}
+            isPartOfCancellationFlow={innerPopup.data.isPartOfCancellationFlow}
+          />
+        );
       case 'cancelSwitch':
         return (
           <CancelSwitchPopup
@@ -173,6 +191,27 @@ const PlanDetails = ({
             setSwitchDetails={setSwitchDetails}
           />
         );
+      case 'cancelPause':
+        return (
+          <CancelPausePopup
+            showInnerPopup={showInnerPopup}
+            hideInnerPopup={hideInnerPopup}
+            popupData={innerPopup.data}
+            updateList={updateList}
+            setSwitchDetails={setSwitchDetails}
+          />
+        );
+      case 'resumeSubscription':
+        return (
+          <ResumeSubscriptionPopup
+            showInnerPopup={showInnerPopup}
+            toOffer={innerPopup.data.offerData}
+            fromOffer={planDetails.offerToSwitch}
+            hideInnerPopup={hideInnerPopup}
+            updateList={updateList}
+            isPartOfCancellationFlow={innerPopup.data.isPartOfCancellationFlow}
+          />
+        );
       default:
         return <></>;
     }
@@ -180,6 +219,10 @@ const PlanDetails = ({
 
   const activeSubscriptions = planDetails.currentPlan.filter(
     offer => offer.status === 'active' && offer.offerType === 'S'
+  );
+
+  const isPauseActive = pauseOffersIDs.includes(
+    planDetails.offerToSwitch.offerId
   );
 
   return (
@@ -200,7 +243,7 @@ const PlanDetails = ({
             updateList={updateList}
             switchDetails={planDetails.switchDetails}
           />
-          {activeSubscriptions.length !== 0 && (
+          {activeSubscriptions.length !== 0 && !isPauseActive && (
             <>
               <SectionHeader>{t('Change Plan')}</SectionHeader>
               <SubscriptionSwitchesList

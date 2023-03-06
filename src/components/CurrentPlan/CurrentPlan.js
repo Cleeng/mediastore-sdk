@@ -1,9 +1,9 @@
 /* eslint-disable no-nested-ternary */
 
-import React, { PureComponent } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation, Trans } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useSelector } from 'react-redux';
+import { Trans, useTranslation } from 'react-i18next';
 import { getData } from 'util/appConfigHelper';
 
 import { ReactComponent as NoSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
@@ -34,197 +34,191 @@ export const SkeletonCard = () => {
   );
 };
 
-const supportedPaymentGateways = ['paypal', 'card', 'adyen'];
-class CurrentPlan extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isMessageBoxOpened: false,
-      messageBoxType: null,
-      messageBoxText: '',
-      messageSubscriptionId: null
-    };
-  }
+const ErrorView = () => {
+  return (
+    <WrapStyled>
+      <MyAccountError generalError />
+    </WrapStyled>
+  );
+};
 
-  // eslint-disable-next-line class-methods-use-this
-  getInfoBoxType(subscription) {
+const EmptyPlanView = () => {
+  const { t } = useTranslation();
+
+  return (
+    <WrapStyled>
+      <ErrorWrapStyled>
+        <IconStyled>
+          <NoSubscriptionsIcon />
+        </IconStyled>
+        <TitleStyled>{t('No offers yet!')}</TitleStyled>
+        <SubTitleStyled>
+          {getData('CLEENG_OFFER_SELECTION_URL') ? (
+            <Trans i18nKey="myaccount-nooffers-withlink">
+              If you{' '}
+              <a
+                href={getData('CLEENG_OFFER_SELECTION_URL')}
+                target="_blank"
+                rel="noreferrer"
+              >
+                choose your plan
+              </a>
+              , you will be able to manage your offers here.
+            </Trans>
+          ) : (
+            t(
+              'If you choose your plan, you will be able to manage your offers here.'
+            )
+          )}
+        </SubTitleStyled>
+      </ErrorWrapStyled>
+    </WrapStyled>
+  );
+};
+
+const supportedPaymentGateways = ['paypal', 'card', 'adyen'];
+
+const CurrentPlan = ({
+  subscriptions,
+  isLoading,
+  errors,
+  showInnerPopup,
+  setOfferToSwitch,
+  offerToSwitch,
+  updateList
+}) => {
+  const [isMessageBoxOpened, setIsMessageBoxOpened] = useState(false);
+  const [messageBoxType, setMessageBoxType] = useState(null);
+  const [messageBoxText, setMessageBoxText] = useState('');
+  const [messageSubscriptionId, setMessageSubscriptionId] = useState(null);
+  const { t } = useTranslation();
+  const { pauseOffersIDs } = useSelector(store => store.offers);
+
+  const getInfoBoxType = subscription => {
     if (subscription.offerType !== 'S') return '';
     if (subscription.status === 'active' && subscription.pendingSwitchId)
       return 'SWITCH';
     if (supportedPaymentGateways.includes(subscription.paymentGateway))
       return '';
     return 'INAPP_SUBSCRIPTION';
-  }
-
-  showMessageBox = (type, text, subscriptionId) => {
-    this.setState({
-      messageBoxType: type,
-      messageBoxText: text,
-      isMessageBoxOpened: true,
-      messageSubscriptionId: subscriptionId
-    });
   };
 
-  render() {
-    const {
-      isMessageBoxOpened,
-      messageBoxType,
-      messageBoxText,
-      messageSubscriptionId
-    } = this.state;
+  const showMessageBox = (type, text, subscriptionId) => {
+    setIsMessageBoxOpened(true);
+    setMessageBoxType(type);
+    setMessageBoxText(text);
+    setMessageSubscriptionId(subscriptionId);
+  };
 
-    const {
-      subscriptions,
-      isLoading,
-      errors,
-      showInnerPopup,
-      setOfferToSwitch,
-      offerToSwitch,
-      updateList,
-      t
-    } = this.props;
+  if (isLoading) return <SkeletonCard />;
 
-    return isLoading ? (
-      <SkeletonCard />
-    ) : (
-      <WrapStyled>
-        {errors.length !== 0 ? (
-          <MyAccountError generalError />
-        ) : subscriptions.length === 0 ? (
-          <ErrorWrapStyled>
-            <IconStyled>
-              <NoSubscriptionsIcon />
-            </IconStyled>
-            <TitleStyled>{t('No offers yet!')}</TitleStyled>
-            <SubTitleStyled>
-              {getData('CLEENG_OFFER_SELECTION_URL') ? (
-                <Trans i18nKey="myaccount-nooffers-withlink">
-                  If you{' '}
-                  <a
-                    href={getData('CLEENG_OFFER_SELECTION_URL')}
-                    target="_blank"
-                    rel="noreferrer"
-                  >
-                    choose your plan
-                  </a>
-                  , you will be able to manage your offers here.
-                </Trans>
-              ) : (
-                t(
-                  'If you choose your plan, you will be able to manage your offers here.'
-                )
-              )}
-            </SubTitleStyled>
-          </ErrorWrapStyled>
-        ) : (
-          <>
-            {subscriptions.map(subItem => {
-              let description;
-              let price;
-              let currency;
-              let renewalDate;
+  if (errors.length !== 0) return <ErrorView />;
 
-              switch (subItem.offerType) {
-                case 'S':
-                  price = subItem.nextPaymentPrice;
-                  currency = subItem.nextPaymentCurrency;
-                  renewalDate = dateFormat(subItem.expiresAt);
-                  if (subItem.status === 'active' && !subItem.pendingSwitchId) {
-                    description = `${t(
-                      'Renews automatically on {{renewalDate}}',
-                      {
-                        renewalDate
-                      }
-                    )}`;
-                  } else if (subItem.status === 'cancelled') {
-                    description = `${t(
-                      'This plan will expire on {{renewalDate}}',
-                      {
-                        renewalDate
-                      }
-                    )}`;
-                  } else {
-                    description = '';
-                  }
+  if (subscriptions.length === 0) return <EmptyPlanView />;
 
-                  break;
-                case 'P':
-                  price = subItem.totalPrice;
-                  currency = subItem.customerCurrency;
-                  description = `${t('Expires on')} ${dateFormat(
-                    subItem.expiresAt
-                  )}`;
-                  break;
-                default:
-                  break;
+  return (
+    <WrapStyled>
+      <>
+        {subscriptions.map(subItem => {
+          const isPaused = pauseOffersIDs.includes(subItem.offerId);
+          let description;
+          let price;
+          let currency;
+          let renewalDate;
+
+          switch (subItem.offerType) {
+            case 'S':
+              price = subItem.nextPaymentPrice;
+              currency = subItem.nextPaymentCurrency;
+              renewalDate = dateFormat(subItem.expiresAt);
+              if (subItem.status === 'active' && !subItem.pendingSwitchId) {
+                description = `${t('Renews automatically on {{renewalDate}}', {
+                  renewalDate
+                })}`;
+              } else if (subItem.status === 'cancelled') {
+                description = `${t('This plan will expire on {{renewalDate}}', {
+                  renewalDate
+                })}`;
+              } else {
+                description = '';
               }
 
-              return (
-                <SubscriptionStyled
-                  key={subItem.offerId}
-                  onClick={() => {
-                    if (
-                      subscriptions.length > 1 &&
-                      subItem.offerType === 'S' &&
-                      subItem.status === 'active'
-                    )
-                      setOfferToSwitch(subItem);
-                  }}
-                  cursorPointer={
-                    subscriptions.length > 1 &&
-                    subItem.status === 'active' &&
-                    subItem.offerType === 'S'
-                  }
-                  isSelected={
-                    subscriptions.length > 1 &&
-                    offerToSwitch.offerId === subItem.offerId
-                  }
-                >
-                  <OfferCard
-                    period={subItem.period}
-                    offerType={subItem.offerType}
-                    title={subItem.offerTitle}
-                    description={description}
-                    currency={currencyFormat[currency]}
-                    price={price}
-                    isMyAccount
-                    showInfoBox={this.getInfoBoxType(subItem)}
-                    paymentMethod={subItem.paymentMethod}
-                    pendingSwitchId={subItem.pendingSwitchId}
-                    expiresAt={dateFormat(subItem.expiresAt)}
+              break;
+            case 'P':
+              price = subItem.totalPrice;
+              currency = subItem.customerCurrency;
+              description = `${t('Expires on')} ${dateFormat(
+                subItem.expiresAt
+              )}`;
+              break;
+            default:
+              break;
+          }
+
+          return (
+            <SubscriptionStyled
+              key={subItem.offerId}
+              onClick={() => {
+                if (
+                  subscriptions.length > 1 &&
+                  subItem.offerType === 'S' &&
+                  subItem.status === 'active'
+                )
+                  setOfferToSwitch(subItem);
+              }}
+              cursorPointer={
+                subscriptions.length > 1 &&
+                subItem.status === 'active' &&
+                subItem.offerType === 'S'
+              }
+              isSelected={
+                subscriptions.length > 1 &&
+                offerToSwitch.offerId === subItem.offerId
+              }
+            >
+              <OfferCard
+                period={subItem.period}
+                offerType={subItem.offerType}
+                title={subItem.offerTitle}
+                description={description}
+                currency={currencyFormat[currency]}
+                price={price}
+                isMyAccount
+                showInfoBox={getInfoBoxType(subItem)}
+                paymentMethod={subItem.paymentMethod}
+                pendingSwitchId={subItem.pendingSwitchId}
+                expiresAt={dateFormat(subItem.expiresAt)}
+                showInnerPopup={showInnerPopup}
+                offerId={subItem.offerId}
+                isPriceBoxHidden={isPaused}
+                isPaused={isPaused}
+              />
+              {isMessageBoxOpened &&
+                messageSubscriptionId === subItem.subscriptionId && (
+                  <StatusMessageWrapStyled>
+                    <MessageBox
+                      type={messageBoxType}
+                      message={messageBoxText}
+                    />
+                  </StatusMessageWrapStyled>
+                )}
+              {subItem.offerType === 'S' &&
+                supportedPaymentGateways.includes(subItem.paymentGateway) && (
+                  <SubscriptionManagement
+                    subscription={subItem}
                     showInnerPopup={showInnerPopup}
-                    offerId={subItem.offerId}
+                    updateList={updateList}
+                    showMessageBox={showMessageBox}
+                    setOfferToSwitch={setOfferToSwitch}
                   />
-                  {isMessageBoxOpened &&
-                    messageSubscriptionId === subItem.subscriptionId && (
-                      <StatusMessageWrapStyled>
-                        <MessageBox
-                          type={messageBoxType}
-                          message={messageBoxText}
-                        />
-                      </StatusMessageWrapStyled>
-                    )}
-                  {subItem.offerType === 'S' &&
-                    supportedPaymentGateways.includes(
-                      subItem.paymentGateway
-                    ) && (
-                      <SubscriptionManagement
-                        subscription={subItem}
-                        showInnerPopup={showInnerPopup}
-                        updateList={updateList}
-                        showMessageBox={this.showMessageBox}
-                        setOfferToSwitch={setOfferToSwitch}
-                      />
-                    )}
-                </SubscriptionStyled>
-              );
-            })}
-          </>
-        )}
-      </WrapStyled>
-    );
-  }
-}
+                )}
+            </SubscriptionStyled>
+          );
+        })}
+      </>
+    </WrapStyled>
+  );
+};
 
 CurrentPlan.propTypes = {
   subscriptions: PropTypes.arrayOf(
@@ -281,8 +275,7 @@ CurrentPlan.propTypes = {
       createdAt: PropTypes.number,
       updatedAt: PropTypes.number
     })
-  }),
-  t: PropTypes.func
+  })
 };
 
 CurrentPlan.defaultProps = {
@@ -290,10 +283,7 @@ CurrentPlan.defaultProps = {
   isLoading: false,
   errors: [],
   offerToSwitch: {},
-  switchDetails: {},
-  t: k => k
+  switchDetails: {}
 };
 
-export { CurrentPlan as PureCurrentPlan };
-
-export default withTranslation()(labeling()(CurrentPlan));
+export default CurrentPlan;

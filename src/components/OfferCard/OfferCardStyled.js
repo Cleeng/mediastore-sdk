@@ -93,6 +93,7 @@ export const SubBoxStyled = styled.div.attrs(() => ({
   border-radius: 4px;
   svg {
     min-width: 18px;
+    width: 18px;
   }
 `;
 
