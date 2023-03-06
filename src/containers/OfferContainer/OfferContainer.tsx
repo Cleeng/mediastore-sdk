@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// @ts-ignore
 import jwtDecode from 'jwt-decode';
 import Offer from 'components/Offer';
 import ErrorPage from 'components/ErrorPage';
@@ -87,7 +86,7 @@ const OfferContainer = ({
     dispatch(fetchGetOrder(id))
       .unwrap()
       .then(orderResponse => {
-        const { customerId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
+        const { customerId } = jwtDecode<{ customerId: string }>(getData('CLEENG_AUTH_TOKEN'));
         if (
           !(
             orderResponse.offerId === longOfferId &&

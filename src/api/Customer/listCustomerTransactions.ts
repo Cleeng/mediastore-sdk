@@ -1,7 +1,6 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
-// @ts-ignore
 import jwtDecode from 'jwt-decode';
 
 const listCustomerTransactions = async (
@@ -9,7 +8,7 @@ const listCustomerTransactions = async (
   offset = 0
 ): Promise<{ items: unknown }> => {
   const API_URL = getApiURL();
-  const { customerId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
+  const { customerId } = jwtDecode<{ customerId: string }>(getData('CLEENG_AUTH_TOKEN'));
 
   const url = `${API_URL}/customers/${customerId}/transactions?limit=${limit}&offset=${offset}`;
   return fetchWithJWT(url, {
