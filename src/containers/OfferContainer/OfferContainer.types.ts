@@ -1,5 +1,7 @@
-export type Props = {
+import { AdyenConfiguration } from "redux/publisherConfigSlice";
+
+export type OfferContainerProps = {
   offerId: string;
-  adyenConfiguration?: { [n: number]: unknown };
-  onSuccess: (...args: unknown[]) => void;
+  adyenConfiguration?: AdyenConfiguration;
+  onSuccess: () => void;
 };

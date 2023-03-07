@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { createOrder, getOrder, updateOrder } from '../api';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../components/Input';
 import { isErrorMsg } from 'util/reduxValidation';
+import { RootState } from './rootReducer';
 
 type InitialState = {
   order: {
@@ -185,5 +186,8 @@ export const orderSlice = createSlice({
     });
   }
 });
+
+export const selectOrder = (state: RootState) =>
+  state.order;
 
 export default orderSlice.reducer;

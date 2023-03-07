@@ -84,5 +84,8 @@ export const publisherConfigSlice = createSlice({
 export const selectAdyenConfiguration = (state: RootState) =>
   state.publisherConfig.adyenConfiguration;
 
+export const selectPublisherConfig = (state: RootState) =>
+  state.publisherConfig;
+
 export const { init, updatePaymentMethods } = publisherConfigSlice.actions;
 export default publisherConfigSlice.reducer;

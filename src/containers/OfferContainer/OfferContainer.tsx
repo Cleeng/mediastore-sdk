@@ -7,11 +7,10 @@ import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import { updateOrder, getPaymentMethods } from 'api';
 import { setData, getData, removeData } from 'util/appConfigHelper';
-import { useSelector } from 'react-redux';
-import { useAppDispatch as useDispatch } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { fetchOffer, setFreeOffer } from 'redux/offerSlice';
-import { init as initValues } from 'redux/publisherConfigSlice';
+import { fetchOffer, setFreeOffer, selectOffer } from 'redux/offerSlice';
+import { init as initValues, selectPublisherConfig } from 'redux/publisherConfigSlice';
 import {
   fetchCreateOrder,
   fetchGetOrder,
@@ -27,25 +26,23 @@ import {
   StyledLoaderContainer,
   StyledLoaderContent
 } from './StyledOfferContainer';
-import { Props } from './OfferContainer.types';
-import { RootState } from 'redux/rootReducer';
+import { OfferContainerProps } from './OfferContainer.types';
+import { selectOrder } from 'redux/orderSlice';
 
 const OfferContainer = ({
-  offerId: offerIdProp = '',
+  offerId: offerIdProp,
   adyenConfiguration: adyenConfigurationProp,
-  onSuccess = () => { }
-}: Props) => {
+  onSuccess
+}: OfferContainerProps) => {
   const [errorMsg, setErrorMsg] = useState<string>();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {
     offerId: offerIdStore,
     adyenConfiguration: adyenConfigurationStore
-  } = useSelector((state: RootState) => state.publisherConfig);
-  const { order, loading: isOrderLoading, error: orderError } = useSelector(
-    (state: RootState) => state.order
-  );
-  const { error: offerError } = useSelector((state: RootState) => state.offer);
+  } = useAppSelector(selectPublisherConfig);
+  const { order, loading: isOrderLoading, error: orderError } = useAppSelector(selectOrder)
+  const { error: offerError } = useAppSelector(selectOffer);
 
   const offerId = offerIdProp || offerIdStore;
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;

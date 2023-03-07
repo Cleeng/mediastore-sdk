@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getOfferDetails } from '../api';
 import { isErrorMsg } from 'util/reduxValidation';
+import { RootState } from './rootReducer';
 
 type Offer = {
   accessToTags: string[];
@@ -94,6 +95,9 @@ export const offerSlice = createSlice({
     });
   }
 });
+
+export const selectOffer = (state: RootState) =>
+  state.offer;
 
 export const { setFreeOffer } = offerSlice.actions;
 export default offerSlice.reducer;
