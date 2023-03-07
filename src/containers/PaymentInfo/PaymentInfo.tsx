@@ -26,10 +26,11 @@ const PaymentInfo = ({
 }: PaymentInfoProps) => {
   const dispatch = useAppDispatch();
 
-  const adyenConfiguration =
-    adyenConfigurationProp || useAppSelector(selectAdyenConfiguration);
+  const adyenConfigurationStore = useAppSelector(selectAdyenConfiguration);
 
   const paymentDetailsPopup = useAppSelector(selectPaymentDetails);
+
+  const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
   useEffect(() => {
     dispatch(initPublisherConfig({ adyenConfiguration }));
