@@ -1,7 +1,7 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { getOfferDetails } from '../api';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { isErrorMsg } from 'util/reduxValidation';
 import { RootState } from './rootReducer';
+import { getOfferDetails } from '../api';
 
 type Offer = {
   accessToTags: string[];
@@ -44,10 +44,10 @@ type Offer = {
   trialAvailable: boolean;
   updatedAt: number;
   videoId: unknown;
-}
+};
 
 type InitialState = {
-  offer: Offer | {};
+  offer: Offer | Record<string, never>;
   loading: boolean;
   error: string | null;
   isOfferFree: boolean;
@@ -96,8 +96,7 @@ export const offerSlice = createSlice({
   }
 });
 
-export const selectOffer = (state: RootState) =>
-  state.offer;
+export const selectOffer = (state: RootState) => state.offer;
 
 export const { setFreeOffer } = offerSlice.actions;
 export default offerSlice.reducer;

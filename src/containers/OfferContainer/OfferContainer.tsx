@@ -10,11 +10,15 @@ import { setData, getData, removeData } from 'util/appConfigHelper';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { unwrapResult } from '@reduxjs/toolkit';
 import { fetchOffer, setFreeOffer, selectOffer } from 'redux/offerSlice';
-import { init as initValues, selectPublisherConfig } from 'redux/publisherConfigSlice';
+import {
+  init as initValues,
+  selectPublisherConfig
+} from 'redux/publisherConfigSlice';
 import {
   fetchCreateOrder,
   fetchGetOrder,
-  fetchUpdateCoupon
+  fetchUpdateCoupon,
+  selectOrder
 } from 'redux/orderSlice';
 import eventDispatcher, {
   MSSDK_COUPON_FAILED,
@@ -27,7 +31,6 @@ import {
   StyledLoaderContent
 } from './StyledOfferContainer';
 import { OfferContainerProps } from './OfferContainer.types';
-import { selectOrder } from 'redux/orderSlice';
 
 const OfferContainer = ({
   offerId: offerIdProp,
@@ -41,7 +44,9 @@ const OfferContainer = ({
     offerId: offerIdStore,
     adyenConfiguration: adyenConfigurationStore
   } = useAppSelector(selectPublisherConfig);
-  const { order, loading: isOrderLoading, error: orderError } = useAppSelector(selectOrder)
+  const { order, loading: isOrderLoading, error: orderError } = useAppSelector(
+    selectOrder
+  );
   const { error: offerError } = useAppSelector(selectOffer);
 
   const offerId = offerIdProp || offerIdStore;
@@ -83,7 +88,9 @@ const OfferContainer = ({
     dispatch(fetchGetOrder(id))
       .unwrap()
       .then(orderResponse => {
-        const { customerId } = jwtDecode<{ customerId: number }>(getData('CLEENG_AUTH_TOKEN'));
+        const { customerId } = jwtDecode<{ customerId: number }>(
+          getData('CLEENG_AUTH_TOKEN')
+        );
         if (
           !(
             orderResponse.offerId === longOfferId &&
