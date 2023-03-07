@@ -209,15 +209,7 @@ const OfferContainer = ({
     );
   }
 
-  return (
-    <Offer
-      couponProps={{
-        ...order.couponDetails,
-        onSubmit: onCouponSubmit
-      }}
-      onPaymentComplete={onSuccess}
-    />
-  );
+  return <Offer onSubmit={onCouponSubmit} onPaymentComplete={onSuccess} />;
 };
 
 export default withPaymentFinalizationHandler(OfferContainer);

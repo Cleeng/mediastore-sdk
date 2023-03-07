@@ -1,16 +1,16 @@
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useAppSelector } from 'redux/store';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import CouponInput from 'containers/CouponInput/CouponInput.container';
-import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Payment from 'components/Payment';
 import Header from 'components/Header';
 import SectionHeader from 'components/SectionHeader';
 import Footer from 'components/Footer';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
+import { selectOffer } from 'redux/offerSlice';
+import { selectOrder } from 'redux/orderSlice';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
@@ -19,14 +19,15 @@ import {
   OfferCardWrapperStyled
 } from './OfferStyled';
 import OfferCheckoutCard from '../OfferCheckoutCard';
+import { OfferProps } from './Offer.types';
 
-const Offer = ({ couponProps: { onSubmit }, onPaymentComplete, t }) => {
+const Offer = ({ onSubmit, onPaymentComplete, t = k => k }: OfferProps) => {
   const [coupon, setCoupon] = useState('');
-  const { trialAvailable } = useSelector(state => state.offer.offer);
+  const { trialAvailable } = useAppSelector(selectOffer).offer;
   const {
     totalPrice,
     discount: { applied: discountApplied }
-  } = useSelector(state => state.order.order);
+  } = useAppSelector(selectOrder).order;
 
   const isFree = totalPrice === 0 && !trialAvailable && !discountApplied;
 
@@ -57,7 +58,7 @@ const Offer = ({ couponProps: { onSubmit }, onPaymentComplete, t }) => {
                   <CouponInput
                     onSubmit={onSubmit}
                     value={coupon}
-                    onChange={e => setCoupon(e)}
+                    onChange={(e: string) => setCoupon(e)}
                     source="checkout"
                   />
                 </StyledOfferCouponWrapper>
@@ -71,23 +72,6 @@ const Offer = ({ couponProps: { onSubmit }, onPaymentComplete, t }) => {
       <Footer />
     </StyledOfferWrapper>
   );
-};
-
-Offer.propTypes = {
-  couponProps: PropTypes.shape({
-    showMessage: PropTypes.bool,
-    message: PropTypes.node,
-    messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS]),
-    onSubmit: PropTypes.func.isRequired,
-    couponLoading: PropTypes.bool
-  }),
-  onPaymentComplete: PropTypes.func.isRequired,
-  t: PropTypes.func
-};
-
-Offer.defaultProps = {
-  couponProps: null,
-  t: k => k
 };
 
 export { Offer as PureOffer };

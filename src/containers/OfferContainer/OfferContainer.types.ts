@@ -1,4 +1,4 @@
-import { AdyenConfiguration } from "redux/publisherConfigSlice";
+import { AdyenConfiguration } from 'redux/publisherConfigSlice';
 
 export type OfferContainerProps = {
   offerId: string;
