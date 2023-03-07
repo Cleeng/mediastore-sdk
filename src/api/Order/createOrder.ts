@@ -5,7 +5,7 @@ import jwtDecode from 'jwt-decode';
 
 const createOrder = (offerId: string, paymentMethodId = 0): Promise<any> => {
   const API_URL = getApiURL();
-  const { customerId } = jwtDecode<{ customerId: string }>(getData('CLEENG_AUTH_TOKEN'));
+  const { customerId } = jwtDecode<{ customerId: number }>(getData('CLEENG_AUTH_TOKEN'));
 
   const url = `${API_URL}/orders`;
 

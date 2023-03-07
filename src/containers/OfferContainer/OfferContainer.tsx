@@ -86,7 +86,7 @@ const OfferContainer = ({
     dispatch(fetchGetOrder(id))
       .unwrap()
       .then(orderResponse => {
-        const { customerId } = jwtDecode<{ customerId: string }>(getData('CLEENG_AUTH_TOKEN'));
+        const { customerId } = jwtDecode<{ customerId: number }>(getData('CLEENG_AUTH_TOKEN'));
         if (
           !(
             orderResponse.offerId === longOfferId &&
