@@ -26,6 +26,7 @@ import eventDispatcher, {
   MSSDK_PURCHASE_LOADED
 } from 'util/eventDispatcher';
 import withPaymentFinalizationHandler from 'containers/withPaymentFinalizationHandler';
+import { Errors } from 'components/ErrorPage/ErrorPage.types';
 import {
   StyledLoaderContainer,
   StyledLoaderContent
@@ -170,8 +171,8 @@ const OfferContainer = ({
     }
   }, [isOrderLoading, errorMsg, offerError, offerError]);
 
-  const errorMapping = (err: string | null | undefined) => {
-    const errorTypes = {
+  const errorMapping = (err: string | undefined | null) => {
+    const errorTypes: Record<Errors, string[]> = {
       cannotPurchase: ['Offer is blocked for country'],
       offerNotExist: [
         "doesn't exist",
@@ -183,8 +184,8 @@ const OfferContainer = ({
       generalError: ['Request failed with status code 500'],
       inactive: ['inactive']
     };
-    const types = Object.keys(errorTypes);
-    if (!err) return null;
+    const types = Object.keys(errorTypes) as Errors[];
+    if (!err) return undefined;
     return types.find(type =>
       errorTypes[type as keyof typeof errorTypes].find(
         item => item.includes(err) || err.includes(item)

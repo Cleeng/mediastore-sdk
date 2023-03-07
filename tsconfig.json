@@ -23,6 +23,6 @@
     "noUnusedParameters": true,
     "incremental": true
   },
-  "include": ["src"],
+  "include": ["src", "additional.d.ts"],
   "exclude": ["node_modules", "dist"]
 }
