@@ -5,15 +5,19 @@ import PaymentMethod from 'components/PaymentMethod';
 import SectionHeader from 'components/SectionHeader';
 import Transactions from 'components/Transactions';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
-import { useSelector } from 'react-redux';
 import GracePeriodError from 'components/GracePeriodError';
-import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
+import {
+  init as initPublisherConfig,
+  selectAdyenConfiguration
+} from 'redux/publisherConfigSlice';
 import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
-import { updatePaymentDetailsPopup } from 'redux/popupSlice';
-import { RootState } from 'redux/rootReducer';
-import { useAppDispatch } from 'redux/store';
+import {
+  selectPaymentDetails,
+  updatePaymentDetailsPopup
+} from 'redux/popupSlice';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import { WrapStyled } from './PaymentInfoStyled';
-import { PaymentInfoProps } from './PaymentInfoTypes';
+import { PaymentInfoProps } from './PaymentInfo.types';
 
 const PaymentInfo = ({
   adyenConfiguration: adyenConfigurationProp,
@@ -22,15 +26,10 @@ const PaymentInfo = ({
 }: PaymentInfoProps) => {
   const dispatch = useAppDispatch();
 
-  const { adyenConfiguration: adyenConfigurationStore } = useSelector(
-    (state: RootState) => state.publisherConfig
-  );
+  const adyenConfiguration =
+    adyenConfigurationProp || useAppSelector(selectAdyenConfiguration);
 
-  const { paymentDetails: paymentDetailsPopup } = useSelector(
-    (state: RootState) => state.popupManager
-  );
-
-  const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
+  const paymentDetailsPopup = useAppSelector(selectPaymentDetails);
 
   useEffect(() => {
     dispatch(initPublisherConfig({ adyenConfiguration }));

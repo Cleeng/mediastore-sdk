@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from './rootReducer';
 
 export const PAYMENT_DETAILS_STEPS = {
   PAYMENT_DETAILS_UPDATE: 'PAYMENT_DETAILS_UPDATE',
@@ -56,6 +57,8 @@ export const popupSlice = createSlice({
     }
   }
 });
+
+export const selectPaymentDetails = (state: RootState) => state.popupManager.paymentDetails;
 
 export const {
   updatePaymentDetailsPopup,

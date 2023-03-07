@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from './rootReducer';
 
 type Countries = 'US' | 'CA' | 'BR' | 'PL';
 
@@ -79,6 +80,9 @@ export const publisherConfigSlice = createSlice({
     }
   }
 });
+
+export const selectAdyenConfiguration = (state: RootState) =>
+  state.publisherConfig.adyenConfiguration;
 
 export const { init, updatePaymentMethods } = publisherConfigSlice.actions;
 export default publisherConfigSlice.reducer;

@@ -1,86 +1,32 @@
-import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import PaymentInfo from 'containers/PaymentInfo';
 import 'i18NextInit';
-
-const pastDate = 16762771;
-
-const store = (isOpen = false) => ({
-  paymentDetails: {
-    paymentDetails: [],
-    activeOrBoundPaymentDetails: [],
-    loading: false,
-    error: []
-  },
-  paymentMethods: {
-    selectedPaymentMethod: []
-  },
-  finalizeAddPaymentDetails: {
-    loading: false
-  },
-  transactions: {
-    transactions: [],
-    error: [],
-    showToggleButton: false,
-    loading: false,
-    isListExpanded: false
-  },
-  publisherConfig: {
-    displayGracePeriodError: true,
-    adyenConfiguration: null,
-    paymentMethods: []
-  },
-  popupManager: {
-    paymentDetails: {
-      isOpen,
-      isLoading: false
-    }
-  },
-  plan: {
-    currentPlan: [
-      {
-        status: 'active',
-        expiresAt: pastDate
-      }
-    ]
-  },
-  offers: {
-    offers: [],
-    pauseOffers: [],
-    pauseOffersIDs: [],
-    loading: false,
-    error: null
-  }
-});
-
-const middleware = [thunk];
-const mockStore = configureStore(middleware);
+import { updatePaymentDetailsPopup } from 'redux/popupSlice';
+import renderWithProviders from 'util/testHelpers';
+import { setupStore } from 'redux/rootReducer';
 
 jest.mock('../../containers/labeling', () =>
   jest.fn(() => jest.fn(Component => Component))
 );
 
+global.fetch = jest.fn(() =>
+  Promise.resolve({
+    json: () => Promise.resolve({ test: null })
+  })
+) as jest.Mock;
+
 describe('PaymentInfo component', () => {
   test('should render PaymentMethod and Transactions component if paymentDetails is not open', async () => {
-    const { getByText } = render(
-      <Provider store={mockStore(store(false))}>
-        <PaymentInfo />
-      </Provider>
-    );
+    const { getByText } = renderWithProviders(<PaymentInfo />);
 
-    expect(getByText(/Current payment method/i)).toBeInTheDocument();
     expect(getByText(/Payment history/i)).toBeInTheDocument();
+    expect(getByText(/Current payment method/i)).toBeInTheDocument();
   });
 
   test('should render UpdatePaymentDetailsPopup component if paymentDetails is open', async () => {
-    const { getByTestId } = render(
-      <Provider store={mockStore(store(true))}>
-        <PaymentInfo />
-      </Provider>
-    );
+    const store = setupStore();
+    store.dispatch(updatePaymentDetailsPopup({ isOpen: true }));
+    const { getByTestId } = renderWithProviders(<PaymentInfo />, { store });
 
     expect(
       getByTestId('payment-info__update-payment-details-popup')
