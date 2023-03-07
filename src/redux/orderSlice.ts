@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { isErrorMsg } from 'util/reduxValidation';
 import { createOrder, getOrder, updateOrder } from '../api';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../components/Input';
-import { isErrorMsg } from 'util/reduxValidation';
 import { RootState } from './rootReducer';
 
 type InitialState = {
@@ -19,7 +19,7 @@ type InitialState = {
     currency: string;
     totalPrice: number;
     id: string;
-    couponDetails: {};
+    couponDetails: object;
   };
   loading: boolean;
   error: string | null;
@@ -187,7 +187,6 @@ export const orderSlice = createSlice({
   }
 });
 
-export const selectOrder = (state: RootState) =>
-  state.order;
+export const selectOrder = (state: RootState) => state.order;
 
 export default orderSlice.reducer;

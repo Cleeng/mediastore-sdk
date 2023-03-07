@@ -1,4 +1,9 @@
-import {AnyAction, combineReducers, configureStore, PreloadedState} from '@reduxjs/toolkit';
+import {
+  AnyAction,
+  combineReducers,
+  configureStore,
+  PreloadedState
+} from '@reduxjs/toolkit';
 import paymentDetailsReducer from './planDetails';
 import userProfileReducer from './userProfile';
 import popupReducer from './popup';
