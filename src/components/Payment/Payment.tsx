@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import {
@@ -12,16 +11,28 @@ import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import Loader from 'components/Loader';
 import SectionHeader from 'components/SectionHeader';
-import { fetchFinalizeInitialPayment } from 'redux/finalizePaymentSlice';
+import {
+  fetchFinalizeInitialPayment,
+  selectFinalizePayment
+} from 'redux/finalizePaymentSlice';
 import Auth from 'services/auth';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   validatePaymentMethods,
   shouldShowGatewayComponent
 } from 'util/paymentMethodHelper';
-import { updatePaymentMethods } from 'redux/publisherConfigSlice';
-import { fetchUpdateOrder } from 'redux/orderSlice';
-import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
+import {
+  updatePaymentMethods,
+  selectPublisherConfig
+} from 'redux/publisherConfigSlice';
+import { fetchUpdateOrder, selectOnlyOrder } from 'redux/orderSlice';
+import {
+  setSelectedPaymentMethod,
+  selectPaymentMethods
+} from 'redux/paymentMethodsSlice';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import { selectOnlyOffer } from 'redux/offerSlice';
+import { DefaultTFuncReturn } from 'i18next';
+import RedirectElement from '@adyen/adyen-web';
 import {
   PaymentErrorStyled,
   PaymentStyled,
@@ -34,33 +45,37 @@ import eventDispatcher, {
 import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
-import { periodMapper } from '../../util';
+import { periodMapper, isPeriod } from '../../util';
+import { PaymentProps } from './Payment.types';
 
-const Payment = ({ t, onPaymentComplete }) => {
-  const { paymentMethods } = useSelector(state => state.publisherConfig);
+const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
+  const { paymentMethods } = useAppSelector(selectPublisherConfig);
 
-  const order = useSelector(state => state.order.order);
+  const order = useAppSelector(selectOnlyOrder);
   const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
-  const { period: offerPeriod } = useSelector(state => state.offer.offer);
-  const { loading: isPaymentFinalizationInProgress } = useSelector(
-    state => state.finalizeInitialPayment
+  const { period: offerPeriod } = useAppSelector(selectOnlyOffer);
+  const { loading: isPaymentFinalizationInProgress } = useAppSelector(
+    selectFinalizePayment
   );
-  const period = offerPeriod
-    ? periodMapper[offerPeriod].chargedForEveryText
-    : null;
+  const period =
+    offerPeriod && isPeriod(offerPeriod)
+      ? periodMapper[offerPeriod].chargedForEveryText
+      : null;
   const [isLoading, setIsLoading] = useState(false);
-  const [generalError, setGeneralError] = useState('');
-  const [dropInInstance, setDropInInstance] = useState(null);
+  const [generalError, setGeneralError] = useState<DefaultTFuncReturn>(null);
+  const [dropInInstance, setDropInInstance] = useState<
+    typeof RedirectElement | null
+  >(null);
   const [adyenKey, setAdyenKey] = useState(false);
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
     false
   );
-  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
+  const { selectedPaymentMethod } = useAppSelector(selectPaymentMethods);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   // order updates
-  const updateOrderWithPaymentMethodId = methodId => {
+  const updateOrderWithPaymentMethodId = (methodId: number) => {
     setGeneralError('');
     const { id } = order;
     if (id && methodId) {
@@ -81,13 +96,15 @@ const Payment = ({ t, onPaymentComplete }) => {
   };
 
   // payment methods
-  const selectPaymentMethodHandler = paymentMethodName => {
+  const selectPaymentMethodHandler = (paymentMethodName: string) => {
     if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = paymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
-    dispatch(setSelectedPaymentMethod(paymentMethodObj));
-    updateOrderWithPaymentMethodId(paymentMethodObj.id);
+    if (paymentMethodObj) {
+      dispatch(setSelectedPaymentMethod(paymentMethodObj));
+      updateOrderWithPaymentMethodId(paymentMethodObj.id);
+    }
   };
 
   const fetchPaymentMethods = async () => {
@@ -140,14 +157,25 @@ const Payment = ({ t, onPaymentComplete }) => {
   };
 
   // Adyen
-  const onAdditionalDetails = async state => {
+  const onAdditionalDetails = async (state: {
+    data: { details: Record<string, unknown> };
+  }) => {
     const {
       data: { details }
     } = state;
     dispatch(fetchFinalizeInitialPayment({ orderId: order.id, details }));
   };
 
-  const onAdyenSubmit = async (state, component) => {
+  const onAdyenSubmit = async (
+    state: {
+      data: {
+        paymentMethod: unknown;
+        browserInfo: unknown;
+        billingAddress: unknown;
+      };
+    },
+    component: unknown
+  ) => {
     const {
       data: { paymentMethod, browserInfo, billingAddress }
     } = state;
@@ -186,6 +214,8 @@ const Payment = ({ t, onPaymentComplete }) => {
       if (action.type !== 'redirect') {
         setIsActionHandlingProcessing(true);
       }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       component.handleAction(action);
       return;
     }
@@ -195,7 +225,7 @@ const Payment = ({ t, onPaymentComplete }) => {
     onPaymentComplete();
   };
 
-  const getDropIn = drop => {
+  const getDropIn = (drop: typeof RedirectElement) => {
     setDropInInstance(drop);
   };
 
@@ -269,6 +299,8 @@ const Payment = ({ t, onPaymentComplete }) => {
         {isPaymentFinalizationInProgress && <Loader />}
         {shouldShowAdyen && (
           <Adyen
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             key={adyenKey}
             onSubmit={onAdyenSubmit}
             selectPaymentMethod={selectPaymentMethodHandler}
@@ -304,15 +336,6 @@ const Payment = ({ t, onPaymentComplete }) => {
       )}
     </PaymentStyled>
   );
-};
-
-Payment.propTypes = {
-  onPaymentComplete: PropTypes.func.isRequired,
-  t: PropTypes.func
-};
-
-Payment.defaultProps = {
-  t: k => k
 };
 
 export { Payment as PurePayment };

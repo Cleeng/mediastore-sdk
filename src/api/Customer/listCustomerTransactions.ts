@@ -8,7 +8,9 @@ const listCustomerTransactions = async (
   offset = 0
 ): Promise<{ items: unknown }> => {
   const API_URL = getApiURL();
-  const { customerId } = jwtDecode<{ customerId: number }>(getData('CLEENG_AUTH_TOKEN'));
+  const { customerId } = jwtDecode<{ customerId: number }>(
+    getData('CLEENG_AUTH_TOKEN')
+  );
 
   const url = `${API_URL}/customers/${customerId}/transactions?limit=${limit}&offset=${offset}`;
   return fetchWithJWT(url, {

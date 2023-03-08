@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { isErrorMsg } from 'util/reduxValidation';
+import isErrorMsg from 'util/reduxValidation';
 import { RootState } from './rootReducer';
 import { getOfferDetails } from '../api';
 

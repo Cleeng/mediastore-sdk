@@ -34,7 +34,12 @@ export type AdyenConfiguration = {
 
 type PublisherConfig = {
   offerId: string;
-  paymentMethods: [];
+  paymentMethods: {
+    id: number;
+    logoUrl: string;
+    methodName: string;
+    paymentGateway: string;
+  }[];
   adyenConfiguration: null | AdyenConfiguration;
   displayGracePeriodError: boolean;
 };

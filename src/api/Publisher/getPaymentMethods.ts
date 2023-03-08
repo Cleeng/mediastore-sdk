@@ -9,6 +9,7 @@ const getPaymentMethods = (): Promise<{
       [key: string]: unknown;
     }[];
   };
+  errors: string;
 }> => {
   const API_URL = getApiURL();
 

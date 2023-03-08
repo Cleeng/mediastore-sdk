@@ -1,25 +1,41 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { isErrorMsg } from 'util/reduxValidation';
+import isErrorMsg from 'util/reduxValidation';
 import { CurrencyFormat } from 'util/planHelper';
 import { createOrder, getOrder, updateOrder } from '../api';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../components/Input';
 import { RootState } from './rootReducer';
 
 type Order = {
-  priceBreakdown: {
-    offerPrice: number;
-    discountAmount: number;
-    taxValue: number;
-    customerServiceFee: number;
-    paymentMethodFee: number;
-  };
-  discount: { applied: boolean };
-  taxRate: number;
+  billingAddress: unknown;
   country: string;
+  couponId: unknown;
   currency: CurrencyFormat;
+  customer: { locale: string; email: string };
+  customerId: number;
+  discount: { applied: boolean; type: string; periods: number };
+  expirationDate: number;
+  id: number;
+  offer: {
+    title: string;
+    description: string;
+    price: number;
+    currency: string;
+  };
+  offerId: string;
+  paymentMethodId: number;
+  priceBreakdown: {
+    customerServiceFee: number;
+    discountAmount: number;
+    discountedPrice: number;
+    offerPrice: number;
+    paymentMethodFee: number;
+    taxValue: number;
+  };
+  publisherId: number;
+  requiredPaymentDetails: boolean;
+  taxBreakdown: unknown;
+  taxRate: number;
   totalPrice: number;
-  id: string;
-  couponDetails: object;
 };
 
 type Error = string | null;
@@ -40,20 +56,36 @@ type InitialState = {
 
 const initialState: InitialState = {
   order: {
-    priceBreakdown: {
-      offerPrice: 0,
-      discountAmount: 0,
-      taxValue: 0,
-      customerServiceFee: 0,
-      paymentMethodFee: 0
-    },
-    discount: { applied: false },
-    taxRate: 0,
+    billingAddress: '',
     country: '',
+    couponId: '',
     currency: 'EUR',
-    totalPrice: 0,
-    id: '',
-    couponDetails: {}
+    customer: { locale: '', email: '' },
+    customerId: 0,
+    discount: { applied: false, type: '', periods: 0 },
+    expirationDate: 0,
+    id: 0,
+    offer: {
+      title: '',
+      description: '',
+      price: 0,
+      currency: ''
+    },
+    offerId: '',
+    paymentMethodId: 0,
+    priceBreakdown: {
+      customerServiceFee: 0,
+      discountAmount: 0,
+      discountedPrice: 0,
+      offerPrice: 0,
+      paymentMethodFee: 0,
+      taxValue: 0
+    },
+    publisherId: 0,
+    requiredPaymentDetails: false,
+    taxBreakdown: '',
+    taxRate: 0,
+    totalPrice: 0
   },
   loading: true,
   error: null,
@@ -83,7 +115,7 @@ export const fetchCreateOrder = createAsyncThunk(
 export const fetchUpdateOrder = createAsyncThunk(
   'order/updateOrder',
   async (
-    { id, payload }: { id: string; payload: { [key: string]: unknown } },
+    { id, payload }: { id: number; payload: { [key: string]: unknown } },
     { rejectWithValue }
   ) => {
     try {
@@ -99,7 +131,7 @@ export const fetchUpdateOrder = createAsyncThunk(
 export const fetchUpdateCoupon = createAsyncThunk(
   'order/updateCoupon',
   async (
-    { id, couponCode }: { id: string; couponCode: string },
+    { id, couponCode }: { id: string | number; couponCode: string },
     { rejectWithValue }
   ) => {
     try {
@@ -114,7 +146,7 @@ export const fetchUpdateCoupon = createAsyncThunk(
 
 export const fetchGetOrder = createAsyncThunk(
   'order/getOrder',
-  async (id: string, { rejectWithValue }) => {
+  async (id: string | number, { rejectWithValue }) => {
     try {
       const { order } = await getOrder(id);
       return order;

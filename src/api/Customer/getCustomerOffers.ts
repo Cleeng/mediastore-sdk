@@ -21,11 +21,13 @@ type CustomersOffer = {
   status: string;
   subscriptionId: number;
   totalPrice: number;
-}
+};
 
 const getCustomerOffers = async (): Promise<{ items: CustomersOffer[] }> => {
   const API_URL = getApiURL();
-  const { customerId } = jwtDecode<{ customerId: number }>(getData('CLEENG_AUTH_TOKEN'));
+  const { customerId } = jwtDecode<{ customerId: number }>(
+    getData('CLEENG_AUTH_TOKEN')
+  );
 
   const url = `${API_URL}/customers/${customerId}/offers`;
   return fetchWithJWT(url, {
