@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { isErrorMsg } from 'util/reduxValidation';
 import { RootState } from './rootReducer';
 import { getOfferDetails } from '../api';
@@ -77,21 +77,24 @@ export const offerSlice = createSlice({
   name: 'offer',
   initialState,
   reducers: {
-    setFreeOffer(state, { payload }) {
-      state.isOfferFree = payload;
+    setFreeOffer(state, action: PayloadAction<boolean>) {
+      state.isOfferFree = action.payload;
     }
   },
   extraReducers: builder => {
     builder.addCase(fetchOffer.pending, state => {
       state.loading = true;
     });
-    builder.addCase(fetchOffer.fulfilled, (state, { payload }) => {
+    builder.addCase(
+      fetchOffer.fulfilled,
+      (state, action: PayloadAction<Offer>) => {
+        state.loading = false;
+        state.offer = action.payload;
+      }
+    );
+    builder.addCase(fetchOffer.rejected, (state, action) => {
       state.loading = false;
-      state.offer = payload;
-    });
-    builder.addCase(fetchOffer.rejected, (state, { payload }) => {
-      state.loading = false;
-      state.error = payload as typeof initialState['error'];
+      state.error = action.payload as typeof initialState['error'];
     });
   }
 });

@@ -1,35 +1,39 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { isErrorMsg } from 'util/reduxValidation';
 import { createOrder, getOrder, updateOrder } from '../api';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../components/Input';
 import { RootState } from './rootReducer';
 
-type InitialState = {
-  order: {
-    priceBreakdown: {
-      offerPrice: number;
-      discountAmount: number;
-      taxValue: number;
-      customerServiceFee: number;
-      paymentMethodFee: number;
-    };
-    discount: { applied: boolean };
-    taxRate: number;
-    country: string;
-    currency: string;
-    totalPrice: number;
-    id: string;
-    couponDetails: object;
+type Order = {
+  priceBreakdown: {
+    offerPrice: number;
+    discountAmount: number;
+    taxValue: number;
+    customerServiceFee: number;
+    paymentMethodFee: number;
   };
+  discount: { applied: boolean };
+  taxRate: number;
+  country: string;
+  currency: string;
+  totalPrice: number;
+  id: string;
+  couponDetails: object;
+};
+
+type Error = string | null;
+
+type InitialState = {
+  order: Order;
   loading: boolean;
-  error: string | null;
+  error: Error;
   couponDetails: {
     showMessage: boolean;
     message: string;
     messageType: typeof MESSAGE_TYPE_SUCCESS | typeof MESSAGE_TYPE_FAIL;
   };
   isCouponLoading: boolean;
-  couponError: string | null;
+  couponError: Error;
   isUpdateLoading: boolean;
 };
 
@@ -128,21 +132,27 @@ export const orderSlice = createSlice({
     builder.addCase(fetchCreateOrder.pending, state => {
       state.loading = true;
     });
-    builder.addCase(fetchCreateOrder.fulfilled, (state, { payload }) => {
+    builder.addCase(
+      fetchCreateOrder.fulfilled,
+      (state, action: PayloadAction<Order>) => {
+        state.loading = false;
+        state.order = action.payload;
+      }
+    );
+    builder.addCase(fetchCreateOrder.rejected, (state, action) => {
       state.loading = false;
-      state.order = payload;
-    });
-    builder.addCase(fetchCreateOrder.rejected, (state, { payload }) => {
-      state.loading = false;
-      state.error = payload as typeof initialState['error'];
+      state.error = action.payload as typeof initialState['error'];
     });
     builder.addCase(fetchGetOrder.pending, state => {
       state.loading = true;
     });
-    builder.addCase(fetchGetOrder.fulfilled, (state, { payload }) => {
-      state.loading = false;
-      state.order = payload;
-    });
+    builder.addCase(
+      fetchGetOrder.fulfilled,
+      (state, action: PayloadAction<Order>) => {
+        state.loading = false;
+        state.order = action.payload;
+      }
+    );
     builder.addCase(fetchGetOrder.rejected, state => {
       state.loading = false;
     });
@@ -154,18 +164,21 @@ export const orderSlice = createSlice({
         messageType: MESSAGE_TYPE_SUCCESS
       };
     });
-    builder.addCase(fetchUpdateCoupon.fulfilled, (state, { payload }) => {
+    builder.addCase(
+      fetchUpdateCoupon.fulfilled,
+      (state, action: PayloadAction<Order>) => {
+        state.isCouponLoading = false;
+        state.order = action.payload;
+        state.couponDetails = {
+          showMessage: true,
+          message: 'Your coupon has been applied!',
+          messageType: MESSAGE_TYPE_SUCCESS
+        };
+      }
+    );
+    builder.addCase(fetchUpdateCoupon.rejected, (state, action) => {
       state.isCouponLoading = false;
-      state.order = payload;
-      state.couponDetails = {
-        showMessage: true,
-        message: 'Your coupon has been applied!',
-        messageType: MESSAGE_TYPE_SUCCESS
-      };
-    });
-    builder.addCase(fetchUpdateCoupon.rejected, (state, { payload }) => {
-      state.isCouponLoading = false;
-      state.couponError = payload as typeof initialState['couponError'];
+      state.couponError = action.payload as typeof initialState['couponError'];
       state.couponDetails = {
         showMessage: true,
         message:
@@ -176,13 +189,16 @@ export const orderSlice = createSlice({
     builder.addCase(fetchUpdateOrder.pending, state => {
       state.isUpdateLoading = true;
     });
-    builder.addCase(fetchUpdateOrder.fulfilled, (state, { payload }) => {
+    builder.addCase(
+      fetchUpdateOrder.fulfilled,
+      (state, action: PayloadAction<Order>) => {
+        state.isUpdateLoading = false;
+        state.order = action.payload;
+      }
+    );
+    builder.addCase(fetchUpdateOrder.rejected, (state, action) => {
       state.isUpdateLoading = false;
-      state.order = payload;
-    });
-    builder.addCase(fetchUpdateOrder.rejected, (state, { payload }) => {
-      state.isUpdateLoading = false;
-      state.error = payload as typeof initialState['error'];
+      state.error = action.payload as typeof initialState['error'];
     });
   }
 });
