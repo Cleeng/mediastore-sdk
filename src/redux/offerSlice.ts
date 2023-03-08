@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { isErrorMsg } from 'util/reduxValidation';
-import { Period } from 'util/planHelper';
 import { RootState } from './rootReducer';
 import { getOfferDetails } from '../api';
 
