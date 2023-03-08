@@ -1,13 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import SkeletonWrapper from 'components/SkeletonWrapper';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from 'redux/store';
 import formatNumber from 'util/formatNumber';
-import { currencyFormat, dateFormat, periodMapper } from 'util/planHelper';
+import {
+  currencyFormat,
+  dateFormat,
+  periodMapper,
+  isPeriod
+} from 'util/planHelper';
+import { selectOnlyOffer } from 'redux/offerSlice';
+import { selectOnlyOrder } from 'redux/orderSlice';
 import getReadablePeriod from './OfferCheckoutCard.utils';
+import { OfferCheckoutCardProps } from './OfferCheckoutCard.types';
 
 import {
   WrapperStyled,
@@ -19,7 +25,10 @@ import {
 } from './OfferCheckoutCardStyled';
 import Price from '../Price';
 
-const OfferCheckoutCard = ({ isDataLoaded, t }) => {
+const OfferCheckoutCard = ({
+  isDataLoaded = true,
+  t
+}: OfferCheckoutCardProps) => {
   const {
     offerTitle: title,
     trialAvailable: isTrialAvailable,
@@ -29,13 +38,13 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     freeDays,
     expiresAt,
     startTime
-  } = useSelector(state => state.offer.offer);
+  } = useAppSelector(selectOnlyOffer);
   const {
     priceBreakdown: { offerPrice },
     taxRate,
     country,
     currency
-  } = useSelector(state => state.order.order);
+  } = useAppSelector(selectOnlyOrder);
   const offerType = offerId?.charAt(0);
   const currencySymbol = currencyFormat[currency];
   const generateTrialDescription = () => {
@@ -108,7 +117,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
         const date = dateFormat(expiresAt, true);
         return t('pass-desc.date', `Access until {{date}}`, { date });
       }
-      return periodMapper[period]
+      return isPeriod(period)
         ? `${periodMapper[period].accessText} season pass`
         : '';
     }
@@ -118,7 +127,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
       }`;
     }
     if (offerType === 'R') {
-      return periodMapper[period]
+      return isPeriod(period)
         ? `${periodMapper[period].accessText} access`
         : '';
     }
@@ -169,16 +178,6 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
       </PriceWrapperStyled>
     </WrapperStyled>
   );
-};
-
-OfferCheckoutCard.propTypes = {
-  isDataLoaded: PropTypes.bool,
-  t: PropTypes.func
-};
-
-OfferCheckoutCard.defaultProps = {
-  isDataLoaded: true,
-  t: k => k
 };
 
 export { OfferCheckoutCard as PureOfferCard };

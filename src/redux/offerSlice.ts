@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { isErrorMsg } from 'util/reduxValidation';
+import { Period } from 'util/planHelper';
 import { RootState } from './rootReducer';
 import { getOfferDetails } from '../api';
 
@@ -23,7 +24,7 @@ type Offer = {
   discountedCustomerPriceExclTax: unknown;
   discountedCustomerPriceInclTax: unknown;
   endTime: unknown;
-  expiresAt: unknown;
+  expiresAt: number;
   freeDays: number;
   freePeriods: number;
   geoRestrictionCountries: unknown[];
@@ -39,7 +40,7 @@ type Offer = {
   offerUrl: unknown;
   period: string;
   socialCommissionRate: number;
-  startTime: unknown;
+  startTime: number;
   timeZone: unknown;
   trialAvailable: boolean;
   updatedAt: number;
@@ -100,6 +101,7 @@ export const offerSlice = createSlice({
 });
 
 export const selectOffer = (state: RootState) => state.offer;
+export const selectOnlyOffer = (state: RootState) => state.offer.offer;
 
 export const { setFreeOffer } = offerSlice.actions;
 export default offerSlice.reducer;

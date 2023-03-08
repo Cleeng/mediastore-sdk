@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { isErrorMsg } from 'util/reduxValidation';
+import { CurrencyFormat } from 'util/planHelper';
 import { createOrder, getOrder, updateOrder } from '../api';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../components/Input';
 import { RootState } from './rootReducer';
@@ -15,7 +16,7 @@ type Order = {
   discount: { applied: boolean };
   taxRate: number;
   country: string;
-  currency: string;
+  currency: CurrencyFormat;
   totalPrice: number;
   id: string;
   couponDetails: object;
@@ -49,7 +50,7 @@ const initialState: InitialState = {
     discount: { applied: false },
     taxRate: 0,
     country: '',
-    currency: '',
+    currency: 'EUR',
     totalPrice: 0,
     id: '',
     couponDetails: {}
