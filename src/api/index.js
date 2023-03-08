@@ -13,7 +13,9 @@ import getCustomer from './Customer/getCustomer';
 import listCustomerTransactions from './Customer/listCustomerTransactions';
 import getCustomerConsents from './Customer/getCustomerConsents';
 import submitPayPalPayment from './Payment/submitPayPalPayment';
-import getAvailableSwitches from './Customer/getAvailableSwitches';
+import getAvailableSwitches, {
+  getAvailableSwitchesRefactored
+} from './Customer/getAvailableSwitches';
 import subscriptionSwitch from './Customer/subscriptionSwitch';
 import applyCoupon from './Customer/applyCoupon';
 import getCaptureStatus from './Customer/getCaptureStatus';
@@ -23,6 +25,7 @@ import getPaymentMethods from './Publisher/getPaymentMethods';
 import getConsents from './Publisher/getConsents';
 import getOrder from './Order/getOrder';
 import updateSwitch from './Customer/updateSwitch';
+import getSwitch, { getSwitchRefactored } from './Customer/getSwitch';
 import updatePayPalPaymentDetails from './PaymentDetails/updatePayPalPaymentDetails';
 import finalizeInitialPayment from './Payment/finalizeInitialPayment';
 import finalizeAddPaymentDetails from './Payment/finalizeAddPaymentDetails';
@@ -57,5 +60,8 @@ export {
   updatePayPalPaymentDetails,
   finalizeInitialPayment,
   finalizeAddPaymentDetails,
-  getOffers
+  getOffers,
+  getSwitch,
+  getSwitchRefactored,
+  getAvailableSwitchesRefactored
 };

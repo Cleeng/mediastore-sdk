@@ -11,7 +11,6 @@ const UpdateSubscription = ({
   offerDetails,
   hideInnerPopup,
   showInnerPopup,
-  updateList,
   customCancellationReasons,
   skipAvailableDowngradesStep
 }) => {
@@ -20,7 +19,6 @@ const UpdateSubscription = ({
       <Unsubscribe
         offerDetails={offerDetails}
         hideInnerPopup={hideInnerPopup}
-        updateList={updateList}
         customCancellationReasons={customCancellationReasons}
         skipAvailableDowngradesStep={skipAvailableDowngradesStep}
         showInnerPopup={showInnerPopup}
@@ -32,7 +30,6 @@ const UpdateSubscription = ({
       <Resubscribe
         offerDetails={offerDetails}
         hideInnerPopup={hideInnerPopup}
-        updateList={updateList}
       />
     );
   }
@@ -44,7 +41,6 @@ UpdateSubscription.propTypes = {
   offerDetails: PropTypes.objectOf(PropTypes.any).isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
   showInnerPopup: PropTypes.func.isRequired,
-  updateList: PropTypes.func.isRequired,
   customCancellationReasons: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,

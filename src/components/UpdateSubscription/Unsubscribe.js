@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import store from 'redux/store';
 
 import updateSubscription from 'api/Customer/updateSubscription';
@@ -17,6 +17,7 @@ import Checkbox from 'components/Checkbox';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
 import OfferCard from 'components/OfferCard';
+import { updateList } from 'redux/planDetailsSlice';
 
 import {
   ContentStyled,
@@ -32,7 +33,6 @@ import { ReasonsWrapper, StyledItem } from './UpdateSubscriptionStyled';
 const Unsubscribe = ({
   offerDetails,
   hideInnerPopup,
-  updateList,
   customCancellationReasons,
   showInnerPopup,
   skipAvailableDowngradesStep,
@@ -60,12 +60,19 @@ const Unsubscribe = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const { pauseOffersIDs } = useSelector(state => state.offers);
+  const { data: switchSettings } = useSelector(
+    state => state.plan.switchSettings
+  );
+  const { data: switchDetails } = useSelector(
+    state => state.plan.switchDetails
+  );
+
+  const dispatch = useDispatch();
 
   const getDowngrades = () => {
-    const { planDetails } = store.getState();
-    if (planDetails && Object.keys(planDetails.switchSettings).length) {
-      const switchSettings = planDetails.switchSettings[offerDetails.offerId];
-      const availableSorted = [...switchSettings.available]
+    if (Object.keys(switchSettings).length) {
+      const offerSwitchSettings = switchSettings[offerDetails.offerId];
+      const availableSorted = [...offerSwitchSettings.available]
         .filter(offer => offer.switchDirection === 'downgrade')
         .sort((aOffer, bOffer) => bOffer.price - aOffer.price);
       return availableSorted;
@@ -75,8 +82,7 @@ const Unsubscribe = ({
 
   const scheduledSwitch = () => {
     if (offerDetails.pendingSwitchId) {
-      const { planDetails } = store.getState();
-      return planDetails.switchDetails[offerDetails.pendingSwitchId];
+      return switchDetails[offerDetails.pendingSwitchId];
     }
     return false;
   };
@@ -379,7 +385,7 @@ const Unsubscribe = ({
             margin="30px auto 0 auto"
             onClickFn={() => {
               hideInnerPopup();
-              updateList();
+              dispatch(updateList());
             }}
           >
             {t('Back to My Account')}
@@ -393,7 +399,6 @@ const Unsubscribe = ({
 Unsubscribe.propTypes = {
   hideInnerPopup: PropTypes.func.isRequired,
   showInnerPopup: PropTypes.func.isRequired,
-  updateList: PropTypes.func.isRequired,
   offerDetails: PropTypes.objectOf(PropTypes.any).isRequired,
   customCancellationReasons: PropTypes.arrayOf(
     PropTypes.shape({

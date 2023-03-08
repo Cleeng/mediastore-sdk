@@ -47,17 +47,19 @@ const OfferCard = ({
   isPaused,
   t
 }) => {
-  const planDetailsState = useSelector(state => state.planDetails);
+  const { data: currentPlan } = useSelector(state => state.plan.currentPlan);
+  const { data: switchDetailsStore } = useSelector(
+    state => state.plan.switchDetails
+  );
   const { pauseOffersIDs } = useSelector(state => state.offers);
-  const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
+  const switchDetails = switchDetailsStore[pendingSwitchId];
   const isPauseInProgress = pauseOffersIDs.includes(switchDetails?.toOfferId);
 
   const getSwitchCopy = () => {
     if (switchDetails) {
       const subscriptionExpirationDate = dateFormat(
-        planDetailsState.currentPlan.find(
-          sub => sub.pendingSwitchId === pendingSwitchId
-        ).expiresAt
+        currentPlan.find(sub => sub.pendingSwitchId === pendingSwitchId)
+          .expiresAt
       );
       const { title: switchTitle, fromOfferId, toOfferId } = switchDetails;
       const translatedTitle = t(`offer-title-${fromOfferId}`, title);

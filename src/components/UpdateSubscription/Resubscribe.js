@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 
 import updateSubscription from 'api/Customer/updateSubscription';
 import { dateFormat, currencyFormat } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
+import { updateList } from 'redux/planDetailsSlice';
 
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
@@ -18,10 +20,12 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
-const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
+const Resubscribe = ({ offerDetails, hideInnerPopup, t }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+
+  const dispatch = useDispatch();
 
   const { expiresAt, nextPaymentPrice, nextPaymentCurrency } = offerDetails;
   const currencySymbol = currencyFormat[nextPaymentCurrency];
@@ -106,7 +110,7 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
             margin="30px auto 0 auto"
             onClickFn={() => {
               hideInnerPopup();
-              updateList();
+              dispatch(updateList());
             }}
           >
             {t('Back to My Account')}
@@ -119,7 +123,6 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
 
 Resubscribe.propTypes = {
   hideInnerPopup: PropTypes.func.isRequired,
-  updateList: PropTypes.func.isRequired,
   offerDetails: PropTypes.objectOf(PropTypes.any).isRequired,
   t: PropTypes.func
 };

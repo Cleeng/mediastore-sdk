@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -14,6 +14,7 @@ import eventDispatcher, {
   MSSDK_CANCEL_SWITCH_ACTION_FAILED,
   MSSDK_CANCEL_SWITCH_ACTION_CANCELLED
 } from 'util/eventDispatcher';
+import { updateList } from 'redux/planDetailsSlice';
 
 import {
   ContentStyled,
@@ -25,7 +26,6 @@ import {
 const CancelPausePopup = ({
   popupData: { pendingSwitchId, baseOfferExpirationDate, baseOfferPrice },
   hideInnerPopup,
-  updateList,
   setSwitchDetails,
   t
 }) => {
@@ -40,6 +40,8 @@ const CancelPausePopup = ({
     fromOfferId: switchDetails?.fromOfferId,
     toOfferId: switchDetails?.toOfferId
   };
+
+  const dispatch = useDispatch();
 
   const cancelPause = async () => {
     eventDispatcher(MSSDK_CANCEL_SWITCH_ACTION_TRIGGERED, eventsPayload);
@@ -131,7 +133,7 @@ const CancelPausePopup = ({
             <Button
               theme="confirm"
               onClickFn={() => {
-                updateList();
+                dispatch(updateList());
                 hideInnerPopup();
               }}
             >
@@ -151,13 +153,11 @@ CancelPausePopup.propTypes = {
     baseOfferPrice: PropTypes.string.isRequired
   }).isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
-  updateList: PropTypes.func,
   setSwitchDetails: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 
 CancelPausePopup.defaultProps = {
-  updateList: () => {},
   t: k => k
 };
 

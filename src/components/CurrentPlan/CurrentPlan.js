@@ -2,12 +2,13 @@
 
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import { getData } from 'util/appConfigHelper';
 
 import { ReactComponent as NoSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
 import { dateFormat, currencyFormat } from 'util/planHelper';
+import { setOfferToSwitch } from 'redux/planDetailsSlice';
 
 import MyAccountError from 'components/MyAccountError';
 import OfferCard from 'components/OfferCard';
@@ -78,21 +79,19 @@ const EmptyPlanView = () => {
 
 const supportedPaymentGateways = ['paypal', 'card', 'adyen'];
 
-const CurrentPlan = ({
-  subscriptions,
-  isLoading,
-  errors,
-  showInnerPopup,
-  setOfferToSwitch,
-  offerToSwitch,
-  updateList
-}) => {
+const CurrentPlan = ({ showInnerPopup, offerToSwitch }) => {
   const [isMessageBoxOpened, setIsMessageBoxOpened] = useState(false);
   const [messageBoxType, setMessageBoxType] = useState(null);
   const [messageBoxText, setMessageBoxText] = useState('');
   const [messageSubscriptionId, setMessageSubscriptionId] = useState(null);
   const { t } = useTranslation();
   const { pauseOffersIDs } = useSelector(store => store.offers);
+  const {
+    data: subscriptions,
+    loading: isLoading,
+    error: errors
+  } = useSelector(state => state.plan.currentPlan);
+  const dispatch = useDispatch();
 
   const getInfoBoxType = subscription => {
     if (subscription.offerType !== 'S') return '';
@@ -164,7 +163,7 @@ const CurrentPlan = ({
                   subItem.offerType === 'S' &&
                   subItem.status === 'active'
                 )
-                  setOfferToSwitch(subItem);
+                  dispatch(setOfferToSwitch(subItem));
               }}
               cursorPointer={
                 subscriptions.length > 1 &&
@@ -207,9 +206,7 @@ const CurrentPlan = ({
                   <SubscriptionManagement
                     subscription={subItem}
                     showInnerPopup={showInnerPopup}
-                    updateList={updateList}
                     showMessageBox={showMessageBox}
-                    setOfferToSwitch={setOfferToSwitch}
                   />
                 )}
             </SubscriptionStyled>
@@ -221,29 +218,7 @@ const CurrentPlan = ({
 };
 
 CurrentPlan.propTypes = {
-  subscriptions: PropTypes.arrayOf(
-    PropTypes.shape({
-      subscriptionId: PropTypes.number,
-      offerId: PropTypes.string,
-      status: PropTypes.string,
-      startedAt: PropTypes.number,
-      expiresAt: PropTypes.number,
-      nextPaymentPrice: PropTypes.number,
-      nextPaymentCurrency: PropTypes.string,
-      nextPaymentAt: PropTypes.number,
-      paymentGateway: PropTypes.string,
-      paymentMethod: PropTypes.string,
-      externalPaymentId: PropTypes.string,
-      inTrial: PropTypes.bool,
-      offerTitle: PropTypes.string,
-      period: PropTypes.string,
-      totalPrice: PropTypes.number
-    })
-  ),
-  isLoading: PropTypes.bool,
-  errors: PropTypes.arrayOf(PropTypes.string),
   showInnerPopup: PropTypes.func.isRequired,
-  setOfferToSwitch: PropTypes.func.isRequired,
   offerToSwitch: PropTypes.shape({
     subscriptionId: PropTypes.number,
     offerId: PropTypes.string,
@@ -260,32 +235,11 @@ CurrentPlan.propTypes = {
     offerTitle: PropTypes.string,
     period: PropTypes.string,
     totalPrice: PropTypes.number
-  }),
-  updateList: PropTypes.func.isRequired,
-  switchDetails: PropTypes.shape({
-    [PropTypes.string]: PropTypes.shape({
-      id: PropTypes.string,
-      customerId: PropTypes.number,
-      direction: PropTypes.string,
-      algorithm: PropTypes.string,
-      fromOfferId: PropTypes.string,
-      toOfferId: PropTypes.string,
-      subscriptionId: PropTypes.string,
-      status: PropTypes.string,
-      createdAt: PropTypes.number,
-      updatedAt: PropTypes.number
-    })
-  }),
-  t: PropTypes.func
+  })
 };
 
 CurrentPlan.defaultProps = {
-  subscriptions: [],
-  isLoading: false,
-  errors: [],
-  offerToSwitch: {},
-  switchDetails: {},
-  t: k => k
+  offerToSwitch: {}
 };
 
 export default CurrentPlan;

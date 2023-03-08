@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
 import formatNumber from 'util/formatNumber';
@@ -12,6 +13,7 @@ import Loader from 'components/Loader';
 import { dateFormat } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 import { ReactComponent as Close } from 'assets/images/errors/close.svg';
+import { updateList } from 'redux/planDetailsSlice';
 
 import {
   ContentStyled,
@@ -33,7 +35,6 @@ const SwitchPlanPopup = ({
   fromOffer,
   hideInnerPopup,
   showInnerPopup,
-  updateList,
   isPopupLoading,
   onCancel,
   onSwitchSuccess,
@@ -54,6 +55,7 @@ const SwitchPlanPopup = ({
   const [step, setStep] = useState(STEPS.SWITCH_DETAILS);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
+  const dispatch = useDispatch();
 
   const changePlan = async () => {
     setIsLoading(true);
@@ -95,7 +97,7 @@ const SwitchPlanPopup = ({
 
   const closePopupAndRefresh = () => {
     hideInnerPopup();
-    updateList();
+    dispatch(updateList());
   };
 
   if (isPopupLoading) {
@@ -604,7 +606,6 @@ SwitchPlanPopup.propTypes = {
   toOffer: PropTypes.objectOf(PropTypes.any),
   fromOffer: PropTypes.objectOf(PropTypes.any),
   hideInnerPopup: PropTypes.func,
-  updateList: PropTypes.func,
   isPopupLoading: PropTypes.bool,
   t: PropTypes.func,
   onCancel: PropTypes.func,
@@ -619,7 +620,6 @@ SwitchPlanPopup.defaultProps = {
   fromOffer: {},
   hideInnerPopup: () => {},
   showInnerPopup: () => {},
-  updateList: () => {},
   isPopupLoading: false,
   t: k => k,
   onCancel: null,

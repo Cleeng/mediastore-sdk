@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import Button from 'components/Button';
 import { currencyFormat } from 'util/planHelper';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { withTranslation } from 'react-i18next';
+import { setOfferToSwitch, updateList } from 'redux/planDetailsSlice';
 import labeling from 'containers/labeling';
 import { applyCoupon } from 'api';
 import CouponInput from 'components/CouponInput';
@@ -23,10 +24,8 @@ import {
 
 const SubscriptionManagement = ({
   subscription,
-  updateList,
   showInnerPopup,
   showMessageBox,
-  setOfferToSwitch,
   t
 }) => {
   const { pauseOffersIDs } = useSelector(store => store.offers);
@@ -39,6 +38,8 @@ const SubscriptionManagement = ({
   const [couponValue, setCouponValue] = useState('');
   const isPaused = pauseOffersIDs.includes(subscription.offerId);
 
+  const dispatch = useDispatch();
+
   const submitCoupon = subscriptionId => {
     if (couponValue) {
       setIsLoading(true);
@@ -48,7 +49,7 @@ const SubscriptionManagement = ({
             case 200:
               setIsCouponInputOpened(false);
               setIsLoading(false);
-              updateList();
+              dispatch(updateList());
               showMessageBox(
                 'success',
                 t('Your Coupon has been successfully reedemed.'),
@@ -126,7 +127,7 @@ const SubscriptionManagement = ({
               theme="simple"
               onClickFn={event => {
                 event.stopPropagation();
-                setOfferToSwitch(subscription);
+                dispatch(setOfferToSwitch(subscription));
                 showInnerPopup({
                   type: POPUP_TYPES.updateSubscription,
                   data: {
@@ -226,20 +227,16 @@ const SubscriptionManagement = ({
 
 SubscriptionManagement.propTypes = {
   subscription: PropTypes.objectOf(PropTypes.any),
-  updateList: PropTypes.func,
   showInnerPopup: PropTypes.func,
   showMessageBox: PropTypes.func,
-  t: PropTypes.func,
-  setOfferToSwitch: PropTypes.func
+  t: PropTypes.func
 };
 
 SubscriptionManagement.defaultProps = {
   subscription: {},
-  updateList: () => {},
   showInnerPopup: () => {},
   showMessageBox: () => {},
-  t: k => k,
-  setOfferToSwitch: () => {}
+  t: k => k
 };
 
 export { SubscriptionManagement as PureSubscriptionManagement };

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -8,6 +8,7 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
+import { updateList } from 'redux/planDetailsSlice';
 
 import {
   ContentStyled,
@@ -26,7 +27,6 @@ const CancelSwitchPopup = ({
     baseOfferPrice
   },
   hideInnerPopup,
-  updateList,
   setSwitchDetails,
   t
 }) => {
@@ -41,6 +41,7 @@ const CancelSwitchPopup = ({
     fromOfferId: switchDetails && switchDetails.fromOfferId,
     toOfferId: switchDetails && switchDetails.toOfferId
   };
+  const dispatch = useDispatch();
 
   const [offerIdsFallback, setOfferIdsFallback] = useState({}); // required to keep translations in step 2
   useEffect(() => {
@@ -170,7 +171,7 @@ const CancelSwitchPopup = ({
             <Button
               theme="confirm"
               onClickFn={() => {
-                updateList();
+                dispatch(updateList());
                 hideInnerPopup();
               }}
             >
@@ -193,13 +194,11 @@ CancelSwitchPopup.propTypes = {
     switchOfferTitle: PropTypes.string.isRequired
   }).isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
-  updateList: PropTypes.func,
   setSwitchDetails: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 
 CancelSwitchPopup.defaultProps = {
-  updateList: () => {},
   t: k => k
 };
 
