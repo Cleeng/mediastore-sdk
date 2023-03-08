@@ -1,5 +1,7 @@
+import { useTranslation } from 'react-i18next';
+
 export type OfferProps = {
   onSubmit: (str: string) => void;
   onPaymentComplete: () => void;
-  t?: (str: string) => string;
+  t: ReturnType<typeof useTranslation>['t'];
 };

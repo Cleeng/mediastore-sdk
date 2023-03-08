@@ -187,9 +187,7 @@ const OfferContainer = ({
     const types = Object.keys(errorTypes) as Errors[];
     if (!err) return undefined;
     return types.find(type =>
-      errorTypes[type as keyof typeof errorTypes].find(
-        item => item.includes(err) || err.includes(item)
-      )
+      errorTypes[type].find(item => item.includes(err) || err.includes(item))
     );
   };
   if (errorMsg || offerError || orderError) {

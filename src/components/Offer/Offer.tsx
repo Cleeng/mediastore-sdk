@@ -10,7 +10,7 @@ import Footer from 'components/Footer';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
 import { selectOffer } from 'redux/offerSlice';
-import { selectOrder } from 'redux/orderSlice';
+import { selectOnlyOrder } from 'redux/orderSlice';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
@@ -21,13 +21,13 @@ import {
 import OfferCheckoutCard from '../OfferCheckoutCard';
 import { OfferProps } from './Offer.types';
 
-const Offer = ({ onSubmit, onPaymentComplete, t = k => k }: OfferProps) => {
+const Offer = ({ onSubmit, onPaymentComplete, t }: OfferProps) => {
   const [coupon, setCoupon] = useState('');
   const { trialAvailable } = useAppSelector(selectOffer).offer;
   const {
     totalPrice,
     discount: { applied: discountApplied }
-  } = useAppSelector(selectOrder).order;
+  } = useAppSelector(selectOnlyOrder);
 
   const isFree = totalPrice === 0 && !trialAvailable && !discountApplied;
 
@@ -46,28 +46,24 @@ const Offer = ({ onSubmit, onPaymentComplete, t = k => k }: OfferProps) => {
     <StyledOfferWrapper>
       <Header />
       <main>
-        <>
-          <StyledOfferBody>
-            <SectionHeader center>{t('Complete your purchase')}</SectionHeader>
-            <>
-              <StyledOfferDetailsAndCoupon>
-                <OfferCardWrapperStyled>
-                  <OfferCheckoutCard />
-                </OfferCardWrapperStyled>
-                <StyledOfferCouponWrapper>
-                  <CouponInput
-                    onSubmit={onSubmit}
-                    value={coupon}
-                    onChange={(e: string) => setCoupon(e)}
-                    source="checkout"
-                  />
-                </StyledOfferCouponWrapper>
-              </StyledOfferDetailsAndCoupon>
-            </>
-            <CheckoutPriceBox />
-          </StyledOfferBody>
-          <Payment onPaymentComplete={onPaymentComplete} />
-        </>
+        <StyledOfferBody>
+          <SectionHeader center>{t('Complete your purchase')}</SectionHeader>
+          <StyledOfferDetailsAndCoupon>
+            <OfferCardWrapperStyled>
+              <OfferCheckoutCard />
+            </OfferCardWrapperStyled>
+            <StyledOfferCouponWrapper>
+              <CouponInput
+                onSubmit={onSubmit}
+                value={coupon}
+                onChange={(e: string) => setCoupon(e)}
+                source="checkout"
+              />
+            </StyledOfferCouponWrapper>
+          </StyledOfferDetailsAndCoupon>
+          <CheckoutPriceBox />
+        </StyledOfferBody>
+        <Payment onPaymentComplete={onPaymentComplete} />
       </main>
       <Footer />
     </StyledOfferWrapper>
