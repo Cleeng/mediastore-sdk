@@ -16,7 +16,7 @@ const LegalNote = ({
   const isInTrial = discount?.applied && discount.type === 'trial';
   const couponApplied = discount?.applied && discount.type !== 'trial';
   const readablePrice = `${currencyFormat[currency]}${offerPrice}`;
-  const readablePeriod = `${period ? `/${period}` : ''}`;
+  const readablePeriod = period ? `/${period}` : '';
 
   const CLEENG_MY_ACCOUNT_URL = 'CLEENG_MY_ACCOUNT_URL';
   const CLEENG_TERMS_URL = 'CLEENG_TERMS_URL';
