@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';

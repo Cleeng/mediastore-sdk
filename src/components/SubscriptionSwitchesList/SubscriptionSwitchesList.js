@@ -9,7 +9,7 @@ import { SimpleButtonStyled } from 'components/SubscriptionManagement/Subscripti
 import OfferCard from 'components/OfferCard';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
-import { ReactComponent as happyData } from 'assets/images/happyData.svg';
+// import { ReactComponent as happyData } from 'assets/images/happyData.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { periodMapper } from 'util/planHelper';
@@ -18,7 +18,7 @@ import { showPopup } from 'redux/popupSlice';
 import { ButtonWrapperStyled } from './SubscriptionSwitchesListStyled';
 import mapErrorToText from './helper';
 
-const SubscriptionSwitchesList = ({ isLoading, isSwitchInProgress, t }) => {
+const SubscriptionSwitchesList = ({ t }) => {
   const { data: switchDetails } = useSelector(
     state => state.plan.switchDetails
   );
@@ -42,7 +42,11 @@ const SubscriptionSwitchesList = ({ isLoading, isSwitchInProgress, t }) => {
 
   const dispatch = useDispatch();
 
-  if (isLoading) {
+  if (
+    isSwitchSettingsLoading ||
+    !switchSettings ||
+    Object.keys(switchSettings).length === 0
+  ) {
     return <SkeletonCard />;
   }
 
@@ -59,16 +63,18 @@ const SubscriptionSwitchesList = ({ isLoading, isSwitchInProgress, t }) => {
       />
     );
   }
-  if (isSwitchInProgress) {
-    return (
-      <MyAccountError
-        icon={happyData}
-        title={t('Subscription switch in progress!')}
-        subtitle={t('Please try again in a few moments.')}
-        margin="0 auto"
-      />
-    );
-  }
+
+  // TODO inform about switch in progress
+  // if (isSwitchInProgress) {
+  //   return (
+  //     <MyAccountError
+  //       icon={happyData}
+  //       title={t('Subscription switch in progress!')}
+  //       subtitle={t('Please try again in a few moments.')}
+  //       margin="0 auto"
+  //     />
+  //   );
+  // }
 
   const areAvailable = !!(
     switchSettings.available &&
@@ -204,14 +210,10 @@ const SubscriptionSwitchesList = ({ isLoading, isSwitchInProgress, t }) => {
 };
 
 SubscriptionSwitchesList.propTypes = {
-  isLoading: PropTypes.bool,
-  isSwitchInProgress: PropTypes.bool,
   t: PropTypes.func
 };
 
 SubscriptionSwitchesList.defaultProps = {
-  isLoading: false,
-  isSwitchInProgress: false,
   t: k => k
 };
 

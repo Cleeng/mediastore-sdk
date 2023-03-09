@@ -189,14 +189,6 @@ const CancelSwitchPopup = ({ t }) => {
 };
 
 CancelSwitchPopup.propTypes = {
-  popupData: PropTypes.shape({
-    pendingSwitchId: PropTypes.string.isRequired,
-    baseOfferTitle: PropTypes.string.isRequired,
-    baseOfferExpirationDate: PropTypes.string.isRequired,
-    baseOfferPrice: PropTypes.string.isRequired,
-    switchDirection: PropTypes.string.isRequired,
-    switchOfferTitle: PropTypes.string.isRequired
-  }).isRequired,
   t: PropTypes.func
 };
 

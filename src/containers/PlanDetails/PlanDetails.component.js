@@ -23,14 +23,7 @@ const PlanDetails = ({
   skipAvailableDowngradesStep, // this one have to stay here
   displayGracePeriodError // this one have to stay here
 }) => {
-  // eslint-disable-next-line no-unused-vars
-  const [isSwitchInProgress, setIsSwitchInProgress] = useState(false);
-
   const { data: currentPlan } = useSelector(state => state.plan.currentPlan);
-  const {
-    data: switchSettings,
-    loading: isSwitchSettingsLoading
-  } = useSelector(state => state.plan.switchSettings);
   const { offerToSwitch } = useSelector(state => state.plan);
   const { updateList: updateListValue } = useSelector(state => state.plan);
   const { offers } = useSelector(state => state.offers);
@@ -115,14 +108,7 @@ const PlanDetails = ({
           {activeSubscriptions.length !== 0 && !isPauseActive && (
             <>
               <SectionHeader>{t('Change Plan')}</SectionHeader>
-              <SubscriptionSwitchesList
-                isLoading={
-                  isSwitchSettingsLoading ||
-                  (Object.keys(switchSettings).length === 0 &&
-                    !isSwitchInProgress)
-                }
-                isSwitchInProgress={isSwitchInProgress}
-              />
+              <SubscriptionSwitchesList />
             </>
           )}
         </>
