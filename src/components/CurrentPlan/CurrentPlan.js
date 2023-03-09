@@ -1,7 +1,6 @@
 /* eslint-disable no-nested-ternary */
 
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import { getData } from 'util/appConfigHelper';
@@ -79,7 +78,7 @@ const EmptyPlanView = () => {
 
 const supportedPaymentGateways = ['paypal', 'card', 'adyen'];
 
-const CurrentPlan = ({ showInnerPopup, offerToSwitch }) => {
+const CurrentPlan = () => {
   const [isMessageBoxOpened, setIsMessageBoxOpened] = useState(false);
   const [messageBoxType, setMessageBoxType] = useState(null);
   const [messageBoxText, setMessageBoxText] = useState('');
@@ -91,6 +90,7 @@ const CurrentPlan = ({ showInnerPopup, offerToSwitch }) => {
     loading: isLoading,
     error: errors
   } = useSelector(state => state.plan.currentPlan);
+  const { offerToSwitch } = useSelector(state => state.plan);
   const dispatch = useDispatch();
 
   const getInfoBoxType = subscription => {
@@ -187,7 +187,6 @@ const CurrentPlan = ({ showInnerPopup, offerToSwitch }) => {
                 paymentMethod={subItem.paymentMethod}
                 pendingSwitchId={subItem.pendingSwitchId}
                 expiresAt={dateFormat(subItem.expiresAt)}
-                showInnerPopup={showInnerPopup}
                 offerId={subItem.offerId}
                 isPriceBoxHidden={isPaused}
                 isPaused={isPaused}
@@ -205,7 +204,6 @@ const CurrentPlan = ({ showInnerPopup, offerToSwitch }) => {
                 supportedPaymentGateways.includes(subItem.paymentGateway) && (
                   <SubscriptionManagement
                     subscription={subItem}
-                    showInnerPopup={showInnerPopup}
                     showMessageBox={showMessageBox}
                   />
                 )}
@@ -215,31 +213,6 @@ const CurrentPlan = ({ showInnerPopup, offerToSwitch }) => {
       </>
     </WrapStyled>
   );
-};
-
-CurrentPlan.propTypes = {
-  showInnerPopup: PropTypes.func.isRequired,
-  offerToSwitch: PropTypes.shape({
-    subscriptionId: PropTypes.number,
-    offerId: PropTypes.string,
-    status: PropTypes.string,
-    startedAt: PropTypes.number,
-    expiresAt: PropTypes.number,
-    nextPaymentPrice: PropTypes.number,
-    nextPaymentCurrency: PropTypes.string,
-    nextPaymentAt: PropTypes.number,
-    paymentGateway: PropTypes.string,
-    paymentMethod: PropTypes.string,
-    externalPaymentId: PropTypes.string,
-    inTrial: PropTypes.bool,
-    offerTitle: PropTypes.string,
-    period: PropTypes.string,
-    totalPrice: PropTypes.number
-  })
-};
-
-CurrentPlan.defaultProps = {
-  offerToSwitch: {}
 };
 
 export default CurrentPlan;

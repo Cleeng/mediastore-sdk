@@ -17,8 +17,8 @@ import {
 const MyAccountUserInfo = ({ t }) => {
   const { user } = useSelector(state => state.userProfile);
   const {
-    currentPlan: [plan]
-  } = useSelector(state => state.planDetails);
+    data: [plan]
+  } = useSelector(state => state.plan.currentPlan);
   const isDataLoaded = !!user;
   const subscription =
     plan && t(`offer-title-${plan.offerId}`, plan.offerTitle);

@@ -4,13 +4,7 @@ import { PropTypes } from 'prop-types';
 
 import SectionHeader from 'components/SectionHeader';
 import CurrentPlan from 'components/CurrentPlan';
-import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
-import SwitchPlanPopup from 'components/SwitchPlanPopup';
-import PauseSubscriptionPopup from 'components/PauseSubscriptionPopup';
-import ResumeSubscriptionPopup from 'components/ResumeSubscriptionPopup';
-import CancelSwitchPopup from 'components/CancelSwitchPopup';
-import CancelPausePopup from 'components/CancelPausePopup';
 import GracePeriodError from 'components/GracePeriodError';
 import { useDispatch, useSelector } from 'react-redux';
 import { init } from 'redux/publisherConfigSlice';
@@ -18,36 +12,33 @@ import {
   fetchCustomerOffers,
   fetchPendingSwitches,
   fetchAvailableSwitches,
-  setOfferToSwitch,
-  updateList,
-  setSwitchDetails
+  setOfferToSwitch
 } from 'redux/planDetailsSlice';
 import { fetchOffers } from 'redux/offersSlice';
+import PlanDetailsPopupManager from './PlanDetailsPopupManager';
 import { WrapStyled } from './PlanDetailsStyled';
 
 const PlanDetails = ({
-  innerPopup,
-  hideInnerPopup,
-  showInnerPopup,
   customCancellationReasons, // this one have to stay here
   skipAvailableDowngradesStep, // this one have to stay here
   displayGracePeriodError // this one have to stay here
 }) => {
+  // eslint-disable-next-line no-unused-vars
   const [isSwitchInProgress, setIsSwitchInProgress] = useState(false);
 
   const { data: currentPlan } = useSelector(state => state.plan.currentPlan);
-
   const {
     data: switchSettings,
-    loading: isSwitchSettingsLoading,
-    error: isSwitchSettingsError
+    loading: isSwitchSettingsLoading
   } = useSelector(state => state.plan.switchSettings);
-
   const { offerToSwitch } = useSelector(state => state.plan);
   const { updateList: updateListValue } = useSelector(state => state.plan);
-
   const { offers } = useSelector(state => state.offers);
   const { pauseOffersIDs } = useSelector(store => store.offers);
+  const {
+    global: { isOpen: isPopupOpen }
+  } = useSelector(state => state.popupManager);
+
   const { t } = useTranslation();
   const didMount = useRef(false);
   const dispatch = useDispatch();
@@ -82,10 +73,6 @@ const PlanDetails = ({
   };
 
   useEffect(() => {
-    if (innerPopup.isOpen) {
-      hideInnerPopup();
-      dispatch(updateList());
-    }
     if (currentPlan.length === 0) {
       fetchSubscriptions();
     }
@@ -107,72 +94,6 @@ const PlanDetails = ({
     }
   }, [updateListValue]);
 
-  const renderPopup = type => {
-    switch (type) {
-      case 'updateSubscription':
-        return (
-          <UpdateSubscription
-            hideInnerPopup={hideInnerPopup}
-            showInnerPopup={showInnerPopup}
-            offerDetails={innerPopup.data.offerData}
-            action={innerPopup.data.action}
-            customCancellationReasons={customCancellationReasons}
-            skipAvailableDowngradesStep={skipAvailableDowngradesStep}
-          />
-        );
-      case 'switchPlan':
-        return (
-          <SwitchPlanPopup
-            showInnerPopup={showInnerPopup}
-            toOffer={innerPopup.data.offerData}
-            fromOffer={offerToSwitch}
-            hideInnerPopup={hideInnerPopup}
-            isPartOfCancellationFlow={innerPopup.data.isPartOfCancellationFlow}
-          />
-        );
-      case 'pauseSubscription':
-        return (
-          <PauseSubscriptionPopup
-            showInnerPopup={showInnerPopup}
-            toOffer={innerPopup.data.offerData}
-            fromOffer={offerToSwitch}
-            hideInnerPopup={hideInnerPopup}
-            isPartOfCancellationFlow={innerPopup.data.isPartOfCancellationFlow}
-          />
-        );
-      case 'cancelSwitch':
-        return (
-          <CancelSwitchPopup
-            showInnerPopup={showInnerPopup}
-            hideInnerPopup={hideInnerPopup}
-            popupData={innerPopup.data}
-            setSwitchDetails={setSwitchDetails}
-          />
-        );
-      case 'cancelPause':
-        return (
-          <CancelPausePopup
-            showInnerPopup={showInnerPopup}
-            hideInnerPopup={hideInnerPopup}
-            popupData={innerPopup.data}
-            setSwitchDetails={setSwitchDetails}
-          />
-        );
-      case 'resumeSubscription':
-        return (
-          <ResumeSubscriptionPopup
-            showInnerPopup={showInnerPopup}
-            toOffer={innerPopup.data.offerData}
-            fromOffer={offerToSwitch}
-            hideInnerPopup={hideInnerPopup}
-            isPartOfCancellationFlow={innerPopup.data.isPartOfCancellationFlow}
-          />
-        );
-      default:
-        return <></>;
-    }
-  };
-
   const activeSubscriptions = currentPlan.filter(
     offer => offer.status === 'active' && offer.offerType === 'S'
   );
@@ -182,30 +103,25 @@ const PlanDetails = ({
   return (
     <WrapStyled>
       <GracePeriodError />
-      {innerPopup.isOpen ? (
-        renderPopup(innerPopup.type)
+      {isPopupOpen ? (
+        <PlanDetailsPopupManager
+          customCancellationReasons={customCancellationReasons}
+          skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+        />
       ) : (
         <>
           <SectionHeader>{t('Current plan')}</SectionHeader>
-          <CurrentPlan
-            showInnerPopup={showInnerPopup}
-            offerToSwitch={offerToSwitch}
-          />
+          <CurrentPlan />
           {activeSubscriptions.length !== 0 && !isPauseActive && (
             <>
               <SectionHeader>{t('Change Plan')}</SectionHeader>
               <SubscriptionSwitchesList
-                switchSettings={switchSettings[offerToSwitch.offerId]}
-                showInnerPopup={showInnerPopup}
-                isOfferSelected={!!offerToSwitch.offerId}
                 isLoading={
                   isSwitchSettingsLoading ||
                   (Object.keys(switchSettings).length === 0 &&
                     !isSwitchInProgress)
                 }
                 isSwitchInProgress={isSwitchInProgress}
-                errors={isSwitchSettingsError || []}
-                fromOfferId={offerToSwitch.offerId}
               />
             </>
           )}
@@ -216,9 +132,6 @@ const PlanDetails = ({
 };
 
 PlanDetails.propTypes = {
-  innerPopup: PropTypes.objectOf(PropTypes.any),
-  showInnerPopup: PropTypes.func.isRequired,
-  hideInnerPopup: PropTypes.func.isRequired,
   customCancellationReasons: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
@@ -230,7 +143,6 @@ PlanDetails.propTypes = {
 };
 
 PlanDetails.defaultProps = {
-  innerPopup: {},
   customCancellationReasons: null,
   skipAvailableDowngradesStep: false,
   displayGracePeriodError: null

@@ -10,6 +10,7 @@ import labeling from 'containers/labeling';
 import { applyCoupon } from 'api';
 import CouponInput from 'components/CouponInput';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
+import { showPopup } from 'redux/popupSlice';
 
 import {
   SubscriptionManagementStyled,
@@ -22,14 +23,11 @@ import {
   CouponWrapStyled
 } from './SubscriptionManagementStyled';
 
-const SubscriptionManagement = ({
-  subscription,
-  showInnerPopup,
-  showMessageBox,
-  t
-}) => {
+const SubscriptionManagement = ({ subscription, showMessageBox, t }) => {
   const { pauseOffersIDs } = useSelector(store => store.offers);
-  const { switchSettings } = useSelector(store => store.planDetails);
+  const { data: switchSettings } = useSelector(
+    store => store.plan.switchSettings
+  );
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isCouponInputOpened, setIsCouponInputOpened] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -128,15 +126,17 @@ const SubscriptionManagement = ({
               onClickFn={event => {
                 event.stopPropagation();
                 dispatch(setOfferToSwitch(subscription));
-                showInnerPopup({
-                  type: POPUP_TYPES.updateSubscription,
-                  data: {
-                    action: 'unsubscribe',
-                    offerData: {
-                      ...subscription
+                dispatch(
+                  showPopup({
+                    type: POPUP_TYPES.updateSubscription,
+                    data: {
+                      action: 'unsubscribe',
+                      offerData: {
+                        ...subscription
+                      }
                     }
-                  }
-                });
+                  })
+                );
                 window.dispatchEvent(
                   new CustomEvent('MSSDK:unsubscribe-button-clicked', {
                     detail: {
@@ -154,18 +154,20 @@ const SubscriptionManagement = ({
               theme="simple"
               onClickFn={event => {
                 event.stopPropagation();
-                showInnerPopup({
-                  type: POPUP_TYPES.updateSubscription,
-                  data: {
-                    action: 'resubscribe',
-                    offerData: {
-                      ...subscription,
-                      price: `${subscription.nextPaymentPrice}${
-                        currencyFormat[subscription.nextPaymentCurrency]
-                      }`
+                dispatch(
+                  showPopup({
+                    type: POPUP_TYPES.updateSubscription,
+                    data: {
+                      action: 'resubscribe',
+                      offerData: {
+                        ...subscription,
+                        price: `${subscription.nextPaymentPrice}${
+                          currencyFormat[subscription.nextPaymentCurrency]
+                        }`
+                      }
                     }
-                  }
-                });
+                  })
+                );
                 window.dispatchEvent(
                   new CustomEvent('MSSDK:resume-button-clicked', {
                     detail: {
@@ -203,14 +205,16 @@ const SubscriptionManagement = ({
               theme="primary"
               onClickFn={event => {
                 event.stopPropagation();
-                showInnerPopup({
-                  type: POPUP_TYPES.resumeSubscription,
-                  data: {
-                    offerData: {
-                      ...switchSettings[subscription?.offerId].available[0]
+                dispatch(
+                  showPopup({
+                    type: POPUP_TYPES.resumeSubscription,
+                    data: {
+                      offerData: {
+                        ...switchSettings[subscription?.offerId].available[0]
+                      }
                     }
-                  }
-                });
+                  })
+                );
               }}
             >
               {t(
@@ -227,14 +231,12 @@ const SubscriptionManagement = ({
 
 SubscriptionManagement.propTypes = {
   subscription: PropTypes.objectOf(PropTypes.any),
-  showInnerPopup: PropTypes.func,
   showMessageBox: PropTypes.func,
   t: PropTypes.func
 };
 
 SubscriptionManagement.defaultProps = {
   subscription: {},
-  showInnerPopup: () => {},
   showMessageBox: () => {},
   t: k => k
 };

@@ -8,7 +8,8 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
-import { updateList } from 'redux/planDetailsSlice';
+import { updateList, setSwitchDetails } from 'redux/planDetailsSlice';
+import { hidePopup } from 'redux/popupSlice';
 
 import {
   ContentStyled,
@@ -17,25 +18,26 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
-const CancelSwitchPopup = ({
-  popupData: {
-    pendingSwitchId,
-    switchDirection,
-    switchOfferTitle: untranslatedSwitchOfferTitle,
-    baseOfferTitle: untranslatedBaseOfferTitle,
-    baseOfferExpirationDate,
-    baseOfferPrice
-  },
-  hideInnerPopup,
-  setSwitchDetails,
-  t
-}) => {
+const CancelSwitchPopup = ({ t }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
 
-  const planDetailsState = useSelector(state => state.planDetails);
-  const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
+  const { data: allSwitchDetails } = useSelector(
+    state => state.plan.switchDetails
+  );
+  const {
+    data: {
+      pendingSwitchId,
+      switchDirection,
+      switchOfferTitle: untranslatedSwitchOfferTitle,
+      baseOfferTitle: untranslatedBaseOfferTitle,
+      baseOfferExpirationDate,
+      baseOfferPrice
+    }
+  } = useSelector(state => state.popupManager.cancelSwitch);
+
+  const switchDetails = allSwitchDetails[pendingSwitchId];
   const eventsPayload = {
     pendingSwitchId,
     fromOfferId: switchDetails && switchDetails.fromOfferId,
@@ -73,7 +75,9 @@ const CancelSwitchPopup = ({
       const resp = await updateSwitch(pendingSwitchId);
       if (!resp.errors.length) {
         setIsLoading(false);
-        setSwitchDetails({ details: { pendingSwitchId }, type: 'delete' });
+        dispatch(
+          setSwitchDetails({ details: { pendingSwitchId }, type: 'delete' })
+        );
         setStep(2);
         window.dispatchEvent(
           new CustomEvent('MSSDK:cancel-switch-action-successful', {
@@ -135,7 +139,7 @@ const CancelSwitchPopup = ({
                     detail: eventsPayload
                   })
                 );
-                hideInnerPopup();
+                dispatch(hidePopup({ type: 'cancelSwitch' }));
               }}
             >
               {t('No, thanks')}
@@ -171,8 +175,8 @@ const CancelSwitchPopup = ({
             <Button
               theme="confirm"
               onClickFn={() => {
+                dispatch(hidePopup({ type: 'cancelSwitch' }));
                 dispatch(updateList());
-                hideInnerPopup();
               }}
             >
               {t('Back to My Account')}
@@ -193,8 +197,6 @@ CancelSwitchPopup.propTypes = {
     switchDirection: PropTypes.string.isRequired,
     switchOfferTitle: PropTypes.string.isRequired
   }).isRequired,
-  hideInnerPopup: PropTypes.func.isRequired,
-  setSwitchDetails: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 

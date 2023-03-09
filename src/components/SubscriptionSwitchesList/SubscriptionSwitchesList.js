@@ -1,7 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
@@ -14,33 +14,42 @@ import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { periodMapper } from 'util/planHelper';
 import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
+import { showPopup } from 'redux/popupSlice';
 import { ButtonWrapperStyled } from './SubscriptionSwitchesListStyled';
 import mapErrorToText from './helper';
 
-const SubscriptionSwitchesList = ({
-  switchSettings,
-  showInnerPopup,
-  isOfferSelected,
-  isLoading,
-  errors,
-  isSwitchInProgress,
-  fromOfferId,
-  t
-}) => {
-  const planDetailsState = useSelector(state => state.planDetails);
+const SubscriptionSwitchesList = ({ isLoading, isSwitchInProgress, t }) => {
+  const { data: switchDetails } = useSelector(
+    state => state.plan.switchDetails
+  );
   const { pauseOffersIDs } = useSelector(state => state.offers);
-  const pendingSwtichesToOfferIdsArray = Object.keys(
-    planDetailsState.switchDetails
-  ).map(item => {
-    return planDetailsState.switchDetails[item].toOfferId;
-  });
+  const { offerToSwitch } = useSelector(state => state.plan);
+
+  const {
+    data: allSwitchSettings,
+    loading: isSwitchSettingsLoading,
+    error: isAllSwitchSettingsError
+  } = useSelector(state => state.plan.switchSettings);
+
+  const isOfferSelected = !!offerToSwitch.offerId;
+  const switchSettings = allSwitchSettings[offerToSwitch.offerId];
+  const fromOfferId = offerToSwitch.offerId;
+  const pendingSwtichesToOfferIdsArray = Object.keys(switchDetails).map(
+    item => {
+      return switchDetails[item].toOfferId;
+    }
+  );
+
+  const dispatch = useDispatch();
 
   if (isLoading) {
     return <SkeletonCard />;
   }
-  if (errors.length) {
+
+  if (isAllSwitchSettingsError.length) {
     return <MyAccountError generalError />;
   }
+
   if (!isOfferSelected) {
     return (
       <MyAccountError
@@ -146,14 +155,16 @@ const SubscriptionSwitchesList = ({
                         }
                       })
                     );
-                    showInnerPopup({
-                      type: POPUP_TYPES.switchPlan,
-                      data: {
-                        offerData: {
-                          ...subItem
+                    dispatch(
+                      showPopup({
+                        type: POPUP_TYPES.switchPlan,
+                        data: {
+                          offerData: {
+                            ...subItem
+                          }
                         }
-                      }
-                    });
+                      })
+                    );
                   }}
                 >
                   {subItem.switchDirection}
@@ -180,11 +191,11 @@ const SubscriptionSwitchesList = ({
                 showInfoBox={subItem.reason.code}
                 offerId={subItem.toOfferId}
               />
-              <WrapperStyled>
+              <ButtonWrapperStyled>
                 <SimpleButtonStyled disabled>
                   {subItem.switchDirection}
                 </SimpleButtonStyled>
-              </WrapperStyled>
+              </ButtonWrapperStyled>
             </SubscriptionStyled>
           );
         })}
@@ -193,22 +204,13 @@ const SubscriptionSwitchesList = ({
 };
 
 SubscriptionSwitchesList.propTypes = {
-  switchSettings: PropTypes.objectOf(PropTypes.any),
-  isOfferSelected: PropTypes.bool.isRequired,
-  errors: PropTypes.arrayOf(PropTypes.string),
-  showInnerPopup: PropTypes.func,
   isLoading: PropTypes.bool,
-  fromOfferId: PropTypes.string,
   isSwitchInProgress: PropTypes.bool,
   t: PropTypes.func
 };
 
 SubscriptionSwitchesList.defaultProps = {
-  switchSettings: {},
-  showInnerPopup: () => {},
-  errors: [],
   isLoading: false,
-  fromOfferId: '',
   isSwitchInProgress: false,
   t: k => k
 };

@@ -1,3 +1,3 @@
-import PlanDetails from './PlanDetails.container';
+import PlanDetails from './PlanDetails.component';
 
 export default PlanDetails;

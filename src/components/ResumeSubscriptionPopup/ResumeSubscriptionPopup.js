@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
 
@@ -15,6 +15,7 @@ import eventDispatcher, {
   MSSDK_SWITCH_POPUP_ACTION_FAILED
 } from 'util/eventDispatcher';
 import { updateList } from 'redux/planDetailsSlice';
+import { hidePopup } from 'redux/popupSlice';
 
 import {
   ContentStyled,
@@ -30,12 +31,7 @@ import {
   ImageStyled
 } from './ResumeSubscriptionPopupStyled';
 
-const ResumeSubscriptionPopup = ({
-  toOffer,
-  fromOffer,
-  hideInnerPopup,
-  isPopupLoading
-}) => {
+const ResumeSubscriptionPopup = () => {
   const STEPS = {
     RESUME_DETAILS: 'RESUME_DETAILS',
     CONFIRMATION: 'CONFIRMATION'
@@ -50,6 +46,13 @@ const ResumeSubscriptionPopup = ({
   const [step, setStep] = useState(STEPS.RESUME_DETAILS);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
+  const { offerToSwitch: fromOffer } = useSelector(state => state.plan);
+  const {
+    resumeSubscription: {
+      data: { offerData: toOffer },
+      isLoading: isPopupLoading
+    }
+  } = useSelector(state => state.popupManager);
 
   const dispatch = useDispatch();
 
@@ -85,7 +88,7 @@ const ResumeSubscriptionPopup = ({
   };
 
   const closePopupAndRefresh = () => {
-    hideInnerPopup();
+    dispatch(hidePopup({ type: 'resumeSubscription' }));
     dispatch(updateList());
   };
 
@@ -231,20 +234,6 @@ const ResumeSubscriptionPopup = ({
       )}
     </InnerPopupWrapper>
   );
-};
-
-ResumeSubscriptionPopup.propTypes = {
-  toOffer: PropTypes.objectOf(PropTypes.any),
-  fromOffer: PropTypes.objectOf(PropTypes.any),
-  hideInnerPopup: PropTypes.func,
-  isPopupLoading: PropTypes.bool
-};
-
-ResumeSubscriptionPopup.defaultProps = {
-  toOffer: {},
-  fromOffer: {},
-  hideInnerPopup: () => {},
-  isPopupLoading: false
 };
 
 export default ResumeSubscriptionPopup;

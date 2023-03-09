@@ -17,12 +17,12 @@ const initialState = {
   switchSettings: {
     data: {},
     loading: false,
-    error: null
+    error: []
   },
   switchDetails: {
     data: {},
     loading: false,
-    error: null
+    error: []
   }
 };
 

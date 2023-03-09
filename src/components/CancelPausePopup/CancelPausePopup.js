@@ -14,7 +14,8 @@ import eventDispatcher, {
   MSSDK_CANCEL_SWITCH_ACTION_FAILED,
   MSSDK_CANCEL_SWITCH_ACTION_CANCELLED
 } from 'util/eventDispatcher';
-import { updateList } from 'redux/planDetailsSlice';
+import { setSwitchDetails, updateList } from 'redux/planDetailsSlice';
+import { hidePopup } from 'redux/popupSlice';
 
 import {
   ContentStyled,
@@ -23,18 +24,21 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
-const CancelPausePopup = ({
-  popupData: { pendingSwitchId, baseOfferExpirationDate, baseOfferPrice },
-  hideInnerPopup,
-  setSwitchDetails,
-  t
-}) => {
+const CancelPausePopup = ({ t }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
 
-  const planDetailsState = useSelector(state => state.planDetails);
-  const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
+  const { data: allSwitchDetails } = useSelector(
+    state => state.plan.switchDetails
+  );
+  const {
+    cancelPause: {
+      data: { pendingSwitchId, baseOfferExpirationDate, baseOfferPrice }
+    }
+  } = useSelector(state => state.popupManager);
+
+  const switchDetails = allSwitchDetails[pendingSwitchId];
   const eventsPayload = {
     pendingSwitchId,
     fromOfferId: switchDetails?.fromOfferId,
@@ -50,7 +54,9 @@ const CancelPausePopup = ({
       const { errors } = await updateSwitch(pendingSwitchId);
       if (!errors.length) {
         setIsLoading(false);
-        setSwitchDetails({ details: { pendingSwitchId }, type: 'delete' });
+        dispatch(
+          setSwitchDetails({ details: { pendingSwitchId }, type: 'delete' })
+        );
         setStep(2);
         eventDispatcher(MSSDK_CANCEL_SWITCH_ACTION_SUCCESSFUL, eventsPayload);
       } else {
@@ -100,7 +106,7 @@ const CancelPausePopup = ({
                   MSSDK_CANCEL_SWITCH_ACTION_CANCELLED,
                   eventsPayload
                 );
-                hideInnerPopup();
+                dispatch(hidePopup({ type: 'cancelPause' }));
               }}
             >
               {t('No, thanks')}
@@ -134,7 +140,7 @@ const CancelPausePopup = ({
               theme="confirm"
               onClickFn={() => {
                 dispatch(updateList());
-                hideInnerPopup();
+                dispatch(hidePopup({ type: 'cancelPause' }));
               }}
             >
               {t('Back to My Account')}
@@ -147,13 +153,6 @@ const CancelPausePopup = ({
 };
 
 CancelPausePopup.propTypes = {
-  popupData: PropTypes.shape({
-    pendingSwitchId: PropTypes.string.isRequired,
-    baseOfferExpirationDate: PropTypes.string.isRequired,
-    baseOfferPrice: PropTypes.string.isRequired
-  }).isRequired,
-  hideInnerPopup: PropTypes.func.isRequired,
-  setSwitchDetails: PropTypes.func.isRequired,
   t: PropTypes.func
 };
 
