@@ -1,15 +1,11 @@
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
 import Button from 'components/Button';
+import { useTranslation } from 'react-i18next';
 import { PayPalContentStyled } from './PayPalStyled';
 import { PayPalProps } from './PayPal.types';
 
-const PayPal = ({
-  totalPrice,
-  offerId,
-  onSubmit,
-  isLoading,
-  t
-}: PayPalProps) => {
+const PayPal = ({ totalPrice, offerId, onSubmit, isLoading }: PayPalProps) => {
+  const { t } = useTranslation();
   return (
     <PayPalContentStyled>
       <>
