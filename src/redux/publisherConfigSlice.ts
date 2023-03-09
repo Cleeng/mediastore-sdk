@@ -15,11 +15,12 @@ export type AdyenConfiguration = {
       billingAddressRequired: boolean;
       billingAddressMode: string;
       brands: string[];
-      brandsConfiguration: {
-        visa: {
+      brandsConfiguration: Record<
+        string,
+        {
           icon: string;
-        };
-      };
+        }
+      >;
       showBrandIcon: boolean;
       showBrandsUnderCardNumber: boolean;
       positionHolderNameOnTop: boolean;
@@ -32,13 +33,22 @@ export type AdyenConfiguration = {
   openFirstPaymentMethod: boolean;
 };
 
+export type PaymentMethodName =
+  | 'card'
+  | 'applepay'
+  | 'googlepay'
+  | 'paypal'
+  | 'manual';
+
+export type PaymentGateway = 'adyen' | 'paypal' | 'manual';
+
 type PublisherConfig = {
   offerId: string;
   paymentMethods: {
     id: number;
     logoUrl: string;
-    methodName: string;
-    paymentGateway: string;
+    methodName: PaymentMethodName;
+    paymentGateway: PaymentGateway;
   }[];
   adyenConfiguration: null | AdyenConfiguration;
   displayGracePeriodError: boolean;

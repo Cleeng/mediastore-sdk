@@ -53,7 +53,7 @@ const OfferContainer = ({
   const offerId = offerIdProp || offerIdStore;
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
-  const freeOfferPaymentMethodHandler = (orderId: string) => {
+  const freeOfferPaymentMethodHandler = (orderId: number) => {
     getPaymentMethods().then(paymentMethodResponse => {
       const {
         responseData: { paymentMethods }

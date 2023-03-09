@@ -2,13 +2,14 @@ import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import jwtDecode from 'jwt-decode';
+import { PaymentGateway } from 'redux/publisherConfigSlice';
 
 type PaymentDetail = {
   active: boolean;
   bound: boolean;
   customerId: number;
   id: number;
-  paymentGateway: string;
+  paymentGateway: PaymentGateway;
   paymentMethod: string;
   paymentMethodId: number;
   paymentMethodSpecificParams: {
