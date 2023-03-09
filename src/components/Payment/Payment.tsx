@@ -66,7 +66,7 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
   const [dropInInstance, setDropInInstance] = useState<
     typeof RedirectElement | null
   >(null);
-  const [adyenKey, setAdyenKey] = useState(false);
+  const [adyenKey, setAdyenKey] = useState<number | null>(null);
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
     false
   );
@@ -205,7 +205,7 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
       setIsLoading(false);
       // force Adyen remount
       setDropInInstance(null);
-      setAdyenKey(key => !key);
+      setAdyenKey(key => (key ? null : 1));
       return;
     }
 
@@ -299,8 +299,6 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
         {isPaymentFinalizationInProgress && <Loader />}
         {shouldShowAdyen && (
           <Adyen
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             key={adyenKey}
             onSubmit={onAdyenSubmit}
             selectPaymentMethod={selectPaymentMethodHandler}
