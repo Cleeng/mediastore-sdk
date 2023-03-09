@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import isErrorMsg from 'util/reduxValidation';
 import { RootState } from './rootReducer';
 import { getOfferDetails } from '../api';
 
@@ -49,7 +48,7 @@ type Offer = {
 type InitialState = {
   offer: Offer | Record<string, never>;
   loading: boolean;
-  error: string | null;
+  error: string | null | undefined;
   isOfferFree: boolean;
 };
 
@@ -60,18 +59,24 @@ const initialState: InitialState = {
   isOfferFree: false
 };
 
-export const fetchOffer = createAsyncThunk(
-  'offer/fetchOffer',
-  async (orderId: string, { rejectWithValue }) => {
-    try {
-      const result = await getOfferDetails(orderId);
-      return result as Offer;
-    } catch (err) {
-      if (isErrorMsg(err)) return rejectWithValue(err.message);
-      return rejectWithValue(err);
-    }
+type RejectValueError = {
+  message: string;
+};
+
+export const fetchOffer = createAsyncThunk<
+  Offer,
+  string,
+  {
+    rejectValue: RejectValueError;
   }
-);
+>('offer/fetchOffer', async (orderId, { rejectWithValue }) => {
+  try {
+    const result = await getOfferDetails(orderId);
+    return result as Offer;
+  } catch (err) {
+    return rejectWithValue(err as RejectValueError);
+  }
+});
 
 export const offerSlice = createSlice({
   name: 'offer',
@@ -85,16 +90,17 @@ export const offerSlice = createSlice({
     builder.addCase(fetchOffer.pending, state => {
       state.loading = true;
     });
-    builder.addCase(
-      fetchOffer.fulfilled,
-      (state, action: PayloadAction<Offer>) => {
-        state.loading = false;
-        state.offer = action.payload;
-      }
-    );
+    builder.addCase(fetchOffer.fulfilled, (state, action) => {
+      state.loading = false;
+      state.offer = action.payload;
+    });
     builder.addCase(fetchOffer.rejected, (state, action) => {
       state.loading = false;
-      state.error = action.payload as typeof initialState['error'];
+      if (action.payload) {
+        state.error = action.payload.message;
+      } else {
+        state.error = action.error.message;
+      }
     });
   }
 });
