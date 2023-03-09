@@ -9,7 +9,6 @@
 
 # testing
 /coverage
-coverage-ts
 
 # production
 /build
@@ -32,6 +31,3 @@ yarn-error.log*
 
 # VSCode
 .vscode
-
-# Webstorm
-.idea
