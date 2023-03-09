@@ -1,11 +1,7 @@
 module.exports = function(api) {
   api.cache(true);
 
-  const presets = [
-    '@babel/preset-env',
-    '@babel/preset-typescript',
-    ['@babel/preset-react', { runtime: 'automatic' }]
-  ];
+  const presets = ['@babel/preset-env', '@babel/preset-react'];
   const plugins = [
     'macros',
     '@babel/plugin-transform-runtime',
@@ -50,8 +46,7 @@ module.exports = function(api) {
         root: ['./src'],
         alias: {
           test: './test',
-          underscore: 'lodash',
-          components: './src/components'
+          underscore: 'lodash'
         }
       }
     ]
