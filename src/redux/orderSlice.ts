@@ -4,7 +4,7 @@ import { createOrder, getOrder, updateOrder } from '../api';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../components/Input';
 import { RootState } from './rootReducer';
 
-type Order = {
+export type Order = {
   billingAddress: unknown;
   country: string;
   couponId: unknown;
