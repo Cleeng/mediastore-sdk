@@ -4,10 +4,13 @@ import getApiURL from 'util/environmentHelper';
 const getPaymentMethods = (): Promise<{
   responseData: {
     paymentMethods: {
+      id: number;
       methodName: string;
-      id: string;
-      [key: string]: unknown;
+      paymentGateway: string;
+      logoUrl: string;
     }[];
+    message: string,
+    status: number;
   };
   errors: string;
 }> => {

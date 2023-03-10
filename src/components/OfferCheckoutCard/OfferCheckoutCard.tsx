@@ -10,7 +10,7 @@ import {
   periodMapper,
   isPeriod
 } from 'util/planHelper';
-import { selectOnlyOffer } from 'redux/offerSlice';
+import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import getReadablePeriod from './OfferCheckoutCard.utils';
 import { OfferCheckoutCardProps } from './OfferCheckoutCard.types';
@@ -25,10 +25,7 @@ import {
 } from './OfferCheckoutCardStyled';
 import Price from '../Price';
 
-const OfferCheckoutCard = ({
-  isDataLoaded = true,
-  t
-}: OfferCheckoutCardProps) => {
+const OfferCheckoutCard = ({ t }: OfferCheckoutCardProps) => {
   const {
     offerTitle: title,
     trialAvailable: isTrialAvailable,
@@ -37,8 +34,9 @@ const OfferCheckoutCard = ({
     freePeriods,
     freeDays,
     expiresAt,
-    startTime
+    startTime,
   } = useAppSelector(selectOnlyOffer);
+  const { loading } = useAppSelector(selectOffer);
   const {
     priceBreakdown: { offerPrice },
     taxRate,
@@ -77,8 +75,7 @@ const OfferCheckoutCard = ({
           : 'after {{freePeriods}} weeks. </br>Next payments will occur every week.';
     }
     return t(
-      `subscription-desc.trial-period${
-        freePeriods === 1 ? '' : 's'
+      `subscription-desc.trial-period${freePeriods === 1 ? '' : 's'
       }.period-${period}`,
       formattedDescription,
       {
@@ -122,9 +119,8 @@ const OfferCheckoutCard = ({
         : '';
     }
     if (offerType === 'E') {
-      return `Pay-per-view event ${
-        startTime ? dateFormat(startTime, true) : ''
-      }`;
+      return `Pay-per-view event ${startTime ? dateFormat(startTime, true) : ''
+        }`;
     }
     if (offerType === 'R') {
       return isPeriod(period)
@@ -139,19 +135,19 @@ const OfferCheckoutCard = ({
 
   return (
     <WrapperStyled>
-      <SkeletonWrapper showChildren={isDataLoaded} width={50} height={50}>
+      <SkeletonWrapper showChildren={!loading} width={50} height={50}>
         <SubscriptionIcon period={period || offerType} />
       </SkeletonWrapper>
       <InnerWrapper>
         <SkeletonWrapper
-          showChildren={isDataLoaded}
+          showChildren={!loading}
           width={200}
           margin="0 0 10px 10px"
         >
           <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
         </SkeletonWrapper>
         <SkeletonWrapper
-          showChildren={isDataLoaded}
+          showChildren={!loading}
           width={300}
           margin="0 0 10px 10px"
         >
@@ -161,7 +157,7 @@ const OfferCheckoutCard = ({
         </SkeletonWrapper>
       </InnerWrapper>
       <PriceWrapperStyled>
-        <SkeletonWrapper showChildren={isDataLoaded} width={80} height={30}>
+        <SkeletonWrapper showChildren={!loading} width={80} height={30}>
           {isTrialAvailable && (
             <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
           )}

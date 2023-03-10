@@ -9,7 +9,7 @@ import SectionHeader from 'components/SectionHeader';
 import Footer from 'components/Footer';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
-import { selectOffer } from 'redux/offerSlice';
+import { selectOnlyOffer } from 'redux/offerSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import {
   StyledOfferBody,
@@ -21,9 +21,9 @@ import {
 import OfferCheckoutCard from '../OfferCheckoutCard';
 import { OfferProps } from './Offer.types';
 
-const Offer = ({ onSubmit, onPaymentComplete, t }: OfferProps) => {
+const Offer = ({ onCouponSubmit, onPaymentComplete, t }: OfferProps) => {
   const [coupon, setCoupon] = useState('');
-  const { trialAvailable } = useAppSelector(selectOffer).offer;
+  const { trialAvailable } = useAppSelector(selectOnlyOffer);
   const {
     totalPrice,
     discount: { applied: discountApplied }
@@ -54,7 +54,7 @@ const Offer = ({ onSubmit, onPaymentComplete, t }: OfferProps) => {
             </OfferCardWrapperStyled>
             <StyledOfferCouponWrapper>
               <CouponInput
-                onSubmit={onSubmit}
+                onSubmit={onCouponSubmit}
                 value={coupon}
                 onChange={(e: string) => setCoupon(e)}
                 source="checkout"
