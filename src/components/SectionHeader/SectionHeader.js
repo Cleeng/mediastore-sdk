@@ -6,7 +6,7 @@ import { FontColor, BigFont, BoldFont } from 'styles/variables';
 const HeadingStyled = styled.h2.attrs(() => ({
   className: 'msd__section-header'
 }))`
-  padding-bottom: ${props => props.paddingBottom};
+  padding-bottom: ${({ paddingBottom }) => paddingBottom};
   font-size: ${BigFont};
   font-weight: ${BoldFont};
   color: ${FontColor};

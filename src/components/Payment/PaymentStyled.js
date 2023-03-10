@@ -37,7 +37,7 @@ export const LegalNoteWrapperStyled = styled.div.attrs(() => ({
 
 export const LegalTextStyled = styled.p`
   font-size: 11px;
-  margin-bottom: ${props => props.marginBottom};
+  margin-bottom: ${({ marginBottom }) => marginBottom};
   line-height: 17px;
   font-weight: 400;
   color: ${colors.MyAccountTextGray};
