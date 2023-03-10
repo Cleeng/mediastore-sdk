@@ -11,7 +11,7 @@ type Order = {
   currency: CurrencyFormat;
   customer: { locale: string; email: string };
   customerId: number;
-  discount: { applied: boolean; type: string; periods: number };
+  discount: { applied: boolean; type: 'trial' | 'coupon' | ''; periods: number };
   expirationDate: number;
   id: number;
   offer: {
@@ -140,7 +140,7 @@ export const fetchUpdateCoupon = createAsyncThunk<
   }
 >('order/updateCoupon', async ({ id, couponCode }, { rejectWithValue }) => {
   try {
-    const { order } = await updateOrder(id, couponCode);
+    const { order } = await updateOrder(id, { couponCode });
     return order;
   } catch (err) {
     return rejectWithValue(err as RejectValueError);
