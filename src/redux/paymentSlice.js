@@ -10,8 +10,8 @@ export const submitPaymentWithoutDetails = createAsyncThunk(
   'payment/submitPaymentWithoutDetails',
   async (_, { rejectWithValue }) => {
     try {
-      const { responseData } = await submitPaymentWithoutDetailsRequest();
-      return responseData;
+      const payment = await submitPaymentWithoutDetailsRequest();
+      return payment;
     } catch (err) {
       return rejectWithValue(err.message);
     }
