@@ -1,8 +1,10 @@
 module.exports = {
-  overrides: [{
-    "files": [ "*.js" ],
-    "rules": {
-      "no-param-reassign": 0
+  overrides: [
+    {
+      files: ['*.js', '*.ts'],
+      rules: {
+        'no-param-reassign': 0
+      }
     }
-  }]
+  ]
 };

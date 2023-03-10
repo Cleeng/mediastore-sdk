@@ -1,34 +1,34 @@
-/* eslint-disable react/forbid-prop-types */
-
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import PaymentMethod from 'components/PaymentMethod';
 import SectionHeader from 'components/SectionHeader';
 import Transactions from 'components/Transactions';
-import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
-import { useSelector, useDispatch } from 'react-redux';
 import GracePeriodError from 'components/GracePeriodError';
-import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
+import {
+  init as initPublisherConfig,
+  selectAdyenConfiguration
+} from 'redux/publisherConfigSlice';
 import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
-import { updatePaymentDetailsPopup } from 'redux/popupSlice';
+import {
+  selectPaymentDetailsPopup,
+  updatePaymentDetailsPopup
+} from 'redux/popupSlice';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import { WrapStyled } from './PaymentInfoStyled';
+import { PaymentInfoProps } from './PaymentInfo.types';
 
 const PaymentInfo = ({
   adyenConfiguration: adyenConfigurationProp,
   t,
   displayGracePeriodError
-}) => {
-  const dispatch = useDispatch();
+}: PaymentInfoProps) => {
+  const dispatch = useAppDispatch();
 
-  const { adyenConfiguration: adyenConfigurationStore } = useSelector(
-    state => state.publisherConfig
-  );
+  const adyenConfigurationStore = useAppSelector(selectAdyenConfiguration);
 
-  const { paymentDetails: paymentDetailsPopup } = useSelector(
-    state => state.popupManager
-  );
+  const paymentDetailsPopup = useAppSelector(selectPaymentDetailsPopup);
 
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
@@ -65,18 +65,6 @@ const PaymentInfo = ({
       )}
     </WrapStyled>
   );
-};
-
-PaymentInfo.propTypes = {
-  adyenConfiguration: PropTypes.objectOf(PropTypes.any),
-  t: PropTypes.func,
-  displayGracePeriodError: PropTypes.bool
-};
-
-PaymentInfo.defaultProps = {
-  adyenConfiguration: null,
-  t: k => k,
-  displayGracePeriodError: null
 };
 
 export default withTranslation()(

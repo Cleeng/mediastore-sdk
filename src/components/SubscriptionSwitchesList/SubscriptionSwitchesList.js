@@ -5,7 +5,10 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
-import { SimpleButtonStyled } from 'components/SubscriptionManagement/SubscriptionManagementStyled';
+import {
+  SimpleButtonStyled,
+  WrapperStyled
+} from 'components/SubscriptionManagement/SubscriptionManagementStyled';
 import OfferCard from 'components/OfferCard';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';

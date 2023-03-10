@@ -1,30 +1,30 @@
 /* eslint-disable no-nested-ternary */
 
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Trans, useTranslation } from 'react-i18next';
-import { getData } from 'util/appConfigHelper';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Trans, useTranslation } from "react-i18next";
+import { getData } from "util/appConfigHelper";
 
-import { ReactComponent as NoSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
-import { dateFormat, currencyFormat } from 'util/planHelper';
-import { setOfferToSwitch } from 'redux/planDetailsSlice';
+import { ReactComponent as NoSubscriptionsIcon } from "assets/images/errors/sad_coupon.svg";
+import { dateFormat, currencyFormat } from "util/planHelper";
+import { setOfferToSwitch } from "redux/planDetailsSlice";
 
-import MyAccountError from 'components/MyAccountError';
-import OfferCard from 'components/OfferCard';
-import SubscriptionManagement from 'components/SubscriptionManagement';
-import MessageBox from 'components/MessageBox';
+import MyAccountError from "components/MyAccountError";
+import OfferCard from "components/OfferCard";
+import SubscriptionManagement from "components/SubscriptionManagement";
+import MessageBox from "components/MessageBox";
 
 import {
   WrapStyled as ErrorWrapStyled,
   TitleStyled,
   SubTitleStyled,
   IconStyled
-} from 'components/MyAccountError/MyAccountErrorStyled';
+} from "components/MyAccountError/MyAccountErrorStyled";
 import {
   WrapStyled,
   SubscriptionStyled,
   StatusMessageWrapStyled
-} from './CurrentPlanStyled';
+} from "./CurrentPlanStyled";
 
 export const SkeletonCard = () => {
   return (
@@ -51,13 +51,13 @@ const EmptyPlanView = () => {
         <IconStyled>
           <NoSubscriptionsIcon />
         </IconStyled>
-        <TitleStyled>{t('No offers yet!')}</TitleStyled>
+        <TitleStyled>{t("No offers yet!")}</TitleStyled>
         <SubTitleStyled>
-          {getData('CLEENG_OFFER_SELECTION_URL') ? (
+          {getData("CLEENG_OFFER_SELECTION_URL") ? (
             <Trans i18nKey="myaccount-nooffers-withlink">
-              If you{' '}
+              If you{" "}
               <a
-                href={getData('CLEENG_OFFER_SELECTION_URL')}
+                href={getData("CLEENG_OFFER_SELECTION_URL")}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -67,7 +67,7 @@ const EmptyPlanView = () => {
             </Trans>
           ) : (
             t(
-              'If you choose your plan, you will be able to manage your offers here.'
+              "If you choose your plan, you will be able to manage your offers here."
             )
           )}
         </SubTitleStyled>
@@ -76,12 +76,12 @@ const EmptyPlanView = () => {
   );
 };
 
-const supportedPaymentGateways = ['paypal', 'card', 'adyen'];
+const supportedPaymentGateways = ["paypal", "card", "adyen"];
 
 const CurrentPlan = () => {
   const [isMessageBoxOpened, setIsMessageBoxOpened] = useState(false);
   const [messageBoxType, setMessageBoxType] = useState(null);
-  const [messageBoxText, setMessageBoxText] = useState('');
+  const [messageBoxText, setMessageBoxText] = useState("");
   const [messageSubscriptionId, setMessageSubscriptionId] = useState(null);
   const { t } = useTranslation();
   const { pauseOffersIDs } = useSelector(store => store.offers);
@@ -94,12 +94,12 @@ const CurrentPlan = () => {
   const dispatch = useDispatch();
 
   const getInfoBoxType = subscription => {
-    if (subscription.offerType !== 'S') return '';
-    if (subscription.status === 'active' && subscription.pendingSwitchId)
-      return 'SWITCH';
+    if (subscription.offerType !== "S") return "";
+    if (subscription.status === "active" && subscription.pendingSwitchId)
+      return "SWITCH";
     if (supportedPaymentGateways.includes(subscription.paymentGateway))
-      return '';
-    return 'INAPP_SUBSCRIPTION';
+      return "";
+    return "INAPP_SUBSCRIPTION";
   };
 
   const showMessageBox = (type, text, subscriptionId) => {
@@ -126,27 +126,27 @@ const CurrentPlan = () => {
           let renewalDate;
 
           switch (subItem.offerType) {
-            case 'S':
+            case "S":
               price = subItem.nextPaymentPrice;
               currency = subItem.nextPaymentCurrency;
               renewalDate = dateFormat(subItem.expiresAt);
-              if (subItem.status === 'active' && !subItem.pendingSwitchId) {
-                description = `${t('Renews automatically on {{renewalDate}}', {
+              if (subItem.status === "active" && !subItem.pendingSwitchId) {
+                description = `${t("Renews automatically on {{renewalDate}}", {
                   renewalDate
                 })}`;
-              } else if (subItem.status === 'cancelled') {
-                description = `${t('This plan will expire on {{renewalDate}}', {
+              } else if (subItem.status === "cancelled") {
+                description = `${t("This plan will expire on {{renewalDate}}", {
                   renewalDate
                 })}`;
               } else {
-                description = '';
+                description = "";
               }
 
               break;
-            case 'P':
+            case "P":
               price = subItem.totalPrice;
               currency = subItem.customerCurrency;
-              description = `${t('Expires on')} ${dateFormat(
+              description = `${t("Expires on")} ${dateFormat(
                 subItem.expiresAt
               )}`;
               break;
@@ -160,15 +160,15 @@ const CurrentPlan = () => {
               onClick={() => {
                 if (
                   subscriptions.length > 1 &&
-                  subItem.offerType === 'S' &&
-                  subItem.status === 'active'
+                  subItem.offerType === "S" &&
+                  subItem.status === "active"
                 )
                   dispatch(setOfferToSwitch(subItem));
               }}
               cursorPointer={
                 subscriptions.length > 1 &&
-                subItem.status === 'active' &&
-                subItem.offerType === 'S'
+                subItem.status === "active" &&
+                subItem.offerType === "S"
               }
               isSelected={
                 subscriptions.length > 1 &&
@@ -200,7 +200,7 @@ const CurrentPlan = () => {
                     />
                   </StatusMessageWrapStyled>
                 )}
-              {subItem.offerType === 'S' &&
+              {subItem.offerType === "S" &&
                 supportedPaymentGateways.includes(subItem.paymentGateway) && (
                   <SubscriptionManagement
                     subscription={subItem}

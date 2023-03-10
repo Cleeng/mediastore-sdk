@@ -1,4 +1,9 @@
-import { AnyAction, combineReducers } from '@reduxjs/toolkit';
+import {
+  AnyAction,
+  combineReducers,
+  configureStore,
+  PreloadedState
+} from '@reduxjs/toolkit';
 import paymentDetailsReducer from './planDetails';
 import userProfileReducer from './userProfile';
 import popupReducer from './popup';
@@ -40,6 +45,13 @@ const rootReducer = combineReducers({
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
+
+export function setupStore(preloadedState?: PreloadedState<RootState>) {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState
+  });
+}
 
 export default (state: Parameters<typeof rootReducer>[0], action: AnyAction) =>
   rootReducer(action.type === 'USER_LOGOUT' ? undefined : state, action);

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-// @ts-ignore
 import jwtDecode from 'jwt-decode';
 import Offer from 'components/Offer';
 import ErrorPage from 'components/ErrorPage';
@@ -8,15 +7,18 @@ import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import { updateOrder, getPaymentMethods } from 'api';
 import { setData, getData, removeData } from 'util/appConfigHelper';
-import { useSelector } from 'react-redux';
-import { useAppDispatch as useDispatch } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { fetchOffer, setFreeOffer } from 'redux/offerSlice';
-import { init as initValues } from 'redux/publisherConfigSlice';
+import { fetchOffer, setFreeOffer, selectOffer } from 'redux/offerSlice';
+import {
+  init as initValues,
+  selectPublisherConfig
+} from 'redux/publisherConfigSlice';
 import {
   fetchCreateOrder,
   fetchGetOrder,
-  fetchUpdateCoupon
+  fetchUpdateCoupon,
+  selectOrder
 } from 'redux/orderSlice';
 import eventDispatcher, {
   MSSDK_COUPON_FAILED,
@@ -24,34 +26,34 @@ import eventDispatcher, {
   MSSDK_PURCHASE_LOADED
 } from 'util/eventDispatcher';
 import withPaymentFinalizationHandler from 'containers/withPaymentFinalizationHandler';
+import { Errors } from 'components/ErrorPage/ErrorPage.types';
 import {
   StyledLoaderContainer,
   StyledLoaderContent
 } from './StyledOfferContainer';
-import { Props } from './OfferContainerTypes';
-import { RootState } from 'redux/rootReducer';
+import { OfferContainerProps } from './OfferContainer.types';
 
 const OfferContainer = ({
-  offerId: offerIdProp = '',
+  offerId: offerIdProp,
   adyenConfiguration: adyenConfigurationProp,
-  onSuccess = () => { }
-}: Props) => {
+  onSuccess
+}: OfferContainerProps) => {
   const [errorMsg, setErrorMsg] = useState<string>();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const {
     offerId: offerIdStore,
     adyenConfiguration: adyenConfigurationStore
-  } = useSelector((state: RootState) => state.publisherConfig);
-  const { order, loading: isOrderLoading, error: orderError } = useSelector(
-    (state: RootState) => state.order
+  } = useAppSelector(selectPublisherConfig);
+  const { order, loading: isOrderLoading, error: orderError } = useAppSelector(
+    selectOrder
   );
-  const { error: offerError } = useSelector((state: RootState) => state.offer);
+  const { error: offerError } = useAppSelector(selectOffer);
 
   const offerId = offerIdProp || offerIdStore;
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
-  const freeOfferPaymentMethodHandler = (orderId: string) => {
+  const freeOfferPaymentMethodHandler = (orderId: number) => {
     getPaymentMethods().then(paymentMethodResponse => {
       const {
         responseData: { paymentMethods }
@@ -87,7 +89,9 @@ const OfferContainer = ({
     dispatch(fetchGetOrder(id))
       .unwrap()
       .then(orderResponse => {
-        const { customerId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
+        const { customerId } = jwtDecode<{ customerId: number }>(
+          getData('CLEENG_AUTH_TOKEN')
+        );
         if (
           !(
             orderResponse.offerId === longOfferId &&
@@ -167,8 +171,8 @@ const OfferContainer = ({
     }
   }, [isOrderLoading, errorMsg, offerError, offerError]);
 
-  const errorMapping = (err: string | null | undefined) => {
-    const errorTypes = {
+  const errorMapping = (err: string | undefined | null) => {
+    const errorTypes: Record<Errors, string[]> = {
       cannotPurchase: ['Offer is blocked for country'],
       offerNotExist: [
         "doesn't exist",
@@ -180,12 +184,10 @@ const OfferContainer = ({
       generalError: ['Request failed with status code 500'],
       inactive: ['inactive']
     };
-    const types = Object.keys(errorTypes);
-    if (!err) return null;
+    const types = Object.keys(errorTypes) as Errors[];
+    if (!err) return undefined;
     return types.find(type =>
-      errorTypes[type as keyof typeof errorTypes].find(
-        item => item.includes(err) || err.includes(item)
-      )
+      errorTypes[type].find(item => item.includes(err) || err.includes(item))
     );
   };
   if (errorMsg || offerError || orderError) {
@@ -206,15 +208,7 @@ const OfferContainer = ({
     );
   }
 
-  return (
-    <Offer
-      couponProps={{
-        ...order.couponDetails,
-        onSubmit: onCouponSubmit
-      }}
-      onPaymentComplete={onSuccess}
-    />
-  );
+  return <Offer onCouponSubmit={onCouponSubmit} onPaymentComplete={onSuccess} />;
 };
 
 export default withPaymentFinalizationHandler(OfferContainer);

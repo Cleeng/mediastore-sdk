@@ -54,7 +54,9 @@ module.exports = function(api) {
           components: './src/components',
           containers: './src/containers',
           redux: './src/redux',
-          util: './src/util'
+          util: './src/util',
+          styles: './src/styles',
+          assets: './src/assets'
         }
       }
     ]

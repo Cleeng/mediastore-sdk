@@ -1,5 +1,5 @@
+// eslint-disable-next-line no-use-before-define
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as Close } from 'assets/images/errors/close.svg';
 import { ReactComponent as DeleteCreditCard } from 'assets/images/errors/deleteCreditCard.svg';
@@ -12,8 +12,12 @@ import {
   MessageStyled,
   IconStyled
 } from './ErrorPageStyled';
+import { Errors, ErrorPageProps } from './ErrorPage.types';
 
-const errorTypes = {
+const errorTypes: Record<
+  Errors,
+  { icon: React.ElementType; description: string }
+> = {
   offerNotExist: {
     icon: Close,
     description: 'Offer does not exist or is not provided.'
@@ -38,7 +42,7 @@ const errorTypes = {
   }
 };
 
-const ErrorPage = ({ type, error }) => {
+const ErrorPage = ({ type = 'generalError', error = '' }: ErrorPageProps) => {
   const { t } = useTranslation();
   const typeParams = errorTypes[type];
   const Icon = typeParams.icon;
@@ -54,15 +58,6 @@ const ErrorPage = ({ type, error }) => {
       </ErrorPageStyled>
     </ErrorPageWrapper>
   );
-};
-
-ErrorPage.propTypes = {
-  type: PropTypes.oneOf(Object.keys(errorTypes)),
-  error: PropTypes.string
-};
-ErrorPage.defaultProps = {
-  type: 'generalError',
-  error: ''
 };
 
 export default ErrorPage;
