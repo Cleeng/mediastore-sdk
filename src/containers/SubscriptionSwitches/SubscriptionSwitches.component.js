@@ -1,163 +1,126 @@
-import React, { useState, useEffect } from 'react';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import React, { useState, useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import { PropTypes } from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { getAvailableSwitches, getCustomerSubscriptions } from 'api';
 import SectionHeader from 'components/SectionHeader';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
-import SwitchPlanPopup from 'components/SwitchPlanPopup';
 import MyAccountError from 'components/MyAccountError';
+import PlanDetailsPopupManager from 'components/PlanDetailsPopupManager';
+import { showPopup } from 'redux/popupSlice';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
+
+import {
+  fetchCustomerOffers,
+  fetchPendingSwitches,
+  fetchAvailableSwitches,
+  setOfferToSwitch
+} from 'redux/planDetailsSlice';
 import { WrapStyled } from './SubscriptionSwitchesStyled';
 
 const SubscriptionSwitches = ({
   offerId,
-  planDetails,
-  updateList,
-  innerPopup,
-  hideInnerPopup,
-  setSwitchSettings,
-  showInnerPopup,
-  setOfferToSwitch,
   toOfferId,
   onCancel,
   onSwitchSuccess,
-  onSwitchError,
-  t
+  onSwitchError
 }) => {
-  const [isLoadingChangePlan, setIsLoadingChangePlan] = useState(false);
-  const [isErrorChangePlan, setIsErrorChangePlan] = useState([]);
-  const [isSwitchInProgress, setIsSwitchInProgress] = useState(false);
+  const { offerToSwitch } = useSelector(state => state.plan);
+  const { updateList: updateListValue } = useSelector(state => state.plan);
+  const {
+    global: { isOpen: isPopupOpen }
+  } = useSelector(state => state.popupManager);
+  const { data: switchSettings } = useSelector(
+    store => store.plan.switchSettings
+  );
+
   const [switchSettingsError, setSwitchSettingsError] = useState(false);
 
-  const fetchSwitchSettings = () => {
-    getAvailableSwitches(offerId)
-      .then(data => {
-        const { response, status } = data;
-        if (!response.errors.length) {
-          setSwitchSettings({
-            offerId,
-            settings: response.responseData
-          });
-          if (toOfferId && response.responseData.available.length) {
-            const toOfferData = response.responseData.available.find(
-              item => item.toOfferId === toOfferId
-            );
-            if (toOfferData) {
-              showInnerPopup({
-                type: 'switchPlan',
-                data: {
-                  offerData: {
-                    ...toOfferData
-                  }
-                }
-              });
-            } else {
-              setSwitchSettingsError(true);
-            }
-          }
-        } else if (status === 404) {
-          setIsSwitchInProgress(true);
-        } else {
-          setIsErrorChangePlan(response.errors);
-          setSwitchSettingsError(true);
-        }
-      })
-      .catch(() => {
-        setIsErrorChangePlan([t('Something went wrong..')]);
-      })
-      .finally(() => {
-        setIsLoadingChangePlan(false);
-      });
+  const { t } = useTranslation();
+  const didMount = useRef(false);
+  const dispatch = useDispatch();
+
+  const getAndSaveSwitchSettings = async customerSubscriptions => {
+    await dispatch(fetchAvailableSwitches(customerSubscriptions));
   };
 
-  const fetchOffersData = () => {
-    getCustomerSubscriptions()
-      .then(response => {
-        if (!response.errors.length) {
-          const customerSubscriptions = response.responseData.items;
-          const subscriptionData = customerSubscriptions.find(
-            item => item.offerId === offerId
-          );
-          if (subscriptionData) {
-            setOfferToSwitch(subscriptionData);
-            fetchSwitchSettings();
-          } else {
-            setSwitchSettingsError(true);
-          }
-        }
-      })
-      .catch(() => {});
-  };
+  const fetchOffersData = async () => {
+    const customerOffers = await dispatch(fetchCustomerOffers()).unwrap();
 
-  useEffect(() => {
-    if (innerPopup.isOpen) {
-      hideInnerPopup();
-      updateList();
+    const activeSubscriptions = customerOffers.filter(
+      offer => offer.status === 'active' && offer.offerType === 'S'
+    );
+
+    const offersWithPendingSwitches = activeSubscriptions.filter(
+      sub => sub.pendingSwitchId
+    );
+
+    dispatch(fetchPendingSwitches(offersWithPendingSwitches));
+
+    const selectedSubscription = activeSubscriptions.filter(
+      offer => offer.offerId === offerId
+    );
+
+    if (selectedSubscription.length === 1) {
+      dispatch(setOfferToSwitch(activeSubscriptions[0]));
+      getAndSaveSwitchSettings(activeSubscriptions);
+    } else {
+      setSwitchSettingsError(true);
     }
-  }, []);
+  };
 
   useEffect(() => {
-    if (offerId && !Object.keys(planDetails.offerToSwitch).length) {
+    if (offerId && !Object.keys(offerToSwitch).length) {
       fetchOffersData();
-    } else if (offerId && !Object.keys(planDetails.switchSettings).length) {
-      fetchSwitchSettings();
+    } else if (offerId && !Object.keys(switchSettings).length) {
+      getAndSaveSwitchSettings();
     }
-  }, [offerId]);
+    if (toOfferId && Object.keys(switchSettings).length) {
+      if (!switchSettings[offerId]) setSwitchSettingsError(true);
+      else {
+        const toOffer = switchSettings[offerId].available.find(
+          item => item.toOfferId === toOfferId
+        );
+        if (!toOffer) setSwitchSettingsError(true);
+        else
+          dispatch(
+            showPopup({
+              type: POPUP_TYPES.switchPlan,
+              data: {
+                offerData: {
+                  ...toOffer
+                }
+              }
+            })
+          );
+      }
+    }
+  }, [offerId, switchSettings]);
+
+  useEffect(() => {
+    if (didMount.current) {
+      fetchOffersData();
+    } else {
+      didMount.current = true;
+    }
+  }, [updateListValue]);
 
   if (switchSettingsError) {
     return <MyAccountError generalError />;
   }
 
-  if (toOfferId) {
-    return (
-      <WrapStyled>
-        <SwitchPlanPopup
-          toOffer={innerPopup.data.offerData}
-          fromOffer={planDetails.offerToSwitch}
-          hideInnerPopup={hideInnerPopup}
-          updateList={updateList}
-          isPopupLoading={
-            isLoadingChangePlan ||
-            !innerPopup.isOpen ||
-            innerPopup.type !== 'switchPlan'
-          }
-          onCancel={onCancel}
-          onSwitchSuccess={onSwitchSuccess}
-          onSwitchError={onSwitchError}
-          showInnerPopup={showInnerPopup}
-        />
-      </WrapStyled>
-    );
-  }
-
   return (
     <WrapStyled>
-      {innerPopup.isOpen && innerPopup.type === 'switchPlan' ? (
-        <SwitchPlanPopup
-          toOffer={innerPopup.data.offerData}
-          fromOffer={planDetails.offerToSwitch}
-          hideInnerPopup={hideInnerPopup}
-          updateList={updateList}
-          isPartOfCancellationFlow={innerPopup.data.isPartOfCancellationFlow}
-          showInnerPopup={showInnerPopup}
+      {isPopupOpen ? (
+        <PlanDetailsPopupManager
+          onCancel={onCancel}
+          onSwitchSuccess={onSwitchSuccess}
           onSwitchError={onSwitchError}
         />
       ) : (
         <>
           <SectionHeader>{t('Change Plan')}</SectionHeader>
-          <SubscriptionSwitchesList
-            switchSettings={planDetails.switchSettings[offerId]}
-            showInnerPopup={showInnerPopup}
-            isOfferSelected={!!offerId}
-            isLoading={
-              isLoadingChangePlan ||
-              (Object.keys(planDetails.switchSettings).length === 0 &&
-                !isSwitchInProgress)
-            }
-            isSwitchInProgress={isSwitchInProgress}
-            errors={isErrorChangePlan || []}
-          />
+          <SubscriptionSwitchesList />
         </>
       )}
     </WrapStyled>
@@ -166,31 +129,17 @@ const SubscriptionSwitches = ({
 
 SubscriptionSwitches.propTypes = {
   offerId: PropTypes.string.isRequired,
-  planDetails: PropTypes.objectOf(PropTypes.any),
-  innerPopup: PropTypes.objectOf(PropTypes.any),
-  showInnerPopup: PropTypes.func.isRequired,
-  hideInnerPopup: PropTypes.func.isRequired,
-  setSwitchSettings: PropTypes.func.isRequired,
-  updateList: PropTypes.func.isRequired,
   toOfferId: PropTypes.string,
-  setOfferToSwitch: PropTypes.func,
   onCancel: PropTypes.func,
   onSwitchSuccess: PropTypes.func,
-  onSwitchError: PropTypes.func,
-  t: PropTypes.func
+  onSwitchError: PropTypes.func
 };
 
 SubscriptionSwitches.defaultProps = {
-  planDetails: { currentPlan: [] },
-  innerPopup: {},
-  setOfferToSwitch: () => {},
   onCancel: null,
   onSwitchSuccess: null,
   toOfferId: '',
-  onSwitchError: null,
-  t: k => k
+  onSwitchError: null
 };
 
-export { SubscriptionSwitches as PureSubscriptionSwitches };
-
-export default withTranslation()(labeling()(SubscriptionSwitches));
+export default SubscriptionSwitches;

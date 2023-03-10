@@ -1,3 +1,3 @@
-import SubscriptionSwitches from './SubscriptionSwitches.container';
+import SubscriptionSwitches from './SubscriptionSwitches.component';
 
 export default SubscriptionSwitches;

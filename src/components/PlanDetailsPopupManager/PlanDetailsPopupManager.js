@@ -11,7 +11,10 @@ import CancelPausePopup from 'components/CancelPausePopup';
 
 const PlanDetailsPopupManager = ({
   customCancellationReasons,
-  skipAvailableDowngradesStep
+  skipAvailableDowngradesStep,
+  onCancel,
+  onSwitchSuccess,
+  onSwitchError
 }) => {
   const {
     updateSubscription,
@@ -30,7 +33,14 @@ const PlanDetailsPopupManager = ({
       />
     );
 
-  if (switchPlan.isOpen) return <SwitchPlanPopup />;
+  if (switchPlan.isOpen)
+    return (
+      <SwitchPlanPopup
+        onCancel={onCancel}
+        onSwitchSuccess={onSwitchSuccess}
+        onSwitchError={onSwitchError}
+      />
+    );
 
   if (pauseSubscription.isOpen) return <PauseSubscriptionPopup />;
 
@@ -50,12 +60,18 @@ PlanDetailsPopupManager.propTypes = {
       value: PropTypes.string.isRequired
     })
   ),
-  skipAvailableDowngradesStep: PropTypes.bool
+  skipAvailableDowngradesStep: PropTypes.bool,
+  onCancel: PropTypes.func,
+  onSwitchSuccess: PropTypes.func,
+  onSwitchError: PropTypes.func
 };
 
 PlanDetailsPopupManager.defaultProps = {
   customCancellationReasons: null,
-  skipAvailableDowngradesStep: false
+  skipAvailableDowngradesStep: false,
+  onCancel: null,
+  onSwitchSuccess: null,
+  onSwitchError: null
 };
 
 export default PlanDetailsPopupManager;
