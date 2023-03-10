@@ -1,27 +1,27 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PropTypes } from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 import SectionHeader from 'components/SectionHeader';
 import CurrentPlan from 'components/CurrentPlan';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import GracePeriodError from 'components/GracePeriodError';
-import { useDispatch, useSelector } from 'react-redux';
+import PlanDetailsPopupManager from 'components/PlanDetailsPopupManager';
 import { init } from 'redux/publisherConfigSlice';
+import { fetchOffers } from 'redux/offersSlice';
 import {
   fetchCustomerOffers,
   fetchPendingSwitches,
   fetchAvailableSwitches,
   setOfferToSwitch
 } from 'redux/planDetailsSlice';
-import { fetchOffers } from 'redux/offersSlice';
-import PlanDetailsPopupManager from './PlanDetailsPopupManager';
 import { WrapStyled } from './PlanDetailsStyled';
 
 const PlanDetails = ({
-  customCancellationReasons, // this one have to stay here
-  skipAvailableDowngradesStep, // this one have to stay here
-  displayGracePeriodError // this one have to stay here
+  customCancellationReasons,
+  skipAvailableDowngradesStep,
+  displayGracePeriodError
 }) => {
   const { data: currentPlan } = useSelector(state => state.plan.currentPlan);
   const { offerToSwitch } = useSelector(state => state.plan);
