@@ -13,12 +13,16 @@ type PaymentDetail = {
   paymentMethod: string;
   paymentMethodId: number;
   paymentMethodSpecificParams: {
-    cardExpirationDate: string;
     holderName: string;
+    payerId: string,
+    cardExpirationDate: string;
     lastCardFourDigits: string;
     merchantAccount: string;
     socialSecurityNumber: string;
     variant: string;
+  } | {
+    payerId: string,
+    holderName: string
   };
 };
 

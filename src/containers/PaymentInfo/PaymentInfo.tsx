@@ -12,7 +12,7 @@ import {
 } from 'redux/publisherConfigSlice';
 import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
 import {
-  selectPaymentDetails,
+  selectPaymentDetailsPopup,
   updatePaymentDetailsPopup
 } from 'redux/popupSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
@@ -28,7 +28,7 @@ const PaymentInfo = ({
 
   const adyenConfigurationStore = useAppSelector(selectAdyenConfiguration);
 
-  const paymentDetailsPopup = useAppSelector(selectPaymentDetails);
+  const paymentDetailsPopup = useAppSelector(selectPaymentDetailsPopup);
 
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 

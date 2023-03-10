@@ -1,8 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './rootReducer';
 
-type Countries = 'US' | 'CA' | 'BR' | 'PL';
-
 export type AdyenConfiguration = {
   checkoutReturnUrl: string;
   myaccountReturnUrl: string;
@@ -24,7 +22,7 @@ export type AdyenConfiguration = {
       showBrandIcon: boolean;
       showBrandsUnderCardNumber: boolean;
       positionHolderNameOnTop: boolean;
-      billingAddressAllowedCountries: Countries[];
+      billingAddressAllowedCountries: string[];
       minimumExpiryDate: string;
       autoFocus: boolean;
     };
