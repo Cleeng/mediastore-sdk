@@ -16,41 +16,66 @@ const PlanDetailsPopupManager = ({
   onSwitchSuccess,
   onSwitchError
 }) => {
-  const {
-    updateSubscription,
-    switchPlan,
-    pauseSubscription,
-    cancelSwitch,
-    cancelPause,
-    resumeSubscription
-  } = useSelector(state => state.popupManager);
+  const { isOpen, currentType } = useSelector(state => state.popupManager);
 
-  if (updateSubscription.isOpen)
-    return (
-      <UpdateSubscription
-        customCancellationReasons={customCancellationReasons}
-        skipAvailableDowngradesStep={skipAvailableDowngradesStep}
-      />
-    );
+  if (!isOpen) return <></>;
 
-  if (switchPlan.isOpen)
-    return (
-      <SwitchPlanPopup
-        onCancel={onCancel}
-        onSwitchSuccess={onSwitchSuccess}
-        onSwitchError={onSwitchError}
-      />
-    );
+  switch (currentType) {
+    case 'updateSubscription':
+      return (
+        <UpdateSubscription
+          customCancellationReasons={customCancellationReasons}
+          skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+        />
+      );
+    case 'switchPlan':
+      return (
+        <SwitchPlanPopup
+          onCancel={onCancel}
+          onSwitchSuccess={onSwitchSuccess}
+          onSwitchError={onSwitchError}
+        />
+      );
+    case 'pauseSubscription':
+      return <PauseSubscriptionPopup />;
+    case 'resumeSubscription':
+      return <ResumeSubscriptionPopup />;
+    case 'cancelSwitch':
+      return <CancelSwitchPopup />;
+    case 'cancelPause':
+      return <CancelPausePopup />;
+    default:
+      return <></>;
+  }
 
-  if (pauseSubscription.isOpen) return <PauseSubscriptionPopup />;
+  // if logic
 
-  if (resumeSubscription.isOpen) return <ResumeSubscriptionPopup />;
+  // if (currentType === 'updateSubscription')
+  //   return (
+  //     <UpdateSubscription
+  //       customCancellationReasons={customCancellationReasons}
+  //       skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+  //     />
+  //   );
 
-  if (cancelSwitch.isOpen) return <CancelSwitchPopup />;
+  // if (currentType === 'switchPlan')
+  //   return (
+  //     <SwitchPlanPopup
+  //       onCancel={onCancel}
+  //       onSwitchSuccess={onSwitchSuccess}
+  //       onSwitchError={onSwitchError}
+  //     />
+  //   );
 
-  if (cancelPause.isOpen) return <CancelPausePopup />;
+  // if (currentType === 'pauseSubscription') return <PauseSubscriptionPopup />;
 
-  return <></>;
+  // if (currentType === 'resumeSubscription') return <ResumeSubscriptionPopup />;
+
+  // if (currentType === 'cancelSwitch') return <CancelSwitchPopup />;
+
+  // if (currentType === 'cancelPause') return <CancelPausePopup />;
+
+  // return <></>;
 };
 
 PlanDetailsPopupManager.propTypes = {

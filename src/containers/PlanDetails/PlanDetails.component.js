@@ -28,9 +28,7 @@ const PlanDetails = ({
   const { updateList: updateListValue } = useSelector(state => state.plan);
   const { offers } = useSelector(state => state.offers);
   const { pauseOffersIDs } = useSelector(store => store.offers);
-  const {
-    global: { isOpen: isPopupOpen }
-  } = useSelector(state => state.popupManager);
+  const { isOpen: isPopupOpen } = useSelector(state => state.popupManager);
 
   const { t } = useTranslation();
   const didMount = useRef(false);

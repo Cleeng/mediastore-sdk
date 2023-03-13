@@ -27,7 +27,7 @@ const CancelSwitchPopup = ({ t }) => {
     state => state.plan.switchDetails
   );
   const {
-    data: {
+    cancelSwitch: {
       pendingSwitchId,
       switchDirection,
       switchOfferTitle: untranslatedSwitchOfferTitle,
@@ -35,7 +35,7 @@ const CancelSwitchPopup = ({ t }) => {
       baseOfferExpirationDate,
       baseOfferPrice
     }
-  } = useSelector(state => state.popupManager.cancelSwitch);
+  } = useSelector(state => state.popupManager);
 
   const switchDetails = allSwitchDetails[pendingSwitchId];
   const eventsPayload = {

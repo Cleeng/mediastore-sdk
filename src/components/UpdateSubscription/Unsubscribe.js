@@ -64,9 +64,7 @@ const Unsubscribe = ({
     state => state.plan.switchDetails
   );
   const {
-    updateSubscription: {
-      data: { offerData: offerDetails }
-    }
+    updateSubscription: { offerData: offerDetails }
   } = useSelector(state => state.popupManager);
 
   const dispatch = useDispatch();

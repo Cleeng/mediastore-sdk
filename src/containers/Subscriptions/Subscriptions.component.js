@@ -22,9 +22,7 @@ const Subscriptions = ({
   const { data: currentPlan } = useSelector(state => state.plan.currentPlan);
   const { updateList: updateListValue } = useSelector(state => state.plan);
   const { offers } = useSelector(state => state.offers);
-  const {
-    global: { isOpen: isPopupOpen }
-  } = useSelector(state => state.popupManager);
+  const { isOpen: isPopupOpen } = useSelector(state => state.popupManager);
 
   const { t } = useTranslation();
   const didMount = useRef(false);

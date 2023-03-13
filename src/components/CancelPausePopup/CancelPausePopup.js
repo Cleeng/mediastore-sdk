@@ -33,9 +33,7 @@ const CancelPausePopup = ({ t }) => {
     state => state.plan.switchDetails
   );
   const {
-    cancelPause: {
-      data: { pendingSwitchId, baseOfferExpirationDate, baseOfferPrice }
-    }
+    cancelPause: { pendingSwitchId, baseOfferExpirationDate, baseOfferPrice }
   } = useSelector(state => state.popupManager);
 
   const switchDetails = allSwitchDetails[pendingSwitchId];

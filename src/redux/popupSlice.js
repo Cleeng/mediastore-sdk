@@ -9,44 +9,19 @@ export const PAYMENT_DETAILS_STEPS = {
 };
 
 const initialState = {
-  global: {
-    isOpen: false,
-    currentType: null
-  },
+  isOpen: false,
+  isLoading: false,
+  currentType: null,
+  updateSubscription: null,
+  switchPlan: null,
+  pauseSubscription: null,
+  cancelSwitch: null,
+  cancelPause: null,
+  resumeSubscription: null,
   paymentDetails: {
     isOpen: false,
     isLoading: false,
     step: PAYMENT_DETAILS_STEPS.PAYMENT_DETAILS_UPDATE
-  },
-  updateSubscription: {
-    isOpen: false,
-    isLoading: false,
-    data: null
-  },
-  switchPlan: {
-    isOpen: false,
-    isLoading: false,
-    data: null
-  },
-  pauseSubscription: {
-    isOpen: false,
-    isLoading: false,
-    data: null
-  },
-  cancelSwitch: {
-    isOpen: false,
-    isLoading: false,
-    data: null
-  },
-  cancelPause: {
-    isOpen: false,
-    isLoading: false,
-    data: null
-  },
-  resumeSubscription: {
-    isOpen: false,
-    isLoading: false,
-    data: null
   }
 };
 
@@ -61,22 +36,18 @@ export const popupSlice = createSlice({
       state.paymentDetails = initialState.paymentDetails;
     },
     showPopup(state, { payload }) {
-      if (state.global.currentType) {
-        state[state.global.currentType].isOpen = false;
-        state[state.global.currentType].data =
-          initialState[state.global.currentType].data;
-        state.global.currentType = null;
+      if (state.currentType) {
+        state[state.currentType] = initialState[state.currentType];
+        state.currentType = null;
       }
-      state.global.isOpen = true;
-      state.global.currentType = payload.type;
-      state[payload.type].isOpen = true;
-      state[payload.type].data = payload.data;
+      state.isOpen = true;
+      state.currentType = payload.type;
+      state[payload.type] = payload.data;
     },
     hidePopup(state, { payload }) {
-      state.global.isOpen = false;
-      state.global.currentType = null;
-      state[payload.type].isOpen = false;
-      state[payload.type].data = initialState[payload.type].data;
+      state.isOpen = false;
+      state.currentType = null;
+      state[payload.type] = initialState[payload.type];
     }
   },
   extraReducers: {}

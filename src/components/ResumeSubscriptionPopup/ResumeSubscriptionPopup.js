@@ -48,10 +48,8 @@ const ResumeSubscriptionPopup = () => {
   const [isError, setError] = useState(false);
   const { offerToSwitch: fromOffer } = useSelector(state => state.plan);
   const {
-    resumeSubscription: {
-      data: { offerData: toOffer },
-      isLoading: isPopupLoading
-    }
+    isLoading: isPopupLoading,
+    resumeSubscription: { offerData: toOffer }
   } = useSelector(state => state.popupManager);
 
   const dispatch = useDispatch();

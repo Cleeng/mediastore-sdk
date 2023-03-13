@@ -50,10 +50,8 @@ const PauseSubscriptionPopup = ({ t }) => {
   const [isError, setError] = useState(false);
   const { offerToSwitch: fromOffer } = useSelector(state => state.plan);
   const {
-    pauseSubscription: {
-      data: { offerData: toOffer },
-      isLoading: isPopupLoading
-    }
+    isLoading: isPopupLoading,
+    pauseSubscription: { offerData: toOffer }
   } = useSelector(state => state.popupManager);
 
   const dispatch = useDispatch();

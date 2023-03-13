@@ -12,9 +12,7 @@ const UpdateSubscription = ({
   skipAvailableDowngradesStep
 }) => {
   const {
-    updateSubscription: {
-      data: { action }
-    }
+    updateSubscription: { action }
   } = useSelector(state => state.popupManager);
 
   if (action === 'unsubscribe') {

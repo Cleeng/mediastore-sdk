@@ -27,9 +27,7 @@ const SubscriptionSwitches = ({
 }) => {
   const { offerToSwitch } = useSelector(state => state.plan);
   const { updateList: updateListValue } = useSelector(state => state.plan);
-  const {
-    global: { isOpen: isPopupOpen }
-  } = useSelector(state => state.popupManager);
+  const { isOpen: isPopupOpen } = useSelector(state => state.popupManager);
   const { data: switchSettings } = useSelector(
     store => store.plan.switchSettings
   );

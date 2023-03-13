@@ -27,9 +27,7 @@ const Resubscribe = ({ t }) => {
   const [currentStep, setCurrentStep] = useState(1);
 
   const {
-    updateSubscription: {
-      data: { offerData: offerDetails }
-    }
+    updateSubscription: { offerData: offerDetails }
   } = useSelector(state => state.popupManager);
 
   const dispatch = useDispatch();

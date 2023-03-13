@@ -48,10 +48,8 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError, t }) => {
 
   const { offerToSwitch: fromOffer } = useSelector(state => state.plan);
   const {
-    switchPlan: {
-      data: { offerData: toOffer, isPartOfCancellationFlow },
-      isLoading: isPopupLoading
-    }
+    isLoading: isPopupLoading,
+    switchPlan: { offerData: toOffer, isPartOfCancellationFlow }
   } = useSelector(state => state.popupManager);
 
   const dispatch = useDispatch();
