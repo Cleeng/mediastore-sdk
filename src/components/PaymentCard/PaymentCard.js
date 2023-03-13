@@ -106,7 +106,8 @@ const PaymentCard = ({ isDataLoaded, details }) => {
               onClick={() => {
                 dispatch(
                   updatePaymentDetailsPopup({
-                    isOpen: true
+                    isOpen: true,
+                    initPaymentMethod: details
                   })
                 );
                 eventDispatcher(MSSDK_EDIT_PAYMENT_BUTTON_CLICKED, {

@@ -12,7 +12,8 @@ const initialState = {
   paymentDetails: {
     isOpen: false,
     isLoading: false,
-    step: PAYMENT_DETAILS_STEPS.PAYMENT_DETAILS_UPDATE
+    step: PAYMENT_DETAILS_STEPS.PAYMENT_DETAILS_UPDATE,
+    initPaymentMethod: null
   }
 };
 

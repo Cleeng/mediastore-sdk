@@ -33,11 +33,8 @@ const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
-  const { activeOrBoundPaymentDetails } = useSelector(
-    state => state.paymentDetails
-  );
-  const activePaymentDetails = activeOrBoundPaymentDetails.find(
-    ({ active }) => active
+  const { initPaymentMethod } = useSelector(
+    state => state.popupManager.paymentDetails
   );
 
   const deletePaymentMethod = () => {
@@ -46,7 +43,7 @@ const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
     );
     setIsError(false);
     setIsButtonLoading(true);
-    deletePaymentDetails(activePaymentDetails.id)
+    deletePaymentDetails(initPaymentMethod.id)
       .then(resp => {
         if (!resp.errors.length) {
           setIsButtonLoading(false);
