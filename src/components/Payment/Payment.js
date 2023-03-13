@@ -31,6 +31,7 @@ import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { periodMapper } from '../../util';
+import LegalCopy from './LegalCopy/LegalCopy';
 
 const Payment = ({ t, onPaymentComplete }) => {
   const { paymentMethods } = useSelector(state => state.publisherConfig);
@@ -258,9 +259,10 @@ const Payment = ({ t, onPaymentComplete }) => {
 
   return (
     <PaymentStyled>
-      <SectionHeader marginTop="25px" center>
+      <SectionHeader marginTop="25px" paddingBottom="0" center>
         {t('Purchase using')}
       </SectionHeader>
+      <LegalCopy />
       <PaymentWrapperStyled>
         {isPaymentFinalizationInProgress && <Loader />}
         {shouldShowAdyen && (
