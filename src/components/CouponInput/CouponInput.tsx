@@ -28,10 +28,8 @@ const CouponInput = ({
   },
   onSubmit,
   onChange,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onClose = () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onInputToggle = () => {},
+  onClose,
+  onInputToggle,
   t,
   couponLoading,
   source = ''
@@ -81,7 +79,7 @@ const CouponInput = ({
           detail: { source }
         })
       );
-      onInputToggle();
+      if (onInputToggle) onInputToggle();
       setIsOpened(true);
     } else {
       window.dispatchEvent(
@@ -99,7 +97,7 @@ const CouponInput = ({
   const onCloseClick = () => {
     if (isOpened) {
       setIsOpened(false);
-      onClose();
+      if (onClose) onClose();
     }
   };
 

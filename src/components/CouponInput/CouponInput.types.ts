@@ -16,8 +16,8 @@ export type CouponInputProps = {
   };
   onSubmit: (args: unknown) => void;
   onChange: (args: unknown) => void;
-  onClose: () => void;
-  onInputToggle: () => void;
+  onClose?: () => void;
+  onInputToggle?: () => void;
   t: ReturnType<typeof useTranslation>['t'];
   couponLoading: boolean;
   source: 'myaccount' | 'checkout' | '';
