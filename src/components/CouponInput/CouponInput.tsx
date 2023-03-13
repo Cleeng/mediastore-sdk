@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
+import { KeyboardEvent, useEffect, useState } from 'react';
+import { MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
 import { ReactComponent as CloseIcon } from 'assets/images/xmark.svg';
@@ -15,12 +14,18 @@ import {
   CloseButtonStyled
 } from './CouponInputStyled';
 
+import { CouponInputProps } from './CouponInput.types';
+
 const FADE_OUT_DELAY = 5000;
 
 const CouponInput = ({
-  value,
-  fullWidth,
-  couponDetails,
+  value = '',
+  fullWidth = false,
+  couponDetails = {
+    showMessage: false,
+    message: '',
+    messageType: MESSAGE_TYPE_SUCCESS
+  },
   onSubmit,
   onChange,
   onClose,
@@ -28,9 +33,11 @@ const CouponInput = ({
   t,
   couponLoading,
   source
-}) => {
+}: CouponInputProps) => {
   const [suppressMessage, setSuppressMessage] = useState(false);
-  const [timeoutId, setTimeoutId] = useState(false);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | number | boolean>(
+    false
+  );
   const [isOpened, setIsOpened] = useState(false);
 
   const { showMessage, message, messageType } = couponDetails;
@@ -38,7 +45,7 @@ const CouponInput = ({
   const disableSuppressMessage = () => setSuppressMessage(false);
 
   const clearFadeOutTimeout = () => {
-    if (timeoutId) {
+    if (typeof timeoutId === 'number' && timeoutId > 0) {
       clearTimeout(timeoutId);
       setTimeoutId(0);
     }
@@ -52,9 +59,16 @@ const CouponInput = ({
     setTimeoutId(timeoutIndex);
   };
 
-  const handleSubmit = async event => {
-    event.target.blur();
-    await onSubmit(event.target.value);
+  const handleSubmit = async (
+    event:
+      | (Event & { target: HTMLInputElement })
+      | KeyboardEvent<HTMLInputElement>
+  ) => {
+    const { target } = event as Event & {
+      target: HTMLInputElement;
+    };
+    target.blur();
+    await onSubmit(target.value);
     setSuppressMessage(false);
   };
 
@@ -112,7 +126,7 @@ const CouponInput = ({
         </CloseButtonStyled>
         <InputElementStyled
           isOpened={isOpened}
-          placeholder={t('Your coupon')}
+          placeholder={t('Your coupon') as string}
           onKeyDown={event => {
             if (event.key === 'Enter') {
               handleSubmit(event);
@@ -127,7 +141,7 @@ const CouponInput = ({
           type="text"
           readOnly={couponLoading}
           fullWidth={fullWidth}
-          aria-label={t('Your coupon')}
+          aria-label={t('Your coupon') as string}
           aria-required={false}
         />
         <Button
@@ -153,41 +167,6 @@ const CouponInput = ({
       )}
     </InputComponentStyled>
   );
-};
-
-CouponInput.propTypes = {
-  value: PropTypes.string,
-  fullWidth: PropTypes.bool,
-  couponDetails: PropTypes.shape({
-    showMessage: PropTypes.bool,
-    message: PropTypes.node,
-    messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS])
-  }),
-  onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func,
-  onClose: PropTypes.func,
-  onInputToggle: PropTypes.func,
-  t: PropTypes.func,
-  couponLoading: PropTypes.bool.isRequired,
-  source: PropTypes.oneOf(['myaccount', 'checkout', ''])
-};
-
-CouponInput.defaultProps = {
-  value: '',
-  couponDetails: {
-    showMessage: false,
-    message: '',
-    messageType: MESSAGE_TYPE_SUCCESS
-  },
-  fullWidth: false,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onChange: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onClose: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onInputToggle: () => {},
-  t: k => k,
-  source: ''
 };
 
 export { CouponInput as PureCouponInput };
