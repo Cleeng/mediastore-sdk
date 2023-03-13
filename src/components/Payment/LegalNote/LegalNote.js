@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
 import PropTypes from 'prop-types';
 import { Trans, withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -20,7 +19,6 @@ const LegalNote = ({
   const readablePeriod = `${period ? `/${period}` : ''}`;
 
   const CLEENG_MY_ACCOUNT_URL = 'CLEENG_MY_ACCOUNT_URL';
-  const CLEENG_TERMS_URL = 'CLEENG_TERMS_URL';
 
   const generateLinkAttributes = href => ({
     href: getData(href),
@@ -31,7 +29,7 @@ const LegalNote = ({
 
   return (
     <LegalNoteWrapperStyled>
-      <LegalTextStyled>
+      <LegalTextStyled marginBottom="12px">
         {(() => {
           if (isInTrial) {
             return (
@@ -87,13 +85,6 @@ const LegalNote = ({
             </Trans>
           );
         })()}
-      </LegalTextStyled>
-      <LegalTextStyled>
-        <Trans i18nKey="legal-notes-acknowledge">
-          By clicking &apos;Complete Purchase&apos; above, I expressly
-          acknowledge and agree to the above terms as well as the full{' '}
-          <a {...generateLinkAttributes(CLEENG_TERMS_URL)}>Terms of Service</a>.
-        </Trans>
       </LegalTextStyled>
     </LegalNoteWrapperStyled>
   );
