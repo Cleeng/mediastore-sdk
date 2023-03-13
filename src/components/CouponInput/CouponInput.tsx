@@ -1,5 +1,5 @@
 import { KeyboardEvent, useEffect, useState } from 'react';
-import { MESSAGE_TYPE_SUCCESS } from 'components/Input';
+import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
 import { ReactComponent as CloseIcon } from 'assets/images/xmark.svg';

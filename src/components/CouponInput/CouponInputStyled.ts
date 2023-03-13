@@ -58,7 +58,8 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
 `;
 
 export const InputElementStyled = styled.input.attrs(() => ({
-  className: 'msd__coupon-input__input'
+  className: 'msd__coupon-input__input',
+  role: 'input'
 }))<InputElementStyledProps>`
   flex-grow: 1;
   position: relative;

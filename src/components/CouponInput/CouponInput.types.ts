@@ -3,7 +3,9 @@ import {
   MESSAGE_TYPE_FAIL
 } from 'components/Input/InputConstants';
 
-type MessageType = typeof MESSAGE_TYPE_SUCCESS | typeof MESSAGE_TYPE_FAIL;
+export type MessageType =
+  | typeof MESSAGE_TYPE_SUCCESS
+  | typeof MESSAGE_TYPE_FAIL;
 
 export type CouponInputProps = {
   value: string;
