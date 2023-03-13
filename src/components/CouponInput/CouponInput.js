@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_FAIL } from 'components/Input';
 import Loader from 'components/Loader';
@@ -17,77 +17,48 @@ import {
 
 const FADE_OUT_DELAY = 5000;
 
-class CouponInput extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      suppressMessage: false,
-      timeoutId: 0,
-      isOpened: false
-    };
-  }
+const CouponInput = ({
+  value,
+  fullWidth,
+  couponDetails,
+  onSubmit,
+  onChange,
+  onClose,
+  onInputToggle,
+  t,
+  couponLoading,
+  source
+}) => {
+  const [suppressMessage, setSuppressMessage] = useState(false);
+  const [timeoutId, setTimeoutId] = useState(false);
+  const [isOpened, setIsOpened] = useState(false);
 
-  componentDidUpdate(prevProps) {
-    const {
-      couponDetails: { showMessage, message, messageType }
-    } = this.props;
-    if (
-      showMessage !== prevProps.couponDetails.showMessage ||
-      message !== prevProps.couponDetails.message ||
-      messageType !== prevProps.couponDetails.messageType
-    ) {
-      this.disableSuppressMessage();
-      this.clearFadeOutTimeout();
-      if (showMessage) {
-        this.scheduleFadeOut();
-      }
-    }
-  }
+  const { showMessage, message, messageType } = couponDetails;
 
-  componentWillUnmount() {
-    this.clearFadeOutTimeout();
-  }
+  const disableSuppressMessage = () => setSuppressMessage(false);
 
-  disableSuppressMessage = () =>
-    this.setState({
-      suppressMessage: false
-    });
-
-  clearFadeOutTimeout = () => {
-    const { timeoutId } = this.state;
-
+  const clearFadeOutTimeout = () => {
     if (timeoutId) {
       clearTimeout(timeoutId);
-      this.setState({
-        timeoutId: 0
-      });
+      setTimeoutId(0);
     }
   };
 
-  scheduleFadeOut = () => {
-    const timeoutId = setTimeout(() => {
-      this.setState({
-        suppressMessage: true,
-        timeoutId: 0
-      });
+  const scheduleFadeOut = () => {
+    const timeoutIndex = setTimeout(() => {
+      setSuppressMessage(true);
+      setTimeoutId(true);
     }, FADE_OUT_DELAY);
-    this.setState({
-      timeoutId
-    });
+    setTimeoutId(timeoutIndex);
   };
 
-  handleSubmit = async event => {
-    const { onSubmit } = this.props;
+  const handleSubmit = async event => {
     event.target.blur();
     await onSubmit(event.target.value);
-    this.setState({
-      suppressMessage: false
-    });
+    setSuppressMessage(false);
   };
 
-  onRedeemClick = async () => {
-    const { isOpened } = this.state;
-    const { onSubmit, onInputToggle, value, source } = this.props;
+  const onRedeemClick = async () => {
     if (!isOpened) {
       window.dispatchEvent(
         new CustomEvent('MSSDK:redeem-coupon-button-clicked', {
@@ -95,7 +66,7 @@ class CouponInput extends Component {
         })
       );
       onInputToggle();
-      this.setState({ isOpened: true });
+      setIsOpened(true);
     } else {
       window.dispatchEvent(
         new CustomEvent('MSSDK:redeem-button-clicked', {
@@ -109,82 +80,80 @@ class CouponInput extends Component {
     }
   };
 
-  onCloseClick = () => {
-    const { isOpened } = this.state;
-    const { onClose } = this.props;
+  const onCloseClick = () => {
     if (isOpened) {
-      this.setState({ isOpened: false });
+      setIsOpened(false);
       onClose();
     }
   };
 
-  render() {
-    const {
-      couponDetails: { message, messageType, showMessage },
-      fullWidth,
-      value,
-      onChange,
-      couponLoading,
-      t
-    } = this.props;
-    const { suppressMessage, isOpened } = this.state;
+  useEffect(() => {
+    return () => {
+      clearFadeOutTimeout();
+    };
+  }, []);
 
-    return (
-      <InputComponentStyled isOpened={isOpened} fullWidth={fullWidth}>
-        <InputElementWrapperStyled>
-          <CloseButtonStyled
-            onClick={() => this.onCloseClick()}
-            isInputOpened={isOpened}
-          >
-            {CloseIcon && <CloseIcon />}
-          </CloseButtonStyled>
-          <InputElementStyled
-            isOpened={isOpened}
-            placeholder={t('Your coupon')}
-            onKeyDown={event => {
-              if (event.key === 'Enter') {
-                this.handleSubmit(event);
-              }
-            }}
-            onFocus={() => {
-              this.setState({
-                suppressMessage: true
-              });
-            }}
-            autoComplete="off"
-            value={value}
-            onChange={event => onChange(event.target.value)}
-            type="text"
-            readOnly={couponLoading}
-            fullWidth={fullWidth}
-            aria-label={t('Your coupon')}
-            aria-required={false}
-          />
-          <Button
-            width="auto"
-            onClickFn={async () => {
-              await this.onRedeemClick();
-            }}
-          >
-            <>
-              {couponLoading && <Loader buttonLoader color="#ffffff" />}
-              {!couponLoading && isOpened && t('Redeem')}
-              {!couponLoading && !isOpened && t('Redeem coupon')}
-            </>
-          </Button>
-        </InputElementWrapperStyled>
-        {isOpened && (
-          <MessageStyled
-            showMessage={showMessage && !suppressMessage}
-            messageType={messageType}
-          >
-            {message}
-          </MessageStyled>
-        )}
-      </InputComponentStyled>
-    );
-  }
-}
+  useEffect(() => {
+    disableSuppressMessage();
+    clearFadeOutTimeout();
+    if (showMessage) {
+      scheduleFadeOut();
+    }
+  }, [showMessage, message, messageType]);
+
+  return (
+    <InputComponentStyled isOpened={isOpened} fullWidth={fullWidth}>
+      <InputElementWrapperStyled>
+        <CloseButtonStyled
+          onClick={() => onCloseClick()}
+          isInputOpened={isOpened}
+        >
+          {CloseIcon && <CloseIcon />}
+        </CloseButtonStyled>
+        <InputElementStyled
+          isOpened={isOpened}
+          placeholder={t('Your coupon')}
+          onKeyDown={event => {
+            if (event.key === 'Enter') {
+              handleSubmit(event);
+            }
+          }}
+          onFocus={() => {
+            setSuppressMessage(true);
+          }}
+          autoComplete="off"
+          value={value}
+          onChange={event => onChange(event.target.value)}
+          type="text"
+          readOnly={couponLoading}
+          fullWidth={fullWidth}
+          aria-label={t('Your coupon')}
+          aria-required={false}
+        />
+        <Button
+          width="auto"
+          onClickFn={async () => {
+            await onRedeemClick();
+          }}
+        >
+          <>
+            {couponLoading && <Loader buttonLoader color="#ffffff" />}
+            {!couponLoading && isOpened && t('Redeem')}
+            {!couponLoading && !isOpened && t('Redeem coupon')}
+          </>
+        </Button>
+      </InputElementWrapperStyled>
+      {isOpened && (
+        <MessageStyled
+          showMessage={showMessage && !suppressMessage}
+          messageType={messageType}
+        >
+          {message}
+        </MessageStyled>
+      )}
+    </InputComponentStyled>
+  );
+};
 
 CouponInput.propTypes = {
   value: PropTypes.string,
@@ -211,8 +180,11 @@ CouponInput.defaultProps = {
     messageType: MESSAGE_TYPE_SUCCESS
   },
   fullWidth: false,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onChange: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onClose: () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onInputToggle: () => {},
   t: k => k,
   source: ''
