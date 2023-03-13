@@ -3,9 +3,7 @@ import { MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
 import { ReactComponent as CloseIcon } from 'assets/images/xmark.svg';
-
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import {
   InputComponentStyled,
   MessageStyled,
@@ -30,7 +28,6 @@ const CouponInput = ({
   onChange,
   onClose,
   onInputToggle,
-  t,
   couponLoading,
   source = ''
 }: CouponInputProps) => {
@@ -40,6 +37,7 @@ const CouponInput = ({
   );
   const [isOpened, setIsOpened] = useState(false);
 
+  const { t } = useTranslation();
   const { showMessage, message, messageType } = couponDetails;
 
   const disableSuppressMessage = () => setSuppressMessage(false);
@@ -169,5 +167,4 @@ const CouponInput = ({
   );
 };
 
-export { CouponInput as PureCouponInput };
-export default withTranslation()(labeling()(CouponInput));
+export default CouponInput;

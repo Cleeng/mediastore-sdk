@@ -27,8 +27,7 @@ const Offer = ({ onCouponSubmit, onPaymentComplete, t }: OfferProps) => {
   const { isCouponLoading, couponDetails } = useAppSelector(selectOrder);
   const {
     totalPrice,
-    discount: { applied: discountApplied },
-    id
+    discount: { applied: discountApplied }
   } = useAppSelector(selectOnlyOrder);
 
   const isFree = totalPrice === 0 && !trialAvailable && !discountApplied;
@@ -62,7 +61,6 @@ const Offer = ({ onCouponSubmit, onPaymentComplete, t }: OfferProps) => {
                 source="checkout"
                 couponLoading={isCouponLoading}
                 couponDetails={couponDetails}
-                orderId={id}
               />
             </StyledOfferCouponWrapper>
           </StyledOfferDetailsAndCoupon>

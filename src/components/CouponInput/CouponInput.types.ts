@@ -2,23 +2,21 @@ import {
   MESSAGE_TYPE_SUCCESS,
   MESSAGE_TYPE_FAIL
 } from 'components/Input/InputConstants';
-import { useTranslation } from 'react-i18next';
 
 type MessageType = typeof MESSAGE_TYPE_SUCCESS | typeof MESSAGE_TYPE_FAIL;
 
 export type CouponInputProps = {
   value: string;
-  fullWidth: boolean;
+  fullWidth?: boolean;
   couponDetails: {
     showMessage: boolean;
     message: React.ReactNode;
     messageType: MessageType;
   };
-  onSubmit: (args: unknown) => void;
-  onChange: (args: unknown) => void;
+  onSubmit: (args: string) => void;
+  onChange: (args: string) => void;
   onClose?: () => void;
   onInputToggle?: () => void;
-  t: ReturnType<typeof useTranslation>['t'];
   couponLoading: boolean;
   source: 'myaccount' | 'checkout' | '';
 };
