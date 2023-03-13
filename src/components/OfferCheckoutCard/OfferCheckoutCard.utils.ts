@@ -1,4 +1,4 @@
-export default period => {
+export default (period: string) => {
   switch (period) {
     case 'week':
       return 'week.';

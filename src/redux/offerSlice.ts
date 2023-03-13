@@ -1,5 +1,4 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { isErrorMsg } from 'util/reduxValidation';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './rootReducer';
 import { getOfferDetails } from '../api';
 
@@ -23,7 +22,7 @@ type Offer = {
   discountedCustomerPriceExclTax: unknown;
   discountedCustomerPriceInclTax: unknown;
   endTime: unknown;
-  expiresAt: unknown;
+  expiresAt: number;
   freeDays: number;
   freePeriods: number;
   geoRestrictionCountries: unknown[];
@@ -39,7 +38,7 @@ type Offer = {
   offerUrl: unknown;
   period: string;
   socialCommissionRate: number;
-  startTime: unknown;
+  startTime: number;
   timeZone: unknown;
   trialAvailable: boolean;
   updatedAt: number;
@@ -49,7 +48,7 @@ type Offer = {
 type InitialState = {
   offer: Offer | Record<string, never>;
   loading: boolean;
-  error: string | null;
+  error: string | null | undefined;
   isOfferFree: boolean;
 };
 
@@ -60,43 +59,54 @@ const initialState: InitialState = {
   isOfferFree: false
 };
 
-export const fetchOffer = createAsyncThunk(
-  'offer/fetchOffer',
-  async (orderId: string, { rejectWithValue }) => {
-    try {
-      const result = await getOfferDetails(orderId);
-      return result as Offer;
-    } catch (err) {
-      if (isErrorMsg(err)) return rejectWithValue(err.message);
-      return rejectWithValue(err);
-    }
+type RejectValueError = {
+  message: string;
+};
+
+export const fetchOffer = createAsyncThunk<
+  Offer,
+  string,
+  {
+    rejectValue: RejectValueError;
   }
-);
+>('offer/fetchOffer', async (orderId, { rejectWithValue }) => {
+  try {
+    const result = await getOfferDetails(orderId);
+    return result as Offer;
+  } catch (err) {
+    return rejectWithValue(err as RejectValueError);
+  }
+});
 
 export const offerSlice = createSlice({
   name: 'offer',
   initialState,
   reducers: {
-    setFreeOffer(state, { payload }) {
-      state.isOfferFree = payload;
+    setFreeOffer(state, action: PayloadAction<boolean>) {
+      state.isOfferFree = action.payload;
     }
   },
   extraReducers: builder => {
     builder.addCase(fetchOffer.pending, state => {
       state.loading = true;
     });
-    builder.addCase(fetchOffer.fulfilled, (state, { payload }) => {
+    builder.addCase(fetchOffer.fulfilled, (state, action) => {
       state.loading = false;
-      state.offer = payload;
+      state.offer = action.payload;
     });
-    builder.addCase(fetchOffer.rejected, (state, { payload }) => {
+    builder.addCase(fetchOffer.rejected, (state, action) => {
       state.loading = false;
-      state.error = payload as typeof initialState['error'];
+      if (action.payload) {
+        state.error = action.payload.message;
+      } else {
+        state.error = action.error.message;
+      }
     });
   }
 });
 
 export const selectOffer = (state: RootState) => state.offer;
+export const selectOnlyOffer = (state: RootState) => state.offer.offer;
 
 export const { setFreeOffer } = offerSlice.actions;
 export default offerSlice.reducer;

@@ -2,6 +2,7 @@ import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import jwtDecode from 'jwt-decode';
+import { PaymentGateway } from 'redux/publisherConfigSlice';
 
 export type CustomersOffer = {
   expiresAt: number;
@@ -12,8 +13,8 @@ export type CustomersOffer = {
   nextPaymentPrice: number;
   offerId: string;
   offerTitle: string;
-  offerType: 'S' | 'E' | 'P' | 'R' | 'A';
-  paymentGateway: string;
+  offerType: string;
+  paymentGateway: PaymentGateway;
   paymentMethod: string;
   pendingSwitchId: unknown;
   period: string;

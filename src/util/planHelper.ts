@@ -1,4 +1,45 @@
-export const periodMapper = {
+const period = [
+  'day',
+  'week',
+  'month',
+  'year',
+  'P',
+  'A',
+  'E',
+  'default',
+  'weekly',
+  '2week',
+  'monthly',
+  '3months',
+  '3-months',
+  '6months',
+  '6-months',
+  'annual',
+  '2weeks',
+  '48',
+  '72',
+  '168',
+  '720',
+  '2160'
+] as const;
+
+export type Period = typeof period[number];
+
+export const isPeriod = (s: string): s is Period => {
+  return period.some(p => p === s);
+};
+
+export const periodMapper: Record<
+  Period,
+  {
+    label: string;
+    color: string;
+    bg: string;
+    border: string;
+    chargedForEveryText?: string;
+    accessText?: string;
+  }
+> = {
   // Subscription and season pass
   day: {
     label: 'D',
@@ -165,7 +206,9 @@ export const periodMapper = {
   }
 };
 
-export const currencyFormat = {
+export type CurrencyFormat = 'EUR' | 'USD' | 'GBP' | 'AUD' | '€' | '$' | '£';
+
+export const currencyFormat: Record<CurrencyFormat, string> = {
   EUR: '€',
   USD: '$',
   GBP: '£',
@@ -175,7 +218,7 @@ export const currencyFormat = {
   '£': '£'
 };
 
-export function dateFormat(timestamp, showTime = false) {
+export function dateFormat(timestamp: number, showTime = false) {
   const date = new Date(timestamp * 1000);
   const resultString = date.toLocaleDateString();
   if (showTime) {

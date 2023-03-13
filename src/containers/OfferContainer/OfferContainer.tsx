@@ -53,7 +53,7 @@ const OfferContainer = ({
   const offerId = offerIdProp || offerIdStore;
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
-  const freeOfferPaymentMethodHandler = (orderId: string) => {
+  const freeOfferPaymentMethodHandler = (orderId: number) => {
     getPaymentMethods().then(paymentMethodResponse => {
       const {
         responseData: { paymentMethods }
@@ -187,9 +187,7 @@ const OfferContainer = ({
     const types = Object.keys(errorTypes) as Errors[];
     if (!err) return undefined;
     return types.find(type =>
-      errorTypes[type as keyof typeof errorTypes].find(
-        item => item.includes(err) || err.includes(item)
-      )
+      errorTypes[type].find(item => item.includes(err) || err.includes(item))
     );
   };
   if (errorMsg || offerError || orderError) {
@@ -210,7 +208,7 @@ const OfferContainer = ({
     );
   }
 
-  return <Offer onSubmit={onCouponSubmit} onPaymentComplete={onSuccess} />;
+  return <Offer onCouponSubmit={onCouponSubmit} onPaymentComplete={onSuccess} />;
 };
 
 export default withPaymentFinalizationHandler(OfferContainer);

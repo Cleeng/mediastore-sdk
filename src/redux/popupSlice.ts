@@ -58,7 +58,7 @@ export const popupSlice = createSlice({
   }
 });
 
-export const selectPaymentDetails = (state: RootState) => state.popupManager.paymentDetails;
+export const selectPaymentDetailsPopup = (state: RootState) => state.popupManager.paymentDetails;
 
 export const {
   updatePaymentDetailsPopup,
