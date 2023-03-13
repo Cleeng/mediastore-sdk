@@ -4,7 +4,7 @@ import getApiURL from 'util/environmentHelper';
 import jwtDecode from 'jwt-decode';
 import { PaymentGateway } from 'redux/publisherConfigSlice';
 
-type CustomersOffer = {
+export type CustomersOffer = {
   expiresAt: number;
   externalPaymentId: string;
   inTrial: boolean;
@@ -19,7 +19,7 @@ type CustomersOffer = {
   pendingSwitchId: unknown;
   period: string;
   startedAt: number;
-  status: string;
+  status: 'active' | 'cancelled';
   subscriptionId: number;
   totalPrice: number;
 };

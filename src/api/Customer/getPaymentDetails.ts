@@ -11,7 +11,7 @@ type GenaralPaymentDetail = {
   paymentMethodId: number;
   active: boolean;
   bound: boolean;
-}
+};
 
 type PaymentDetailCardGooglePay = GenaralPaymentDetail & {
   paymentMethod: 'card' | 'googlepay';
@@ -22,18 +22,18 @@ type PaymentDetailCardGooglePay = GenaralPaymentDetail & {
     merchantAccount: string;
     socialSecurityNumber: string;
     variant: string;
-  }
+  };
 };
 
 type PaymentDetailPayPal = GenaralPaymentDetail & {
   paymentMethod: 'paypal';
   paymentMethodSpecificParams: {
-    payerId: string,
-    holderName: string
-  }
+    payerId: string;
+    holderName: string;
+  };
 };
 
-type PaymentDetail = PaymentDetailCardGooglePay | PaymentDetailPayPal
+type PaymentDetail = PaymentDetailCardGooglePay | PaymentDetailPayPal;
 
 const getPaymentDetails = async (): Promise<{
   paymentDetails: PaymentDetail[];

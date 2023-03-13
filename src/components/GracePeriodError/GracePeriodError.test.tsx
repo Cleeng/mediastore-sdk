@@ -1,12 +1,13 @@
-import React from 'react';
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
+import { CustomersOffer as CurrentPlan } from 'api/Customer/getCustomerOffers';
+import { currentPlanMock } from 'util/planDetailsMock';
 import GracePeriodError from './GracePeriodError';
 
-const store = (currentPlan, displayGracePeriodError = true) => ({
+const store = (currentPlan: CurrentPlan[], displayGracePeriodError = true) => ({
   plan: {
     currentPlan
   },
@@ -28,6 +29,7 @@ describe('GracePeriodError component', () => {
         store={mockStore(
           store([
             {
+              ...currentPlanMock,
               status: 'active',
               expiresAt: pastDate
             }
@@ -47,6 +49,7 @@ describe('GracePeriodError component', () => {
         store={mockStore(
           store([
             {
+              ...currentPlanMock,
               status: 'active',
               expiresAt: pastDate
             }
@@ -65,6 +68,7 @@ describe('GracePeriodError component', () => {
         store={mockStore(
           store([
             {
+              ...currentPlanMock,
               status: 'active',
               expiresAt: pastDate
             }
@@ -83,15 +87,18 @@ describe('GracePeriodError component', () => {
         store={mockStore(
           store([
             {
+              ...currentPlanMock,
               status: 'active',
               expiresAt: pastDate
             },
             {
-              status: 'NOT active',
+              ...currentPlanMock,
+              status: 'cancelled',
               expiresAt: futureDate
             },
             {
-              status: 'NOT active',
+              ...currentPlanMock,
+              status: 'cancelled',
               expiresAt: futureDate
             }
           ])
@@ -109,6 +116,7 @@ describe('GracePeriodError component', () => {
         store={mockStore(
           store([
             {
+              ...currentPlanMock,
               status: 'active',
               expiresAt: futureDate
             }
@@ -122,13 +130,14 @@ describe('GracePeriodError component', () => {
     expect(queryByTestId('grace-period-error')).toBeNull();
   });
 
-  test('does not render error when status is NOT active and expiresAt is in the past', () => {
+  test('does not render error when status is cancelled and expiresAt is in the past', () => {
     const { queryByTestId } = render(
       <Provider
         store={mockStore(
           store([
             {
-              status: 'NOT active',
+              ...currentPlanMock,
+              status: 'cancelled',
               expiresAt: pastDate
             }
           ])
@@ -141,13 +150,14 @@ describe('GracePeriodError component', () => {
     expect(queryByTestId('grace-period-error')).toBeNull();
   });
 
-  test('does not render error when status is NOT active and expiresAt is in the future ', () => {
+  test('does not render error when status is cancelled and expiresAt is in the future ', () => {
     const { queryByTestId } = render(
       <Provider
         store={mockStore(
           store([
             {
-              status: 'NOT active',
+              ...currentPlanMock,
+              status: 'cancelled',
               expiresAt: futureDate
             }
           ])
@@ -167,6 +177,7 @@ describe('GracePeriodError component', () => {
           store(
             [
               {
+                ...currentPlanMock,
                 status: 'active',
                 expiresAt: pastDate
               }
@@ -188,6 +199,7 @@ describe('GracePeriodError component', () => {
           store(
             [
               {
+                ...currentPlanMock,
                 status: 'active',
                 expiresAt: pastDate
               }
