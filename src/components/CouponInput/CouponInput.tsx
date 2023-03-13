@@ -28,11 +28,13 @@ const CouponInput = ({
   },
   onSubmit,
   onChange,
-  onClose,
-  onInputToggle,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onClose = () => {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onInputToggle = () => {},
   t,
   couponLoading,
-  source
+  source = ''
 }: CouponInputProps) => {
   const [suppressMessage, setSuppressMessage] = useState(false);
   const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | number | boolean>(

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAppSelector } from 'redux/store';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import CouponInput from 'containers/CouponInput/CouponInput.container';
+import CouponInput from 'components/CouponInput';
 import Payment from 'components/Payment';
 import Header from 'components/Header';
 import SectionHeader from 'components/SectionHeader';
@@ -10,7 +10,7 @@ import Footer from 'components/Footer';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
 import { selectOnlyOffer } from 'redux/offerSlice';
-import { selectOnlyOrder } from 'redux/orderSlice';
+import { selectOrder, selectOnlyOrder } from 'redux/orderSlice';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
@@ -24,9 +24,11 @@ import { OfferProps } from './Offer.types';
 const Offer = ({ onCouponSubmit, onPaymentComplete, t }: OfferProps) => {
   const [coupon, setCoupon] = useState('');
   const { trialAvailable } = useAppSelector(selectOnlyOffer);
+  const { isCouponLoading, couponDetails } = useAppSelector(selectOrder);
   const {
     totalPrice,
-    discount: { applied: discountApplied }
+    discount: { applied: discountApplied },
+    id
   } = useAppSelector(selectOnlyOrder);
 
   const isFree = totalPrice === 0 && !trialAvailable && !discountApplied;
@@ -58,6 +60,9 @@ const Offer = ({ onCouponSubmit, onPaymentComplete, t }: OfferProps) => {
                 value={coupon}
                 onChange={(e: string) => setCoupon(e)}
                 source="checkout"
+                couponLoading={isCouponLoading}
+                couponDetails={couponDetails}
+                orderId={id}
               />
             </StyledOfferCouponWrapper>
           </StyledOfferDetailsAndCoupon>
