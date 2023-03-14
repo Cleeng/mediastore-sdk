@@ -2,7 +2,6 @@ import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import jwtDecode from 'jwt-decode';
-import { PaymentGateway } from 'redux/publisherConfigSlice';
 
 type CustomersOffer = {
   expiresAt: number;
@@ -14,14 +13,15 @@ type CustomersOffer = {
   offerId: string;
   offerTitle: string;
   offerType: string;
-  paymentGateway: PaymentGateway;
+  paymentGateway: string;
   paymentMethod: string;
-  pendingSwitchId: unknown;
+  pendingSwitchId: string;
   period: string;
   startedAt: number;
   status: string;
   subscriptionId: number;
   totalPrice: number;
+  customerCurrency: string;
 };
 
 const getCustomerOffers = async (): Promise<{ items: CustomersOffer[] }> => {

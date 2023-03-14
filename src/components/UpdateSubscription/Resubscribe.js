@@ -64,7 +64,7 @@ const Resubscribe = ({ t }) => {
 
   const cancelResubscribeAction = () => {
     window.dispatchEvent(new CustomEvent('MSSDK:resume-action-cancelled'));
-    dispatch(hidePopup({ type: 'updateSubscription' }));
+    dispatch(hidePopup());
   };
 
   return (
@@ -114,7 +114,7 @@ const Resubscribe = ({ t }) => {
             width="auto"
             margin="30px auto 0 auto"
             onClickFn={() => {
-              dispatch(hidePopup({ type: 'updateSubscription' }));
+              dispatch(hidePopup());
               dispatch(updateList());
             }}
           >

@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PropTypes } from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 
 import SectionHeader from 'components/SectionHeader';
 import CurrentPlan from 'components/CurrentPlan';
@@ -9,6 +8,9 @@ import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import GracePeriodError from 'components/GracePeriodError';
 import PlanDetailsPopupManager from 'components/PlanDetailsPopupManager';
 import { init } from 'redux/publisherConfigSlice';
+import { selectPopupDetails } from 'redux/popupSlice';
+import { selectPlanDetails, selectCurrentPlan } from 'redux/planDetailsSlice';
+
 import { fetchOffers } from 'redux/offersSlice';
 import {
   fetchCustomerOffers,
@@ -17,24 +19,27 @@ import {
   setOfferToSwitch
 } from 'redux/planDetailsSlice';
 import { WrapStyled } from './PlanDetailsStyled';
+import { PlanDetailsProps, CustomersOffer } from './PlanDetails.types';
 
 const PlanDetails = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
   displayGracePeriodError
-}) => {
-  const { data: currentPlan } = useSelector(state => state.plan.currentPlan);
-  const { offerToSwitch } = useSelector(state => state.plan);
-  const { updateList: updateListValue } = useSelector(state => state.plan);
-  const { offers } = useSelector(state => state.offers);
-  const { pauseOffersIDs } = useSelector(store => store.offers);
-  const { isOpen: isPopupOpen } = useSelector(state => state.popupManager);
+}: PlanDetailsProps) => {
+  const { data: currentPlan } = useAppSelector(selectCurrentPlan);
+  const { offerToSwitch } = useAppSelector(selectPlanDetails);
+  const { updateList: updateListValue } = useAppSelector(selectPlanDetails);
+  const { isOpen: isPopupOpen } = useAppSelector(selectPopupDetails);
+  const { offers } = useAppSelector(state => state.offers);
+  const { pauseOffersIDs } = useAppSelector(store => store.offers);
 
   const { t } = useTranslation();
   const didMount = useRef(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const getAndSaveSwitchSettings = async customerSubscriptions => {
+  const getAndSaveSwitchSettings = async (
+    customerSubscriptions: CustomersOffer[]
+  ) => {
     if (customerSubscriptions.length > 1) {
       dispatch(setOfferToSwitch({})); // reset previously saved offer to switch
     }
@@ -45,11 +50,12 @@ const PlanDetails = ({
     const customerOffers = await dispatch(fetchCustomerOffers()).unwrap();
 
     const activeSubscriptions = customerOffers.filter(
-      offer => offer.status === 'active' && offer.offerType === 'S'
+      (offer: CustomersOffer) =>
+        offer.status === 'active' && offer.offerType === 'S'
     );
 
     const offersWithPendingSwitches = activeSubscriptions.filter(
-      sub => sub.pendingSwitchId
+      (sub: CustomersOffer) => sub.pendingSwitchId
     );
 
     dispatch(fetchPendingSwitches(offersWithPendingSwitches));
@@ -113,23 +119,6 @@ const PlanDetails = ({
       )}
     </WrapStyled>
   );
-};
-
-PlanDetails.propTypes = {
-  customCancellationReasons: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired
-    })
-  ),
-  skipAvailableDowngradesStep: PropTypes.bool,
-  displayGracePeriodError: PropTypes.bool
-};
-
-PlanDetails.defaultProps = {
-  customCancellationReasons: null,
-  skipAvailableDowngradesStep: false,
-  displayGracePeriodError: null
 };
 
 export default PlanDetails;

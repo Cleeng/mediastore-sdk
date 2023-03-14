@@ -86,7 +86,7 @@ const ResumeSubscriptionPopup = () => {
   };
 
   const closePopupAndRefresh = () => {
-    dispatch(hidePopup({ type: 'resumeSubscription' }));
+    dispatch(hidePopup());
     dispatch(updateList());
   };
 

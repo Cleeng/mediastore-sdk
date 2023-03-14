@@ -163,7 +163,10 @@ export const popupSlice = createSlice({
       state,
       action: PayloadAction<IsOpen | IsLoading | Step>
     ) {
-      state.paymentDetails = { ...state.paymentDetails, ...action.payload };
+      state.paymentDetails = {
+        ...state.paymentDetails,
+        ...action.payload
+      };
     },
     resetPaymentDetailsPopupState(state) {
       state.paymentDetails = initialState.paymentDetails;
@@ -177,11 +180,7 @@ export const popupSlice = createSlice({
       state.currentType = action.payload.type;
       state[action.payload.type] = action.payload.data;
     },
-    hidePopup(state, action: PayloadAction<PopupType>) {
-      state.isOpen = false;
-      state.currentType = null;
-      state[action.payload.type] = initialState[action.payload.type];
-    }
+    hidePopup: () => initialState
   }
 });
 
@@ -197,7 +196,7 @@ export const selectPopupDetails = (state: RootState) => ({
 export const {
   updatePaymentDetailsPopup,
   resetPaymentDetailsPopupState,
-  // showPopup,
+  showPopup,
   hidePopup
 } = popupSlice.actions;
 

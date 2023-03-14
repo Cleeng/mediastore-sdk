@@ -139,7 +139,7 @@ const CancelSwitchPopup = ({ t }) => {
                     detail: eventsPayload
                   })
                 );
-                dispatch(hidePopup({ type: 'cancelSwitch' }));
+                dispatch(hidePopup());
               }}
             >
               {t('No, thanks')}
@@ -175,7 +175,7 @@ const CancelSwitchPopup = ({ t }) => {
             <Button
               theme="confirm"
               onClickFn={() => {
-                dispatch(hidePopup({ type: 'cancelSwitch' }));
+                dispatch(hidePopup());
                 dispatch(updateList());
               }}
             >

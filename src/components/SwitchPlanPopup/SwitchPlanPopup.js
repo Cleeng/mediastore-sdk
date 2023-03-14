@@ -93,7 +93,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError, t }) => {
   };
 
   const closePopupAndRefresh = () => {
-    dispatch(hidePopup({ type: 'switchPlan' }));
+    dispatch(hidePopup());
     dispatch(updateList());
   };
 
@@ -368,7 +368,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError, t }) => {
                       }
                     })
                   );
-                  dispatch(hidePopup({ type: 'switchPlan' }));
+                  dispatch(hidePopup());
                 }
               }}
             >

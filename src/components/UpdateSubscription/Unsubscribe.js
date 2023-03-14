@@ -159,7 +159,7 @@ const Unsubscribe = ({
 
   const cancelUnsubscribeAction = () => {
     window.dispatchEvent(new CustomEvent('MSSDK:unsubscribe-action-cancelled'));
-    dispatch(hidePopup({ type: 'updateSubscription' }));
+    dispatch(hidePopup());
   };
 
   const { offerTitle, expiresAt, offerId } = offerDetails;
@@ -288,12 +288,7 @@ const Unsubscribe = ({
             {t('Or still wants to cancel a subscription?')}
           </TextStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button
-              theme="simple"
-              onClickFn={() =>
-                dispatch(hidePopup({ type: 'updateSubscription' }))
-              }
-            >
+            <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
               {t('Back to My Account')}
             </Button>
             <Button
@@ -388,7 +383,7 @@ const Unsubscribe = ({
             width="auto"
             margin="30px auto 0 auto"
             onClickFn={() => {
-              dispatch(hidePopup({ type: 'updateSubscription' }));
+              dispatch(hidePopup());
               dispatch(updateList());
             }}
           >

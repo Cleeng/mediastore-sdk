@@ -88,7 +88,7 @@ const PauseSubscriptionPopup = ({ t }) => {
   };
 
   const closePopupAndRefresh = () => {
-    dispatch(hidePopup({ type: 'pauseSubscription' }));
+    dispatch(hidePopup());
     dispatch(updateList());
   };
 

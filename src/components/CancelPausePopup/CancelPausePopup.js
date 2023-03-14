@@ -104,7 +104,7 @@ const CancelPausePopup = ({ t }) => {
                   MSSDK_CANCEL_SWITCH_ACTION_CANCELLED,
                   eventsPayload
                 );
-                dispatch(hidePopup({ type: 'cancelPause' }));
+                dispatch(hidePopup());
               }}
             >
               {t('No, thanks')}
@@ -138,7 +138,7 @@ const CancelPausePopup = ({ t }) => {
               theme="confirm"
               onClickFn={() => {
                 dispatch(updateList());
-                dispatch(hidePopup({ type: 'cancelPause' }));
+                dispatch(hidePopup());
               }}
             >
               {t('Back to My Account')}
