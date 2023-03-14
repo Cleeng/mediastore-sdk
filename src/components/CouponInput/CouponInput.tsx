@@ -147,6 +147,7 @@ const CouponInput = ({
           onClickFn={async () => {
             await onRedeemClick();
           }}
+          testid="redeem-btn"
         >
           <>
             {couponLoading && <Loader buttonLoader color="#ffffff" />}

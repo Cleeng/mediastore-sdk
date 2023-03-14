@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-use-before-define
 import React from 'react';
 import PropTypes from 'prop-types';
 import ButtonStyled from './ButtonStyled';
@@ -33,7 +34,8 @@ const Button = ({
   width,
   icon,
   padding,
-  className
+  className,
+  testid
 }) => {
   const ButtonProps = {
     type,
@@ -53,6 +55,7 @@ const Button = ({
       icon={icon}
       padding={padding}
       className={className}
+      data-testid={testid}
     >
       {children}
     </ButtonStyled>
@@ -79,7 +82,8 @@ Button.propTypes = {
   width: PropTypes.string,
   icon: PropTypes.string,
   padding: PropTypes.string,
-  className: PropTypes.string
+  className: PropTypes.string,
+  testid: PropTypes.string
 };
 
 Button.defaultProps = {
@@ -87,6 +91,7 @@ Button.defaultProps = {
   theme: BUTTON_THEME.PRIMARY,
   children: '',
   type: 'button',
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   onClickFn: () => {},
   disabled: false,
   label: null,
@@ -96,5 +101,6 @@ Button.defaultProps = {
   width: null,
   icon: null,
   padding: null,
-  className: ''
+  className: '',
+  testid: null
 };

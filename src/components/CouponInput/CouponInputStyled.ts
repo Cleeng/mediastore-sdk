@@ -10,7 +10,8 @@ import {
 } from './CouponInput.types';
 
 export const InputComponentStyled = styled.div.attrs(() => ({
-  className: 'msd__coupon-input__wrapper'
+  className: 'msd__coupon-input__wrapper',
+  ['data-testid']: 'inputcomponent'
 }))<InputComponentStyledProps>`
   display: flex;
   flex-direction: column;
