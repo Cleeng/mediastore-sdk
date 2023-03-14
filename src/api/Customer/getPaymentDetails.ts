@@ -4,7 +4,7 @@ import getApiURL from 'util/environmentHelper';
 import jwtDecode from 'jwt-decode';
 import { PaymentGateway } from 'redux/publisherConfigSlice';
 
-type GenaralPaymentDetail = {
+type GeneralPaymentDetail = {
   id: number;
   customerId: number;
   paymentGateway: PaymentGateway;
@@ -13,19 +13,27 @@ type GenaralPaymentDetail = {
   bound: boolean;
 };
 
-type PaymentDetailCardGooglePay = GenaralPaymentDetail & {
-  paymentMethod: 'card' | 'googlepay';
+type PaymentDetailCardGooglePay = GeneralPaymentDetail & {
+  paymentMethod:
+    | 'card'
+    | 'googlepay'
+    | 'paypal'
+    | 'apple'
+    | 'roku'
+    | 'applepay'
+    | 'amazon'
+    | 'android';
   paymentMethodSpecificParams: {
     holderName: string;
     cardExpirationDate: string;
     lastCardFourDigits: string;
     merchantAccount: string;
     socialSecurityNumber: string;
-    variant: string;
+    variant: 'visa' | 'visacredit' | 'amex' | 'mc' | 'discover' | 'diners';
   };
 };
 
-type PaymentDetailPayPal = GenaralPaymentDetail & {
+type PaymentDetailPayPal = GeneralPaymentDetail & {
   paymentMethod: 'paypal';
   paymentMethodSpecificParams: {
     payerId: string;
@@ -33,7 +41,7 @@ type PaymentDetailPayPal = GenaralPaymentDetail & {
   };
 };
 
-type PaymentDetail = PaymentDetailCardGooglePay | PaymentDetailPayPal;
+export type PaymentDetail = PaymentDetailCardGooglePay | PaymentDetailPayPal;
 
 const getPaymentDetails = async (): Promise<{
   paymentDetails: PaymentDetail[];
