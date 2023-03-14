@@ -53,5 +53,7 @@ export function setupStore(preloadedState?: PreloadedState<RootState>) {
   });
 }
 
+export const selectPayment = (state: RootState) => state.payment;
+
 export default (state: Parameters<typeof rootReducer>[0], action: AnyAction) =>
   rootReducer(action.type === 'USER_LOGOUT' ? undefined : state, action);
