@@ -48,6 +48,8 @@ import DropInSection from './DropInSection/DropInSection';
 import { periodMapper, isPeriod } from '../../util';
 import { PaymentProps } from './Payment.types';
 
+import LegalCopy from './LegalCopy/LegalCopy';
+
 const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
   const { paymentMethods } = useAppSelector(selectPublisherConfig);
 
@@ -292,9 +294,10 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
 
   return (
     <PaymentStyled>
-      <SectionHeader marginTop="25px" center>
+      <SectionHeader marginTop="25px" paddingBottom="0" center>
         {t('Purchase using')}
       </SectionHeader>
+      <LegalCopy />
       <PaymentWrapperStyled>
         {isPaymentFinalizationInProgress && <Loader />}
         {shouldShowAdyen && (

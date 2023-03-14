@@ -1,10 +1,9 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import React from 'react';
-import PropTypes from 'prop-types';
 import { Trans, withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import { getData, currencyFormat } from 'util';
+import { getData } from 'util/appConfigHelper';
+import { currencyFormat } from 'util/planHelper';
 import { LegalNoteWrapperStyled, LegalTextStyled } from '../PaymentStyled';
+import { LegalNoteProps } from './LegalNote.types';
 
 const LegalNote = ({
   order: {
@@ -13,16 +12,15 @@ const LegalNote = ({
     priceBreakdown: { offerPrice }
   },
   period
-}) => {
+}: LegalNoteProps) => {
   const isInTrial = discount?.applied && discount.type === 'trial';
   const couponApplied = discount?.applied && discount.type !== 'trial';
   const readablePrice = `${currencyFormat[currency]}${offerPrice}`;
-  const readablePeriod = `${period ? `/${period}` : ''}`;
+  const readablePeriod = period ? `/${period}` : '';
 
   const CLEENG_MY_ACCOUNT_URL = 'CLEENG_MY_ACCOUNT_URL';
-  const CLEENG_TERMS_URL = 'CLEENG_TERMS_URL';
 
-  const generateLinkAttributes = href => ({
+  const generateLinkAttributes = (href: string) => ({
     href: getData(href),
     target: '_blank',
     rel: 'noreferrer',
@@ -31,16 +29,18 @@ const LegalNote = ({
 
   return (
     <LegalNoteWrapperStyled>
-      <LegalTextStyled>
+      <LegalTextStyled marginBottom="12px">
         {(() => {
           if (isInTrial) {
             return (
               <Trans i18nKey={`legal-notes.trial.period-${period}`}>
                 <strong>
-                  After any free trial and/or promotional period, you will be
-                  charged {{ readablePrice }}
-                  {{ readablePeriod }} or the then-current price plus applicable
-                  taxes on a recurring basis.
+                  <>
+                    After any free trial and/or promotional period, you will be
+                    charged {{ readablePrice }}
+                    {{ readablePeriod }} or the then-current price plus
+                    applicable taxes on a recurring basis.
+                  </>
                 </strong>{' '}
                 If you do not cancel the service during its free trial period,
                 you will be charged. Your subscription will automatically
@@ -56,10 +56,12 @@ const LegalNote = ({
             return (
               <Trans i18nKey={`legal-notes.discount.period-${period}`}>
                 <strong>
-                  After any free trial and/or promotional period, you will be
-                  charged {{ readablePrice }}
-                  {{ readablePeriod }} or the then-current price plus applicable
-                  taxes on a recurring basis.
+                  <>
+                    After any free trial and/or promotional period, you will be
+                    charged {{ readablePrice }}
+                    {{ readablePeriod }} or the then-current price plus
+                    applicable taxes on a recurring basis.
+                  </>
                 </strong>{' '}
                 Your subscription will automatically continue until you cancel.
                 To cancel, log into{' '}
@@ -73,10 +75,12 @@ const LegalNote = ({
           return (
             <Trans i18nKey={`legal-notes.period-${period}`}>
               <strong>
-                By clicking &apos;Complete purchase&apos;, you will be charged{' '}
-                {{ readablePrice }}
-                {{ readablePeriod }} or the then-current price plus applicable
-                taxes on a recurring basis.
+                <>
+                  By clicking &apos;Complete purchase&apos;, you will be charged{' '}
+                  {{ readablePrice }}
+                  {{ readablePeriod }} or the then-current price plus applicable
+                  taxes on a recurring basis.
+                </>
               </strong>
               Your subscription will automatically continue until you cancel. To
               cancel, log into{' '}
@@ -88,25 +92,8 @@ const LegalNote = ({
           );
         })()}
       </LegalTextStyled>
-      <LegalTextStyled>
-        <Trans i18nKey="legal-notes-acknowledge">
-          By clicking &apos;Complete Purchase&apos; above, I expressly
-          acknowledge and agree to the above terms as well as the full{' '}
-          <a {...generateLinkAttributes(CLEENG_TERMS_URL)}>Terms of Service</a>.
-        </Trans>
-      </LegalTextStyled>
     </LegalNoteWrapperStyled>
   );
-};
-
-LegalNote.propTypes = {
-  order: PropTypes.objectOf(PropTypes.any),
-  period: PropTypes.string
-};
-
-LegalNote.defaultProps = {
-  order: {},
-  period: null
 };
 
 export default withTranslation()(labeling()(LegalNote));

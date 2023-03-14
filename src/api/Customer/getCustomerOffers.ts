@@ -2,29 +2,34 @@ import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import jwtDecode from 'jwt-decode';
+import { PaymentGateway } from 'redux/publisherConfigSlice';
 
-type CustomersOffer = {
-  expiresAt: number;
-  externalPaymentId: string;
-  inTrial: boolean;
-  nextPaymentAt: number;
-  nextPaymentCurrency: string;
-  nextPaymentPrice: number;
+type GeneralCustomerOffer = {
   offerId: string;
-  offerTitle: string;
-  offerType: string;
-  paymentGateway: string;
-  paymentMethod: string;
-  pendingSwitchId: string;
-  period: string;
-  startedAt: number;
   status: string;
-  subscriptionId: number;
+  startedAt: number;
+  expiresAt: number;
+  offerType: string;
   totalPrice: number;
-  customerCurrency: string;
+  offerTitle: string;
 };
 
-const getCustomerOffers = async (): Promise<{ items: CustomersOffer[] }> => {
+type CustomerOffer =
+  | (GeneralCustomerOffer & {
+      externalPaymentId: string;
+      inTrial: boolean;
+      nextPaymentAt: number;
+      nextPaymentCurrency: string;
+      nextPaymentPrice: number;
+      paymentGateway: PaymentGateway;
+      paymentMethod: string;
+      pendingSwitchId: unknown;
+      period: string;
+      subscriptionId?: number;
+    })
+  | (GeneralCustomerOffer & { customerCurrency: string });
+
+const getCustomerOffers = async (): Promise<{ items: CustomerOffer[] }> => {
   const API_URL = getApiURL();
   const { customerId } = jwtDecode<{ customerId: number }>(
     getData('CLEENG_AUTH_TOKEN')

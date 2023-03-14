@@ -52,7 +52,7 @@ type PublisherConfig = {
   displayGracePeriodError: boolean;
 };
 
-const initialState: PublisherConfig = {
+export const initialState: PublisherConfig = {
   offerId: '',
   paymentMethods: [],
   adyenConfiguration: null,
@@ -99,6 +99,9 @@ export const selectAdyenConfiguration = (state: RootState) =>
 
 export const selectPublisherConfig = (state: RootState) =>
   state.publisherConfig;
+
+export const selectDisplayGracePeriodError = (state: RootState) =>
+  state.publisherConfig.displayGracePeriodError;
 
 export const { init, updatePaymentMethods } = publisherConfigSlice.actions;
 export default publisherConfigSlice.reducer;

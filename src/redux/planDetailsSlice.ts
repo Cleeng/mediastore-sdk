@@ -1,27 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from './rootReducer';
+import { CustomerOffer } from '../api/Customer/getCustomerOffers';
 import { getCustomerOffers, getSwitch, getAvailableSwitches } from '../api';
-
-type CustomersOffer = {
-  expiresAt: number;
-  externalPaymentId: string;
-  inTrial: boolean;
-  nextPaymentAt: number;
-  nextPaymentCurrency: string;
-  nextPaymentPrice: number;
-  offerId: string;
-  offerTitle: string;
-  offerType: string;
-  paymentGateway: string;
-  paymentMethod: string;
-  pendingSwitchId: string;
-  period: string;
-  startedAt: number;
-  status: string;
-  subscriptionId: number;
-  totalPrice: number;
-  customerCurrency: string;
-};
 
 type SwitchSetting = {
   toOfferId: string;
@@ -67,11 +47,11 @@ type RejectValueError = {
 
 type InitialState = {
   currentPlan: {
-    data: CustomersOffer[];
+    data: CustomerOffer[];
     loading: boolean;
     error: Error;
   };
-  offerToSwitch: CustomersOffer | {};
+  offerToSwitch: CustomerOffer | {};
   updateList: boolean;
   switchSettings: {
     data: SwitchSettings;
@@ -106,7 +86,7 @@ const initialState: InitialState = {
 };
 
 export const fetchCustomerOffers = createAsyncThunk<
-  CustomersOffer[],
+  CustomerOffer[],
   void,
   {
     rejectValue: RejectValueError;
@@ -125,7 +105,7 @@ export const fetchCustomerOffers = createAsyncThunk<
 
 export const fetchPendingSwitches = createAsyncThunk<
   SwitchDetails,
-  CustomersOffer[],
+  CustomerOffer[],
   {
     rejectValue: RejectValueError;
   }
@@ -152,7 +132,7 @@ export const fetchPendingSwitches = createAsyncThunk<
 
 export const fetchAvailableSwitches = createAsyncThunk<
   any, // should be SwitchSettings but for some reason its invalid
-  CustomersOffer[],
+  CustomerOffer[],
   {
     rejectValue: RejectValueError;
   }
