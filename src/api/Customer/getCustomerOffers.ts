@@ -14,7 +14,7 @@ type GeneralCustomerOffer = {
   offerTitle: string;
 };
 
-type CustomerOffer =
+export type CustomerOffer =
   | (GeneralCustomerOffer & {
       externalPaymentId: string;
       inTrial: boolean;
