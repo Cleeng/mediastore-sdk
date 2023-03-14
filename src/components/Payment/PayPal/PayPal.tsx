@@ -1,10 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
 import Button from 'components/Button';
+import { useTranslation } from 'react-i18next';
 import { PayPalContentStyled } from './PayPalStyled';
+import { PayPalProps } from './PayPal.types';
 
-const PayPal = ({ totalPrice, offerId, onSubmit, isLoading, t }) => {
+const PayPal = ({ totalPrice, offerId, onSubmit, isLoading }: PayPalProps) => {
+  const { t } = useTranslation();
   return (
     <PayPalContentStyled>
       <>
@@ -33,7 +34,7 @@ const PayPal = ({ totalPrice, offerId, onSubmit, isLoading, t }) => {
         theme="paypal"
         onClickFn={onSubmit}
         disabled={isLoading}
-        sieze="big"
+        size="big"
         margin="20px auto auto auto"
         fontSize="15px"
         fontWeight="400"
@@ -42,21 +43,6 @@ const PayPal = ({ totalPrice, offerId, onSubmit, isLoading, t }) => {
       </Button>
     </PayPalContentStyled>
   );
-};
-
-PayPal.propTypes = {
-  totalPrice: PropTypes.number,
-  offerId: PropTypes.string,
-  onSubmit: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
-  t: PropTypes.func
-};
-
-PayPal.defaultProps = {
-  totalPrice: null,
-  offerId: null,
-  isLoading: false,
-  t: k => k
 };
 
 export default PayPal;
