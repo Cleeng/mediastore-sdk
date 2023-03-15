@@ -72,7 +72,7 @@ const LegalNote = ({
           return (
             <Trans i18nKey={`legal-notes.period-${period}`}>
               <strong>
-                By clicking &apos;Complete purchase&apos;, you will be charged{' '}
+                By clicking &apos;Pay&apos;, you will be charged{' '}
                 {{ readablePrice }}
                 {{ readablePeriod }} or the then-current price plus applicable
                 taxes on a recurring basis.

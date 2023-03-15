@@ -21,6 +21,7 @@ export const WrapperStyled = styled.section`
   align-items: center;
   width: 100%;
 `;
+
 export const InnerWrapper = styled.div.attrs(() => ({
   className: 'msd__subscription-text__wrapper'
 }))`
