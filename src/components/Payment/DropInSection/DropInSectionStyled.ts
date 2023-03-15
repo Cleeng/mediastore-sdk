@@ -2,17 +2,18 @@ import styled from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 import { ConfirmColor } from 'styles/variables';
+import { DropInSectionWrapperStyled } from './DropInSection.types';
 
 export const WrapperStyled = styled.div.attrs(() => ({
   className: 'msd__custom-dropin--wrapper'
-}))`
+}))<DropInSectionWrapperStyled>`
   max-width: 375px;
   margin: 0 auto;
   min-height: 58px;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-radius: ${({ isCardAvailable }) =>
+  border-radius: ${isCardAvailable =>
     isCardAvailable ? '0 0 12px 12px' : '12px;'};
   background-color: ${colors.White};
   border: 1px solid

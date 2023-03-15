@@ -1,14 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { ReactComponent as PayPalIcon } from 'assets/images/paymentMethods/PPicon.svg';
 import classNames from 'classnames';
-import { useSelector } from 'react-redux';
+import { selectPaymentMethods } from 'redux/paymentMethodsSlice';
+import { useAppSelector } from 'redux/store';
 import {
   IconWrapperStyled,
   TextStyled,
   TitleStyled,
   WrapperStyled
 } from './DropInSectionStyled';
+import { DropInSectionProps } from './DropInSection.types';
 
 const DropInSection = ({
   children,
@@ -17,15 +17,15 @@ const DropInSection = ({
   logo,
   isCardAvailable,
   isLoading
-}) => {
-  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
+}: DropInSectionProps) => {
+  const { selectedPaymentMethod } = useAppSelector(selectPaymentMethods);
   const isSelected = selectedPaymentMethod?.methodName === title.toLowerCase();
   const fadeOutSection =
     isLoading && selectedPaymentMethod?.methodName !== title.toLowerCase();
   const mapImage = {
     paypal: PayPalIcon
   };
-  const LogoComponent = mapImage[logo];
+  const LogoComponent = logo === 'paypal' ? mapImage[logo] : null;
   return (
     <WrapperStyled
       isSelected={isSelected}
@@ -48,15 +48,6 @@ const DropInSection = ({
       {isSelected && children}
     </WrapperStyled>
   );
-};
-
-DropInSection.propTypes = {
-  selectPaymentMethod: PropTypes.func.isRequired,
-  title: PropTypes.string.isRequired,
-  logo: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  isCardAvailable: PropTypes.bool.isRequired,
-  isLoading: PropTypes.bool.isRequired
 };
 
 export default DropInSection;
