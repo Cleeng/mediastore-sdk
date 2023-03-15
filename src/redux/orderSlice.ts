@@ -1,63 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { CurrencyFormat } from 'util/planHelper';
+import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import { createOrder, getOrder, updateOrder } from '../api';
-import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from '../components/Input';
 import { RootState } from './rootReducer';
+import { Order, OrderInitialState, RejectValueError } from './types';
 
-type Order = {
-  billingAddress: unknown;
-  country: string;
-  couponId: unknown;
-  currency: CurrencyFormat;
-  customer: { locale: string; email: string };
-  customerId: number;
-  discount: { applied: boolean; type: 'trial' | 'coupon' | ''; periods: number };
-  expirationDate: number;
-  id: number;
-  offer: {
-    title: string;
-    description: string;
-    price: number;
-    currency: string;
-  };
-  offerId: string;
-  paymentMethodId: number;
-  priceBreakdown: {
-    customerServiceFee: number;
-    discountAmount: number;
-    discountedPrice: number;
-    offerPrice: number;
-    paymentMethodFee: number;
-    taxValue: number;
-  };
-  publisherId: number;
-  requiredPaymentDetails: boolean;
-  taxBreakdown: unknown;
-  taxRate: number;
-  totalPrice: number;
-};
-
-type Error = string | null | undefined;
-
-type RejectValueError = {
-  message: string;
-};
-
-type InitialState = {
-  order: Order;
-  loading: boolean;
-  error: Error;
-  couponDetails: {
-    showMessage: boolean;
-    message: string;
-    messageType: typeof MESSAGE_TYPE_SUCCESS | typeof MESSAGE_TYPE_FAIL;
-  };
-  isCouponLoading: boolean;
-  couponError: Error;
-  isUpdateLoading: boolean;
-};
-
-const initialState: InitialState = {
+const initialState: OrderInitialState = {
   order: {
     billingAddress: '',
     country: '',

@@ -1,5 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './rootReducer';
+import {
+  PopupManagerInitialState,
+  updatePaymentDetailsPopupPayloadAction
+} from './types';
 
 export const PAYMENT_DETAILS_STEPS = {
   PAYMENT_DETAILS_UPDATE: 'PAYMENT_DETAILS_UPDATE',
@@ -9,32 +13,7 @@ export const PAYMENT_DETAILS_STEPS = {
   ERROR: 'ERROR'
 } as const;
 
-type Keys = keyof typeof PAYMENT_DETAILS_STEPS;
-type Steps = typeof PAYMENT_DETAILS_STEPS[Keys];
-
-type PaymentDetails = {
-  isOpen: boolean;
-  isLoading: boolean;
-  step: Steps;
-};
-
-type IsOpen = {
-  isOpen: boolean;
-};
-
-type IsLoading = {
-  isLoading: boolean;
-};
-
-type Step = {
-  step: Steps;
-};
-
-type PopupManager = {
-  paymentDetails: PaymentDetails;
-};
-
-const initialState: PopupManager = {
+const initialState: PopupManagerInitialState = {
   paymentDetails: {
     isOpen: false,
     isLoading: false,
@@ -48,7 +27,7 @@ export const popupSlice = createSlice({
   reducers: {
     updatePaymentDetailsPopup(
       state,
-      action: PayloadAction<IsOpen | IsLoading | Step>
+      action: PayloadAction<updatePaymentDetailsPopupPayloadAction>
     ) {
       state.paymentDetails = { ...state.paymentDetails, ...action.payload };
     },
@@ -58,7 +37,8 @@ export const popupSlice = createSlice({
   }
 });
 
-export const selectPaymentDetailsPopup = (state: RootState) => state.popupManager.paymentDetails;
+export const selectPaymentDetailsPopup = (state: RootState) =>
+  state.popupManager.paymentDetails;
 
 export const {
   updatePaymentDetailsPopup,

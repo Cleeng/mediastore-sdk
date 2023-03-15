@@ -1,26 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getPaymentDetails } from '../api';
-import { PaymentDetail } from '../api/Customer/getPaymentDetails';
+import { getPaymentDetails } from 'api';
+import { PaymentDetail } from 'api/Customer/getPaymentDetails';
 import { RootState } from './rootReducer';
+import { PaymentDetailsInitialState, RejectValueError } from './types';
 
-type Error = string | null | undefined;
-
-type PaymentDetails = {
-  paymentDetails: PaymentDetail[];
-  activeOrBoundPaymentDetails: PaymentDetail[];
-  loading: boolean;
-  error: Error;
-};
-
-const initialState: PaymentDetails = {
+const initialState: PaymentDetailsInitialState = {
   paymentDetails: [],
   activeOrBoundPaymentDetails: [],
   loading: true,
   error: null
 };
-type RejectValueError = {
-  message: string;
-};
+
 export const fetchPaymentDetails = createAsyncThunk<
   { paymentDetails: PaymentDetail[] },
   void,

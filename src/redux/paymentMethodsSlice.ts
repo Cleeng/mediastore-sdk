@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './rootReducer';
+import { PaymentMethodsInitialState } from './types';
 
-const initialState: { selectedPaymentMethod: Record<string, unknown> } = {
+const initialState: PaymentMethodsInitialState = {
   selectedPaymentMethod: {}
 };
 

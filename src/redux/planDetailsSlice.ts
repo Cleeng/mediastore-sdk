@@ -1,22 +1,13 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getCustomerOffers } from '../api';
-import { CustomersOffer as CurrentPlan } from '../api/Customer/getCustomerOffers';
+import { CustomerOffer as CurrentPlan } from '../api/Customer/getCustomerOffers';
 import { RootState } from './rootReducer';
+import { PlanDetailsInitialState, RejectValueError } from './types';
 
-type PlanDetails = {
-  currentPlan: CurrentPlan[] | null;
-  loading: boolean;
-  error: string | null | undefined;
-};
-
-export const initialState: PlanDetails = {
+export const initialState: PlanDetailsInitialState = {
   currentPlan: null,
   loading: false,
   error: null
-};
-
-type RejectValueError = {
-  message: string;
 };
 
 export const fetchCustomerOffers = createAsyncThunk<
