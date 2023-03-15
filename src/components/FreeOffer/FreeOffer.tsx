@@ -1,12 +1,11 @@
-import React, { useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import { periodMapper, dateFormat } from 'util/planHelper';
-import labeling from 'containers/labeling';
+import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { periodMapper, dateFormat, Period } from 'util/planHelper';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
-import { useDispatch, useSelector } from 'react-redux';
-import { submitPaymentWithoutDetails } from 'redux/paymentSlice';
+import { submitPaymentWithoutDetails, selectPayment } from 'redux/paymentSlice';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import { selectOnlyOffer } from 'redux/offerSlice';
 import {
   WrapStyled,
   TitleStyled,
@@ -17,13 +16,16 @@ import {
   ButtonWrapperStyled,
   ErrorMessageStyled
 } from './FreeOfferStyled';
+import { FreeOfferProps } from './FreeOffer.types';
 
-const FreeOffer = ({ onPaymentComplete, t }) => {
-  const { loading: isLoading, error } = useSelector(state => state.payment);
-  const { period, expiresAt, startTime, offerTitle, offerId } = useSelector(
-    state => state.offer.offer
+const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
+  const { loading: isLoading, error } = useAppSelector(selectPayment);
+  const { period, expiresAt, startTime, offerTitle, offerId } = useAppSelector(
+    selectOnlyOffer
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
+  const { t } = useTranslation();
 
   const offerType = offerId?.charAt(0);
   const icon = period || offerType;
@@ -36,13 +38,13 @@ const FreeOffer = ({ onPaymentComplete, t }) => {
         if (!period) {
           return `Access until ${dateFormat(expiresAt, true)}`;
         }
-        return `${periodMapper[period].accessText} free pass`;
+        return `${periodMapper[period as Period].accessText} free pass`;
       }
       case 'E': {
         return `Free event ${startTime ? dateFormat(startTime, true) : ''}`;
       }
       case 'R': {
-        return `${periodMapper[period].accessText} free access`;
+        return `${periodMapper[period as Period].accessText} free access`;
       }
       case 'A':
         return 'Unlimited access';
@@ -86,15 +88,4 @@ const FreeOffer = ({ onPaymentComplete, t }) => {
   );
 };
 
-FreeOffer.propTypes = {
-  onPaymentComplete: PropTypes.func.isRequired,
-  t: PropTypes.func
-};
-
-FreeOffer.defaultProps = {
-  t: k => k
-};
-
-export { FreeOffer as PureFreeOffer };
-
-export default withTranslation()(labeling()(FreeOffer));
+export default FreeOffer;

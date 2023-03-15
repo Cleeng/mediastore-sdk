@@ -65,7 +65,7 @@ export const SubTextStyled = styled.p.attrs(() => ({
 
 export const SubscriptionIconStyled = styled(SubscriptionIcon).attrs(() => ({
   className: 'msd__checkout-card__icon'
-}))`
+}))<{ icon: string }>`
   flex: 0 0 75px;
   min-width: 75px;
 
