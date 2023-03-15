@@ -208,7 +208,9 @@ const OfferContainer = ({
     );
   }
 
-  return <Offer onCouponSubmit={onCouponSubmit} onPaymentComplete={onSuccess} />;
+  return (
+    <Offer onCouponSubmit={onCouponSubmit} onPaymentComplete={onSuccess} />
+  );
 };
 
 export default withPaymentFinalizationHandler(OfferContainer);

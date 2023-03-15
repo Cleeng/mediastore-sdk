@@ -1,13 +1,11 @@
 import { useCallback } from 'react';
-import { withTranslation, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { periodMapper, dateFormat, Period } from 'util/planHelper';
-import labeling from 'containers/labeling';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
-import { submitPaymentWithoutDetails } from 'redux/paymentSlice';
+import { submitPaymentWithoutDetails, selectPayment } from 'redux/paymentSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { selectOnlyOffer } from 'redux/offerSlice';
-import { selectPayment } from 'redux/rootReducer';
 import {
   WrapStyled,
   TitleStyled,
