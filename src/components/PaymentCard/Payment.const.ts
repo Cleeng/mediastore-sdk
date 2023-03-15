@@ -66,3 +66,5 @@ export const CardTypes = {
     title: 'Credit Card'
   }
 };
+
+export type CardTypesKey = keyof typeof CardTypes;

@@ -48,7 +48,8 @@
     "clean": "rimraf dist",
     "compile": "npm run clean && cross-env NODE_ENV=production babel src --ignore spec.js,test.js,stories.js --out-dir dist --copy-files --extensions '.ts,.tsx,.js'",
     "publish-dev": "npm run compile && yalc publish --push",
-    "ts-coverage": "typescript-coverage-report --project \"./tsconfig.json\" --ignore-files \"src/**/index.js\""
+    "ts-coverage-ts": "typescript-coverage-report --project \"./tsconfig.json\" --ignore-files \"src/**/*.js*\"",
+    "ts-coverage-js": "typescript-coverage-report --project \"./tsconfig.json\" --ignore-files \"src/**/*.ts*\""
   },
   "browserslist": {
     "production": [

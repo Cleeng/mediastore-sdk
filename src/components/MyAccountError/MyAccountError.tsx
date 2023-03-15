@@ -1,6 +1,3 @@
-/* istanbul ignore file */
-import React from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Button from 'components/Button';
 import { ReactComponent as serverIcon } from 'assets/images/errors/sad_server.svg';
@@ -11,21 +8,22 @@ import {
   IconStyled,
   DetailsStyled
 } from './MyAccountErrorStyled';
+import { MyAccountErrorProps } from './MyAccountError.types';
 
 const MyAccountError = ({
-  title,
-  subtitle,
-  icon,
-  generalError,
-  withBorder,
-  fullHeight,
-  centered,
-  margin,
-  fullWidth,
-  onClick,
-  isSmallCard,
-  direction
-}) => {
+  title = '',
+  subtitle = '',
+  icon = '',
+  generalError = false,
+  withBorder = false,
+  fullHeight = false,
+  centered = false,
+  margin = '',
+  fullWidth = false,
+  onClick = () => null,
+  isSmallCard = false,
+  direction = 'column'
+}: MyAccountErrorProps) => {
   const { t } = useTranslation();
 
   const IconComponent = generalError ? serverIcon : icon;
@@ -47,10 +45,12 @@ const MyAccountError = ({
       )}
       <DetailsStyled>
         <TitleStyled>
-          {generalError ? t('Oops, something went wrong!') : t(title)}
+          {generalError ? t('Oops, something went wrong!') : title && t(title)}
         </TitleStyled>
         <SubTitleStyled>
-          {generalError ? t('Please try again in a few moments.') : t(subtitle)}
+          {generalError
+            ? t('Please try again in a few moments.')
+            : subtitle && t(subtitle)}
         </SubTitleStyled>
       </DetailsStyled>
       {generalError && (
@@ -64,36 +64,6 @@ const MyAccountError = ({
       )}
     </WrapStyled>
   );
-};
-
-MyAccountError.propTypes = {
-  title: PropTypes.string,
-  subtitle: PropTypes.string,
-  icon: PropTypes.oneOfType([PropTypes.any, PropTypes.string]),
-  generalError: PropTypes.bool,
-  withBorder: PropTypes.bool,
-  fullHeight: PropTypes.bool,
-  centered: PropTypes.bool,
-  margin: PropTypes.string,
-  fullWidth: PropTypes.bool,
-  onClick: PropTypes.func,
-  isSmallCard: PropTypes.bool,
-  direction: PropTypes.oneOf(['row', 'column'])
-};
-
-MyAccountError.defaultProps = {
-  title: '',
-  subtitle: '',
-  icon: '',
-  generalError: false,
-  withBorder: false,
-  fullHeight: false,
-  centered: false,
-  margin: '',
-  fullWidth: false,
-  onClick: null,
-  isSmallCard: false,
-  direction: 'column'
 };
 
 export default MyAccountError;
