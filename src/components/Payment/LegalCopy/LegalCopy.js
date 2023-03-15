@@ -19,8 +19,8 @@ const LegalCopy = () => {
     <LegalNoteWrapperStyled>
       <LegalTextStyled marginBottom="24px">
         <Trans i18nKey="legal-notes-acknowledge">
-          By clicking &apos;Complete Purchase&apos; above, I expressly
-          acknowledge and agree to the above terms as well as the full{' '}
+          By clicking &apos;Pay&apos;, I expressly acknowledge and agree to the
+          full{' '}
           <a {...generateLinkAttributes(CLEENG_TERMS_URL)}>Terms of Service</a>.
         </Trans>
       </LegalTextStyled>
