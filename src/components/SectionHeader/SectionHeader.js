@@ -6,7 +6,7 @@ import { FontColor, BigFont, BoldFont } from 'styles/variables';
 const HeadingStyled = styled.h2.attrs(() => ({
   className: 'msd__section-header'
 }))`
-  padding-bottom: 25px;
+  padding-bottom: ${({ paddingBottom }) => paddingBottom};
   font-size: ${BigFont};
   font-weight: ${BoldFont};
   color: ${FontColor};
@@ -23,8 +23,12 @@ const HeadingStyled = styled.h2.attrs(() => ({
     `}
 `;
 
-const SectionHeader = ({ children, center, marginTop }) => (
-  <HeadingStyled center={center} marginTop={marginTop}>
+const SectionHeader = ({ children, center, marginTop, paddingBottom }) => (
+  <HeadingStyled
+    center={center}
+    marginTop={marginTop}
+    paddingBottom={paddingBottom}
+  >
     {children}
   </HeadingStyled>
 );
@@ -34,11 +38,13 @@ export default SectionHeader;
 SectionHeader.propTypes = {
   children: PropTypes.node,
   center: PropTypes.bool,
-  marginTop: PropTypes.string
+  marginTop: PropTypes.string,
+  paddingBottom: PropTypes.string
 };
 
 SectionHeader.defaultProps = {
   children: '',
   center: false,
-  marginTop: null
+  marginTop: null,
+  paddingBottom: '25px'
 };

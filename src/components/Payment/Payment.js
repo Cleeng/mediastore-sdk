@@ -2,12 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
-import {
-  getPaymentMethods,
-  submitPayment,
-  submitPaymentWithoutDetails,
-  submitPayPalPayment
-} from 'api';
+import { getPaymentMethods, submitPayment, submitPayPalPayment } from 'api';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import Loader from 'components/Loader';
@@ -22,6 +17,7 @@ import {
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import { fetchUpdateOrder } from 'redux/orderSlice';
 import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
+import { submitPaymentWithoutDetails } from 'redux/paymentSlice';
 import {
   PaymentErrorStyled,
   PaymentStyled,
@@ -35,6 +31,7 @@ import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { periodMapper } from '../../util';
+import LegalCopy from './LegalCopy/LegalCopy';
 
 const Payment = ({ t, onPaymentComplete }) => {
   const { paymentMethods } = useSelector(state => state.publisherConfig);
@@ -204,18 +201,18 @@ const Payment = ({ t, onPaymentComplete }) => {
     setIsLoading(true);
     setGeneralError('');
 
-    const { errors, responseData } = await submitPaymentWithoutDetails();
-    if (errors.length) {
-      setIsLoading(false);
-      setGeneralError(t('The payment failed. Please try again.'));
-      return;
-    }
-
-    eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
-      payment: responseData
-    });
-
-    onPaymentComplete();
+    dispatch(submitPaymentWithoutDetails())
+      .unwrap()
+      .then(payment => {
+        eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
+          payment
+        });
+        onPaymentComplete();
+      })
+      .catch(() => {
+        setIsLoading(false);
+        setGeneralError(t('The payment failed. Please try again.'));
+      });
   };
 
   const shouldShowAdyen = shouldShowGatewayComponent('adyen', paymentMethods);
@@ -262,9 +259,10 @@ const Payment = ({ t, onPaymentComplete }) => {
 
   return (
     <PaymentStyled>
-      <SectionHeader marginTop="25px" center>
+      <SectionHeader marginTop="25px" paddingBottom="0" center>
         {t('Purchase using')}
       </SectionHeader>
+      <LegalCopy />
       <PaymentWrapperStyled>
         {isPaymentFinalizationInProgress && <Loader />}
         {shouldShowAdyen && (

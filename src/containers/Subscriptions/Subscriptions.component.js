@@ -9,6 +9,7 @@ import SectionHeader from 'components/SectionHeader';
 import CurrentPlan from 'components/CurrentPlan';
 import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
+import PauseSubscriptionPopup from 'components/PauseSubscriptionPopup';
 import CancelSwitchPopup from 'components/CancelSwitchPopup';
 import { WrapStyled } from './SubscriptionsStyled';
 
@@ -123,6 +124,17 @@ const Subscriptions = ({
       case 'switchPlan':
         return (
           <SwitchPlanPopup
+            showInnerPopup={showInnerPopup}
+            toOffer={innerPopup.data.offerData}
+            fromOffer={planDetails.offerToSwitch}
+            hideInnerPopup={hideInnerPopup}
+            updateList={updateList}
+            isPartOfCancellationFlow={innerPopup.data.isPartOfCancellationFlow}
+          />
+        );
+      case 'pauseSubscription':
+        return (
+          <PauseSubscriptionPopup
             showInnerPopup={showInnerPopup}
             toOffer={innerPopup.data.offerData}
             fromOffer={planDetails.offerToSwitch}
