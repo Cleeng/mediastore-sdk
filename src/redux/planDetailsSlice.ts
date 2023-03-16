@@ -164,6 +164,9 @@ export const planDetailsSlice = createSlice({
     setOfferToSwitch(state, { payload }) {
       state.offerToSwitch = payload;
     },
+    resetOfferToSwitch(state) {
+      state.offerToSwitch = initialState.offerToSwitch;
+    },
     updateList(state) {
       state.updateList = !state.updateList;
     },
@@ -222,6 +225,7 @@ export const selectCurrentPlan = (state: RootState) => state.plan.currentPlan;
 
 export const {
   setOfferToSwitch,
+  resetOfferToSwitch,
   updateList,
   setSwitchDetails
 } = planDetailsSlice.actions;

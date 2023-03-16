@@ -16,7 +16,8 @@ import {
   fetchCustomerOffers,
   fetchPendingSwitches,
   fetchAvailableSwitches,
-  setOfferToSwitch
+  setOfferToSwitch,
+  resetOfferToSwitch
 } from 'redux/planDetailsSlice';
 import { WrapStyled } from './PlanDetailsStyled';
 import { PlanDetailsProps, CustomersOffer } from './PlanDetails.types';
@@ -41,7 +42,7 @@ const PlanDetails = ({
     customerSubscriptions: CustomersOffer[]
   ) => {
     if (customerSubscriptions.length > 1) {
-      dispatch(setOfferToSwitch({})); // reset previously saved offer to switch
+      dispatch(resetOfferToSwitch());
     }
     dispatch(fetchAvailableSwitches(customerSubscriptions));
   };
@@ -97,24 +98,23 @@ const PlanDetails = ({
 
   const isPauseActive = pauseOffersIDs.includes(offerToSwitch.offerId);
 
+  if (isPopupOpen)
+    return (
+      <PlanDetailsPopupManager
+        customCancellationReasons={customCancellationReasons}
+        skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+      />
+    );
+
   return (
     <WrapStyled>
       <GracePeriodError />
-      {isPopupOpen ? (
-        <PlanDetailsPopupManager
-          customCancellationReasons={customCancellationReasons}
-          skipAvailableDowngradesStep={skipAvailableDowngradesStep}
-        />
-      ) : (
+      <SectionHeader>{t('Current plan')}</SectionHeader>
+      <CurrentPlan />
+      {activeSubscriptions.length !== 0 && !isPauseActive && (
         <>
-          <SectionHeader>{t('Current plan')}</SectionHeader>
-          <CurrentPlan />
-          {activeSubscriptions.length !== 0 && !isPauseActive && (
-            <>
-              <SectionHeader>{t('Change Plan')}</SectionHeader>
-              <SubscriptionSwitchesList />
-            </>
-          )}
+          <SectionHeader>{t('Change Plan')}</SectionHeader>
+          <SubscriptionSwitchesList />
         </>
       )}
     </WrapStyled>

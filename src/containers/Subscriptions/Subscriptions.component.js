@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PropTypes } from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,7 +11,8 @@ import {
   fetchCustomerOffers,
   fetchPendingSwitches,
   fetchAvailableSwitches,
-  setOfferToSwitch
+  setOfferToSwitch,
+  resetOfferToSwitch
 } from 'redux/planDetailsSlice';
 import { WrapStyled } from './SubscriptionsStyled';
 
@@ -30,7 +31,7 @@ const Subscriptions = ({
 
   const getAndSaveSwitchSettings = async customerSubscriptions => {
     if (customerSubscriptions.length > 1) {
-      dispatch(setOfferToSwitch({})); // reset previously saved offer to switch
+      dispatch(resetOfferToSwitch());
     }
     dispatch(fetchAvailableSwitches(customerSubscriptions));
   };
@@ -72,19 +73,18 @@ const Subscriptions = ({
     }
   }, [updateListValue]);
 
+  if (isPopupOpen)
+    return (
+      <PlanDetailsPopupManager
+        customCancellationReasons={customCancellationReasons}
+        skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+      />
+    );
+
   return (
     <WrapStyled>
-      {isPopupOpen ? (
-        <PlanDetailsPopupManager
-          customCancellationReasons={customCancellationReasons}
-          skipAvailableDowngradesStep={skipAvailableDowngradesStep}
-        />
-      ) : (
-        <>
-          <SectionHeader>{t('Current plan')}</SectionHeader>
-          <CurrentPlan />
-        </>
-      )}
+      <SectionHeader>{t('Current plan')}</SectionHeader>
+      <CurrentPlan />
     </WrapStyled>
   );
 };

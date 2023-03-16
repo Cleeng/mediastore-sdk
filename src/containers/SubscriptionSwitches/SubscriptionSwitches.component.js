@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PropTypes } from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,7 +20,7 @@ import { WrapStyled } from './SubscriptionSwitchesStyled';
 
 const SubscriptionSwitches = ({
   offerId,
-  toOfferId,
+  toOfferId: toOfferIdProp,
   onCancel,
   onSwitchSuccess,
   onSwitchError
@@ -46,11 +46,11 @@ const SubscriptionSwitches = ({
     const customerOffers = await dispatch(fetchCustomerOffers()).unwrap();
 
     const activeSubscriptions = customerOffers.filter(
-      offer => offer.status === 'active' && offer.offerType === 'S'
+      ({ status, offerType }) => status === 'active' && offerType === 'S'
     );
 
     const offersWithPendingSwitches = activeSubscriptions.filter(
-      sub => sub.pendingSwitchId
+      ({ pendingSwitchId }) => pendingSwitchId
     );
 
     dispatch(fetchPendingSwitches(offersWithPendingSwitches));
@@ -73,11 +73,11 @@ const SubscriptionSwitches = ({
     } else if (offerId && !Object.keys(switchSettings).length) {
       getAndSaveSwitchSettings();
     }
-    if (toOfferId && Object.keys(switchSettings).length) {
+    if (toOfferIdProp && Object.keys(switchSettings).length) {
       if (!switchSettings[offerId]) setSwitchSettingsError(true);
       else {
         const toOffer = switchSettings[offerId].available.find(
-          item => item.toOfferId === toOfferId
+          ({ toOfferId }) => toOfferIdProp === toOfferId
         );
         if (!toOffer) setSwitchSettingsError(true);
         else
@@ -107,20 +107,19 @@ const SubscriptionSwitches = ({
     return <MyAccountError generalError />;
   }
 
+  if (isPopupOpen)
+    return (
+      <PlanDetailsPopupManager
+        onCancel={onCancel}
+        onSwitchSuccess={onSwitchSuccess}
+        onSwitchError={onSwitchError}
+      />
+    );
+
   return (
     <WrapStyled>
-      {isPopupOpen ? (
-        <PlanDetailsPopupManager
-          onCancel={onCancel}
-          onSwitchSuccess={onSwitchSuccess}
-          onSwitchError={onSwitchError}
-        />
-      ) : (
-        <>
-          <SectionHeader>{t('Change Plan')}</SectionHeader>
-          <SubscriptionSwitchesList />
-        </>
-      )}
+      <SectionHeader>{t('Change Plan')}</SectionHeader>
+      <SubscriptionSwitchesList />
     </WrapStyled>
   );
 };
