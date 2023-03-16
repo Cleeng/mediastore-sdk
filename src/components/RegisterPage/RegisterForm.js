@@ -15,6 +15,7 @@ import {
 import registerCustomer from 'api/Auth/registerCustomer';
 import getCustomerLocales from 'api/Customer/getCustomerLocales';
 import Auth from 'services/auth';
+import { connect } from 'react-redux';
 
 class RegisterForm extends Component {
   constructor(props) {
@@ -188,9 +189,10 @@ class RegisterForm extends Component {
       generalError,
       showPassword,
       disableActionButton,
-      processing
+      processing,
+      publisherConsentsError
     } = this.state;
-    const { publisherId, t } = this.props;
+    const { t } = this.props;
 
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
@@ -218,17 +220,15 @@ class RegisterForm extends Component {
         />
         <Consent
           t={t}
-          publisherId={publisherId}
           error={errors.consents}
           onChangeFn={this.handleConsentsChange}
-          disabledRegisterButton={this.disabledRegisterButton}
         />
         <Button
           type="submit"
           size="big"
           theme="confirm"
           margin="10px 0"
-          disabled={processing || disableActionButton}
+          disabled={processing || disableActionButton || publisherConsentsError}
         >
           {processing ? <Loader buttonLoader color="#ffffff" /> : t('Register')}
         </Button>
@@ -249,4 +249,8 @@ RegisterForm.defaultProps = {
   t: k => k
 };
 
-export default RegisterForm;
+export const mapStateToProps = state => ({
+  publisherConsentsError: state.publisherConsents.error
+});
+
+export default connect(mapStateToProps)(RegisterForm);

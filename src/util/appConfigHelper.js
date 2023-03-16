@@ -3,6 +3,7 @@ import {
   setData as setDataInRedux,
   removeData as removeDataFromRedux
 } from 'redux/appConfig';
+import { init } from 'redux/publisherConfigSlice';
 
 const isLocalStorageAvailable = () => {
   try {
@@ -66,6 +67,7 @@ export const setRefreshToken = refreshToken => {
 export const setPublisher = publisherId => {
   if (publisherId) {
     setData('CLEENG_PUBLISHER_ID', publisherId);
+    store.dispatch(init({ publisherId }));
     return true;
   }
   return false;

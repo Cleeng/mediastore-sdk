@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
+  publisherId: '',
   offerId: '',
   paymentMethods: [],
   adyenConfiguration: null,
