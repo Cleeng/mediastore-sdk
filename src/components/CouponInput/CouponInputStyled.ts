@@ -2,10 +2,17 @@ import styled, { css } from 'styled-components';
 import * as Colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
+import {
+  InputComponentStyledProps,
+  MessageStyledProps,
+  InputElementStyledProps,
+  CloseButtonStyledProps
+} from './CouponInput.types';
 
 export const InputComponentStyled = styled.div.attrs(() => ({
-  className: 'msd__coupon-input__wrapper'
-}))`
+  className: 'msd__coupon-input__wrapper',
+  ['data-testid']: 'inputcomponent'
+}))<InputComponentStyledProps>`
   display: flex;
   flex-direction: column;
 
@@ -22,7 +29,7 @@ export const InputComponentStyled = styled.div.attrs(() => ({
 
 export const MessageStyled = styled.div.attrs(() => ({
   className: 'msd__coupon-input__message'
-}))`
+}))<MessageStyledProps>`
   color: ${props =>
     props.messageType === MESSAGE_TYPE_SUCCESS
       ? Colors.ConfirmColor
@@ -52,8 +59,9 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
 `;
 
 export const InputElementStyled = styled.input.attrs(() => ({
-  className: 'msd__coupon-input__input'
-}))`
+  className: 'msd__coupon-input__input',
+  role: 'input'
+}))<InputElementStyledProps>`
   flex-grow: 1;
   position: relative;
   width: 0px;
@@ -93,7 +101,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
 
 export const CloseButtonStyled = styled.button.attrs(() => ({
   className: 'msd__coupon-input__close'
-}))`
+}))<CloseButtonStyledProps>`
   position: absolute;
   height: 22px;
   width: 22px;

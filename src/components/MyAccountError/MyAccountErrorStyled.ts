@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import { FontColor, IconsColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
+import { WrapStyledProps } from './MyAccountError.types';
 
 export const TitleStyled = styled.div.attrs(() => ({
   className: 'msd__info-box__title'
@@ -41,9 +42,9 @@ export const DetailsStyled = styled.div.attrs(() => ({
   className: 'msd__info-details'
 }))``;
 
-export const WrapStyled = styled.div.attrs(() => ({
+export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
   className: 'msd__info-box'
-}))`
+}))<WrapStyledProps>`
  * {
     box-sizing: border-box;
   }
@@ -63,8 +64,8 @@ export const WrapStyled = styled.div.attrs(() => ({
       width: 100%;
       max-width: unset;
     `}
-    
-  
+
+
   ${props =>
     props.withBorder &&
     css`

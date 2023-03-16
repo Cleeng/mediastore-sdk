@@ -1,66 +1,13 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './rootReducer';
 import { getOfferDetails } from '../api';
+import { Offer, OfferInitialState, RejectValueError } from './types';
 
-type Offer = {
-  accessToTags: string[];
-  active: boolean;
-  applicableTaxRate: number;
-  applyServiceFeeOnCustomer: boolean;
-  averageRating: number;
-  contentAgeRestriction: unknown;
-  contentExternalData: unknown;
-  contentExternalId: unknown;
-  contentType: unknown;
-  createdAt: number;
-  customerCountry: string;
-  customerCurrency: string;
-  customerCurrencySymbol: string;
-  customerPriceExclTax: number;
-  customerPriceInclTax: number;
-  discountPeriods: unknown;
-  discountedCustomerPriceExclTax: unknown;
-  discountedCustomerPriceInclTax: unknown;
-  endTime: unknown;
-  expiresAt: number;
-  freeDays: number;
-  freePeriods: number;
-  geoRestrictionCountries: unknown[];
-  geoRestrictionEnabled: boolean;
-  geoRestrictionType: unknown;
-  offerCountry: string;
-  offerCurrency: string;
-  offerCurrencySymbol: string;
-  offerDescription: unknown;
-  offerId: string;
-  offerPrice: number;
-  offerTitle: string;
-  offerUrl: unknown;
-  period: string;
-  socialCommissionRate: number;
-  startTime: number;
-  timeZone: unknown;
-  trialAvailable: boolean;
-  updatedAt: number;
-  videoId: unknown;
-};
-
-type InitialState = {
-  offer: Offer | Record<string, never>;
-  loading: boolean;
-  error: string | null | undefined;
-  isOfferFree: boolean;
-};
-
-const initialState: InitialState = {
+const initialState: OfferInitialState = {
   offer: {},
   loading: false,
   error: null,
   isOfferFree: false
-};
-
-type RejectValueError = {
-  message: string;
 };
 
 export const fetchOffer = createAsyncThunk<

@@ -1,71 +1,14 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from './rootReducer';
-import { CustomerOffer } from '../api/Customer/getCustomerOffers';
+import { CustomerOffer } from '../api/Customer/types';
+import {
+  PlanDetailsInitialState,
+  RejectValueError,
+  SwitchDetails
+} from './types';
 import { getCustomerOffers, getSwitch, getAvailableSwitches } from '../api';
 
-type SwitchSetting = {
-  toOfferId: string;
-  algorithm: string;
-  switchDirection: string;
-  title: string;
-  price: number;
-  currency: string;
-  currencySymbol: string;
-  period: string;
-  nextPaymentPrice: number;
-  nextPaymentPriceCurrency: string;
-  nextPaymentPriceCurrencySymbol: string;
-};
-
-type SwitchSettings = {
-  [key: string]: {
-    available: SwitchSetting[];
-    unavailable: SwitchSetting[];
-  };
-};
-
-type SwitchDetails = {
-  [key: string]: {
-    id: string;
-    customerId: number;
-    direction: string;
-    algorithm: string;
-    fromOfferId: string;
-    toOfferId: string;
-    subscriptionId: string;
-    status: string;
-    createdAt: number;
-    updatedAt: number;
-  };
-};
-
-type Error = string[] | string | null | undefined;
-
-type RejectValueError = {
-  message: string;
-};
-
-type InitialState = {
-  currentPlan: {
-    data: CustomerOffer[];
-    loading: boolean;
-    error: Error;
-  };
-  offerToSwitch: CustomerOffer | {};
-  updateList: boolean;
-  switchSettings: {
-    data: SwitchSettings;
-    loading: boolean;
-    error: Error;
-  };
-  switchDetails: {
-    data: SwitchDetails;
-    loading: boolean;
-    error: Error;
-  };
-};
-
-const initialState: InitialState = {
+const initialState: PlanDetailsInitialState = {
   currentPlan: {
     data: [],
     loading: false,

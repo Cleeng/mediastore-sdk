@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { MyAccountTextGray } from 'styles/variables';
+import { CardsWrapperProps } from './PaymentMethod.types';
 
 export const WrapStyled = styled.div`
   position: relative;
@@ -7,9 +8,9 @@ export const WrapStyled = styled.div`
   margin-bottom: 30px;
 `;
 
-export const CardsWrapper = styled.div.attrs(() => ({
+export const CardsWrapper = styled.div.attrs<CardsWrapperProps>(() => ({
   className: 'msd__payment-method__wrapper'
-}))`
+}))<CardsWrapperProps>`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
@@ -19,8 +20,8 @@ export const CardsWrapper = styled.div.attrs(() => ({
       justify-self: center;
     }
   }
-  ${props =>
-    props.numberOfItems === 1 &&
+  ${({ numberOfItems }) =>
+    numberOfItems === 1 &&
     css`
       grid-template-columns: 1fr;
       > div {
