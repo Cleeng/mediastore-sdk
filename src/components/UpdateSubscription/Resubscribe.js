@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 
 import updateSubscription from 'api/Customer/updateSubscription';
 import { dateFormat, currencyFormat } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
+import { updateList } from 'redux/planDetailsSlice';
+import { hidePopup } from 'redux/popupSlice';
 
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
@@ -18,10 +21,16 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
-const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
+const Resubscribe = ({ t }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+
+  const {
+    updateSubscription: { offerData: offerDetails }
+  } = useSelector(state => state.popupManager);
+
+  const dispatch = useDispatch();
 
   const { expiresAt, nextPaymentPrice, nextPaymentCurrency } = offerDetails;
   const currencySymbol = currencyFormat[nextPaymentCurrency];
@@ -55,7 +64,7 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
 
   const cancelResubscribeAction = () => {
     window.dispatchEvent(new CustomEvent('MSSDK:resume-action-cancelled'));
-    hideInnerPopup();
+    dispatch(hidePopup());
   };
 
   return (
@@ -105,8 +114,8 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
             width="auto"
             margin="30px auto 0 auto"
             onClickFn={() => {
-              hideInnerPopup();
-              updateList();
+              dispatch(hidePopup());
+              dispatch(updateList());
             }}
           >
             {t('Back to My Account')}
@@ -118,9 +127,6 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
 };
 
 Resubscribe.propTypes = {
-  hideInnerPopup: PropTypes.func.isRequired,
-  updateList: PropTypes.func.isRequired,
-  offerDetails: PropTypes.objectOf(PropTypes.any).isRequired,
   t: PropTypes.func
 };
 

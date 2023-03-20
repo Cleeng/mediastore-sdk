@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
 import formatNumber from 'util/formatNumber';
@@ -15,6 +16,8 @@ import eventDispatcher, {
   MSSDK_SWITCH_POPUP_ACTION_SUCCESSFUL,
   MSSDK_SWITCH_POPUP_ACTION_FAILED
 } from 'util/eventDispatcher';
+import { updateList } from 'redux/planDetailsSlice';
+import { hidePopup } from 'redux/popupSlice';
 
 import {
   ContentStyled,
@@ -31,15 +34,7 @@ import {
   ImageStyled
 } from './PauseSubscriptionPopupStyled';
 
-const PauseSubscriptionPopup = ({
-  toOffer,
-  fromOffer,
-  hideInnerPopup,
-  showInnerPopup,
-  updateList,
-  isPopupLoading,
-  t
-}) => {
+const PauseSubscriptionPopup = ({ t }) => {
   const STEPS = {
     PAUSE_DETAILS: 'PAUSE_DETAILS',
     CONFIRMATION: 'CONFIRMATION'
@@ -53,6 +48,13 @@ const PauseSubscriptionPopup = ({
   const [step, setStep] = useState(STEPS.PAUSE_DETAILS);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
+  const { offerToSwitch: fromOffer } = useSelector(state => state.plan);
+  const {
+    isLoading: isPopupLoading,
+    pauseSubscription: { offerData: toOffer }
+  } = useSelector(state => state.popupManager);
+
+  const dispatch = useDispatch();
 
   const pauseSubscription = async () => {
     setIsLoading(true);
@@ -86,8 +88,8 @@ const PauseSubscriptionPopup = ({
   };
 
   const closePopupAndRefresh = () => {
-    hideInnerPopup();
-    updateList();
+    dispatch(hidePopup());
+    dispatch(updateList());
   };
 
   if (isPopupLoading) {
@@ -186,15 +188,17 @@ const PauseSubscriptionPopup = ({
             <Button
               theme="simple"
               onClickFn={() => {
-                showInnerPopup({
-                  type: POPUP_TYPES.updateSubscription,
-                  data: {
-                    action: 'unsubscribe',
-                    offerData: {
-                      ...fromOffer
+                dispatch(
+                  hidePopup({
+                    type: POPUP_TYPES.updateSubscription,
+                    data: {
+                      action: 'unsubscribe',
+                      offerData: {
+                        ...fromOffer
+                      }
                     }
-                  }
-                });
+                  })
+                );
               }}
             >
               {t('Back')}
@@ -235,22 +239,10 @@ const PauseSubscriptionPopup = ({
 };
 
 PauseSubscriptionPopup.propTypes = {
-  toOffer: PropTypes.objectOf(PropTypes.any),
-  fromOffer: PropTypes.objectOf(PropTypes.any),
-  hideInnerPopup: PropTypes.func,
-  updateList: PropTypes.func,
-  isPopupLoading: PropTypes.bool,
-  t: PropTypes.func,
-  showInnerPopup: PropTypes.func
+  t: PropTypes.func
 };
 
 PauseSubscriptionPopup.defaultProps = {
-  toOffer: {},
-  fromOffer: {},
-  hideInnerPopup: () => {},
-  showInnerPopup: () => {},
-  updateList: () => {},
-  isPopupLoading: false,
   t: k => k
 };
 

@@ -1,3 +1,3 @@
-import Subscriptions from './Subscriptions.container';
+import Subscriptions from './Subscriptions.component';
 
 export default Subscriptions;

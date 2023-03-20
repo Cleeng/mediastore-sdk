@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import SubscriptionIcon from 'components/SubscriptionIcon';
@@ -13,6 +13,7 @@ import { ReactComponent as UpgradeIcon } from 'assets/images/upgrade_pending.svg
 import { ReactComponent as PauseIcon } from 'assets/images/pause_noti.svg';
 import { dateFormat } from 'util/planHelper';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
+import { showPopup } from 'redux/popupSlice';
 
 import {
   WrapperStyled,
@@ -41,23 +42,26 @@ const OfferCard = ({
   isMyAccount,
   pendingSwitchId,
   expiresAt,
-  showInnerPopup,
   offerId,
   isPriceBoxHidden,
   isPaused,
   t
 }) => {
-  const planDetailsState = useSelector(state => state.planDetails);
+  const { data: currentPlan } = useSelector(state => state.plan.currentPlan);
+  const { data: switchDetailsStore } = useSelector(
+    state => state.plan.switchDetails
+  );
   const { pauseOffersIDs } = useSelector(state => state.offers);
-  const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
+  const switchDetails = switchDetailsStore[pendingSwitchId];
   const isPauseInProgress = pauseOffersIDs.includes(switchDetails?.toOfferId);
+
+  const dispatch = useDispatch();
 
   const getSwitchCopy = () => {
     if (switchDetails) {
       const subscriptionExpirationDate = dateFormat(
-        planDetailsState.currentPlan.find(
-          sub => sub.pendingSwitchId === pendingSwitchId
-        ).expiresAt
+        currentPlan.find(sub => sub.pendingSwitchId === pendingSwitchId)
+          .expiresAt
       );
       const { title: switchTitle, fromOfferId, toOfferId } = switchDetails;
       const translatedTitle = t(`offer-title-${fromOfferId}`, title);
@@ -234,19 +238,22 @@ const OfferCard = ({
                             }
                           )
                         );
-                        showInnerPopup({
-                          type: isPauseInProgress
-                            ? POPUP_TYPES.cancelPause
-                            : POPUP_TYPES.cancelSwitch,
-                          data: {
-                            pendingSwitchId,
-                            switchDirection: switchDetails.direction,
-                            switchOfferTitle: switchDetails.title,
-                            baseOfferTitle: title,
-                            baseOfferExpirationDate: expiresAt,
-                            baseOfferPrice: `${currency}${price}`
-                          }
-                        });
+
+                        dispatch(
+                          showPopup({
+                            type: isPauseInProgress
+                              ? POPUP_TYPES.cancelPause
+                              : POPUP_TYPES.cancelSwitch,
+                            data: {
+                              pendingSwitchId,
+                              switchDirection: switchDetails.direction,
+                              switchOfferTitle: switchDetails.title,
+                              baseOfferTitle: title,
+                              baseOfferExpirationDate: expiresAt,
+                              baseOfferPrice: `${currency}${price}`
+                            }
+                          })
+                        );
                       }}
                     >
                       {isPauseInProgress
@@ -277,7 +284,6 @@ OfferCard.propTypes = {
   isMyAccount: PropTypes.bool,
   pendingSwitchId: PropTypes.string,
   expiresAt: PropTypes.string,
-  showInnerPopup: PropTypes.func,
   offerId: PropTypes.string,
   isPriceBoxHidden: PropTypes.bool,
   isPaused: PropTypes.bool
@@ -298,7 +304,6 @@ OfferCard.defaultProps = {
   isMyAccount: false,
   pendingSwitchId: null,
   expiresAt: '',
-  showInnerPopup: () => {},
   offerId: '',
   isPriceBoxHidden: false,
   isPaused: false

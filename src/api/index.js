@@ -23,6 +23,7 @@ import getPaymentMethods from './Publisher/getPaymentMethods';
 import getConsents from './Publisher/getConsents';
 import getOrder from './Order/getOrder';
 import updateSwitch from './Customer/updateSwitch';
+import getSwitch from './Customer/getSwitch';
 import updatePayPalPaymentDetails from './PaymentDetails/updatePayPalPaymentDetails';
 import finalizeInitialPayment from './Payment/finalizeInitialPayment';
 import finalizeAddPaymentDetails from './Payment/finalizeAddPaymentDetails';
@@ -57,5 +58,6 @@ export {
   updatePayPalPaymentDetails,
   finalizeInitialPayment,
   finalizeAddPaymentDetails,
-  getOffers
+  getOffers,
+  getSwitch
 };
