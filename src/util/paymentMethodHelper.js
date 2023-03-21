@@ -7,7 +7,11 @@ export const supportedPaymentMethods = [
   'card',
   'paypal',
   'applepay',
-  'googlepay'
+  'googlepay',
+  'ideal',
+  'sofort',
+  'bancontact_card',
+  'bancontact_mobile'
 ];
 export const supportedPaymentGateways = ['adyen', 'paypal'];
 

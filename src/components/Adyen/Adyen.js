@@ -41,16 +41,13 @@ const Adyen = ({
     });
   };
 
-  const onSelect = ({
-    data: {
-      paymentMethod: { type }
-    }
-  }) => {
-    if (type === 'scheme') {
-      selectPaymentMethod('card');
-      return;
-    }
-    selectPaymentMethod(type);
+  const onSelect = ({ type }) => {
+    const typeMapper = {
+      bcmc_mobile: 'bancontact_mobile',
+      directEbanking: 'sofort',
+      bcmc: 'bancontact_card'
+    };
+    selectPaymentMethod(typeMapper[type] || type);
   };
 
   const createDropInInstance = async ({

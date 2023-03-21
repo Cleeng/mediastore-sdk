@@ -64,5 +64,21 @@ export const CardTypes = {
   diners: {
     icon: Diners,
     title: 'Credit Card'
+  },
+  ideal: {
+    icon: Diners, // TODO: add icons
+    title: 'iDeal'
+  },
+  sofort: {
+    icon: Diners, // TODO: add icons
+    title: 'Sofort'
+  },
+  bancontact_card: {
+    icon: Diners, // TODO: add icons
+    title: 'bancontact_card'
+  },
+  bancontact_mobile: {
+    icon: Diners, // TODO: add icons
+    title: 'bancontact_mobile'
   }
 };
