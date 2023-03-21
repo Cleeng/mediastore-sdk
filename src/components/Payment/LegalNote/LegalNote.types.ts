@@ -1,4 +1,4 @@
-import { Order } from 'redux/orderSlice';
+import { Order } from 'redux/types';
 
 export type LegalNoteProps = {
   order: Order;

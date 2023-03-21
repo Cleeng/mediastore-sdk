@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -88,14 +88,15 @@ const Transactions = ({ t }) => {
 
   if (loading) return <TransactionsSkeleton />;
 
-  if (error.length !== 0)
+  if (error.length !== 0) {
     return (
       <WrapStyled>
         <MyAccountError generalError />
       </WrapStyled>
     );
+  }
 
-  if (transactions.length === 0)
+  if (transactions.length === 0) {
     return (
       <WrapStyled>
         <MyAccountError
@@ -107,6 +108,7 @@ const Transactions = ({ t }) => {
         />
       </WrapStyled>
     );
+  }
 
   return (
     <WrapStyled>
@@ -123,7 +125,7 @@ const Transactions = ({ t }) => {
               offerTitle,
               transactionDate
             }) => {
-              const LogoComponent = logos[paymentMethod];
+              const LogoComponent = logos[paymentMethod] || logos.card;
               return (
                 <InsideWrapperStyled
                   key={transactionId}
@@ -178,7 +180,5 @@ Transactions.propTypes = {
 Transactions.defaultProps = {
   t: k => k
 };
-
-export { Transactions as PureTransactions };
 
 export default withTranslation()(labeling()(Transactions));

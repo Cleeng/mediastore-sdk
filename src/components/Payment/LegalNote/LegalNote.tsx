@@ -1,7 +1,7 @@
 import { Trans, withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { getData } from 'util/appConfigHelper';
-import { currencyFormat } from 'util/planHelper';
+import { CurrencyFormat, currencyFormat } from 'util/planHelper';
 import { LegalNoteWrapperStyled, LegalTextStyled } from '../PaymentStyled';
 import { LegalNoteProps } from './LegalNote.types';
 
@@ -15,7 +15,9 @@ const LegalNote = ({
 }: LegalNoteProps) => {
   const isInTrial = discount?.applied && discount.type === 'trial';
   const couponApplied = discount?.applied && discount.type !== 'trial';
-  const readablePrice = `${currencyFormat[currency]}${offerPrice}`;
+  const readablePrice = `${
+    currencyFormat[currency as keyof Record<CurrencyFormat, string>]
+  }${offerPrice}`;
   const readablePeriod = period ? `/${period}` : '';
 
   const CLEENG_MY_ACCOUNT_URL = 'CLEENG_MY_ACCOUNT_URL';
@@ -76,7 +78,7 @@ const LegalNote = ({
             <Trans i18nKey={`legal-notes.period-${period}`}>
               <strong>
                 <>
-                  By clicking &apos;Complete purchase&apos;, you will be charged{' '}
+                  By clicking &apos;Pay&apos;, you will be charged{' '}
                   {{ readablePrice }}
                   {{ readablePeriod }} or the then-current price plus applicable
                   taxes on a recurring basis.

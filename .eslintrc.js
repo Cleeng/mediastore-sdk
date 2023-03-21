@@ -53,7 +53,10 @@ module.exports = {
           'test.{ts,tsx}',
           '**/*{.,_}{test,spec}.{ts,tsx}',
           '**/jest.config.ts',
-          '**/jest.setup.ts'
+          '**/jest.setup.ts',
+          '**/*.test.ts',
+          '**/*.test.tsx',
+          '**/*.test.js'
         ],
         optionalDependencies: false
       }

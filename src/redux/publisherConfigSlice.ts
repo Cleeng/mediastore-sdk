@@ -3,6 +3,7 @@ import { RootState } from './rootReducer';
 import { initPayloadAction, PublisherConfigInitialState } from './types';
 
 export const initialState: PublisherConfigInitialState = {
+  publisherId: '',
   offerId: '',
   paymentMethods: [],
   adyenConfiguration: null,

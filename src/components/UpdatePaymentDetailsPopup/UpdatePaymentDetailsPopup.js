@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
@@ -69,7 +69,7 @@ const UpdatePaymentDetailsPopup = () => {
     ERROR: 2
   };
 
-  const { isLoading, step } = useSelector(
+  const { isLoading, step, initPaymentMethod } = useSelector(
     state => state.popupManager.paymentDetails
   );
 
@@ -112,9 +112,8 @@ const UpdatePaymentDetailsPopup = () => {
     };
   }, []);
 
-  if (selectedPaymentMethod?.bound) {
-    const LogoComponent =
-      PaymentMethodIcons[selectedPaymentMethod.paymentMethod];
+  if (initPaymentMethod?.bound) {
+    const LogoComponent = PaymentMethodIcons[initPaymentMethod.paymentMethod];
     return (
       <InnerPopupWrapper
         steps={1}
@@ -123,7 +122,7 @@ const UpdatePaymentDetailsPopup = () => {
         popupTitle={t('Update payment details')}
       >
         <ContentStyled>
-          {PaymentMethodIcons[selectedPaymentMethod.paymentMethod] && (
+          {PaymentMethodIcons[initPaymentMethod.paymentMethod] && (
             <PopupImageStyled>
               <LogoComponent />
             </PopupImageStyled>
@@ -133,7 +132,7 @@ const UpdatePaymentDetailsPopup = () => {
           </TitleStyled>
           <TextStyled>
             {t('You are currently paying for your subscription via')}{' '}
-            {selectedPaymentMethod.paymentMethod}.
+            {initPaymentMethod.paymentMethod}.
             <br />
             <br />
             {t(

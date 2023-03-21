@@ -38,6 +38,7 @@ export type PaymentMethodName =
 export type PaymentGateway = 'adyen' | 'paypal' | 'manual';
 
 export type PublisherConfigInitialState = {
+  publisherId: string;
   offerId: string;
   paymentMethods: {
     id: number;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -7,7 +7,10 @@ import {
   TextStyled,
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
-import { PopupImageStyled } from 'components/UpdatePaymentDetailsPopup/UpdatePaymentDetailsPopupStyled';
+import {
+  PopupImageStyled,
+  ErrorMessage
+} from 'components/UpdatePaymentDetailsPopup/UpdatePaymentDetailsPopupStyled';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
 import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
@@ -20,7 +23,6 @@ import {
   PAYMENT_DETAILS_STEPS,
   updatePaymentDetailsPopup
 } from 'redux/popupSlice';
-import { ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
 const PaymentMethodIcons = {
   paypal: PaypalIcon,
@@ -33,11 +35,8 @@ const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
   const [isError, setIsError] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
-  const { activeOrBoundPaymentDetails } = useSelector(
-    state => state.paymentDetails
-  );
-  const activePaymentDetails = activeOrBoundPaymentDetails.find(
-    ({ active }) => active
+  const { initPaymentMethod } = useSelector(
+    state => state.popupManager.paymentDetails
   );
 
   const deletePaymentMethod = () => {
@@ -46,7 +45,7 @@ const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
     );
     setIsError(false);
     setIsButtonLoading(true);
-    deletePaymentDetails(activePaymentDetails.id)
+    deletePaymentDetails(initPaymentMethod.id)
       .then(resp => {
         if (!resp.errors.length) {
           setIsButtonLoading(false);

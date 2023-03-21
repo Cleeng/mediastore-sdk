@@ -37,7 +37,8 @@ const initialState: PopupManagerInitialState = {
   paymentDetails: {
     isOpen: false,
     isLoading: false,
-    step: PAYMENT_DETAILS_STEPS.PAYMENT_DETAILS_UPDATE
+    step: PAYMENT_DETAILS_STEPS.PAYMENT_DETAILS_UPDATE,
+    initPaymentMethod: null
   }
 };
 
@@ -59,11 +60,15 @@ export const popupSlice = createSlice({
     },
     showPopup(state, action: PayloadAction<PopupType & PopupData>) {
       if (state.currentType) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         state[state.currentType] = initialState[state.currentType];
         state.currentType = null;
       }
       state.isOpen = true;
       state.currentType = action.payload.type;
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       state[action.payload.type] = action.payload.data;
     },
     hidePopup: () => initialState

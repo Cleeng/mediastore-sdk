@@ -1,8 +1,12 @@
-import React from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from 'components/Checkbox';
-import { getConsents } from 'api';
 import Loader from 'components/Loader';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  fetchPublisherConsents,
+  setChecked
+} from 'redux/publisherConsentsSlice';
 import {
   ConsentsWrapperStyled,
   ConsentsErrorStyled,
@@ -14,89 +18,32 @@ import {
 const regexHrefOpenTag = new RegExp(/<a(.|\n)*?>/);
 const regexHrefCloseTag = new RegExp(/<\/a(.|\n)*?>/);
 
-export class Consents extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      consentDefinitions: [],
-      checked: [],
-      consentsLabels: [],
-      consentLoaded: false,
-      generalError: ''
-    };
-  }
+const Consents = ({ error, onChangeFn, t }) => {
+  const {
+    publisherConsents,
+    checked,
+    loading,
+    error: generalError
+  } = useSelector(state => state.publisherConsents);
+  const { publisherId } = useSelector(state => state.publisherConfig);
 
-  componentDidMount() {
-    const { publisherId } = this.props;
-    if (publisherId) {
-      this.getConsents(publisherId).then(() => {});
-    }
-  }
+  const dispatch = useDispatch();
 
-  componentDidUpdate(prevProps) {
-    const { publisherId } = this.props;
-
-    if (prevProps.publisherId !== publisherId) {
-      this.getConsents(publisherId).then(() => {
-        this.validateConsents();
-      });
-    }
-  }
-
-  getConsents = async publisherId => {
-    try {
-      const consentsIncome = await getConsents(publisherId);
-      if (consentsIncome.responseData && consentsIncome.responseData.consents) {
-        const consentsDetails = consentsIncome.responseData.consents.map(
-          element => {
-            return {
-              name: element.name,
-              version: element.version,
-              required: element.required
-            };
-          }
-        );
-        const labels = consentsIncome.responseData.consents.map(
-          element => element.label
-        );
-        const initArray = new Array(consentsDetails.length).fill(false);
-        this.setState({
-          consentDefinitions: consentsDetails,
-          consentLoaded: true,
-          consentsLabels: labels,
-          checked: initArray
-        });
-      } else if (consentsIncome.errors.includes('Invalid param publisherId')) {
-        const { disabledRegisterButton } = this.props;
-        this.setState({
-          consentLoaded: true,
-          generalError: 'noPublisherId'
-        });
-        disabledRegisterButton();
+  useEffect(() => {
+    async function getConsents() {
+      if (publisherId) {
+        await dispatch(fetchPublisherConsents(publisherId));
       }
-    } catch (error) {
-      return error;
     }
-    return false;
-  };
+    getConsents();
+  }, [publisherId]);
 
-  changeConsentState = consentID => {
-    const { consentDefinitions, checked } = this.state;
-    if (consentDefinitions.length > 0) {
-      checked[consentID] = !checked[consentID];
-      this.setState({ checked });
-    }
-    this.validateConsents();
-  };
+  useEffect(() => {
+    // validate consents
+    onChangeFn(checked, publisherConsents);
+  }, [checked, publisherConsents]);
 
-  validateConsents = () => {
-    const { onChangeFn } = this.props;
-    const { consentDefinitions, checked } = this.state;
-    onChangeFn(checked, consentDefinitions);
-  };
-
-  translateConsents = consentContent => {
-    const { t } = this.props;
+  const translateConsents = consentContent => {
     const openTagContent = regexHrefOpenTag.exec(consentContent);
     const closeTagContent = regexHrefCloseTag.exec(consentContent);
     if (openTagContent) {
@@ -116,63 +63,52 @@ export class Consents extends React.Component {
     return t(consentContent);
   };
 
-  render() {
-    const {
-      checked,
-      consentsLabels,
-      consentDefinitions,
-      consentLoaded,
-      generalError
-    } = this.state;
-    const { error, t } = this.props;
-    if (generalError === 'noPublisherId') {
-      return (
-        <GeneralErrorStyled>
-          {t('Unable to fetch terms & conditions. Publisher is not recognized')}
-        </GeneralErrorStyled>
-      );
-    }
+  if (generalError === 'noPublisherId') {
     return (
-      <ConsentsWrapperStyled>
-        {!consentLoaded ? (
-          <Loader />
-        ) : (
-          <FieldsetStyled>
-            <InvisibleLegend>Consents </InvisibleLegend>
-            {consentDefinitions.map((consent, index) => {
-              return (
-                <Checkbox
-                  onClickFn={() => this.changeConsentState(index)}
-                  checked={checked[index]}
-                  error={error}
-                  key={String(index)}
-                  required={consent.required && !checked[index]}
-                >
-                  {consentsLabels[index]}
-                </Checkbox>
-              );
-            })}
-          </FieldsetStyled>
-        )}
-        {error && <ConsentsErrorStyled>{error}</ConsentsErrorStyled>}
+      <GeneralErrorStyled data-testid="consents__general-error">
+        {t('Unable to fetch terms & conditions. Publisher is not recognized')}
+      </GeneralErrorStyled>
+    );
+  }
+  if (loading) {
+    return (
+      <ConsentsWrapperStyled data-testid="consents__loader">
+        <Loader />
       </ConsentsWrapperStyled>
     );
   }
-}
+  return (
+    <ConsentsWrapperStyled>
+      <FieldsetStyled>
+        <InvisibleLegend>Consents </InvisibleLegend>
+        {publisherConsents.map((consent, index) => {
+          return (
+            <Checkbox
+              onClickFn={() => dispatch(setChecked(index))}
+              checked={checked[index]}
+              error={error}
+              key={consent.label}
+              required={consent.required && !checked[index]}
+            >
+              {translateConsents(consent.label)}
+            </Checkbox>
+          );
+        })}
+      </FieldsetStyled>
+      {error && <ConsentsErrorStyled>{error}</ConsentsErrorStyled>}
+    </ConsentsWrapperStyled>
+  );
+};
 
 Consents.propTypes = {
-  publisherId: PropTypes.string,
   error: PropTypes.string,
   onChangeFn: PropTypes.func,
-  disabledRegisterButton: PropTypes.func,
   t: PropTypes.func
 };
 
 Consents.defaultProps = {
-  publisherId: '',
   error: '',
-  onChangeFn: () => {},
-  disabledRegisterButton: () => {},
+  onChangeFn: () => undefined,
   t: k => k
 };
 

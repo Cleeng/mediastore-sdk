@@ -12,7 +12,7 @@ import {
   updatePaymentDetailsPopup
 } from 'redux/popupSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { PaymentDetail } from 'api/Customer/getPaymentDetails';
+import { PaymentDetail } from 'api/Customer/types';
 import { WrapStyled, CardsWrapper, Message } from './PaymentMethodStyled';
 import PaymentCardSkeleton from '../PaymentCardSkeleton/PaymentCardSkeleton';
 
