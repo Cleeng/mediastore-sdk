@@ -11,7 +11,7 @@ export function validateConsents(value, consentDefinitions) {
 
 export function validateConsentsField(value, consents) {
   if (!validateConsents(value, consents)) {
-    return 'Please agree on all consents to use this service';
+    return 'Please agree on all required consents to use this service';
   }
   return '';
 }

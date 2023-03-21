@@ -90,7 +90,7 @@ const Consents = ({ error, onChangeFn, t }) => {
               key={consent.label}
               required={consent.required && !checked[index]}
             >
-              {translateConsents(consent.label)}
+              {translateConsents(consent.label) + (consent.required ? '*' : '')}
             </Checkbox>
           );
         })}
