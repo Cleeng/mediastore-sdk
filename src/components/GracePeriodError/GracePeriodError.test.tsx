@@ -3,13 +3,15 @@ import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import { CustomersOffer as CurrentPlan } from 'api/Customer/getCustomerOffers';
+import { CustomerOffer as CurrentPlan } from 'api/Customer/types';
 import { currentPlanMock } from 'util/planDetailsMock';
 import GracePeriodError from './GracePeriodError';
 
 const store = (currentPlan: CurrentPlan[], displayGracePeriodError = true) => ({
   plan: {
-    currentPlan
+    currentPlan: {
+      data: currentPlan
+    }
   },
   publisherConfig: {
     displayGracePeriodError

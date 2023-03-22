@@ -12,11 +12,11 @@ import {
 
 const GracePeriodError = () => {
   const dispatch = useAppDispatch();
-  const currentPlan = useAppSelector(selectCurrentPlan);
+  const { data: currentPlan } = useAppSelector(selectCurrentPlan);
   const displayGracePeriodError = useAppSelector(selectDisplayGracePeriodError);
 
   useEffect(() => {
-    if (displayGracePeriodError && !currentPlan) {
+    if (displayGracePeriodError && currentPlan.length === 0) {
       dispatch(fetchCustomerOffers());
     }
   }, [displayGracePeriodError]);
