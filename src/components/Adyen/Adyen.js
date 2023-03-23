@@ -25,20 +25,45 @@ const Adyen = ({
   getDropIn,
   onAdditionalDetails
 }) => {
-  const { discount } = useSelector(state => state.order.order);
+  const { discount, totalPrice } = useSelector(state => state.order.order);
   const { adyenConfiguration } = useSelector(state => state.publisherConfig);
   const [isLoading, setIsLoading] = useState(true);
-  const containerRef = useRef(null);
-  const [dropInInstance, setDropInInstance] = useState(null);
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
+
+  const standardPaymentMethodsRef = useRef(null);
+  const bankPaymentMethodsRef = useRef(null);
+  const [standardDropInInstance, setStandardDropInInstance] = useState(null);
+  const [bankDropInInstance, setBankDropInInstance] = useState(null);
   useScript('https://pay.google.com/gp/p/js/pay.js');
 
-  const onError = e => {
-    const { error, fieldType } = e;
-    eventDispatcher(MSSDK_ADYEN_ERROR, {
-      error,
-      fieldType
-    });
+  const addAdditionalCopyForBankPaymentMethods = methodName => {
+    const newEl = document.createElement('p');
+    newEl.textContent +=
+      'By using this payment method you will be charged 0,01EUR. Found will be refunded after successfull authorization';
+    newEl.classList.add('adyen__bank-copy');
+
+    const parentEl = document.querySelector(
+      `.adyen-checkout__payment-method--${methodName}`
+    );
+    if (parentEl) {
+      const details = parentEl.querySelector(
+        '.adyen-checkout__payment-method__details'
+      );
+      parentEl.insertBefore(newEl, details);
+    }
+  };
+
+  const showAdditionalText = () => {
+    if (
+      bankPaymentMethodsRef &&
+      bankPaymentMethodsRef.current &&
+      totalPrice === 0
+    ) {
+      const bankPaymentMethods = ['ideal', 'directEbanking', 'bcmc_mobile'];
+      bankPaymentMethods.forEach(method =>
+        addAdditionalCopyForBankPaymentMethods(method)
+      );
+    }
   };
 
   const onSelect = ({ type }) => {
@@ -50,14 +75,57 @@ const Adyen = ({
     selectPaymentMethod(typeMapper[type] || type);
   };
 
-  const createDropInInstance = async ({
-    id,
-    sessionData,
-    shopperStatement: merchantName,
-    amount,
-    countryCode,
-    paymentMethods
-  }) => {
+  const mountStandardDropIn = adyenCheckout => {
+    console.log('mountStandardDropIn');
+    if (standardPaymentMethodsRef?.current) {
+      const dropin = adyenCheckout.create('dropin', {
+        onSelect,
+        openFirstPaymentMethod:
+          adyenConfiguration?.openFirstPaymentMethod == null
+            ? !window.matchMedia('(max-width:991px)').matches
+            : adyenConfiguration?.openFirstPaymentMethod
+      });
+      dropin.mount(standardPaymentMethodsRef.current);
+      setStandardDropInInstance(dropin);
+      getDropIn(dropin, 'standard');
+    }
+    setIsLoading(false);
+  };
+
+  const mountBankDropIn = adyenCheckout => {
+    console.log('mountBankDropIn');
+    if (bankPaymentMethodsRef?.current) {
+      const dropin = adyenCheckout.create('dropin', {
+        onSelect,
+        onReady: showAdditionalText,
+        openFirstPaymentMethod: false
+      });
+      dropin.mount(bankPaymentMethodsRef.current);
+      setBankDropInInstance(dropin);
+      getDropIn(dropin, 'bank');
+    }
+    setIsLoading(false);
+  };
+
+  const onError = e => {
+    const { error, fieldType } = e;
+    eventDispatcher(MSSDK_ADYEN_ERROR, {
+      error,
+      fieldType
+    });
+  };
+
+  const createDropInInstance = async (
+    {
+      id,
+      sessionData,
+      shopperStatement: merchantName,
+      amount,
+      countryCode,
+      paymentMethods
+    },
+    type
+  ) => {
     const amountObj = {
       amount,
       countryCode
@@ -116,57 +184,89 @@ const Adyen = ({
       }
     };
 
-    const checkout = await AdyenCheckout(configuration);
-    if (containerRef.current) {
-      const dropin = checkout.create('dropin', {
-        onSelect,
-        openFirstPaymentMethod:
-          adyenConfiguration?.openFirstPaymentMethod == null
-            ? !window.matchMedia('(max-width:991px)').matches
-            : adyenConfiguration?.openFirstPaymentMethod
-      });
-      dropin.mount(containerRef.current);
-      setDropInInstance(dropin);
-      getDropIn(dropin);
+    const adyenCheckout = await AdyenCheckout(configuration);
+    if (type === 'bank') {
+      mountBankDropIn(adyenCheckout);
+      return;
     }
-    setIsLoading(false);
+    mountStandardDropIn(adyenCheckout);
   };
 
-  const createSession = async () => {
-    const { responseData } = await createPaymentSession(isMyAccount);
+  const createSession = async paymentMethodsType => {
+    const { responseData } = await createPaymentSession(
+      isMyAccount,
+      paymentMethodsType
+    );
     if (responseData?.id) {
-      createDropInInstance(responseData);
+      createDropInInstance(responseData, paymentMethodsType);
     }
+  };
+
+  const generateDropIns = () => {
+    Promise.all([createSession('standard'), createSession('bank')]); // TODO: if it's not a 0 payment - should we create one Dropin only?
   };
 
   useEffect(() => {
-    createSession();
+    generateDropIns();
   }, []);
 
   useEffect(() => {
-    if (dropInInstance && discount?.applied) {
-      // recreate dropin when coupon was applied
-      dropInInstance.unmount();
-      getDropIn(null);
+    // TODO: fix after remount
+    if (
+      bankPaymentMethodsRef &&
+      bankPaymentMethodsRef.current &&
+      standardDropInInstance
+    ) {
+      bankPaymentMethodsRef.current.addEventListener('click', () => {
+        standardDropInInstance.closeActivePaymentMethod();
+      });
+    }
+    if (
+      standardPaymentMethodsRef &&
+      standardPaymentMethodsRef.current &&
+      bankDropInInstance
+    ) {
+      standardPaymentMethodsRef.current.addEventListener('click', () => {
+        bankDropInInstance.closeActivePaymentMethod();
+      });
+    }
+
+    return () => {};
+  }, [standardDropInInstance, bankDropInInstance]);
+
+  useEffect(() => {
+    if (standardDropInInstance && discount?.applied) {
+      if (standardDropInInstance) {
+        standardDropInInstance.unmount();
+        getDropIn(null, 'standard');
+      }
+      if (bankDropInInstance) {
+        bankDropInInstance.unmount();
+        getDropIn(null, 'bank');
+      }
       setIsLoading(true);
-      createSession(); // recreate Adyen Instance if price was changed
+      generateDropIns(); // recreate Adyen Instance if price was changed
     }
   }, [discount.applied]);
 
   useEffect(() => {
-    if (!selectedPaymentMethod?.methodName || !dropInInstance) {
+    if (!selectedPaymentMethod?.methodName || !standardDropInInstance) {
       return;
     }
 
     if (selectedPaymentMethod?.methodName === 'paypal') {
-      dropInInstance.closeActivePaymentMethod();
+      if (standardDropInInstance)
+        standardDropInInstance.closeActivePaymentMethod();
+      if (bankDropInInstance) bankDropInInstance.closeActivePaymentMethod();
     }
   }, [selectedPaymentMethod]);
 
   return (
     <AdyenStyled isMyAccount isAdditionalPayment={isPayPalAvailable}>
       {isLoading && <Loader />}
-      <div ref={containerRef} />
+      <div ref={standardPaymentMethodsRef} />
+      {/* TODO: present both dropins at the same time */}
+      <div ref={bankPaymentMethodsRef} />
     </AdyenStyled>
   );
 };
