@@ -130,7 +130,10 @@ const CurrentPlan = ({
             case 'S':
               price = subItem.nextPaymentPrice;
               currency = subItem.nextPaymentCurrency;
-              renewalDate = dateFormat(subItem.expiresAt);
+              renewalDate =
+                subItem.expiresAt === 2145913200
+                  ? 'the next season start'
+                  : dateFormat(subItem.expiresAt);
               if (subItem.status === 'active' && !subItem.pendingSwitchId) {
                 description = `${t('Renews automatically on {{renewalDate}}', {
                   renewalDate
@@ -275,8 +278,7 @@ CurrentPlan.propTypes = {
       createdAt: PropTypes.number,
       updatedAt: PropTypes.number
     })
-  }),
-  t: PropTypes.func
+  })
 };
 
 CurrentPlan.defaultProps = {
@@ -284,8 +286,7 @@ CurrentPlan.defaultProps = {
   isLoading: false,
   errors: [],
   offerToSwitch: {},
-  switchDetails: {},
-  t: k => k
+  switchDetails: {}
 };
 
 export default CurrentPlan;
