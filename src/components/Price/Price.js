@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import formatNumber from 'util/formatNumber';
 import { Trans } from 'react-i18next';
 import {
   WrapperStyled,
@@ -22,7 +21,8 @@ const Price = ({ currency, price, period }) => (
   <WrapperStyled>
     <InnerWrapper>
       <CurrencyStyled>{currency}</CurrencyStyled>
-      <PriceStyled>{formatNumber(price)}</PriceStyled>
+      <PriceStyled>{price}</PriceStyled>
+
       <AdditionalLabelStyled>
         <Trans i18nKey="price-additional-label"> </Trans>
       </AdditionalLabelStyled>

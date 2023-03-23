@@ -28,26 +28,22 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     freePeriods,
     freeDays,
     expiresAt,
-    startTime
+    startTime,
+    customerPriceInclTax: grossPrice
   } = useSelector(state => state.offer.offer);
-  const {
-    priceBreakdown: { offerPrice },
-    taxRate,
-    country,
-    currency
-  } = useSelector(state => state.order.order);
+  const { country, currency } = useSelector(state => state.order.order);
   const offerType = offerId?.charAt(0);
   const currencySymbol = currencyFormat[currency];
+  const formattedGrossPrice = formatNumber(grossPrice);
   const generateTrialDescription = () => {
-    const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
     if (freeDays) {
-      const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
+      const description = `You will be charged {{currencySymbol}}{{formattedGrossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
         period
       )}`;
       return t(`subscription-desc.trial-days.period-${period}`, description, {
         currencySymbol,
-        grossPrice,
+        formattedGrossPrice,
         taxCopy,
         freeDays
       });
@@ -55,7 +51,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
 
     // freePeriods
     let formattedDescription =
-      'You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) ';
+      'You will be charged {{currencySymbol}}{{formattedGrossPrice}} (incl. {{taxCopy}}) ';
     if (period === 'month') {
       formattedDescription +=
         freePeriods === 1
@@ -74,7 +70,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
       formattedDescription,
       {
         currencySymbol,
-        grossPrice,
+        formattedGrossPrice,
         taxCopy,
         freePeriods
       }
@@ -82,16 +78,15 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
   };
 
   const generateSubscriptionDescription = () => {
-    const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 
     if (!isTrialAvailable) {
-      const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
+      const formattedDescription = `You will be charged {{currencySymbol}}{{formattedGrossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
         period
       )}`;
       return t(`subscription-desc.period-${period}`, formattedDescription, {
         currencySymbol,
-        grossPrice,
+        formattedGrossPrice,
         taxCopy
       });
     }
@@ -158,7 +153,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
           )}
           <Price
             currency={currencyFormat[currency]}
-            price={offerPrice + taxRate * offerPrice}
+            price={formattedGrossPrice}
             period={
               offerType === 'S'
                 ? t(`offer-price.period-${period}`, period)

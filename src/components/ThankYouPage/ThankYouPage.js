@@ -9,6 +9,7 @@ import Footer from 'components/Footer';
 import labeling from 'containers/labeling';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
 import { getData } from 'util/appConfigHelper';
+import formatNumber from 'util/formatNumber';
 
 import {
   ThankYouPageWrapperStyled,
@@ -31,6 +32,7 @@ const ThankYouPage = ({ onSuccess, t }) => {
   };
   const paymentMethodName = readablePaymentMethod[paymentMethod];
   const currencySymbol = currencyFormat[currency];
+  const formattedTotalAmount = formatNumber(totalAmount);
   useEffect(() => {
     const timer = setTimeout(() => {
       onSuccess();
@@ -67,10 +69,11 @@ const ThankYouPage = ({ onSuccess, t }) => {
             currencySymbol &&
             t(
               'thank-you-page.sub-text-with-price',
-              `You have been charged {{currencySymbol}}{{totalAmount}}.`,
+              `You have been charged {{currencySymbol}}{{formattedTotalAmount}}.`,
               {
                 currencySymbol,
-                totalAmount
+                // totalAmount
+                formattedTotalAmount
               }
             )}
           <Trans i18nKey="thank-you-page.manage-text">
