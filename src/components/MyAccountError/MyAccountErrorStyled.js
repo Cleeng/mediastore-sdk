@@ -31,6 +31,7 @@ export const SubTitleStyled = styled.div.attrs(() => ({
 export const IconStyled = styled.div.attrs(() => ({
   className: 'msd__info-box__icon'
 }))`
+  display: flex;
   margin: auto auto 10px auto;
   svg {
     max-width: 490px;
