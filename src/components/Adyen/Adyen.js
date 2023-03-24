@@ -76,7 +76,6 @@ const Adyen = ({
   };
 
   const mountStandardDropIn = adyenCheckout => {
-    console.log('mountStandardDropIn');
     if (standardPaymentMethodsRef?.current) {
       const dropin = adyenCheckout.create('dropin', {
         onSelect,
@@ -93,7 +92,6 @@ const Adyen = ({
   };
 
   const mountBankDropIn = adyenCheckout => {
-    console.log('mountBankDropIn');
     if (bankPaymentMethodsRef?.current) {
       const dropin = adyenCheckout.create('dropin', {
         onSelect,
@@ -208,40 +206,42 @@ const Adyen = ({
 
   useEffect(() => {
     generateDropIns();
+    return () => {
+      setStandardDropInInstance(null);
+      setBankDropInInstance(null);
+    };
   }, []);
 
   useEffect(() => {
     // TODO: fix after remount
-    if (
-      bankPaymentMethodsRef &&
-      bankPaymentMethodsRef.current &&
-      standardDropInInstance
-    ) {
+    console.log('instance changed', standardDropInInstance, bankDropInInstance);
+    if (bankDropInInstance && standardDropInInstance) {
       bankPaymentMethodsRef.current.addEventListener('click', () => {
+        console.log('in on click bank', { standardDropInInstance });
         standardDropInInstance.closeActivePaymentMethod();
       });
-    }
-    if (
-      standardPaymentMethodsRef &&
-      standardPaymentMethodsRef.current &&
-      bankDropInInstance
-    ) {
       standardPaymentMethodsRef.current.addEventListener('click', () => {
+        console.log('in on click standard', { bankDropInInstance });
+
         bankDropInInstance.closeActivePaymentMethod();
       });
     }
-
     return () => {};
   }, [standardDropInInstance, bankDropInInstance]);
 
   useEffect(() => {
     if (standardDropInInstance && discount?.applied) {
+      console.log('should unmount', { standardDropInInstance });
       if (standardDropInInstance) {
         standardDropInInstance.unmount();
+        setStandardDropInInstance(null);
         getDropIn(null, 'standard');
       }
+      console.log('should unmount', { bankDropInInstance });
+
       if (bankDropInInstance) {
         bankDropInInstance.unmount();
+        setBankDropInInstance(null);
         getDropIn(null, 'bank');
       }
       setIsLoading(true);

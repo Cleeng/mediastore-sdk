@@ -360,7 +360,6 @@ const UpdatePaymentDetailsPopup = () => {
             showPayPalWhenAdyenIsReady() &&
             !isActionHandlingProcessing && (
               <DropInSection
-                isCardAvailable={shouldShowAdyen}
                 selectPaymentMethod={selectPaymentMethodHandler}
                 title="PayPal"
                 logo="paypal"

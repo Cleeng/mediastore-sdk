@@ -84,6 +84,8 @@ const AdyenStyled = styled.div.attrs(() => ({
   .adyen-checkout__payment-method {
     border: 1px solid ${LineColor};
     margin-bottom: 10px;
+    border-radius: 12px;
+    overflow: hidden;
   }
 
   .adyen-checkout__payment-method:not(:first-child) {

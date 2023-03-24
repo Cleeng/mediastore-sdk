@@ -15,12 +15,12 @@ const createPaymentSession = async (isMyAccount = false, type) => {
       method: 'POST',
       body: isMyAccount
         ? JSON.stringify({
-            returnUrl: generateReturnUrl({ isMyAccount: true })
-            // filterPaymentMethods: type
+            returnUrl: generateReturnUrl({ isMyAccount: true }),
+            filterPaymentMethods: type
           })
         : JSON.stringify({
             orderId,
-            // filterPaymentMethods: type,
+            filterPaymentMethods: type,
             returnUrl: generateReturnUrl({
               queryParams: { orderId }
             })
