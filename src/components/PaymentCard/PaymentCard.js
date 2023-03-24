@@ -87,7 +87,7 @@ const PaymentCard = ({ isDataLoaded, details }) => {
                 </CardDetailsNameWrapStyled>
                 {paymentMethod === 'paypal' && (
                   <HolderNameStyled>
-                    ({paymentMethodSpecificParams.holderName})
+                    {paymentMethodSpecificParams.holderName}
                   </HolderNameStyled>
                 )}
                 {paymentMethodSpecificParams?.cardExpirationDate && (
