@@ -95,7 +95,7 @@ export const CardInfoStyled = styled.div.attrs(() => ({
   justify-content: space-between;
   margin-bottom: 30px;
 
-  ${mediaFrom.smallest`
+  ${mediaFrom.medium`
     margin-bottom: 0;
   `}
 `;
@@ -131,7 +131,8 @@ export const CardInfoWrapStyled = styled.div.attrs(() => ({
   flex-direction: column;
   justify-content: space-between;
 
-  ${mediaFrom.smallest`
+  ${mediaFrom.medium`
     flex-direction: row;
+    align-items: center;
   `}
 `;
