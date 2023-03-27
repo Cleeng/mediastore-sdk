@@ -75,7 +75,8 @@ const UpdatePaymentDetailsPopup = () => {
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const [dropInInstance, setDropInInstance] = useState(null);
+  const [standardDropInInstance, setStandardDropInInstance] = useState(null);
+  const [bankDropInInstance, setBankDropInInstance] = useState(null);
   const { paymentMethods } = useSelector(state => state.publisherConfig);
   const { paymentDetails } = useSelector(state => state.paymentDetails);
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
@@ -231,8 +232,12 @@ const UpdatePaymentDetailsPopup = () => {
     dispatch(fetchPaymentDetails());
   };
 
-  const getDropIn = drop => {
-    setDropInInstance(drop);
+  const getDropIn = (drop, type) => {
+    if (type === 'bank') {
+      setBankDropInInstance(drop);
+    } else {
+      setStandardDropInInstance(drop);
+    }
   };
 
   const submitPayPal = () => {
@@ -260,7 +265,7 @@ const UpdatePaymentDetailsPopup = () => {
   const shouldShowPayPal = shouldShowGatewayComponent('paypal', paymentMethods);
 
   const showPayPalWhenAdyenIsReady = () =>
-    shouldShowAdyen ? !!dropInInstance : true;
+    shouldShowAdyen ? !!standardDropInInstance || !!bankDropInInstance : true;
 
   if (step === PAYMENT_DETAILS_STEPS.DELETE_PAYMENT_DETAILS) {
     return (
