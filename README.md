@@ -807,6 +807,12 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'
       autoFocus: true // Automatically move the focus from date field to the CVC field. The focus also moves to the date field when the entered card number reaches the expected length. Default: true
     },
+  ideal: {
+    showImage: true, //	Set to false to remove the bank logos from the iDEAL form. Default: true
+    issuer: "0031", // Optional. Set to an iDEAL issuer ID to preselect a specific bank, refer to: https://docs.adyen.com/payment-methods/ideal/web-drop-in?tab=live_payments_2#issuer-ids
+    highlightedIssuers: ['0761', '0802'] // Optional. Set to the iDEAL issuer IDs for banks you want to show on top of the dropdown menu.
+    placeholder: 'Choose your bank' // Optional. The string you want to show as the dropdown menu text. Custom translation configuration overrides this value. Default: 'Select your bank'
+  }
   },
   locale: 'en-US', // The language used in the Drop-in UI. For possible values, see the https://docs.adyen.com/online-payments/web-drop-in/customization#supported-languages,
   translations: {}, // The text displayed in each localization can be customized, allowing you to replace the default text with your own. You can read more about it here https://docs.adyen.com/online-payments/web-drop-in/customization#customizing-a-localization
