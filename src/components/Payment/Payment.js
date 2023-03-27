@@ -179,10 +179,6 @@ const Payment = ({ t, onPaymentComplete }) => {
       setAdyenKey(key => !key);
       return;
     }
-    useEffect(() => {
-      console.log({ adyenKey });
-    }, [adyenKey]);
-
     const { action, payment } = responseData;
     if (action) {
       if (action.type !== 'redirect') {

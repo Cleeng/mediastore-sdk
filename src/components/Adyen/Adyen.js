@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -212,32 +212,34 @@ const Adyen = ({
     };
   }, []);
 
-  useEffect(() => {
-    // TODO: fix after remount
-    console.log('instance changed', standardDropInInstance, bankDropInInstance);
-    if (bankDropInInstance && standardDropInInstance) {
-      bankPaymentMethodsRef.current.addEventListener('click', () => {
-        console.log('in on click bank', { standardDropInInstance });
-        standardDropInInstance.closeActivePaymentMethod();
-      });
-      standardPaymentMethodsRef.current.addEventListener('click', () => {
-        console.log('in on click standard', { bankDropInInstance });
-
-        bankDropInInstance.closeActivePaymentMethod();
-      });
+  const closeBank = useCallback(() => {
+    if (bankDropInInstance) {
+      bankDropInInstance.closeActivePaymentMethod();
     }
-    return () => {};
+  }, [bankDropInInstance]);
+
+  const closeStandard = useCallback(() => {
+    if (standardDropInInstance) {
+      standardDropInInstance.closeActivePaymentMethod();
+    }
+  }, [standardDropInInstance]);
+
+  useEffect(() => {
+    if (bankDropInInstance && standardDropInInstance) {
+      standardPaymentMethodsRef.current.addEventListener('click', closeBank);
+      bankPaymentMethodsRef.current.addEventListener('click', closeStandard);
+    }
   }, [standardDropInInstance, bankDropInInstance]);
 
   useEffect(() => {
     if (standardDropInInstance && discount?.applied) {
-      console.log('should unmount', { standardDropInInstance });
+      bankPaymentMethodsRef.current.removeEventListener('click', closeStandard);
+      standardPaymentMethodsRef.current.removeEventListener('click', closeBank);
       if (standardDropInInstance) {
         standardDropInInstance.unmount();
         setStandardDropInInstance(null);
         getDropIn(null, 'standard');
       }
-      console.log('should unmount', { bankDropInInstance });
 
       if (bankDropInInstance) {
         bankDropInInstance.unmount();
@@ -265,7 +267,6 @@ const Adyen = ({
     <AdyenStyled isMyAccount isAdditionalPayment={isPayPalAvailable}>
       {isLoading && <Loader />}
       <div ref={standardPaymentMethodsRef} />
-      {/* TODO: present both dropins at the same time */}
       <div ref={bankPaymentMethodsRef} />
     </AdyenStyled>
   );
