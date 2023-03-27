@@ -24,7 +24,6 @@ const AdyenStyled = styled.div.attrs(() => ({
     `}
   .adyen-checkout__button.adyen-checkout__button--pay {
     background: ${ConfirmColor};
-    /* border-radius: 30px; */
   }
   .adyen-checkout__payment-method__details__content {
     margin: 2px 0 20px;
@@ -86,19 +85,6 @@ const AdyenStyled = styled.div.attrs(() => ({
     margin-bottom: 10px;
     border-radius: 12px;
     overflow: hidden;
-  }
-
-  .adyen-checkout__payment-method:not(:first-child) {
-    /* border-radius: 0; */
-  }
-
-  .adyen-checkout__payment-method:first-child {
-    /* border-radius: 12px 12px 0 0; */
-  }
-
-  .adyen-checkout__payment-method:last-child {
-    /* border-radius: ${({ isAdditionalPayment }) =>
-      isAdditionalPayment ? 'none' : '12px'}; */
   }
 
   .adyen-checkout__payment-method--selected {

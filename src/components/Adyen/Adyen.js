@@ -88,7 +88,6 @@ const Adyen = ({
       setStandardDropInInstance(dropin);
       getDropIn(dropin, 'standard');
     }
-    setIsLoading(false);
   };
 
   const mountBankDropIn = adyenCheckout => {
@@ -102,7 +101,6 @@ const Adyen = ({
       setBankDropInInstance(dropin);
       getDropIn(dropin, 'bank');
     }
-    setIsLoading(false);
   };
 
   const onError = e => {
@@ -188,6 +186,7 @@ const Adyen = ({
       return;
     }
     mountStandardDropIn(adyenCheckout);
+    setIsLoading(false);
   };
 
   const createSession = async paymentMethodsType => {
@@ -233,6 +232,7 @@ const Adyen = ({
 
   useEffect(() => {
     if (standardDropInInstance && discount?.applied) {
+      // recreate Adyen Instance if coupon was applied
       bankPaymentMethodsRef.current.removeEventListener('click', closeStandard);
       standardPaymentMethodsRef.current.removeEventListener('click', closeBank);
       if (standardDropInInstance) {
@@ -247,7 +247,7 @@ const Adyen = ({
         getDropIn(null, 'bank');
       }
       setIsLoading(true);
-      generateDropIns(); // recreate Adyen Instance if price was changed
+      generateDropIns();
     }
   }, [discount.applied]);
 
