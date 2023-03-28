@@ -4,7 +4,7 @@ import formatNumber from 'util/formatNumber';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { currencyFormat } from 'util/planHelper';
-
+import formatTrialTax from 'util/formatTrialTax';
 import { useSelector } from 'react-redux';
 import {
   StyledTotalLabel,
@@ -17,6 +17,7 @@ import {
 } from './CheckoutPriceBoxStyled';
 
 const CheckoutPriceBox = ({ t }) => {
+  const { customerPriceInclTax } = useSelector(state => state.offer.offer);
   const {
     priceBreakdown: {
       offerPrice,
@@ -66,7 +67,7 @@ const CheckoutPriceBox = ({ t }) => {
               {!taxValue && taxRate && isCouponApplied && (
                 <p style={{ textDecoration: 'line-through' }}>
                   {currencyFormat[currency]}{' '}
-                  {formatNumber(taxRate * offerPrice)}
+                  {formatTrialTax(offerPrice, taxRate, customerPriceInclTax)}
                 </p>
               )}
             </StyledOfferPrice>

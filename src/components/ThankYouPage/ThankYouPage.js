@@ -22,7 +22,7 @@ import {
 
 const ThankYouPage = ({ onSuccess, t }) => {
   const {
-    payment: { paymentMethod, totalAmount, currency }
+    payment: { paymentMethod, totalAmount: totalAmountFromStore, currency }
   } = useSelector(state => state.finalizeInitialPayment);
   const readablePaymentMethod = {
     card: 'Card',
@@ -32,7 +32,7 @@ const ThankYouPage = ({ onSuccess, t }) => {
   };
   const paymentMethodName = readablePaymentMethod[paymentMethod];
   const currencySymbol = currencyFormat[currency];
-  const formattedTotalAmount = formatNumber(totalAmount);
+  const totalAmount = formatNumber(totalAmountFromStore);
   useEffect(() => {
     const timer = setTimeout(() => {
       onSuccess();
@@ -69,11 +69,10 @@ const ThankYouPage = ({ onSuccess, t }) => {
             currencySymbol &&
             t(
               'thank-you-page.sub-text-with-price',
-              `You have been charged {{currencySymbol}}{{formattedTotalAmount}}.`,
+              `You have been charged {{currencySymbol}}{{totalAmount}}.`,
               {
                 currencySymbol,
-                // totalAmount
-                formattedTotalAmount
+                totalAmount
               }
             )}
           <Trans i18nKey="thank-you-page.manage-text">
