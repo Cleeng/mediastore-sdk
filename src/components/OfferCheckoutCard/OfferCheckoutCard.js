@@ -7,7 +7,7 @@ import SkeletonWrapper from 'components/SkeletonWrapper';
 import { useSelector } from 'react-redux';
 import formatNumber from 'util/formatNumber';
 import { currencyFormat, dateFormat, periodMapper } from 'util/planHelper';
-import formatTrialPrice from 'util/formatTrialPrice';
+import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
 import getReadablePeriod from './OfferCheckoutCard.utils';
 
 import {
@@ -37,12 +37,15 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     taxRate,
     country,
     currency,
-    totalPrice
+    totalPrice,
+    discount
   } = useSelector(state => state.order.order);
   const offerType = offerId?.charAt(0);
   const currencySymbol = currencyFormat[currency];
-  const grossPrice = isTrialAvailable
-    ? formatTrialPrice(offerPrice, taxRate, customerPriceInclTax)
+  const isOfferFree =
+    isTrialAvailable || (discount.applied && totalPrice === 0);
+  const grossPrice = isOfferFree
+    ? calculateGrossPriceForFreeOffer(offerPrice, taxRate, customerPriceInclTax)
     : formatNumber(totalPrice);
 
   const generateTrialDescription = () => {
