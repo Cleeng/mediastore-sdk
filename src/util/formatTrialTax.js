@@ -1,13 +1,11 @@
-const formatTrialTax = (offerPrice, taxRate, customerPriceIncTax) => {
-  let taxValue = offerPrice * taxRate;
-  const calculatedGrossPriceRounded = Number(
-    (offerPrice + taxRate * offerPrice).toFixed(2)
-  );
+const formatTrialTax = (price, tax, incTax) => {
+  const taxValue = price * tax;
+  const isGrossAndTaxEqual = incTax === Number(price + tax * price).toFixed(2);
 
-  if (customerPriceIncTax !== calculatedGrossPriceRounded) {
-    taxValue = Math.trunc(taxValue * 100) / 100;
+  if (isGrossAndTaxEqual) {
+    return taxValue.toFixed(2);
   }
-  return taxValue.toFixed(2);
+  return (Math.trunc(taxValue * 100) / 100).toFixed(2);
 };
 
 export default formatTrialTax;
