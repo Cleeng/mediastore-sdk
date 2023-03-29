@@ -180,11 +180,11 @@ const SubscriptionSwitchesList = ({
                 showInfoBox={subItem.reason.code}
                 offerId={subItem.toOfferId}
               />
-              <WrapperStyled>
+              <ButtonWrapperStyled>
                 <SimpleButtonStyled disabled>
                   {subItem.switchDirection}
                 </SimpleButtonStyled>
-              </WrapperStyled>
+              </ButtonWrapperStyled>
             </SubscriptionStyled>
           );
         })}
