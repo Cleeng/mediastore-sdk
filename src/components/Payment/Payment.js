@@ -47,7 +47,8 @@ const Payment = ({ t, onPaymentComplete }) => {
     : null;
   const [isLoading, setIsLoading] = useState(false);
   const [generalError, setGeneralError] = useState('');
-  const [dropInInstance, setDropInInstance] = useState(null);
+  const [standardDropInInstance, setStandardDropInInstance] = useState(null);
+  const [bankDropInInstance, setBankDropInInstance] = useState(null);
   const [adyenKey, setAdyenKey] = useState(false);
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
     false
@@ -173,11 +174,11 @@ const Payment = ({ t, onPaymentComplete }) => {
       );
       setIsLoading(false);
       // force Adyen remount
-      setDropInInstance(null);
+      setStandardDropInInstance(null);
+      setBankDropInInstance(null);
       setAdyenKey(key => !key);
       return;
     }
-
     const { action, payment } = responseData;
     if (action) {
       if (action.type !== 'redirect') {
@@ -192,8 +193,12 @@ const Payment = ({ t, onPaymentComplete }) => {
     onPaymentComplete();
   };
 
-  const getDropIn = drop => {
-    setDropInInstance(drop);
+  const getDropIn = (drop, type) => {
+    if (type === 'bank') {
+      setBankDropInInstance(drop);
+    } else {
+      setStandardDropInInstance(drop);
+    }
   };
 
   // Payment without payment details
@@ -219,7 +224,7 @@ const Payment = ({ t, onPaymentComplete }) => {
   const shouldShowPayPal = shouldShowGatewayComponent('paypal', paymentMethods);
 
   const showPayPalWhenAdyenIsReady = () =>
-    shouldShowAdyen ? !!dropInInstance : true;
+    shouldShowAdyen ? !!standardDropInInstance || !!bankDropInInstance : true;
 
   if (!paymentMethods.length) {
     return (
@@ -279,7 +284,6 @@ const Payment = ({ t, onPaymentComplete }) => {
           showPayPalWhenAdyenIsReady() &&
           !isActionHandlingProcessing && (
             <DropInSection
-              isCardAvailable={shouldShowAdyen}
               selectPaymentMethod={selectPaymentMethodHandler}
               title="PayPal"
               logo="paypal"

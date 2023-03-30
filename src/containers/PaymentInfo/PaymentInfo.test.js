@@ -48,7 +48,8 @@ const store = (isOpen = false) => ({
         expiresAt: pastDate
       }
     ]
-  }
+  },
+  offers: { pauseOffersIDs: [] }
 });
 
 const middleware = [thunk];

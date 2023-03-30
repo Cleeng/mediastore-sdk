@@ -16,6 +16,16 @@ export const PayPalContentStyled = styled.div.attrs(() => ({
   }
 `;
 
+export const CopyStyled = styled.p.attrs(() => ({
+  className: 'msd__paypal--text'
+}))`
+  font-size: 11px;
+  margin: 10px 20px 10px 20px;
+  line-height: 17px;
+  font-weight: 400;
+  color: #7b849d;
+  text-align: center;
+`;
 export const PayPalIconContentStyled = styled.div.attrs(() => ({
   className: 'msd__paypal--icon'
 }))`
