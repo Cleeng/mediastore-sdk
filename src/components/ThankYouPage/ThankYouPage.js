@@ -63,16 +63,17 @@ const ThankYouPage = ({ onSuccess, t }) => {
           )}
         </MessageStyled>
         <MessageStyled>
-          {totalAmount &&
-            currencySymbol &&
-            t(
-              'thank-you-page.sub-text-with-price',
-              `You have been charged {{currencySymbol}}{{totalAmount}}.`,
-              {
-                currencySymbol,
-                totalAmount
-              }
-            )}
+          {totalAmount
+            ? currencySymbol &&
+              t(
+                'thank-you-page.sub-text-with-price',
+                `You have been charged {{currencySymbol}}{{totalAmount}}.`,
+                {
+                  currencySymbol,
+                  totalAmount
+                }
+              )
+            : null}
           <Trans i18nKey="thank-you-page.manage-text">
             You can manage your account from
             <LinkStyled

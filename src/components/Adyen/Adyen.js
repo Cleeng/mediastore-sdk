@@ -39,7 +39,7 @@ const Adyen = ({
   const addAdditionalCopyForBankPaymentMethods = methodName => {
     const newEl = document.createElement('p');
     newEl.textContent +=
-      'By using this payment method you will be charged 0,01EUR. Found will be refunded after successfull authorization';
+      'You accept the terms and conditions of this agreement and that your account will be charged €0.10 for authentication purposes. This amount will be refunded once the transaction is completed. And your account will be debited on a recurring basis for the full subscription amount. ';
     newEl.classList.add('adyen__bank-copy');
 
     const parentEl = document.querySelector(
@@ -49,7 +49,7 @@ const Adyen = ({
       const details = parentEl.querySelector(
         '.adyen-checkout__payment-method__details'
       );
-      parentEl.insertBefore(newEl, details);
+      details.before(newEl);
     }
   };
 
@@ -103,8 +103,7 @@ const Adyen = ({
     }
   };
 
-  const onError = e => {
-    const { error, fieldType } = e;
+  const onError = ({ error, fieldType }) => {
     eventDispatcher(MSSDK_ADYEN_ERROR, {
       error,
       fieldType
@@ -200,7 +199,11 @@ const Adyen = ({
   };
 
   const generateDropIns = () => {
-    Promise.all([createSession('standard'), createSession('bank')]); // TODO: if it's not a 0 payment - should we create one Dropin only?
+    if (totalPrice === 0) {
+      Promise.all([createSession('standard'), createSession('bank')]); // TODO: if it's not a 0 payment - should we create one Dropin only?
+    } else {
+      createSession();
+    }
   };
 
   useEffect(() => {
