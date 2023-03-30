@@ -34,6 +34,18 @@ const Adyen = ({
   const bankPaymentMethodsRef = useRef(null);
   const [standardDropInInstance, setStandardDropInInstance] = useState(null);
   const [bankDropInInstance, setBankDropInInstance] = useState(null);
+
+  const [
+    shouldFadeOutStandardDropIn,
+    setShouldFadeOutStandardDropIn
+  ] = useState(false);
+  const [shouldFadeOutBankDropIn, setShouldFadeOutBankDropIn] = useState(false);
+
+  const [shouldHideStandardDropIn, setShouldHideStandardDropIn] = useState(
+    false
+  );
+  const [shouldHideBankDropIn, setShouldHideBankDropIn] = useState(false);
+
   useScript('https://pay.google.com/gp/p/js/pay.js');
 
   const addAdditionalCopyForBankPaymentMethods = methodName => {
@@ -147,7 +159,21 @@ const Adyen = ({
         sessionData
       },
       clientKey: getAdyenClientKey(),
-      onSubmit,
+      onSubmit: (state, component) => {
+        if (type === 'bank') {
+          setShouldFadeOutStandardDropIn(true);
+        } else {
+          setShouldFadeOutBankDropIn(true);
+        }
+        return onSubmit(state, component);
+      },
+      onActionHandled: () => {
+        if (type === 'bank') {
+          setShouldHideStandardDropIn(true);
+        } else {
+          setShouldHideBankDropIn(true);
+        }
+      },
       onAdditionalDetails,
       onError,
       paymentMethodsConfiguration: {
@@ -178,7 +204,6 @@ const Adyen = ({
         }
       }
     };
-
     const adyenCheckout = await AdyenCheckout(configuration);
     if (type === 'bank') {
       mountBankDropIn(adyenCheckout);
@@ -269,8 +294,26 @@ const Adyen = ({
   return (
     <AdyenStyled isMyAccount isAdditionalPayment={isPayPalAvailable}>
       {isLoading && <Loader />}
-      <div ref={standardPaymentMethodsRef} />
-      <div ref={bankPaymentMethodsRef} />
+      <div
+        ref={standardPaymentMethodsRef}
+        style={{
+          ...(shouldHideStandardDropIn && { display: 'none' }),
+          ...(shouldFadeOutStandardDropIn && {
+            opacity: '0.2',
+            pointerEvents: 'none'
+          })
+        }}
+      />
+      <div
+        ref={bankPaymentMethodsRef}
+        style={{
+          ...(shouldHideBankDropIn && { display: 'none' }),
+          ...(shouldFadeOutBankDropIn && {
+            opacity: '0.2',
+            pointerEvents: 'none'
+          })
+        }}
+      />
     </AdyenStyled>
   );
 };
