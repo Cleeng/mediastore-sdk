@@ -10,6 +10,7 @@ import { ReactComponent as ApplePayLogo } from 'assets/images/paymentMethods/app
 import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/googlepay.svg';
 import { ReactComponent as Discover } from 'assets/images/paymentMethods/discover.svg';
 import { ReactComponent as Diners } from 'assets/images/paymentMethods/diners.svg';
+import { ReactComponent as Bancontact } from 'assets/images/paymentMethods/bancontact.svg';
 import { ReactComponent as Sofort } from 'assets/images/paymentMethods/sofort.svg';
 
 // eslint-disable-next-line import/prefer-default-export
@@ -75,11 +76,11 @@ export const CardTypes = {
     title: 'Sofort'
   },
   bancontact_card: {
-    icon: Diners, // TODO: add icons
+    icon: Bancontact,
     title: 'bancontact_card'
   },
   bancontact_mobile: {
-    icon: Diners, // TODO: add icons
+    icon: Bancontact,
     title: 'bancontact_mobile'
   }
 };

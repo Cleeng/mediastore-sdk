@@ -35,6 +35,7 @@ const PaymentMethod = ({ t }) => {
       case 'roku':
       case 'googlepay':
       case 'applepay':
+      case 'bancontact_card':
       case 'sofort':
         return <PaymentCard key={id} details={paymentDetail} />;
       default:
