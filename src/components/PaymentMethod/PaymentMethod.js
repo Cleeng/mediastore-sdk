@@ -36,6 +36,8 @@ const PaymentMethod = ({ t }) => {
       case 'googlepay':
       case 'applepay':
       case 'ideal':
+      case 'bancontact_card':
+      case 'sofort':
         return <PaymentCard key={id} details={paymentDetail} />;
       default:
         return <Message>{t('Managed by external service')}</Message>;

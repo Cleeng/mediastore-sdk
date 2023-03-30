@@ -812,6 +812,21 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       issuer: "0031", // Optional. Set to an iDEAL issuer ID to preselect a specific bank, refer to: https://docs.adyen.com/payment-methods/ideal/web-drop-in?tab=live_payments_2#issuer-ids
       highlightedIssuers: ['0761', '0802'] // Optional. Set to the iDEAL issuer IDs for banks you want to show on top of the dropdown menu.
       placeholder: 'Choose your bank' // Optional. The string you want to show as the dropdown menu text. Custom translation configuration overrides this value. Default: 'Select your bank'
+    },
+    bcmc: { // Bancontact card (optional configuration similar to card above)
+      hasHolderName: true, // Set to true to show the input field for cardholder name. Default: false
+      holderName: 'John', // String that is used to prefill the cardholder name field`
+      holderNameRequired: false, // Set to true to make the cardholder name a required field. To show the field, you also need to set hasHolderName to true. Default: false
+      positionHolderNameOnTop: true, // Renders the cardholder name field at the top of the payment form. Default: false
+      name: 'Bancontact card', // String that is used to display the payment method name to the shopper.
+      styles: {}, // Set a style object to customize the card input fields. For a list of supported properties, refer to https://docs.adyen.com/payment-methods/cards/custom-card-integration#styling
+      minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'
+      brands: ['bcmc', 'visa'], // Array of card brands that will be recognized
+      showBrandIcon: true, // Set to false to not show the brand logo when the card brand has been recognized. Default: true
+      showBrandsUnderCardNumber: true, // Shows brand logos under the card number field when the shopper selects the card payment method. Default: true
+      billingAddressRequired: true, // Set to true to collect the shopper's billing address and mark the fields as required. Default: false
+      billingAddressAllowedCountries: ['US', 'CA', 'BR', 'PL'], // Specify allowed country codes for the billing address. Default: The Country field dropdown menu shows a list of all countries.
+      data: {} // Object that contains placeholder information that you can use to prefill fields.
     }
   },
   locale: 'en-US', // The language used in the Drop-in UI. For possible values, see the https://docs.adyen.com/online-payments/web-drop-in/customization#supported-languages,

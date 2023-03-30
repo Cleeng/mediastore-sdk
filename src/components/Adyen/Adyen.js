@@ -115,6 +115,9 @@ const Adyen = ({
         },
         ideal: {
           ...adyenConfiguration?.ideal
+        },
+        bcmc: {
+          ...adyenConfiguration?.bancontactCard
         }
       }
     };
