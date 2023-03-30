@@ -4,7 +4,9 @@ import { mediaFrom } from 'styles/BreakPoints';
 
 export const CardStyled = styled.div.attrs(() => ({
   className: 'msd__payment-card'
-}))``;
+}))`
+  height: 100%;
+`;
 
 export const CardTypeStyled = styled.div.attrs(() => ({
   className: 'msd__payment-card__type'
@@ -34,8 +36,7 @@ export const HolderNameStyled = styled.div.attrs(() => ({
 }))`
   color: ${FontColor};
   font-size: 13px;
-  font-weight: 600;
-  line-height: 20px;
+  font-weight: 300;
 `;
 
 export const CardExpirationStyled = styled.div.attrs(() => ({
@@ -96,7 +97,7 @@ export const CardInfoStyled = styled.div.attrs(() => ({
   justify-content: space-between;
   margin-bottom: 30px;
 
-  ${mediaFrom.smallest`
+  ${mediaFrom.medium`
     margin-bottom: 0;
   `}
 `;
@@ -131,8 +132,10 @@ export const CardInfoWrapStyled = styled.div.attrs(() => ({
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
 
-  ${mediaFrom.smallest`
+  ${mediaFrom.medium`
     flex-direction: row;
-  `}
+    align-items: center;
+  `};
 `;

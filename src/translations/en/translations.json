@@ -37,7 +37,7 @@
   "An error occurred.": "An error occurred.",
   "Sign in": "Sign in",
   "Register": "Register",
-  "Please agree on all consents to use this service": "Please agree on all consents to use this service",
+  "Please agree on all required consents to use this service": "Please agree on all required consents to use this service",
   "I accept the {{htmltag}}Terms and Conditions{{endhtmltag}} of Cleeng.": "I accept the {{htmltag}}Terms and Conditions{{endhtmltag}} of Cleeng.",
   "I accept {{htmltag}}Terms and Conditions{{endhtmltag}} of Cleeng.": "I accept {{htmltag}}Terms and Conditions{{endhtmltag}} of Cleeng.",
   "Go to register": "Go to register",
