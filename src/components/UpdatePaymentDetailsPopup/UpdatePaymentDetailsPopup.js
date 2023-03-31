@@ -193,17 +193,8 @@ const UpdatePaymentDetailsPopup = () => {
     const {
       data: { paymentMethod, browserInfo, billingAddress }
     } = state;
-
-    const selectedPaymentMethodName =
-      paymentMethod.type === 'scheme' ? 'card' : paymentMethod.type;
-    const paymentMethodId = paymentMethods.find(
-      item =>
-        item.paymentGateway === 'adyen' &&
-        item.methodName === selectedPaymentMethodName
-    )?.id;
     dispatch(updatePaymentDetailsPopup({ isLoading: true }));
     const { errors, responseData } = await updateAdyenPaymentDetails(
-      paymentMethodId,
       paymentMethod,
       browserInfo,
       billingAddress
