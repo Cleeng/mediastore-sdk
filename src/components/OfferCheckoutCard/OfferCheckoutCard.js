@@ -38,6 +38,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
   } = useSelector(state => state.order.order);
   const offerType = offerId?.charAt(0);
   const currencySymbol = currencyFormat[currency];
+
   const generateTrialDescription = () => {
     const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
@@ -128,6 +129,26 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     return '';
   };
 
+  const generateTrialBadgeDescription = () => {
+    if (freeDays) {
+      return t('trial-badge-days', `${freeDays} days free trial`, { freeDays });
+    }
+
+    if (freePeriods === 1) {
+      return t(
+        `trial-badge.period-${period}`,
+        `1 ${period} free trial`,
+        period
+      );
+    }
+
+    return t(
+      `trial-badge.periods-${period}`,
+      `${freePeriods} ${period}s free trial`,
+      { freePeriods, period }
+    );
+  };
+
   return (
     <WrapperStyled>
       <SkeletonWrapper showChildren={isDataLoaded} width={50} height={50}>
@@ -154,7 +175,9 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
       <PriceWrapperStyled>
         <SkeletonWrapper showChildren={isDataLoaded} width={80} height={30}>
           {isTrialAvailable && (
-            <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
+            <TrialBadgeStyled>
+              {generateTrialBadgeDescription()}
+            </TrialBadgeStyled>
           )}
           <Price
             currency={currencyFormat[currency]}
