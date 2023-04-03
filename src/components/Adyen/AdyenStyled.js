@@ -87,6 +87,10 @@ const AdyenStyled = styled.div.attrs(() => ({
     overflow: hidden;
   }
 
+  .adyen-checkout__payment-method.adyen-checkout__payment-method--selected {
+    overflow: visible;
+  }
+
   .adyen-checkout__payment-method--selected {
     border-color: ${ConfirmColor};
     background-color: ${White};

@@ -13,14 +13,15 @@ const initialState = {
 
 export const fetchFinalizeAddPaymentDetails = createAsyncThunk(
   'finalizeAddPaymentDetails',
-  async ({ details }, { getState, rejectWithValue }) => {
+  async ({ paymentMethodId, details }, { getState, rejectWithValue }) => {
     const {
-      paymentMethods: {
-        selectedPaymentMethod: { id }
-      }
+      paymentMethods: { selectedPaymentMethod }
     } = getState();
     try {
-      const { paymentDetails } = await finalizeAddPaymentDetails(id, details);
+      const { paymentDetails } = await finalizeAddPaymentDetails(
+        paymentMethodId || selectedPaymentMethod?.id,
+        details
+      );
       return paymentDetails;
     } catch (err) {
       return rejectWithValue(err.message);
