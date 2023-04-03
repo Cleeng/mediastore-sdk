@@ -135,11 +135,9 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     }
 
     if (freePeriods === 1) {
-      return t(
-        `trial-badge.period-${period}`,
-        `1 ${period} free trial`,
+      return t(`trial-badge.period-${period}`, `1 ${period} free trial`, {
         period
-      );
+      });
     }
 
     return t(
