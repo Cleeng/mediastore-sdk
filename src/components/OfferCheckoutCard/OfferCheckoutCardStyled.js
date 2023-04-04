@@ -65,8 +65,7 @@ export const PriceWrapperStyled = styled.div.attrs(() => ({
 export const TrialBadgeStyled = styled.div.attrs(() => ({
   className: 'msd__checkout-card-price__badge'
 }))`
-  min-width: 80px;
-  max-width: 110px;
+  width: 80px;
   padding: 4px 8px;
   margin-bottom: 4px;
   background-color: ${White};
