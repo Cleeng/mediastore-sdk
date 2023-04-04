@@ -15,7 +15,7 @@ export const WrapStyled = styled.div.attrs(() => ({
   padding: 18px;
   border-radius: 12px;
 
-  margin-bottom: 39px;
+  margin-bottom: 32px;
 
   background-color: ${CardColor};
 

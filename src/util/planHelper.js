@@ -172,7 +172,8 @@ export const currencyFormat = {
   AUD: '$',
   '€': '€',
   $: '$',
-  '£': '£'
+  '£': '£',
+  DKK: 'kr.'
 };
 
 export function dateFormat(timestamp, showTime = false) {

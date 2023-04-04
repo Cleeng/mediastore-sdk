@@ -9,6 +9,7 @@ import Footer from 'components/Footer';
 import labeling from 'containers/labeling';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
 import { getData } from 'util/appConfigHelper';
+import formatNumber from 'util/formatNumber';
 
 import {
   ThankYouPageWrapperStyled,
@@ -21,7 +22,7 @@ import {
 
 const ThankYouPage = ({ onSuccess, t }) => {
   const {
-    payment: { paymentMethod, totalAmount, currency }
+    payment: { paymentMethod, totalAmount: totalAmountFromStore, currency }
   } = useSelector(state => state.finalizeInitialPayment);
   const readablePaymentMethod = {
     card: 'Card',
@@ -31,6 +32,7 @@ const ThankYouPage = ({ onSuccess, t }) => {
   };
   const paymentMethodName = readablePaymentMethod[paymentMethod];
   const currencySymbol = currencyFormat[currency];
+  const totalAmount = formatNumber(totalAmountFromStore);
   useEffect(() => {
     const timer = setTimeout(() => {
       onSuccess();
