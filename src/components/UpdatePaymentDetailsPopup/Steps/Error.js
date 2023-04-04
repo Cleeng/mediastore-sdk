@@ -15,7 +15,7 @@ import {
 } from 'redux/popupSlice';
 import { ImageWrapper } from '../UpdatePaymentDetailsPopupStyled';
 
-const Error = () => {
+const ErrorStep = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { error } = useSelector(state => state.finalizeAddPaymentDetails);
@@ -60,4 +60,4 @@ const Error = () => {
   );
 };
 
-export default Error;
+export default ErrorStep;
