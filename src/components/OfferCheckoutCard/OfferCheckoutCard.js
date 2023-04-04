@@ -138,18 +138,20 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
 
   const generateTrialBadgeDescription = () => {
     if (freeDays) {
-      return t('trial-badge-days', `${freeDays} days free trial`, { freeDays });
+      return t('trial-badge-days', `{{freeDays}} days free trial`, {
+        freeDays
+      });
     }
 
     if (freePeriods === 1) {
-      return t(`trial-badge.period-${period}`, `1 ${period} free trial`, {
+      return t(`trial-badge.period-${period}`, `1 {{period}} free trial`, {
         period
       });
     }
 
     return t(
       `trial-badge.periods-${period}`,
-      `${freePeriods} ${period}s free trial`,
+      `{{freePeriods}} {{period}}s free trial`,
       { freePeriods, period }
     );
   };
