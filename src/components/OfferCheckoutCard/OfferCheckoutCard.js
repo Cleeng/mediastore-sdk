@@ -107,7 +107,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     return generateTrialDescription();
   };
 
-  const generateDescription = () => {
+  const renderDescription = () => {
     if (offerType === 'S') {
       return generateSubscriptionDescription();
     }
@@ -136,7 +136,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     return '';
   };
 
-  const generateTrialBadgeDescription = () => {
+  const renderTrialBadgeDescription = () => {
     if (freeDays) {
       return t('trial-badge-days', `{{freeDays}} days free trial`, {
         freeDays
@@ -175,16 +175,14 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
           margin="0 0 10px 10px"
         >
           <DescriptionStyled
-            dangerouslySetInnerHTML={{ __html: generateDescription() }}
+            dangerouslySetInnerHTML={{ __html: renderDescription() }}
           />
         </SkeletonWrapper>
       </InnerWrapper>
       <PriceWrapperStyled>
         <SkeletonWrapper showChildren={isDataLoaded} width={80} height={30}>
           {isTrialAvailable && (
-            <TrialBadgeStyled>
-              {generateTrialBadgeDescription()}
-            </TrialBadgeStyled>
+            <TrialBadgeStyled>{renderTrialBadgeDescription()}</TrialBadgeStyled>
           )}
           <Price
             currency={currencyFormat[currency]}
