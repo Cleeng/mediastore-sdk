@@ -45,7 +45,7 @@ import {
 import {
   Success,
   DeletePaymentMethod,
-  Error,
+  ErrorStep,
   FinalizeAddPaymentDetails
 } from './Steps';
 import Adyen from '../Adyen';
@@ -314,7 +314,7 @@ const UpdatePaymentDetailsPopup = () => {
         currentStep={STEPS_NUMBERS[step]}
         popupTitle={t('Update payment details')}
       >
-        <Error />
+        <ErrorStep />
       </InnerPopupWrapper>
     );
   }
