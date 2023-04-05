@@ -54,11 +54,13 @@ const OfferCard = ({
 
   const getSwitchCopy = () => {
     if (switchDetails) {
-      const subscriptionExpirationDate = dateFormat(
-        planDetailsState.currentPlan.find(
-          sub => sub.pendingSwitchId === pendingSwitchId
-        ).expiresAt
+      const subscription = planDetailsState.currentPlan.find(
+        sub => sub.pendingSwitchId === pendingSwitchId
       );
+      const subscriptionExpirationDate =
+        subscription.expiresAt === 2145913200
+          ? t('the next season start')
+          : dateFormat(subscription.expiresAt);
       const { title: switchTitle, fromOfferId, toOfferId } = switchDetails;
       const translatedTitle = t(`offer-title-${fromOfferId}`, title);
       const translatedSwitchTitle = t(`offer-title-${toOfferId}`, switchTitle);
@@ -276,7 +278,7 @@ OfferCard.propTypes = {
   t: PropTypes.func,
   isMyAccount: PropTypes.bool,
   pendingSwitchId: PropTypes.string,
-  expiresAt: PropTypes.string,
+  expiresAt: PropTypes.number,
   showInnerPopup: PropTypes.func,
   offerId: PropTypes.string,
   isPriceBoxHidden: PropTypes.bool,
@@ -297,7 +299,7 @@ OfferCard.defaultProps = {
   t: k => k,
   isMyAccount: false,
   pendingSwitchId: null,
-  expiresAt: '',
+  expiresAt: null,
   showInnerPopup: () => {},
   offerId: '',
   isPriceBoxHidden: false,

@@ -174,7 +174,12 @@ const SwitchPlanPopup = ({
                   </strong>{' '}
                   on your next billing date{' '}
                   <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                    {{
+                      expiresAt:
+                        fromOffer.expiresAt === 2145913200
+                          ? t('when the next season start')
+                          : dateFormat(fromOffer.expiresAt)
+                    }}
                   </strong>
                 </Trans>
               )}
@@ -237,7 +242,12 @@ const SwitchPlanPopup = ({
                   </strong>{' '}
                   until{' '}
                   <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                    {{
+                      expiresAt:
+                        fromOffer.expiresAt === 2145913200
+                          ? t('the next season start')
+                          : dateFormat(fromOffer.expiresAt)
+                    }}
                   </strong>
                   . From that time you will be charged{' '}
                   <strong>
@@ -411,7 +421,12 @@ const SwitchPlanPopup = ({
                   </strong>{' '}
                   starting from{' '}
                   <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                    {{
+                      expiresAt:
+                        fromOffer.expiresAt === 2145913200
+                          ? t('the next season start')
+                          : dateFormat(fromOffer.expiresAt)
+                    }}
                   </strong>
                   .
                 </Trans>
@@ -450,7 +465,12 @@ const SwitchPlanPopup = ({
                   </strong>
                   . You will have access to your new plan on{' '}
                   <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                    {{
+                      expiresAt:
+                        fromOffer.expiresAt === 2145913200
+                          ? t('the next season start')
+                          : dateFormat(fromOffer.expiresAt)
+                    }}
                   </strong>{' '}
                   and be charged{' '}
                   <strong>

@@ -131,6 +131,8 @@ const CurrentPlan = ({
               price = subItem.nextPaymentPrice;
               currency = subItem.nextPaymentCurrency;
               renewalDate = dateFormat(subItem.expiresAt);
+              if (subItem.expiresAt === 2145913200)
+                renewalDate = t('the next season start');
               if (subItem.status === 'active' && !subItem.pendingSwitchId) {
                 description = `${t('Renews automatically on {{renewalDate}}', {
                   renewalDate
@@ -187,7 +189,7 @@ const CurrentPlan = ({
                 showInfoBox={getInfoBoxType(subItem)}
                 paymentMethod={subItem.paymentMethod}
                 pendingSwitchId={subItem.pendingSwitchId}
-                expiresAt={dateFormat(subItem.expiresAt)}
+                expiresAt={subItem.expiresAt}
                 showInnerPopup={showInnerPopup}
                 offerId={subItem.offerId}
                 isPriceBoxHidden={isPaused}
