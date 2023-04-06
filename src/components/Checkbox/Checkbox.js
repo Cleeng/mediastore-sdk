@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   CheckboxStyled,
@@ -18,26 +18,32 @@ const Checkbox = ({
   disabled,
   isRadioButton
 }) => {
+  const [isChecked, setIsChecked] = useState(checked);
+
+  useEffect(() => {
+    setIsChecked(checked);
+  }, [checked]);
+
   return (
     <CheckboxStyled
-      onClick={e => onClickFn(e, disabled)}
+      onClick={e => onClickFn(e, disabled, setIsChecked)}
       role="checkbox"
       tabIndex="-1"
-      aria-checked={checked}
-      checked={checked}
+      aria-checked={isChecked}
+      checked={isChecked}
       aria-label={children}
       className={className}
       disabled={disabled}
     >
       <CheckFrameStyled
-        error={error && required && !checked}
+        error={error && required && !isChecked}
         tabIndex="0"
         onKeyDown={e => (e.keyCode === 32 ? onClickFn() : null)}
         isMyAccount={isMyAccount}
         isRadioButton={isRadioButton}
-        checked={checked}
+        checked={isChecked}
       >
-        {checked && (
+        {isChecked && (
           <CheckMarkStyled
             data-testid="checkmark"
             isMyAccount={isMyAccount}
@@ -49,7 +55,7 @@ const Checkbox = ({
         dangerouslySetInnerHTML={{
           __html: `${children}${required && isMyAccount ? '*' : ''}`
         }}
-        checked={checked}
+        checked={isChecked}
       />
     </CheckboxStyled>
   );
