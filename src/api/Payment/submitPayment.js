@@ -10,7 +10,6 @@ const submitPayment = async (paymentMethod, browserInfo, billingAddress) => {
   const url = `${API_URL}/connectors/adyen/initial-payment`;
 
   try {
-    console.log('payment done');
     const res = await fetchWithJWT(url, {
       method: 'POST',
       body: JSON.stringify({
@@ -24,7 +23,6 @@ const submitPayment = async (paymentMethod, browserInfo, billingAddress) => {
     });
     return res.json();
   } catch (e) {
-    console.log(e);
     return e;
   }
 };
