@@ -154,10 +154,7 @@ const Adyen = ({
     if (standardPaymentMethodsRef?.current) {
       const dropin = adyenCheckout.create('dropin', {
         onSelect,
-        openFirstPaymentMethod:
-          adyenConfiguration?.openFirstPaymentMethod == null
-            ? !window.matchMedia('(max-width:991px)').matches
-            : adyenConfiguration?.openFirstPaymentMethod,
+        openFirstPaymentMethod: false,
         onReady: showAdditionalText
       });
       dropin.mount(standardPaymentMethodsRef.current);
