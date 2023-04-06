@@ -5,6 +5,9 @@ const finalizeInitialPayment = async (orderId, details) => {
   const API_URL = getApiURL();
 
   const url = `${API_URL}/connectors/adyen/initial-payment/finalize`;
+
+  console.log('FINALIZE PMT SESSION');
+
   return fetchWithJWT(url, {
     method: 'POST',
     body: JSON.stringify({
