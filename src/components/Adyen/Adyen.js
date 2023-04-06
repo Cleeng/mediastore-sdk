@@ -6,7 +6,6 @@ import labeling from 'containers/labeling';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
 import useScript from 'util/useScriptHook';
-import waitForChildElement from 'util/dom';
 import { useSelector } from 'react-redux';
 import Checkbox from 'components/Checkbox';
 import AdyenStyled from './AdyenStyled';
@@ -19,8 +18,6 @@ import {
   getGooglePayEnv
 } from './util/getAdyenConfig';
 import defaultAdyenTranslations from './util/defaultAdyenTranslations';
-
-const bankPaymentMethods = ['ideal', 'directEbanking', 'bcmc_mobile'];
 
 const Adyen = ({
   onSubmit,
@@ -88,12 +85,12 @@ const Adyen = ({
 
     const checkbox = (
       <Checkbox
-        className={`adyen__bank-checkbox checkbox-${methodName}`}
+        className={`adyen-checkout__bank-checkbox checkbox-${methodName}`}
         checked={false}
         onClickFn={(e, _, setIsChecked) => {
-          const buttonEl = parentEl?.querySelector('.adyen-checkout__button');
-
-          buttonEl.disabled = !buttonEl.disabled;
+          e.target.parentElement.classList.remove(
+            'adyen-checkout__bank-checkbox--error'
+          );
           setIsChecked(!e.target.checked);
         }}
       >
@@ -111,14 +108,21 @@ const Adyen = ({
       );
 
       if (!doesCheckboxExist) {
-        const root = createRoot(details);
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('checkbox-wrapper');
+
+        const root = createRoot(wrapper);
         root.render(checkbox);
+
+        details.before(wrapper);
       }
     }
   };
 
   const showAdditionalText = () => {
     if (bankPaymentMethodsRef && bankPaymentMethodsRef.current) {
+      const bankPaymentMethods = ['ideal', 'directEbanking', 'bcmc_mobile'];
+
       bankPaymentMethods.forEach(method =>
         addAdditionalCopyForBankPaymentMethods(method)
       );
@@ -132,21 +136,6 @@ const Adyen = ({
       bcmc: 'bancontact_card'
     };
 
-    if (bankPaymentMethods.includes(type)) {
-      const methodName = type;
-
-      const parentEl = document.querySelector(
-        `.adyen-checkout__payment-method--${methodName}`
-      );
-      const checkbox = document.querySelector(`.checkbox-${methodName}`);
-
-      const payButton = await waitForChildElement(
-        '.adyen-checkout__button',
-        parentEl
-      );
-      payButton.disabled = !checkbox.checked;
-    }
-
     selectPaymentMethod(typeMapper[type] || type);
   };
 
@@ -154,7 +143,10 @@ const Adyen = ({
     if (standardPaymentMethodsRef?.current) {
       const dropin = adyenCheckout.create('dropin', {
         onSelect,
-        openFirstPaymentMethod: false,
+        openFirstPaymentMethod:
+          adyenConfiguration?.openFirstPaymentMethod == null
+            ? !window.matchMedia('(max-width:991px)').matches
+            : adyenConfiguration?.openFirstPaymentMethod,
         onReady: showAdditionalText
       });
       dropin.mount(standardPaymentMethodsRef.current);
@@ -215,12 +207,28 @@ const Adyen = ({
       analytics: adyenConfiguration?.analytics || {
         enabled: true //  analytics data for Adyen
       },
+      setStatusAutomatically: false,
       session: {
         id,
         sessionData
       },
       clientKey: getAdyenClientKey(),
       onSubmit: (state, component) => {
+        const {
+          data: {
+            paymentMethod: { type: methodName }
+          }
+        } = state;
+
+        const checkbox = document.querySelector(`.checkbox-${methodName}`);
+
+        if (!checkbox.checked) {
+          checkbox.classList.add('adyen-checkout__bank-checkbox--error');
+          return false;
+        }
+
+        component.setStatus('loading');
+
         if (type === 'bank') {
           setShouldFadeOutStandardDropIn(true);
         } else {
