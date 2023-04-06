@@ -406,5 +406,8 @@
   "resume-subscription-popup.confirm-button-text": "Resume subscription",
   "resume-subscription-popup.back-button-text": "Continue Pause",
   "resume-subscription-popup.success-header": "Thank you!",
-  "resume-subscription-popup.success-text": "You have successfully resumed your plan <strong>{{ planName }}.</strong>"
+  "resume-subscription-popup.success-text": "You have successfully resumed your plan <strong>{{ planName }}.</strong>",
+  "offer-bank-consent-copy.free-subscription": "You accept the terms and conditions of this agreement and that your account will be charged €0.10 for authentication purposes. This amount will be refunded once the transaction is completed. And your account will be debited on a recurring basis for the full subscription amount.",
+  "offer-bank-consent-copy.paid-subscription": "You accept the terms and conditions of this agreement. Your account will be debited on a recurring basis for the full subscription amount.",
+  "offer-bank-consent-copy.paid-not-subscription": "You accept the terms and conditions of this agreement."
 }
