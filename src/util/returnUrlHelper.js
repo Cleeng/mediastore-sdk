@@ -4,37 +4,25 @@ const generateReturnUrl = ({ queryParams, isMyAccount }) => {
   const {
     publisherConfig: { adyenConfiguration }
   } = store.getState();
-  let queryParamsString;
 
-  if (isMyAccount && adyenConfiguration?.myaccountReturnUrl) {
-    if (queryParams) {
-      queryParamsString = Object.keys(queryParams).map(
-        key => `${key}=${queryParams[key]}`
-      );
-    }
-    return `${adyenConfiguration.myaccountReturnUrl}?${queryParamsString}`;
+  const { myaccountReturnUrl, checkoutReturnUrl } = adyenConfiguration ?? {};
+
+  const formatUrl = url => {
+    const paramsString = new URLSearchParams(queryParams).toString();
+    return `${url}${new URL(url).search ? '&' : '?'}${paramsString}`;
+  };
+
+  if (isMyAccount && myaccountReturnUrl) {
+    return formatUrl(myaccountReturnUrl);
   }
 
-  if (!isMyAccount && adyenConfiguration?.checkoutReturnUrl) {
-    queryParamsString = Object.keys(queryParams)
-      .map(key => `${key}=${queryParams[key]}`)
-      .join('&');
-
-    return `${adyenConfiguration.checkoutReturnUrl}${
-      window.location.search ? '&' : '?'
-    }${queryParamsString}`;
+  if (!isMyAccount && checkoutReturnUrl) {
+    return formatUrl(checkoutReturnUrl);
   }
 
-  if (!queryParams) {
-    return window.location.href;
-  }
+  if (!queryParams) return window.location.href;
 
-  queryParamsString = Object.keys(queryParams)
-    .map(key => `${key}=${queryParams[key]}`)
-    .join('&');
-  return `${window.location.href}${
-    window.location.search ? '&' : '?'
-  }${queryParamsString}`;
+  return formatUrl(window.location.href);
 };
 
 export default generateReturnUrl;
