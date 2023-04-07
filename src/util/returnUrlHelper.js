@@ -12,13 +12,9 @@ const generateReturnUrl = ({ queryParams, isMyAccount }) => {
     return `${url}${new URL(url).search ? '&' : '?'}${paramsString}`;
   };
 
-  if (isMyAccount && myaccountReturnUrl) {
-    return formatUrl(myaccountReturnUrl);
-  }
+  if (isMyAccount && myaccountReturnUrl) return formatUrl(myaccountReturnUrl);
 
-  if (!isMyAccount && checkoutReturnUrl) {
-    return formatUrl(checkoutReturnUrl);
-  }
+  if (!isMyAccount && checkoutReturnUrl) return formatUrl(checkoutReturnUrl);
 
   if (!queryParams) return window.location.href;
 
