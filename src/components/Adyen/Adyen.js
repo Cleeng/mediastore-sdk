@@ -19,6 +19,8 @@ import {
 } from './util/getAdyenConfig';
 import defaultAdyenTranslations from './util/defaultAdyenTranslations';
 
+const bankPaymentMethods = ['ideal', 'directEbanking', 'bcmc_mobile'];
+
 const Adyen = ({
   onSubmit,
   isMyAccount,
@@ -120,8 +122,6 @@ const Adyen = ({
 
   const showAdditionalText = () => {
     if (bankPaymentMethodsRef && bankPaymentMethodsRef.current) {
-      const bankPaymentMethods = ['ideal', 'directEbanking', 'bcmc_mobile'];
-
       bankPaymentMethods.forEach(method =>
         addAdditionalCopyForBankPaymentMethods(method)
       );
@@ -219,11 +219,13 @@ const Adyen = ({
           }
         } = state;
 
-        const checkbox = document.querySelector(`.checkbox-${methodName}`);
+        if (bankPaymentMethods.includes(methodName)) {
+          const checkbox = document.querySelector(`.checkbox-${methodName}`);
 
-        if (!checkbox.checked) {
-          checkbox.classList.add('adyen-checkout__bank-checkbox--error');
-          return false;
+          if (!checkbox.checked) {
+            checkbox.classList.add('adyen-checkout__bank-checkbox--error');
+            return false;
+          }
         }
 
         component.setStatus('loading');
@@ -233,6 +235,7 @@ const Adyen = ({
         } else {
           setShouldFadeOutBankDropIn(true);
         }
+
         return onSubmit(state, component);
       },
       onActionHandled: () => {
