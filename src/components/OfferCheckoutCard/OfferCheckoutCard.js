@@ -7,6 +7,7 @@ import SkeletonWrapper from 'components/SkeletonWrapper';
 import { useSelector } from 'react-redux';
 import formatNumber from 'util/formatNumber';
 import { currencyFormat, dateFormat, periodMapper } from 'util/planHelper';
+import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
 import getReadablePeriod from './OfferCheckoutCard.utils';
 
 import {
@@ -28,18 +29,26 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     freePeriods,
     freeDays,
     expiresAt,
-    startTime
+    startTime,
+    customerPriceInclTax
   } = useSelector(state => state.offer.offer);
   const {
     priceBreakdown: { offerPrice },
     taxRate,
     country,
-    currency
+    currency,
+    totalPrice,
+    discount
   } = useSelector(state => state.order.order);
   const offerType = offerId?.charAt(0);
   const currencySymbol = currencyFormat[currency];
+  const isOfferFree =
+    isTrialAvailable || (discount.applied && totalPrice === 0);
+  const grossPrice = isOfferFree
+    ? calculateGrossPriceForFreeOffer(offerPrice, taxRate, customerPriceInclTax)
+    : formatNumber(totalPrice);
+
   const generateTrialDescription = () => {
-    const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
     if (freeDays) {
       const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
@@ -82,7 +91,6 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
   };
 
   const generateSubscriptionDescription = () => {
-    const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 
     if (!isTrialAvailable) {
@@ -158,7 +166,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
           )}
           <Price
             currency={currencyFormat[currency]}
-            price={offerPrice + taxRate * offerPrice}
+            price={Number(grossPrice)}
             period={
               offerType === 'S'
                 ? t(`offer-price.period-${period}`, period)
