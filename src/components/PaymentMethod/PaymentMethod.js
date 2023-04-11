@@ -37,6 +37,7 @@ const PaymentMethod = ({ t }) => {
       case 'applepay':
       case 'ideal':
       case 'bancontact_card':
+      case 'bancontact_mobile':
       case 'sofort':
         return <PaymentCard key={id} details={paymentDetail} />;
       default:

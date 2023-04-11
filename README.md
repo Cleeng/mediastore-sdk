@@ -779,7 +779,10 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 
 ### <a id="adyen-configuration-table"></a><h2>Adyen configuration</h2>
 
-By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#my-account-header), [Checkout](#checkout-header), [PaymentInfo](#payment-info-header) and [Purchase](#purchase-header). The example Adyen configuration object with described properties is shown below:
+By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#my-account-header), [Checkout](#checkout-header), [PaymentInfo](#payment-info-header) and [Purchase](#purchase-header).
+
+If the payment method is not presented in the `paymentMethodConfiguration` object, then it doesn't have any optional configuration available, eg. bancontact mobile.
+The example Adyen configuration object with described properties is shown below:
 
 ```javascript
 {
@@ -813,7 +816,7 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       highlightedIssuers: ['0761', '0802'] // Optional. Set to the iDEAL issuer IDs for banks you want to show on top of the dropdown menu.
       placeholder: 'Choose your bank' // Optional. The string you want to show as the dropdown menu text. Custom translation configuration overrides this value. Default: 'Select your bank'
     },
-    bcmc: { // Bancontact card (optional configuration similar to card above)
+    bancontactCard: { // Bancontact card (optional configuration similar to card above)
       hasHolderName: true, // Set to true to show the input field for cardholder name. Default: false
       holderName: 'John', // String that is used to prefill the cardholder name field`
       holderNameRequired: false, // Set to true to make the cardholder name a required field. To show the field, you also need to set hasHolderName to true. Default: false
