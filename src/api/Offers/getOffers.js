@@ -4,7 +4,7 @@ import getApiURL from 'util/environmentHelper';
 const getOffers = async () => {
   const API_URL = getApiURL();
 
-  const url = `${API_URL}/offers`;
+  const url = `${API_URL}/offers?pageLimit=100`;
   return fetchWithJWT(url, {
     method: 'GET'
   })

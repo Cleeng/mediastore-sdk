@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { PropTypes } from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 
 import { getAvailableSwitches, getCustomerSubscriptions } from 'api';
+import { fetchOffers } from 'redux/offersSlice';
 import SectionHeader from 'components/SectionHeader';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
@@ -29,6 +31,9 @@ const SubscriptionSwitches = ({
   const [isErrorChangePlan, setIsErrorChangePlan] = useState([]);
   const [isSwitchInProgress, setIsSwitchInProgress] = useState(false);
   const [switchSettingsError, setSwitchSettingsError] = useState(false);
+  const { offers } = useSelector(state => state.offers);
+
+  const dispatch = useDispatch();
 
   const fetchSwitchSettings = () => {
     getAvailableSwitches(offerId)
@@ -103,6 +108,7 @@ const SubscriptionSwitches = ({
     } else if (offerId && !Object.keys(planDetails.switchSettings).length) {
       fetchSwitchSettings();
     }
+    if (offers.length === 0) dispatch(fetchOffers());
   }, [offerId]);
 
   if (switchSettingsError) {
