@@ -7,7 +7,7 @@ import { Trans, useTranslation } from 'react-i18next';
 import { getData } from 'util/appConfigHelper';
 
 import { ReactComponent as NoSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
-import { dateFormat, currencyFormat } from 'util/planHelper';
+import { dateFormat, currencyFormat, INFINITE_DATE } from 'util/planHelper';
 
 import MyAccountError from 'components/MyAccountError';
 import OfferCard from 'components/OfferCard';
@@ -131,7 +131,7 @@ const CurrentPlan = ({
               price = subItem.nextPaymentPrice;
               currency = subItem.nextPaymentCurrency;
               renewalDate = dateFormat(subItem.expiresAt);
-              if (subItem.expiresAt === 2145913200)
+              if (subItem.expiresAt === INFINITE_DATE)
                 renewalDate = t('the next season start');
               if (subItem.status === 'active' && !subItem.pendingSwitchId) {
                 description = `${t('Renews automatically on {{renewalDate}}', {

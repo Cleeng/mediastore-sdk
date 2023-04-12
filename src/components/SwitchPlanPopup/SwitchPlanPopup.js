@@ -9,7 +9,7 @@ import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
-import { dateFormat } from 'util/planHelper';
+import { dateFormat, INFINITE_DATE } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 import { ReactComponent as Close } from 'assets/images/errors/close.svg';
 
@@ -176,7 +176,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{
                       expiresAt:
-                        fromOffer.expiresAt === 2145913200
+                        fromOffer.expiresAt === INFINITE_DATE
                           ? t('when the next season start')
                           : dateFormat(fromOffer.expiresAt)
                     }}
@@ -244,7 +244,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{
                       expiresAt:
-                        fromOffer.expiresAt === 2145913200
+                        fromOffer.expiresAt === INFINITE_DATE
                           ? t('the next season start')
                           : dateFormat(fromOffer.expiresAt)
                     }}
@@ -423,7 +423,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{
                       expiresAt:
-                        fromOffer.expiresAt === 2145913200
+                        fromOffer.expiresAt === INFINITE_DATE
                           ? t('the next season start')
                           : dateFormat(fromOffer.expiresAt)
                     }}
@@ -467,7 +467,7 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{
                       expiresAt:
-                        fromOffer.expiresAt === 2145913200
+                        fromOffer.expiresAt === INFINITE_DATE
                           ? t('the next season start')
                           : dateFormat(fromOffer.expiresAt)
                     }}

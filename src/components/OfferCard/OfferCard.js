@@ -11,7 +11,7 @@ import SkeletonWrapper from 'components/SkeletonWrapper';
 import { ReactComponent as DowngradeIcon } from 'assets/images/downgrade_pending.svg';
 import { ReactComponent as UpgradeIcon } from 'assets/images/upgrade_pending.svg';
 import { ReactComponent as PauseIcon } from 'assets/images/pause_noti.svg';
-import { dateFormat } from 'util/planHelper';
+import { dateFormat, INFINITE_DATE } from 'util/planHelper';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 
 import {
@@ -58,7 +58,7 @@ const OfferCard = ({
         sub => sub.pendingSwitchId === pendingSwitchId
       );
       const subscriptionExpirationDate =
-        subscription.expiresAt === 2145913200
+        subscription.expiresAt === INFINITE_DATE
           ? t('the next season start')
           : dateFormat(subscription.expiresAt);
       const { title: switchTitle, fromOfferId, toOfferId } = switchDetails;
