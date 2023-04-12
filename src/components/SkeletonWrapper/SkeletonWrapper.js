@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { LoaderColor } from 'styles/variables';
-import 'react-loading-skeleton/dist/skeleton.css';
 
 export const SkeletonWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__skeleton'

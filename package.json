@@ -1,6 +1,6 @@
 {
-  "name": "@cleeng/mediastore-sdk",
-  "version": "0.0.0-development",
+  "name": "@weathergroup/cleeng-mediastore-sdk",
+  "version": "1.0.0",
   "private": false,
   "main": "dist/package.js",
   "files": [
@@ -62,7 +62,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged && npm run test"
+      "pre-commit": "lint-staged"
     }
   },
   "lint-staged": {

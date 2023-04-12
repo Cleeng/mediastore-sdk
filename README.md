@@ -1,5 +1,13 @@
 # MediaStore SDK
 
+## Fork Purpose
+
+This fork contains a workaround to support Next.js. The official SDK contains unbundled css imports that break the Next.js CSS bundle. In lieu of an actual fix, we've removed the css imports from the package so they can be imported manually inside of your Next.js application.
+
+Please ensure to install the `react-loading-skeleton` and `@adyen/adyen-web` package versions as specified in this package.json file as direct dependencies to your Next.js project. View the installation instructions for further guidance on implementing the workaround.
+
+## Original Description
+
 This is the Cleeng official component library to be used with React.js.
 
 MediaStore SDK Library consists of components that will allow you to build a seamless checkout process, help visitors become subscribers, and then allow them to manage their subscriptions.
@@ -21,7 +29,7 @@ Install the package with:
 **NPM**
 
 ```
-npm i @cleeng/mediastore-sdk
+npm i @weathergroup/cleeng-mediastore-sdk
 ```
 
 or
@@ -29,7 +37,7 @@ or
 **Yarn**
 
 ```
-yarn add @cleeng/mediastore-sdk
+yarn add @weathergroup/cleeng-mediastore-sdk
 ```
 
 ---
@@ -44,6 +52,26 @@ or
 
 ```
 yarn add styled-components
+```
+
+### Next.js Wordaround
+
+Install React Loading Skeleton and Adyen Web.
+
+```
+npm i react-loading-skeleton@<version in this package.json> @adyen/adyen-web@<version in this package.json>
+```
+
+Import the following two files into your `_app.js` file.
+
+- react-loading-skeleton/dist/skeleton.css
+- @adyen/adyen-web/dist/adyen.css
+
+Example:
+
+```js
+import "react-loading-skeleton/dist/skeleton.css";
+import "@adyen/adyen-web/dist/adyen.css";
 ```
 
 ## Usage
