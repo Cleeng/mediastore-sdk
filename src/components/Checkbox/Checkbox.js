@@ -26,7 +26,10 @@ const Checkbox = ({
 
   return (
     <CheckboxStyled
-      onClick={e => onClickFn(e, disabled, setIsChecked)}
+      onClick={e => {
+        e.stopPropagation();
+        onClickFn(e, disabled, setIsChecked);
+      }}
       role="checkbox"
       tabIndex="-1"
       aria-checked={isChecked}

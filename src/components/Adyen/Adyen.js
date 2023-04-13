@@ -92,6 +92,7 @@ const Adyen = ({
           e.target.parentElement.classList.remove(
             'adyen-checkout__bank-checkbox--error'
           );
+
           setIsChecked(!e.target.checked);
         }}
       >
@@ -107,6 +108,8 @@ const Adyen = ({
       const doesCheckboxExist = document.querySelector(
         `.checkbox-${methodName}`
       );
+
+      console.log('checkbox');
 
       if (!doesCheckboxExist) {
         const wrapper = document.createElement('div');
