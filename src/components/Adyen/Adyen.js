@@ -109,8 +109,6 @@ const Adyen = ({
         `.checkbox-${methodName}`
       );
 
-      console.log('checkbox');
-
       if (!doesCheckboxExist) {
         const wrapper = document.createElement('div');
         wrapper.classList.add('checkbox-wrapper');
