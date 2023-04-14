@@ -807,7 +807,7 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'
       autoFocus: true // Automatically move the focus from date field to the CVC field. The focus also moves to the date field when the entered card number reaches the expected length. Default: true
     },
-    googlePayStyles: {
+    googlePay: {
       buttonColor: 'white', //default: A Google-selected default value. Currently black but it may change over time (default).
       //black: A black button suitable for use on white or light backgrounds.
       //white: A white button suitable for use on colorful backgrounds.
@@ -819,7 +819,6 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       //static: Button has a static width and height
       //fill: Button size changes to fill the size of its container.
       //Default: 'fill'
-
     }
   },
   locale: 'en-US', // The language used in the Drop-in UI. For possible values, see the https://docs.adyen.com/online-payments/web-drop-in/customization#supported-languages,
