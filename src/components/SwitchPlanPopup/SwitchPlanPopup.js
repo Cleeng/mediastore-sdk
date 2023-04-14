@@ -431,7 +431,11 @@ const SwitchPlanPopup = ({
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
                     {{
-                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
+                      nextPaymentPrice: isPriceTemporaryModified(
+                        toOffer.toOfferId
+                      )
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   starting from now.
@@ -474,7 +478,13 @@ const SwitchPlanPopup = ({
                   . Your new fee will be{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: isPriceTemporaryModified(
+                        toOffer.toOfferId
+                      )
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>{' '}
                   starting from now.
                 </Trans>
@@ -494,7 +504,13 @@ const SwitchPlanPopup = ({
                   . Your new fee will be{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: isPriceTemporaryModified(
+                        toOffer.toOfferId
+                      )
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>{' '}
                   starting from now.
                 </Trans>
@@ -514,7 +530,13 @@ const SwitchPlanPopup = ({
                   . Your new fee will be{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
-                    {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
+                    {{
+                      nextPaymentPrice: isPriceTemporaryModified(
+                        toOffer.toOfferId
+                      )
+                        ? formatNumber(toOffer.price)
+                        : formatNumber(toOffer.nextPaymentPrice)
+                    }}
                   </strong>{' '}
                   starting from now.
                 </Trans>
