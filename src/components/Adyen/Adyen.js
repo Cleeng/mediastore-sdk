@@ -103,7 +103,9 @@ const Adyen = ({
               merchantName,
               merchantId: applePayConfigurationObj.merchantId
             }
-          })
+          }),
+          buttonType: 'donate'
+          // ...adyenConfiguration?.paymentMethodsConfiguration?.applepay
         },
         googlepay: {
           environment: getGooglePayEnv(),
