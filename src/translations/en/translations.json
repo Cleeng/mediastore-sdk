@@ -406,5 +406,10 @@
   "resume-subscription-popup.confirm-button-text": "Resume subscription",
   "resume-subscription-popup.back-button-text": "Continue Pause",
   "resume-subscription-popup.success-header": "Thank you!",
-  "resume-subscription-popup.success-text": "You have successfully resumed your plan <strong>{{ planName }}.</strong>"
+  "resume-subscription-popup.success-text": "You have successfully resumed your plan <strong>{{ planName }}.</strong>",
+  "trial-badge-days": "{{freeDays}} days free trial",
+  "trial-badge.period-week": "1 week free trial",
+  "trial-badge.period-month": "1 month free trial",
+  "trial-badge.periods-week": "{{freePeriods}} weeks free trial",
+  "trial-badge.periods-month": "{{freePeriods}} months free trial"
 }
