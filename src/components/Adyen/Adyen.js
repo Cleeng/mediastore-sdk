@@ -115,6 +115,12 @@ const Adyen = ({
             }
           }),
           ...amountObj
+        },
+        ideal: {
+          ...adyenConfiguration?.paymentMethodsConfiguration?.ideal
+        },
+        bcmc: {
+          ...adyenConfiguration?.paymentMethodsConfiguration?.bancontactCard
         }
       }
     };
