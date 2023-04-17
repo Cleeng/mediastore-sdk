@@ -13,6 +13,18 @@ export const supportedPaymentMethods = [
   'bancontact_card',
   'bancontact_mobile'
 ];
+
+export const readablePaymentMethodNames = {
+  card: 'Card',
+  paypal: 'PayPal',
+  applepay: 'ApplePay',
+  googlepay: 'GooglePay',
+  ideal: 'iDEAL',
+  sofort: 'Sofort',
+  bancontact_card: 'Bancontact Card',
+  bancontact_mobile: 'Bancontact Mobile'
+};
+
 export const supportedPaymentGateways = ['adyen', 'paypal'];
 
 export const logos = {
