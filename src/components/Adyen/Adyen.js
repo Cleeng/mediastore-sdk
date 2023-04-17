@@ -203,10 +203,10 @@ const Adyen = ({
           ...amountObj
         },
         ideal: {
-          ...adyenConfiguration?.ideal
+          ...adyenConfiguration?.paymentMethodsConfiguration?.ideal
         },
         bcmc: {
-          ...adyenConfiguration?.bancontactCard
+          ...adyenConfiguration?.paymentMethodsConfiguration?.bancontactCard
         }
       }
     };
