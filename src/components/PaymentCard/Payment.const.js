@@ -78,10 +78,10 @@ export const CardTypes = {
   },
   bancontact_card: {
     icon: Bancontact,
-    title: 'bancontact_card'
+    title: 'Bancontact Card'
   },
   bancontact_mobile: {
     icon: Bancontact,
-    title: 'bancontact_mobile'
+    title: 'Bancontact Mobile'
   }
 };

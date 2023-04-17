@@ -7,6 +7,7 @@ import SkeletonWrapper from 'components/SkeletonWrapper';
 import { useSelector } from 'react-redux';
 import formatNumber from 'util/formatNumber';
 import { currencyFormat, dateFormat, periodMapper } from 'util/planHelper';
+import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
 import getReadablePeriod from './OfferCheckoutCard.utils';
 
 import {
@@ -28,18 +29,26 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     freePeriods,
     freeDays,
     expiresAt,
-    startTime
+    startTime,
+    customerPriceInclTax
   } = useSelector(state => state.offer.offer);
   const {
     priceBreakdown: { offerPrice },
     taxRate,
     country,
-    currency
+    currency,
+    totalPrice,
+    discount
   } = useSelector(state => state.order.order);
   const offerType = offerId?.charAt(0);
   const currencySymbol = currencyFormat[currency];
+  const isOfferFree =
+    isTrialAvailable || (discount.applied && totalPrice === 0);
+  const grossPrice = isOfferFree
+    ? calculateGrossPriceForFreeOffer(offerPrice, taxRate, customerPriceInclTax)
+    : formatNumber(totalPrice);
+
   const generateTrialDescription = () => {
-    const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
     if (freeDays) {
       const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
@@ -82,7 +91,6 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
   };
 
   const generateSubscriptionDescription = () => {
-    const grossPrice = formatNumber(offerPrice + taxRate * offerPrice);
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 
     if (!isTrialAvailable) {
@@ -99,7 +107,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     return generateTrialDescription();
   };
 
-  const generateDescription = () => {
+  const renderDescription = () => {
     if (offerType === 'S') {
       return generateSubscriptionDescription();
     }
@@ -128,6 +136,26 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     return '';
   };
 
+  const renderTrialBadgeDescription = () => {
+    if (freeDays) {
+      return t('trial-badge-days', `{{freeDays}} days free trial`, {
+        freeDays
+      });
+    }
+
+    if (freePeriods === 1) {
+      return t(`trial-badge.period-${period}`, `1 {{period}} free trial`, {
+        period
+      });
+    }
+
+    return t(
+      `trial-badge.periods-${period}`,
+      `{{freePeriods}} {{period}}s free trial`,
+      { freePeriods, period }
+    );
+  };
+
   return (
     <WrapperStyled>
       <SkeletonWrapper showChildren={isDataLoaded} width={50} height={50}>
@@ -147,18 +175,18 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
           margin="0 0 10px 10px"
         >
           <DescriptionStyled
-            dangerouslySetInnerHTML={{ __html: generateDescription() }}
+            dangerouslySetInnerHTML={{ __html: renderDescription() }}
           />
         </SkeletonWrapper>
       </InnerWrapper>
       <PriceWrapperStyled>
         <SkeletonWrapper showChildren={isDataLoaded} width={80} height={30}>
           {isTrialAvailable && (
-            <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
+            <TrialBadgeStyled>{renderTrialBadgeDescription()}</TrialBadgeStyled>
           )}
           <Price
             currency={currencyFormat[currency]}
-            price={offerPrice + taxRate * offerPrice}
+            price={Number(grossPrice)}
             period={
               offerType === 'S'
                 ? t(`offer-price.period-${period}`, period)

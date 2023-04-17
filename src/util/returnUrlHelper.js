@@ -5,22 +5,20 @@ const generateReturnUrl = ({ queryParams, isMyAccount }) => {
     publisherConfig: { adyenConfiguration }
   } = store.getState();
 
-  if (isMyAccount && adyenConfiguration?.myaccountReturnUrl)
-    return adyenConfiguration.myaccountReturnUrl;
+  const { myaccountReturnUrl, checkoutReturnUrl } = adyenConfiguration ?? {};
 
-  if (!isMyAccount && adyenConfiguration?.checkoutReturnUrl)
-    return adyenConfiguration.checkoutReturnUrl;
+  const formatUrl = url => {
+    const paramsString = new URLSearchParams(queryParams).toString();
+    return `${url}${new URL(url).search ? '&' : '?'}${paramsString}`;
+  };
 
-  if (!queryParams) {
-    return window.location.href;
-  }
+  if (isMyAccount && myaccountReturnUrl) return formatUrl(myaccountReturnUrl);
 
-  const queryParamsString = Object.keys(queryParams)
-    .map(key => `${key}=${queryParams[key]}`)
-    .join('&');
-  return `${window.location.href}${
-    window.location.search ? '&' : '?'
-  }${queryParamsString}`;
+  if (!isMyAccount && checkoutReturnUrl) return formatUrl(checkoutReturnUrl);
+
+  if (!queryParams) return window.location.href;
+
+  return formatUrl(window.location.href);
 };
 
 export default generateReturnUrl;

@@ -4,7 +4,7 @@ import formatNumber from 'util/formatNumber';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { currencyFormat } from 'util/planHelper';
-
+import calculateTaxValueForFreeOffer from 'util/calculateTaxValueForFreeOffer';
 import { useSelector } from 'react-redux';
 import {
   StyledTotalLabel,
@@ -17,6 +17,7 @@ import {
 } from './CheckoutPriceBoxStyled';
 
 const CheckoutPriceBox = ({ t }) => {
+  const { customerPriceInclTax } = useSelector(state => state.offer.offer);
   const {
     priceBreakdown: {
       offerPrice,
@@ -52,26 +53,26 @@ const CheckoutPriceBox = ({ t }) => {
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
-        {(taxValue !== 0 || taxRate !== 0) && (
-          <StyledPriceWrapper>
-            <StyledLabel>
-              {country === 'US' ? t('Applicable Tax') : t('Applicable VAT')}
-            </StyledLabel>
-            <StyledOfferPrice>
-              {taxValue ? (
-                `${currencyFormat[currency]}${formatNumber(taxValue)}`
-              ) : (
-                <></>
-              )}
-              {!taxValue && taxRate && isCouponApplied && (
-                <p style={{ textDecoration: 'line-through' }}>
-                  {currencyFormat[currency]}{' '}
-                  {formatNumber(taxRate * offerPrice)}
-                </p>
-              )}
-            </StyledOfferPrice>
-          </StyledPriceWrapper>
-        )}
+
+        <StyledPriceWrapper>
+          <StyledLabel>
+            {country === 'US' ? t('Applicable Tax') : t('Applicable VAT')}
+          </StyledLabel>
+          <StyledOfferPrice>
+            {!taxValue && isCouponApplied ? (
+              <p style={{ textDecoration: 'line-through' }}>
+                {currencyFormat[currency]}{' '}
+                {calculateTaxValueForFreeOffer(
+                  offerPrice,
+                  taxRate,
+                  customerPriceInclTax
+                )}
+              </p>
+            ) : (
+              `${currencyFormat[currency]}${formatNumber(taxValue)}`
+            )}
+          </StyledOfferPrice>
+        </StyledPriceWrapper>
 
         {customerServiceFee !== 0 && (
           <StyledPriceWrapper>
