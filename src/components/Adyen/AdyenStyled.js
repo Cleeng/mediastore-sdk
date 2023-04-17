@@ -99,13 +99,24 @@ const AdyenStyled = styled.div.attrs(() => ({
     background-color: ${ConfirmColor};
   }
 
-  .adyen__bank-copy {
-    font-size: 11px;
+  .checkbox-wrapper {
     margin: 10px 20px 20px 20px;
-    line-height: 17px;
+  }
+
+  .adyen-checkout__bank-checkbox {
+    align-items: flex-start;
+    font-size: 11px;
     font-weight: 400;
-    color: #7b849d;
-    text-align: center;
+    line-height: 17px;
+    color: #515364;
+    gap: 3px;
+    margin-bottom: 20px;
+  }
+
+  .adyen-checkout__bank-checkbox--error {
+    .msd__consents__frame {
+      border-color: red;
+    }
   }
 
   ${({ isAdditionalPayment }) =>
