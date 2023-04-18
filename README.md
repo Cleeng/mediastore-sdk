@@ -808,7 +808,7 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       autoFocus: true // Automatically move the focus from date field to the CVC field. The focus also moves to the date field when the entered card number reaches the expected length. Default: true
     },
     applePay: {
-      buttonColor: 'black', // The color of the button to be displayed on the payment form. Possible values:
+      buttonColor: 'black', // The color of button to be displayed on the payment form. Possible values:
       // 'black' - Use on white or light-color backgrounds that provide sufficient contrast. Don’t use on black or dark backgrounds.
       // 'white' - Use on dark-color backgrounds that provide sufficient contrast.
       // 'white-outline' - Use the white button with black outline on white or very light backgrounds that don’t provide sufficient contrast for a plain white button. Don’t place this button on dark or saturated color backgrounds. Use the white button instead.
