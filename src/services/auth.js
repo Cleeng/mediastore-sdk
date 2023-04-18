@@ -89,6 +89,10 @@ class Auth {
     removeData('CLEENG_MYACCOUNT_PP_SUCCESS');
     removeData('CLEENG_MYACCOUNT_PP_CANCEL');
     removeData('CLEENG_MYACCOUNT_PP_ERROR');
+    removeData('CLEENG_CUSTOMER_EMAIL');
+    removeData('CLEENG_CUSTOMER_ID');
+    removeData('CLEENG_ENVIRONMENT');
+    removeData('CLEENG_PUBLISHER_ID');
 
     callback();
   }

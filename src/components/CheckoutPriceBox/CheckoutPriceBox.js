@@ -53,30 +53,26 @@ const CheckoutPriceBox = ({ t }) => {
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
-        {(taxValue !== 0 || taxRate !== 0) && (
-          <StyledPriceWrapper>
-            <StyledLabel>
-              {country === 'US' ? t('Applicable Tax') : t('Applicable VAT')}
-            </StyledLabel>
-            <StyledOfferPrice>
-              {taxValue ? (
-                `${currencyFormat[currency]}${formatNumber(taxValue)}`
-              ) : (
-                <></>
-              )}
-              {!taxValue && taxRate && isCouponApplied && (
-                <p style={{ textDecoration: 'line-through' }}>
-                  {currencyFormat[currency]}{' '}
-                  {calculateTaxValueForFreeOffer(
-                    offerPrice,
-                    taxRate,
-                    customerPriceInclTax
-                  )}
-                </p>
-              )}
-            </StyledOfferPrice>
-          </StyledPriceWrapper>
-        )}
+
+        <StyledPriceWrapper>
+          <StyledLabel>
+            {country === 'US' ? t('Applicable Tax') : t('Applicable VAT')}
+          </StyledLabel>
+          <StyledOfferPrice>
+            {!taxValue && isCouponApplied ? (
+              <p style={{ textDecoration: 'line-through' }}>
+                {currencyFormat[currency]}{' '}
+                {calculateTaxValueForFreeOffer(
+                  offerPrice,
+                  taxRate,
+                  customerPriceInclTax
+                )}
+              </p>
+            ) : (
+              `${currencyFormat[currency]}${formatNumber(taxValue)}`
+            )}
+          </StyledOfferPrice>
+        </StyledPriceWrapper>
 
         {customerServiceFee !== 0 && (
           <StyledPriceWrapper>

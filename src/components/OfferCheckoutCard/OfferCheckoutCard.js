@@ -107,7 +107,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     return generateTrialDescription();
   };
 
-  const generateDescription = () => {
+  const renderDescription = () => {
     if (offerType === 'S') {
       return generateSubscriptionDescription();
     }
@@ -136,6 +136,26 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     return '';
   };
 
+  const renderTrialBadgeDescription = () => {
+    if (freeDays) {
+      return t('trial-badge-days', `{{freeDays}} days free trial`, {
+        freeDays
+      });
+    }
+
+    if (freePeriods === 1) {
+      return t(`trial-badge.period-${period}`, `1 {{period}} free trial`, {
+        period
+      });
+    }
+
+    return t(
+      `trial-badge.periods-${period}`,
+      `{{freePeriods}} {{period}}s free trial`,
+      { freePeriods, period }
+    );
+  };
+
   return (
     <WrapperStyled>
       <SkeletonWrapper showChildren={isDataLoaded} width={50} height={50}>
@@ -155,14 +175,14 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
           margin="0 0 10px 10px"
         >
           <DescriptionStyled
-            dangerouslySetInnerHTML={{ __html: generateDescription() }}
+            dangerouslySetInnerHTML={{ __html: renderDescription() }}
           />
         </SkeletonWrapper>
       </InnerWrapper>
       <PriceWrapperStyled>
         <SkeletonWrapper showChildren={isDataLoaded} width={80} height={30}>
           {isTrialAvailable && (
-            <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
+            <TrialBadgeStyled>{renderTrialBadgeDescription()}</TrialBadgeStyled>
           )}
           <Price
             currency={currencyFormat[currency]}
