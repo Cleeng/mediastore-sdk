@@ -14,6 +14,7 @@ import {
   validatePaymentMethods,
   shouldShowGatewayComponent
 } from 'util/paymentMethodHelper';
+// import { getData } from 'util/appConfigHelper';
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import { fetchUpdateOrder } from 'redux/orderSlice';
 import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
@@ -221,8 +222,17 @@ const Payment = ({ t, onPaymentComplete }) => {
   };
 
   const shouldShowAdyen = shouldShowGatewayComponent('adyen', paymentMethods);
-  const shouldShowPayPal = shouldShowGatewayComponent('paypal', paymentMethods);
 
+  // filtered by user, is it good to name it like this?
+  // const isPayPalAvailable = JSON.parse(
+  //   getData('CLEENG_AVAILABLE_PM')
+  // )?.includes('paypal');
+
+  // const shouldShowPayPal = isPayPalAvailable
+  //   ? shouldShowGatewayComponent('paypal', paymentMethods)
+  //   : false;
+
+  const shouldShowPayPal = shouldShowGatewayComponent('paypal', paymentMethods);
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!standardDropInInstance || !!bankDropInInstance : true;
 
