@@ -808,14 +808,16 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       autoFocus: true // Automatically move the focus from date field to the CVC field. The focus also moves to the date field when the entered card number reaches the expected length. Default: true
     },
     applePay: {
-      buttonType: 'plain', // The type of button to fit best with the terminology and flow of a purchase or payment experience.
+      buttonColor: 'black', // The color of the button to be displayed on the payment form. Possible values:
+      // 'black' - Use on white or light-color backgrounds that provide sufficient contrast. Don’t use on black or dark backgrounds.
+      // 'white' - Use on dark-color backgrounds that provide sufficient contrast.
+      // 'white-outline' - Use the white button with black outline on white or very light backgrounds that don’t provide sufficient contrast for a plain white button. Don’t place this button on dark or saturated color backgrounds. Use the white button instead.
+      buttonType: 'plain' // The type of button to fit best with the terminology and flow of your purchase or payment experience.
       // The default value is 'plain' which displays basic "Apple Pay" logo button.
       // 'buy': 'buy with Apple Pay'
       // 'check-out': 'Check out with Apple Pay'
       // 'subscribe': 'Subscribe with Apple Pay'
-      // For all possible values, see https://developer.apple.com/design/human-interface-guidelines/technologies/apple-pay/buttons-and-marks
-      buttonColor:
-
+      // For all possible values and styling guidance, see https://developer.apple.com/design/human-interface-guidelines/technologies/apple-pay/buttons-and-marks
     }
   },
   locale: 'en-US', // The language used in the Drop-in UI. For possible values, see the https://docs.adyen.com/online-payments/web-drop-in/customization#supported-languages,

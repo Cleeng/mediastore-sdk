@@ -115,7 +115,6 @@ const Adyen = ({
               merchantId: googlePayConfigurationObj.merchantId
             }
           }),
-          ...adyenConfiguration?.paymentMethodsConfiguration?.googlePay,
           ...amountObj
         }
       }
