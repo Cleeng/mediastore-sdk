@@ -807,6 +807,16 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'
       autoFocus: true // Automatically move the focus from date field to the CVC field. The focus also moves to the date field when the entered card number reaches the expected length. Default: true
     },
+    applePay: {
+      buttonType: 'plain', // The type of button to fit best with the terminology and flow of a purchase or payment experience.
+      // The default value is 'plain' which displays basic "Apple Pay" logo button.
+      // 'buy': 'buy with Apple Pay'
+      // 'check-out': 'Check out with Apple Pay'
+      // 'subscribe': 'Subscribe with Apple Pay'
+      // For all possible values, see https://developer.apple.com/design/human-interface-guidelines/technologies/apple-pay/buttons-and-marks
+      buttonColor:
+
+    }
   },
   locale: 'en-US', // The language used in the Drop-in UI. For possible values, see the https://docs.adyen.com/online-payments/web-drop-in/customization#supported-languages,
   translations: {}, // The text displayed in each localization can be customized, allowing you to replace the default text with your own. You can read more about it here https://docs.adyen.com/online-payments/web-drop-in/customization#customizing-a-localization
