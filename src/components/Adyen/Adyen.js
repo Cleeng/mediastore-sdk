@@ -278,10 +278,14 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.ideal
         },
         bcmc: {
-          ...adyenConfiguration?.paymentMethodsConfiguration?.bancontactCard
+          ...adyenConfiguration?.paymentMethodsConfiguration?.bancontactCard,
+          ...(isMyAccount && {
+            hasHolderName: true
+          })
         }
       }
     };
+
     const adyenCheckout = await AdyenCheckout(configuration);
     if (type === 'bank') {
       mountBankDropIn(adyenCheckout);
@@ -310,6 +314,8 @@ const Adyen = ({
   };
 
   useEffect(() => {
+    console.log(isMyAccount);
+
     generateDropIns();
     return () => {
       setStandardDropInInstance(null);
