@@ -7,6 +7,9 @@ const createPaymentSession = async (isMyAccount = false, type) => {
   const API_URL = getApiURL();
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
+  const availablePaymentMethods = getData('CLEENG_AVAILABLE_PM') || '[]';
+
+  console.log(JSON.parse(availablePaymentMethods));
 
   const url = `${API_URL}/connectors/adyen/sessions`;
 
