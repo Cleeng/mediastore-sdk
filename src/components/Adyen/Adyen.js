@@ -314,8 +314,6 @@ const Adyen = ({
   };
 
   useEffect(() => {
-    console.log(isMyAccount);
-
     generateDropIns();
     return () => {
       setStandardDropInInstance(null);
