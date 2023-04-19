@@ -317,13 +317,14 @@ const Adyen = ({
         getData('CLEENG_AVAILABLE_PM') || '[]'
       );
 
+      // common part between publisher and config payment methods
+      // prevents creating bank session when it's in client's config but not configured by publisher
       const availablePaymentMethods = configPaymentMethods.length
         ? publisherPaymentMethods.filter(({ methodName }) =>
             configPaymentMethods.includes(methodName)
           )
         : publisherPaymentMethods;
 
-      // check it
       const shouldCreateBankPaymentSession = availablePaymentMethods.some(
         ({ methodName }) => bankPaymentMethods.includes(methodName)
       );

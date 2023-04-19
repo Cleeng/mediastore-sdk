@@ -8,8 +8,7 @@ const createPaymentSession = async (isMyAccount = false, type) => {
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
 
-  // should be here, or passed as prop? (when here, it's same for zero an non zero session, is it good for backend? - check)
-  const availablePaymentMethods = JSON.parse(
+  const configPaymentMethods = JSON.parse(
     getData('CLEENG_AVAILABLE_PM') || '[]'
   );
 
@@ -22,12 +21,12 @@ const createPaymentSession = async (isMyAccount = false, type) => {
         ? JSON.stringify({
             returnUrl: generateReturnUrl({ isMyAccount: true }),
             filterPaymentMethodsByType: type,
-            filterPaymentMethods: availablePaymentMethods
+            filterPaymentMethods: configPaymentMethods
           })
         : JSON.stringify({
             orderId,
             filterPaymentMethodsByType: type,
-            filterPaymentMethods: availablePaymentMethods,
+            filterPaymentMethods: configPaymentMethods,
             returnUrl: generateReturnUrl({
               queryParams: { orderId }
             })
