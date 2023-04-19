@@ -52,6 +52,7 @@ export const DescriptionStyled = styled.h2.attrs(() => ({
   font-size: ${TinyFont};
   font-weight: ${MediumFontWeight};
   line-height: 17px;
+  white-space: pre-line;
 `;
 
 export const PriceWrapperStyled = styled.div.attrs(() => ({

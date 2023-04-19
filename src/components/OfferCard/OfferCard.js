@@ -197,7 +197,7 @@ const OfferCard = ({
                   currency={currency}
                   price={price}
                   period={
-                    offerType === 'S'
+                    offerType === 'S' && period !== 'season'
                       ? t(`offer-price.period-${period}`, period)
                       : null
                   }
