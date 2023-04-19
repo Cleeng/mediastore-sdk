@@ -67,6 +67,7 @@
   "There are no subscriptions purchased yet.": "There are no subscriptions purchased yet.",
   "There are no payment methods configured": "There are no payment methods configured",
   "Renews automatically on {{renewalDate}}": "Renews automatically on {{renewalDate}}",
+  "You will now be charged {{currency}}{{price}} (plus applicable taxes) and will be renewed on {{renewalDate}} at the same price.": "You will now be charged {{currency}}{{price}} (plus applicable taxes) and will be renewed on {{renewalDate}} at the same price.",
   "Expires on": "Expires on",
   "Expiry date": "Expiry date",
   "week": "week",
