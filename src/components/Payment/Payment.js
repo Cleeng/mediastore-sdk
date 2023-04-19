@@ -225,8 +225,11 @@ const Payment = ({ t, onPaymentComplete }) => {
     getData('CLEENG_AVAILABLE_PM') || '[]'
   );
 
-  const isPayPalAvailable = availablePaymentMethods.includes('paypal');
-  const onlyPayPal = availablePaymentMethods.length === 1 && isPayPalAvailable;
+  const isPayPalAvailable =
+    !availablePaymentMethods.length ||
+    availablePaymentMethods.includes('paypal');
+
+  const onlyPayPal = isPayPalAvailable && availablePaymentMethods.length === 1;
 
   const shouldShowPayPal = isPayPalAvailable
     ? shouldShowGatewayComponent('paypal', paymentMethods)

@@ -3,6 +3,12 @@ import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PPico
 import { ReactComponent as ApplePayLogo } from 'assets/images/paymentMethods/applePay.svg';
 import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/googlepay.svg';
 
+export const zeroPaymentNotSupportedMethods = [
+  'ideal',
+  'sofort',
+  'bancontact_mobile'
+];
+
 export const supportedPaymentMethods = [
   'card',
   'paypal',

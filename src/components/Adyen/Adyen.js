@@ -18,6 +18,7 @@ import {
   getGooglePayEnv
 } from './util/getAdyenConfig';
 import defaultAdyenTranslations from './util/defaultAdyenTranslations';
+import { zeroPaymentNotSupportedMethods } from 'util/paymentMethodHelper';
 
 const bankPaymentMethods = ['ideal', 'directEbanking', 'bcmc_mobile'];
 
@@ -231,7 +232,7 @@ const Adyen = ({
 
         component.setStatus('loading');
 
-        if (type === 'bank') {
+        if (type === 'zeroPaymentNotSupported') {
           setShouldFadeOutStandardDropIn(true);
         } else {
           setShouldFadeOutBankDropIn(true);
@@ -240,7 +241,7 @@ const Adyen = ({
         return onSubmit(state, component);
       },
       onActionHandled: () => {
-        if (type === 'bank') {
+        if (type === 'zeroPaymentNotSupported') {
           setShouldHideStandardDropIn(true);
         } else {
           setShouldHideBankDropIn(true);
@@ -283,7 +284,7 @@ const Adyen = ({
       }
     };
     const adyenCheckout = await AdyenCheckout(configuration);
-    if (type === 'bank') {
+    if (type === 'zeroPaymentNotSupported') {
       mountBankDropIn(adyenCheckout);
       return;
     }
@@ -296,17 +297,38 @@ const Adyen = ({
       isMyAccount,
       paymentMethodsType
     );
+
     if (responseData?.id) {
       createDropInInstance(responseData, paymentMethodsType);
     }
   };
 
   const generateDropIns = () => {
+    const availablePaymentMethods = JSON.parse(
+      getData('CLEENG_AVAILABLE_PM') || '[]'
+    );
+
+    const shouldCreateZeroPaymentSession = availablePaymentMethods.some(
+      method => zeroPaymentNotSupportedMethods.includes(method)
+    );
+
+    const shouldCreateNotZeroPaymentSession = availablePaymentMethods.some(
+      method => !zeroPaymentNotSupportedMethods.includes(method)
+    );
+
     if (totalPrice === 0) {
-      Promise.all([
-        createSession('zeroPaymentSupported'),
-        createSession('zeroPaymentNotSupported')
-      ]); // TODO: if it's not a 0 payment - should we create one Dropin only?
+      if (shouldCreateZeroPaymentSession) {
+        createSession('zeroPaymentSupported');
+      }
+
+      if (shouldCreateNotZeroPaymentSession) {
+        createSession('zeroPaymentNotSupported');
+      }
+
+      // Promise.all([
+      //   createSession('zeroPaymentSupported'),
+      //   createSession('zeroPaymentNotSupported')
+      // ]); TODO: if it's not a 0 payment - should we create one Dropin only?
     } else {
       createSession();
     }

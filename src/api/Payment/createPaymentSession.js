@@ -2,15 +2,29 @@ import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import generateReturnUrl from 'util/returnUrlHelper';
+import { zeroPaymentNotSupportedMethods } from 'util/paymentMethodHelper';
 
 const createPaymentSession = async (isMyAccount = false, type) => {
   const API_URL = getApiURL();
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
 
-  const availablePaymentMethods = JSON.parse(
+  let availablePaymentMethods = JSON.parse(
     getData('CLEENG_AVAILABLE_PM') || '[]'
   );
+
+  //concept ifs with filtering, maybe handle it when creating sessions - create only one
+  // if (type === 'zeroPaymentNotSupported') {
+  //   availablePaymentMethods = availablePaymentMethods.filter(method =>
+  //     zeroPaymentNotSupportedMethods.includes(method)
+  //   );
+  // }
+
+  // if (type === 'zeroPaymentSupported') {
+  //   availablePaymentMethods = availablePaymentMethods.filter(
+  //     method => !zeroPaymentNotSupportedMethods.includes(method)
+  //   );
+  // }
 
   const url = `${API_URL}/connectors/adyen/sessions`;
 

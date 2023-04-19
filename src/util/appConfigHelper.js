@@ -153,11 +153,8 @@ export const getTheme = () => {
 };
 
 export const setAvailablePaymentMethods = paymentMethods => {
-  if (paymentMethods.length) {
-    setData('CLEENG_AVAILABLE_PM', JSON.stringify(paymentMethods));
-    return true;
-  }
-  return false;
+  setData('CLEENG_AVAILABLE_PM', JSON.stringify(paymentMethods));
+  return true;
 };
 
 export default {
