@@ -19,7 +19,7 @@ import {
 } from './util/getAdyenConfig';
 import defaultAdyenTranslations from './util/defaultAdyenTranslations';
 
-const bankPaymentMethods = ['ideal', 'directEbanking', 'bcmc_mobile'];
+const bankPaymentMethods = ['ideal', 'sofort', 'directEbanking', 'bcmc_mobile'];
 
 const Adyen = ({
   onSubmit,
@@ -33,7 +33,7 @@ const Adyen = ({
   const { discount, totalPrice, offerId } = useSelector(
     state => state.order.order
   );
-  const { adyenConfiguration } = useSelector(state => state.publisherConfig);
+  const publisherConfig = useSelector(state => state.publisherConfig);
   const [isLoading, setIsLoading] = useState(true);
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
 
@@ -140,6 +140,8 @@ const Adyen = ({
   };
 
   const mountStandardDropIn = adyenCheckout => {
+    const { adyenConfiguration } = publisherConfig;
+
     if (standardPaymentMethodsRef?.current) {
       const dropin = adyenCheckout.create('dropin', {
         onSelect,
@@ -186,6 +188,8 @@ const Adyen = ({
     },
     type
   ) => {
+    const { adyenConfiguration } = publisherConfig;
+
     const amountObj = {
       amount,
       countryCode
@@ -289,6 +293,7 @@ const Adyen = ({
     const adyenCheckout = await AdyenCheckout(configuration);
     if (type === 'bank') {
       mountBankDropIn(adyenCheckout);
+      setIsLoading(false);
       return;
     }
     mountStandardDropIn(adyenCheckout);
@@ -306,8 +311,24 @@ const Adyen = ({
   };
 
   const generateDropIns = () => {
+    const { paymentMethods } = publisherConfig;
+
     if (totalPrice === 0) {
-      Promise.all([createSession('standard'), createSession('bank')]); // TODO: if it's not a 0 payment - should we create one Dropin only?
+      const shouldCreateBankPaymentSession = paymentMethods.some(
+        ({ methodName }) => bankPaymentMethods.includes(methodName)
+      );
+
+      const shouldCreateStandardPaymentSession = paymentMethods.some(
+        ({ methodName }) => !bankPaymentMethods.includes(methodName)
+      );
+
+      if (shouldCreateStandardPaymentSession) {
+        createSession('standard');
+      }
+
+      if (shouldCreateBankPaymentSession) {
+        createSession('bank');
+      }
     } else {
       createSession();
     }
