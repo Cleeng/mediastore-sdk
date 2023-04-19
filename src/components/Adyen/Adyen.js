@@ -6,6 +6,7 @@ import labeling from 'containers/labeling';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
 import useScript from 'util/useScriptHook';
+import { getData } from 'util/appConfigHelper';
 import { useSelector } from 'react-redux';
 import Checkbox from 'components/Checkbox';
 import AdyenStyled from './AdyenStyled';
@@ -18,9 +19,8 @@ import {
   getGooglePayEnv
 } from './util/getAdyenConfig';
 import defaultAdyenTranslations from './util/defaultAdyenTranslations';
-import { zeroPaymentNotSupportedMethods } from 'util/paymentMethodHelper';
 
-const bankPaymentMethods = ['ideal', 'directEbanking', 'bcmc_mobile'];
+const bankPaymentMethods = ['ideal', 'sofort', 'directEbanking', 'bcmc_mobile'];
 
 const Adyen = ({
   onSubmit,
@@ -34,7 +34,10 @@ const Adyen = ({
   const { discount, totalPrice, offerId } = useSelector(
     state => state.order.order
   );
-  const { adyenConfiguration } = useSelector(state => state.publisherConfig);
+  const {
+    adyenConfiguration,
+    paymentMethods: publisherPaymentMethods
+  } = useSelector(state => state.publisherConfig);
   const [isLoading, setIsLoading] = useState(true);
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
 
@@ -279,13 +282,18 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.ideal
         },
         bcmc: {
-          ...adyenConfiguration?.paymentMethodsConfiguration?.bancontactCard
+          ...adyenConfiguration?.paymentMethodsConfiguration?.bancontactCard,
+          ...(isMyAccount && {
+            hasHolderName: true
+          })
         }
       }
     };
+
     const adyenCheckout = await AdyenCheckout(configuration);
     if (type === 'zeroPaymentNotSupported') {
       mountBankDropIn(adyenCheckout);
+      setIsLoading(false);
       return;
     }
     mountStandardDropIn(adyenCheckout);
@@ -304,31 +312,33 @@ const Adyen = ({
   };
 
   const generateDropIns = () => {
-    const availablePaymentMethods = JSON.parse(
-      getData('CLEENG_AVAILABLE_PM') || '[]'
-    );
-
-    const shouldCreateZeroPaymentSession = availablePaymentMethods.some(
-      method => zeroPaymentNotSupportedMethods.includes(method)
-    );
-
-    const shouldCreateNotZeroPaymentSession = availablePaymentMethods.some(
-      method => !zeroPaymentNotSupportedMethods.includes(method)
-    );
-
     if (totalPrice === 0) {
-      if (shouldCreateZeroPaymentSession) {
-        createSession('zeroPaymentSupported');
+      const configPaymentMethods = JSON.parse(
+        getData('CLEENG_AVAILABLE_PM') || '[]'
+      );
+
+      const availablePaymentMethods = configPaymentMethods.length
+        ? publisherPaymentMethods.filter(({ methodName }) =>
+            configPaymentMethods.includes(methodName)
+          )
+        : publisherPaymentMethods;
+
+      // check it
+      const shouldCreateBankPaymentSession = availablePaymentMethods.some(
+        ({ methodName }) => bankPaymentMethods.includes(methodName)
+      );
+
+      const shouldCreateStandardPaymentSession = availablePaymentMethods.some(
+        ({ methodName }) => !bankPaymentMethods.includes(methodName)
+      );
+
+      if (shouldCreateStandardPaymentSession) {
+        createSession('standard');
       }
 
-      if (shouldCreateNotZeroPaymentSession) {
-        createSession('zeroPaymentNotSupported');
+      if (shouldCreateBankPaymentSession) {
+        createSession('bank');
       }
-
-      // Promise.all([
-      //   createSession('zeroPaymentSupported'),
-      //   createSession('zeroPaymentNotSupported')
-      // ]); TODO: if it's not a 0 payment - should we create one Dropin only?
     } else {
       createSession();
     }

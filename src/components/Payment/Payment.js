@@ -221,15 +221,14 @@ const Payment = ({ t, onPaymentComplete }) => {
       });
   };
 
-  const availablePaymentMethods = JSON.parse(
+  const configPaymentMethods = JSON.parse(
     getData('CLEENG_AVAILABLE_PM') || '[]'
   );
 
   const isPayPalAvailable =
-    !availablePaymentMethods.length ||
-    availablePaymentMethods.includes('paypal');
+    !configPaymentMethods.length || configPaymentMethods.includes('paypal');
 
-  const onlyPayPal = isPayPalAvailable && availablePaymentMethods.length === 1;
+  const onlyPayPal = isPayPalAvailable && configPaymentMethods.length === 1;
 
   const shouldShowPayPal = isPayPalAvailable
     ? shouldShowGatewayComponent('paypal', paymentMethods)
