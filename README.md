@@ -811,7 +811,7 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       buttonColor: 'black', // The color of button to be displayed on the payment form. Possible values:
       // 'black' - Use on white or light-color backgrounds that provide sufficient contrast. Don’t use on black or dark backgrounds.
       // 'white' - Use on dark-color backgrounds that provide sufficient contrast.
-      // 'white-outline' - Use the white button with black outline on white or very light backgrounds that don’t provide sufficient contrast for a plain white button. Don’t place this button on dark or saturated color backgrounds. Use the white button instead.
+      // 'white-with-line' - Use the white button with black outline on white or very light backgrounds that don’t provide sufficient contrast for a plain white button. Don’t place this button on dark or saturated color backgrounds. Use the white button instead.
       buttonType: 'plain' // The type of button to fit best with the terminology and flow of your purchase or payment experience.
       // The default value is 'plain' which displays basic "Apple Pay" logo button.
       // 'buy': 'buy with Apple Pay'
