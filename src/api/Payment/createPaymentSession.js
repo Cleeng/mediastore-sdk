@@ -8,11 +8,9 @@ const createPaymentSession = async (isMyAccount = false, type) => {
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
 
-  // const availablePaymentMethods = JSON.parse(
-  //   getData('CLEENG_AVAILABLE_PM') || '[]'
-  // );
-
-  // console.log(availablePaymentMethods);
+  const availablePaymentMethods = JSON.parse(
+    getData('CLEENG_AVAILABLE_PM') || '[]'
+  );
 
   const url = `${API_URL}/connectors/adyen/sessions`;
 
@@ -22,13 +20,13 @@ const createPaymentSession = async (isMyAccount = false, type) => {
       body: isMyAccount
         ? JSON.stringify({
             returnUrl: generateReturnUrl({ isMyAccount: true }),
-            filterPaymentMethodsByType: type
-            // filterPaymentMethods: availablePaymentMethods,
+            filterPaymentMethodsByType: type,
+            filterPaymentMethods: availablePaymentMethods
           })
         : JSON.stringify({
             orderId,
             filterPaymentMethodsByType: type,
-            // filterPaymentMethods: availablePaymentMethods,
+            filterPaymentMethods: availablePaymentMethods,
             returnUrl: generateReturnUrl({
               queryParams: { orderId }
             })

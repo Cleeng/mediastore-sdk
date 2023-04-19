@@ -303,7 +303,10 @@ const Adyen = ({
 
   const generateDropIns = () => {
     if (totalPrice === 0) {
-      Promise.all([createSession('standard'), createSession('bank')]); // TODO: if it's not a 0 payment - should we create one Dropin only?
+      Promise.all([
+        createSession('zeroPaymentSupported'),
+        createSession('zeroPaymentNotSupported')
+      ]); // TODO: if it's not a 0 payment - should we create one Dropin only?
     } else {
       createSession();
     }
