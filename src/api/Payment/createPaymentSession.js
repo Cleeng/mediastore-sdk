@@ -9,11 +9,11 @@ const createPaymentSession = async (isMyAccount = false, type) => {
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
 
-  let availablePaymentMethods = JSON.parse(
+  const availablePaymentMethods = JSON.parse(
     getData('CLEENG_AVAILABLE_PM') || '[]'
   );
 
-  //concept ifs with filtering, maybe handle it when creating sessions - create only one
+  // concept ifs with filtering, maybe handle it when creating sessions - create only one
   // if (type === 'zeroPaymentNotSupported') {
   //   availablePaymentMethods = availablePaymentMethods.filter(method =>
   //     zeroPaymentNotSupportedMethods.includes(method)
