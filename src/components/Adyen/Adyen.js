@@ -155,7 +155,7 @@ const Adyen = ({
       });
       dropin.mount(standardPaymentMethodsRef.current);
       setStandardDropInInstance(dropin);
-      getDropIn(dropin, 'standard');
+      getDropIn(dropin, 'zeroPaymentSupported');
     }
   };
 
@@ -168,7 +168,7 @@ const Adyen = ({
       });
       dropin.mount(bankPaymentMethodsRef.current);
       setBankDropInInstance(dropin);
-      getDropIn(dropin, 'bank');
+      getDropIn(dropin, 'zeroPaymentNotSupported');
     }
   };
 
@@ -333,11 +333,11 @@ const Adyen = ({
       );
 
       if (shouldCreateStandardPaymentSession) {
-        createSession('standard');
+        createSession('zeroPaymentSupported');
       }
 
       if (shouldCreateBankPaymentSession) {
-        createSession('bank');
+        createSession('zeroPaymentNotSupported');
       }
     } else {
       createSession();
@@ -379,13 +379,13 @@ const Adyen = ({
       if (standardDropInInstance) {
         standardDropInInstance.unmount();
         setStandardDropInInstance(null);
-        getDropIn(null, 'standard');
+        getDropIn(null, 'zeroPaymentSupported');
       }
 
       if (bankDropInInstance) {
         bankDropInInstance.unmount();
         setBankDropInInstance(null);
-        getDropIn(null, 'bank');
+        getDropIn(null, 'zeroPaymentNotSupported');
       }
       setIsLoading(true);
       generateDropIns();
