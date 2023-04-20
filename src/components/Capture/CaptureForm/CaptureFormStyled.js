@@ -1,11 +1,16 @@
 /* eslint-disable import/prefer-default-export */
 import styled, { css } from 'styled-components';
+import { media } from 'styles/BreakPoints';
 import { ErrorColor } from 'styles/variables';
 
 export const CaptureFormStyled = styled.form``;
 
 export const CaptureRowStyled = styled.div`
   display: flex;
+
+  ${media.small`
+    display: block;
+  `}
 `;
 
 export const CaptureGroupStyled = styled.div``;

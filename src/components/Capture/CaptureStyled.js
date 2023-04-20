@@ -23,6 +23,10 @@ export const CaptureContentStyled = styled.div`
 
   text-align: center;
 
+  ${media.medium`
+    padding-inline: 5%;
+  `}
+
   ${media.small`
     width: 80%;
   `}
