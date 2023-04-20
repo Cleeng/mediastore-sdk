@@ -2,6 +2,7 @@ import { ReactComponent as CardLogo } from 'assets/images/paymentMethods/card.sv
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PPicon.svg';
 import { ReactComponent as ApplePayLogo } from 'assets/images/paymentMethods/applePay.svg';
 import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/googlepay.svg';
+import { getData } from 'util/appConfigHelper';
 
 export const supportedPaymentMethods = [
   'card',
@@ -58,3 +59,30 @@ export const validatePaymentMethods = (
 
 export const shouldShowGatewayComponent = (gateway, paymentMethods) =>
   !!paymentMethods.find(({ paymentGateway }) => paymentGateway === gateway);
+
+export const getPayPalInfo = paymentMethods => {
+  const configPaymentMethods = JSON.parse(
+    getData('CLEENG_AVAILABLE_PM') || '[]'
+  );
+
+  const isPayPalInPublisherConfig = shouldShowGatewayComponent(
+    'paypal',
+    paymentMethods
+  );
+
+  const isPayPalInClientConfig = configPaymentMethods.includes('paypal');
+  const onlyPayPalInClientConfig =
+    isPayPalInClientConfig && configPaymentMethods.length === 1;
+
+  const shouldShowPayPal =
+    isPayPalInPublisherConfig &&
+    (!configPaymentMethods.length || isPayPalInClientConfig);
+
+  const onlyPayPalNotAvailable = !shouldShowPayPal && onlyPayPalInClientConfig;
+
+  return {
+    onlyPayPalInClientConfig,
+    onlyPayPalNotAvailable,
+    shouldShowPayPal
+  };
+};

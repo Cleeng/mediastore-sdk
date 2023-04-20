@@ -26,6 +26,7 @@ const Adyen = ({
   onSubmit,
   isMyAccount,
   selectPaymentMethod,
+  setGeneralError,
   isPayPalAvailable,
   getDropIn,
   onAdditionalDetails,
@@ -312,33 +313,40 @@ const Adyen = ({
   };
 
   const generateDropIns = () => {
+    const configPaymentMethods = JSON.parse(
+      getData('CLEENG_AVAILABLE_PM') || '[]'
+    );
+
+    // common part between publisher and config payment methods
+    // prevents creating session when PM is in client's config but not configured by publisher
+    const availablePaymentMethods = configPaymentMethods.length
+      ? publisherPaymentMethods.filter(({ methodName }) =>
+          configPaymentMethods.includes(methodName)
+        )
+      : publisherPaymentMethods;
+
+    // when clients config has only methods not supported by publisher
+    if (!availablePaymentMethods.length) {
+      // use function below to handle case when session returns error -
+      // e.g publisher has only iDeal but you are not using VPN
+      setGeneralError(t('Payment methods not available'));
+      setIsLoading(false);
+      return;
+    }
+
     if (totalPrice === 0) {
-      const configPaymentMethods = JSON.parse(
-        getData('CLEENG_AVAILABLE_PM') || '[]'
-      );
-
-      // common part between publisher and config payment methods
-      // prevents creating bank session when it's in client's config but not configured by publisher
-      const availablePaymentMethods = configPaymentMethods.length
-        ? publisherPaymentMethods.filter(({ methodName }) =>
-            configPaymentMethods.includes(methodName)
-          )
-        : publisherPaymentMethods;
-
       const shouldCreateBankPaymentSession = availablePaymentMethods.some(
         ({ methodName }) => bankPaymentMethods.includes(methodName)
       );
+      if (shouldCreateBankPaymentSession) {
+        createSession('zeroPaymentNotSupported');
+      }
 
       const shouldCreateStandardPaymentSession = availablePaymentMethods.some(
         ({ methodName }) => !bankPaymentMethods.includes(methodName)
       );
-
       if (shouldCreateStandardPaymentSession) {
         createSession('zeroPaymentSupported');
-      }
-
-      if (shouldCreateBankPaymentSession) {
-        createSession('zeroPaymentNotSupported');
       }
     } else {
       createSession();
@@ -439,11 +447,13 @@ Adyen.propTypes = {
   isPayPalAvailable: PropTypes.bool.isRequired,
   getDropIn: PropTypes.func.isRequired,
   onAdditionalDetails: PropTypes.func.isRequired,
+  setGeneralError: PropTypes.func,
   t: PropTypes.func
 };
 
 Adyen.defaultProps = {
   isMyAccount: false,
+  setGeneralError: k => k,
   t: k => k
 };
 
