@@ -240,7 +240,9 @@ const Payment = ({ t, onPaymentComplete }) => {
       });
   };
 
-  const shouldShowAdyen = payPalData?.onlyPayPalInClientConfig
+  const { onlyPayPalInClientConfig } = getPayPalInfo(paymentMethods);
+
+  const shouldShowAdyen = onlyPayPalInClientConfig
     ? false
     : shouldShowGatewayComponent('adyen', paymentMethods);
 
