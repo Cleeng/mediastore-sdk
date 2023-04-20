@@ -55,7 +55,6 @@ const Payment = ({ t, onPaymentComplete }) => {
     false
   );
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
-  const [payPalData, setPayPalData] = useState(null);
 
   const dispatch = useDispatch();
 
@@ -104,20 +103,10 @@ const Payment = ({ t, onPaymentComplete }) => {
 
     dispatch(updatePaymentMethods(validMethodsFromResponse));
 
-    const {
-      onlyPayPalInClientConfig,
-      onlyPayPalNotAvailable,
-      shouldShowPayPal
-    } = getPayPalInfo(validMethodsFromResponse);
-
-    setPayPalData({
-      onlyPayPalInClientConfig,
-      onlyPayPalNotAvailable,
-      shouldShowPayPal
-    });
+    const { onlyPayPalNotAvailable } = getPayPalInfo(validMethodsFromResponse);
 
     if (onlyPayPalNotAvailable) {
-      setGeneralError(t('PayPal if not defined'));
+      setGeneralError(t('PayPal is not defined'));
       return;
     }
 
@@ -240,7 +229,11 @@ const Payment = ({ t, onPaymentComplete }) => {
       });
   };
 
-  const { onlyPayPalInClientConfig } = getPayPalInfo(paymentMethods);
+  const {
+    onlyPayPalInClientConfig,
+    onlyPayPalNotAvailable,
+    shouldShowPayPal
+  } = getPayPalInfo(paymentMethods);
 
   const shouldShowAdyen = onlyPayPalInClientConfig
     ? false
@@ -249,7 +242,7 @@ const Payment = ({ t, onPaymentComplete }) => {
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!standardDropInInstance || !!bankDropInInstance : true;
 
-  if (!paymentMethods.length || payPalData?.onlyPayPalNotAvailable) {
+  if (!paymentMethods.length || onlyPayPalNotAvailable) {
     return (
       <PaymentStyled>
         <SectionHeader marginTop="25px" center>
@@ -299,12 +292,12 @@ const Payment = ({ t, onPaymentComplete }) => {
             onSubmit={onAdyenSubmit}
             selectPaymentMethod={selectPaymentMethodHandler}
             setGeneralError={setGeneralError}
-            isPayPalAvailable={payPalData?.shouldShowPayPal || false}
+            isPayPalAvailable={shouldShowPayPal}
             getDropIn={getDropIn}
             onAdditionalDetails={onAdditionalDetails}
           />
         )}
-        {payPalData?.shouldShowPayPal &&
+        {shouldShowPayPal &&
           showPayPalWhenAdyenIsReady() &&
           !isActionHandlingProcessing && (
             <DropInSection
