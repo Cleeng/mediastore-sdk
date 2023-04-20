@@ -19,7 +19,13 @@ import {
 } from './util/getAdyenConfig';
 import defaultAdyenTranslations from './util/defaultAdyenTranslations';
 
-const bankPaymentMethods = ['ideal', 'sofort', 'directEbanking', 'bcmc_mobile'];
+const bankPaymentMethods = [
+  'ideal',
+  'sofort',
+  'directEbanking',
+  'bcmc_mobile',
+  'bancontact_mobile'
+];
 
 const Adyen = ({
   onSubmit,
