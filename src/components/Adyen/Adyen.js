@@ -63,7 +63,7 @@ const Adyen = ({
 
   const getBankCopy = () => {
     const isFree = totalPrice === 0;
-    const isSubscription = offerId?.charAt(0) === 'S';
+    const isSubscription = offerId?.charAt(0) === 'S' && isMyAccount;
 
     if (isFree && isSubscription) {
       return t(
@@ -319,7 +319,7 @@ const Adyen = ({
   const generateDropIns = () => {
     const { paymentMethods } = publisherConfig;
 
-    if (totalPrice === 0) {
+    if (isMyAccount || totalPrice === 0) {
       const shouldCreateBankPaymentSession = paymentMethods.some(
         ({ methodName }) => bankPaymentMethods.includes(methodName)
       );
