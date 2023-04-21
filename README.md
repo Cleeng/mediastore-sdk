@@ -807,6 +807,19 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'
       autoFocus: true // Automatically move the focus from date field to the CVC field. The focus also moves to the date field when the entered card number reaches the expected length. Default: true
     },
+    googlePay: {
+      buttonColor: 'white', // default: A Google-selected default value. Currently black but it may change over time.
+      // black: A black button suitable for use on white or light backgrounds.
+      // white: A white button suitable for use on colorful backgrounds.
+      buttonType: 'buy', // The type of button you want displayed on your payments form.
+      // For a list of supported properties, refer to https://developers.google.com/pay/api/web/reference/request-objects#ButtonOptions
+      // Default: 'buy'
+      buttonLocale: 'en', // The language on the button. Defaults to the locale set on the current AdyenCheckout instance. Supported locales include en, ar, bg, ca, cs, da, de, el, es, et, fi, fr, hr, id, it, ja, ko, ms, nl, no, pl, pt, ru, sk, sl, sr, sv, th, tr, uk, and zh.
+      buttonSizeMode: 'fill' // Specifies whether the button changes to fill the size of its container, or has a static width and height.
+      // static: Button has a static width and height
+      // fill: Button size changes to fill the size of its container.
+      // Default: 'fill'
+    }
   },
   locale: 'en-US', // The language used in the Drop-in UI. For possible values, see the https://docs.adyen.com/online-payments/web-drop-in/customization#supported-languages,
   translations: {}, // The text displayed in each localization can be customized, allowing you to replace the default text with your own. You can read more about it here https://docs.adyen.com/online-payments/web-drop-in/customization#customizing-a-localization
