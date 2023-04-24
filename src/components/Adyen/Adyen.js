@@ -313,15 +313,15 @@ const Adyen = ({
   };
 
   const generateDropIns = () => {
-    const configPaymentMethods = JSON.parse(
-      getData('CLEENG_AVAILABLE_PM') || '[]'
+    const visibleAdyenPaymentMethods = JSON.parse(
+      getData('CLEENG_VISIBLE_ADYEN_PM') || '[]'
     );
 
     // common part between publisher and config payment methods
     // prevents creating session when PM is in client's config but not configured by publisher
-    const availablePaymentMethods = configPaymentMethods.length
+    const availablePaymentMethods = visibleAdyenPaymentMethods.length
       ? publisherPaymentMethods.filter(({ methodName }) =>
-          configPaymentMethods.includes(methodName)
+          visibleAdyenPaymentMethods.includes(methodName)
         )
       : publisherPaymentMethods;
 

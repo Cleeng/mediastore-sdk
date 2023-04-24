@@ -61,8 +61,8 @@ export const shouldShowGatewayComponent = (gateway, paymentMethods) =>
   !!paymentMethods.find(({ paymentGateway }) => paymentGateway === gateway);
 
 export const getPayPalInfo = paymentMethods => {
-  const configPaymentMethods = JSON.parse(
-    getData('CLEENG_AVAILABLE_PM') || '[]'
+  const visibleAdyenPaymentMethodstMethods = JSON.parse(
+    getData('CLEENG_VISIBLE_ADYEN_PM') || '[]'
   );
 
   const isPayPalInPublisherConfig = shouldShowGatewayComponent(
@@ -70,13 +70,15 @@ export const getPayPalInfo = paymentMethods => {
     paymentMethods
   );
 
-  const isPayPalInClientConfig = configPaymentMethods.includes('paypal');
+  const isPayPalInClientConfig = visibleAdyenPaymentMethodstMethods.includes(
+    'paypal'
+  );
   const onlyPayPalInClientConfig =
-    isPayPalInClientConfig && configPaymentMethods.length === 1;
+    isPayPalInClientConfig && visibleAdyenPaymentMethodstMethods.length === 1;
 
   const shouldShowPayPal =
     isPayPalInPublisherConfig &&
-    (!configPaymentMethods.length || isPayPalInClientConfig);
+    (!visibleAdyenPaymentMethodstMethods.length || isPayPalInClientConfig);
 
   const onlyPayPalNotAvailable = !shouldShowPayPal && onlyPayPalInClientConfig;
 

@@ -152,8 +152,8 @@ export const getTheme = () => {
   return false;
 };
 
-export const setAvailablePaymentMethods = paymentMethods => {
-  setData('CLEENG_AVAILABLE_PM', JSON.stringify(paymentMethods));
+export const setVisibleAdyenPaymentMethods = paymentMethods => {
+  setData('CLEENG_VISIBLE_ADYEN_PM', JSON.stringify(paymentMethods));
   return true;
 };
 
@@ -169,5 +169,5 @@ export default {
   setJWT,
   setRefreshToken,
   setTermsUrl,
-  setAvailablePaymentMethods
+  setVisibleAdyenPaymentMethods
 };
