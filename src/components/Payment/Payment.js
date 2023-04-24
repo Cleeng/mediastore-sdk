@@ -12,9 +12,9 @@ import Auth from 'services/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   validatePaymentMethods,
-  shouldShowGatewayComponent,
-  getPayPalInfo
+  shouldShowGatewayComponent
 } from 'util/paymentMethodHelper';
+import { getData } from 'util/appConfigHelper';
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import { fetchUpdateOrder } from 'redux/orderSlice';
 import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
@@ -102,13 +102,6 @@ const Payment = ({ t, onPaymentComplete }) => {
     }
 
     dispatch(updatePaymentMethods(validMethodsFromResponse));
-
-    const { onlyPayPalNotAvailable } = getPayPalInfo(validMethodsFromResponse);
-
-    if (onlyPayPalNotAvailable) {
-      setGeneralError(t('PayPal is not defined'));
-      return;
-    }
 
     if (!validMethodsFromResponse?.length) {
       setGeneralError(t('Payment methods are not defined'));
@@ -229,20 +222,18 @@ const Payment = ({ t, onPaymentComplete }) => {
       });
   };
 
-  const {
-    onlyPayPalInClientConfig,
-    onlyPayPalNotAvailable,
-    shouldShowPayPal
-  } = getPayPalInfo(paymentMethods);
+  const isPayPalHidden = JSON.parse(getData('CLEENG_PAYPAL_HIDDEN') || false);
 
-  const shouldShowAdyen = onlyPayPalInClientConfig
+  const shouldShowPayPal = isPayPalHidden
     ? false
-    : shouldShowGatewayComponent('adyen', paymentMethods);
+    : shouldShowGatewayComponent('paypal', paymentMethods);
+
+  const shouldShowAdyen = shouldShowGatewayComponent('adyen', paymentMethods);
 
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!standardDropInInstance || !!bankDropInInstance : true;
 
-  if (!paymentMethods.length || onlyPayPalNotAvailable) {
+  if (!paymentMethods.length) {
     return (
       <PaymentStyled>
         <SectionHeader marginTop="25px" center>

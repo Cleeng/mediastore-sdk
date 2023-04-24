@@ -6,7 +6,7 @@ import labeling from 'containers/labeling';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
 import useScript from 'util/useScriptHook';
-import { getData } from 'util/appConfigHelper';
+import { getAvailablePaymentMethods } from 'util/paymentMethodHelper';
 import { useSelector } from 'react-redux';
 import Checkbox from 'components/Checkbox';
 import AdyenStyled from './AdyenStyled';
@@ -313,17 +313,9 @@ const Adyen = ({
   };
 
   const generateDropIns = () => {
-    const visibleAdyenPaymentMethods = JSON.parse(
-      getData('CLEENG_VISIBLE_ADYEN_PM') || '[]'
+    const availablePaymentMethods = getAvailablePaymentMethods(
+      publisherPaymentMethods
     );
-
-    // common part between publisher and config payment methods
-    // prevents creating session when PM is in client's config but not configured by publisher
-    const availablePaymentMethods = visibleAdyenPaymentMethods.length
-      ? publisherPaymentMethods.filter(({ methodName }) =>
-          visibleAdyenPaymentMethods.includes(methodName)
-        )
-      : publisherPaymentMethods;
 
     // when clients config has only methods not supported by publisher
     if (!availablePaymentMethods.length) {

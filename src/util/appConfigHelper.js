@@ -157,6 +157,11 @@ export const setVisibleAdyenPaymentMethods = paymentMethods => {
   return true;
 };
 
+export const setHidePayPal = () => {
+  setData('CLEENG_PAYPAL_HIDDEN', 'true');
+  return true;
+};
+
 export default {
   setPublisher,
   setOffer,

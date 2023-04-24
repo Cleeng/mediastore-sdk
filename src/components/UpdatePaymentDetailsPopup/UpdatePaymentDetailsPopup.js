@@ -18,7 +18,6 @@ import {
   PAYMENT_DETAILS_STEPS
 } from 'redux/popupSlice';
 import {
-  getPayPalInfo,
   shouldShowGatewayComponent,
   validatePaymentMethods
 } from 'util/paymentMethodHelper';
@@ -33,9 +32,9 @@ import eventDispatcher, {
   MSSDK_UPDATE_PAYMENT_DETAILS_FAILED,
   MSSDK_REMOVE_PAYMENT_DETAILS_BUTTON_CLICKED
 } from 'util/eventDispatcher';
+import { getData } from 'util/appConfigHelper';
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import DropInSection from 'components/Payment/DropInSection/DropInSection';
-import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
 import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
 import {
@@ -254,15 +253,13 @@ const UpdatePaymentDetailsPopup = () => {
       });
   };
 
-  const {
-    onlyPayPalInClientConfig,
-    onlyPayPalNotAvailable,
-    shouldShowPayPal
-  } = getPayPalInfo(paymentMethods);
+  const isPayPalHidden = JSON.parse(getData('CLEENG_PAYPAL_HIDDEN') || false);
 
-  const shouldShowAdyen = onlyPayPalInClientConfig
+  const shouldShowPayPal = isPayPalHidden
     ? false
-    : shouldShowGatewayComponent('adyen', paymentMethods);
+    : shouldShowGatewayComponent('paypal', paymentMethods);
+
+  const shouldShowAdyen = shouldShowGatewayComponent('adyen', paymentMethods);
 
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!standardDropInInstance || !!bankDropInInstance : true;
@@ -360,11 +357,6 @@ const UpdatePaymentDetailsPopup = () => {
               getDropIn={getDropIn}
               onAdditionalDetails={onAdditionalDetails}
             />
-          )}
-          {onlyPayPalNotAvailable && (
-            <PaymentErrorStyled>
-              {t('PayPal is not defined')}
-            </PaymentErrorStyled>
           )}
           {shouldShowPayPal &&
             showPayPalWhenAdyenIsReady() &&
