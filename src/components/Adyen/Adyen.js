@@ -6,6 +6,10 @@ import labeling from 'containers/labeling';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
 import useScript from 'util/useScriptHook';
+import {
+  bankPaymentMethods,
+  bankPaymentMethodsMapper
+} from 'util/paymentMethodHelper';
 import { useSelector } from 'react-redux';
 import Checkbox from 'components/Checkbox';
 import AdyenStyled from './AdyenStyled';
@@ -18,14 +22,6 @@ import {
   getGooglePayEnv
 } from './util/getAdyenConfig';
 import defaultAdyenTranslations from './util/defaultAdyenTranslations';
-
-const bankPaymentMethods = [
-  'ideal',
-  'sofort',
-  'directEbanking',
-  'bcmc_mobile',
-  'bancontact_mobile'
-];
 
 const Adyen = ({
   onSubmit,
@@ -136,13 +132,7 @@ const Adyen = ({
   };
 
   const onSelect = async ({ type }) => {
-    const typeMapper = {
-      bcmc_mobile: 'bancontact_mobile',
-      directEbanking: 'sofort',
-      bcmc: 'bancontact_card'
-    };
-
-    selectPaymentMethod(typeMapper[type] || type);
+    selectPaymentMethod(bankPaymentMethodsMapper[type] || type);
   };
 
   const mountStandardDropIn = adyenCheckout => {

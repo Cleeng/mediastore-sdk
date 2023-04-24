@@ -14,6 +14,20 @@ export const supportedPaymentMethods = [
   'bancontact_mobile'
 ];
 
+export const bankPaymentMethods = [
+  'ideal',
+  'sofort', // Sofort name in cleeng-admin
+  'directEbanking', // Sofort name in Adyen
+  'bancontact_mobile', // Bancontact Mobile name in cleeng-admin
+  'bcmc_mobile' // Bancontact Mobile name in Adyen
+];
+
+export const bankPaymentMethodsMapper = {
+  bcmc_mobile: 'bancontact_mobile',
+  directEbanking: 'sofort',
+  bcmc: 'bancontact_card'
+};
+
 export const readablePaymentMethodNames = {
   card: 'Card',
   paypal: 'PayPal',
