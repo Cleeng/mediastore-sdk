@@ -225,7 +225,7 @@ const UpdatePaymentDetailsPopup = () => {
   };
 
   const getDropIn = (drop, type) => {
-    if (type === 'bank') {
+    if (type === 'zeroPaymentSupported') {
       setBankDropInInstance(drop);
     } else {
       setStandardDropInInstance(drop);
