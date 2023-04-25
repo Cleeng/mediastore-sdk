@@ -64,7 +64,7 @@ const Adyen = ({
 
   const getBankCopy = () => {
     const isFree = totalPrice === 0;
-    const isSubscription = offerId?.charAt(0) === 'S';
+    const isSubscription = offerId?.charAt(0) === 'S' && !isMyAccount;
 
     if (isFree && isSubscription) {
       return t(
@@ -312,7 +312,6 @@ const Adyen = ({
       publisherPaymentMethods
     );
 
-    // when clients config has only methods not supported by publisher
     if (!availablePaymentMethods.length) {
       // use function below to handle case when session returns error -
       // e.g publisher has only iDeal but you are not using VPN
