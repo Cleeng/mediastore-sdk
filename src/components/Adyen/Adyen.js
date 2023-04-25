@@ -385,15 +385,12 @@ const Adyen = ({
         getDropIn(null, 'zeroPaymentNotSupported');
       }
       setIsLoading(true);
+
       generateDropIns();
     }
   }, [discount.applied]);
 
   useEffect(() => {
-    if (!selectedPaymentMethod?.methodName || !standardDropInInstance) {
-      return;
-    }
-
     if (selectedPaymentMethod?.methodName === 'paypal') {
       if (standardDropInInstance)
         standardDropInInstance.closeActivePaymentMethod();
