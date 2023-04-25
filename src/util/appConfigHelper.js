@@ -174,5 +174,6 @@ export default {
   setJWT,
   setRefreshToken,
   setTermsUrl,
+  setHidePayPal,
   setVisibleAdyenPaymentMethods
 };
