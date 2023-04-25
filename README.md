@@ -830,7 +830,19 @@ The example Adyen configuration object with described properties is shown below:
       billingAddressRequired: true, // Set to true to collect the shopper's billing address and mark the fields as required. Default: false
       billingAddressAllowedCountries: ['US', 'CA', 'BR', 'PL'], // Specify allowed country codes for the billing address. Default: The Country field dropdown menu shows a list of all countries.
       data: {} // Object that contains placeholder information that you can use to prefill fields.
-    }
+    },
+    googlePay: {
+      buttonColor: 'white', // default: A Google-selected default value. Currently black but it may change over time.
+      // black: A black button suitable for use on white or light backgrounds.
+      // white: A white button suitable for use on colorful backgrounds.
+      buttonType: 'buy', // The type of button you want displayed on your payments form.
+      // For a list of supported properties, refer to https://developers.google.com/pay/api/web/reference/request-objects#ButtonOptions
+      // Default: 'buy'
+      buttonLocale: 'en', // The language on the button. Defaults to the locale set on the current AdyenCheckout instance. Supported locales include en, ar, bg, ca, cs, da, de, el, es, et, fi, fr, hr, id, it, ja, ko, ms, nl, no, pl, pt, ru, sk, sl, sr, sv, th, tr, uk, and zh.
+      buttonSizeMode: 'fill' // Specifies whether the button changes to fill the size of its container, or has a static width and height.
+      // static: Button has a static width and height
+      // fill: Button size changes to fill the size of its container.
+      // Default: 'fill'
   },
   locale: 'en-US', // The language used in the Drop-in UI. For possible values, see the https://docs.adyen.com/online-payments/web-drop-in/customization#supported-languages,
   translations: {}, // The text displayed in each localization can be customized, allowing you to replace the default text with your own. You can read more about it here https://docs.adyen.com/online-payments/web-drop-in/customization#customizing-a-localization
