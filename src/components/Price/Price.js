@@ -18,22 +18,20 @@ const addSpaceAfterNumber = str => {
   return `${str.charAt(0)} ${str.substring(1)}`;
 };
 
-const Price = ({ currency, price, period }) => {
-  return (
-    <WrapperStyled>
-      <InnerWrapper>
-        <CurrencyStyled>{currency}</CurrencyStyled>
-        <PriceStyled>{formatNumber(price)}</PriceStyled>
-        <AdditionalLabelStyled>
-          <Trans i18nKey="price-additional-label"> </Trans>
-        </AdditionalLabelStyled>
-      </InnerWrapper>
-      {period && (
-        <PeriodStyled>/&nbsp;{addSpaceAfterNumber(period)}</PeriodStyled>
-      )}
-    </WrapperStyled>
-  );
-};
+const Price = ({ currency, price, period }) => (
+  <WrapperStyled>
+    <InnerWrapper>
+      <CurrencyStyled>{currency}</CurrencyStyled>
+      <PriceStyled>{formatNumber(price)}</PriceStyled>
+      <AdditionalLabelStyled>
+        <Trans i18nKey="price-additional-label"> </Trans>
+      </AdditionalLabelStyled>
+    </InnerWrapper>
+    {period && (
+      <PeriodStyled>/&nbsp;{addSpaceAfterNumber(period)}</PeriodStyled>
+    )}
+  </WrapperStyled>
+);
 
 Price.propTypes = {
   currency: PropTypes.string,
