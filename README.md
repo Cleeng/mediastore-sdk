@@ -843,8 +843,8 @@ The example Adyen configuration object with described properties is shown below:
       // static: Button has a static width and height
       // fill: Button size changes to fill the size of its container.
       // Default: 'fill'
-    },
-  }
+    }
+  },
   locale: 'en-US', // The language used in the Drop-in UI. For possible values, see the https://docs.adyen.com/online-payments/web-drop-in/customization#supported-languages,
   translations: {}, // The text displayed in each localization can be customized, allowing you to replace the default text with your own. You can read more about it here https://docs.adyen.com/online-payments/web-drop-in/customization#customizing-a-localization
   openFirstPaymentMethod: true // When enabled, Drop-in opens the first payment method automatically on page load. Default: (screen < 991px) false / (screen > 991px) true.
