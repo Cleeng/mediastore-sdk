@@ -12,7 +12,8 @@ import Auth from 'services/auth';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   validatePaymentMethods,
-  shouldShowGatewayComponent
+  shouldShowGatewayComponent,
+  getAvailablePaymentMethods
 } from 'util/paymentMethodHelper';
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import { fetchUpdateOrder } from 'redux/orderSlice';
@@ -34,7 +35,11 @@ import { periodMapper } from '../../util';
 import LegalCopy from './LegalCopy/LegalCopy';
 
 const Payment = ({ t, onPaymentComplete }) => {
-  const { paymentMethods } = useSelector(state => state.publisherConfig);
+  const {
+    paymentMethods: publisherPaymentMethods,
+    isPayPalHidden,
+    visiblePaymentMethods
+  } = useSelector(state => state.publisherConfig);
 
   const order = useSelector(state => state.order.order);
   const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
@@ -81,7 +86,7 @@ const Payment = ({ t, onPaymentComplete }) => {
   // payment methods
   const selectPaymentMethodHandler = paymentMethodName => {
     if (selectedPaymentMethod?.methodName === paymentMethodName) return;
-    const paymentMethodObj = paymentMethods.find(
+    const paymentMethodObj = publisherPaymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
     dispatch(setSelectedPaymentMethod(paymentMethodObj));
@@ -101,17 +106,18 @@ const Payment = ({ t, onPaymentComplete }) => {
     }
 
     dispatch(updatePaymentMethods(validMethodsFromResponse));
+
     if (!validMethodsFromResponse?.length) {
       setGeneralError(t('Payment methods are not defined'));
     }
   };
 
   useEffect(() => {
-    if (paymentMethods.length === 1) {
-      const [paymentMethod] = paymentMethods;
+    if (publisherPaymentMethods.length === 1) {
+      const [paymentMethod] = publisherPaymentMethods;
       selectPaymentMethodHandler(paymentMethod.methodName);
     }
-  }, [paymentMethods]);
+  }, [publisherPaymentMethods]);
 
   const handlePayPalError = () => {
     const { search } = window.location;
@@ -194,7 +200,7 @@ const Payment = ({ t, onPaymentComplete }) => {
   };
 
   const getDropIn = (drop, type) => {
-    if (type === 'bank') {
+    if (type === 'zeroPaymentNotSupported') {
       setBankDropInInstance(drop);
     } else {
       setStandardDropInInstance(drop);
@@ -220,13 +226,24 @@ const Payment = ({ t, onPaymentComplete }) => {
       });
   };
 
-  const shouldShowAdyen = shouldShowGatewayComponent('adyen', paymentMethods);
-  const shouldShowPayPal = shouldShowGatewayComponent('paypal', paymentMethods);
+  const shouldShowPayPal = isPayPalHidden
+    ? false
+    : shouldShowGatewayComponent('paypal', publisherPaymentMethods);
+
+  const availablePaymentMethods = getAvailablePaymentMethods(
+    publisherPaymentMethods,
+    visiblePaymentMethods
+  );
+
+  const shouldShowAdyen = shouldShowGatewayComponent(
+    'adyen',
+    availablePaymentMethods
+  );
 
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!standardDropInInstance || !!bankDropInInstance : true;
 
-  if (!paymentMethods.length) {
+  if (!publisherPaymentMethods.length) {
     return (
       <PaymentStyled>
         <SectionHeader marginTop="25px" center>

@@ -19,7 +19,8 @@ import {
 } from 'redux/popupSlice';
 import {
   shouldShowGatewayComponent,
-  validatePaymentMethods
+  validatePaymentMethods,
+  STANDARD_PAYMENT_METHODS
 } from 'util/paymentMethodHelper';
 import { ReactComponent as AmazonIcon } from 'assets/images/paymentMethods/amazon_color.svg';
 import { ReactComponent as AppleIcon } from 'assets/images/paymentMethods/apple_color.svg';
@@ -77,7 +78,9 @@ const UpdatePaymentDetailsPopup = () => {
   const { t } = useTranslation();
   const [standardDropInInstance, setStandardDropInInstance] = useState(null);
   const [bankDropInInstance, setBankDropInInstance] = useState(null);
-  const { paymentMethods } = useSelector(state => state.publisherConfig);
+  const { paymentMethods, isPayPalHidden } = useSelector(
+    state => state.publisherConfig
+  );
   const { paymentDetails } = useSelector(state => state.paymentDetails);
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
   const { loading: isFinalizeAddPaymentDetailsLoading } = useSelector(
@@ -224,7 +227,7 @@ const UpdatePaymentDetailsPopup = () => {
   };
 
   const getDropIn = (drop, type) => {
-    if (type === 'bank') {
+    if (type === STANDARD_PAYMENT_METHODS) {
       setBankDropInInstance(drop);
     } else {
       setStandardDropInInstance(drop);
@@ -252,8 +255,11 @@ const UpdatePaymentDetailsPopup = () => {
       });
   };
 
+  const shouldShowPayPal = isPayPalHidden
+    ? false
+    : shouldShowGatewayComponent('paypal', paymentMethods);
+
   const shouldShowAdyen = shouldShowGatewayComponent('adyen', paymentMethods);
-  const shouldShowPayPal = shouldShowGatewayComponent('paypal', paymentMethods);
 
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!standardDropInInstance || !!bankDropInInstance : true;
