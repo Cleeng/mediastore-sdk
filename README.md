@@ -94,6 +94,9 @@ Config.setMyAccountUrl("https://client-website.com/my-account"); // needed check
 Config.setOfferSelectionUrl("https://client-website.com/plans"); // recommended for info page when the customer has no active plan
 
 Config.setTheme(); // more informations in the [Styling] section.
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of payment methods that will be presented in checkout
+// available options: 'applepay', 'bancontact_card' 'bancontact_mobile', 'card', 'googlepay', 'ideal', 'sofort'
+Config.setHidePayPal(); // option to hide PayPal, by default PayPal will be visible when configured
 
 // Auth methods
 Auth.isLogged(); // returns true if the user is authenticated (valid JWT or existing refresh token in local storage)
