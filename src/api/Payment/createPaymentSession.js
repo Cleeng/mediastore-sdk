@@ -10,33 +10,29 @@ const createPaymentSession = async (isMyAccount = false, type) => {
 
   const url = `${API_URL}/connectors/adyen/sessions`;
 
-  try {
-    const res = await fetchWithJWT(url, {
-      method: 'POST',
-      body: isMyAccount
-        ? JSON.stringify({
-            returnUrl: generateReturnUrl({ isMyAccount: true }),
-            filterPaymentMethods: type
+  const res = await fetchWithJWT(url, {
+    method: 'POST',
+    body: isMyAccount
+      ? JSON.stringify({
+          returnUrl: generateReturnUrl({ isMyAccount: true }),
+          filterPaymentMethods: type
+        })
+      : JSON.stringify({
+          orderId,
+          filterPaymentMethods: type,
+          returnUrl: generateReturnUrl({
+            queryParams: { orderId }
           })
-        : JSON.stringify({
-            orderId,
-            filterPaymentMethods: type,
-            returnUrl: generateReturnUrl({
-              queryParams: { orderId }
-            })
-          })
-    });
+        })
+  });
 
-    const { responseData, errors } = await res.json();
+  const { responseData, errors } = await res.json();
 
-    if (!res.ok) {
-      throw new Error(errors[0]);
-    }
-
-    return responseData;
-  } catch (e) {
-    return e;
+  if (!res.ok) {
+    throw new Error(errors[0]);
   }
+
+  return responseData;
 };
 
 export default createPaymentSession;
