@@ -51,7 +51,13 @@ const Adyen = ({
   const bankPaymentMethodsRef = useRef(null);
   const [standardDropInInstance, setStandardDropInInstance] = useState(null);
   const [bankDropInInstance, setBankDropInInstance] = useState(null);
-  const [sessionError, setSessionError] = useState(null);
+
+  const [standardPaymentSession, setStandardPaymentSession] = useState(false);
+
+  const [standardSessionError, setStandardSessionError] = useState(null);
+  const [bankSessionError, setBankSessionError] = useState(null);
+
+  const [noPaymentMethods, setNoPaymentMethods] = useState(false);
 
   const [
     shouldFadeOutStandardDropIn,
@@ -312,36 +318,42 @@ const Adyen = ({
         createDropInInstance(response, paymentMethodsType);
       }
     } catch (err) {
-      setSessionError(err.message);
+      if (paymentMethodsType === BANK_PAYMENT_METHODS) {
+        setBankSessionError(err.message);
+      } else {
+        setStandardSessionError(err.message);
+      }
       setIsLoading(false);
     }
   };
 
   const generateDropIns = () => {
     const availablePaymentMethods = getAvailablePaymentMethods(
-      publisherPaymentMethods
+      publisherPaymentMethods,
+      visiblePaymentMethods
     );
 
     if (!availablePaymentMethods.length) {
-      setSessionError(t('Payment methods are not available'));
+      setNoPaymentMethods(true);
       setIsLoading(false);
       return;
     }
 
     if (isMyAccount || totalPrice === 0) {
-      const shouldCreateBankPaymentSession = availablePaymentMethods.some(
-        ({ methodName }) => bankPaymentMethods.includes(methodName)
-      );
-      if (shouldCreateBankPaymentSession) {
-        createSession(BANK_PAYMENT_METHODS);
-      }
-
       const shouldCreateStandardPaymentSession = availablePaymentMethods.some(
         ({ methodName }) => !bankPaymentMethods.includes(methodName)
       );
 
       if (shouldCreateStandardPaymentSession) {
+        setStandardPaymentSession(true);
         createSession(STANDARD_PAYMENT_METHODS);
+      }
+
+      const shouldCreateBankPaymentSession = availablePaymentMethods.some(
+        ({ methodName }) => bankPaymentMethods.includes(methodName)
+      );
+      if (shouldCreateBankPaymentSession) {
+        createSession(BANK_PAYMENT_METHODS);
       }
     } else {
       createSession();
@@ -405,8 +417,20 @@ const Adyen = ({
     }
   }, [selectedPaymentMethod]);
 
-  if (sessionError) {
-    return <PaymentErrorStyled>{sessionError}</PaymentErrorStyled>;
+  if (noPaymentMethods) {
+    return (
+      <PaymentErrorStyled>
+        {t('Payment methods are not available')}
+      </PaymentErrorStyled>
+    );
+  }
+
+  const shouldShowSessionError =
+    (standardSessionError && bankSessionError) ||
+    (bankSessionError && !standardPaymentSession);
+
+  if (shouldShowSessionError && !isPayPalAvailable) {
+    return <PaymentErrorStyled>{bankSessionError}</PaymentErrorStyled>;
   }
 
   return (

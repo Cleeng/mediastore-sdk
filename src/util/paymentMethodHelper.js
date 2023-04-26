@@ -2,7 +2,6 @@ import { ReactComponent as CardLogo } from 'assets/images/paymentMethods/card.sv
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PPicon.svg';
 import { ReactComponent as ApplePayLogo } from 'assets/images/paymentMethods/applePay.svg';
 import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/googlepay.svg';
-import { getData } from 'util/appConfigHelper';
 
 export const supportedPaymentMethods = [
   'card',
@@ -79,14 +78,13 @@ export const shouldShowGatewayComponent = (gateway, paymentMethods) =>
 
 // returns common part between methods set in admin and those set
 // by Config.setVisibleAdyenPaymentMethods()
-export const getAvailablePaymentMethods = publisherPaymentMethods => {
-  const visibleAdyenPaymentMethods = JSON.parse(
-    getData('CLEENG_VISIBLE_ADYEN_PM') || '[]'
-  );
-
-  const availablePaymentMethods = visibleAdyenPaymentMethods.length
+export const getAvailablePaymentMethods = (
+  publisherPaymentMethods,
+  visiblePaymentMethods
+) => {
+  const availablePaymentMethods = visiblePaymentMethods.length
     ? publisherPaymentMethods.filter(({ methodName }) =>
-        visibleAdyenPaymentMethods.includes(methodName)
+        visiblePaymentMethods.includes(methodName)
       )
     : publisherPaymentMethods;
 
