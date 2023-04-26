@@ -19,7 +19,8 @@ import {
 } from 'redux/popupSlice';
 import {
   shouldShowGatewayComponent,
-  validatePaymentMethods
+  validatePaymentMethods,
+  STANDARD_PAYMENT_METHODS
 } from 'util/paymentMethodHelper';
 import { ReactComponent as AmazonIcon } from 'assets/images/paymentMethods/amazon_color.svg';
 import { ReactComponent as AppleIcon } from 'assets/images/paymentMethods/apple_color.svg';
@@ -32,7 +33,6 @@ import eventDispatcher, {
   MSSDK_UPDATE_PAYMENT_DETAILS_FAILED,
   MSSDK_REMOVE_PAYMENT_DETAILS_BUTTON_CLICKED
 } from 'util/eventDispatcher';
-import { getData } from 'util/appConfigHelper';
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import DropInSection from 'components/Payment/DropInSection/DropInSection';
 import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
@@ -78,7 +78,9 @@ const UpdatePaymentDetailsPopup = () => {
   const { t } = useTranslation();
   const [standardDropInInstance, setStandardDropInInstance] = useState(null);
   const [bankDropInInstance, setBankDropInInstance] = useState(null);
-  const { paymentMethods } = useSelector(state => state.publisherConfig);
+  const { paymentMethods, isPayPalHidden } = useSelector(
+    state => state.publisherConfig
+  );
   const { paymentDetails } = useSelector(state => state.paymentDetails);
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
   const { loading: isFinalizeAddPaymentDetailsLoading } = useSelector(
@@ -225,7 +227,7 @@ const UpdatePaymentDetailsPopup = () => {
   };
 
   const getDropIn = (drop, type) => {
-    if (type === 'zeroPaymentSupported') {
+    if (type === STANDARD_PAYMENT_METHODS) {
       setBankDropInInstance(drop);
     } else {
       setStandardDropInInstance(drop);
@@ -252,8 +254,6 @@ const UpdatePaymentDetailsPopup = () => {
         dispatch(updatePaymentDetailsPopup({ isLoading: false }));
       });
   };
-
-  const isPayPalHidden = JSON.parse(getData('CLEENG_PAYPAL_HIDDEN') || false);
 
   const shouldShowPayPal = isPayPalHidden
     ? false

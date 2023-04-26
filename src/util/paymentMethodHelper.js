@@ -29,6 +29,9 @@ export const bankPaymentMethodsMapper = {
   bcmc: 'bancontact_card'
 };
 
+export const STANDARD_PAYMENT_METHODS = 'zeroPaymentSupported';
+export const BANK_PAYMENT_METHODS = 'zeroPaymentNotSupported';
+
 export const readablePaymentMethodNames = {
   card: 'Card',
   paypal: 'PayPal',

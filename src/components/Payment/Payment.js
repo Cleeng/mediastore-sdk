@@ -14,7 +14,6 @@ import {
   validatePaymentMethods,
   shouldShowGatewayComponent
 } from 'util/paymentMethodHelper';
-import { getData } from 'util/appConfigHelper';
 import { updatePaymentMethods } from 'redux/publisherConfigSlice';
 import { fetchUpdateOrder } from 'redux/orderSlice';
 import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
@@ -35,7 +34,9 @@ import { periodMapper } from '../../util';
 import LegalCopy from './LegalCopy/LegalCopy';
 
 const Payment = ({ t, onPaymentComplete }) => {
-  const { paymentMethods } = useSelector(state => state.publisherConfig);
+  const { paymentMethods, isPayPalHidden } = useSelector(
+    state => state.publisherConfig
+  );
 
   const order = useSelector(state => state.order.order);
   const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
@@ -221,8 +222,6 @@ const Payment = ({ t, onPaymentComplete }) => {
         setGeneralError(t('The payment failed. Please try again.'));
       });
   };
-
-  const isPayPalHidden = JSON.parse(getData('CLEENG_PAYPAL_HIDDEN') || false);
 
   const shouldShowPayPal = isPayPalHidden
     ? false

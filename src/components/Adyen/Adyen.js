@@ -9,7 +9,9 @@ import useScript from 'util/useScriptHook';
 import {
   getAvailablePaymentMethods,
   bankPaymentMethods,
-  bankPaymentMethodsMapper
+  bankPaymentMethodsMapper,
+  STANDARD_PAYMENT_METHODS,
+  BANK_PAYMENT_METHODS
 } from 'util/paymentMethodHelper';
 import { useSelector } from 'react-redux';
 import Checkbox from 'components/Checkbox';
@@ -39,7 +41,8 @@ const Adyen = ({
   );
   const {
     adyenConfiguration,
-    paymentMethods: publisherPaymentMethods
+    paymentMethods: publisherPaymentMethods,
+    visiblePaymentMethods
   } = useSelector(state => state.publisherConfig);
   const [isLoading, setIsLoading] = useState(true);
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
@@ -151,7 +154,7 @@ const Adyen = ({
       });
       dropin.mount(standardPaymentMethodsRef.current);
       setStandardDropInInstance(dropin);
-      getDropIn(dropin, 'zeroPaymentSupported');
+      getDropIn(dropin, STANDARD_PAYMENT_METHODS);
     }
   };
 
@@ -164,7 +167,7 @@ const Adyen = ({
       });
       dropin.mount(bankPaymentMethodsRef.current);
       setBankDropInInstance(dropin);
-      getDropIn(dropin, 'zeroPaymentNotSupported');
+      getDropIn(dropin, BANK_PAYMENT_METHODS);
     }
   };
 
@@ -231,7 +234,7 @@ const Adyen = ({
 
         component.setStatus('loading');
 
-        if (type === 'zeroPaymentNotSupported') {
+        if (type === BANK_PAYMENT_METHODS) {
           setShouldFadeOutStandardDropIn(true);
         } else {
           setShouldFadeOutBankDropIn(true);
@@ -240,7 +243,7 @@ const Adyen = ({
         return onSubmit(state, component);
       },
       onActionHandled: () => {
-        if (type === 'zeroPaymentNotSupported') {
+        if (type === BANK_PAYMENT_METHODS) {
           setShouldHideStandardDropIn(true);
         } else {
           setShouldHideBankDropIn(true);
@@ -287,7 +290,7 @@ const Adyen = ({
     };
 
     const adyenCheckout = await AdyenCheckout(configuration);
-    if (type === 'zeroPaymentNotSupported') {
+    if (type === BANK_PAYMENT_METHODS) {
       mountBankDropIn(adyenCheckout);
       setIsLoading(false);
       return;
@@ -299,7 +302,8 @@ const Adyen = ({
   const createSession = async paymentMethodsType => {
     const { responseData } = await createPaymentSession(
       isMyAccount,
-      paymentMethodsType
+      paymentMethodsType,
+      visiblePaymentMethods
     );
 
     if (responseData?.id) {
@@ -320,12 +324,12 @@ const Adyen = ({
       return;
     }
 
-    if (totalPrice === 0) {
+    if (isMyAccount || totalPrice === 0) {
       const shouldCreateBankPaymentSession = availablePaymentMethods.some(
         ({ methodName }) => bankPaymentMethods.includes(methodName)
       );
       if (shouldCreateBankPaymentSession) {
-        createSession('zeroPaymentNotSupported');
+        createSession(BANK_PAYMENT_METHODS);
       }
 
       const shouldCreateStandardPaymentSession = availablePaymentMethods.some(
@@ -333,7 +337,7 @@ const Adyen = ({
       );
 
       if (shouldCreateStandardPaymentSession) {
-        createSession('zeroPaymentSupported');
+        createSession(STANDARD_PAYMENT_METHODS);
       }
     } else {
       createSession();
@@ -375,13 +379,13 @@ const Adyen = ({
       if (standardDropInInstance) {
         standardDropInInstance.unmount();
         setStandardDropInInstance(null);
-        getDropIn(null, 'zeroPaymentSupported');
+        getDropIn(null, STANDARD_PAYMENT_METHODS);
       }
 
       if (bankDropInInstance) {
         bankDropInInstance.unmount();
         setBankDropInInstance(null);
-        getDropIn(null, 'zeroPaymentNotSupported');
+        getDropIn(null, BANK_PAYMENT_METHODS);
       }
       setIsLoading(true);
 

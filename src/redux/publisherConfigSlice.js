@@ -5,7 +5,9 @@ const initialState = {
   offerId: '',
   paymentMethods: [],
   adyenConfiguration: null,
-  displayGracePeriodError: false
+  displayGracePeriodError: false,
+  isPayPalHidden: false,
+  visiblePaymentMethods: []
 };
 
 export const publisherConfigSlice = createSlice({

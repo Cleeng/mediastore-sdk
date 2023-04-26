@@ -3,14 +3,14 @@ import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import generateReturnUrl from 'util/returnUrlHelper';
 
-const createPaymentSession = async (isMyAccount = false, type) => {
+const createPaymentSession = async (
+  isMyAccount = false,
+  type,
+  visiblePaymentMethods
+) => {
   const API_URL = getApiURL();
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
-
-  const visibleAdyenPaymentMethods = JSON.parse(
-    getData('CLEENG_VISIBLE_ADYEN_PM') || '[]'
-  );
 
   const url = `${API_URL}/connectors/adyen/sessions`;
 
@@ -21,12 +21,12 @@ const createPaymentSession = async (isMyAccount = false, type) => {
         ? JSON.stringify({
             returnUrl: generateReturnUrl({ isMyAccount: true }),
             filterPaymentMethodsByType: type,
-            filterPaymentMethods: visibleAdyenPaymentMethods
+            filterPaymentMethods: visiblePaymentMethods
           })
         : JSON.stringify({
             orderId,
             filterPaymentMethodsByType: type,
-            filterPaymentMethods: visibleAdyenPaymentMethods,
+            filterPaymentMethods: visiblePaymentMethods,
             returnUrl: generateReturnUrl({
               queryParams: { orderId }
             })
