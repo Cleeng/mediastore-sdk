@@ -12,6 +12,7 @@ import {
 } from 'util/paymentMethodHelper';
 import { useSelector } from 'react-redux';
 import Checkbox from 'components/Checkbox';
+import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import AdyenStyled from './AdyenStyled';
 import '@adyen/adyen-web/dist/adyen.css';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
@@ -43,6 +44,7 @@ const Adyen = ({
   const bankPaymentMethodsRef = useRef(null);
   const [standardDropInInstance, setStandardDropInInstance] = useState(null);
   const [bankDropInInstance, setBankDropInInstance] = useState(null);
+  const [sessionError, setSessionError] = useState(null);
 
   const [
     shouldFadeOutStandardDropIn,
@@ -298,12 +300,18 @@ const Adyen = ({
   };
 
   const createSession = async paymentMethodsType => {
-    const { responseData } = await createPaymentSession(
-      isMyAccount,
-      paymentMethodsType
-    );
-    if (responseData?.id) {
-      createDropInInstance(responseData, paymentMethodsType);
+    try {
+      const response = await createPaymentSession(
+        isMyAccount,
+        paymentMethodsType
+      );
+
+      if (response?.id) {
+        createDropInInstance(response, paymentMethodsType);
+      }
+    } catch (err) {
+      setSessionError(err.message);
+      setIsLoading(false);
     }
   };
 
@@ -390,6 +398,10 @@ const Adyen = ({
       if (bankDropInInstance) bankDropInInstance.closeActivePaymentMethod();
     }
   }, [selectedPaymentMethod]);
+
+  if (sessionError) {
+    return <PaymentErrorStyled>{sessionError}</PaymentErrorStyled>;
+  }
 
   return (
     <AdyenStyled isMyAccount isAdditionalPayment={isPayPalAvailable}>
