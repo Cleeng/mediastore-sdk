@@ -15,6 +15,7 @@ import {
 } from 'util/paymentMethodHelper';
 import { useSelector } from 'react-redux';
 import Checkbox from 'components/Checkbox';
+import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import AdyenStyled from './AdyenStyled';
 import '@adyen/adyen-web/dist/adyen.css';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
@@ -30,7 +31,6 @@ const Adyen = ({
   onSubmit,
   isMyAccount,
   selectPaymentMethod,
-  setGeneralError,
   isPayPalAvailable,
   getDropIn,
   onAdditionalDetails,
@@ -51,6 +51,7 @@ const Adyen = ({
   const bankPaymentMethodsRef = useRef(null);
   const [standardDropInInstance, setStandardDropInInstance] = useState(null);
   const [bankDropInInstance, setBankDropInInstance] = useState(null);
+  const [sessionError, setSessionError] = useState(null);
 
   const [
     shouldFadeOutStandardDropIn,
@@ -300,14 +301,19 @@ const Adyen = ({
   };
 
   const createSession = async paymentMethodsType => {
-    const { responseData } = await createPaymentSession(
-      isMyAccount,
-      paymentMethodsType,
-      visiblePaymentMethods
-    );
+    try {
+      const response = await createPaymentSession(
+        isMyAccount,
+        paymentMethodsType,
+        visiblePaymentMethods
+      );
 
-    if (responseData?.id) {
-      createDropInInstance(responseData, paymentMethodsType);
+      if (response?.id) {
+        createDropInInstance(response, paymentMethodsType);
+      }
+    } catch (err) {
+      setSessionError(err.message);
+      setIsLoading(false);
     }
   };
 
@@ -317,9 +323,7 @@ const Adyen = ({
     );
 
     if (!availablePaymentMethods.length) {
-      // use function below to handle case when session returns error -
-      // e.g publisher has only iDeal but you are not using VPN
-      setGeneralError(t('Payment methods not available'));
+      setSessionError(t('Payment methods are not available'));
       setIsLoading(false);
       return;
     }
@@ -401,6 +405,10 @@ const Adyen = ({
     }
   }, [selectedPaymentMethod]);
 
+  if (sessionError) {
+    return <PaymentErrorStyled>{sessionError}</PaymentErrorStyled>;
+  }
+
   return (
     <AdyenStyled isMyAccount isAdditionalPayment={isPayPalAvailable}>
       {isLoading && <Loader />}
@@ -435,13 +443,11 @@ Adyen.propTypes = {
   isPayPalAvailable: PropTypes.bool.isRequired,
   getDropIn: PropTypes.func.isRequired,
   onAdditionalDetails: PropTypes.func.isRequired,
-  setGeneralError: PropTypes.func,
   t: PropTypes.func
 };
 
 Adyen.defaultProps = {
   isMyAccount: false,
-  setGeneralError: k => k,
   t: k => k
 };
 

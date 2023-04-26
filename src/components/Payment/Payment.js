@@ -281,7 +281,6 @@ const Payment = ({ t, onPaymentComplete }) => {
             key={adyenKey}
             onSubmit={onAdyenSubmit}
             selectPaymentMethod={selectPaymentMethodHandler}
-            setGeneralError={setGeneralError}
             isPayPalAvailable={shouldShowPayPal}
             getDropIn={getDropIn}
             onAdditionalDetails={onAdditionalDetails}
