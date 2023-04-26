@@ -240,17 +240,25 @@ const Payment = ({ t, onPaymentComplete }) => {
     availablePaymentMethods
   );
 
+  const noPaymentMethods =
+    !publisherPaymentMethods.length ||
+    (!availablePaymentMethods.length && !shouldShowPayPal);
+
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!standardDropInInstance || !!bankDropInInstance : true;
 
-  if (!publisherPaymentMethods.length) {
+  if (noPaymentMethods) {
     return (
       <PaymentStyled>
         <SectionHeader marginTop="25px" center>
           {t('Purchase using')}
         </SectionHeader>
-        {generalError && (
+        {generalError ? (
           <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
+        ) : (
+          <PaymentErrorStyled>
+            {t('Payment methods not available')}
+          </PaymentErrorStyled>
         )}
       </PaymentStyled>
     );
