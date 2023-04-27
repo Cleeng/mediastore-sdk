@@ -807,6 +807,19 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'
       autoFocus: true // Automatically move the focus from date field to the CVC field. The focus also moves to the date field when the entered card number reaches the expected length. Default: true
     },
+    googlePay: {
+      buttonColor: 'white', // default: A Google-selected default value. Currently black but it may change over time.
+      // black: A black button suitable for use on white or light backgrounds.
+      // white: A white button suitable for use on colorful backgrounds.
+      buttonType: 'buy', // The type of button you want displayed on your payments form.
+      // For a list of supported properties, refer to https://developers.google.com/pay/api/web/reference/request-objects#ButtonOptions
+      // Default: 'buy'
+      buttonLocale: 'en', // The language on the button. Defaults to the locale set on the current AdyenCheckout instance. Supported locales include en, ar, bg, ca, cs, da, de, el, es, et, fi, fr, hr, id, it, ja, ko, ms, nl, no, pl, pt, ru, sk, sl, sr, sv, th, tr, uk, and zh.
+      buttonSizeMode: 'fill' // Specifies whether the button changes to fill the size of its container, or has a static width and height.
+      // static: Button has a static width and height
+      // fill: Button size changes to fill the size of its container.
+      // Default: 'fill'
+    }
     applePay: {
       buttonColor: 'black', // The color of button to be displayed on the payment form. Possible values:
       // 'black' - Use on white or light-color backgrounds that provide sufficient contrast. Don’t use on black or dark backgrounds.
