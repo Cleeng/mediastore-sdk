@@ -20,7 +20,7 @@ import {
 import {
   shouldShowGatewayComponent,
   validatePaymentMethods,
-  STANDARD_PAYMENT_METHODS
+  BANK_PAYMENT_METHODS
 } from 'util/paymentMethodHelper';
 import { ReactComponent as AmazonIcon } from 'assets/images/paymentMethods/amazon_color.svg';
 import { ReactComponent as AppleIcon } from 'assets/images/paymentMethods/apple_color.svg';
@@ -227,7 +227,7 @@ const UpdatePaymentDetailsPopup = () => {
   };
 
   const getDropIn = (drop, type) => {
-    if (type === STANDARD_PAYMENT_METHODS) {
+    if (type === BANK_PAYMENT_METHODS) {
       setBankDropInInstance(drop);
     } else {
       setStandardDropInInstance(drop);
