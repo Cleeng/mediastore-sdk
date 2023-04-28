@@ -2,6 +2,9 @@ import { ReactComponent as CardLogo } from 'assets/images/paymentMethods/card.sv
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PPicon.svg';
 import { ReactComponent as ApplePayLogo } from 'assets/images/paymentMethods/applePay.svg';
 import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/googlepay.svg';
+import { ReactComponent as idealLogo } from 'assets/images/paymentMethods/ideal-small.svg';
+import { ReactComponent as sofortLogo } from 'assets/images/paymentMethods/sofort-small.svg';
+import { ReactComponent as bancontactLogo } from 'assets/images/paymentMethods/bancontact-small.svg';
 
 export const supportedPaymentMethods = [
   'card',
@@ -48,7 +51,11 @@ export const logos = {
   card: CardLogo,
   paypal: PaypalLogo,
   applepay: ApplePayLogo,
-  googlepay: GooglePayLogo
+  googlepay: GooglePayLogo,
+  ideal: idealLogo,
+  sofort: sofortLogo,
+  bancontact_card: bancontactLogo,
+  bancontact_mobile: bancontactLogo
 };
 
 export default logos;
