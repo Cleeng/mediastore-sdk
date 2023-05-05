@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { browserName, browserVersion } from 'react-device-detect';
 
 import Login from 'components/LoginPage';
 import Register from 'components/RegisterPage';
@@ -51,7 +52,9 @@ class Checkout extends Component {
 
   componentDidMount() {
     const { initValues, offerId, adyenConfiguration } = this.props;
-
+    console.log(
+      `browserName: ${browserName}, browserVersion: ${browserVersion}`
+    );
     initValues({
       offerId,
       adyenConfiguration
