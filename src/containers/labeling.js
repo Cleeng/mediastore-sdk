@@ -6,7 +6,6 @@ const customLabeling = () =>
   WrappedComponent => props => {
     const [dataLoaded, setDataLoaded] = useState(false);
 
-    /* eslint-disable class-methods-use-this */
     const setLanguage = async (i18n, language) => {
       if (typeof i18n === 'undefined') return false;
 
