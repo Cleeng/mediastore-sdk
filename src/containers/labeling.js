@@ -10,11 +10,11 @@ export default function customLabeling() {
         this.state = { dataLoaded: false };
       }
 
-      componentDidMount() {
-        this.addTranslations();
+      async componentDidMount() {
+        await this.addTranslations();
       }
 
-      componentDidUpdate() {
+      async componentDidUpdate() {
         const { i18n } = this.props;
         const languageParam = new URLSearchParams(window.location.search).get(
           'lng'
@@ -25,7 +25,7 @@ export default function customLabeling() {
         }
 
         if (i18n && i18n?.language !== languageParam) {
-          this.setLanguage(i18n, languageParam);
+          await this.setLanguage(i18n, languageParam);
         }
       }
 
