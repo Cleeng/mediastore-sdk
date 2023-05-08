@@ -1,6 +1,6 @@
 import React from 'react';
 
-/* eslint-disable react/prop-types  */
+/* eslint-disable react/prop-types */
 export default function customLabeling() {
   // ...and returns another component...
   return WrappedComponent =>
@@ -16,18 +16,21 @@ export default function customLabeling() {
 
       componentDidUpdate() {
         const { i18n } = this.props;
-        const language = new URLSearchParams(window.location.search).get('lng');
+        const languageParam = new URLSearchParams(window.location.search).get(
+          'lng'
+        );
 
-        if (!language) {
+        if (!languageParam) {
           return;
         }
 
-        if (i18n && i18n?.language !== language) {
-          this.setLanguage(i18n, language);
+        if (i18n && i18n?.language !== languageParam) {
+          this.setLanguage(i18n, languageParam);
         }
       }
 
-      setLanguage = async (i18n, language) => {
+      /* eslint-disable class-methods-use-this */
+      async setLanguage(i18n, language) {
         if (typeof i18n === 'undefined') return false;
 
         const BASE_URL = window.location.origin;
@@ -45,18 +48,17 @@ export default function customLabeling() {
         i18n.changeLanguage(language);
 
         return true;
-      };
+      }
 
-      addTranslations = async () => {
+      async addTranslations() {
         const { i18n } = this.props;
-
         const language = i18n?.language || 'en';
 
         await this.setLanguage(i18n, language);
         this.setState({ dataLoaded: true });
 
         return true;
-      };
+      }
 
       render() {
         const { dataLoaded } = this.state;
