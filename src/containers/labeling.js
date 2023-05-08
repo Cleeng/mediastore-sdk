@@ -14,11 +14,24 @@ export default function customLabeling() {
         this.addTranslations();
       }
 
-      async addTranslations() {
-        const BASE_URL = window.location.origin;
+      componentDidUpdate() {
         const { i18n } = this.props;
+        const language = new URLSearchParams(window.location.search).get('lng');
+
+        if (!language) {
+          return;
+        }
+
+        if (i18n && i18n?.language !== language) {
+          this.setLanguage(i18n, language);
+        }
+      }
+
+      setLanguage = async (i18n, language) => {
         if (typeof i18n === 'undefined') return false;
-        const language = i18n.language || 'en';
+
+        const BASE_URL = window.location.origin;
+
         if (!i18n.hasResourceBundle(language, 'translation')) {
           const data = await fetch(
             `${BASE_URL}/cleeng-translations/${language}/translations.json`
@@ -29,7 +42,19 @@ export default function customLabeling() {
             .catch(() => {});
           i18n.addResourceBundle(language, 'translation', data, true, true);
         }
+        i18n.changeLanguage(language);
+
+        return true;
+      };
+
+      async addTranslations() {
+        const { i18n } = this.props;
+
+        const language = i18n?.language || 'en';
+
+        this.setLanguage(i18n, language);
         this.setState({ dataLoaded: true });
+
         return true;
       }
 
