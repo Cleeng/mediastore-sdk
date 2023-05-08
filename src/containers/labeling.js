@@ -47,16 +47,16 @@ export default function customLabeling() {
         return true;
       };
 
-      async addTranslations() {
+      addTranslations = async () => {
         const { i18n } = this.props;
 
         const language = i18n?.language || 'en';
 
-        this.setLanguage(i18n, language);
+        await this.setLanguage(i18n, language);
         this.setState({ dataLoaded: true });
 
         return true;
-      }
+      };
 
       render() {
         const { dataLoaded } = this.state;
