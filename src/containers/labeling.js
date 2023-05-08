@@ -1,70 +1,63 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 /* eslint-disable react/prop-types */
-export default function customLabeling() {
+const customLabeling = () =>
   // ...and returns another component...
-  return WrappedComponent =>
-    class extends React.Component {
-      constructor(props) {
-        super(props);
-        this.state = { dataLoaded: false };
+  WrappedComponent => props => {
+    const [dataLoaded, setDataLoaded] = useState(false);
+
+    /* eslint-disable class-methods-use-this */
+    const setLanguage = async (i18n, language) => {
+      if (typeof i18n === 'undefined') return false;
+
+      const BASE_URL = window.location.origin;
+
+      if (!i18n.hasResourceBundle(language, 'translation')) {
+        const data = await fetch(
+          `${BASE_URL}/cleeng-translations/${language}/translations.json`
+        )
+          .then(response => {
+            return response.json();
+          })
+          .catch(() => {});
+        i18n.addResourceBundle(language, 'translation', data, true, true);
       }
+      i18n.changeLanguage(language);
 
-      async componentDidMount() {
-        await this.addTranslations();
-      }
-
-      async componentDidUpdate() {
-        const { i18n } = this.props;
-        const languageParam = new URLSearchParams(window.location.search).get(
-          'lng'
-        );
-
-        if (!languageParam) {
-          return;
-        }
-
-        if (i18n && i18n?.language !== languageParam) {
-          await this.setLanguage(i18n, languageParam);
-        }
-      }
-
-      /* eslint-disable class-methods-use-this */
-      async setLanguage(i18n, language) {
-        if (typeof i18n === 'undefined') return false;
-
-        const BASE_URL = window.location.origin;
-
-        if (!i18n.hasResourceBundle(language, 'translation')) {
-          const data = await fetch(
-            `${BASE_URL}/cleeng-translations/${language}/translations.json`
-          )
-            .then(response => {
-              return response.json();
-            })
-            .catch(() => {});
-          i18n.addResourceBundle(language, 'translation', data, true, true);
-        }
-        i18n.changeLanguage(language);
-
-        return true;
-      }
-
-      async addTranslations() {
-        const { i18n } = this.props;
-        const language = i18n?.language || 'en';
-
-        await this.setLanguage(i18n, language);
-        this.setState({ dataLoaded: true });
-
-        return true;
-      }
-
-      render() {
-        const { dataLoaded } = this.state;
-        // ... and renders the wrapped component with the fresh data!
-        // Notice that we pass through any additional props
-        return dataLoaded && <WrappedComponent {...this.props} />;
-      }
+      return true;
     };
-}
+
+    const addTranslations = async () => {
+      const { i18n } = props;
+      const language = i18n?.language || 'en';
+
+      await setLanguage(i18n, language);
+      setDataLoaded(true);
+
+      return true;
+    };
+
+    useEffect(() => {
+      addTranslations();
+    }, []);
+
+    useEffect(() => {
+      const languageParam = new URLSearchParams(window.location.search).get(
+        'lng'
+      );
+
+      if (!languageParam) {
+        return;
+      }
+
+      const { i18n } = props;
+
+      if (i18n && i18n?.language !== languageParam) {
+        setLanguage(i18n, languageParam);
+      }
+    }, [window.location.search]);
+
+    return dataLoaded && <WrappedComponent {...props} />;
+  };
+
+export default customLabeling;
