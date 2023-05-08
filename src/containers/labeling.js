@@ -38,7 +38,9 @@ const customLabeling = () =>
     };
 
     useEffect(() => {
-      addTranslations();
+      addTranslations()
+        .then(() => {})
+        .catch(() => {});
     }, []);
 
     useEffect(() => {
@@ -53,7 +55,9 @@ const customLabeling = () =>
       const { i18n } = props;
 
       if (i18n && i18n?.language !== languageParam) {
-        setLanguage(i18n, languageParam);
+        setLanguage(i18n, languageParam)
+          .then(() => {})
+          .catch(() => {});
       }
     }, [window.location.search]);
 
