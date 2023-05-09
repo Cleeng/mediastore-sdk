@@ -74,9 +74,9 @@ const Adyen = ({
 
   const getBankCopy = () => {
     const isFree = totalPrice === 0;
-    const isSubscription = offerId?.charAt(0) === 'S' && !isMyAccount;
+    const isSubscription = offerId?.charAt(0) === 'S';
 
-    if (isFree && isSubscription) {
+    if (isMyAccount || (isFree && isSubscription)) {
       return t(
         'offer-bank-consent-copy.free-subscription',
         'You accept the terms and conditions of this agreement and that your account will be charged €0.10 for authentication purposes. This amount will be refunded once the transaction is completed. And your account will be debited on a recurring basis for the full subscription amount.'
