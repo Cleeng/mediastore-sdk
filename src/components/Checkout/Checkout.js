@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { browserName, browserVersion } from 'react-device-detect';
+// import { browserName, browserVersion } from 'react-device-detect';
+// import mixpanel from 'mixpanel-browser';
 
 import Login from 'components/LoginPage';
 import Register from 'components/RegisterPage';
@@ -14,6 +15,9 @@ import PasswordResetSuccess from 'components/PasswordResetSuccess';
 import { getData } from 'util/appConfigHelper';
 import { connect } from 'react-redux';
 import { init } from 'redux/publisherConfigSlice';
+// import jwtDecode from 'jwt-decode';
+// import { version } from '../../../package.json'; // import alias ?
+import collectMixpanelData from 'util/analyticsHelper';
 
 const CheckoutSteps = {
   LOGIN: {
@@ -52,14 +56,23 @@ class Checkout extends Component {
 
   componentDidMount() {
     const { initValues, offerId, adyenConfiguration } = this.props;
-    console.log(
-      `browserName: ${browserName}, browserVersion: ${browserVersion}`
-    );
+
+    // mixpanel analytics
+    // const { publisherId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
+    // const componentName = Checkout.name; // or this.constructor.name strictly for class-based components
+
+    // mixpanel.init('2708ff6e8bd2fd0b04aad2432a4c1924');
+    // mixpanel.track(`${componentName} render`, {
+    //   'Publisher ID': publisherId,
+    //   'MSSDK Version': version,
+    //   'Component Name': componentName
+    // });
     initValues({
       offerId,
       adyenConfiguration
     });
     if (Auth.isLogged()) {
+      collectMixpanelData(Checkout.name);
       this.setState({
         currentStep: 3
       });
