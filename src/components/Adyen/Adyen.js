@@ -74,7 +74,7 @@ const Adyen = ({
 
   const getBankCopy = () => {
     const isFree = totalPrice === 0;
-    const isSubscription = offerId?.charAt(0) === 'S' && !isMyAccount;
+    const isSubscription = offerId?.charAt(0) === 'S';
 
     if (isMyAccount || (isFree && isSubscription)) {
       return t(
