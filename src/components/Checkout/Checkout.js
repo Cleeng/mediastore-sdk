@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-// import { browserName, browserVersion } from 'react-device-detect';
-// import mixpanel from 'mixpanel-browser';
 
 import Login from 'components/LoginPage';
 import Register from 'components/RegisterPage';
@@ -15,9 +13,7 @@ import PasswordResetSuccess from 'components/PasswordResetSuccess';
 import { getData } from 'util/appConfigHelper';
 import { connect } from 'react-redux';
 import { init } from 'redux/publisherConfigSlice';
-// import jwtDecode from 'jwt-decode';
-// import { version } from '../../../package.json'; // import alias ?
-import collectMixpanelData from 'util/analyticsHelper';
+import trackMixpanelData from 'util/analyticsHelper';
 
 const CheckoutSteps = {
   LOGIN: {
@@ -72,7 +68,7 @@ class Checkout extends Component {
       adyenConfiguration
     });
     if (Auth.isLogged()) {
-      collectMixpanelData(Checkout.name);
+      trackMixpanelData(Checkout.name);
       this.setState({
         currentStep: 3
       });
