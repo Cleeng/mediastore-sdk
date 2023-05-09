@@ -94,6 +94,7 @@ const Payment = ({ t, onPaymentComplete }) => {
   };
 
   const fetchPaymentMethods = async () => {
+    setIsLoading(true);
     const response = await getPaymentMethods();
     const { paymentMethods: paymentMethodsFromBackend } = response.responseData;
     const validMethodsFromResponse = validatePaymentMethods(
@@ -106,6 +107,7 @@ const Payment = ({ t, onPaymentComplete }) => {
     }
 
     dispatch(updatePaymentMethods(validMethodsFromResponse));
+    setIsLoading(false);
 
     if (!validMethodsFromResponse?.length) {
       setGeneralError(t('Payment methods are not defined'));
@@ -247,7 +249,7 @@ const Payment = ({ t, onPaymentComplete }) => {
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!standardDropInInstance || !!bankDropInInstance : true;
 
-  if (noPaymentMethods) {
+  if (noPaymentMethods && !isLoading) {
     return (
       <PaymentStyled>
         <SectionHeader marginTop="25px" center>

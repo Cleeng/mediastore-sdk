@@ -820,10 +820,7 @@ The example Adyen configuration object with described properties is shown below:
       placeholder: 'Choose your bank' // Optional. The string you want to show as the dropdown menu text. Custom translation configuration overrides this value. Default: 'Select your bank'
     },
     bancontactCard: { // Bancontact card (optional configuration similar to card above)
-      hasHolderName: true, // Set to true to show the input field for cardholder name. Default: false
-      holderName: 'John', // String that is used to prefill the cardholder name field`
-      holderNameRequired: false, // Set to true to make the cardholder name a required field. To show the field, you also need to set hasHolderName to true. Default: false
-      positionHolderNameOnTop: true, // Renders the cardholder name field at the top of the payment form. Default: false
+      holderName: 'John', // String that is used to prefill the cardholder name field
       name: 'Bancontact card', // String that is used to display the payment method name to the shopper.
       styles: {}, // Set a style object to customize the card input fields. For a list of supported properties, refer to https://docs.adyen.com/payment-methods/cards/custom-card-integration#styling
       minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'

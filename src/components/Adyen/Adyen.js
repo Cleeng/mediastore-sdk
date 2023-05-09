@@ -290,9 +290,9 @@ const Adyen = ({
         },
         bcmc: {
           ...adyenConfiguration?.paymentMethodsConfiguration?.bancontactCard,
-          ...(isMyAccount && {
-            hasHolderName: true
-          })
+          hasHolderName: true,
+          holderNameRequired: true,
+          positionHolderNameOnTop: true
         }
       }
     };
