@@ -53,16 +53,6 @@ class Checkout extends Component {
   componentDidMount() {
     const { initValues, offerId, adyenConfiguration } = this.props;
 
-    // mixpanel analytics
-    // const { publisherId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
-    // const componentName = Checkout.name; // or this.constructor.name strictly for class-based components
-
-    // mixpanel.init('2708ff6e8bd2fd0b04aad2432a4c1924');
-    // mixpanel.track(`${componentName} render`, {
-    //   'Publisher ID': publisherId,
-    //   'MSSDK Version': version,
-    //   'Component Name': componentName
-    // });
     initValues({
       offerId,
       adyenConfiguration
