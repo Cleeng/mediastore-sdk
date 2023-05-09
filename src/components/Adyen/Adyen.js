@@ -271,7 +271,8 @@ const Adyen = ({
               merchantName,
               merchantId: applePayConfigurationObj.merchantId
             }
-          })
+          }),
+          ...adyenConfiguration?.paymentMethodsConfiguration?.applePay
         },
         googlepay: {
           environment: getGooglePayEnv(),

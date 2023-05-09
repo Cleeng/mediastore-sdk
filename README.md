@@ -847,6 +847,18 @@ The example Adyen configuration object with described properties is shown below:
       // fill: Button size changes to fill the size of its container.
       // Default: 'fill'
     }
+    applePay: {
+      buttonColor: 'black', // The color of button to be displayed on the payment form. Possible values:
+      // 'black' - Use on white or light-color backgrounds that provide sufficient contrast. Don’t use on black or dark backgrounds.
+      // 'white' - Use on dark-color backgrounds that provide sufficient contrast.
+      // 'white-with-line' - Use the white button with black outline on white or very light backgrounds that don’t provide sufficient contrast for a plain white button. Don’t place this button on dark or saturated color backgrounds. Use the white button instead.
+      buttonType: 'plain' // The type of button to fit best with the terminology and flow of your purchase or payment experience.
+      // The default value is 'plain' which displays basic "Apple Pay" logo button.
+      // 'buy': 'buy with Apple Pay'
+      // 'check-out': 'Check out with Apple Pay'
+      // 'subscribe': 'Subscribe with Apple Pay'
+      // For all possible values and styling guidance, see https://developer.apple.com/design/human-interface-guidelines/technologies/apple-pay/buttons-and-marks
+    }
   },
   locale: 'en-US', // The language used in the Drop-in UI. For possible values, see the https://docs.adyen.com/online-payments/web-drop-in/customization#supported-languages,
   translations: {}, // The text displayed in each localization can be customized, allowing you to replace the default text with your own. You can read more about it here https://docs.adyen.com/online-payments/web-drop-in/customization#customizing-a-localization
