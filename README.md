@@ -2,7 +2,7 @@
 
 > **Warning**
 > 
-> Breaking changes in version 4.0. See the [imports](#cssImports) section of this file for more information.
+> Breaking changes in version 4.0. See the [imports](#import-the-required-css) section of this file for more information.
 
 
 This is the Cleeng official component library to be used with React.js.
@@ -72,7 +72,7 @@ Setting the environment is required for all components. The environment is one o
 - `sandbox` (default)
 - `production`
 
-#### Import the required CSS<a name="cssImports"></a>
+#### Import the required CSS
 
 **We removed CSS imports from third-party libraries in version 4.0** to improve compatibility with Next.js (which, [somewhat controversially](https://github.com/vercel/next.js/discussions/27953), doesn't currently allow CSS imports from the `node_modules` directory). You'll have to import them manually in your app:
 
