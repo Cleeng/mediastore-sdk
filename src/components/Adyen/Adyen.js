@@ -7,7 +7,6 @@ import createPaymentSession from 'api/Payment/createPaymentSession';
 import useScript from 'util/useScriptHook';
 import { useSelector } from 'react-redux';
 import AdyenStyled from './AdyenStyled';
-import '@adyen/adyen-web/dist/adyen.css';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
 import Loader from '../Loader';
 import {
