@@ -119,6 +119,12 @@ const AdyenStyled = styled.div.attrs(() => ({
     }
   }
 
+  .adyen-checkout__payment-method--standalone {
+    .adyen-checkout__payment-method__header {
+      padding: 13px 16px;
+    }
+  }
+
   ${({ isAdditionalPayment }) =>
     isAdditionalPayment &&
     css`
