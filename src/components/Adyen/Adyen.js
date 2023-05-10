@@ -309,9 +309,9 @@ const Adyen = ({
   const createSession = async paymentMethodsType => {
     try {
       const response = await createPaymentSession(
-        isMyAccount,
         paymentMethodsType,
-        visiblePaymentMethods
+        visiblePaymentMethods,
+        isMyAccount
       );
 
       if (response?.id) {
