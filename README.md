@@ -1,9 +1,8 @@
 # MediaStore SDK
 
 > **Warning**
-> 
+>
 > Breaking changes in version 4.0. See the [imports](#import-the-required-css) section of this file for more information.
-
 
 This is the Cleeng official component library to be used with React.js.
 
@@ -110,8 +109,8 @@ Config.setMyAccountUrl("https://client-website.com/my-account"); // needed check
 Config.setOfferSelectionUrl("https://client-website.com/plans"); // recommended for info page when the customer has no active plan
 
 Config.setTheme(); // more informations in the [Styling] section.
-Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of payment methods that will be presented in checkout
-// available options: 'applepay', 'bancontact_card' 'bancontact_mobile', 'card', 'googlepay', 'ideal', 'sofort'
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of payment methods that will be presented in Checkout and MyAccount
+// available options: 'applepay', 'bancontact_card', 'bancontact_mobile', 'card', 'googlepay', 'ideal', 'sofort'
 Config.setHidePayPal(); // option to hide PayPal, by default PayPal will be visible when configured
 
 // Auth methods
