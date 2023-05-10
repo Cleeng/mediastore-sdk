@@ -1,5 +1,9 @@
 # MediaStore SDK
 
+## **Warning: breaking changes in version 4.0**
+
+See the [imports](#cssImports) section of this file for more information.
+
 This is the Cleeng official component library to be used with React.js.
 
 MediaStore SDK Library consists of components that will allow you to build a seamless checkout process, help visitors become subscribers, and then allow them to manage their subscriptions.
@@ -54,7 +58,7 @@ If you have the package downloaded locally and you want to begin to use it, you 
 
 Config functions save data to local storage (as `CLEENG_*` items). These data are required to make components work. <b>You need to call these functions, before MSSDK components mount, usually only once.</b>
 
-##### Setting environment
+#### Setting environment
 
 ```javascript
 import { Config } from "@cleeng/mediastore-sdk";
@@ -66,6 +70,17 @@ Setting the environment is required for all components. The environment is one o
 
 - `sandbox` (default)
 - `production`
+
+#### Import the required CSS<a name="cssImports"></a>
+
+**We removed CSS imports from third-party libraries in version 4.0** to improve compatibility with Next.js (which, [somewhat controversially](https://github.com/vercel/next.js/discussions/27953), doesn't currently allow CSS imports from the `node_modules` directory). You'll have to import them manually in your app:
+
+```javascript
+// import the following stylesheets in _app.js for Next.js projects, or your main App component for other use cases
+
+import "@adyen/adyen-web/dist/adyen.css";
+import "react-loading-skeleton/dist/skeleton.css";
+```
 
 **Each component needs to be wrapper into Provider, as in the example below.**
 
