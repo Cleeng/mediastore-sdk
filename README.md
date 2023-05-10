@@ -210,6 +210,7 @@ Config.setCheckoutPayPalUrls({
   errorUrl: "https://client-website.com/checkout/error"
 });
 Config.setTermsUrl("https://client-website.com/terms"); // optional, for legal notes in the checkout
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
 **Props**
@@ -257,6 +258,7 @@ Config.setMyAccountPayPalUrls({
   cancelUrl: "https://client-website.com/my-account/payment-info",
   errorUrl: "https://client-website.com/my-account/paypal-error"
 });
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
 **Props**
@@ -421,6 +423,7 @@ Config.setCheckoutPayPalUrls({
   errorUrl: "https://client-website.com/my-account/paypal-error"
 });
 Config.setTermsUrl("https://client-website.com/terms"); // optional, for legal notes in the checkout
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
 **Usage sample**
@@ -565,6 +568,7 @@ Config.setMyAccountPayPalUrls({
   cancelUrl: "https://client-website.com/my-account/payment-info",
   errorUrl: "https://client-website.com/my-account/paypal-error"
 });
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
 **Props**
