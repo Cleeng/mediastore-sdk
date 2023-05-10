@@ -138,7 +138,7 @@ const Adyen = ({
   };
 
   const showAdditionalText = () => {
-    if (bankPaymentMethodsRef && bankPaymentMethodsRef.current) {
+    if (bankPaymentMethodsRef?.current) {
       bankPaymentMethods.forEach(method =>
         addAdditionalCopyForBankPaymentMethods(method)
       );

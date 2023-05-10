@@ -4,9 +4,9 @@ import getApiURL from 'util/environmentHelper';
 import generateReturnUrl from 'util/returnUrlHelper';
 
 const createPaymentSession = async (
-  isMyAccount = false,
   type,
-  visiblePaymentMethods
+  visiblePaymentMethods,
+  isMyAccount = false
 ) => {
   const API_URL = getApiURL();
 
