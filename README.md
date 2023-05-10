@@ -1,12 +1,9 @@
 # MediaStore SDK
 
----
+> **Warning**
+> 
+> Breaking changes in version 4.0. See the [imports](#cssImports) section of this file for more information.
 
-## **Warning: breaking changes in version 4.0**
-
-See the [imports](#cssImports) section of this file for more information.
-
----
 
 This is the Cleeng official component library to be used with React.js.
 
