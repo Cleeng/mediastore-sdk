@@ -49,6 +49,14 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     : formatNumber(totalPrice);
 
   const generateTrialDescription = () => {
+    if (period === 'season') {
+      const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (plus applicable taxes) and will be renewed on the next season start date.`;
+      return t(`subscription-desc.period-season`, formattedDescription, {
+        currencySymbol,
+        grossPrice
+      });
+    }
+
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
     if (freeDays) {
       const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
@@ -95,7 +103,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
 
     if (!isTrialAvailable) {
       if (period === 'season') {
-        const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (plus applicable taxes) and will be renewed on next season start date.`;
+        const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (plus applicable taxes) and will be renewed on the next season start date.`;
         return t(`subscription-desc.period-season`, formattedDescription, {
           currencySymbol,
           grossPrice
