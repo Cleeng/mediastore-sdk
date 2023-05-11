@@ -2,12 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
 import Button from 'components/Button';
-import { PayPalContentStyled } from './PayPalStyled';
+import { PayPalContentStyled, CopyStyled } from './PayPalStyled';
 
 const PayPal = ({ totalPrice, offerId, onSubmit, isLoading, t }) => {
   return (
     <PayPalContentStyled>
-      <>
+      <CopyStyled>
         {/* my account */}
         {!offerId && (
           <>
@@ -28,7 +28,7 @@ const PayPal = ({ totalPrice, offerId, onSubmit, isLoading, t }) => {
           t(
             "We'll redirect you to PayPal to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments."
           )}
-      </>
+      </CopyStyled>
       <Button
         theme="paypal"
         onClickFn={onSubmit}

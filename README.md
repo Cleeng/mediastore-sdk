@@ -1,8 +1,8 @@
 # MediaStore SDK
 
-## **Warning: breaking changes in version 4.0**
-
-See the [imports](#cssImports) section of this file for more information.
+> **Warning**
+>
+> Breaking changes in version 4.0. See the [imports](#import-the-required-css) section of this file for more information.
 
 This is the Cleeng official component library to be used with React.js.
 
@@ -71,7 +71,7 @@ Setting the environment is required for all components. The environment is one o
 - `sandbox` (default)
 - `production`
 
-#### Import the required CSS<a name="cssImports"></a>
+#### Import the required CSS
 
 **We removed CSS imports from third-party libraries in version 4.0** to improve compatibility with Next.js (which, [somewhat controversially](https://github.com/vercel/next.js/discussions/27953), doesn't currently allow CSS imports from the `node_modules` directory). You'll have to import them manually in your app:
 
@@ -109,6 +109,9 @@ Config.setMyAccountUrl("https://client-website.com/my-account"); // needed check
 Config.setOfferSelectionUrl("https://client-website.com/plans"); // recommended for info page when the customer has no active plan
 
 Config.setTheme(); // more informations in the [Styling] section.
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of payment methods that will be presented in Checkout and MyAccount
+// available options: 'applepay', 'bancontact_card', 'bancontact_mobile', 'card', 'googlepay', 'ideal', 'sofort'
+Config.setHidePayPal(); // option to hide PayPal, by default PayPal will be visible when configured
 
 // Auth methods
 Auth.isLogged(); // returns true if the user is authenticated (valid JWT or existing refresh token in local storage)
@@ -207,6 +210,7 @@ Config.setCheckoutPayPalUrls({
   errorUrl: "https://client-website.com/checkout/error"
 });
 Config.setTermsUrl("https://client-website.com/terms"); // optional, for legal notes in the checkout
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
 **Props**
@@ -254,6 +258,7 @@ Config.setMyAccountPayPalUrls({
   cancelUrl: "https://client-website.com/my-account/payment-info",
   errorUrl: "https://client-website.com/my-account/paypal-error"
 });
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
 **Props**
@@ -418,6 +423,7 @@ Config.setCheckoutPayPalUrls({
   errorUrl: "https://client-website.com/my-account/paypal-error"
 });
 Config.setTermsUrl("https://client-website.com/terms"); // optional, for legal notes in the checkout
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
 **Usage sample**
@@ -562,6 +568,7 @@ Config.setMyAccountPayPalUrls({
   cancelUrl: "https://client-website.com/my-account/payment-info",
   errorUrl: "https://client-website.com/my-account/paypal-error"
 });
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
 **Props**
@@ -794,7 +801,10 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 
 ### <a id="adyen-configuration-table"></a><h2>Adyen configuration</h2>
 
-By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#my-account-header), [Checkout](#checkout-header), [PaymentInfo](#payment-info-header) and [Purchase](#purchase-header). The example Adyen configuration object with described properties is shown below:
+By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#my-account-header), [Checkout](#checkout-header), [PaymentInfo](#payment-info-header) and [Purchase](#purchase-header).
+
+If the payment method is not presented in the `paymentMethodConfiguration` object, then it doesn't have any optional configuration available, eg. bancontact mobile.
+The example Adyen configuration object with described properties is shown below:
 
 ```javascript
 {
@@ -821,6 +831,24 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       billingAddressAllowedCountries: ['US', 'CA', 'BR', 'PL'], // Specify allowed country codes for the billing address. Default: The Country field dropdown menu shows a list of all countries.
       minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'
       autoFocus: true // Automatically move the focus from date field to the CVC field. The focus also moves to the date field when the entered card number reaches the expected length. Default: true
+    },
+    ideal: {
+      showImage: true, //	Set to false to remove the bank logos from the iDEAL form. Default: true
+      issuer: "0031", // Optional. Set to an iDEAL issuer ID to preselect a specific bank, refer to: https://docs.adyen.com/payment-methods/ideal/web-drop-in?tab=live_payments_2#issuer-ids
+      highlightedIssuers: ['0761', '0802'] // Optional. Set to the iDEAL issuer IDs for banks you want to show on top of the dropdown menu.
+      placeholder: 'Choose your bank' // Optional. The string you want to show as the dropdown menu text. Custom translation configuration overrides this value. Default: 'Select your bank'
+    },
+    bancontactCard: { // Bancontact card (optional configuration similar to card above)
+      holderName: 'John', // String that is used to prefill the cardholder name field
+      name: 'Bancontact card', // String that is used to display the payment method name to the shopper.
+      styles: {}, // Set a style object to customize the card input fields. For a list of supported properties, refer to https://docs.adyen.com/payment-methods/cards/custom-card-integration#styling
+      minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'
+      brands: ['bcmc', 'visa'], // Array of card brands that will be recognized
+      showBrandIcon: true, // Set to false to not show the brand logo when the card brand has been recognized. Default: true
+      showBrandsUnderCardNumber: true, // Shows brand logos under the card number field when the shopper selects the card payment method. Default: true
+      billingAddressRequired: true, // Set to true to collect the shopper's billing address and mark the fields as required. Default: false
+      billingAddressAllowedCountries: ['US', 'CA', 'BR', 'PL'], // Specify allowed country codes for the billing address. Default: The Country field dropdown menu shows a list of all countries.
+      data: {} // Object that contains placeholder information that you can use to prefill fields.
     },
     googlePay: {
       buttonColor: 'white', // default: A Google-selected default value. Currently black but it may change over time.
