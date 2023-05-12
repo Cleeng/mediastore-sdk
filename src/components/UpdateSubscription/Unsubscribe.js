@@ -37,13 +37,13 @@ const Unsubscribe = ({
   skipAvailableDowngradesStep,
   t
 }) => {
-  const INITIAL_STEPS_ARRAY = ['SURVEY', 'CONFIRMATION'];
   const STEPS = {
     PAUSE: 'PAUSE',
     DOWNGRADES: 'DOWNGRADES',
     SURVEY: 'SURVEY',
     CONFIRMATION: 'CONFIRMATION'
   };
+  const INITIAL_STEPS_ARRAY = [STEPS.SURVEY, STEPS.CONFIRMATION];
 
   const [downgradesList, setDowngradesList] = useState([]);
   const [checkedReason, setCheckedReason] = useState('');
@@ -72,13 +72,14 @@ const Unsubscribe = ({
     return false;
   };
 
+  const downgrades = getDowngrades();
+
   const shouldShowDowngradeScreen = () => {
     const {
       innerPopup: {
         data: { offerData }
       }
     } = store.getState();
-    const downgrades = getDowngrades();
     if (skipAvailableDowngradesStep) {
       return false;
     }
@@ -98,7 +99,6 @@ const Unsubscribe = ({
   };
 
   const shouldShowPauseScreen = () => {
-    const downgrades = getDowngrades();
     if (downgrades.length) {
       const pauseOffer = downgrades.filter(({ toOfferId }) =>
         pauseOffersIDs.includes(toOfferId)
@@ -200,18 +200,27 @@ const Unsubscribe = ({
   return (
     <InnerPopupWrapper
       steps={steps.length}
-      popupTitle={t('Manage your plan')}
+      popupTitle={t('unsubscribe-popup.title', 'Manage your plan')}
       isError={isError}
       currentStep={steps.indexOf(currentStep) + 1}
     >
       {currentStep === STEPS.PAUSE && (
         <ContentStyled>
           <TitleStyled>
-            {t('Would you like to pause your subscription instead?')}
+            {t(
+              'unsubscribe-popup.pause-title',
+              'Would you like to pause your subscription instead?'
+            )}
           </TitleStyled>
-          <TextStyled>{t('Need to step away? No problem.')}</TextStyled>
           <TextStyled>
             {t(
+              'unsubscribe-popup.pause-question',
+              'Need to step away? No problem.'
+            )}
+          </TextStyled>
+          <TextStyled>
+            {t(
+              'unsubscribe-popup.pause-description',
               'Pause your subscription until the beginning of next season, you can resume at any time.'
             )}
           </TextStyled>
@@ -230,7 +239,7 @@ const Unsubscribe = ({
                 });
               }}
             >
-              {t('Pause')}
+              {t('unsubscribe-popup.pause-button-text', 'Pause')}
             </Button>
           </ButtonWrapperStyled>
           <TextStyled>
@@ -238,7 +247,7 @@ const Unsubscribe = ({
           </TextStyled>
           <ButtonWrapperStyled removeMargin>
             <Button theme="simple" onClickFn={hideInnerPopup}>
-              {t('Back to My Account')}
+              {t('unsubscribe-popup.back-button-text', 'Back to My Account')}
             </Button>
             <Button
               theme="primary"
@@ -246,7 +255,7 @@ const Unsubscribe = ({
                 setCurrentStep(steps[steps.indexOf(currentStep) + 1])
               }
             >
-              {t('Cancel')}
+              {t('unsubscribe-popup.unsubscribe-button-text', 'Unsubscribe')}
             </Button>
           </ButtonWrapperStyled>
         </ContentStyled>
@@ -305,7 +314,7 @@ const Unsubscribe = ({
               theme="confirm"
               onClickFn={() => setCurrentStep(STEPS.SURVEY)}
             >
-              {t('Cancel')}
+              {t('unsubscribe-popup.unsubscribe-button-text', 'Unsubscribe')}
             </Button>
           </ButtonWrapperStyled>
         </ContentStyled>
