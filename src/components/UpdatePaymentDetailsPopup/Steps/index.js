@@ -1,6 +1,6 @@
 import Success from './Success';
 import DeletePaymentMethod from './DeletePaymentMethod';
-import Error from './Error';
+import ErrorStep from './ErrorStep';
 import FinalizeAddPaymentDetails from './FinalizeAddPaymentDetails';
 
-export { Success, DeletePaymentMethod, Error, FinalizeAddPaymentDetails };
+export { Success, DeletePaymentMethod, ErrorStep, FinalizeAddPaymentDetails };

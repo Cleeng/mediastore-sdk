@@ -6,6 +6,8 @@ export const initialState: PublisherConfigInitialState = {
   publisherId: '',
   offerId: '',
   paymentMethods: [],
+  visiblePaymentMethods: [],
+  isPayPalHidden: false,
   adyenConfiguration: null,
   displayGracePeriodError: false
 };

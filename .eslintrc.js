@@ -60,7 +60,8 @@ module.exports = {
         ],
         optionalDependencies: false
       }
-    ]
+    ],
+    'no-use-before-define': 'off'
   },
   settings: {
     'import/resolver': {

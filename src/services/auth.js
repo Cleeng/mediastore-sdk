@@ -24,9 +24,9 @@ class Auth {
     email,
     jwt,
     refreshToken,
-    cb = () => {},
+    cb = t => t,
     args = [],
-    callback = () => {}
+    callback = t => t
   ) {
     this.isAuthenticated = true;
     const { customerId } = jwtDecode(jwt);
@@ -78,7 +78,7 @@ class Auth {
     callback();
   }
 
-  logout(callback = () => {}) {
+  logout(callback = t => t) {
     this.isAuthenticated = false;
     removeData('CLEENG_AUTH_TOKEN');
     removeData('CLEENG_REFRESH_TOKEN');
@@ -89,6 +89,10 @@ class Auth {
     removeData('CLEENG_MYACCOUNT_PP_SUCCESS');
     removeData('CLEENG_MYACCOUNT_PP_CANCEL');
     removeData('CLEENG_MYACCOUNT_PP_ERROR');
+    removeData('CLEENG_CUSTOMER_EMAIL');
+    removeData('CLEENG_CUSTOMER_ID');
+    removeData('CLEENG_ENVIRONMENT');
+    removeData('CLEENG_PUBLISHER_ID');
 
     callback();
   }

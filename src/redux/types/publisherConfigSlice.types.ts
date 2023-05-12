@@ -33,6 +33,10 @@ export type PaymentMethodName =
   | 'applepay'
   | 'googlepay'
   | 'paypal'
+  | 'ideal'
+  | 'sofort'
+  | 'bancontact_card'
+  | 'bancontact_mobile'
   | 'manual';
 
 export type PaymentGateway = 'adyen' | 'paypal' | 'manual';
@@ -46,6 +50,8 @@ export type PublisherConfigInitialState = {
     methodName: PaymentMethodName;
     paymentGateway: PaymentGateway;
   }[];
+  isPayPalHidden: boolean;
+  visiblePaymentMethods: PaymentMethodName[];
   adyenConfiguration: null | AdyenConfiguration;
   displayGracePeriodError: boolean;
 };

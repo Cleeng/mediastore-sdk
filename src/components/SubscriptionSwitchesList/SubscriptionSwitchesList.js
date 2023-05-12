@@ -5,10 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
-import {
-  SimpleButtonStyled,
-  WrapperStyled
-} from 'components/SubscriptionManagement/SubscriptionManagementStyled';
+import { SimpleButtonStyled } from 'components/SubscriptionManagement/SubscriptionManagementStyled';
 import OfferCard from 'components/OfferCard';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
@@ -126,6 +123,11 @@ const SubscriptionSwitchesList = ({ t }) => {
   const availableFiltered = availableSorted?.filter(
     offer => !pauseOffersIDs.includes(offer.toOfferId)
   );
+  const unavailableFiltered = Array.isArray(switchSettings.unavailable)
+    ? switchSettings.unavailable.filter(
+        offer => !pauseOffersIDs.includes(offer.toOfferId)
+      )
+    : [];
 
   return (
     <>
@@ -183,7 +185,7 @@ const SubscriptionSwitchesList = ({ t }) => {
           );
         })}
       {areUnAvailable &&
-        switchSettings.unavailable.map(subItem => {
+        unavailableFiltered.map(subItem => {
           const price =
             isPriceTemporaryModified(subItem.toOfferId) &&
             subItem.algorithm !== 'DEFERRED'

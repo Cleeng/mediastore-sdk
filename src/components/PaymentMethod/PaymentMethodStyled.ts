@@ -14,7 +14,7 @@ export const CardsWrapper = styled.div.attrs<CardsWrapperProps>(() => ({
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-gap: 10px;
-  @media only screen and (max-width: 900px) {
+  @media only screen and (max-width: 1550px) {
     grid-template-columns: 1fr;
     > div {
       justify-self: center;

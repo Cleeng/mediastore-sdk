@@ -19,7 +19,8 @@ import {
 } from 'redux/popupSlice';
 import {
   shouldShowGatewayComponent,
-  validatePaymentMethods
+  validatePaymentMethods,
+  BANK_PAYMENT_METHODS
 } from 'util/paymentMethodHelper';
 import { ReactComponent as AmazonIcon } from 'assets/images/paymentMethods/amazon_color.svg';
 import { ReactComponent as AppleIcon } from 'assets/images/paymentMethods/apple_color.svg';
@@ -45,7 +46,7 @@ import {
 import {
   Success,
   DeletePaymentMethod,
-  Error,
+  ErrorStep,
   FinalizeAddPaymentDetails
 } from './Steps';
 import Adyen from '../Adyen';
@@ -75,8 +76,11 @@ const UpdatePaymentDetailsPopup = () => {
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const [dropInInstance, setDropInInstance] = useState(null);
-  const { paymentMethods } = useSelector(state => state.publisherConfig);
+  const [standardDropInInstance, setStandardDropInInstance] = useState(null);
+  const [bankDropInInstance, setBankDropInInstance] = useState(null);
+  const { paymentMethods, isPayPalHidden } = useSelector(
+    state => state.publisherConfig
+  );
   const { paymentDetails } = useSelector(state => state.paymentDetails);
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
   const { loading: isFinalizeAddPaymentDetailsLoading } = useSelector(
@@ -192,17 +196,8 @@ const UpdatePaymentDetailsPopup = () => {
     const {
       data: { paymentMethod, browserInfo, billingAddress }
     } = state;
-
-    const selectedPaymentMethodName =
-      paymentMethod.type === 'scheme' ? 'card' : paymentMethod.type;
-    const paymentMethodId = paymentMethods.find(
-      item =>
-        item.paymentGateway === 'adyen' &&
-        item.methodName === selectedPaymentMethodName
-    )?.id;
     dispatch(updatePaymentDetailsPopup({ isLoading: true }));
     const { errors, responseData } = await updateAdyenPaymentDetails(
-      paymentMethodId,
       paymentMethod,
       browserInfo,
       billingAddress
@@ -231,8 +226,12 @@ const UpdatePaymentDetailsPopup = () => {
     dispatch(fetchPaymentDetails());
   };
 
-  const getDropIn = drop => {
-    setDropInInstance(drop);
+  const getDropIn = (drop, type) => {
+    if (type === BANK_PAYMENT_METHODS) {
+      setBankDropInInstance(drop);
+    } else {
+      setStandardDropInInstance(drop);
+    }
   };
 
   const submitPayPal = () => {
@@ -256,11 +255,14 @@ const UpdatePaymentDetailsPopup = () => {
       });
   };
 
+  const shouldShowPayPal = isPayPalHidden
+    ? false
+    : shouldShowGatewayComponent('paypal', paymentMethods);
+
   const shouldShowAdyen = shouldShowGatewayComponent('adyen', paymentMethods);
-  const shouldShowPayPal = shouldShowGatewayComponent('paypal', paymentMethods);
 
   const showPayPalWhenAdyenIsReady = () =>
-    shouldShowAdyen ? !!dropInInstance : true;
+    shouldShowAdyen ? !!standardDropInInstance || !!bankDropInInstance : true;
 
   if (step === PAYMENT_DETAILS_STEPS.DELETE_PAYMENT_DETAILS) {
     return (
@@ -314,7 +316,7 @@ const UpdatePaymentDetailsPopup = () => {
         currentStep={STEPS_NUMBERS[step]}
         popupTitle={t('Update payment details')}
       >
-        <Error />
+        <ErrorStep />
       </InnerPopupWrapper>
     );
   }
@@ -360,7 +362,6 @@ const UpdatePaymentDetailsPopup = () => {
             showPayPalWhenAdyenIsReady() &&
             !isActionHandlingProcessing && (
               <DropInSection
-                isCardAvailable={shouldShowAdyen}
                 selectPaymentMethod={selectPaymentMethodHandler}
                 title="PayPal"
                 logo="paypal"

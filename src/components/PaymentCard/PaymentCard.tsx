@@ -56,12 +56,12 @@ const PaymentCard = ({ details }: PaymentCardProps) => {
                       (**** {paymentMethodSpecificParams.lastCardFourDigits})
                     </CardNumberStyled>
                   )}
-                {paymentMethod === 'paypal' && (
-                  <HolderNameStyled>
-                    ({paymentMethodSpecificParams.holderName})
-                  </HolderNameStyled>
-                )}
               </CardDetailsNameWrapStyled>
+              {paymentMethod === 'paypal' && (
+                <HolderNameStyled>
+                  ({paymentMethodSpecificParams.holderName})
+                </HolderNameStyled>
+              )}
               {paymentMethod !== 'paypal' &&
                 paymentMethodSpecificParams?.cardExpirationDate && (
                   <CardExpirationStyled>

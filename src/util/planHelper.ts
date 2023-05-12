@@ -215,7 +215,8 @@ export const currencyFormat: Record<CurrencyFormat, string> = {
   AUD: '$',
   '€': '€',
   $: '$',
-  '£': '£'
+  '£': '£',
+  DKK: 'kr.'
 };
 
 export function dateFormat(timestamp: number, showTime = false) {

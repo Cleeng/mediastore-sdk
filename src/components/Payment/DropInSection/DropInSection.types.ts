@@ -1,5 +1,4 @@
 export type DropInSectionWrapperStyled = {
-  isCardAvailable: boolean;
   isSelected: boolean;
   fadeOutSection: boolean;
 };
@@ -9,6 +8,5 @@ export type DropInSectionProps = {
   selectPaymentMethod: (paymentMethodName: string) => void;
   title: string;
   logo: string;
-  isCardAvailable: boolean;
   isLoading: boolean;
 };

@@ -13,9 +13,8 @@ export const WrapperStyled = styled.div.attrs(() => ({
   display: flex;
   flex-direction: column;
   justify-content: center;
-  border-radius: ${isCardAvailable =>
-    isCardAvailable ? '0 0 12px 12px' : '12px;'};
   background-color: ${colors.White};
+  border-radius: 12px;
   border: 1px solid
     ${({ isSelected }) => (isSelected ? ConfirmColor : '#D3DBE6')};
   cursor: ${({ fadeOutSection }) => (fadeOutSection ? 'default' : 'pointer')};
