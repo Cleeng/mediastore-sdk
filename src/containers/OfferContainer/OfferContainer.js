@@ -156,7 +156,7 @@ const OfferContainer = ({
     if (offerId === '' && !getData('CLEENG_OFFER_ID')) {
       setErrorMsg('Offer not set');
     }
-  }, []);
+  }, [offerIdProp]);
 
   useEffect(() => {
     if (!isOrderLoading || errorMsg || offerError || orderError) {
