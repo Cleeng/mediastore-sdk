@@ -161,7 +161,7 @@ const Unsubscribe = ({
     hideInnerPopup();
   };
 
-  const { offerTitle, expiresAt, offerId } = offerDetails;
+  const { offerTitle, expiresAt, offerId, period } = offerDetails;
   const formattedExpiresAt = dateFormat(expiresAt);
   const scheduledSwitchTitle = t(
     `offer-title-${scheduledSwitch().toOfferId}`,
@@ -299,33 +299,45 @@ const Unsubscribe = ({
         <>
           <ContentStyled>
             <TitleStyled>{t('We’re sorry to see you go')}</TitleStyled>
-            <TextStyled>
-              {scheduledSwitch() ? (
-                t(
-                  `Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.`,
-                  { scheduledSwitchTitle }
-                )
-              ) : (
-                <>
-                  {offerDetails.inTrial
-                    ? t(
-                        'Your {{translatedTitle}} free trial will end on {{formattedExpiresAt}}.',
-                        { translatedTitle, formattedExpiresAt }
-                      )
-                    : t(
-                        'Your {{translatedTitle}} subscription is paid until {{formattedExpiresAt}}.',
-                        { translatedTitle, formattedExpiresAt }
-                      )}
-                </>
-              )}{' '}
-              <Trans i18nKey="unsubscribe-info">
-                If you would like to proceed with cancelling your subscription,
-                please select 'Unsubscribe' below, and your subscription will be
-                cancelled as of {{ formattedExpiresAt }}. Until then, you will
-                continue to have access to all of your current subscription
-                features. Before you go, please let us know why you're leaving.
-              </Trans>
-            </TextStyled>
+            {period === 'season' ? (
+              <TextStyled>
+                {t(
+                  'You will keep access to your seasonal subscription until {{formattedExpiresAt}}. Before you go, please let us know why you’re leaving.',
+                  {
+                    formattedExpiresAt
+                  }
+                )}
+              </TextStyled>
+            ) : (
+              <TextStyled>
+                {scheduledSwitch() ? (
+                  t(
+                    `Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.`,
+                    { scheduledSwitchTitle }
+                  )
+                ) : (
+                  <>
+                    {offerDetails.inTrial
+                      ? t(
+                          'Your {{translatedTitle}} free trial will end on {{formattedExpiresAt}}.',
+                          { translatedTitle, formattedExpiresAt }
+                        )
+                      : t(
+                          'Your {{translatedTitle}} subscription is paid until {{formattedExpiresAt}}.',
+                          { translatedTitle, formattedExpiresAt }
+                        )}
+                  </>
+                )}{' '}
+                <Trans i18nKey="unsubscribe-info">
+                  If you would like to proceed with cancelling your
+                  subscription, please select 'Unsubscribe' below, and your
+                  subscription will be cancelled as of {{ formattedExpiresAt }}.
+                  Until then, you will continue to have access to all of your
+                  current subscription features. Before you go, please let us
+                  know why you're leaving.
+                </Trans>
+              </TextStyled>
+            )}
             {calcellationReasonsToShow && (
               <ReasonsWrapper>
                 {calcellationReasonsToShow.map(reason => (

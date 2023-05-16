@@ -129,12 +129,26 @@ const CurrentPlan = ({
           switch (subItem.offerType) {
             case 'S':
               price = subItem.nextPaymentPrice;
-              currency = subItem.nextPaymentCurrency;
+              currency = currencyFormat[subItem.nextPaymentCurrency];
               renewalDate = dateFormat(subItem.expiresAt);
               if (subItem.status === 'active' && !subItem.pendingSwitchId) {
-                description = `${t('Renews automatically on {{renewalDate}}', {
-                  renewalDate
-                })}`;
+                if (subItem.period === 'season') {
+                  description = `${t(
+                    'You will now be charged {{currency}}{{price}} (plus applicable taxes) and will be renewed on {{renewalDate}} at the same price.',
+                    {
+                      renewalDate,
+                      price,
+                      currency
+                    }
+                  )}`;
+                } else {
+                  description = `${t(
+                    'Renews automatically on {{renewalDate}}',
+                    {
+                      renewalDate
+                    }
+                  )}`;
+                }
               } else if (subItem.status === 'cancelled') {
                 description = `${t('This plan will expire on {{renewalDate}}', {
                   renewalDate
