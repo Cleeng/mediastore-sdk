@@ -1,4 +1,5 @@
 import store from 'redux/store';
+import i18next from 'i18next';
 import {
   setData as setDataInRedux,
   removeData as removeDataFromRedux
@@ -170,6 +171,25 @@ export const setHidePayPal = () => {
   return true;
 };
 
+export const setLanguage = async language => {
+  console.log(`Config.setLanguage(${language})`);
+  const BASE_URL = window.location.origin;
+
+  if (!i18next.hasResourceBundle(language, 'translation')) {
+    const data = await fetch(
+      `${BASE_URL}/cleeng-translations/${language}/translations.json`
+    )
+      .then(response => {
+        return response.json();
+      })
+      .catch(() => {});
+    i18next.addResourceBundle(language, 'translation', data, true, true);
+  }
+  i18next.changeLanguage(language);
+
+  return true;
+};
+
 export default {
   setPublisher,
   setOffer,
@@ -183,5 +203,6 @@ export default {
   setRefreshToken,
   setTermsUrl,
   setHidePayPal,
-  setVisibleAdyenPaymentMethods
+  setVisibleAdyenPaymentMethods,
+  setLanguage
 };

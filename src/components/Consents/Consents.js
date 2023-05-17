@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from 'components/Checkbox';
 import Loader from 'components/Loader';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchPublisherConsents,
@@ -18,7 +19,7 @@ import {
 const regexHrefOpenTag = new RegExp(/<a(.|\n)*?>/);
 const regexHrefCloseTag = new RegExp(/<\/a(.|\n)*?>/);
 
-const Consents = ({ error, onChangeFn, t }) => {
+const Consents = ({ error, onChangeFn }) => {
   const {
     publisherConsents,
     checked,
@@ -26,6 +27,8 @@ const Consents = ({ error, onChangeFn, t }) => {
     error: generalError
   } = useSelector(state => state.publisherConsents);
   const { publisherId } = useSelector(state => state.publisherConfig);
+
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
@@ -102,14 +105,12 @@ const Consents = ({ error, onChangeFn, t }) => {
 
 Consents.propTypes = {
   error: PropTypes.string,
-  onChangeFn: PropTypes.func,
-  t: PropTypes.func
+  onChangeFn: PropTypes.func
 };
 
 Consents.defaultProps = {
   error: '',
-  onChangeFn: () => {},
-  t: k => k
+  onChangeFn: () => {}
 };
 
 export default Consents;

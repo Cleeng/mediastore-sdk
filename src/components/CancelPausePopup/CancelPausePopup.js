@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateSwitch } from 'api';
@@ -26,12 +25,13 @@ const CancelPausePopup = ({
   popupData: { pendingSwitchId, baseOfferExpirationDate, baseOfferPrice },
   hideInnerPopup,
   updateList,
-  setSwitchDetails,
-  t
+  setSwitchDetails
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
+
+  const { t } = useTranslation();
 
   const planDetailsState = useSelector(state => state.planDetails);
   const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
@@ -152,13 +152,11 @@ CancelPausePopup.propTypes = {
   }).isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
   updateList: PropTypes.func,
-  setSwitchDetails: PropTypes.func.isRequired,
-  t: PropTypes.func
+  setSwitchDetails: PropTypes.func.isRequired
 };
 
 CancelPausePopup.defaultProps = {
-  updateList: () => {},
-  t: k => k
+  updateList: () => {}
 };
 
-export default withTranslation()(labeling()(CancelPausePopup));
+export default CancelPausePopup;

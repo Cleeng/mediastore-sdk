@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { createRoot } from 'react-dom/client';
-import labeling from 'containers/labeling';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
 import useScript from 'util/useScriptHook';
@@ -32,8 +31,7 @@ const Adyen = ({
   selectPaymentMethod,
   isPayPalAvailable,
   getDropIn,
-  onAdditionalDetails,
-  t
+  onAdditionalDetails
 }) => {
   const { discount, totalPrice, offerId } = useSelector(
     state => state.order.order
@@ -70,6 +68,8 @@ const Adyen = ({
   const [shouldHideBankDropIn, setShouldHideBankDropIn] = useState(false);
 
   useScript('https://pay.google.com/gp/p/js/pay.js');
+
+  const { t } = useTranslation();
 
   const getBankCopy = () => {
     const isFree = totalPrice === 0;
@@ -466,13 +466,11 @@ Adyen.propTypes = {
   selectPaymentMethod: PropTypes.func.isRequired,
   isPayPalAvailable: PropTypes.bool.isRequired,
   getDropIn: PropTypes.func.isRequired,
-  onAdditionalDetails: PropTypes.func.isRequired,
-  t: PropTypes.func
+  onAdditionalDetails: PropTypes.func.isRequired
 };
 
 Adyen.defaultProps = {
-  isMyAccount: false,
-  t: k => k
+  isMyAccount: false
 };
 
-export default withTranslation()(labeling()(Adyen));
+export default Adyen;

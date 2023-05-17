@@ -1,7 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveTab } from 'redux/myaccountSlice';
 import { MenuItems } from './MyAccountMenu.const';
@@ -15,12 +13,13 @@ import {
   ItemStyled
 } from './MyAccountMenuStyled';
 
-const MyAccountMenu = ({ t }) => {
+const MyAccountMenu = () => {
   const { activeTab } = useSelector(state => state.myaccount);
   const dispatch = useDispatch();
   const onMenuItemClick = id => {
     dispatch(setActiveTab(id));
   };
+  const { t } = useTranslation();
 
   return (
     <WrapStyled>
@@ -47,12 +46,4 @@ const MyAccountMenu = ({ t }) => {
   );
 };
 
-MyAccountMenu.propTypes = {
-  t: PropTypes.func
-};
-
-MyAccountMenu.defaultProps = {
-  t: k => k
-};
-
-export default withTranslation()(labeling()(MyAccountMenu));
+export default MyAccountMenu;
