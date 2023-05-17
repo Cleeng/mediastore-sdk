@@ -2,7 +2,7 @@ name: Publish temporary package (react 16)
 
 on:
   push:
-    branches: 
+    branches:
       - react-16-temporary-support
   workflow_dispatch:
 
@@ -15,5 +15,6 @@ jobs:
     with:
       access: public
       registry: registry.npmjs.org
+      branch: react-16-temporary-support
     secrets:
       TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
