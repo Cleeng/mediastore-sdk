@@ -129,8 +129,6 @@ const Adyen = ({
         const wrapper = document.createElement('div');
         wrapper.classList.add('checkbox-wrapper');
 
-        // const root = createRoot(wrapper);
-        // root.render(checkbox);
         ReactDOM.render(checkbox, wrapper);
         details.before(wrapper);
       }

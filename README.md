@@ -1,3 +1,5 @@
+## <div align="center">This is a temporary package for React 16. Please, use the [official package ](https://www.npmjs.com/package/@cleeng/mediastore-sdk) instead.</div>
+
 # MediaStore SDK
 
 > **Warning**
