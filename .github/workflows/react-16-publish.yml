@@ -38,7 +38,7 @@ jobs:
 
       - name: patch sdk version
         env: 
-          public: ${{ github.event.release.tag_name }} ///to change
+          public: ${{ github.event.release.tag_name }}
           restricted: ${{ env.tag }}-${{ github.event.number }}-${{ github.event.pull_request.head.sha }}
         run: >
           sed -i
