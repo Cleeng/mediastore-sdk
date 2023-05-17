@@ -1,5 +1,5 @@
 {
-  "name": "@cleeng/mediastore-sdk",
+  "name": "@cleeng/mediastore-sdk-react-16",
   "version": "0.0.0-development",
   "private": false,
   "main": "dist/package.js",

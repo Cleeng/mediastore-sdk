@@ -1,0 +1,16 @@
+name: Publish temporary package (react 16)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish:
+    uses: ./.github/workflows/react-16-publish.yml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      access: public
+      registry: registry.npmjs.org
+    secrets:
+      TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
