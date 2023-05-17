@@ -12,8 +12,8 @@
     "url": "https://github.com/Cleeng/mediastore-sdk"
   },
   "peerDependencies": {
-    "react": ">= 18.2.0",
-    "react-dom": "^18.2.0",
+    "react": ">= 16.8.0",
+    "react-dom": "^16.8.0",
     "styled-components": ">= 5"
   },
   "dependencies": {
@@ -32,7 +32,7 @@
     "lodash.merge": "^4.6.2",
     "prop-types": "^15.8.1",
     "react-app-polyfill": "^1.0.6",
-    "react-dom": "^18.2.0",
+    "react-dom": "^16.8.0",
     "react-i18next": "^10.13.2",
     "react-loading-skeleton": "^3.1.0",
     "react-redux": "^7.2.6",
