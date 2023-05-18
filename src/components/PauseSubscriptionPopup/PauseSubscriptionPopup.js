@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation, Trans } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation, Trans } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
 
 import { subscriptionSwitch } from 'api';
@@ -37,8 +36,7 @@ const PauseSubscriptionPopup = ({
   hideInnerPopup,
   showInnerPopup,
   updateList,
-  isPopupLoading,
-  t
+  isPopupLoading
 }) => {
   const STEPS = {
     PAUSE_DETAILS: 'PAUSE_DETAILS',
@@ -53,6 +51,8 @@ const PauseSubscriptionPopup = ({
   const [step, setStep] = useState(STEPS.PAUSE_DETAILS);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
+
+  const { t } = useTranslation();
 
   const pauseSubscription = async () => {
     setIsLoading(true);
@@ -240,7 +240,6 @@ PauseSubscriptionPopup.propTypes = {
   hideInnerPopup: PropTypes.func,
   updateList: PropTypes.func,
   isPopupLoading: PropTypes.bool,
-  t: PropTypes.func,
   showInnerPopup: PropTypes.func
 };
 
@@ -250,10 +249,9 @@ PauseSubscriptionPopup.defaultProps = {
   hideInnerPopup: () => {},
   showInnerPopup: () => {},
   updateList: () => {},
-  isPopupLoading: false,
-  t: k => k
+  isPopupLoading: false
 };
 
 export { PauseSubscriptionPopup as PureSubscriptionPopup };
 
-export default withTranslation()(labeling()(PauseSubscriptionPopup));
+export default PauseSubscriptionPopup;

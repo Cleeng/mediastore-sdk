@@ -1,12 +1,13 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { Trans, withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { Trans, useTranslation } from 'react-i18next';
 import { getData } from 'util';
 import { LegalNoteWrapperStyled, LegalTextStyled } from '../PaymentStyled';
 
 const LegalCopy = () => {
   const CLEENG_TERMS_URL = 'CLEENG_TERMS_URL';
+
+  const { t } = useTranslation();
 
   const generateLinkAttributes = href => ({
     href: getData(href),
@@ -18,7 +19,7 @@ const LegalCopy = () => {
   return (
     <LegalNoteWrapperStyled>
       <LegalTextStyled marginBottom="24px">
-        <Trans i18nKey="legal-notes-acknowledge">
+        <Trans i18nKey="legal-notes-acknowledge" t={t}>
           By clicking &apos;Pay&apos;, I expressly acknowledge and agree to the
           full{' '}
           <a {...generateLinkAttributes(CLEENG_TERMS_URL)}>Terms of Service</a>.
@@ -28,4 +29,4 @@ const LegalCopy = () => {
   );
 };
 
-export default withTranslation()(labeling()(LegalCopy));
+export default LegalCopy;

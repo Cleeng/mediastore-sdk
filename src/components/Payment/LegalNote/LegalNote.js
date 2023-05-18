@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Trans, withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { Trans, useTranslation } from 'react-i18next';
 import { getData, currencyFormat } from 'util';
 import { LegalNoteWrapperStyled, LegalTextStyled } from '../PaymentStyled';
 
@@ -19,6 +18,8 @@ const LegalNote = ({
   const readablePrice = `${currencyFormat[currency]}${offerPrice}`;
   const readablePeriod = `${period ? `/${period}` : ''}`;
 
+  const { t } = useTranslation();
+
   const CLEENG_MY_ACCOUNT_URL = 'CLEENG_MY_ACCOUNT_URL';
 
   const generateLinkAttributes = href => ({
@@ -34,7 +35,7 @@ const LegalNote = ({
         {(() => {
           if (isInTrial) {
             return (
-              <Trans i18nKey={`legal-notes.trial.period-${period}`}>
+              <Trans i18nKey={`legal-notes.trial.period-${period}`} t={t}>
                 <strong>
                   After any free trial and/or promotional period, you will be
                   charged {{ readablePrice }}
@@ -53,7 +54,7 @@ const LegalNote = ({
           }
           if (couponApplied) {
             return (
-              <Trans i18nKey={`legal-notes.discount.period-${period}`}>
+              <Trans i18nKey={`legal-notes.discount.period-${period}`} t={t}>
                 <strong>
                   After any free trial and/or promotional period, you will be
                   charged {{ readablePrice }}
@@ -70,7 +71,7 @@ const LegalNote = ({
             );
           }
           return (
-            <Trans i18nKey={`legal-notes.period-${period}`}>
+            <Trans i18nKey={`legal-notes.period-${period}`} t={t}>
               <strong>
                 By clicking &apos;Pay&apos;, you will be charged{' '}
                 {{ readablePrice }}
@@ -101,4 +102,4 @@ LegalNote.defaultProps = {
   period: null
 };
 
-export default withTranslation()(labeling()(LegalNote));
+export default LegalNote;
