@@ -145,13 +145,19 @@ export const ButtonWrapperStyled = styled.div.attrs(() => ({
   justify-content: center;
   margin-bottom: ${props => (props.removeMargin ? '0' : '60px')};
 
+  ${props =>
+    props.customMargin &&
+    css`
+      margin: ${props.customMargin};
+    `}
+
   ${media.small`
     margin-bottom: 60px;
   `}
 
   button {
     text-transform: capitalize;
-    width: 40%;
+    width: ${props => (props.fillWrapper ? '80%' : '40%')};
     margin: 0 5px;
     &:disabled {
       cursor: not-allowed;
@@ -208,12 +214,4 @@ export const OfferCardWrapperStyled = styled.div.attrs(() => ({
   .msd__subscription-price__period {
     font-size: 11px;
   }
-`;
-
-export const HorizontalLineStyled = styled.div`
-  height: 1px;
-  width: 100%;
-  margin: 16px auto;
-  max-width: 550px;
-  background-color: ${LineColor};
 `;
