@@ -18,7 +18,7 @@ To find out more about MediaStore SDK, see:
 #### Prerequisites
 
 - node v14.15.0
-- react (components are using v18.2.0)
+- react (components are using v16.8.0)
 
 ## Installation
 
