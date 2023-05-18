@@ -1,9 +1,6 @@
 name: Publish temporary package (react 16)
 
 on:
-  push:
-    branches:
-      - react-16-temporary-support
   workflow_dispatch:
 
 jobs:
