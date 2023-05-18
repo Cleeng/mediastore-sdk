@@ -31,7 +31,6 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: ${{ inputs.branch }}
-
       - uses: actions/setup-node@v3
         with:
           node-version: 16
@@ -45,7 +44,7 @@ jobs:
 
       - name: patch sdk version
         env:
-          public: ${{ github.event.release.tag_name }}
+          public: ${{ inputs.branch == 'react-16-temporary-support' && env.tag || github.event.release.tag_name }}
           restricted: ${{ env.tag }}-${{ github.event.number }}-${{ github.event.pull_request.head.sha }}
         run: >
           sed -i
