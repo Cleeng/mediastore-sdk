@@ -316,7 +316,7 @@
   "unsubscribe-popup.pause-description": "Pause your subscription until the beginning of next season, you can resume at any time.",
   "unsubscribe-popup.pause-button-text": "Pause",
   "unsubscribe-popup.back-button-text": "Back to My Account",
-  "unsubscribe-popup.unsubscribe-button-text": "Unsubscribe",
+  "unsubscribe-popup.unsubscribe-button-text": "Zrezygnuj z subskrypcji",
   "switchplanpopup-info": "You are about to change your plan from <strong>{{ fromOfferTitle }}</strong> to <strong>{{ toOfferTitle }}</strong>.",
   "switchplanpopup-info-immediatewithoutproration": "You will be immediately granted access to your selected plan and charged a new price <strong>{{ currencySymbol }}{{ currentPrice }}</strong> on your next billing date <strong>{{ expiresAt }}</strong>",
   "switchplanpopup-info-immediateandchargewithrefund": "You will be charged <strong>{{ currencySymbol }}{{ currentPrice }}</strong> and immediately granted access to your selected plan. The remaining value from the previous subscription will be refunded. You will continue to be charged <strong>{{ currencySymbol }}{{ nextPaymentPrice }}</strong> on a recurring basis until you cancel.",
