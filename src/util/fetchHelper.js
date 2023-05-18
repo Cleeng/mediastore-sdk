@@ -3,6 +3,7 @@ import jwtDecode from 'jwt-decode';
 import { getData, setData } from 'util/appConfigHelper';
 import Auth from 'services/auth';
 import getApiURL from 'util/environmentHelper';
+import { version } from '../../package.json';
 
 const JWT = 'CLEENG_AUTH_TOKEN';
 const REFRESH_TOKEN = 'CLEENG_REFRESH_TOKEN';
@@ -47,7 +48,10 @@ const generatePromiseWithHeaders = (url, options) => {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...(getData('CLEENG_ENVIRONMENT') === 'production' && {
+          'x-mssdk-components': version
+        })
       }
     });
   }
