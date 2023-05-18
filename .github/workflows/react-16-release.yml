@@ -14,8 +14,4 @@ jobs:
       registry: registry.npmjs.org
       branch: react-16-temporary-support
     secrets:
-<<<<<<< HEAD
       TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-=======
-      TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
->>>>>>> main
