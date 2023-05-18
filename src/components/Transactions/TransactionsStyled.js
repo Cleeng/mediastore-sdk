@@ -130,6 +130,7 @@ export const LogoWrapStyled = styled.div`
   align-items: center;
   border: 1px solid #d4d4df;
   border-radius: 6px;
+  padding: 0 5px;
   svg {
     height: auto;
   }

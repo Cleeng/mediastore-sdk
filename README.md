@@ -110,7 +110,7 @@ Config.setOfferSelectionUrl("https://client-website.com/plans"); // recommended 
 
 Config.setTheme(); // more informations in the [Styling] section.
 Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of payment methods that will be presented in Checkout and MyAccount
-// available options: 'applepay', 'bancontact_card', 'bancontact_mobile', 'card', 'googlepay', 'ideal', 'sofort'
+// available options: 'applepay', 'card', 'googlepay'
 Config.setHidePayPal(); // option to hide PayPal, by default PayPal will be visible when configured
 
 // Auth methods
@@ -803,7 +803,7 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 
 By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#my-account-header), [Checkout](#checkout-header), [PaymentInfo](#payment-info-header) and [Purchase](#purchase-header).
 
-If the payment method is not presented in the `paymentMethodConfiguration` object, then it doesn't have any optional configuration available, eg. bancontact mobile.
+If the payment method is not presented in the `paymentMethodConfiguration` object, then it doesn't have any optional configuration available.
 The example Adyen configuration object with described properties is shown below:
 
 ```javascript
@@ -832,24 +832,6 @@ The example Adyen configuration object with described properties is shown below:
       minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'
       autoFocus: true // Automatically move the focus from date field to the CVC field. The focus also moves to the date field when the entered card number reaches the expected length. Default: true
     },
-    ideal: {
-      showImage: true, //	Set to false to remove the bank logos from the iDEAL form. Default: true
-      issuer: "0031", // Optional. Set to an iDEAL issuer ID to preselect a specific bank, refer to: https://docs.adyen.com/payment-methods/ideal/web-drop-in?tab=live_payments_2#issuer-ids
-      highlightedIssuers: ['0761', '0802'] // Optional. Set to the iDEAL issuer IDs for banks you want to show on top of the dropdown menu.
-      placeholder: 'Choose your bank' // Optional. The string you want to show as the dropdown menu text. Custom translation configuration overrides this value. Default: 'Select your bank'
-    },
-    bancontactCard: { // Bancontact card (optional configuration similar to card above)
-      holderName: 'John', // String that is used to prefill the cardholder name field
-      name: 'Bancontact card', // String that is used to display the payment method name to the shopper.
-      styles: {}, // Set a style object to customize the card input fields. For a list of supported properties, refer to https://docs.adyen.com/payment-methods/cards/custom-card-integration#styling
-      minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'
-      brands: ['bcmc', 'visa'], // Array of card brands that will be recognized
-      showBrandIcon: true, // Set to false to not show the brand logo when the card brand has been recognized. Default: true
-      showBrandsUnderCardNumber: true, // Shows brand logos under the card number field when the shopper selects the card payment method. Default: true
-      billingAddressRequired: true, // Set to true to collect the shopper's billing address and mark the fields as required. Default: false
-      billingAddressAllowedCountries: ['US', 'CA', 'BR', 'PL'], // Specify allowed country codes for the billing address. Default: The Country field dropdown menu shows a list of all countries.
-      data: {} // Object that contains placeholder information that you can use to prefill fields.
-    },
     googlePay: {
       buttonColor: 'white', // default: A Google-selected default value. Currently black but it may change over time.
       // black: A black button suitable for use on white or light backgrounds.
@@ -862,7 +844,7 @@ The example Adyen configuration object with described properties is shown below:
       // static: Button has a static width and height
       // fill: Button size changes to fill the size of its container.
       // Default: 'fill'
-    }
+    },
     applePay: {
       buttonColor: 'black', // The color of button to be displayed on the payment form. Possible values:
       // 'black' - Use on white or light-color backgrounds that provide sufficient contrast. Don’t use on black or dark backgrounds.
