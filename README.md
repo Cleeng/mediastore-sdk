@@ -27,7 +27,7 @@ Install the package with:
 **NPM**
 
 ```
-npm i @cleeng/mediastore-sdk
+npm i @cleeng/mediastore-sdk-react-16
 ```
 
 or
@@ -35,7 +35,7 @@ or
 **Yarn**
 
 ```
-yarn add @cleeng/mediastore-sdk
+yarn add @cleeng/mediastore-sdk-react-16
 ```
 
 ---
