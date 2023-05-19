@@ -57,10 +57,6 @@ const store = (isOpen = false) => ({
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
 
-jest.mock('../../containers/labeling', () =>
-  jest.fn(() => jest.fn(Component => Component))
-);
-
 describe('PaymentInfo component', () => {
   test('should render PaymentMethod and Transactions component if paymentDetails is not open', async () => {
     const { getByText } = render(

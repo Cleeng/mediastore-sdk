@@ -18,7 +18,7 @@ import {
 } from './CheckoutConsentsStyled';
 
 const CheckoutConsents = ({ onSuccess }) => {
-  const [t] = useTranslation();
+  const { t } = useTranslation();
   const [consents, setConsents] = useState(null);
   const [processing, setProcessing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);

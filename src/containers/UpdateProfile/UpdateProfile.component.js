@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
 import SectionHeader from 'components/SectionHeader';
 import ProfileDetails from 'components/ProfileDetails';
 import AddressDetails from 'components/AddressDetails';
@@ -251,4 +250,4 @@ UpdateProfile.defaultProps = {
 
 export { UpdateProfile as PureUpdateProfile };
 
-export default withTranslation()(labeling()(UpdateProfile));
+export default withTranslation()(UpdateProfile);

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import { PropTypes } from 'prop-types';
 
 import { getCustomerOffers, getAvailableSwitches } from 'api';
@@ -24,12 +23,13 @@ const Subscriptions = ({
   setOfferToSwitch,
   showInnerPopup,
   setSwitchDetails,
-  skipAvailableDowngradesStep,
-  t
+  skipAvailableDowngradesStep
 }) => {
   const [isLoadingCurrentPlan, setIsLoadingCurrentPlan] = useState(false);
   const [isErrorCurrentPlan, setIsErrorCurrentPlan] = useState([]);
   const didMount = useRef(false);
+
+  const { t } = useTranslation();
 
   const getAndSaveSwitchSettings = async customerSubscriptions => {
     if (customerSubscriptions.length > 1) {
@@ -190,17 +190,15 @@ Subscriptions.propTypes = {
   setSwitchSettings: PropTypes.func.isRequired,
   updateList: PropTypes.func.isRequired,
   setSwitchDetails: PropTypes.func.isRequired,
-  skipAvailableDowngradesStep: PropTypes.bool,
-  t: PropTypes.func
+  skipAvailableDowngradesStep: PropTypes.bool
 };
 
 Subscriptions.defaultProps = {
   planDetails: { currentPlan: [] },
   innerPopup: {},
-  skipAvailableDowngradesStep: false,
-  t: k => k
+  skipAvailableDowngradesStep: false
 };
 
 export { Subscriptions as PureSubscriptions };
 
-export default withTranslation()(labeling()(Subscriptions));
+export default Subscriptions;
