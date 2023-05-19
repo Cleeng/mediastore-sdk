@@ -3,8 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation, Trans } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation, Trans } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import store from 'redux/store';
 
@@ -35,8 +34,7 @@ const Unsubscribe = ({
   updateList,
   customCancellationReasons,
   showInnerPopup,
-  skipAvailableDowngradesStep,
-  t
+  skipAvailableDowngradesStep
 }) => {
   const STEPS = {
     DOWNGRADES: 'DOWNGRADES',
@@ -60,6 +58,8 @@ const Unsubscribe = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const { pauseOffersIDs } = useSelector(state => state.offers);
+
+  const { t } = useTranslation();
 
   const getDowngrades = () => {
     const { planDetails } = store.getState();
@@ -328,7 +328,7 @@ const Unsubscribe = ({
                         )}
                   </>
                 )}{' '}
-                <Trans i18nKey="unsubscribe-info">
+                <Trans i18nKey="unsubscribe-info" t={t}>
                   If you would like to proceed with cancelling your
                   subscription, please select 'Unsubscribe' below, and your
                   subscription will be cancelled as of {{ formattedExpiresAt }}.
@@ -413,14 +413,12 @@ Unsubscribe.propTypes = {
       value: PropTypes.string.isRequired
     })
   ),
-  skipAvailableDowngradesStep: PropTypes.bool,
-  t: PropTypes.func
+  skipAvailableDowngradesStep: PropTypes.bool
 };
 
 Unsubscribe.defaultProps = {
   customCancellationReasons: null,
-  skipAvailableDowngradesStep: false,
-  t: k => k
+  skipAvailableDowngradesStep: false
 };
 
-export default withTranslation()(labeling()(Unsubscribe));
+export default Unsubscribe;
