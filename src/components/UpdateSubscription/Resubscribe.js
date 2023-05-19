@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 
 import updateSubscription from 'api/Customer/updateSubscription';
 import { dateFormat, currencyFormat } from 'util/planHelper';
@@ -18,10 +17,12 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
-const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
+const Resubscribe = ({ offerDetails, hideInnerPopup, updateList }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+
+  const { t } = useTranslation();
 
   const { expiresAt, nextPaymentPrice, nextPaymentCurrency } = offerDetails;
   const currencySymbol = currencyFormat[nextPaymentCurrency];
@@ -120,12 +121,7 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
 Resubscribe.propTypes = {
   hideInnerPopup: PropTypes.func.isRequired,
   updateList: PropTypes.func.isRequired,
-  offerDetails: PropTypes.objectOf(PropTypes.any).isRequired,
-  t: PropTypes.func
+  offerDetails: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
-Resubscribe.defaultProps = {
-  t: k => k
-};
-
-export default withTranslation()(labeling()(Resubscribe));
+export default Resubscribe;

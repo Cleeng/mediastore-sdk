@@ -15,7 +15,7 @@ import {
   Checkmark
 } from './PasswordResetSuccessStyled';
 
-const PasswordResetSuccess = ({ email, resetPasswordCallback, t }) => {
+const PasswordResetSuccess = ({ email, resetPasswordCallback }) => {
   const { t } = useTranslation();
 
   return (
