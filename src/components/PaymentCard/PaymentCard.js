@@ -24,6 +24,7 @@ import {
   CardInfoWrapStyled,
   HolderNameStyled
 } from './PaymentCardStyled';
+import VisuallyHidden from '../../styles/visuallyHidden';
 
 const PaymentCardSkeleton = () => (
   <CardStyled>
@@ -63,6 +64,7 @@ const PaymentCard = ({ isDataLoaded, details }) => {
     : { icon: null, title: '' };
 
   const LogoComponent = card?.icon || null;
+  const logoCaption = card?.caption;
   const methodTitle = card?.title || '';
 
   return (
@@ -74,6 +76,10 @@ const PaymentCard = ({ isDataLoaded, details }) => {
               {LogoComponent && (
                 <CardTypeStyled>
                   <LogoComponent />
+                  <VisuallyHidden />
+                  <figcaption className="visually-hidden">
+                    {logoCaption}
+                  </figcaption>
                 </CardTypeStyled>
               )}
               <CardDetailsStyled>

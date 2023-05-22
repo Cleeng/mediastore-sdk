@@ -15,10 +15,12 @@ import { ReactComponent as Diners } from 'assets/images/paymentMethods/diners.sv
 export const CardTypes = {
   visa: {
     icon: Visa,
+    caption: 'Visa',
     title: 'Credit Card'
   },
   visacredit: {
     icon: Visa,
+    caption: 'Visa',
     title: 'Credit Card'
   },
   amex: {

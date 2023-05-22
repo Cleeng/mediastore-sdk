@@ -45,10 +45,15 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
   margin-bottom: 8px;
 
   border: 1px solid ${Colors.LineColor};
+
   border-radius: 30px;
 
   background: white;
   transition: 0.2s ease-in-out;
+
+  &:focus-within {
+    border-color: ${Colors.FocusColor};
+  }
 `;
 
 export const InputElementStyled = styled.input.attrs(() => ({
