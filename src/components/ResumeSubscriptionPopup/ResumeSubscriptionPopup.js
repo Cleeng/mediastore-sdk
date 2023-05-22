@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Trans, useTranslation } from 'react-i18next';
-import formatNumber from 'util/formatNumber';
 
 import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
@@ -142,8 +141,6 @@ const ResumeSubscriptionPopup = ({
   }
 
   const planName = toOffer?.title;
-  const price = formatNumber(toOffer?.nextPaymentPrice);
-  const currency = toOffer?.nextPaymentPriceCurrencySymbol;
 
   return (
     <InnerPopupWrapper
@@ -162,18 +159,14 @@ const ResumeSubscriptionPopup = ({
             <TitleStyled step={step} textTransform="capitalize">
               {t(
                 'resume-subscription-popup.header',
-                'Resume your subscription'
+                'Resume your {{ planName }} subscription',
+                { planName }
               )}
             </TitleStyled>
             <TextStyled>
               <Trans i18nKey="resume-subscription-popup.info">
-                You are about to resume your plan{' '}
-                <strong>{{ planName }}</strong>. You will be charged{' '}
-                <strong>
-                  {{ currency }}
-                  {{ price }}
-                </strong>{' '}
-                on the next billing date.
+                Click the button below to resume your {{ planName }}
+                subscription.
               </Trans>
             </TextStyled>
             <TextStyled step={step}>
@@ -210,12 +203,15 @@ const ResumeSubscriptionPopup = ({
               <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
             </ImageWrapper>
             <TitleStyled step={step}>
-              {t('resume-subscription-popup.success-header', 'Thank you!')}
+              {t(
+                'resume-subscription-popup.success-header',
+                'Your {{ planName }} subscription has been resumed',
+                { planName }
+              )}
             </TitleStyled>
             <TextStyled step={step}>
               <Trans i18nKey="resume-subscription-popup.success-text">
-                You have successfully resumed your plan{' '}
-                <strong>{{ planName }}.</strong>
+                You can now access your {{ planName }} subscription.
               </Trans>
             </TextStyled>
           </ContentStyled>

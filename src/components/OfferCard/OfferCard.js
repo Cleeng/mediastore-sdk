@@ -66,9 +66,10 @@ const OfferCard = ({
       if (isPauseInProgress) {
         return t(
           'offer-card.info-box.pause-information-text',
-          'Your current plan will be paused starting on {{subscriptionExpirationDate}}. During the subscription pause period, you will not be charged. You can cancel the scheduled pause anytime.',
+          'Your current plan will be paused starting on {{subscriptionExpirationDate}}. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ translatedTitle }}. You can cancel this pause request at any time.',
           {
-            subscriptionExpirationDate
+            subscriptionExpirationDate,
+            translatedTitle
           }
         );
       }

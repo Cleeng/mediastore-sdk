@@ -132,6 +132,7 @@ const AdyenStyled = styled.div.attrs(() => ({
         .adyen-checkout__payment-method__header {
           padding: 12px 16px 12px 44px;
         }
+
         .adyen-checkout__payment-method__radio {
           display: block;
         }

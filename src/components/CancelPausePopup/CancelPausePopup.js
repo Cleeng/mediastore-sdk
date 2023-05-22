@@ -35,6 +35,7 @@ const CancelPausePopup = ({
 
   const planDetailsState = useSelector(state => state.planDetails);
   const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
+  const { offerToSwitch } = planDetailsState;
   const eventsPayload = {
     pendingSwitchId,
     fromOfferId: switchDetails?.fromOfferId,
@@ -66,6 +67,7 @@ const CancelPausePopup = ({
     }
   };
 
+  const pausedOfferTitle = offerToSwitch?.offerTitle;
   return (
     <InnerPopupWrapper
       steps={2}
@@ -82,11 +84,18 @@ const CancelPausePopup = ({
             <TextStyled>
               {t(
                 'cancel-pause-popup.information-text',
-                'The subscription pause will take effect on  {{baseOfferExpirationDate}}. Are you sure you want to cancel the scheduled pause and resume your subscription? If you resume your plan, you will be charged {{baseOfferPrice}} on the next billing date.',
+                'Your current plan will be paused starting on {{baseOfferExpirationDate}}. Cancel the pause to resume access to your {{ pausedOfferTitle }} subscription. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ pausedOfferTitle }}.',
                 {
                   baseOfferExpirationDate,
-                  baseOfferPrice
+                  baseOfferPrice,
+                  pausedOfferTitle
                 }
+              )}
+            </TextStyled>
+            <TextStyled>
+              {t(
+                'cancel-pause-popup.question-text',
+                'Would you like to cancel the pause request?'
               )}
             </TextStyled>
           </ContentStyled>
@@ -118,12 +127,18 @@ const CancelPausePopup = ({
           <ContentStyled>
             <img src={checkmarkIconBase} alt="checkmark icon" />
             <TitleStyled>
-              {t('cancel-pause-popup.confirmation-title', 'Pause canceled')}
+              {t(
+                'cancel-pause-popup.confirmation-title',
+                'Your pause request has been canceled.'
+              )}
             </TitleStyled>
             <TextStyled>
               {t(
                 'cancel-pause-popup.confirmation-text',
-                'You have successfully canceled subscription pause.'
+                'Your access to your {{ pausedOfferTitle }} subscription will continue.',
+                {
+                  pausedOfferTitle
+                }
               )}
             </TextStyled>
           </ContentStyled>

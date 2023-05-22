@@ -23,8 +23,7 @@ import {
   TextStyled,
   ButtonWrapperStyled,
   OfferCardWrapperStyled,
-  DowngradesWrapperStyled,
-  HorizontalLineStyled
+  DowngradesWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import { ReasonsWrapper, StyledItem } from './UpdateSubscriptionStyled';
 
@@ -37,24 +36,16 @@ const Unsubscribe = ({
   skipAvailableDowngradesStep
 }) => {
   const STEPS = {
+    PAUSE: 'PAUSE',
     DOWNGRADES: 'DOWNGRADES',
     SURVEY: 'SURVEY',
     CONFIRMATION: 'CONFIRMATION'
   };
-
-  const EXTENDED_FLOW_STEP_NUMBER = {
-    DOWNGRADES: 1,
-    SURVEY: 2,
-    CONFIRMATION: 3
-  };
-
-  const BASIC_FLOW_STEP_NUMBER = {
-    SURVEY: 1,
-    CONFIRMATION: 2
-  };
+  const INITIAL_STEPS_ARRAY = [STEPS.SURVEY, STEPS.CONFIRMATION];
 
   const [downgradesList, setDowngradesList] = useState([]);
   const [checkedReason, setCheckedReason] = useState('');
+  const [steps, setSteps] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const { pauseOffersIDs } = useSelector(state => state.offers);
@@ -81,6 +72,8 @@ const Unsubscribe = ({
     return false;
   };
 
+  const downgrades = getDowngrades();
+
   const shouldShowDowngradeScreen = () => {
     const {
       innerPopup: {
@@ -96,22 +89,50 @@ const Unsubscribe = ({
     ) {
       return false;
     }
-    if (!offerData.inTrial && getDowngrades().length) {
-      return true;
+    if (!offerData.inTrial && downgrades.length) {
+      const downgradesFiltered = downgrades.filter(
+        ({ toOfferId }) => !pauseOffersIDs.includes(toOfferId)
+      );
+      return !!downgradesFiltered.length;
+    }
+    return false;
+  };
+
+  const shouldShowPauseScreen = () => {
+    if (downgrades.length) {
+      const pauseOffer = downgrades.filter(({ toOfferId }) =>
+        pauseOffersIDs.includes(toOfferId)
+      );
+      return !!pauseOffer.length;
     }
     return false;
   };
 
   const shouldShowDowngrades = shouldShowDowngradeScreen();
-  const [currentStep, setCurrentStep] = useState(
-    shouldShowDowngrades ? STEPS.DOWNGRADES : STEPS.SURVEY
+  const shouldShowPause = shouldShowPauseScreen();
+  const [currentStep, setCurrentStep] = useState(null);
+
+  const pauseOffer = downgradesList?.filter(({ toOfferId }) =>
+    pauseOffersIDs.includes(toOfferId)
   );
 
   useEffect(() => {
-    if (shouldShowDowngrades) {
-      setDowngradesList(() => getDowngrades());
+    const tempArray = INITIAL_STEPS_ARRAY.slice();
+    if (shouldShowDowngrades && !tempArray.includes(STEPS.DOWNGRADES)) {
+      tempArray.unshift(STEPS.DOWNGRADES);
     }
+    if (shouldShowPause && !tempArray.includes(STEPS.PAUSE)) {
+      tempArray.unshift(STEPS.PAUSE);
+    }
+    if (tempArray.length !== steps.length) {
+      setSteps(tempArray);
+    }
+    if (!downgradesList.length) setDowngradesList(() => getDowngrades());
   }, []);
+
+  useEffect(() => {
+    setCurrentStep(steps[0]);
+  }, [steps]);
 
   const defaultCancellationReasons = [
     { value: 'Poor customer support', key: 'support' },
@@ -173,79 +194,82 @@ const Unsubscribe = ({
   const downgradesListFiltered = downgradesList?.filter(
     ({ toOfferId }) => !pauseOffersIDs.includes(toOfferId)
   );
-  const pauseOffer = downgradesList?.filter(({ toOfferId }) =>
-    pauseOffersIDs.includes(toOfferId)
-  );
+
+  if (!steps || !currentStep) return <></>;
 
   return (
     <InnerPopupWrapper
-      steps={shouldShowDowngrades ? 3 : 2}
-      popupTitle={t('Manage your plan')}
+      steps={steps.length}
+      popupTitle={t('unsubscribe-popup.title', 'Manage your plan')}
       isError={isError}
-      currentStep={
-        shouldShowDowngrades
-          ? EXTENDED_FLOW_STEP_NUMBER[currentStep]
-          : BASIC_FLOW_STEP_NUMBER[currentStep]
-      }
+      currentStep={steps.indexOf(currentStep) + 1}
     >
+      {currentStep === STEPS.PAUSE && (
+        <ContentStyled>
+          <TitleStyled>
+            {t(
+              'unsubscribe-popup.pause-title',
+              'Would you like to pause your subscription instead?'
+            )}
+          </TitleStyled>
+          <TextStyled>
+            {t(
+              'unsubscribe-popup.pause-question',
+              'Need to step away? No problem.'
+            )}
+          </TextStyled>
+          <TextStyled>
+            {t(
+              'unsubscribe-popup.pause-description',
+              'Pause your subscription until the beginning of next season, you can resume at any time.'
+            )}
+          </TextStyled>
+          <ButtonWrapperStyled fillWrapper customMargin="80px 0 0">
+            <Button
+              theme="confirm"
+              onClickFn={() => {
+                showInnerPopup({
+                  type: 'pauseSubscription',
+                  data: {
+                    offerData: {
+                      ...pauseOffer[0]
+                    },
+                    isPartOfCancellationFlow: true
+                  }
+                });
+              }}
+            >
+              {t('unsubscribe-popup.pause-button-text', 'Pause')}
+            </Button>
+          </ButtonWrapperStyled>
+          <TextStyled>
+            {t('Or still wants to cancel a subscription?')}
+          </TextStyled>
+          <ButtonWrapperStyled removeMargin>
+            <Button theme="simple" onClickFn={hideInnerPopup}>
+              {t('unsubscribe-popup.back-button-text', 'Back to My Account')}
+            </Button>
+            <Button
+              theme="primary"
+              onClickFn={() =>
+                setCurrentStep(steps[steps.indexOf(currentStep) + 1])
+              }
+            >
+              {t('unsubscribe-popup.unsubscribe-button-text', 'Unsubscribe')}
+            </Button>
+          </ButtonWrapperStyled>
+        </ContentStyled>
+      )}
       {currentStep === STEPS.DOWNGRADES && (
         <ContentStyled>
-          {pauseOffer.length ? (
-            <>
-              <TitleStyled>
-                {downgradesListFiltered.length
-                  ? t('We’re sorry to see you go!')
-                  : t('How about pausing your subscription?')}
-              </TitleStyled>
-              <TextStyled>
-                {downgradesListFiltered.length
-                  ? t(
-                      'You might want to pause your subscription instead or find another plan that will suit you better'
-                    )
-                  : t(
-                      'You won’t be charged for your current plan until your subscription is resumed.'
-                    )}
-              </TextStyled>
-              <OfferCardWrapperStyled
-                onClick={() =>
-                  showInnerPopup({
-                    type: 'pauseSubscription',
-                    data: {
-                      offerData: {
-                        ...pauseOffer[0]
-                      },
-                      isPartOfCancellationFlow: true
-                    }
-                  })
-                }
-              >
-                <OfferCard
-                  offerType="S"
-                  title={t('Pause subscription')}
-                  description={t(
-                    'Your current plan will be paused for {{ pausePeriod }}',
-                    {
-                      pausePeriod:
-                        periodMapper[pauseOffer[0].period].chargedForEveryText
-                    }
-                  )}
-                  offerId={pauseOffer[0].toOfferId}
-                  isPriceBoxHidden
-                  isPaused
-                />
-              </OfferCardWrapperStyled>
-              {downgradesListFiltered.length !== 0 && <HorizontalLineStyled />}
-            </>
-          ) : (
-            <>
-              <TitleStyled>
-                {t('How about a plan downgrade instead of cancellation?')}
-              </TitleStyled>
-              <TextStyled>
-                {t('Here are the plans that might suit your needs:')}
-              </TextStyled>
-            </>
-          )}
+          <>
+            <TitleStyled>
+              {t('How about a plan downgrade instead of cancellation?')}
+            </TitleStyled>
+            <TextStyled>
+              {t('Here are the plans that might suit your needs:')}
+            </TextStyled>
+          </>
           <DowngradesWrapperStyled>
             {downgradesListFiltered.map(downgradeOffer => {
               return (
@@ -290,7 +314,7 @@ const Unsubscribe = ({
               theme="confirm"
               onClickFn={() => setCurrentStep(STEPS.SURVEY)}
             >
-              {t('Unsubscribe')}
+              {t('unsubscribe-popup.unsubscribe-button-text', 'Unsubscribe')}
             </Button>
           </ButtonWrapperStyled>
         </ContentStyled>
