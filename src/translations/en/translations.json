@@ -95,7 +95,7 @@
   "Your {{translatedTitle}} subscription is paid until {{formattedExpiresAt}}.": "Your {{translatedTitle}} subscription is paid until {{formattedExpiresAt}}.",
   "If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of {{formattedExpiresAt}}. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.": "If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of {{formattedExpiresAt}}. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.",
   "Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.": "Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.",
-  "This plan will expire on {{expiresAtDate}": "Subskrypcja aktywna do {{expiresAtDate}",
+  "This plan will expire on {{expiresAtDate}": "This plan will expire on {{expiresAtDate}",
   "Back to My Account": "Back to My Account",
   "No, thanks": "No, thanks",
   "Resume your plan": "Resume your plan",
