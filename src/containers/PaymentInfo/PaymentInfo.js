@@ -57,10 +57,16 @@ const PaymentInfo = ({
         </div>
       ) : (
         <>
-          <SectionHeader>{t('Current payment method')}</SectionHeader>
-          <PaymentMethod />
-          <SectionHeader marginTop="25px">{t('Payment history')}</SectionHeader>
-          <Transactions />
+          <section>
+            <SectionHeader>{t('Current payment method')}</SectionHeader>
+            <PaymentMethod />
+          </section>
+          <section>
+            <SectionHeader marginTop="25px">
+              {t('Payment history')}
+            </SectionHeader>
+            <Transactions />
+          </section>
         </>
       )}
     </WrapStyled>

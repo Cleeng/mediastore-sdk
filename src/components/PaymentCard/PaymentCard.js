@@ -95,7 +95,9 @@ const PaymentCard = ({ isDataLoaded, details }) => {
                     <CardExpirationLabel>
                       {t('Expiry date')}
                     </CardExpirationLabel>
-                    <CardExpirationDateStyled>
+                    <CardExpirationDateStyled
+                      datetime={paymentMethodSpecificParams.cardExpirationDate}
+                    >
                       {paymentMethodSpecificParams.cardExpirationDate}
                     </CardExpirationDateStyled>
                   </CardExpirationStyled>
@@ -103,6 +105,7 @@ const PaymentCard = ({ isDataLoaded, details }) => {
               </CardDetailsStyled>
             </CardInfoStyled>
             <CardEditStyled
+              type="button"
               onClick={() => {
                 dispatch(
                   updatePaymentDetailsPopup({

@@ -3,7 +3,7 @@ import styled, { css } from 'styled-components';
 import { LineColor, FontColor, White } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
-export const WrapStyled = styled.div.attrs(() => ({
+export const WrapStyled = styled.article.attrs(() => ({
   className: 'msd__transactions__wrapper'
 }))`
   position: relative;
@@ -17,7 +17,7 @@ export const WrapStyled = styled.div.attrs(() => ({
   `}
 `;
 
-export const InsideWrapperStyled = styled.div.attrs(() => ({
+export const InsideWrapperStyled = styled.li.attrs(() => ({
   className: 'msd__transactions__item'
 }))`
   display: flex;
@@ -46,7 +46,7 @@ export const InsideWrapperStyled = styled.div.attrs(() => ({
       `)}
 `;
 
-export const TransactionListStyled = styled.div.attrs(() => ({
+export const TransactionListStyled = styled.ul.attrs(() => ({
   className: 'msd__transactions__list'
 }))`
   overflow: hidden;
@@ -92,7 +92,7 @@ export const IdStyled = styled.div.attrs(() => ({
 
   font-size: 13px;
 `;
-export const DateStyled = styled.div.attrs(() => ({
+export const DateStyled = styled.time.attrs(() => ({
   className: 'msd__transaction__date'
 }))`
   margin-top: 6px;

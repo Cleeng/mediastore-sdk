@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import { MyAccountTextGray } from 'styles/variables';
 
-export const WrapStyled = styled.div`
+export const WrapStyled = styled.article`
   position: relative;
 
   margin-bottom: 30px;

@@ -8,12 +8,13 @@ export const CardStyled = styled.div.attrs(() => ({
   height: 100%;
 `;
 
-export const CardTypeStyled = styled.div.attrs(() => ({
+export const CardTypeStyled = styled.figure.attrs(() => ({
   className: 'msd__payment-card__type'
 }))`
   display: flex;
   width: 38px;
   height: 26px;
+  margin: 0;
 
   svg {
     width: 100%;
@@ -57,7 +58,7 @@ export const CardExpirationLabel = styled.div.attrs(() => ({
   margin-right: 4px;
 `;
 
-export const CardExpirationDateStyled = styled.div.attrs(() => ({
+export const CardExpirationDateStyled = styled.time.attrs(() => ({
   className: 'msd__payment-data__value'
 }))`
   color: ${FontColor};
@@ -71,6 +72,7 @@ export const CardExpirationDateStyled = styled.div.attrs(() => ({
 `;
 
 export const CardEditStyled = styled.button.attrs(() => ({
+  // export const CardEditStyled = styled(Button).attrs(() => ({
   className: 'msd__payment-method__button'
 }))`
   color: ${White};
@@ -82,9 +84,12 @@ export const CardEditStyled = styled.button.attrs(() => ({
   font-weight: 600;
   border-radius: 21px;
   border: 0;
+  opacity: 0.9;
 
-  &:hover {
+  &:hover,
+  &:focus {
     cursor: pointer;
+    opacity: 1;
   }
 `;
 

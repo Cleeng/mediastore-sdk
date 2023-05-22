@@ -147,7 +147,9 @@ const Transactions = ({ t }) => {
                   </LeftBoxStyled>
                   <RightBoxStyled>
                     <IdStyled>{transactionId}</IdStyled>
-                    <DateStyled>{dateFormat(transactionDate)}</DateStyled>
+                    <DateStyled datetime={dateFormat(transactionDate)}>
+                      {dateFormat(transactionDate)}
+                    </DateStyled>
                   </RightBoxStyled>
                 </InsideWrapperStyled>
               );
