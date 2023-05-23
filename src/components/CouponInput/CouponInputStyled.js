@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import * as Colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
+import { isRTL } from 'styles/RTLHelper';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 
 export const InputComponentStyled = styled.div.attrs(() => ({
@@ -84,6 +85,12 @@ export const InputElementStyled = styled.input.attrs(() => ({
         `}
     `}
 
+  ${isRTL() &&
+    css`
+      right: 37px;
+      left: unset;
+    `}
+
   ${props =>
     props.readOnly &&
     css`
@@ -109,6 +116,12 @@ export const CloseButtonStyled = styled.button.attrs(() => ({
   justify-content: center;
   align-items: center;
   cursor: pointer;
+
+  ${isRTL() &&
+    css`
+      right: 7px;
+      left: unset;
+    `}
 
   svg {
     transform: scale(0.3);

@@ -2,6 +2,7 @@
 import styled, { css } from 'styled-components';
 import { LineColor, FontColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
+import { isRTL } from 'styles/RTLHelper';
 
 export const WrapStyled = styled.div.attrs(() => ({
   className: 'msd__transactions__wrapper'
@@ -64,6 +65,13 @@ export const RightBoxStyled = styled.div`
   flex-shrink: 0;
   margin-left: 20px;
   text-align: right;
+
+  ${isRTL() &&
+    css`
+      margin-left: 0;
+      margin-right: 20px;
+      text-align: left;
+    `}
 `;
 
 export const TitleStyled = styled.h3.attrs(() => ({
@@ -138,4 +146,10 @@ export const LogoWrapStyled = styled.div`
 
 export const InfoStyled = styled.div`
   margin-left: 18px;
+
+  ${isRTL() &&
+    css`
+      margin-left: 0;
+      margin-right: 18px;
+    `}
 `;

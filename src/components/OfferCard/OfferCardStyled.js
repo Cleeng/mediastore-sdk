@@ -1,5 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
+import { isRTL } from 'styles/RTLHelper';
 import {
   BoldFont,
   MediumFont,
@@ -63,6 +64,11 @@ export const PriceWrapperStyled = styled.div.attrs(() => ({
   display: flex;
   flex-direction: column;
   margin: auto 0 auto auto;
+
+  ${isRTL() &&
+    css`
+      margin: auto auto auto 0;
+    `}
 `;
 
 export const TrialBadgeStyled = styled.div.attrs(() => ({
@@ -105,6 +111,11 @@ export const BoxTextStyled = styled.p.attrs(() => ({
   color: ${FontColor};
   margin: 0 0 0 10px;
   line-height: initial;
+
+  ${isRTL() &&
+    css`
+      margin: 0 10px 0 0;
+    `}
 `;
 
 export const SubBoxContentStyled = styled.div``;

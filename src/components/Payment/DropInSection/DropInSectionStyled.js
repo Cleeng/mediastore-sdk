@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 import { ConfirmColor } from 'styles/variables';
+import { isRTL } from 'styles/RTLHelper';
 
 export const WrapperStyled = styled.div.attrs(() => ({
   className: 'msd__custom-dropin--wrapper'
@@ -41,6 +42,12 @@ export const TextStyled = styled.div.attrs(() => ({
   align-items: center;
   position: relative;
   padding: 12px 16px 12px 50px;
+
+  ${isRTL() &&
+    css`
+      padding: 12px 50px 12px 16px;
+    `}
+
   ${media.small`
     max-width: 400px;
   `}
@@ -50,6 +57,12 @@ export const TitleStyled = styled.span.attrs(() => ({
   className: 'msd__custom-dropin-title'
 }))`
   margin-left: 10px;
+
+  ${isRTL() &&
+    css`
+      margin-left: 0;
+      margin-right: 10px;
+    `}
 `;
 
 export const IconWrapperStyled = styled.div.attrs(() => ({

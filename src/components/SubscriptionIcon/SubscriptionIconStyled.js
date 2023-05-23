@@ -1,5 +1,6 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
+import { isRTL } from 'styles/RTLHelper';
 import { BoldFont, FontColor, White, ConfirmColor } from 'styles/variables';
 
 export const WrapperStyled = styled.div.attrs(() => ({
@@ -37,6 +38,16 @@ export const WrapperStyled = styled.div.attrs(() => ({
     
     font-size: 20px;
   `}
+
+  ${isRTL() &&
+    css`
+      margin-right: 0;
+      margin-left: 10px;
+      ${mediaFrom.small`
+        margin-right: 0;
+        margin-left: 15px;
+      `}
+    `}
 `;
 
 export const LabelStyled = styled.span`

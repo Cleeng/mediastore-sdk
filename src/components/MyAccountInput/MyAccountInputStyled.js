@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { isRTL } from 'styles/RTLHelper';
 import {
   FontColor,
   BackgroundColor,
@@ -38,6 +39,11 @@ export const InputElementStyled = styled.input.attrs(() => ({
   border-radius: 4px;
   font-size: 13px;
   line-height: 13px;
+
+  ${isRTL() &&
+    css`
+      text-align: right;
+    `}
 
   &:focus,
   &:active {
