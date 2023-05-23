@@ -37,7 +37,8 @@ To find out more about MediaStore SDK, see:
 - [Adyen configuration](#adyen-configuration)
 - [Translations](#translations)
 - [Security](#security)
-
+- [Documentation](#related-documentation)
+- [License](#license)
 ## Installation
 
 ##### Prerequisites
@@ -81,17 +82,17 @@ Config functions save data to local storage (as `CLEENG_*` items). These data ar
 
 | Method                          | Param                                                       | Description                                                                                                                                                                 |
 | ------------------------------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `setEnvironment`                | `sandbox` / `production`                                    | Required for all components. Default: `sandbox`                                                                                                                             |
-| `setJWT`                        | valid JWT (string)                                          | Customer authorization token received from login / registration / SSO endpoint                                                                                              |
-| `setRefreshToken`               | valid refesh token (string)                                 | Customer refresh token received from login / registration / SSO endpoint                                                                                                    |
-| `setPublisher`                  | publisherId (string)                                        | Your broadcaster ID in the Cleeng system                                                                                                                                    |
-| `setOffer`                      | offerId(string)                                             | `offerId` is the ID of the offer created for your broadcaster in the Cleeng system                                                                                          |
+| `setEnvironment`                | `'sandbox' | 'production'`                                    | Required for all components. Default: `sandbox`                                                                                                                             |
+| `setJWT`                        |  `JWT :string`                                        | Customer authorization token received from login / registration / SSO endpoint                                                                                              |
+| `setRefreshToken`               |  `refeshToken :string`                                 | Customer refresh token received from login / registration / SSO endpoint                                                                                                    |
+| `setPublisher`                  | `publisherId :string`                                        | Your broadcaster ID in the Cleeng system                                                                                                                                    |
+| `setOffer`                      | `offerId :string`                                             | `offerId` is the ID of the offer created for your broadcaster in the Cleeng system                                                                                          |
 | `setCheckoutPayPalUrls`         | `{successURL: string, cancelUrl: string,errorUrl: string }` | PayPal redirection URLs, required for Paypal payment                                                                                                                        |
-| `setMyAccountPayPalUrls`        | `{successURL: string, cancelUrl: string,errorUrl: string }` | PayPal redirection URLs, required for update PayPal payment details. Query param 'message' with a readable error message will be added to errorUrl when an error will occur |
-| `setMyAccountUrl`               | url:string                                                  | My account URL. Needed for checkout legal notes                                                                                                                             |
-| `setOfferSelectionUrl`          | url:string                                                  | Url to offer selection page. Recommended for CTA when the customer has no active plan                                                                                       |
-| `setTheme`                      | object                                                      | More informations in the [Styling](#styling) section.                                                                                                                       |
-| `setVisibleAdyenPaymentMethods` | array of payment method names                               | Payment methods that should be presented in Checkout and MyAccount. Available options: `applepay`, `card`, `googlepay`, `ideal`, `sofort`                                   |
+| `setMyAccountPayPalUrls`        | `{successURL: string, cancelUrl: string, errorUrl: string }` | PayPal redirection URLs, required for update PayPal payment details. Query param 'message' with a readable error message will be added to errorUrl when an error will occur |
+| `setMyAccountUrl`               | `url: string`                                                 | My account URL. Needed for checkout legal notes                                                                                                                             |
+| `setOfferSelectionUrl`          | `url: string`                                                | Url to offer selection page. Recommended for CTA when the customer has no active plan                                                                                       |
+| `setTheme`                      | `styles:object`                                                      | More informations in the [Styling](#styling) section.                                                                                                                       |
+| `setVisibleAdyenPaymentMethods` | `paymentMethods: string[]`| Array of payment methods names that should be presented in Checkout and MyAccount. Available options: `applepay`, `card`, `googlepay`, `ideal`, `sofort`                                   |
 | `setHidePayPal`                 | -                                                           | Option to hide PayPal, by default PayPal will be visible when configured                                                                                                    |
 
 <b>Sample of usage</b>
@@ -110,8 +111,8 @@ Config.setHidePayPal();
 
 | Method     | Param | Description                                                                                      |
 | ---------- | ----- | ------------------------------------------------------------------------------------------------ |
-| `isLogged` | -     | Returns true if the user is authenticated (valid JWT or existing refresh token in local storage) |
-| `logout`   | fun   | removes all Cleeng data from local storage and redux. clb - optional callback function           |
+| `isLogged` | -     | Returns `true` if the user is authenticated (valid JWT or existing refresh token in local storage) |
+| `logout`   | clb   | removes all Cleeng data from local storage and redux. clb - optional callback function           |
 
 ```javascript
 Auth.isLogged();
@@ -121,7 +122,7 @@ Auth.logout(() => console.log('The user has been logged out')));
 #### 3. Embed component (sample)
 
 <b>Each component needs to be wrapper into Provider, as in the example below.</b>
-This component should be rendered in the browser. If you are using NextJS, turn off ssr for MSSDK components.
+Component should be rendered in the browser - if you are using NextJS, turn off SSR for MSSDK components.
 
 ```javascript
 import { useEffect } from 'react';
