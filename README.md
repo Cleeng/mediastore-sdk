@@ -1,9 +1,3 @@
-<style>
-.markdown-body h2 {
-   border-bottom: none;
-}
-</style>
-
 # <div align="center"> MediaStore SDK</div>
 
 > **Warning**
@@ -19,36 +13,32 @@ To find out more about MediaStore SDK, see:
 - [MediaStore SDK Components Library](https://developers.cleeng.com/docs/components-library)
 - [API documentation](https://developers.cleeng.com/reference/getting-started)
 
----
+## Table of Contents
 
-## <a href="table-of-contents" style="color:#000">Table of Contents</a>
+- [Installation](#installation)
+- [Usage](#usage)
+- [Available components](#available-components)
+   - [Checkout](#checkout)
+   - [MyAccount](#myaccount)
+   - [Register](#register)
+   - [Login](#login)
+   - [Capture](#capture)
+   - [Checkout Consents](#checkoutconsents)
+   - [Purchase](#purchase)
+   - [PasswordReset](#passwordreset)
+   - [Subscriptions](#subscriptions)
+   - [SubscriptionSwitches](#subscriptionswitches)
+   - [PlanDetails](#plandetails)
+   - [PaymentInfo](#paymentinfo)
+   - [TransactionList](#transactionlist)
+   - [UpdateProfile](#updateprofile)
+- [Styling](#styling)
+- [Communication (events)](#communication)
+- [Adyen configuration](#adyen-configuration)
+- [Translations](#translations)
+- [Security](#security)
 
-1. [Installation](#instalation)
-2. [Usage](#usage)
-3. [Available components](#available-components)
-   - [Checkout](#checkout-header)
-   - [MyAccount](#my-account-header)
-   - [Register](#register-header)
-   - [Login](#login-header)
-   - [Capture](#capture-header)
-   - [Checkout Consents](#checkout-consents-header)
-   - [Purchase](#purchase-header)
-   - [PasswordReset](#password-reset-header)
-   - [Subscriptions](#subscriptions-header)
-   - [SubscriptionSwitches](#subscription-switches-header)
-   - [PlanDetails](#plan-details-header)
-   - [PaymentInfo](#payment-info-header)
-   - [TransactionList](#transaction-list-header)
-   - [UpdateProfile](#update-profile-header)
-4. [Styling](#styling-header)
-5. [Communication (events)](#events)
-6. [Adyen configuration](#adyen-configuration-table)
-7. [Translations](#translations-section)
-8. [Security](#security-configuration)
-
----
-
-## <a href="installation" style="color:#000">Installation</a>
+## Installation
 
 ##### Prerequisites
 
@@ -65,13 +55,10 @@ yarn add @cleeng/mediastore-sdk styled-components
 
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
 
-## <a href="usage" style="color:#000">Usage</a>
+## Usage
 
 #### 1. Import the required CSS
 
@@ -84,13 +71,13 @@ import "@adyen/adyen-web/dist/adyen.css";
 import "react-loading-skeleton/dist/skeleton.css";
 ```
 
-#### <a href="configuration" style="color:#000"> 2. Configuration </a>
+#### 2. Configuration
 
 If you have the package downloaded locally and you want to begin to use it, you should start with the configuration. You can do this by using the `Config` class which has a few important methods to do it. Components may require additional config, so check the requirements for a component that you want to use.
 
 Config functions save data to local storage (as `CLEENG_*` items). These data are required to make components work. <b>You need to call these functions, before MSSDK components mount, usually only once.</b>
 
-#### <a href="config-methods" style="color:#000"> Config methods </a>
+#### Config methods
 
 | Method                          | Param                                                       | Description                                                                                                                                                                 |
 | ------------------------------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -119,7 +106,7 @@ Config.setVisibleAdyenPaymentMethods(["card", "applepay"]);
 Config.setHidePayPal();
 ```
 
-#### <a href="auth-methods" style="color:#000"> Auth methods </a>
+#### Auth methods
 
 | Method     | Param | Description                                                                                      |
 | ---------- | ----- | ------------------------------------------------------------------------------------------------ |
@@ -131,7 +118,7 @@ Auth.isLogged();
 Auth.logout(() => console.log('The user has been logged out')));
 ```
 
-#### 3. <a href="component-sample" style="color:#000"> Embed component (sample) </a>
+#### 3. Embed component (sample)
 
 <b>Each component needs to be wrapper into Provider, as in the example below.</b>
 This component should be rendered in the browser. If you are using NextJS, turn off ssr for MSSDK components.
@@ -174,41 +161,34 @@ export default function Home() {
 }
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
-
-## <a href="list-of-components" style="color:#000">Available components </a>
+## Available components
 
 You can build a complete flow - allowing customers to buy your offering and use their customer accounts - with two main components:
 
-- [Checkout](#checkout-header) - a full purchase flow (starting from registration to purchase)
-- [MyAccount](#my-account-header) - a complete customer account environment
+- [Checkout](#checkout) - a full purchase flow (starting from registration to purchase)
+- [MyAccount](#my-account) - a complete customer account environment
 
 If you prefer smaller components, you can use these to implement the exact features you need:
 
-- [Register](#register-header)
-- [Login](#login-header)
-- [Capture](#capture-header)
-- [Checkout Consents](#checkout-consents-header)
-- [Purchase](#purchase-header)
-- [PasswordReset](#password-reset-header)
-- [Subscriptions](#subscriptions-header)
-- [SubscriptionSwitches](#subscription-switches-header)
-- [PlanDetails](#plan-details-header)
-- [PaymentInfo](#payment-info-header)
-- [TransactionList](#transaction-list-header)
-- [UpdateProfile](#update-profile-header)
+- [Register](#register)
+- [Login](#login)
+- [Capture](#capture)
+- [Checkout Consents](#checkout-consents)
+- [Purchase](#purchase)
+- [PasswordReset](#password-reset)
+- [Subscriptions](#subscriptions)
+- [SubscriptionSwitches](#subscription-switches)
+- [PlanDetails](#plan-details)
+- [PaymentInfo](#payment-info)
+- [TransactionList](#transaction-list)
+- [UpdateProfile](#update-profile)
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
 
-## <div align="center"><a href="checkout-header" style="color:#000">Checkout</a></div>
+## Checkout
 
 `Checkout` is a complex component that covers the whole checkout process, from the registration to the purchase. It contains components listed below:
 
@@ -258,13 +238,10 @@ import adyenConfiguration from "./adyenConfiguration";
 </Provider>;
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
 
-## <div align="center"><a href="my-account-header" style="color:#000">MyAccount</a></div>
+## MyAccount
 
 `MyAccount` is a big component that contains all profile-management-related features. The following sections are available in `MyAccount`:
 
@@ -317,13 +294,9 @@ const customCancellationReasons = [
 </Provider>;
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
-
-## <div align="center"><a href="register-header" style="color:#000">Register</a></div>
+## Register
 
 `Register` component is a basic Cleeng registration form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#register)).
 
@@ -358,13 +331,10 @@ Config.setPublisher("111111111");
 
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
 
-## <div align="center"><a href="login-header" style="color:#000">Login</a></div>
+## Login
 
 `Login` component is a basic Cleeng login form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#login)).
 
@@ -395,13 +365,10 @@ Config.setPublisher("111111111");
 />;
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
 
-## <div align="center"><a href="password-reset-header" style="color:#000">PasswordReset</a></div>
+## PasswordReset
 
 `PasswordReset` is a basic reset password form that can be used for resetting passwords (see an example [here](https://developers.cleeng.com/docs/purchase-flow#passwordreset)). You can pass a function that will be called after successful processing of the request with `onSuccess` prop.
 
@@ -421,13 +388,10 @@ Config.setPublisher("111111111"); // required
 <PasswordReset onSuccess={() => console.log("success")} />
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
 
-## <div align="center"><a href="purchase-header" style="color:#000">Purchase</a></div>
+## Purchase
 
 `Purchase` is a component that gives you a possibility to buy an offer in the Cleeng system. You have to be logged in before showing that component.
 
@@ -469,13 +433,9 @@ import adyenConfiguration from "./adyenConfiguration";
 </Provider>;
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
-
-## <div align="center"><a href="subscriptions-header" style="color:#000">Subscriptions</a></div>
+## Subscriptions
 
 `Subscriptions` is a component that will list all subscriptions that are linked with a given logged in subscriber. There is an option to cancel or resume the selected subscription from the list of subscriptions.
 
@@ -501,13 +461,9 @@ import { Provider } from "react-redux";
 </Provider>;
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
-
-## <div align="center"><a href="subscription-switches-header" style="color:#000">SubscriptionSwitches</a></div>
+## SubscriptionSwitches
 
 This component shows a list of available switches for a given subscription passed in `offerId` prop.
 
@@ -547,13 +503,10 @@ import { Provider } from "react-redux";
 </Provider>;
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
 
-## <div align="center"><a href="plan-details-header" style="color:#000">PlanDetails</a></div>
+## PlanDetails
 
 `PlanDetails` is a component that contains previously described components
 
@@ -593,13 +546,10 @@ const customCancellationReasons = [
 </Provider>;
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
 
-## <div align="center"><a href="payment-info-header" style="color:#000">PaymentInfo</a></div>
+## PaymentInfo
 
 PaymentInfo is a component that contains all information about customer payments. A customer will be able to:
 
@@ -640,13 +590,9 @@ import adyenConfiguration from "./adyenConfiguration";
 </Provider>;
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
-
-## <div align="center"><a href="transaction-list-header" style="color:#000">TransactionList</a></div>
+## TransactionList
 
 `TransactionList` is a part of the `PaymentInfo` component and contains only information about all transactions that took place in the past.
 
@@ -668,13 +614,9 @@ import { Provider } from "react-redux";
 </Provider>;
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
-
-## <div align="center"><a href="update-profile-header" style="color:#000">UpdateProfile</a></div>
+## UpdateProfile
 
 `UpdateProfile` is a component that displays all information about a current customer. It also gives the possibility to change that profile information.
 
@@ -702,13 +644,10 @@ import { Provider } from "react-redux";
 </Provider>;
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
 
-## <div align="center"><a href="checkout-consents-header" style="color:#000">CheckoutConsents</a></div>
+## CheckoutConsents
 
 `CheckoutConsents` is a simple form that contains all consents that have to be confirmed by a customer.
 
@@ -727,13 +666,9 @@ Config.setRefreshToken("yyy"); // optional
 <CheckoutConsents onSuccess={() => console.log("success")} />
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
-
-## <div align="center"><a href="capture-header" style="color:#000">Capture</a></div>
+## Capture
 
 `Capture` component is a form that was created for collecting user data that a broadcaster wants to collect. A broadcaster can enable the capture feature and configure its settings in the Cleeng broadcaster dashboard. For more information, see [Cleeng Capture](https://publisher.support.cleeng.com/hc/en-us/articles/222325667-Cleeng-Capture).
 
@@ -756,13 +691,9 @@ Config.setRefreshToken("yyy"); // optional
 <Capture onSuccess={() => console.log("success")} />
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
-
-## <a href="styling-header" style="color:#000">Styling</a>
+## Styling
 
 #### Font
 
@@ -776,10 +707,10 @@ import "@cleeng/mediastore-sdk/dist/styles/msdFont.css";
 
 There are two ways of styling MediaStore SDK components:
 
-- [SetTheme function](#set-theme-header)
-- [Custom styles](#custom-styles-header)
+- [SetTheme function](#settheme-function)
+- [Custom styles](#custom-styles)
 
-<b><a href="set-theme-header" style="color:#000">SetTheme function</a></b>
+##### SetTheme function
 
 The `setTheme()` function gives you a possibility to change basic colors for all MediaStore SDK components.
 
@@ -798,7 +729,7 @@ Config.setTheme({
 });
 ```
 
-<b><a href="custom-styles-header" style="color:#000">Custom styles</a></b>
+##### Custom styles
 
 Another way of styling components from the library is creating custom styles and overriding default styles by those that you have created.
 Every MediaStore SDK library component has many classes that can be used to select an element that needs to be styled. Their names are based on BEM.
@@ -826,13 +757,9 @@ Here is a simple example how styles can be added:
 }
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
-
-## <a href="events" style="color:#000">Communication</a>
+## Communication
 
 Components provide a way of communication with your application. Components are sending the Events when important actions occur. Most of the events send additional data that is returned in the `detail` field. The `Event detail` column, in the table below, presents what is returned from `detail` object.
 To react to events add an event listener, like in the sample below:
@@ -880,13 +807,10 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 | `MSSDK:remove-payment-details-action-confirmed` | `null`                                                                                                              | The event will be emitted after clicking Remove button in my account update payment details survey. This button removes selected payment method.                                                                                                                                                                                                                                                                                      |
 | `MSSDK:remove-payment-details-action-cancelled` | `null`                                                                                                              | This event will be emitted when the user resigns to remove payment details.                                                                                                                                                                                                                                                                                                                                                           |
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
 
-## <a href="adyen-configuration-table" style="color:#000">Adyen configuration</a>
+## Adyen configuration
 
 By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#my-account-header), [Checkout](#checkout-header), [PaymentInfo](#payment-info-header) and [Purchase](#purchase-header).
 
@@ -952,13 +876,10 @@ The example Adyen configuration object with described properties is shown below:
 }
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
 
-## <a href="translations-section" style="color:#000">Translations</a>
+## Translations
 
 <b>This feature is during the development process. Some texts may not be ready for translation yet.</b>
 
@@ -976,13 +897,9 @@ Below, you can find a short guide on how to implement custom copies or translati
 localStorage.setItem('i18nextLng', 'es');
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
-
-## <a href="security-configuration" style="color:#000">Security</a>
+## Security
 
 Website security is a crucial thing nowadays and it is good to secure the website as much as it can be. Because part of the `mediastore-sdk` components library is a payment process, we wanna give you the possibility to make your website secure and safe.
 
@@ -1004,27 +921,19 @@ Below you can find an example of the Content Security Policy which can be set th
 />
 ```
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
 
-## <a href="documentation" style="color:#000">Related documentation</a>
+## Related documentation
 
 - [MediaStore SDK Reference Materials](https://publisher.support.cleeng.com/hc/en-us/articles/360017107279-What-is-MediaStore-SDK-And-any-additional-information-you-may-need-to-know)
 - [API documentation](https://developers.cleeng.com/reference/getting-started)
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
----
 
-## <a href="license" style="color:#000">License</a>
+## License
 
 The Cleeng MediaStore SDK is open source and available under the BSD 3-Clause License. See the [LICENSE](LICENSE.md) file for more information.
 
-<div align="right">
-  <a href="#table-of-contents">[ Back to top ]</a>
-</div>
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
