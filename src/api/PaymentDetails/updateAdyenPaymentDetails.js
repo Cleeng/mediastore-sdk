@@ -1,16 +1,19 @@
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import generateReturnUrl from 'util/returnUrlHelper';
+import store from 'redux/store';
 
 const updateAdyenPaymentDetails = async (
-  paymentMethodId,
   paymentMethod,
   browserInfo,
   billingAddress
 ) => {
   const API_URL = getApiURL();
   const url = `${API_URL}/connectors/adyen/payment-details`;
-
+  const {
+    paymentMethods: { selectedPaymentMethod }
+  } = store.getState();
+  const paymentMethodId = selectedPaymentMethod.id;
   try {
     const res = await fetchWithJWT(url, {
       method: 'POST',

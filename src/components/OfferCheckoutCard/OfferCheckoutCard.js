@@ -49,6 +49,14 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     : formatNumber(totalPrice);
 
   const generateTrialDescription = () => {
+    if (period === 'season') {
+      const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (plus applicable taxes) and will be renewed on the next season start date.`;
+      return t(`subscription-desc.period-season`, formattedDescription, {
+        currencySymbol,
+        grossPrice
+      });
+    }
+
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
     if (freeDays) {
       const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
@@ -94,6 +102,13 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 
     if (!isTrialAvailable) {
+      if (period === 'season') {
+        const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (plus applicable taxes) and will be renewed on the next season start date.`;
+        return t(`subscription-desc.period-season`, formattedDescription, {
+          currencySymbol,
+          grossPrice
+        });
+      }
       const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
         period
       )}`;
@@ -107,7 +122,7 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     return generateTrialDescription();
   };
 
-  const generateDescription = () => {
+  const renderDescription = () => {
     if (offerType === 'S') {
       return generateSubscriptionDescription();
     }
@@ -136,6 +151,26 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     return '';
   };
 
+  const renderTrialBadgeDescription = () => {
+    if (freeDays) {
+      return t('trial-badge-days', `{{freeDays}} days free trial`, {
+        freeDays
+      });
+    }
+
+    if (freePeriods === 1) {
+      return t(`trial-badge.period-${period}`, `1 {{period}} free trial`, {
+        period
+      });
+    }
+
+    return t(
+      `trial-badge.periods-${period}`,
+      `{{freePeriods}} {{period}}s free trial`,
+      { freePeriods, period }
+    );
+  };
+
   return (
     <WrapperStyled>
       <SkeletonWrapper showChildren={isDataLoaded} width={50} height={50}>
@@ -155,20 +190,20 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
           margin="0 0 10px 10px"
         >
           <DescriptionStyled
-            dangerouslySetInnerHTML={{ __html: generateDescription() }}
+            dangerouslySetInnerHTML={{ __html: renderDescription() }}
           />
         </SkeletonWrapper>
       </InnerWrapper>
       <PriceWrapperStyled>
         <SkeletonWrapper showChildren={isDataLoaded} width={80} height={30}>
           {isTrialAvailable && (
-            <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
+            <TrialBadgeStyled>{renderTrialBadgeDescription()}</TrialBadgeStyled>
           )}
           <Price
             currency={currencyFormat[currency]}
             price={Number(grossPrice)}
             period={
-              offerType === 'S'
+              offerType === 'S' && period !== 'season'
                 ? t(`offer-price.period-${period}`, period)
                 : null
             }

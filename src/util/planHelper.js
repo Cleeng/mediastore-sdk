@@ -95,6 +95,14 @@ export const periodMapper = {
     chargedForEveryText: 'year',
     accessText: 'Annual'
   },
+  season: {
+    label: 'S',
+    color: '#5971B9',
+    bg: '#EDF1FF',
+    border: '#39529B2E',
+    chargedForEveryText: 'season',
+    accessText: 'Season'
+  },
   default: {
     label: 'S',
     color: '#5971B9',

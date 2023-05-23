@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation, Trans } from 'react-i18next';
 import labeling from 'containers/labeling';
-import formatNumber from 'util/formatNumber';
 
 import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
@@ -10,7 +9,7 @@ import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 import { ReactComponent as Close } from 'assets/images/errors/close.svg';
-import { dateFormat, currencyFormat } from 'util/planHelper';
+import { dateFormat } from 'util/planHelper';
 import eventDispatcher, {
   MSSDK_SWITCH_POPUP_ACTION_SUCCESSFUL,
   MSSDK_SWITCH_POPUP_ACTION_FAILED
@@ -136,9 +135,8 @@ const PauseSubscriptionPopup = ({
     );
   }
 
-  const currencySymbol = currencyFormat[fromOffer.nextPaymentCurrency];
-  const currentPrice = formatNumber(fromOffer.nextPaymentPrice);
   const pauseStartingDate = dateFormat(fromOffer.expiresAt);
+  const { offerTitle } = fromOffer;
 
   return (
     <InnerPopupWrapper
@@ -163,24 +161,21 @@ const PauseSubscriptionPopup = ({
             </TitleStyled>
             <TextStyled>
               <Trans i18nKey="pausesubscriptionpopup-info">
-                Your subscription will be paused starting{' '}
-                <strong>{{ pauseStartingDate }}</strong>. During the
-                subscription pause period, you will not be charged. Your
-                subscription will be automatically resumed at the beginning of
-                the next season and you will continue to be charged{' '}
-                <strong>
-                  {{ currencySymbol }}
-                  {{ currentPrice }}
-                </strong>{' '}
-                on a recurring basis.
+                On your next billing cycle (
+                <strong>{{ pauseStartingDate }}</strong>) your subscription
+                pause will go into effect. While your subscription is paused,
+                you won’t be charged for, and you won’t have access to,{' '}
+                {{ offerTitle }}. You can resume your {{ offerTitle }}{' '}
+                subscription at any time.
               </Trans>
             </TextStyled>
             <TextStyled>
-              {t('You can resume your subscription at any time.')}
+              {t(
+                'pausesubscriptionpopup-note',
+                'Or, if you don`t do anything, your subscription will automatically resume at the start of the next season. When your subscription resumes, you will be billed the current monthly subscription fee for your plan.'
+              )}
             </TextStyled>
-            <TextStyled step={step}>
-              {t('Do you want to apply the change now?')}
-            </TextStyled>
+            <TextStyled step={step}>{t('Would you like to pause?')}</TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
             <Button
@@ -215,11 +210,14 @@ const PauseSubscriptionPopup = ({
             <ImageWrapper>
               <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
             </ImageWrapper>
-            <TitleStyled step={step}>{t('Thank you!')}</TitleStyled>
+            <TitleStyled step={step}>
+              {t('Your pause request has been confirmed.')}
+            </TitleStyled>
             <TextStyled step={step}>
               <Trans i18nKey="pausesubscriptionpopup-confirm">
-                You have successfully paused your plan{' '}
-                <strong>{{ planName: fromOffer.offerTitle }}.</strong>
+                You will continue to have access to your subscription through
+                your current billing cycle. The pause will go into effect on{' '}
+                <strong>{{ pauseStartingDate }}</strong>
               </Trans>
             </TextStyled>
           </ContentStyled>

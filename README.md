@@ -1,5 +1,9 @@
 # MediaStore SDK
 
+> **Warning**
+>
+> Breaking changes in version 4.0. See the [imports](#import-the-required-css) section of this file for more information.
+
 This is the Cleeng official component library to be used with React.js.
 
 MediaStore SDK Library consists of components that will allow you to build a seamless checkout process, help visitors become subscribers, and then allow them to manage their subscriptions.
@@ -54,7 +58,7 @@ If you have the package downloaded locally and you want to begin to use it, you 
 
 Config functions save data to local storage (as `CLEENG_*` items). These data are required to make components work. <b>You need to call these functions, before MSSDK components mount, usually only once.</b>
 
-##### Setting environment
+#### Setting environment
 
 ```javascript
 import { Config } from "@cleeng/mediastore-sdk";
@@ -66,6 +70,17 @@ Setting the environment is required for all components. The environment is one o
 
 - `sandbox` (default)
 - `production`
+
+#### Import the required CSS
+
+**We removed CSS imports from third-party libraries in version 4.0** to improve compatibility with Next.js (which, [somewhat controversially](https://github.com/vercel/next.js/discussions/27953), doesn't currently allow CSS imports from the `node_modules` directory). You'll have to import them manually in your app:
+
+```javascript
+// import the following stylesheets in _app.js for Next.js projects, or your main App component for other use cases
+
+import "@adyen/adyen-web/dist/adyen.css";
+import "react-loading-skeleton/dist/skeleton.css";
+```
 
 **Each component needs to be wrapper into Provider, as in the example below.**
 
@@ -94,6 +109,9 @@ Config.setMyAccountUrl("https://client-website.com/my-account"); // needed check
 Config.setOfferSelectionUrl("https://client-website.com/plans"); // recommended for info page when the customer has no active plan
 
 Config.setTheme(); // more informations in the [Styling] section.
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of payment methods that will be presented in Checkout and MyAccount
+// available options: 'applepay', 'card', 'googlepay'
+Config.setHidePayPal(); // option to hide PayPal, by default PayPal will be visible when configured
 
 // Auth methods
 Auth.isLogged(); // returns true if the user is authenticated (valid JWT or existing refresh token in local storage)
@@ -192,6 +210,7 @@ Config.setCheckoutPayPalUrls({
   errorUrl: "https://client-website.com/checkout/error"
 });
 Config.setTermsUrl("https://client-website.com/terms"); // optional, for legal notes in the checkout
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
 **Props**
@@ -239,6 +258,7 @@ Config.setMyAccountPayPalUrls({
   cancelUrl: "https://client-website.com/my-account/payment-info",
   errorUrl: "https://client-website.com/my-account/paypal-error"
 });
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
 **Props**
@@ -403,6 +423,7 @@ Config.setCheckoutPayPalUrls({
   errorUrl: "https://client-website.com/my-account/paypal-error"
 });
 Config.setTermsUrl("https://client-website.com/terms"); // optional, for legal notes in the checkout
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
 **Usage sample**
@@ -547,6 +568,7 @@ Config.setMyAccountPayPalUrls({
   cancelUrl: "https://client-website.com/my-account/payment-info",
   errorUrl: "https://client-website.com/my-account/paypal-error"
 });
+Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
 **Props**
@@ -779,7 +801,10 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 
 ### <a id="adyen-configuration-table"></a><h2>Adyen configuration</h2>
 
-By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#my-account-header), [Checkout](#checkout-header), [PaymentInfo](#payment-info-header) and [Purchase](#purchase-header). The example Adyen configuration object with described properties is shown below:
+By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#my-account-header), [Checkout](#checkout-header), [PaymentInfo](#payment-info-header) and [Purchase](#purchase-header).
+
+If the payment method is not presented in the `paymentMethodConfiguration` object, then it doesn't have any optional configuration available.
+The example Adyen configuration object with described properties is shown below:
 
 ```javascript
 {
@@ -807,6 +832,31 @@ By passing a special prop `adyenConfiguration` we are giving a possibility to cu
       minimumExpiryDate: '05/26', // If a shopper enters a date that is earlier than specified here, they will see the following error: "Your card expires before check out date." Format: 'mm/yy'
       autoFocus: true // Automatically move the focus from date field to the CVC field. The focus also moves to the date field when the entered card number reaches the expected length. Default: true
     },
+    googlePay: {
+      buttonColor: 'white', // default: A Google-selected default value. Currently black but it may change over time.
+      // black: A black button suitable for use on white or light backgrounds.
+      // white: A white button suitable for use on colorful backgrounds.
+      buttonType: 'buy', // The type of button you want displayed on your payments form.
+      // For a list of supported properties, refer to https://developers.google.com/pay/api/web/reference/request-objects#ButtonOptions
+      // Default: 'buy'
+      buttonLocale: 'en', // The language on the button. Defaults to the locale set on the current AdyenCheckout instance. Supported locales include en, ar, bg, ca, cs, da, de, el, es, et, fi, fr, hr, id, it, ja, ko, ms, nl, no, pl, pt, ru, sk, sl, sr, sv, th, tr, uk, and zh.
+      buttonSizeMode: 'fill' // Specifies whether the button changes to fill the size of its container, or has a static width and height.
+      // static: Button has a static width and height
+      // fill: Button size changes to fill the size of its container.
+      // Default: 'fill'
+    },
+    applePay: {
+      buttonColor: 'black', // The color of button to be displayed on the payment form. Possible values:
+      // 'black' - Use on white or light-color backgrounds that provide sufficient contrast. Don’t use on black or dark backgrounds.
+      // 'white' - Use on dark-color backgrounds that provide sufficient contrast.
+      // 'white-with-line' - Use the white button with black outline on white or very light backgrounds that don’t provide sufficient contrast for a plain white button. Don’t place this button on dark or saturated color backgrounds. Use the white button instead.
+      buttonType: 'plain' // The type of button to fit best with the terminology and flow of your purchase or payment experience.
+      // The default value is 'plain' which displays basic "Apple Pay" logo button.
+      // 'buy': 'buy with Apple Pay'
+      // 'check-out': 'Check out with Apple Pay'
+      // 'subscribe': 'Subscribe with Apple Pay'
+      // For all possible values and styling guidance, see https://developer.apple.com/design/human-interface-guidelines/technologies/apple-pay/buttons-and-marks
+    }
   },
   locale: 'en-US', // The language used in the Drop-in UI. For possible values, see the https://docs.adyen.com/online-payments/web-drop-in/customization#supported-languages,
   translations: {}, // The text displayed in each localization can be customized, allowing you to replace the default text with your own. You can read more about it here https://docs.adyen.com/online-payments/web-drop-in/customization#customizing-a-localization

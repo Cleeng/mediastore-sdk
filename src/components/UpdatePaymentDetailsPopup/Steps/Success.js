@@ -23,7 +23,11 @@ const Success = () => {
           <CheckmackIcon />
         </ImageWrapper>
         <TitleStyled>{t('Success')}</TitleStyled>
-        <TextStyled>{t('Your payment details have been updated')}</TextStyled>
+        <TextStyled>
+          {t(
+            'Your payment details have been updated and will be visible on your account shortly.'
+          )}
+        </TextStyled>
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
         <Button

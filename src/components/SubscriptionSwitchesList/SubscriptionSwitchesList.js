@@ -108,6 +108,11 @@ const SubscriptionSwitchesList = ({
   const availableFiltered = availableSorted?.filter(
     offer => !pauseOffersIDs.includes(offer.toOfferId)
   );
+  const unavailableFiltered = Array.isArray(switchSettings.unavailable)
+    ? switchSettings.unavailable.filter(
+        offer => !pauseOffersIDs.includes(offer.toOfferId)
+      )
+    : [];
 
   return (
     <>
@@ -163,7 +168,7 @@ const SubscriptionSwitchesList = ({
           );
         })}
       {areUnAvailable &&
-        switchSettings.unavailable.map(subItem => {
+        unavailableFiltered.map(subItem => {
           const price =
             isPriceTemporaryModified(subItem.toOfferId) &&
             subItem.algorithm !== 'DEFERRED'
