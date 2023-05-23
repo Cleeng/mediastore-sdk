@@ -133,7 +133,7 @@ const AdyenStyled = styled.div.attrs(() => ({
         .adyen-checkout__payment-method__header {
           padding: 12px 16px 12px 44px;
 
-          ${isRTL &&
+          ${isRTL() &&
             css`
               padding: 12px 44px 12px 16px;
             `}
