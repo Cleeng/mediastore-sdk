@@ -59,7 +59,6 @@ const Payment = ({ onPaymentComplete }) => {
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
     false
   );
-  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
 
   const dispatch = useDispatch();
 
@@ -86,7 +85,6 @@ const Payment = ({ onPaymentComplete }) => {
 
   // payment methods
   const selectPaymentMethodHandler = paymentMethodName => {
-    if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = publisherPaymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );

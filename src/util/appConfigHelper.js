@@ -172,7 +172,6 @@ export const setHidePayPal = () => {
 };
 
 export const setLanguage = async language => {
-  console.log(`Config.setLanguage(${language})`);
   const BASE_URL = window.location.origin;
 
   if (!i18n.hasResourceBundle(language, 'translation')) {
