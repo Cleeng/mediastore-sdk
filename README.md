@@ -1,4 +1,4 @@
-# MediaStore SDK
+# <div align="center"> MediaStore SDK </div>
 
 > **Warning**
 >
@@ -13,65 +13,61 @@ To find out more about MediaStore SDK, see:
 - [MediaStore SDK Components Library](https://developers.cleeng.com/docs/components-library)
 - [API documentation](https://developers.cleeng.com/reference/getting-started)
 
-#### Prerequisites
+---
 
-- node v14.15.0
-- react (components are using v18.2.0)
+## <a href="table-of-contents" style="color:initial">Table of Contents</a>
 
-## Installation
-
-Install the package with:
-
-**NPM**
-
-```
-npm i @cleeng/mediastore-sdk
-```
-
-or
-
-**Yarn**
-
-```
-yarn add @cleeng/mediastore-sdk
-```
+1. [Installation](#instalation)
+2. [Usage](#usage)
+3. [Available components](#available-components)
+   - [Checkout](#checkout-header)
+   - [MyAccount](#my-account-header)
+   - [Register](#register-header)
+   - [Login](#login-header)
+   - [Capture](#capture-header)
+   - [Checkout Consents](#checkout-consents-header)
+   - [Purchase](#purchase-header)
+   - [PasswordReset](#password-reset-header)
+   - [Subscriptions](#subscriptions-header)
+   - [SubscriptionSwitches](#subscription-switches-header)
+   - [PlanDetails](#plan-details-header)
+   - [PaymentInfo](#payment-info-header)
+   - [TransactionList](#transaction-list-header)
+   - [UpdateProfile](#update-profile-header)
+4. [Styling](#styling-header)
+5. [Communication (events)](#events)
+6. [Adyen configuration](#adyen-configuration-table)
+7. [Translations](#translations-section)
+8. [Security](#security-configuration)
 
 ---
 
-You may need to install `styled-components` by:
+## <a href="installation" style="color:initial">Installation</a>
+
+##### Prerequisites
+
+- Node v14.15.0
+- React (v18.2.0)
+
+##### Installation
 
 ```
-npm i styled-components
+// npm
+npm i @cleeng/mediastore-sdk styled-components
+// or yarn
+yarn add @cleeng/mediastore-sdk styled-components
+
 ```
 
-or
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
 
-```
-yarn add styled-components
-```
+---
 
-## Usage
+## <a href="usage" style="color:initial">Usage</a>
 
-### Configuration
-
-If you have the package downloaded locally and you want to begin to use it, you should start with the configuration. You can do this by using the `Config` class which has a few important methods to do it. Components may require additional config, so check the requirements for a component that you want to use.
-
-Config functions save data to local storage (as `CLEENG_*` items). These data are required to make components work. <b>You need to call these functions, before MSSDK components mount, usually only once.</b>
-
-#### Setting environment
-
-```javascript
-import { Config } from "@cleeng/mediastore-sdk";
-
-Config.setEnvironment("sandbox");
-```
-
-Setting the environment is required for all components. The environment is one of the listed below:
-
-- `sandbox` (default)
-- `production`
-
-#### Import the required CSS
+#### 1. Import the required CSS
 
 **We removed CSS imports from third-party libraries in version 4.0** to improve compatibility with Next.js (which, [somewhat controversially](https://github.com/vercel/next.js/discussions/27953), doesn't currently allow CSS imports from the `node_modules` directory). You'll have to import them manually in your app:
 
@@ -82,48 +78,71 @@ import "@adyen/adyen-web/dist/adyen.css";
 import "react-loading-skeleton/dist/skeleton.css";
 ```
 
-**Each component needs to be wrapper into Provider, as in the example below.**
+#### <a href="configuration" style="color:initial"> 2. Configuration </a>
 
-##### Other Config methods
+If you have the package downloaded locally and you want to begin to use it, you should start with the configuration. You can do this by using the `Config` class which has a few important methods to do it. Components may require additional config, so check the requirements for a component that you want to use.
+
+Config functions save data to local storage (as `CLEENG_*` items). These data are required to make components work. <b>You need to call these functions, before MSSDK components mount, usually only once.</b>
+
+#### <a href="config-methods" style="color:initial"> Config methods </a>
+
+| Method                          | Param                                                       | Description                                                                                                                                                                 |
+| ------------------------------- | ----------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `setEnvironment`                | `sandbox` / `production`                                    | Required for all components. Default: `sandbox`                                                                                                                             |
+| `setJWT`                        | valid JWT (string)                                          | Customer authorization token received from login / registration / SSO endpoint                                                                                              |
+| `setRefreshToken`               | valid refesh token (string)                                 | Customer refresh token received from login / registration / SSO endpoint                                                                                                    |
+| `setPublisher`                  | publisherId (string)                                        | Your broadcaster ID in the Cleeng system                                                                                                                                    |
+| `setOffer`                      | offerId(string)                                             | `offerId` is the ID of the offer created for your broadcaster in the Cleeng system                                                                                          |
+| `setCheckoutPayPalUrls`         | `{successURL: string, cancelUrl: string,errorUrl: string }` | PayPal redirection URLs, required for Paypal payment                                                                                                                        |
+| `setMyAccountPayPalUrls`        | `{successURL: string, cancelUrl: string,errorUrl: string }` | PayPal redirection URLs, required for update PayPal payment details. Query param 'message' with a readable error message will be added to errorUrl when an error will occur |
+| `setMyAccountUrl`               | url:string                                                  | My account URL. Needed for checkout legal notes                                                                                                                             |
+| `setOfferSelectionUrl`          | url:string                                                  | Url to offer selection page. Recommended for CTA when the customer has no active plan                                                                                       |
+| `setTheme`                      | object                                                      | More informations in the [Styling](#styling) section.                                                                                                                       |
+| `setVisibleAdyenPaymentMethods` | array of payment method names                               | Payment methods that should be presented in Checkout and MyAccount. Available options: `applepay`, `card`, `googlepay`, `ideal`, `sofort`                                   |
+| `setHidePayPal`                 | -                                                           | Option to hide PayPal, by default PayPal will be visible when configured                                                                                                    |
+
+<b>Sample of usage</b>
 
 ```javascript
-Config.setJWT("xxx"); // save customer authorization token (jwt)
-Config.setRefreshToken("yyy"); // save customer refresh token
+import { Config } from "@cleeng/mediastore-sdk";
 
-Config.setPublisher("publisherId"); // `publisherId` is your broadcaster ID in the Cleeng system.
-Config.setOffer("offerId"); // `offerId` is the ID of the offer created for your broadcaster in the Cleeng system.
-
-Config.setCheckoutPayPalUrls({
-  // PayPal redirection URLs, required for Paypal payment
-  successUrl: "https://client-website.com/checkout/success",
-  cancelUrl: "https://client-website.com/checkout",
-  errorUrl: "https://client-website.com/checkout/error" // query param 'message' with a readable error message will be added to this URL when an error will occur
-});
-Config.setMyAccountPayPalUrls({
-  // PayPal redirection URLs, required for update PayPal payment details
-  successUrl: "https://client-website.com/my-account/payment-info",
-  cancelUrl: "https://client-website.com/my-account/payment-info",
-  errorUrl: "https://client-website.com/my-account/paypal-error" // query param 'message' with a readable error message will be added to this URL when an error will occur
-});
-Config.setMyAccountUrl("https://client-website.com/my-account"); // needed checkout legal notes
-Config.setOfferSelectionUrl("https://client-website.com/plans"); // recommended for info page when the customer has no active plan
-
-Config.setTheme(); // more informations in the [Styling] section.
-Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of payment methods that will be presented in Checkout and MyAccount
-// available options: 'applepay', 'card', 'googlepay'
-Config.setHidePayPal(); // option to hide PayPal, by default PayPal will be visible when configured
-
-// Auth methods
-Auth.isLogged(); // returns true if the user is authenticated (valid JWT or existing refresh token in local storage)
-Auth.logout(clb); // removes all Cleeng data from local storage and redux. clb - optional callback function
+Config.setEnvironment("sandbox");
+Config.setPublisher("123456789");
+Config.setOffer("S123456789_US");
+Config.setVisibleAdyenPaymentMethods(["card", "applepay"]);
+Config.setHidePayPal();
 ```
 
-**Usage sample**
+#### <a href="auth-methods" style="color:initial"> Auth methods </a>
+
+| Method     | Param | Description                                                                                      |
+| ---------- | ----- | ------------------------------------------------------------------------------------------------ |
+| `isLogged` | -     | Returns true if the user is authenticated (valid JWT or existing refresh token in local storage) |
+| `logout`   | fun   | removes all Cleeng data from local storage and redux. clb - optional callback function           |
+
+```javascript
+Auth.isLogged();
+Auth.logout(() => console.log('The user has been logged out')));
+```
+
+#### 3. <a href="component-sample" style="color:initial"> Embed component (sample) </a>
+
+<b>Each component needs to be wrapper into Provider, as in the example below.</b>
+This component should be rendered in the browser. If you are using NextJS, turn off ssr for MSSDK components.
 
 ```javascript
 import { useEffect } from 'react';
 import { Config, Purchase, Auth, store  } from '@cleeng/mediastore-sdk';
 import { Provider } from "react-redux";
+
+// for NextJS:
+import dynamic from "next/dynamic";
+
+const Purchase = dynamic(
+  () => import("@cleeng/mediastore-sdk").then(mod => mod.Purchase),
+  { ssr: false }
+);
+// end of 'for NextJS'
 
 export default function Home() {
   Config.setEnvironment("sandbox");
@@ -149,7 +168,13 @@ export default function Home() {
 }
 ```
 
-### Available components
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <a href="list-of-components" style="color:initial">Available components </a>
 
 You can build a complete flow - allowing customers to buy your offering and use their customer accounts - with two main components:
 
@@ -171,23 +196,13 @@ If you prefer smaller components, you can use these to implement the exact featu
 - [TransactionList](#transaction-list-header)
 - [UpdateProfile](#update-profile-header)
 
-### Communication
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
 
-[List of events that components emit to communicate with your application.](#events)
+---
 
-### Adyen configuration
-
-[Configuration options for Adyen.](#adyen-configuration-table)
-
-### Translations
-
-[Customize copies or translate them to another language.](#translations-section)
-
-### Security
-
-[Secure your application by using CSP.](#security-configuration)
-
-#### <a id="checkout-header"></a><h2 align="center">Checkout</h2>
+## <div align="center"><a href="checkout-header" style="color:initial">Checkout</a></div>
 
 `Checkout` is a complex component that covers the whole checkout process, from the registration to the purchase. It contains components listed below:
 
@@ -237,9 +252,15 @@ import adyenConfiguration from "./adyenConfiguration";
 </Provider>;
 ```
 
-#### <a id="my-account-header"></a><h2 align="center">MyAccount</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
 
-`MyAccount` is a big component that contains the whole **My Account** feature. The following sections are available in `MyAccount`:
+---
+
+## <div align="center"><a href="my-account-header" style="color:initial">MyAccount</a></div>
+
+`MyAccount` is a big component that contains all profile-management-related features. The following sections are available in `MyAccount`:
 
 - [Login](#login-header)
 - [PlanDetails (manage subscriptions)](#plan-details-header)
@@ -290,31 +311,13 @@ const customCancellationReasons = [
 </Provider>;
 ```
 
-**Server-side rendering**
-This component should be rendered in the browser. Sample of usage with **NextJS**
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
 
-```javascript
-import dynamic from "next/dynamic";
+---
 
-const MyAccount = dynamic(
-  () => import("@cleeng/mediastore-sdk").then(mod => mod.MyAccount),
-  { ssr: false }
-);
-
-function UserAccountPage() {
-  return (
-    <>
-      <Header />
-      <MyAccount />
-      <Footer />
-    </>
-  );
-}
-
-export default UserAccountPage;
-```
-
-#### <a id="register-header"></a><h2 align="center">Register</h2>
+## <div align="center"><a href="register-header" style="color:initial">Register</a></div>
 
 `Register` component is a basic Cleeng registration form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#register)).
 
@@ -349,7 +352,13 @@ Config.setPublisher("111111111");
 
 ```
 
-#### <a id="login-header"></a><h2 align="center">Login</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <div align="center"><a href="login-header" style="color:initial">Login</a></div>
 
 `Login` component is a basic Cleeng login form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#login)).
 
@@ -380,7 +389,13 @@ Config.setPublisher("111111111");
 />;
 ```
 
-#### <a id="password-reset-header"></a><h2 align="center">PasswordReset</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <div align="center"><a href="password-reset-header" style="color:initial">PasswordReset</a></div>
 
 `PasswordReset` is a basic reset password form that can be used for resetting passwords (see an example [here](https://developers.cleeng.com/docs/purchase-flow#passwordreset)). You can pass a function that will be called after successful processing of the request with `onSuccess` prop.
 
@@ -400,7 +415,13 @@ Config.setPublisher("111111111"); // required
 <PasswordReset onSuccess={() => console.log("success")} />
 ```
 
-#### <a id="purchase-header"></a><h2 align="center">Purchase</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <div align="center"><a href="purchase-header" style="color:initial">Purchase</a></div>
 
 `Purchase` is a component that gives you a possibility to buy an offer in the Cleeng system. You have to be logged in before showing that component.
 
@@ -442,7 +463,13 @@ import adyenConfiguration from "./adyenConfiguration";
 </Provider>;
 ```
 
-#### <a id="subscriptions-header"></a><h2 align="center">Subscriptions</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <div align="center"><a href="subscriptions-header" style="color:initial">Subscriptions</a></div>
 
 `Subscriptions` is a component that will list all subscriptions that are linked with a given logged in subscriber. There is an option to cancel or resume the selected subscription from the list of subscriptions.
 
@@ -468,7 +495,13 @@ import { Provider } from "react-redux";
 </Provider>;
 ```
 
-#### <a id="subscription-switches-header"></a><h2 align="center">SubscriptionSwitches</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <div align="center"><a href="subscription-switches-header" style="color:initial">SubscriptionSwitches</a></div>
 
 This component shows a list of available switches for a given subscription passed in `offerId` prop.
 
@@ -508,7 +541,13 @@ import { Provider } from "react-redux";
 </Provider>;
 ```
 
-#### <a id="plan-details-header"></a><h2 align="center">PlanDetails</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <div align="center"><a href="plan-details-header" style="color:initial">PlanDetails</a></div>
 
 `PlanDetails` is a component that contains previously described components
 
@@ -548,9 +587,13 @@ const customCancellationReasons = [
 </Provider>;
 ```
 
-**All components require to be wrapped by the store.**
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
 
-#### <a id="payment-info-header"></a><h2 align="center">PaymentInfo</h2>
+---
+
+## <div align="center"><a href="payment-info-header" style="color:initial">PaymentInfo</a></div>
 
 PaymentInfo is a component that contains all information about customer payments. A customer will be able to:
 
@@ -591,7 +634,13 @@ import adyenConfiguration from "./adyenConfiguration";
 </Provider>;
 ```
 
-#### <a id="transaction-list-header"></a><h2 align="center">TransactionList</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <div align="center"><a href="transaction-list-header" style="color:initial">TransactionList</a></div>
 
 `TransactionList` is a part of the `PaymentInfo` component and contains only information about all transactions that took place in the past.
 
@@ -613,9 +662,13 @@ import { Provider } from "react-redux";
 </Provider>;
 ```
 
-**All components require to be wrapped by the store.**
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
 
-#### <a id="update-profile-header"></a><h2 align="center">UpdateProfile</h2>
+---
+
+## <div align="center"><a href="update-profile-header" style="color:initial">UpdateProfile</a></div>
 
 `UpdateProfile` is a component that displays all information about a current customer. It also gives the possibility to change that profile information.
 
@@ -643,9 +696,13 @@ import { Provider } from "react-redux";
 </Provider>;
 ```
 
-**All components require to be wrapped by the store.**
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
 
-#### <a id="checkout-consents-header"></a><h2 align="center">CheckoutConsents</h2>
+---
+
+## <div align="center"><a href="checkout-consents-header" style="color:initial">CheckoutConsents</a></div>
 
 `CheckoutConsents` is a simple form that contains all consents that have to be confirmed by a customer.
 
@@ -664,7 +721,13 @@ Config.setRefreshToken("yyy"); // optional
 <CheckoutConsents onSuccess={() => console.log("success")} />
 ```
 
-#### <a id="capture-header"></a><h2 align="center">Capture</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <div align="center"><a href="capture-header" style="color:initial">Capture</a></div>
 
 `Capture` component is a form that was created for collecting user data that a broadcaster wants to collect. A broadcaster can enable the capture feature and configure its settings in the Cleeng broadcaster dashboard. For more information, see [Cleeng Capture](https://publisher.support.cleeng.com/hc/en-us/articles/222325667-Cleeng-Capture).
 
@@ -687,9 +750,15 @@ Config.setRefreshToken("yyy"); // optional
 <Capture onSuccess={() => console.log("success")} />
 ```
 
-### <a id="styling-header"></a><h2>Styling</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
 
-### Font
+---
+
+## <a href="styling-header" style="color:initial">Styling</a>
+
+#### Font
 
 If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSSDK components by:
 
@@ -697,16 +766,16 @@ If your application doesn't have a font specified, you can apply the default fon
 import "@cleeng/mediastore-sdk/dist/styles/msdFont.css";
 ```
 
-### Styling options
+#### Styling options
 
 There are two ways of styling MediaStore SDK components:
 
 - [SetTheme function](#set-theme-header)
 - [Custom styles](#custom-styles-header)
 
-#### <a id="set-theme-header"></a>SetTheme function
+<b><a href="set-theme-header" style="color:initial">SetTheme function</a></b>
 
-The setTheme() function gives you a possibility to change basic colors for all MediaStore SDK components.
+The `setTheme()` function gives you a possibility to change basic colors for all MediaStore SDK components.
 
 Here is an example how to do it:
 
@@ -723,7 +792,7 @@ Config.setTheme({
 });
 ```
 
-#### <a id="custom-styles-header"></a>Custom styles
+<b><a href="custom-styles-header" style="color:initial">Custom styles</a></b>
 
 Another way of styling components from the library is creating custom styles and overriding default styles by those that you have created.
 Every MediaStore SDK library component has many classes that can be used to select an element that needs to be styled. Their names are based on BEM.
@@ -751,7 +820,13 @@ Here is a simple example how styles can be added:
 }
 ```
 
-### <a id="events"></a><h2>Communication</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <a href="events" style="color:initial">Communication</a>
 
 Components provide a way of communication with your application. Components are sending the Events when important actions occur. Most of the events send additional data that is returned in the `detail` field. The `Event detail` column, in the table below, presents what is returned from `detail` object.
 To react to events add an event listener, like in the sample below:
@@ -799,11 +874,18 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 | `MSSDK:remove-payment-details-action-confirmed` | `null`                                                                                                              | The event will be emitted after clicking Remove button in my account update payment details survey. This button removes selected payment method.                                                                                                                                                                                                                                                                                      |
 | `MSSDK:remove-payment-details-action-cancelled` | `null`                                                                                                              | This event will be emitted when the user resigns to remove payment details.                                                                                                                                                                                                                                                                                                                                                           |
 
-### <a id="adyen-configuration-table"></a><h2>Adyen configuration</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <a href="adyen-configuration-table" style="color:initial">Adyen configuration</a>
 
 By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#my-account-header), [Checkout](#checkout-header), [PaymentInfo](#payment-info-header) and [Purchase](#purchase-header).
 
 If the payment method is not presented in the `paymentMethodConfiguration` object, then it doesn't have any optional configuration available.
+
 The example Adyen configuration object with described properties is shown below:
 
 ```javascript
@@ -864,7 +946,37 @@ The example Adyen configuration object with described properties is shown below:
 }
 ```
 
-### <a id="security-configuration"></a><h2>Security</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <a href="translations-section" style="color:initial">Translations</a>
+
+<b>This feature is during the development process. Some texts may not be ready for translation yet.</b>
+
+Translations allow you to add a new language version or to change default wording.
+Currently, `mediastore-sdk` components are available only in English.
+
+Below, you can find a short guide on how to implement custom copies or translations.
+
+1. Create a `cleeng-translations` folder inside `/public` folder in your application
+2. In previously created folder you can create separate folders for needed languages, eg. `/es` for Spanish.
+3. Create new file in language folder and name it `translations.json`. Copy the content from [English version](https://github.com/Cleeng/mediastore-sdk/tree/main/src/translations/en) and translate the values in that file to the needed language. If you only want to modify wording, you can add and update only the needed keys with values.
+4. To enable new language you have to add `?lng=es` at the end of your url or set an entry in your local storage.
+
+```
+localStorage.setItem('i18nextLng', 'es');
+```
+
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <a href="security-configuration" style="color:initial">Security</a>
 
 Website security is a crucial thing nowadays and it is good to secure the website as much as it can be. Because part of the `mediastore-sdk` components library is a payment process, we wanna give you the possibility to make your website secure and safe.
 
@@ -886,29 +998,27 @@ Below you can find an example of the Content Security Policy which can be set th
 />
 ```
 
-### <a id="translations-section"></a><h2>Translations</h2>
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
 
-<b>This feature is during the development process. Some texts may not be ready for translation yet.</b>
+---
 
-Translations allow you to add a new language version or to change default wording.
-Currently, `mediastore-sdk` components are available only in English.
-
-Below, you can find a short guide on how to implement custom copies or translations.
-
-1. Create a `cleeng-translations` folder inside `/public` folder in your application
-2. In previously created folder you can create separate folders for needed languages, eg. `/es` for Spanish.
-3. Create new file in language folder and name it `translations.json`. Copy the content from [English version](https://github.com/Cleeng/mediastore-sdk/tree/main/src/translations/en) and translate the values in that file to the needed language. If you only want to modify wording, you can add and update only the needed keys with values.
-4. To enable new language you have to add `?lng=es` at the end of your url or set an entry in your local storage.
-
-```
-localStorage.setItem('i18nextLng', 'es');
-```
-
-# Related documentation:
+## <a href="documentation" style="color:initial">Related documentation</a>
 
 - [MediaStore SDK Reference Materials](https://publisher.support.cleeng.com/hc/en-us/articles/360017107279-What-is-MediaStore-SDK-And-any-additional-information-you-may-need-to-know)
 - [API documentation](https://developers.cleeng.com/reference/getting-started)
 
-# License
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
+
+---
+
+## <a href="license" style="color:initial">License</a>
 
 The Cleeng MediaStore SDK is open source and available under the BSD 3-Clause License. See the [LICENSE](LICENSE.md) file for more information.
+
+<div align="right">
+  <a href="#table-of-contents">[ Back to top ]</a>
+</div>
