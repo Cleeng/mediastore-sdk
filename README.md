@@ -2,7 +2,7 @@
 
 > **Warning**
 >
-> Breaking changes in version 4.0. See the [imports](#import-the-required-css) section of this file for more information.
+> Breaking changes in version 4.0. See the [imports](#1-import-the-required-css) section of this file for more information.
 
 This is the Cleeng official component library to be used with React.js.
 
@@ -168,22 +168,21 @@ export default function Home() {
 You can build a complete flow - allowing customers to buy your offering and use their customer accounts - with two main components:
 
 - [Checkout](#checkout) - a full purchase flow (starting from registration to purchase)
-- [MyAccount](#my-account) - a complete customer account environment
+- [MyAccount](#myaccount) - a complete customer account environment
 
 If you prefer smaller components, you can use these to implement the exact features you need:
-
-- [Register](#register)
-- [Login](#login)
-- [Capture](#capture)
-- [Checkout Consents](#checkout-consents)
-- [Purchase](#purchase)
-- [PasswordReset](#password-reset)
-- [Subscriptions](#subscriptions)
-- [SubscriptionSwitches](#subscription-switches)
-- [PlanDetails](#plan-details)
-- [PaymentInfo](#payment-info)
-- [TransactionList](#transaction-list)
-- [UpdateProfile](#update-profile)
+  - [Register](#register)
+  - [Login](#login)
+  - [Capture](#capture)
+  - [Checkout Consents](#checkoutconsents)
+  - [Purchase](#purchase)
+  - [PasswordReset](#passwordreset)
+  - [Subscriptions](#subscriptions)
+  - [SubscriptionSwitches](#subscriptionswitches)
+  - [PlanDetails](#plandetails)
+  - [PaymentInfo](#paymentinfo)
+  - [TransactionList](#transactionlist)
+  - [UpdateProfile](#updateprofile)
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
@@ -192,12 +191,12 @@ If you prefer smaller components, you can use these to implement the exact featu
 
 `Checkout` is a complex component that covers the whole checkout process, from the registration to the purchase. It contains components listed below:
 
-- [Register](#register-header)
-- [Login](#login-header)
-- [Capture](#capture-header)
-- [Checkout Consents](#checkout-consents-header)
-- [Purchase](#purchase-header)
-- [PasswordReset](#password-reset-header)
+- [Register](#register)
+- [Login](#login)
+- [Capture](#capture)
+- [Checkout Consents](#checkoutconsents)
+- [Purchase](#purchase)
+- [PasswordReset](#passwordreset)
 
 **Config methods**
 
@@ -219,7 +218,7 @@ Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of present
 - `offerId` \* - ID of Cleeng offer, for which Checkout component should be opened. Accepts `offerId` with or without the country suffix, eg. `S531234647_PL`, `S531234647`.
 - `onSuccess` - function called after a successful checkout process.
 - `resetPasswordCallback` - function called after a successful reset password request, when user clicks 'Go back to the login page'
-- `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in purchase section. Read more information about adyen configuration [here](#adyen-configuration-table).
+- `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in purchase section. Read more information about adyen configuration [here](#adyen-configuration).
 
 **Usage**
 
@@ -245,10 +244,10 @@ import adyenConfiguration from "./adyenConfiguration";
 
 `MyAccount` is a big component that contains all profile-management-related features. The following sections are available in `MyAccount`:
 
-- [Login](#login-header)
-- [PlanDetails (manage subscriptions)](#plan-details-header)
-- [PaymentsInfo](#payment-info-header)
-- [UpdateProfile](#update-profile-header)
+- [Login](#login)
+- [PlanDetails (manage subscriptions)](#plandetails)
+- [PaymentsInfo](#paymentinfo)
+- [UpdateProfile](#updateprofile)
 
 **Config methods**
 
@@ -269,7 +268,7 @@ Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of present
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
-- `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in update payment details section. Read more information about adyen configuration [here](#adyen-configuration-table).
+- `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in update payment details section. Read more information about adyen configuration [here](#adyen-configuration).
 - `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
 **Usage sample**
@@ -399,7 +398,7 @@ Config.setPublisher("111111111"); // required
 
 - `offerId` \* - ID of Cleeng offer, for which Purchase component should be opened. If not provided, it will use the item from local storage with name 'CLEENG_OFFER_ID'
 - `onSuccess` - function called after a successful payment process \* - required
-- `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in purchase section. Read more information about adyen configuration [here](#adyen-configuration-table).
+- `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in purchase section. Read more information about adyen configuration [here](#adyen-configuration).
 
 **Config methods**
 
@@ -572,7 +571,7 @@ Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of present
 
 **Props**
 
-- `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in update payment details section. Read more information about adyen configuration [here](#adyen-configuration-table).
+- `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in update payment details section. Read more information about adyen configuration [here](#adyen-configuration).
 - `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
 **Usage sample**
@@ -812,9 +811,9 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 
 ## Adyen configuration
 
-By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#my-account-header), [Checkout](#checkout-header), [PaymentInfo](#payment-info-header) and [Purchase](#purchase-header).
+By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#myaccount), [Checkout](#checkout), [PaymentInfo](#paymentinfo) and [Purchase](#purchase).
 
-If the payment method is not presented in the `paymentMethodConfiguration` object, then it doesn't have any optional configuration available.
+If the payment method is not presented in the `paymentMethodConfiguration` object, then it doesn't have any optional configuration available, eg. sofort.
 
 The example Adyen configuration object with described properties is shown below:
 
@@ -868,7 +867,13 @@ The example Adyen configuration object with described properties is shown below:
       // 'check-out': 'Check out with Apple Pay'
       // 'subscribe': 'Subscribe with Apple Pay'
       // For all possible values and styling guidance, see https://developer.apple.com/design/human-interface-guidelines/technologies/apple-pay/buttons-and-marks
-    }
+    },
+    ideal: {
+      showImage: true, //	Set to false to remove the bank logos from the iDEAL form. Default: true
+      issuer: "0031", // Optional. Set to an iDEAL issuer ID to preselect a specific bank, refer to: https://docs.adyen.com/payment-methods/ideal/web-drop-in?tab=live_payments_2#issuer-ids
+      highlightedIssuers: ['0761', '0802'] // Optional. Set to the iDEAL issuer IDs for banks you want to show on top of the dropdown menu.
+      placeholder: 'Choose your bank' // Optional. The string you want to show as the dropdown menu text. Custom translation configuration overrides this value. Default: 'Select your bank'
+    },
   },
   locale: 'en-US', // The language used in the Drop-in UI. For possible values, see the https://docs.adyen.com/online-payments/web-drop-in/customization#supported-languages,
   translations: {}, // The text displayed in each localization can be customized, allowing you to replace the default text with your own. You can read more about it here https://docs.adyen.com/online-payments/web-drop-in/customization#customizing-a-localization
@@ -927,6 +932,7 @@ Below you can find an example of the Content Security Policy which can be set th
 ## Related documentation
 
 - [MediaStore SDK Reference Materials](https://publisher.support.cleeng.com/hc/en-us/articles/360017107279-What-is-MediaStore-SDK-And-any-additional-information-you-may-need-to-know)
+- [Integration guide](https://developers.cleeng.com/docs/components-integration-guide)
 - [API documentation](https://developers.cleeng.com/reference/getting-started)
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
