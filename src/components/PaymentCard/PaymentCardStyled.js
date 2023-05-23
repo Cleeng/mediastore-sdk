@@ -1,7 +1,6 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { White, FontColor } from 'styles/variables';
 import { mediaFrom } from 'styles/BreakPoints';
-import { isRTL } from 'styles/RTLHelper';
 
 export const CardStyled = styled.div.attrs(() => ({
   className: 'msd__payment-card'
@@ -56,13 +55,7 @@ export const CardExpirationLabel = styled.div.attrs(() => ({
   font-size: 13px;
   font-weight: 300;
   margin-bottom: 4px;
-  margin-right: 4px;
-
-  ${isRTL() &&
-    css`
-      margin-right: 0;
-      margin-left: 4px;
-    `}
+  margin-inline-end: 4px;
 `;
 
 export const CardExpirationDateStyled = styled.div.attrs(() => ({
@@ -112,14 +105,7 @@ export const CardInfoStyled = styled.div.attrs(() => ({
 export const CardDetailsStyled = styled.div.attrs(() => ({
   className: 'msd__payment-method__details'
 }))`
-  margin-left: 20px;
-  margin-right: auto;
-
-  ${isRTL() &&
-    css`
-      margin-left: auto;
-      margin-right: 20px;
-    `}
+  margin-inline: 20px auto;
 `;
 
 export const CardDetailsNameStyled = styled.div.attrs(() => ({
@@ -129,13 +115,7 @@ export const CardDetailsNameStyled = styled.div.attrs(() => ({
   font-size: 13px;
   font-weight: 600;
   line-height: 20px;
-  margin-right: 4px;
-
-  ${isRTL() &&
-    css`
-      margin-right: 0;
-      margin-left: 4px;
-    `}
+  margin-inline-end: 4px;
 `;
 
 export const CardDetailsNameWrapStyled = styled.div.attrs(() => ({

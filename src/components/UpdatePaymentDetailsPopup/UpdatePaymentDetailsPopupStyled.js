@@ -47,7 +47,7 @@ export const RemoveLinkStyled = styled.a.attrs(() => ({
 `;
 
 export const DeleteIconStyled = styled(props => <DeleteIcon {...props} />)`
-  margin-right: 10px;
+  margin-inline-end: 10px;
   font-size: 9px;
 `;
 

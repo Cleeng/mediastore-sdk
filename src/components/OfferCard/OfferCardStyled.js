@@ -1,6 +1,5 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
-import { isRTL } from 'styles/RTLHelper';
 import {
   BoldFont,
   MediumFont,
@@ -28,11 +27,11 @@ export const InnerWrapper = styled.div.attrs(() => ({
 }))`
   max-width: 50%;
   color: ${FontColor};
-  margin-right: 15px;
+  margin-inline-end: 15px;
 
   ${mediaFrom.small`
     max-width: none;
-    margin-right: 20px;
+    margin-inline-end: 20px;
   `}
 `;
 
@@ -63,12 +62,7 @@ export const PriceWrapperStyled = styled.div.attrs(() => ({
 }))`
   display: flex;
   flex-direction: column;
-  margin: auto 0 auto auto;
-
-  ${isRTL() &&
-    css`
-      margin: auto auto auto 0;
-    `}
+  margin-inline: auto 0;
 `;
 
 export const TrialBadgeStyled = styled.div.attrs(() => ({
@@ -109,13 +103,8 @@ export const BoxTextStyled = styled.p.attrs(() => ({
 }))`
   font-size: ${TinyFont};
   color: ${FontColor};
-  margin: 0 0 0 10px;
+  margin-inline: 10px 0;
   line-height: initial;
-
-  ${isRTL() &&
-    css`
-      margin: 0 10px 0 0;
-    `}
 `;
 
 export const SubBoxContentStyled = styled.div``;

@@ -63,13 +63,11 @@ export const RightBoxStyled = styled.div`
   flex-direction: column;
   justify-content: space-between;
   flex-shrink: 0;
-  margin-left: 20px;
+  margin-inline-start: 20px;
   text-align: right;
 
-  ${isRTL() &&
+  ${isRTL &&
     css`
-      margin-left: 0;
-      margin-right: 20px;
       text-align: left;
     `}
 `;
@@ -145,11 +143,5 @@ export const LogoWrapStyled = styled.div`
 `;
 
 export const InfoStyled = styled.div`
-  margin-left: 18px;
-
-  ${isRTL() &&
-    css`
-      margin-left: 0;
-      margin-right: 18px;
-    `}
+  margin-inline-start: 18px;
 `;

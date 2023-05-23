@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { isRTL } from 'styles/RTLHelper';
 import {
   FontColor,
   ErrorColor,
@@ -40,7 +39,7 @@ export const ConsentDefinitionStyled = styled.div.attrs(props => ({
   }`
 }))`
   position: relative;
-  padding-left: 10px;
+  padding-inline-start: 10px;
   margin-top: 0;
 
   font-weight: 400;
@@ -58,12 +57,6 @@ export const ConsentDefinitionStyled = styled.div.attrs(props => ({
     props.checked &&
     css`
       opacity: 1;
-    `}
-
-  ${isRTL() &&
-    css`
-      padding-left: 0;
-      padding-right: 10px;
     `}
 `;
 

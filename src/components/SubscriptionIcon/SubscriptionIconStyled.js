@@ -1,6 +1,5 @@
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
-import { isRTL } from 'styles/RTLHelper';
 import { BoldFont, FontColor, White, ConfirmColor } from 'styles/variables';
 
 export const WrapperStyled = styled.div.attrs(() => ({
@@ -10,7 +9,7 @@ export const WrapperStyled = styled.div.attrs(() => ({
   justify-content: center;
   position: relative;
   padding: 10px;
-  margin-right: 10px;
+  margin-inline-end: 10px;
   border-radius: 8px;
   flex: 0 0 40px;
 
@@ -33,21 +32,11 @@ export const WrapperStyled = styled.div.attrs(() => ({
 
   ${mediaFrom.small`
     flex: 0 0 50px;
-    margin-right: 15px;
+    margin-inline-end: 15px;
     padding: 14px 10px;
     
     font-size: 20px;
   `}
-
-  ${isRTL() &&
-    css`
-      margin-right: 0;
-      margin-left: 10px;
-      ${mediaFrom.small`
-        margin-right: 0;
-        margin-left: 15px;
-      `}
-    `}
 `;
 
 export const LabelStyled = styled.span`

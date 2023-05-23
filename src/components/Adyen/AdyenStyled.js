@@ -1,5 +1,4 @@
 import styled, { css } from 'styled-components';
-import { isRTL } from 'styles/RTLHelper';
 import {
   FontColor,
   ConfirmColor,
@@ -131,12 +130,8 @@ const AdyenStyled = styled.div.attrs(() => ({
     css`
       .adyen-checkout__payment-method--standalone {
         .adyen-checkout__payment-method__header {
-          padding: 12px 16px 12px 44px;
-
-          ${isRTL() &&
-            css`
-              padding: 12px 44px 12px 16px;
-            `}
+          padding-block: 12px;
+          padding-inline: 44px 16px;
         }
 
         .adyen-checkout__payment-method__radio {
