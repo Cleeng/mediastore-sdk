@@ -18,20 +18,20 @@ To find out more about MediaStore SDK, see:
 - [Installation](#installation)
 - [Usage](#usage)
 - [Available components](#available-components)
-   - [Checkout](#checkout)
-   - [MyAccount](#myaccount)
-   - [Register](#register)
-   - [Login](#login)
-   - [Capture](#capture)
-   - [Checkout Consents](#checkoutconsents)
-   - [Purchase](#purchase)
-   - [PasswordReset](#passwordreset)
-   - [Subscriptions](#subscriptions)
-   - [SubscriptionSwitches](#subscriptionswitches)
-   - [PlanDetails](#plandetails)
-   - [PaymentInfo](#paymentinfo)
-   - [TransactionList](#transactionlist)
-   - [UpdateProfile](#updateprofile)
+  - [Checkout](#checkout)
+  - [MyAccount](#myaccount)
+  - [Register](#register)
+  - [Login](#login)
+  - [Capture](#capture)
+  - [Checkout Consents](#checkoutconsents)
+  - [Purchase](#purchase)
+  - [PasswordReset](#passwordreset)
+  - [Subscriptions](#subscriptions)
+  - [SubscriptionSwitches](#subscriptionswitches)
+  - [PlanDetails](#plandetails)
+  - [PaymentInfo](#paymentinfo)
+  - [TransactionList](#transactionlist)
+  - [UpdateProfile](#updateprofile)
 - [Styling](#styling)
 - [Communication (events)](#communication)
 - [Adyen configuration](#adyen-configuration)
@@ -39,14 +39,15 @@ To find out more about MediaStore SDK, see:
 - [Security](#security)
 - [Documentation](#related-documentation)
 - [License](#license)
+
 ## Installation
 
-##### Prerequisites
+#### Prerequisites
 
 - Node v14.15.0
 - React (v18.2.0)
 
-##### Installation
+#### Installation
 
 ```
 // npm
@@ -95,7 +96,7 @@ Config functions save data to local storage (as `CLEENG_*` items). These data ar
 | `setVisibleAdyenPaymentMethods` | `paymentMethods: string[]`| Array of payment methods names that should be presented in Checkout and MyAccount. Available options: `applepay`, `card`, `googlepay`, `ideal`, `sofort`                                   |
 | `setHidePayPal`                 | -                                                           | Option to hide PayPal, by default PayPal will be visible when configured                                                                                                    |
 
-<b>Sample of usage</b>
+**Usage sample**
 
 ```javascript
 import { Config } from "@cleeng/mediastore-sdk";
@@ -121,7 +122,7 @@ Auth.logout(() => console.log('The user has been logged out')));
 
 #### 3. Embed component (sample)
 
-<b>Each component needs to be wrapper into Provider, as in the example below.</b>
+**Each component needs to be wrapper into Provider, as in the example below.**
 Component should be rendered in the browser - if you are using NextJS, turn off SSR for MSSDK components.
 
 ```javascript
@@ -172,18 +173,19 @@ You can build a complete flow - allowing customers to buy your offering and use 
 - [MyAccount](#myaccount) - a complete customer account environment
 
 If you prefer smaller components, you can use these to implement the exact features you need:
-  - [Register](#register)
-  - [Login](#login)
-  - [Capture](#capture)
-  - [Checkout Consents](#checkoutconsents)
-  - [Purchase](#purchase)
-  - [PasswordReset](#passwordreset)
-  - [Subscriptions](#subscriptions)
-  - [SubscriptionSwitches](#subscriptionswitches)
-  - [PlanDetails](#plandetails)
-  - [PaymentInfo](#paymentinfo)
-  - [TransactionList](#transactionlist)
-  - [UpdateProfile](#updateprofile)
+
+- [Register](#register)
+- [Login](#login)
+- [Capture](#capture)
+- [Checkout Consents](#checkoutconsents)
+- [Purchase](#purchase)
+- [PasswordReset](#passwordreset)
+- [Subscriptions](#subscriptions)
+- [SubscriptionSwitches](#subscriptionswitches)
+- [PlanDetails](#plandetails)
+- [PaymentInfo](#paymentinfo)
+- [TransactionList](#transactionlist)
+- [UpdateProfile](#updateprofile)
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
@@ -239,7 +241,6 @@ import adyenConfiguration from "./adyenConfiguration";
 ```
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
-
 
 ## MyAccount
 
@@ -333,7 +334,6 @@ Config.setPublisher("111111111");
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
-
 ## Login
 
 `Login` component is a basic Cleeng login form (see an example [here](https://developers.cleeng.com/docs/purchase-flow#login)).
@@ -366,7 +366,6 @@ Config.setPublisher("111111111");
 ```
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
-
 
 ## PasswordReset
 
@@ -505,7 +504,6 @@ import { Provider } from "react-redux";
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
-
 ## PlanDetails
 
 `PlanDetails` is a component that contains previously described components
@@ -547,7 +545,6 @@ const customCancellationReasons = [
 ```
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
-
 
 ## PaymentInfo
 
@@ -645,7 +642,6 @@ import { Provider } from "react-redux";
 ```
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
-
 
 ## CheckoutConsents
 
@@ -809,7 +805,6 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
-
 ## Adyen configuration
 
 By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#myaccount), [Checkout](#checkout), [PaymentInfo](#paymentinfo) and [Purchase](#purchase).
@@ -884,7 +879,6 @@ The example Adyen configuration object with described properties is shown below:
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
-
 ## Translations
 
 <b>This feature is during the development process. Some texts may not be ready for translation yet.</b>
@@ -899,7 +893,7 @@ Below, you can find a short guide on how to implement custom copies or translati
 3. Create new file in language folder and name it `translations.json`. Copy the content from [English version](https://github.com/Cleeng/mediastore-sdk/tree/main/src/translations/en) and translate the values in that file to the needed language. If you only want to modify wording, you can add and update only the needed keys with values.
 4. To enable new language you have to add `?lng=es` at the end of your url or set an entry in your local storage.
 
-```
+```javascript
 localStorage.setItem('i18nextLng', 'es');
 ```
 
@@ -929,7 +923,6 @@ Below you can find an example of the Content Security Policy which can be set th
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
-
 ## Related documentation
 
 - [MediaStore SDK Reference Materials](https://publisher.support.cleeng.com/hc/en-us/articles/360017107279-What-is-MediaStore-SDK-And-any-additional-information-you-may-need-to-know)
@@ -937,7 +930,6 @@ Below you can find an example of the Content Security Policy which can be set th
 - [API documentation](https://developers.cleeng.com/reference/getting-started)
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
-
 
 ## License
 
