@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
 import * as Colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
-import { isRTL } from 'styles/RTLHelper';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 
 export const InputComponentStyled = styled.div.attrs(() => ({
@@ -71,7 +70,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
     css`
       width: 198px;
       max-width: 198px;
-      left: 37px;
+      inset-inline-start: 37px;
       padding-right: 25px;
       ${media.small`
         width: 100%;
@@ -83,12 +82,6 @@ export const InputElementStyled = styled.input.attrs(() => ({
           width: 100%;
           max-width: 100%;
         `}
-    `}
-
-  ${isRTL() &&
-    css`
-      right: 37px;
-      left: unset;
     `}
 
   ${props =>
@@ -105,7 +98,7 @@ export const CloseButtonStyled = styled.button.attrs(() => ({
   height: 22px;
   width: 22px;
   top: 50%;
-  left: 7px;
+  inset-inline-start: 7px;
   transform: translate(0, -50%);
   background-color: ${Colors.PrimaryColor};
   opacity: 0;
@@ -116,12 +109,6 @@ export const CloseButtonStyled = styled.button.attrs(() => ({
   justify-content: center;
   align-items: center;
   cursor: pointer;
-
-  ${isRTL() &&
-    css`
-      right: 7px;
-      left: unset;
-    `}
 
   svg {
     transform: scale(0.3);
