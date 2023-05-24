@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
 import { BoldFont, FontColor, White, ConfirmColor } from 'styles/variables';
 
-export const WrapperStyled = styled.div.attrs(() => ({
+export const WrapperStyled = styled.figure.attrs(() => ({
   className: 'msd__subscription-card__icon'
 }))`
   display: flex;
   justify-content: center;
   position: relative;
   padding: 10px;
-  margin-right: 10px;
+  margin: 0 10px 0 0;
   border-radius: 8px;
   flex: 0 0 40px;
 
@@ -20,7 +20,7 @@ export const WrapperStyled = styled.div.attrs(() => ({
   text-align: center;
 
   background-color: ${props => props.bg};
-  color: ${props => props.color};
+  color: ${props => props.$color};
   border: 1px solid ${props => props.border};
 
   svg {

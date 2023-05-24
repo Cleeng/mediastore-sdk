@@ -232,6 +232,7 @@ const PlanDetails = ({
         renderPopup(innerPopup.type)
       ) : (
         <>
+          {/* TODO: implement headers hierachy (dynamic calculation) */}
           <SectionHeader>{t('Current plan')}</SectionHeader>
           <CurrentPlan
             subscriptions={planDetails.currentPlan}

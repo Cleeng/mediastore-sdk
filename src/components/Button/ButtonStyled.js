@@ -32,11 +32,17 @@ const ButtonStyled = styled.button.attrs(props => ({
     outline: none;
   }
 
+  &:focus {
+    outline: 1px solid ${colors.FocusColor};
+  }
+
   &:disabled {
     &:hover {
       cursor: not-allowed;
     }
   }
+
+
 
   ${props =>
     props.size === 'big' &&

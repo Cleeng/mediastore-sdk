@@ -181,9 +181,11 @@ const OfferCard = ({
             width={300}
             margin="0 0 10px 10px"
           >
-            <DescriptionStyled
-              dangerouslySetInnerHTML={{ __html: description }}
-            />
+            {description && (
+              <DescriptionStyled
+                dangerouslySetInnerHTML={{ __html: description }}
+              />
+            )}
           </SkeletonWrapper>
         </InnerWrapper>
         {!isPriceBoxHidden && (

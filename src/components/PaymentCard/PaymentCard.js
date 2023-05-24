@@ -76,6 +76,7 @@ const PaymentCard = ({ isDataLoaded, details }) => {
               {LogoComponent && (
                 <CardTypeStyled>
                   <LogoComponent />
+                  {/* TODO: alternative implementation for GlobalStyles */}
                   <VisuallyHidden />
                   <figcaption className="visually-hidden">
                     {logoCaption}

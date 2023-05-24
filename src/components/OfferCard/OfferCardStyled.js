@@ -35,7 +35,8 @@ export const InnerWrapper = styled.div.attrs(() => ({
   `}
 `;
 
-export const TitleStyled = styled.h1.attrs(() => ({
+// h1
+export const TitleStyled = styled.h2.attrs(() => ({
   className: 'msd__subscription-text__title'
 }))`
   margin: 0 auto 3px 0;
@@ -49,12 +50,13 @@ export const TitleStyled = styled.h1.attrs(() => ({
     line-height: 19px;
   `};
 `;
-export const DescriptionStyled = styled.h2.attrs(() => ({
+export const DescriptionStyled = styled.p.attrs(() => ({
   className: 'msd__subscription-text__description'
 }))`
   font-size: ${TinyFont};
   font-weight: ${MediumFontWeight};
   line-height: 17px;
+  margin: 9px 0;
 `;
 
 export const PriceWrapperStyled = styled.div.attrs(() => ({

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'components/Button';
 import { currencyFormat } from 'util/planHelper';
 
 import { useSelector } from 'react-redux';
@@ -9,7 +8,7 @@ import labeling from 'containers/labeling';
 import { applyCoupon } from 'api';
 import CouponInput from 'components/CouponInput';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
-
+import Button from 'components/Button';
 import {
   SubscriptionManagementStyled,
   ManageButtonWrapStyled,

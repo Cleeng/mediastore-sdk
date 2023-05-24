@@ -130,11 +130,20 @@ class CouponInput extends Component {
     const { suppressMessage, isOpened } = this.state;
 
     return (
-      <InputComponentStyled isOpened={isOpened} fullWidth={fullWidth}>
+      <InputComponentStyled
+        isOpened={isOpened}
+        fullWidth={fullWidth}
+        onSubmit={async e => {
+          e.preventDefault();
+          await this.onRedeemClick();
+        }}
+      >
         <InputElementWrapperStyled>
           <CloseButtonStyled
             onClick={() => this.onCloseClick()}
             isInputOpened={isOpened}
+            aria-label="close"
+            type="button"
           >
             {CloseIcon && <CloseIcon />}
           </CloseButtonStyled>
@@ -160,12 +169,7 @@ class CouponInput extends Component {
             aria-label={t('Your coupon')}
             aria-required={false}
           />
-          <Button
-            width="auto"
-            onClickFn={async () => {
-              await this.onRedeemClick();
-            }}
-          >
+          <Button width="auto" type="submit">
             <>
               {couponLoading && <Loader buttonLoader color="#ffffff" />}
               {!couponLoading && isOpened && t('Redeem')}

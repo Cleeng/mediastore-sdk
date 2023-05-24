@@ -3,7 +3,7 @@ import * as Colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 
-export const InputComponentStyled = styled.div.attrs(() => ({
+export const InputComponentStyled = styled.form.attrs(() => ({
   className: 'msd__coupon-input__wrapper'
 }))`
   display: flex;

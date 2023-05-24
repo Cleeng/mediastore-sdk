@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-prop-types */
 /* eslint-disable no-nested-ternary */
 
 import React, { useState } from 'react';
@@ -157,6 +158,7 @@ const CurrentPlan = ({
 
           return (
             <SubscriptionStyled
+              as="article"
               key={subItem.offerId}
               onClick={() => {
                 if (

@@ -44,6 +44,7 @@ const MyAccountUserInfo = ({ t }) => {
         <SkeletonWrapper showChildren={isDataLoaded}>
           <MailStyled bigger={!isNameSet}>{user?.email}</MailStyled>
         </SkeletonWrapper>
+        {/* TODO: fix contrast issue */}
         <SkeletonWrapper showChildren={isDataLoaded} height={36} margin="0">
           {subscription && <TextStyled>{subscription}</TextStyled>}
         </SkeletonWrapper>
