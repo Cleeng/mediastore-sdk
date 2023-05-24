@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import * as colors from 'styles/variables';
 
-export const PaymentStyled = styled.div.attrs(() => ({
+export const PaymentStyled = styled.section.attrs(() => ({
   className: 'msd__payment'
 }))`
   padding: 20px 35px 70px 35px;

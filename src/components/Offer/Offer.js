@@ -54,6 +54,7 @@ class Offer extends Component {
     return (
       <StyledOfferWrapper>
         <Header />
+        {/* TODO: consider the context and conditionally render <main> element */}
         <main>
           <>
             <StyledOfferBody>

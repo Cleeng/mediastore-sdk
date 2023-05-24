@@ -24,16 +24,17 @@ export const StyledOfferDetailsAndCoupon = styled.div`
   margin-bottom: 12px;
 `;
 
-export const StyledOfferBody = styled.div.attrs(() => ({
+export const StyledOfferBody = styled.section.attrs(() => ({
   className: 'msd__checkout-wrapper'
 }))`
   padding: 25px 35px;
+
   ${media.small`
     padding: 0 10px;
-  `}
+  `};
 `;
 
-export const OfferCardWrapperStyled = styled.section.attrs(() => ({
+export const OfferCardWrapperStyled = styled.article.attrs(() => ({
   className: 'msd__offer-card'
 }))`
   width: 100%;
