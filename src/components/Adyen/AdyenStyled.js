@@ -24,7 +24,6 @@ const AdyenStyled = styled.div.attrs(() => ({
     `}
   .adyen-checkout__button.adyen-checkout__button--pay {
     background: ${ConfirmColor};
-    border-radius: 30px;
   }
   .adyen-checkout__payment-method__details__content {
     margin: 2px 0 20px;
@@ -83,20 +82,13 @@ const AdyenStyled = styled.div.attrs(() => ({
 
   .adyen-checkout__payment-method {
     border: 1px solid ${LineColor};
-    margin: 0;
+    margin-bottom: 10px;
+    border-radius: 12px;
+    overflow: hidden;
   }
 
-  .adyen-checkout__payment-method:not(:first-child) {
-    border-radius: 0;
-  }
-
-  .adyen-checkout__payment-method:first-child {
-    border-radius: 12px 12px 0 0;
-  }
-
-  .adyen-checkout__payment-method:last-child {
-    border-radius: ${({ isAdditionalPayment }) =>
-      isAdditionalPayment ? 'none' : '12px'};
+  .adyen-checkout__payment-method.adyen-checkout__payment-method--selected {
+    overflow: visible;
   }
 
   .adyen-checkout__payment-method--selected {
@@ -106,6 +98,33 @@ const AdyenStyled = styled.div.attrs(() => ({
   .adyen-checkout__payment-method__radio--selected {
     background-color: ${ConfirmColor};
   }
+
+  .checkbox-wrapper {
+    margin: 10px 20px 20px 20px;
+  }
+
+  .adyen-checkout__bank-checkbox {
+    align-items: flex-start;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 17px;
+    color: #515364;
+    gap: 3px;
+    margin-bottom: 20px;
+  }
+
+  .adyen-checkout__bank-checkbox--error {
+    .msd__consents__frame {
+      border-color: red;
+    }
+  }
+
+  .adyen-checkout__payment-method--standalone {
+    .adyen-checkout__payment-method__header {
+      padding: 13px 16px;
+    }
+  }
+
   ${({ isAdditionalPayment }) =>
     isAdditionalPayment &&
     css`
@@ -113,6 +132,7 @@ const AdyenStyled = styled.div.attrs(() => ({
         .adyen-checkout__payment-method__header {
           padding: 12px 16px 12px 44px;
         }
+
         .adyen-checkout__payment-method__radio {
           display: block;
         }

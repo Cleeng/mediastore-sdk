@@ -9,7 +9,7 @@ import MyAccountError from 'components/MyAccountError';
 import Button from 'components/Button';
 import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
-import { logos } from 'util/paymentMethodHelper';
+import { logos, readablePaymentMethodNames } from 'util/paymentMethodHelper';
 import {
   DEFAULT_TRANSACTIONS_NUMBER,
   fetchListCustomerTransactions,
@@ -141,7 +141,7 @@ const Transactions = ({ t }) => {
                       </TitleStyled>
                       <SubTitleStyled>
                         {t(`Paid with`)}{' '}
-                        {paymentMethod === 'card' ? t('card') : paymentMethod}
+                        {readablePaymentMethodNames[paymentMethod]}
                       </SubTitleStyled>
                     </InfoStyled>
                   </LeftBoxStyled>

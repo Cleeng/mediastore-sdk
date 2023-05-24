@@ -52,6 +52,7 @@ export const DescriptionStyled = styled.p.attrs(() => ({
   font-size: ${TinyFont};
   font-weight: ${MediumFontWeight};
   line-height: 17px;
+  white-space: pre-line;
   margin: 9px 0;
 `;
 

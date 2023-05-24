@@ -51,9 +51,7 @@ const store = (isOpen = false) => ({
       }
     ]
   },
-  offers: {
-    pauseOffersIDs: []
-  }
+  offers: { pauseOffersIDs: [] }
 });
 
 const middleware = [thunk];

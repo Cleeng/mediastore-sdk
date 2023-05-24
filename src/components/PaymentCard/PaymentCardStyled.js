@@ -13,12 +13,13 @@ export const CardTypeStyled = styled.figure.attrs(() => ({
   className: 'msd__payment-card__type'
 }))`
   display: flex;
+  align-items: center;
+  justify-content: center;
   width: 38px;
   height: 26px;
   margin: 0;
 
   svg {
-    width: 100%;
     height: auto;
   }
 `;

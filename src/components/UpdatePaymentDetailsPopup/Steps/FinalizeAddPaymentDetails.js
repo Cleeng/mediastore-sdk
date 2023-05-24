@@ -17,7 +17,7 @@ const FinalizeAddPaymentDetails = () => {
   );
   const dispatch = useDispatch();
 
-  const submitRedirectResult = async () => {
+  const submitRedirectResult = () => {
     dispatch(
       fetchFinalizeAddPaymentDetails({
         paymentMethodId,

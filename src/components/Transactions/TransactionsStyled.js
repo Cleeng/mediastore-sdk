@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import styled, { css } from 'styled-components';
-import { LineColor, FontColor, White } from 'styles/variables';
+import { LineColor, FontColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const WrapStyled = styled.article.attrs(() => ({
@@ -126,12 +126,12 @@ export const LogoWrapStyled = styled.div`
   display: flex;
   height: 38px;
   width: 38px;
-  padding: 8px;
-  background: ${White} 0% 0% no-repeat padding-box;
+  justify-content: center;
+  align-items: center;
   border: 1px solid #d4d4df;
   border-radius: 6px;
+  padding: 0 5px;
   svg {
-    width: 100%;
     height: auto;
   }
 `;

@@ -3,7 +3,7 @@ import {
   setData as setDataInRedux,
   removeData as removeDataFromRedux
 } from 'redux/appConfig';
-import { init } from 'redux/publisherConfigSlice';
+import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
 
 const isLocalStorageAvailable = () => {
   try {
@@ -41,14 +41,6 @@ export const removeData = name =>
     ? localStorage.removeItem(name)
     : store.dispatch(removeDataFromRedux({ name }));
 
-export const sendMessage = msg => {
-  if (window.opener) {
-    window.opener.postMessage(msg, '*');
-  } else if (window.top) {
-    window.top.postMessage(msg, '*');
-  }
-};
-
 export const setJWT = jwt => {
   if (jwt) {
     setData('CLEENG_AUTH_TOKEN', jwt);
@@ -67,7 +59,7 @@ export const setRefreshToken = refreshToken => {
 export const setPublisher = publisherId => {
   if (publisherId) {
     setData('CLEENG_PUBLISHER_ID', publisherId);
-    store.dispatch(init({ publisherId }));
+    store.dispatch(initPublisherConfig({ publisherId }));
     return true;
   }
   return false;
@@ -152,6 +144,24 @@ export const getTheme = () => {
   return false;
 };
 
+export const setVisibleAdyenPaymentMethods = visiblePaymentMethods => {
+  store.dispatch(
+    initPublisherConfig({
+      visiblePaymentMethods
+    })
+  );
+  return true;
+};
+
+export const setHidePayPal = () => {
+  store.dispatch(
+    initPublisherConfig({
+      isPayPalHidden: true
+    })
+  );
+  return true;
+};
+
 export default {
   setPublisher,
   setOffer,
@@ -163,5 +173,7 @@ export default {
   setOfferSelectionUrl,
   setJWT,
   setRefreshToken,
-  setTermsUrl
+  setTermsUrl,
+  setHidePayPal,
+  setVisibleAdyenPaymentMethods
 };
