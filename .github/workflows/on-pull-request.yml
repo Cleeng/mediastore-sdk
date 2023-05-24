@@ -14,6 +14,6 @@ jobs:
       access: restricted
       registry: npm.pkg.github.com
       scope: '@cleeng'
-      branch: ${{ github.ref_name }}
+      branch: ${{ github.head_ref }}
     secrets:
       TOKEN: ${{ secrets.GITHUB_TOKEN }}
