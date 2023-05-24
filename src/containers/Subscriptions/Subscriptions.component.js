@@ -30,7 +30,7 @@ const Subscriptions = ({
   const [isLoadingCurrentPlan, setIsLoadingCurrentPlan] = useState(false);
   const [isErrorCurrentPlan, setIsErrorCurrentPlan] = useState([]);
   const didMount = useRef(false);
-  console.log('package refreshed!');
+
   const getAndSaveSwitchSettings = async customerSubscriptions => {
     if (customerSubscriptions.length > 1) {
       setOfferToSwitch({}); // reset previously saved offer to switch
