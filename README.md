@@ -112,6 +112,7 @@ Config.setTheme(); // more informations in the [Styling] section.
 Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of payment methods that will be presented in Checkout and MyAccount
 // available options: 'applepay', 'card', 'googlepay'
 Config.setHidePayPal(); // option to hide PayPal, by default PayPal will be visible when configured
+Config.setLanguage("es"); // option to change language without reloading page
 
 // Auth methods
 Auth.isLogged(); // returns true if the user is authenticated (valid JWT or existing refresh token in local storage)
@@ -902,6 +903,12 @@ Below, you can find a short guide on how to implement custom copies or translati
 
 ```
 localStorage.setItem('i18nextLng', 'es');
+```
+
+5. To change language without reloading the page you can use `Config` method, it will automatically change `i18nextLng` in local storage.
+
+```
+Config.setLanguage('es');
 ```
 
 # Related documentation:
