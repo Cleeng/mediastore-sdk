@@ -1,4 +1,3 @@
-import i18n from 'i18next';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
@@ -70,7 +69,7 @@ const Adyen = ({
 
   useScript('https://pay.google.com/gp/p/js/pay.js');
 
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const getBankCopy = () => {
     const isFree = totalPrice === 0;
