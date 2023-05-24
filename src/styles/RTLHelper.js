@@ -1,4 +1,2 @@
 // eslint-disable-next-line import/prefer-default-export
-export const isRTL = () => {
-  return document.dir === 'rtl';
-};
+export const isRTL = () => document.dir === 'rtl';

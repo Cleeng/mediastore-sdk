@@ -2,7 +2,6 @@
 import styled, { css } from 'styled-components';
 import { LineColor, FontColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
-import { isRTL } from 'styles/RTLHelper';
 
 export const WrapStyled = styled.div.attrs(() => ({
   className: 'msd__transactions__wrapper'
@@ -64,12 +63,7 @@ export const RightBoxStyled = styled.div`
   justify-content: space-between;
   flex-shrink: 0;
   margin-inline-start: 20px;
-  text-align: right;
-
-  ${isRTL &&
-    css`
-      text-align: left;
-    `}
+  text-align: end;
 `;
 
 export const TitleStyled = styled.h3.attrs(() => ({
