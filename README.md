@@ -92,9 +92,9 @@ Config functions save data to local storage (as `CLEENG_*` items). These data ar
 | `setMyAccountUrl`               | `url: string`                                                | My account URL. Needed for checkout legal notes                                                                                                                         |
 | `setOfferSelectionUrl`          | `url: string`                                                | Url to offer selection page. Recommended for CTA when the customer has no active plan                                                                                   |
 | `setTheme`                      | `styles:object`                                              | More information in the [Styling](#styling) section.                                                                                                                    |
-| `setLanguage`                   | `language :string`                                           | Option to change language without reloading page                                                                                                                        |
 | `setVisibleAdyenPaymentMethods` | `paymentMethods: string[]`                                   | Array of payment methods names that should be presented in Checkout and MyAccount. Available options: `applepay`, `card`, `googlepay`, `ideal`, `sofort`                |
 | `setHidePayPal`                 | -                                                            | Option to hide PayPal, by default PayPal will be visible when configured                                                                                                |
+| `setLanguage`                   | `language :string`                                           | Option to change language without reloading page                                                                                                                        |
 
 **Usage sample**
 
@@ -106,6 +106,7 @@ Config.setPublisher("123456789");
 Config.setOffer("S123456789_US");
 Config.setVisibleAdyenPaymentMethods(["card", "applepay"]);
 Config.setHidePayPal();
+Config.setLanguage("es");
 ```
 
 #### Auth methods
