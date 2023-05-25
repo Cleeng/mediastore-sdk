@@ -42,14 +42,6 @@ export const removeData = name =>
     ? localStorage.removeItem(name)
     : store.dispatch(removeDataFromRedux({ name }));
 
-export const sendMessage = msg => {
-  if (window.opener) {
-    window.opener.postMessage(msg, '*');
-  } else if (window.top) {
-    window.top.postMessage(msg, '*');
-  }
-};
-
 export const setJWT = jwt => {
   if (jwt) {
     setData('CLEENG_AUTH_TOKEN', jwt);

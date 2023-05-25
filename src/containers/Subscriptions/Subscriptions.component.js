@@ -52,10 +52,10 @@ const Subscriptions = ({
     setIsLoadingCurrentPlan(true);
 
     const customerOffersResponse = await getCustomerOffers();
-    if (customerOffersResponse.errors.length) {
+    if (customerOffersResponse.errors?.length) {
       setIsErrorCurrentPlan(customerOffersResponse.errors);
     } else {
-      const customerOffers = customerOffersResponse.responseData.items;
+      const customerOffers = customerOffersResponse.items;
       const customerSubscriptions = customerOffers.filter(
         offer => offer.offerType === 'S'
       );

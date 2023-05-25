@@ -88,6 +88,7 @@ const Payment = ({ onPaymentComplete }) => {
     const paymentMethodObj = publisherPaymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
+
     dispatch(setSelectedPaymentMethod(paymentMethodObj));
     updateOrderWithPaymentMethodId(paymentMethodObj.id);
   };
