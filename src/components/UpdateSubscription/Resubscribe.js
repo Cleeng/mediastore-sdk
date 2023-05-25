@@ -4,7 +4,7 @@ import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
 
 import updateSubscription from 'api/Customer/updateSubscription';
-import { dateFormat, currencyFormat } from 'util/planHelper';
+import { dateFormat, currencyFormat, INFINITE_DATE } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 
 import Button from 'components/Button';
@@ -73,7 +73,11 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
               {t(
                 'By clicking the button below you can resume your plan. Your next bill will be on'
               )}{' '}
-              <b>{dateFormat(expiresAt)} </b>
+              <b>
+                {expiresAt === INFINITE_DATE
+                  ? t('the next season start')
+                  : dateFormat(expiresAt)}{' '}
+              </b>
               {t('and it will be')}{' '}
               <b>{`${currencySymbol}${nextPaymentPrice}`}</b>.
             </TextStyled>
@@ -99,7 +103,12 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
           <TextStyled>
             {t('You have been successfully resubscribed. Your fee will be')}{' '}
             <b>{`${currencySymbol}${nextPaymentPrice}`}</b> {t('started from')}{' '}
-            <b> {dateFormat(expiresAt)}.</b>
+            <b>
+              {expiresAt === INFINITE_DATE
+                ? t('the next season start')
+                : dateFormat(expiresAt)}
+              .
+            </b>
           </TextStyled>
           <Button
             width="auto"

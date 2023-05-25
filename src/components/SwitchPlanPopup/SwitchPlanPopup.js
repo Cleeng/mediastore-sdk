@@ -9,7 +9,7 @@ import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
-import { dateFormat } from 'util/planHelper';
+import { dateFormat, INFINITE_DATE } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 import { ReactComponent as Close } from 'assets/images/errors/close.svg';
 
@@ -174,7 +174,12 @@ const SwitchPlanPopup = ({
                   </strong>{' '}
                   on your next billing date{' '}
                   <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                    {{
+                      expiresAt:
+                        fromOffer.expiresAt === INFINITE_DATE
+                          ? t('when the next season start')
+                          : dateFormat(fromOffer.expiresAt)
+                    }}
                   </strong>
                 </Trans>
               )}
@@ -237,7 +242,12 @@ const SwitchPlanPopup = ({
                   </strong>{' '}
                   until{' '}
                   <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                    {{
+                      expiresAt:
+                        fromOffer.expiresAt === INFINITE_DATE
+                          ? t('the next season start')
+                          : dateFormat(fromOffer.expiresAt)
+                    }}
                   </strong>
                   . From that time you will be charged{' '}
                   <strong>
@@ -411,7 +421,12 @@ const SwitchPlanPopup = ({
                   </strong>{' '}
                   starting from{' '}
                   <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                    {{
+                      expiresAt:
+                        fromOffer.expiresAt === INFINITE_DATE
+                          ? t('the next season start')
+                          : dateFormat(fromOffer.expiresAt)
+                    }}
                   </strong>
                   .
                 </Trans>
@@ -454,7 +469,12 @@ const SwitchPlanPopup = ({
                   </strong>
                   . You will have access to your new plan on{' '}
                   <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                    {{
+                      expiresAt:
+                        fromOffer.expiresAt === INFINITE_DATE
+                          ? t('the next season start')
+                          : dateFormat(fromOffer.expiresAt)
+                    }}
                   </strong>{' '}
                   and be charged{' '}
                   <strong>
