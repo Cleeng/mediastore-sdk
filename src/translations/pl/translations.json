@@ -348,6 +348,8 @@
   "Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to cancel the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.": "Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to cancel the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.",
   "You have successfully canceled your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}.": "You have successfully canceled your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}.",
   "Back to Payment Details": "Back to Payment Details",
+  "the next season start": "the next season start",
+  "when the next season start": "when the next season start",
   "offer-card.cancel-pause-button": "Cancel pause",
   "cancel-pause-popup.title": "Cancel pause",
   "cancel-pause-popup.confirm-button-text": "Cancel pause",
