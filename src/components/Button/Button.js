@@ -59,8 +59,6 @@ const Button = ({
   );
 };
 
-export default Button;
-
 Button.propTypes = {
   size: PropTypes.oneOf(Object.values(BUTTON_SIZE)),
   theme: PropTypes.oneOf(Object.values(BUTTON_THEME)),
@@ -98,3 +96,5 @@ Button.defaultProps = {
   padding: null,
   className: ''
 };
+
+export default Button;

@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Trans, useTranslation } from 'react-i18next';
+import { Trans } from 'react-i18next';
 import { getData, currencyFormat } from 'util';
 import { LegalNoteWrapperStyled, LegalTextStyled } from '../PaymentStyled';
 
@@ -18,8 +18,6 @@ const LegalNote = ({
   const readablePrice = `${currencyFormat[currency]}${offerPrice}`;
   const readablePeriod = `${period ? `/${period}` : ''}`;
 
-  const { t } = useTranslation();
-
   const CLEENG_MY_ACCOUNT_URL = 'CLEENG_MY_ACCOUNT_URL';
 
   const generateLinkAttributes = href => ({
@@ -35,7 +33,7 @@ const LegalNote = ({
         {(() => {
           if (isInTrial) {
             return (
-              <Trans i18nKey={`legal-notes.trial.period-${period}`} t={t}>
+              <Trans i18nKey={`legal-notes.trial.period-${period}`}>
                 <strong>
                   After any free trial and/or promotional period, you will be
                   charged {{ readablePrice }}
@@ -54,7 +52,7 @@ const LegalNote = ({
           }
           if (couponApplied) {
             return (
-              <Trans i18nKey={`legal-notes.discount.period-${period}`} t={t}>
+              <Trans i18nKey={`legal-notes.discount.period-${period}`}>
                 <strong>
                   After any free trial and/or promotional period, you will be
                   charged {{ readablePrice }}
@@ -71,7 +69,7 @@ const LegalNote = ({
             );
           }
           return (
-            <Trans i18nKey={`legal-notes.period-${period}`} t={t}>
+            <Trans i18nKey={`legal-notes.period-${period}`}>
               <strong>
                 By clicking &apos;Pay&apos;, you will be charged{' '}
                 {{ readablePrice }}

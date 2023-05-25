@@ -80,7 +80,7 @@ const ThankYouPage = ({ onSuccess }) => {
                 }
               )
             : null}
-          <Trans i18nKey="thank-you-page.manage-text" t={t}>
+          <Trans i18nKey="thank-you-page.manage-text">
             You can manage your account from
             <LinkStyled
               href={getData('CLEENG_MY_ACCOUNT_URL')}

@@ -352,7 +352,7 @@ const Unsubscribe = ({
                         )}
                   </>
                 )}{' '}
-                <Trans i18nKey="unsubscribe-info" t={t}>
+                <Trans i18nKey="unsubscribe-info">
                   If you would like to proceed with cancelling your
                   subscription, please select 'Unsubscribe' below, and your
                   subscription will be cancelled as of {{ formattedExpiresAt }}.

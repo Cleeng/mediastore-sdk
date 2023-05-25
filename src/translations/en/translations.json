@@ -411,7 +411,7 @@
   "failed-payment-page.subtitle": "We weren't able to process your payment.",
   "failed-payment-page.desc-refused": "To complete your purchase, please <1>try again</1> using a different payment method.",
   "failed-payment-page.desc-error": "To complete your purchase, please <1>try again</1>.",
-  "grace-period-error": "Your subscription couldn't be renewed due to a payment method issue. Please <2>update it</2> to avoid losing access to the content.",
+  "grace-period-error": "Your subscription couldn't be renewed due to a payment method issue. Please <1>update it</1> to avoid losing access to the content.",
   "thank-you-page.header": "Thank You!",
   "thank-you-page.text-with-payment-method": "Your purchase was successfully processed using {{paymentMethodName}}!",
   "thank-you-page.text": "Your purchase was successfully processed!",

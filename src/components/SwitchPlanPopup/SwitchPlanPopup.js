@@ -139,7 +139,7 @@ const SwitchPlanPopup = ({
               {t(toOffer.switchDirection)}
             </TitleStyled>
             <TextStyled step={step}>
-              <Trans i18nKey="switchplanpopup-info" t={t}>
+              <Trans i18nKey="switchplanpopup-info">
                 You are about to change your plan from{' '}
                 <strong>
                   {{
@@ -161,10 +161,7 @@ const SwitchPlanPopup = ({
                 .
               </Trans>{' '}
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
-                <Trans
-                  i18nKey="switchplanpopup-info-immediatewithoutproration"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-info-immediatewithoutproration">
                   You will be immediately granted access to your selected plan
                   and charged a new price{' '}
                   <strong>
@@ -182,10 +179,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_WITH_REFUND' && (
-                <Trans
-                  i18nKey="switchplanpopup-info-immediateandchargewithrefund"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-info-immediateandchargewithrefund">
                   You will be charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
@@ -209,10 +203,7 @@ const SwitchPlanPopup = ({
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITH_FULL_REFUND' && (
-                <Trans
-                  i18nKey="switchplanpopup-info-immediateandchargewithfullrefund"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-info-immediateandchargewithfullrefund">
                   You will be charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
@@ -234,7 +225,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'DEFERRED' && (
-                <Trans i18nKey="switchplanpopup-info-deferred" t={t}>
+                <Trans i18nKey="switchplanpopup-info-deferred">
                   You will continue to have access to{' '}
                   <strong>
                     {{
@@ -259,10 +250,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (
-                <Trans
-                  i18nKey="switchplanpopup-info-immediateandchargefullprice"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-info-immediateandchargefullprice">
                   You will be charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
@@ -285,10 +273,7 @@ const SwitchPlanPopup = ({
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION' && (
-                <Trans
-                  i18nKey="switchplanpopup-info-immediateandchargewithoutproration"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-info-immediateandchargewithoutproration">
                   You will be charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
@@ -302,10 +287,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_WITH_TIME_PRORATION' && (
-                <Trans
-                  i18nKey="switchplanpopup-info-immediatewithtimeproration"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-info-immediatewithtimeproration">
                   You will be immediately granted access to your selected plan.
                   Your next billing date will be changed and pushed towards,
                   based on the time left on your previous subscription. From
@@ -321,10 +303,7 @@ const SwitchPlanPopup = ({
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITH_TIME_PRORATION' && (
-                <Trans
-                  i18nKey="switchplanpopup-info-immediateandchargewithtimeproration"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-info-immediateandchargewithtimeproration">
                   You will be immediately charged{' '}
                   <strong>
                     {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
@@ -413,10 +392,7 @@ const SwitchPlanPopup = ({
             <TitleStyled step={step}>{t('Thank you!')}</TitleStyled>
             <TextStyled step={step}>
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
-                <Trans
-                  i18nKey="switchplanpopup-confirm-immediatewithoutproration"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-confirm-immediatewithoutproration">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
@@ -441,10 +417,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_WITH_REFUND' && (
-                <Trans
-                  i18nKey="switchplanpopup-confirm-immediateandchargewithrefund"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithrefund">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
@@ -469,7 +442,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'DEFERRED' && (
-                <Trans i18nKey="switchplanpopup-confirm-deferred" t={t}>
+                <Trans i18nKey="switchplanpopup-confirm-deferred">
                   You have successfully requested the switch to{' '}
                   <strong>
                     {{
@@ -492,10 +465,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (
-                <Trans
-                  i18nKey="switchplanpopup-confirm-immediateandchargefullprice"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-confirm-immediateandchargefullprice">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
@@ -521,10 +491,7 @@ const SwitchPlanPopup = ({
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITH_FULL_REFUND' && (
-                <Trans
-                  i18nKey="switchplanpopup-confirm-immediateandchargewithfullrefund"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithfullrefund">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
@@ -550,10 +517,7 @@ const SwitchPlanPopup = ({
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION' && (
-                <Trans
-                  i18nKey="switchplanpopup-confirm-immediateandchargewithoutproration"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithoutproration">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
@@ -578,10 +542,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_WITH_TIME_PRORATION' && (
-                <Trans
-                  i18nKey="switchplanpopup-confirm-immediatewithtimeproration"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-confirm-immediatewithtimeproration">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
@@ -601,10 +562,7 @@ const SwitchPlanPopup = ({
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITH_TIME_PRORATION' && (
-                <Trans
-                  i18nKey="switchplanpopup-confirm-immediateandchargewithtimeproration"
-                  t={t}
-                >
+                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithtimeproration">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
