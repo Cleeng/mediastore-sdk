@@ -93,7 +93,6 @@ Config functions save data to local storage (as `CLEENG_*` items). These data ar
 | `setOfferSelectionUrl`          | `url: string`                                                | Url to offer selection page. Recommended for CTA when the customer has no active plan                                                                                   |
 | `setTheme`                      | `styles:object`                                              | More information in the [Styling](#styling) section.                                                                                                                    |
 | `setLanguage`                   | `language :string`                                           | Option to change language without reloading page                                                                                                                        |
-| section.                        |
 | `setVisibleAdyenPaymentMethods` | `paymentMethods: string[]`                                   | Array of payment methods names that should be presented in Checkout and MyAccount. Available options: `applepay`, `card`, `googlepay`, `ideal`, `sofort`                |
 | `setHidePayPal`                 | -                                                            | Option to hide PayPal, by default PayPal will be visible when configured                                                                                                |
 
