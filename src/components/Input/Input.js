@@ -52,7 +52,6 @@ const Input = ({
             ref={reference}
             aria-required={ariaRequired}
             aria-invalid={ariaInvalid}
-            aria-describedby={`${placeholder}-desc`}
             withIcon={icon}
             floatingLabels={floatingLabels}
           />
