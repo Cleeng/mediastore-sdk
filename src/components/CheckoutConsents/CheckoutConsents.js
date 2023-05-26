@@ -88,8 +88,6 @@ const CheckoutConsents = ({ onSuccess }) => {
     }
   };
 
-  console.log(consents);
-
   return (
     <>
       <CheckoutConsentsStyled>
