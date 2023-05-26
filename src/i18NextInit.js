@@ -14,10 +14,11 @@ i18n
       prefix: '{{',
       suffix: '}}'
     },
+    nsSeparator: false, // namespace separator
+    keySeparator: false, // key separator
     ns: ['translations'],
     defaultNS: 'translations',
     updateMissing: true,
-
     react: {
       wait: true,
       bindI18n: 'languageChanged loaded',
