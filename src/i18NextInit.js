@@ -14,8 +14,8 @@ i18n
       prefix: '{{',
       suffix: '}}'
     },
-    nsSeparator: false, // namespace separator
-    keySeparator: false, // key separator
+    nsSeparator: false,
+    keySeparator: false,
     ns: ['translations'],
     defaultNS: 'translations',
     updateMissing: true,
