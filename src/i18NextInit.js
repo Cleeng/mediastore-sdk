@@ -8,19 +8,16 @@ i18n
   .use(Backend)
   .use(initReactI18next)
   .init({
-    fallbackLng: false,
     returnEmptyString: false,
     interpolation: {
       escapeValue: false,
       prefix: '{{',
       suffix: '}}'
     },
-    nsSeparator: false, // namespace separator
-    keySeparator: false, // key separator
     ns: ['translations'],
     defaultNS: 'translations',
-    fallbackNS: 'translation',
     updateMissing: true,
+
     react: {
       wait: true,
       bindI18n: 'languageChanged loaded',

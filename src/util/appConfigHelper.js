@@ -166,7 +166,7 @@ export const setHidePayPal = () => {
 export const setLanguage = async language => {
   const BASE_URL = window.location.origin;
 
-  if (!i18n.hasResourceBundle(language, 'translation')) {
+  if (!i18n.hasResourceBundle(language, 'translations')) {
     const data = await fetch(
       `${BASE_URL}/cleeng-translations/${language}/translations.json`
     )
@@ -174,7 +174,7 @@ export const setLanguage = async language => {
         return response.json();
       })
       .catch(() => {});
-    i18n.addResourceBundle(language, 'translation', data, true, true);
+    i18n.addResourceBundle(language, 'translations', data, true, true);
   }
 
   i18n.changeLanguage(language);
