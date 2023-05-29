@@ -25,7 +25,6 @@ const Select = ({
   const handleChange = option => {
     onChange(name, option);
   };
-  console.log('values', values[0].label);
   return (
     <SelectStyled>
       <ReactSelectStyled
