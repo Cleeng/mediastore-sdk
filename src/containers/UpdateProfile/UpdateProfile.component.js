@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import labeling from 'containers/labeling';
@@ -13,7 +14,7 @@ import EditPassword from 'components/EditPassword/EditPassword';
 import AdditionalProfileInfo from 'components/AdditionalProfileInfo';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import GracePeriodError from 'components/GracePeriodError';
-import WrapStyled from './UpdateProfileStyled';
+import { WrapStyled, SectionStyled } from './UpdateProfileStyled';
 
 class UpdateProfile extends Component {
   constructor(props) {
@@ -165,46 +166,51 @@ class UpdateProfile extends Component {
                   phoneNumber={phoneNumber}
                 />
                 {address && address.enabled && (
-                  <>
+                  <SectionStyled>
                     <SectionHeader>{t('Address details')}</SectionHeader>
                     <AddressDetails
                       data={address}
                       isLoading={isCaptureLoading}
                       updateCaptureOption={updateCaptureOption}
                     />
-                  </>
+                  </SectionStyled>
                 )}
-                <SectionHeader marginTop="25px">{t('Password')}</SectionHeader>
-                <Password
-                  showInnerPopup={() =>
-                    showInnerPopup({ type: POPUP_TYPES.editPassword })
-                  }
-                />
+                <SectionStyled>
+                  <SectionHeader marginTop="25px">
+                    {t('Password')}
+                  </SectionHeader>
+                  <Password
+                    showInnerPopup={() =>
+                      showInnerPopup({ type: POPUP_TYPES.editPassword })
+                    }
+                  />
+                </SectionStyled>
                 {customSettings && customSettings.length > 0 && (
-                  <>
+                  <SectionStyled>
                     <SectionHeader>{t('Additional Options')}</SectionHeader>
                     <AdditionalProfileInfo
                       data={customSettings}
                       updateCaptureOption={updateCaptureOption}
                     />
-                  </>
+                  </SectionStyled>
                 )}
               </>
             )}
-
-            <SectionHeader marginTop="25px">
-              {' '}
-              {t('Terms Details')}
-            </SectionHeader>
-            {consentsError.length !== 0 ? (
-              <MyAccountError generalError />
-            ) : (
-              <MyAccountConsents
-                consents={consents}
-                isLoading={isConsentLoading}
-                setConsents={setConsents}
-              />
-            )}
+            <SectionStyled>
+              <SectionHeader marginTop="25px">
+                {' '}
+                {t('Terms Details')}
+              </SectionHeader>
+              {consentsError.length !== 0 ? (
+                <MyAccountError generalError />
+              ) : (
+                <MyAccountConsents
+                  consents={consents}
+                  isLoading={isConsentLoading}
+                  setConsents={setConsents}
+                />
+              )}
+            </SectionStyled>
           </>
         )}
       </WrapStyled>
