@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import { createRoot } from 'react-dom/client';
+import { render } from 'react-dom';
 import labeling from 'containers/labeling';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
@@ -129,9 +129,7 @@ const Adyen = ({
         const wrapper = document.createElement('div');
         wrapper.classList.add('checkbox-wrapper');
 
-        const root = createRoot(wrapper);
-        root.render(checkbox);
-
+        render(checkbox, wrapper);
         details.before(wrapper);
       }
     }
