@@ -8,6 +8,7 @@ import {
   fetchPublisherConsents,
   setChecked
 } from 'redux/publisherConsentsSlice';
+import translateConsents from 'util/consentsHelper';
 import {
   ConsentsWrapperStyled,
   ConsentsErrorStyled,
@@ -15,9 +16,6 @@ import {
   GeneralErrorStyled,
   FieldsetStyled
 } from './ConsentsStyled';
-
-const regexHrefOpenTag = new RegExp(/<a(.|\n)*?>/);
-const regexHrefCloseTag = new RegExp(/<\/a(.|\n)*?>/);
 
 const Consents = ({ error, onChangeFn }) => {
   const {
@@ -46,26 +44,6 @@ const Consents = ({ error, onChangeFn }) => {
     onChangeFn(checked, publisherConsents);
   }, [checked, publisherConsents]);
 
-  const translateConsents = consentContent => {
-    const openTagContent = regexHrefOpenTag.exec(consentContent);
-    const closeTagContent = regexHrefCloseTag.exec(consentContent);
-    if (openTagContent) {
-      let modifiedConsentContent = consentContent.replace(
-        regexHrefOpenTag,
-        '{{htmltag}}'
-      );
-      modifiedConsentContent = modifiedConsentContent.replace(
-        regexHrefCloseTag,
-        '{{endhtmltag}}'
-      );
-      return `${t(modifiedConsentContent, {
-        htmltag: openTagContent[0],
-        endhtmltag: closeTagContent[0]
-      })}`;
-    }
-    return t(consentContent);
-  };
-
   if (generalError === 'noPublisherId') {
     return (
       <GeneralErrorStyled data-testid="consents__general-error">
@@ -93,7 +71,8 @@ const Consents = ({ error, onChangeFn }) => {
               key={consent.label}
               required={consent.required && !checked[index]}
             >
-              {translateConsents(consent.label) + (consent.required ? '*' : '')}
+              {translateConsents(consent.label, t) +
+                (consent.required ? '*' : '')}
             </Checkbox>
           );
         })}

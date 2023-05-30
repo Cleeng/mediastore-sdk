@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { getCustomerConsents, submitConsents } from 'api';
+import translateConsents from 'util/consentsHelper';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Loader from 'components/Loader';
@@ -114,7 +115,7 @@ const CheckoutConsents = ({ onSuccess }) => {
                       checked={consent.state === 'accepted'}
                       required={consent.required}
                     >
-                      {t(consent.label)}
+                      {translateConsents(consent.label, t)}
                     </Checkbox>
                     <CheckoutConsentsError>
                       {consent.error}

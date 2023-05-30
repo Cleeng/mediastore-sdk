@@ -389,7 +389,9 @@ const SwitchPlanPopup = ({
             <ImageWrapper>
               <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
             </ImageWrapper>
-            <TitleStyled step={step}>{t('Thank you!')}</TitleStyled>
+            <TitleStyled step={step}>
+              {t('thank-you-page.header', 'Thank You!')}
+            </TitleStyled>
             <TextStyled step={step}>
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
                 <Trans i18nKey="switchplanpopup-confirm-immediatewithoutproration">
