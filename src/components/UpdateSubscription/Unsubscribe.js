@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import store from 'redux/store';
 
 import updateSubscription from 'api/Customer/updateSubscription';
-import { dateFormat, periodMapper } from 'util/planHelper';
+import { dateFormat, periodMapper, INFINITE_DATE } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 
 import Button from 'components/Button';
@@ -328,7 +328,10 @@ const Unsubscribe = ({
                 {t(
                   'You will keep access to your seasonal subscription until {{formattedExpiresAt}}. Before you go, please let us know why you’re leaving.',
                   {
-                    formattedExpiresAt
+                    formattedExpiresAt:
+                      expiresAt === INFINITE_DATE
+                        ? t('the next season start')
+                        : dateFormat(expiresAt)
                   }
                 )}
               </TextStyled>
@@ -408,7 +411,12 @@ const Unsubscribe = ({
             {t(
               'You have been successfully unsubscribed. Your current plan will expire on'
             )}{' '}
-            <b>{dateFormat(offerDetails.expiresAt)}</b>.
+            <b>
+              {expiresAt === INFINITE_DATE
+                ? t('the next season start')
+                : dateFormat(expiresAt)}
+            </b>
+            .
           </TextStyled>
           <Button
             width="auto"

@@ -7,6 +7,7 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
+import { dateFormat, INFINITE_DATE } from 'util';
 
 import {
   ContentStyled,
@@ -21,8 +22,7 @@ const CancelSwitchPopup = ({
     switchDirection,
     switchOfferTitle: untranslatedSwitchOfferTitle,
     baseOfferTitle: untranslatedBaseOfferTitle,
-    baseOfferExpirationDate,
-    baseOfferPrice
+    baseOfferExpirationDate
   },
   hideInnerPopup,
   updateList,
@@ -117,8 +117,10 @@ const CancelSwitchPopup = ({
                 {
                   switchDirection,
                   switchOfferTitle,
-                  baseOfferExpirationDate,
-                  baseOfferPrice
+                  baseOfferExpirationDate:
+                    baseOfferExpirationDate === INFINITE_DATE
+                      ? t('the next season start')
+                      : dateFormat(baseOfferExpirationDate)
                 }
               )}
               <br />
@@ -161,7 +163,10 @@ const CancelSwitchPopup = ({
                 {
                   switchDirection,
                   switchOfferTitle,
-                  baseOfferExpirationDate,
+                  baseOfferExpirationDate:
+                    baseOfferExpirationDate === INFINITE_DATE
+                      ? t('the next season start')
+                      : dateFormat(baseOfferExpirationDate),
                   baseOfferTitle
                 }
               )}

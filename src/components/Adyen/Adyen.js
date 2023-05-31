@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import PropTypes from 'prop-types';
+import { render } from 'react-dom';
 import { useTranslation } from 'react-i18next';
-import { createRoot } from 'react-dom/client';
+import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
 import useScript from 'util/useScriptHook';
@@ -129,9 +129,7 @@ const Adyen = ({
         const wrapper = document.createElement('div');
         wrapper.classList.add('checkbox-wrapper');
 
-        const root = createRoot(wrapper);
-        root.render(checkbox);
-
+        render(checkbox, wrapper);
         details.before(wrapper);
       }
     }
@@ -282,6 +280,7 @@ const Adyen = ({
               merchantId: googlePayConfigurationObj.merchantId
             }
           }),
+          ...adyenConfiguration?.paymentMethodsConfiguration?.googlePay,
           ...amountObj
         },
         ideal: {
