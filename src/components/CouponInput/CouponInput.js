@@ -6,7 +6,6 @@ import Button from 'components/Button';
 import { ReactComponent as CloseIcon } from 'assets/images/xmark.svg';
 
 import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
 import {
   InputComponentStyled,
   MessageStyled,
@@ -219,4 +218,4 @@ CouponInput.defaultProps = {
 };
 
 export { CouponInput as PureCouponInput };
-export default withTranslation()(labeling()(CouponInput));
+export default withTranslation()(CouponInput);

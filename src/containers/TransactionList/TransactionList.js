@@ -1,12 +1,11 @@
 import React from 'react';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import SectionHeader from 'components/SectionHeader';
 import Transactions from 'components/Transactions';
-import { PropTypes } from 'prop-types';
 import { WrapStyled } from './TransactionListStyled';
 
-const TransactionList = ({ t }) => {
+const TransactionList = () => {
+  const { t } = useTranslation();
   return (
     <WrapStyled>
       <SectionHeader marginTop="25px">{t('Transactions')}</SectionHeader>
@@ -15,14 +14,6 @@ const TransactionList = ({ t }) => {
   );
 };
 
-TransactionList.propTypes = {
-  t: PropTypes.func
-};
-
-TransactionList.defaultProps = {
-  t: k => k
-};
-
 export { TransactionList as PureTransactionList };
 
-export default withTranslation()(labeling()(TransactionList));
+export default TransactionList;

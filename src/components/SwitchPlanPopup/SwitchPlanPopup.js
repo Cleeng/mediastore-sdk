@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation, Trans } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation, Trans } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
 import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
 
@@ -38,8 +37,7 @@ const SwitchPlanPopup = ({
   onCancel,
   onSwitchSuccess,
   onSwitchError,
-  isPartOfCancellationFlow,
-  t
+  isPartOfCancellationFlow
 }) => {
   const STEPS = {
     SWITCH_DETAILS: 'SWITCH_DETAILS',
@@ -54,6 +52,8 @@ const SwitchPlanPopup = ({
   const [step, setStep] = useState(STEPS.SWITCH_DETAILS);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
+
+  const { t } = useTranslation();
 
   const changePlan = async () => {
     setIsLoading(true);
@@ -399,7 +399,9 @@ const SwitchPlanPopup = ({
             <ImageWrapper>
               <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
             </ImageWrapper>
-            <TitleStyled step={step}>{t('Thank you!')}</TitleStyled>
+            <TitleStyled step={step}>
+              {t('thank-you-page.header', 'Thank You!')}
+            </TitleStyled>
             <TextStyled step={step}>
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
                 <Trans i18nKey="switchplanpopup-confirm-immediatewithoutproration">
@@ -648,7 +650,6 @@ SwitchPlanPopup.propTypes = {
   hideInnerPopup: PropTypes.func,
   updateList: PropTypes.func,
   isPopupLoading: PropTypes.bool,
-  t: PropTypes.func,
   onCancel: PropTypes.func,
   onSwitchSuccess: PropTypes.func,
   onSwitchError: PropTypes.func,
@@ -663,7 +664,6 @@ SwitchPlanPopup.defaultProps = {
   showInnerPopup: () => {},
   updateList: () => {},
   isPopupLoading: false,
-  t: k => k,
   onCancel: null,
   onSwitchSuccess: null,
   onSwitchError: null,
@@ -672,4 +672,4 @@ SwitchPlanPopup.defaultProps = {
 
 export { SwitchPlanPopup as PureSwitchPlanPopup };
 
-export default withTranslation()(labeling()(SwitchPlanPopup));
+export default SwitchPlanPopup;

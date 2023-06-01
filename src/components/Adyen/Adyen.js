@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
 import { render } from 'react-dom';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
 import useScript from 'util/useScriptHook';
@@ -32,8 +31,7 @@ const Adyen = ({
   selectPaymentMethod,
   isPayPalAvailable,
   getDropIn,
-  onAdditionalDetails,
-  t
+  onAdditionalDetails
 }) => {
   const { discount, totalPrice, offerId } = useSelector(
     state => state.order.order
@@ -70,6 +68,8 @@ const Adyen = ({
   const [shouldHideBankDropIn, setShouldHideBankDropIn] = useState(false);
 
   useScript('https://pay.google.com/gp/p/js/pay.js');
+
+  const { t, i18n } = useTranslation();
 
   const getBankCopy = () => {
     const isFree = totalPrice === 0;
@@ -205,7 +205,7 @@ const Adyen = ({
       paymentMethods.find(item => item.type === 'googlepay')?.configuration;
 
     const configuration = {
-      locale: adyenConfiguration?.locale || 'en-US',
+      locale: adyenConfiguration?.locale || i18n?.language || 'en-US',
       translations: {
         ...defaultAdyenTranslations,
         ...adyenConfiguration?.translations
@@ -379,6 +379,29 @@ const Adyen = ({
     }
   }, [standardDropInInstance]);
 
+  const recreateDropIn = () => {
+    // recreate Adyen Instance if coupon was applied
+    bankPaymentMethodsRef.current.removeEventListener('click', closeStandard);
+    standardPaymentMethodsRef.current.removeEventListener('click', closeBank);
+
+    if (standardDropInInstance) {
+      standardDropInInstance.unmount();
+      setStandardDropInInstance(null);
+      getDropIn(null, STANDARD_PAYMENT_METHODS);
+    }
+
+    if (bankDropInInstance) {
+      bankDropInInstance.unmount();
+      setBankDropInInstance(null);
+      getDropIn(null, BANK_PAYMENT_METHODS);
+    }
+    setIsLoading(true);
+
+    generateDropIns();
+  };
+
+  const isDropInPresent = standardDropInInstance || bankDropInInstance;
+
   useEffect(() => {
     if (bankDropInInstance && standardDropInInstance) {
       standardPaymentMethodsRef.current.addEventListener('click', closeBank);
@@ -387,26 +410,16 @@ const Adyen = ({
   }, [standardDropInInstance, bankDropInInstance]);
 
   useEffect(() => {
-    if (standardDropInInstance && discount?.applied) {
-      // recreate Adyen Instance if coupon was applied
-      bankPaymentMethodsRef.current.removeEventListener('click', closeStandard);
-      standardPaymentMethodsRef.current.removeEventListener('click', closeBank);
-      if (standardDropInInstance) {
-        standardDropInInstance.unmount();
-        setStandardDropInInstance(null);
-        getDropIn(null, STANDARD_PAYMENT_METHODS);
-      }
-
-      if (bankDropInInstance) {
-        bankDropInInstance.unmount();
-        setBankDropInInstance(null);
-        getDropIn(null, BANK_PAYMENT_METHODS);
-      }
-      setIsLoading(true);
-
-      generateDropIns();
+    if (isDropInPresent && discount?.applied) {
+      recreateDropIn();
     }
   }, [discount.applied]);
+
+  useEffect(() => {
+    if (isDropInPresent) {
+      recreateDropIn();
+    }
+  }, [i18n.language]);
 
   useEffect(() => {
     if (selectedPaymentMethod?.methodName === 'paypal') {
@@ -465,13 +478,11 @@ Adyen.propTypes = {
   selectPaymentMethod: PropTypes.func.isRequired,
   isPayPalAvailable: PropTypes.bool.isRequired,
   getDropIn: PropTypes.func.isRequired,
-  onAdditionalDetails: PropTypes.func.isRequired,
-  t: PropTypes.func
+  onAdditionalDetails: PropTypes.func.isRequired
 };
 
 Adyen.defaultProps = {
-  isMyAccount: false,
-  t: k => k
+  isMyAccount: false
 };
 
-export default withTranslation()(labeling()(Adyen));
+export default Adyen;

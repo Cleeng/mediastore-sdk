@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import { PropTypes } from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -24,8 +23,7 @@ const SubscriptionSwitches = ({
   toOfferId,
   onCancel,
   onSwitchSuccess,
-  onSwitchError,
-  t
+  onSwitchError
 }) => {
   const [isLoadingChangePlan, setIsLoadingChangePlan] = useState(false);
   const [isErrorChangePlan, setIsErrorChangePlan] = useState([]);
@@ -34,6 +32,8 @@ const SubscriptionSwitches = ({
   const { offers } = useSelector(state => state.offers);
 
   const dispatch = useDispatch();
+
+  const { t } = useTranslation();
 
   const fetchSwitchSettings = () => {
     getAvailableSwitches(offerId)
@@ -182,8 +182,7 @@ SubscriptionSwitches.propTypes = {
   setOfferToSwitch: PropTypes.func,
   onCancel: PropTypes.func,
   onSwitchSuccess: PropTypes.func,
-  onSwitchError: PropTypes.func,
-  t: PropTypes.func
+  onSwitchError: PropTypes.func
 };
 
 SubscriptionSwitches.defaultProps = {
@@ -193,10 +192,9 @@ SubscriptionSwitches.defaultProps = {
   onCancel: null,
   onSwitchSuccess: null,
   toOfferId: '',
-  onSwitchError: null,
-  t: k => k
+  onSwitchError: null
 };
 
 export { SubscriptionSwitches as PureSubscriptionSwitches };
 
-export default withTranslation()(labeling()(SubscriptionSwitches));
+export default SubscriptionSwitches;

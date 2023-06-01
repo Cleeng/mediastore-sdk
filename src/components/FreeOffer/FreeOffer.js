@@ -1,8 +1,7 @@
 import React, { useCallback } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { periodMapper, dateFormat } from 'util/planHelper';
-import labeling from 'containers/labeling';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { useDispatch, useSelector } from 'react-redux';
@@ -18,12 +17,14 @@ import {
   ErrorMessageStyled
 } from './FreeOfferStyled';
 
-const FreeOffer = ({ onPaymentComplete, t }) => {
+const FreeOffer = ({ onPaymentComplete }) => {
   const { loading: isLoading, error } = useSelector(state => state.payment);
   const { period, expiresAt, startTime, offerTitle, offerId } = useSelector(
     state => state.offer.offer
   );
   const dispatch = useDispatch();
+
+  const { t } = useTranslation();
 
   const offerType = offerId?.charAt(0);
   const icon = period || offerType;
@@ -87,14 +88,9 @@ const FreeOffer = ({ onPaymentComplete, t }) => {
 };
 
 FreeOffer.propTypes = {
-  onPaymentComplete: PropTypes.func.isRequired,
-  t: PropTypes.func
-};
-
-FreeOffer.defaultProps = {
-  t: k => k
+  onPaymentComplete: PropTypes.func.isRequired
 };
 
 export { FreeOffer as PureFreeOffer };
 
-export default withTranslation()(labeling()(FreeOffer));
+export default FreeOffer;

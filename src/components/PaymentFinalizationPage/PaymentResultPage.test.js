@@ -20,10 +20,6 @@ const store = {
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
 
-jest.mock('../../containers/labeling', () =>
-  jest.fn(() => jest.fn(Component => Component))
-);
-
 describe('PaymentFinalizationPage component', () => {
   test('renders Loader on mount', async () => {
     const { getByTestId } = render(

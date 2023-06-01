@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import jwtDecode from 'jwt-decode';
-import labeling from 'containers/labeling';
 import { getData } from 'util/appConfigHelper';
 import resetPassword from 'api/Auth/resetPassword';
 import Button from 'components/Button';
@@ -135,4 +134,4 @@ EditPassword.defaultProps = {
 
 export { EditPassword as PureEditPassword };
 
-export default withTranslation()(labeling()(EditPassword));
+export default withTranslation()(EditPassword);

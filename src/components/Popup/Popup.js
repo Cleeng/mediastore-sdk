@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import submitConsents from 'api/Customer/submitConsents';
@@ -26,13 +24,15 @@ import popupData from './Popup.const';
 import { ReactComponent as WelcomeIcon } from './images/welcome.svg';
 import { ReactComponent as ConsentsIcon } from './images/icon_terms.svg';
 
-const Popup = ({ t }) => {
+const Popup = () => {
   const [step, setStep] = useState(1);
   const [updatedConsents, setUpdatedConsents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [allowSubmitConsents, setAllowSubmitConsents] = useState(false);
   const { popupType, consents } = useSelector(state => state.popup);
   const dispatch = useDispatch();
+
+  const { t } = useTranslation();
 
   const checkAccess = items => {
     const shouldBlockConfirmButton = items.find(
@@ -125,12 +125,4 @@ const Popup = ({ t }) => {
   );
 };
 
-Popup.propTypes = {
-  t: PropTypes.func
-};
-
-Popup.defaultProps = {
-  t: k => k
-};
-
-export default withTranslation()(labeling()(Popup));
+export default Popup;

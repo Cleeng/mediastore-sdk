@@ -6,7 +6,6 @@ import Button from 'components/Button';
 import Header from 'components/Header';
 import Loader from 'components/Loader';
 import resetPassword from 'api/Auth/resetPassword';
-import labeling from 'containers/labeling';
 import Footer from 'components/Footer';
 import { getData, setData } from 'util/appConfigHelper';
 import {
@@ -143,4 +142,4 @@ PasswordReset.defaultProps = {
 
 export { PasswordReset as PurePasswordReset };
 
-export default withTranslation()(labeling()(PasswordReset));
+export default withTranslation()(PasswordReset);

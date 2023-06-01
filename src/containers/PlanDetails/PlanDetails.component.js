@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import { PropTypes } from 'prop-types';
 
 import { getCustomerOffers, getAvailableSwitches } from 'api';
@@ -32,7 +31,6 @@ const PlanDetails = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
   setSwitchDetails,
-  t,
   displayGracePeriodError
 }) => {
   const [isLoadingCurrentPlan, setIsLoadingCurrentPlan] = useState(false);
@@ -44,6 +42,7 @@ const PlanDetails = ({
   const { pauseOffersIDs } = useSelector(store => store.offers);
   const didMount = useRef(false);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const getAndSaveSwitchSettings = async customerSubscriptions => {
     if (customerSubscriptions.length > 1) {
@@ -286,7 +285,6 @@ PlanDetails.propTypes = {
     })
   ),
   skipAvailableDowngradesStep: PropTypes.bool,
-  t: PropTypes.func,
   displayGracePeriodError: PropTypes.bool
 };
 
@@ -295,10 +293,9 @@ PlanDetails.defaultProps = {
   innerPopup: {},
   customCancellationReasons: null,
   skipAvailableDowngradesStep: false,
-  t: k => k,
   displayGracePeriodError: null
 };
 
 export { PlanDetails as PurePlanDetails };
 
-export default withTranslation()(labeling()(PlanDetails));
+export default PlanDetails;

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price from 'components/Price';
 import { ReactComponent as BlockedIcon } from 'assets/images/blocked.svg';
@@ -44,13 +43,14 @@ const OfferCard = ({
   showInnerPopup,
   offerId,
   isPriceBoxHidden,
-  isPaused,
-  t
+  isPaused
 }) => {
   const planDetailsState = useSelector(state => state.planDetails);
   const { pauseOffersIDs } = useSelector(state => state.offers);
   const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
   const isPauseInProgress = pauseOffersIDs.includes(switchDetails?.toOfferId);
+
+  const { t } = useTranslation();
 
   const getSwitchCopy = () => {
     if (switchDetails) {
@@ -276,7 +276,6 @@ OfferCard.propTypes = {
   showInfoBox: PropTypes.string,
   isDataLoaded: PropTypes.bool,
   paymentMethod: PropTypes.string,
-  t: PropTypes.func,
   isMyAccount: PropTypes.bool,
   pendingSwitchId: PropTypes.string,
   expiresAt: PropTypes.number,
@@ -297,7 +296,6 @@ OfferCard.defaultProps = {
   showInfoBox: null,
   isDataLoaded: true,
   paymentMethod: '',
-  t: k => k,
   isMyAccount: false,
   pendingSwitchId: null,
   expiresAt: null,
@@ -309,4 +307,4 @@ OfferCard.defaultProps = {
 
 export { OfferCard as PureOfferCard };
 
-export default withTranslation()(labeling()(OfferCard));
+export default OfferCard;

@@ -3,10 +3,9 @@ import { useSelector } from 'react-redux';
 import { currencyFormat } from 'util/planHelper';
 
 import PropTypes from 'prop-types';
-import { withTranslation, Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import labeling from 'containers/labeling';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
 import { getData } from 'util/appConfigHelper';
 import formatNumber from 'util/formatNumber';
@@ -20,19 +19,24 @@ import {
   IconStyled
 } from './ThankYouPageStyled';
 
-const ThankYouPage = ({ onSuccess, t }) => {
+const ThankYouPage = ({ onSuccess }) => {
   const {
     payment: { paymentMethod, totalAmount: totalAmountFromStore, currency }
   } = useSelector(state => state.finalizeInitialPayment);
+
+  const { t } = useTranslation();
+
   const readablePaymentMethod = {
     card: 'Card',
     paypa: 'PayPal',
     googlepay: 'GooglePay',
     applepay: 'ApplePay'
   };
+
   const paymentMethodName = readablePaymentMethod[paymentMethod];
   const currencySymbol = currencyFormat[currency];
   const totalAmount = formatNumber(totalAmountFromStore);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       onSuccess();
@@ -94,15 +98,13 @@ const ThankYouPage = ({ onSuccess, t }) => {
 };
 
 ThankYouPage.propTypes = {
-  onSuccess: PropTypes.func,
-  t: PropTypes.func
+  onSuccess: PropTypes.func
 };
 
 ThankYouPage.defaultProps = {
-  onSuccess: () => {},
-  t: k => k
+  onSuccess: () => {}
 };
 
 export { ThankYouPage as PureThankYouPage };
 
-export default withTranslation()(labeling()(ThankYouPage));
+export default ThankYouPage;
