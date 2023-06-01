@@ -6,7 +6,6 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import saveOfferId from 'util/offerIdHelper';
 import savePublisherId from 'util/publisherIdHelper';
-import labeling from 'containers/labeling';
 import { getData } from 'util/appConfigHelper';
 
 import { ContentWrapperStyled, LoginWrapperStyled } from './LoginStyled';
@@ -112,4 +111,4 @@ Login.defaultProps = {
 
 export { Login as PureLogin };
 
-export default withTranslation()(labeling()(Login));
+export default withTranslation()(Login);

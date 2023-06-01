@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
 import Card from 'components/Card';
 import MyAccountInput from 'components/MyAccountInput';
 import {
@@ -466,4 +465,4 @@ ProfileDetails.defaultProps = {
 
 export { ProfileDetails as PureProfileDetails };
 
-export default withTranslation()(labeling()(ProfileDetails));
+export default withTranslation()(ProfileDetails);

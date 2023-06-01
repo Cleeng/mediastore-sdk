@@ -291,8 +291,7 @@ CurrentPlan.propTypes = {
       createdAt: PropTypes.number,
       updatedAt: PropTypes.number
     })
-  }),
-  t: PropTypes.func
+  })
 };
 
 CurrentPlan.defaultProps = {
@@ -300,8 +299,7 @@ CurrentPlan.defaultProps = {
   isLoading: false,
   errors: [],
   offerToSwitch: {},
-  switchDetails: {},
-  t: k => k
+  switchDetails: {}
 };
 
 export default CurrentPlan;

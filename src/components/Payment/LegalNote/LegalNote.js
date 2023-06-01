@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Trans, withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { Trans } from 'react-i18next';
 import { getData, currencyFormat } from 'util';
 import { LegalNoteWrapperStyled, LegalTextStyled } from '../PaymentStyled';
 
@@ -101,4 +100,4 @@ LegalNote.defaultProps = {
   period: null
 };
 
-export default withTranslation()(labeling()(LegalNote));
+export default LegalNote;

@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from 'components/Checkbox';
 import Loader from 'components/Loader';
+import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchPublisherConsents,
   setChecked
 } from 'redux/publisherConsentsSlice';
+import translateConsents from 'util/consentsHelper';
 import {
   ConsentsWrapperStyled,
   ConsentsErrorStyled,
@@ -15,10 +17,7 @@ import {
   FieldsetStyled
 } from './ConsentsStyled';
 
-const regexHrefOpenTag = new RegExp(/<a(.|\n)*?>/);
-const regexHrefCloseTag = new RegExp(/<\/a(.|\n)*?>/);
-
-const Consents = ({ error, onChangeFn, t }) => {
+const Consents = ({ error, onChangeFn }) => {
   const {
     publisherConsents,
     checked,
@@ -26,6 +25,8 @@ const Consents = ({ error, onChangeFn, t }) => {
     error: generalError
   } = useSelector(state => state.publisherConsents);
   const { publisherId } = useSelector(state => state.publisherConfig);
+
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
@@ -42,26 +43,6 @@ const Consents = ({ error, onChangeFn, t }) => {
     // validate consents
     onChangeFn(checked, publisherConsents);
   }, [checked, publisherConsents]);
-
-  const translateConsents = consentContent => {
-    const openTagContent = regexHrefOpenTag.exec(consentContent);
-    const closeTagContent = regexHrefCloseTag.exec(consentContent);
-    if (openTagContent) {
-      let modifiedConsentContent = consentContent.replace(
-        regexHrefOpenTag,
-        '{{htmltag}}'
-      );
-      modifiedConsentContent = modifiedConsentContent.replace(
-        regexHrefCloseTag,
-        '{{endhtmltag}}'
-      );
-      return `${t(modifiedConsentContent, {
-        htmltag: openTagContent[0],
-        endhtmltag: closeTagContent[0]
-      })}`;
-    }
-    return t(consentContent);
-  };
 
   if (generalError === 'noPublisherId') {
     return (
@@ -90,7 +71,8 @@ const Consents = ({ error, onChangeFn, t }) => {
               key={consent.label}
               required={consent.required && !checked[index]}
             >
-              {translateConsents(consent.label) + (consent.required ? '*' : '')}
+              {translateConsents(consent.label, t) +
+                (consent.required ? '*' : '')}
             </Checkbox>
           );
         })}
@@ -102,14 +84,12 @@ const Consents = ({ error, onChangeFn, t }) => {
 
 Consents.propTypes = {
   error: PropTypes.string,
-  onChangeFn: PropTypes.func,
-  t: PropTypes.func
+  onChangeFn: PropTypes.func
 };
 
 Consents.defaultProps = {
   error: '',
-  onChangeFn: () => {},
-  t: k => k
+  onChangeFn: () => {}
 };
 
 export default Consents;

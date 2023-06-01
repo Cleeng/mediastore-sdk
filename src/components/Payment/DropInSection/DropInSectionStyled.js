@@ -40,7 +40,9 @@ export const TextStyled = styled.div.attrs(() => ({
   display: flex;
   align-items: center;
   position: relative;
-  padding: 12px 16px 12px 50px;
+  padding-block: 12px;
+  padding-inline: 50px 16px;
+
   ${media.small`
     max-width: 400px;
   `}
@@ -49,7 +51,7 @@ export const TextStyled = styled.div.attrs(() => ({
 export const TitleStyled = styled.span.attrs(() => ({
   className: 'msd__custom-dropin-title'
 }))`
-  margin-left: 10px;
+  margin-inline-start: 10px;
 `;
 
 export const IconWrapperStyled = styled.div.attrs(() => ({
