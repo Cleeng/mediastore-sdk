@@ -199,6 +199,10 @@ export const currencyFormat = {
   BRL: 'R$',
   INR: '₹',
   MNT: '₮',
+  EGP: 'E£',
+  QAR: 'QR',
+  KWD: 'KD',
+  AED: 'د.إ',
   '€': '€',
   $: '$',
   '£': '£'
