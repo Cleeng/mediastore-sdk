@@ -102,7 +102,9 @@ const Payment = ({ onPaymentComplete }) => {
       false
     );
     if (response.errors.length) {
-      setGeneralError(t('Cannot fetch payment methods'));
+      setGeneralError(
+        t('payment-error.cannot-fetch', 'Cannot fetch payment methods')
+      );
       return;
     }
 
@@ -110,7 +112,9 @@ const Payment = ({ onPaymentComplete }) => {
     setIsLoading(false);
 
     if (!validMethodsFromResponse?.length) {
-      setGeneralError(t('Payment methods are not defined'));
+      setGeneralError(
+        t('payment-error.not-defined', 'Payment methods are not defined')
+      );
     }
   };
 
@@ -124,7 +128,12 @@ const Payment = ({ onPaymentComplete }) => {
   const handlePayPalError = () => {
     const { search } = window.location;
     if (search?.includes('message')) {
-      setGeneralError(t('Your payment was not processed. Please, try again'));
+      setGeneralError(
+        t(
+          'payment-error.not-processed',
+          'Your payment was not processed. Please, try again'
+        )
+      );
     }
   };
 
@@ -141,7 +150,9 @@ const Payment = ({ onPaymentComplete }) => {
       window.location.href = responseData.redirectUrl;
     } else {
       setIsLoading(false);
-      setGeneralError(t('The payment failed. Please try again.'));
+      setGeneralError(
+        t('payment-error.failed', 'The payment failed. Please try again.')
+      );
     }
   };
 
@@ -175,8 +186,12 @@ const Payment = ({ onPaymentComplete }) => {
       );
       setGeneralError(
         notSupportedMethod
-          ? t('Payment method not supported. Try different payment method')
+          ? t(
+              'payment-error.not-supported',
+              'Payment method not supported. Try different payment method'
+            )
           : t(
+              'payment-error.not-processed2',
               'The payment has not been processed. Please, try again with a different payment method.'
             )
       );
@@ -224,7 +239,9 @@ const Payment = ({ onPaymentComplete }) => {
       })
       .catch(() => {
         setIsLoading(false);
-        setGeneralError(t('The payment failed. Please try again.'));
+        setGeneralError(
+          t('payment-error.failed', 'The payment failed. Please try again.')
+        );
       });
   };
 
@@ -253,13 +270,13 @@ const Payment = ({ onPaymentComplete }) => {
     return (
       <PaymentStyled>
         <SectionHeader marginTop="25px" center>
-          {t('Purchase using')}
+          {t('purchase-using', 'Purchase using')}
         </SectionHeader>
         {generalError ? (
           <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
         ) : (
           <PaymentErrorStyled>
-            {t('Payment methods not available')}
+            {t('payment-error.not-available', 'Payment methods not available')}
           </PaymentErrorStyled>
         )}
       </PaymentStyled>
@@ -292,7 +309,7 @@ const Payment = ({ onPaymentComplete }) => {
   return (
     <PaymentStyled>
       <SectionHeader marginTop="25px" paddingBottom="0" center>
-        {t('Purchase using')}
+        {t('purchase-using', 'Purchase using')}
       </SectionHeader>
       <LegalCopy />
       <PaymentWrapperStyled>

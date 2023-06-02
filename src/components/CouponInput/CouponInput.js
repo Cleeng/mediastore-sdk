@@ -139,7 +139,7 @@ class CouponInput extends Component {
           </CloseButtonStyled>
           <InputElementStyled
             isOpened={isOpened}
-            placeholder={t('Your coupon')}
+            placeholder={t('coupon.your-coupon', 'Your coupon')}
             onKeyDown={event => {
               if (event.key === 'Enter') {
                 this.handleSubmit(event);
@@ -156,7 +156,7 @@ class CouponInput extends Component {
             type="text"
             readOnly={couponLoading}
             fullWidth={fullWidth}
-            aria-label={t('Your coupon')}
+            aria-label={t('coupon.your-coupon', 'Your coupon')}
             aria-required={false}
           />
           <Button
@@ -167,8 +167,10 @@ class CouponInput extends Component {
           >
             <>
               {couponLoading && <Loader buttonLoader color="#ffffff" />}
-              {!couponLoading && isOpened && t('Redeem')}
-              {!couponLoading && !isOpened && t('Redeem coupon')}
+              {!couponLoading && isOpened && t('coupon.redeem', 'Redeem')}
+              {!couponLoading &&
+                !isOpened &&
+                t('coupon.redeem-coupon', 'Redeem coupon')}
             </>
           </Button>
         </InputElementWrapperStyled>
@@ -177,7 +179,7 @@ class CouponInput extends Component {
             showMessage={showMessage && !suppressMessage}
             messageType={messageType}
           >
-            {message}
+            {t(message)}
           </MessageStyled>
         )}
       </InputComponentStyled>
