@@ -135,16 +135,37 @@ const Unsubscribe = ({
   }, [steps]);
 
   const defaultCancellationReasons = [
-    { value: 'Poor customer support', key: 'support' },
-    { value: 'Switch to a different service', key: 'service' },
-    { value: 'Subscription is too expensive', key: 'expensive' },
-    { value: 'Video streaming issues', key: 'issues' },
-    { value: 'Not enough interesting content', key: 'content' },
-    { value: 'Service is hard to use', key: 'hardUse' },
-    { value: 'Content I like has ended', key: 'end' }
+    {
+      value: 'Poor customer support',
+      translationKey: 'unsubscribe-popup.cancellation.poor-customer-support'
+    },
+    {
+      value: 'Switch to a different service',
+      translationKey: 'unsubscribe-popup.cancellation.service-switch'
+    },
+    {
+      value: 'Subscription is too expensive',
+      translationKey: 'unsubscribe-popup.cancellation.too-expensive'
+    },
+    {
+      value: 'Video streaming issues',
+      translationKey: 'unsubscribe-popup.cancellation.streaming-issues'
+    },
+    {
+      value: 'Not enough interesting content',
+      translationKey: 'unsubscribe-popup.cancellation.not-interesting-content'
+    },
+    {
+      value: 'Service is hard to use',
+      translationKey: 'unsubscribe-popup.cancellation.hard-to-use'
+    },
+    {
+      value: 'Content I like has ended',
+      translationKey: 'unsubscribe-popup.cancellation.content-ended'
+    }
   ];
 
-  const calcellationReasonsToShow =
+  const cancellationReasonsToShow =
     customCancellationReasons || defaultCancellationReasons;
 
   const unsubscribe = async () => {
@@ -243,11 +264,14 @@ const Unsubscribe = ({
             </Button>
           </ButtonWrapperStyled>
           <TextStyled>
-            {t('Or still wants to cancel a subscription?')}
+            {t(
+              'unsubscribe-popup.still-cancel',
+              'Or still wants to cancel a subscription?'
+            )}
           </TextStyled>
           <ButtonWrapperStyled removeMargin>
             <Button theme="simple" onClickFn={hideInnerPopup}>
-              {t('unsubscribe-popup.back-button-text', 'Back to My Account')}
+              {t('unsubscribe-popup.back-to-my-account', 'Back to My Account')}
             </Button>
             <Button
               theme="primary"
@@ -264,10 +288,16 @@ const Unsubscribe = ({
         <ContentStyled>
           <>
             <TitleStyled>
-              {t('How about a plan downgrade instead of cancellation?')}
+              {t(
+                'unsubscribe-popup.downgrade-instead',
+                'How about a plan downgrade instead of cancellation?'
+              )}
             </TitleStyled>
             <TextStyled>
-              {t('Here are the plans that might suit your needs:')}
+              {t(
+                'unsubscribe-popup.plans-proposal',
+                'Here are the plans that might suit your needs:'
+              )}
             </TextStyled>
           </>
           <DowngradesWrapperStyled>
@@ -304,11 +334,14 @@ const Unsubscribe = ({
             })}
           </DowngradesWrapperStyled>
           <TextStyled>
-            {t('Or still wants to cancel a subscription?')}
+            {t(
+              'unsubscribe-popup.still-cancel',
+              'Or still wants to cancel a subscription?'
+            )}
           </TextStyled>
           <ButtonWrapperStyled removeMargin>
             <Button theme="simple" onClickFn={hideInnerPopup}>
-              {t('Back to My Account')}
+              {t('unsubscribe-popup.back-to-my-account', 'Back to My Account')}
             </Button>
             <Button
               theme="confirm"
@@ -322,15 +355,21 @@ const Unsubscribe = ({
       {currentStep === STEPS.SURVEY && (
         <>
           <ContentStyled>
-            <TitleStyled>{t('We’re sorry to see you go')}</TitleStyled>
+            <TitleStyled>
+              {t('unsubscribe-popup.survey-title', 'We’re sorry to see you go')}
+            </TitleStyled>
             {period === 'season' ? (
               <TextStyled>
                 {t(
+                  'unsubscribe-popup.survey.access-info',
                   'You will keep access to your seasonal subscription until {{formattedExpiresAt}}. Before you go, please let us know why you’re leaving.',
                   {
                     formattedExpiresAt:
                       expiresAt === INFINITE_DATE
-                        ? t('the next season start')
+                        ? t(
+                            'unsubscribe-popup.next-season-start',
+                            'the next season start'
+                          )
                         : dateFormat(expiresAt)
                   }
                 )}
@@ -339,6 +378,7 @@ const Unsubscribe = ({
               <TextStyled>
                 {scheduledSwitch() ? (
                   t(
+                    'unsubscribe-popup.survey.switch-pending',
                     `Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.`,
                     { scheduledSwitchTitle }
                   )
@@ -346,16 +386,18 @@ const Unsubscribe = ({
                   <>
                     {offerDetails.inTrial
                       ? t(
+                          'unsubscribe-popup.survey.free-trial',
                           'Your {{translatedTitle}} free trial will end on {{formattedExpiresAt}}.',
                           { translatedTitle, formattedExpiresAt }
                         )
                       : t(
+                          'unsubscribe-popup.survey.subscription-paid',
                           'Your {{translatedTitle}} subscription is paid until {{formattedExpiresAt}}.',
                           { translatedTitle, formattedExpiresAt }
                         )}
                   </>
                 )}{' '}
-                <Trans i18nKey="unsubscribe-info">
+                <Trans i18nKey="unsubscribe-popup.survey.info">
                   If you would like to proceed with cancelling your
                   subscription, please select 'Unsubscribe' below, and your
                   subscription will be cancelled as of {{ formattedExpiresAt }}.
@@ -365,16 +407,16 @@ const Unsubscribe = ({
                 </Trans>
               </TextStyled>
             )}
-            {calcellationReasonsToShow && (
+            {cancellationReasonsToShow && (
               <ReasonsWrapper>
-                {calcellationReasonsToShow.map(reason => (
-                  <StyledItem key={reason.key}>
+                {cancellationReasonsToShow.map(({ translationKey, value }) => (
+                  <StyledItem key={translationKey}>
                     <Checkbox
                       isRadioButton
-                      onClickFn={() => setCheckedReason(reason.value)}
-                      checked={reason.value === checkedReason}
+                      onClickFn={() => setCheckedReason(value)}
+                      checked={value === checkedReason}
                     >
-                      {t(reason.value)}
+                      {t(translationKey, value)}
                     </Checkbox>
                   </StyledItem>
                 ))}
@@ -390,7 +432,7 @@ const Unsubscribe = ({
                   : cancelUnsubscribeAction()
               }
             >
-              {t('Go back')}
+              {t('unsubscribe-popup.survey.go-back', 'Go back')}
             </Button>
             <Button
               theme="confirm"
@@ -398,7 +440,7 @@ const Unsubscribe = ({
               disabled={checkedReason === '' || isLoading}
             >
               {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
-                t('Unsubscribe')}
+                t('unsubscribe-popup.survey.unsubscribe', 'Unsubscribe')}
             </Button>
           </ButtonWrapperStyled>
         </>
@@ -406,14 +448,20 @@ const Unsubscribe = ({
       {currentStep === STEPS.CONFIRMATION && (
         <ContentStyled>
           <img src={checkmarkIcon} alt="checkmark icon" />
-          <TitleStyled>{t('Miss you already.')}</TitleStyled>
+          <TitleStyled>
+            {t('unsubscribe-popup.confirmation.miss-you', 'Miss you already.')}
+          </TitleStyled>
           <TextStyled>
             {t(
+              'unsubscribe-popup.confirmation.unsubscribed',
               'You have been successfully unsubscribed. Your current plan will expire on'
             )}{' '}
             <b>
               {expiresAt === INFINITE_DATE
-                ? t('the next season start')
+                ? t(
+                    'unsubscribe-popup.next-season-start',
+                    'the next season start'
+                  )
                 : dateFormat(expiresAt)}
             </b>
             .
@@ -426,7 +474,7 @@ const Unsubscribe = ({
               updateList();
             }}
           >
-            {t('Back to My Account')}
+            {t('unsubscribe-popup.back-to-my-account', 'Back to My Account')}
           </Button>
         </ContentStyled>
       )}

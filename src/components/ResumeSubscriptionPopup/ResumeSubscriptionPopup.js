@@ -171,7 +171,7 @@ const ResumeSubscriptionPopup = ({
             </TextStyled>
             <TextStyled step={step}>
               {t(
-                'resume-subscription-popup.question',
+                'resume-subscription-popup.apply-change-question',
                 'Do you want to apply the change now?'
               )}
             </TextStyled>

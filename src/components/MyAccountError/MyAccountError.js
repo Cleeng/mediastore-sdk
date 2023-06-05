@@ -47,7 +47,9 @@ const MyAccountError = ({
       )}
       <DetailsStyled>
         <TitleStyled>
-          {generalError ? t('Oops, something went wrong!') : t(title)}
+          {generalError
+            ? t('oops-something-went-wrong', 'Oops! Something went wrong.')
+            : t(title)}
         </TitleStyled>
         <SubTitleStyled>
           {generalError ? t('Please try again in a few moments.') : t(subtitle)}

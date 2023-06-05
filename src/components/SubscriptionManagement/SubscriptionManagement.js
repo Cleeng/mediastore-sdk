@@ -95,7 +95,9 @@ const SubscriptionManagement = ({
               }
             })
           );
-          setErrorMsg('Ooops. Something went wrong.');
+          setErrorMsg(
+            t('oops-something-went-wrong', 'Oops! Something went wrong.')
+          );
           setIsError(true);
           setIsLoading(false);
         });

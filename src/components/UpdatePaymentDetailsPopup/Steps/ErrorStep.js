@@ -26,7 +26,9 @@ const ErrorStep = () => {
         <ImageWrapper>
           <WarningIcon />
         </ImageWrapper>
-        <TitleStyled>{t('Oops, something went wrong')}</TitleStyled>
+        <TitleStyled>
+          {t('oops-something-went-wrong', 'Oops! Something went wrong.')}
+        </TitleStyled>
         <TextStyled>
           {error?.includes('Refused') ? (
             <Trans i18nKey="update-payment-details.refused">
