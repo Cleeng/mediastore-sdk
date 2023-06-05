@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import Loader from 'components/Loader';
 import submitConsents from 'api/Customer/submitConsents';
-import labeling from 'containers/labeling';
+import translateConsents from 'util/consentsHelper';
 import {
   ButtonStyled,
   CheckboxStyled,
@@ -118,7 +118,7 @@ class MyAccountConsents extends Component {
             required={item.required}
             hide={showConsentsOnly && !item.required}
           >
-            {t(item.label)}
+            {translateConsents(item.label, t)}
           </CheckboxStyled>
         ))}
         {!showConsentsOnly && (
@@ -187,4 +187,4 @@ MyAccountConsents.defaultProps = {
 
 export { MyAccountConsents as PureMyAccountConsents };
 
-export default withTranslation()(labeling()(MyAccountConsents));
+export default withTranslation()(MyAccountConsents);

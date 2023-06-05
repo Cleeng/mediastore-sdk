@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 
 import updateSubscription from 'api/Customer/updateSubscription';
-import { dateFormat, currencyFormat } from 'util/planHelper';
+import { dateFormat, currencyFormat, INFINITE_DATE } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 
 import Button from 'components/Button';
@@ -18,10 +17,12 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
-const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
+const Resubscribe = ({ offerDetails, hideInnerPopup, updateList }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+
+  const { t } = useTranslation();
 
   const { expiresAt, nextPaymentPrice, nextPaymentCurrency } = offerDetails;
   const currencySymbol = currencyFormat[nextPaymentCurrency];
@@ -73,7 +74,11 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
               {t(
                 'By clicking the button below you can resume your plan. Your next bill will be on'
               )}{' '}
-              <b>{dateFormat(expiresAt)} </b>
+              <b>
+                {expiresAt === INFINITE_DATE
+                  ? t('the next season start')
+                  : dateFormat(expiresAt)}{' '}
+              </b>
               {t('and it will be')}{' '}
               <b>{`${currencySymbol}${nextPaymentPrice}`}</b>.
             </TextStyled>
@@ -99,7 +104,12 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
           <TextStyled>
             {t('You have been successfully resubscribed. Your fee will be')}{' '}
             <b>{`${currencySymbol}${nextPaymentPrice}`}</b> {t('started from')}{' '}
-            <b> {dateFormat(expiresAt)}.</b>
+            <b>
+              {expiresAt === INFINITE_DATE
+                ? t('the next season start')
+                : dateFormat(expiresAt)}
+              .
+            </b>
           </TextStyled>
           <Button
             width="auto"
@@ -120,12 +130,7 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList, t }) => {
 Resubscribe.propTypes = {
   hideInnerPopup: PropTypes.func.isRequired,
   updateList: PropTypes.func.isRequired,
-  offerDetails: PropTypes.objectOf(PropTypes.any).isRequired,
-  t: PropTypes.func
+  offerDetails: PropTypes.objectOf(PropTypes.any).isRequired
 };
 
-Resubscribe.defaultProps = {
-  t: k => k
-};
-
-export default withTranslation()(labeling()(Resubscribe));
+export default Resubscribe;

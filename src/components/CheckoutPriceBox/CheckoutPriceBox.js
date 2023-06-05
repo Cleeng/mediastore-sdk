@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import formatNumber from 'util/formatNumber';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import { currencyFormat } from 'util/planHelper';
 import calculateTaxValueForFreeOffer from 'util/calculateTaxValueForFreeOffer';
 import { useSelector } from 'react-redux';
@@ -16,7 +14,7 @@ import {
   StyledPriceWrapper
 } from './CheckoutPriceBoxStyled';
 
-const CheckoutPriceBox = ({ t }) => {
+const CheckoutPriceBox = () => {
   const { customerPriceInclTax } = useSelector(state => state.offer.offer);
   const {
     priceBreakdown: {
@@ -32,6 +30,8 @@ const CheckoutPriceBox = ({ t }) => {
     totalPrice: finalPrice,
     currency
   } = useSelector(state => state.order.order);
+
+  const { t } = useTranslation();
 
   return (
     <StyledPriceBox>
@@ -105,14 +105,6 @@ const CheckoutPriceBox = ({ t }) => {
   );
 };
 
-CheckoutPriceBox.propTypes = {
-  t: PropTypes.func
-};
-
-CheckoutPriceBox.defaultProps = {
-  t: k => k
-};
-
 export { CheckoutPriceBox as PureCheckoutPriceBox };
 
-export default withTranslation()(labeling()(CheckoutPriceBox));
+export default CheckoutPriceBox;

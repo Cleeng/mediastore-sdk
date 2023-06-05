@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import { getPaymentMethods, submitPayment, submitPayPalPayment } from 'api';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
@@ -34,12 +33,14 @@ import DropInSection from './DropInSection/DropInSection';
 import { periodMapper } from '../../util';
 import LegalCopy from './LegalCopy/LegalCopy';
 
-const Payment = ({ t, onPaymentComplete }) => {
+const Payment = ({ onPaymentComplete }) => {
   const {
     paymentMethods: publisherPaymentMethods,
     isPayPalHidden,
     visiblePaymentMethods
   } = useSelector(state => state.publisherConfig);
+
+  const { t } = useTranslation();
 
   const order = useSelector(state => state.order.order);
   const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
@@ -58,7 +59,6 @@ const Payment = ({ t, onPaymentComplete }) => {
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
     false
   );
-  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
 
   const dispatch = useDispatch();
 
@@ -85,10 +85,10 @@ const Payment = ({ t, onPaymentComplete }) => {
 
   // payment methods
   const selectPaymentMethodHandler = paymentMethodName => {
-    if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = publisherPaymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
+
     dispatch(setSelectedPaymentMethod(paymentMethodObj));
     updateOrderWithPaymentMethodId(paymentMethodObj.id);
   };
@@ -336,14 +336,9 @@ const Payment = ({ t, onPaymentComplete }) => {
 };
 
 Payment.propTypes = {
-  onPaymentComplete: PropTypes.func.isRequired,
-  t: PropTypes.func
-};
-
-Payment.defaultProps = {
-  t: k => k
+  onPaymentComplete: PropTypes.func.isRequired
 };
 
 export { Payment as PurePayment };
 
-export default withTranslation()(labeling()(Payment));
+export default Payment;

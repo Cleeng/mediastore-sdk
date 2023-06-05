@@ -14,11 +14,11 @@ export const LabelStyled = styled.label.attrs(() => ({
   className: 'msd__input__label'
 }))`
   position: absolute;
-  top: 17px;
-  left: 14px;
+  inset-block-start: 17px;
+  inset-inline-start: 14px;
 
   margin: 0;
-  padding: 0 3px;
+  padding-inline: 3px;
 
   color: ${({ theme }) => theme.FontColor};
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
@@ -26,14 +26,14 @@ export const LabelStyled = styled.label.attrs(() => ({
   ${props =>
     props.withIcon &&
     css`
-      left: 40px;
+      inset-inline-start: 40px;
     `}
 
   &::after {
     position: absolute;
     content: '';
-    top: 0;
-    left: 0;
+    inset-block-start: 0;
+    inset-inline-start: 0;
 
     width: 100%;
     height: 15px;
@@ -176,7 +176,7 @@ export const ErrorWrapper = styled.div.attrs(() => ({
     `}
 
   font-size: 13px;
-  text-align: left;
+  text-align: start;
 
   ${props =>
     props.isMyAccount &&
@@ -202,7 +202,7 @@ export const StyledButton = styled.button`
   display: flex;
   padding: 0;
   position: relative;
-  margin-right: 15px;
+  margin-inline-end: 15px;
   &::after {
     position: absolute;
     top: 0;

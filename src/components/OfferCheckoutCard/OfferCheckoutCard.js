@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { useSelector } from 'react-redux';
@@ -20,7 +19,7 @@ import {
 } from './OfferCheckoutCardStyled';
 import Price from '../Price';
 
-const OfferCheckoutCard = ({ isDataLoaded, t }) => {
+const OfferCheckoutCard = ({ isDataLoaded }) => {
   const {
     offerTitle: title,
     trialAvailable: isTrialAvailable,
@@ -47,6 +46,8 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
   const grossPrice = isOfferFree
     ? calculateGrossPriceForFreeOffer(offerPrice, taxRate, customerPriceInclTax)
     : formatNumber(totalPrice);
+
+  const { t } = useTranslation();
 
   const generateTrialDescription = () => {
     if (period === 'season') {
@@ -215,15 +216,13 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
 };
 
 OfferCheckoutCard.propTypes = {
-  isDataLoaded: PropTypes.bool,
-  t: PropTypes.func
+  isDataLoaded: PropTypes.bool
 };
 
 OfferCheckoutCard.defaultProps = {
-  isDataLoaded: true,
-  t: k => k
+  isDataLoaded: true
 };
 
 export { OfferCheckoutCard as PureOfferCard };
 
-export default withTranslation()(labeling()(OfferCheckoutCard));
+export default OfferCheckoutCard;

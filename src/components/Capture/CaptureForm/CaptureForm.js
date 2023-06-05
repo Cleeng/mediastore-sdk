@@ -21,7 +21,7 @@ import {
 } from './CaptureFormStyled';
 
 const CaptureForm = ({ settings, onSuccess }) => {
-  const [t] = useTranslation();
+  const { t } = useTranslation();
   const [processing, setProcessing] = useState(false);
   const [customSettings, setCustomSetting] = useState([]);
   const firstName = useInput('');

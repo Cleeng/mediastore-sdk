@@ -3,13 +3,12 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation, Trans } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation, Trans } from 'react-i18next';
 import { useSelector } from 'react-redux';
 import store from 'redux/store';
 
 import updateSubscription from 'api/Customer/updateSubscription';
-import { dateFormat, periodMapper } from 'util/planHelper';
+import { dateFormat, periodMapper, INFINITE_DATE } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 
 import Button from 'components/Button';
@@ -34,8 +33,7 @@ const Unsubscribe = ({
   updateList,
   customCancellationReasons,
   showInnerPopup,
-  skipAvailableDowngradesStep,
-  t
+  skipAvailableDowngradesStep
 }) => {
   const STEPS = {
     PAUSE: 'PAUSE',
@@ -51,6 +49,8 @@ const Unsubscribe = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const { pauseOffersIDs } = useSelector(state => state.offers);
+
+  const { t } = useTranslation();
 
   const getDowngrades = () => {
     const { planDetails } = store.getState();
@@ -328,7 +328,10 @@ const Unsubscribe = ({
                 {t(
                   'You will keep access to your seasonal subscription until {{formattedExpiresAt}}. Before you go, please let us know why you’re leaving.',
                   {
-                    formattedExpiresAt
+                    formattedExpiresAt:
+                      expiresAt === INFINITE_DATE
+                        ? t('the next season start')
+                        : dateFormat(expiresAt)
                   }
                 )}
               </TextStyled>
@@ -408,7 +411,12 @@ const Unsubscribe = ({
             {t(
               'You have been successfully unsubscribed. Your current plan will expire on'
             )}{' '}
-            <b>{dateFormat(offerDetails.expiresAt)}</b>.
+            <b>
+              {expiresAt === INFINITE_DATE
+                ? t('the next season start')
+                : dateFormat(expiresAt)}
+            </b>
+            .
           </TextStyled>
           <Button
             width="auto"
@@ -437,14 +445,12 @@ Unsubscribe.propTypes = {
       value: PropTypes.string.isRequired
     })
   ),
-  skipAvailableDowngradesStep: PropTypes.bool,
-  t: PropTypes.func
+  skipAvailableDowngradesStep: PropTypes.bool
 };
 
 Unsubscribe.defaultProps = {
   customCancellationReasons: null,
-  skipAvailableDowngradesStep: false,
-  t: k => k
+  skipAvailableDowngradesStep: false
 };
 
-export default withTranslation()(labeling()(Unsubscribe));
+export default Unsubscribe;

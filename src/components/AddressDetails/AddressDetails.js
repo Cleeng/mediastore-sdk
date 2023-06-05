@@ -14,7 +14,7 @@ import {
 import { WrapStyled, RowStyled, MessageStyled } from './AddressDetailsStyled';
 
 const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
-  const [t] = useTranslation();
+  const { t } = useTranslation();
   const [isSectionDisabled, setIsSectionDisabled] = useState(true);
   const [isPending, setIsPending] = useState(false);
   const [address, setAddress] = useState(null);

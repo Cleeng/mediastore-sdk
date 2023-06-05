@@ -1,10 +1,7 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import SkeletonWrapper from 'components/SkeletonWrapper';
-
 import { useSelector } from 'react-redux';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
+import SkeletonWrapper from 'components/SkeletonWrapper';
 import {
   WrapStyled,
   DetailsStyled,
@@ -14,15 +11,17 @@ import {
   TextStyled
 } from './MyAccountUserInfoStyled';
 
-const MyAccountUserInfo = ({ t }) => {
+const MyAccountUserInfo = () => {
   const { user } = useSelector(state => state.userProfile);
+
   const {
     currentPlan: [plan]
   } = useSelector(state => state.planDetails);
+  const { t } = useTranslation();
+
   const isDataLoaded = !!user;
   const subscription =
     plan && t(`offer-title-${plan.offerId}`, plan.offerTitle);
-
   const isNameSet = user?.firstName || user?.lastName;
 
   return (
@@ -53,12 +52,4 @@ const MyAccountUserInfo = ({ t }) => {
   );
 };
 
-MyAccountUserInfo.propTypes = {
-  t: PropTypes.func
-};
-
-MyAccountUserInfo.defaultProps = {
-  t: k => k
-};
-
-export default withTranslation()(labeling()(MyAccountUserInfo));
+export default MyAccountUserInfo;

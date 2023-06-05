@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { currencyFormat } from 'util/planHelper';
 
 import { useSelector } from 'react-redux';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import { applyCoupon } from 'api';
 import CouponInput from 'components/CouponInput';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
@@ -25,8 +24,7 @@ const SubscriptionManagement = ({
   updateList,
   showInnerPopup,
   showMessageBox,
-  setOfferToSwitch,
-  t
+  setOfferToSwitch
 }) => {
   const { pauseOffersIDs } = useSelector(store => store.offers);
   const { switchSettings } = useSelector(store => store.planDetails);
@@ -37,6 +35,8 @@ const SubscriptionManagement = ({
   const [isLoading, setIsLoading] = useState(false);
   const [couponValue, setCouponValue] = useState('');
   const isPaused = pauseOffersIDs.includes(subscription.offerId);
+
+  const { t } = useTranslation();
 
   const submitCoupon = subscriptionId => {
     if (couponValue) {
@@ -228,7 +228,6 @@ SubscriptionManagement.propTypes = {
   updateList: PropTypes.func,
   showInnerPopup: PropTypes.func,
   showMessageBox: PropTypes.func,
-  t: PropTypes.func,
   setOfferToSwitch: PropTypes.func
 };
 
@@ -237,10 +236,9 @@ SubscriptionManagement.defaultProps = {
   updateList: () => {},
   showInnerPopup: () => {},
   showMessageBox: () => {},
-  t: k => k,
   setOfferToSwitch: () => {}
 };
 
 export { SubscriptionManagement as PureSubscriptionManagement };
 
-export default withTranslation()(labeling()(SubscriptionManagement));
+export default SubscriptionManagement;

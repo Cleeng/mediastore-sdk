@@ -2,8 +2,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
 import { SimpleButtonStyled } from 'components/SubscriptionManagement/SubscriptionManagementStyled';
 import OfferCard from 'components/OfferCard';
@@ -24,11 +23,13 @@ const SubscriptionSwitchesList = ({
   isLoading,
   errors,
   isSwitchInProgress,
-  fromOfferId,
-  t
+  fromOfferId
 }) => {
   const planDetailsState = useSelector(state => state.planDetails);
   const { pauseOffersIDs } = useSelector(state => state.offers);
+
+  const { t } = useTranslation();
+
   const pendingSwtichesToOfferIdsArray = Object.keys(
     planDetailsState.switchDetails
   ).map(item => {
@@ -162,7 +163,7 @@ const SubscriptionSwitchesList = ({
                     });
                   }}
                 >
-                  {subItem.switchDirection}
+                  {t(subItem.switchDirection)}
                 </SimpleButtonStyled>
               </ButtonWrapperStyled>
             </SubscriptionStyled>
@@ -188,7 +189,7 @@ const SubscriptionSwitchesList = ({
               />
               <ButtonWrapperStyled>
                 <SimpleButtonStyled disabled>
-                  {subItem.switchDirection}
+                  {t(subItem.switchDirection)}
                 </SimpleButtonStyled>
               </ButtonWrapperStyled>
             </SubscriptionStyled>
@@ -205,8 +206,7 @@ SubscriptionSwitchesList.propTypes = {
   showInnerPopup: PropTypes.func,
   isLoading: PropTypes.bool,
   fromOfferId: PropTypes.string,
-  isSwitchInProgress: PropTypes.bool,
-  t: PropTypes.func
+  isSwitchInProgress: PropTypes.bool
 };
 
 SubscriptionSwitchesList.defaultProps = {
@@ -215,10 +215,9 @@ SubscriptionSwitchesList.defaultProps = {
   errors: [],
   isLoading: false,
   fromOfferId: '',
-  isSwitchInProgress: false,
-  t: k => k
+  isSwitchInProgress: false
 };
 
 export { SubscriptionSwitchesList as PureSubscriptionSwitchesList };
 
-export default withTranslation()(labeling()(SubscriptionSwitchesList));
+export default SubscriptionSwitchesList;

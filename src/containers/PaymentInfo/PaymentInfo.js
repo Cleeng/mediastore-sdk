@@ -1,8 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 
 import React, { useEffect } from 'react';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import PaymentMethod from 'components/PaymentMethod';
 import SectionHeader from 'components/SectionHeader';
 import Transactions from 'components/Transactions';
@@ -17,10 +16,11 @@ import { WrapStyled } from './PaymentInfoStyled';
 
 const PaymentInfo = ({
   adyenConfiguration: adyenConfigurationProp,
-  t,
   displayGracePeriodError
 }) => {
   const dispatch = useDispatch();
+
+  const { t } = useTranslation();
 
   const { adyenConfiguration: adyenConfigurationStore } = useSelector(
     state => state.publisherConfig
@@ -75,16 +75,12 @@ const PaymentInfo = ({
 
 PaymentInfo.propTypes = {
   adyenConfiguration: PropTypes.objectOf(PropTypes.any),
-  t: PropTypes.func,
   displayGracePeriodError: PropTypes.bool
 };
 
 PaymentInfo.defaultProps = {
   adyenConfiguration: null,
-  t: k => k,
   displayGracePeriodError: null
 };
 
-export default withTranslation()(
-  labeling()(withAddPaymentDetailsFinalizationHandler(PaymentInfo))
-);
+export default withAddPaymentDetailsFinalizationHandler(PaymentInfo);

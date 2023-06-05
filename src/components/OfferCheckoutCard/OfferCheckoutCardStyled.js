@@ -61,15 +61,16 @@ export const PriceWrapperStyled = styled.div.attrs(() => ({
 }))`
   display: flex;
   flex-direction: column;
-  margin: auto 0 auto auto;
+  margin-inline: auto 0;
+  margin-block: auto;
 `;
 
 export const TrialBadgeStyled = styled.div.attrs(() => ({
   className: 'msd__checkout-card-price__badge'
 }))`
-  width: 80px;
+  max-width: 120px;
   padding: 4px 8px;
-  margin-bottom: 4px;
+  margin-bottom: 12px;
   background-color: ${White};
   color: ${FontColor};
   border: 1px solid ${LineColor};
@@ -78,4 +79,5 @@ export const TrialBadgeStyled = styled.div.attrs(() => ({
   font-size: ${MicroFont};
   font-weight: ${MediumFontWeight};
   text-transform: uppercase;
+  text-align: center;
 `;

@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import { LineColor } from 'styles/variables';
+import { isRTL } from 'styles/RTLHelper';
 
 export const SubscriptionIconStyled = styled(SubscriptionIcon)`
   flex: 0 0 70px;
@@ -37,6 +38,11 @@ export const ArrowStyled = styled.span`
   border-right: 2px solid ${LineColor};
 
   transform: translateX(-25%) rotate(45deg);
+
+  ${isRTL() &&
+    css`
+      transform: translateX(-25%) rotate(225deg);
+    `}
 `;
 
 export const ImageStyled = styled.img``;

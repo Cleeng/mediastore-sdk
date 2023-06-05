@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation, Trans } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation, Trans } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
 import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
 
@@ -9,7 +8,7 @@ import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
-import { dateFormat } from 'util/planHelper';
+import { dateFormat, INFINITE_DATE } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 import { ReactComponent as Close } from 'assets/images/errors/close.svg';
 
@@ -38,8 +37,7 @@ const SwitchPlanPopup = ({
   onCancel,
   onSwitchSuccess,
   onSwitchError,
-  isPartOfCancellationFlow,
-  t
+  isPartOfCancellationFlow
 }) => {
   const STEPS = {
     SWITCH_DETAILS: 'SWITCH_DETAILS',
@@ -54,6 +52,8 @@ const SwitchPlanPopup = ({
   const [step, setStep] = useState(STEPS.SWITCH_DETAILS);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
+
+  const { t } = useTranslation();
 
   const changePlan = async () => {
     setIsLoading(true);
@@ -174,7 +174,12 @@ const SwitchPlanPopup = ({
                   </strong>{' '}
                   on your next billing date{' '}
                   <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                    {{
+                      expiresAt:
+                        fromOffer.expiresAt === INFINITE_DATE
+                          ? t('when the next season start')
+                          : dateFormat(fromOffer.expiresAt)
+                    }}
                   </strong>
                 </Trans>
               )}
@@ -237,7 +242,12 @@ const SwitchPlanPopup = ({
                   </strong>{' '}
                   until{' '}
                   <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                    {{
+                      expiresAt:
+                        fromOffer.expiresAt === INFINITE_DATE
+                          ? t('the next season start')
+                          : dateFormat(fromOffer.expiresAt)
+                    }}
                   </strong>
                   . From that time you will be charged{' '}
                   <strong>
@@ -389,7 +399,9 @@ const SwitchPlanPopup = ({
             <ImageWrapper>
               <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
             </ImageWrapper>
-            <TitleStyled step={step}>{t('Thank you!')}</TitleStyled>
+            <TitleStyled step={step}>
+              {t('thank-you-page.header', 'Thank You!')}
+            </TitleStyled>
             <TextStyled step={step}>
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
                 <Trans i18nKey="switchplanpopup-confirm-immediatewithoutproration">
@@ -411,7 +423,12 @@ const SwitchPlanPopup = ({
                   </strong>{' '}
                   starting from{' '}
                   <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                    {{
+                      expiresAt:
+                        fromOffer.expiresAt === INFINITE_DATE
+                          ? t('the next season start')
+                          : dateFormat(fromOffer.expiresAt)
+                    }}
                   </strong>
                   .
                 </Trans>
@@ -454,7 +471,12 @@ const SwitchPlanPopup = ({
                   </strong>
                   . You will have access to your new plan on{' '}
                   <strong>
-                    {{ expiresAt: dateFormat(fromOffer.expiresAt) }}
+                    {{
+                      expiresAt:
+                        fromOffer.expiresAt === INFINITE_DATE
+                          ? t('the next season start')
+                          : dateFormat(fromOffer.expiresAt)
+                    }}
                   </strong>{' '}
                   and be charged{' '}
                   <strong>
@@ -628,7 +650,6 @@ SwitchPlanPopup.propTypes = {
   hideInnerPopup: PropTypes.func,
   updateList: PropTypes.func,
   isPopupLoading: PropTypes.bool,
-  t: PropTypes.func,
   onCancel: PropTypes.func,
   onSwitchSuccess: PropTypes.func,
   onSwitchError: PropTypes.func,
@@ -643,7 +664,6 @@ SwitchPlanPopup.defaultProps = {
   showInnerPopup: () => {},
   updateList: () => {},
   isPopupLoading: false,
-  t: k => k,
   onCancel: null,
   onSwitchSuccess: null,
   onSwitchError: null,
@@ -652,4 +672,4 @@ SwitchPlanPopup.defaultProps = {
 
 export { SwitchPlanPopup as PureSwitchPlanPopup };
 
-export default withTranslation()(labeling()(SwitchPlanPopup));
+export default SwitchPlanPopup;

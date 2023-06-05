@@ -1,10 +1,13 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
 import Button from 'components/Button';
 import { PayPalContentStyled, CopyStyled } from './PayPalStyled';
 
-const PayPal = ({ totalPrice, offerId, onSubmit, isLoading, t }) => {
+const PayPal = ({ totalPrice, offerId, onSubmit, isLoading }) => {
+  const { t } = useTranslation();
+
   return (
     <PayPalContentStyled>
       <CopyStyled>
@@ -48,15 +51,13 @@ PayPal.propTypes = {
   totalPrice: PropTypes.number,
   offerId: PropTypes.string,
   onSubmit: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool,
-  t: PropTypes.func
+  isLoading: PropTypes.bool
 };
 
 PayPal.defaultProps = {
   totalPrice: null,
   offerId: null,
-  isLoading: false,
-  t: k => k
+  isLoading: false
 };
 
 export default PayPal;

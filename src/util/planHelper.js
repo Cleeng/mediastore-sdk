@@ -196,3 +196,5 @@ export function dateFormat(timestamp, showTime = false) {
   }
   return resultString;
 }
+
+export const INFINITE_DATE = 2145913200;

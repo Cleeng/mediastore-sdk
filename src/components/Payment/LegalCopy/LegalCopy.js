@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
-import { Trans, withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { Trans } from 'react-i18next';
 import { getData } from 'util';
 import { LegalNoteWrapperStyled, LegalTextStyled } from '../PaymentStyled';
 
@@ -28,4 +27,4 @@ const LegalCopy = () => {
   );
 };
 
-export default withTranslation()(labeling()(LegalCopy));
+export default LegalCopy;

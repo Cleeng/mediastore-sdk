@@ -1,8 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import Card from 'components/Card';
 import { dateFormat } from 'util/planHelper';
 import MyAccountError from 'components/MyAccountError';
@@ -35,7 +33,7 @@ import {
 
 const TransactionsSkeleton = () => (
   <Card withBorder>
-    {[...Array(3)].map((i, k) => (
+    {[...Array(3)].map((_, k) => (
       // eslint-disable-next-line react/no-array-index-key
       <InsideWrapperStyled key={`skeleton-item-${k}`} length={3}>
         <LeftBoxStyled>
@@ -62,7 +60,7 @@ const TransactionsSkeleton = () => (
   </Card>
 );
 
-const Transactions = ({ t }) => {
+const Transactions = () => {
   const {
     transactions,
     showToggleButton,
@@ -71,6 +69,8 @@ const Transactions = ({ t }) => {
     isListExpanded
   } = useSelector(state => state.transactions);
   const { pauseOffersIDs } = useSelector(state => state.offers);
+
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
@@ -175,12 +175,4 @@ const Transactions = ({ t }) => {
   );
 };
 
-Transactions.propTypes = {
-  t: PropTypes.func
-};
-
-Transactions.defaultProps = {
-  t: k => k
-};
-
-export default withTranslation()(labeling()(Transactions));
+export default Transactions;
