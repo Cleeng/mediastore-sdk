@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 import { media, mediaFrom } from 'styles/BreakPoints';
 import { IconsColor } from 'styles/variables';
 import Button from 'components/Button';
-import * as colors from '../../styles/variables';
 
 export const WrapperStyled = styled.div.attrs(() => ({
   className: 'msd__manage-box__actions-wrapper'
@@ -92,10 +91,6 @@ export const SimpleButtonStyled = styled(Button).attrs(() => ({
       width: unset;
       max-width: unset;
     `}
-
-  /* &:focus {
-    border: 1px solid ${colors.FocusColor};
-  } */
 `;
 
 export const FullWidthButtonStyled = styled(Button)`

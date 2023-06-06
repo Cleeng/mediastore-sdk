@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import React, { Component } from 'react';
 import { withTranslation } from 'react-i18next';
 import SectionHeader from 'components/SectionHeader';
@@ -224,16 +223,26 @@ UpdateProfile.propTypes = {
   updateCaptureOption: PropTypes.func.isRequired,
   consentsError: PropTypes.string,
   userProfile: PropTypes.shape({
-    id: PropTypes.number,
-    email: PropTypes.string,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    country: PropTypes.string,
-    regDate: PropTypes.string,
-    lastLoginDate: PropTypes.string,
-    lastUserIp: PropTypes.string,
-    externalId: PropTypes.string,
-    externalData: PropTypes.shape()
+    user: PropTypes.shape({
+      id: PropTypes.number,
+      email: PropTypes.string,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      country: PropTypes.string,
+      regDate: PropTypes.string,
+      lastLoginDate: PropTypes.string,
+      lastUserIp: PropTypes.string,
+      externalId: PropTypes.string,
+      externalData: PropTypes.shape()
+    }),
+    consents: PropTypes.array,
+    capture: PropTypes.shape({
+      isCaptureEnabled: PropTypes.bool,
+      settings: PropTypes.array,
+      shouldCaptureBeDisplayed: PropTypes.bool
+    }),
+
+    consentsError: PropTypes.string
   }),
   showInnerPopup: PropTypes.func.isRequired,
   hideInnerPopup: PropTypes.func.isRequired,

@@ -38,7 +38,6 @@ const Select = ({
         isDisabled={disabled}
         isMyAccount={isMyAccount}
         getOptionLabel={option => option.label}
-        // getOptionLabel={option => option.label}
       />
     </SelectStyled>
   );

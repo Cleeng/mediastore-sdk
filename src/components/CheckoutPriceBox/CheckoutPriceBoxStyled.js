@@ -9,7 +9,6 @@ export const StyledLabel = styled.span.attrs(() => ({
   color: ${variables.FontColor};
 `;
 
-// refactor from h3 to span
 export const StyledOfferPrice = styled.span.attrs(() => ({
   className: 'msd__price-summary__ammount'
 }))`
@@ -66,7 +65,7 @@ export const StyledPriceWrapper = styled.li`
   align-items: center;
   margin-bottom: 12px;
 
-  & strong {
+  strong {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
