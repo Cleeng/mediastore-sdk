@@ -52,7 +52,12 @@ const MyAccountError = ({
             : t(title)}
         </TitleStyled>
         <SubTitleStyled>
-          {generalError ? t('Please try again in a few moments.') : t(subtitle)}
+          {generalError
+            ? t(
+                'myaccounterror.try-again',
+                'Please try again in a few moments.'
+              )
+            : t(subtitle)}
         </SubTitleStyled>
       </DetailsStyled>
       {generalError && (

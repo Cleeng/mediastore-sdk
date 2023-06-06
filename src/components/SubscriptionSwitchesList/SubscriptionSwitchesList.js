@@ -46,7 +46,10 @@ const SubscriptionSwitchesList = ({
     return (
       <MyAccountError
         icon={selectPlanIcon}
-        title={t('Click on the plan that you would like to switch from')}
+        title={t(
+          'subscription-switches-list.offer-not-selected',
+          'Click on the plan that you would like to switch from'
+        )}
         margin="0 auto"
       />
     );
@@ -55,8 +58,14 @@ const SubscriptionSwitchesList = ({
     return (
       <MyAccountError
         icon={happyData}
-        title={t('Subscription switch in progress!')}
-        subtitle={t('Please try again in a few moments.')}
+        title={t(
+          'subscription-switches-list.switch-in-progress',
+          'Subscription switch in progress!'
+        )}
+        subtitle={t(
+          'subscription-switches-list.try-again',
+          'Please try again in a few moments.'
+        )}
         margin="0 auto"
       />
     );
@@ -93,6 +102,7 @@ const SubscriptionSwitchesList = ({
       <MyAccountError
         icon={selectPlanIcon}
         title={t(
+          'subscription-switches-list.switching-unavailable',
           "Looks like there aren't any options for switching from your current plan right now"
         )}
         margin="0 auto"

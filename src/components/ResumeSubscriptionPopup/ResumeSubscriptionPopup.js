@@ -217,7 +217,10 @@ const ResumeSubscriptionPopup = ({
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button theme="confirm" onClickFn={closePopupAndRefresh}>
-              {t('Back to My Account')}
+              {t(
+                'resume-subscription-popup.back-to-my-account',
+                'Back to My Account'
+              )}
             </Button>
           </ButtonWrapperStyled>
         </>

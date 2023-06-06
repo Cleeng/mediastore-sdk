@@ -51,7 +51,10 @@ const SubscriptionManagement = ({
               updateList();
               showMessageBox(
                 'success',
-                t('Your Coupon has been successfully reedemed.'),
+                t(
+                  'subscription-management.coupon-redeemed',
+                  'Your Coupon has been successfully reedemed.'
+                ),
                 subscriptionId
               );
               window.dispatchEvent(
@@ -65,9 +68,15 @@ const SubscriptionManagement = ({
               break;
             case 422:
               if (resp.errors.some(e => e.includes('not found')))
-                setErrorMsg('Invalid coupon code.');
+                setErrorMsg(
+                  'subscription-management.invalid-coupon',
+                  'Invalid coupon code.'
+                );
               if (resp.errors.some(e => e.includes('already')))
-                setErrorMsg('Coupon already used');
+                setErrorMsg(
+                  'subscription-management.coupon-already-used',
+                  'Coupon already used'
+                );
               setIsError(true);
               setIsLoading(false);
               window.dispatchEvent(
@@ -80,7 +89,10 @@ const SubscriptionManagement = ({
               );
               break;
             default:
-              setErrorMsg('Invalid coupon code.');
+              setErrorMsg(
+                'subscription-management.invalid-coupon',
+                'Invalid coupon code.'
+              );
               setIsError(true);
               setIsLoading(false);
               break;
@@ -102,7 +114,10 @@ const SubscriptionManagement = ({
           setIsLoading(false);
         });
     } else {
-      setErrorMsg('Please enter coupon code.');
+      setErrorMsg(
+        'subscription-management.enter-coupon',
+        'Please enter coupon code.'
+      );
       setIsError(true);
     }
   };
@@ -117,7 +132,7 @@ const SubscriptionManagement = ({
       <ManageButtonWrapStyled>
         <Button theme="simple" width="unset" onClickFn={e => toggle(e)}>
           <ButtonTextStyled isExpanded={isOptionsVisible}>
-            {t('Manage')}
+            {t('subscription-management.manage-button', 'Manage')}
           </ButtonTextStyled>
         </Button>
       </ManageButtonWrapStyled>
@@ -147,7 +162,7 @@ const SubscriptionManagement = ({
                 );
               }}
             >
-              {t('Unsubscribe')}
+              {t('subscription-management.unsubscribe-button', 'Unsubscribe')}
             </SimpleButtonStyled>
           )}
           {subscription.status === 'cancelled' && !isCouponInputOpened && (
@@ -176,7 +191,7 @@ const SubscriptionManagement = ({
                 );
               }}
             >
-              {t('Resume')}
+              {t('subscription-management.resume-button', 'Resume')}
             </FullWidthButtonStyled>
           )}
           {subscription.status !== 'cancelled' && !isPaused && (
@@ -215,7 +230,7 @@ const SubscriptionManagement = ({
               }}
             >
               {t(
-                'subscription-management.resume-button',
+                'subscription-management.resume-subscription-button',
                 'Resume subscription'
               )}
             </SimpleButtonStyled>
