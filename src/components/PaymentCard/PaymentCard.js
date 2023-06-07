@@ -112,7 +112,7 @@ const PaymentCard = ({ isDataLoaded, details }) => {
               </CardDetailsStyled>
             </CardInfoStyled>
             <CardEditStyled
-              type="button"
+              // type="button"
               onClick={() => {
                 dispatch(
                   updatePaymentDetailsPopup({

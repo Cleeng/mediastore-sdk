@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { White, FontColor } from 'styles/variables';
 import { mediaFrom } from 'styles/BreakPoints';
-import Button from 'components/Button';
+import * as colors from 'styles/variables';
 
 export const CardStyled = styled.div.attrs(() => ({
   className: 'msd__payment-card'
@@ -73,7 +73,7 @@ export const CardExpirationDateStyled = styled.time.attrs(() => ({
   white-space: nowrap;
 `;
 
-export const CardEditStyled = styled(Button).attrs(() => ({
+export const CardEditStyled = styled.button.attrs(() => ({
   className: 'msd__payment-method__button'
 }))`
   color: ${White};
@@ -87,10 +87,14 @@ export const CardEditStyled = styled(Button).attrs(() => ({
   border: 0;
   opacity: 0.9;
 
-  &:hover,
+  &:hover {
+    cursor: pointer;
+    opacity: 1;
+  }
   &:focus {
     cursor: pointer;
     opacity: 1;
+    outline: 1px solid ${colors.FocusColor};
   }
 `;
 
