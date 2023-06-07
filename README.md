@@ -907,6 +907,17 @@ Config.setLanguage("es");
 
 ```
 
+
+```javascript
+Config.setLanguage('es');
+```
+
+Some of the languages require different direction than default left-to-right. Mediastore-sdk components library support right-to-left direction whcih can be enabled by adding `dir` attribute to `html` tag.
+
+```html
+<html dir="rtl">
+```
+
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
 ## Security
