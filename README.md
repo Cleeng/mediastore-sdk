@@ -907,8 +907,7 @@ Config.setLanguage("es");
 
 ```
 
-Some of the languages require a different direction than default left-to-right. Mediastore-sdk components library support right-to-left direction which can be enabled by adding `dir` attribute to `html` tag.
-
+Some of the languages require different direction than default left-to-right. MediaStore SDK components library support right-to-left direction whcih can be enabled by adding `dir` attribute to `html` tag.
 
 ```html
 <html dir="rtl">
