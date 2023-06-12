@@ -159,7 +159,6 @@ const OfferCard = ({
       icon: BlockedIcon
     },
     INAPP_SUBSCRIPTION: {
-      // How to change it
       text: t(
         `${
           paymentMethod ? `Subscription purchased via ${paymentMethod}. ` : ``

@@ -40,8 +40,10 @@ const FreeOffer = ({ onPaymentComplete }) => {
             date: dateFormat(expiresAt, true)
           });
         }
-        // how to translate it?
-        return `${periodMapper[period].accessText} free pass`;
+        return `${t(
+          `period.${periodMapper[period].accessText.toLowerCase()}`,
+          periodMapper[period].accessText
+        )} ${t('free-offer.free-pass', 'free pass')}`;
       }
       case 'E': {
         return t('free-offer.event', 'Free event {{date}}', {
@@ -49,8 +51,10 @@ const FreeOffer = ({ onPaymentComplete }) => {
         });
       }
       case 'R': {
-        // how to translate it?
-        return `${periodMapper[period].accessText} free access`;
+        return `${t(
+          `period.${periodMapper[period].accessText.toLowerCase()}`,
+          periodMapper[period].accessText
+        )} ${t('free-offer.free-access', 'free access')}`;
       }
       case 'A':
         return t('free-offer.unlimited-access', 'Unlimited access');
