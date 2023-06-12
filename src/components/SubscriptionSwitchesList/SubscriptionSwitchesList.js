@@ -87,11 +87,12 @@ const SubscriptionSwitchesList = ({
     const error = mapErrorToText[allSwitchesBlocked.code]
       ? mapErrorToText[allSwitchesBlocked.code]
       : mapErrorToText.DEFAULT;
+
     return (
       <MyAccountError
         icon={error.icon}
-        title={error.title}
-        subtitle={error.subtitle}
+        title={t(error.title.translationKey, error.title.text)}
+        subtitle={t(error.subtitle.translationKey, error.subtitle.text)}
         margin="0 auto"
         fullWidth
       />
