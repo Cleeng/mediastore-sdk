@@ -432,7 +432,7 @@ const Adyen = ({
   if (noPaymentMethods) {
     return (
       <PaymentErrorStyled>
-        {t('payment-error.not-available', 'Payment methods not available')}
+        {t('payment.error.not-available', 'Payment methods not available')}
       </PaymentErrorStyled>
     );
   }
