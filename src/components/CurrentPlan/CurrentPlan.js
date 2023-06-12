@@ -174,11 +174,12 @@ const CurrentPlan = ({
               break;
             case 'P':
               price = subItem.totalPrice;
-              currency = subItem.customerCurrency;
+              currency = currencyFormat[subItem.customerCurrency];
               description = `${t(
                 'currentplan.expires-on',
                 'Expires on'
               )} ${dateFormat(subItem.expiresAt)}`;
+
               break;
             default:
               break;
@@ -210,7 +211,7 @@ const CurrentPlan = ({
                 offerType={subItem.offerType}
                 title={subItem.offerTitle}
                 description={description}
-                currency={currencyFormat[currency]}
+                currency={currency}
                 price={price}
                 isMyAccount
                 showInfoBox={getInfoBoxType(subItem)}

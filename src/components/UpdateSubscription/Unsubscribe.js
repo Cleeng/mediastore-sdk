@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 import store from 'redux/store';
 
 import updateSubscription from 'api/Customer/updateSubscription';
-import { dateFormat, periodMapper, INFINITE_DATE } from 'util/planHelper';
+import { dateFormat, periodMapper, INFINITE_DATE, currencyFormat } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 
 import Button from 'components/Button';
@@ -323,7 +323,7 @@ const Unsubscribe = ({
                     }
                     offerType="S"
                     title={downgradeOffer.title}
-                    currency={downgradeOffer.nextPaymentPriceCurrencySymbol}
+                    currency={currencyFormat[downgradeOffer.nextPaymentPriceCurrency]}
                     price={
                       Math.round(downgradeOffer.nextPaymentPrice * 100) / 100
                     }

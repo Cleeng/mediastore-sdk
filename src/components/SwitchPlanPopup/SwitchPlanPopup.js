@@ -8,7 +8,7 @@ import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
-import { dateFormat, INFINITE_DATE } from 'util/planHelper';
+import { dateFormat, INFINITE_DATE, currencyFormat } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 import { ReactComponent as Close } from 'assets/images/errors/close.svg';
 
@@ -165,7 +165,10 @@ const SwitchPlanPopup = ({
                   You will be immediately granted access to your selected plan
                   and charged a new price{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
                         ? formatNumber(toOffer.price)
@@ -190,7 +193,10 @@ const SwitchPlanPopup = ({
                 <Trans i18nKey="switchplan-popup-info-immediateandchargewithrefund">
                   You will be charged{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
                         ? formatNumber(toOffer.price)
@@ -201,7 +207,10 @@ const SwitchPlanPopup = ({
                   remaining value from the previous subscription will be
                   refunded. You will continue to be charged{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -214,7 +223,10 @@ const SwitchPlanPopup = ({
                 <Trans i18nKey="switchplan-popup-info-immediateandchargewithfullrefund">
                   You will be charged{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
                         ? formatNumber(toOffer.price)
@@ -224,7 +236,10 @@ const SwitchPlanPopup = ({
                   . You will also be fully refunded for your previous
                   subscription. You will continue to be charged{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -257,7 +272,10 @@ const SwitchPlanPopup = ({
                   </strong>
                   . From that time you will be charged{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -269,7 +287,10 @@ const SwitchPlanPopup = ({
                 <Trans i18nKey="switchplan-popup-info-immediateandchargefullprice">
                   You will be charged{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
                         ? formatNumber(toOffer.price)
@@ -279,7 +300,10 @@ const SwitchPlanPopup = ({
                   and immediately granted access to the selected plan. You will
                   continue to be charged{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -292,7 +316,10 @@ const SwitchPlanPopup = ({
                 <Trans i18nKey="switchplan-popup-info-immediateandchargewithoutproration">
                   You will be charged{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
                         ? formatNumber(toOffer.price)
@@ -309,7 +336,10 @@ const SwitchPlanPopup = ({
                   based on the time left on your previous subscription. From
                   that time, you will be charged{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -322,7 +352,10 @@ const SwitchPlanPopup = ({
                 <Trans i18nKey="switchplan-popup-info-immediateandchargewithtimeproration">
                   You will be immediately charged{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
                         ? formatNumber(toOffer.price)
@@ -429,7 +462,10 @@ const SwitchPlanPopup = ({
                   </strong>
                   . Your new fee will be{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -462,7 +498,10 @@ const SwitchPlanPopup = ({
                   </strong>
                   . Your new fee is{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       nextPaymentPrice: isPriceTemporaryModified(
                         toOffer.toOfferId
@@ -499,7 +538,10 @@ const SwitchPlanPopup = ({
                   </strong>{' '}
                   and be charged{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>
                   .
@@ -518,7 +560,10 @@ const SwitchPlanPopup = ({
                   </strong>
                   . Your new fee will be{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       nextPaymentPrice: isPriceTemporaryModified(
                         toOffer.toOfferId
@@ -544,7 +589,10 @@ const SwitchPlanPopup = ({
                   </strong>
                   . Your new fee will be{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       nextPaymentPrice: isPriceTemporaryModified(
                         toOffer.toOfferId
@@ -570,7 +618,10 @@ const SwitchPlanPopup = ({
                   </strong>
                   . Your new fee will be{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{
                       nextPaymentPrice: isPriceTemporaryModified(
                         toOffer.toOfferId
@@ -595,7 +646,10 @@ const SwitchPlanPopup = ({
                   </strong>
                   . Your new fee will be{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>{' '}
                   and you will be charged on a recurring basis until you cancel.
@@ -615,7 +669,10 @@ const SwitchPlanPopup = ({
                   </strong>
                   . Your new fee will be{' '}
                   <strong>
-                    {{ currencySymbol: toOffer.nextPaymentPriceCurrencySymbol }}
+                    {{
+                      currencySymbol:
+                        currencyFormat[toOffer.nextPaymentPriceCurrency]
+                    }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>{' '}
                   and you will be charged on a recurring basis until you cancel.

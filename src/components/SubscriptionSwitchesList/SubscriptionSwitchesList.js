@@ -11,7 +11,7 @@ import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
 import { ReactComponent as happyData } from 'assets/images/happyData.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
-import { periodMapper } from 'util/planHelper';
+import { periodMapper, currencyFormat } from 'util/planHelper';
 import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
 import { ButtonWrapperStyled } from './SubscriptionSwitchesListStyled';
 import mapErrorToText from './helper';
@@ -146,7 +146,7 @@ const SubscriptionSwitchesList = ({
                 period={periodMapper[subItem.period].chargedForEveryText}
                 offerType="S"
                 title={subItem.title}
-                currency={subItem.nextPaymentPriceCurrencySymbol}
+                currency={currencyFormat[subItem.nextPaymentPriceCurrency]}
                 price={Math.round(price * 100) / 100}
                 offerId={subItem.toOfferId}
               />
@@ -192,7 +192,7 @@ const SubscriptionSwitchesList = ({
                 period={periodMapper[subItem.period].chargedForEveryText}
                 offerType="S"
                 title={subItem.title}
-                currency={subItem.nextPaymentPriceCurrencySymbol}
+                currency={currencyFormat[subItem.nextPaymentPriceCurrency]}
                 price={Math.round(price * 100) / 100}
                 showInfoBox={subItem.reason.code}
                 offerId={subItem.toOfferId}
