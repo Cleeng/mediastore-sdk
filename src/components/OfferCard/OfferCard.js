@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price from 'components/Price';
 import { ReactComponent as BlockedIcon } from 'assets/images/blocked.svg';
@@ -11,7 +10,7 @@ import SkeletonWrapper from 'components/SkeletonWrapper';
 import { ReactComponent as DowngradeIcon } from 'assets/images/downgrade_pending.svg';
 import { ReactComponent as UpgradeIcon } from 'assets/images/upgrade_pending.svg';
 import { ReactComponent as PauseIcon } from 'assets/images/pause_noti.svg';
-import { dateFormat } from 'util/planHelper';
+import { dateFormat, INFINITE_DATE } from 'util/planHelper';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 
 import {
@@ -44,21 +43,24 @@ const OfferCard = ({
   showInnerPopup,
   offerId,
   isPriceBoxHidden,
-  isPaused,
-  t
+  isPaused
 }) => {
   const planDetailsState = useSelector(state => state.planDetails);
   const { pauseOffersIDs } = useSelector(state => state.offers);
   const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
   const isPauseInProgress = pauseOffersIDs.includes(switchDetails?.toOfferId);
 
+  const { t } = useTranslation();
+
   const getSwitchCopy = () => {
     if (switchDetails) {
-      const subscriptionExpirationDate = dateFormat(
-        planDetailsState.currentPlan.find(
-          sub => sub.pendingSwitchId === pendingSwitchId
-        ).expiresAt
+      const subscription = planDetailsState.currentPlan.find(
+        sub => sub.pendingSwitchId === pendingSwitchId
       );
+      const subscriptionExpirationDate =
+        subscription.expiresAt === INFINITE_DATE
+          ? t('the next season start')
+          : dateFormat(subscription.expiresAt);
       const { title: switchTitle, fromOfferId, toOfferId } = switchDetails;
       const translatedTitle = t(`offer-title-${fromOfferId}`, title);
       const translatedSwitchTitle = t(`offer-title-${toOfferId}`, switchTitle);
@@ -173,14 +175,14 @@ const OfferCard = ({
           <SkeletonWrapper
             showChildren={isDataLoaded}
             width={200}
-            margin="0 0 10px 10px"
+            margin="0 10px 10px 10px"
           >
             <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
           </SkeletonWrapper>
           <SkeletonWrapper
             showChildren={isDataLoaded}
             width={300}
-            margin="0 0 10px 10px"
+            margin="0 10px 10px 10px"
           >
             <DescriptionStyled
               dangerouslySetInnerHTML={{ __html: description }}
@@ -274,10 +276,9 @@ OfferCard.propTypes = {
   showInfoBox: PropTypes.string,
   isDataLoaded: PropTypes.bool,
   paymentMethod: PropTypes.string,
-  t: PropTypes.func,
   isMyAccount: PropTypes.bool,
   pendingSwitchId: PropTypes.string,
-  expiresAt: PropTypes.string,
+  expiresAt: PropTypes.number,
   showInnerPopup: PropTypes.func,
   offerId: PropTypes.string,
   isPriceBoxHidden: PropTypes.bool,
@@ -295,10 +296,9 @@ OfferCard.defaultProps = {
   showInfoBox: null,
   isDataLoaded: true,
   paymentMethod: '',
-  t: k => k,
   isMyAccount: false,
   pendingSwitchId: null,
-  expiresAt: '',
+  expiresAt: null,
   showInnerPopup: () => {},
   offerId: '',
   isPriceBoxHidden: false,
@@ -307,4 +307,4 @@ OfferCard.defaultProps = {
 
 export { OfferCard as PureOfferCard };
 
-export default withTranslation()(labeling()(OfferCard));
+export default OfferCard;

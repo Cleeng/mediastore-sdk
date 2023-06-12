@@ -9,7 +9,7 @@ export const WrapperStyled = styled.div.attrs(() => ({
   justify-content: center;
   position: relative;
   padding: 10px;
-  margin-right: 10px;
+  margin-inline-end: 10px;
   border-radius: 8px;
   flex: 0 0 40px;
 
@@ -32,7 +32,7 @@ export const WrapperStyled = styled.div.attrs(() => ({
 
   ${mediaFrom.small`
     flex: 0 0 50px;
-    margin-right: 15px;
+    margin-inline-end: 15px;
     padding: 14px 10px;
     
     font-size: 20px;

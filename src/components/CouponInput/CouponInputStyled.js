@@ -70,7 +70,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
     css`
       width: 198px;
       max-width: 198px;
-      left: 37px;
+      inset-inline-start: 37px;
       padding-right: 25px;
       ${media.small`
         width: 100%;
@@ -98,7 +98,7 @@ export const CloseButtonStyled = styled.button.attrs(() => ({
   height: 22px;
   width: 22px;
   top: 50%;
-  left: 7px;
+  inset-inline-start: 7px;
   transform: translate(0, -50%);
   background-color: ${Colors.PrimaryColor};
   opacity: 0;

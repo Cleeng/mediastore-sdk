@@ -96,6 +96,7 @@ Config functions save data to local storage (as `CLEENG_*` items). These data ar
 | `setTheme`                      | `styles:object`                                              | More information in the [Styling](#styling) section.                                                                                                                    |
 | `setVisibleAdyenPaymentMethods` | `paymentMethods: string[]`                                   | Array of payment methods names that should be presented in Checkout and MyAccount. Available options: `applepay`, `card`, `googlepay`, `ideal`, `sofort`                |
 | `setHidePayPal`                 | -                                                            | Option to hide PayPal, by default PayPal will be visible when configured                                                                                                |
+| `setLanguage`                   | `language :string`                                           | Option to change language without reloading page                                                                                                                        |
 
 **Usage sample**
 
@@ -107,6 +108,7 @@ Config.setPublisher("123456789");
 Config.setOffer("S123456789_US");
 Config.setVisibleAdyenPaymentMethods(["card", "applepay"]);
 Config.setHidePayPal();
+Config.setLanguage("es");
 ```
 
 #### Auth methods
@@ -896,6 +898,18 @@ Below, you can find a short guide on how to implement custom copies or translati
 
 ```javascript
 localStorage.setItem("i18nextLng", "es");
+```
+
+5. To change language without reloading the page you can use Config method, it will automatically change i18nextLng in local storage.
+
+```javascript
+Config.setLanguage("es");
+```
+
+Some of the languages require different directions than the default left-to-right. MediaStore SDK components library support right-to-left direction which can be enabled by adding the `dir` attribute to `html` tag.
+
+```html
+<html dir="rtl"></html>
 ```
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>

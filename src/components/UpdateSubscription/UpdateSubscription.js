@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
 
 import Unsubscribe from './Unsubscribe';
 import Resubscribe from './Resubscribe';
@@ -61,4 +59,4 @@ UpdateSubscription.defaultProps = {
 
 export { UpdateSubscription as PureUpdateSubscription };
 
-export default withTranslation()(labeling()(UpdateSubscription));
+export default UpdateSubscription;

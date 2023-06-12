@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
 import CouponInput from 'containers/CouponInput/CouponInput.container';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import Payment from 'components/Payment';
@@ -114,6 +113,4 @@ export const mapStateToProps = state => ({
   discountApplied: state.order.order.discount.applied
 });
 
-export default withTranslation()(labeling()(connect(mapStateToProps)(Offer)));
-
-// export default Offer;
+export default withTranslation()(connect(mapStateToProps)(Offer));

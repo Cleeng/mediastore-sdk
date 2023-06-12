@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
+import { dateFormat, INFINITE_DATE } from 'util';
 
 import {
   ContentStyled,
@@ -22,13 +22,11 @@ const CancelSwitchPopup = ({
     switchDirection,
     switchOfferTitle: untranslatedSwitchOfferTitle,
     baseOfferTitle: untranslatedBaseOfferTitle,
-    baseOfferExpirationDate,
-    baseOfferPrice
+    baseOfferExpirationDate
   },
   hideInnerPopup,
   updateList,
-  setSwitchDetails,
-  t
+  setSwitchDetails
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -43,6 +41,9 @@ const CancelSwitchPopup = ({
   };
 
   const [offerIdsFallback, setOfferIdsFallback] = useState({}); // required to keep translations in step 2
+
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (switchDetails) {
       setOfferIdsFallback({
@@ -116,8 +117,10 @@ const CancelSwitchPopup = ({
                 {
                   switchDirection,
                   switchOfferTitle,
-                  baseOfferExpirationDate,
-                  baseOfferPrice
+                  baseOfferExpirationDate:
+                    baseOfferExpirationDate === INFINITE_DATE
+                      ? t('the next season start')
+                      : dateFormat(baseOfferExpirationDate)
                 }
               )}
               <br />
@@ -160,7 +163,10 @@ const CancelSwitchPopup = ({
                 {
                   switchDirection,
                   switchOfferTitle,
-                  baseOfferExpirationDate,
+                  baseOfferExpirationDate:
+                    baseOfferExpirationDate === INFINITE_DATE
+                      ? t('the next season start')
+                      : dateFormat(baseOfferExpirationDate),
                   baseOfferTitle
                 }
               )}
@@ -194,13 +200,11 @@ CancelSwitchPopup.propTypes = {
   }).isRequired,
   hideInnerPopup: PropTypes.func.isRequired,
   updateList: PropTypes.func,
-  setSwitchDetails: PropTypes.func.isRequired,
-  t: PropTypes.func
+  setSwitchDetails: PropTypes.func.isRequired
 };
 
 CancelSwitchPopup.defaultProps = {
-  updateList: () => {},
-  t: k => k
+  updateList: () => {}
 };
 
-export default withTranslation()(labeling()(CancelSwitchPopup));
+export default CancelSwitchPopup;

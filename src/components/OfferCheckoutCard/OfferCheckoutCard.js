@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { useSelector } from 'react-redux';
@@ -20,7 +19,7 @@ import {
 } from './OfferCheckoutCardStyled';
 import Price from '../Price';
 
-const OfferCheckoutCard = ({ isDataLoaded, t }) => {
+const OfferCheckoutCard = ({ isDataLoaded }) => {
   const {
     offerTitle: title,
     trialAvailable: isTrialAvailable,
@@ -48,16 +47,25 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
     ? calculateGrossPriceForFreeOffer(offerPrice, taxRate, customerPriceInclTax)
     : formatNumber(totalPrice);
 
+  const { t } = useTranslation();
+
   const generateTrialDescription = () => {
-    if (period === 'season') {
-      const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (plus applicable taxes) and will be renewed on the next season start date.`;
-      return t(`subscription-desc.period-season`, formattedDescription, {
-        currencySymbol,
-        grossPrice
-      });
+    const taxCopy = country === 'US' ? 'Tax' : 'VAT';
+
+    if (period === 'season' && freeDays) {
+      const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days and will be renewed on the next season start date.`;
+      return t(
+        `subscription-desc.trial-days.period-season`,
+        formattedDescription,
+        {
+          currencySymbol,
+          grossPrice,
+          taxCopy,
+          freeDays
+        }
+      );
     }
 
-    const taxCopy = country === 'US' ? 'Tax' : 'VAT';
     if (freeDays) {
       const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
         period
@@ -103,10 +111,11 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
 
     if (!isTrialAvailable) {
       if (period === 'season') {
-        const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (plus applicable taxes) and will be renewed on the next season start date.`;
-        return t(`subscription-desc.period-season`, formattedDescription, {
+        const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) and will be renewed on the next season start date.`;
+        return t(`subscription-desc.period-season`, description, {
           currencySymbol,
-          grossPrice
+          grossPrice,
+          taxCopy
         });
       }
       const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
@@ -215,15 +224,13 @@ const OfferCheckoutCard = ({ isDataLoaded, t }) => {
 };
 
 OfferCheckoutCard.propTypes = {
-  isDataLoaded: PropTypes.bool,
-  t: PropTypes.func
+  isDataLoaded: PropTypes.bool
 };
 
 OfferCheckoutCard.defaultProps = {
-  isDataLoaded: true,
-  t: k => k
+  isDataLoaded: true
 };
 
 export { OfferCheckoutCard as PureOfferCard };
 
-export default withTranslation()(labeling()(OfferCheckoutCard));
+export default OfferCheckoutCard;

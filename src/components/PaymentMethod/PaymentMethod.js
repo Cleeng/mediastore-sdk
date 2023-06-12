@@ -1,21 +1,21 @@
 /* eslint-disable no-nested-ternary */
 import React, { useEffect } from 'react';
-import { withTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as AddIcon } from 'assets/images/add.svg';
-import labeling from 'containers/labeling';
 import MyAccountError from 'components/MyAccountError';
 import PaymentCard from 'components/PaymentCard';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPaymentDetails } from 'redux/paymentDetailsSlice';
-import PropTypes from 'prop-types';
 import { WrapStyled, CardsWrapper, Message } from './PaymentMethodStyled';
 import {
   PAYMENT_DETAILS_STEPS,
   updatePaymentDetailsPopup
 } from '../../redux/popupSlice';
 
-const PaymentMethod = ({ t }) => {
+const PaymentMethod = () => {
   const dispatch = useDispatch();
+
+  const { t } = useTranslation();
 
   const {
     paymentDetails,
@@ -104,12 +104,4 @@ const PaymentMethod = ({ t }) => {
   );
 };
 
-PaymentMethod.propTypes = {
-  t: PropTypes.func
-};
-
-PaymentMethod.defaultProps = {
-  t: k => k
-};
-
-export default withTranslation()(labeling()(PaymentMethod));
+export default PaymentMethod;

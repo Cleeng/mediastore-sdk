@@ -8,7 +8,6 @@ import {
 import Button from 'components/Button';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import labeling from 'containers/labeling';
 import savePublisherId from 'util/publisherIdHelper';
 import { getData } from 'util/appConfigHelper';
 import RegisterForm from './RegisterForm';
@@ -71,4 +70,4 @@ Register.defaultProps = {
 
 export { Register as PureRegister };
 
-export default withTranslation()(labeling()(Register));
+export default withTranslation()(Register);

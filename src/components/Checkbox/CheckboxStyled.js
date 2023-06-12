@@ -39,7 +39,7 @@ export const ConsentDefinitionStyled = styled.div.attrs(props => ({
   }`
 }))`
   position: relative;
-  padding-left: 10px;
+  padding-inline-start: 10px;
   margin-top: 0;
 
   font-weight: 400;

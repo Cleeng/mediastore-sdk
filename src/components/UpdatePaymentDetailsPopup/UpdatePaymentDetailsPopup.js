@@ -402,8 +402,9 @@ const UpdatePaymentDetailsPopup = () => {
         </Button>
       </ButtonWrapperStyled>
       <WarningMessageStyled>
-        Your new details will replace the details used for your other active
-        subscriptions.
+        {t(
+          'Your new details will replace the details used for your other active subscriptions.'
+        )}
       </WarningMessageStyled>
     </InnerPopupWrapper>
   );
