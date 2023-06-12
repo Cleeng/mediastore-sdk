@@ -147,7 +147,7 @@ const OfferCheckoutCard = ({ isDataLoaded }) => {
         : '';
     }
     if (offerType === 'A') {
-      return t('Unlimited access');
+      return t('offer-checkout-card.unlimited-access', 'Unlimited access');
     }
     return '';
   };
