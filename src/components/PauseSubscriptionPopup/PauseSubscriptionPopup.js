@@ -203,7 +203,7 @@ const PauseSubscriptionPopup = ({
                 });
               }}
             >
-              {t('Back')}
+              {t('pausesubscription-popup.details.back', 'Back')}
             </Button>
             <Button theme="confirm" onClickFn={pauseSubscription}>
               {isLoading ? (

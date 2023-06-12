@@ -51,10 +51,12 @@ const EmptyPlanView = () => {
         <IconStyled>
           <NoSubscriptionsIcon />
         </IconStyled>
-        <TitleStyled>{t('No offers yet!')}</TitleStyled>
+        <TitleStyled>
+          {t('currentplan.no-offers-yet', 'No offers yet!')}
+        </TitleStyled>
         <SubTitleStyled>
           {getData('CLEENG_OFFER_SELECTION_URL') ? (
-            <Trans i18nKey="myaccount-nooffers-withlink">
+            <Trans i18nKey="currentplan.no-offers-withlink">
               If you{' '}
               <a
                 href={getData('CLEENG_OFFER_SELECTION_URL')}
@@ -67,6 +69,7 @@ const EmptyPlanView = () => {
             </Trans>
           ) : (
             t(
+              'currentplan.manage-offers',
               'If you choose your plan, you will be able to manage your offers here.'
             )
           )}
@@ -132,10 +135,14 @@ const CurrentPlan = ({
               currency = currencyFormat[subItem.nextPaymentCurrency];
               renewalDate = dateFormat(subItem.expiresAt);
               if (subItem.expiresAt === INFINITE_DATE)
-                renewalDate = t('the next season start');
+                renewalDate = t(
+                  'currentplan.next-season-start',
+                  'the next season start'
+                );
               if (subItem.status === 'active' && !subItem.pendingSwitchId) {
                 if (subItem.period === 'season') {
                   description = `${t(
+                    'currentplan.charge-info',
                     'You will now be charged {{currency}}{{price}} (plus applicable taxes) and will be renewed on {{renewalDate}} at the same price.',
                     {
                       renewalDate,
@@ -145,6 +152,7 @@ const CurrentPlan = ({
                   )}`;
                 } else {
                   description = `${t(
+                    'currentplan.renews-info',
                     'Renews automatically on {{renewalDate}}',
                     {
                       renewalDate
@@ -152,9 +160,13 @@ const CurrentPlan = ({
                   )}`;
                 }
               } else if (subItem.status === 'cancelled') {
-                description = `${t('This plan will expire on {{renewalDate}}', {
-                  renewalDate
-                })}`;
+                description = `${t(
+                  'currentplan.expire-info',
+                  'This plan will expire on {{renewalDate}}',
+                  {
+                    renewalDate
+                  }
+                )}`;
               } else {
                 description = '';
               }
@@ -163,9 +175,10 @@ const CurrentPlan = ({
             case 'P':
               price = subItem.totalPrice;
               currency = subItem.customerCurrency;
-              description = `${t('Expires on')} ${dateFormat(
-                subItem.expiresAt
-              )}`;
+              description = `${t(
+                'currentplan.expires-on',
+                'Expires on'
+              )} ${dateFormat(subItem.expiresAt)}`;
               break;
             default:
               break;

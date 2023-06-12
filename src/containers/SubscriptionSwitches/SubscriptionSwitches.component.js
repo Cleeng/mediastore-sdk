@@ -151,7 +151,9 @@ const SubscriptionSwitches = ({
         />
       ) : (
         <>
-          <SectionHeader>{t('Change Plan')}</SectionHeader>
+          <SectionHeader>
+            {t('subscription-switches.change-plan', 'Change Plan')}
+          </SectionHeader>
           <SubscriptionSwitchesList
             switchSettings={planDetails.switchSettings[offerId]}
             showInnerPopup={showInnerPopup}
