@@ -50,15 +50,22 @@ const OfferCheckoutCard = ({ isDataLoaded }) => {
   const { t } = useTranslation();
 
   const generateTrialDescription = () => {
-    if (period === 'season') {
-      const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (plus applicable taxes) and will be renewed on the next season start date.`;
-      return t(`subscription-desc.period-season`, formattedDescription, {
-        currencySymbol,
-        grossPrice
-      });
+    const taxCopy = country === 'US' ? 'Tax' : 'VAT';
+
+    if (period === 'season' && freeDays) {
+      const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days and will be renewed on the next season start date.`;
+      return t(
+        `subscription-desc.trial-days.period-season`,
+        formattedDescription,
+        {
+          currencySymbol,
+          grossPrice,
+          taxCopy,
+          freeDays
+        }
+      );
     }
 
-    const taxCopy = country === 'US' ? 'Tax' : 'VAT';
     if (freeDays) {
       const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
         period
@@ -104,10 +111,11 @@ const OfferCheckoutCard = ({ isDataLoaded }) => {
 
     if (!isTrialAvailable) {
       if (period === 'season') {
-        const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (plus applicable taxes) and will be renewed on the next season start date.`;
-        return t(`subscription-desc.period-season`, formattedDescription, {
+        const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) and will be renewed on the next season start date.`;
+        return t(`subscription-desc.period-season`, description, {
           currencySymbol,
-          grossPrice
+          grossPrice,
+          taxCopy
         });
       }
       const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
