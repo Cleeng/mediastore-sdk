@@ -140,25 +140,13 @@ const CurrentPlan = ({
                   'the next season start'
                 );
               if (subItem.status === 'active' && !subItem.pendingSwitchId) {
-                if (subItem.period === 'season') {
-                  description = `${t(
-                    'currentplan.charge-info',
-                    'You will now be charged {{currency}}{{price}} (plus applicable taxes) and will be renewed on {{renewalDate}} at the same price.',
-                    {
-                      renewalDate,
-                      price,
-                      currency
-                    }
-                  )}`;
-                } else {
-                  description = `${t(
-                    'currentplan.renews-info',
-                    'Renews automatically on {{renewalDate}}',
-                    {
-                      renewalDate
-                    }
-                  )}`;
-                }
+                description = `${t(
+                  'currentplan.renews-info',
+                  'Renews automatically on {{renewalDate}}',
+                  {
+                    renewalDate
+                  }
+                )}`;
               } else if (subItem.status === 'cancelled') {
                 description = `${t(
                   'currentplan.expire-info',
