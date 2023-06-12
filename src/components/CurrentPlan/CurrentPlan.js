@@ -136,7 +136,7 @@ const CurrentPlan = ({
               if (subItem.status === 'active' && !subItem.pendingSwitchId) {
                 if (subItem.period === 'season') {
                   description = `${t(
-                    'You will now be charged {{currency}}{{price}} (plus applicable taxes) and will be renewed on {{renewalDate}} at the same price.',
+                    'Renews automatically on {{renewalDate}}',
                     {
                       renewalDate,
                       price,
