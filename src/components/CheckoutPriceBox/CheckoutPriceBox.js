@@ -37,13 +37,13 @@ const CheckoutPriceBox = () => {
     <StyledPriceBox>
       <StyledPriceBoxWrapper>
         <StyledPriceWrapper>
-          <StyledLabel>{t('price')}</StyledLabel>
+          <StyledLabel>{t('checkout-price-box.price', 'Price')}</StyledLabel>
           <StyledOfferPrice>
             {`${currencyFormat[currency]}${formatNumber(offerPrice)} `}
             <span>
               {country === 'US'
-                ? t('excl-tax', 'excl. Tax')
-                : t('excl-vat', 'excl. VAT')}
+                ? t('checkout-price-box.excl-tax', 'excl. Tax')
+                : t('checkout-price-box.excl-vat', 'excl. VAT')}
             </span>
           </StyledOfferPrice>
         </StyledPriceWrapper>
@@ -61,8 +61,8 @@ const CheckoutPriceBox = () => {
         <StyledPriceWrapper>
           <StyledLabel>
             {country === 'US'
-              ? t('applicable-tax', 'Applicable Tax')
-              : t('applicable-vat', 'Applicable VAT')}
+              ? t('checkout-price-box.applicable-tax', 'Applicable Tax')
+              : t('checkout-price-box.applicable-vat', 'Applicable VAT')}
           </StyledLabel>
           <StyledOfferPrice>
             {!taxValue && isCouponApplied ? (
@@ -82,7 +82,9 @@ const CheckoutPriceBox = () => {
 
         {customerServiceFee !== 0 && (
           <StyledPriceWrapper>
-            <StyledLabel>{t('service-fee', 'Service Fee')}</StyledLabel>
+            <StyledLabel>
+              {t('checkout-price-box.service-fee', 'Service Fee')}
+            </StyledLabel>
             <StyledOfferPrice>
               {`${currencyFormat[currency]}${formatNumber(customerServiceFee)}`}
             </StyledOfferPrice>
@@ -92,7 +94,7 @@ const CheckoutPriceBox = () => {
         {paymentMethodFee !== 0 && (
           <StyledPriceWrapper>
             <StyledLabel>
-              {t('payment-method-fee', 'Payment Method Fee')}
+              {t('checkout-price-box.payment-method-fee', 'Payment Method Fee')}
             </StyledLabel>
             <StyledOfferPrice>
               {`${currencyFormat[currency]}${formatNumber(paymentMethodFee)}`}
@@ -101,7 +103,9 @@ const CheckoutPriceBox = () => {
         )}
 
         <StyledPriceWrapper>
-          <StyledTotalLabel>{t('total')}</StyledTotalLabel>
+          <StyledTotalLabel>
+            {t('checkout-price-box.total', 'Total')}
+          </StyledTotalLabel>
           <StyledTotalOfferPrice>
             {`${currencyFormat[currency]}${formatNumber(finalPrice)}`}
           </StyledTotalOfferPrice>
