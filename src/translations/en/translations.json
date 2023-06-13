@@ -32,6 +32,14 @@
   "cancelswitch-popup.title": "Cancel switch",
   "card": "card",
   "Card number": "Card number",
+  "checkout-price-box.applicable-tax": "Applicable Tax",
+  "checkout-price-box.applicable-vat": "Applicable VAT",
+  "checkout-price-box.excl-tax": "excl. Tax",
+  "checkout-price-box.excl-vat": "excl. VAT",
+  "checkout-price-box.payment-method-fee": "Payment Method Fee",
+  "checkout-price-box.price": "Price",
+  "checkout-price-box.service-fee": "Service Fee",
+  "checkout-price-box.total": "Total",
   "City": "City",
   "City is required": "City is required",
   "Company": "Company",
@@ -435,14 +443,5 @@
   "Your payment details have been updated": "Your payment details have been updated",
   "Your profile details have been changed successfully": "Your profile details have been changed successfully",
   "Your purchase has been successfully completed.": "Your purchase has been successfully completed.",
-  "ZIP/Postal code": "ZIP/Postal code",
-
-  "checkout-price-box.excl-tax": "excl. Tax",
-  "checkout-price-box.excl-vat": "excl. VAT",
-  "checkout-price-box.applicable-tax": "Applicable Tax",
-  "checkout-price-box.applicable-vat": "Applicable VAT",
-  "checkout-price-box.price": "Price",
-  "checkout-price-box.service-fee": "Service Fee",
-  "checkout-price-box.payment-method-fee": "Payment Method Fee",
-  "checkout-price-box.total": "Total"
+  "ZIP/Postal code": "ZIP/Postal code"
 }
