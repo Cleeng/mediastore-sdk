@@ -34,7 +34,7 @@ const errorTypes = {
     icon: DeleteCreditCard,
     description:
       'We are sorry! The content you are trying to access is not available in your country.',
-    translationKey: 'offer-error.country-not-available'
+    translationKey: 'offer-error.geo-restrictions'
   },
   inactive: {
     icon: Close,

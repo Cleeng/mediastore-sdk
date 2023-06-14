@@ -103,7 +103,10 @@ const Payment = ({ onPaymentComplete }) => {
     );
     if (response.errors.length) {
       setGeneralError(
-        t('payment.error.cannot-fetch', 'Cannot fetch payment methods')
+        t(
+          'payment.error.cannot-fetch-payment-methods',
+          'Cannot fetch payment methods'
+        )
       );
       return;
     }
@@ -113,7 +116,10 @@ const Payment = ({ onPaymentComplete }) => {
 
     if (!validMethodsFromResponse?.length) {
       setGeneralError(
-        t('payment.error.not-defined', 'Payment methods are not defined')
+        t(
+          'payment.error.payment-methods-not-defined',
+          'Payment methods are not defined'
+        )
       );
     }
   };
@@ -130,7 +136,7 @@ const Payment = ({ onPaymentComplete }) => {
     if (search?.includes('message')) {
       setGeneralError(
         t(
-          'payment.error.not-processed',
+          'payment.error.paypal-not-processed',
           'Your payment was not processed. Please, try again'
         )
       );
@@ -151,7 +157,10 @@ const Payment = ({ onPaymentComplete }) => {
     } else {
       setIsLoading(false);
       setGeneralError(
-        t('payment.error.failed', 'The payment failed. Please try again.')
+        t(
+          'payment.error.paypal-failed',
+          'The payment failed. Please try again.'
+        )
       );
     }
   };
@@ -187,11 +196,11 @@ const Payment = ({ onPaymentComplete }) => {
       setGeneralError(
         notSupportedMethod
           ? t(
-              'payment.error.not-supported',
+              'payment.error.payment-method-not-supported',
               'Payment method not supported. Try different payment method'
             )
           : t(
-              'payment.error.not-processed2',
+              'payment.error.payment-not-processed',
               'The payment has not been processed. Please, try again with a different payment method.'
             )
       );
@@ -276,7 +285,10 @@ const Payment = ({ onPaymentComplete }) => {
           <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
         ) : (
           <PaymentErrorStyled>
-            {t('payment.error.not-available', 'Payment methods not available')}
+            {t(
+              'payment.error.payment-methods-not-available',
+              'Payment methods not available'
+            )}
           </PaymentErrorStyled>
         )}
       </PaymentStyled>

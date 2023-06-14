@@ -50,7 +50,9 @@ const CheckoutPriceBox = () => {
 
         {isCouponApplied && (
           <StyledPriceWrapper>
-            <StyledLabel>{t('coupon.discount', 'Coupon Discount')}</StyledLabel>
+            <StyledLabel>
+              {t('checkout-price-box.coupon-discount', 'Coupon Discount')}
+            </StyledLabel>
             <StyledOfferPrice>
               - {currencyFormat[currency]}
               {formatNumber(discountAmount)}
