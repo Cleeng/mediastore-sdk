@@ -19,7 +19,6 @@ import {
   TitleStyled,
   DescriptionStyled,
   PriceWrapperStyled,
-  TrialBadgeStyled,
   SubBoxStyled,
   BoxTextStyled,
   SubBoxButtonStyled,
@@ -33,7 +32,6 @@ const OfferCard = ({
   description,
   currency,
   price,
-  isTrialAvailable,
   showInfoBox,
   isDataLoaded,
   paymentMethod,
@@ -204,11 +202,6 @@ const OfferCard = ({
         {!isPriceBoxHidden && (
           <PriceWrapperStyled>
             <SkeletonWrapper showChildren={isDataLoaded} width={80} height={30}>
-              {isTrialAvailable && (
-                <TrialBadgeStyled>
-                  {t('offer-card.trial-period', 'trial period')}
-                </TrialBadgeStyled>
-              )}
               {((isMyAccount && offerType === 'S') || !isMyAccount) && (
                 <Price
                   currency={currency}
@@ -286,7 +279,6 @@ OfferCard.propTypes = {
   description: PropTypes.string,
   currency: PropTypes.string,
   price: PropTypes.number,
-  isTrialAvailable: PropTypes.bool,
   showInfoBox: PropTypes.string,
   isDataLoaded: PropTypes.bool,
   paymentMethod: PropTypes.string,
@@ -306,7 +298,6 @@ OfferCard.defaultProps = {
   description: '',
   currency: '',
   price: null,
-  isTrialAvailable: false,
   showInfoBox: null,
   isDataLoaded: true,
   paymentMethod: '',

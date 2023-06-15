@@ -28,7 +28,7 @@ const errorTypes = {
     icon: Lock,
     description:
       'Good news! Your account already gives you access to the content that comes with this plan.',
-    translationKey: 'offer-error.access-granted2'
+    translationKey: 'offer-error.access-granted'
   },
   cannotPurchase: {
     icon: DeleteCreditCard,

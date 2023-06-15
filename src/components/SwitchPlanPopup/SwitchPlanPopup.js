@@ -136,7 +136,10 @@ const SwitchPlanPopup = ({
               <SubscriptionIconStyled period={toOffer.period} showLabel="New" />
             </ImageWrapper>
             <TitleStyled step={step} textTransform="capitalize">
-              {t(toOffer.switchDirection)}
+              {t(
+                `switchplan-popup.${toOffer.switchDirection}-title`,
+                toOffer.switchDirection
+              )}
             </TitleStyled>
             <TextStyled step={step}>
               <Trans i18nKey="switchplan-popup-info">

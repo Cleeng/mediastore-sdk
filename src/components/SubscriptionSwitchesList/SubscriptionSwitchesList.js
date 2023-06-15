@@ -173,7 +173,10 @@ const SubscriptionSwitchesList = ({
                     });
                   }}
                 >
-                  {t(subItem.switchDirection)}
+                  {t(
+                    `subscription-switches-list.${subItem.switchDirection}-button`,
+                    subItem.switchDirection
+                  )}
                 </SimpleButtonStyled>
               </ButtonWrapperStyled>
             </SubscriptionStyled>
@@ -199,7 +202,10 @@ const SubscriptionSwitchesList = ({
               />
               <ButtonWrapperStyled>
                 <SimpleButtonStyled disabled>
-                  {t(subItem.switchDirection)}
+                  {t(
+                    `subscription-switches-list.${subItem.switchDirection}-button`,
+                    subItem.switchDirection
+                  )}
                 </SimpleButtonStyled>
               </ButtonWrapperStyled>
             </SubscriptionStyled>
