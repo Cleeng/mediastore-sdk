@@ -119,13 +119,14 @@ class CouponInput extends Component {
 
   render() {
     const {
-      couponDetails: { message, messageType, showMessage },
+      couponDetails: { message, translationKey = '', messageType, showMessage },
       fullWidth,
       value,
       onChange,
       couponLoading,
       t
     } = this.props;
+
     const { suppressMessage, isOpened } = this.state;
 
     return (
@@ -179,7 +180,7 @@ class CouponInput extends Component {
             showMessage={showMessage && !suppressMessage}
             messageType={messageType}
           >
-            {t(message)}
+            {t(translationKey, message)}
           </MessageStyled>
         )}
       </InputComponentStyled>
@@ -192,6 +193,7 @@ CouponInput.propTypes = {
   fullWidth: PropTypes.bool,
   couponDetails: PropTypes.shape({
     showMessage: PropTypes.bool,
+    translationKey: PropTypes.string,
     message: PropTypes.node,
     messageType: PropTypes.oneOf([MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS])
   }),
