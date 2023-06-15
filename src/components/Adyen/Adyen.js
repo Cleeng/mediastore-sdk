@@ -8,6 +8,7 @@ import useScript from 'util/useScriptHook';
 import {
   getAvailablePaymentMethods,
   bankPaymentMethods,
+  standardPaymentMethods,
   bankPaymentMethodsMapper,
   STANDARD_PAYMENT_METHODS,
   BANK_PAYMENT_METHODS
@@ -95,7 +96,26 @@ const Adyen = ({
     );
   };
 
-  const addAdditionalCopyForBankPaymentMethods = methodName => {
+  const getStandardCopy = () => {
+    // copy needed for: checkout - subs, checkout - not subs, myaccount
+    if (isMyAccount) {
+      return t(
+        'offer-standard-consent-copy.my-account',
+        `This payment method will be used for all recurring payments. I agree to the full Terms of Service
+        `
+      );
+    }
+
+    return t(
+      'offer-standard-consent-copy.checkout-subscription',
+      "After any free trial and/or promotional period, you will be charged $4.99/month or then-current price plus applicable taxes on a recurring basis. If you do not cancel the service during its free trial period, you will be charged. Your subscription will automatically continue until you cancel. To cancel, log into your NFL.com account and click 'Manage Subscription'. By clicking 'Complete Purchase' above, I expressly acknowledge and agree to the above terms as well as the full Terms of Service."
+    );
+  };
+
+  const addAdditionalCopyForBankPaymentMethods = (
+    methodName,
+    type = 'standard'
+  ) => {
     const parentEl = document.querySelector(
       `.adyen-checkout__payment-method--${methodName}`
     );
@@ -112,14 +132,12 @@ const Adyen = ({
           setIsChecked(!e.target.checked);
         }}
       >
-        {getBankCopy()}
+        {type === 'bank' ? getBankCopy() : getStandardCopy()}
       </Checkbox>
     );
 
     if (parentEl) {
-      const details = parentEl.querySelector(
-        '.adyen-checkout__payment-method__details'
-      );
+      // const details = parentEl.querySelector('.adyen-checkout__payment-method');
 
       const doesCheckboxExist = document.querySelector(
         `.checkbox-${methodName}`
@@ -130,7 +148,7 @@ const Adyen = ({
         wrapper.classList.add('checkbox-wrapper');
 
         render(checkbox, wrapper);
-        details.before(wrapper);
+        parentEl.appendChild(wrapper);
       }
     }
   };
@@ -138,6 +156,11 @@ const Adyen = ({
   const showAdditionalText = () => {
     if (bankPaymentMethodsRef?.current) {
       bankPaymentMethods.forEach(method =>
+        addAdditionalCopyForBankPaymentMethods(method, 'bank')
+      );
+    }
+    if (standardPaymentMethodsRef?.current) {
+      standardPaymentMethods.forEach(method =>
         addAdditionalCopyForBankPaymentMethods(method)
       );
     }
@@ -226,9 +249,14 @@ const Adyen = ({
             paymentMethod: { type: methodName }
           }
         } = state;
-
-        if (bankPaymentMethods.includes(methodName)) {
-          const checkbox = document.querySelector(`.checkbox-${methodName}`);
+        console.log({ methodName });
+        if (
+          bankPaymentMethods.includes(methodName) ||
+          standardPaymentMethods.includes(methodName)
+        ) {
+          const checkbox = document.querySelector(
+            `.checkbox-${methodName === 'scheme' ? 'card' : methodName}`
+          );
 
           if (!checkbox.checked) {
             checkbox.classList.add('adyen-checkout__bank-checkbox--error');

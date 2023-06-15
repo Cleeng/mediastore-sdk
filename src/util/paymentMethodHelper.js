@@ -25,6 +25,15 @@ export const bankPaymentMethods = [
   'bcmc_mobile' // Bancontact Mobile name in Adyen
 ];
 
+export const standardPaymentMethods = [
+  'card',
+  'scheme',
+  'appleypay',
+  'googlepay',
+  'bancontact_card',
+  'bcmc'
+];
+
 export const bankPaymentMethodsMapper = {
   bcmc_mobile: 'bancontact_mobile',
   directEbanking: 'sofort',
