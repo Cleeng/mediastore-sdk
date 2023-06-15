@@ -107,11 +107,11 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList }) => {
         <ContentStyled>
           <img src={checkmarkIcon} alt="checkmark icon" />
           <TitleStyled>
-            {t('resubscribe-popup.plan-renewed', 'Your plan has been renewed')}
+            {t('resubscribe-popup.success.title', 'Your plan has been renewed')}
           </TitleStyled>
           <TextStyled>
             {t(
-              'resubscribe-popup.resubscribed',
+              'resubscribe-popup.success.description',
               'You have been successfully resubscribed. Your fee will be'
             )}{' '}
             <b>{`${currencySymbol}${nextPaymentPrice}`}</b>{' '}
@@ -134,7 +134,7 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList }) => {
               updateList();
             }}
           >
-            {t('resubscribe-popup.back-to-my-account', 'Back to My Account')}
+            {t('resubscribe-popup.back-button', 'Back to My Account')}
           </Button>
         </ContentStyled>
       )}

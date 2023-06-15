@@ -43,7 +43,10 @@ const PaymentMethod = () => {
       default:
         return (
           <Message>
-            {t('paymentmethod.managed-by', 'Managed by external service')}
+            {t(
+              'paymentmethod.managed-by-external-service',
+              'Managed by external service'
+            )}
           </Message>
         );
     }
@@ -87,9 +90,12 @@ const PaymentMethod = () => {
         {!activeItems && (
           <MyAccountError
             icon={AddIcon}
-            title={t('paymentmethod.title', 'Add a payment method!')}
+            title={t(
+              'paymentmethod.no-active-method.title',
+              'Add a payment method!'
+            )}
             subtitle={t(
-              'paymentmethod.subtitle',
+              'paymentmethod.no-active-method.subtitle',
               'Set up a new payment method for your account'
             )}
             withBorder

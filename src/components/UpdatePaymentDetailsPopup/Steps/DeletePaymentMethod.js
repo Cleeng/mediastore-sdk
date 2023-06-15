@@ -108,13 +108,13 @@ const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
         <Button theme="simple" onClickFn={() => cancelDeleteAction()}>
-          {t('delete-payment-method.no-thanks', 'No, thanks')}
+          {t('delete-payment-method.resign-button', 'No, thanks')}
         </Button>
         <Button theme="danger" onClickFn={deletePaymentMethod}>
           {isButtonLoading ? (
             <Loader buttonLoader color="#ffffff" />
           ) : (
-            t('delete-payment-method.remove', 'Remove')
+            t('delete-payment-method.confirm-button', 'Remove')
           )}
         </Button>
       </ButtonWrapperStyled>

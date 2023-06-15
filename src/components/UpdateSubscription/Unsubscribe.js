@@ -8,7 +8,12 @@ import { useSelector } from 'react-redux';
 import store from 'redux/store';
 
 import updateSubscription from 'api/Customer/updateSubscription';
-import { dateFormat, periodMapper, INFINITE_DATE, currencyFormat } from 'util/planHelper';
+import {
+  dateFormat,
+  periodMapper,
+  INFINITE_DATE,
+  currencyFormat
+} from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 
 import Button from 'components/Button';
@@ -271,7 +276,7 @@ const Unsubscribe = ({
           </TextStyled>
           <ButtonWrapperStyled removeMargin>
             <Button theme="simple" onClickFn={hideInnerPopup}>
-              {t('unsubscribe-popup.back-to-my-account', 'Back to My Account')}
+              {t('unsubscribe-popup.back-button', 'Back to My Account')}
             </Button>
             <Button
               theme="primary"
@@ -323,7 +328,9 @@ const Unsubscribe = ({
                     }
                     offerType="S"
                     title={downgradeOffer.title}
-                    currency={currencyFormat[downgradeOffer.nextPaymentPriceCurrency]}
+                    currency={
+                      currencyFormat[downgradeOffer.nextPaymentPriceCurrency]
+                    }
                     price={
                       Math.round(downgradeOffer.nextPaymentPrice * 100) / 100
                     }
@@ -341,7 +348,7 @@ const Unsubscribe = ({
           </TextStyled>
           <ButtonWrapperStyled removeMargin>
             <Button theme="simple" onClickFn={hideInnerPopup}>
-              {t('unsubscribe-popup.back-to-my-account', 'Back to My Account')}
+              {t('unsubscribe-popup.back-button', 'Back to My Account')}
             </Button>
             <Button
               theme="confirm"
@@ -449,11 +456,11 @@ const Unsubscribe = ({
         <ContentStyled>
           <img src={checkmarkIcon} alt="checkmark icon" />
           <TitleStyled>
-            {t('unsubscribe-popup.confirmation.miss-you', 'Miss you already.')}
+            {t('unsubscribe-popup.success.title', 'Miss you already.')}
           </TitleStyled>
           <TextStyled>
             {t(
-              'unsubscribe-popup.confirmation.unsubscribed',
+              'unsubscribe-popup.success.description',
               'You have been successfully unsubscribed. Your current plan will expire on'
             )}{' '}
             <b>
@@ -474,7 +481,7 @@ const Unsubscribe = ({
               updateList();
             }}
           >
-            {t('unsubscribe-popup.back-to-my-account', 'Back to My Account')}
+            {t('unsubscribe-popup.back-button', 'Back to My Account')}
           </Button>
         </ContentStyled>
       )}

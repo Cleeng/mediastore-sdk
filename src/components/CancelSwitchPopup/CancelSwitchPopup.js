@@ -149,13 +149,13 @@ const CancelSwitchPopup = ({
                 hideInnerPopup();
               }}
             >
-              {t('cancelswitch-popup.no-thanks', 'No, thanks')}
+              {t('cancelswitch-popup.resign', 'No, thanks')}
             </Button>
             <Button theme="danger" onClickFn={cancelSwitch}>
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t('cancelswitch-popup.title', 'Cancel switch')
+                t('cancelswitch-popup.confirm-button-text', 'Cancel switch')
               )}
             </Button>
           </ButtonWrapperStyled>
@@ -198,7 +198,7 @@ const CancelSwitchPopup = ({
                 hideInnerPopup();
               }}
             >
-              {t('cancelswitch-popup.back-to-my-account', 'Back to My Account')}
+              {t('cancelswitch-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>

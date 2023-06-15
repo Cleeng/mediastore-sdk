@@ -130,10 +130,7 @@ const PauseSubscriptionPopup = ({
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button theme="confirm" onClickFn={closePopupAndRefresh}>
-              {t(
-                'pausesubscription-popup.back-to-my-account',
-                'Back to My Account'
-              )}
+              {t('pausesubscription-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>
@@ -240,10 +237,7 @@ const PauseSubscriptionPopup = ({
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button theme="confirm" onClickFn={closePopupAndRefresh}>
-              {t(
-                'pausesubscription-popup.back-to-my-account',
-                'Back to My Account'
-              )}
+              {t('pausesubscription-popup.resign-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>

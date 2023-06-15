@@ -52,11 +52,11 @@ const EmptyPlanView = () => {
           <NoSubscriptionsIcon />
         </IconStyled>
         <TitleStyled>
-          {t('currentplan.no-offers-yet', 'No offers yet!')}
+          {t('currentplan.no-offers-title', 'No offers yet!')}
         </TitleStyled>
         <SubTitleStyled>
           {getData('CLEENG_OFFER_SELECTION_URL') ? (
-            <Trans i18nKey="currentplan.no-offers-withlink">
+            <Trans i18nKey="currentplan.no-offers-text-withlink">
               If you{' '}
               <a
                 href={getData('CLEENG_OFFER_SELECTION_URL')}
@@ -69,7 +69,7 @@ const EmptyPlanView = () => {
             </Trans>
           ) : (
             t(
-              'currentplan.manage-offers',
+              'currentplan.no-offers-text',
               'If you choose your plan, you will be able to manage your offers here.'
             )
           )}
@@ -141,7 +141,7 @@ const CurrentPlan = ({
                 );
               if (subItem.status === 'active' && !subItem.pendingSwitchId) {
                 description = `${t(
-                  'currentplan.renews-info',
+                  'currentplan.subscription.renews-info',
                   'Renews automatically on {{renewalDate}}',
                   {
                     renewalDate
@@ -149,7 +149,7 @@ const CurrentPlan = ({
                 )}`;
               } else if (subItem.status === 'cancelled') {
                 description = `${t(
-                  'currentplan.expire-info',
+                  'currentplan.subscription.expire-info',
                   'This plan will expire on {{renewalDate}}',
                   {
                     renewalDate
@@ -164,7 +164,7 @@ const CurrentPlan = ({
               price = subItem.totalPrice;
               currency = currencyFormat[subItem.customerCurrency];
               description = `${t(
-                'currentplan.expires-on',
+                'currentplan.pass.expires-on',
                 'Expires on'
               )} ${dateFormat(subItem.expiresAt)}`;
 

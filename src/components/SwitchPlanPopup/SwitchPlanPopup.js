@@ -427,13 +427,13 @@ const SwitchPlanPopup = ({
                 }
               }}
             >
-              {t('switchplan-popup.keep-current-plan', 'Keep Current Plan')}
+              {t('switchplan-popup.resign-button', 'Keep Current Plan')}
             </Button>
             <Button theme="confirm" onClickFn={changePlan}>
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t('switchplan-popup.change-plan', 'Change Plan')
+                t('switchplan-popup.confirm-button', 'Change Plan')
               )}
             </Button>
           </ButtonWrapperStyled>
@@ -446,7 +446,7 @@ const SwitchPlanPopup = ({
               <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
             </ImageWrapper>
             <TitleStyled step={step}>
-              {t('switchplan-popup.thank-you', 'Thank You!')}
+              {t('switchplan-popup.success.header', 'Thank You!')}
             </TitleStyled>
             <TextStyled step={step}>
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
@@ -685,7 +685,7 @@ const SwitchPlanPopup = ({
               theme="confirm"
               onClickFn={onSwitchSuccess || closePopupAndRefresh}
             >
-              {t('switchplan-popup.back-to-my-account', 'Back to My Account')}
+              {t('switchplan-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>
@@ -714,7 +714,7 @@ const SwitchPlanPopup = ({
               theme="confirm"
               onClickFn={onSwitchError || closePopupAndRefresh}
             >
-              {t('switchplan-popup.back-to-my-account', 'Back to My Account')}
+              {t('switchplan-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>

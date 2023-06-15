@@ -101,9 +101,12 @@ const Transactions = () => {
       <WrapStyled>
         <MyAccountError
           icon={noTransactionsIcon}
-          title={t('transactions.title', 'No transactions found!')}
+          title={t(
+            'transactions.no-transactions.title',
+            'No transactions found!'
+          )}
           subtitle={t(
-            'transactions.subtitle',
+            'transactions.no-transactions.subtitle',
             'The section will show you recent transactions history after first payment'
           )}
         />

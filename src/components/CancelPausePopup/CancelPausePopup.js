@@ -110,7 +110,7 @@ const CancelPausePopup = ({
                 hideInnerPopup();
               }}
             >
-              {t('cancelpause-popup.no-thanks', 'No, thanks')}
+              {t('cancelpause-popup.resign', 'No, thanks')}
             </Button>
             <Button theme="danger" onClickFn={cancelPause}>
               {isLoading ? (
@@ -150,7 +150,7 @@ const CancelPausePopup = ({
                 hideInnerPopup();
               }}
             >
-              {t('cancelpause-popup.back-to-my-account', 'Back to My Account')}
+              {t('cancelpause-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>

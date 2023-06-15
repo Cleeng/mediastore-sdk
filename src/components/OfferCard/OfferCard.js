@@ -85,7 +85,7 @@ const OfferCard = ({
         case 'IMMEDIATE_AND_CHARGE_WITH_REFUND':
         case 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION':
           return t(
-            'offer-card.switch-details.immediate-and-charge',
+            'offer-card.switch-details.immediate-and-charge-with-refund-or-without-proration',
             `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{translatedSwitchTitle}}. You can cancel anytime.`,
             { translatedSwitchTitle }
           );
@@ -125,7 +125,7 @@ const OfferCard = ({
   const mapCode = {
     TO_OFFER_COUNTRY_NOT_ALLOWED: {
       text: t(
-        'offer-card.error.plan-unavailable',
+        'offer-card.error.geo-restriction',
         `This plan is <strong>currently unavailable</strong> in your country or region`
       ),
       icon: BlockedIcon
@@ -139,14 +139,14 @@ const OfferCard = ({
     },
     TO_FREE_OFFER_NOT_ALLOWED: {
       text: t(
-        'offer-card.error.switch-not-possible',
+        'offer-card.error.to-free-offer',
         'Switching from a paid to a free offer is not possible'
       ),
       icon: BlockedIcon
     },
     SUBSCRIPTION_WITH_COUPON_NOT_ALLOWED: {
       text: t(
-        'offer-card.error.change-with-coupon-not-allowed',
+        'offer-card.error.coupon-applied',
         "You can't change your subscription if a coupon was applied. To change plan, please cancel your current subscription and purchase a new one."
       ),
       icon: BlockedIcon
