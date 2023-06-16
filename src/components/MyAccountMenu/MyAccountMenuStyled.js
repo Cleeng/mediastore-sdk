@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
+import { isRTL } from 'styles/RTLHelper';
 import { MyAccountTextGray, FontColor, ConfirmColor } from 'styles/variables';
 
 export const WrapStyled = styled.nav`
@@ -66,6 +67,7 @@ export const ItemIconWrapStyled = styled.div.attrs(() => ({
     display: flex;
     border: 0;
     height: 50px;
+    width: 30px;
   `}
 `;
 
@@ -91,11 +93,16 @@ export const ItemLabelStyled = styled.div.attrs(() => ({
     transform: scaleX(0);
     transition: transform 250ms ease-in-out;
     transform-origin: 0% 50%;
+
+    ${isRTL() &&
+      css`
+        transform-origin: 100% 50%;
+      `}
   }
 
   ${mediaFrom.small`
-    margin: auto auto auto 20px;
-   font-size: 15px;
+    margin: auto 20px auto 20px;
+    font-size: 15px;
   `}
 `;
 

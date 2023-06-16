@@ -1,7 +1,6 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'redux/store';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
 import CouponInput from 'components/CouponInput';
 import Payment from 'components/Payment';
 import Header from 'components/Header';
@@ -21,7 +20,8 @@ import {
 import OfferCheckoutCard from '../OfferCheckoutCard';
 import { OfferProps } from './Offer.types';
 
-const Offer = ({ onCouponSubmit, onPaymentComplete, t }: OfferProps) => {
+const Offer = ({ onCouponSubmit, onPaymentComplete,}: OfferProps) => {
+  const { t } = useTranslation();
   const [coupon, setCoupon] = useState('');
   const { trialAvailable } = useAppSelector(selectOnlyOffer);
   const { isCouponLoading, couponDetails } = useAppSelector(selectOrder);
@@ -48,7 +48,7 @@ const Offer = ({ onCouponSubmit, onPaymentComplete, t }: OfferProps) => {
       <Header />
       <main>
         <StyledOfferBody>
-          <SectionHeader center>{t('Complete your purchase')}</SectionHeader>
+          <SectionHeader center> {t('offer.complete-purchase', 'Complete your purchase')}</SectionHeader>
           <StyledOfferDetailsAndCoupon>
             <OfferCardWrapperStyled>
               <OfferCheckoutCard />
@@ -73,6 +73,4 @@ const Offer = ({ onCouponSubmit, onPaymentComplete, t }: OfferProps) => {
   );
 };
 
-export { Offer as PureOffer };
-
-export default withTranslation()(labeling()(Offer));
+export default Offer;

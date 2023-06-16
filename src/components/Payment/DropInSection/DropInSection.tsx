@@ -25,10 +25,17 @@ const DropInSection = ({
     paypal: PayPalIcon
   };
   const LogoComponent = logo === 'paypal' ? mapImage[logo] : null;
+
+  const handleOnClick = () => {
+    if (!fadeOutSection && selectedPaymentMethod?.methodName !== 'paypal') {
+      selectPaymentMethod('paypal');
+    }
+  };
+
   return (
     <WrapperStyled
       isSelected={isSelected}
-      onClick={() => !fadeOutSection && selectPaymentMethod('paypal')}
+      onClick={handleOnClick}
       fadeOutSection={fadeOutSection}
     >
       <TextStyled>

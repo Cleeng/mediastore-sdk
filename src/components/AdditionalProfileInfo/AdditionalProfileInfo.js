@@ -20,7 +20,7 @@ import {
 } from './AdditionalProfileInfoStyled';
 
 const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
-  const [t] = useTranslation();
+  const { t } = useTranslation();
   const [isSectionDisabled, setIsSectionDisabled] = useState(true);
   const [isPending, setIsPending] = useState(false);
   const [customSettings, setCustomSettings] = useState(null);

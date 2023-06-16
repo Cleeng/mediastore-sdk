@@ -4,9 +4,8 @@ import Button from 'components/Button';
 import { currencyFormat } from 'util/planHelper';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { withTranslation } from 'react-i18next';
 import { setOfferToSwitch, updateList } from 'redux/planDetailsSlice';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import { applyCoupon } from 'api';
 import CouponInput from 'components/CouponInput';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
@@ -23,7 +22,7 @@ import {
   CouponWrapStyled
 } from './SubscriptionManagementStyled';
 
-const SubscriptionManagement = ({ subscription, showMessageBox, t }) => {
+const SubscriptionManagement = ({ subscription, showMessageBox }) => {
   const { pauseOffersIDs } = useSelector(store => store.offers);
   const { data: switchSettings } = useSelector(
     store => store.plan.switchSettings
@@ -37,6 +36,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox, t }) => {
   const isPaused = pauseOffersIDs.includes(subscription.offerId);
 
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   const submitCoupon = subscriptionId => {
     if (couponValue) {
@@ -50,7 +50,10 @@ const SubscriptionManagement = ({ subscription, showMessageBox, t }) => {
               dispatch(updateList());
               showMessageBox(
                 'success',
-                t('Your Coupon has been successfully reedemed.'),
+                t(
+                  'subscription-management.coupon-redeemed',
+                  'Your Coupon has been successfully reedemed.'
+                ),
                 subscriptionId
               );
               window.dispatchEvent(
@@ -64,9 +67,15 @@ const SubscriptionManagement = ({ subscription, showMessageBox, t }) => {
               break;
             case 422:
               if (resp.errors.some(e => e.includes('not found')))
-                setErrorMsg('Invalid coupon code.');
+                setErrorMsg(
+                  'subscription-management.invalid-coupon',
+                  'Invalid coupon code.'
+                );
               if (resp.errors.some(e => e.includes('already')))
-                setErrorMsg('Coupon already used');
+                setErrorMsg(
+                  'subscription-management.coupon-already-used',
+                  'Coupon already used'
+                );
               setIsError(true);
               setIsLoading(false);
               window.dispatchEvent(
@@ -79,7 +88,10 @@ const SubscriptionManagement = ({ subscription, showMessageBox, t }) => {
               );
               break;
             default:
-              setErrorMsg('Invalid coupon code.');
+              setErrorMsg(
+                'subscription-management.invalid-coupon',
+                'Invalid coupon code.'
+              );
               setIsError(true);
               setIsLoading(false);
               break;
@@ -94,12 +106,17 @@ const SubscriptionManagement = ({ subscription, showMessageBox, t }) => {
               }
             })
           );
-          setErrorMsg('Ooops. Something went wrong.');
+          setErrorMsg(
+            t('oops-something-went-wrong', 'Oops! Something went wrong.')
+          );
           setIsError(true);
           setIsLoading(false);
         });
     } else {
-      setErrorMsg('Please enter coupon code.');
+      setErrorMsg(
+        'subscription-management.enter-coupon',
+        'Please enter coupon code.'
+      );
       setIsError(true);
     }
   };
@@ -114,7 +131,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox, t }) => {
       <ManageButtonWrapStyled>
         <Button theme="simple" width="unset" onClickFn={e => toggle(e)}>
           <ButtonTextStyled isExpanded={isOptionsVisible}>
-            {t('Manage')}
+            {t('subscription-management.manage-button', 'Manage')}
           </ButtonTextStyled>
         </Button>
       </ManageButtonWrapStyled>
@@ -146,7 +163,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox, t }) => {
                 );
               }}
             >
-              {t('Unsubscribe')}
+              {t('subscription-management.unsubscribe-button', 'Unsubscribe')}
             </SimpleButtonStyled>
           )}
           {subscription.status === 'cancelled' && !isCouponInputOpened && (
@@ -177,7 +194,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox, t }) => {
                 );
               }}
             >
-              {t('Resume')}
+              {t('subscription-management.resume-button', 'Resume')}
             </FullWidthButtonStyled>
           )}
           {subscription.status !== 'cancelled' && !isPaused && (
@@ -218,7 +235,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox, t }) => {
               }}
             >
               {t(
-                'subscription-management.resume-button',
+                'subscription-management.resume-subscription-button',
                 'Resume subscription'
               )}
             </SimpleButtonStyled>
@@ -232,15 +249,13 @@ const SubscriptionManagement = ({ subscription, showMessageBox, t }) => {
 SubscriptionManagement.propTypes = {
   subscription: PropTypes.objectOf(PropTypes.any),
   showMessageBox: PropTypes.func,
-  t: PropTypes.func
 };
 
 SubscriptionManagement.defaultProps = {
   subscription: {},
   showMessageBox: () => {},
-  t: k => k
 };
 
 export { SubscriptionManagement as PureSubscriptionManagement };
 
-export default withTranslation()(labeling()(SubscriptionManagement));
+export default SubscriptionManagement;

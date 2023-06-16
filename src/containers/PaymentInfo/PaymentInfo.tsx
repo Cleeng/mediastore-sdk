@@ -1,6 +1,6 @@
+/* eslint-disable react/forbid-prop-types */
 import { useEffect } from 'react';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import PaymentMethod from 'components/PaymentMethod';
 import SectionHeader from 'components/SectionHeader';
 import Transactions from 'components/Transactions';
@@ -21,12 +21,14 @@ import { PaymentInfoProps } from './PaymentInfo.types';
 
 const PaymentInfo = ({
   adyenConfiguration: adyenConfigurationProp,
-  t,
   displayGracePeriodError
 }: PaymentInfoProps) => {
   const dispatch = useAppDispatch();
 
   const adyenConfigurationStore = useAppSelector(selectAdyenConfiguration);
+  
+  const { t } = useTranslation();
+
 
   const paymentDetailsPopup = useAppSelector(selectPaymentDetailsPopup);
 
@@ -57,9 +59,17 @@ const PaymentInfo = ({
         </div>
       ) : (
         <>
-          <SectionHeader>{t('Current payment method')}</SectionHeader>
+          <SectionHeader>
+            <>
+              {t('paymentinfo.current-payment-method', 'Current payment method')}
+            </>
+          </SectionHeader>
           <PaymentMethod />
-          <SectionHeader marginTop="25px">{t('Payment history')}</SectionHeader>
+          <SectionHeader marginTop="25px">
+            <>
+              {t('paymentinfo.payment-history', 'Payment history')}
+            </>
+          </SectionHeader>
           <Transactions />
         </>
       )}
@@ -67,6 +77,4 @@ const PaymentInfo = ({
   );
 };
 
-export default withTranslation()(
-  labeling()(withAddPaymentDetailsFinalizationHandler(PaymentInfo))
-);
+export default withAddPaymentDetailsFinalizationHandler(PaymentInfo);

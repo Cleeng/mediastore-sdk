@@ -1,4 +1,5 @@
 import store from 'redux/store';
+import i18n from 'i18next';
 import {
   setData as setDataInRedux,
   removeData as removeDataFromRedux
@@ -40,14 +41,6 @@ export const removeData = name =>
   isLocalStorageAvailable()
     ? localStorage.removeItem(name)
     : store.dispatch(removeDataFromRedux({ name }));
-
-export const sendMessage = msg => {
-  if (window.opener) {
-    window.opener.postMessage(msg, '*');
-  } else if (window.top) {
-    window.top.postMessage(msg, '*');
-  }
-};
 
 export const setJWT = jwt => {
   if (jwt) {
@@ -170,6 +163,25 @@ export const setHidePayPal = () => {
   return true;
 };
 
+export const setLanguage = async language => {
+  const BASE_URL = window.location.origin;
+
+  if (!i18n.hasResourceBundle(language, 'translations')) {
+    const data = await fetch(
+      `${BASE_URL}/cleeng-translations/${language}/translations.json`
+    )
+      .then(response => {
+        return response.json();
+      })
+      .catch(() => {});
+    i18n.addResourceBundle(language, 'translations', data, true, true);
+  }
+
+  i18n.changeLanguage(language);
+
+  return true;
+};
+
 export default {
   setPublisher,
   setOffer,
@@ -183,5 +195,6 @@ export default {
   setRefreshToken,
   setTermsUrl,
   setHidePayPal,
-  setVisibleAdyenPaymentMethods
+  setVisibleAdyenPaymentMethods,
+  setLanguage
 };

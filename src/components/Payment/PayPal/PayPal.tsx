@@ -1,6 +1,6 @@
+import { useTranslation } from 'react-i18next';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
 import Button from 'components/Button';
-import { useTranslation } from 'react-i18next';
 import { PayPalContentStyled, CopyStyled } from './PayPalStyled';
 import { PayPalProps } from './PayPal.types';
 
@@ -12,10 +12,14 @@ const PayPal = ({ totalPrice, offerId, onSubmit, isLoading }: PayPalProps) => {
         {/* my account */}
         {!offerId && (
           <>
-            {t("We'll redirect you to PayPal to update your payment details.")}
+            {t(
+              'paypal.update-payment-details',
+              "We'll redirect you to PayPal to update your payment details."
+            )}
             <br />
             <br />
             {t(
+              'paypal.fee-note',
               'Note, PayPal is subject to an additional 8% fee that will be added to your next payments.'
             )}
           </>
@@ -23,10 +27,14 @@ const PayPal = ({ totalPrice, offerId, onSubmit, isLoading }: PayPalProps) => {
         {/* checkout */}
         {offerId &&
           totalPrice !== 0 &&
-          t("We'll redirect you to PayPal to complete your purchase.")}
+          t(
+            'paypal.complete-purchase',
+            "We'll redirect you to PayPal to complete your purchase."
+          )}
         {offerId?.charAt(0) === 'S' &&
           totalPrice === 0 &&
           t(
+            'paypal.fee-note-complete-purchase',
             "We'll redirect you to PayPal to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments."
           )}
       </CopyStyled>

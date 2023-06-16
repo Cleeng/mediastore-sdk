@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { withTranslation, Trans } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation, Trans } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
 
 import { subscriptionSwitch } from 'api';
@@ -11,7 +10,7 @@ import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 import { ReactComponent as Close } from 'assets/images/errors/close.svg';
-import { dateFormat, currencyFormat } from 'util/planHelper';
+import { dateFormat } from 'util/planHelper';
 import eventDispatcher, {
   MSSDK_SWITCH_POPUP_ACTION_SUCCESSFUL,
   MSSDK_SWITCH_POPUP_ACTION_FAILED
@@ -34,7 +33,7 @@ import {
   ImageStyled
 } from './PauseSubscriptionPopupStyled';
 
-const PauseSubscriptionPopup = ({ t }) => {
+const PauseSubscriptionPopup = () => {
   const STEPS = {
     PAUSE_DETAILS: 'PAUSE_DETAILS',
     CONFIRMATION: 'CONFIRMATION'
@@ -55,6 +54,8 @@ const PauseSubscriptionPopup = ({ t }) => {
   } = useSelector(state => state.popupManager);
 
   const dispatch = useDispatch();
+
+  const { t } = useTranslation();
 
   const pauseSubscription = async () => {
     setIsLoading(true);
@@ -96,7 +97,7 @@ const PauseSubscriptionPopup = ({ t }) => {
     return (
       <InnerPopupWrapper
         steps={2}
-        popupTitle={t('Pausing plan')}
+        popupTitle={t('pausesubscription-popup.pausing-plan', 'Pausing plan')}
         currentStep={1}
       >
         <SkeletonWrapper
@@ -113,7 +114,7 @@ const PauseSubscriptionPopup = ({ t }) => {
     return (
       <InnerPopupWrapper
         steps={3}
-        popupTitle={t('Pausing plan')}
+        popupTitle={t('pausesubscription-popup.pausing-plan', 'Pausing plan')}
         currentStep={STEPS_NUMBERS[step] + 1}
       >
         <>
@@ -121,16 +122,19 @@ const PauseSubscriptionPopup = ({ t }) => {
             <ImageWrapper>
               <Close />
             </ImageWrapper>
-            <TitleStyled step={step}>{t('An error occurred.')}</TitleStyled>
+            <TitleStyled step={step}>
+              {t('pausesubscription-popup.error-title', 'An error occurred.')}
+            </TitleStyled>
             <TextStyled step={step}>
               {t(
+                'pausesubscription-popup.error-description',
                 'We have been unable to pause your plan as an error occurred. Sorry for the inconvenience, please try again.'
               )}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button theme="confirm" onClickFn={closePopupAndRefresh}>
-              {t('Back to My Account')}
+              {t('pausesubscription-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>
@@ -138,14 +142,13 @@ const PauseSubscriptionPopup = ({ t }) => {
     );
   }
 
-  const currencySymbol = currencyFormat[fromOffer.nextPaymentCurrency];
-  const currentPrice = formatNumber(fromOffer.nextPaymentPrice);
   const pauseStartingDate = dateFormat(fromOffer.expiresAt);
+  const { offerTitle } = fromOffer;
 
   return (
     <InnerPopupWrapper
       steps={3}
-      popupTitle={t('Pausing plan')}
+      popupTitle={t('pausesubscription-popup.pausing-plan', 'Pausing plan')}
       currentStep={STEPS_NUMBERS[step] + 1}
     >
       {step === STEPS.PAUSE_DETAILS && (
@@ -161,27 +164,29 @@ const PauseSubscriptionPopup = ({ t }) => {
               <SubscriptionIconStyled isPaused showLabel="Paused" />
             </ImageWrapper>
             <TitleStyled step={step} textTransform="capitalize">
-              {t('Subscription pause')}
+              {t('pausesubscription-popup.details.title', 'Subscription pause')}
             </TitleStyled>
             <TextStyled>
-              <Trans i18nKey="pausesubscriptionpopup-info">
-                Your subscription will be paused starting{' '}
-                <strong>{{ pauseStartingDate }}</strong>. During the
-                subscription pause period, you will not be charged. Your
-                subscription will be automatically resumed at the beginning of
-                the next season and you will continue to be charged{' '}
-                <strong>
-                  {{ currencySymbol }}
-                  {{ currentPrice }}
-                </strong>{' '}
-                on a recurring basis.
+              <Trans i18nKey="pausesubscription-popup.details.info">
+                On your next billing cycle (
+                <strong>{{ pauseStartingDate }}</strong>) your subscription
+                pause will go into effect. While your subscription is paused,
+                you won’t be charged for, and you won’t have access to,{' '}
+                {{ offerTitle }}. You can resume your {{ offerTitle }}{' '}
+                subscription at any time.
               </Trans>
             </TextStyled>
             <TextStyled>
-              {t('You can resume your subscription at any time.')}
+              {t(
+                'pausesubscription-popup.details.note',
+                'Or, if you don`t do anything, your subscription will automatically resume at the start of the next season. When your subscription resumes, you will be billed the current monthly subscription fee for your plan.'
+              )}
             </TextStyled>
             <TextStyled step={step}>
-              {t('Do you want to apply the change now?')}
+              {t(
+                'pausesubscription-popup.details.question',
+                'Would you like to pause?'
+              )}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
@@ -201,13 +206,16 @@ const PauseSubscriptionPopup = ({ t }) => {
                 );
               }}
             >
-              {t('Back')}
+              {t('pausesubscription-popup.details.back', 'Back')}
             </Button>
             <Button theme="confirm" onClickFn={pauseSubscription}>
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t('Pause subscription')
+                t(
+                  'pausesubscription-popup.confirm-button',
+                  'Pause subscription'
+                )
               )}
             </Button>
           </ButtonWrapperStyled>
@@ -219,17 +227,23 @@ const PauseSubscriptionPopup = ({ t }) => {
             <ImageWrapper>
               <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
             </ImageWrapper>
-            <TitleStyled step={step}>{t('Thank you!')}</TitleStyled>
+            <TitleStyled step={step}>
+              {t(
+                'pausesubscription-popup.confirmation.title',
+                'Your pause request has been confirmed.'
+              )}
+            </TitleStyled>
             <TextStyled step={step}>
-              <Trans i18nKey="pausesubscriptionpopup-confirm">
-                You have successfully paused your plan{' '}
-                <strong>{{ planName: fromOffer.offerTitle }}.</strong>
+              <Trans i18nKey="pausesubscription-popup.confirmation.info">
+                You will continue to have access to your subscription through
+                your current billing cycle. The pause will go into effect on{' '}
+                <strong>{{ pauseStartingDate }}</strong>
               </Trans>
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button theme="confirm" onClickFn={closePopupAndRefresh}>
-              {t('Back to My Account')}
+              {t('pausesubscription-popup.resign-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>
@@ -238,14 +252,6 @@ const PauseSubscriptionPopup = ({ t }) => {
   );
 };
 
-PauseSubscriptionPopup.propTypes = {
-  t: PropTypes.func
-};
-
-PauseSubscriptionPopup.defaultProps = {
-  t: k => k
-};
-
 export { PauseSubscriptionPopup as PureSubscriptionPopup };
 
-export default withTranslation()(labeling()(PauseSubscriptionPopup));
+export default PauseSubscriptionPopup;

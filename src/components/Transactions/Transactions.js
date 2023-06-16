@@ -1,8 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import { useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import Card from 'components/Card';
 import { dateFormat } from 'util/planHelper';
 import MyAccountError from 'components/MyAccountError';
@@ -35,7 +33,7 @@ import {
 
 const TransactionsSkeleton = () => (
   <Card withBorder>
-    {[...Array(3)].map((i, k) => (
+    {[...Array(3)].map((_, k) => (
       // eslint-disable-next-line react/no-array-index-key
       <InsideWrapperStyled key={`skeleton-item-${k}`} length={3}>
         <LeftBoxStyled>
@@ -62,7 +60,7 @@ const TransactionsSkeleton = () => (
   </Card>
 );
 
-const Transactions = ({ t }) => {
+const Transactions = () => {
   const {
     transactions,
     showToggleButton,
@@ -71,6 +69,8 @@ const Transactions = ({ t }) => {
     isListExpanded
   } = useSelector(state => state.transactions);
   const { pauseOffersIDs } = useSelector(state => state.offers);
+
+  const { t } = useTranslation();
 
   const dispatch = useDispatch();
 
@@ -101,8 +101,12 @@ const Transactions = ({ t }) => {
       <WrapStyled>
         <MyAccountError
           icon={noTransactionsIcon}
-          title={t('No transactions found!')}
+          title={t(
+            'transactions.no-transactions.title',
+            'No transactions found!'
+          )}
           subtitle={t(
+            'transactions.no-transactions.subtitle',
             'The section will show you recent transactions history after first payment'
           )}
         />
@@ -140,7 +144,7 @@ const Transactions = ({ t }) => {
                         {t(`offer-title-${offerId}`, offerTitle)}
                       </TitleStyled>
                       <SubTitleStyled>
-                        {t(`Paid with`)}{' '}
+                        {t('transactions.paid-with', `Paid with`)}{' '}
                         {readablePaymentMethodNames[paymentMethod]}
                       </SubTitleStyled>
                     </InfoStyled>
@@ -159,12 +163,18 @@ const Transactions = ({ t }) => {
             theme="primary"
             margin="20px 0 0 auto"
             width="unset"
-            label={isListExpanded ? t('Show less') : t('Show more')}
+            label={
+              isListExpanded
+                ? t('transactions.show-less', 'Show less')
+                : t('transactions.show-more', 'Show more')
+            }
             onClickFn={() => dispatch(toggleTransactionList())}
             padding="12px 33px 12px 20px"
           >
             <ButtonTextStyled isExpanded={isListExpanded}>
-              {isListExpanded ? t('Show less') : t('Show more')}
+              {isListExpanded
+                ? t('transactions.show-less', 'Show less')
+                : t('transactions.show-more', 'Show more')}
             </ButtonTextStyled>
           </Button>
         )}
@@ -173,12 +183,4 @@ const Transactions = ({ t }) => {
   );
 };
 
-Transactions.propTypes = {
-  t: PropTypes.func
-};
-
-Transactions.defaultProps = {
-  t: k => k
-};
-
-export default withTranslation()(labeling()(Transactions));
+export default Transactions;

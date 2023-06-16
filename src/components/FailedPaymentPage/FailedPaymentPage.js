@@ -1,11 +1,9 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
-import { withTranslation, Trans } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation, Trans } from 'react-i18next';
 import { setShouldShowFinalizePaymentComponent } from 'redux/finalizePaymentSlice';
 
 import { StyledOfferWrapper } from 'components/Offer/OfferStyled';
@@ -17,9 +15,10 @@ import {
 } from 'components/ThankYouPage/ThankYouPageStyled';
 import { ReactComponent as WarningIcon } from 'assets/images/errors/warning.svg';
 
-const FailedPaymentPage = ({ t }) => {
+const FailedPaymentPage = () => {
   const { error } = useSelector(state => state.finalizeInitialPayment);
   const dispatch = useDispatch();
+  const { t } = useTranslation();
 
   return (
     <StyledOfferWrapper data-testid="FailedPaymentPage-component">
@@ -27,7 +26,7 @@ const FailedPaymentPage = ({ t }) => {
       <ThankYouPageStyled>
         <WarningIcon />
         <TitleStyled>
-          {t('failed-payment-page.title', `Oops! Something went wrong`)}
+          {t('oops-something-went-wrong', `Oops! Something went wrong`)}
         </TitleStyled>
         <MessageStyled>
           <strong>
@@ -75,12 +74,4 @@ const FailedPaymentPage = ({ t }) => {
   );
 };
 
-FailedPaymentPage.propTypes = {
-  t: PropTypes.func
-};
-
-FailedPaymentPage.defaultProps = {
-  t: k => k
-};
-
-export default withTranslation()(labeling()(FailedPaymentPage));
+export default FailedPaymentPage;

@@ -1,5 +1,4 @@
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { useAppSelector } from 'redux/store';
@@ -14,7 +13,6 @@ import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
 import getReadablePeriod from './OfferCheckoutCard.utils';
-import { OfferCheckoutCardProps } from './OfferCheckoutCard.types';
 import {
   WrapperStyled,
   InnerWrapper,
@@ -25,7 +23,7 @@ import {
 } from './OfferCheckoutCardStyled';
 import Price from '../Price';
 
-const OfferCheckoutCard = ({ t }: OfferCheckoutCardProps) => {
+const OfferCheckoutCard = () => {
   const {
     offerTitle: title,
     trialAvailable: isTrialAvailable,
@@ -57,8 +55,25 @@ const OfferCheckoutCard = ({ t }: OfferCheckoutCardProps) => {
     ? calculateGrossPriceForFreeOffer(offerPrice, taxRate, customerPriceInclTax)
     : formatNumber(totalPrice);
 
+  const { t } = useTranslation();
+
   const generateTrialDescription = () => {
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
+
+    if (period === 'season' && freeDays) {
+      const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days and will be renewed on the next season start date.`;
+      return t(
+        `subscription-desc.trial-days.period-season`,
+        formattedDescription,
+        {
+          currencySymbol,
+          grossPrice,
+          taxCopy,
+          freeDays
+        }
+      );
+    }
+
     if (freeDays) {
       const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
         period
@@ -103,6 +118,14 @@ const OfferCheckoutCard = ({ t }: OfferCheckoutCardProps) => {
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 
     if (!isTrialAvailable) {
+      if (period === 'season') {
+        const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) and will be renewed on the next season start date.`;
+        return t(`subscription-desc.period-season`, description, {
+          currencySymbol,
+          grossPrice,
+          taxCopy
+        });
+      }
       const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
         period
       )}`;
@@ -126,7 +149,10 @@ const OfferCheckoutCard = ({ t }: OfferCheckoutCardProps) => {
         return t('pass-desc.date', `Access until {{date}}`, { date });
       }
       return isPeriod(period)
-        ? `${periodMapper[period].accessText} season pass`
+        ? `${t(
+            `period.${periodMapper[period].accessText?.toLowerCase()}`,
+            periodMapper[period].accessText
+          )} ${t('offer-checkout-card.season-pass', 'season pass')}`
         : '';
     }
     if (offerType === 'E') {
@@ -136,11 +162,14 @@ const OfferCheckoutCard = ({ t }: OfferCheckoutCardProps) => {
     }
     if (offerType === 'R') {
       return isPeriod(period)
-        ? `${periodMapper[period].accessText} access`
+        ? `${t(
+            `period.${periodMapper[period].accessText?.toLowerCase()}`,
+            periodMapper[period].accessText
+          )} ${t('offer-checkout-card.access', 'access')}`
         : '';
     }
     if (offerType === 'A') {
-      return t('Unlimited access');
+      return t('offer-checkout-card.unlimited-access', 'Unlimited access');
     }
     return '';
   };
@@ -197,7 +226,7 @@ const OfferCheckoutCard = ({ t }: OfferCheckoutCardProps) => {
             currency={currencyFormat[currency]}
             price={Number(grossPrice)}
             period={
-              offerType === 'S'
+              offerType === 'S' && period !== 'season'
                 ? t(`offer-price.period-${period}`, period)
                 : null
             }
@@ -208,6 +237,7 @@ const OfferCheckoutCard = ({ t }: OfferCheckoutCardProps) => {
   );
 };
 
+
 export { OfferCheckoutCard as PureOfferCard };
 
-export default withTranslation()(labeling()(OfferCheckoutCard));
+export default OfferCheckoutCard;

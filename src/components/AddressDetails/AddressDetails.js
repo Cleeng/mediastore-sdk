@@ -14,7 +14,7 @@ import {
 import { WrapStyled, RowStyled, MessageStyled } from './AddressDetailsStyled';
 
 const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
-  const [t] = useTranslation();
+  const { t } = useTranslation();
   const [isSectionDisabled, setIsSectionDisabled] = useState(true);
   const [isPending, setIsPending] = useState(false);
   const [address, setAddress] = useState(null);
@@ -102,7 +102,7 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
             />
             <MyAccountInput
               id="postCode"
-              label={t('Zip/Postal Code')}
+              label={t('Zip/Postal code')}
               value={address.postCode || ''}
               onChange={e => onAddressChange('postCode', e.target.value)}
               disabled={isSectionDisabled}

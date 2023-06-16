@@ -136,6 +136,22 @@ export const periodMapper: Record<
     chargedForEveryText: 'year',
     accessText: 'Annual'
   },
+  season: {
+    label: 'S',
+    color: '#5971B9',
+    bg: '#EDF1FF',
+    border: '#39529B2E',
+    chargedForEveryText: 'season',
+    accessText: 'Season'
+  },
+  seasonal: {
+    label: 'S',
+    color: '#5971B9',
+    bg: '#EDF1FF',
+    border: '#39529B2E',
+    chargedForEveryText: 'season',
+    accessText: 'Season'
+  },
   default: {
     label: 'S',
     color: '#5971B9',
@@ -212,11 +228,35 @@ export const currencyFormat: Record<CurrencyFormat, string> = {
   EUR: '€',
   USD: '$',
   GBP: '£',
-  AUD: '$',
+  AUD: 'A$',
+  DKK: 'kr.',
+  CAD: 'C$',
+  CHF: 'CHF',
+  NOK: 'kr',
+  NZD: 'NZ$',
+  SEK: 'kr',
+  TRY: '₺',
+  XOF: 'CFA',
+  ZAR: 'R',
+  NGN: '₦',
+  KES: 'Ksh',
+  GHS: 'GH¢',
+  MXN: 'Mex$',
+  KRW: '₩',
+  XAF: 'FCFA',
+  JPY: '¥',
+  PHP: '₱',
+  VND: '₫',
+  BRL: 'R$',
+  INR: '₹',
+  MNT: '₮',
+  EGP: 'E£',
+  QAR: 'QR',
+  KWD: 'KD',
+  AED: 'د.إ',
   '€': '€',
   $: '$',
-  '£': '£',
-  DKK: 'kr.'
+  '£': '£'
 };
 
 export function dateFormat(timestamp: number, showTime = false) {
@@ -231,3 +271,5 @@ export function dateFormat(timestamp: number, showTime = false) {
   }
   return resultString;
 }
+
+export const INFINITE_DATE = 2145913200;

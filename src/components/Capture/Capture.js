@@ -14,7 +14,7 @@ import {
 } from './CaptureStyled';
 
 const Capture = ({ settings, onSuccess }) => {
-  const [t] = useTranslation();
+  const { t } = useTranslation();
   const [captureSettings, setCaptureSettings] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 

@@ -1,18 +1,22 @@
-import { Trans, withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { Trans } from 'react-i18next';
 import { getData } from 'util/appConfigHelper';
-import { CurrencyFormat, currencyFormat } from 'util/planHelper';
+import { CurrencyFormat, currencyFormat, isPeriod, periodMapper } from 'util/planHelper';
 import { LegalNoteWrapperStyled, LegalTextStyled } from '../PaymentStyled';
-import { LegalNoteProps } from './LegalNote.types';
+import { useAppSelector } from 'redux/store';
+import { selectOnlyOrder } from 'redux/orderSlice';
+import { selectOnlyOffer } from 'redux/offerSlice';
 
-const LegalNote = ({
-  order: {
+const LegalNote = () => {
+  const {
     discount,
     currency,
     priceBreakdown: { offerPrice }
-  },
-  period
-}: LegalNoteProps) => {
+  } = useAppSelector(selectOnlyOrder);
+  const { period: offerPeriod } = useAppSelector(selectOnlyOffer);
+  const period =
+  offerPeriod && isPeriod(offerPeriod)
+    ? periodMapper[offerPeriod].chargedForEveryText
+    : null;
   const isInTrial = discount?.applied && discount.type === 'trial';
   const couponApplied = discount?.applied && discount.type !== 'trial';
   const readablePrice = `${
@@ -98,4 +102,4 @@ const LegalNote = ({
   );
 };
 
-export default withTranslation()(labeling()(LegalNote));
+export default LegalNote;

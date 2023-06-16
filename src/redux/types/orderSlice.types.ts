@@ -47,6 +47,7 @@ export type OrderInitialState = {
     showMessage: boolean;
     message: string;
     messageType: typeof MESSAGE_TYPE_SUCCESS | typeof MESSAGE_TYPE_FAIL;
+    translationKey: string;
   };
   isCouponLoading: boolean;
   couponError: Error;

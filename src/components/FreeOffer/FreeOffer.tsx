@@ -29,25 +29,37 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
 
   const offerType = offerId?.charAt(0);
   const icon = period || offerType;
+
   const generateDescriptionForFreeOffer = () => {
     switch (offerType) {
       case 'S': {
-        return `Free subscription`;
+        return t('free-offer.subscription', 'Free subscription');
       }
       case 'P': {
         if (!period) {
-          return `Access until ${dateFormat(expiresAt, true)}`;
+          return t('free-offer.pass', 'Access until {{date}}', {
+            date: dateFormat(expiresAt, true)
+          });
         }
-        return `${periodMapper[period as Period].accessText} free pass`;
+        
+        return `${t(
+          `period.${periodMapper[period as Period].accessText?.toLowerCase()}`,
+          periodMapper[period as Period].accessText
+        )} ${t('free-offer.free-pass', 'free pass')}`;
       }
       case 'E': {
-        return `Free event ${startTime ? dateFormat(startTime, true) : ''}`;
+        return t('free-offer.event', 'Free event {{date}}', {
+          date: startTime ? dateFormat(startTime, true) : ''
+        });
       }
       case 'R': {
-        return `${periodMapper[period as Period].accessText} free access`;
+        return `${t(
+          `period.${periodMapper[period as Period].accessText?.toLowerCase()}`,
+          periodMapper[period as Period].accessText
+        )} ${t('free-offer.free-access', 'free access')}`;
       }
       case 'A':
-        return 'Unlimited access';
+        return t('free-offer.unlimited-access', 'Unlimited access');
       default:
         return '';
     }
@@ -74,15 +86,19 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
             onClickFn={getAccessToFreeOffer}
             disabled={isLoading}
           >
-            {isLoading ? (
-              <Loader buttonLoader color="#ffffff" />
-            ) : (
-              t('Get Access')
-            )}
+            <>
+              {isLoading ? (
+                <Loader buttonLoader color="#ffffff" />
+              ) : (
+                t('free-offer.get-access', 'Get Access')
+              )}
+            </>
           </Button>
           {error && <ErrorMessageStyled>{t(error)}</ErrorMessageStyled>}
         </ButtonWrapperStyled>
-        <SubTextStyled>{t('Free, no additional cost')}</SubTextStyled>
+        <SubTextStyled>
+          {t('free-offer.no-cost', 'Free, no additional cost')}
+        </SubTextStyled>
       </CardStyled>
     </WrapStyled>
   );

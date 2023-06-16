@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
-import formatNumber from 'util/formatNumber';
 
 import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
@@ -94,7 +93,7 @@ const ResumeSubscriptionPopup = () => {
     return (
       <InnerPopupWrapper
         steps={2}
-        popupTitle={t('resume-subscription-popup.title', 'Resume plan')}
+        popupTitle={t('resumesubscription-popup.title', 'Resume plan')}
         currentStep={1}
       >
         <SkeletonWrapper
@@ -111,7 +110,7 @@ const ResumeSubscriptionPopup = () => {
     return (
       <InnerPopupWrapper
         steps={2}
-        popupTitle={t('resume-subscription-popup.title', 'Resume plan')}
+        popupTitle={t('resumesubscription-popup.title', 'Resume plan')}
         currentStep={STEPS_NUMBERS[step]}
       >
         <>
@@ -120,14 +119,11 @@ const ResumeSubscriptionPopup = () => {
               <Close />
             </ImageWrapper>
             <TitleStyled step={step}>
-              {t(
-                'resume-subscription-popup.error-header',
-                'An error occurred.'
-              )}
+              {t('resumesubscription-popup.error-header', 'An error occurred.')}
             </TitleStyled>
             <TextStyled step={step}>
               {t(
-                'resume-subscription-popup.error-text',
+                'resumesubscription-popup.error-text',
                 'We have been unable to resume your plan as an error occurred. Sorry for the inconvenience, please try again.'
               )}
             </TextStyled>
@@ -135,7 +131,7 @@ const ResumeSubscriptionPopup = () => {
           <ButtonWrapperStyled>
             <Button theme="confirm" onClickFn={closePopupAndRefresh}>
               {t(
-                'resume-subscription-popup.error-back-button',
+                'resumesubscription-popup.error-back-button',
                 'Back to My Account'
               )}
             </Button>
@@ -146,13 +142,11 @@ const ResumeSubscriptionPopup = () => {
   }
 
   const planName = toOffer?.title;
-  const price = formatNumber(toOffer?.nextPaymentPrice);
-  const currency = toOffer?.nextPaymentPriceCurrencySymbol;
 
   return (
     <InnerPopupWrapper
       steps={2}
-      popupTitle={t('resume-subscription-popup.title', 'Resume plan')}
+      popupTitle={t('resumesubscription-popup.title', 'Resume plan')}
       currentStep={STEPS_NUMBERS[step]}
     >
       {step === STEPS.RESUME_DETAILS && (
@@ -165,41 +159,34 @@ const ResumeSubscriptionPopup = () => {
             </ImageWrapper>
             <TitleStyled step={step} textTransform="capitalize">
               {t(
-                'resume-subscription-popup.header',
-                'Resume your subscription'
+                'resumesubscription-popup.header',
+                'Resume your {{ planName }} subscription',
+                { planName }
               )}
             </TitleStyled>
             <TextStyled>
-              <Trans i18nKey="resume-subscription-popup.info">
-                You are about to resume your plan{' '}
-                <strong>{{ planName }}</strong>. You will be charged{' '}
-                <strong>
-                  {{ currency }}
-                  {{ price }}
-                </strong>{' '}
-                on the next billing date.
+              <Trans i18nKey="resumesubscription-popup.info">
+                Click the button below to resume your {{ planName }}
+                subscription.
               </Trans>
             </TextStyled>
             <TextStyled step={step}>
               {t(
-                'resume-subscription-popup.question',
+                'resumesubscription-popup.apply-change-question',
                 'Do you want to apply the change now?'
               )}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
             <Button theme="simple" onClickFn={closePopupAndRefresh}>
-              {t(
-                'resume-subscription-popup.back-button-text',
-                'Continue Pause'
-              )}
+              {t('resumesubscription-popup.back-button-text', 'Continue Pause')}
             </Button>
             <Button theme="confirm" onClickFn={resumeSubscription}>
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
                 t(
-                  'resume-subscription-popup.confirm-button-text',
+                  'resumesubscription-popup.confirm-button-text',
                   'Resume subscription'
                 )
               )}
@@ -214,18 +201,21 @@ const ResumeSubscriptionPopup = () => {
               <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
             </ImageWrapper>
             <TitleStyled step={step}>
-              {t('resume-subscription-popup.success-header', 'Thank you!')}
+              {t(
+                'resumesubscription-popup.success-header',
+                'Your {{ planName }} subscription has been resumed',
+                { planName }
+              )}
             </TitleStyled>
             <TextStyled step={step}>
-              <Trans i18nKey="resume-subscription-popup.success-text">
-                You have successfully resumed your plan{' '}
-                <strong>{{ planName }}.</strong>
+              <Trans i18nKey="resumesubscription-popup.success-text">
+                You can now access your {{ planName }} subscription.
               </Trans>
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button theme="confirm" onClickFn={closePopupAndRefresh}>
-              {t('Back to My Account')}
+              {t('resumesubscription-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>

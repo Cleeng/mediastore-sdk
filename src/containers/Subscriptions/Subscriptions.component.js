@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PropTypes } from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,6 +28,8 @@ const Subscriptions = ({
   const { t } = useTranslation();
   const didMount = useRef(false);
   const dispatch = useDispatch();
+
+  const { t } = useTranslation();
 
   const getAndSaveSwitchSettings = async customerSubscriptions => {
     if (customerSubscriptions.length > 1) {
@@ -83,7 +85,11 @@ const Subscriptions = ({
 
   return (
     <WrapStyled>
-      <SectionHeader>{t('Current plan')}</SectionHeader>
+      <SectionHeader>
+        <>
+          {t('subscriptions.current-plan', 'Current plan')}
+        </>
+        </SectionHeader>
       <CurrentPlan />
     </WrapStyled>
   );

@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
 import { updateList, setSwitchDetails } from 'redux/planDetailsSlice';
 import { hidePopup } from 'redux/popupSlice';
+import { dateFormat, INFINITE_DATE } from 'util';
 
 import {
   ContentStyled,
@@ -18,7 +17,7 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
-const CancelSwitchPopup = ({ t }) => {
+const CancelSwitchPopup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
@@ -46,6 +45,9 @@ const CancelSwitchPopup = ({ t }) => {
   const dispatch = useDispatch();
 
   const [offerIdsFallback, setOfferIdsFallback] = useState({}); // required to keep translations in step 2
+
+  const { t } = useTranslation();
+
   useEffect(() => {
     if (switchDetails) {
       setOfferIdsFallback({
@@ -107,27 +109,38 @@ const CancelSwitchPopup = ({ t }) => {
   return (
     <InnerPopupWrapper
       steps={2}
-      popupTitle={t('Cancel switch')}
+      popupTitle={t('cancelswitch-popup.title', 'Cancel switch')}
       currentStep={step}
       isError={isError}
     >
       {step === 1 && (
         <>
           <ContentStyled>
-            <TitleStyled>{t('Cancel switch')}</TitleStyled>
+            <TitleStyled>
+              {t('cancelswitch-popup.title', 'Cancel switch')}
+            </TitleStyled>
             <TextStyled>
               {t(
+                'cancelswitch-popup.switch-pending',
                 `Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to cancel the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.`,
                 {
                   switchDirection,
                   switchOfferTitle,
-                  baseOfferExpirationDate,
-                  baseOfferPrice
+                  baseOfferExpirationDate:
+                    baseOfferExpirationDate === INFINITE_DATE
+                      ? t(
+                          'cancelswitch-popup.next-season-start',
+                          'the next season start'
+                        )
+                      : dateFormat(baseOfferExpirationDate)
                 }
               )}
               <br />
               <br />
-              {t('Are you sure you want to cancel the switch?')}
+              {t(
+                'cancelswitch-popup.question',
+                'Are you sure you want to cancel the switch?'
+              )}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
@@ -142,13 +155,13 @@ const CancelSwitchPopup = ({ t }) => {
                 dispatch(hidePopup());
               }}
             >
-              {t('No, thanks')}
+              {t('cancelswitch-popup.resign', 'No, thanks')}
             </Button>
             <Button theme="danger" onClickFn={cancelSwitch}>
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t(`Cancel switch`)
+                t('cancelswitch-popup.confirm-button-text', 'Cancel switch')
               )}
             </Button>
           </ButtonWrapperStyled>
@@ -158,14 +171,26 @@ const CancelSwitchPopup = ({ t }) => {
         <>
           <ContentStyled>
             <img src={checkmarkIconBase} alt="checkmark icon" />
-            <TitleStyled>{t('Switch canceled')}</TitleStyled>
+            <TitleStyled>
+              {t(
+                'cancelswitch-popup.switch-cancelled-title',
+                'Switch canceled'
+              )}
+            </TitleStyled>
             <TextStyled>
               {t(
-                `You have successfully canceled your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}.`,
+                'cancelswitch-popup.switch-cancelled',
+                'You have successfully canceled your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}.',
                 {
                   switchDirection,
                   switchOfferTitle,
-                  baseOfferExpirationDate,
+                  baseOfferExpirationDate:
+                    baseOfferExpirationDate === INFINITE_DATE
+                      ? t(
+                          'cancelswitch-popup.next-season-start',
+                          'the next season start'
+                        )
+                      : dateFormat(baseOfferExpirationDate),
                   baseOfferTitle
                 }
               )}
@@ -179,7 +204,7 @@ const CancelSwitchPopup = ({ t }) => {
                 dispatch(updateList());
               }}
             >
-              {t('Back to My Account')}
+              {t('cancelswitch-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>
@@ -188,12 +213,4 @@ const CancelSwitchPopup = ({ t }) => {
   );
 };
 
-CancelSwitchPopup.propTypes = {
-  t: PropTypes.func
-};
-
-CancelSwitchPopup.defaultProps = {
-  t: k => k
-};
-
-export default withTranslation()(labeling()(CancelSwitchPopup));
+export default CancelSwitchPopup;

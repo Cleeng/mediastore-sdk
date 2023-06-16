@@ -22,7 +22,8 @@ const CouponInput = ({
   couponDetails = {
     showMessage: false,
     message: '',
-    messageType: MESSAGE_TYPE_SUCCESS
+    messageType: MESSAGE_TYPE_SUCCESS,
+    translationKey: ''
   },
   onSubmit,
   onChange,
@@ -38,7 +39,7 @@ const CouponInput = ({
   const [isOpened, setIsOpened] = useState(false);
 
   const { t } = useTranslation();
-  const { showMessage, message, messageType } = couponDetails;
+  const { showMessage, message, messageType, translationKey = '' } = couponDetails;
 
   const disableSuppressMessage = () => setSuppressMessage(false);
 
@@ -124,8 +125,8 @@ const CouponInput = ({
         </CloseButtonStyled>
         <InputElementStyled
           isOpened={isOpened}
-          placeholder={t('Your coupon') as string}
-          onKeyDown={event => {
+          placeholder={t('coupon-input.placeholder', 'Your coupon') as string}
+          onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
             if (event.key === 'Enter') {
               handleSubmit(event);
             }
@@ -135,11 +136,11 @@ const CouponInput = ({
           }}
           autoComplete="off"
           value={value}
-          onChange={event => onChange(event.target.value)}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
           type="text"
           readOnly={couponLoading}
           fullWidth={fullWidth}
-          aria-label={t('Your coupon') as string}
+          aria-label={t('coupon-input.placeholder', 'Your coupon') as string}
           aria-required={false}
         />
         <Button
@@ -151,8 +152,10 @@ const CouponInput = ({
         >
           <>
             {couponLoading && <Loader buttonLoader color="#ffffff" />}
-            {!couponLoading && isOpened && t('Redeem')}
-            {!couponLoading && !isOpened && t('Redeem coupon')}
+            {!couponLoading && isOpened && t('coupon-input.redeem', 'Redeem')}
+            {!couponLoading &&
+              !isOpened &&
+              t('coupon-input.redeem-coupon', 'Redeem coupon')}
           </>
         </Button>
       </InputElementWrapperStyled>
@@ -161,7 +164,7 @@ const CouponInput = ({
           showMessage={showMessage && !suppressMessage}
           messageType={messageType}
         >
-          {message}
+           {t(translationKey, message)}
         </MessageStyled>
       )}
     </InputComponentStyled>

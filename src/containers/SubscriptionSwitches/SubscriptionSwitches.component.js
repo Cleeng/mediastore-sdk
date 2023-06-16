@@ -89,7 +89,7 @@ const SubscriptionSwitches = ({
 
   return (
     <WrapStyled>
-      <SectionHeader>{t('Change Plan')}</SectionHeader>
+      <SectionHeader>{t('subscription-switches.change-plan', 'Change Plan')}</SectionHeader>
       <SubscriptionSwitchesList />
     </WrapStyled>
   );
@@ -107,5 +107,7 @@ SubscriptionSwitches.defaultProps = {
   onSwitchSuccess: null,
   onSwitchError: null
 };
+
+export { SubscriptionSwitches as PureSubscriptionSwitches };
 
 export default SubscriptionSwitches;

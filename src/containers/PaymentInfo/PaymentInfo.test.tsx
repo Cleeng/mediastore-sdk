@@ -5,10 +5,6 @@ import { updatePaymentDetailsPopup } from 'redux/popupSlice';
 import renderWithProviders from 'util/testHelpers';
 import { setupStore } from 'redux/rootReducer';
 
-jest.mock('../../containers/labeling', () =>
-  jest.fn(() => jest.fn(Component => Component))
-);
-
 global.fetch = jest.fn(() =>
   Promise.resolve({
     json: () => Promise.resolve({ test: null })

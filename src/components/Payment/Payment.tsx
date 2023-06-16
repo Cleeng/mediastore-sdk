@@ -1,12 +1,11 @@
 import { useEffect, useState } from 'react';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import {
   getPaymentMethods,
   submitPayment,
-  submitPaymentWithoutDetails,
   submitPayPalPayment
 } from 'api';
+import { submitPaymentWithoutDetails } from 'redux/paymentSlice';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import Loader from 'components/Loader';
@@ -30,11 +29,8 @@ import {
 import { fetchUpdateOrder, selectOnlyOrder } from 'redux/orderSlice';
 import {
   setSelectedPaymentMethod,
-  selectPaymentMethods
 } from 'redux/paymentMethodsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { selectOnlyOffer } from 'redux/offerSlice';
-import { DefaultTFuncReturn } from 'i18next';
 import RedirectElement from '@adyen/adyen-web';
 import {
   PaymentErrorStyled,
@@ -48,7 +44,6 @@ import eventDispatcher, {
 import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
-import { periodMapper, isPeriod } from '../../util';
 import { PaymentProps } from './Payment.types';
 
 import LegalCopy from './LegalCopy/LegalCopy';
@@ -57,7 +52,7 @@ type paymentMethodType =
   | typeof STANDARD_PAYMENT_METHODS
   | typeof BANK_PAYMENT_METHODS;
 
-const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
+const Payment = ({ onPaymentComplete }: PaymentProps) => {
   const {
     paymentMethods: publisherPaymentMethods,
     isPayPalHidden,
@@ -65,18 +60,16 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
   } = useAppSelector(selectPublisherConfig);
 
   const order = useAppSelector(selectOnlyOrder);
+  const { t } = useTranslation();
+
   const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
-  const { period: offerPeriod } = useAppSelector(selectOnlyOffer);
   const { loading: isPaymentFinalizationInProgress } = useAppSelector(
     selectFinalizePayment
   );
-  const period =
-    offerPeriod && isPeriod(offerPeriod)
-      ? periodMapper[offerPeriod].chargedForEveryText
-      : null;
+
   const [isLoading, setIsLoading] = useState(false);
 
-  const [generalError, setGeneralError] = useState<DefaultTFuncReturn>(null);
+  const [generalError, setGeneralError] = useState<string>('');
   const [adyenKey, setAdyenKey] = useState<number | null>(null);
 
   const [standardDropInInstance, setStandardDropInInstance] = useState<
@@ -89,7 +82,6 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
     false
   );
-  const { selectedPaymentMethod } = useAppSelector(selectPaymentMethods);
 
   const dispatch = useAppDispatch();
 
@@ -116,7 +108,6 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
 
   // payment methods
   const selectPaymentMethodHandler = (paymentMethodName: string) => {
-    if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = publisherPaymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
@@ -135,7 +126,12 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
       false
     );
     if (response.errors.length) {
-      setGeneralError(t('Cannot fetch payment methods'));
+      setGeneralError(
+        t(
+          'payment.error.cannot-fetch-payment-methods',
+          'Cannot fetch payment methods'
+        )
+      );
       return;
     }
 
@@ -143,7 +139,12 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
     setIsLoading(false);
 
     if (!validMethodsFromResponse?.length) {
-      setGeneralError(t('Payment methods are not defined'));
+      setGeneralError(
+        t(
+          'payment.error.payment-methods-not-defined',
+          'Payment methods are not defined'
+        )
+      );
     }
   };
 
@@ -157,7 +158,12 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
   const handlePayPalError = () => {
     const { search } = window.location;
     if (search?.includes('message')) {
-      setGeneralError(t('Your payment was not processed. Please, try again'));
+      setGeneralError(
+        t(
+          'payment.error.paypal-not-processed',
+          'Your payment was not processed. Please, try again'
+        )
+      );
     }
   };
 
@@ -174,7 +180,12 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
       window.location.href = responseData.redirectUrl;
     } else {
       setIsLoading(false);
-      setGeneralError(t('The payment failed. Please try again.'));
+      setGeneralError(
+        t(
+          'payment.error.paypal-failed',
+          'The payment failed. Please try again.'
+        )
+      );
     }
   };
 
@@ -219,8 +230,12 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
       );
       setGeneralError(
         notSupportedMethod
-          ? t('Payment method not supported. Try different payment method')
+          ? t(
+              'payment.error.payment-method-not-supported',
+              'Payment method not supported. Try different payment method'
+            )
           : t(
+              'payment.error.payment-not-processed',
               'The payment has not been processed. Please, try again with a different payment method.'
             )
       );
@@ -261,18 +276,20 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
     setIsLoading(true);
     setGeneralError('');
 
-    const { errors, responseData } = await submitPaymentWithoutDetails();
-    if (errors.length) {
-      setIsLoading(false);
-      setGeneralError(t('The payment failed. Please try again.'));
-      return;
-    }
-
-    eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
-      payment: responseData
-    });
-
-    onPaymentComplete();
+    dispatch(submitPaymentWithoutDetails())
+      .unwrap()
+      .then(payment => {
+        eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
+          payment
+        });
+        onPaymentComplete();
+      })
+      .catch(() => {
+        setIsLoading(false);
+        setGeneralError(
+          t('payment.error.failed', 'The payment failed. Please try again.')
+        );
+      });
   };
 
   const shouldShowPayPal = isPayPalHidden
@@ -300,13 +317,18 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
     return (
       <PaymentStyled>
         <SectionHeader marginTop="25px" center>
-          <>{t('Purchase using')}</>
+          <>
+            {t('payment.purchase-using', 'Purchase using')}
+          </>
         </SectionHeader>
         {generalError ? (
           <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
         ) : (
           <PaymentErrorStyled>
-            {t('Payment methods not available')}
+            {t(
+              'payment.error.payment-methods-not-available',
+              'Payment methods not available'
+            )}
           </PaymentErrorStyled>
         )}
       </PaymentStyled>
@@ -339,7 +361,9 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
   return (
     <PaymentStyled>
       <SectionHeader marginTop="25px" paddingBottom="0" center>
-        <>{t('Purchase using')}</>
+        <>
+          {t('payment.purchase-using', 'Purchase using')}
+        </>
       </SectionHeader>
       <LegalCopy />
       <PaymentWrapperStyled>
@@ -376,7 +400,7 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
         )}
       </PaymentWrapperStyled>
       {order?.offerId?.charAt(0) === 'S' && (
-        <LegalNote order={order} period={period} />
+        <LegalNote />
       )}
     </PaymentStyled>
   );
@@ -384,4 +408,4 @@ const Payment = ({ onPaymentComplete, t }: PaymentProps) => {
 
 export { Payment as PurePayment };
 
-export default withTranslation()(labeling()(Payment));
+export default Payment;

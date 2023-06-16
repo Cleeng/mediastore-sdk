@@ -1,8 +1,6 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import formatNumber from 'util/formatNumber';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import { currencyFormat } from 'util/planHelper';
 import calculateTaxValueForFreeOffer from 'util/calculateTaxValueForFreeOffer';
 import { useSelector } from 'react-redux';
@@ -16,7 +14,7 @@ import {
   StyledPriceWrapper
 } from './CheckoutPriceBoxStyled';
 
-const CheckoutPriceBox = ({ t }) => {
+const CheckoutPriceBox = () => {
   const { customerPriceInclTax } = useSelector(state => state.offer.offer);
   const {
     priceBreakdown: {
@@ -33,20 +31,28 @@ const CheckoutPriceBox = ({ t }) => {
     currency
   } = useSelector(state => state.order.order);
 
+  const { t } = useTranslation();
+
   return (
     <StyledPriceBox>
       <StyledPriceBoxWrapper>
         <StyledPriceWrapper>
-          <StyledLabel>{t('Price')}</StyledLabel>
+          <StyledLabel>{t('checkout-price-box.price', 'Price')}</StyledLabel>
           <StyledOfferPrice>
             {`${currencyFormat[currency]}${formatNumber(offerPrice)} `}
-            <span>{country === 'US' ? t('excl. Tax') : t('excl. VAT')}</span>
+            <span>
+              {country === 'US'
+                ? t('checkout-price-box.excl-tax', 'excl. Tax')
+                : t('checkout-price-box.excl-vat', 'excl. VAT')}
+            </span>
           </StyledOfferPrice>
         </StyledPriceWrapper>
 
         {isCouponApplied && (
           <StyledPriceWrapper>
-            <StyledLabel>{t('Coupon Discount')}</StyledLabel>
+            <StyledLabel>
+              {t('checkout-price-box.coupon-discount', 'Coupon Discount')}
+            </StyledLabel>
             <StyledOfferPrice>
               - {currencyFormat[currency]}
               {formatNumber(discountAmount)}
@@ -56,7 +62,9 @@ const CheckoutPriceBox = ({ t }) => {
 
         <StyledPriceWrapper>
           <StyledLabel>
-            {country === 'US' ? t('Applicable Tax') : t('Applicable VAT')}
+            {country === 'US'
+              ? t('checkout-price-box.applicable-tax', 'Applicable Tax')
+              : t('checkout-price-box.applicable-vat', 'Applicable VAT')}
           </StyledLabel>
           <StyledOfferPrice>
             {!taxValue && isCouponApplied ? (
@@ -76,7 +84,9 @@ const CheckoutPriceBox = ({ t }) => {
 
         {customerServiceFee !== 0 && (
           <StyledPriceWrapper>
-            <StyledLabel>{t('Service Fee')}</StyledLabel>
+            <StyledLabel>
+              {t('checkout-price-box.service-fee', 'Service Fee')}
+            </StyledLabel>
             <StyledOfferPrice>
               {`${currencyFormat[currency]}${formatNumber(customerServiceFee)}`}
             </StyledOfferPrice>
@@ -85,7 +95,9 @@ const CheckoutPriceBox = ({ t }) => {
 
         {paymentMethodFee !== 0 && (
           <StyledPriceWrapper>
-            <StyledLabel>{t('Payment Method Fee')}</StyledLabel>
+            <StyledLabel>
+              {t('checkout-price-box.payment-method-fee', 'Payment Method Fee')}
+            </StyledLabel>
             <StyledOfferPrice>
               {`${currencyFormat[currency]}${formatNumber(paymentMethodFee)}`}
             </StyledOfferPrice>
@@ -93,7 +105,9 @@ const CheckoutPriceBox = ({ t }) => {
         )}
 
         <StyledPriceWrapper>
-          <StyledTotalLabel>{t('Total')}</StyledTotalLabel>
+          <StyledTotalLabel>
+            {t('checkout-price-box.total', 'Total')}
+          </StyledTotalLabel>
           <StyledTotalOfferPrice>
             {`${currencyFormat[currency]}${formatNumber(finalPrice)}`}
           </StyledTotalOfferPrice>
@@ -103,14 +117,6 @@ const CheckoutPriceBox = ({ t }) => {
   );
 };
 
-CheckoutPriceBox.propTypes = {
-  t: PropTypes.func
-};
-
-CheckoutPriceBox.defaultProps = {
-  t: k => k
-};
-
 export { CheckoutPriceBox as PureCheckoutPriceBox };
 
-export default withTranslation()(labeling()(CheckoutPriceBox));
+export default CheckoutPriceBox;

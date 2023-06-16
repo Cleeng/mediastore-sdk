@@ -6,7 +6,7 @@ import { Trans, useTranslation } from "react-i18next";
 import { getData } from "util/appConfigHelper";
 
 import { ReactComponent as NoSubscriptionsIcon } from "assets/images/errors/sad_coupon.svg";
-import { dateFormat, currencyFormat } from "util/planHelper";
+import { dateFormat, currencyFormat, INFINITE_DATE } from "util/planHelper";
 import { setOfferToSwitch } from "redux/planDetailsSlice";
 
 import MyAccountError from "components/MyAccountError";
@@ -51,11 +51,13 @@ const EmptyPlanView = () => {
         <IconStyled>
           <NoSubscriptionsIcon />
         </IconStyled>
-        <TitleStyled>{t("No offers yet!")}</TitleStyled>
+        <TitleStyled>
+          {t('currentplan.no-offers-title', 'No offers yet!')}
+        </TitleStyled>
         <SubTitleStyled>
-          {getData("CLEENG_OFFER_SELECTION_URL") ? (
-            <Trans i18nKey="myaccount-nooffers-withlink">
-              If you{" "}
+          {getData('CLEENG_OFFER_SELECTION_URL') ? (
+            <Trans i18nKey="currentplan.no-offers-text-withlink">
+              If you{' '}
               <a
                 href={getData("CLEENG_OFFER_SELECTION_URL")}
                 target="_blank"
@@ -67,7 +69,8 @@ const EmptyPlanView = () => {
             </Trans>
           ) : (
             t(
-              "If you choose your plan, you will be able to manage your offers here."
+              'currentplan.no-offers-text',
+              'If you choose your plan, you will be able to manage your offers here.'
             )
           )}
         </SubTitleStyled>
@@ -128,16 +131,29 @@ const CurrentPlan = () => {
           switch (subItem.offerType) {
             case "S":
               price = subItem.nextPaymentPrice;
-              currency = subItem.nextPaymentCurrency;
+              currency = currencyFormat[subItem.nextPaymentCurrency];
               renewalDate = dateFormat(subItem.expiresAt);
-              if (subItem.status === "active" && !subItem.pendingSwitchId) {
-                description = `${t("Renews automatically on {{renewalDate}}", {
-                  renewalDate
-                })}`;
-              } else if (subItem.status === "cancelled") {
-                description = `${t("This plan will expire on {{renewalDate}}", {
-                  renewalDate
-                })}`;
+              if (subItem.expiresAt === INFINITE_DATE)
+                renewalDate = t(
+                  'currentplan.next-season-start',
+                  'the next season start'
+                );
+              if (subItem.status === 'active' && !subItem.pendingSwitchId) {
+                description = `${t(
+                  'currentplan.subscription.renews-info',
+                  'Renews automatically on {{renewalDate}}',
+                  {
+                    renewalDate
+                  }
+                )}`;
+              } else if (subItem.status === 'cancelled') {
+                description = `${t(
+                  'currentplan.subscription.expire-info',
+                  'This plan will expire on {{renewalDate}}',
+                  {
+                    renewalDate
+                  }
+                )}`;
               } else {
                 description = "";
               }
@@ -145,10 +161,12 @@ const CurrentPlan = () => {
               break;
             case "P":
               price = subItem.totalPrice;
-              currency = subItem.customerCurrency;
-              description = `${t("Expires on")} ${dateFormat(
-                subItem.expiresAt
-              )}`;
+              currency = currencyFormat[subItem.customerCurrency];
+              description = `${t(
+                'currentplan.pass.expires-on',
+                'Expires on'
+              )} ${dateFormat(subItem.expiresAt)}`;
+
               break;
             default:
               break;
@@ -180,13 +198,13 @@ const CurrentPlan = () => {
                 offerType={subItem.offerType}
                 title={subItem.offerTitle}
                 description={description}
-                currency={currencyFormat[currency]}
+                currency={currency}
                 price={price}
                 isMyAccount
                 showInfoBox={getInfoBoxType(subItem)}
                 paymentMethod={subItem.paymentMethod}
                 pendingSwitchId={subItem.pendingSwitchId}
-                expiresAt={dateFormat(subItem.expiresAt)}
+                expiresAt={subItem.expiresAt}
                 offerId={subItem.offerId}
                 isPriceBoxHidden={isPaused}
                 isPaused={isPaused}

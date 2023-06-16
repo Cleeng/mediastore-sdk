@@ -109,11 +109,19 @@ const PlanDetails = ({
   return (
     <WrapStyled>
       <GracePeriodError />
-      <SectionHeader>{t('Current plan')}</SectionHeader>
+      <SectionHeader>
+        <>
+          {t('plandetails.current-plan', 'Current Plan')}
+        </>
+      </SectionHeader>
       <CurrentPlan />
       {activeSubscriptions.length !== 0 && !isPauseActive && (
         <>
-          <SectionHeader>{t('Change Plan')}</SectionHeader>
+          <SectionHeader>
+            <>
+              {t('plandetails.change-plan', 'Change Plan')}
+            </>
+            </SectionHeader>
           <SubscriptionSwitchesList />
         </>
       )}

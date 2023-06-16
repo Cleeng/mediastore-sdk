@@ -12,8 +12,9 @@ export type CouponInputProps = {
   fullWidth?: boolean;
   couponDetails: {
     showMessage: boolean;
-    message: React.ReactNode;
+    message: string;
     messageType: MessageType;
+    translationKey: string
   };
   onSubmit: (args: string) => void;
   onChange: (args: string) => void;

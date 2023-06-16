@@ -20,25 +20,30 @@ const errorTypes: Record<
 > = {
   offerNotExist: {
     icon: Close,
-    description: 'Offer does not exist or is not provided.'
+    description: 'Offer does not exist or is not provided.',
+    translationKey: 'offer-error.not-exist'
   },
   generalError: {
     icon: Warning,
-    description: 'Whoops'
+    description: 'Whoops',
+    translationKey: 'whoops'
   },
   alreadyHaveAccess: {
     icon: Lock,
     description:
-      'Good news! Your account already gives you access to the content that comes with this plan.'
+      'Good news! Your account already gives you access to the content that comes with this plan.',
+    translationKey: 'offer-error.access-granted'
   },
   cannotPurchase: {
     icon: DeleteCreditCard,
     description:
-      'We are sorry! The content you are trying to access is not available in your country.'
+      'We are sorry! The content you are trying to access is not available in your country.',
+    translationKey: 'offer-error.geo-restrictions'
   },
   inactive: {
     icon: Close,
-    description: 'We are sorry! This offer is no longer available'
+    description: 'We are sorry! This offer is no longer available',
+    translationKey: 'offer-error.not-available'
   }
 };
 
@@ -54,7 +59,9 @@ const ErrorPage = ({ type = 'generalError', error = '' }: ErrorPageProps) => {
         <IconStyled>
           <Icon />
         </IconStyled>
-        <MessageStyled>{error || t(typeParams.description)}</MessageStyled>
+        <MessageStyled>
+          {error || t(typeParams.translationKey, typeParams.description)}
+        </MessageStyled>
       </ErrorPageStyled>
     </ErrorPageWrapper>
   );

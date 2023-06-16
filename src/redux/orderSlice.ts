@@ -42,7 +42,8 @@ const initialState: OrderInitialState = {
   couponDetails: {
     showMessage: false,
     message: '',
-    messageType: MESSAGE_TYPE_SUCCESS
+    messageType: MESSAGE_TYPE_SUCCESS,
+    translationKey: '',
   },
   isCouponLoading: false,
   couponError: null,
@@ -149,7 +150,8 @@ export const orderSlice = createSlice({
       state.couponDetails = {
         showMessage: false,
         message: '',
-        messageType: MESSAGE_TYPE_SUCCESS
+        messageType: MESSAGE_TYPE_SUCCESS,
+        translationKey: '',
       };
     });
     builder.addCase(fetchUpdateCoupon.fulfilled, (state, action) => {
@@ -158,7 +160,8 @@ export const orderSlice = createSlice({
       state.couponDetails = {
         showMessage: true,
         message: 'Your coupon has been applied!',
-        messageType: MESSAGE_TYPE_SUCCESS
+        messageType: MESSAGE_TYPE_SUCCESS,
+        translationKey: 'coupon-input.success',
       };
     });
     builder.addCase(fetchUpdateCoupon.rejected, (state, action) => {
@@ -172,7 +175,8 @@ export const orderSlice = createSlice({
         showMessage: true,
         message:
           'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
-        messageType: MESSAGE_TYPE_FAIL
+        messageType: MESSAGE_TYPE_FAIL,
+        translationKey: 'coupon-input.error',
       };
     });
     builder.addCase(fetchUpdateOrder.pending, state => {

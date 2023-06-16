@@ -18,7 +18,11 @@ type PaymentDetailCardGooglePay = GeneralPaymentDetail & {
     | 'roku'
     | 'applepay'
     | 'amazon'
-    | 'android';
+    | 'android'
+    | 'ideal'
+    | 'bancontact_card'
+    | 'bancontact_mobile'
+    | 'sofort';
   paymentMethodSpecificParams: {
     holderName: string;
     cardExpirationDate: string;

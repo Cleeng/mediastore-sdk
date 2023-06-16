@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
-import { withTranslation } from 'react-i18next';
-import labeling from 'containers/labeling';
+import { useTranslation } from 'react-i18next';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateSwitch } from 'api';
@@ -24,7 +22,7 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
-const CancelPausePopup = ({ t }) => {
+const CancelPausePopup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
@@ -37,6 +35,11 @@ const CancelPausePopup = ({ t }) => {
   } = useSelector(state => state.popupManager);
 
   const switchDetails = allSwitchDetails[pendingSwitchId];
+  const { t } = useTranslation();
+
+  const planDetailsState = useSelector(state => state.planDetails);
+  const { offerToSwitch } = planDetailsState;
+
   const eventsPayload = {
     pendingSwitchId,
     fromOfferId: switchDetails?.fromOfferId,
@@ -72,10 +75,11 @@ const CancelPausePopup = ({ t }) => {
     }
   };
 
+  const pausedOfferTitle = offerToSwitch?.offerTitle;
   return (
     <InnerPopupWrapper
       steps={2}
-      popupTitle={t('cancel-pause-popup.title', 'Cancel pause')}
+      popupTitle={t('cancelpause-popup.title', 'Cancel pause')}
       currentStep={step}
       isError={isError}
     >
@@ -83,16 +87,23 @@ const CancelPausePopup = ({ t }) => {
         <>
           <ContentStyled>
             <TitleStyled>
-              {t('cancel-pause-popup.title', 'Cancel pause')}
+              {t('cancelpause-popup.title', 'Cancel pause')}
             </TitleStyled>
             <TextStyled>
               {t(
-                'cancel-pause-popup.information-text',
-                'The subscription pause will take effect on  {{baseOfferExpirationDate}}. Are you sure you want to cancel the scheduled pause and resume your subscription? If you resume your plan, you will be charged {{baseOfferPrice}} on the next billing date.',
+                'cancelpause-popup.information-text',
+                'Your current plan will be paused starting on {{baseOfferExpirationDate}}. Cancel the pause to resume access to your {{ pausedOfferTitle }} subscription. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ pausedOfferTitle }}.',
                 {
                   baseOfferExpirationDate,
-                  baseOfferPrice
+                  baseOfferPrice,
+                  pausedOfferTitle
                 }
+              )}
+            </TextStyled>
+            <TextStyled>
+              {t(
+                'cancelpause-popup.question-text',
+                'Would you like to cancel the pause request?'
               )}
             </TextStyled>
           </ContentStyled>
@@ -107,13 +118,13 @@ const CancelPausePopup = ({ t }) => {
                 dispatch(hidePopup());
               }}
             >
-              {t('No, thanks')}
+              {t('cancelpause-popup.resign', 'No, thanks')}
             </Button>
             <Button theme="danger" onClickFn={cancelPause}>
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t('cancel-pause-popup.confirm-button-text', 'Cancel pause')
+                t('cancelpause-popup.confirm-button-text', 'Cancel pause')
               )}
             </Button>
           </ButtonWrapperStyled>
@@ -124,12 +135,18 @@ const CancelPausePopup = ({ t }) => {
           <ContentStyled>
             <img src={checkmarkIconBase} alt="checkmark icon" />
             <TitleStyled>
-              {t('cancel-pause-popup.confirmation-title', 'Pause canceled')}
+              {t(
+                'cancelpause-popup.confirmation-title',
+                'Your pause request has been canceled.'
+              )}
             </TitleStyled>
             <TextStyled>
               {t(
-                'cancel-pause-popup.confirmation-text',
-                'You have successfully canceled subscription pause.'
+                'cancelpause-popup.confirmation-text',
+                'Your access to your {{ pausedOfferTitle }} subscription will continue.',
+                {
+                  pausedOfferTitle
+                }
               )}
             </TextStyled>
           </ContentStyled>
@@ -141,7 +158,7 @@ const CancelPausePopup = ({ t }) => {
                 dispatch(hidePopup());
               }}
             >
-              {t('Back to My Account')}
+              {t('cancelpause-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>
@@ -150,12 +167,4 @@ const CancelPausePopup = ({ t }) => {
   );
 };
 
-CancelPausePopup.propTypes = {
-  t: PropTypes.func
-};
-
-CancelPausePopup.defaultProps = {
-  t: k => k
-};
-
-export default withTranslation()(labeling()(CancelPausePopup));
+export default CancelPausePopup;
