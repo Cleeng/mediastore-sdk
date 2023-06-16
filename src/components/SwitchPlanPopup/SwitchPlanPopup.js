@@ -102,7 +102,7 @@ const SwitchPlanPopup = ({
     return (
       <InnerPopupWrapper
         steps={2}
-        popupTitle={t('Change Plan')}
+        popupTitle={t('switchplan-popup.change-plan', 'Change Plan')}
         currentStep={1}
       >
         <SkeletonWrapper
@@ -118,7 +118,7 @@ const SwitchPlanPopup = ({
   return (
     <InnerPopupWrapper
       steps={isPartOfCancellationFlow ? 3 : 2}
-      popupTitle={t('Change Plan')}
+      popupTitle={t('switchplan-popup.change-plan', 'Change Plan')}
       currentStep={
         isPartOfCancellationFlow ? STEPS_NUMBERS[step] + 1 : STEPS_NUMBERS[step]
       }
@@ -136,10 +136,13 @@ const SwitchPlanPopup = ({
               <SubscriptionIconStyled period={toOffer.period} showLabel="New" />
             </ImageWrapper>
             <TitleStyled step={step} textTransform="capitalize">
-              {t(toOffer.switchDirection)}
+              {t(
+                `switchplan-popup.${toOffer.switchDirection}-title`,
+                toOffer.switchDirection
+              )}
             </TitleStyled>
             <TextStyled step={step}>
-              <Trans i18nKey="switchplanpopup-info">
+              <Trans i18nKey="switchplan-popup-info">
                 You are about to change your plan from{' '}
                 <strong>
                   {{
@@ -161,7 +164,7 @@ const SwitchPlanPopup = ({
                 .
               </Trans>{' '}
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
-                <Trans i18nKey="switchplanpopup-info-immediatewithoutproration">
+                <Trans i18nKey="switchplan-popup-info-immediatewithoutproration">
                   You will be immediately granted access to your selected plan
                   and charged a new price{' '}
                   <strong>
@@ -180,14 +183,17 @@ const SwitchPlanPopup = ({
                     {{
                       expiresAt:
                         fromOffer.expiresAt === INFINITE_DATE
-                          ? t('when the next season start')
+                          ? t(
+                              'switchplan-popup.when-next-season-start',
+                              'when the next season start'
+                            )
                           : dateFormat(fromOffer.expiresAt)
                     }}
                   </strong>
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_WITH_REFUND' && (
-                <Trans i18nKey="switchplanpopup-info-immediateandchargewithrefund">
+                <Trans i18nKey="switchplan-popup-info-immediateandchargewithrefund">
                   You will be charged{' '}
                   <strong>
                     {{
@@ -217,7 +223,7 @@ const SwitchPlanPopup = ({
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITH_FULL_REFUND' && (
-                <Trans i18nKey="switchplanpopup-info-immediateandchargewithfullrefund">
+                <Trans i18nKey="switchplan-popup-info-immediateandchargewithfullrefund">
                   You will be charged{' '}
                   <strong>
                     {{
@@ -245,7 +251,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'DEFERRED' && (
-                <Trans i18nKey="switchplanpopup-info-deferred">
+                <Trans i18nKey="switchplan-popup-info-deferred">
                   You will continue to have access to{' '}
                   <strong>
                     {{
@@ -260,7 +266,10 @@ const SwitchPlanPopup = ({
                     {{
                       expiresAt:
                         fromOffer.expiresAt === INFINITE_DATE
-                          ? t('the next season start')
+                          ? t(
+                              'switchplan-popup.next-season-start',
+                              'the next season start'
+                            )
                           : dateFormat(fromOffer.expiresAt)
                     }}
                   </strong>
@@ -278,7 +287,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (
-                <Trans i18nKey="switchplanpopup-info-immediateandchargefullprice">
+                <Trans i18nKey="switchplan-popup-info-immediateandchargefullprice">
                   You will be charged{' '}
                   <strong>
                     {{
@@ -307,7 +316,7 @@ const SwitchPlanPopup = ({
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION' && (
-                <Trans i18nKey="switchplanpopup-info-immediateandchargewithoutproration">
+                <Trans i18nKey="switchplan-popup-info-immediateandchargewithoutproration">
                   You will be charged{' '}
                   <strong>
                     {{
@@ -324,7 +333,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_WITH_TIME_PRORATION' && (
-                <Trans i18nKey="switchplanpopup-info-immediatewithtimeproration">
+                <Trans i18nKey="switchplan-popup-info-immediatewithtimeproration">
                   You will be immediately granted access to your selected plan.
                   Your next billing date will be changed and pushed towards,
                   based on the time left on your previous subscription. From
@@ -343,7 +352,7 @@ const SwitchPlanPopup = ({
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITH_TIME_PRORATION' && (
-                <Trans i18nKey="switchplanpopup-info-immediateandchargewithtimeproration">
+                <Trans i18nKey="switchplan-popup-info-immediateandchargewithtimeproration">
                   You will be immediately charged{' '}
                   <strong>
                     {{
@@ -366,6 +375,7 @@ const SwitchPlanPopup = ({
                 <>
                   <br />
                   {t(
+                    'switchplan-popup.coupon-will-not-apply',
                     'Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.'
                   )}
                   <br />
@@ -375,12 +385,18 @@ const SwitchPlanPopup = ({
               {isPriceTemporaryModified(toOffer.toOfferId) && (
                 <>
                   <br />
-                  {t('Note, the presented price does not include taxes.')}
+                  {t(
+                    'switchplan-popup.price-without-taxes',
+                    'Note, the presented price does not include taxes.'
+                  )}
                   <br />
                 </>
               )}
               <br />
-              {t('Do you want to apply the change now?')}
+              {t(
+                'switchplan-popup.apply-change-question',
+                'Do you want to apply the change now?'
+              )}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
@@ -414,13 +430,13 @@ const SwitchPlanPopup = ({
                 }
               }}
             >
-              {t('Keep Current Plan')}
+              {t('switchplan-popup.resign-button', 'Keep Current Plan')}
             </Button>
             <Button theme="confirm" onClickFn={changePlan}>
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t(`Change Plan`)
+                t('switchplan-popup.confirm-button', 'Change Plan')
               )}
             </Button>
           </ButtonWrapperStyled>
@@ -433,11 +449,11 @@ const SwitchPlanPopup = ({
               <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
             </ImageWrapper>
             <TitleStyled step={step}>
-              {t('thank-you-page.header', 'Thank You!')}
+              {t('switchplan-popup.success.header', 'Thank You!')}
             </TitleStyled>
             <TextStyled step={step}>
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
-                <Trans i18nKey="switchplanpopup-confirm-immediatewithoutproration">
+                <Trans i18nKey="switchplan-popup-confirm-immediatewithoutproration">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
@@ -462,7 +478,10 @@ const SwitchPlanPopup = ({
                     {{
                       expiresAt:
                         fromOffer.expiresAt === INFINITE_DATE
-                          ? t('the next season start')
+                          ? t(
+                              'switchplan-popup.next-season-start',
+                              'the next season start'
+                            )
                           : dateFormat(fromOffer.expiresAt)
                     }}
                   </strong>
@@ -470,7 +489,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_WITH_REFUND' && (
-                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithrefund">
+                <Trans i18nKey="switchplan-popup-confirm-immediateandchargewithrefund">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
@@ -498,7 +517,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'DEFERRED' && (
-                <Trans i18nKey="switchplanpopup-confirm-deferred">
+                <Trans i18nKey="switchplan-popup-confirm-deferred">
                   You have successfully requested the switch to{' '}
                   <strong>
                     {{
@@ -513,7 +532,10 @@ const SwitchPlanPopup = ({
                     {{
                       expiresAt:
                         fromOffer.expiresAt === INFINITE_DATE
-                          ? t('the next season start')
+                          ? t(
+                              'switchplan-popup.next-season-start',
+                              'the next season start'
+                            )
                           : dateFormat(fromOffer.expiresAt)
                     }}
                   </strong>{' '}
@@ -529,7 +551,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (
-                <Trans i18nKey="switchplanpopup-confirm-immediateandchargefullprice">
+                <Trans i18nKey="switchplan-popup-confirm-immediateandchargefullprice">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
@@ -558,7 +580,7 @@ const SwitchPlanPopup = ({
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITH_FULL_REFUND' && (
-                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithfullrefund">
+                <Trans i18nKey="switchplan-popup-confirm-immediateandchargewithfullrefund">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
@@ -587,7 +609,7 @@ const SwitchPlanPopup = ({
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION' && (
-                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithoutproration">
+                <Trans i18nKey="switchplan-popup-confirm-immediateandchargewithoutproration">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
@@ -615,7 +637,7 @@ const SwitchPlanPopup = ({
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_WITH_TIME_PRORATION' && (
-                <Trans i18nKey="switchplanpopup-confirm-immediatewithtimeproration">
+                <Trans i18nKey="switchplan-popup-confirm-immediatewithtimeproration">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
@@ -638,7 +660,7 @@ const SwitchPlanPopup = ({
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITH_TIME_PRORATION' && (
-                <Trans i18nKey="switchplanpopup-confirm-immediateandchargewithtimeproration">
+                <Trans i18nKey="switchplan-popup-confirm-immediateandchargewithtimeproration">
                   You have successfully changed your plan to{' '}
                   <strong>
                     {{
@@ -666,7 +688,7 @@ const SwitchPlanPopup = ({
               theme="confirm"
               onClickFn={onSwitchSuccess || closePopupAndRefresh}
             >
-              {t('Back to My Account')}
+              {t('switchplan-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>
@@ -677,9 +699,12 @@ const SwitchPlanPopup = ({
             <ImageWrapper>
               <Close />
             </ImageWrapper>
-            <TitleStyled step={step}>{t('An error occurred.')}</TitleStyled>
+            <TitleStyled step={step}>
+              {t('switchplan-popup.error-title', 'An error occurred.')}
+            </TitleStyled>
             <TextStyled step={step}>
               {t(
+                'switchplan-popup.error-description',
                 'We have been unable to change your plan to {{ title }} as an error occurred. Sorry for the inconvenience, please try again.',
                 {
                   title: toOffer.title
@@ -692,7 +717,7 @@ const SwitchPlanPopup = ({
               theme="confirm"
               onClickFn={onSwitchError || closePopupAndRefresh}
             >
-              {t('Back to My Account')}
+              {t('switchplan-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>

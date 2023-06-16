@@ -108,6 +108,7 @@ export const orderSlice = createSlice({
       state.couponDetails = {
         showMessage: false,
         message: '',
+        translationKey: '',
         messageType: MESSAGE_TYPE_SUCCESS
       };
     },
@@ -117,6 +118,7 @@ export const orderSlice = createSlice({
       state.couponDetails = {
         showMessage: true,
         message: 'Your coupon has been applied!',
+        translationKey: 'coupon-input.success',
         messageType: MESSAGE_TYPE_SUCCESS
       };
     },
@@ -127,6 +129,7 @@ export const orderSlice = createSlice({
         showMessage: true,
         message:
           'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
+        translationKey: 'coupon-input.error',
         messageType: MESSAGE_TYPE_FAIL
       };
     },

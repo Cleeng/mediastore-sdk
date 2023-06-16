@@ -26,15 +26,17 @@ const ErrorStep = () => {
         <ImageWrapper>
           <WarningIcon />
         </ImageWrapper>
-        <TitleStyled>{t('Oops, something went wrong')}</TitleStyled>
+        <TitleStyled>
+          {t('oops-something-went-wrong', 'Oops! Something went wrong.')}
+        </TitleStyled>
         <TextStyled>
           {error?.includes('Refused') ? (
-            <Trans i18nKey="update-payment-details.refused">
+            <Trans i18nKey="update-payment-details-popup.refused">
               We weren’t able to update your payment method. <br /> Please try
               again.
             </Trans>
           ) : (
-            <Trans i18nKey="update-payment-details.error">
+            <Trans i18nKey="update-payment-details-popup.error">
               We weren’t able to update your payment details. <br /> Please try
               again using different payment method.
             </Trans>
@@ -53,7 +55,7 @@ const ErrorStep = () => {
             )
           }
         >
-          {t('Try again')}
+          {t('update-payment-details-popup.try-again', 'Try again')}
         </Button>
       </ButtonWrapperStyled>
     </>

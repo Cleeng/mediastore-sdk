@@ -22,9 +22,12 @@ const Success = () => {
         <ImageWrapper>
           <CheckmackIcon />
         </ImageWrapper>
-        <TitleStyled>{t('Success')}</TitleStyled>
+        <TitleStyled>
+          {t('update-payment-details-popup.success.title', 'Success')}
+        </TitleStyled>
         <TextStyled>
           {t(
+            'update-payment-details-popup.success.info',
             'Your payment details have been updated and will be visible on your account shortly.'
           )}
         </TextStyled>
@@ -34,7 +37,10 @@ const Success = () => {
           theme="simple"
           onClickFn={() => dispatch(resetPaymentDetailsPopupState())}
         >
-          {t('Back to Payment Details')}
+          {t(
+            'update-payment-details-popup.success.back',
+            'Back to Payment Details'
+          )}
         </Button>
       </ButtonWrapperStyled>
     </>

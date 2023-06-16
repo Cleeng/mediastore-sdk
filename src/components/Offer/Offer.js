@@ -57,7 +57,7 @@ class Offer extends Component {
           <>
             <StyledOfferBody>
               <SectionHeader center>
-                {t('Complete your purchase')}
+                {t('offer.complete-purchase', 'Complete your purchase')}
               </SectionHeader>
               <>
                 <StyledOfferDetailsAndCoupon>

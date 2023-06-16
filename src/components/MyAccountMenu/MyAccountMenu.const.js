@@ -9,6 +9,7 @@ export const MenuItems = [
     icon: PlanIcon,
     label: 'Plan Details',
     link: 'plan-details',
+    translationKey: 'menuitem.plan-details',
     visibleOnDesktop: true
   },
   {
@@ -16,6 +17,7 @@ export const MenuItems = [
     icon: PaymentIcon,
     label: 'Your Payments',
     link: 'payment-info',
+    translationKey: 'menuitem.your-payments',
     visibleOnDesktop: true
   },
   {
@@ -23,6 +25,7 @@ export const MenuItems = [
     icon: UpdateIcon,
     label: 'Update Profile',
     link: 'update-profile',
+    translationKey: 'menuitem.update-profile',
     visibleOnDesktop: true
   }
 ];

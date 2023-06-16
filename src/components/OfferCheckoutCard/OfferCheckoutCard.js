@@ -141,7 +141,10 @@ const OfferCheckoutCard = ({ isDataLoaded }) => {
         return t('pass-desc.date', `Access until {{date}}`, { date });
       }
       return periodMapper[period]
-        ? `${periodMapper[period].accessText} season pass`
+        ? `${t(
+            `period.${periodMapper[period].accessText.toLowerCase()}`,
+            periodMapper[period].accessText
+          )} ${t('offer-checkout-card.season-pass', 'season pass')}`
         : '';
     }
     if (offerType === 'E') {
@@ -151,11 +154,14 @@ const OfferCheckoutCard = ({ isDataLoaded }) => {
     }
     if (offerType === 'R') {
       return periodMapper[period]
-        ? `${periodMapper[period].accessText} access`
+        ? `${t(
+            `period.${periodMapper[period].accessText.toLowerCase()}`,
+            periodMapper[period].accessText
+          )} ${t('offer-checkout-card.access', 'access')}`
         : '';
     }
     if (offerType === 'A') {
-      return t('Unlimited access');
+      return t('offer-checkout-card.unlimited-access', 'Unlimited access');
     }
     return '';
   };

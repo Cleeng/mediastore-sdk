@@ -71,7 +71,7 @@ const CancelPausePopup = ({
   return (
     <InnerPopupWrapper
       steps={2}
-      popupTitle={t('cancel-pause-popup.title', 'Cancel pause')}
+      popupTitle={t('cancelpause-popup.title', 'Cancel pause')}
       currentStep={step}
       isError={isError}
     >
@@ -79,11 +79,11 @@ const CancelPausePopup = ({
         <>
           <ContentStyled>
             <TitleStyled>
-              {t('cancel-pause-popup.title', 'Cancel pause')}
+              {t('cancelpause-popup.title', 'Cancel pause')}
             </TitleStyled>
             <TextStyled>
               {t(
-                'cancel-pause-popup.information-text',
+                'cancelpause-popup.information-text',
                 'Your current plan will be paused starting on {{baseOfferExpirationDate}}. Cancel the pause to resume access to your {{ pausedOfferTitle }} subscription. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ pausedOfferTitle }}.',
                 {
                   baseOfferExpirationDate,
@@ -94,7 +94,7 @@ const CancelPausePopup = ({
             </TextStyled>
             <TextStyled>
               {t(
-                'cancel-pause-popup.question-text',
+                'cancelpause-popup.question-text',
                 'Would you like to cancel the pause request?'
               )}
             </TextStyled>
@@ -110,13 +110,13 @@ const CancelPausePopup = ({
                 hideInnerPopup();
               }}
             >
-              {t('No, thanks')}
+              {t('cancelpause-popup.resign', 'No, thanks')}
             </Button>
             <Button theme="danger" onClickFn={cancelPause}>
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t('cancel-pause-popup.confirm-button-text', 'Cancel pause')
+                t('cancelpause-popup.confirm-button-text', 'Cancel pause')
               )}
             </Button>
           </ButtonWrapperStyled>
@@ -128,13 +128,13 @@ const CancelPausePopup = ({
             <img src={checkmarkIconBase} alt="checkmark icon" />
             <TitleStyled>
               {t(
-                'cancel-pause-popup.confirmation-title',
+                'cancelpause-popup.confirmation-title',
                 'Your pause request has been canceled.'
               )}
             </TitleStyled>
             <TextStyled>
               {t(
-                'cancel-pause-popup.confirmation-text',
+                'cancelpause-popup.confirmation-text',
                 'Your access to your {{ pausedOfferTitle }} subscription will continue.',
                 {
                   pausedOfferTitle
@@ -150,7 +150,7 @@ const CancelPausePopup = ({
                 hideInnerPopup();
               }}
             >
-              {t('Back to My Account')}
+              {t('cancelpause-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>

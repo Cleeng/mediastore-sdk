@@ -164,7 +164,9 @@ const Subscriptions = ({
         renderPopup(innerPopup.type)
       ) : (
         <>
-          <SectionHeader>{t('Current plan')}</SectionHeader>
+          <SectionHeader>
+            {t('subscriptions.current-plan', 'Current plan')}
+          </SectionHeader>
           <CurrentPlan
             subscriptions={planDetails.currentPlan}
             errors={isErrorCurrentPlan}
