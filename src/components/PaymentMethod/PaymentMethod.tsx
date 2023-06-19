@@ -65,7 +65,7 @@ const PaymentMethod = () => {
   if (loading) {
     return (
       <CardsWrapper numberOfItems={1}>
-        <PaymentCardSkeleton />;
+        <PaymentCardSkeleton />
       </CardsWrapper>
     );
   }
