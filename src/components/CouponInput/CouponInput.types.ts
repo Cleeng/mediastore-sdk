@@ -14,7 +14,7 @@ export type CouponInputProps = {
     showMessage: boolean;
     message: string;
     messageType: MessageType;
-    translationKey: string
+    translationKey: string;
   };
   onSubmit: (args: string) => void;
   onChange: (args: string) => void;

@@ -1,4 +1,4 @@
 export type OfferProps = {
-  onCouponSubmit: (...args: unknown[]) => void;
+  onCouponSubmit: (couponCode: string) => void;
   onPaymentComplete: () => void;
 };

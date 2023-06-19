@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  getPaymentMethods,
-  submitPayment,
-  submitPayPalPayment
-} from 'api';
+import { getPaymentMethods, submitPayment, submitPayPalPayment } from 'api';
 import { submitPaymentWithoutDetails } from 'redux/paymentSlice';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
@@ -27,9 +23,7 @@ import {
   selectPublisherConfig
 } from 'redux/publisherConfigSlice';
 import { fetchUpdateOrder, selectOnlyOrder } from 'redux/orderSlice';
-import {
-  setSelectedPaymentMethod,
-} from 'redux/paymentMethodsSlice';
+import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import RedirectElement from '@adyen/adyen-web';
 import {
@@ -263,7 +257,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   };
 
   const getDropIn = (drop: typeof RedirectElement, type: paymentMethodType) => {
-    //TODO check if paymentMethodType is correct
+    // TODO check if paymentMethodType is correct
     if (type === BANK_PAYMENT_METHODS) {
       setBankDropInInstance(drop);
     } else {
@@ -317,9 +311,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     return (
       <PaymentStyled>
         <SectionHeader marginTop="25px" center>
-          <>
-            {t('payment.purchase-using', 'Purchase using')}
-          </>
+          <>{t('payment.purchase-using', 'Purchase using')}</>
         </SectionHeader>
         {generalError ? (
           <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
@@ -361,9 +353,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   return (
     <PaymentStyled>
       <SectionHeader marginTop="25px" paddingBottom="0" center>
-        <>
-          {t('payment.purchase-using', 'Purchase using')}
-        </>
+        <>{t('payment.purchase-using', 'Purchase using')}</>
       </SectionHeader>
       <LegalCopy />
       <PaymentWrapperStyled>
@@ -399,9 +389,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
           <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
         )}
       </PaymentWrapperStyled>
-      {order?.offerId?.charAt(0) === 'S' && (
-        <LegalNote />
-      )}
+      {order?.offerId?.charAt(0) === 'S' && <LegalNote />}
     </PaymentStyled>
   );
 };

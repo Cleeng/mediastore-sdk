@@ -20,7 +20,7 @@ import {
 import OfferCheckoutCard from '../OfferCheckoutCard';
 import { OfferProps } from './Offer.types';
 
-const Offer = ({ onCouponSubmit, onPaymentComplete,}: OfferProps) => {
+const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
   const { t } = useTranslation();
   const [coupon, setCoupon] = useState('');
   const { trialAvailable } = useAppSelector(selectOnlyOffer);
@@ -48,7 +48,9 @@ const Offer = ({ onCouponSubmit, onPaymentComplete,}: OfferProps) => {
       <Header />
       <main>
         <StyledOfferBody>
-          <SectionHeader center> {t('offer.complete-purchase', 'Complete your purchase')}</SectionHeader>
+          <SectionHeader center>
+            {t('offer.complete-purchase', 'Complete your purchase')}
+          </SectionHeader>
           <StyledOfferDetailsAndCoupon>
             <OfferCardWrapperStyled>
               <OfferCheckoutCard />
