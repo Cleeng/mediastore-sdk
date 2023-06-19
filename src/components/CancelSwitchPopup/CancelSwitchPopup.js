@@ -31,8 +31,7 @@ const CancelSwitchPopup = () => {
       switchDirection,
       switchOfferTitle: untranslatedSwitchOfferTitle,
       baseOfferTitle: untranslatedBaseOfferTitle,
-      baseOfferExpirationDate,
-      baseOfferPrice
+      baseOfferExpirationDate
     }
   } = useSelector(state => state.popupManager);
 

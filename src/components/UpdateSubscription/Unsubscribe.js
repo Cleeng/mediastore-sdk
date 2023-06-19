@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
-import store from 'redux/store';
 
 import updateSubscription from 'api/Customer/updateSubscription';
 import {
@@ -96,7 +95,7 @@ const Unsubscribe = ({
     ) {
       return false;
     }
-    if (!offerData.inTrial && downgrades.length) {
+    if (!offerDetails.inTrial && downgrades.length) {
       const downgradesFiltered = downgrades.filter(
         ({ toOfferId }) => !pauseOffersIDs.includes(toOfferId)
       );
@@ -255,17 +254,19 @@ const Unsubscribe = ({
           <ButtonWrapperStyled fillWrapper customMargin="80px 0 0">
             <Button
               theme="confirm"
-              onClickFn={() => {
-                showInnerPopup({
-                  type: 'pauseSubscription',
-                  data: {
-                    offerData: {
-                      ...pauseOffer[0]
-                    },
-                    isPartOfCancellationFlow: true
-                  }
-                });
-              }}
+              onClickFn={() => 
+                dispatch(
+                  showPopup({
+                    type: 'pauseSubscription',
+                    data: {
+                      offerData: {
+                        ...pauseOffer[0]
+                      },
+                      isPartOfCancellationFlow: true
+                    }
+                  })
+                )
+              }
             >
               {t('unsubscribe-popup.pause-button-text', 'Pause')}
             </Button>
@@ -277,7 +278,7 @@ const Unsubscribe = ({
             )}
           </TextStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={hideInnerPopup}>
+            <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
               {t('unsubscribe-popup.back-button', 'Back to My Account')}
             </Button>
             <Button

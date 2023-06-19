@@ -1,6 +1,6 @@
-import { AdyenConfiguration } from 'redux/publisherConfigSlice';
-
+// import { AdyenConfiguration } from 'redux/publisherConfigSlice';
+// TODO: fix
 export type PaymentInfoProps = {
-  adyenConfiguration?: null | AdyenConfiguration;
+  adyenConfiguration?: null;
   displayGracePeriodError: boolean;
 };

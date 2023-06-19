@@ -102,7 +102,7 @@ ThankYouPage.propTypes = {
 };
 
 ThankYouPage.defaultProps = {
-  onSuccess: t => t,
+  onSuccess: t => t
 };
 
 export { ThankYouPage as PureThankYouPage };

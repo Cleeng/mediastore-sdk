@@ -89,7 +89,9 @@ const SubscriptionSwitches = ({
 
   return (
     <WrapStyled>
-      <SectionHeader>{t('subscription-switches.change-plan', 'Change Plan')}</SectionHeader>
+      <SectionHeader>
+        {t('subscription-switches.change-plan', 'Change Plan')}
+      </SectionHeader>
       <SubscriptionSwitchesList />
     </WrapStyled>
   );

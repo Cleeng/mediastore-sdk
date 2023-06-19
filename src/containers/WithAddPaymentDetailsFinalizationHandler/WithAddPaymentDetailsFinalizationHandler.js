@@ -7,11 +7,7 @@ import {
 import { setActiveTab, MYACCCOUNT_TABS } from 'redux/myaccountSlice';
 
 const withAddPaymentDetailsFinalizationHandler = Component => {
-  return ({
-    // eslint-disable-next-line react/prop-types
-    onSuccess,
-    ...props
-  }) => {
+  return ({ ...props }) => {
     const dispatch = useDispatch();
 
     const adyenRedirectResult = new URLSearchParams(window.location.search).get(
@@ -34,7 +30,7 @@ const withAddPaymentDetailsFinalizationHandler = Component => {
       }
     }, []);
 
-    return <Component onSuccess={onSuccess} {...props} />;
+    return <Component {...props} />;
   };
 };
 

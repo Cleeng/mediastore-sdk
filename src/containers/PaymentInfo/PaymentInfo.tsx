@@ -26,9 +26,8 @@ const PaymentInfo = ({
   const dispatch = useAppDispatch();
 
   const adyenConfigurationStore = useAppSelector(selectAdyenConfiguration);
-  
-  const { t } = useTranslation();
 
+  const { t } = useTranslation();
 
   const paymentDetailsPopup = useAppSelector(selectPaymentDetailsPopup);
 
@@ -61,14 +60,15 @@ const PaymentInfo = ({
         <>
           <SectionHeader>
             <>
-              {t('paymentinfo.current-payment-method', 'Current payment method')}
+              {t(
+                'paymentinfo.current-payment-method',
+                'Current payment method'
+              )}
             </>
           </SectionHeader>
           <PaymentMethod />
           <SectionHeader marginTop="25px">
-            <>
-              {t('paymentinfo.payment-history', 'Payment history')}
-            </>
+            <>{t('paymentinfo.payment-history', 'Payment history')}</>
           </SectionHeader>
           <Transactions />
         </>

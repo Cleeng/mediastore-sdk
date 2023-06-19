@@ -17,7 +17,7 @@ const MyAccountUserInfo = () => {
   const {
     data: [plan]
   } = useSelector(state => state.plan.currentPlan);
-    
+
   const { t } = useTranslation();
 
   const isDataLoaded = !!user;

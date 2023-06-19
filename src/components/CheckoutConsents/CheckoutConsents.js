@@ -149,7 +149,7 @@ CheckoutConsents.propTypes = {
 };
 
 CheckoutConsents.defaultProps = {
-  onSuccess: () => {}
+  onSuccess: () => null
 };
 
 export default CheckoutConsents;

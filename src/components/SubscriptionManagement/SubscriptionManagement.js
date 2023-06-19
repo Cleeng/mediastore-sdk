@@ -248,12 +248,12 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
 
 SubscriptionManagement.propTypes = {
   subscription: PropTypes.objectOf(PropTypes.any),
-  showMessageBox: PropTypes.func,
+  showMessageBox: PropTypes.func
 };
 
 SubscriptionManagement.defaultProps = {
   subscription: {},
-  showMessageBox: () => {},
+  showMessageBox: () => null
 };
 
 export { SubscriptionManagement as PureSubscriptionManagement };
