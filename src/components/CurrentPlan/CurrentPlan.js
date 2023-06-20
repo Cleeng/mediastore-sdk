@@ -51,10 +51,12 @@ const EmptyPlanView = () => {
         <IconStyled>
           <NoSubscriptionsIcon />
         </IconStyled>
-        <TitleStyled>{t('No offers yet!')}</TitleStyled>
+        <TitleStyled>
+          {t('currentplan.no-offers-title', 'No offers yet!')}
+        </TitleStyled>
         <SubTitleStyled>
           {getData('CLEENG_OFFER_SELECTION_URL') ? (
-            <Trans i18nKey="myaccount-nooffers-withlink">
+            <Trans i18nKey="currentplan.no-offers-text-withlink">
               If you{' '}
               <a
                 href={getData('CLEENG_OFFER_SELECTION_URL')}
@@ -67,6 +69,7 @@ const EmptyPlanView = () => {
             </Trans>
           ) : (
             t(
+              'currentplan.no-offers-text',
               'If you choose your plan, you will be able to manage your offers here.'
             )
           )}
@@ -132,29 +135,26 @@ const CurrentPlan = ({
               currency = currencyFormat[subItem.nextPaymentCurrency];
               renewalDate = dateFormat(subItem.expiresAt);
               if (subItem.expiresAt === INFINITE_DATE)
-                renewalDate = t('the next season start');
+                renewalDate = t(
+                  'currentplan.next-season-start',
+                  'the next season start'
+                );
               if (subItem.status === 'active' && !subItem.pendingSwitchId) {
-                if (subItem.period === 'season') {
-                  description = `${t(
-                    'Renews automatically on {{renewalDate}}',
-                    {
-                      renewalDate,
-                      price,
-                      currency
-                    }
-                  )}`;
-                } else {
-                  description = `${t(
-                    'Renews automatically on {{renewalDate}}',
-                    {
-                      renewalDate
-                    }
-                  )}`;
-                }
+                description = `${t(
+                  'currentplan.subscription.renews-info',
+                  'Renews automatically on {{renewalDate}}',
+                  {
+                    renewalDate
+                  }
+                )}`;
               } else if (subItem.status === 'cancelled') {
-                description = `${t('This plan will expire on {{renewalDate}}', {
-                  renewalDate
-                })}`;
+                description = `${t(
+                  'currentplan.subscription.expire-info',
+                  'This plan will expire on {{renewalDate}}',
+                  {
+                    renewalDate
+                  }
+                )}`;
               } else {
                 description = '';
               }
@@ -163,9 +163,11 @@ const CurrentPlan = ({
             case 'P':
               price = subItem.totalPrice;
               currency = currencyFormat[subItem.customerCurrency];
-              description = `${t('Expires on')} ${dateFormat(
-                subItem.expiresAt
-              )}`;
+              description = `${t(
+                'currentplan.pass.expires-on',
+                'Expires on'
+              )} ${dateFormat(subItem.expiresAt)}`;
+
               break;
             default:
               break;

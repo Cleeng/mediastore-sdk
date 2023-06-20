@@ -62,30 +62,36 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList }) => {
   return (
     <InnerPopupWrapper
       steps={2}
-      popupTitle={t('Manage your plan')}
+      popupTitle={t('resubscribe-popup.title', 'Manage your plan')}
       isError={isError}
       currentStep={currentStep}
     >
       {currentStep === 1 ? (
         <>
           <ContentStyled>
-            <TitleStyled>{t('Resume your plan')}</TitleStyled>
+            <TitleStyled>
+              {t('resubscribe-popup.resume-plan', 'Resume your plan')}
+            </TitleStyled>
             <TextStyled>
               {t(
+                'resubscribe-popup.resume-plan-button-info',
                 'By clicking the button below you can resume your plan. Your next bill will be on'
               )}{' '}
               <b>
                 {expiresAt === INFINITE_DATE
-                  ? t('the next season start')
+                  ? t(
+                      'resubscribe-popup.next-season-start',
+                      'the next season start'
+                    )
                   : dateFormat(expiresAt)}{' '}
               </b>
-              {t('and it will be')}{' '}
+              {t('resubscribe-popup.it-will-be', 'and it will be')}{' '}
               <b>{`${currencySymbol}${nextPaymentPrice}`}</b>.
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button theme="simple" onClickFn={() => cancelResubscribeAction()}>
-              {t('No, thanks')}
+              {t('resubscribe-popup.no-thanks', 'No, thanks')}
             </Button>
             <Button
               theme="confirm"
@@ -93,20 +99,29 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList }) => {
               disabled={isLoading}
             >
               {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
-                t('Resume')}
+                t('resubscribe-popup.resume', 'Resume')}
             </Button>
           </ButtonWrapperStyled>
         </>
       ) : (
         <ContentStyled>
           <img src={checkmarkIcon} alt="checkmark icon" />
-          <TitleStyled>{t('Your plan has been renewed')}</TitleStyled>
+          <TitleStyled>
+            {t('resubscribe-popup.success.title', 'Your plan has been renewed')}
+          </TitleStyled>
           <TextStyled>
-            {t('You have been successfully resubscribed. Your fee will be')}{' '}
-            <b>{`${currencySymbol}${nextPaymentPrice}`}</b> {t('started from')}{' '}
+            {t(
+              'resubscribe-popup.success.description',
+              'You have been successfully resubscribed. Your fee will be'
+            )}{' '}
+            <b>{`${currencySymbol}${nextPaymentPrice}`}</b>{' '}
+            {t('resubscribe-popup.started-from', 'started from')}{' '}
             <b>
               {expiresAt === INFINITE_DATE
-                ? t('the next season start')
+                ? t(
+                    'resubscribe-popup.next-season-start',
+                    'the next season start'
+                  )
                 : dateFormat(expiresAt)}
               .
             </b>
@@ -119,7 +134,7 @@ const Resubscribe = ({ offerDetails, hideInnerPopup, updateList }) => {
               updateList();
             }}
           >
-            {t('Back to My Account')}
+            {t('resubscribe-popup.back-button', 'Back to My Account')}
           </Button>
         </ContentStyled>
       )}

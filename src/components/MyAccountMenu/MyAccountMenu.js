@@ -24,23 +24,25 @@ const MyAccountMenu = () => {
   return (
     <WrapStyled>
       <ItemsStyled>
-        {MenuItems.map(({ icon, label, visibleOnDesktop, id }) => {
-          const IconComponent = icon || React.Fragment;
-          return (
-            <ItemWrapStyled
-              key={label}
-              visibleOnDesktop={visibleOnDesktop}
-              onClick={() => onMenuItemClick(id)}
-            >
-              <ItemStyled isActive={activeTab === id}>
-                <ItemIconWrapStyled>
-                  <IconComponent />
-                </ItemIconWrapStyled>
-                <ItemLabelStyled>{t(label)}</ItemLabelStyled>
-              </ItemStyled>
-            </ItemWrapStyled>
-          );
-        })}
+        {MenuItems.map(
+          ({ icon, label, visibleOnDesktop, id, translationKey }) => {
+            const IconComponent = icon || React.Fragment;
+            return (
+              <ItemWrapStyled
+                key={label}
+                visibleOnDesktop={visibleOnDesktop}
+                onClick={() => onMenuItemClick(id)}
+              >
+                <ItemStyled isActive={activeTab === id}>
+                  <ItemIconWrapStyled>
+                    <IconComponent />
+                  </ItemIconWrapStyled>
+                  <ItemLabelStyled>{t(translationKey, label)}</ItemLabelStyled>
+                </ItemStyled>
+              </ItemWrapStyled>
+            );
+          }
+        )}
       </ItemsStyled>
     </WrapStyled>
   );

@@ -26,7 +26,7 @@ const FailedPaymentPage = () => {
       <ThankYouPageStyled>
         <WarningIcon />
         <TitleStyled>
-          {t('failed-payment-page.title', `Oops! Something went wrong`)}
+          {t('oops-something-went-wrong', `Oops! Something went wrong`)}
         </TitleStyled>
         <MessageStyled>
           <strong>

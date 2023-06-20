@@ -28,25 +28,36 @@ const FreeOffer = ({ onPaymentComplete }) => {
 
   const offerType = offerId?.charAt(0);
   const icon = period || offerType;
+
   const generateDescriptionForFreeOffer = () => {
     switch (offerType) {
       case 'S': {
-        return `Free subscription`;
+        return t('free-offer.subscription', 'Free subscription');
       }
       case 'P': {
         if (!period) {
-          return `Access until ${dateFormat(expiresAt, true)}`;
+          return t('free-offer.pass', 'Access until {{date}}', {
+            date: dateFormat(expiresAt, true)
+          });
         }
-        return `${periodMapper[period].accessText} free pass`;
+        return `${t(
+          `period.${periodMapper[period].accessText.toLowerCase()}`,
+          periodMapper[period].accessText
+        )} ${t('free-offer.free-pass', 'free pass')}`;
       }
       case 'E': {
-        return `Free event ${startTime ? dateFormat(startTime, true) : ''}`;
+        return t('free-offer.event', 'Free event {{date}}', {
+          date: startTime ? dateFormat(startTime, true) : ''
+        });
       }
       case 'R': {
-        return `${periodMapper[period].accessText} free access`;
+        return `${t(
+          `period.${periodMapper[period].accessText.toLowerCase()}`,
+          periodMapper[period].accessText
+        )} ${t('free-offer.free-access', 'free access')}`;
       }
       case 'A':
-        return 'Unlimited access';
+        return t('free-offer.unlimited-access', 'Unlimited access');
       default:
         return '';
     }
@@ -76,12 +87,14 @@ const FreeOffer = ({ onPaymentComplete }) => {
             {isLoading ? (
               <Loader buttonLoader color="#ffffff" />
             ) : (
-              t('Get Access')
+              t('free-offer.get-access', 'Get Access')
             )}
           </Button>
           {error && <ErrorMessageStyled>{t(error)}</ErrorMessageStyled>}
         </ButtonWrapperStyled>
-        <SubTextStyled>{t('Free, no additional cost')}</SubTextStyled>
+        <SubTextStyled>
+          {t('free-offer.no-cost', 'Free, no additional cost')}
+        </SubTextStyled>
       </CardStyled>
     </WrapStyled>
   );

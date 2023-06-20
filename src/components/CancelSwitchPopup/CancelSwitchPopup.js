@@ -103,29 +103,38 @@ const CancelSwitchPopup = ({
   return (
     <InnerPopupWrapper
       steps={2}
-      popupTitle={t('Cancel switch')}
+      popupTitle={t('cancelswitch-popup.title', 'Cancel switch')}
       currentStep={step}
       isError={isError}
     >
       {step === 1 && (
         <>
           <ContentStyled>
-            <TitleStyled>{t('Cancel switch')}</TitleStyled>
+            <TitleStyled>
+              {t('cancelswitch-popup.title', 'Cancel switch')}
+            </TitleStyled>
             <TextStyled>
               {t(
+                'cancelswitch-popup.switch-pending',
                 `Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to cancel the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.`,
                 {
                   switchDirection,
                   switchOfferTitle,
                   baseOfferExpirationDate:
                     baseOfferExpirationDate === INFINITE_DATE
-                      ? t('the next season start')
+                      ? t(
+                          'cancelswitch-popup.next-season-start',
+                          'the next season start'
+                        )
                       : dateFormat(baseOfferExpirationDate)
                 }
               )}
               <br />
               <br />
-              {t('Are you sure you want to cancel the switch?')}
+              {t(
+                'cancelswitch-popup.question',
+                'Are you sure you want to cancel the switch?'
+              )}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled removeMargin>
@@ -140,13 +149,13 @@ const CancelSwitchPopup = ({
                 hideInnerPopup();
               }}
             >
-              {t('No, thanks')}
+              {t('cancelswitch-popup.resign', 'No, thanks')}
             </Button>
             <Button theme="danger" onClickFn={cancelSwitch}>
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t(`Cancel switch`)
+                t('cancelswitch-popup.confirm-button-text', 'Cancel switch')
               )}
             </Button>
           </ButtonWrapperStyled>
@@ -156,16 +165,25 @@ const CancelSwitchPopup = ({
         <>
           <ContentStyled>
             <img src={checkmarkIconBase} alt="checkmark icon" />
-            <TitleStyled>{t('Switch canceled')}</TitleStyled>
+            <TitleStyled>
+              {t(
+                'cancelswitch-popup.switch-cancelled-title',
+                'Switch canceled'
+              )}
+            </TitleStyled>
             <TextStyled>
               {t(
-                `You have successfully canceled your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}.`,
+                'cancelswitch-popup.switch-cancelled',
+                'You have successfully canceled your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}.',
                 {
                   switchDirection,
                   switchOfferTitle,
                   baseOfferExpirationDate:
                     baseOfferExpirationDate === INFINITE_DATE
-                      ? t('the next season start')
+                      ? t(
+                          'cancelswitch-popup.next-season-start',
+                          'the next season start'
+                        )
                       : dateFormat(baseOfferExpirationDate),
                   baseOfferTitle
                 }
@@ -180,7 +198,7 @@ const CancelSwitchPopup = ({
                 hideInnerPopup();
               }}
             >
-              {t('Back to My Account')}
+              {t('cancelswitch-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
         </>
