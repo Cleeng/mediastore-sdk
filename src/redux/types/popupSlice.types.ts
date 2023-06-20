@@ -1,3 +1,4 @@
+import { PaymentDetail } from 'api/Customer/types';
 import { PAYMENT_DETAILS_STEPS, POPUP_TYPES } from '../popupSlice';
 
 type Keys = keyof typeof PAYMENT_DETAILS_STEPS;
@@ -10,7 +11,7 @@ type PaymentDetails = {
   isOpen: boolean;
   isLoading: boolean;
   step: Steps;
-  initPaymentMethod: null;
+  initPaymentMethod: PaymentDetail | null;
 };
 
 type IsOpen = {
@@ -24,6 +25,8 @@ type IsLoading = {
 type Step = {
   step: Steps;
 };
+
+type InitPaymentMethod = { initPaymentMethod: PaymentDetail | null };
 
 type Offer = {
   subscriptionId: number;
@@ -121,4 +124,8 @@ export type PopupData = {
     | ResumeSubscription;
 };
 
-export type updatePaymentDetailsPopupPayloadAction = IsOpen | IsLoading | Step;
+export type updatePaymentDetailsPopupPayloadAction =
+  | IsOpen
+  | IsLoading
+  | Step
+  | InitPaymentMethod;

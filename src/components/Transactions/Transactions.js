@@ -145,7 +145,10 @@ const Transactions = () => {
                       </TitleStyled>
                       <SubTitleStyled>
                         {t('transactions.paid-with', `Paid with`)}{' '}
-                        {readablePaymentMethodNames[paymentMethod]}
+                        {t(
+                          `paymentmethod.${paymentMethod}`,
+                          readablePaymentMethodNames[paymentMethod]
+                        )}
                       </SubTitleStyled>
                     </InfoStyled>
                   </LeftBoxStyled>

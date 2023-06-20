@@ -9,13 +9,13 @@ import { setActiveTab, MYACCCOUNT_TABS } from 'redux/myaccountSlice';
 const withAddPaymentDetailsFinalizationHandler = Component => {
   return ({ ...props }) => {
     const dispatch = useDispatch();
+    const adyenRedirectResult =
+      typeof window === 'object' &&
+      new URLSearchParams(window.location.search)?.get('redirectResult');
 
-    const adyenRedirectResult = new URLSearchParams(window.location.search).get(
-      'redirectResult'
-    );
-    const paymentMethodId = new URLSearchParams(window.location.search).get(
-      'paymentMethodId'
-    );
+    const paymentMethodId =
+      typeof window === 'object' &&
+      new URLSearchParams(window?.location.search)?.get('paymentMethodId');
 
     useEffect(() => {
       if (adyenRedirectResult && paymentMethodId) {

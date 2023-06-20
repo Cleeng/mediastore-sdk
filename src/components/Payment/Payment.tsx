@@ -215,7 +215,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       billingAddress
     );
 
-    if (errors.length) {
+    if (errors?.length) {
       eventDispatcher(MSSDK_PURCHASE_FAILED, {
         reason: errors[0]
       });

@@ -82,7 +82,6 @@ const UpdatePaymentDetailsPopup = () => {
     state => state.publisherConfig
   );
   const { paymentDetails } = useSelector(state => state.paymentDetails);
-  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
   const { loading: isFinalizeAddPaymentDetailsLoading } = useSelector(
     state => state.finalizeAddPaymentDetails
   );
@@ -90,7 +89,6 @@ const UpdatePaymentDetailsPopup = () => {
     false
   );
   const selectPaymentMethodHandler = paymentMethodName => {
-    if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = paymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
