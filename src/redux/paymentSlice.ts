@@ -6,9 +6,14 @@ type RejectValueError = {
   message: string;
 };
 
+type ErrorMessage = {
+  message: string | null;
+  translationKey: string;
+};
+
 type InitialState = {
   loading: boolean;
-  error: string | null;
+  error: ErrorMessage | null;
 };
 
 export type Payment = {
@@ -70,11 +75,17 @@ export const paymentSlice = createSlice({
       (state, { payload }) => {
         state.loading = false;
         if (payload?.message.includes("Order doesn't have paymentMethodId")) {
-          state.error =
-            'Unable to proceed, because of wrong offer settings. Please, contact the owner of the offer';
+          state.error = {
+            message:
+              'Unable to proceed, because of wrong offer settings. Please, contact the owner of the offer',
+            translationKey: 'free-offer.error.wrong-offer-settings'
+          };
         } else {
-          state.error =
-            'Oops, something went wrong! Please, reload the page and try again';
+          state.error = {
+            message:
+              'Oops, something went wrong! Please, reload the page and try again',
+            translationKey: 'free-offer.error.something-went-wrong'
+          };
         }
       }
     );
