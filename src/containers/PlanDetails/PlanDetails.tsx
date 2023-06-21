@@ -20,8 +20,9 @@ import {
 } from 'redux/planDetailsSlice';
 
 import { fetchOffers } from 'redux/offersSlice';
+import { CustomerOffer } from 'api/Customer/types/getCustomerOffers.types';
 import { WrapStyled } from './PlanDetailsStyled';
-import { PlanDetailsProps, CustomersOffer } from './PlanDetails.types';
+import { PlanDetailsProps } from './PlanDetails.types';
 
 const PlanDetails = ({
   customCancellationReasons,
@@ -29,18 +30,19 @@ const PlanDetails = ({
   displayGracePeriodError
 }: PlanDetailsProps) => {
   const { data: currentPlan } = useAppSelector(selectCurrentPlan);
-  const { offerToSwitch } = useAppSelector(selectPlanDetails);
+  const {
+    offerToSwitch: { offerId: offerToSwitchId }
+  } = useAppSelector(selectPlanDetails);
   const { updateList: updateListValue } = useAppSelector(selectPlanDetails);
   const { isOpen: isPopupOpen } = useAppSelector(selectPopupDetails);
   const { offers } = useAppSelector(state => state.offers);
   const { pauseOffersIDs } = useAppSelector(store => store.offers);
-
   const { t } = useTranslation();
   const didMount = useRef(false);
   const dispatch = useAppDispatch();
 
   const getAndSaveSwitchSettings = async (
-    customerSubscriptions: CustomersOffer[]
+    customerSubscriptions: CustomerOffer[]
   ) => {
     if (customerSubscriptions.length > 1) {
       dispatch(resetOfferToSwitch());
@@ -52,12 +54,12 @@ const PlanDetails = ({
     const customerOffers = await dispatch(fetchCustomerOffers()).unwrap();
 
     const activeSubscriptions = customerOffers.filter(
-      (offer: CustomersOffer) =>
+      (offer: CustomerOffer) =>
         offer.status === 'active' && offer.offerType === 'S'
     );
 
     const offersWithPendingSwitches = activeSubscriptions.filter(
-      (sub: CustomersOffer) => sub.pendingSwitchId
+      (sub: CustomerOffer) => sub.pendingSwitchId
     );
 
     dispatch(fetchPendingSwitches(offersWithPendingSwitches));
@@ -97,7 +99,7 @@ const PlanDetails = ({
     offer => offer.status === 'active' && offer.offerType === 'S'
   );
 
-  const isPauseActive = pauseOffersIDs.includes(offerToSwitch.offerId);
+  const isPauseActive = pauseOffersIDs.includes(offerToSwitchId);
 
   if (isPopupOpen)
     return (

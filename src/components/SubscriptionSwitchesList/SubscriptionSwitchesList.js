@@ -1,6 +1,5 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
@@ -8,7 +7,6 @@ import { SimpleButtonStyled } from 'components/SubscriptionManagement/Subscripti
 import OfferCard from 'components/OfferCard';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
-import { ReactComponent as happyData } from 'assets/images/happyData.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { periodMapper, currencyFormat } from 'util/planHelper';

@@ -43,7 +43,7 @@ export type PlanDetailsInitialState = {
     loading: boolean;
     error: Error;
   };
-  offerToSwitch: CustomerOffer | {};
+  offerToSwitch: CustomerOffer | Record<string, never>;
   updateList: boolean;
   switchSettings: {
     data: SwitchSettings;
