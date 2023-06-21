@@ -47,7 +47,8 @@ const OfferCard = ({
   const { data: switchDetailsStore } = useSelector(
     state => state.plan.switchDetails
   );
-  const { pauseOffersIDs } = useSelector(state => state.offers);
+  const { pauseOffersIDs, offers } = useSelector(state => state.offers);
+
   const switchDetails = switchDetailsStore[pendingSwitchId];
   const isPauseInProgress = pauseOffersIDs.includes(switchDetails?.toOfferId);
   const { t } = useTranslation();
@@ -56,16 +57,22 @@ const OfferCard = ({
 
   const getSwitchCopy = () => {
     if (switchDetails) {
-      const subscription = planDetailsState.currentPlan.find(
+      const subscription = currentPlan.find(
         sub => sub.pendingSwitchId === pendingSwitchId
       );
       const subscriptionExpirationDate =
         subscription.expiresAt === INFINITE_DATE
           ? t('offer-card.next-season-start', 'the next season start')
           : dateFormat(subscription.expiresAt);
-      const { title: switchTitle, fromOfferId, toOfferId } = switchDetails;
+      const { fromOfferId, toOfferId } = switchDetails;
+      const toOfferIdTitle = offers.find(({ longId }) => longId === toOfferId)
+        ?.title;
       const translatedTitle = t(`offer-title-${fromOfferId}`, title);
-      const translatedSwitchTitle = t(`offer-title-${toOfferId}`, switchTitle);
+      const translatedSwitchTitle = t(
+        `offer-title-${toOfferId}`,
+        toOfferIdTitle
+      );
+
       // if pause is in progress
       if (isPauseInProgress) {
         return t(
@@ -257,7 +264,12 @@ const OfferCard = ({
                             data: {
                               pendingSwitchId,
                               switchDirection: switchDetails.direction,
-                              switchOfferTitle: switchDetails.title,
+                              switchOfferTitle:
+                                switchDetails &&
+                                offers.find(
+                                  ({ longId }) =>
+                                    longId === switchDetails.toOfferId
+                                )?.title,
                               baseOfferTitle: title,
                               baseOfferExpirationDate: expiresAt,
                               baseOfferPrice: `${currency}${price}`

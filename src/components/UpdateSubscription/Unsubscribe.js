@@ -50,7 +50,7 @@ const Unsubscribe = ({
   const [steps, setSteps] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const { pauseOffersIDs } = useSelector(state => state.offers);
+  const { pauseOffersIDs, offers } = useSelector(state => state.offers);
   const { data: switchSettings } = useSelector(
     state => state.plan.switchSettings
   );
@@ -211,10 +211,14 @@ const Unsubscribe = ({
 
   const { offerTitle, expiresAt, offerId, period } = offerDetails;
   const formattedExpiresAt = dateFormat(expiresAt);
+
+  const toOfferIdTitle = offers.find(({ longId }) => longId === scheduledSwitch().toOfferId)
+        ?.title;
   const scheduledSwitchTitle = t(
     `offer-title-${scheduledSwitch().toOfferId}`,
-    scheduledSwitch().title
+    toOfferIdTitle
   );
+  
   const translatedTitle = t(`offer-title-${offerId}`, offerTitle);
 
   // Filter out the pause subscription

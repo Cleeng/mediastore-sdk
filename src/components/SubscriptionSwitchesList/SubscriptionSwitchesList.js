@@ -33,6 +33,7 @@ const SubscriptionSwitchesList = () => {
   } = useSelector(state => state.plan.switchSettings);
 
   const isOfferSelected = !!offerToSwitch.offerId;
+
   const switchSettings = allSwitchSettings[offerToSwitch.offerId];
   const fromOfferId = offerToSwitch.offerId;
   const pendingSwtichesToOfferIdsArray = Object.keys(switchDetails).map(
@@ -43,11 +44,7 @@ const SubscriptionSwitchesList = () => {
 
   const dispatch = useDispatch();
 
-  if (
-    isSwitchSettingsLoading ||
-    !switchSettings ||
-    Object.keys(switchSettings).length === 0
-  ) {
+  if (isSwitchSettingsLoading) {
     return <SkeletonCard />;
   }
 
@@ -62,22 +59,6 @@ const SubscriptionSwitchesList = () => {
         title={t(
           'subscription-switches-list.offer-not-selected',
           'Click on the plan that you would like to switch from'
-        )}
-        margin="0 auto"
-      />
-    );
-  }
-  if (isSwitchInProgress) {
-    return (
-      <MyAccountError
-        icon={happyData}
-        title={t(
-          'subscription-switches-list.switch-in-progress',
-          'Subscription switch in progress!'
-        )}
-        subtitle={t(
-          'subscription-switches-list.try-again',
-          'Please try again in a few moments.'
         )}
         margin="0 auto"
       />

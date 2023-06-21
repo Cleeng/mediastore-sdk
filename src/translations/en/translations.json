@@ -154,7 +154,7 @@
   "offer-card.cancel-switch": "Cancel switch",
   "offer-card.error.already-have-access": "It looks like you already have access to this offer",
   "offer-card.error.coupon-applied": "You can't change your subscription if a coupon was applied. To change plan, please cancel your current subscription and purchase a new one",
-  "offer-card.error.geo-restriction": "This plan is {{htmltag}}currently unavailable{{endhtmltag}} in your country or region",
+  "offer-card.error.geo-restriction": "This plan is <strong>currently unavailable</strong> in your country or region",
   "offer-card.error.switch-in-progress": "Another switch is already in progress. Wait until the process finalization",
   "offer-card.error.to-free-offer": "Switching from a paid to a free offer is not possible",
   "offer-card.info-box.pause-information-text": "Your current plan will be paused starting on {{subscriptionExpirationDate}}. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ translatedTitle }}. You can cancel this pause request at any time.",
@@ -407,7 +407,7 @@
   "unsubscribe-popup.survey.go-back": "Go back",
   "unsubscribe-popup.survey.info": "If you would like to proceed with cancelling your subscription, please select 'Unsubscribe' below, and your subscription will be cancelled as of {{ formattedExpiresAt }}. Until then, you will continue to have access to all of your current subscription features. Before you go, please let us know why you're leaving.",
   "unsubscribe-popup.survey.subscription-paid": "Your {{translatedTitle}} subscription is paid until {{formattedExpiresAt}}.",
-  "unsubscribe-popup.survey.switch-pending": "Twoja zmiana subskrypcji jest nadal w toku. Zostaniesz przełączony na {{scheduledSwitchTitle}} i zostaniesz obciążony nową ceną.",
+  "unsubscribe-popup.survey.switch-pending": "Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.",
   "unsubscribe-popup.survey.title": "We’re sorry to see you go",
   "unsubscribe-popup.survey.unsubscribe": "Unsubscribe",
   "unsubscribe-popup.title": "Manage your plan",
@@ -453,5 +453,7 @@
   "Your payment details have been updated": "Your payment details have been updated",
   "Your profile details have been changed successfully": "Your profile details have been changed successfully",
   "Your purchase has been successfully completed.": "Your purchase has been successfully completed.",
-  "ZIP/Postal code": "ZIP/Postal code"
+  "ZIP/Postal code": "ZIP/Postal code",
+  "downgrade": "downgrade",
+  "upgrade": "upgrade"
 }

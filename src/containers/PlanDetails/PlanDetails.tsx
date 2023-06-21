@@ -9,16 +9,17 @@ import GracePeriodError from 'components/GracePeriodError';
 import PlanDetailsPopupManager from 'components/PlanDetailsPopupManager';
 import { init } from 'redux/publisherConfigSlice';
 import { selectPopupDetails } from 'redux/popupSlice';
-import { selectPlanDetails, selectCurrentPlan } from 'redux/planDetailsSlice';
-
-import { fetchOffers } from 'redux/offersSlice';
 import {
+  selectPlanDetails,
+  selectCurrentPlan,
   fetchCustomerOffers,
   fetchPendingSwitches,
   fetchAvailableSwitches,
   setOfferToSwitch,
   resetOfferToSwitch
 } from 'redux/planDetailsSlice';
+
+import { fetchOffers } from 'redux/offersSlice';
 import { WrapStyled } from './PlanDetailsStyled';
 import { PlanDetailsProps, CustomersOffer } from './PlanDetails.types';
 
