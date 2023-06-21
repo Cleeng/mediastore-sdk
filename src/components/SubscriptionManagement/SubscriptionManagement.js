@@ -68,13 +68,17 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
             case 422:
               if (resp.errors.some(e => e.includes('not found')))
                 setErrorMsg(
-                  'subscription-management.invalid-coupon',
-                  'Invalid coupon code.'
+                  t(
+                    'subscription-management.invalid-coupon',
+                    'Invalid coupon code.'
+                  )
                 );
               if (resp.errors.some(e => e.includes('already')))
                 setErrorMsg(
-                  'subscription-management.coupon-already-used',
-                  'Coupon already used'
+                  t(
+                    'subscription-management.coupon-already-used',
+                    'Coupon already used'
+                  )
                 );
               setIsError(true);
               setIsLoading(false);
@@ -89,8 +93,10 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
               break;
             default:
               setErrorMsg(
-                'subscription-management.invalid-coupon',
-                'Invalid coupon code.'
+                t(
+                  'subscription-management.invalid-coupon',
+                  'Invalid coupon code.'
+                )
               );
               setIsError(true);
               setIsLoading(false);
@@ -114,8 +120,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
         });
     } else {
       setErrorMsg(
-        'subscription-management.enter-coupon',
-        'Please enter coupon code.'
+        t('subscription-management.enter-coupon', 'Please enter coupon code.')
       );
       setIsError(true);
     }

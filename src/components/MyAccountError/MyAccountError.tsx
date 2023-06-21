@@ -20,7 +20,7 @@ const MyAccountError = ({
   centered = false,
   margin = '',
   fullWidth = false,
-  onClick = () => null,
+  onClick,
   isSmallCard = false,
   direction = 'column'
 }: MyAccountErrorProps) => {
