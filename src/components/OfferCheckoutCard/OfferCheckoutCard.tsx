@@ -7,7 +7,8 @@ import {
   currencyFormat,
   dateFormat,
   periodMapper,
-  isPeriod
+  isPeriod,
+  Period
 } from 'util/planHelper';
 import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
@@ -151,7 +152,7 @@ const OfferCheckoutCard = () => {
       return isPeriod(period)
         ? `${t(
             `period.${periodMapper[period].accessText?.toLowerCase()}`,
-            periodMapper[period].accessText
+            periodMapper[period].accessText as string
           )} ${t('offer-checkout-card.season-pass', 'season pass')}`
         : '';
     }
@@ -163,8 +164,10 @@ const OfferCheckoutCard = () => {
     if (offerType === 'R') {
       return isPeriod(period)
         ? `${t(
-            `period.${periodMapper[period].accessText?.toLowerCase()}`,
-            periodMapper[period].accessText
+            `period.${periodMapper[
+              period as Period
+            ].accessText?.toLowerCase()}`,
+            periodMapper[period as Period].accessText as string
           )} ${t('offer-checkout-card.access', 'access')}`
         : '';
     }
@@ -236,7 +239,6 @@ const OfferCheckoutCard = () => {
     </WrapperStyled>
   );
 };
-
 
 export { OfferCheckoutCard as PureOfferCard };
 
