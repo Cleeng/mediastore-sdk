@@ -457,5 +457,7 @@
   "Your purchase has been successfully completed.": "Your purchase has been successfully completed.",
   "ZIP/Postal code": "ZIP/Postal code",
   "downgrade": "downgrade",
-  "upgrade": "upgrade"
+  "upgrade": "upgrade",
+  "offer-card.error.inapp-external": "Subscription purchased via {{ paymentMethod }}. Use an external service to edit the plan.",
+  "offer-card.error.inapp-external-no-pmt-method": "Use an external service to edit the plan."
 }

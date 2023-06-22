@@ -168,11 +168,20 @@ const OfferCard = ({
       icon: BlockedIcon
     },
     INAPP_SUBSCRIPTION: {
-      text: t(
-        `${
-          paymentMethod ? `Subscription purchased via ${paymentMethod}. ` : ``
-        }Use an external service to edit the plan.`
-      ),
+      text: paymentMethod
+        ? t(
+            'offer-card.error.inapp-external',
+            `${
+              paymentMethod
+                ? `Subscription purchased via ${paymentMethod}. `
+                : ``
+            } Use an external service to edit the plan.`,
+            { paymentMethod }
+          )
+        : t(
+            'offer-card.error.inapp-external-no-pmt-method',
+            'Use an external service to edit the plan.'
+          ),
       icon: EditBlockedIcon
     },
     SWITCH: {
