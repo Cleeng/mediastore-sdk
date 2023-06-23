@@ -34,6 +34,7 @@ const Resubscribe = () => {
 
   const { expiresAt, nextPaymentPrice, nextPaymentCurrency } = offerDetails;
   const currencySymbol = currencyFormat[nextPaymentCurrency];
+  const formattedNextPaymentPrice = nextPaymentPrice.toFixed(2);
 
   const resubscribe = async () => {
     window.dispatchEvent(
@@ -94,7 +95,7 @@ const Resubscribe = () => {
                   : dateFormat(expiresAt)}{' '}
               </b>
               {t('resubscribe-popup.it-will-be', 'and it will be')}{' '}
-              <b>{`${currencySymbol}${nextPaymentPrice}`}</b>.
+              <b>{`${currencySymbol}${formattedNextPaymentPrice}`}</b>.
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
@@ -122,7 +123,7 @@ const Resubscribe = () => {
               'resubscribe-popup.success.description',
               'You have been successfully resubscribed. Your fee will be'
             )}{' '}
-            <b>{`${currencySymbol}${nextPaymentPrice}`}</b>{' '}
+            <b>{`${currencySymbol}${formattedNextPaymentPrice}`}</b>{' '}
             {t('resubscribe-popup.started-from', 'started from')}{' '}
             <b>
               {expiresAt === INFINITE_DATE
