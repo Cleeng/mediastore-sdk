@@ -118,7 +118,7 @@ const CancelSwitchPopup = ({
                 'cancelswitch-popup.switch-pending',
                 `Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to cancel the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.`,
                 {
-                  switchDirection,
+                  switchDirection: t(switchDirection, switchDirection),
                   switchOfferTitle,
                   baseOfferExpirationDate:
                     baseOfferExpirationDate === INFINITE_DATE
@@ -176,7 +176,7 @@ const CancelSwitchPopup = ({
                 'cancelswitch-popup.switch-cancelled',
                 'You have successfully canceled your {{switchDirection}} to {{switchOfferTitle}}. You will be charged a current price on {{baseOfferExpirationDate}} and keep access to {{baseOfferTitle}}.',
                 {
-                  switchDirection,
+                  switchDirection: t(switchDirection, switchDirection),
                   switchOfferTitle,
                   baseOfferExpirationDate:
                     baseOfferExpirationDate === INFINITE_DATE
