@@ -93,7 +93,7 @@ const PaymentCard = ({ isDataLoaded, details }) => {
                 {paymentMethodSpecificParams?.cardExpirationDate && (
                   <CardExpirationStyled>
                     <CardExpirationLabel>
-                      {t('Expiry date')}
+                      {t('paymentcard.expiry-date', 'Expiry date')}
                     </CardExpirationLabel>
                     <CardExpirationDateStyled>
                       {paymentMethodSpecificParams.cardExpirationDate}
@@ -117,7 +117,7 @@ const PaymentCard = ({ isDataLoaded, details }) => {
                 });
               }}
             >
-              {t('Edit payment info')}
+              {t('paymentcard.edit-payment-info', 'Edit payment info')}
             </CardEditStyled>
           </CardInfoWrapStyled>
         </CardStyled>

@@ -27,7 +27,7 @@ const ThankYouPage = ({ onSuccess }) => {
   const { t } = useTranslation();
 
   const readablePaymentMethod = {
-    card: 'Card',
+    card: t('paymentmethod.card', 'Card'),
     paypa: 'PayPal',
     googlepay: 'GooglePay',
     applepay: 'ApplePay'

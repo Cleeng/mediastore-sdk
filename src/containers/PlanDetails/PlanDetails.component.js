@@ -66,7 +66,9 @@ const PlanDetails = ({
         setIsLoadingChangePlan(false);
       })
       .catch(() => {
-        setIsErrorChangePlan([t('Something went wrong..')]);
+        setIsErrorChangePlan([
+          t('oops-something-went-wrong', 'Oops! Something went wrong.')
+        ]);
         setIsLoadingChangePlan(false);
       });
   };
@@ -231,7 +233,9 @@ const PlanDetails = ({
         renderPopup(innerPopup.type)
       ) : (
         <>
-          <SectionHeader>{t('Current plan')}</SectionHeader>
+          <SectionHeader>
+            {t('plandetails.current-plan', 'Current Plan')}
+          </SectionHeader>
           <CurrentPlan
             subscriptions={planDetails.currentPlan}
             errors={isErrorCurrentPlan}
@@ -244,7 +248,9 @@ const PlanDetails = ({
           />
           {activeSubscriptions.length !== 0 && !isPauseActive && (
             <>
-              <SectionHeader>{t('Change Plan')}</SectionHeader>
+              <SectionHeader>
+                {t('plandetails.change-plan', 'Change Plan')}
+              </SectionHeader>
               <SubscriptionSwitchesList
                 switchSettings={
                   planDetails.switchSettings[planDetails.offerToSwitch.offerId]

@@ -41,7 +41,14 @@ const PaymentMethod = () => {
       case 'sofort':
         return <PaymentCard key={id} details={paymentDetail} />;
       default:
-        return <Message>{t('Managed by external service')}</Message>;
+        return (
+          <Message>
+            {t(
+              'paymentmethod.managed-by-external-service',
+              'Managed by external service'
+            )}
+          </Message>
+        );
     }
   };
   const activeItems = activeOrBoundPaymentDetails.find(item => item.active);
@@ -83,8 +90,14 @@ const PaymentMethod = () => {
         {!activeItems && (
           <MyAccountError
             icon={AddIcon}
-            title={t('Add a payment method!')}
-            subtitle={t('Set up a new payment method for your account')}
+            title={t(
+              'paymentmethod.no-active-method.title',
+              'Add a payment method!'
+            )}
+            subtitle={t(
+              'paymentmethod.no-active-method.subtitle',
+              'Set up a new payment method for your account'
+            )}
             withBorder
             onClick={() =>
               dispatch(

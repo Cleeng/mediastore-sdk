@@ -47,10 +47,17 @@ const MyAccountError = ({
       )}
       <DetailsStyled>
         <TitleStyled>
-          {generalError ? t('Oops, something went wrong!') : t(title)}
+          {generalError
+            ? t('oops-something-went-wrong', 'Oops! Something went wrong.')
+            : title}
         </TitleStyled>
         <SubTitleStyled>
-          {generalError ? t('Please try again in a few moments.') : t(subtitle)}
+          {generalError
+            ? t(
+                'myaccounterror.try-again',
+                'Please try again in a few moments.'
+              )
+            : subtitle}
         </SubTitleStyled>
       </DetailsStyled>
       {generalError && (
@@ -59,7 +66,7 @@ const MyAccountError = ({
           width="auto"
           onClickFn={() => window.location.reload()}
         >
-          Try again
+          {t('myaccounterror.try-again-button', 'Try again')}
         </Button>
       )}
     </WrapStyled>
