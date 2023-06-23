@@ -1,10 +1,16 @@
 import { Trans } from 'react-i18next';
 import { getData } from 'util/appConfigHelper';
-import { CurrencyFormat, currencyFormat, isPeriod, periodMapper } from 'util/planHelper';
-import { LegalNoteWrapperStyled, LegalTextStyled } from '../PaymentStyled';
+import {
+  CurrencyFormat,
+  currencyFormat,
+  isPeriod,
+  periodMapper,
+  SubscriptionPeriodType
+} from 'util/planHelper';
 import { useAppSelector } from 'redux/store';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import { selectOnlyOffer } from 'redux/offerSlice';
+import { LegalNoteWrapperStyled, LegalTextStyled } from '../PaymentStyled';
 
 const LegalNote = () => {
   const {
@@ -14,9 +20,9 @@ const LegalNote = () => {
   } = useAppSelector(selectOnlyOrder);
   const { period: offerPeriod } = useAppSelector(selectOnlyOffer);
   const period =
-  offerPeriod && isPeriod(offerPeriod)
-    ? periodMapper[offerPeriod].chargedForEveryText
-    : null;
+    offerPeriod && isPeriod(offerPeriod)
+      ? periodMapper[offerPeriod].chargedForEveryText
+      : null;
   const isInTrial = discount?.applied && discount.type === 'trial';
   const couponApplied = discount?.applied && discount.type !== 'trial';
   const readablePrice = `${
@@ -39,7 +45,9 @@ const LegalNote = () => {
         {(() => {
           if (isInTrial) {
             return (
-              <Trans i18nKey={`legal-notes.trial.period-${period}`}>
+              <Trans
+                i18nKey={`legal-notes.trial.period-${period as SubscriptionPeriodType}`}
+              >
                 <strong>
                   <>
                     After any free trial and/or promotional period, you will be
@@ -60,7 +68,9 @@ const LegalNote = () => {
           }
           if (couponApplied) {
             return (
-              <Trans i18nKey={`legal-notes.discount.period-${period}`}>
+              <Trans
+                i18nKey={`legal-notes.discount.period-${period as SubscriptionPeriodType}`}
+              >
                 <strong>
                   <>
                     After any free trial and/or promotional period, you will be
@@ -79,7 +89,9 @@ const LegalNote = () => {
             );
           }
           return (
-            <Trans i18nKey={`legal-notes.period-${period}`}>
+            <Trans
+              i18nKey={`legal-notes.period-${period as SubscriptionPeriodType}`}
+            >
               <strong>
                 <>
                   By clicking &apos;Pay&apos;, you will be charged{' '}

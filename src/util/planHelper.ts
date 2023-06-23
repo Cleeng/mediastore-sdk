@@ -20,8 +20,17 @@ const period = [
   '72',
   '168',
   '720',
-  '2160'
+  '2160',
+  'seasonal',
+  'season'
 ] as const;
+
+export type SubscriptionPeriodType =
+  | '3months'
+  | '6months'
+  | 'month'
+  | 'week'
+  | 'year';
 
 export type Period = typeof period[number];
 
@@ -222,7 +231,39 @@ export const periodMapper: Record<
   }
 };
 
-export type CurrencyFormat = 'EUR' | 'USD' | 'GBP' | 'AUD' | '€' | '$' | '£';
+export type CurrencyFormat =
+  | 'EUR'
+  | 'USD'
+  | 'GBP'
+  | 'AUD'
+  | '€'
+  | '$'
+  | '£'
+  | 'DKK'
+  | 'CAD'
+  | 'CHF'
+  | 'NOK'
+  | 'NZD'
+  | 'SEK'
+  | 'TRY'
+  | 'XOF'
+  | 'ZAR'
+  | 'NGN'
+  | 'KES'
+  | 'GHS'
+  | 'MXN'
+  | 'KRW'
+  | 'XAF'
+  | 'JPY'
+  | 'PHP'
+  | 'VND'
+  | 'BRL'
+  | 'INR'
+  | 'MNT'
+  | 'EGP'
+  | 'QAR'
+  | 'KWD'
+  | 'AED';
 
 export const currencyFormat: Record<CurrencyFormat, string> = {
   EUR: '€',

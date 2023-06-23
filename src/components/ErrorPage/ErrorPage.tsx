@@ -16,7 +16,7 @@ import { Errors, ErrorPageProps } from './ErrorPage.types';
 
 const errorTypes: Record<
   Errors,
-  { icon: React.ElementType; description: string }
+  { icon: React.ElementType; description: string; translationKey: string }
 > = {
   offerNotExist: {
     icon: Close,
