@@ -154,6 +154,7 @@
   "offer-card.error.already-have-access": "It looks like you already have access to this offer",
   "offer-card.error.coupon-applied": "You can't change your subscription if a coupon was applied. To change plan, please cancel your current subscription and purchase a new one",
   "offer-card.error.geo-restriction": "This plan is {{htmltag}}currently unavailable{{endhtmltag}} in your country or region",
+  "offer-card.error.missing-payment-details": "Your payment details are missing. Please add them to proceed with a subscription switch.",
   "offer-card.error.switch-in-progress": "Another switch is already in progress. Wait until the process finalization",
   "offer-card.error.to-free-offer": "Switching from a paid to a free offer is not possible",
   "offer-card.info-box.pause-information-text": "Your current plan will be paused starting on {{subscriptionExpirationDate}}. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ translatedTitle }}. You can cancel this pause request at any time.",
