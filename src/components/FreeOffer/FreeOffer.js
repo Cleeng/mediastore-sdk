@@ -90,7 +90,11 @@ const FreeOffer = ({ onPaymentComplete }) => {
               t('free-offer.get-access', 'Get Access')
             )}
           </Button>
-          {error && <ErrorMessageStyled>{t(error)}</ErrorMessageStyled>}
+          {error && (
+            <ErrorMessageStyled>
+              {t(error.translationKey, error.message)}
+            </ErrorMessageStyled>
+          )}
         </ButtonWrapperStyled>
         <SubTextStyled>
           {t('free-offer.no-cost', 'Free, no additional cost')}
