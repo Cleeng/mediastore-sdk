@@ -187,6 +187,13 @@ const OfferCard = ({
     SWITCH: {
       text: getSwitchCopy(),
       icon: getSwitchIcon()
+    },
+    MISSING_PAYMENT_DETAILS: {
+      text: t(
+        'offer-card.error.missing-payment-details',
+        'Your payment details are missing. Please add them to proceed with a subscription switch.'
+      ),
+      icon: BlockedIcon
     }
   };
 

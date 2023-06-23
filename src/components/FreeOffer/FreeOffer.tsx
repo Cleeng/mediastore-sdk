@@ -41,9 +41,8 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
             date: dateFormat(expiresAt, true)
           });
         }
-
         return `${t(
-          `period.${periodMapper[period as Period].accessText?.toLowerCase()}`,
+          `period.${period}`,
           periodMapper[period as Period].accessText as string
         )} ${t('free-offer.free-pass', 'free pass')}`;
       }
@@ -54,7 +53,7 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
       }
       case 'R': {
         return `${t(
-          `period.${periodMapper[period as Period].accessText?.toLowerCase()}`,
+          `period.${period}`,
           periodMapper[period as Period].accessText as string
         )} ${t('free-offer.free-access', 'free access')}`;
       }

@@ -7,7 +7,6 @@ import {
   currencyFormat,
   dateFormat,
   periodMapper,
-  isPeriod,
   Period
 } from 'util/planHelper';
 import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
@@ -149,10 +148,10 @@ const OfferCheckoutCard = () => {
         const date = dateFormat(expiresAt, true);
         return t('pass-desc.date', `Access until {{date}}`, { date });
       }
-      return isPeriod(period)
+      return periodMapper[period as Period]
         ? `${t(
-            `period.${periodMapper[period].accessText?.toLowerCase()}`,
-            periodMapper[period].accessText as string
+            `period.${period}`,
+            periodMapper[period as Period].accessText as string
           )} ${t('offer-checkout-card.season-pass', 'season pass')}`
         : '';
     }
@@ -162,11 +161,9 @@ const OfferCheckoutCard = () => {
       }`;
     }
     if (offerType === 'R') {
-      return isPeriod(period)
+      return periodMapper[period as Period]
         ? `${t(
-            `period.${periodMapper[
-              period as Period
-            ].accessText?.toLowerCase()}`,
+            `period.${period}`,
             periodMapper[period as Period].accessText as string
           )} ${t('offer-checkout-card.access', 'access')}`
         : '';
