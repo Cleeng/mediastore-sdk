@@ -34,8 +34,9 @@ import {
 import { OfferContainerProps } from './OfferContainer.types';
 
 const OfferContainer = ({
-  offerId: offerIdProp,
   adyenConfiguration: adyenConfigurationProp,
+  couponCode: couponCodeProp,
+  offerId: offerIdProp,
   onSuccess
 }: OfferContainerProps) => {
   const [errorMsg, setErrorMsg] = useState<string>();
@@ -152,6 +153,7 @@ const OfferContainer = ({
       setData('CLEENG_OFFER_ID', id);
       setData('CLEENG_OFFER_TYPE', id.charAt(0));
       const orderId = getData('CLEENG_ORDER_ID');
+
       if (orderId) {
         reuseSavedOrder(orderId, id);
       } else {
@@ -170,6 +172,18 @@ const OfferContainer = ({
       eventDispatcher(MSSDK_PURCHASE_LOADED);
     }
   }, [isOrderLoading, errorMsg, offerError, offerError]);
+
+  useEffect(() => {
+    if (couponCodeProp) {
+      const {
+        discount: { applied }
+      } = order;
+
+      if (!applied && order.id !== 0) {
+        onCouponSubmit(couponCodeProp);
+      }
+    }
+  }, [couponCodeProp, order.id]);
 
   const errorMapping = (err: string | undefined | null) => {
     const errorTypes: Record<Errors, string[]> = {

@@ -71,7 +71,12 @@ class Checkout extends Component {
 
   render() {
     const { currentStep } = this.state;
-    const { onSuccess, offerId, resetPasswordCallback } = this.props;
+    const {
+      couponCode,
+      onSuccess,
+      offerId,
+      resetPasswordCallback
+    } = this.props;
 
     switch (currentStep) {
       case 0:
@@ -105,6 +110,7 @@ class Checkout extends Component {
         return (
           <OfferContainer
             offerId={offerId}
+            couponCode={couponCode}
             onSuccess={() => this.goToStep(CheckoutSteps.PURCHASE.nextStep)}
           />
         );
@@ -132,6 +138,7 @@ class Checkout extends Component {
 }
 
 Checkout.propTypes = {
+  couponCode: PropTypes.string,
   offerId: PropTypes.string,
   onSuccess: PropTypes.func,
   resetPasswordCallback: PropTypes.func,
@@ -140,6 +147,7 @@ Checkout.propTypes = {
 };
 
 Checkout.defaultProps = {
+  couponCode: null,
   offerId: null,
   onSuccess: () => null,
   resetPasswordCallback: () => null,
