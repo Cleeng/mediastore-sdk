@@ -4,6 +4,7 @@ import Loader from 'components/Loader';
 import Button from 'components/Button';
 import { ReactComponent as CloseIcon } from 'assets/images/xmark.svg';
 import { useTranslation } from 'react-i18next';
+import { MSSDK_COUPON_FAILED } from 'util/eventDispatcher';
 import {
   InputComponentStyled,
   MessageStyled,
@@ -39,7 +40,12 @@ const CouponInput = ({
   const [isOpened, setIsOpened] = useState(false);
 
   const { t } = useTranslation();
-  const { showMessage, message, messageType, translationKey = '' } = couponDetails;
+  const {
+    showMessage = false,
+    message = '',
+    messageType = '',
+    translationKey = ''
+  } = couponDetails;
 
   const disableSuppressMessage = () => setSuppressMessage(false);
 
@@ -100,6 +106,15 @@ const CouponInput = ({
     }
   };
 
+  const handleAutoCouponError = () => setIsOpened(true);
+
+  useEffect(() => {
+    window.addEventListener(MSSDK_COUPON_FAILED, handleAutoCouponError);
+
+    return () =>
+      window.removeEventListener(MSSDK_COUPON_FAILED, handleAutoCouponError);
+  }, []);
+
   useEffect(() => {
     return () => {
       clearFadeOutTimeout();
@@ -136,7 +151,9 @@ const CouponInput = ({
           }}
           autoComplete="off"
           value={value}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            onChange(event.target.value)
+          }
           type="text"
           readOnly={couponLoading}
           fullWidth={fullWidth}
@@ -164,7 +181,7 @@ const CouponInput = ({
           showMessage={showMessage && !suppressMessage}
           messageType={messageType}
         >
-           {t(translationKey, message)}
+          {t(translationKey, message)}
         </MessageStyled>
       )}
     </InputComponentStyled>

@@ -111,12 +111,14 @@ const OfferContainer = ({
 
   const onCouponSubmit = (couponCode: string) => {
     if (couponCode === '') return;
+
     dispatch(
       fetchUpdateCoupon({
         id: order.id,
         couponCode
       })
     )
+      .unwrap()
       .then(() => {
         eventDispatcher(MSSDK_COUPON_SUCCESSFUL, {
           detail: {
