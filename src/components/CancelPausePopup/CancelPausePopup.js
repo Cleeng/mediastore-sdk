@@ -14,6 +14,7 @@ import eventDispatcher, {
 } from 'util/eventDispatcher';
 import { setSwitchDetails, updateList } from 'redux/planDetailsSlice';
 import { hidePopup } from 'redux/popupSlice';
+import { dateFormat } from 'util';
 
 import {
   ContentStyled,
@@ -94,7 +95,7 @@ const CancelPausePopup = () => {
                 'cancelpause-popup.information-text',
                 'Your current plan will be paused starting on {{baseOfferExpirationDate}}. Cancel the pause to resume access to your {{ pausedOfferTitle }} subscription. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ pausedOfferTitle }}.',
                 {
-                  baseOfferExpirationDate,
+                  baseOfferExpirationDate: dateFormat(baseOfferExpirationDate),
                   baseOfferPrice,
                   pausedOfferTitle
                 }
