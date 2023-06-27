@@ -253,7 +253,9 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
       payment
     });
-    onPaymentComplete();
+    if (onPaymentComplete) {
+      onPaymentComplete();
+    }
   };
 
   const getDropIn = (drop: typeof RedirectElement, type: paymentMethodType) => {
@@ -276,7 +278,9 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
           payment
         });
-        onPaymentComplete();
+        if (onPaymentComplete) {
+          onPaymentComplete();
+        }
       })
       .catch(() => {
         setIsLoading(false);
