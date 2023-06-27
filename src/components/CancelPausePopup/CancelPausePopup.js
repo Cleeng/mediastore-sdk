@@ -32,7 +32,12 @@ const CancelPausePopup = () => {
     state => state.plan.switchDetails
   );
   const {
-    cancelPause: { pendingSwitchId, baseOfferExpirationDate, baseOfferPrice }
+    cancelPause: {
+      pendingSwitchId,
+      baseOfferExpirationDate,
+      baseOfferPrice,
+      baseOfferTitle
+    }
   } = useSelector(state => state.popupManager);
 
   const switchDetails = allSwitchDetails[pendingSwitchId];
@@ -76,7 +81,6 @@ const CancelPausePopup = () => {
     }
   };
 
-  const pausedOfferTitle = offerToSwitch?.offerTitle;
   return (
     <InnerPopupWrapper
       steps={2}
@@ -97,7 +101,7 @@ const CancelPausePopup = () => {
                 {
                   baseOfferExpirationDate: dateFormat(baseOfferExpirationDate),
                   baseOfferPrice,
-                  pausedOfferTitle
+                  pausedOfferTitle: baseOfferTitle
                 }
               )}
             </TextStyled>
@@ -146,7 +150,7 @@ const CancelPausePopup = () => {
                 'cancelpause-popup.confirmation-text',
                 'Your access to your {{ pausedOfferTitle }} subscription will continue.',
                 {
-                  pausedOfferTitle
+                  pausedOfferTitle: baseOfferTitle
                 }
               )}
             </TextStyled>
