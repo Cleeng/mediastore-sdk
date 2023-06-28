@@ -39,7 +39,12 @@ const CouponInput = ({
   const [isOpened, setIsOpened] = useState(false);
 
   const { t } = useTranslation();
-  const { showMessage, message, messageType, translationKey = '' } = couponDetails;
+  const {
+    showMessage,
+    message,
+    messageType,
+    translationKey = ''
+  } = couponDetails;
 
   const disableSuppressMessage = () => setSuppressMessage(false);
 
@@ -136,7 +141,9 @@ const CouponInput = ({
           }}
           autoComplete="off"
           value={value}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            onChange(event.target.value)
+          }
           type="text"
           readOnly={couponLoading}
           fullWidth={fullWidth}
@@ -164,7 +171,7 @@ const CouponInput = ({
           showMessage={showMessage && !suppressMessage}
           messageType={messageType}
         >
-           {t(translationKey, message)}
+          {t(translationKey, message)}
         </MessageStyled>
       )}
     </InputComponentStyled>
