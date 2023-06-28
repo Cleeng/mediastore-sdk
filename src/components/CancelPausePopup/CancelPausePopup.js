@@ -43,9 +43,6 @@ const CancelPausePopup = () => {
   const switchDetails = allSwitchDetails[pendingSwitchId];
   const { t } = useTranslation();
 
-  const planDetailsState = useSelector(state => state.planDetails);
-  const { offerToSwitch } = planDetailsState;
-
   const eventsPayload = {
     pendingSwitchId,
     fromOfferId: switchDetails?.fromOfferId,
