@@ -176,14 +176,12 @@ const OfferContainer = ({
   }, [isOrderLoading, errorMsg, offerError, offerError]);
 
   useEffect(() => {
-    if (couponCodeProp) {
-      const {
-        discount: { applied }
-      } = order;
+    const {
+      discount: { applied }
+    } = order;
 
-      if (!applied && order.id !== 0) {
-        onCouponSubmit(couponCodeProp);
-      }
+    if (!applied && couponCodeProp && order.id !== 0) {
+      onCouponSubmit(couponCodeProp);
     }
   }, [couponCodeProp, order.id]);
 
