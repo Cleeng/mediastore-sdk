@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
+import formatNumber from 'util/formatNumber';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 
@@ -34,7 +34,7 @@ const Resubscribe = () => {
 
   const { expiresAt, nextPaymentPrice, nextPaymentCurrency } = offerDetails;
   const currencySymbol = currencyFormat[nextPaymentCurrency];
-  const formattedNextPaymentPrice = nextPaymentPrice.toFixed(2);
+  const formattedNextPaymentPrice = formatNumber(nextPaymentPrice);
 
   const resubscribe = async () => {
     window.dispatchEvent(

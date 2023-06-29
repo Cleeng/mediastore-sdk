@@ -1,5 +1,4 @@
 import { useAppSelector } from 'redux/store';
-import { PlanDetailsPopupManagerProps } from './PlanDetailsPopupManager.types';
 import { POPUP_TYPES, selectPopupDetails } from 'redux/popupSlice';
 import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
@@ -7,6 +6,7 @@ import PauseSubscriptionPopup from 'components/PauseSubscriptionPopup';
 import ResumeSubscriptionPopup from 'components/ResumeSubscriptionPopup';
 import CancelSwitchPopup from 'components/CancelSwitchPopup';
 import CancelPausePopup from 'components/CancelPausePopup';
+import { PlanDetailsPopupManagerProps } from './PlanDetailsPopupManager.types';
 
 const PlanDetailsPopupManager = ({
   customCancellationReasons,

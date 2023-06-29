@@ -165,10 +165,11 @@ const ResumeSubscriptionPopup = () => {
               )}
             </TitleStyled>
             <TextStyled>
-              <Trans i18nKey="resumesubscription-popup.info">
-                Click the button below to resume your {{ planName }}
-                subscription.
-              </Trans>
+              {t(
+                'resumesubscription-popup.info',
+                ' Click the button below to resume your {{ planName }} subscription.',
+                { planName }
+              )}
             </TextStyled>
             <TextStyled step={step}>
               {t(
@@ -208,9 +209,11 @@ const ResumeSubscriptionPopup = () => {
               )}
             </TitleStyled>
             <TextStyled step={step}>
-              <Trans i18nKey="resumesubscription-popup.success-text">
-                You can now access your {{ planName }} subscription.
-              </Trans>
+              {t(
+                'resumesubscription-popup.success-text',
+                'You can now access your {{ planName }} subscription.',
+                { planName }
+              )}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
