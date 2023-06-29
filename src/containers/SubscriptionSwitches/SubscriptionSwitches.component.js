@@ -7,14 +7,16 @@ import SectionHeader from 'components/SectionHeader';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import MyAccountError from 'components/MyAccountError';
 import PlanDetailsPopupManager from 'components/PlanDetailsPopupManager';
-import { showPopup } from 'redux/popupSlice';
+import { showPopup, hidePopup } from 'redux/popupSlice';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
+import { fetchOffers } from 'redux/offersSlice';
 
 import {
   fetchCustomerOffers,
   fetchPendingSwitches,
   fetchAvailableSwitches,
-  setOfferToSwitch
+  setOfferToSwitch,
+  updateList
 } from 'redux/planDetailsSlice';
 import { WrapStyled } from './SubscriptionSwitchesStyled';
 
@@ -29,6 +31,7 @@ const SubscriptionSwitches = ({
   const { data: switchSettings } = useSelector(
     store => store.plan.switchSettings
   );
+  const { offers } = useSelector(state => state.offers);
   const [switchSettingsError, setSwitchSettingsError] = useState(false);
 
   const dispatch = useDispatch();
@@ -86,7 +89,18 @@ const SubscriptionSwitches = ({
     if (offerId) {
       fetchOffersData();
     }
+    if (isPopupOpen) {
+      dispatch(hidePopup());
+      dispatch(updateList());
+    }
+    if (offers.length === 0) dispatch(fetchOffers());
   }, []);
+
+  useEffect(() => {
+    if (offerId && !switchSettings[offerId]) {
+      fetchOffersData();
+    }
+  }, [offerId]);
 
   useEffect(() => {
     immediatelyOpenSwitchPopupIfPossible();

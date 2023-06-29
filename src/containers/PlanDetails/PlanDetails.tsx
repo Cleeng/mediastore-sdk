@@ -8,7 +8,7 @@ import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import GracePeriodError from 'components/GracePeriodError';
 import PlanDetailsPopupManager from 'components/PlanDetailsPopupManager';
 import { init } from 'redux/publisherConfigSlice';
-import { selectPopupDetails } from 'redux/popupSlice';
+import { selectPopupDetails, hidePopup } from 'redux/popupSlice';
 import {
   selectPlanDetails,
   selectCurrentPlan,
@@ -16,7 +16,8 @@ import {
   fetchPendingSwitches,
   fetchAvailableSwitches,
   setOfferToSwitch,
-  resetOfferToSwitch
+  resetOfferToSwitch,
+  updateList
 } from 'redux/planDetailsSlice';
 
 import { fetchOffers } from 'redux/offersSlice';
@@ -85,6 +86,11 @@ const PlanDetails = ({
       );
     }
     if (offers.length === 0) dispatch(fetchOffers());
+
+    if (isPopupOpen) {
+      dispatch(hidePopup());
+      dispatch(updateList());
+    }
   }, []);
 
   useEffect(() => {
