@@ -32,8 +32,8 @@ const SubscriptionSwitchesList = () => {
 
   const isOfferSelected = !!offerToSwitch.offerId;
 
-  const switchSettings = allSwitchSettings[offerToSwitch.offerId] || {};
-  const fromOfferId = offerToSwitch.offerId;
+  const switchSettings = allSwitchSettings[offerToSwitch?.offerId] || {};
+  const fromOfferId = offerToSwitch?.offerId;
   const pendingSwtichesToOfferIdsArray = Object.keys(switchDetails).map(
     item => {
       return switchDetails[item].toOfferId;

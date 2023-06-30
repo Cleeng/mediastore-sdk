@@ -19,7 +19,7 @@ const LegalNote = () => {
     priceBreakdown: { offerPrice }
   } = useAppSelector(selectOnlyOrder);
   const { period: offerPeriod } = useAppSelector(selectOnlyOffer);
-  const period =
+  const chargedForEveryText =
     offerPeriod && isPeriod(offerPeriod)
       ? periodMapper[offerPeriod].chargedForEveryText
       : null;
@@ -28,7 +28,7 @@ const LegalNote = () => {
   const readablePrice = `${
     currencyFormat[currency as keyof Record<CurrencyFormat, string>]
   }${offerPrice}`;
-  const readablePeriod = period ? `/${period}` : '';
+  const readablePeriod = chargedForEveryText ? `/${chargedForEveryText}` : '';
 
   const CLEENG_MY_ACCOUNT_URL = 'CLEENG_MY_ACCOUNT_URL';
 
@@ -46,7 +46,7 @@ const LegalNote = () => {
           if (isInTrial) {
             return (
               <Trans
-                i18nKey={`legal-notes.trial.period-${period as SubscriptionPeriodType}`}
+                i18nKey={`legal-notes.trial.period-${offerPeriod as SubscriptionPeriodType}`}
               >
                 <strong>
                   <>
@@ -69,7 +69,7 @@ const LegalNote = () => {
           if (couponApplied) {
             return (
               <Trans
-                i18nKey={`legal-notes.discount.period-${period as SubscriptionPeriodType}`}
+                i18nKey={`legal-notes.discount.period-${offerPeriod as SubscriptionPeriodType}`}
               >
                 <strong>
                   <>
@@ -90,7 +90,7 @@ const LegalNote = () => {
           }
           return (
             <Trans
-              i18nKey={`legal-notes.period-${period as SubscriptionPeriodType}`}
+              i18nKey={`legal-notes.period-${offerPeriod as SubscriptionPeriodType}`}
             >
               <strong>
                 <>

@@ -50,7 +50,7 @@ const OfferCard = ({
   const { pauseOffersIDs, offers } = useSelector(state => state.offers);
 
   const switchDetails = switchDetailsStore[pendingSwitchId];
-  const isPauseInProgress = pauseOffersIDs.includes(switchDetails?.toOfferId);
+  const isPauseInProgress = pauseOffersIDs?.includes(switchDetails?.toOfferId);
   const { t } = useTranslation();
 
   const dispatch = useDispatch();

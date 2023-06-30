@@ -1,7 +1,7 @@
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-export const getSwitch = async switchId => {
+const getSwitch = async switchId => {
   const API_URL = getApiURL();
 
   const url = `${API_URL}/subscription_switches/${switchId}`;

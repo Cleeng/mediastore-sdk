@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
-import formatNumber from 'util/formatNumber';
 
 import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
@@ -16,7 +14,7 @@ import eventDispatcher, {
   MSSDK_SWITCH_POPUP_ACTION_FAILED
 } from 'util/eventDispatcher';
 import { updateList } from 'redux/planDetailsSlice';
-import { hidePopup } from 'redux/popupSlice';
+import { hidePopup, showPopup } from 'redux/popupSlice';
 
 import {
   ContentStyled,
@@ -194,7 +192,7 @@ const PauseSubscriptionPopup = () => {
               theme="simple"
               onClickFn={() => {
                 dispatch(
-                  hidePopup({
+                  showPopup({
                     type: POPUP_TYPES.updateSubscription,
                     data: {
                       action: 'unsubscribe',

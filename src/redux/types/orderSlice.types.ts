@@ -50,6 +50,5 @@ export type OrderInitialState = {
     translationKey: string;
   };
   isCouponLoading: boolean;
-  couponError: Error;
   isUpdateLoading: boolean;
 };

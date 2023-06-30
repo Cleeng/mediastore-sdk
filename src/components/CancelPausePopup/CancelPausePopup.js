@@ -14,6 +14,7 @@ import eventDispatcher, {
 } from 'util/eventDispatcher';
 import { setSwitchDetails, updateList } from 'redux/planDetailsSlice';
 import { hidePopup } from 'redux/popupSlice';
+import { dateFormat } from 'util';
 
 import {
   ContentStyled,
@@ -31,14 +32,16 @@ const CancelPausePopup = () => {
     state => state.plan.switchDetails
   );
   const {
-    cancelPause: { pendingSwitchId, baseOfferExpirationDate, baseOfferPrice }
+    cancelPause: {
+      pendingSwitchId,
+      baseOfferExpirationDate,
+      baseOfferPrice,
+      baseOfferTitle
+    }
   } = useSelector(state => state.popupManager);
 
   const switchDetails = allSwitchDetails[pendingSwitchId];
   const { t } = useTranslation();
-
-  const planDetailsState = useSelector(state => state.planDetails);
-  const { offerToSwitch } = planDetailsState;
 
   const eventsPayload = {
     pendingSwitchId,
@@ -75,7 +78,6 @@ const CancelPausePopup = () => {
     }
   };
 
-  const pausedOfferTitle = offerToSwitch?.offerTitle;
   return (
     <InnerPopupWrapper
       steps={2}
@@ -94,9 +96,9 @@ const CancelPausePopup = () => {
                 'cancelpause-popup.information-text',
                 'Your current plan will be paused starting on {{baseOfferExpirationDate}}. Cancel the pause to resume access to your {{ pausedOfferTitle }} subscription. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ pausedOfferTitle }}.',
                 {
-                  baseOfferExpirationDate,
+                  baseOfferExpirationDate: dateFormat(baseOfferExpirationDate),
                   baseOfferPrice,
-                  pausedOfferTitle
+                  pausedOfferTitle: baseOfferTitle
                 }
               )}
             </TextStyled>
@@ -145,7 +147,7 @@ const CancelPausePopup = () => {
                 'cancelpause-popup.confirmation-text',
                 'Your access to your {{ pausedOfferTitle }} subscription will continue.',
                 {
-                  pausedOfferTitle
+                  pausedOfferTitle: baseOfferTitle
                 }
               )}
             </TextStyled>

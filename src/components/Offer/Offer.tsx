@@ -8,7 +8,6 @@ import SectionHeader from 'components/SectionHeader';
 import Footer from 'components/Footer';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
-import { selectOnlyOffer } from 'redux/offerSlice';
 import { selectOrder, selectOnlyOrder } from 'redux/orderSlice';
 import {
   StyledOfferBody,
@@ -23,14 +22,13 @@ import { OfferProps } from './Offer.types';
 const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
   const { t } = useTranslation();
   const [coupon, setCoupon] = useState('');
-  const { trialAvailable } = useAppSelector(selectOnlyOffer);
   const { isCouponLoading, couponDetails } = useAppSelector(selectOrder);
   const {
     totalPrice,
     discount: { applied: discountApplied }
   } = useAppSelector(selectOnlyOrder);
 
-  const isFree = totalPrice === 0 && !trialAvailable && !discountApplied;
+  const isFree = totalPrice === 0 && !discountApplied;
 
   if (isFree) {
     return (

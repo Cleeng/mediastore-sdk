@@ -46,7 +46,6 @@ const initialState: OrderInitialState = {
     translationKey: ''
   },
   isCouponLoading: false,
-  couponError: null,
   isUpdateLoading: false
 };
 
@@ -137,13 +136,8 @@ export const orderSlice = createSlice({
       state.loading = false;
       state.order = action.payload;
     });
-    builder.addCase(fetchGetOrder.rejected, (state, action) => {
+    builder.addCase(fetchGetOrder.rejected, state => {
       state.loading = false;
-      if (action.payload) {
-        state.error = action.payload.message;
-      } else {
-        state.error = action.error.message;
-      }
     });
     builder.addCase(fetchUpdateCoupon.pending, state => {
       state.isCouponLoading = true;
@@ -164,13 +158,8 @@ export const orderSlice = createSlice({
         translationKey: 'coupon-input.success'
       };
     });
-    builder.addCase(fetchUpdateCoupon.rejected, (state, action) => {
+    builder.addCase(fetchUpdateCoupon.rejected, state => {
       state.isCouponLoading = false;
-      if (action.payload) {
-        state.couponError = action.payload.message;
-      } else {
-        state.couponError = action.error.message;
-      }
       state.couponDetails = {
         showMessage: true,
         message:
