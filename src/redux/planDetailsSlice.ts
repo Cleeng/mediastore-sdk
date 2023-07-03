@@ -1,11 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { RootState } from './rootReducer';
 import { CustomerOffer } from '../api/Customer/types';
-import {
-  PlanDetailsInitialState,
-  RejectValueError,
-  SwitchDetails
-} from './types';
+import { PlanDetailsInitialState, SwitchDetails } from './types';
 import { getCustomerOffers, getSwitch, getAvailableSwitches } from '../api';
 
 const initialState: PlanDetailsInitialState = {
@@ -32,14 +28,15 @@ export const fetchCustomerOffers = createAsyncThunk<
   CustomerOffer[],
   void,
   {
-    rejectValue: RejectValueError;
+    rejectValue: string;
   }
 >('plan/fetchCustomerOffers', async (_, { rejectWithValue }) => {
   try {
     const { items } = await getCustomerOffers();
     return items;
   } catch (err) {
-    return rejectWithValue(err as RejectValueError);
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
   }
 });
 
@@ -47,7 +44,7 @@ export const fetchPendingSwitches = createAsyncThunk<
   SwitchDetails,
   CustomerOffer[],
   {
-    rejectValue: RejectValueError;
+    rejectValue: string;
   }
 >(
   'plan/fetchPendingSwitches',
@@ -65,7 +62,8 @@ export const fetchPendingSwitches = createAsyncThunk<
       );
       return switchesObj;
     } catch (err) {
-      return rejectWithValue(err as RejectValueError);
+      const typedError = err as Error;
+      return rejectWithValue(typedError.message);
     }
   }
 );
@@ -74,7 +72,7 @@ export const fetchAvailableSwitches = createAsyncThunk<
   any, // should be SwitchSettings but for some reason its invalid
   CustomerOffer[],
   {
-    rejectValue: RejectValueError;
+    rejectValue: string;
   }
 >('plan/fetchAvailableSwitches', async (subscriptions, { rejectWithValue }) => {
   try {
@@ -93,7 +91,8 @@ export const fetchAvailableSwitches = createAsyncThunk<
     );
     return availableSwitchesObj;
   } catch (err) {
-    return rejectWithValue(err as RejectValueError);
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
   }
 });
 
@@ -132,7 +131,7 @@ export const planDetailsSlice = createSlice({
     });
     builder.addCase(fetchCustomerOffers.rejected, (state, action) => {
       state.currentPlan.loading = false;
-      state.currentPlan.error = action.payload?.message;
+      state.currentPlan.error = action.payload;
     });
     builder.addCase(fetchPendingSwitches.pending, state => {
       state.switchDetails.loading = true;
@@ -143,7 +142,7 @@ export const planDetailsSlice = createSlice({
     });
     builder.addCase(fetchPendingSwitches.rejected, (state, action) => {
       state.switchDetails.loading = false;
-      state.switchDetails.error = action.payload?.message;
+      state.switchDetails.error = action.payload;
     });
     builder.addCase(fetchAvailableSwitches.pending, state => {
       state.switchSettings.loading = true;
@@ -154,7 +153,7 @@ export const planDetailsSlice = createSlice({
     });
     builder.addCase(fetchAvailableSwitches.rejected, (state, action) => {
       state.switchSettings.loading = false;
-      state.switchSettings.error = action.payload?.message;
+      state.switchSettings.error = action.payload;
     });
   }
 });

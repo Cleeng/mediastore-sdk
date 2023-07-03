@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './rootReducer';
 import { getOfferDetails } from '../api';
-import { Offer, OfferInitialState, RejectValueError } from './types';
+import { Offer, OfferInitialState } from './types';
 
 const initialState: OfferInitialState = {
   offer: {},
@@ -14,14 +14,15 @@ export const fetchOffer = createAsyncThunk<
   Offer,
   string,
   {
-    rejectValue: RejectValueError;
+    rejectValue: string;
   }
 >('offer/fetchOffer', async (orderId, { rejectWithValue }) => {
   try {
     const result = await getOfferDetails(orderId);
     return result as Offer;
   } catch (err) {
-    return rejectWithValue(err as RejectValueError);
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
   }
 });
 
@@ -44,9 +45,7 @@ export const offerSlice = createSlice({
     builder.addCase(fetchOffer.rejected, (state, action) => {
       state.loading = false;
       if (action.payload) {
-        state.error = action.payload.message;
-      } else {
-        state.error = action.error.message;
+        state.error = action.payload;
       }
     });
   }
