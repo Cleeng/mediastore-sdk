@@ -13,7 +13,7 @@ import UpdateProfile from 'containers/UpdateProfile';
 import Popup from 'components/Popup/Popup';
 import Login from 'components/LoginPage/Login';
 
-import { getCustomerOffers, getCustomer, getCustomerConsents } from 'api';
+import { getCustomer, getCustomerConsents } from 'api';
 import Footer from 'components/Footer';
 
 import MyAccountError from 'components/MyAccountError/MyAccountError';
@@ -40,9 +40,7 @@ class MyAccount extends Component {
 
   componentDidMount() {
     const {
-      planDetails,
       userProfile,
-      setCurrentPlan,
       setCurrentUser,
       setConsents,
       setConsentsError,
@@ -65,18 +63,6 @@ class MyAccount extends Component {
             }
           })
           .catch(() => setConsentsError('Something went wrong..'));
-      }
-
-      if (planDetails.currentPlan.length === 0) {
-        getCustomerOffers().then(response => {
-          if (response.errors?.length) {
-            this.setState({
-              errors: response.errors
-            });
-          } else {
-            setCurrentPlan(response.items);
-          }
-        });
       }
 
       if (!userProfile.user) {
@@ -264,12 +250,10 @@ class MyAccount extends Component {
 }
 
 MyAccount.propTypes = {
-  setCurrentPlan: PropTypes.func.isRequired,
   setCurrentUser: PropTypes.func.isRequired,
   setConsents: PropTypes.func.isRequired,
   setConsentsError: PropTypes.func.isRequired,
   userProfile: PropTypes.objectOf(PropTypes.any),
-  planDetails: PropTypes.objectOf(PropTypes.any),
   popup: PropTypes.objectOf(PropTypes.any),
   showPopup: PropTypes.func.isRequired,
   hidePopup: PropTypes.func.isRequired,
@@ -290,7 +274,6 @@ MyAccount.propTypes = {
 
 MyAccount.defaultProps = {
   userProfile: { user: null },
-  planDetails: { currentPlan: [] },
   adyenConfiguration: null,
   popup: { isPopupShown: false },
   customCancellationReasons: null,

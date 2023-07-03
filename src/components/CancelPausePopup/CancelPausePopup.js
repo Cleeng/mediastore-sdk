@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import { useTranslation } from 'react-i18next';
 import Button from 'components/Button';
@@ -13,6 +12,9 @@ import eventDispatcher, {
   MSSDK_CANCEL_SWITCH_ACTION_FAILED,
   MSSDK_CANCEL_SWITCH_ACTION_CANCELLED
 } from 'util/eventDispatcher';
+import { setSwitchDetails, updateList } from 'redux/planDetailsSlice';
+import { hidePopup } from 'redux/popupSlice';
+import { dateFormat } from 'util';
 
 import {
   ContentStyled,
@@ -21,26 +23,33 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
-const CancelPausePopup = ({
-  popupData: { pendingSwitchId, baseOfferExpirationDate, baseOfferPrice },
-  hideInnerPopup,
-  updateList,
-  setSwitchDetails
-}) => {
+const CancelPausePopup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
 
+  const { data: allSwitchDetails } = useSelector(
+    state => state.plan.switchDetails
+  );
+  const {
+    cancelPause: {
+      pendingSwitchId,
+      baseOfferExpirationDate,
+      baseOfferPrice,
+      baseOfferTitle
+    }
+  } = useSelector(state => state.popupManager);
+
+  const switchDetails = allSwitchDetails[pendingSwitchId];
   const { t } = useTranslation();
 
-  const planDetailsState = useSelector(state => state.planDetails);
-  const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
-  const { offerToSwitch } = planDetailsState;
   const eventsPayload = {
     pendingSwitchId,
     fromOfferId: switchDetails?.fromOfferId,
     toOfferId: switchDetails?.toOfferId
   };
+
+  const dispatch = useDispatch();
 
   const cancelPause = async () => {
     eventDispatcher(MSSDK_CANCEL_SWITCH_ACTION_TRIGGERED, eventsPayload);
@@ -49,7 +58,9 @@ const CancelPausePopup = ({
       const { errors } = await updateSwitch(pendingSwitchId);
       if (!errors.length) {
         setIsLoading(false);
-        setSwitchDetails({ details: { pendingSwitchId }, type: 'delete' });
+        dispatch(
+          setSwitchDetails({ details: { pendingSwitchId }, type: 'delete' })
+        );
         setStep(2);
         eventDispatcher(MSSDK_CANCEL_SWITCH_ACTION_SUCCESSFUL, eventsPayload);
       } else {
@@ -67,7 +78,6 @@ const CancelPausePopup = ({
     }
   };
 
-  const pausedOfferTitle = offerToSwitch?.offerTitle;
   return (
     <InnerPopupWrapper
       steps={2}
@@ -86,9 +96,9 @@ const CancelPausePopup = ({
                 'cancelpause-popup.information-text',
                 'Your current plan will be paused starting on {{baseOfferExpirationDate}}. Cancel the pause to resume access to your {{ pausedOfferTitle }} subscription. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ pausedOfferTitle }}.',
                 {
-                  baseOfferExpirationDate,
+                  baseOfferExpirationDate: dateFormat(baseOfferExpirationDate),
                   baseOfferPrice,
-                  pausedOfferTitle
+                  pausedOfferTitle: baseOfferTitle
                 }
               )}
             </TextStyled>
@@ -107,7 +117,7 @@ const CancelPausePopup = ({
                   MSSDK_CANCEL_SWITCH_ACTION_CANCELLED,
                   eventsPayload
                 );
-                hideInnerPopup();
+                dispatch(hidePopup());
               }}
             >
               {t('cancelpause-popup.resign', 'No, thanks')}
@@ -137,7 +147,7 @@ const CancelPausePopup = ({
                 'cancelpause-popup.confirmation-text',
                 'Your access to your {{ pausedOfferTitle }} subscription will continue.',
                 {
-                  pausedOfferTitle
+                  pausedOfferTitle: baseOfferTitle
                 }
               )}
             </TextStyled>
@@ -146,8 +156,8 @@ const CancelPausePopup = ({
             <Button
               theme="confirm"
               onClickFn={() => {
-                updateList();
-                hideInnerPopup();
+                dispatch(updateList());
+                dispatch(hidePopup());
               }}
             >
               {t('cancelpause-popup.back-button', 'Back to My Account')}
@@ -157,21 +167,6 @@ const CancelPausePopup = ({
       )}
     </InnerPopupWrapper>
   );
-};
-
-CancelPausePopup.propTypes = {
-  popupData: PropTypes.shape({
-    pendingSwitchId: PropTypes.string.isRequired,
-    baseOfferExpirationDate: PropTypes.string.isRequired,
-    baseOfferPrice: PropTypes.string.isRequired
-  }).isRequired,
-  hideInnerPopup: PropTypes.func.isRequired,
-  updateList: PropTypes.func,
-  setSwitchDetails: PropTypes.func.isRequired
-};
-
-CancelPausePopup.defaultProps = {
-  updateList: () => {}
 };
 
 export default CancelPausePopup;

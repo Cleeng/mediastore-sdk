@@ -48,9 +48,8 @@ PasswordResetSuccess.propTypes = {
   resetPasswordCallback: PropTypes.func
 };
 
-/* istanbul ignore next */
 PasswordResetSuccess.defaultProps = {
-  resetPasswordCallback: () => {}
+  resetPasswordCallback: () => null
 };
 
 export { PasswordResetSuccess as PurePasswordResetSuccess };

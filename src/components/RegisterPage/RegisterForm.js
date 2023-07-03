@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import PropTypes from 'prop-types';
 import submitConsents from 'api/Customer/submitConsents';
 import Loader from 'components/Loader';
@@ -245,7 +245,7 @@ RegisterForm.propTypes = {
 
 RegisterForm.defaultProps = {
   publisherId: '',
-  onSuccess: () => {},
+  onSuccess: () => undefined,
   t: k => k
 };
 

@@ -63,8 +63,8 @@ Register.propTypes = {
 
 Register.defaultProps = {
   urlProps: {},
-  onSuccess: () => {},
-  onHaveAccountClick: () => {},
+  onSuccess: () => null,
+  onHaveAccountClick: () => null,
   t: k => k
 };
 

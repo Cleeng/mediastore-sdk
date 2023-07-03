@@ -6,6 +6,7 @@
 /.pnp
 .pnp.js
 /dist
+/coverage-ts
 
 # testing
 /coverage
@@ -31,4 +32,9 @@ yarn-error.log*
 
 # VSCode
 .vscode
+
+# WebStorm
+.idea
+
 .prettierrc
+tsconfig.tsbuildinfo

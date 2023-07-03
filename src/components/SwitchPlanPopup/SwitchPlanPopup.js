@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
 import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
@@ -11,6 +12,8 @@ import Loader from 'components/Loader';
 import { dateFormat, INFINITE_DATE, currencyFormat } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 import { ReactComponent as Close } from 'assets/images/errors/close.svg';
+import { updateList } from 'redux/planDetailsSlice';
+import { hidePopup, showPopup } from 'redux/popupSlice';
 
 import {
   ContentStyled,
@@ -27,18 +30,7 @@ import {
   ImageStyled
 } from './SwitchPlanPopupStyled';
 
-const SwitchPlanPopup = ({
-  toOffer,
-  fromOffer,
-  hideInnerPopup,
-  showInnerPopup,
-  updateList,
-  isPopupLoading,
-  onCancel,
-  onSwitchSuccess,
-  onSwitchError,
-  isPartOfCancellationFlow
-}) => {
+const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
   const STEPS = {
     SWITCH_DETAILS: 'SWITCH_DETAILS',
     CONFIRMATION: 'CONFIRMATION'
@@ -53,6 +45,13 @@ const SwitchPlanPopup = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
 
+  const { offerToSwitch: fromOffer } = useSelector(state => state.plan);
+  const {
+    isLoading: isPopupLoading,
+    switchPlan: { offerData: toOffer, isPartOfCancellationFlow }
+  } = useSelector(state => state.popupManager);
+
+  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const changePlan = async () => {
@@ -94,8 +93,8 @@ const SwitchPlanPopup = ({
   };
 
   const closePopupAndRefresh = () => {
-    hideInnerPopup();
-    updateList();
+    dispatch(hidePopup());
+    dispatch(updateList());
   };
 
   if (isPopupLoading) {
@@ -404,15 +403,17 @@ const SwitchPlanPopup = ({
               theme="simple"
               onClickFn={() => {
                 if (isPartOfCancellationFlow) {
-                  showInnerPopup({
-                    type: POPUP_TYPES.updateSubscription,
-                    data: {
-                      action: 'unsubscribe',
-                      offerData: {
-                        ...fromOffer
+                  dispatch(
+                    showPopup({
+                      type: POPUP_TYPES.updateSubscription,
+                      data: {
+                        action: 'unsubscribe',
+                        offerData: {
+                          ...fromOffer
+                        }
                       }
-                    }
-                  });
+                    })
+                  );
                 } else if (onCancel) {
                   onCancel();
                 } else {
@@ -426,7 +427,7 @@ const SwitchPlanPopup = ({
                       }
                     })
                   );
-                  hideInnerPopup();
+                  dispatch(hidePopup());
                 }
               }}
             >
@@ -727,29 +728,15 @@ const SwitchPlanPopup = ({
 };
 
 SwitchPlanPopup.propTypes = {
-  toOffer: PropTypes.objectOf(PropTypes.any),
-  fromOffer: PropTypes.objectOf(PropTypes.any),
-  hideInnerPopup: PropTypes.func,
-  updateList: PropTypes.func,
-  isPopupLoading: PropTypes.bool,
   onCancel: PropTypes.func,
   onSwitchSuccess: PropTypes.func,
-  onSwitchError: PropTypes.func,
-  isPartOfCancellationFlow: PropTypes.bool,
-  showInnerPopup: PropTypes.func
+  onSwitchError: PropTypes.func
 };
 
 SwitchPlanPopup.defaultProps = {
-  toOffer: {},
-  fromOffer: {},
-  hideInnerPopup: () => {},
-  showInnerPopup: () => {},
-  updateList: () => {},
-  isPopupLoading: false,
   onCancel: null,
   onSwitchSuccess: null,
-  onSwitchError: null,
-  isPartOfCancellationFlow: false
+  onSwitchError: null
 };
 
 export { SwitchPlanPopup as PureSwitchPlanPopup };

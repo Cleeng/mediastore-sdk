@@ -80,7 +80,7 @@ Checkbox.defaultProps = {
   error: '',
   checked: false,
   required: false,
-  onClickFn: () => {},
+  onClickFn: t => t,
   children: '',
   isMyAccount: false,
   className: '',

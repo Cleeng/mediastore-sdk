@@ -3,11 +3,13 @@ import PropTypes from 'prop-types';
 import Button from 'components/Button';
 import { currencyFormat } from 'util/planHelper';
 
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { setOfferToSwitch, updateList } from 'redux/planDetailsSlice';
 import { useTranslation } from 'react-i18next';
 import { applyCoupon } from 'api';
 import CouponInput from 'components/CouponInput';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
+import { showPopup } from 'redux/popupSlice';
 
 import {
   SubscriptionManagementStyled,
@@ -20,15 +22,11 @@ import {
   CouponWrapStyled
 } from './SubscriptionManagementStyled';
 
-const SubscriptionManagement = ({
-  subscription,
-  updateList,
-  showInnerPopup,
-  showMessageBox,
-  setOfferToSwitch
-}) => {
+const SubscriptionManagement = ({ subscription, showMessageBox }) => {
   const { pauseOffersIDs } = useSelector(store => store.offers);
-  const { switchSettings } = useSelector(store => store.planDetails);
+  const { data: switchSettings } = useSelector(
+    store => store.plan.switchSettings
+  );
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isCouponInputOpened, setIsCouponInputOpened] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -37,6 +35,7 @@ const SubscriptionManagement = ({
   const [couponValue, setCouponValue] = useState('');
   const isPaused = pauseOffersIDs.includes(subscription.offerId);
 
+  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const submitCoupon = subscriptionId => {
@@ -48,7 +47,7 @@ const SubscriptionManagement = ({
             case 200:
               setIsCouponInputOpened(false);
               setIsLoading(false);
-              updateList();
+              dispatch(updateList());
               showMessageBox(
                 'success',
                 t(
@@ -148,16 +147,18 @@ const SubscriptionManagement = ({
               theme="simple"
               onClickFn={event => {
                 event.stopPropagation();
-                setOfferToSwitch(subscription);
-                showInnerPopup({
-                  type: POPUP_TYPES.updateSubscription,
-                  data: {
-                    action: 'unsubscribe',
-                    offerData: {
-                      ...subscription
+                dispatch(setOfferToSwitch(subscription));
+                dispatch(
+                  showPopup({
+                    type: POPUP_TYPES.updateSubscription,
+                    data: {
+                      action: 'unsubscribe',
+                      offerData: {
+                        ...subscription
+                      }
                     }
-                  }
-                });
+                  })
+                );
                 window.dispatchEvent(
                   new CustomEvent('MSSDK:unsubscribe-button-clicked', {
                     detail: {
@@ -175,18 +176,20 @@ const SubscriptionManagement = ({
               theme="simple"
               onClickFn={event => {
                 event.stopPropagation();
-                showInnerPopup({
-                  type: POPUP_TYPES.updateSubscription,
-                  data: {
-                    action: 'resubscribe',
-                    offerData: {
-                      ...subscription,
-                      price: `${subscription.nextPaymentPrice}${
-                        currencyFormat[subscription.nextPaymentCurrency]
-                      }`
+                dispatch(
+                  showPopup({
+                    type: POPUP_TYPES.updateSubscription,
+                    data: {
+                      action: 'resubscribe',
+                      offerData: {
+                        ...subscription,
+                        price: `${subscription.nextPaymentPrice}${
+                          currencyFormat[subscription.nextPaymentCurrency]
+                        }`
+                      }
                     }
-                  }
-                });
+                  })
+                );
                 window.dispatchEvent(
                   new CustomEvent('MSSDK:resume-button-clicked', {
                     detail: {
@@ -224,14 +227,16 @@ const SubscriptionManagement = ({
               theme="primary"
               onClickFn={event => {
                 event.stopPropagation();
-                showInnerPopup({
-                  type: POPUP_TYPES.resumeSubscription,
-                  data: {
-                    offerData: {
-                      ...switchSettings[subscription?.offerId].available[0]
+                dispatch(
+                  showPopup({
+                    type: POPUP_TYPES.resumeSubscription,
+                    data: {
+                      offerData: {
+                        ...switchSettings[subscription?.offerId].available[0]
+                      }
                     }
-                  }
-                });
+                  })
+                );
               }}
             >
               {t(
@@ -248,18 +253,12 @@ const SubscriptionManagement = ({
 
 SubscriptionManagement.propTypes = {
   subscription: PropTypes.objectOf(PropTypes.any),
-  updateList: PropTypes.func,
-  showInnerPopup: PropTypes.func,
-  showMessageBox: PropTypes.func,
-  setOfferToSwitch: PropTypes.func
+  showMessageBox: PropTypes.func
 };
 
 SubscriptionManagement.defaultProps = {
   subscription: {},
-  updateList: () => {},
-  showInnerPopup: () => {},
-  showMessageBox: () => {},
-  setOfferToSwitch: () => {}
+  showMessageBox: () => null
 };
 
 export { SubscriptionManagement as PureSubscriptionManagement };
