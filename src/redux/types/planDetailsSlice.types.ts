@@ -1,5 +1,4 @@
 import { CustomerOffer } from 'api/Customer/types';
-import { Error } from './common';
 
 type SwitchSetting = {
   toOfferId: string;
@@ -15,7 +14,7 @@ type SwitchSetting = {
   nextPaymentPriceCurrencySymbol: string;
 };
 
-type SwitchSettings = {
+export type SwitchSettings = {
   [key: string]: {
     available: SwitchSetting[];
     unavailable: SwitchSetting[];
@@ -41,18 +40,18 @@ export type PlanDetailsInitialState = {
   currentPlan: {
     data: CustomerOffer[];
     loading: boolean;
-    error: Error;
+    error: string | null | undefined;
   };
   offerToSwitch: CustomerOffer | Record<string, never>;
   updateList: boolean;
   switchSettings: {
     data: SwitchSettings;
     loading: boolean;
-    error: Error;
+    error: string | null | undefined;
   };
   switchDetails: {
     data: SwitchDetails;
     loading: boolean;
-    error: Error;
+    error: string | null | undefined;
   };
 };

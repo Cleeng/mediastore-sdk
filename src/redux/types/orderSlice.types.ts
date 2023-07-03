@@ -1,6 +1,5 @@
 import { CurrencyFormat } from 'util/planHelper';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
-import { Error } from './common';
 
 export type Order = {
   billingAddress: unknown;
@@ -42,7 +41,7 @@ export type Order = {
 export type OrderInitialState = {
   order: Order;
   loading: boolean;
-  error: Error;
+  error: string;
   couponDetails: {
     showMessage: boolean;
     message: string;

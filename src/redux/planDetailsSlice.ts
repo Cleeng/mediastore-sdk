@@ -12,19 +12,19 @@ const initialState: PlanDetailsInitialState = {
   currentPlan: {
     data: [],
     loading: false,
-    error: []
+    error: null
   },
   offerToSwitch: {},
   updateList: false,
   switchSettings: {
     data: {},
     loading: false,
-    error: []
+    error: null
   },
   switchDetails: {
     data: {},
     loading: false,
-    error: []
+    error: null
   }
 };
 
@@ -37,10 +37,7 @@ export const fetchCustomerOffers = createAsyncThunk<
 >('plan/fetchCustomerOffers', async (_, { rejectWithValue }) => {
   try {
     const { items } = await getCustomerOffers();
-    const customerOffers = items.filter(
-      offer => !(offer.offerType === 'P' && offer.expiresAt * 1000 < Date.now())
-    );
-    return customerOffers;
+    return items;
   } catch (err) {
     return rejectWithValue(err as RejectValueError);
   }
@@ -68,7 +65,7 @@ export const fetchPendingSwitches = createAsyncThunk<
       );
       return switchesObj;
     } catch (err) {
-      rejectWithValue(err as RejectValueError);
+      return rejectWithValue(err as RejectValueError);
     }
   }
 );
@@ -96,7 +93,7 @@ export const fetchAvailableSwitches = createAsyncThunk<
     );
     return availableSwitchesObj;
   } catch (err) {
-    rejectWithValue(err as RejectValueError);
+    return rejectWithValue(err as RejectValueError);
   }
 });
 

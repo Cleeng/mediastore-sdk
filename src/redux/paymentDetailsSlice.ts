@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getPaymentDetails } from 'api';
-import { PaymentDetail } from 'api/Customer/getPaymentDetails';
+import { PaymentDetail } from 'api/Customer/types/getPaymentDetails.types';
 import { RootState } from './rootReducer';
 import { PaymentDetailsInitialState, RejectValueError } from './types';
 

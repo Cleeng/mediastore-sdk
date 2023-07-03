@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import { createOrder, getOrder, updateOrder } from '../api';
 import { RootState } from './rootReducer';
-import { Order, OrderInitialState, RejectValueError } from './types';
+import { Order, OrderInitialState } from './types';
 
 const initialState: OrderInitialState = {
   order: {
@@ -38,7 +38,7 @@ const initialState: OrderInitialState = {
     totalPrice: 0
   },
   loading: true,
-  error: null,
+  error: '',
   couponDetails: {
     showMessage: false,
     message: '',
@@ -53,14 +53,15 @@ export const fetchCreateOrder = createAsyncThunk<
   Order,
   string,
   {
-    rejectValue: RejectValueError;
+    rejectValue: string;
   }
 >('order/createOrder', async (offerId: string, { rejectWithValue }) => {
   try {
     const { order } = await createOrder(offerId);
     return order;
   } catch (err) {
-    return rejectWithValue(err as RejectValueError);
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
   }
 });
 
@@ -68,14 +69,15 @@ export const fetchUpdateOrder = createAsyncThunk<
   Order,
   { id: number; payload: { [key: string]: unknown } },
   {
-    rejectValue: RejectValueError;
+    rejectValue: string;
   }
 >('order/updateOrder', async ({ id, payload }, { rejectWithValue }) => {
   try {
     const { order } = await updateOrder(id, payload);
     return order;
   } catch (err) {
-    return rejectWithValue(err as RejectValueError);
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
   }
 });
 
@@ -83,14 +85,15 @@ export const fetchUpdateCoupon = createAsyncThunk<
   Order,
   { id: string | number; couponCode: string },
   {
-    rejectValue: RejectValueError;
+    rejectValue: string;
   }
 >('order/updateCoupon', async ({ id, couponCode }, { rejectWithValue }) => {
   try {
     const { order } = await updateOrder(id, { couponCode });
     return order;
   } catch (err) {
-    return rejectWithValue(err as RejectValueError);
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
   }
 });
 
@@ -98,14 +101,15 @@ export const fetchGetOrder = createAsyncThunk<
   Order,
   string | number,
   {
-    rejectValue: RejectValueError;
+    rejectValue: string;
   }
 >('order/getOrder', async (id, { rejectWithValue }) => {
   try {
     const { order } = await getOrder(id);
     return order;
   } catch (err) {
-    return rejectWithValue(err as RejectValueError);
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
   }
 });
 
@@ -121,12 +125,10 @@ export const orderSlice = createSlice({
       state.loading = false;
       state.order = action.payload;
     });
-    builder.addCase(fetchCreateOrder.rejected, (state, action) => {
+    builder.addCase(fetchCreateOrder.rejected, (state, { payload }) => {
       state.loading = false;
-      if (action.payload) {
-        state.error = action.payload.message;
-      } else {
-        state.error = action.error.message;
+      if (payload) {
+        state.error = payload;
       }
     });
     builder.addCase(fetchGetOrder.pending, state => {
@@ -175,12 +177,10 @@ export const orderSlice = createSlice({
       state.isUpdateLoading = false;
       state.order = action.payload;
     });
-    builder.addCase(fetchUpdateOrder.rejected, (state, action) => {
+    builder.addCase(fetchUpdateOrder.rejected, (state, { payload }) => {
       state.isUpdateLoading = false;
-      if (action.payload) {
-        state.error = action.payload.message;
-      } else {
-        state.error = action.error.message;
+      if (payload) {
+        state.error = payload;
       }
     });
   }
