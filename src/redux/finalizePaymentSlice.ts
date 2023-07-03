@@ -11,10 +11,6 @@ type Payment = {
   currency: unknown;
 };
 
-type RejectValueError = {
-  message: string;
-};
-
 type InitialState = {
   loading: boolean;
   payment: Payment;
@@ -36,7 +32,7 @@ export const fetchFinalizeInitialPayment = createAsyncThunk<
   Payment,
   { orderId: number | string; details: Record<string, unknown> },
   {
-    rejectValue: RejectValueError;
+    rejectValue: string;
   }
 >(
   'finalizeInitialPayment',
@@ -45,7 +41,8 @@ export const fetchFinalizeInitialPayment = createAsyncThunk<
       const { payment } = await finalizeInitialPayment(orderId, details);
       return payment;
     } catch (err) {
-      return rejectWithValue(err as RejectValueError);
+      const typedError = err as Error;
+      return rejectWithValue(typedError.message);
     }
   }
 );
@@ -75,19 +72,19 @@ export const finalizePaymentSlice = createSlice({
         payload
       });
     });
-    builder.addCase(fetchFinalizeInitialPayment.rejected, (state, action) => {
-      state.loading = false;
-      if (action.payload) {
-        state.error = action.payload.message;
-      } else {
-        state.error = action.error.message;
+    builder.addCase(
+      fetchFinalizeInitialPayment.rejected,
+      (state, { payload }) => {
+        state.loading = false;
+        if (payload) {
+          state.error = payload;
+        }
+        state.shouldShowFinalizePaymentComponent = true;
+        eventDispatcher(MSSDK_PURCHASE_FAILED, {
+          payload
+        });
       }
-      state.shouldShowFinalizePaymentComponent = true;
-      const { payload } = action;
-      eventDispatcher(MSSDK_PURCHASE_FAILED, {
-        payload
-      });
-    });
+    );
   }
 });
 

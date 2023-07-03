@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getPaymentDetails } from 'api';
-import { PaymentDetail } from 'api/Customer/getPaymentDetails';
+import { PaymentDetail } from 'api/Customer/types/getPaymentDetails.types';
 import { RootState } from './rootReducer';
-import { PaymentDetailsInitialState, RejectValueError } from './types';
+import { PaymentDetailsInitialState } from './types';
 
 const initialState: PaymentDetailsInitialState = {
   paymentDetails: [],
@@ -15,13 +15,14 @@ export const fetchPaymentDetails = createAsyncThunk<
   { paymentDetails: PaymentDetail[] },
   void,
   {
-    rejectValue: RejectValueError;
+    rejectValue: string;
   }
 >('paymentDetails', async (_, { rejectWithValue }) => {
   try {
     return await getPaymentDetails();
   } catch (error) {
-    return rejectWithValue(error as RejectValueError);
+    const typedError = error as Error;
+    return rejectWithValue(typedError.message);
   }
 });
 
@@ -43,9 +44,7 @@ export const paymentDetailsSlice = createSlice({
     builder.addCase(fetchPaymentDetails.rejected, (state, action) => {
       state.loading = false;
       if (action.payload) {
-        state.error = action.payload.message;
-      } else {
-        state.error = action.error.message;
+        state.error = action.payload;
       }
     });
   }

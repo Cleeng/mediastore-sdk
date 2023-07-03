@@ -12,8 +12,11 @@ import {
   fetchPendingSwitches,
   fetchAvailableSwitches,
   setOfferToSwitch,
-  resetOfferToSwitch
+  resetOfferToSwitch,
+  updateList
 } from 'redux/planDetailsSlice';
+import { hidePopup } from 'redux/popupSlice';
+
 import { WrapStyled } from './SubscriptionsStyled';
 
 const Subscriptions = ({
@@ -63,6 +66,10 @@ const Subscriptions = ({
       fetchSubscriptions();
     }
     if (offers.length === 0) dispatch(fetchOffers());
+    if (isPopupOpen) {
+      dispatch(hidePopup());
+      dispatch(updateList());
+    }
   }, []);
 
   useEffect(() => {
