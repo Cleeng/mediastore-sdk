@@ -73,6 +73,7 @@ const fetchWithJWT = async (url, options = {}) => {
         .catch(() => {
           IS_FETCHING_REFRESH_TOKEN = false;
           REFRESH_TOKEN_ERROR = true;
+          window.dispatchEvent(new CustomEvent('MSSDK:token-expired'));
           Auth.logout();
           return new Promise((resolve, reject) => reject());
         });

@@ -94,6 +94,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         .unwrap()
         .catch(errors => {
           if (errors.includes('JWT')) {
+            window.dispatchEvent(new CustomEvent('MSSDK:token-expired'));
             Auth.logout(); // TODO: support properly the logout function
           }
         });
