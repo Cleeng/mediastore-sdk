@@ -21,14 +21,15 @@ export const ThankYouPageStyled = styled.main`
   font-weight: bold;
 `;
 
-export const TitleStyled = styled.div`
+export const TitleStyled = styled.h1`
   font-size: 25px;
   margin: 30px 0;
   font-weight: 600;
 `;
 
-export const MessageStyled = styled.div`
+export const MessageStyled = styled.p`
   font-weight: 300;
+  margin: 0;
   & strong {
     font-weight: bold;
   }

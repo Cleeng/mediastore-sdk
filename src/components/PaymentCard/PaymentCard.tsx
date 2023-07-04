@@ -21,6 +21,7 @@ import {
   CardInfoWrapStyled,
   HolderNameStyled
 } from './PaymentCardStyled';
+import VisuallyHidden from '../../styles/visuallyHidden';
 import { PaymentCardProps } from './PaymentCard.types';
 
 const PaymentCard = ({ details }: PaymentCardProps) => {
@@ -35,6 +36,7 @@ const PaymentCard = ({ details }: PaymentCardProps) => {
   const card = CardTypes[getSpecificPaymentMethod()];
 
   const LogoComponent = card?.icon || null;
+  const logoCaption = card?.caption;
   const methodTitle = card?.title || '';
 
   return (
@@ -45,6 +47,11 @@ const PaymentCard = ({ details }: PaymentCardProps) => {
             {LogoComponent && (
               <CardTypeStyled>
                 <LogoComponent />
+                {/* TODO: alternative implementation for GlobalStyles */}
+                <VisuallyHidden />
+                <figcaption className="visually-hidden">
+                  {logoCaption}
+                </figcaption>
               </CardTypeStyled>
             )}
             <CardDetailsStyled>
@@ -68,7 +75,9 @@ const PaymentCard = ({ details }: PaymentCardProps) => {
                     <CardExpirationLabel>
                       {t('paymentcard.expiry-date', 'Expiry date')}
                     </CardExpirationLabel>
-                    <CardExpirationDateStyled>
+                    <CardExpirationDateStyled
+                      dateTime={paymentMethodSpecificParams.cardExpirationDate}
+                    >
                       {paymentMethodSpecificParams.cardExpirationDate}
                     </CardExpirationDateStyled>
                   </CardExpirationStyled>
@@ -76,6 +85,7 @@ const PaymentCard = ({ details }: PaymentCardProps) => {
             </CardDetailsStyled>
           </CardInfoStyled>
           <CardEditStyled
+            type="button"
             onClick={() => {
               dispatch(
                 updatePaymentDetailsPopup({

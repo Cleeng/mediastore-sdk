@@ -151,7 +151,7 @@ AddressDetails.propTypes = {
 AddressDetails.defaultProps = {
   isLoading: false,
   data: {},
-  updateCaptureOption: () => {}
+  updateCaptureOption: () => null
 };
 
 export default AddressDetails;

@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'components/Button';
 import { currencyFormat } from 'util/planHelper';
-
+import Button from 'components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOfferToSwitch, updateList } from 'redux/planDetailsSlice';
 import { useTranslation } from 'react-i18next';

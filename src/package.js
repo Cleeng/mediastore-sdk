@@ -1,7 +1,6 @@
 import 'i18NextInit';
 
 import Card from 'components/Card';
-import Consents from 'components/Consents';
 import OfferContainer from 'containers/OfferContainer';
 import Login from 'components/LoginPage';
 import Register from 'components/RegisterPage';
@@ -40,7 +39,6 @@ export {
   Config,
   Auth,
   Card,
-  Consents,
   CheckoutConsents,
   TransactionList,
   Subscriptions,

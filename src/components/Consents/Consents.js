@@ -89,7 +89,7 @@ Consents.propTypes = {
 
 Consents.defaultProps = {
   error: '',
-  onChangeFn: () => {}
+  onChangeFn: () => null
 };
 
 export default Consents;

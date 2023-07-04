@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { MyAccountTextGray } from 'styles/variables';
 import { CardsWrapperProps } from './PaymentMethod.types';
 
-export const WrapStyled = styled.div`
+export const WrapStyled = styled.article`
   position: relative;
 
   margin-bottom: 30px;

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { FontColor, BigFont, BoldFont } from 'styles/variables';
 
-const HeadingStyled = styled.h2.attrs(() => ({
+const HeadingStyled = styled.h1.attrs(() => ({
   className: 'msd__section-header'
 }))`
   padding-bottom: ${({ paddingBottom }) => paddingBottom};
@@ -19,7 +19,7 @@ const HeadingStyled = styled.h2.attrs(() => ({
     props.marginTop &&
     css`
       margin-top: ${props.marginTop};
-    `}
+    `};
 `;
 
 const SectionHeader = ({ children, center, marginTop, paddingBottom }) => (

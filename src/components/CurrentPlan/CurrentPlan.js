@@ -174,6 +174,7 @@ const CurrentPlan = () => {
 
           return (
             <SubscriptionStyled
+              as="article"
               key={subItem.offerId}
               onClick={() => {
                 if (

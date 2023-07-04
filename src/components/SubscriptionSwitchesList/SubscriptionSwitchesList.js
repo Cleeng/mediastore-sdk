@@ -129,6 +129,7 @@ const SubscriptionSwitchesList = () => {
               : subItem.nextPaymentPrice;
           return (
             <SubscriptionStyled
+              as="article"
               key={subItem.toOfferId}
               hide={pendingSwtichesToOfferIdsArray.find(
                 item => item === subItem.toOfferId

@@ -120,11 +120,20 @@ const CouponInput = ({
   }, [showMessage, message, messageType]);
 
   return (
-    <InputComponentStyled isOpened={isOpened} fullWidth={fullWidth}>
+    <InputComponentStyled
+      isOpened={isOpened}
+      fullWidth={fullWidth}
+      onSubmit={async e => {
+        e.preventDefault();
+        await onRedeemClick();
+      }}
+    >
       <InputElementWrapperStyled>
         <CloseButtonStyled
           onClick={() => onCloseClick()}
           isInputOpened={isOpened}
+          aria-label="close"
+          type="button"
         >
           {CloseIcon && <CloseIcon />}
         </CloseButtonStyled>
@@ -150,13 +159,7 @@ const CouponInput = ({
           aria-label={t('coupon-input.placeholder', 'Your coupon') as string}
           aria-required={false}
         />
-        <Button
-          width="auto"
-          onClickFn={async () => {
-            await onRedeemClick();
-          }}
-          testid="redeem-btn"
-        >
+        <Button width="auto" testid="redeem-btn" type="submit">
           <>
             {couponLoading && <Loader buttonLoader color="#ffffff" />}
             {!couponLoading && isOpened && t('coupon-input.redeem', 'Redeem')}

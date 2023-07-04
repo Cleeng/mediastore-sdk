@@ -9,9 +9,9 @@ import {
   CloseButtonStyledProps
 } from './CouponInput.types';
 
-export const InputComponentStyled = styled.div.attrs(() => ({
+export const InputComponentStyled = styled.form.attrs(() => ({
   className: 'msd__coupon-input__wrapper',
-  ['data-testid']: 'inputcomponent'
+  'data-testid': 'inputcomponent'
 }))<InputComponentStyledProps>`
   display: flex;
   flex-direction: column;
@@ -56,6 +56,10 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
 
   background: white;
   transition: 0.2s ease-in-out;
+
+  &:focus-within {
+    border-color: ${Colors.FocusColor};
+  }
 `;
 
 export const InputElementStyled = styled.input.attrs(() => ({

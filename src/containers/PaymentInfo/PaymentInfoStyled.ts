@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { FontColor, BackgroundColor } from 'styles/variables';
 
-export const WrapStyled = styled.div.attrs(() => ({
+export const WrapStyled = styled.article.attrs(() => ({
   className: 'msd__payment-details__wrapper'
 }))`
   * {

@@ -30,7 +30,7 @@ export const CheckoutConsentsContentStyled = styled.div.attrs(() => ({
 `}
 `;
 
-export const CheckoutConsentsTitleStyled = styled.h3.attrs(() => ({
+export const CheckoutConsentsTitleStyled = styled.h2.attrs(() => ({
   className: 'msd__consents__title'
 }))`
   margin-bottom: 16px;
@@ -42,7 +42,7 @@ export const CheckoutConsentsTitleStyled = styled.h3.attrs(() => ({
   color: ${colors.FontColor};
 `;
 
-export const CheckoutConsentsSubTitleStyled = styled.h4.attrs(() => ({
+export const CheckoutConsentsSubTitleStyled = styled.p.attrs(() => ({
   className: 'msd__consents__subtitle'
 }))`
   margin-bottom: 16px;
@@ -55,13 +55,14 @@ export const CheckoutConsentsSubTitleStyled = styled.h4.attrs(() => ({
   filter: brightness(1.7);
 `;
 
-export const CheckoutConsentsListStyled = styled.div.attrs(() => ({
+export const CheckoutConsentsListStyled = styled.ul.attrs(() => ({
   className: 'msd__consents__list'
 }))`
   margin-bottom: 36px;
+  list-style: none;
 `;
 
-export const CheckoutConsentsCheckbox = styled.div``;
+export const CheckoutConsentsCheckbox = styled.li``;
 
 export const CheckoutConsentsError = styled.div.attrs(() => ({
   className: 'msd__consents__error'

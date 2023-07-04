@@ -44,6 +44,7 @@ const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
   return (
     <StyledOfferWrapper>
       <Header />
+      {/* TODO: consider the context and conditionally render <main> element */}
       <main>
         <StyledOfferBody>
           <SectionHeader center>

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { White, FontColor } from 'styles/variables';
 import { mediaFrom } from 'styles/BreakPoints';
+import * as colors from 'styles/variables';
 
 export const CardStyled = styled.div.attrs(() => ({
   className: 'msd__payment-card'
@@ -8,7 +9,7 @@ export const CardStyled = styled.div.attrs(() => ({
   height: 100%;
 `;
 
-export const CardTypeStyled = styled.div.attrs(() => ({
+export const CardTypeStyled = styled.figure.attrs(() => ({
   className: 'msd__payment-card__type'
 }))`
   display: flex;
@@ -16,6 +17,7 @@ export const CardTypeStyled = styled.div.attrs(() => ({
   justify-content: center;
   width: 38px;
   height: 26px;
+  margin: 0;
 
   svg {
     height: auto;
@@ -58,7 +60,7 @@ export const CardExpirationLabel = styled.div.attrs(() => ({
   margin-inline-end: 4px;
 `;
 
-export const CardExpirationDateStyled = styled.div.attrs(() => ({
+export const CardExpirationDateStyled = styled.time.attrs(() => ({
   className: 'msd__payment-data__value'
 }))`
   color: ${FontColor};
@@ -83,9 +85,16 @@ export const CardEditStyled = styled.button.attrs(() => ({
   font-weight: 600;
   border-radius: 21px;
   border: 0;
+  opacity: 0.9;
 
   &:hover {
     cursor: pointer;
+    opacity: 1;
+  }
+  &:focus {
+    cursor: pointer;
+    opacity: 1;
+    outline: 1px solid ${colors.FocusColor};
   }
 `;
 

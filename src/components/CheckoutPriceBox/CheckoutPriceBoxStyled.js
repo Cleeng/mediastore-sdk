@@ -2,19 +2,21 @@ import styled from 'styled-components';
 import * as variables from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
-export const StyledLabel = styled.div.attrs(() => ({
+export const StyledLabel = styled.span.attrs(() => ({
   className: 'msd__price-summary__label'
 }))`
   font-size: 16px;
   color: ${variables.FontColor};
 `;
 
-export const StyledOfferPrice = styled.h3.attrs(() => ({
+export const StyledOfferPrice = styled.span.attrs(() => ({
   className: 'msd__price-summary__ammount'
 }))`
   float: right;
   font-size: 16px;
+  font-weight: bold;
   color: ${variables.FontColor};
+  margin: 16px 0;
 
   & span {
     font-size: 12px;
@@ -39,7 +41,7 @@ export const StyledTotalOfferPrice = styled(StyledOfferPrice).attrs(() => ({
   font-weight: ${variables.MediumFontWeight};
 `;
 
-export const StyledPriceBox = styled.div.attrs(() => ({
+export const StyledPriceBox = styled.ul.attrs(() => ({
   className: 'msd__price-summary'
 }))`
   display: flex;
@@ -56,10 +58,18 @@ export const StyledPriceBoxWrapper = styled.div`
   `}
 `;
 
-export const StyledPriceWrapper = styled.div`
+export const StyledPriceWrapper = styled.li`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
+
+  strong {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
 `;

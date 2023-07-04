@@ -11,7 +11,7 @@ const SubscriptionIcon = ({ period, showLabel, className, isPaused }) => {
   return (
     <>
       <WrapperStyled
-        color={color || null}
+        $color={color || null}
         bg={bg || null}
         border={border || null}
         className={className}

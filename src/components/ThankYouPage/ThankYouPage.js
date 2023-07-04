@@ -48,7 +48,7 @@ const ThankYouPage = ({ onSuccess }) => {
     <ThankYouPageWrapperStyled data-testid="ThankYouPage-component">
       <Header />
       <ThankYouPageStyled>
-        <IconStyled src={checkmarkIconBase} />
+        <IconStyled src={checkmarkIconBase} alt="" />
         <TitleStyled>{t('thank-you-page.header', 'Thank You!')}</TitleStyled>
         <MessageStyled>
           {readablePaymentMethod[paymentMethod] ? (
