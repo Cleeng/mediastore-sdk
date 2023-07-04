@@ -3,7 +3,7 @@ import jwtDecode from 'jwt-decode';
 import Auth from 'services/auth';
 import { getData, setData } from 'util/appConfigHelper';
 import getApiURL from 'util/environmentHelper';
-import eventDispatcher, { MSSDK_TOKEN_EXPIRED } from './eventDispatcher';
+import eventDispatcher, { MSSDK_AUTH_FAILED } from './eventDispatcher';
 import { version } from '../../package.json';
 
 const JWT = 'CLEENG_AUTH_TOKEN';
@@ -72,7 +72,7 @@ const fetchWithJWT = async (url, options = {}) => {
   const refreshToken = retrieveRefreshToken();
 
   if (isExpired && !refreshToken) {
-    eventDispatcher(MSSDK_TOKEN_EXPIRED);
+    eventDispatcher(MSSDK_AUTH_FAILED);
     Auth.logout();
   }
 
@@ -85,7 +85,7 @@ const fetchWithJWT = async (url, options = {}) => {
         .catch(() => {
           IS_FETCHING_REFRESH_TOKEN = false;
           REFRESH_TOKEN_ERROR = true;
-          eventDispatcher(MSSDK_TOKEN_EXPIRED);
+          eventDispatcher(MSSDK_AUTH_FAILED);
           Auth.logout();
           return new Promise((resolve, reject) => reject());
         });

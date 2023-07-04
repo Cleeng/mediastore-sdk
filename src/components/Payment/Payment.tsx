@@ -34,7 +34,7 @@ import {
 import eventDispatcher, {
   MSSDK_PURCHASE_FAILED,
   MSSDK_PURCHASE_SUCCESSFUL,
-  MSSDK_TOKEN_EXPIRED
+  MSSDK_AUTH_FAILED
 } from '../../util/eventDispatcher';
 import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
@@ -95,7 +95,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         .unwrap()
         .catch(errors => {
           if (errors.includes('JWT')) {
-            eventDispatcher(MSSDK_TOKEN_EXPIRED);
+            eventDispatcher(MSSDK_AUTH_FAILED);
             Auth.logout(); // TODO: support properly the logout function
           }
         });
