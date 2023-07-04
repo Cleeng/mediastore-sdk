@@ -22,7 +22,7 @@ const Footer = ({ className, isInPopup, isCheckout, isTransparent }) => (
         rel="noopener noreferrer"
         target="_blank"
       >
-        <CleengLogo />
+        <CleengLogo title="Cleeng logo" />
       </CleengLogoWrapperStyled>
     </ProductByStyled>
     {isCheckout && (

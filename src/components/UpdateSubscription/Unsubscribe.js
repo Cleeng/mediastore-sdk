@@ -3,9 +3,8 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import store from 'redux/store';
 
 import updateSubscription from 'api/Customer/updateSubscription';
 import {
@@ -21,6 +20,8 @@ import Checkbox from 'components/Checkbox';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
 import OfferCard from 'components/OfferCard';
+import { updateList } from 'redux/planDetailsSlice';
+import { showPopup, hidePopup } from 'redux/popupSlice';
 
 import {
   ContentStyled,
@@ -33,11 +34,7 @@ import {
 import { ReasonsWrapper, StyledItem } from './UpdateSubscriptionStyled';
 
 const Unsubscribe = ({
-  offerDetails,
-  hideInnerPopup,
-  updateList,
   customCancellationReasons,
-  showInnerPopup,
   skipAvailableDowngradesStep
 }) => {
   const STEPS = {
@@ -53,15 +50,25 @@ const Unsubscribe = ({
   const [steps, setSteps] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const { pauseOffersIDs } = useSelector(state => state.offers);
+  const { pauseOffersIDs, offers } = useSelector(state => state.offers);
+  const { data: switchSettings } = useSelector(
+    state => state.plan.switchSettings
+  );
+  const { data: switchDetails } = useSelector(
+    state => state.plan.switchDetails
+  );
+  const {
+    updateSubscription: { offerData: offerDetails }
+  } = useSelector(state => state.popupManager);
+
+  const dispatch = useDispatch();
 
   const { t } = useTranslation();
 
   const getDowngrades = () => {
-    const { planDetails } = store.getState();
-    if (planDetails && Object.keys(planDetails.switchSettings).length) {
-      const switchSettings = planDetails.switchSettings[offerDetails.offerId];
-      const availableSorted = [...switchSettings.available]
+    if (Object.keys(switchSettings).length) {
+      const offerSwitchSettings = switchSettings[offerDetails.offerId];
+      const availableSorted = [...offerSwitchSettings.available]
         .filter(offer => offer.switchDirection === 'downgrade')
         .sort((aOffer, bOffer) => bOffer.price - aOffer.price);
       return availableSorted;
@@ -71,8 +78,7 @@ const Unsubscribe = ({
 
   const scheduledSwitch = () => {
     if (offerDetails.pendingSwitchId) {
-      const { planDetails } = store.getState();
-      return planDetails.switchDetails[offerDetails.pendingSwitchId];
+      return switchDetails[offerDetails.pendingSwitchId];
     }
     return false;
   };
@@ -80,11 +86,6 @@ const Unsubscribe = ({
   const downgrades = getDowngrades();
 
   const shouldShowDowngradeScreen = () => {
-    const {
-      innerPopup: {
-        data: { offerData }
-      }
-    } = store.getState();
     if (skipAvailableDowngradesStep) {
       return false;
     }
@@ -94,7 +95,7 @@ const Unsubscribe = ({
     ) {
       return false;
     }
-    if (!offerData.inTrial && downgrades.length) {
+    if (!offerDetails.inTrial && downgrades.length) {
       const downgradesFiltered = downgrades.filter(
         ({ toOfferId }) => !pauseOffersIDs.includes(toOfferId)
       );
@@ -205,15 +206,19 @@ const Unsubscribe = ({
 
   const cancelUnsubscribeAction = () => {
     window.dispatchEvent(new CustomEvent('MSSDK:unsubscribe-action-cancelled'));
-    hideInnerPopup();
+    dispatch(hidePopup());
   };
 
   const { offerTitle, expiresAt, offerId, period } = offerDetails;
   const formattedExpiresAt = dateFormat(expiresAt);
+
+  const toOfferIdTitle = offers.find(({ longId }) => longId === scheduledSwitch().toOfferId)
+        ?.title;
   const scheduledSwitchTitle = t(
     `offer-title-${scheduledSwitch().toOfferId}`,
-    scheduledSwitch().title
+    toOfferIdTitle
   );
+  
   const translatedTitle = t(`offer-title-${offerId}`, offerTitle);
 
   // Filter out the pause subscription
@@ -253,17 +258,19 @@ const Unsubscribe = ({
           <ButtonWrapperStyled fillWrapper customMargin="80px 0 0">
             <Button
               theme="confirm"
-              onClickFn={() => {
-                showInnerPopup({
-                  type: 'pauseSubscription',
-                  data: {
-                    offerData: {
-                      ...pauseOffer[0]
-                    },
-                    isPartOfCancellationFlow: true
-                  }
-                });
-              }}
+              onClickFn={() => 
+                dispatch(
+                  showPopup({
+                    type: 'pauseSubscription',
+                    data: {
+                      offerData: {
+                        ...pauseOffer[0]
+                      },
+                      isPartOfCancellationFlow: true
+                    }
+                  })
+                )
+              }
             >
               {t('unsubscribe-popup.pause-button-text', 'Pause')}
             </Button>
@@ -275,7 +282,7 @@ const Unsubscribe = ({
             )}
           </TextStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={hideInnerPopup}>
+            <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
               {t('unsubscribe-popup.back-button', 'Back to My Account')}
             </Button>
             <Button
@@ -310,15 +317,17 @@ const Unsubscribe = ({
               return (
                 <OfferCardWrapperStyled
                   onClick={() =>
-                    showInnerPopup({
-                      type: 'switchPlan',
-                      data: {
-                        offerData: {
-                          ...downgradeOffer
-                        },
-                        isPartOfCancellationFlow: true
-                      }
-                    })
+                    dispatch(
+                      showPopup({
+                        type: 'switchPlan',
+                        data: {
+                          offerData: {
+                            ...downgradeOffer
+                          },
+                          isPartOfCancellationFlow: true
+                        }
+                      })
+                    )
                   }
                   key={downgradeOffer.toOfferId}
                 >
@@ -347,7 +356,7 @@ const Unsubscribe = ({
             )}
           </TextStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={hideInnerPopup}>
+            <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
               {t('unsubscribe-popup.back-button', 'Back to My Account')}
             </Button>
             <Button
@@ -477,8 +486,8 @@ const Unsubscribe = ({
             width="auto"
             margin="30px auto 0 auto"
             onClickFn={() => {
-              hideInnerPopup();
-              updateList();
+              dispatch(hidePopup());
+              dispatch(updateList());
             }}
           >
             {t('unsubscribe-popup.back-button', 'Back to My Account')}
@@ -490,10 +499,6 @@ const Unsubscribe = ({
 };
 
 Unsubscribe.propTypes = {
-  hideInnerPopup: PropTypes.func.isRequired,
-  showInnerPopup: PropTypes.func.isRequired,
-  updateList: PropTypes.func.isRequired,
-  offerDetails: PropTypes.objectOf(PropTypes.any).isRequired,
   customCancellationReasons: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,

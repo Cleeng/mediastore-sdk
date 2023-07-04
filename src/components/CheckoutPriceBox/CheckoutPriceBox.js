@@ -105,12 +105,14 @@ const CheckoutPriceBox = () => {
         )}
 
         <StyledPriceWrapper>
-          <StyledTotalLabel>
-            {t('checkout-price-box.total', 'Total')}
-          </StyledTotalLabel>
-          <StyledTotalOfferPrice>
-            {`${currencyFormat[currency]}${formatNumber(finalPrice)}`}
-          </StyledTotalOfferPrice>
+          <strong>
+            <StyledTotalLabel>
+              {t('checkout-price-box.total', 'Total')}
+            </StyledTotalLabel>
+            <StyledTotalOfferPrice>
+              {`${currencyFormat[currency]}${formatNumber(finalPrice)}`}
+            </StyledTotalOfferPrice>
+          </strong>
         </StyledPriceWrapper>
       </StyledPriceBoxWrapper>
     </StyledPriceBox>

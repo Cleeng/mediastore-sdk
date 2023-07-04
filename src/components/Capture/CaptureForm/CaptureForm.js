@@ -99,9 +99,14 @@ const CaptureForm = ({ settings, onSuccess }) => {
     return setting?.enabled;
   };
 
-  const validateNames = () => {
-    if (!firstName.value) firstName.setError(t('First Name is required'));
-    if (!lastName.value) lastName.setError(t('Last Name is required'));
+  const validateNames = inputName => {
+    if (inputName === 'firstName' && !firstName.value) {
+      firstName.setError(t('First Name is required'));
+    }
+
+    if (inputName === 'lastName' && !lastName.value) {
+      lastName.setError(t('Last Name is required'));
+    }
     if (!firstName.value || !lastName.value) setIsError(true);
   };
 
@@ -224,7 +229,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
               value={firstName.value}
               error={firstName.error}
               onChange={val => firstName.setValue(val)}
-              onBlur={() => validateNames()}
+              onBlur={() => validateNames('firstName')}
               required={isRequired('firstNameLastName')}
             />
             <Input
@@ -232,7 +237,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
               value={lastName.value}
               error={lastName.error}
               onChange={val => lastName.setValue(val)}
-              onBlur={() => validateNames()}
+              onBlur={() => validateNames('lastName')}
               required={isRequired('firstNameLastName')}
             />
           </CaptureRowStyled>

@@ -25,7 +25,6 @@ const Select = ({
   const handleChange = option => {
     onChange(name, option);
   };
-
   return (
     <SelectStyled>
       <ReactSelectStyled
@@ -38,6 +37,7 @@ const Select = ({
         name={name}
         isDisabled={disabled}
         isMyAccount={isMyAccount}
+        getOptionLabel={option => option.label}
       />
     </SelectStyled>
   );

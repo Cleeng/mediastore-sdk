@@ -7,19 +7,15 @@ import {
 import { setActiveTab, MYACCCOUNT_TABS } from 'redux/myaccountSlice';
 
 const withAddPaymentDetailsFinalizationHandler = Component => {
-  return ({
-    // eslint-disable-next-line react/prop-types
-    onSuccess,
-    ...props
-  }) => {
+  return ({ ...props }) => {
     const dispatch = useDispatch();
+    const adyenRedirectResult =
+      typeof window === 'object' &&
+      new URLSearchParams(window.location.search)?.get('redirectResult');
 
-    const adyenRedirectResult = new URLSearchParams(window.location.search).get(
-      'redirectResult'
-    );
-    const paymentMethodId = new URLSearchParams(window.location.search).get(
-      'paymentMethodId'
-    );
+    const paymentMethodId =
+      typeof window === 'object' &&
+      new URLSearchParams(window?.location.search)?.get('paymentMethodId');
 
     useEffect(() => {
       if (adyenRedirectResult && paymentMethodId) {
@@ -34,7 +30,7 @@ const withAddPaymentDetailsFinalizationHandler = Component => {
       }
     }, []);
 
-    return <Component onSuccess={onSuccess} {...props} />;
+    return <Component {...props} />;
   };
 };
 

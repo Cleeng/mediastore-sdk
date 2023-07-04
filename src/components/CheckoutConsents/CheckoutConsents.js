@@ -104,7 +104,7 @@ const CheckoutConsents = ({ onSuccess }) => {
               <CheckoutConsentsSubTitleStyled>
                 {t('Please accept Terms & Conditions')}
               </CheckoutConsentsSubTitleStyled>
-              <CheckoutConsentsListStyled>
+              <CheckoutConsentsListStyled role="list">
                 {consents.map(consent => (
                   <CheckoutConsentsCheckbox key={consent.name}>
                     <Checkbox
@@ -149,7 +149,7 @@ CheckoutConsents.propTypes = {
 };
 
 CheckoutConsents.defaultProps = {
-  onSuccess: () => {}
+  onSuccess: () => null
 };
 
 export default CheckoutConsents;

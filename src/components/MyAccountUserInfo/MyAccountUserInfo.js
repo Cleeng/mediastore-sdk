@@ -15,8 +15,9 @@ const MyAccountUserInfo = () => {
   const { user } = useSelector(state => state.userProfile);
 
   const {
-    currentPlan: [plan]
-  } = useSelector(state => state.planDetails);
+    data: [plan]
+  } = useSelector(state => state.plan.currentPlan);
+
   const { t } = useTranslation();
 
   const isDataLoaded = !!user;
@@ -43,6 +44,7 @@ const MyAccountUserInfo = () => {
         <SkeletonWrapper showChildren={isDataLoaded}>
           <MailStyled bigger={!isNameSet}>{user?.email}</MailStyled>
         </SkeletonWrapper>
+        {/* TODO: fix contrast issue */}
         <SkeletonWrapper showChildren={isDataLoaded} height={36} margin="0">
           {subscription && <TextStyled>{subscription}</TextStyled>}
         </SkeletonWrapper>

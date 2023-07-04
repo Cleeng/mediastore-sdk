@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import { useTranslation } from 'react-i18next';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
+import { updateList, setSwitchDetails } from 'redux/planDetailsSlice';
+import { hidePopup } from 'redux/popupSlice';
 import { dateFormat, INFINITE_DATE } from 'util';
 
 import {
@@ -16,29 +17,32 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
-const CancelSwitchPopup = ({
-  popupData: {
-    pendingSwitchId,
-    switchDirection,
-    switchOfferTitle: untranslatedSwitchOfferTitle,
-    baseOfferTitle: untranslatedBaseOfferTitle,
-    baseOfferExpirationDate
-  },
-  hideInnerPopup,
-  updateList,
-  setSwitchDetails
-}) => {
+const CancelSwitchPopup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
 
-  const planDetailsState = useSelector(state => state.planDetails);
-  const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
+  const { data: allSwitchDetails } = useSelector(
+    state => state.plan.switchDetails
+  );
+  const {
+    cancelSwitch: {
+      pendingSwitchId,
+      switchDirection,
+      switchOfferTitle: untranslatedSwitchOfferTitle,
+      baseOfferTitle: untranslatedBaseOfferTitle,
+      baseOfferExpirationDate,
+      baseOfferPrice
+    }
+  } = useSelector(state => state.popupManager);
+
+  const switchDetails = allSwitchDetails[pendingSwitchId];
   const eventsPayload = {
     pendingSwitchId,
     fromOfferId: switchDetails && switchDetails.fromOfferId,
     toOfferId: switchDetails && switchDetails.toOfferId
   };
+  const dispatch = useDispatch();
 
   const [offerIdsFallback, setOfferIdsFallback] = useState({}); // required to keep translations in step 2
 
@@ -73,7 +77,9 @@ const CancelSwitchPopup = ({
       const resp = await updateSwitch(pendingSwitchId);
       if (!resp.errors.length) {
         setIsLoading(false);
-        setSwitchDetails({ details: { pendingSwitchId }, type: 'delete' });
+        dispatch(
+          setSwitchDetails({ details: { pendingSwitchId }, type: 'delete' })
+        );
         setStep(2);
         window.dispatchEvent(
           new CustomEvent('MSSDK:cancel-switch-action-successful', {
@@ -126,7 +132,8 @@ const CancelSwitchPopup = ({
                           'cancelswitch-popup.next-season-start',
                           'the next season start'
                         )
-                      : dateFormat(baseOfferExpirationDate)
+                      : dateFormat(baseOfferExpirationDate),
+                  baseOfferPrice
                 }
               )}
               <br />
@@ -146,7 +153,7 @@ const CancelSwitchPopup = ({
                     detail: eventsPayload
                   })
                 );
-                hideInnerPopup();
+                dispatch(hidePopup());
               }}
             >
               {t('cancelswitch-popup.resign', 'No, thanks')}
@@ -194,8 +201,8 @@ const CancelSwitchPopup = ({
             <Button
               theme="confirm"
               onClickFn={() => {
-                updateList();
-                hideInnerPopup();
+                dispatch(hidePopup());
+                dispatch(updateList());
               }}
             >
               {t('cancelswitch-popup.back-button', 'Back to My Account')}
@@ -205,24 +212,6 @@ const CancelSwitchPopup = ({
       )}
     </InnerPopupWrapper>
   );
-};
-
-CancelSwitchPopup.propTypes = {
-  popupData: PropTypes.shape({
-    pendingSwitchId: PropTypes.string.isRequired,
-    baseOfferTitle: PropTypes.string.isRequired,
-    baseOfferExpirationDate: PropTypes.string.isRequired,
-    baseOfferPrice: PropTypes.string.isRequired,
-    switchDirection: PropTypes.string.isRequired,
-    switchOfferTitle: PropTypes.string.isRequired
-  }).isRequired,
-  hideInnerPopup: PropTypes.func.isRequired,
-  updateList: PropTypes.func,
-  setSwitchDetails: PropTypes.func.isRequired
-};
-
-CancelSwitchPopup.defaultProps = {
-  updateList: () => {}
 };
 
 export default CancelSwitchPopup;

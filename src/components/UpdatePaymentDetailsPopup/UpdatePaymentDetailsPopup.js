@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
@@ -82,7 +82,6 @@ const UpdatePaymentDetailsPopup = () => {
     state => state.publisherConfig
   );
   const { paymentDetails } = useSelector(state => state.paymentDetails);
-  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
   const { loading: isFinalizeAddPaymentDetailsLoading } = useSelector(
     state => state.finalizeAddPaymentDetails
   );
@@ -90,7 +89,6 @@ const UpdatePaymentDetailsPopup = () => {
     false
   );
   const selectPaymentMethodHandler = paymentMethodName => {
-    if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = paymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );

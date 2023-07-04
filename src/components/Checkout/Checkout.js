@@ -141,8 +141,8 @@ Checkout.propTypes = {
 
 Checkout.defaultProps = {
   offerId: null,
-  onSuccess: () => {},
-  resetPasswordCallback: () => {},
+  onSuccess: () => null,
+  resetPasswordCallback: () => null,
   adyenConfiguration: null
 };
 
