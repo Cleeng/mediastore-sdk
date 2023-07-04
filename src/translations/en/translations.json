@@ -474,5 +474,6 @@
   "Your payment details have been updated": "Your payment details have been updated",
   "Your profile details have been changed successfully": "Your profile details have been changed successfully",
   "Your purchase has been successfully completed.": "Your purchase has been successfully completed.",
-  "ZIP/Postal code": "ZIP/Postal code"
+  "ZIP/Postal code": "ZIP/Postal code",
+  "deliverydetails.title": "Delivery details"
 }

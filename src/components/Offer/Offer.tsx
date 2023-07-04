@@ -8,6 +8,7 @@ import SectionHeader from 'components/SectionHeader';
 import Footer from 'components/Footer';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
+import DeliveryDetails from 'components/DeliveryDetails';
 import { selectOrder, selectOnlyOrder } from 'redux/orderSlice';
 import {
   StyledOfferBody,
@@ -67,6 +68,7 @@ const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
           </StyledOfferDetailsAndCoupon>
           <CheckoutPriceBox />
         </StyledOfferBody>
+        <DeliveryDetails />
         <Payment onPaymentComplete={onPaymentComplete} />
       </main>
       <Footer />

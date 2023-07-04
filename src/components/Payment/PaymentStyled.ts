@@ -7,7 +7,6 @@ export const PaymentStyled = styled.section.attrs(() => ({
   padding: 20px 35px 70px 35px;
   width: 100%;
   background-color: ${colors.BackgroundColor};
-  border-top: 1px solid ${colors.LineColor};
   border-bottom: 1px solid ${colors.LineColor};
 `;
 
