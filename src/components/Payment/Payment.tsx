@@ -33,7 +33,8 @@ import {
 } from './PaymentStyled';
 import eventDispatcher, {
   MSSDK_PURCHASE_FAILED,
-  MSSDK_PURCHASE_SUCCESSFUL
+  MSSDK_PURCHASE_SUCCESSFUL,
+  MSSDK_TOKEN_EXPIRED
 } from '../../util/eventDispatcher';
 import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
@@ -94,7 +95,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         .unwrap()
         .catch(errors => {
           if (errors.includes('JWT')) {
-            window.dispatchEvent(new CustomEvent('MSSDK:token-expired'));
+            eventDispatcher(MSSDK_TOKEN_EXPIRED);
             Auth.logout(); // TODO: support properly the logout function
           }
         });

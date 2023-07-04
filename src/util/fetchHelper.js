@@ -1,8 +1,9 @@
 import merge from 'lodash.merge';
 import jwtDecode from 'jwt-decode';
-import { getData, setData } from 'util/appConfigHelper';
 import Auth from 'services/auth';
+import { getData, setData } from 'util/appConfigHelper';
 import getApiURL from 'util/environmentHelper';
+import eventDispatcher, { MSSDK_TOKEN_EXPIRED } from './eventDispatcher';
 
 const JWT = 'CLEENG_AUTH_TOKEN';
 const REFRESH_TOKEN = 'CLEENG_REFRESH_TOKEN';
@@ -19,6 +20,8 @@ const isJWTExpired = () => {
     const decoded = jwtDecode(jwt);
     return Date.now() / 1000 > decoded.exp;
   }
+
+  eventDispatcher(MSSDK_TOKEN_EXPIRED);
   return true;
 };
 
@@ -60,7 +63,7 @@ const fetchWithJWT = async (url, options = {}) => {
   const refreshToken = retrieveRefreshToken();
 
   if (isExpired && !refreshToken) {
-    window.dispatchEvent(new CustomEvent('MSSDK:token-expired'));
+    eventDispatcher(MSSDK_TOKEN_EXPIRED);
     Auth.logout();
   }
 
@@ -73,7 +76,7 @@ const fetchWithJWT = async (url, options = {}) => {
         .catch(() => {
           IS_FETCHING_REFRESH_TOKEN = false;
           REFRESH_TOKEN_ERROR = true;
-          window.dispatchEvent(new CustomEvent('MSSDK:token-expired'));
+          eventDispatcher(MSSDK_TOKEN_EXPIRED);
           Auth.logout();
           return new Promise((resolve, reject) => reject());
         });
@@ -101,8 +104,7 @@ const fetchWithJWT = async (url, options = {}) => {
 };
 
 export const fetchWithHeaders = async (url, options = {}) => {
-  let optionsWithToken = options;
-  optionsWithToken = merge({}, options, {
+  const optionsWithToken = merge({}, options, {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json'

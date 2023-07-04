@@ -111,7 +111,6 @@ class Auth {
     const isExpired = now > decoded.exp;
 
     if (isExpired && !refreshToken) {
-      window.dispatchEvent(new CustomEvent('MSSDK:token-expired'));
       this.logout();
     } else {
       this.isAuthenticated = true;
