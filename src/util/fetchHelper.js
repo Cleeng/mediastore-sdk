@@ -20,8 +20,6 @@ const isJWTExpired = () => {
     const decoded = jwtDecode(jwt);
     return Date.now() / 1000 > decoded.exp;
   }
-
-  eventDispatcher(MSSDK_TOKEN_EXPIRED);
   return true;
 };
 
