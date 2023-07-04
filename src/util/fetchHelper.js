@@ -4,12 +4,15 @@ import Auth from 'services/auth';
 import { getData, setData } from 'util/appConfigHelper';
 import getApiURL from 'util/environmentHelper';
 import eventDispatcher, { MSSDK_TOKEN_EXPIRED } from './eventDispatcher';
+import { version } from '../../package.json';
 
 const JWT = 'CLEENG_AUTH_TOKEN';
 const REFRESH_TOKEN = 'CLEENG_REFRESH_TOKEN';
+const ENVIRONMENT = 'CLEENG_ENVIRONMENT';
 
 const retrieveJWT = () => getData(JWT);
 const retrieveRefreshToken = () => getData(REFRESH_TOKEN);
+const retrieveEnvironment = () => getData(ENVIRONMENT);
 
 let IS_FETCHING_REFRESH_TOKEN = false;
 let REFRESH_TOKEN_ERROR = false;
@@ -25,13 +28,17 @@ const isJWTExpired = () => {
 
 const fetchNewTokens = async () => {
   const API_URL = getApiURL();
+  const environment = retrieveEnvironment();
   IS_FETCHING_REFRESH_TOKEN = true;
   const response = await fetch(`${API_URL}/auths/refresh_token`, {
     method: 'POST',
     body: JSON.stringify({ refreshToken: getData('CLEENG_REFRESH_TOKEN') }),
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...(environment === 'production' && {
+        'X-Requested-By': `mediastore-sdk@${version}`
+      })
     }
   });
   const responseJSON = await response.json();
@@ -41,6 +48,7 @@ const fetchNewTokens = async () => {
 
 const generatePromiseWithHeaders = (url, options) => {
   const token = retrieveJWT();
+  const environment = retrieveEnvironment();
 
   let optionsWithToken = options;
   if (token != null) {
@@ -48,7 +56,10 @@ const generatePromiseWithHeaders = (url, options) => {
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        ...(environment === 'production' && {
+          'X-Requested-By': `mediastore-sdk@${version}`
+        })
       }
     });
   }
@@ -102,10 +113,14 @@ const fetchWithJWT = async (url, options = {}) => {
 };
 
 export const fetchWithHeaders = async (url, options = {}) => {
+  const environment = retrieveEnvironment();
   const optionsWithToken = merge({}, options, {
     headers: {
       Accept: 'application/json',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      ...(environment === 'production' && {
+        'X-Requested-By': `mediastore-sdk@${version}`
+      })
     }
   });
 
