@@ -102,7 +102,7 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
             />
             <MyAccountInput
               id="postCode"
-              label={t('Zip/Postal Code')}
+              label={t('Zip/Postal code')}
               value={address.postCode || ''}
               onChange={e => onAddressChange('postCode', e.target.value)}
               disabled={isSectionDisabled}
@@ -151,7 +151,7 @@ AddressDetails.propTypes = {
 AddressDetails.defaultProps = {
   isLoading: false,
   data: {},
-  updateCaptureOption: () => {}
+  updateCaptureOption: () => null
 };
 
 export default AddressDetails;

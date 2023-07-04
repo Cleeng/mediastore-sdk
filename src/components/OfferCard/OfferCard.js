@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price from 'components/Price';
@@ -12,6 +12,7 @@ import { ReactComponent as UpgradeIcon } from 'assets/images/upgrade_pending.svg
 import { ReactComponent as PauseIcon } from 'assets/images/pause_noti.svg';
 import { dateFormat, INFINITE_DATE } from 'util/planHelper';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
+import { showPopup } from 'redux/popupSlice';
 
 import {
   WrapperStyled,
@@ -19,7 +20,6 @@ import {
   TitleStyled,
   DescriptionStyled,
   PriceWrapperStyled,
-  TrialBadgeStyled,
   SubBoxStyled,
   BoxTextStyled,
   SubBoxButtonStyled,
@@ -33,37 +33,46 @@ const OfferCard = ({
   description,
   currency,
   price,
-  isTrialAvailable,
   showInfoBox,
   isDataLoaded,
   paymentMethod,
   isMyAccount,
   pendingSwitchId,
   expiresAt,
-  showInnerPopup,
   offerId,
   isPriceBoxHidden,
   isPaused
 }) => {
-  const planDetailsState = useSelector(state => state.planDetails);
-  const { pauseOffersIDs } = useSelector(state => state.offers);
-  const switchDetails = planDetailsState.switchDetails[pendingSwitchId];
-  const isPauseInProgress = pauseOffersIDs.includes(switchDetails?.toOfferId);
+  const { data: currentPlan } = useSelector(state => state.plan.currentPlan);
+  const { data: switchDetailsStore } = useSelector(
+    state => state.plan.switchDetails
+  );
+  const { pauseOffersIDs, offers } = useSelector(state => state.offers);
 
+  const switchDetails = switchDetailsStore[pendingSwitchId];
+  const isPauseInProgress = pauseOffersIDs?.includes(switchDetails?.toOfferId);
   const { t } = useTranslation();
+
+  const dispatch = useDispatch();
 
   const getSwitchCopy = () => {
     if (switchDetails) {
-      const subscription = planDetailsState.currentPlan.find(
+      const subscription = currentPlan.find(
         sub => sub.pendingSwitchId === pendingSwitchId
       );
       const subscriptionExpirationDate =
         subscription.expiresAt === INFINITE_DATE
-          ? t('the next season start')
+          ? t('offer-card.next-season-start', 'the next season start')
           : dateFormat(subscription.expiresAt);
-      const { title: switchTitle, fromOfferId, toOfferId } = switchDetails;
+      const { fromOfferId, toOfferId } = switchDetails;
+      const toOfferIdTitle = offers.find(({ longId }) => longId === toOfferId)
+        ?.title;
       const translatedTitle = t(`offer-title-${fromOfferId}`, title);
-      const translatedSwitchTitle = t(`offer-title-${toOfferId}`, switchTitle);
+      const translatedSwitchTitle = t(
+        `offer-title-${toOfferId}`,
+        toOfferIdTitle
+      );
+
       // if pause is in progress
       if (isPauseInProgress) {
         return t(
@@ -78,17 +87,20 @@ const OfferCard = ({
       switch (switchDetails.algorithm) {
         case 'IMMEDIATE_WITHOUT_PRORATION':
           return t(
+            'offer-card.switch-details.immediate-without-proration',
             `Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{translatedSwitchTitle}} renews automatically. You can cancel anytime.`,
             { subscriptionExpirationDate, translatedSwitchTitle }
           );
         case 'IMMEDIATE_AND_CHARGE_WITH_REFUND':
         case 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION':
           return t(
+            'offer-card.switch-details.immediate-and-charge-with-refund-or-without-proration',
             `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{translatedSwitchTitle}}. You can cancel anytime.`,
             { translatedSwitchTitle }
           );
         case 'DEFERRED':
           return t(
+            'offer-card.switch-details.deferred',
             `Your switch is pending. You will have access to {{translatedTitle}} until {{subscriptionExpirationDate}}. From that time you will be charged your new price and will have access to {{translatedSwitchTitle}}. You can cancel this at any time.`,
             {
               translatedTitle,
@@ -122,41 +134,66 @@ const OfferCard = ({
   const mapCode = {
     TO_OFFER_COUNTRY_NOT_ALLOWED: {
       text: t(
+        'offer-card.error.geo-restriction',
         `This plan is <strong>currently unavailable</strong> in your country or region`
       ),
       icon: BlockedIcon
     },
     ALREADY_HAS_ACCESS: {
-      text: t('It looks like you already have access to this offer'),
+      text: t(
+        'offer-card.error.already-have-access',
+        'It looks like you already have access to this offer'
+      ),
       icon: BlockedIcon
     },
     TO_FREE_OFFER_NOT_ALLOWED: {
-      text: t('Switching from a paid to a free offer is not possible'),
+      text: t(
+        'offer-card.error.to-free-offer',
+        'Switching from a paid to a free offer is not possible'
+      ),
       icon: BlockedIcon
     },
     SUBSCRIPTION_WITH_COUPON_NOT_ALLOWED: {
       text: t(
+        'offer-card.error.coupon-applied',
         "You can't change your subscription if a coupon was applied. To change plan, please cancel your current subscription and purchase a new one."
       ),
       icon: BlockedIcon
     },
     SWITCH_IN_PROGRESS: {
       text: t(
+        'offer-card.error.switch-in-progress',
         'Another switch is already in progress. Wait until the process finalization'
       ),
       icon: BlockedIcon
     },
     INAPP_SUBSCRIPTION: {
-      text: t(
-        `${
-          paymentMethod ? `Subscription purchased via ${paymentMethod}. ` : ``
-        }Use an external service to edit the plan.`
-      ),
+      text: paymentMethod
+        ? t(
+            'offer-card.error.inapp-external',
+            `${
+              paymentMethod
+                ? `Subscription purchased via ${paymentMethod}. `
+                : ``
+            } Use an external service to edit the plan.`,
+            { paymentMethod }
+          )
+        : t(
+            'offer-card.error.inapp-external-no-pmt-method',
+            'Use an external service to edit the plan.'
+          ),
       icon: EditBlockedIcon
     },
     SWITCH: {
       text: getSwitchCopy(),
       icon: getSwitchIcon()
+    },
+    MISSING_PAYMENT_DETAILS: {
+      text: t(
+        'offer-card.error.missing-payment-details',
+        'Your payment details are missing. Please add them to proceed with a subscription switch.'
+      ),
+      icon: BlockedIcon
     }
   };
 
@@ -194,9 +231,6 @@ const OfferCard = ({
         {!isPriceBoxHidden && (
           <PriceWrapperStyled>
             <SkeletonWrapper showChildren={isDataLoaded} width={80} height={30}>
-              {isTrialAvailable && (
-                <TrialBadgeStyled>{t('trial period')}</TrialBadgeStyled>
-              )}
               {((isMyAccount && offerType === 'S') || !isMyAccount) && (
                 <Price
                   currency={currency}
@@ -239,24 +273,32 @@ const OfferCard = ({
                             }
                           )
                         );
-                        showInnerPopup({
-                          type: isPauseInProgress
-                            ? POPUP_TYPES.cancelPause
-                            : POPUP_TYPES.cancelSwitch,
-                          data: {
-                            pendingSwitchId,
-                            switchDirection: switchDetails.direction,
-                            switchOfferTitle: switchDetails.title,
-                            baseOfferTitle: title,
-                            baseOfferExpirationDate: expiresAt,
-                            baseOfferPrice: `${currency}${price}`
-                          }
-                        });
+
+                        dispatch(
+                          showPopup({
+                            type: isPauseInProgress
+                              ? POPUP_TYPES.cancelPause
+                              : POPUP_TYPES.cancelSwitch,
+                            data: {
+                              pendingSwitchId,
+                              switchDirection: switchDetails.direction,
+                              switchOfferTitle:
+                                switchDetails &&
+                                offers.find(
+                                  ({ longId }) =>
+                                    longId === switchDetails.toOfferId
+                                )?.title,
+                              baseOfferTitle: title,
+                              baseOfferExpirationDate: expiresAt,
+                              baseOfferPrice: `${currency}${price}`
+                            }
+                          })
+                        );
                       }}
                     >
                       {isPauseInProgress
                         ? t('offer-card.cancel-pause-button', 'Cancel pause')
-                        : t('Cancel switch')}
+                        : t('offer-card.cancel-switch', 'Cancel switch')}
                     </SubBoxButtonStyled>
                   )}
               </SubBoxContentStyled>
@@ -274,14 +316,12 @@ OfferCard.propTypes = {
   description: PropTypes.string,
   currency: PropTypes.string,
   price: PropTypes.number,
-  isTrialAvailable: PropTypes.bool,
   showInfoBox: PropTypes.string,
   isDataLoaded: PropTypes.bool,
   paymentMethod: PropTypes.string,
   isMyAccount: PropTypes.bool,
   pendingSwitchId: PropTypes.string,
   expiresAt: PropTypes.number,
-  showInnerPopup: PropTypes.func,
   offerId: PropTypes.string,
   isPriceBoxHidden: PropTypes.bool,
   isPaused: PropTypes.bool
@@ -294,14 +334,12 @@ OfferCard.defaultProps = {
   description: '',
   currency: '',
   price: null,
-  isTrialAvailable: false,
   showInfoBox: null,
   isDataLoaded: true,
   paymentMethod: '',
   isMyAccount: false,
   pendingSwitchId: null,
   expiresAt: null,
-  showInnerPopup: () => {},
   offerId: '',
   isPriceBoxHidden: false,
   isPaused: false

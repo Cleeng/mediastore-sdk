@@ -5,7 +5,7 @@ import ProfileDetails from 'components/ProfileDetails';
 import AddressDetails from 'components/AddressDetails';
 import Password from 'components/Password';
 import PropTypes from 'prop-types';
-import { getCustomer, getCaptureStatus } from 'api';
+import { getCustomer, getCaptureStatus, getCustomerConsents } from 'api';
 import MyAccountError from 'components/MyAccountError';
 import MyAccountConsents from 'components/MyAccountConsents';
 import EditPassword from 'components/EditPassword/EditPassword';
@@ -89,7 +89,12 @@ class UpdateProfile extends Component {
   }
 
   componentWillUnmount() {
-    this.setState = () => {};
+    this.setState({
+      detailsError: [],
+      isUserDetailsLoading: false,
+      isCaptureLoading: false,
+      isConsentLoading: false
+    });
   }
 
   getObjectByKey = (array, key) => {
@@ -113,6 +118,17 @@ class UpdateProfile extends Component {
       innerPopup,
       t
     } = this.props;
+
+    if (!consents.length) {
+      getCustomerConsents()
+        .then(response => {
+          if (!response.errors.length) {
+            setConsents(response.responseData.consents);
+          }
+        })
+        .catch();
+    }
+
     const address =
       capture && capture.isCaptureEnabled
         ? capture.settings.filter(setting => setting.key === 'address')[0]
@@ -235,13 +251,12 @@ UpdateProfile.propTypes = {
       externalId: PropTypes.string,
       externalData: PropTypes.shape()
     }),
-    consents: PropTypes.array,
     capture: PropTypes.shape({
       isCaptureEnabled: PropTypes.bool,
-      settings: PropTypes.array,
-      shouldCaptureBeDisplayed: PropTypes.bool
+      shouldCaptureBeDisplayed: PropTypes.bool,
+      settings: PropTypes.array
     }),
-
+    consents: PropTypes.array,
     consentsError: PropTypes.string
   }),
   showInnerPopup: PropTypes.func.isRequired,

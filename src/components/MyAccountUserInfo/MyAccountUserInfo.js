@@ -15,8 +15,9 @@ const MyAccountUserInfo = () => {
   const { user } = useSelector(state => state.userProfile);
 
   const {
-    currentPlan: [plan]
-  } = useSelector(state => state.planDetails);
+    data: [plan]
+  } = useSelector(state => state.plan.currentPlan);
+
   const { t } = useTranslation();
 
   const isDataLoaded = !!user;

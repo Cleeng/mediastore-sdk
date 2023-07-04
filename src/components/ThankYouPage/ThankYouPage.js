@@ -27,7 +27,7 @@ const ThankYouPage = ({ onSuccess }) => {
   const { t } = useTranslation();
 
   const readablePaymentMethod = {
-    card: 'Card',
+    card: t('paymentmethod.card', 'Card'),
     paypa: 'PayPal',
     googlepay: 'GooglePay',
     applepay: 'ApplePay'
@@ -102,7 +102,7 @@ ThankYouPage.propTypes = {
 };
 
 ThankYouPage.defaultProps = {
-  onSuccess: () => {}
+  onSuccess: t => t
 };
 
 export { ThankYouPage as PureThankYouPage };

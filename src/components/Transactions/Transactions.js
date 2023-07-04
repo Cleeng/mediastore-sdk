@@ -1,5 +1,5 @@
 /* eslint-disable no-nested-ternary */
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Card from 'components/Card';
 import { dateFormat } from 'util/planHelper';
@@ -101,8 +101,12 @@ const Transactions = () => {
       <WrapStyled>
         <MyAccountError
           icon={noTransactionsIcon}
-          title={t('No transactions found!')}
+          title={t(
+            'transactions.no-transactions.title',
+            'No transactions found!'
+          )}
           subtitle={t(
+            'transactions.no-transactions.subtitle',
             'The section will show you recent transactions history after first payment'
           )}
         />
@@ -140,8 +144,11 @@ const Transactions = () => {
                         {t(`offer-title-${offerId}`, offerTitle)}
                       </TitleStyled>
                       <SubTitleStyled>
-                        {t(`Paid with`)}{' '}
-                        {readablePaymentMethodNames[paymentMethod]}
+                        {t('transactions.paid-with', `Paid with`)}{' '}
+                        {t(
+                          `paymentmethod.${paymentMethod}`,
+                          readablePaymentMethodNames[paymentMethod]
+                        )}
                       </SubTitleStyled>
                     </InfoStyled>
                   </LeftBoxStyled>
@@ -161,12 +168,18 @@ const Transactions = () => {
             theme="primary"
             margin="20px 0 0 auto"
             width="unset"
-            label={isListExpanded ? t('Show less') : t('Show more')}
+            label={
+              isListExpanded
+                ? t('transactions.show-less', 'Show less')
+                : t('transactions.show-more', 'Show more')
+            }
             onClickFn={() => dispatch(toggleTransactionList())}
             padding="12px 33px 12px 20px"
           >
             <ButtonTextStyled isExpanded={isListExpanded}>
-              {isListExpanded ? t('Show less') : t('Show more')}
+              {isListExpanded
+                ? t('transactions.show-less', 'Show less')
+                : t('transactions.show-more', 'Show more')}
             </ButtonTextStyled>
           </Button>
         )}

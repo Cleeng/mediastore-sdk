@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { currencyFormat } from 'util/planHelper';
-
-import { useSelector } from 'react-redux';
+import Button from 'components/Button';
+import { useDispatch, useSelector } from 'react-redux';
+import { setOfferToSwitch, updateList } from 'redux/planDetailsSlice';
 import { useTranslation } from 'react-i18next';
 import { applyCoupon } from 'api';
 import CouponInput from 'components/CouponInput';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
-import Button from 'components/Button';
+import { showPopup } from 'redux/popupSlice';
+
 import {
   SubscriptionManagementStyled,
   ManageButtonWrapStyled,
@@ -19,15 +21,11 @@ import {
   CouponWrapStyled
 } from './SubscriptionManagementStyled';
 
-const SubscriptionManagement = ({
-  subscription,
-  updateList,
-  showInnerPopup,
-  showMessageBox,
-  setOfferToSwitch
-}) => {
+const SubscriptionManagement = ({ subscription, showMessageBox }) => {
   const { pauseOffersIDs } = useSelector(store => store.offers);
-  const { switchSettings } = useSelector(store => store.planDetails);
+  const { data: switchSettings } = useSelector(
+    store => store.plan.switchSettings
+  );
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isCouponInputOpened, setIsCouponInputOpened] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -36,6 +34,7 @@ const SubscriptionManagement = ({
   const [couponValue, setCouponValue] = useState('');
   const isPaused = pauseOffersIDs.includes(subscription.offerId);
 
+  const dispatch = useDispatch();
   const { t } = useTranslation();
 
   const submitCoupon = subscriptionId => {
@@ -47,10 +46,13 @@ const SubscriptionManagement = ({
             case 200:
               setIsCouponInputOpened(false);
               setIsLoading(false);
-              updateList();
+              dispatch(updateList());
               showMessageBox(
                 'success',
-                t('Your Coupon has been successfully reedemed.'),
+                t(
+                  'subscription-management.coupon-redeemed',
+                  'Your Coupon has been successfully reedemed.'
+                ),
                 subscriptionId
               );
               window.dispatchEvent(
@@ -64,9 +66,19 @@ const SubscriptionManagement = ({
               break;
             case 422:
               if (resp.errors.some(e => e.includes('not found')))
-                setErrorMsg('Invalid coupon code.');
+                setErrorMsg(
+                  t(
+                    'subscription-management.invalid-coupon',
+                    'Invalid coupon code.'
+                  )
+                );
               if (resp.errors.some(e => e.includes('already')))
-                setErrorMsg('Coupon already used');
+                setErrorMsg(
+                  t(
+                    'subscription-management.coupon-already-used',
+                    'Coupon already used'
+                  )
+                );
               setIsError(true);
               setIsLoading(false);
               window.dispatchEvent(
@@ -79,7 +91,12 @@ const SubscriptionManagement = ({
               );
               break;
             default:
-              setErrorMsg('Invalid coupon code.');
+              setErrorMsg(
+                t(
+                  'subscription-management.invalid-coupon',
+                  'Invalid coupon code.'
+                )
+              );
               setIsError(true);
               setIsLoading(false);
               break;
@@ -94,12 +111,16 @@ const SubscriptionManagement = ({
               }
             })
           );
-          setErrorMsg('Ooops. Something went wrong.');
+          setErrorMsg(
+            t('oops-something-went-wrong', 'Oops! Something went wrong.')
+          );
           setIsError(true);
           setIsLoading(false);
         });
     } else {
-      setErrorMsg('Please enter coupon code.');
+      setErrorMsg(
+        t('subscription-management.enter-coupon', 'Please enter coupon code.')
+      );
       setIsError(true);
     }
   };
@@ -114,7 +135,7 @@ const SubscriptionManagement = ({
       <ManageButtonWrapStyled>
         <Button theme="simple" width="unset" onClickFn={e => toggle(e)}>
           <ButtonTextStyled isExpanded={isOptionsVisible}>
-            {t('Manage')}
+            {t('subscription-management.manage-button', 'Manage')}
           </ButtonTextStyled>
         </Button>
       </ManageButtonWrapStyled>
@@ -125,16 +146,18 @@ const SubscriptionManagement = ({
               theme="simple"
               onClickFn={event => {
                 event.stopPropagation();
-                setOfferToSwitch(subscription);
-                showInnerPopup({
-                  type: POPUP_TYPES.updateSubscription,
-                  data: {
-                    action: 'unsubscribe',
-                    offerData: {
-                      ...subscription
+                dispatch(setOfferToSwitch(subscription));
+                dispatch(
+                  showPopup({
+                    type: POPUP_TYPES.updateSubscription,
+                    data: {
+                      action: 'unsubscribe',
+                      offerData: {
+                        ...subscription
+                      }
                     }
-                  }
-                });
+                  })
+                );
                 window.dispatchEvent(
                   new CustomEvent('MSSDK:unsubscribe-button-clicked', {
                     detail: {
@@ -144,7 +167,7 @@ const SubscriptionManagement = ({
                 );
               }}
             >
-              {t('Unsubscribe')}
+              {t('subscription-management.unsubscribe-button', 'Unsubscribe')}
             </SimpleButtonStyled>
           )}
           {subscription.status === 'cancelled' && !isCouponInputOpened && (
@@ -152,18 +175,20 @@ const SubscriptionManagement = ({
               theme="simple"
               onClickFn={event => {
                 event.stopPropagation();
-                showInnerPopup({
-                  type: POPUP_TYPES.updateSubscription,
-                  data: {
-                    action: 'resubscribe',
-                    offerData: {
-                      ...subscription,
-                      price: `${subscription.nextPaymentPrice}${
-                        currencyFormat[subscription.nextPaymentCurrency]
-                      }`
+                dispatch(
+                  showPopup({
+                    type: POPUP_TYPES.updateSubscription,
+                    data: {
+                      action: 'resubscribe',
+                      offerData: {
+                        ...subscription,
+                        price: `${subscription.nextPaymentPrice}${
+                          currencyFormat[subscription.nextPaymentCurrency]
+                        }`
+                      }
                     }
-                  }
-                });
+                  })
+                );
                 window.dispatchEvent(
                   new CustomEvent('MSSDK:resume-button-clicked', {
                     detail: {
@@ -173,7 +198,7 @@ const SubscriptionManagement = ({
                 );
               }}
             >
-              {t('Resume')}
+              {t('subscription-management.resume-button', 'Resume')}
             </FullWidthButtonStyled>
           )}
           {subscription.status !== 'cancelled' && !isPaused && (
@@ -201,18 +226,20 @@ const SubscriptionManagement = ({
               theme="primary"
               onClickFn={event => {
                 event.stopPropagation();
-                showInnerPopup({
-                  type: POPUP_TYPES.resumeSubscription,
-                  data: {
-                    offerData: {
-                      ...switchSettings[subscription?.offerId].available[0]
+                dispatch(
+                  showPopup({
+                    type: POPUP_TYPES.resumeSubscription,
+                    data: {
+                      offerData: {
+                        ...switchSettings[subscription?.offerId].available[0]
+                      }
                     }
-                  }
-                });
+                  })
+                );
               }}
             >
               {t(
-                'subscription-management.resume-button',
+                'subscription-management.resume-subscription-button',
                 'Resume subscription'
               )}
             </SimpleButtonStyled>
@@ -225,18 +252,12 @@ const SubscriptionManagement = ({
 
 SubscriptionManagement.propTypes = {
   subscription: PropTypes.objectOf(PropTypes.any),
-  updateList: PropTypes.func,
-  showInnerPopup: PropTypes.func,
-  showMessageBox: PropTypes.func,
-  setOfferToSwitch: PropTypes.func
+  showMessageBox: PropTypes.func
 };
 
 SubscriptionManagement.defaultProps = {
   subscription: {},
-  updateList: () => {},
-  showInnerPopup: () => {},
-  showMessageBox: () => {},
-  setOfferToSwitch: () => {}
+  showMessageBox: () => null
 };
 
 export { SubscriptionManagement as PureSubscriptionManagement };

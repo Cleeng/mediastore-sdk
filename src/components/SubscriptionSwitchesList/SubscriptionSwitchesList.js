@@ -1,62 +1,63 @@
 /* eslint-disable no-nested-ternary */
 import React from 'react';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
 import { SimpleButtonStyled } from 'components/SubscriptionManagement/SubscriptionManagementStyled';
 import OfferCard from 'components/OfferCard';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
-import { ReactComponent as happyData } from 'assets/images/happyData.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
-import { periodMapper } from 'util/planHelper';
+import { periodMapper, currencyFormat } from 'util/planHelper';
 import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
+import { showPopup } from 'redux/popupSlice';
 import { ButtonWrapperStyled } from './SubscriptionSwitchesListStyled';
 import mapErrorToText from './helper';
 
-const SubscriptionSwitchesList = ({
-  switchSettings,
-  showInnerPopup,
-  isOfferSelected,
-  isLoading,
-  errors,
-  isSwitchInProgress,
-  fromOfferId
-}) => {
-  const planDetailsState = useSelector(state => state.planDetails);
-  const { pauseOffersIDs } = useSelector(state => state.offers);
-
+const SubscriptionSwitchesList = () => {
   const { t } = useTranslation();
 
-  const pendingSwtichesToOfferIdsArray = Object.keys(
-    planDetailsState.switchDetails
-  ).map(item => {
-    return planDetailsState.switchDetails[item].toOfferId;
-  });
+  const { data: switchDetails } = useSelector(
+    state => state.plan.switchDetails
+  );
+  const { pauseOffersIDs } = useSelector(state => state.offers);
+  const { offerToSwitch } = useSelector(state => state.plan);
 
-  if (isLoading) {
+  const {
+    data: allSwitchSettings,
+    loading: isSwitchSettingsLoading,
+    error: isAllSwitchSettingsError
+  } = useSelector(state => state.plan.switchSettings);
+
+  const isOfferSelected = !!offerToSwitch.offerId;
+
+  const switchSettings = allSwitchSettings[offerToSwitch?.offerId] || {};
+  const fromOfferId = offerToSwitch?.offerId;
+  const pendingSwtichesToOfferIdsArray = Object.keys(switchDetails).map(
+    item => {
+      return switchDetails[item].toOfferId;
+    }
+  );
+
+  const dispatch = useDispatch();
+
+  if (isSwitchSettingsLoading) {
     return <SkeletonCard />;
   }
-  if (errors.length) {
+
+  if (isAllSwitchSettingsError?.length) {
     return <MyAccountError generalError />;
   }
+
   if (!isOfferSelected) {
     return (
       <MyAccountError
         icon={selectPlanIcon}
-        title={t('Click on the plan that you would like to switch from')}
-        margin="0 auto"
-      />
-    );
-  }
-  if (isSwitchInProgress) {
-    return (
-      <MyAccountError
-        icon={happyData}
-        title={t('Subscription switch in progress!')}
-        subtitle={t('Please try again in a few moments.')}
+        title={t(
+          'subscription-switches-list.offer-not-selected',
+          'Click on the plan that you would like to switch from'
+        )}
         margin="0 auto"
       />
     );
@@ -78,11 +79,12 @@ const SubscriptionSwitchesList = ({
     const error = mapErrorToText[allSwitchesBlocked.code]
       ? mapErrorToText[allSwitchesBlocked.code]
       : mapErrorToText.DEFAULT;
+
     return (
       <MyAccountError
         icon={error.icon}
-        title={error.title}
-        subtitle={error.subtitle}
+        title={t(error.title.translationKey, error.title.text)}
+        subtitle={t(error.subtitle.translationKey, error.subtitle.text)}
         margin="0 auto"
         fullWidth
       />
@@ -93,6 +95,7 @@ const SubscriptionSwitchesList = ({
       <MyAccountError
         icon={selectPlanIcon}
         title={t(
+          'subscription-switches-list.switching-unavailable',
           "Looks like there aren't any options for switching from your current plan right now"
         )}
         margin="0 auto"
@@ -136,7 +139,7 @@ const SubscriptionSwitchesList = ({
                 period={periodMapper[subItem.period].chargedForEveryText}
                 offerType="S"
                 title={subItem.title}
-                currency={subItem.nextPaymentPriceCurrencySymbol}
+                currency={currencyFormat[subItem.nextPaymentPriceCurrency]}
                 price={Math.round(price * 100) / 100}
                 offerId={subItem.toOfferId}
               />
@@ -153,17 +156,22 @@ const SubscriptionSwitchesList = ({
                         }
                       })
                     );
-                    showInnerPopup({
-                      type: POPUP_TYPES.switchPlan,
-                      data: {
-                        offerData: {
-                          ...subItem
+                    dispatch(
+                      showPopup({
+                        type: POPUP_TYPES.switchPlan,
+                        data: {
+                          offerData: {
+                            ...subItem
+                          }
                         }
-                      }
-                    });
+                      })
+                    );
                   }}
                 >
-                  {t(subItem.switchDirection)}
+                  {t(
+                    `subscription-switches-list.${subItem.switchDirection}-button`,
+                    subItem.switchDirection
+                  )}
                 </SimpleButtonStyled>
               </ButtonWrapperStyled>
             </SubscriptionStyled>
@@ -182,14 +190,17 @@ const SubscriptionSwitchesList = ({
                 period={periodMapper[subItem.period].chargedForEveryText}
                 offerType="S"
                 title={subItem.title}
-                currency={subItem.nextPaymentPriceCurrencySymbol}
+                currency={currencyFormat[subItem.nextPaymentPriceCurrency]}
                 price={Math.round(price * 100) / 100}
                 showInfoBox={subItem.reason.code}
                 offerId={subItem.toOfferId}
               />
               <ButtonWrapperStyled>
                 <SimpleButtonStyled disabled>
-                  {t(subItem.switchDirection)}
+                  {t(
+                    `subscription-switches-list.${subItem.switchDirection}-button`,
+                    subItem.switchDirection
+                  )}
                 </SimpleButtonStyled>
               </ButtonWrapperStyled>
             </SubscriptionStyled>
@@ -197,25 +208,6 @@ const SubscriptionSwitchesList = ({
         })}
     </>
   );
-};
-
-SubscriptionSwitchesList.propTypes = {
-  switchSettings: PropTypes.objectOf(PropTypes.any),
-  isOfferSelected: PropTypes.bool.isRequired,
-  errors: PropTypes.arrayOf(PropTypes.string),
-  showInnerPopup: PropTypes.func,
-  isLoading: PropTypes.bool,
-  fromOfferId: PropTypes.string,
-  isSwitchInProgress: PropTypes.bool
-};
-
-SubscriptionSwitchesList.defaultProps = {
-  switchSettings: {},
-  showInnerPopup: () => {},
-  errors: [],
-  isLoading: false,
-  fromOfferId: '',
-  isSwitchInProgress: false
 };
 
 export { SubscriptionSwitchesList as PureSubscriptionSwitchesList };

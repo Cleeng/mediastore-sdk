@@ -1,13 +1,13 @@
 /* eslint-disable no-nested-ternary */
 
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Trans, useTranslation } from 'react-i18next';
 import { getData } from 'util/appConfigHelper';
 
 import { ReactComponent as NoSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
 import { dateFormat, currencyFormat, INFINITE_DATE } from 'util/planHelper';
+import { setOfferToSwitch } from 'redux/planDetailsSlice';
 
 import MyAccountError from 'components/MyAccountError';
 import OfferCard from 'components/OfferCard';
@@ -51,10 +51,12 @@ const EmptyPlanView = () => {
         <IconStyled>
           <NoSubscriptionsIcon />
         </IconStyled>
-        <TitleStyled>{t('No offers yet!')}</TitleStyled>
+        <TitleStyled>
+          {t('currentplan.no-offers-title', 'No offers yet!')}
+        </TitleStyled>
         <SubTitleStyled>
           {getData('CLEENG_OFFER_SELECTION_URL') ? (
-            <Trans i18nKey="myaccount-nooffers-withlink">
+            <Trans i18nKey="currentplan.no-offers-text-withlink">
               If you{' '}
               <a
                 href={getData('CLEENG_OFFER_SELECTION_URL')}
@@ -67,6 +69,7 @@ const EmptyPlanView = () => {
             </Trans>
           ) : (
             t(
+              'currentplan.no-offers-text',
               'If you choose your plan, you will be able to manage your offers here.'
             )
           )}
@@ -78,21 +81,20 @@ const EmptyPlanView = () => {
 
 const supportedPaymentGateways = ['paypal', 'card', 'adyen'];
 
-const CurrentPlan = ({
-  subscriptions,
-  isLoading,
-  errors,
-  showInnerPopup,
-  setOfferToSwitch,
-  offerToSwitch,
-  updateList
-}) => {
+const CurrentPlan = () => {
   const [isMessageBoxOpened, setIsMessageBoxOpened] = useState(false);
   const [messageBoxType, setMessageBoxType] = useState(null);
   const [messageBoxText, setMessageBoxText] = useState('');
   const [messageSubscriptionId, setMessageSubscriptionId] = useState(null);
   const { t } = useTranslation();
   const { pauseOffersIDs } = useSelector(store => store.offers);
+  const {
+    data: subscriptions,
+    loading: isLoading,
+    error: errors
+  } = useSelector(state => state.plan.currentPlan);
+  const { offerToSwitch } = useSelector(state => state.plan);
+  const dispatch = useDispatch();
 
   const getInfoBoxType = subscription => {
     if (subscription.offerType !== 'S') return '';
@@ -112,7 +114,7 @@ const CurrentPlan = ({
 
   if (isLoading) return <SkeletonCard />;
 
-  if (errors.length !== 0) return <ErrorView />;
+  if (errors?.length) return <ErrorView />;
 
   if (subscriptions.length === 0) return <EmptyPlanView />;
 
@@ -132,29 +134,26 @@ const CurrentPlan = ({
               currency = currencyFormat[subItem.nextPaymentCurrency];
               renewalDate = dateFormat(subItem.expiresAt);
               if (subItem.expiresAt === INFINITE_DATE)
-                renewalDate = t('the next season start');
+                renewalDate = t(
+                  'currentplan.next-season-start',
+                  'the next season start'
+                );
               if (subItem.status === 'active' && !subItem.pendingSwitchId) {
-                if (subItem.period === 'season') {
-                  description = `${t(
-                    'You will now be charged {{currency}}{{price}} (plus applicable taxes) and will be renewed on {{renewalDate}} at the same price.',
-                    {
-                      renewalDate,
-                      price,
-                      currency
-                    }
-                  )}`;
-                } else {
-                  description = `${t(
-                    'Renews automatically on {{renewalDate}}',
-                    {
-                      renewalDate
-                    }
-                  )}`;
-                }
+                description = `${t(
+                  'currentplan.subscription.renews-info',
+                  'Renews automatically on {{renewalDate}}',
+                  {
+                    renewalDate
+                  }
+                )}`;
               } else if (subItem.status === 'cancelled') {
-                description = `${t('This plan will expire on {{renewalDate}}', {
-                  renewalDate
-                })}`;
+                description = `${t(
+                  'currentplan.subscription.expire-info',
+                  'This plan will expire on {{renewalDate}}',
+                  {
+                    renewalDate
+                  }
+                )}`;
               } else {
                 description = '';
               }
@@ -162,10 +161,12 @@ const CurrentPlan = ({
               break;
             case 'P':
               price = subItem.totalPrice;
-              currency = subItem.customerCurrency;
-              description = `${t('Expires on')} ${dateFormat(
-                subItem.expiresAt
-              )}`;
+              currency = currencyFormat[subItem.customerCurrency];
+              description = `${t(
+                'currentplan.pass.expires-on',
+                'Expires on'
+              )} ${dateFormat(subItem.expiresAt)}`;
+
               break;
             default:
               break;
@@ -181,7 +182,7 @@ const CurrentPlan = ({
                   subItem.offerType === 'S' &&
                   subItem.status === 'active'
                 )
-                  setOfferToSwitch(subItem);
+                  dispatch(setOfferToSwitch(subItem));
               }}
               cursorPointer={
                 subscriptions.length > 1 &&
@@ -198,14 +199,13 @@ const CurrentPlan = ({
                 offerType={subItem.offerType}
                 title={subItem.offerTitle}
                 description={description}
-                currency={currencyFormat[currency]}
+                currency={currency}
                 price={price}
                 isMyAccount
                 showInfoBox={getInfoBoxType(subItem)}
                 paymentMethod={subItem.paymentMethod}
                 pendingSwitchId={subItem.pendingSwitchId}
                 expiresAt={subItem.expiresAt}
-                showInnerPopup={showInnerPopup}
                 offerId={subItem.offerId}
                 isPriceBoxHidden={isPaused}
                 isPaused={isPaused}
@@ -223,10 +223,7 @@ const CurrentPlan = ({
                 supportedPaymentGateways.includes(subItem.paymentGateway) && (
                   <SubscriptionManagement
                     subscription={subItem}
-                    showInnerPopup={showInnerPopup}
-                    updateList={updateList}
                     showMessageBox={showMessageBox}
-                    setOfferToSwitch={setOfferToSwitch}
                   />
                 )}
             </SubscriptionStyled>
@@ -235,72 +232,6 @@ const CurrentPlan = ({
       </>
     </WrapStyled>
   );
-};
-
-CurrentPlan.propTypes = {
-  subscriptions: PropTypes.arrayOf(
-    PropTypes.shape({
-      subscriptionId: PropTypes.number,
-      offerId: PropTypes.string,
-      status: PropTypes.string,
-      startedAt: PropTypes.number,
-      expiresAt: PropTypes.number,
-      nextPaymentPrice: PropTypes.number,
-      nextPaymentCurrency: PropTypes.string,
-      nextPaymentAt: PropTypes.number,
-      paymentGateway: PropTypes.string,
-      paymentMethod: PropTypes.string,
-      externalPaymentId: PropTypes.string,
-      inTrial: PropTypes.bool,
-      offerTitle: PropTypes.string,
-      period: PropTypes.string,
-      totalPrice: PropTypes.number
-    })
-  ),
-  isLoading: PropTypes.bool,
-  errors: PropTypes.arrayOf(PropTypes.string),
-  showInnerPopup: PropTypes.func.isRequired,
-  setOfferToSwitch: PropTypes.func.isRequired,
-  offerToSwitch: PropTypes.shape({
-    subscriptionId: PropTypes.number,
-    offerId: PropTypes.string,
-    status: PropTypes.string,
-    startedAt: PropTypes.number,
-    expiresAt: PropTypes.number,
-    nextPaymentPrice: PropTypes.number,
-    nextPaymentCurrency: PropTypes.string,
-    nextPaymentAt: PropTypes.number,
-    paymentGateway: PropTypes.string,
-    paymentMethod: PropTypes.string,
-    externalPaymentId: PropTypes.string,
-    inTrial: PropTypes.bool,
-    offerTitle: PropTypes.string,
-    period: PropTypes.string,
-    totalPrice: PropTypes.number
-  }),
-  updateList: PropTypes.func.isRequired,
-  switchDetails: PropTypes.shape({
-    [PropTypes.string]: PropTypes.shape({
-      id: PropTypes.string,
-      customerId: PropTypes.number,
-      direction: PropTypes.string,
-      algorithm: PropTypes.string,
-      fromOfferId: PropTypes.string,
-      toOfferId: PropTypes.string,
-      subscriptionId: PropTypes.string,
-      status: PropTypes.string,
-      createdAt: PropTypes.number,
-      updatedAt: PropTypes.number
-    })
-  })
-};
-
-CurrentPlan.defaultProps = {
-  subscriptions: [],
-  isLoading: false,
-  errors: [],
-  offerToSwitch: {},
-  switchDetails: {}
 };
 
 export default CurrentPlan;

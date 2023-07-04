@@ -26,5 +26,6 @@ i18n
     },
     backend: {
       loadPath: '/cleeng-translations/{{lng}}/{{ns}}.json'
-    }
+    },
+    returnNull: false
   });

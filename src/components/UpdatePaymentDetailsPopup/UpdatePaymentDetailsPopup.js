@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
@@ -82,7 +82,6 @@ const UpdatePaymentDetailsPopup = () => {
     state => state.publisherConfig
   );
   const { paymentDetails } = useSelector(state => state.paymentDetails);
-  const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
   const { loading: isFinalizeAddPaymentDetailsLoading } = useSelector(
     state => state.finalizeAddPaymentDetails
   );
@@ -90,7 +89,6 @@ const UpdatePaymentDetailsPopup = () => {
     false
   );
   const selectPaymentMethodHandler = paymentMethodName => {
-    if (selectedPaymentMethod?.methodName === paymentMethodName) return;
     const paymentMethodObj = paymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
@@ -123,7 +121,10 @@ const UpdatePaymentDetailsPopup = () => {
         steps={1}
         isError={false}
         currentStep={STEPS_NUMBERS[step]}
-        popupTitle={t('Update payment details')}
+        popupTitle={t(
+          'update-payment-details-popup.title',
+          'Update payment details'
+        )}
       >
         <ContentStyled>
           {PaymentMethodIcons[initPaymentMethod.paymentMethod] && (
@@ -132,14 +133,21 @@ const UpdatePaymentDetailsPopup = () => {
             </PopupImageStyled>
           )}
           <TitleStyled>
-            {t('It looks like your payments cannot be managed from here')}
+            {t(
+              'update-payment-details-popup.cannot-be-managed',
+              'It looks like your payments cannot be managed from here'
+            )}
           </TitleStyled>
           <TextStyled>
-            {t('You are currently paying for your subscription via')}{' '}
+            {t(
+              'update-payment-details-popup.current-method',
+              'You are currently paying for your subscription via'
+            )}{' '}
             {initPaymentMethod.paymentMethod}.
             <br />
             <br />
             {t(
+              'update-payment-details-popup.cannot-be-changed',
               'This means that your payment information cannot be changed from here right now.'
             )}
           </TextStyled>
@@ -151,7 +159,7 @@ const UpdatePaymentDetailsPopup = () => {
               dispatch(updatePaymentDetailsPopup({ isOpen: false }))
             }
           >
-            {t('Back')}
+            {t('update-payment-details-popup.back', 'Back')}
           </Button>
         </ButtonWrapperStyled>
       </InnerPopupWrapper>
@@ -270,7 +278,10 @@ const UpdatePaymentDetailsPopup = () => {
         steps={2}
         isError={false}
         currentStep={STEPS_NUMBERS[step]}
-        popupTitle={t('Update payment details')}
+        popupTitle={t(
+          'update-payment-details-popup.title',
+          'Update payment details'
+        )}
       >
         <DeletePaymentMethod />
       </InnerPopupWrapper>
@@ -283,7 +294,10 @@ const UpdatePaymentDetailsPopup = () => {
         steps={2}
         isError={false}
         currentStep={STEPS_NUMBERS[step]}
-        popupTitle={t('Update payment details')}
+        popupTitle={t(
+          'update-payment-details-popup.title',
+          'Update payment details'
+        )}
       >
         <ContentStyled>
           <FinalizeAddPaymentDetails />
@@ -298,7 +312,10 @@ const UpdatePaymentDetailsPopup = () => {
         steps={2}
         isError={false}
         currentStep={STEPS_NUMBERS[step]}
-        popupTitle={t('Update payment details')}
+        popupTitle={t(
+          'update-payment-details-popup.title',
+          'Update payment details'
+        )}
       >
         <Success
           hideInnerPopup={() =>
@@ -314,7 +331,10 @@ const UpdatePaymentDetailsPopup = () => {
         steps={2}
         isError={false}
         currentStep={STEPS_NUMBERS[step]}
-        popupTitle={t('Update payment details')}
+        popupTitle={t(
+          'update-payment-details-popup.title',
+          'Update payment details'
+        )}
       >
         <ErrorStep />
       </InnerPopupWrapper>
@@ -326,7 +346,10 @@ const UpdatePaymentDetailsPopup = () => {
         steps={2}
         isError={false}
         currentStep={STEPS_NUMBERS[step]}
-        popupTitle={t('Update payment details')}
+        popupTitle={t(
+          'update-payment-details-popup.title',
+          'Update payment details'
+        )}
       >
         <ContentStyled>
           <Loader />
@@ -340,12 +363,20 @@ const UpdatePaymentDetailsPopup = () => {
       steps={2}
       isError={false}
       currentStep={STEPS_NUMBERS[step]}
-      popupTitle={t('Update payment details')}
+      popupTitle={t(
+        'update-payment-details-popup.title',
+        'Update payment details'
+      )}
     >
       <ContentStyled>
-        <TitleStyled>{t('Update payment details')}</TitleStyled>
+        <TitleStyled>
+          {t('update-payment-details-popup.title', 'Update payment details')}
+        </TitleStyled>
         <TextStyled>
-          {t('Update your current payment method, or add a new one.')}
+          {t(
+            'update-payment-details-popup.update-current-method',
+            'Update your current payment method, or add a new one.'
+          )}
         </TextStyled>
         <PaymentMethodsWrapperStyled>
           {shouldShowAdyen && (
@@ -383,7 +414,10 @@ const UpdatePaymentDetailsPopup = () => {
             }}
           >
             <DeleteIconStyled />
-            {t('Remove your payment method')}
+            {t(
+              'update-payment-details-popup.remove-method',
+              'Remove your payment method'
+            )}
           </RemoveLinkStyled>
         )}
       </ContentStyled>
@@ -398,11 +432,12 @@ const UpdatePaymentDetailsPopup = () => {
             )
           }
         >
-          {t('Cancel')}
+          {t('update-payment-details-popup.cancel', 'Cancel')}
         </Button>
       </ButtonWrapperStyled>
       <WarningMessageStyled>
         {t(
+          'update-payment-details-popup.warning-message',
           'Your new details will replace the details used for your other active subscriptions.'
         )}
       </WarningMessageStyled>

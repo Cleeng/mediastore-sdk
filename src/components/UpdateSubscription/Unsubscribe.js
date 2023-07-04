@@ -3,12 +3,16 @@
 
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import store from 'redux/store';
 
 import updateSubscription from 'api/Customer/updateSubscription';
-import { dateFormat, periodMapper, INFINITE_DATE } from 'util/planHelper';
+import {
+  dateFormat,
+  periodMapper,
+  INFINITE_DATE,
+  currencyFormat
+} from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 
 import Button from 'components/Button';
@@ -16,6 +20,8 @@ import Checkbox from 'components/Checkbox';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
 import OfferCard from 'components/OfferCard';
+import { updateList } from 'redux/planDetailsSlice';
+import { showPopup, hidePopup } from 'redux/popupSlice';
 
 import {
   ContentStyled,
@@ -28,11 +34,7 @@ import {
 import { ReasonsWrapper, StyledItem } from './UpdateSubscriptionStyled';
 
 const Unsubscribe = ({
-  offerDetails,
-  hideInnerPopup,
-  updateList,
   customCancellationReasons,
-  showInnerPopup,
   skipAvailableDowngradesStep
 }) => {
   const STEPS = {
@@ -48,15 +50,25 @@ const Unsubscribe = ({
   const [steps, setSteps] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const { pauseOffersIDs } = useSelector(state => state.offers);
+  const { pauseOffersIDs, offers } = useSelector(state => state.offers);
+  const { data: switchSettings } = useSelector(
+    state => state.plan.switchSettings
+  );
+  const { data: switchDetails } = useSelector(
+    state => state.plan.switchDetails
+  );
+  const {
+    updateSubscription: { offerData: offerDetails }
+  } = useSelector(state => state.popupManager);
+
+  const dispatch = useDispatch();
 
   const { t } = useTranslation();
 
   const getDowngrades = () => {
-    const { planDetails } = store.getState();
-    if (planDetails && Object.keys(planDetails.switchSettings).length) {
-      const switchSettings = planDetails.switchSettings[offerDetails.offerId];
-      const availableSorted = [...switchSettings.available]
+    if (Object.keys(switchSettings).length) {
+      const offerSwitchSettings = switchSettings[offerDetails.offerId];
+      const availableSorted = [...offerSwitchSettings.available]
         .filter(offer => offer.switchDirection === 'downgrade')
         .sort((aOffer, bOffer) => bOffer.price - aOffer.price);
       return availableSorted;
@@ -66,8 +78,7 @@ const Unsubscribe = ({
 
   const scheduledSwitch = () => {
     if (offerDetails.pendingSwitchId) {
-      const { planDetails } = store.getState();
-      return planDetails.switchDetails[offerDetails.pendingSwitchId];
+      return switchDetails[offerDetails.pendingSwitchId];
     }
     return false;
   };
@@ -75,11 +86,6 @@ const Unsubscribe = ({
   const downgrades = getDowngrades();
 
   const shouldShowDowngradeScreen = () => {
-    const {
-      innerPopup: {
-        data: { offerData }
-      }
-    } = store.getState();
     if (skipAvailableDowngradesStep) {
       return false;
     }
@@ -89,7 +95,7 @@ const Unsubscribe = ({
     ) {
       return false;
     }
-    if (!offerData.inTrial && downgrades.length) {
+    if (!offerDetails.inTrial && downgrades.length) {
       const downgradesFiltered = downgrades.filter(
         ({ toOfferId }) => !pauseOffersIDs.includes(toOfferId)
       );
@@ -135,16 +141,37 @@ const Unsubscribe = ({
   }, [steps]);
 
   const defaultCancellationReasons = [
-    { value: 'Poor customer support', key: 'support' },
-    { value: 'Switch to a different service', key: 'service' },
-    { value: 'Subscription is too expensive', key: 'expensive' },
-    { value: 'Video streaming issues', key: 'issues' },
-    { value: 'Not enough interesting content', key: 'content' },
-    { value: 'Service is hard to use', key: 'hardUse' },
-    { value: 'Content I like has ended', key: 'end' }
+    {
+      value: 'Poor customer support',
+      translationKey: 'unsubscribe-popup.cancellation.poor-customer-support'
+    },
+    {
+      value: 'Switch to a different service',
+      translationKey: 'unsubscribe-popup.cancellation.service-switch'
+    },
+    {
+      value: 'Subscription is too expensive',
+      translationKey: 'unsubscribe-popup.cancellation.too-expensive'
+    },
+    {
+      value: 'Video streaming issues',
+      translationKey: 'unsubscribe-popup.cancellation.streaming-issues'
+    },
+    {
+      value: 'Not enough interesting content',
+      translationKey: 'unsubscribe-popup.cancellation.not-interesting-content'
+    },
+    {
+      value: 'Service is hard to use',
+      translationKey: 'unsubscribe-popup.cancellation.hard-to-use'
+    },
+    {
+      value: 'Content I like has ended',
+      translationKey: 'unsubscribe-popup.cancellation.content-ended'
+    }
   ];
 
-  const calcellationReasonsToShow =
+  const cancellationReasonsToShow =
     customCancellationReasons || defaultCancellationReasons;
 
   const unsubscribe = async () => {
@@ -179,15 +206,19 @@ const Unsubscribe = ({
 
   const cancelUnsubscribeAction = () => {
     window.dispatchEvent(new CustomEvent('MSSDK:unsubscribe-action-cancelled'));
-    hideInnerPopup();
+    dispatch(hidePopup());
   };
 
   const { offerTitle, expiresAt, offerId, period } = offerDetails;
   const formattedExpiresAt = dateFormat(expiresAt);
+
+  const toOfferIdTitle = offers.find(({ longId }) => longId === scheduledSwitch().toOfferId)
+        ?.title;
   const scheduledSwitchTitle = t(
     `offer-title-${scheduledSwitch().toOfferId}`,
-    scheduledSwitch().title
+    toOfferIdTitle
   );
+  
   const translatedTitle = t(`offer-title-${offerId}`, offerTitle);
 
   // Filter out the pause subscription
@@ -227,27 +258,32 @@ const Unsubscribe = ({
           <ButtonWrapperStyled fillWrapper customMargin="80px 0 0">
             <Button
               theme="confirm"
-              onClickFn={() => {
-                showInnerPopup({
-                  type: 'pauseSubscription',
-                  data: {
-                    offerData: {
-                      ...pauseOffer[0]
-                    },
-                    isPartOfCancellationFlow: true
-                  }
-                });
-              }}
+              onClickFn={() => 
+                dispatch(
+                  showPopup({
+                    type: 'pauseSubscription',
+                    data: {
+                      offerData: {
+                        ...pauseOffer[0]
+                      },
+                      isPartOfCancellationFlow: true
+                    }
+                  })
+                )
+              }
             >
               {t('unsubscribe-popup.pause-button-text', 'Pause')}
             </Button>
           </ButtonWrapperStyled>
           <TextStyled>
-            {t('Or still wants to cancel a subscription?')}
+            {t(
+              'unsubscribe-popup.still-cancel',
+              'Or still wants to cancel a subscription?'
+            )}
           </TextStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={hideInnerPopup}>
-              {t('unsubscribe-popup.back-button-text', 'Back to My Account')}
+            <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
+              {t('unsubscribe-popup.back-button', 'Back to My Account')}
             </Button>
             <Button
               theme="primary"
@@ -264,10 +300,16 @@ const Unsubscribe = ({
         <ContentStyled>
           <>
             <TitleStyled>
-              {t('How about a plan downgrade instead of cancellation?')}
+              {t(
+                'unsubscribe-popup.downgrade-instead',
+                'How about a plan downgrade instead of cancellation?'
+              )}
             </TitleStyled>
             <TextStyled>
-              {t('Here are the plans that might suit your needs:')}
+              {t(
+                'unsubscribe-popup.plans-proposal',
+                'Here are the plans that might suit your needs:'
+              )}
             </TextStyled>
           </>
           <DowngradesWrapperStyled>
@@ -275,15 +317,17 @@ const Unsubscribe = ({
               return (
                 <OfferCardWrapperStyled
                   onClick={() =>
-                    showInnerPopup({
-                      type: 'switchPlan',
-                      data: {
-                        offerData: {
-                          ...downgradeOffer
-                        },
-                        isPartOfCancellationFlow: true
-                      }
-                    })
+                    dispatch(
+                      showPopup({
+                        type: 'switchPlan',
+                        data: {
+                          offerData: {
+                            ...downgradeOffer
+                          },
+                          isPartOfCancellationFlow: true
+                        }
+                      })
+                    )
                   }
                   key={downgradeOffer.toOfferId}
                 >
@@ -293,7 +337,9 @@ const Unsubscribe = ({
                     }
                     offerType="S"
                     title={downgradeOffer.title}
-                    currency={downgradeOffer.nextPaymentPriceCurrencySymbol}
+                    currency={
+                      currencyFormat[downgradeOffer.nextPaymentPriceCurrency]
+                    }
                     price={
                       Math.round(downgradeOffer.nextPaymentPrice * 100) / 100
                     }
@@ -304,11 +350,14 @@ const Unsubscribe = ({
             })}
           </DowngradesWrapperStyled>
           <TextStyled>
-            {t('Or still wants to cancel a subscription?')}
+            {t(
+              'unsubscribe-popup.still-cancel',
+              'Or still wants to cancel a subscription?'
+            )}
           </TextStyled>
           <ButtonWrapperStyled removeMargin>
-            <Button theme="simple" onClickFn={hideInnerPopup}>
-              {t('Back to My Account')}
+            <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
+              {t('unsubscribe-popup.back-button', 'Back to My Account')}
             </Button>
             <Button
               theme="confirm"
@@ -322,15 +371,21 @@ const Unsubscribe = ({
       {currentStep === STEPS.SURVEY && (
         <>
           <ContentStyled>
-            <TitleStyled>{t('We’re sorry to see you go')}</TitleStyled>
+            <TitleStyled>
+              {t('unsubscribe-popup.survey-title', 'We’re sorry to see you go')}
+            </TitleStyled>
             {period === 'season' ? (
               <TextStyled>
                 {t(
+                  'unsubscribe-popup.survey.access-info',
                   'You will keep access to your seasonal subscription until {{formattedExpiresAt}}. Before you go, please let us know why you’re leaving.',
                   {
                     formattedExpiresAt:
                       expiresAt === INFINITE_DATE
-                        ? t('the next season start')
+                        ? t(
+                            'unsubscribe-popup.next-season-start',
+                            'the next season start'
+                          )
                         : dateFormat(expiresAt)
                   }
                 )}
@@ -339,6 +394,7 @@ const Unsubscribe = ({
               <TextStyled>
                 {scheduledSwitch() ? (
                   t(
+                    'unsubscribe-popup.survey.switch-pending',
                     `Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.`,
                     { scheduledSwitchTitle }
                   )
@@ -346,16 +402,18 @@ const Unsubscribe = ({
                   <>
                     {offerDetails.inTrial
                       ? t(
+                          'unsubscribe-popup.survey.free-trial',
                           'Your {{translatedTitle}} free trial will end on {{formattedExpiresAt}}.',
                           { translatedTitle, formattedExpiresAt }
                         )
                       : t(
+                          'unsubscribe-popup.survey.subscription-paid',
                           'Your {{translatedTitle}} subscription is paid until {{formattedExpiresAt}}.',
                           { translatedTitle, formattedExpiresAt }
                         )}
                   </>
                 )}{' '}
-                <Trans i18nKey="unsubscribe-info">
+                <Trans i18nKey="unsubscribe-popup.survey.info">
                   If you would like to proceed with cancelling your
                   subscription, please select 'Unsubscribe' below, and your
                   subscription will be cancelled as of {{ formattedExpiresAt }}.
@@ -365,16 +423,16 @@ const Unsubscribe = ({
                 </Trans>
               </TextStyled>
             )}
-            {calcellationReasonsToShow && (
+            {cancellationReasonsToShow && (
               <ReasonsWrapper>
-                {calcellationReasonsToShow.map(reason => (
-                  <StyledItem key={reason.key}>
+                {cancellationReasonsToShow.map(({ translationKey, value }) => (
+                  <StyledItem key={translationKey}>
                     <Checkbox
                       isRadioButton
-                      onClickFn={() => setCheckedReason(reason.value)}
-                      checked={reason.value === checkedReason}
+                      onClickFn={() => setCheckedReason(value)}
+                      checked={value === checkedReason}
                     >
-                      {t(reason.value)}
+                      {t(translationKey, value)}
                     </Checkbox>
                   </StyledItem>
                 ))}
@@ -390,7 +448,7 @@ const Unsubscribe = ({
                   : cancelUnsubscribeAction()
               }
             >
-              {t('Go back')}
+              {t('unsubscribe-popup.survey.go-back', 'Go back')}
             </Button>
             <Button
               theme="confirm"
@@ -398,7 +456,7 @@ const Unsubscribe = ({
               disabled={checkedReason === '' || isLoading}
             >
               {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
-                t('Unsubscribe')}
+                t('unsubscribe-popup.survey.unsubscribe', 'Unsubscribe')}
             </Button>
           </ButtonWrapperStyled>
         </>
@@ -406,14 +464,20 @@ const Unsubscribe = ({
       {currentStep === STEPS.CONFIRMATION && (
         <ContentStyled>
           <img src={checkmarkIcon} alt="checkmark icon" />
-          <TitleStyled>{t('Miss you already.')}</TitleStyled>
+          <TitleStyled>
+            {t('unsubscribe-popup.success.title', 'Miss you already.')}
+          </TitleStyled>
           <TextStyled>
             {t(
+              'unsubscribe-popup.success.description',
               'You have been successfully unsubscribed. Your current plan will expire on'
             )}{' '}
             <b>
               {expiresAt === INFINITE_DATE
-                ? t('the next season start')
+                ? t(
+                    'unsubscribe-popup.next-season-start',
+                    'the next season start'
+                  )
                 : dateFormat(expiresAt)}
             </b>
             .
@@ -422,11 +486,11 @@ const Unsubscribe = ({
             width="auto"
             margin="30px auto 0 auto"
             onClickFn={() => {
-              hideInnerPopup();
-              updateList();
+              dispatch(hidePopup());
+              dispatch(updateList());
             }}
           >
-            {t('Back to My Account')}
+            {t('unsubscribe-popup.back-button', 'Back to My Account')}
           </Button>
         </ContentStyled>
       )}
@@ -435,10 +499,6 @@ const Unsubscribe = ({
 };
 
 Unsubscribe.propTypes = {
-  hideInnerPopup: PropTypes.func.isRequired,
-  showInnerPopup: PropTypes.func.isRequired,
-  updateList: PropTypes.func.isRequired,
-  offerDetails: PropTypes.objectOf(PropTypes.any).isRequired,
   customCancellationReasons: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,

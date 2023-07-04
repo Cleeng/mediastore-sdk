@@ -24,9 +24,9 @@ class Auth {
     email,
     jwt,
     refreshToken,
-    cb = () => {},
+    cb = t => t,
     args = [],
-    callback = () => {}
+    callback = t => t
   ) {
     this.isAuthenticated = true;
     const { customerId } = jwtDecode(jwt);
@@ -78,7 +78,7 @@ class Auth {
     callback();
   }
 
-  logout(callback = () => {}) {
+  logout(callback = t => t) {
     this.isAuthenticated = false;
     removeData('CLEENG_AUTH_TOKEN');
     removeData('CLEENG_REFRESH_TOKEN');

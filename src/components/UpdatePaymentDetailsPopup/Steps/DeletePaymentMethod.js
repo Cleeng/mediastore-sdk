@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import {
@@ -7,7 +7,10 @@ import {
   TextStyled,
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
-import { PopupImageStyled } from 'components/UpdatePaymentDetailsPopup/UpdatePaymentDetailsPopupStyled';
+import {
+  PopupImageStyled,
+  ErrorMessage
+} from 'components/UpdatePaymentDetailsPopup/UpdatePaymentDetailsPopupStyled';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
 import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
@@ -20,7 +23,6 @@ import {
   PAYMENT_DETAILS_STEPS,
   updatePaymentDetailsPopup
 } from 'redux/popupSlice';
-import { ErrorMessage } from '../UpdatePaymentDetailsPopupStyled';
 
 const PaymentMethodIcons = {
   paypal: PaypalIcon,
@@ -82,32 +84,39 @@ const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
             <LogoComponent />
           </PopupImageStyled>
         )}
-        <TitleStyled>{t('Remove payment method?')}</TitleStyled>
+        <TitleStyled>
+          {t('delete-payment-method.title', 'Remove payment method?')}
+        </TitleStyled>
         <TextStyled>
           {t(
+            'delete-payment-method.remove-info',
             'By clicking the REMOVE button you will delete this payment method.'
           )}
           <br />
           <br />
           {t(
+            'delete-payment-method.renewal-info',
             'Any subscriptions connected with this payment method will not be renewed, unless another payment method is added.'
           )}
         </TextStyled>
         {isError && (
           <ErrorMessage>
-            {t('Oops, something went wrong! Try again...')}
+            {t(
+              'oops-something-went-wrong-try-again',
+              'Oops, something went wrong! Try again...'
+            )}
           </ErrorMessage>
         )}
       </ContentStyled>
       <ButtonWrapperStyled removeMargin>
         <Button theme="simple" onClickFn={() => cancelDeleteAction()}>
-          {t('No, thanks')}
+          {t('delete-payment-method.resign-button', 'No, thanks')}
         </Button>
         <Button theme="danger" onClickFn={deletePaymentMethod}>
           {isButtonLoading ? (
             <Loader buttonLoader color="#ffffff" />
           ) : (
-            t('Remove')
+            t('delete-payment-method.confirm-button', 'Remove')
           )}
         </Button>
       </ButtonWrapperStyled>
