@@ -1,33 +1,35 @@
 /* eslint-disable react/forbid-prop-types */
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PaymentMethod from 'components/PaymentMethod';
 import SectionHeader from 'components/SectionHeader';
 import Transactions from 'components/Transactions';
-import { PropTypes } from 'prop-types';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
-import { useSelector, useDispatch } from 'react-redux';
 import GracePeriodError from 'components/GracePeriodError';
-import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
+import {
+  init as initPublisherConfig,
+  selectAdyenConfiguration
+} from 'redux/publisherConfigSlice';
 import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
-import { updatePaymentDetailsPopup } from 'redux/popupSlice';
+import {
+  selectPaymentDetailsPopup,
+  updatePaymentDetailsPopup
+} from 'redux/popupSlice';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import { WrapStyled } from './PaymentInfoStyled';
+import { PaymentInfoProps } from './PaymentInfo.types';
 
 const PaymentInfo = ({
   adyenConfiguration: adyenConfigurationProp,
   displayGracePeriodError
-}) => {
-  const dispatch = useDispatch();
+}: PaymentInfoProps) => {
+  const dispatch = useAppDispatch();
+
+  const adyenConfigurationStore = useAppSelector(selectAdyenConfiguration);
 
   const { t } = useTranslation();
 
-  const { adyenConfiguration: adyenConfigurationStore } = useSelector(
-    state => state.publisherConfig
-  );
-
-  const { paymentDetails: paymentDetailsPopup } = useSelector(
-    state => state.popupManager
-  );
+  const paymentDetailsPopup = useAppSelector(selectPaymentDetailsPopup);
 
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
@@ -57,12 +59,19 @@ const PaymentInfo = ({
       ) : (
         <>
           <section>
-            <SectionHeader>{t('Current payment method')}</SectionHeader>
+            <SectionHeader>
+              <>
+                {t(
+                  'paymentinfo.current-payment-method',
+                  'Current payment method'
+                )}
+              </>
+            </SectionHeader>
             <PaymentMethod />
           </section>
           <section>
             <SectionHeader marginTop="25px">
-              {t('Payment history')}
+              <>{t('paymentinfo.payment-history', 'Payment history')}</>
             </SectionHeader>
             <Transactions />
           </section>
@@ -70,16 +79,6 @@ const PaymentInfo = ({
       )}
     </WrapStyled>
   );
-};
-
-PaymentInfo.propTypes = {
-  adyenConfiguration: PropTypes.objectOf(PropTypes.any),
-  displayGracePeriodError: PropTypes.bool
-};
-
-PaymentInfo.defaultProps = {
-  adyenConfiguration: null,
-  displayGracePeriodError: null
 };
 
 export default withAddPaymentDetailsFinalizationHandler(PaymentInfo);

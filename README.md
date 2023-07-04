@@ -904,6 +904,12 @@ localStorage.setItem("i18nextLng", "es");
 Config.setLanguage("es");
 ```
 
+Some of the languages require different directions than the default left-to-right. MediaStore SDK components library support right-to-left direction which can be enabled by adding the `dir` attribute to `html` tag.
+
+```html
+<html dir="rtl"></html>
+```
+
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
 ## Security
