@@ -118,7 +118,6 @@ const PlanDetails = ({
   return (
     <WrapStyled>
       <GracePeriodError />
-      {/* TODO: implement headers hierachy (dynamic calculation) */}
       <SectionHeader>
         <>{t('plandetails.current-plan', 'Current Plan')}</>
       </SectionHeader>

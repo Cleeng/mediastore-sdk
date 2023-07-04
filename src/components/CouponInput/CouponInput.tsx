@@ -123,7 +123,8 @@ const CouponInput = ({
     <InputComponentStyled
       isOpened={isOpened}
       fullWidth={fullWidth}
-      onSubmit={async () => {
+      onSubmit={async e => {
+        e.preventDefault();
         await onRedeemClick();
       }}
     >
@@ -158,7 +159,7 @@ const CouponInput = ({
           aria-label={t('coupon-input.placeholder', 'Your coupon') as string}
           aria-required={false}
         />
-        <Button width="auto" type="submit" testid="redeem-btn">
+        <Button width="auto" testid="redeem-btn" type="submit">
           <>
             {couponLoading && <Loader buttonLoader color="#ffffff" />}
             {!couponLoading && isOpened && t('coupon-input.redeem', 'Redeem')}

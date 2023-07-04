@@ -35,7 +35,6 @@ export const InnerWrapper = styled.div.attrs(() => ({
   `}
 `;
 
-// h1
 export const TitleStyled = styled.h2.attrs(() => ({
   className: 'msd__subscription-text__title'
 }))`
