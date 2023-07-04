@@ -46,7 +46,7 @@ const SubscriptionSwitchesList = () => {
     return <SkeletonCard />;
   }
 
-  if (isAllSwitchSettingsError.length) {
+  if (isAllSwitchSettingsError?.length) {
     return <MyAccountError generalError />;
   }
 

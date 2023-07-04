@@ -114,7 +114,7 @@ const CurrentPlan = () => {
 
   if (isLoading) return <SkeletonCard />;
 
-  if (errors.length !== 0) return <ErrorView />;
+  if (errors?.length) return <ErrorView />;
 
   if (subscriptions.length === 0) return <EmptyPlanView />;
 
