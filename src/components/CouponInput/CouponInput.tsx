@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useState } from 'react';
+import { KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
@@ -37,6 +37,8 @@ const CouponInput = ({
     false
   );
   const [isOpened, setIsOpened] = useState(false);
+
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const { t } = useTranslation();
   const {
@@ -120,64 +122,99 @@ const CouponInput = ({
   }, [showMessage, message, messageType]);
 
   return (
-    <InputComponentStyled
-      isOpened={isOpened}
-      fullWidth={fullWidth}
-      onSubmit={async e => {
-        e.preventDefault();
-        await onRedeemClick();
-      }}
-    >
-      <InputElementWrapperStyled>
-        <CloseButtonStyled
-          onClick={() => onCloseClick()}
-          isInputOpened={isOpened}
-          aria-label="close"
-          type="button"
-        >
-          {CloseIcon && <CloseIcon />}
-        </CloseButtonStyled>
-        <InputElementStyled
-          isOpened={isOpened}
-          placeholder={t('coupon-input.placeholder', 'Your coupon') as string}
-          onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-            if (event.key === 'Enter') {
-              handleSubmit(event);
+    <>
+      <Button type="button" onFocus={() => console.log('Button focused!!!')}>
+        Click here
+      </Button>
+      {/* <button
+        type="button"
+        ref={buttonRef}
+        onClick={() => console.log('btn ref', buttonRef.current)}
+      >
+        Check the ref
+      </button> */}
+      <InputComponentStyled
+        // tabIndex={-1}
+        isOpened={isOpened}
+        fullWidth={fullWidth}
+        onSubmit={async e => {
+          e.preventDefault();
+          await onRedeemClick();
+        }}
+        onClick={() => {
+          console.log('Form clicked()');
+        }}
+        // onFocus={() => {
+        //   console.log('focus on outer form elemetn');
+        //   console.log('btnRef:', buttonRef.current);
+        //   buttonRef.current?.focus();
+        // }}
+      >
+        <InputElementWrapperStyled>
+          <CloseButtonStyled
+            onClick={() => onCloseClick()}
+            isInputOpened={isOpened}
+            aria-label="close"
+            type="button"
+            onFocus={() => {
+              console.log('close button clicked');
+              console.log('btnRef from CloseButton:', buttonRef.current);
+              // buttonRef.current?.focus();
+            }}
+          >
+            {CloseIcon && <CloseIcon />}
+          </CloseButtonStyled>
+          <InputElementStyled
+            isOpened={isOpened}
+            placeholder={t('coupon-input.placeholder', 'Your coupon') as string}
+            onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
+              if (event.key === 'Enter') {
+                handleSubmit(event);
+              }
+            }}
+            onFocus={() => {
+              setSuppressMessage(true);
+              console.log('inner input element clicked');
+            }}
+            autoComplete="off"
+            value={value}
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              onChange(event.target.value)
             }
-          }}
-          onFocus={() => {
-            setSuppressMessage(true);
-          }}
-          autoComplete="off"
-          value={value}
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            onChange(event.target.value)
-          }
-          type="text"
-          readOnly={couponLoading}
-          fullWidth={fullWidth}
-          aria-label={t('coupon-input.placeholder', 'Your coupon') as string}
-          aria-required={false}
-        />
-        <Button width="auto" testid="redeem-btn" type="submit">
-          <>
-            {couponLoading && <Loader buttonLoader color="#ffffff" />}
-            {!couponLoading && isOpened && t('coupon-input.redeem', 'Redeem')}
-            {!couponLoading &&
-              !isOpened &&
-              t('coupon-input.redeem-coupon', 'Redeem coupon')}
-          </>
-        </Button>
-      </InputElementWrapperStyled>
-      {isOpened && (
-        <MessageStyled
-          showMessage={showMessage && !suppressMessage}
-          messageType={messageType}
-        >
-          {t(translationKey, message)}
-        </MessageStyled>
-      )}
-    </InputComponentStyled>
+            type="text"
+            readOnly={couponLoading}
+            fullWidth={fullWidth}
+            aria-label={t('coupon-input.placeholder', 'Your coupon') as string}
+            aria-required={false}
+          />
+          <Button
+            // tabIndex={1}
+            width="auto"
+            testid="redeem-btn"
+            type="submit"
+            ref={buttonRef}
+            onClickFn={() => console.log('btn ref', buttonRef.current)}
+            onFocus={() => console.log('the deep button focused')}
+          >
+            <>
+              {couponLoading && <Loader buttonLoader color="#ffffff" />}
+              {!couponLoading && isOpened && t('coupon-input.redeem', 'Redeem')}
+              {!couponLoading &&
+                !isOpened &&
+                t('coupon-input.redeem-coupon', 'Redeem coupon')}
+            </>
+          </Button>
+        </InputElementWrapperStyled>
+        {isOpened && (
+          <MessageStyled
+            showMessage={showMessage && !suppressMessage}
+            messageType={messageType}
+          >
+            {t(translationKey, message)}
+          </MessageStyled>
+        )}
+      </InputComponentStyled>
+    </>
   );
 };
 

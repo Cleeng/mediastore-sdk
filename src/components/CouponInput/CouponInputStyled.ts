@@ -57,8 +57,11 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
   background: white;
   transition: 0.2s ease-in-out;
 
-  &:focus-within {
+  /* &:focus-within {
     border-color: ${Colors.FocusColor};
+  } */
+  &:focus {
+    outline: 1px solid #fab;
   }
 `;
 

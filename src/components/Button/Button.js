@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { forwardRef } from 'react';
 import ButtonStyled from './ButtonStyled';
 
 export const BUTTON_SIZE = {
@@ -18,47 +19,55 @@ export const BUTTON_THEME = {
   DANGER: 'danger'
 };
 
-const Button = ({
-  type,
-  onClickFn,
-  disabled,
-  children,
-  label,
-  size,
-  theme,
-  fontSize,
-  margin,
-  fontWeight,
-  width,
-  icon,
-  padding,
-  className,
-  testid
-}) => {
-  const ButtonProps = {
-    type,
-    onClick: onClickFn
-  };
-  return (
-    <ButtonStyled
-      {...ButtonProps}
-      disabled={disabled}
-      aria-label={label}
-      size={size}
-      theme={theme}
-      fontSize={fontSize}
-      margin={margin}
-      fontWeight={fontWeight}
-      width={width}
-      icon={icon}
-      padding={padding}
-      className={className}
-      data-testid={testid}
-    >
-      {children}
-    </ButtonStyled>
-  );
-};
+const Button = forwardRef(
+  (
+    {
+      type,
+      onClickFn,
+      disabled,
+      children,
+      label,
+      size,
+      theme,
+      fontSize,
+      margin,
+      fontWeight,
+      width,
+      icon,
+      padding,
+      className,
+      testid,
+      onFocus
+    },
+    ref
+  ) => {
+    const ButtonProps = {
+      type,
+      onClick: onClickFn
+    };
+    return (
+      <ButtonStyled
+        {...ButtonProps}
+        disabled={disabled}
+        aria-label={label}
+        size={size}
+        theme={theme}
+        fontSize={fontSize}
+        margin={margin}
+        fontWeight={fontWeight}
+        width={width}
+        icon={icon}
+        padding={padding}
+        className={className}
+        data-testid={testid}
+        ref={ref}
+        onFocus={onFocus}
+      >
+        {children}
+      </ButtonStyled>
+    );
+  }
+);
 
 Button.propTypes = {
   size: PropTypes.oneOf(Object.values(BUTTON_SIZE)),
@@ -79,7 +88,8 @@ Button.propTypes = {
   icon: PropTypes.string,
   padding: PropTypes.string,
   className: PropTypes.string,
-  testid: PropTypes.string
+  testid: PropTypes.string,
+  onFocus: PropTypes.func
 };
 
 Button.defaultProps = {
@@ -98,7 +108,9 @@ Button.defaultProps = {
   icon: null,
   padding: null,
   className: '',
-  testid: null
+  testid: null,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  onFocus: () => {}
 };
 
 export default Button;
