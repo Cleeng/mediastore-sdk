@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import SectionHeader from 'components/SectionHeader';
+import { ReactComponent as CardIcon } from 'assets/images/paymentMethods/card2.svg';
+import { ReactComponent as GiftIcon } from 'assets/images/gift.svg';
 import {
   ButtonsContainer,
   DeliveryDetailsStyled,
@@ -30,9 +32,12 @@ const DeliveryDetails = () => {
           disabled={false}
           onClick={() => setIsGift(false)}
         >
+          <CardIcon />
+          {/* unify with card1.svg? */}
           Purchase for myself
         </StyledButton>
         <StyledButton isActive={isGift} onClick={() => setIsGift(true)}>
+          <GiftIcon />
           Purchase as a gift
         </StyledButton>
       </ButtonsContainer>

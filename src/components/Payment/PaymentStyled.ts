@@ -13,7 +13,7 @@ export const PaymentStyled = styled.section.attrs(() => ({
 export const PaymentWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__payment__wrapper'
 }))`
-  max-width: 375px;
+  max-width: 376px;
   margin: 12px auto 0 auto;
 `;
 
