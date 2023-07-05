@@ -19,7 +19,6 @@
   "dependencies": {
     "@adyen/adyen-web": "~5.38.0",
     "@reduxjs/toolkit": "^1.7.2",
-    "@types/react-redux": "^7.1.25",
     "camelcase": "^5.3.1",
     "classnames": "^2.3.2",
     "dotenv": "6.2.0",
@@ -96,6 +95,7 @@
     "@types/jwt-decode": "^3.1.0",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
+    "@types/react-redux": "^7.1.25",
     "@types/redux-mock-store": "^1.0.3",
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
