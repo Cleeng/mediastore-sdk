@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import SectionHeader from 'components/SectionHeader';
-import { ReactComponent as CardIcon } from 'assets/images/paymentMethods/card2.svg';
 import { ReactComponent as GiftIcon } from 'assets/images/gift.svg';
+import { ReactComponent as CardIcon } from 'assets/images/paymentMethods/card2.svg';
+import SectionHeader from 'components/SectionHeader';
+import RecipientForm from './RecipientForm';
 import {
   ButtonsContainer,
   DeliveryDetailsStyled,
@@ -29,6 +30,7 @@ const DeliveryDetails = () => {
           Purchase as a gift
         </StyledButton>
       </ButtonsContainer>
+      <>{isGift && <RecipientForm />}</>
     </DeliveryDetailsStyled>
   );
 };

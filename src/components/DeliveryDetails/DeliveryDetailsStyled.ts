@@ -32,7 +32,7 @@ export const StyledButton = styled.button<{ isActive: boolean }>`
       ? '#4EB7A1'
       : colors.LineColor}; // inactive should be same as font and icon?
   color: ${({ isActive }) => (isActive ? '#4EB7A1' : '#CCD5E2')};
-  background-color: white;
+  background-color: white; // sure?
   font-size: 12px; // ?
   font-weight: 400;
 
