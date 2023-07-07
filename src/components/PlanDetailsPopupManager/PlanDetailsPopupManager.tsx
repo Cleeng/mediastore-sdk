@@ -6,6 +6,7 @@ import PauseSubscriptionPopup from 'components/PauseSubscriptionPopup';
 import ResumeSubscriptionPopup from 'components/ResumeSubscriptionPopup';
 import CancelSwitchPopup from 'components/CancelSwitchPopup';
 import CancelPausePopup from 'components/CancelPausePopup';
+import React from 'react';
 import { PlanDetailsPopupManagerProps } from './PlanDetailsPopupManager.types';
 
 const PlanDetailsPopupManager = ({

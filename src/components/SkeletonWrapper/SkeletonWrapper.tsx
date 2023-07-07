@@ -1,5 +1,6 @@
 import { SkeletonTheme } from 'react-loading-skeleton';
 import { LoaderColor } from 'styles/variables';
+import React from 'react';
 import { SkeletonWrapperStyled, StyledSkeleton } from './SkeletonWrapperStyled';
 import { SkeletonWrapperProps } from './SkeletonWrapper.types';
 

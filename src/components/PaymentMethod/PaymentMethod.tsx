@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as AddIcon } from 'assets/images/add.svg';
 import MyAccountError from 'components/MyAccountError';

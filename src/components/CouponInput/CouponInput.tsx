@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useState } from 'react';
+import React, { KeyboardEvent, useEffect, useState } from 'react';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 import Loader from 'components/Loader';
 import Button from 'components/Button';

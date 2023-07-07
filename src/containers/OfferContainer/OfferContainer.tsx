@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import jwtDecode from 'jwt-decode';
 import Offer from 'components/Offer';
 import ErrorPage from 'components/ErrorPage';

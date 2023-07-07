@@ -1,5 +1,5 @@
 /* eslint-disable react/forbid-prop-types */
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import PaymentMethod from 'components/PaymentMethod';
 import SectionHeader from 'components/SectionHeader';

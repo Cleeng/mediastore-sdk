@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Checkbox from 'components/Checkbox';
 import Loader from 'components/Loader';

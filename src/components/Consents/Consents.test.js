@@ -5,6 +5,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import Consent from 'components/Consents';
 import 'i18NextInit';
+import React from 'react';
 
 const store = (
   loading = false,

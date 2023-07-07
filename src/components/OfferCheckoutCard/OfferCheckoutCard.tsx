@@ -12,6 +12,7 @@ import {
 import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
+import React from 'react';
 import getReadablePeriod from './OfferCheckoutCard.utils';
 import {
   WrapperStyled,

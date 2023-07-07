@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getPaymentMethods, submitPayment, submitPayPalPayment } from 'api';
 import { submitPaymentWithoutDetails } from 'redux/paymentSlice';
@@ -39,7 +39,6 @@ import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { PaymentProps } from './Payment.types';
-
 import LegalCopy from './LegalCopy/LegalCopy';
 
 type paymentMethodType =

@@ -10,6 +10,7 @@ import {
 import { useAppSelector } from 'redux/store';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import { selectOnlyOffer } from 'redux/offerSlice';
+import React from 'react';
 import { LegalNoteWrapperStyled, LegalTextStyled } from '../PaymentStyled';
 
 const LegalNote = () => {

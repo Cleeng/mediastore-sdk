@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
 import Button from 'components/Button';
+import React from 'react';
 import { PayPalContentStyled, CopyStyled } from './PayPalStyled';
 import { PayPalProps } from './PayPal.types';
 
