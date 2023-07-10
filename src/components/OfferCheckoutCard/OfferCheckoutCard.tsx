@@ -55,6 +55,7 @@ const OfferCheckoutCard = () => {
   const grossPrice = isOfferFree
     ? calculateGrossPriceForFreeOffer(offerPrice, taxRate, customerPriceInclTax)
     : formatNumber(totalPrice);
+  const isTrialBadgeVisible = isTrialAvailable && discount.type === 'trial';
 
   const { t } = useTranslation();
 
@@ -220,7 +221,7 @@ const OfferCheckoutCard = () => {
       </InnerWrapper>
       <PriceWrapperStyled>
         <SkeletonWrapper showChildren={!loading} width={80} height={30}>
-          {isTrialAvailable && (
+          {isTrialBadgeVisible && (
             <TrialBadgeStyled>{renderTrialBadgeDescription()}</TrialBadgeStyled>
           )}
           <Price
