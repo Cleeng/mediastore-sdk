@@ -1,7 +1,14 @@
 /* istanbul ignore file */
 import { css, FlattenSimpleInterpolation } from 'styled-components';
 
-type BreakPoints = "smallest" | "small" | "medium" | "avarage" | "big" | "bigger" | "largest";
+type BreakPoints =
+  | 'smallest'
+  | 'small'
+  | 'medium'
+  | 'avarage'
+  | 'big'
+  | 'bigger'
+  | 'largest';
 
 export const breakPoints: { [key in BreakPoints]: number } = {
   smallest: 480,
@@ -14,7 +21,10 @@ export const breakPoints: { [key in BreakPoints]: number } = {
 };
 
 export const media = Object.keys(breakPoints).reduce((acc, label) => {
-  acc[label as BreakPoints] = (literals: TemplateStringsArray, ...placeholders: any[]) => css`
+  acc[label as BreakPoints] = (
+    literals: TemplateStringsArray,
+    ...placeholders: any[]
+  ) => css`
     @media only screen and (max-width: ${breakPoints[label as BreakPoints]}px) {
       ${css(literals, ...placeholders)}
     }
@@ -24,7 +34,10 @@ export const media = Object.keys(breakPoints).reduce((acc, label) => {
 }, {} as { [key in BreakPoints]: (l: TemplateStringsArray, ...p: any[]) => FlattenSimpleInterpolation });
 
 export const mediaFrom = Object.keys(breakPoints).reduce((acc, label) => {
-  acc[label as BreakPoints] = (literals: TemplateStringsArray, ...placeholders: any[]) => css`
+  acc[label as BreakPoints] = (
+    literals: TemplateStringsArray,
+    ...placeholders: any[]
+  ) => css`
     @media only screen and (min-width: ${breakPoints[label as BreakPoints]}px) {
       ${css(literals, ...placeholders)}
     }

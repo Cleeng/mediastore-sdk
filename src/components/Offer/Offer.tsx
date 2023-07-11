@@ -23,6 +23,7 @@ import { OfferProps } from './Offer.types';
 const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
   const { t } = useTranslation();
   const [coupon, setCoupon] = useState('');
+  const [isGift, setIsGift] = useState(false);
   const { isCouponLoading, couponDetails } = useAppSelector(selectOrder);
   const {
     totalPrice,
@@ -68,8 +69,8 @@ const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
           </StyledOfferDetailsAndCoupon>
           <CheckoutPriceBox />
         </StyledOfferBody>
-        <DeliveryDetails />
-        <Payment onPaymentComplete={onPaymentComplete} />
+        <DeliveryDetails isGift={isGift} setIsGift={setIsGift} />
+        <Payment isGift={isGift} onPaymentComplete={onPaymentComplete} />
       </main>
       <Footer />
     </StyledOfferWrapper>

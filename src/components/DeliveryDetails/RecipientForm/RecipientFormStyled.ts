@@ -1,15 +1,18 @@
-import styled from 'styled-components';
-import * as colors from 'styles/variables';
+import Button from 'components/Button';
+import styled, { css } from 'styled-components';
+import { isRTL } from 'styles/RTLHelper';
+import { FontColor, BackgroundColor, LineColor } from 'styles/variables';
 
-// eslint-disable-next-line import/prefer-default-export
-export const RecipientFormStyled = styled.form.attrs(() => ({
+// attrs with classNames needed?
+
+export const StyledRecipientForm = styled.form.attrs(() => ({
   className: 'msd__recipientForm'
 }))`
   display: flex;
   flex-direction: column;
   max-width: 376px;
   background-color: white;
-  border: 1px solid ${colors.LineColor};
+  border: 1px solid ${LineColor};
   border-radius: 12px;
   width: 100%;
   max-width: 376px;
@@ -24,4 +27,64 @@ export const RecipientFormStyled = styled.form.attrs(() => ({
   .msd__error {
     color: #cb4477;
   }
+`;
+
+export const InfoText = styled.p`
+  font-size: 13px;
+  font-weight: 300;
+  font-style: italic;
+  color: #515364;
+  opacity: 0.7;
+`;
+
+export const MessageWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+`;
+
+export const StyledLabel = styled.label`
+  color: ${FontColor};
+  font-size: 13px;
+`;
+
+export const StyledMessage = styled.textarea`
+  width: 100%;
+  padding: 10px 16px;
+  min-height: 92px;
+  border: 1px solid ${LineColor};
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 13px;
+  resize: none;
+
+  ${isRTL() &&
+    css`
+      text-align: right;
+    `}
+
+  &:focus,
+  &:active {
+    border: 1px solid ${LineColor};
+  }
+
+  &:disabled {
+    background-color: ${BackgroundColor};
+    color: ${FontColor};
+  }
+`;
+
+export const StyledButton = styled(Button).attrs(() => ({
+  className: 'msd__recipientForm_save_button'
+}))`
+  /* margin: 20px 0 10px 0; */
+  /* width: 48%; */
+  min-width: 100px;
+  margin: 24px 0px;
+
+  ${props =>
+    props.width &&
+    css`
+      width: ${props.width};
+    `};
 `;

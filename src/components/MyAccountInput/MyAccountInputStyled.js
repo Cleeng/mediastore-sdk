@@ -18,6 +18,10 @@ export const WrapStyled = styled.div.attrs(() => ({
     css`
       display: none;
     `};
+
+  input[type='date'] {
+    text-transform: uppercase;
+  }
 `;
 
 export const InputElementLabelStyled = styled.label.attrs(() => ({

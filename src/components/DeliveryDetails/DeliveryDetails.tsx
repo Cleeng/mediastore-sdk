@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as GiftIcon } from 'assets/images/gift.svg';
 import { ReactComponent as CardIcon } from 'assets/images/paymentMethods/card2.svg';
@@ -9,10 +8,9 @@ import {
   DeliveryDetailsStyled,
   StyledButton
 } from './DeliveryDetailsStyled';
+import { DeliveryDetailsProps } from './DeliveryDetails.types';
 
-const DeliveryDetails = () => {
-  const [isGift, setIsGift] = useState(false);
-
+const DeliveryDetails = ({ isGift, setIsGift }: DeliveryDetailsProps) => {
   const { t } = useTranslation();
 
   return (
