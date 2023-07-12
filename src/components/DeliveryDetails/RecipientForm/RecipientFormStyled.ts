@@ -1,4 +1,3 @@
-import Button from 'components/Button';
 import styled, { css } from 'styled-components';
 import { isRTL } from 'styles/RTLHelper';
 import { FontColor, BackgroundColor, LineColor } from 'styles/variables';
@@ -57,6 +56,7 @@ export const StyledMessage = styled.textarea`
   font-size: 13px;
   line-height: 13px;
   resize: none;
+  margin-top: 24px;
 
   ${isRTL() &&
     css`
@@ -72,19 +72,4 @@ export const StyledMessage = styled.textarea`
     background-color: ${BackgroundColor};
     color: ${FontColor};
   }
-`;
-
-export const StyledButton = styled(Button).attrs(() => ({
-  className: 'msd__recipientForm_save_button'
-}))`
-  /* margin: 20px 0 10px 0; */
-  /* width: 48%; */
-  min-width: 100px;
-  margin: 24px 0px;
-
-  ${props =>
-    props.width &&
-    css`
-      width: ${props.width};
-    `};
 `;

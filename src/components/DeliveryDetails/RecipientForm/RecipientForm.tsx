@@ -1,5 +1,9 @@
-import { useState } from 'react';
 // import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import {
+  selectDeliveryDetails,
+  setFieldValue
+} from 'redux/deliveryDetailsSlice';
 import MyAccountInput from 'components/MyAccountInput';
 import { validateEmailField } from 'util/validators';
 import {
@@ -7,133 +11,116 @@ import {
   MessageWrapper,
   StyledRecipientForm,
   StyledLabel,
-  StyledMessage,
-  StyledButton
+  StyledMessage
 } from './RecipientFormStyled';
 
 const RecipientForm = () => {
-  const [recipientEmail, setRecipientEmail] = useState({
-    value: '',
-    error: ''
-  });
+  const {
+    recipientEmail,
+    confirmRecipientEmail,
+    deliveryDate,
+    message
+  } = useAppSelector(selectDeliveryDetails);
 
-  const [confirmRecipientEmail, setConfirmRecipientEmail] = useState({
-    value: '',
-    error: ''
-  });
-
-  const [deliveryDate, setDeliveryDate] = useState({
-    value: '',
-    error: ''
-  });
-
-  const [message, setMessage] = useState('');
+  const dispatch = useAppDispatch();
 
   // const { t } = useTranslation();
 
-  const validateRecipientEmail = (value: string) => {
-    setRecipientEmail(curr => ({ ...curr, error: validateEmailField(value) }));
+  const validateRecipientEmail = (e: React.FocusEvent<HTMLInputElement>) => {
+    const {
+      target: { value, name }
+    } = e;
+
+    dispatch(setFieldValue({ name, value, error: validateEmailField(value) }));
   };
 
-  const validateConfirmRecipientEmail = (value: string) => {
+  const validateDeliveryDate = (e: React.FocusEvent<HTMLInputElement>) => {
+    const {
+      target: { value, name }
+    } = e;
+
+    dispatch(
+      setFieldValue({
+        name,
+        value,
+        error: !value ? 'Missing delivery date' : ''
+      })
+    );
+  };
+
+  const validateConfirmRecipientEmail = (
+    e: React.FocusEvent<HTMLInputElement>
+  ) => {
+    const {
+      target: { value, name }
+    } = e;
+
     if (validateEmailField(value)) {
-      setConfirmRecipientEmail(curr => ({
-        ...curr,
-        error: validateEmailField(value)
-      }));
+      dispatch(
+        setFieldValue({ name, value, error: validateEmailField(value) })
+      );
     }
 
     const doEmailsMatch = recipientEmail.value === confirmRecipientEmail.value;
 
-    setConfirmRecipientEmail(curr => ({
-      ...curr,
-      error: doEmailsMatch ? '' : 'Email address doesn’t match'
-    }));
+    dispatch(
+      setFieldValue({
+        name,
+        value,
+        error: doEmailsMatch ? '' : 'Email address doesn’t match'
+      })
+    );
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const onChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const {
+      target: { name, value }
+    } = e;
 
-    // set it in redux/update order?
-    console.log(recipientEmail.value);
-    console.log(deliveryDate.value);
-    console.log(message);
+    dispatch(setFieldValue({ name, value }));
   };
-
-  const isSaveButtonDisabled = !!(
-    validateEmailField(recipientEmail.value) ||
-    validateEmailField(confirmRecipientEmail.value) ||
-    recipientEmail.value !== confirmRecipientEmail.value ||
-    !deliveryDate.value
-  );
 
   return (
-    <StyledRecipientForm onSubmit={handleSubmit} noValidate>
-      {/* sort props alphabetically */}
+    <StyledRecipientForm noValidate>
       <MyAccountInput
-        value={recipientEmail.value}
-        label="Recipient email" // add translation
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setRecipientEmail(curr => ({ ...curr, value: e.target.value }))
-        }
         error={recipientEmail.error}
-        onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
-          validateRecipientEmail(e.target.value)
-        }
-        type="email"
+        label="Recipient email" // add translation
         name="recipientEmail"
-      />
-      <MyAccountInput
-        value={confirmRecipientEmail.value}
-        label="Confirm recipient email" // add translation
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-          setConfirmRecipientEmail(curr => ({ ...curr, value: e.target.value }))
-        }
-        error={confirmRecipientEmail.error}
-        onBlur={(e: React.FocusEvent<HTMLInputElement>) =>
-          validateConfirmRecipientEmail(e.target.value)
-        }
+        onBlur={validateRecipientEmail}
+        onChange={onChange}
         type="email"
-        name="confirmRecipientEmail"
+        value={recipientEmail.value}
       />
       <MyAccountInput
-        value={deliveryDate.value}
+        error={confirmRecipientEmail.error}
+        label="Confirm recipient email" // add translation
+        name="confirmRecipientEmail"
+        onBlur={validateConfirmRecipientEmail}
+        onChange={onChange}
+        type="email"
+        value={confirmRecipientEmail.value}
+      />
+      <MyAccountInput
         label="Delivery date" // add translation
-        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-          setDeliveryDate(curr => ({
-            ...curr,
-            value: e.target.value
-          }));
-        }}
-        onBlur={() => {
-          if (!deliveryDate.value) {
-            setDeliveryDate(curr => ({
-              ...curr,
-              error: 'Missing delivery date'
-            }));
-          }
-        }}
-        type="date"
         min={new Date().toISOString().split('T')[0]}
         name="deliveryDate"
+        onBlur={validateDeliveryDate}
+        onChange={onChange}
+        type="date"
+        value={deliveryDate.value}
       />
       <MessageWrapper>
         <StyledLabel>Add a message</StyledLabel>
         <StyledMessage
           maxLength={150}
-          onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-            setMessage(e.target.value)
-          }
+          name="message"
+          onChange={onChange}
           rows={3}
+          value={message.value}
         />
       </MessageWrapper>
-      <StyledButton
-        disabled={isSaveButtonDisabled}
-        type="submit"
-        theme="confirm"
-      >
-        Save
-      </StyledButton>
       <InfoText>
         To edit your gift delivery details, access MyAccount and click on the
         corresponding transaction.

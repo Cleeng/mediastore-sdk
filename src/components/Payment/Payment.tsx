@@ -18,12 +18,14 @@ import {
   BANK_PAYMENT_METHODS,
   STANDARD_PAYMENT_METHODS
 } from 'util/paymentMethodHelper';
+import { validateEmailField } from 'util/validators';
 import {
   updatePaymentMethods,
   selectPublisherConfig
 } from 'redux/publisherConfigSlice';
 import { fetchUpdateOrder, selectOnlyOrder } from 'redux/orderSlice';
 import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
+import { selectDeliveryDetails } from 'redux/deliveryDetailsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import RedirectElement from '@adyen/adyen-web';
 import {
@@ -60,6 +62,13 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   const { loading: isPaymentFinalizationInProgress } = useAppSelector(
     selectFinalizePayment
   );
+
+  // const {
+  //   recipientEmail,
+  //   confirmRecipientEmail,
+  //   deliveryDate,
+  //   message
+  // } = useAppSelector(selectDeliveryDetails);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -192,6 +201,13 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     } = state;
     dispatch(fetchFinalizeInitialPayment({ orderId: order.id, details }));
   };
+
+  // const isDeliveryDetailsValid = !!(
+  //   validateEmailField(recipientEmail.value) ||
+  //   validateEmailField(confirmRecipientEmail.value) ||
+  //   recipientEmail.value !== confirmRecipientEmail.value ||
+  //   !deliveryDate.value
+  // );
 
   const onAdyenSubmit = async (
     state: {
