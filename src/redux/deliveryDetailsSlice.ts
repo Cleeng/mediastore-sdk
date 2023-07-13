@@ -6,6 +6,7 @@ import {
 import { RootState } from './rootReducer';
 
 export const initialState: DeliveryDetailsInitialState = {
+  isGift: false,
   recipientEmail: { value: '', error: '' },
   confirmRecipientEmail: { value: '', error: '' },
   deliveryDate: { value: '', error: '' },
@@ -16,6 +17,9 @@ export const deliveryDetailsSlice = createSlice({
   name: 'deliveryDetails',
   initialState,
   reducers: {
+    setIsGift(state, action: PayloadAction<boolean>) {
+      state.isGift = action.payload;
+    },
     setFieldValue(
       state,
       action: PayloadAction<{ name: string; value: string; error?: string }>
@@ -33,7 +37,7 @@ export const deliveryDetailsSlice = createSlice({
   }
 });
 
-export const { setFieldValue } = deliveryDetailsSlice.actions;
+export const { setIsGift, setFieldValue } = deliveryDetailsSlice.actions;
 
 export const selectDeliveryDetails = (state: RootState) =>
   state.deliveryDetails;

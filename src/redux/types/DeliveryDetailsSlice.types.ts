@@ -4,10 +4,11 @@ export type FormField = {
 };
 
 export type DeliveryDetailsInitialState = {
-  recipientEmail: FormField;
+  isGift: boolean;
   confirmRecipientEmail: FormField;
   deliveryDate: FormField;
   message: FormField;
+  recipientEmail: FormField;
 };
 
 export type DeliveryDetailsField =

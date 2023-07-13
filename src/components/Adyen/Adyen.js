@@ -227,6 +227,23 @@ const Adyen = ({
           }
         } = state;
 
+        // if (isGift) {
+        //   const isDeliveryDetailsValid = !!(
+        //     validateEmailField(recipientEmail.value) ||
+        //     validateEmailField(confirmRecipientEmail.value) ||
+        //     recipientEmail.value !== confirmRecipientEmail.value ||
+        //     !deliveryDate.value
+        //   );
+
+        //   console.log(`isDeliveryDetailsValid: ${isDeliveryDetailsValid}`);
+        //   console.log({
+        //     recipientEmail,
+        //     deliveryDate,
+        //     message
+        //   });
+
+        //   return;
+
         if (bankPaymentMethods.includes(methodName)) {
           const checkbox = document.querySelector(`.checkbox-${methodName}`);
 
@@ -236,7 +253,7 @@ const Adyen = ({
           }
         }
 
-        component.setStatus('loading');
+        // component.setStatus('loading');
 
         if (type === BANK_PAYMENT_METHODS) {
           setShouldFadeOutStandardDropIn(true);
