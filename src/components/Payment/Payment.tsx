@@ -1,14 +1,6 @@
-import {
-  // useCallback,
-  useEffect,
-  useState
-} from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  getPaymentMethods,
-  // submitPayment,
-  submitPayPalPayment
-} from 'api';
+import { getPaymentMethods, submitPayment, submitPayPalPayment } from 'api';
 import { submitPaymentWithoutDetails } from 'redux/paymentSlice';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
@@ -26,14 +18,12 @@ import {
   BANK_PAYMENT_METHODS,
   STANDARD_PAYMENT_METHODS
 } from 'util/paymentMethodHelper';
-// import { validateEmailField } from 'util/validators';
 import {
   updatePaymentMethods,
   selectPublisherConfig
 } from 'redux/publisherConfigSlice';
 import { fetchUpdateOrder, selectOnlyOrder } from 'redux/orderSlice';
 import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
-import { selectDeliveryDetails } from 'redux/deliveryDetailsSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import RedirectElement from '@adyen/adyen-web';
 import {
@@ -42,7 +32,7 @@ import {
   PaymentWrapperStyled
 } from './PaymentStyled';
 import eventDispatcher, {
-  // MSSDK_PURCHASE_FAILED,
+  MSSDK_PURCHASE_FAILED,
   MSSDK_PURCHASE_SUCCESSFUL
 } from '../../util/eventDispatcher';
 import LegalNote from './LegalNote/LegalNote';
@@ -70,14 +60,6 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   const { loading: isPaymentFinalizationInProgress } = useAppSelector(
     selectFinalizePayment
   );
-
-  // const {
-  //   isGift,
-  //   recipientEmail,
-  //   confirmRecipientEmail,
-  //   deliveryDate,
-  //   message
-  // } = useAppSelector(selectDeliveryDetails);
 
   const [isLoading, setIsLoading] = useState(false);
 
@@ -211,71 +193,68 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     dispatch(fetchFinalizeInitialPayment({ orderId: order.id, details }));
   };
 
-  // const getIsGift = () => isGift;
-
-  const onAdyenSubmit = async () =>
-    // state: {
-    //   data: {
-    //     paymentMethod: unknown;
-    //     browserInfo: unknown;
-    //     billingAddress: unknown;
-    //   };
-    // },
-    // component: unknown
-    {
-      // const {
-      //   data: { paymentMethod, browserInfo, billingAddress }
-      // } = state;
-      // console.log(getIsGift());
-      // setGeneralError('');
-      // setIsLoading(true);
-      // const { errors, responseData } = await submitPayment(
-      //   paymentMethod,
-      //   browserInfo,
-      //   billingAddress
-      // );
-      // if (errors?.length) {
-      //   eventDispatcher(MSSDK_PURCHASE_FAILED, {
-      //     reason: errors[0]
-      //   });
-      //   const notSupportedMethod = errors[0].includes(
-      //     'Payment details are not supported'
-      //   );
-      //   setGeneralError(
-      //     notSupportedMethod
-      //       ? t(
-      //           'payment.error.payment-method-not-supported',
-      //           'Payment method not supported. Try different payment method'
-      //         )
-      //       : t(
-      //           'payment.error.payment-not-processed',
-      //           'The payment has not been processed. Please, try again with a different payment method.'
-      //         )
-      //   );
-      //   setIsLoading(false);
-      //   // force Adyen remount
-      //   setStandardDropInInstance(null);
-      //   setBankDropInInstance(null);
-      //   setAdyenKey(key => (key ? null : 1));
-      //   return;
-      // }
-      // const { action, payment } = responseData;
-      // if (action) {
-      //   if (action.type !== 'redirect') {
-      //     setIsActionHandlingProcessing(true);
-      //   }
-      //   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      //   // @ts-ignore
-      //   component.handleAction(action);
-      //   return;
-      // }
-      // eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
-      //   payment
-      // });
-      // if (onPaymentComplete) {
-      //   onPaymentComplete();
-      // }
-    };
+  const onAdyenSubmit = async (
+    state: {
+      data: {
+        paymentMethod: unknown;
+        browserInfo: unknown;
+        billingAddress: unknown;
+      };
+    },
+    component: unknown
+  ) => {
+    const {
+      data: { paymentMethod, browserInfo, billingAddress }
+    } = state;
+    setGeneralError('');
+    setIsLoading(true);
+    const { errors, responseData } = await submitPayment(
+      paymentMethod,
+      browserInfo,
+      billingAddress
+    );
+    if (errors?.length) {
+      eventDispatcher(MSSDK_PURCHASE_FAILED, {
+        reason: errors[0]
+      });
+      const notSupportedMethod = errors[0].includes(
+        'Payment details are not supported'
+      );
+      setGeneralError(
+        notSupportedMethod
+          ? t(
+              'payment.error.payment-method-not-supported',
+              'Payment method not supported. Try different payment method'
+            )
+          : t(
+              'payment.error.payment-not-processed',
+              'The payment has not been processed. Please, try again with a different payment method.'
+            )
+      );
+      setIsLoading(false);
+      // force Adyen remount
+      setStandardDropInInstance(null);
+      setBankDropInInstance(null);
+      setAdyenKey(key => (key ? null : 1));
+      return;
+    }
+    const { action, payment } = responseData;
+    if (action) {
+      if (action.type !== 'redirect') {
+        setIsActionHandlingProcessing(true);
+      }
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      component.handleAction(action);
+      return;
+    }
+    eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
+      payment
+    });
+    if (onPaymentComplete) {
+      onPaymentComplete();
+    }
+  };
 
   const getDropIn = (drop: typeof RedirectElement, type: paymentMethodType) => {
     // TODO check if paymentMethodType is correct

@@ -34,6 +34,7 @@ export const InfoText = styled.p`
   font-style: italic;
   color: #515364;
   opacity: 0.7;
+  margin-top: 24px;
 `;
 
 export const MessageWrapper = styled.div`
@@ -56,7 +57,6 @@ export const StyledMessage = styled.textarea`
   font-size: 13px;
   line-height: 13px;
   resize: none;
-  margin-top: 24px;
 
   ${isRTL() &&
     css`

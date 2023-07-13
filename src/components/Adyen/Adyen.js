@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { render } from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import { selectDeliveryDetails } from 'redux/deliveryDetailsSlice';
+import { useAppSelector } from 'redux/store';
 import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
@@ -15,6 +17,7 @@ import {
 import { useSelector } from 'react-redux';
 import Checkbox from 'components/Checkbox';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
+import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
 import AdyenStyled from './AdyenStyled';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
 import Loader from '../Loader';
@@ -43,6 +46,13 @@ const Adyen = ({
   } = useSelector(state => state.publisherConfig);
   const [isLoading, setIsLoading] = useState(true);
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
+
+  const { isGift } = useAppSelector(selectDeliveryDetails);
+  const isGiftRef = useRef(false);
+
+  useEffect(() => {
+    isGift.current = isGift;
+  }, [isGift]);
 
   const standardPaymentMethodsRef = useRef(null);
   const bankPaymentMethodsRef = useRef(null);
@@ -227,41 +237,30 @@ const Adyen = ({
           }
         } = state;
 
-        // if (isGift) {
-        //   const isDeliveryDetailsValid = !!(
-        //     validateEmailField(recipientEmail.value) ||
-        //     validateEmailField(confirmRecipientEmail.value) ||
-        //     recipientEmail.value !== confirmRecipientEmail.value ||
-        //     !deliveryDate.value
-        //   );
+        if (isGiftRef.current) {
+          const areDeliveryDetailsValid = validateDeliveryDetailsForm();
 
-        //   console.log(`isDeliveryDetailsValid: ${isDeliveryDetailsValid}`);
-        //   console.log({
-        //     recipientEmail,
-        //     deliveryDate,
-        //     message
-        //   });
-
-        //   return;
-
-        if (bankPaymentMethods.includes(methodName)) {
-          const checkbox = document.querySelector(`.checkbox-${methodName}`);
-
-          if (!checkbox.checked) {
-            checkbox.classList.add('adyen-checkout__bank-checkbox--error');
-            return false;
-          }
+          console.log(`isDeliveryDetailsValid2: ${areDeliveryDetailsValid}`);
         }
 
-        // component.setStatus('loading');
+        // if (bankPaymentMethods.includes(methodName)) {
+        //   const checkbox = document.querySelector(`.checkbox-${methodName}`);
 
-        if (type === BANK_PAYMENT_METHODS) {
-          setShouldFadeOutStandardDropIn(true);
-        } else {
-          setShouldFadeOutBankDropIn(true);
-        }
+        //   if (!checkbox.checked) {
+        //     checkbox.classList.add('adyen-checkout__bank-checkbox--error');
+        //     return false;
+        //   }
+        // }
 
-        return onSubmit(state, component);
+        // // component.setStatus('loading');
+
+        // if (type === BANK_PAYMENT_METHODS) {
+        //   setShouldFadeOutStandardDropIn(true);
+        // } else {
+        //   setShouldFadeOutBankDropIn(true);
+        // }
+
+        // return onSubmit(state, component);
       },
       onActionHandled: () => {
         if (type === BANK_PAYMENT_METHODS) {

@@ -5,7 +5,6 @@ import {
   setFieldValue
 } from 'redux/deliveryDetailsSlice';
 import MyAccountInput from 'components/MyAccountInput';
-import { validateEmailField } from 'util/validators';
 import {
   InfoText,
   MessageWrapper,
@@ -13,6 +12,11 @@ import {
   StyledLabel,
   StyledMessage
 } from './RecipientFormStyled';
+import {
+  validateConfirmRecipientEmail,
+  validateDeliveryDate,
+  validateRecipientEmail
+} from './validators';
 
 const RecipientForm = () => {
   const {
@@ -24,52 +28,24 @@ const RecipientForm = () => {
 
   const dispatch = useAppDispatch();
 
-  // const { t } = useTranslation();
-
-  const validateRecipientEmail = (e: React.FocusEvent<HTMLInputElement>) => {
+  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const {
-      target: { value, name }
+      target: { name, value }
     } = e;
 
-    dispatch(setFieldValue({ name, value, error: validateEmailField(value) }));
-  };
-
-  const validateDeliveryDate = (e: React.FocusEvent<HTMLInputElement>) => {
-    const {
-      target: { value, name }
-    } = e;
-
-    dispatch(
-      setFieldValue({
-        name,
-        value,
-        error: !value ? 'Missing delivery date' : ''
-      })
-    );
-  };
-
-  const validateConfirmRecipientEmail = (
-    e: React.FocusEvent<HTMLInputElement>
-  ) => {
-    const {
-      target: { value, name }
-    } = e;
-
-    if (validateEmailField(value)) {
-      dispatch(
-        setFieldValue({ name, value, error: validateEmailField(value) })
-      );
+    switch (name) {
+      case 'recipientEmail':
+        validateRecipientEmail(value);
+        break;
+      case 'confirmRecipientEmail':
+        validateConfirmRecipientEmail(value);
+        break;
+      case 'deliveryDate':
+        validateDeliveryDate(value);
+        break;
+      default:
+        break;
     }
-
-    const doEmailsMatch = recipientEmail.value === confirmRecipientEmail.value;
-
-    dispatch(
-      setFieldValue({
-        name,
-        value,
-        error: doEmailsMatch ? '' : 'Email address doesn’t match'
-      })
-    );
   };
 
   const onChange = (
@@ -88,7 +64,7 @@ const RecipientForm = () => {
         error={recipientEmail.error}
         label="Recipient email" // add translation
         name="recipientEmail"
-        onBlur={validateRecipientEmail}
+        onBlur={onBlur}
         onChange={onChange}
         type="email"
         value={recipientEmail.value}
@@ -97,16 +73,17 @@ const RecipientForm = () => {
         error={confirmRecipientEmail.error}
         label="Confirm recipient email" // add translation
         name="confirmRecipientEmail"
-        onBlur={validateConfirmRecipientEmail}
+        onBlur={onBlur}
         onChange={onChange}
         type="email"
         value={confirmRecipientEmail.value}
       />
       <MyAccountInput
+        error={deliveryDate.error}
         label="Delivery date" // add translation
         min={new Date().toISOString().split('T')[0]}
         name="deliveryDate"
-        onBlur={validateDeliveryDate}
+        onBlur={onBlur}
         onChange={onChange}
         type="date"
         value={deliveryDate.value}

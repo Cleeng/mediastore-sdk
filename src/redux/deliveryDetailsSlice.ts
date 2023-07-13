@@ -22,22 +22,34 @@ export const deliveryDetailsSlice = createSlice({
     },
     setFieldValue(
       state,
-      action: PayloadAction<{ name: string; value: string; error?: string }>
+      action: PayloadAction<{ name: string; value: string }>
     ) {
       const {
-        payload: { name, value, error }
+        payload: { name, value }
       } = action;
 
       state[name as DeliveryDetailsField].value = value;
+    },
+    setFieldError(
+      state,
+      action: PayloadAction<{ name: string; error: string }>
+    ) {
+      const {
+        payload: { name, error }
+      } = action;
 
-      if (error) {
-        state[name as DeliveryDetailsField].error = error;
-      }
+      console.log(`action ${action}`);
+
+      state[name as DeliveryDetailsField].error = error;
     }
   }
 });
 
-export const { setIsGift, setFieldValue } = deliveryDetailsSlice.actions;
+export const {
+  setIsGift,
+  setFieldValue,
+  setFieldError
+} = deliveryDetailsSlice.actions;
 
 export const selectDeliveryDetails = (state: RootState) =>
   state.deliveryDetails;
