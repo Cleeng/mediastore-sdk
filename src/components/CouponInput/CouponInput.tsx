@@ -4,6 +4,7 @@ import Loader from 'components/Loader';
 import Button from 'components/Button';
 import { ReactComponent as CloseIcon } from 'assets/images/xmark.svg';
 import { useTranslation } from 'react-i18next';
+import { MSSDK_COUPON_FAILED } from 'util/eventDispatcher';
 import {
   InputComponentStyled,
   MessageStyled,
@@ -40,9 +41,9 @@ const CouponInput = ({
 
   const { t } = useTranslation();
   const {
-    showMessage,
-    message,
-    messageType,
+    showMessage = false,
+    message = '',
+    messageType = '',
     translationKey = ''
   } = couponDetails;
 
@@ -104,6 +105,15 @@ const CouponInput = ({
       if (onClose) onClose();
     }
   };
+
+  const handleAutoCouponError = () => setIsOpened(true);
+
+  useEffect(() => {
+    window.addEventListener(MSSDK_COUPON_FAILED, handleAutoCouponError);
+
+    return () =>
+      window.removeEventListener(MSSDK_COUPON_FAILED, handleAutoCouponError);
+  }, []);
 
   useEffect(() => {
     return () => {

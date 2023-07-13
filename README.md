@@ -222,6 +222,7 @@ Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of present
 - `onSuccess` - function called after a successful checkout process.
 - `resetPasswordCallback` - function called after a successful reset password request, when customer clicks 'Go back to the login page'
 - `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in purchase section. Read more information about Adyen configuration [here](#adyen-configuration).
+- `couponCode` - coupon code that should be automatically applied
 
 **Usage**
 
@@ -400,6 +401,7 @@ Config.setPublisher("111111111"); // required
 - `offerId` \* - ID of Cleeng offer, for which Purchase component should be opened. If not provided, it will use the item from local storage with name 'CLEENG_OFFER_ID'
 - `onSuccess` - function called after a successful payment process \* - required
 - `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in purchase section. Read more information about adyen configuration [here](#adyen-configuration).
+- `couponCode` - coupon code that should be automatically applied
 
 **Config methods**
 

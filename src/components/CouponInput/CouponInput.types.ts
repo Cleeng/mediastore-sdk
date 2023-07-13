@@ -30,7 +30,7 @@ export type InputComponentStyledProps = {
 };
 
 export type MessageStyledProps = {
-  messageType: MessageType;
+  messageType: '' | MessageType;
   showMessage: boolean;
 };
 
