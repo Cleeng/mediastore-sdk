@@ -6,11 +6,10 @@ import { Trans, useTranslation } from 'react-i18next';
 import { getData } from 'util/appConfigHelper';
 
 import { ReactComponent as NoSubscriptionsIcon } from 'assets/images/errors/sad_coupon.svg';
-import { dateFormat, currencyFormat, INFINITE_DATE } from 'util/planHelper';
 import { setOfferToSwitch } from 'redux/planDetailsSlice';
 
 import MyAccountError from 'components/MyAccountError';
-import OfferCard from 'components/OfferCard';
+import OfferMyAccountCard from 'components/OfferMyAccountCard';
 import SubscriptionManagement from 'components/SubscriptionManagement';
 import MessageBox from 'components/MessageBox';
 
@@ -29,7 +28,7 @@ import {
 export const SkeletonCard = () => {
   return (
     <SubscriptionStyled>
-      <OfferCard isDataLoaded={false} />
+      <OfferMyAccountCard isDataLoaded={false} />
     </SubscriptionStyled>
   );
 };
@@ -79,15 +78,11 @@ const EmptyPlanView = () => {
   );
 };
 
-const supportedPaymentGateways = ['paypal', 'card', 'adyen'];
-
 const CurrentPlan = () => {
   const [isMessageBoxOpened, setIsMessageBoxOpened] = useState(false);
   const [messageBoxType, setMessageBoxType] = useState(null);
   const [messageBoxText, setMessageBoxText] = useState('');
   const [messageSubscriptionId, setMessageSubscriptionId] = useState(null);
-  const { t } = useTranslation();
-  const { pauseOffersIDs } = useSelector(store => store.offers);
   const {
     data: subscriptions,
     loading: isLoading,
@@ -95,15 +90,6 @@ const CurrentPlan = () => {
   } = useSelector(state => state.plan.currentPlan);
   const { offerToSwitch } = useSelector(state => state.plan);
   const dispatch = useDispatch();
-
-  const getInfoBoxType = subscription => {
-    if (subscription.offerType !== 'S') return '';
-    if (subscription.status === 'active' && subscription.pendingSwitchId)
-      return 'SWITCH';
-    if (supportedPaymentGateways.includes(subscription.paymentGateway))
-      return '';
-    return 'INAPP_SUBSCRIPTION';
-  };
 
   const showMessageBox = (type, text, subscriptionId) => {
     setIsMessageBoxOpened(true);
@@ -122,56 +108,6 @@ const CurrentPlan = () => {
     <WrapStyled>
       <>
         {subscriptions.map(subItem => {
-          const isPaused = pauseOffersIDs.includes(subItem.offerId);
-          let description;
-          let price;
-          let currency;
-          let renewalDate;
-
-          switch (subItem.offerType) {
-            case 'S':
-              price = subItem.nextPaymentPrice;
-              currency = currencyFormat[subItem.nextPaymentCurrency];
-              renewalDate = dateFormat(subItem.expiresAt);
-              if (subItem.expiresAt === INFINITE_DATE)
-                renewalDate = t(
-                  'currentplan.next-season-start',
-                  'the next season start'
-                );
-              if (subItem.status === 'active' && !subItem.pendingSwitchId) {
-                description = `${t(
-                  'currentplan.subscription.renews-info',
-                  'Renews automatically on {{renewalDate}}',
-                  {
-                    renewalDate
-                  }
-                )}`;
-              } else if (subItem.status === 'cancelled') {
-                description = `${t(
-                  'currentplan.subscription.expire-info',
-                  'This plan will expire on {{renewalDate}}',
-                  {
-                    renewalDate
-                  }
-                )}`;
-              } else {
-                description = '';
-              }
-
-              break;
-            case 'P':
-              price = subItem.totalPrice;
-              currency = currencyFormat[subItem.customerCurrency];
-              description = `${t(
-                'currentplan.pass.expires-on',
-                'Expires on'
-              )} ${dateFormat(subItem.expiresAt)}`;
-
-              break;
-            default:
-              break;
-          }
-
           return (
             <SubscriptionStyled
               as="article"
@@ -194,22 +130,7 @@ const CurrentPlan = () => {
                 offerToSwitch.offerId === subItem.offerId
               }
             >
-              <OfferCard
-                period={subItem.period}
-                offerType={subItem.offerType}
-                title={subItem.offerTitle}
-                description={description}
-                currency={currency}
-                price={price}
-                isMyAccount
-                showInfoBox={getInfoBoxType(subItem)}
-                paymentMethod={subItem.paymentMethod}
-                pendingSwitchId={subItem.pendingSwitchId}
-                expiresAt={subItem.expiresAt}
-                offerId={subItem.offerId}
-                isPriceBoxHidden={isPaused}
-                isPaused={isPaused}
-              />
+              <OfferMyAccountCard isMyAccount offerId={subItem.offerId} />
               {isMessageBoxOpened &&
                 messageSubscriptionId === subItem.subscriptionId && (
                   <StatusMessageWrapStyled>
@@ -219,13 +140,12 @@ const CurrentPlan = () => {
                     />
                   </StatusMessageWrapStyled>
                 )}
-              {subItem.offerType === 'S' &&
-                supportedPaymentGateways.includes(subItem.paymentGateway) && (
-                  <SubscriptionManagement
-                    subscription={subItem}
-                    showMessageBox={showMessageBox}
-                  />
-                )}
+              {subItem.offerType === 'S' && !subItem.isExternallyManaged && (
+                <SubscriptionManagement
+                  subscription={subItem}
+                  showMessageBox={showMessageBox}
+                />
+              )}
             </SubscriptionStyled>
           );
         })}

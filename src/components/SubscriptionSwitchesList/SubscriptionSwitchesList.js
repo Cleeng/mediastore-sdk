@@ -4,14 +4,15 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
 import { SimpleButtonStyled } from 'components/SubscriptionManagement/SubscriptionManagementStyled';
-import OfferCard from 'components/OfferCard';
+import OfferSwitchCard from 'components/OfferSwitchCard';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
 import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
-import { periodMapper, currencyFormat } from 'util/planHelper';
-import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
 import { showPopup } from 'redux/popupSlice';
+import eventDispatcher, {
+  MSSDK_SWITCH_BUTTON_CLICKED
+} from 'util/eventDispatcher';
 import { ButtonWrapperStyled } from './SubscriptionSwitchesListStyled';
 import mapErrorToText from './helper';
 
@@ -122,11 +123,6 @@ const SubscriptionSwitchesList = () => {
     <>
       {areAvailable &&
         availableFiltered.map(subItem => {
-          const price =
-            isPriceTemporaryModified(subItem.toOfferId) &&
-            subItem.algorithm !== 'DEFERRED'
-              ? subItem.price
-              : subItem.nextPaymentPrice;
           return (
             <SubscriptionStyled
               as="article"
@@ -135,27 +131,19 @@ const SubscriptionSwitchesList = () => {
                 item => item === subItem.toOfferId
               )}
             >
-              <OfferCard
-                period={periodMapper[subItem.period].chargedForEveryText}
-                offerType="S"
-                title={subItem.title}
-                currency={currencyFormat[subItem.nextPaymentPriceCurrency]}
-                price={Math.round(price * 100) / 100}
-                offerId={subItem.toOfferId}
+              <OfferSwitchCard
+                baseOfferId={fromOfferId}
+                toOfferId={subItem.toOfferId}
               />
               <ButtonWrapperStyled>
                 <SimpleButtonStyled
                   onClickFn={() => {
-                    window.dispatchEvent(
-                      new CustomEvent('MSSDK:switch-button-clicked', {
-                        detail: {
-                          fromOfferId,
-                          toOfferId: subItem.toOfferId,
-                          switchDirection: subItem.switchDirection,
-                          algorithm: subItem.algorithm
-                        }
-                      })
-                    );
+                    eventDispatcher(MSSDK_SWITCH_BUTTON_CLICKED, {
+                      fromOfferId,
+                      toOfferId: subItem.toOfferId,
+                      switchDirection: subItem.switchDirection,
+                      algorithm: subItem.algorithm
+                    });
                     dispatch(
                       showPopup({
                         type: POPUP_TYPES.switchPlan,
@@ -179,21 +167,11 @@ const SubscriptionSwitchesList = () => {
         })}
       {areUnAvailable &&
         unavailableFiltered.map(subItem => {
-          const price =
-            isPriceTemporaryModified(subItem.toOfferId) &&
-            subItem.algorithm !== 'DEFERRED'
-              ? subItem.price
-              : subItem.nextPaymentPrice;
           return (
             <SubscriptionStyled key={subItem.toOfferId}>
-              <OfferCard
-                period={periodMapper[subItem.period].chargedForEveryText}
-                offerType="S"
-                title={subItem.title}
-                currency={currencyFormat[subItem.nextPaymentPriceCurrency]}
-                price={Math.round(price * 100) / 100}
-                showInfoBox={subItem.reason.code}
-                offerId={subItem.toOfferId}
+              <OfferSwitchCard
+                baseOfferId={fromOfferId}
+                toOfferId={subItem.toOfferId}
               />
               <ButtonWrapperStyled>
                 <SimpleButtonStyled disabled>

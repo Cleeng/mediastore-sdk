@@ -34,3 +34,6 @@ export const MSSDK_CANCEL_SWITCH_ACTION_FAILED =
   'MSSDK:cancel-switch-action-failed';
 export const MSSDK_CANCEL_SWITCH_ACTION_CANCELLED =
   'MSSDK:cancel-switch-action-cancelled';
+export const MSSDK_CANCEL_SWITCH_BUTTON_CLICKED =
+  'MSSDK:cancel-switch-button-clicked';
+export const MSSDK_SWITCH_BUTTON_CLICKED = 'MSSDK:switch-button-clicked';
