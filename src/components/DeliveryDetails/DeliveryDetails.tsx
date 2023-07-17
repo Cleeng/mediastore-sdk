@@ -1,6 +1,11 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { selectDeliveryDetails, setIsGift } from 'redux/deliveryDetailsSlice';
+import {
+  resetDeliveryDetailsState,
+  selectDeliveryDetails,
+  setIsGift
+} from 'redux/deliveryDetailsSlice';
 import { ReactComponent as GiftIcon } from 'assets/images/gift.svg';
 import { ReactComponent as CardIcon } from 'assets/images/paymentMethods/card2.svg';
 import SectionHeader from 'components/SectionHeader';
@@ -16,6 +21,12 @@ const DeliveryDetails = () => {
   const dispatch = useAppDispatch();
 
   const { isGift } = useAppSelector(selectDeliveryDetails);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetDeliveryDetailsState());
+    };
+  }, []);
 
   return (
     <DeliveryDetailsStyled>

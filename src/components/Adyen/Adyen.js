@@ -1,11 +1,13 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { render } from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import { selectDeliveryDetails } from 'redux/deliveryDetailsSlice';
-import { useAppSelector } from 'redux/store';
+import { fetchUpdateOrder } from 'redux/orderSlice';
 import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
+import Auth from 'services/auth';
 import useScript from 'util/useScriptHook';
 import {
   getAvailablePaymentMethods,
@@ -36,9 +38,13 @@ const Adyen = ({
   getDropIn,
   onAdditionalDetails
 }) => {
-  const { discount, totalPrice, offerId } = useSelector(
-    state => state.order.order
-  );
+  const {
+    id: orderId,
+    discount,
+    totalPrice,
+    offerId,
+    buyAsAGift
+  } = useSelector(state => state.order.order);
   const {
     adyenConfiguration,
     paymentMethods: publisherPaymentMethods,
@@ -47,12 +53,12 @@ const Adyen = ({
   const [isLoading, setIsLoading] = useState(true);
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
 
-  const { isGift } = useAppSelector(selectDeliveryDetails);
-  const isGiftRef = useRef(false);
+  const deliveryDetails = useAppSelector(selectDeliveryDetails);
+  const deliveryDetailsRef = useRef(false);
 
   useEffect(() => {
-    isGift.current = isGift;
-  }, [isGift]);
+    deliveryDetailsRef.current = deliveryDetails;
+  }, [deliveryDetails]);
 
   const standardPaymentMethodsRef = useRef(null);
   const bankPaymentMethodsRef = useRef(null);
@@ -80,6 +86,8 @@ const Adyen = ({
   useScript('https://pay.google.com/gp/p/js/pay.js');
 
   const { t, i18n } = useTranslation();
+
+  const dispatch = useAppDispatch();
 
   const getBankCopy = () => {
     const isFree = totalPrice === 0;
@@ -237,30 +245,71 @@ const Adyen = ({
           }
         } = state;
 
-        if (isGiftRef.current) {
+        const { isGift } = deliveryDetailsRef.current;
+
+        if (isGift) {
           const areDeliveryDetailsValid = validateDeliveryDetailsForm();
 
-          console.log(`isDeliveryDetailsValid2: ${areDeliveryDetailsValid}`);
+          if (areDeliveryDetailsValid) {
+            const {
+              recipientEmail,
+              deliveryDate,
+              message
+            } = deliveryDetailsRef.current;
+
+            dispatch(
+              fetchUpdateOrder({
+                id: orderId,
+                payload: {
+                  buyAsAGift: true,
+                  deliveryDetails: {
+                    recipientEmail: recipientEmail.value,
+                    personalNote: message.value,
+                    deliveryDate: new Date(deliveryDate.value).valueOf()
+                  }
+                }
+              })
+            )
+              .unwrap()
+              .catch(err => {
+                throw new Error(err);
+              });
+          }
         }
 
-        // if (bankPaymentMethods.includes(methodName)) {
-        //   const checkbox = document.querySelector(`.checkbox-${methodName}`);
+        if (buyAsAGift && !isGift) {
+          dispatch(
+            fetchUpdateOrder({
+              id,
+              payload: {
+                buyAsAGift: false
+              }
+            })
+          )
+            .unwrap()
+            .catch(err => {
+              throw new Error(err);
+            });
+        }
 
-        //   if (!checkbox.checked) {
-        //     checkbox.classList.add('adyen-checkout__bank-checkbox--error');
-        //     return false;
-        //   }
-        // }
+        if (bankPaymentMethods.includes(methodName)) {
+          const checkbox = document.querySelector(`.checkbox-${methodName}`);
 
-        // // component.setStatus('loading');
+          if (!checkbox.checked) {
+            checkbox.classList.add('adyen-checkout__bank-checkbox--error');
+            return false;
+          }
+        }
 
-        // if (type === BANK_PAYMENT_METHODS) {
-        //   setShouldFadeOutStandardDropIn(true);
-        // } else {
-        //   setShouldFadeOutBankDropIn(true);
-        // }
+        // component.setStatus('loading');
 
-        // return onSubmit(state, component);
+        if (type === BANK_PAYMENT_METHODS) {
+          setShouldFadeOutStandardDropIn(true);
+        } else {
+          setShouldFadeOutBankDropIn(true);
+        }
+
+        return onSubmit(state, component);
       },
       onActionHandled: () => {
         if (type === BANK_PAYMENT_METHODS) {

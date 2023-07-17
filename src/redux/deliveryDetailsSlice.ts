@@ -17,38 +17,38 @@ export const deliveryDetailsSlice = createSlice({
   name: 'deliveryDetails',
   initialState,
   reducers: {
-    setIsGift(state, action: PayloadAction<boolean>) {
+    setIsGift: (state, action: PayloadAction<boolean>) => {
       state.isGift = action.payload;
     },
-    setFieldValue(
+    setFieldValue: (
       state,
       action: PayloadAction<{ name: string; value: string }>
-    ) {
+    ) => {
       const {
         payload: { name, value }
       } = action;
 
       state[name as DeliveryDetailsField].value = value;
     },
-    setFieldError(
+    setFieldError: (
       state,
       action: PayloadAction<{ name: string; error: string }>
-    ) {
+    ) => {
       const {
         payload: { name, error }
       } = action;
 
-      console.log(`action ${action}`);
-
       state[name as DeliveryDetailsField].error = error;
-    }
+    },
+    resetDeliveryDetailsState: () => initialState
   }
 });
 
 export const {
   setIsGift,
   setFieldValue,
-  setFieldError
+  setFieldError,
+  resetDeliveryDetailsState
 } = deliveryDetailsSlice.actions;
 
 export const selectDeliveryDetails = (state: RootState) =>
