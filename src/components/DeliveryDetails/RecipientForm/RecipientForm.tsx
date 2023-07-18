@@ -1,4 +1,3 @@
-// import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import {
   selectDeliveryDetails,
@@ -62,7 +61,7 @@ const RecipientForm = () => {
     <StyledRecipientForm noValidate>
       <MyAccountInput
         error={recipientEmail.error}
-        label="Recipient email" // add translation
+        label={t('recipientForm.label.recipient-email', 'Recipient email')}
         name="recipientEmail"
         onBlur={onBlur}
         onChange={onChange}
@@ -71,7 +70,10 @@ const RecipientForm = () => {
       />
       <MyAccountInput
         error={confirmRecipientEmail.error}
-        label="Confirm recipient email" // add translation
+        label={t(
+          'recipientForm.label.confirm-recipient-email',
+          'Confirm recipient email'
+        )}
         name="confirmRecipientEmail"
         onBlur={onBlur}
         onChange={onChange}
@@ -80,7 +82,7 @@ const RecipientForm = () => {
       />
       <MyAccountInput
         error={deliveryDate.error}
-        label="Delivery date" // add translation
+        label={t('recipientForm.label.delivery-date', 'Delivery date')}
         min={new Date().toISOString().split('T')[0]}
         name="deliveryDate"
         onBlur={onBlur}
@@ -89,7 +91,9 @@ const RecipientForm = () => {
         value={deliveryDate.value}
       />
       <MessageWrapper>
-        <StyledLabel>Add a message</StyledLabel>
+        <StyledLabel>
+          {t('recipientForm.label.message', 'Add a message')}
+        </StyledLabel>
         <StyledMessage
           maxLength={150}
           name="message"
@@ -99,8 +103,10 @@ const RecipientForm = () => {
         />
       </MessageWrapper>
       <InfoText>
-        To edit your gift delivery details, access MyAccount and click on the
-        corresponding transaction.
+        {t(
+          'recipientForm.info-text',
+          'To edit your gift delivery details, access MyAccount and click on the corresponding transaction.'
+        )}
       </InfoText>
     </StyledRecipientForm>
   );
