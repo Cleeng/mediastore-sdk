@@ -301,7 +301,7 @@ const Adyen = ({
           }
         }
 
-        // component.setStatus('loading');
+        component.setStatus('loading');
 
         if (type === BANK_PAYMENT_METHODS) {
           setShouldFadeOutStandardDropIn(true);
