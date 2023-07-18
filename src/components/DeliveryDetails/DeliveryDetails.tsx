@@ -17,15 +17,18 @@ import {
   StyledButton
 } from './DeliveryDetailsStyled';
 
-const DeliveryDetails = () => {
+type DeliveryDetailsProps = {
+  giftable: boolean;
+};
+
+const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   const { isGift } = useAppSelector(selectDeliveryDetails);
 
   const {
-    offer: { accessGranted },
-    offerV2: { giftable }
+    offer: { accessGranted }
   } = useAppSelector(selectOffer);
 
   useEffect(() => {
