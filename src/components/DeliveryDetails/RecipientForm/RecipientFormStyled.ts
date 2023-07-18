@@ -2,8 +2,6 @@ import styled, { css } from 'styled-components';
 import { isRTL } from 'styles/RTLHelper';
 import { FontColor, BackgroundColor, LineColor } from 'styles/variables';
 
-// attrs with classNames needed?
-
 export const StyledRecipientForm = styled.form.attrs(() => ({
   className: 'msd__recipientForm'
 }))`
