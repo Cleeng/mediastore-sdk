@@ -24,16 +24,20 @@ const DeliveryDetails = () => {
   const { isGift } = useAppSelector(selectDeliveryDetails);
 
   const {
+    offer: { accessGranted },
     offerV2: { giftable }
   } = useAppSelector(selectOffer);
 
   useEffect(() => {
+    if (accessGranted) {
+      dispatch(setIsGift(true));
+    }
+
+    // should cleanup be used with non-empty dependency array?
     return () => {
       dispatch(resetDeliveryDetailsState());
     };
-  }, []);
-
-  // useEffect(() => {}, []);
+  }, [accessGranted]);
 
   return (
     <>
@@ -45,6 +49,7 @@ const DeliveryDetails = () => {
           <StyledButton
             isActive={!isGift}
             onClick={() => dispatch(setIsGift(false))}
+            disabled={accessGranted}
           >
             <CardIcon /> {/* unify this Icon with card.svg? */}
             Purchase for myself

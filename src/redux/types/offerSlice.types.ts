@@ -1,6 +1,7 @@
 import { OfferV2 } from 'types/OfferV2.types';
 
 export type Offer = {
+  accessGranted?: boolean;
   accessToTags: string[];
   active: boolean;
   applicableTaxRate: number;
