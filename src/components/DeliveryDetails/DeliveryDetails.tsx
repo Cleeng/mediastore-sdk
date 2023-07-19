@@ -22,8 +22,8 @@ type DeliveryDetailsProps = {
 };
 
 const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
-  const { t } = useTranslation();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const { isGift } = useAppSelector(selectDeliveryDetails);
 
@@ -54,7 +54,7 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
             onClick={() => dispatch(setIsGift(false))}
             disabled={accessGranted}
           >
-            <CardIcon /> {/* unify this Icon with card.svg? */}
+            <CardIcon />
             Purchase for myself
           </StyledButton>
           <StyledButton

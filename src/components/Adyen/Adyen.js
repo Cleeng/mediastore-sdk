@@ -7,7 +7,6 @@ import { fetchUpdateOrder } from 'redux/orderSlice';
 import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
-import Auth from 'services/auth';
 import useScript from 'util/useScriptHook';
 import {
   getAvailablePaymentMethods,
@@ -54,11 +53,13 @@ const Adyen = ({
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
 
   const deliveryDetails = useAppSelector(selectDeliveryDetails);
-  const deliveryDetailsRef = useRef(false);
+  const deliveryDetailsRef = useRef(null);
+  const buyAsAGiftRef = useRef(buyAsAGift || null);
 
   useEffect(() => {
     deliveryDetailsRef.current = deliveryDetails;
-  }, [deliveryDetails]);
+    buyAsAGiftRef.current = buyAsAGift;
+  }, [deliveryDetails, buyAsAGift]);
 
   const standardPaymentMethodsRef = useRef(null);
   const bankPaymentMethodsRef = useRef(null);
@@ -200,6 +201,59 @@ const Adyen = ({
     });
   };
 
+  const handleDeliveryDetails = () => {
+    const { isGift } = deliveryDetailsRef.current;
+
+    if (isGift) {
+      const areDeliveryDetailsValid = validateDeliveryDetailsForm();
+
+      if (!areDeliveryDetailsValid) {
+        return false;
+      }
+
+      const {
+        recipientEmail,
+        deliveryDate,
+        message
+      } = deliveryDetailsRef.current;
+
+      dispatch(
+        fetchUpdateOrder({
+          id: orderId,
+          payload: {
+            buyAsAGift: true,
+            deliveryDetails: {
+              recipientEmail: recipientEmail.value,
+              personalNote: message.value,
+              deliveryDate: new Date(deliveryDate.value).valueOf()
+            }
+          }
+        })
+      )
+        .unwrap()
+        .catch(err => {
+          throw new Error(err);
+        });
+    }
+
+    if (buyAsAGiftRef.current && !isGift) {
+      dispatch(
+        fetchUpdateOrder({
+          id: orderId,
+          payload: {
+            buyAsAGift: false
+          }
+        })
+      )
+        .unwrap()
+        .catch(err => {
+          throw new Error(err);
+        });
+    }
+
+    return true;
+  };
+
   const createDropInInstance = async (
     {
       id,
@@ -247,49 +301,11 @@ const Adyen = ({
 
         const { isGift } = deliveryDetailsRef.current;
 
-        if (isGift) {
-          const areDeliveryDetailsValid = validateDeliveryDetailsForm();
-
-          if (areDeliveryDetailsValid) {
-            const {
-              recipientEmail,
-              deliveryDate,
-              message
-            } = deliveryDetailsRef.current;
-
-            dispatch(
-              fetchUpdateOrder({
-                id: orderId,
-                payload: {
-                  buyAsAGift: true,
-                  deliveryDetails: {
-                    recipientEmail: recipientEmail.value,
-                    personalNote: message.value,
-                    deliveryDate: new Date(deliveryDate.value).valueOf()
-                  }
-                }
-              })
-            )
-              .unwrap()
-              .catch(err => {
-                throw new Error(err);
-              });
+        // what to do with GooglePay? -> onClick
+        if (isGift || buyAsAGiftRef.current) {
+          if (!handleDeliveryDetails()) {
+            return false;
           }
-        }
-
-        if (buyAsAGift && !isGift) {
-          dispatch(
-            fetchUpdateOrder({
-              id,
-              payload: {
-                buyAsAGift: false
-              }
-            })
-          )
-            .unwrap()
-            .catch(err => {
-              throw new Error(err);
-            });
         }
 
         if (bankPaymentMethods.includes(methodName)) {
@@ -337,6 +353,17 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.applePay
         },
         googlepay: {
+          onClick: resolve => {
+            const { isGift } = deliveryDetailsRef.current;
+
+            if (isGift || buyAsAGiftRef.current) {
+              if (!handleDeliveryDetails()) {
+                return;
+              }
+            }
+
+            resolve();
+          },
           environment: getGooglePayEnv(),
           ...(googlePayConfigurationObj && {
             configuration: {

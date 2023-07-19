@@ -21,6 +21,11 @@ export const WrapStyled = styled.div.attrs(() => ({
 
   input[type='date'] {
     text-transform: uppercase;
+
+    &::-webkit-calendar-picker-indicator {
+      font-size: 20px;
+      opacity: 0.7;
+    }
   }
 `;
 

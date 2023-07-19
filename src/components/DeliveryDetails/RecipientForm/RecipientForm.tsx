@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import {
   selectDeliveryDetails,
@@ -26,6 +27,8 @@ const RecipientForm = () => {
   } = useAppSelector(selectDeliveryDetails);
 
   const dispatch = useAppDispatch();
+
+  const { t } = useTranslation();
 
   const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const {
