@@ -9,7 +9,7 @@ import {
   CloseButtonStyledProps
 } from './CouponInput.types';
 
-export const InputComponentStyled = styled.form.attrs(() => ({
+export const FormComponentStyled = styled.form.attrs(() => ({
   className: 'msd__coupon-input__wrapper',
   'data-testid': 'inputcomponent'
 }))<InputComponentStyledProps>`
@@ -55,14 +55,19 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
   border-radius: 30px;
 
   background: white;
-  transition: 0.2s ease-in-out;
+  /* transition: 0.2s ease-in-out; */
 
   /* &:focus-within {
     border-color: ${Colors.FocusColor};
   } */
-  &:focus {
-    outline: 1px solid #fab;
-  }
+
+
+  ${props =>
+    props.isInputFocused &&
+    props.isInputOpened &&
+    css`
+      outline: 3px solid red;
+    `} 
 `;
 
 export const InputElementStyled = styled.input.attrs(() => ({
@@ -135,4 +140,8 @@ export const CloseButtonStyled = styled.button.attrs(() => ({
     css`
       opacity: 1;
     `}
+
+  &:focus {
+    outline: 3px solid red;
+  }
 `;

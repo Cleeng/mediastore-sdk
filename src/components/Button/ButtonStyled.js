@@ -33,7 +33,8 @@ const ButtonStyled = styled.button.attrs(props => ({
   }
 
   &:focus {
-    outline: 1px solid ${colors.FocusColor};
+    /* outline: 1px solid ${colors.FocusColor}; */
+    outline: 3px solid #ED2B2A;
   }
 
   &:disabled {
