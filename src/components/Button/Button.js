@@ -19,6 +19,7 @@ export const BUTTON_THEME = {
   DANGER: 'danger'
 };
 
+// remove forwardRef as it's no longer neccessary
 const Button = forwardRef(
   (
     {

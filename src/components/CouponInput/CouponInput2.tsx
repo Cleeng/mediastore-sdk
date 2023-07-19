@@ -11,7 +11,7 @@ import {
   InputElementWrapperStyled,
   InputElementStyled,
   CloseButtonStyled
-} from './CouponInputStyled';
+} from './CouponInputStyled2';
 
 import { CouponInputProps } from './CouponInput.types';
 
@@ -34,23 +34,29 @@ const CouponInput = ({
   source = ''
 }: CouponInputProps) => {
   const { t } = useTranslation();
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <FormComponentStyled isOpened fullWidth>
-      <InputElementWrapperStyled isInputOpened="true">
-        <CloseButtonStyled
+    <FormComponentStyled>
+      <InputElementWrapperStyled>
+        {isOpen && (
+          <>
+            <CloseButtonStyled type="button" aria-label="close">
+              <CloseIcon />
+            </CloseButtonStyled>
+            <InputElementStyled
+              type="text"
+              placeholder={
+                t('coupon-input.placeholder', 'Your coupon') as string
+              }
+            />
+          </>
+        )}
+        <Button
           type="button"
-          aria-label="close"
-          isInputOpened="true"
+          width="auto"
+          testid="redeem-btn"
+          onClickFn={() => setIsOpen(true)}
         >
-          {CloseIcon && <CloseIcon />}
-        </CloseButtonStyled>
-        <InputElementStyled
-          type="text"
-          placeholder={t('coupon-input.placeholder', 'Your coupon') as string}
-          isOpened
-          fullWidth
-        />
-        <Button type="button" width="auto" testid="redeem-btn">
           Redeem coupon
         </Button>
       </InputElementWrapperStyled>
