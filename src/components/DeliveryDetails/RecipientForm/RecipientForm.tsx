@@ -38,6 +38,10 @@ const RecipientForm = () => {
     switch (name) {
       case 'recipientEmail':
         validateRecipientEmail(value);
+
+        if (confirmRecipientEmail.value) {
+          validateConfirmRecipientEmail(confirmRecipientEmail.value);
+        }
         break;
       case 'confirmRecipientEmail':
         validateConfirmRecipientEmail(value);

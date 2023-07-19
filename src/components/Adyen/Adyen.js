@@ -234,6 +234,8 @@ const Adyen = ({
         .catch(err => {
           throw new Error(err);
         });
+
+      return true;
     }
 
     if (buyAsAGiftRef.current && !isGift) {
@@ -249,6 +251,8 @@ const Adyen = ({
         .catch(err => {
           throw new Error(err);
         });
+
+      return true;
     }
 
     return true;
@@ -299,13 +303,8 @@ const Adyen = ({
           }
         } = state;
 
-        const { isGift } = deliveryDetailsRef.current;
-
-        // what to do with GooglePay? -> onClick
-        if (isGift || buyAsAGiftRef.current) {
-          if (!handleDeliveryDetails()) {
-            return false;
-          }
+        if (!handleDeliveryDetails()) {
+          return false;
         }
 
         if (bankPaymentMethods.includes(methodName)) {
@@ -343,6 +342,13 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.card
         },
         applepay: {
+          onClick: resolve => {
+            if (!handleDeliveryDetails()) {
+              return;
+            }
+
+            resolve();
+          },
           ...amountObj,
           ...(applePayConfigurationObj && {
             configuration: {
@@ -354,12 +360,8 @@ const Adyen = ({
         },
         googlepay: {
           onClick: resolve => {
-            const { isGift } = deliveryDetailsRef.current;
-
-            if (isGift || buyAsAGiftRef.current) {
-              if (!handleDeliveryDetails()) {
-                return;
-              }
+            if (!handleDeliveryDetails()) {
+              return;
             }
 
             resolve();

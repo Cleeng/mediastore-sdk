@@ -65,13 +65,13 @@ export const StyledLabel = styled.label`
 
 export const StyledMessage = styled.textarea`
   width: 100%;
-  padding: 5px 8px;
+  padding: 10px 8px;
   min-height: 92px;
   border: 1px solid ${LineColor};
   border-radius: 4px;
   font-family: inherit;
   font-size: 16px;
-  line-height: 16px;
+  line-height: 20px;
   resize: none;
 
   ${isRTL() &&
