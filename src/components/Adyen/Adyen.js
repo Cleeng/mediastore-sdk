@@ -201,7 +201,7 @@ const Adyen = ({
     });
   };
 
-  const handleDeliveryDetails = () => {
+  const handleDeliveryDetails = async () => {
     const { isGift } = deliveryDetailsRef.current;
 
     if (isGift) {
@@ -217,7 +217,7 @@ const Adyen = ({
         message
       } = deliveryDetailsRef.current;
 
-      dispatch(
+      await dispatch(
         fetchUpdateOrder({
           id: orderId,
           payload: {
@@ -239,7 +239,7 @@ const Adyen = ({
     }
 
     if (buyAsAGiftRef.current && !isGift) {
-      dispatch(
+      await dispatch(
         fetchUpdateOrder({
           id: orderId,
           payload: {
@@ -296,27 +296,31 @@ const Adyen = ({
         sessionData
       },
       clientKey: getAdyenClientKey(),
-      onSubmit: (state, component) => {
+      onSubmit: async (state, component) => {
         const {
           data: {
             paymentMethod: { type: methodName }
           }
         } = state;
 
-        if (!handleDeliveryDetails()) {
-          return false;
-        }
-
         if (bankPaymentMethods.includes(methodName)) {
           const checkbox = document.querySelector(`.checkbox-${methodName}`);
 
           if (!checkbox.checked) {
             checkbox.classList.add('adyen-checkout__bank-checkbox--error');
+
             return false;
           }
         }
 
         component.setStatus('loading');
+
+        const areDeliveryDetailsValid = await handleDeliveryDetails();
+
+        if (!areDeliveryDetailsValid) {
+          component.setStatus('ready');
+          return false;
+        }
 
         if (type === BANK_PAYMENT_METHODS) {
           setShouldFadeOutStandardDropIn(true);
@@ -342,8 +346,10 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.card
         },
         applepay: {
-          onClick: resolve => {
-            if (!handleDeliveryDetails()) {
+          onClick: async resolve => {
+            const areDeliveryDetailsValid = await handleDeliveryDetails();
+
+            if (!areDeliveryDetailsValid) {
               return;
             }
 
@@ -359,8 +365,10 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.applePay
         },
         googlepay: {
-          onClick: resolve => {
-            if (!handleDeliveryDetails()) {
+          onClick: async resolve => {
+            const areDeliveryDetailsValid = await handleDeliveryDetails();
+
+            if (!areDeliveryDetailsValid) {
               return;
             }
 
