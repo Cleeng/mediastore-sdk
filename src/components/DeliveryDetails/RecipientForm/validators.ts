@@ -3,17 +3,19 @@ import { setFieldError } from 'redux/deliveryDetailsSlice';
 import { validateEmailField } from 'util/validators';
 
 export const validateRecipientEmail = (value: string) => {
-  if (validateEmailField(value)) {
-    store.dispatch(
-      setFieldError({
-        name: 'recipientEmail',
-        error: validateEmailField(value),
-        translationKey: !value
-          ? 'recipientForm.error.missing-value'
-          : 'recipientForm.error.bad-email-format'
-      })
-    );
-  }
+  const error = validateEmailField(value);
+
+  const translationKey = !value
+    ? 'recipientForm.error.missing-value'
+    : 'recipientForm.error.bad-email-format';
+
+  store.dispatch(
+    setFieldError({
+      name: 'recipientEmail',
+      error,
+      translationKey: error ? translationKey : ''
+    })
+  );
 };
 
 export const validateDeliveryDate = (value: string) => {
