@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-import { FontColor } from 'styles/variables';
 import * as colors from 'styles/variables';
-
-// attrs with classNames needed?
 
 export const DeliveryDetailsStyled = styled.section.attrs(() => ({
   className: 'msd__deliveryDetails'
@@ -14,7 +11,7 @@ export const DeliveryDetailsStyled = styled.section.attrs(() => ({
 export const ButtonsContainer = styled.div`
   display: flex;
   justify-content: center;
-  gap: 24px; // different than design (21px)
+  gap: 24px;
 `;
 
 export const StyledButton = styled.button<{ isActive: boolean }>`
@@ -23,17 +20,14 @@ export const StyledButton = styled.button<{ isActive: boolean }>`
   justify-content: center;
   align-items: center;
   gap: 8px;
-  width: 176px; // different than design (177px)
-  height: 96px; // different than design (95px)
-  border-radius: 12px; // ?
-  border: 1px solid; // ?
-  border-color: ${({ isActive }) =>
-    isActive
-      ? '#4EB7A1'
-      : colors.LineColor}; // inactive should be same as font and icon?
+  width: 176px;
+  height: 96px;
+  border-radius: 12px;
+  border: 1px solid;
+  border-color: ${({ isActive }) => (isActive ? '#4EB7A1' : colors.LineColor)};
   color: ${({ isActive }) => (isActive ? '#4EB7A1' : '#CCD5E2')};
-  background-color: white; // sure?
-  font-size: 12px; // ?
+  background-color: white;
+  font-size: 12px;
   font-weight: 400;
 
   &:hover {

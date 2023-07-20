@@ -67,7 +67,7 @@ const RecipientForm = () => {
   return (
     <StyledRecipientForm noValidate>
       <MyAccountInput
-        error={recipientEmail.error}
+        error={t(recipientEmail.translationKey, recipientEmail.error)}
         label={t('recipientForm.label.recipient-email', 'Recipient email')}
         name="recipientEmail"
         onBlur={onBlur}
@@ -76,7 +76,10 @@ const RecipientForm = () => {
         value={recipientEmail.value}
       />
       <MyAccountInput
-        error={confirmRecipientEmail.error}
+        error={t(
+          confirmRecipientEmail.translationKey,
+          confirmRecipientEmail.error
+        )}
         label={t(
           'recipientForm.label.confirm-recipient-email',
           'Confirm recipient email'
@@ -88,7 +91,7 @@ const RecipientForm = () => {
         value={confirmRecipientEmail.value}
       />
       <MyAccountInput
-        error={deliveryDate.error}
+        error={t(deliveryDate.translationKey, deliveryDate.error)}
         label={t('recipientForm.label.delivery-date', 'Delivery date')}
         min={new Date().toISOString().split('T')[0]}
         name="deliveryDate"

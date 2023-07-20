@@ -3,19 +3,25 @@ import { setFieldError } from 'redux/deliveryDetailsSlice';
 import { validateEmailField } from 'util/validators';
 
 export const validateRecipientEmail = (value: string) => {
-  store.dispatch(
-    setFieldError({
-      name: 'recipientEmail',
-      error: validateEmailField(value)
-    })
-  );
+  if (validateEmailField(value)) {
+    store.dispatch(
+      setFieldError({
+        name: 'recipientEmail',
+        error: validateEmailField(value),
+        translationKey: !value
+          ? 'recipientForm.error.missing-value'
+          : 'recipientForm.error.bad-email-format'
+      })
+    );
+  }
 };
 
 export const validateDeliveryDate = (value: string) => {
   store.dispatch(
     setFieldError({
       name: 'deliveryDate',
-      error: !value ? 'Missing delivery date' : ''
+      error: !value ? 'Missing delivery date' : '',
+      translationKey: !value ? 'recipientForm.error.delivery-date' : ''
     })
   );
 };
@@ -25,7 +31,10 @@ export const validateConfirmRecipientEmail = (value: string) => {
     store.dispatch(
       setFieldError({
         name: 'confirmRecipientEmail',
-        error: validateEmailField(value)
+        error: validateEmailField(value),
+        translationKey: !value
+          ? 'recipientForm.error.missing-value'
+          : 'recipientForm.error.bad-email-format'
       })
     );
 
@@ -41,7 +50,10 @@ export const validateConfirmRecipientEmail = (value: string) => {
   store.dispatch(
     setFieldError({
       name: 'confirmRecipientEmail',
-      error: doEmailsMatch ? '' : 'Email address doesn’t match'
+      error: doEmailsMatch ? '' : 'Email address doesn’t match',
+      translationKey: doEmailsMatch
+        ? ''
+        : 'recipientForm.error.confirm-recipient-email.doesnt-match'
     })
   );
 };

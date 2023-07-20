@@ -7,10 +7,10 @@ import { RootState } from './rootReducer';
 
 export const initialState: DeliveryDetailsInitialState = {
   isGift: false,
-  recipientEmail: { value: '', error: '' },
-  confirmRecipientEmail: { value: '', error: '' },
-  deliveryDate: { value: '', error: '' },
-  message: { value: '', error: '' }
+  recipientEmail: { value: '', error: '', translationKey: '' },
+  confirmRecipientEmail: { value: '', error: '', translationKey: '' },
+  deliveryDate: { value: '', error: '', translationKey: '' },
+  message: { value: '' }
 };
 
 export const deliveryDetailsSlice = createSlice({
@@ -32,13 +32,18 @@ export const deliveryDetailsSlice = createSlice({
     },
     setFieldError: (
       state,
-      action: PayloadAction<{ name: string; error: string }>
+      action: PayloadAction<{
+        name: string;
+        error: string;
+        translationKey: string;
+      }>
     ) => {
       const {
-        payload: { name, error }
+        payload: { name, error, translationKey }
       } = action;
 
       state[name as DeliveryDetailsField].error = error;
+      state[name as DeliveryDetailsField].translationKey = translationKey;
     },
     resetDeliveryDetailsState: () => initialState
   }
