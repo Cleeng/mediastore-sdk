@@ -1,4 +1,3 @@
-import MyAccountInput from 'components/MyAccountInput';
 import styled, { css } from 'styled-components';
 import { isRTL } from 'styles/RTLHelper';
 import { FontColor, BackgroundColor, LineColor } from 'styles/variables';
