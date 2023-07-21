@@ -3,28 +3,32 @@ import * as Colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 import {
-  InputComponentStyledProps,
+  FormComponentStyledProps,
   MessageStyledProps,
   InputElementStyledProps,
   CloseButtonStyledProps
-} from './CouponInput.types';
+} from './CouponInput2.types';
 
 export const FormComponentStyled = styled.form.attrs(() => ({
   className: 'msd__coupon-input__wrapper',
   'data-testid': 'inputcomponent'
-}))<InputComponentStyledProps>`
+}))<FormComponentStyledProps>`
   display: flex;
   flex-direction: column;
 
   max-width: 300px;
 
   ${props =>
+    props.isOpen &&
     props.fullWidth &&
-    props.isOpened &&
     css`
       max-width: 100%;
       width: 100%;
+      background-color: red;
     `};
+
+  /* width: 100%; */
+  /* max-width: 100%; */
 `;
 
 export const MessageStyled = styled.div.attrs(() => ({
@@ -62,12 +66,12 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
   } */
 
 
-  ${props =>
+  /* ${props =>
     props.isInputFocused &&
     props.isInputOpened &&
     css`
       outline: 3px solid red;
-    `} 
+    `}  */
 `;
 
 export const InputElementStyled = styled.input.attrs(() => ({
@@ -76,7 +80,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
 }))<InputElementStyledProps>`
   flex-grow: 1;
   position: relative;
-  width: 0px;
+  /* width: 0px; */
 
   padding: 0;
 
@@ -85,24 +89,14 @@ export const InputElementStyled = styled.input.attrs(() => ({
 
   font-size: 15px;
   line-height: 1.3;
-  ${props =>
-    props.isOpened &&
-    css`
-      width: 198px;
-      max-width: 198px;
-      inset-inline-start: 37px;
-      padding-right: 25px;
-      ${media.small`
-        width: 100%;
-        max-width: 100%;
-      `}
 
-      ${props.fullWidth &&
-        css`
-          width: 100%;
-          max-width: 100%;
-        `}
-    `}
+  width: 198px;
+  max-width: 198px;
+  inset-inline-start: 37px;
+  padding-right: 25px;
+
+  width: 100%;
+  max-width: 100%;
 
   ${props =>
     props.readOnly &&
@@ -121,7 +115,7 @@ export const CloseButtonStyled = styled.button.attrs(() => ({
   inset-inline-start: 7px;
   transform: translate(0, -50%);
   background-color: ${Colors.PrimaryColor};
-  opacity: 0;
+  /* opacity: 0; */
   padding: 0;
   border: 0;
   border-radius: 50%;
@@ -134,12 +128,6 @@ export const CloseButtonStyled = styled.button.attrs(() => ({
     transform: scale(0.3);
     fill: ${Colors.White};
   }
-
-  ${props =>
-    props.isInputOpened &&
-    css`
-      opacity: 1;
-    `}
 
   &:focus {
     outline: 3px solid red;

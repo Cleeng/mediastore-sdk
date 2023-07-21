@@ -35,8 +35,9 @@ const CouponInput = ({
 }: CouponInputProps) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
+  console.log('isOpen', isOpen);
   return (
-    <FormComponentStyled>
+    <FormComponentStyled isOpen={isOpen} fullWidth={fullWidth}>
       <InputElementWrapperStyled>
         {isOpen && (
           <>
@@ -55,7 +56,11 @@ const CouponInput = ({
           type="button"
           width="auto"
           testid="redeem-btn"
-          onClickFn={() => setIsOpen(true)}
+          onClickFn={() => {
+            setIsOpen(val => !val);
+            // console.log(onInputToggle);
+            if (onInputToggle) onInputToggle();
+          }}
         >
           Redeem coupon
         </Button>
