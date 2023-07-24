@@ -16,6 +16,8 @@ export const validateRecipientEmail = (value: string) => {
       translationKey: error ? translationKey : ''
     })
   );
+
+  return !error;
 };
 
 const isDateInPast = (date: Date) => {
@@ -48,6 +50,8 @@ export const validateDeliveryDate = (value: string) => {
       translationKey: !value ? 'recipientForm.error.delivery-date' : ''
     })
   );
+
+  return !error;
 };
 
 export const validateConfirmRecipientEmail = (value: string) => {
@@ -62,7 +66,7 @@ export const validateConfirmRecipientEmail = (value: string) => {
       })
     );
 
-    return;
+    return false;
   }
 
   const {
@@ -80,6 +84,8 @@ export const validateConfirmRecipientEmail = (value: string) => {
         : 'recipientForm.error.confirm-recipient-email.doesnt-match'
     })
   );
+
+  return doEmailsMatch;
 };
 
 export const validateDeliveryDetailsForm = () => {
@@ -87,16 +93,16 @@ export const validateDeliveryDetailsForm = () => {
     deliveryDetails: { recipientEmail, confirmRecipientEmail, deliveryDate }
   } = store.getState();
 
-  validateRecipientEmail(recipientEmail.value);
-  validateConfirmRecipientEmail(confirmRecipientEmail.value);
-  validateDeliveryDate(deliveryDate.value);
-
-  const areDeliveryDetailsValid = !!(
-    !validateEmailField(recipientEmail.value) &&
-    !validateEmailField(confirmRecipientEmail.value) &&
-    recipientEmail.value === confirmRecipientEmail.value &&
-    deliveryDate.value
+  const isRecipientEmailValid = validateRecipientEmail(recipientEmail.value);
+  const isConfirmRecipientEmailValid = validateConfirmRecipientEmail(
+    confirmRecipientEmail.value
   );
+  const isDeliveryDateValid = validateDeliveryDate(deliveryDate.value);
+
+  const areDeliveryDetailsValid =
+    isRecipientEmailValid &&
+    isConfirmRecipientEmailValid &&
+    isDeliveryDateValid;
 
   return areDeliveryDetailsValid;
 };
