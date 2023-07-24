@@ -36,7 +36,7 @@ const CouponInput = ({
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
 
-  const onRedeem = async () => {
+  const handleRedeem = async () => {
     if (!isOpen) {
       window.dispatchEvent(
         new CustomEvent('MSSDK:redeem-coupon-button-clicked', {
@@ -46,11 +46,20 @@ const CouponInput = ({
       if (onInputToggle) onInputToggle();
       setIsOpen(true);
     } else {
-      alert('coupon submitted');
+      window.dispatchEvent(
+        new CustomEvent('MSSDK:redeem-button-clicked', {
+          detail: {
+            coupon: value,
+            source
+          }
+        })
+      );
+      // await onSubmit(value);
+      alert('coupon redeemed!');
     }
   };
 
-  const onClose = () => {
+  const handleClose = () => {
     if (isOpen) {
       setIsOpen(false);
       if (onInputToggle) onInputToggle();
@@ -62,7 +71,7 @@ const CouponInput = ({
       fullWidth={fullWidth}
       onSubmit={async e => {
         e.preventDefault();
-        await onRedeem();
+        await handleRedeem();
       }}
     >
       <InputElementWrapperStyled>
@@ -71,7 +80,7 @@ const CouponInput = ({
             <CloseButtonStyled
               type="button"
               aria-label="close"
-              onClick={onClose}
+              onClick={handleClose}
             >
               <CloseIcon />
             </CloseButtonStyled>
