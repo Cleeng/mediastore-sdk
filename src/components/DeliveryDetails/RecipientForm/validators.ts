@@ -18,11 +18,33 @@ export const validateRecipientEmail = (value: string) => {
   );
 };
 
+const isDateInPast = (date: Date) => {
+  const now = new Date();
+
+  if (date.setHours(0, 0, 0, 0) < now.setHours(0, 0, 0, 0)) {
+    return true;
+  }
+
+  return false;
+};
+
 export const validateDeliveryDate = (value: string) => {
+  const deliveryDate = new Date(value);
+
+  let error = '';
+
+  if (!value) {
+    error = 'Missing delivery date';
+  }
+
+  if (isDateInPast(deliveryDate)) {
+    error = 'Invalid delivery date';
+  }
+
   store.dispatch(
     setFieldError({
       name: 'deliveryDate',
-      error: !value ? 'Missing delivery date' : '',
+      error,
       translationKey: !value ? 'recipientForm.error.delivery-date' : ''
     })
   );
