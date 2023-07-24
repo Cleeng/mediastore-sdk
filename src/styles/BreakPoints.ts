@@ -5,7 +5,7 @@ type BreakPoints =
   | 'smallest'
   | 'small'
   | 'medium'
-  | 'avarage'
+  | 'average'
   | 'big'
   | 'bigger'
   | 'largest';
@@ -14,7 +14,7 @@ export const breakPoints: { [key in BreakPoints]: number } = {
   smallest: 480,
   small: 768,
   medium: 1024,
-  avarage: 1200,
+  average: 1200,
   big: 1280,
   bigger: 1440,
   largest: 1920
