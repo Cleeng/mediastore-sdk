@@ -156,11 +156,10 @@ const OfferContainer = ({
 
     const init = async () => {
       const resultOfferAction = await dispatch(fetchOffer(offerId));
-      const resultOfferV2Action = await dispatch(
-        fetchOfferV2(offerId.split('_')[0])
-      );
-      console.log(resultOfferV2Action);
+
+      await dispatch(fetchOfferV2(offerId.split('_')[0]));
       const { offerId: id } = unwrapResult(resultOfferAction);
+
       setData('CLEENG_OFFER_ID', id);
       setData('CLEENG_OFFER_TYPE', id.charAt(0));
       const orderId = getData('CLEENG_ORDER_ID');

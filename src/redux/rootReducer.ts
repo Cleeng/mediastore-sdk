@@ -23,6 +23,7 @@ import offersReducer from './offersSlice';
 import paymentDetailsSliceReducer from './paymentDetailsSlice';
 import transactionsReducer from './transactionsSlice';
 import publisherConsentsReducer from './publisherConsentsSlice';
+import deliveryDetailsSliceReducer from './deliveryDetailsSlice';
 
 const rootReducer = combineReducers({
   planDetails: paymentDetailsReducer,
@@ -43,7 +44,8 @@ const rootReducer = combineReducers({
   offers: offersReducer,
   paymentDetails: paymentDetailsSliceReducer,
   transactions: transactionsReducer,
-  publisherConsents: publisherConsentsReducer
+  publisherConsents: publisherConsentsReducer,
+  deliveryDetails: deliveryDetailsSliceReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

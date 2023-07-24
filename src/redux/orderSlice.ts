@@ -46,7 +46,8 @@ const initialState: OrderInitialState = {
     translationKey: ''
   },
   isCouponLoading: false,
-  isUpdateLoading: false
+  isUpdateLoading: false,
+  buyAsAGift: false
 };
 
 export const fetchCreateOrder = createAsyncThunk<

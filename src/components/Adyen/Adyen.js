@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { render } from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import { selectDeliveryDetails } from 'redux/deliveryDetailsSlice';
+import { fetchUpdateOrder } from 'redux/orderSlice';
 import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
@@ -15,6 +18,7 @@ import {
 import { useSelector } from 'react-redux';
 import Checkbox from 'components/Checkbox';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
+import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
 import AdyenStyled from './AdyenStyled';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
 import Loader from '../Loader';
@@ -33,9 +37,13 @@ const Adyen = ({
   getDropIn,
   onAdditionalDetails
 }) => {
-  const { discount, totalPrice, offerId } = useSelector(
-    state => state.order.order
-  );
+  const {
+    id: orderId,
+    discount,
+    totalPrice,
+    offerId,
+    buyAsAGift
+  } = useSelector(state => state.order.order);
   const {
     adyenConfiguration,
     paymentMethods: publisherPaymentMethods,
@@ -43,6 +51,15 @@ const Adyen = ({
   } = useSelector(state => state.publisherConfig);
   const [isLoading, setIsLoading] = useState(true);
   const { selectedPaymentMethod } = useSelector(state => state.paymentMethods);
+
+  const deliveryDetails = useAppSelector(selectDeliveryDetails);
+  const deliveryDetailsRef = useRef(null);
+  const buyAsAGiftRef = useRef(buyAsAGift || null);
+
+  useEffect(() => {
+    deliveryDetailsRef.current = deliveryDetails;
+    buyAsAGiftRef.current = buyAsAGift;
+  }, [deliveryDetails, buyAsAGift]);
 
   const standardPaymentMethodsRef = useRef(null);
   const bankPaymentMethodsRef = useRef(null);
@@ -70,6 +87,8 @@ const Adyen = ({
   useScript('https://pay.google.com/gp/p/js/pay.js');
 
   const { t, i18n } = useTranslation();
+
+  const dispatch = useAppDispatch();
 
   const getBankCopy = () => {
     const isFree = totalPrice === 0;
@@ -182,6 +201,63 @@ const Adyen = ({
     });
   };
 
+  const handleDeliveryDetails = async () => {
+    const { isGift } = deliveryDetailsRef.current;
+
+    if (isGift) {
+      const areDeliveryDetailsValid = validateDeliveryDetailsForm();
+
+      if (!areDeliveryDetailsValid) {
+        return false;
+      }
+
+      const {
+        recipientEmail,
+        deliveryDate,
+        message
+      } = deliveryDetailsRef.current;
+
+      await dispatch(
+        fetchUpdateOrder({
+          id: orderId,
+          payload: {
+            buyAsAGift: true,
+            deliveryDetails: {
+              recipientEmail: recipientEmail.value,
+              personalNote: message.value,
+              deliveryDate: new Date(deliveryDate.value).valueOf()
+            }
+          }
+        })
+      )
+        .unwrap()
+        .catch(err => {
+          throw new Error(err);
+        });
+
+      return true;
+    }
+
+    if (buyAsAGiftRef.current && !isGift) {
+      await dispatch(
+        fetchUpdateOrder({
+          id: orderId,
+          payload: {
+            buyAsAGift: false
+          }
+        })
+      )
+        .unwrap()
+        .catch(err => {
+          throw new Error(err);
+        });
+
+      return true;
+    }
+
+    return true;
+  };
+
   const createDropInInstance = async (
     {
       id,
@@ -220,7 +296,7 @@ const Adyen = ({
         sessionData
       },
       clientKey: getAdyenClientKey(),
-      onSubmit: (state, component) => {
+      onSubmit: async (state, component) => {
         const {
           data: {
             paymentMethod: { type: methodName }
@@ -232,11 +308,19 @@ const Adyen = ({
 
           if (!checkbox.checked) {
             checkbox.classList.add('adyen-checkout__bank-checkbox--error');
+
             return false;
           }
         }
 
         component.setStatus('loading');
+
+        const areDeliveryDetailsValid = await handleDeliveryDetails();
+
+        if (!areDeliveryDetailsValid) {
+          component.setStatus('ready');
+          return false;
+        }
 
         if (type === BANK_PAYMENT_METHODS) {
           setShouldFadeOutStandardDropIn(true);
@@ -262,6 +346,15 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.card
         },
         applepay: {
+          onClick: async resolve => {
+            const areDeliveryDetailsValid = await handleDeliveryDetails();
+
+            if (!areDeliveryDetailsValid) {
+              return;
+            }
+
+            resolve();
+          },
           ...amountObj,
           ...(applePayConfigurationObj && {
             configuration: {
@@ -272,6 +365,15 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.applePay
         },
         googlepay: {
+          onClick: async resolve => {
+            const areDeliveryDetailsValid = await handleDeliveryDetails();
+
+            if (!areDeliveryDetailsValid) {
+              return;
+            }
+
+            resolve();
+          },
           environment: getGooglePayEnv(),
           ...(googlePayConfigurationObj && {
             configuration: {

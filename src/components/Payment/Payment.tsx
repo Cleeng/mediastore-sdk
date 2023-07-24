@@ -6,10 +6,12 @@ import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import Loader from 'components/Loader';
 import SectionHeader from 'components/SectionHeader';
+import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
 import {
   fetchFinalizeInitialPayment,
   selectFinalizePayment
 } from 'redux/finalizePaymentSlice';
+import { selectDeliveryDetails } from 'redux/deliveryDetailsSlice';
 import Auth from 'services/auth';
 import {
   validatePaymentMethods,
@@ -54,6 +56,8 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   } = useAppSelector(selectPublisherConfig);
 
   const order = useAppSelector(selectOnlyOrder);
+  const deliveryDetails = useAppSelector(selectDeliveryDetails);
+
   const { t } = useTranslation();
 
   const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
@@ -168,6 +172,52 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
   // PayPal
   const submitPayPal = async () => {
+    const { isGift } = deliveryDetails;
+    const { id, buyAsAGift } = order;
+
+    if (isGift) {
+      const areDeliveryDetailsValid = validateDeliveryDetailsForm();
+
+      if (!areDeliveryDetailsValid) {
+        return;
+      }
+
+      const { recipientEmail, deliveryDate, message } = deliveryDetails;
+
+      await dispatch(
+        fetchUpdateOrder({
+          id: order.id,
+          payload: {
+            buyAsAGift: true,
+            deliveryDetails: {
+              recipientEmail: recipientEmail.value,
+              personalNote: message.value,
+              deliveryDate: new Date(deliveryDate.value).valueOf()
+            }
+          }
+        })
+      )
+        .unwrap()
+        .catch(err => {
+          throw new Error(err);
+        });
+    }
+
+    if (buyAsAGift && !isGift) {
+      await dispatch(
+        fetchUpdateOrder({
+          id,
+          payload: {
+            buyAsAGift: false
+          }
+        })
+      )
+        .unwrap()
+        .catch(err => {
+          throw new Error(err);
+        });
+    }
+
     setIsLoading(true);
     const { responseData } = await submitPayPalPayment();
     if (responseData?.redirectUrl) {
@@ -206,7 +256,6 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     const {
       data: { paymentMethod, browserInfo, billingAddress }
     } = state;
-
     setGeneralError('');
     setIsLoading(true);
     const { errors, responseData } = await submitPayment(
@@ -214,7 +263,6 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       browserInfo,
       billingAddress
     );
-
     if (errors?.length) {
       eventDispatcher(MSSDK_PURCHASE_FAILED, {
         reason: errors[0]
@@ -233,6 +281,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
               'The payment has not been processed. Please, try again with a different payment method.'
             )
       );
+
       setIsLoading(false);
       // force Adyen remount
       setStandardDropInInstance(null);
@@ -240,6 +289,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       setAdyenKey(key => (key ? null : 1));
       return;
     }
+
     const { action, payment } = responseData;
     if (action) {
       if (action.type !== 'redirect') {
