@@ -62,7 +62,8 @@ const CouponInput = ({
             if (onInputToggle) onInputToggle();
           }}
         >
-          Redeem coupon
+          {isOpen && t('coupon-input.redeem', 'Redeem')}
+          {!isOpen && t('coupon-input.redeem-coupon', 'Redeem coupon')}
         </Button>
       </InputElementWrapperStyled>
     </FormComponentStyled>

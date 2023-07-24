@@ -24,7 +24,6 @@ export const FormComponentStyled = styled.form.attrs(() => ({
     css`
       max-width: 100%;
       width: 100%;
-      background-color: red;
     `};
 
   /* width: 100%; */
@@ -90,8 +89,8 @@ export const InputElementStyled = styled.input.attrs(() => ({
   font-size: 15px;
   line-height: 1.3;
 
-  width: 198px;
-  max-width: 198px;
+  /* width: 198px;
+  max-width: 198px; */
   inset-inline-start: 37px;
   padding-right: 25px;
 
