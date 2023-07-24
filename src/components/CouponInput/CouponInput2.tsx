@@ -1,4 +1,4 @@
-import { KeyboardEvent, useEffect, useRef, useState } from 'react';
+import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
@@ -28,20 +28,51 @@ const CouponInput = ({
   },
   onSubmit,
   onChange,
-  onClose,
+  // onClose,
   onInputToggle,
   couponLoading,
   source = ''
 }: CouponInputProps) => {
   const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  console.log('isOpen', isOpen);
+
+  const onRedeem = async () => {
+    if (!isOpen) {
+      window.dispatchEvent(
+        new CustomEvent('MSSDK:redeem-coupon-button-clicked', {
+          detail: { source }
+        })
+      );
+      if (onInputToggle) onInputToggle();
+      setIsOpen(true);
+    } else {
+      alert('coupon submitted');
+    }
+  };
+
+  const onClose = () => {
+    if (isOpen) {
+      setIsOpen(false);
+      if (onInputToggle) onInputToggle();
+    }
+  };
   return (
-    <FormComponentStyled isOpen={isOpen} fullWidth={fullWidth}>
+    <FormComponentStyled
+      isOpen={isOpen}
+      fullWidth={fullWidth}
+      onSubmit={async e => {
+        e.preventDefault();
+        await onRedeem();
+      }}
+    >
       <InputElementWrapperStyled>
         {isOpen && (
           <>
-            <CloseButtonStyled type="button" aria-label="close">
+            <CloseButtonStyled
+              type="button"
+              aria-label="close"
+              onClick={onClose}
+            >
               <CloseIcon />
             </CloseButtonStyled>
             <InputElementStyled
@@ -52,16 +83,7 @@ const CouponInput = ({
             />
           </>
         )}
-        <Button
-          type="button"
-          width="auto"
-          testid="redeem-btn"
-          onClickFn={() => {
-            setIsOpen(val => !val);
-            // console.log(onInputToggle);
-            if (onInputToggle) onInputToggle();
-          }}
-        >
+        <Button type="submit" width="auto" testid="redeem-btn">
           {isOpen && t('coupon-input.redeem', 'Redeem')}
           {!isOpen && t('coupon-input.redeem-coupon', 'Redeem coupon')}
         </Button>
