@@ -5,6 +5,7 @@ import {
   removeData as removeDataFromRedux
 } from 'redux/appConfig';
 import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
+import eventDispatcher, { MSSDK_AUTH_FAILED } from './eventDispatcher';
 
 const isLocalStorageAvailable = () => {
   try {
@@ -24,6 +25,7 @@ export const getData = name => {
     ? localStorage.getItem(name)
     : store.getState().appConfig[name];
   if (!result && name === 'CLEENG_AUTH_TOKEN') {
+    eventDispatcher(MSSDK_AUTH_FAILED);
     console.error(
       `Unable to get CLEENG_AUTH_TOKEN from local storage or redux store`
     );
@@ -169,11 +171,10 @@ export const setLanguage = async language => {
   if (!i18n.hasResourceBundle(language, 'translations')) {
     const data = await fetch(
       `${BASE_URL}/cleeng-translations/${language}/translations.json`
-    )
-      .then(response => {
-        return response.json();
-      })
-      .catch(() => {});
+    ).then(response => {
+      return response.json();
+    });
+
     i18n.addResourceBundle(language, 'translations', data, true, true);
   }
 
