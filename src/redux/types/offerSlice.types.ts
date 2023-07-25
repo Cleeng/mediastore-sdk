@@ -1,4 +1,7 @@
+import { OfferV2 } from 'types/OfferV2.types';
+
 export type Offer = {
+  accessGranted?: boolean;
   accessToTags: string[];
   active: boolean;
   applicableTaxRate: number;
@@ -43,6 +46,7 @@ export type Offer = {
 
 export type OfferInitialState = {
   offer: Offer | Record<string, never>;
+  offerV2: OfferV2 | Record<string, never>;
   loading: boolean;
   error: string | null | undefined;
   isOfferFree: boolean;

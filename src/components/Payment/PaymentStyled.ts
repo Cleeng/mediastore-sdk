@@ -7,14 +7,13 @@ export const PaymentStyled = styled.section.attrs(() => ({
   padding: 20px 35px 70px 35px;
   width: 100%;
   background-color: ${colors.BackgroundColor};
-  border-top: 1px solid ${colors.LineColor};
   border-bottom: 1px solid ${colors.LineColor};
 `;
 
 export const PaymentWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__payment__wrapper'
 }))`
-  max-width: 375px;
+  max-width: 376px;
   margin: 12px auto 0 auto;
 `;
 

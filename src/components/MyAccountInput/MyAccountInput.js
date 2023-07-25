@@ -19,6 +19,7 @@ class MyAccountInput extends Component {
       id,
       placeholder,
       type,
+      min,
       value,
       label,
       onChange,
@@ -39,6 +40,7 @@ class MyAccountInput extends Component {
           id={id}
           placeholder={placeholder}
           type={type}
+          min={min}
           value={value}
           disabled={disabled}
           onSubmit={onSubmit}
@@ -62,6 +64,7 @@ MyAccountInput.propTypes = {
   placeholder: PropTypes.string,
   type: PropTypes.string,
   value: PropTypes.string,
+  min: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
@@ -78,10 +81,11 @@ MyAccountInput.defaultProps = {
   placeholder: '',
   type: 'text',
   value: '',
+  min: '',
   label: '',
-  onChange: () => {},
-  onSubmit: () => {},
-  onBlur: () => {},
+  onChange: () => null,
+  onSubmit: () => null,
+  onBlur: () => null,
   disabled: false,
   hideInput: false,
   error: '',

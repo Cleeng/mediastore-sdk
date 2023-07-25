@@ -9,7 +9,12 @@ import { updateOrder, getPaymentMethods } from 'api';
 import { setData, getData, removeData } from 'util/appConfigHelper';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { fetchOffer, setFreeOffer, selectOffer } from 'redux/offerSlice';
+import {
+  fetchOffer,
+  fetchOfferV2,
+  setFreeOffer,
+  selectOffer
+} from 'redux/offerSlice';
 import {
   init as initValues,
   selectPublisherConfig
@@ -151,7 +156,10 @@ const OfferContainer = ({
 
     const init = async () => {
       const resultOfferAction = await dispatch(fetchOffer(offerId));
+
+      await dispatch(fetchOfferV2(offerId.split('_')[0]));
       const { offerId: id } = unwrapResult(resultOfferAction);
+
       setData('CLEENG_OFFER_ID', id);
       setData('CLEENG_OFFER_TYPE', id.charAt(0));
       const orderId = getData('CLEENG_ORDER_ID');

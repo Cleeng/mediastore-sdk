@@ -7,7 +7,7 @@ import { DropInSectionWrapperStyled } from './DropInSection.types';
 export const WrapperStyled = styled.div.attrs(() => ({
   className: 'msd__custom-dropin--wrapper'
 }))<DropInSectionWrapperStyled>`
-  max-width: 375px;
+  max-width: 376px;
   margin: 0 auto;
   min-height: 58px;
   display: flex;

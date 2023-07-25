@@ -8,7 +8,9 @@ import SectionHeader from 'components/SectionHeader';
 import Footer from 'components/Footer';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
+import DeliveryDetails from 'components/DeliveryDetails';
 import { selectOrder, selectOnlyOrder } from 'redux/orderSlice';
+import { selectOffer } from 'redux/offerSlice';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
@@ -23,6 +25,10 @@ const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
   const { t } = useTranslation();
   const [coupon, setCoupon] = useState('');
   const { isCouponLoading, couponDetails } = useAppSelector(selectOrder);
+  const {
+    offerV2: { giftable }
+  } = useAppSelector(selectOffer);
+
   const {
     totalPrice,
     discount: { applied: discountApplied }
@@ -67,6 +73,7 @@ const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
           </StyledOfferDetailsAndCoupon>
           <CheckoutPriceBox />
         </StyledOfferBody>
+        {giftable && <DeliveryDetails giftable={giftable} />}
         <Payment onPaymentComplete={onPaymentComplete} />
       </main>
       <Footer />

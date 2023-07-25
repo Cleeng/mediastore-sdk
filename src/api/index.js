@@ -28,6 +28,7 @@ import updatePayPalPaymentDetails from './PaymentDetails/updatePayPalPaymentDeta
 import finalizeInitialPayment from './Payment/finalizeInitialPayment';
 import finalizeAddPaymentDetails from './Payment/finalizeAddPaymentDetails';
 import getOffers from './Offers/getOffers';
+import getOffer from './Offers/getOffer';
 
 export {
   getPaymentDetails,
@@ -59,5 +60,6 @@ export {
   finalizeInitialPayment,
   finalizeAddPaymentDetails,
   getOffers,
+  getOffer,
   getSwitch
 };
