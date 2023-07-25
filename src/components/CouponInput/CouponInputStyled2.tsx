@@ -114,7 +114,6 @@ export const CloseButtonStyled = styled.button.attrs(() => ({
   inset-inline-start: 7px;
   transform: translate(0, -50%);
   background-color: ${Colors.PrimaryColor};
-  /* opacity: 0; */
   padding: 0;
   border: 0;
   border-radius: 50%;

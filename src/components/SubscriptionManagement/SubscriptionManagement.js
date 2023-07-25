@@ -209,13 +209,11 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                   message: errorMsg
                 }}
                 fullWidth
-                // showMessage={isError}
                 value={couponValue}
-                // message={errorMsg}
                 couponLoading={isLoading}
                 onSubmit={() => submitCoupon(subscription.subscriptionId)}
                 onChange={e => setCouponValue(e)}
-                // onClose={() => setIsCouponInputOpened(val => !val)}
+                onClose={() => setIsCouponInputOpened(val => !val)}
                 onInputToggle={() => setIsCouponInputOpened(val => !val)}
                 source="myaccount"
               />

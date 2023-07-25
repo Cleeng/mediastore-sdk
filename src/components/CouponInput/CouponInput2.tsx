@@ -13,28 +13,33 @@ import {
   CloseButtonStyled
 } from './CouponInputStyled2';
 
-import { CouponInputProps } from './CouponInput.types';
+import { CouponInputProps } from './CouponInput2.types';
 
 const FADE_OUT_DELAY = 5000;
 
 const CouponInput = ({
-  value = '',
-  fullWidth = false,
-  couponDetails = {
-    showMessage: false,
-    message: '',
-    messageType: MESSAGE_TYPE_SUCCESS,
-    translationKey: ''
-  },
+  value,
+  fullWidth,
+  couponDetails,
   onSubmit,
   onChange,
-  // onClose,
   onInputToggle,
   couponLoading,
-  source = ''
+  source
 }: CouponInputProps) => {
-  const { t } = useTranslation();
+  const [suppressMessage, setSuppressMessage] = useState(false);
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | number | boolean>(
+    false
+  );
   const [isOpen, setIsOpen] = useState(false);
+
+  const { t } = useTranslation();
+  // const { showMessage, message, messageType, translationKey } = couponDetails;
+  const { showMessage, message, messageType, translationKey } = couponDetails;
+
+  useEffect(() => {
+    console.log('translationKey: ', translationKey);
+  });
 
   const handleRedeem = async () => {
     if (!isOpen) {
@@ -54,8 +59,8 @@ const CouponInput = ({
           }
         })
       );
-      // await onSubmit(value);
-      alert('coupon redeemed!');
+      await onSubmit(value);
+      // alert('redeemed');
     }
   };
 
@@ -63,8 +68,10 @@ const CouponInput = ({
     if (isOpen) {
       setIsOpen(false);
       if (onInputToggle) onInputToggle();
+      // onChangeFn('');
     }
   };
+
   return (
     <FormComponentStyled
       isOpen={isOpen}
@@ -89,14 +96,35 @@ const CouponInput = ({
               placeholder={
                 t('coupon-input.placeholder', 'Your coupon') as string
               }
+              autoComplete="off"
+              value={value}
+              readOnly={couponLoading}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                onChange(e.target.value)
+              }
+              aria-label={
+                t('coupon-input.placeholder', 'Your coupon') as string
+              }
+              aria-required={false}
             />
           </>
         )}
         <Button type="submit" width="auto" testid="redeem-btn">
-          {isOpen && t('coupon-input.redeem', 'Redeem')}
-          {!isOpen && t('coupon-input.redeem-coupon', 'Redeem coupon')}
+          {couponLoading && <Loader buttonLoader color="#ffffff" />}
+          {!couponLoading && isOpen && t('coupon-input.redeem', 'Redeem')}
+          {!couponLoading &&
+            !isOpen &&
+            t('coupon-input.redeem-coupon', 'Redeem coupon')}
         </Button>
       </InputElementWrapperStyled>
+      {isOpen && (
+        <MessageStyled
+          showMessage={showMessage && !suppressMessage}
+          messageType={messageType}
+        >
+          {t(translationKey || '', message)}
+        </MessageStyled>
+      )}
     </FormComponentStyled>
   );
 };
