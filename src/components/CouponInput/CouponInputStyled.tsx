@@ -96,7 +96,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
 
 export const CloseButtonStyled = styled.button.attrs(() => ({
   className: 'msd__coupon-input__close'
-}))<CloseButtonStyledProps>`
+}))`
   position: absolute;
   height: 22px;
   width: 22px;
