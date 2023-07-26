@@ -7,7 +7,7 @@ import {
   MessageStyledProps,
   InputElementWrapperStyledProps,
   InputElementStyledProps
-} from './CouponInput2.types';
+} from './CouponInput.types';
 
 export const FormComponentStyled = styled.form.attrs(() => ({
   className: 'msd__coupon-input__wrapper',

@@ -18,15 +18,14 @@ export type CouponInputProps = {
   };
   onSubmit: (args: string) => void;
   onChange: (args: string) => void;
-  onClose?: () => void;
   onInputToggle?: () => void;
   couponLoading: boolean;
   source: 'myaccount' | 'checkout' | '';
 };
 
-export type InputComponentStyledProps = {
-  fullWidth: boolean;
-  isOpened: boolean;
+export type FormComponentStyledProps = {
+  $fullWidth?: boolean;
+  $isOpen: boolean;
 };
 
 export type MessageStyledProps = {
@@ -34,11 +33,10 @@ export type MessageStyledProps = {
   showMessage: boolean;
 };
 
-export type InputElementStyledProps = {
-  isOpened: boolean;
-  fullWidth: boolean;
+export type InputElementWrapperStyledProps = {
+  $isFocused: boolean;
 };
 
-export type CloseButtonStyledProps = {
-  isInputOpened: boolean;
+export type InputElementStyledProps = {
+  $fullWidth?: boolean;
 };

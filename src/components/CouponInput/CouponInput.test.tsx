@@ -37,6 +37,7 @@ const couponInputProps = (
 describe('CouponInput component', () => {
   test('render input with correct value', async () => {
     render(<CouponInput {...couponInputProps('coupon')} />);
+    await userEvent.click(screen.getByTestId('redeem-btn'));
     expect(screen.getByRole('input')).toHaveValue('coupon');
   });
 

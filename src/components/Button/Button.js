@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import { forwardRef } from 'react';
 import ButtonStyled from './ButtonStyled';
 
 export const BUTTON_SIZE = {
@@ -19,56 +18,49 @@ export const BUTTON_THEME = {
   DANGER: 'danger'
 };
 
-// remove forwardRef as it's no longer neccessary
-const Button = forwardRef(
-  (
-    {
-      type,
-      onClickFn,
-      disabled,
-      children,
-      label,
-      size,
-      theme,
-      fontSize,
-      margin,
-      fontWeight,
-      width,
-      icon,
-      padding,
-      className,
-      testid,
-      onFocus
-    },
-    ref
-  ) => {
-    const ButtonProps = {
-      type,
-      onClick: onClickFn
-    };
-    return (
-      <ButtonStyled
-        {...ButtonProps}
-        disabled={disabled}
-        aria-label={label}
-        size={size}
-        theme={theme}
-        fontSize={fontSize}
-        margin={margin}
-        fontWeight={fontWeight}
-        width={width}
-        icon={icon}
-        padding={padding}
-        className={className}
-        data-testid={testid}
-        ref={ref}
-        onFocus={onFocus}
-      >
-        {children}
-      </ButtonStyled>
-    );
-  }
-);
+const Button = ({
+  type,
+  onClickFn,
+  disabled,
+  children,
+  label,
+  size,
+  theme,
+  fontSize,
+  margin,
+  fontWeight,
+  width,
+  icon,
+  padding,
+  className,
+  testid,
+  onFocus
+}) => {
+  const ButtonProps = {
+    type,
+    onClick: onClickFn
+  };
+  return (
+    <ButtonStyled
+      {...ButtonProps}
+      disabled={disabled}
+      aria-label={label}
+      size={size}
+      theme={theme}
+      fontSize={fontSize}
+      margin={margin}
+      fontWeight={fontWeight}
+      width={width}
+      icon={icon}
+      padding={padding}
+      className={className}
+      data-testid={testid}
+      onFocus={onFocus}
+    >
+      {children}
+    </ButtonStyled>
+  );
+};
 
 Button.propTypes = {
   size: PropTypes.oneOf(Object.values(BUTTON_SIZE)),
