@@ -33,8 +33,7 @@ const Button = ({
   icon,
   padding,
   className,
-  testid,
-  onFocus
+  testid
 }) => {
   const ButtonProps = {
     type,
@@ -55,7 +54,6 @@ const Button = ({
       padding={padding}
       className={className}
       data-testid={testid}
-      onFocus={onFocus}
     >
       {children}
     </ButtonStyled>
@@ -81,8 +79,7 @@ Button.propTypes = {
   icon: PropTypes.string,
   padding: PropTypes.string,
   className: PropTypes.string,
-  testid: PropTypes.string,
-  onFocus: PropTypes.func
+  testid: PropTypes.string
 };
 
 Button.defaultProps = {
@@ -101,9 +98,7 @@ Button.defaultProps = {
   icon: null,
   padding: null,
   className: '',
-  testid: null,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onFocus: () => {}
+  testid: null
 };
 
 export default Button;

@@ -1,6 +1,5 @@
 import styled, { css } from 'styled-components';
 import * as Colors from 'styles/variables';
-import { media } from 'styles/BreakPoints';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 import {
   FormComponentStyledProps,
