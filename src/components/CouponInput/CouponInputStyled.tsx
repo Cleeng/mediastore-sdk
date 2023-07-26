@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import * as Colors from 'styles/variables';
+import { media } from 'styles/BreakPoints';
 import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 import {
   FormComponentStyledProps,
@@ -78,6 +79,11 @@ export const InputElementStyled = styled.input.attrs(() => ({
   max-width: 198px;
   inset-inline-start: 37px;
   padding-right: 35px;
+
+  ${media.small`
+        width: 100%;
+        max-width: 100%;
+      `}
 
   ${props =>
     props.$fullWidth &&
