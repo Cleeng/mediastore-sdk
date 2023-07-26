@@ -115,14 +115,14 @@ const CouponInput = ({
 
   return (
     <FormComponentStyled
-      isOpen={isOpen}
-      fullWidth={fullWidth}
+      $isOpen={isOpen}
+      $fullWidth={fullWidth}
       onSubmit={async e => {
         e.preventDefault();
         await handleRedeem();
       }}
     >
-      <InputElementWrapperStyled isFocused={isFocused}>
+      <InputElementWrapperStyled $isFocused={isFocused}>
         {isOpen && (
           <>
             <CloseButtonStyled
@@ -141,6 +141,7 @@ const CouponInput = ({
               value={value}
               ref={inputRef}
               readOnly={couponLoading}
+              $fullWidth={fullWidth}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 onChange(e.target.value)
               }

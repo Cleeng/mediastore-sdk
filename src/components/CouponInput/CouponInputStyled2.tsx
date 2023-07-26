@@ -6,7 +6,7 @@ import {
   FormComponentStyledProps,
   MessageStyledProps,
   InputElementWrapperStyledProps,
-  CloseButtonStyledProps
+  InputElementStyledProps
 } from './CouponInput2.types';
 
 export const FormComponentStyled = styled.form.attrs(() => ({
@@ -19,15 +19,12 @@ export const FormComponentStyled = styled.form.attrs(() => ({
   max-width: 300px;
 
   ${props =>
-    props.isOpen &&
-    props.fullWidth &&
+    props.$isOpen &&
+    props.$fullWidth &&
     css`
       max-width: 100%;
       width: 100%;
     `};
-
-  /* width: 100%; */
-  /* max-width: 100%; */
 `;
 
 export const MessageStyled = styled.div.attrs(() => ({
@@ -60,9 +57,9 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
   background: white;
 
   ${props =>
-    props.isFocused &&
+    props.$isFocused &&
     css`
-      outline: 3px solid red;
+      outline: 1px solid ${Colors.FocusColor};
     `}
 `;
 
@@ -72,23 +69,23 @@ export const InputElementStyled = styled.input.attrs(() => ({
 }))<InputElementStyledProps>`
   flex-grow: 1;
   position: relative;
-  /* width: 0px; */
-
-  padding: 0;
-
   border: none;
   outline: none;
 
   font-size: 15px;
   line-height: 1.3;
 
-  /* width: 198px;
-  max-width: 198px; */
+  width: 198px;
+  max-width: 198px;
   inset-inline-start: 37px;
-  padding-right: 25px;
+  padding-right: 35px;
 
-  width: 100%;
-  max-width: 100%;
+  ${props =>
+    props.$fullWidth &&
+    css`
+      width: 100%;
+      max-width: 100%;
+    `}
 
   ${props =>
     props.readOnly &&
@@ -121,6 +118,6 @@ export const CloseButtonStyled = styled.button.attrs(() => ({
   }
 
   &:focus {
-    outline: 3px solid red;
+    outline: 1px solid ${Colors.FocusColor};
   }
 `;

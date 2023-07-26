@@ -24,9 +24,8 @@ export type CouponInputProps = {
 };
 
 export type FormComponentStyledProps = {
-  fullWidth: boolean;
-  //   isOpened: boolean;
-  isOpen: boolean;
+  $fullWidth?: boolean;
+  $isOpen: boolean;
 };
 
 export type MessageStyledProps = {
@@ -35,5 +34,9 @@ export type MessageStyledProps = {
 };
 
 export type InputElementWrapperStyledProps = {
-  isFocused: boolean;
+  $isFocused: boolean;
+};
+
+export type InputElementStyledProps = {
+  $fullWidth?: boolean;
 };
