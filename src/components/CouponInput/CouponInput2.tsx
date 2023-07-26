@@ -34,12 +34,24 @@ const CouponInput = ({
   const [isOpen, setIsOpen] = useState(false);
 
   const { t } = useTranslation();
-  // const { showMessage, message, messageType, translationKey } = couponDetails;
   const { showMessage, message, messageType, translationKey } = couponDetails;
 
-  useEffect(() => {
-    console.log('translationKey: ', translationKey);
-  });
+  const disableSuppressMessage = () => setSuppressMessage(false);
+
+  const clearFadeOutTimeout = () => {
+    if (typeof timeoutId === 'number' && timeoutId > 0) {
+      clearTimeout(timeoutId);
+      setTimeoutId(0);
+    }
+  };
+
+  const scheduleFadeOut = () => {
+    const timeoutIndex = setTimeout(() => {
+      setSuppressMessage(true);
+      setTimeoutId(true);
+    }, FADE_OUT_DELAY);
+    setTimeoutId(timeoutIndex);
+  };
 
   const handleRedeem = async () => {
     if (!isOpen) {
@@ -60,7 +72,6 @@ const CouponInput = ({
         })
       );
       await onSubmit(value);
-      // alert('redeemed');
     }
   };
 
@@ -68,9 +79,33 @@ const CouponInput = ({
     if (isOpen) {
       setIsOpen(false);
       if (onInputToggle) onInputToggle();
-      // onChangeFn('');
+      onChange('');
+      setSuppressMessage(true);
     }
   };
+
+  const handleAutoCouponError = () => setIsOpen(true);
+
+  useEffect(() => {
+    window.addEventListener(MSSDK_COUPON_FAILED, handleAutoCouponError);
+
+    return () =>
+      window.removeEventListener(MSSDK_COUPON_FAILED, handleAutoCouponError);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      clearFadeOutTimeout();
+    };
+  }, []);
+
+  useEffect(() => {
+    disableSuppressMessage();
+    clearFadeOutTimeout();
+    if (showMessage) {
+      scheduleFadeOut();
+    }
+  }, [showMessage, message, messageType]);
 
   return (
     <FormComponentStyled

@@ -77,6 +77,7 @@ const CouponInput = ({
       target: HTMLInputElement;
     };
     target.blur();
+    console.log('handleSubmit()');
     await onSubmit(target.value);
     setSuppressMessage(false);
   };
