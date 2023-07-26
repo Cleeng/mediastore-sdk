@@ -34,7 +34,6 @@ export type MessageStyledProps = {
   showMessage: boolean;
 };
 
-// export type InputElementStyledProps = {
-//   isOpened: boolean;
-//   fullWidth: boolean;
-// };
+export type InputElementWrapperStyledProps = {
+  isFocused: boolean;
+};

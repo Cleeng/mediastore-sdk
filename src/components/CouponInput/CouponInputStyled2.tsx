@@ -5,7 +5,7 @@ import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
 import {
   FormComponentStyledProps,
   MessageStyledProps,
-  InputElementStyledProps,
+  InputElementWrapperStyledProps,
   CloseButtonStyledProps
 } from './CouponInput2.types';
 
@@ -47,7 +47,7 @@ export const MessageStyled = styled.div.attrs(() => ({
 
 export const InputElementWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__coupon-input__wrapper--inner'
-}))`
+}))<InputElementWrapperStyledProps>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -58,19 +58,12 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
   border-radius: 30px;
 
   background: white;
-  /* transition: 0.2s ease-in-out; */
 
-  /* &:focus-within {
-    border-color: ${Colors.FocusColor};
-  } */
-
-
-  /* ${props =>
-    props.isInputFocused &&
-    props.isInputOpened &&
+  ${props =>
+    props.isFocused &&
     css`
       outline: 3px solid red;
-    `}  */
+    `}
 `;
 
 export const InputElementStyled = styled.input.attrs(() => ({

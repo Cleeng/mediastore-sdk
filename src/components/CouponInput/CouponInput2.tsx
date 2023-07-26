@@ -1,5 +1,4 @@
-import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from 'react';
-import { MESSAGE_TYPE_SUCCESS } from 'components/Input/InputConstants';
+import { useEffect, useRef, useState } from 'react';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
 import { ReactComponent as CloseIcon } from 'assets/images/xmark.svg';
@@ -32,6 +31,9 @@ const CouponInput = ({
     false
   );
   const [isOpen, setIsOpen] = useState(false);
+  const [isFocused, setIsFocused] = useState(false);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const { t } = useTranslation();
   const { showMessage, message, messageType, translationKey } = couponDetails;
@@ -107,6 +109,10 @@ const CouponInput = ({
     }
   }, [showMessage, message, messageType]);
 
+  useEffect(() => {
+    if (inputRef.current) inputRef.current.focus();
+  }, [isOpen]);
+
   return (
     <FormComponentStyled
       isOpen={isOpen}
@@ -116,7 +122,7 @@ const CouponInput = ({
         await handleRedeem();
       }}
     >
-      <InputElementWrapperStyled>
+      <InputElementWrapperStyled isFocused={isFocused}>
         {isOpen && (
           <>
             <CloseButtonStyled
@@ -133,10 +139,15 @@ const CouponInput = ({
               }
               autoComplete="off"
               value={value}
+              ref={inputRef}
               readOnly={couponLoading}
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 onChange(e.target.value)
               }
+              onFocus={() => {
+                setIsFocused(true);
+              }}
+              onBlur={() => setIsFocused(false)}
               aria-label={
                 t('coupon-input.placeholder', 'Your coupon') as string
               }
