@@ -5,7 +5,6 @@ import {
   removeData as removeDataFromRedux
 } from 'redux/appConfig';
 import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
-import eventDispatcher, { MSSDK_AUTH_FAILED } from './eventDispatcher';
 
 const isLocalStorageAvailable = () => {
   try {
@@ -25,7 +24,6 @@ export const getData = name => {
     ? localStorage.getItem(name)
     : store.getState().appConfig[name];
   if (!result && name === 'CLEENG_AUTH_TOKEN') {
-    eventDispatcher(MSSDK_AUTH_FAILED);
     console.error(
       `Unable to get CLEENG_AUTH_TOKEN from local storage or redux store`
     );
