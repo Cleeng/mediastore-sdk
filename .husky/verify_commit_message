@@ -4,7 +4,7 @@ current_branch_name=$(git rev-parse --abbrev-ref HEAD)
 jira_id_regex="MSSDK-[[:digit:]]+"
 jira_id=$(printf "$current_branch_name" | grep -Eo $jira_id_regex)
 
-current_commit_name=$(cat $1)
+current_commit_name=$(cat $HUSKY_GIT_PARAMS)
 commit_name_regex="^(chore|docs|feat|fix|refactor|style|test)\/$jira_id:[[:space:]][[:alnum:]]+"
 merge_name_regex="^Merge[[:space:]]branch[[:space:]].*"
 commit_template="<type>/<jira-ticket-id>: <brief description>"
@@ -21,14 +21,10 @@ eg. \033[1;32m$commit_example\033[0m
 In the case of a merge, the name of commit should match the following template: \n\t\033[1;34m$merge_template\033[0m
 \nPlease rename your commit accordingly and try again.\n"
 
-# if ! [[ "$current_commit_name" =~ (${commit_name_regex})|(${merge_name_regex}) ]]
-# then
-#   echo -e $invalid_commit_message
-#   exit 1
-# fi
+if ! [[ "$current_commit_name" =~ (${commit_name_regex})|(${merge_name_regex}) ]]
+then
+  echo -e $invalid_commit_message
+  exit 1
+fi
 
-echo "hiii"
-echo $current_branch_name
-echo $current_commit_name
-
-exit 1
+exit 0

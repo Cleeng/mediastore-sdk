@@ -64,7 +64,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": ".husky/verify_branch_name && lint-staged && npm run test"
+      "pre-commit": ".husky/verify_branch_name && lint-staged && npm run test",
+      "commit-msg": ".husky/verify_commit_message && lint-staged"
     }
   },
   "lint-staged": {
