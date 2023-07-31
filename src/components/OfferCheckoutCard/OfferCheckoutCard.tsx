@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import SkeletonWrapper from 'components/SkeletonWrapper';
+import { ReactComponent as CreditCardIcon } from 'assets/images/offerDescription/credit-card-bold.svg';
 import { useAppSelector } from 'redux/store';
 import formatNumber from 'util/formatNumber';
 import {
@@ -26,6 +27,7 @@ import Price from '../Price';
 const OfferCheckoutCard = () => {
   const {
     offerTitle: title,
+    offerDescription,
     trialAvailable: isTrialAvailable,
     period,
     offerId,
@@ -207,6 +209,9 @@ const OfferCheckoutCard = () => {
           margin="0 0 10px 10px"
         >
           <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
+          {/* <DescriptionStyled>{offerDescription}</DescriptionStyled> */}
+          <CreditCardIcon />
+          <p style={{ display: 'inline' }}> {offerDescription}</p>
         </SkeletonWrapper>
         <SkeletonWrapper
           showChildren={!loading}
