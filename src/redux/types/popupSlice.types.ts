@@ -80,16 +80,18 @@ type PauseSubscription = {
 type CancelSwitch = {
   pendingSwitchId: string;
   switchDirection: string;
+  switchOfferTitle: string;
   baseOfferTitle: string;
-  baseOfferExpirationDate: string;
+  baseOfferExpirationDate: number;
   baseOfferPrice: string;
 };
 
 type CancelPause = {
   pendingSwitchId: string;
   switchDirection: string;
+  switchOfferTitle: string;
   baseOfferTitle: string;
-  baseOfferExpirationDate: string;
+  baseOfferExpirationDate: number;
   baseOfferPrice: string;
 };
 

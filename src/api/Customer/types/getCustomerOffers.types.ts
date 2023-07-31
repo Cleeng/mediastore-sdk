@@ -15,8 +15,9 @@ export type CustomerOffer = {
   nextPaymentPrice: number;
   paymentGateway: PaymentGateway;
   paymentMethod: string;
-  pendingSwitchId: unknown;
+  pendingSwitchId: string;
   period: string;
   subscriptionId?: number;
   customerCurrency: string;
+  isExternallyManaged: boolean;
 };

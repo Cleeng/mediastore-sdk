@@ -47,4 +47,6 @@ export const offersSlice = createSlice({
   }
 });
 
+export const selectOffers = state => state.offers;
+
 export default offersSlice.reducer;

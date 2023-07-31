@@ -6,9 +6,7 @@ import {
   MediumFontWeight,
   TinyFont,
   SmallFont,
-  MicroFont,
   FontColor,
-  White,
   LineColor,
   BackgroundColor,
   ConfirmColor

@@ -162,6 +162,12 @@ export const selectPlanDetails = (state: RootState) => state.plan;
 
 export const selectCurrentPlan = (state: RootState) => state.plan.currentPlan;
 
+export const selectCurrentPlanDetails = (state: RootState) =>
+  state.plan.currentPlan;
+
+export const selectSwitchDetails = (state: RootState) =>
+  state.plan.switchDetails;
+
 export const {
   setOfferToSwitch,
   resetOfferToSwitch,

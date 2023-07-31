@@ -1,6 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import { selectCurrentPlan, selectSwitchDetails } from 'redux/planDetailsSlice';
+import { selectOffers } from 'redux/offersSlice';
 import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price from 'components/Price';
@@ -9,10 +9,15 @@ import SkeletonWrapper from 'components/SkeletonWrapper';
 import { ReactComponent as DowngradeIcon } from 'assets/images/downgrade_pending.svg';
 import { ReactComponent as UpgradeIcon } from 'assets/images/upgrade_pending.svg';
 import { ReactComponent as PauseIcon } from 'assets/images/pause_noti.svg';
-import { dateFormat, INFINITE_DATE, currencyFormat } from 'util/planHelper';
-import { POPUP_TYPES } from 'redux/innerPopupReducer';
-import { showPopup } from 'redux/popupSlice';
-
+import {
+  dateFormat,
+  INFINITE_DATE,
+  currencyFormat,
+  CurrencyFormat
+} from 'util/planHelper';
+import { CustomerOffer } from 'api/Customer/types';
+import { showPopup, POPUP_TYPES } from 'redux/popupSlice';
+import { Offer } from 'redux/types/offersSlice.types';
 import eventDispatcher, {
   MSSDK_CANCEL_SWITCH_BUTTON_CLICKED
 } from 'util/eventDispatcher';
@@ -27,22 +32,14 @@ import {
   SubBoxButtonStyled,
   SubBoxContentStyled
 } from './OfferMyAccountCardStyled';
+import { OfferMyAccountCardProps } from './OfferMyAccountCard.types';
 
-const OfferMyAccountCard = ({ offerId }) => {
+const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const INFO_BOX_TYPE = {
-    PENDING_SWITCH: 'PENDING_SWITCH',
-    EXTERNALLY_MANAGED: 'EXTERNALLY_MANAGED'
-  };
+  const { data: currentPlan, loading } = useAppSelector(selectCurrentPlan);
 
-  const { data: currentPlan, loading } = useSelector(
-    state => state.plan.currentPlan
-  );
-
-  const subscriptionDetails =
-    currentPlan.find(sub => sub.offerId === offerId) || {};
   const {
     offerType,
     offerTitle,
@@ -56,16 +53,22 @@ const OfferMyAccountCard = ({ offerId }) => {
     period,
     status,
     isExternallyManaged
-  } = subscriptionDetails;
+  } =
+    currentPlan.find((sub: CustomerOffer) => sub.offerId === offerId) ||
+    ({} as CustomerOffer);
 
-  const currency = currencyFormat[nextPaymentCurrency || customerCurrency]; // use customerCurrency for passes
+  const currency =
+    currencyFormat[
+      (nextPaymentCurrency || customerCurrency) as keyof Record<
+        CurrencyFormat,
+        string
+      >
+    ]; // use customerCurrency for passes
 
-  const { pauseOffersIDs, offers } = useSelector(state => state.offers);
+  const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
   const isPaused = pauseOffersIDs.includes(offerId);
 
-  const { data: switchDetailsStore } = useSelector(
-    state => state.plan.switchDetails
-  );
+  const { data: switchDetailsStore } = useAppSelector(selectSwitchDetails);
   const pendingSwitchDetails = switchDetailsStore[pendingSwitchId];
 
   const isPauseInProgress = pauseOffersIDs?.includes(
@@ -113,8 +116,9 @@ const OfferMyAccountCard = ({ offerId }) => {
         : dateFormat(expiresAt);
 
     const { fromOfferId, toOfferId } = pendingSwitchDetails;
-    const toOfferIdTitle = offers.find(({ longId }) => longId === toOfferId)
-      ?.title;
+    const toOfferIdTitle = offers.find(
+      ({ longId }: Offer) => longId === toOfferId
+    )?.title;
     const translatedTitle = t(`offer-title-${fromOfferId}`, offerTitle);
     const translatedSwitchTitle = t(`offer-title-${toOfferId}`, toOfferIdTitle);
 
@@ -158,20 +162,15 @@ const OfferMyAccountCard = ({ offerId }) => {
     }
   };
 
-  const getSwitchIcon = () => {
-    console.log({ pendingSwitchDetails });
-    if (!pendingSwitchDetails) return <></>;
-    if (isPauseInProgress) {
-      return PauseIcon;
-    }
-    if (pendingSwitchDetails.direction === 'downgrade') return DowngradeIcon;
-    if (pendingSwitchDetails.direction === 'upgrade') return UpgradeIcon;
-    return <></>;
+  const shouldShowInfoBox = () => {
+    if (isExternallyManaged || pendingSwitchId) return true;
+    return false;
   };
 
-  const mapCode = {
-    [INFO_BOX_TYPE.EXTERNALLY_MANAGED]: {
-      text: paymentMethod
+  const getDescription = () => {
+    if (pendingSwitchId) return getPendingSwitchCopy();
+    if (isExternallyManaged) {
+      return paymentMethod
         ? t(
             'offer-card.error.inapp-external',
             `${
@@ -184,26 +183,19 @@ const OfferMyAccountCard = ({ offerId }) => {
         : t(
             'offer-card.error.inapp-external-no-pmt-method',
             'Use an external service to edit the plan.'
-          ),
-      icon: EditBlockedIcon
-    },
-    [INFO_BOX_TYPE.PENDING_SWITCH]: {
-      text: getPendingSwitchCopy(),
-      icon: getSwitchIcon()
+          );
     }
+    return '';
   };
 
-  const infoBoxType = () => {
-    if (offerType === 'S' && status === 'active' && pendingSwitchId)
-      return INFO_BOX_TYPE.PENDING_SWITCH;
-    if (isExternallyManaged) return INFO_BOX_TYPE.EXTERNALLY_MANAGED;
-    return null;
+  const getIcon = () => {
+    if (isPauseInProgress) return PauseIcon;
+    if (pendingSwitchDetails?.direction === 'downgrade') return DowngradeIcon;
+    if (pendingSwitchDetails?.direction === 'upgrade') return UpgradeIcon;
+    return EditBlockedIcon;
   };
 
-  // const IconComponent =
-  //   infoBoxType() && mapCode[infoBoxType()] && mapCode[infoBoxType()].icon
-  //     ? mapCode[infoBoxType()].icon
-  //     : React.Fragment;
+  const IconComponent = getIcon();
 
   return (
     <>
@@ -217,7 +209,9 @@ const OfferMyAccountCard = ({ offerId }) => {
             width={200}
             margin="0 10px 10px 10px"
           >
-            <TitleStyled>{t(`offer-title-${offerId}`, offerTitle)}</TitleStyled>
+            <TitleStyled>
+              <>{t(`offer-title-${offerId}`, offerTitle)}</>
+            </TitleStyled>
           </SkeletonWrapper>
           <SkeletonWrapper
             showChildren={!loading}
@@ -250,16 +244,16 @@ const OfferMyAccountCard = ({ offerId }) => {
         )}
       </WrapperStyled>
 
-      {infoBoxType() ? (
+      {shouldShowInfoBox() ? (
         <SubBoxStyled>
-          {/* <IconComponent /> */}
+          <IconComponent />
           <SubBoxContentStyled>
             <BoxTextStyled
               dangerouslySetInnerHTML={{
-                __html: mapCode[infoBoxType()].text
+                __html: getDescription() || ''
               }}
             />
-            {infoBoxType() === INFO_BOX_TYPE.PENDING_SWITCH &&
+            {pendingSwitchId &&
             pendingSwitchDetails?.algorithm === 'DEFERRED' ? (
               <SubBoxButtonStyled
                 onClick={() => {
@@ -272,15 +266,15 @@ const OfferMyAccountCard = ({ offerId }) => {
                   dispatch(
                     showPopup({
                       type: isPauseInProgress
-                        ? POPUP_TYPES.cancelPause
-                        : POPUP_TYPES.cancelSwitch,
+                        ? POPUP_TYPES.CANCEL_PAUSE_POPUP
+                        : POPUP_TYPES.CANCEL_SWITCH_POPUP,
                       data: {
                         pendingSwitchId,
                         switchDirection: pendingSwitchDetails.direction,
                         switchOfferTitle:
                           pendingSwitchDetails &&
                           offers.find(
-                            ({ longId }) =>
+                            ({ longId }: Offer) =>
                               longId === pendingSwitchDetails.toOfferId
                           )?.title,
                         baseOfferTitle: offerTitle,
@@ -306,15 +300,5 @@ const OfferMyAccountCard = ({ offerId }) => {
     </>
   );
 };
-
-OfferMyAccountCard.propTypes = {
-  offerId: PropTypes.string
-};
-
-OfferMyAccountCard.defaultProps = {
-  offerId: ''
-};
-
-export { OfferMyAccountCard as PureOfferMyAccountCard };
 
 export default OfferMyAccountCard;
