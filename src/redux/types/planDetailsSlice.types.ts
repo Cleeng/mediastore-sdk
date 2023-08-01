@@ -25,19 +25,21 @@ export type SwitchSettings = {
   };
 };
 
+export type SwitchDetailsObject = {
+  id: string;
+  customerId: number;
+  direction: string;
+  algorithm: string;
+  fromOfferId: string;
+  toOfferId: string;
+  subscriptionId: string;
+  status: string;
+  createdAt: number;
+  updatedAt: number;
+};
+
 export type SwitchDetails = {
-  [key: string]: {
-    id: string;
-    customerId: number;
-    direction: string;
-    algorithm: string;
-    fromOfferId: string;
-    toOfferId: string;
-    subscriptionId: string;
-    status: string;
-    createdAt: number;
-    updatedAt: number;
-  };
+  [key: string]: SwitchDetailsObject;
 };
 
 export type PlanDetailsInitialState = {

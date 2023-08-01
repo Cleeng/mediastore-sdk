@@ -1,3 +1,6 @@
+import { CurrencyFormat } from 'util/planHelper';
+
+// new structure for Offer types
 export type Offer = {
   id: string;
   longId: string;
@@ -5,12 +8,12 @@ export type Offer = {
   active: boolean;
   price: {
     amount: number;
-    currency: string;
+    currency: CurrencyFormat;
     taxIncluded: boolean;
   };
   type: 'subscription' | 'pass' | 'rental' | 'live' | 'single';
   billingCycle?: {
-    periodUnit: 'week' | 'month' | 'year';
+    periodUnit: 'week' | 'month' | 'year' | 'season';
     amount: number;
   };
   entitlement?: {
@@ -22,13 +25,15 @@ export type Offer = {
     };
   };
   externalProperties: [];
-  customExternalValue: string;
   appStoreProductIds: object;
   createdAt: number;
   updatedAt: number;
   imageUrl: string;
   tags: string[];
-  hasLandingPage: boolean;
+  localizations?: object[];
+  hasLandingPage?: boolean;
+  giftable?: boolean;
+  seasonGroupId?: string;
 };
 
 export type Offers = Offer[];

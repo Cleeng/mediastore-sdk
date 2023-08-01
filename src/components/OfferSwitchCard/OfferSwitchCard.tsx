@@ -27,7 +27,6 @@ import {
 
 const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
   const { t } = useTranslation();
-
   const {
     data: allSwitchSettings,
     loading: isSwitchSettingsLoading
@@ -144,7 +143,7 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
           </SkeletonWrapper>
         </PriceWrapperStyled>
       </WrapperStyled>
-      {switchDetails?.reason?.code && getDescription() ? (
+      {switchDetails?.reason?.code && getDescription() && (
         <SubBoxStyled>
           <BlockedIcon />
           <SubBoxContentStyled>
@@ -155,8 +154,6 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
             />
           </SubBoxContentStyled>
         </SubBoxStyled>
-      ) : (
-        ''
       )}
     </>
   );

@@ -1,5 +1,6 @@
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { selectCurrentPlan, selectSwitchDetails } from 'redux/planDetailsSlice';
+import { SwitchDetailsObject } from 'redux/types/planDetailsSlice.types';
 import { selectOffers } from 'redux/offersSlice';
 import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
@@ -37,8 +38,9 @@ import { OfferMyAccountCardProps } from './OfferMyAccountCard.types';
 const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-
   const { data: currentPlan, loading } = useAppSelector(selectCurrentPlan);
+  const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
+  const { data: switchDetailsStore } = useAppSelector(selectSwitchDetails);
 
   const {
     offerType,
@@ -65,15 +67,15 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
       >
     ]; // use customerCurrency for passes
 
-  const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
+  const pendingSwitchDetails = pendingSwitchId
+    ? switchDetailsStore[pendingSwitchId]
+    : ({} as SwitchDetailsObject);
+
+  // PAUSE FEATURE
   const isPaused = pauseOffersIDs.includes(offerId);
-
-  const { data: switchDetailsStore } = useAppSelector(selectSwitchDetails);
-  const pendingSwitchDetails = switchDetailsStore[pendingSwitchId];
-
-  const isPauseInProgress = pauseOffersIDs?.includes(
-    pendingSwitchDetails?.toOfferId
-  );
+  const isPauseInProgress = pendingSwitchDetails
+    ? pauseOffersIDs?.includes(pendingSwitchDetails?.toOfferId)
+    : false;
 
   const generateDescription = () => {
     const renewalDate =
@@ -122,7 +124,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     const translatedTitle = t(`offer-title-${fromOfferId}`, offerTitle);
     const translatedSwitchTitle = t(`offer-title-${toOfferId}`, toOfferIdTitle);
 
-    // if pause is in progress
+    // PAUSE FEATURE
     if (isPauseInProgress) {
       return t(
         'offer-card.info-box.pause-information-text',
@@ -162,28 +164,22 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     }
   };
 
-  const shouldShowInfoBox = () => {
-    if (isExternallyManaged || pendingSwitchId) return true;
-    return false;
-  };
-
   const getDescription = () => {
     if (pendingSwitchId) return getPendingSwitchCopy();
     if (isExternallyManaged) {
-      return paymentMethod
-        ? t(
-            'offer-card.error.inapp-external',
-            `${
-              paymentMethod
-                ? `Subscription purchased via ${paymentMethod}. `
-                : ``
-            } Use an external service to edit the plan.`,
-            { paymentMethod }
-          )
-        : t(
-            'offer-card.error.inapp-external-no-pmt-method',
-            'Use an external service to edit the plan.'
-          );
+      if (!paymentMethod) {
+        return t(
+          'offer-card.error.inapp-external-no-pmt-method',
+          'Use an external service to edit the plan.'
+        );
+      }
+      return t(
+        'offer-card.error.inapp-external',
+        `${
+          paymentMethod ? `Subscription purchased via ${paymentMethod}. ` : ``
+        } Use an external service to edit the plan.`,
+        { paymentMethod }
+      );
     }
     return '';
   };
@@ -228,12 +224,12 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
         {!isPaused && (
           <PriceWrapperStyled>
             <SkeletonWrapper showChildren={!loading} width={80} height={30}>
-              {offerType === 'S' && (
+              {period && (
                 <Price
                   currency={currency}
-                  price={offerType === 'S' ? nextPaymentPrice : totalPrice}
+                  price={nextPaymentPrice || totalPrice}
                   period={
-                    offerType === 'S' && period !== 'season'
+                    period !== 'season'
                       ? t(`offer-price.period-${period}`, period)
                       : null
                   }
@@ -244,7 +240,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
         )}
       </WrapperStyled>
 
-      {shouldShowInfoBox() ? (
+      {getDescription() && (
         <SubBoxStyled>
           <IconComponent />
           <SubBoxContentStyled>
@@ -253,8 +249,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
                 __html: getDescription() || ''
               }}
             />
-            {pendingSwitchId &&
-            pendingSwitchDetails?.algorithm === 'DEFERRED' ? (
+            {pendingSwitchId && pendingSwitchDetails?.algorithm === 'DEFERRED' && (
               <SubBoxButtonStyled
                 onClick={() => {
                   eventDispatcher(MSSDK_CANCEL_SWITCH_BUTTON_CLICKED, {
@@ -289,13 +284,9 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
                   ? t('offer-card.cancel-pause-button', 'Cancel pause')
                   : t('offer-card.cancel-switch', 'Cancel switch')}
               </SubBoxButtonStyled>
-            ) : (
-              <></>
             )}
           </SubBoxContentStyled>
         </SubBoxStyled>
-      ) : (
-        <></>
       )}
     </>
   );
