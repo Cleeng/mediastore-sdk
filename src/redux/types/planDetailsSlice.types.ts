@@ -1,6 +1,6 @@
 import { CustomerOffer } from 'api/Customer/types';
 
-type SwitchSetting = {
+export type SwitchSetting = {
   toOfferId: string;
   algorithm: string;
   switchDirection: string;
@@ -12,6 +12,10 @@ type SwitchSetting = {
   nextPaymentPrice: number;
   nextPaymentPriceCurrency: string;
   nextPaymentPriceCurrencySymbol: string;
+  reason?: {
+    code: string;
+    message: string;
+  };
 };
 
 export type SwitchSettings = {
