@@ -31,7 +31,7 @@ export const MessageStyled = styled.div.attrs(() => ({
   className: 'msd__coupon-input__message'
 }))<MessageStyledProps>`
   color: ${props =>
-    props.messageType === MESSAGE_TYPE_SUCCESS
+    props.$messageType === MESSAGE_TYPE_SUCCESS
       ? Colors.ConfirmColor
       : Colors.ErrorColor};
   border-radius: 5px;

@@ -29,7 +29,7 @@ export type FormComponentStyledProps = {
 };
 
 export type MessageStyledProps = {
-  messageType: '' | MessageType;
+  $messageType: '' | MessageType;
   showMessage: boolean;
 };
 

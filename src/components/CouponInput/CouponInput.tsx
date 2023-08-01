@@ -3,7 +3,11 @@ import Loader from 'components/Loader';
 import Button from 'components/Button';
 import { ReactComponent as CloseIcon } from 'assets/images/xmark.svg';
 import { useTranslation } from 'react-i18next';
-import { MSSDK_COUPON_FAILED } from 'util/eventDispatcher';
+import eventDispatcher, {
+  MSSDK_COUPON_FAILED,
+  MSSDK_REDEEM_BUTTON_CLICKED,
+  MSSDK_REDEEM_COUPON_BUTTON_CLICKED
+} from 'util/eventDispatcher';
 import {
   FormComponentStyled,
   MessageStyled,
@@ -57,22 +61,11 @@ const CouponInput = ({
 
   const handleRedeem = async () => {
     if (!isOpen) {
-      window.dispatchEvent(
-        new CustomEvent('MSSDK:redeem-coupon-button-clicked', {
-          detail: { source }
-        })
-      );
+      eventDispatcher(MSSDK_REDEEM_COUPON_BUTTON_CLICKED, { source });
       if (onInputToggle) onInputToggle();
       setIsOpen(true);
     } else {
-      window.dispatchEvent(
-        new CustomEvent('MSSDK:redeem-button-clicked', {
-          detail: {
-            coupon: value,
-            source
-          }
-        })
-      );
+      eventDispatcher(MSSDK_REDEEM_BUTTON_CLICKED, { source });
       await onSubmit(value);
     }
   };
@@ -167,7 +160,7 @@ const CouponInput = ({
       {isOpen && (
         <MessageStyled
           showMessage={showMessage && !suppressMessage}
-          messageType={messageType}
+          $messageType={messageType}
         >
           {t(translationKey || '', message)}
         </MessageStyled>
