@@ -28,7 +28,10 @@ import {
   ButtonTextStyled,
   TransactionListStyled,
   LogoWrapStyled,
-  InfoStyled
+  InfoStyled,
+  TransactionDataStyled,
+  DotStyled,
+  EditGiftStyled
 } from './TransactionsStyled';
 
 const TransactionsSkeleton = () => (
@@ -88,52 +91,80 @@ const Transactions = () => {
 
   if (loading) return <TransactionsSkeleton />;
 
-  if (error.length !== 0) {
-    return (
-      <WrapStyled>
-        <MyAccountError generalError />
-      </WrapStyled>
-    );
-  }
+  // if (error.length !== 0) {
+  //   return (
+  //     <WrapStyled>
+  //       <MyAccountError generalError />
+  //     </WrapStyled>
+  //   );
+  // }
 
-  if (transactions.length === 0) {
-    return (
-      <WrapStyled>
-        <MyAccountError
-          icon={noTransactionsIcon}
-          title={t(
-            'transactions.no-transactions.title',
-            'No transactions found!'
-          )}
-          subtitle={t(
-            'transactions.no-transactions.subtitle',
-            'The section will show you recent transactions history after first payment'
-          )}
-        />
-      </WrapStyled>
-    );
-  }
+  // if (transactions.length === 0) {
+  //   return (
+  //     <WrapStyled>
+  //       <MyAccountError
+  //         icon={noTransactionsIcon}
+  //         title={t(
+  //           'transactions.no-transactions.title',
+  //           'No transactions found!'
+  //         )}
+  //         subtitle={t(
+  //           'transactions.no-transactions.subtitle',
+  //           'The section will show you recent transactions history after first payment'
+  //         )}
+  //       />
+  //     </WrapStyled>
+  //   );
+  // }
+
+  const transactionsMock = [
+    {
+      paymentMethod: 'card',
+      transactionId: 'T278908407',
+      offerTitle: 'Monthly subscription',
+      offerId: 'S333919956_PL',
+      transactionDate: 1628085830,
+      targetType: 'subscriptionId'
+    },
+    {
+      paymentMethod: 'applepay',
+      transactionId: 'T278908408',
+      offerTitle: 'Monthly subscription gift',
+      offerId: 'S333919956_PL',
+      transactionDate: 1628114400,
+      targetType: 'giftId'
+    },
+    {
+      paymentMethod: 'googlepay',
+      transactionId: 'T278908409',
+      offerTitle: 'Monthly subscription gift',
+      offerId: 'S333919956_PL',
+      transactionDate: 1628114400,
+      targetType: 'giftId'
+    }
+  ];
 
   return (
     <WrapStyled>
       <Card withBorder>
         <TransactionListStyled
           isExpanded={isListExpanded}
-          length={transactionsToShow.length}
+          // length={transactionsToShow.length}
         >
-          {transactionsToShow.map(
+          {transactionsMock.map(
             ({
               paymentMethod,
               transactionId,
               offerId,
               offerTitle,
-              transactionDate
+              transactionDate,
+              targetType
             }) => {
               const LogoComponent = logos[paymentMethod] || logos.card;
               return (
                 <InsideWrapperStyled
                   key={transactionId}
-                  length={transactionsToShow.length}
+                  // length={transactionsToShow.length}
                 >
                   <LeftBoxStyled>
                     <LogoWrapStyled>
@@ -143,20 +174,34 @@ const Transactions = () => {
                       <TitleStyled>
                         {t(`offer-title-${offerId}`, offerTitle)}
                       </TitleStyled>
-                      <SubTitleStyled>
-                        {t('transactions.paid-with', `Paid with`)}{' '}
-                        {t(
-                          `paymentmethod.${paymentMethod}`,
-                          readablePaymentMethodNames[paymentMethod]
-                        )}
-                      </SubTitleStyled>
+                      <TransactionDataStyled>
+                        <SubTitleStyled>
+                          {/* {t('transactions.paid-with', `Paid with`)}{' '} */}
+                          {t(
+                            `paymentmethod.${paymentMethod}`,
+                            readablePaymentMethodNames[paymentMethod]
+                          )}
+                        </SubTitleStyled>
+                        <DotStyled>·</DotStyled>
+                        <IdStyled>{transactionId}</IdStyled>
+                        <DotStyled>·</DotStyled>
+                        <DateStyled datetime={dateFormat(transactionDate)}>
+                          {dateFormat(transactionDate)}
+                        </DateStyled>
+                      </TransactionDataStyled>
                     </InfoStyled>
                   </LeftBoxStyled>
                   <RightBoxStyled>
-                    <IdStyled>{transactionId}</IdStyled>
+                    {targetType === 'giftId' && (
+                      // add translation
+                      <EditGiftStyled role="button">
+                        Edit gift delivery details
+                      </EditGiftStyled>
+                    )}
+                    {/* <IdStyled>{transactionId}</IdStyled>
                     <DateStyled datetime={dateFormat(transactionDate)}>
                       {dateFormat(transactionDate)}
-                    </DateStyled>
+                    </DateStyled> */}
                   </RightBoxStyled>
                 </InsideWrapperStyled>
               );

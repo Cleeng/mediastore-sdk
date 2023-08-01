@@ -27,23 +27,34 @@ export const InsideWrapperStyled = styled.li.attrs(() => ({
   padding: 18px 0;
   border-bottom: 1px solid ${LineColor};
 
-  ${props =>
+  &:first-child {
+    padding: 0 0 18px 0;
+  }
+
+  &:last-child {
+    padding: 18px 0 0 0;
+    border-bottom: none;
+  }
+
+  &:only-child {
+    border-bottom: none;
+    padding: unset;
+  }
+
+  ${media.small`
+    flex-direction: column;
+  `}
+
+  /* ${props =>
     (props.length === 1 &&
       css`
         padding: 0;
         border-bottom: none;
       `) ||
     (props.length !== 1 &&
-      css`
-        &:first-child {
-          padding: 0 0 18px 0;
-        }
-
-        &:last-child {
-          padding: 18px 0 0 0;
-          border-bottom: none;
-        }
-      `)}
+      css` */
+      
+      /* `)} */
 `;
 
 export const TransactionListStyled = styled.ul.attrs(() => ({
@@ -64,6 +75,13 @@ export const RightBoxStyled = styled.div`
   flex-shrink: 0;
   margin-inline-start: 20px;
   text-align: end;
+  justify-content: center;
+
+  ${media.small`
+    text-align: start;
+    margin-inline-start: 56px;
+    margin-top: 6px;
+  `}
 `;
 
 export const TitleStyled = styled.h3.attrs(() => ({
@@ -88,19 +106,24 @@ export const SubTitleStyled = styled.div.attrs(() => ({
 export const IdStyled = styled.div.attrs(() => ({
   className: 'msd__transaction__id'
 }))`
-  color: ${FontColor};
+  /* check color variables */
+  /* color: ${FontColor}; */
+  color: #727583cc;
+  margin-top: 6px;
 
-  font-size: 13px;
+  font-size: 12px;
 `;
 export const DateStyled = styled.time.attrs(() => ({
   className: 'msd__transaction__date'
 }))`
   margin-top: 6px;
-
-  color: ${FontColor};
+  /* check color variables */
+  /* color: ${FontColor}; */
+  color: #727583cc;
 
   font-size: 12px;
 `;
+
 export const ButtonTextStyled = styled.span.attrs(() => ({
   className: 'msd__transactions__button-text'
 }))`
@@ -125,7 +148,7 @@ export const ButtonTextStyled = styled.span.attrs(() => ({
 export const LogoWrapStyled = styled.div`
   display: flex;
   height: 38px;
-  width: 38px;
+  min-width: 38px;
   justify-content: center;
   align-items: center;
   border: 1px solid #d4d4df;
@@ -138,4 +161,32 @@ export const LogoWrapStyled = styled.div`
 
 export const InfoStyled = styled.div`
   margin-inline-start: 18px;
+`;
+
+export const TransactionDataStyled = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 4px;
+`;
+
+export const DotStyled = styled.span`
+  margin-top: 5px;
+  font-size: 12px;
+  font-weight: 800;
+  color: #727583cc;
+`;
+
+export const EditGiftStyled = styled.p`
+  font-weight: 600;
+  font-size: 12px;
+  text-decoration: underline;
+  color: #4eb7a1;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  ${media.small`
+    text-align: start;
+  `}
 `;
