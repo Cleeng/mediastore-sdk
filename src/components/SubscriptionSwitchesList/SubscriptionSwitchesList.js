@@ -68,45 +68,6 @@ const SubscriptionSwitchesList = () => {
     );
   }
 
-  const areAvailable = !!(
-    switchSettings.available &&
-    switchSettings.available.length &&
-    switchSettings.available.filter(
-      ({ toOfferId }) => !pendingSwtichesToOfferIdsArray.includes(toOfferId)
-    ).length
-  );
-
-  const areUnAvailable = !!(
-    switchSettings.unavailable && switchSettings.unavailable.length
-  );
-  const allSwitchesBlocked = switchSettings.unavailableReason;
-  if (allSwitchesBlocked) {
-    const error = mapErrorToText[allSwitchesBlocked.code]
-      ? mapErrorToText[allSwitchesBlocked.code]
-      : mapErrorToText.DEFAULT;
-
-    return (
-      <MyAccountError
-        icon={error.icon}
-        title={t(error.title.translationKey, error.title.text)}
-        subtitle={t(error.subtitle.translationKey, error.subtitle.text)}
-        margin="0 auto"
-        fullWidth
-      />
-    );
-  }
-  if (!areAvailable && !areUnAvailable) {
-    return (
-      <MyAccountError
-        icon={selectPlanIcon}
-        title={t(
-          'subscription-switches-list.switching-unavailable',
-          "Looks like there aren't any options for switching from your current plan right now"
-        )}
-        margin="0 auto"
-      />
-    );
-  }
   const availableSorted = Array.isArray(switchSettings.available)
     ? [...switchSettings.available].sort(
         (aOffer, bOffer) => bOffer.price - aOffer.price
@@ -123,9 +84,39 @@ const SubscriptionSwitchesList = () => {
       )
     : [];
 
+  const allSwitchesBlocked = switchSettings.unavailableReason;
+  if (allSwitchesBlocked) {
+    const error = mapErrorToText[allSwitchesBlocked.code]
+      ? mapErrorToText[allSwitchesBlocked.code]
+      : mapErrorToText.DEFAULT;
+
+    return (
+      <MyAccountError
+        icon={error.icon}
+        title={t(error.title.translationKey, error.title.text)}
+        subtitle={t(error.subtitle.translationKey, error.subtitle.text)}
+        margin="0 auto"
+        fullWidth
+      />
+    );
+  }
+
+  if (!availableFiltered?.length && !unavailableFiltered?.length) {
+    return (
+      <MyAccountError
+        icon={selectPlanIcon}
+        title={t(
+          'subscription-switches-list.switching-unavailable',
+          "Looks like there aren't any options for switching from your current plan right now"
+        )}
+        margin="0 auto"
+      />
+    );
+  }
+
   return (
     <>
-      {areAvailable &&
+      {!!availableFiltered.length &&
         availableFiltered.map(subItem => {
           return (
             <SubscriptionStyled
@@ -169,7 +160,7 @@ const SubscriptionSwitchesList = () => {
             </SubscriptionStyled>
           );
         })}
-      {areUnAvailable &&
+      {!!unavailableFiltered.length &&
         unavailableFiltered.map(subItem => {
           return (
             <SubscriptionStyled key={subItem.toOfferId}>
