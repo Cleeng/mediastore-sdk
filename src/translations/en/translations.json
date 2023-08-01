@@ -165,6 +165,7 @@
   "offer-card.error.to-free-offer": "Switching from a paid to a free offer is not possible",
   "offer-card.error.inapp-external": "Subscription purchased via {{ paymentMethod }}. Use an external service to edit the plan.",
   "offer-card.error.inapp-external-no-pmt-method": "Use an external service to edit the plan.",
+  "offer-card.error.missing-payment-for-proration": "The upgrade will be available after the renewal date.",
   "offer-card.info-box.pause-information-text": "Your current plan will be paused starting on {{subscriptionExpirationDate}}. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ translatedTitle }}. You can cancel this pause request at any time.",
   "offer-card.next-season-start": "the next season start",
   "offer-card.switch-details.deferred": "Your switch is pending. You will have access to {{translatedTitle}} until {{subscriptionExpirationDate}}. From that time you will be charged your new price and will have access to {{translatedSwitchTitle}}. You can cancel this at any time.",

@@ -88,7 +88,7 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
       case 'MISSING_PAYMENT_FOR_PRORATION':
         return t(
           'offer-card.error.missing-payment-for-proration',
-          'The next upgrade will be available after the renewal date. '
+          'The upgrade will be available after the renewal date.'
         );
       default:
         return '';
