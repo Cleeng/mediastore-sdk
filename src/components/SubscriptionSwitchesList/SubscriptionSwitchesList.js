@@ -5,9 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
 import { SimpleButtonStyled } from 'components/SubscriptionManagement/SubscriptionManagementStyled';
 import OfferSwitchCard from 'components/OfferSwitchCard';
+import OfferSwitchCardLoader from 'components/OfferSwitchCard/OfferSwitchCardLoader';
 import MyAccountError from 'components/MyAccountError';
 import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
-import { SkeletonCard } from 'components/CurrentPlan/CurrentPlan';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { showPopup } from 'redux/popupSlice';
 import eventDispatcher, {
@@ -44,7 +44,11 @@ const SubscriptionSwitchesList = () => {
   const dispatch = useDispatch();
 
   if (isSwitchSettingsLoading) {
-    return <SkeletonCard />;
+    return (
+      <SubscriptionStyled>
+        <OfferSwitchCardLoader />
+      </SubscriptionStyled>
+    );
   }
 
   if (isAllSwitchSettingsError?.length) {

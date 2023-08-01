@@ -10,6 +10,7 @@ import { setOfferToSwitch } from 'redux/planDetailsSlice';
 
 import MyAccountError from 'components/MyAccountError';
 import OfferMyAccountCard from 'components/OfferMyAccountCard';
+import OfferMyAccountCardLoader from 'components/OfferMyAccountCard/OfferMyAccountCardLoader';
 import SubscriptionManagement from 'components/SubscriptionManagement';
 import MessageBox from 'components/MessageBox';
 
@@ -28,7 +29,7 @@ import {
 export const SkeletonCard = () => {
   return (
     <SubscriptionStyled>
-      <OfferMyAccountCard isDataLoaded={false} />
+      <OfferMyAccountCardLoader />
     </SubscriptionStyled>
   );
 };
@@ -130,7 +131,7 @@ const CurrentPlan = () => {
                 offerToSwitch.offerId === subItem.offerId
               }
             >
-              <OfferMyAccountCard isMyAccount offerId={subItem.offerId} />
+              <OfferMyAccountCard offerId={subItem.offerId} />
               {isMessageBoxOpened &&
                 messageSubscriptionId === subItem.subscriptionId && (
                   <StatusMessageWrapStyled>

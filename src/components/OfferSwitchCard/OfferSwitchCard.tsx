@@ -31,7 +31,6 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
     data: allSwitchSettings,
     loading: isSwitchSettingsLoading
   } = useAppSelector(selectSwitchSettings);
-
   const switchDetails =
     allSwitchSettings[baseOfferId].available.find(
       switchData => switchData.toOfferId === toOfferId
@@ -85,6 +84,11 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
         return t(
           'offer-card.error.missing-payment-details',
           'Your payment details are missing. Please add them to proceed with a subscription switch.'
+        );
+      case 'MISSING_PAYMENT_FOR_PRORATION':
+        return t(
+          'offer-card.error.missing-payment-for-proration',
+          'The next upgrade will be available after the renewal date. '
         );
       default:
         return '';
