@@ -211,7 +211,7 @@ const OfferCheckoutCard = () => {
           <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
           {/* <DescriptionStyled>{offerDescription}</DescriptionStyled> */}
           <CreditCardIcon />
-          <p style={{ display: 'inline' }}> {offerDescription}</p>
+          {/* <p style={{ display: 'inline' }}> {offerDescription}</p> */}
         </SkeletonWrapper>
         <SkeletonWrapper
           showChildren={!loading}
