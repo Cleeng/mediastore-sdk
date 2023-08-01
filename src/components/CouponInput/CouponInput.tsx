@@ -65,7 +65,7 @@ const CouponInput = ({
       if (onInputToggle) onInputToggle();
       setIsOpen(true);
     } else {
-      eventDispatcher(MSSDK_REDEEM_BUTTON_CLICKED, { source });
+      eventDispatcher(MSSDK_REDEEM_BUTTON_CLICKED, { coupon: value, source });
       await onSubmit(value);
     }
   };
@@ -159,7 +159,7 @@ const CouponInput = ({
       </InputElementWrapperStyled>
       {isOpen && (
         <MessageStyled
-          showMessage={showMessage && !suppressMessage}
+          $showMessage={showMessage && !suppressMessage}
           $messageType={messageType}
         >
           {t(translationKey || '', message)}

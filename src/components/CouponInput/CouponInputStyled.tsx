@@ -38,7 +38,7 @@ export const MessageStyled = styled.div.attrs(() => ({
 
   font-size: 12px;
 
-  opacity: ${props => (props.showMessage ? 1 : 0)};
+  opacity: ${props => (props.$showMessage ? 1 : 0)};
   transition: opacity 250ms linear;
 `;
 

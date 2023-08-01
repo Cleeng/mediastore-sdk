@@ -30,7 +30,7 @@ export type FormComponentStyledProps = {
 
 export type MessageStyledProps = {
   $messageType: '' | MessageType;
-  showMessage: boolean;
+  $showMessage: boolean;
 };
 
 export type InputElementWrapperStyledProps = {
