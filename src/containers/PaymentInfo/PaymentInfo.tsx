@@ -13,6 +13,7 @@ import {
 import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
 import {
   selectPaymentDetailsPopup,
+  selectPopupDetails,
   updatePaymentDetailsPopup
 } from 'redux/popupSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
@@ -26,6 +27,7 @@ const PaymentInfo = ({
   const dispatch = useAppDispatch();
 
   const adyenConfigurationStore = useAppSelector(selectAdyenConfiguration);
+  const { isOpen } = useAppSelector(selectPopupDetails);
 
   const { t } = useTranslation();
 
@@ -49,6 +51,9 @@ const PaymentInfo = ({
     };
   }, []);
 
+  // refactor this variable
+  const otherPopupOpened = isOpen && !paymentDetailsPopup.isOpen;
+
   return (
     <WrapStyled>
       <GracePeriodError />
@@ -58,17 +63,19 @@ const PaymentInfo = ({
         </div>
       ) : (
         <>
-          <section>
-            <SectionHeader>
-              <>
-                {t(
-                  'paymentinfo.current-payment-method',
-                  'Current payment method'
-                )}
-              </>
-            </SectionHeader>
-            <PaymentMethod />
-          </section>
+          {!otherPopupOpened && (
+            <section>
+              <SectionHeader>
+                <>
+                  {t(
+                    'paymentinfo.current-payment-method',
+                    'Current payment method'
+                  )}
+                </>
+              </SectionHeader>
+              <PaymentMethod />
+            </section>
+          )}
           <section>
             <SectionHeader marginTop="25px">
               <>{t('paymentinfo.payment-history', 'Payment history')}</>

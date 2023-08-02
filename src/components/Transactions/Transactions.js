@@ -1,9 +1,19 @@
 /* eslint-disable no-nested-ternary */
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAppSelector } from 'redux/store';
+import {
+  POPUP_TYPES,
+  hidePopup,
+  selectPopupDetails,
+  showPopup
+} from 'redux/popupSlice';
 import Card from 'components/Card';
 import { dateFormat } from 'util/planHelper';
 import MyAccountError from 'components/MyAccountError';
+import InnerPopupWrapper from 'components/InnerPopupWrapper';
+import RecipientForm from 'components/DeliveryDetails/RecipientForm';
 import Button from 'components/Button';
 import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
@@ -14,8 +24,6 @@ import {
   toggleTransactionList,
   removePausedTransactions
 } from 'redux/transactionsSlice';
-import { useDispatch, useSelector } from 'react-redux';
-
 import {
   WrapStyled,
   InsideWrapperStyled,
@@ -31,7 +39,9 @@ import {
   InfoStyled,
   TransactionDataStyled,
   DotStyled,
-  EditGiftStyled
+  EditGiftStyled,
+  ButtonsStyled,
+  ContentStyled
 } from './TransactionsStyled';
 
 const TransactionsSkeleton = () => (
@@ -72,6 +82,7 @@ const Transactions = () => {
     isListExpanded
   } = useSelector(state => state.transactions);
   const { pauseOffersIDs } = useSelector(state => state.offers);
+  const { isOpen, currentType } = useAppSelector(selectPopupDetails);
 
   const { t } = useTranslation();
 
@@ -87,6 +98,14 @@ const Transactions = () => {
         dispatch(removePausedTransactions(pauseOffersIDs));
       });
     }
+
+    return () => {
+      // maybe change to hideEditDeliveryDetailsPopup ?
+
+      if (currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP) {
+        dispatch(hidePopup());
+      }
+    };
   }, []);
 
   if (loading) return <TransactionsSkeleton />;
@@ -132,7 +151,8 @@ const Transactions = () => {
       offerTitle: 'Monthly subscription gift',
       offerId: 'S333919956_PL',
       transactionDate: 1628114400,
-      targetType: 'giftId'
+      targetType: 'giftId',
+      targetId: '2'
     },
     {
       paymentMethod: 'googlepay',
@@ -140,9 +160,41 @@ const Transactions = () => {
       offerTitle: 'Monthly subscription gift',
       offerId: 'S333919956_PL',
       transactionDate: 1628114400,
-      targetType: 'giftId'
+      targetType: 'giftId',
+      targetId: '3'
     }
   ];
+
+  if (isOpen && currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP) {
+    return (
+      <InnerPopupWrapper
+        steps={2}
+        isError={false}
+        currentStep={1}
+        popupTitle={t(
+          // fix translation
+          'update-payment-details-popup.title',
+          'Edit delivery details'
+        )}
+      >
+        {/* maybe import ContentStyled from InnerPopupWrapper  */}
+        <ContentStyled>
+          <RecipientForm />
+          <ButtonsStyled>
+            <button onClick={() => dispatch(hidePopup())} type="button">
+              Back
+            </button>
+            <button
+              onClick={() => console.log('Updating details...')}
+              type="button"
+            >
+              Update details
+            </button>
+          </ButtonsStyled>
+        </ContentStyled>
+      </InnerPopupWrapper>
+    );
+  }
 
   return (
     <WrapStyled>
@@ -158,7 +210,8 @@ const Transactions = () => {
               offerId,
               offerTitle,
               transactionDate,
-              targetType
+              targetType,
+              targetId
             }) => {
               const LogoComponent = logos[paymentMethod] || logos.card;
               return (
@@ -194,7 +247,20 @@ const Transactions = () => {
                   <RightBoxStyled>
                     {targetType === 'giftId' && (
                       // add translation
-                      <EditGiftStyled role="button">
+                      <EditGiftStyled
+                        onClick={() => {
+                          dispatch(
+                            showPopup({
+                              type: POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP,
+                              data: {
+                                action: 'editDeliveryDetails',
+                                giftId: targetId
+                              }
+                            })
+                          );
+                        }}
+                        role="button"
+                      >
                         Edit gift delivery details
                       </EditGiftStyled>
                     )}

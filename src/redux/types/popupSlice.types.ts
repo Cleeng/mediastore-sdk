@@ -97,6 +97,10 @@ type ResumeSubscription = {
   offerData: SwitchSettings;
 };
 
+type EditDeliveryDetails = {
+  giftId: string;
+};
+
 export type PopupManagerInitialState = {
   isOpen: boolean;
   isLoading: boolean;
@@ -108,6 +112,7 @@ export type PopupManagerInitialState = {
   cancelPause: CancelPause | null;
   resumeSubscription: ResumeSubscription | null;
   paymentDetails: PaymentDetails;
+  editDeliveryDetails: EditDeliveryDetails | null;
 };
 
 export type PopupType = {
