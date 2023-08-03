@@ -37,3 +37,4 @@ export const MSSDK_CANCEL_SWITCH_ACTION_FAILED =
   'MSSDK:cancel-switch-action-failed';
 export const MSSDK_CANCEL_SWITCH_ACTION_CANCELLED =
   'MSSDK:cancel-switch-action-cancelled';
+export const MSSDK_AUTH_FAILED = 'MSSDK:auth-failed';
