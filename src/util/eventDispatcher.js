@@ -15,6 +15,9 @@ export const MSSDK_UPDATE_PAYMENT_DETAILS_FAILED =
   'MSSDK:update-payment-details-failed';
 export const MSSDK_REMOVE_PAYMENT_DETAILS_BUTTON_CLICKED =
   'MSSDK:remove-payment-details-button-clicked';
+export const MSSDK_REDEEM_BUTTON_CLICKED = 'MSSDK:redeem-button-clicked';
+export const MSSDK_REDEEM_COUPON_BUTTON_CLICKED =
+  'MSSDK:redeem-coupon-button-clicked';
 export const MSSDK_COUPON_SUCCESSFUL = 'MSSDK:redeem-coupon-success';
 export const MSSDK_COUPON_FAILED = 'MSSDK:redeem-coupon-failed';
 export const MSSDK_PURCHASE_LOADED = 'MSSDK:Purchase-loaded';
@@ -34,3 +37,4 @@ export const MSSDK_CANCEL_SWITCH_ACTION_FAILED =
   'MSSDK:cancel-switch-action-failed';
 export const MSSDK_CANCEL_SWITCH_ACTION_CANCELLED =
   'MSSDK:cancel-switch-action-cancelled';
+export const MSSDK_AUTH_FAILED = 'MSSDK:auth-failed';
