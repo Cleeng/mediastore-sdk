@@ -67,9 +67,15 @@ const EditDeliveryDetailsPopup = () => {
                 Delivery Details Updated
               </ThankYouPageHeaderStyled>
               <ThankYouPageInfoTextStyled>
-                Thank you for updating your delivery details for your 1 Month
-                Subscription - Premium Plan. Your changes have been saved and
-                will be reflected in your next delivery.
+                Thank you for updating your delivery details for your
+              </ThankYouPageInfoTextStyled>
+              <ThankYouPageInfoTextStyled>
+                {/* change to real plan name */}1 Month Subscription - Premium
+                Plan
+              </ThankYouPageInfoTextStyled>
+              <ThankYouPageInfoTextStyled>
+                Your changes have been saved and will be reflected in your next
+                delivery.
               </ThankYouPageInfoTextStyled>
               <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
                 Back to settings
