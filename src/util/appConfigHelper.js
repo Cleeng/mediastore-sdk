@@ -169,11 +169,10 @@ export const setLanguage = async language => {
   if (!i18n.hasResourceBundle(language, 'translations')) {
     const data = await fetch(
       `${BASE_URL}/cleeng-translations/${language}/translations.json`
-    )
-      .then(response => {
-        return response.json();
-      })
-      .catch(() => {});
+    ).then(response => {
+      return response.json();
+    });
+
     i18n.addResourceBundle(language, 'translations', data, true, true);
   }
 
