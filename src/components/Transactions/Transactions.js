@@ -109,60 +109,60 @@ const Transactions = () => {
 
   if (loading) return <TransactionsSkeleton />;
 
-  if (error.length !== 0) {
-    return (
-      <WrapStyled>
-        <MyAccountError generalError />
-      </WrapStyled>
-    );
-  }
+  // if (error.length !== 0) {
+  //   return (
+  //     <WrapStyled>
+  //       <MyAccountError generalError />
+  //     </WrapStyled>
+  //   );
+  // }
 
-  if (transactions.length === 0) {
-    return (
-      <WrapStyled>
-        <MyAccountError
-          icon={noTransactionsIcon}
-          title={t(
-            'transactions.no-transactions.title',
-            'No transactions found!'
-          )}
-          subtitle={t(
-            'transactions.no-transactions.subtitle',
-            'The section will show you recent transactions history after first payment'
-          )}
-        />
-      </WrapStyled>
-    );
-  }
+  // if (transactions.length === 0) {
+  //   return (
+  //     <WrapStyled>
+  //       <MyAccountError
+  //         icon={noTransactionsIcon}
+  //         title={t(
+  //           'transactions.no-transactions.title',
+  //           'No transactions found!'
+  //         )}
+  //         subtitle={t(
+  //           'transactions.no-transactions.subtitle',
+  //           'The section will show you recent transactions history after first payment'
+  //         )}
+  //       />
+  //     </WrapStyled>
+  //   );
+  // }
 
-  // const transactionsMock = [
-  //   {
-  //     paymentMethod: 'card',
-  //     transactionId: 'T278908407',
-  //     offerTitle: 'Monthly subscription',
-  //     offerId: 'S333919956_PL',
-  //     transactionDate: 1628085830,
-  //     targetType: 'subscriptionId'
-  //   },
-  //   {
-  //     paymentMethod: 'applepay',
-  //     transactionId: 'T278908408',
-  //     offerTitle: 'Monthly subscription gift',
-  //     offerId: 'S333919956_PL',
-  //     transactionDate: 1628114400,
-  //     targetType: 'giftId',
-  //     targetId: '2'
-  //   },
-  //   {
-  //     paymentMethod: 'googlepay',
-  //     transactionId: 'T278908409',
-  //     offerTitle: 'Monthly subscription gift',
-  //     offerId: 'S333919956_PL',
-  //     transactionDate: 1628114400,
-  //     targetType: 'giftId',
-  //     targetId: '3'
-  //   }
-  // ];
+  const transactionsMock = [
+    {
+      paymentMethod: 'card',
+      transactionId: 'T278908407',
+      offerTitle: 'Monthly subscription',
+      offerId: 'S333919956_PL',
+      transactionDate: 1628085830,
+      targetType: 'subscriptionId'
+    },
+    {
+      paymentMethod: 'applepay',
+      transactionId: 'T278908408',
+      offerTitle: 'Monthly subscription gift',
+      offerId: 'S333919956_PL',
+      transactionDate: 1628114400,
+      targetType: 'giftId',
+      targetId: '2'
+    },
+    {
+      paymentMethod: 'googlepay',
+      transactionId: 'T278908409',
+      offerTitle: 'Monthly subscription gift',
+      offerId: 'S333919956_PL',
+      transactionDate: 1628114400,
+      targetType: 'giftId',
+      targetId: '3'
+    }
+  ];
 
   if (isOpen && currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP) {
     return <EditDeliveryDetailsPopup />;
@@ -175,7 +175,7 @@ const Transactions = () => {
           isExpanded={isListExpanded}
           // length={transactionsToShow.length}
         >
-          {transactionsToShow.map(
+          {transactionsMock.map(
             ({
               paymentMethod,
               transactionId,

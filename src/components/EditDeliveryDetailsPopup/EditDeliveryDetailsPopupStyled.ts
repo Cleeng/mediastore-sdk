@@ -41,3 +41,33 @@ export const ButtonsStyled = styled.div`
     }
   }
 `;
+
+export const ThankYouPageStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  > button {
+    max-width: 320px;
+    margin-top: 112px;
+  }
+`;
+
+export const ThankYouPageHeaderStyled = styled.h2`
+  font-size: 25px;
+  font-weight: 600;
+  margin: 40px 0 24px 0;
+
+  // this color? if yes find variable
+  color: #515364;
+`;
+
+export const ThankYouPageInfoTextStyled = styled.p`
+  font-size: 15px;
+  font-weight: 300;
+  text-align: center;
+  max-width: 380px;
+
+  // this color? if yes find variable
+  color: #515364;
+`;
