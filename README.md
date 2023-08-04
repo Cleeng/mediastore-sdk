@@ -894,7 +894,7 @@ Below, you can find a short guide on how to implement custom copies or translati
 
 1. Create a `cleeng-translations` folder inside `/public` folder in your application
 2. In previously created folder you can create separate folders for needed languages, eg. `/es` for Spanish.
-3. Create a new file in a language folder and name it `translations.json`. Copy the content from [English version](https://github.com/Cleeng/mediastore-sdk/tree/main/src/translations/en) and translate the values in that file to the needed language. If you only want to modify wording, you can add and update only the needed keys with values.
+3. Create a new file in a language folder and name it `translations.json`. The name of this folder should be different than `en`. Copy the content from [English version](https://github.com/Cleeng/mediastore-sdk/tree/main/src/translations/en) and translate the values in that file to the needed language. If you only want to modify wording, you can add and update only the needed keys with values.
 4. To enable a new language, you have to add `?lng=es` at the end of your url or set an entry in your local storage.
 
 ```javascript
