@@ -12,6 +12,7 @@ import {
 } from 'redux/publisherConfigSlice';
 import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
 import {
+  POPUP_TYPES,
   selectPaymentDetailsPopup,
   selectPopupDetails,
   updatePaymentDetailsPopup
@@ -27,7 +28,7 @@ const PaymentInfo = ({
   const dispatch = useAppDispatch();
 
   const adyenConfigurationStore = useAppSelector(selectAdyenConfiguration);
-  const { isOpen } = useAppSelector(selectPopupDetails);
+  const { isOpen, currentType } = useAppSelector(selectPopupDetails);
 
   const { t } = useTranslation();
 
@@ -51,8 +52,8 @@ const PaymentInfo = ({
     };
   }, []);
 
-  // refactor this variable
-  const otherPopupOpened = isOpen && !paymentDetailsPopup.isOpen;
+  const isEditDeliveryDetailsPopupOpened =
+    isOpen && currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP;
 
   return (
     <WrapStyled>
@@ -63,7 +64,7 @@ const PaymentInfo = ({
         </div>
       ) : (
         <>
-          {!otherPopupOpened && (
+          {!isEditDeliveryDetailsPopupOpened && (
             <section>
               <SectionHeader>
                 <>

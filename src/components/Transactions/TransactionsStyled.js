@@ -44,17 +44,6 @@ export const InsideWrapperStyled = styled.li.attrs(() => ({
   ${media.small`
     flex-direction: column;
   `}
-
-  /* ${props =>
-    (props.length === 1 &&
-      css`
-        padding: 0;
-        border-bottom: none;
-      `) ||
-    (props.length !== 1 &&
-      css` */
-      
-      /* `)} */
 `;
 
 export const TransactionListStyled = styled.ul.attrs(() => ({
@@ -106,8 +95,6 @@ export const SubTitleStyled = styled.div.attrs(() => ({
 export const IdStyled = styled.div.attrs(() => ({
   className: 'msd__transaction__id'
 }))`
-  /* check color variables */
-  /* color: ${FontColor}; */
   color: #727583cc;
   margin-top: 6px;
 
@@ -117,8 +104,6 @@ export const DateStyled = styled.time.attrs(() => ({
   className: 'msd__transaction__date'
 }))`
   margin-top: 6px;
-  /* check color variables */
-  /* color: ${FontColor}; */
   color: #727583cc;
 
   font-size: 12px;

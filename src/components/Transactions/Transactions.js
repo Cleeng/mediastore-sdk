@@ -9,22 +9,20 @@ import {
   selectPopupDetails,
   showPopup
 } from 'redux/popupSlice';
-import Card from 'components/Card';
-import { dateFormat } from 'util/planHelper';
-import MyAccountError from 'components/MyAccountError';
-import InnerPopupWrapper from 'components/InnerPopupWrapper';
-import RecipientForm from 'components/DeliveryDetails/RecipientForm';
-import Button from 'components/Button';
-import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
-import SkeletonWrapper from 'components/SkeletonWrapper';
-import EditDeliveryDetailsPopup from 'components/EditDeliveryDetailsPopup';
-import { logos, readablePaymentMethodNames } from 'util/paymentMethodHelper';
 import {
   DEFAULT_TRANSACTIONS_NUMBER,
   fetchListCustomerTransactions,
   toggleTransactionList,
   removePausedTransactions
 } from 'redux/transactionsSlice';
+import { dateFormat } from 'util/planHelper';
+import { logos, readablePaymentMethodNames } from 'util/paymentMethodHelper';
+import Card from 'components/Card';
+import MyAccountError from 'components/MyAccountError';
+import Button from 'components/Button';
+import SkeletonWrapper from 'components/SkeletonWrapper';
+import EditDeliveryDetailsPopup from 'components/EditDeliveryDetailsPopup';
+import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
 import {
   WrapStyled,
   InsideWrapperStyled,
@@ -99,8 +97,6 @@ const Transactions = () => {
     }
 
     return () => {
-      // maybe change to hideEditDeliveryDetailsPopup ?
-
       if (currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP) {
         dispatch(hidePopup());
       }
@@ -135,35 +131,6 @@ const Transactions = () => {
     );
   }
 
-  // const transactionsMock = [
-  //   {
-  //     paymentMethod: 'card',
-  //     transactionId: 'T278908407',
-  //     offerTitle: 'Monthly subscription',
-  //     offerId: 'S333919956_PL',
-  //     transactionDate: 1628085830,
-  //     targetType: 'subscriptionId'
-  //   },
-  //   {
-  //     paymentMethod: 'applepay',
-  //     transactionId: 'T278908408',
-  //     offerTitle: 'Monthly subscription gift',
-  //     offerId: 'S333919956_PL',
-  //     transactionDate: 1628114400,
-  //     targetType: 'giftId',
-  //     targetId: '2'
-  //   },
-  //   {
-  //     paymentMethod: 'googlepay',
-  //     transactionId: 'T278908409',
-  //     offerTitle: 'Monthly subscription gift',
-  //     offerId: 'S333919956_PL',
-  //     transactionDate: 1628114400,
-  //     targetType: 'giftId',
-  //     targetId: '3'
-  //   }
-  // ];
-
   if (isOpen && currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP) {
     return <EditDeliveryDetailsPopup />;
   }
@@ -171,10 +138,7 @@ const Transactions = () => {
   return (
     <WrapStyled>
       <Card withBorder>
-        <TransactionListStyled
-          isExpanded={isListExpanded}
-          // length={transactionsToShow.length}
-        >
+        <TransactionListStyled isExpanded={isListExpanded}>
           {transactionsToShow.map(
             ({
               paymentMethod,
@@ -187,10 +151,7 @@ const Transactions = () => {
             }) => {
               const LogoComponent = logos[paymentMethod] || logos.card;
               return (
-                <InsideWrapperStyled
-                  key={transactionId}
-                  // length={transactionsToShow.length}
-                >
+                <InsideWrapperStyled key={transactionId}>
                   <LeftBoxStyled>
                     <LogoWrapStyled>
                       <LogoComponent />
@@ -201,7 +162,6 @@ const Transactions = () => {
                       </TitleStyled>
                       <TransactionDataStyled>
                         <SubTitleStyled>
-                          {/* {t('transactions.paid-with', `Paid with`)}{' '} */}
                           {t(
                             `paymentmethod.${paymentMethod}`,
                             readablePaymentMethodNames[paymentMethod]
@@ -218,7 +178,6 @@ const Transactions = () => {
                   </LeftBoxStyled>
                   <RightBoxStyled>
                     {targetType === 'giftId' && (
-                      // add translation
                       <EditGiftStyled
                         onClick={() => {
                           dispatch(
@@ -233,13 +192,12 @@ const Transactions = () => {
                         }}
                         role="button"
                       >
-                        Edit gift delivery details
+                        {t(
+                          'transactions.edit-gift-delivery-details',
+                          'Edit gift delivery details'
+                        )}
                       </EditGiftStyled>
                     )}
-                    {/* <IdStyled>{transactionId}</IdStyled>
-                    <DateStyled datetime={dateFormat(transactionDate)}>
-                      {dateFormat(transactionDate)}
-                    </DateStyled> */}
                   </RightBoxStyled>
                 </InsideWrapperStyled>
               );

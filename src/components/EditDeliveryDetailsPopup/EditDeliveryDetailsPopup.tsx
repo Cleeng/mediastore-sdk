@@ -27,58 +27,61 @@ const EditDeliveryDetailsPopup = () => {
     };
   }, []);
 
+  // get offerTitle from store or props
+  const offerTitle = '1 Month Subscription - Premium Plan';
+
   return (
     <InnerPopupWrapper
       steps={2}
       isError={false}
       currentStep={currentStep}
       popupTitle={t(
-        // fix translation
-        'update-payment-details-popup.title',
+        'edit-delivery-details-popup.title',
         'Edit delivery details'
       )}
     >
-      {/* maybe import ContentStyled from InnerPopupWrapper  */}
       <ContentStyled>
         {currentStep === 1 ? (
           <>
             <RecipientForm isMyAccount />
-            {/* ButtonsWrapper */}
             <ButtonsStyled>
-              {/* <ButtonWrapperStyled removeMargin> */}
               <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
-                {/* {t('update-payment-details-popup.cancel', '')} */}
-                Back
+                {t('edit-delivery-details-popup.button.cancel', 'Back')}
               </Button>
-              {/* </ButtonWrapperStyled> */}
               <Button theme="confirm" onClickFn={() => setCurrentStep(2)}>
-                {/* {t('update-payment-details-popup.cancel', '')} */}
-                Update details
+                {t(
+                  'edit-delivery-details-popup.button.confirm',
+                  'Update details'
+                )}
               </Button>
             </ButtonsStyled>
           </>
         ) : (
           <>
             <ThankYouPageStyled>
-              {/* should I use h2? */}
-              {/* add translations */}
               <CheckmarkIcon />
               <ThankYouPageHeaderStyled>
-                Delivery Details Updated
+                {t(
+                  'edit-delivery-details-popup.thank-you-page.header',
+                  'Delivery Details Updated'
+                )}
               </ThankYouPageHeaderStyled>
               <ThankYouPageInfoTextStyled>
-                Thank you for updating your delivery details for your
-              </ThankYouPageInfoTextStyled>
-              <ThankYouPageInfoTextStyled>
-                {/* change to real plan name */}1 Month Subscription - Premium
-                Plan
-              </ThankYouPageInfoTextStyled>
-              <ThankYouPageInfoTextStyled>
-                Your changes have been saved and will be reflected in your next
-                delivery.
+                {t(
+                  'edit-delivery-details-popup.thank-you-page.info-text-1',
+                  'Thank you for updating your delivery details for your'
+                )}
+                <p>{offerTitle}</p>
+                {t(
+                  'edit-delivery-details-popup.thank-you-page.info-text-2',
+                  'Your changes have been saved and will be reflected in your next delivery.'
+                )}
               </ThankYouPageInfoTextStyled>
               <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
-                Back to settings
+                {t(
+                  'edit-delivery-details-popup.button.back',
+                  'Back to settings'
+                )}
               </Button>
             </ThankYouPageStyled>
           </>

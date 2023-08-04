@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { media } from 'styles/BreakPoints';
+import { FontColor } from 'styles/variables';
 
 export const ContentStyled = styled.div.attrs(() => ({
   className: 'msd__popup-content'
@@ -26,7 +27,6 @@ export const ButtonsStyled = styled.div`
   width: 100%;
   max-width: 376px;
 
-  // check with other popups
   gap: 12px;
   margin-top: 24px;
   padding: 0 32px 0 32px;
@@ -54,20 +54,21 @@ export const ThankYouPageStyled = styled.div`
 `;
 
 export const ThankYouPageHeaderStyled = styled.h2`
+  text-align: center;
   font-size: 25px;
   font-weight: 600;
   margin: 40px 0 24px 0;
-
-  // this color? if yes find variable
-  color: #515364;
+  color: ${FontColor};
 `;
 
-export const ThankYouPageInfoTextStyled = styled.p`
+export const ThankYouPageInfoTextStyled = styled.div`
   font-size: 15px;
   font-weight: 300;
   text-align: center;
   max-width: 380px;
+  color: ${FontColor};
 
-  // this color? if yes find variable
-  color: #515364;
+  p {
+    text-align: center;
+  }
 `;
