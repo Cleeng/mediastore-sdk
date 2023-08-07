@@ -9,7 +9,8 @@ import {
   MicroFont,
   FontColor,
   White,
-  LineColor
+  LineColor,
+  LightFont
 } from 'styles/variables';
 
 export const WrapperStyled = styled.section`
@@ -50,7 +51,8 @@ export const DescriptionStyled = styled.p.attrs(() => ({
   className: 'msd__checkout-card-text__description'
 }))`
   font-size: ${TinyFont};
-  font-weight: ${MediumFontWeight};
+  /* font-weight: ${MediumFontWeight}; */
+  font-weight: ${LightFont};
   line-height: 17px;
   white-space: pre-line;
   margin: 9px 0;
@@ -80,4 +82,8 @@ export const TrialBadgeStyled = styled.div.attrs(() => ({
   font-weight: ${MediumFontWeight};
   text-transform: uppercase;
   text-align: center;
+`;
+
+export const IconStyled = styled.div`
+  margin-right: 6px;
 `;
