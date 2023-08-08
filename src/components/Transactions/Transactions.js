@@ -185,7 +185,9 @@ const Transactions = () => {
                               type: POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP,
                               data: {
                                 action: 'editDeliveryDetails',
-                                giftId: targetId
+                                giftId: targetId,
+                                offerId,
+                                offerTitle
                               }
                             })
                           );

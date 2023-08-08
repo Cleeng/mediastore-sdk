@@ -18,11 +18,9 @@ import {
   validateRecipientEmail
 } from './validators';
 
-type RecipientFormProps = {
-  isMyAccount?: true;
-};
+import { RecipientFormProps } from './RecipientForm.types';
 
-const RecipientForm = ({ isMyAccount }: RecipientFormProps) => {
+const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
   const {
     recipientEmail,
     confirmRecipientEmail,
@@ -126,10 +124,6 @@ const RecipientForm = ({ isMyAccount }: RecipientFormProps) => {
       )}
     </StyledRecipientForm>
   );
-};
-
-RecipientForm.defaultProps = {
-  isMyAccount: false
 };
 
 export default RecipientForm;

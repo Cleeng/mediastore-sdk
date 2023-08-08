@@ -8,8 +8,7 @@ export const POPUP_TYPES = {
   switchPlan: 'switchPlan',
   cancelSwitch: 'cancelSwitch',
   cancelPause: 'cancelPause',
-  resumeSubscription: 'resumeSubscription',
-  editDeliveryDetails: 'editDeliveryDetails'
+  resumeSubscription: 'resumeSubscription'
 };
 
 export const SHOW_INNER_POPUP = 'SHOW_INNER_POPUP';

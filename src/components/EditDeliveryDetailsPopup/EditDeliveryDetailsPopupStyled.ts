@@ -14,6 +14,7 @@ export const ContentStyled = styled.div.attrs(() => ({
 
   form {
     border: unset;
+    margin-top: 16px;
   }
 
   ${media.small`
@@ -53,7 +54,7 @@ export const ThankYouPageStyled = styled.div`
   }
 `;
 
-export const ThankYouPageHeaderStyled = styled.h2`
+export const HeaderStyled = styled.h2`
   text-align: center;
   font-size: 25px;
   font-weight: 600;
@@ -61,7 +62,7 @@ export const ThankYouPageHeaderStyled = styled.h2`
   color: ${FontColor};
 `;
 
-export const ThankYouPageInfoTextStyled = styled.div`
+export const InfoTextStyled = styled.div`
   font-size: 15px;
   font-weight: 300;
   text-align: center;
@@ -70,5 +71,6 @@ export const ThankYouPageInfoTextStyled = styled.div`
 
   p {
     text-align: center;
+    margin-bottom: 24px;
   }
 `;

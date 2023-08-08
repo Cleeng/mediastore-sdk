@@ -99,6 +99,8 @@ type ResumeSubscription = {
 
 type EditDeliveryDetails = {
   giftId: string;
+  offerId: string;
+  offerTitle: string;
 };
 
 export type PopupManagerInitialState = {
@@ -112,7 +114,7 @@ export type PopupManagerInitialState = {
   cancelPause: CancelPause | null;
   resumeSubscription: ResumeSubscription | null;
   paymentDetails: PaymentDetails;
-  editDeliveryDetails: EditDeliveryDetails | null;
+  editDeliveryDetails: EditDeliveryDetails;
 };
 
 export type PopupType = {

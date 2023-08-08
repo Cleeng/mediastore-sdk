@@ -35,7 +35,11 @@ const initialState: PopupManagerInitialState = {
   cancelSwitch: null,
   cancelPause: null,
   resumeSubscription: null,
-  editDeliveryDetails: null,
+  editDeliveryDetails: {
+    giftId: '',
+    offerId: '',
+    offerTitle: ''
+  },
   paymentDetails: {
     isOpen: false,
     isLoading: false,

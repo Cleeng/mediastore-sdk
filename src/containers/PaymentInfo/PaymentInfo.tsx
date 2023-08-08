@@ -64,25 +64,31 @@ const PaymentInfo = ({
         </div>
       ) : (
         <>
-          {!isEditDeliveryDetailsPopupOpened && (
+          {isEditDeliveryDetailsPopupOpened ? (
             <section>
-              <SectionHeader>
-                <>
-                  {t(
-                    'paymentinfo.current-payment-method',
-                    'Current payment method'
-                  )}
-                </>
-              </SectionHeader>
-              <PaymentMethod />
+              <Transactions />
             </section>
+          ) : (
+            <>
+              <section>
+                <SectionHeader>
+                  <>
+                    {t(
+                      'paymentinfo.current-payment-method',
+                      'Current payment method'
+                    )}
+                  </>
+                </SectionHeader>
+                <PaymentMethod />
+              </section>
+              <section>
+                <SectionHeader marginTop="25px">
+                  <>{t('paymentinfo.payment-history', 'Payment history')}</>
+                </SectionHeader>
+                <Transactions />
+              </section>
+            </>
           )}
-          <section>
-            <SectionHeader marginTop="25px">
-              <>{t('paymentinfo.payment-history', 'Payment history')}</>
-            </SectionHeader>
-            <Transactions />
-          </section>
         </>
       )}
     </WrapStyled>
