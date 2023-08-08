@@ -7,7 +7,6 @@ import { useAppSelector } from 'redux/store';
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import RecipientForm from 'components/DeliveryDetails/RecipientForm';
-// import Loader from 'components/Loader';
 import { ReactComponent as CheckmarkIcon } from 'assets/images/greenCheckmark.svg';
 import {
   ButtonsStyled,
