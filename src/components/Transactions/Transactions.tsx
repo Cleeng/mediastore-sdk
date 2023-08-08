@@ -1,8 +1,7 @@
 /* eslint-disable no-nested-ternary */
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
-import { useAppSelector } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import {
   POPUP_TYPES,
   hidePopup,
@@ -45,7 +44,7 @@ const TransactionsSkeleton = () => (
   <Card withBorder>
     {[...Array(3)].map((_, k) => (
       // eslint-disable-next-line react/no-array-index-key
-      <InsideWrapperStyled key={`skeleton-item-${k}`} length={3}>
+      <InsideWrapperStyled key={`skeleton-item-${k}`}>
         <LeftBoxStyled>
           <SkeletonWrapper height={40} width={40} />
           <InfoStyled>
@@ -77,13 +76,14 @@ const Transactions = () => {
     error,
     loading,
     isListExpanded
-  } = useSelector(state => state.transactions);
-  const { pauseOffersIDs } = useSelector(state => state.offers);
+  } = useAppSelector(state => state.transactions);
+  const { pauseOffersIDs } = useAppSelector(state => state.offers);
+
   const { isOpen, currentType } = useAppSelector(selectPopupDetails);
 
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const transactionsToShow = isListExpanded
     ? transactions
@@ -138,7 +138,7 @@ const Transactions = () => {
   return (
     <WrapStyled>
       <Card withBorder>
-        <TransactionListStyled isExpanded={isListExpanded}>
+        <TransactionListStyled>
           {transactionsToShow.map(
             ({
               paymentMethod,
@@ -149,7 +149,8 @@ const Transactions = () => {
               targetType,
               targetId
             }) => {
-              const LogoComponent = logos[paymentMethod] || logos.card;
+              const LogoComponent: React.FC = logos[paymentMethod];
+
               return (
                 <InsideWrapperStyled key={transactionId}>
                   <LeftBoxStyled>
@@ -170,7 +171,7 @@ const Transactions = () => {
                         <DotStyled>·</DotStyled>
                         <IdStyled>{transactionId}</IdStyled>
                         <DotStyled>·</DotStyled>
-                        <DateStyled datetime={dateFormat(transactionDate)}>
+                        <DateStyled dateTime={dateFormat(transactionDate)}>
                           {dateFormat(transactionDate)}
                         </DateStyled>
                       </TransactionDataStyled>

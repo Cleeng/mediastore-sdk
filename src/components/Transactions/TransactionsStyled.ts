@@ -111,7 +111,7 @@ export const DateStyled = styled.time.attrs(() => ({
 
 export const ButtonTextStyled = styled.span.attrs(() => ({
   className: 'msd__transactions__button-text'
-}))`
+}))<{ isExpanded: boolean }>`
   position: relative;
   line-height: 1.2;
   &:after {

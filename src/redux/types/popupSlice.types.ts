@@ -128,7 +128,8 @@ export type PopupData = {
     | PauseSubscription
     | CancelSwitch
     | CancelPause
-    | ResumeSubscription;
+    | ResumeSubscription
+    | EditDeliveryDetails;
 };
 
 export type updatePaymentDetailsPopupPayloadAction =
