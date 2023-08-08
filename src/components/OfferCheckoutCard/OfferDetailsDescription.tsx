@@ -30,12 +30,15 @@ const OfferDetailsDescription = ({
 }) => {
   const { t } = useTranslation();
 
-  const isTrial = false;
-
-  type DescriptionWithIconType = {
+  type DescriptionWithIcon = {
     description: string;
     icon: JSX.Element | null;
+    trialInfo: string;
   };
+
+  let offerInfo = '';
+  let offerIcon: JSX.Element | null = null;
+  let trialInfo = '';
 
   const generateTrialDescription = () => {
     const taxCopy = country === 'US' ? 'Tax' : 'VAT';
@@ -55,15 +58,20 @@ const OfferDetailsDescription = ({
     }
 
     if (freeDays) {
-      const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
-        period
-      )}`;
-      return t(`subscription-desc.trial-days.period-${period}`, description, {
-        currencySymbol,
-        grossPrice,
-        taxCopy,
-        freeDays
-      });
+      const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days.`;
+      trialInfo = `Next payments will occur every ${getReadablePeriod(period)}`;
+
+      offerInfo = t(
+        `subscription-desc.trial-days.period-${period}`,
+        description,
+        {
+          currencySymbol,
+          grossPrice,
+          taxCopy,
+          freeDays
+        }
+      );
+      // return { description, icon };
     }
 
     // freePeriods
@@ -109,31 +117,33 @@ const OfferDetailsDescription = ({
       const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
         period
       )}`;
-      return t(`subscription-desc.period-${period}`, formattedDescription, {
-        currencySymbol,
-        grossPrice,
-        taxCopy
-      });
+      offerInfo = t(
+        `subscription-desc.period-${period}`,
+        formattedDescription,
+        {
+          currencySymbol,
+          grossPrice,
+          taxCopy
+        }
+      );
     }
-
-    return generateTrialDescription();
+    // console.log(generateTrialDescription());
+    // return generateTrialDescription();
+    generateTrialDescription();
   };
 
-  const renderDescription = (): DescriptionWithIconType => {
-    let description = '';
-    let icon = null;
-
+  (() => {
     if (offerType === 'S') {
-      description = generateSubscriptionDescription();
-      icon = <CreditCardIcon />;
+      generateSubscriptionDescription();
+      offerIcon = <CreditCardIcon />;
     }
     if (offerType === 'P') {
-      icon = <PassIcon />;
+      offerIcon = <PassIcon />;
       if (!period) {
         const date = dateFormat(expiresAt, true);
-        description = t('pass-desc.date', `Access until {{date}}`, { date });
+        offerInfo = t('pass-desc.date', `Access until {{date}}`, { date });
       }
-      description = periodMapper[period as Period]
+      offerInfo = periodMapper[period as Period]
         ? `${t(
             `period.${period}`,
             periodMapper[period as Period].accessText as string
@@ -141,48 +151,51 @@ const OfferDetailsDescription = ({
         : '';
     }
     if (offerType === 'E') {
-      description = `Pay-per-view event ${
+      offerInfo = `Pay-per-view event ${
         startTime ? dateFormat(startTime, true) : ''
       }`;
-      icon = <CalendarIcon />;
+      offerIcon = <CalendarIcon />;
     }
     if (offerType === 'R') {
-      description = periodMapper[period as Period]
+      offerInfo = periodMapper[period as Period]
         ? `${t(
             `period.${period}`,
             periodMapper[period as Period].accessText as string
           )} ${t('offer-checkout-card.access', 'access')}`
         : '';
-      icon = <CalendarIcon />;
+      offerIcon = <CalendarIcon />;
     }
     if (offerType === 'A') {
-      description = t(
-        'offer-checkout-card.unlimited-access',
-        'Unlimited access'
-      );
-      icon = <CalendarIcon />;
+      offerInfo = t('offer-checkout-card.unlimited-access', 'Unlimited access');
+      offerIcon = <CalendarIcon />;
     }
-    return { description, icon };
-  };
+    // return { description, icon, trialInfo };
+  })();
 
   return (
     <div
       style={{
         display: ' flex',
         flexDirection: 'column',
-        alignItems: 'center'
+        alignItems: 'flex-start'
       }}
     >
-      <div style={{ display: ' flex', alignItems: 'center', height: '20px' }}>
-        <IconStyled>{renderDescription().icon}</IconStyled>
-        <DescriptionStyled>{renderDescription().description}</DescriptionStyled>
+      <div style={{ display: 'flex', alignItems: 'center', height: '20px' }}>
+        <IconStyled>{offerIcon}</IconStyled>
+        <DescriptionStyled>{offerInfo}</DescriptionStyled>
       </div>
-      {isTrial && (
-        <div style={{ display: ' flex', alignItems: 'center', height: '20px' }}>
+      {isTrialAvailable && (
+        <div
+          style={{
+            display: ' flex',
+            alignItems: 'center',
+            height: '20px'
+          }}
+        >
           <IconStyled>
             <ClockIcon />
           </IconStyled>
-          <p style={{ fontSize: '11px', fontWeight: '300' }}>Hi</p>
+          <DescriptionStyled>{trialInfo}</DescriptionStyled>
         </div>
       )}
     </div>
