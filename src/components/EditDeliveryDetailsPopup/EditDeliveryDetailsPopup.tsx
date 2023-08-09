@@ -51,12 +51,12 @@ const EditDeliveryDetailsPopup = () => {
             <InfoTextStyled>
               {t(
                 'edit-delivery-details-popup.info-text-1',
-                'You have selected the issue regarding your'
+                'You are editing information for your'
               )}
               <p>{t(`offer-title-${offerId}`, offerTitle)}</p>
               {t(
                 'edit-delivery-details-popup.info-text-2',
-                'Please take a moment to update your gift recipient email.'
+                'Please take a moment to update your gift delivery details.'
               )}
             </InfoTextStyled>
             <RecipientForm isMyAccount />
