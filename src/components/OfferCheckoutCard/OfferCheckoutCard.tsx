@@ -57,9 +57,6 @@ const OfferCheckoutCard = () => {
   const isTrialBadgeVisible = isTrialAvailable && discount.type === 'trial';
 
   const { t } = useTranslation();
-  console.log('offerPrice type:', typeof offerPrice);
-  console.log('taxRate type:', typeof taxRate);
-  console.log('customer Price tpye:', typeof customerPriceInclTax);
 
   console.log('offerPrice:', offerPrice);
   console.log('customerPriceInclTax:', customerPriceInclTax);
@@ -70,8 +67,6 @@ const OfferCheckoutCard = () => {
   const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 
   const generateTrialDescription = () => {
-    // const taxCopy = country === 'US' ? 'Tax' : 'VAT';
-
     if (period === 'season' && freeDays) {
       const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days and will be renewed on the next season start date.`;
       return t(
@@ -136,8 +131,6 @@ const OfferCheckoutCard = () => {
   };
 
   const generateSubscriptionDescription = () => {
-    // const taxCopy = country === 'US' ? 'Tax' : 'VAT';
-
     if (discount.type === 'coupon') {
       return generateDescriptionForCoupon();
     }

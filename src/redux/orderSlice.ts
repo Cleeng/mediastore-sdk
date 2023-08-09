@@ -90,7 +90,6 @@ export const fetchUpdateCoupon = createAsyncThunk<
 >('order/updateCoupon', async ({ id, couponCode }, { rejectWithValue }) => {
   try {
     const { order } = await updateOrder(id, { couponCode });
-    console.log('updated order:', order);
     return order;
   } catch (err) {
     const typedError = err as Error;
