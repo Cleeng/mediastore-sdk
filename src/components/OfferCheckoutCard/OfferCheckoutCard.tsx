@@ -12,8 +12,6 @@ import {
 import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
-import { useEffect } from 'react';
-import { MSSDK_COUPON_SUCCESSFUL } from 'util/eventDispatcher';
 import getReadablePeriod from './OfferCheckoutCard.utils';
 import {
   WrapperStyled,
@@ -49,10 +47,6 @@ const OfferCheckoutCard = () => {
     discount
   } = useAppSelector(selectOnlyOrder);
 
-  // useEffect(() => {
-  //   console.log('discount:', discount);
-  // });
-
   const offerType = offerId?.charAt(0);
   const currencySymbol = currencyFormat[currency];
   const isOfferFree =
@@ -63,11 +57,15 @@ const OfferCheckoutCard = () => {
   const isTrialBadgeVisible = isTrialAvailable && discount.type === 'trial';
 
   const { t } = useTranslation();
-  console.log('isOfferFree:', isOfferFree);
+  console.log('offerPrice type:', typeof offerPrice);
+  console.log('taxRate type:', typeof taxRate);
+  console.log('customer Price tpye:', typeof customerPriceInclTax);
+
+  console.log('offerPrice:', offerPrice);
+  console.log('customerPriceInclTax:', customerPriceInclTax);
+  console.log('calc grossPrice raw:', offerPrice + taxRate * offerPrice);
   console.log('grossPrice:', grossPrice);
   console.log('totalPrice:', totalPrice);
-  console.log('discount.type:', discount.type);
-  console.log('period:', period);
 
   const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 

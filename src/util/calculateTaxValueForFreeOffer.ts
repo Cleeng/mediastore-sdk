@@ -1,8 +1,8 @@
 const calculateTaxValueForFreeOffer = (
-  netPrice,
-  taxRate,
-  customerPriceInclTax
-) => {
+  netPrice: number,
+  taxRate: number,
+  customerPriceInclTax: number
+): string => {
   const taxValue = netPrice * taxRate;
   const shouldRoundTaxValue =
     customerPriceInclTax === Number((netPrice + taxRate * netPrice).toFixed(2));

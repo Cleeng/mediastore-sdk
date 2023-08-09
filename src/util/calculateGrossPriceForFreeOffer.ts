@@ -1,8 +1,8 @@
 const calculateGrossPriceForFreeOffer = (
-  netPrice,
-  taxRate,
-  customerPriceInclTax
-) => {
+  netPrice: number,
+  taxRate: number,
+  customerPriceInclTax: number
+): string => {
   const grossPrice = netPrice + taxRate * netPrice;
   const shouldRoundGrossPrice =
     customerPriceInclTax === Number(grossPrice.toFixed(2));
