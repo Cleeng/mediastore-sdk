@@ -6,6 +6,7 @@ import SectionHeader from 'components/SectionHeader';
 import Transactions from 'components/Transactions';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
 import GracePeriodError from 'components/GracePeriodError';
+import EditDeliveryDetailsPopup from 'components/EditDeliveryDetailsPopup';
 import {
   init as initPublisherConfig,
   selectAdyenConfiguration
@@ -55,42 +56,40 @@ const PaymentInfo = ({
   const isEditDeliveryDetailsPopupOpened =
     isOpen && currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP;
 
-  return (
-    <WrapStyled>
-      <GracePeriodError />
-      {paymentDetailsPopup.isOpen ? (
+  if (isEditDeliveryDetailsPopupOpened) {
+    return (
+      <WrapStyled>
+        <EditDeliveryDetailsPopup />
+      </WrapStyled>
+    );
+  }
+
+  if (paymentDetailsPopup.isOpen) {
+    return (
+      <WrapStyled>
+        <GracePeriodError />
         <div data-testid="payment-info__update-payment-details-popup">
           <UpdatePaymentDetailsPopup />
         </div>
-      ) : (
-        <>
-          {isEditDeliveryDetailsPopupOpened ? (
-            <section>
-              <Transactions />
-            </section>
-          ) : (
-            <>
-              <section>
-                <SectionHeader>
-                  <>
-                    {t(
-                      'paymentinfo.current-payment-method',
-                      'Current payment method'
-                    )}
-                  </>
-                </SectionHeader>
-                <PaymentMethod />
-              </section>
-              <section>
-                <SectionHeader marginTop="25px">
-                  <>{t('paymentinfo.payment-history', 'Payment history')}</>
-                </SectionHeader>
-                <Transactions />
-              </section>
-            </>
-          )}
-        </>
-      )}
+      </WrapStyled>
+    );
+  }
+
+  return (
+    <WrapStyled>
+      <GracePeriodError />
+      <section>
+        <SectionHeader>
+          {t('paymentinfo.current-payment-method', 'Current payment method')}
+        </SectionHeader>
+        <PaymentMethod />
+      </section>
+      <section>
+        <SectionHeader marginTop="25px">
+          <>{t('paymentinfo.payment-history', 'Payment history')}</>
+        </SectionHeader>
+        <Transactions />
+      </section>
     </WrapStyled>
   );
 };

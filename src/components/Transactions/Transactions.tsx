@@ -8,6 +8,7 @@ import {
   selectPopupDetails,
   showPopup
 } from 'redux/popupSlice';
+import { selectOffers } from 'redux/offersSlice';
 import {
   DEFAULT_TRANSACTIONS_NUMBER,
   fetchListCustomerTransactions,
@@ -77,8 +78,7 @@ const Transactions = () => {
     loading,
     isListExpanded
   } = useAppSelector(state => state.transactions);
-  const { pauseOffersIDs } = useAppSelector(state => state.offers);
-
+  const { pauseOffersIDs } = useAppSelector(selectOffers);
   const { isOpen, currentType } = useAppSelector(selectPopupDetails);
 
   const { t } = useTranslation();

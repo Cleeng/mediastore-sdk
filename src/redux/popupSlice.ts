@@ -36,7 +36,7 @@ const initialState: PopupManagerInitialState = {
   cancelPause: null,
   resumeSubscription: null,
   editDeliveryDetails: {
-    giftId: '',
+    giftId: null,
     offerId: '',
     offerTitle: ''
   },
