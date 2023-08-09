@@ -12,6 +12,8 @@ import {
 import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
+import { useEffect } from 'react';
+import { MSSDK_COUPON_SUCCESSFUL } from 'util/eventDispatcher';
 import getReadablePeriod from './OfferCheckoutCard.utils';
 import {
   WrapperStyled,
@@ -47,6 +49,10 @@ const OfferCheckoutCard = () => {
     discount
   } = useAppSelector(selectOnlyOrder);
 
+  // useEffect(() => {
+  //   console.log('discount:', discount);
+  // });
+
   const offerType = offerId?.charAt(0);
   const currencySymbol = currencyFormat[currency];
   const isOfferFree =
@@ -57,9 +63,16 @@ const OfferCheckoutCard = () => {
   const isTrialBadgeVisible = isTrialAvailable && discount.type === 'trial';
 
   const { t } = useTranslation();
+  console.log('isOfferFree:', isOfferFree);
+  console.log('grossPrice:', grossPrice);
+  console.log('totalPrice:', totalPrice);
+  console.log('discount.type:', discount.type);
+  console.log('period:', period);
+
+  const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 
   const generateTrialDescription = () => {
-    const taxCopy = country === 'US' ? 'Tax' : 'VAT';
+    // const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 
     if (period === 'season' && freeDays) {
       const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days and will be renewed on the next season start date.`;
@@ -115,8 +128,21 @@ const OfferCheckoutCard = () => {
     );
   };
 
+  const generateDescriptionForCoupon = () => {
+    const description = `You will be charged ${currencySymbol}${totalPrice} (incl. ${taxCopy}) per ${period} for the next ${
+      discount.periods
+    } ${period}${
+      discount.periods === 1 ? '.' : 's.'
+    } <br/>After that time you will be charged a regular price of ${currencySymbol}${grossPrice}.`;
+    return description;
+  };
+
   const generateSubscriptionDescription = () => {
-    const taxCopy = country === 'US' ? 'Tax' : 'VAT';
+    // const taxCopy = country === 'US' ? 'Tax' : 'VAT';
+
+    if (discount.type === 'coupon') {
+      return generateDescriptionForCoupon();
+    }
 
     if (!isTrialAvailable) {
       if (period === 'season') {
