@@ -98,7 +98,7 @@ type ResumeSubscription = {
 };
 
 type EditDeliveryDetails = {
-  giftId: number;
+  giftId: number | null;
   offerId: string;
   offerTitle: string;
 };
