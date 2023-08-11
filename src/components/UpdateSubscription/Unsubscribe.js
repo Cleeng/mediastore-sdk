@@ -212,13 +212,13 @@ const Unsubscribe = ({
   const { offerTitle, expiresAt, offerId, period } = offerDetails;
   const formattedExpiresAt = dateFormat(expiresAt);
 
-  const toOfferIdTitle = offers.find(({ longId }) => longId === scheduledSwitch().toOfferId)
-        ?.title;
+  const toOfferIdTitle = offers.find(
+    ({ longId }) => longId === scheduledSwitch().toOfferId
+  )?.title;
   const scheduledSwitchTitle = t(
     `offer-title-${scheduledSwitch().toOfferId}`,
     toOfferIdTitle
   );
-  
   const translatedTitle = t(`offer-title-${offerId}`, offerTitle);
 
   // Filter out the pause subscription
@@ -258,7 +258,7 @@ const Unsubscribe = ({
           <ButtonWrapperStyled fillWrapper customMargin="80px 0 0">
             <Button
               theme="confirm"
-              onClickFn={() => 
+              onClickFn={() =>
                 dispatch(
                   showPopup({
                     type: 'pauseSubscription',
@@ -425,14 +425,14 @@ const Unsubscribe = ({
             )}
             {cancellationReasonsToShow && (
               <ReasonsWrapper>
-                {cancellationReasonsToShow.map(({ translationKey, value }) => (
-                  <StyledItem key={translationKey}>
+                {cancellationReasonsToShow.map(({ key, value }) => (
+                  <StyledItem key={key}>
                     <Checkbox
                       isRadioButton
                       onClickFn={() => setCheckedReason(value)}
                       checked={value === checkedReason}
                     >
-                      {t(translationKey, value)}
+                      {t(key, value)}
                     </Checkbox>
                   </StyledItem>
                 ))}
