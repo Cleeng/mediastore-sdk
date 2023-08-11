@@ -143,31 +143,31 @@ const Unsubscribe = ({
   const defaultCancellationReasons = [
     {
       value: 'Poor customer support',
-      translationKey: 'unsubscribe-popup.cancellation.poor-customer-support'
+      key: 'unsubscribe-popup.cancellation.poor-customer-support'
     },
     {
       value: 'Switch to a different service',
-      translationKey: 'unsubscribe-popup.cancellation.service-switch'
+      key: 'unsubscribe-popup.cancellation.service-switch'
     },
     {
       value: 'Subscription is too expensive',
-      translationKey: 'unsubscribe-popup.cancellation.too-expensive'
+      key: 'unsubscribe-popup.cancellation.too-expensive'
     },
     {
       value: 'Video streaming issues',
-      translationKey: 'unsubscribe-popup.cancellation.streaming-issues'
+      key: 'unsubscribe-popup.cancellation.streaming-issues'
     },
     {
       value: 'Not enough interesting content',
-      translationKey: 'unsubscribe-popup.cancellation.not-interesting-content'
+      key: 'unsubscribe-popup.cancellation.not-interesting-content'
     },
     {
       value: 'Service is hard to use',
-      translationKey: 'unsubscribe-popup.cancellation.hard-to-use'
+      key: 'unsubscribe-popup.cancellation.hard-to-use'
     },
     {
       value: 'Content I like has ended',
-      translationKey: 'unsubscribe-popup.cancellation.content-ended'
+      key: 'unsubscribe-popup.cancellation.content-ended'
     }
   ];
 
