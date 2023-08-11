@@ -51,14 +51,9 @@ const OfferCheckoutCard = () => {
   const currencySymbol = currencyFormat[currency];
   const isOfferFree =
     isTrialAvailable || (discount.applied && totalPrice === 0);
-  const grossPrice =
-    isOfferFree && taxRate !== 0
-      ? calculateGrossPriceForFreeOffer(
-          offerPrice,
-          taxRate,
-          customerPriceInclTax
-        )
-      : formatNumber(totalPrice);
+  const grossPrice = isOfferFree
+    ? calculateGrossPriceForFreeOffer(offerPrice, taxRate, customerPriceInclTax)
+    : formatNumber(totalPrice);
   const isTrialBadgeVisible = isTrialAvailable && discount.type === 'trial';
 
   const { t } = useTranslation();
