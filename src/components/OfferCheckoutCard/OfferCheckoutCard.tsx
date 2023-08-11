@@ -129,7 +129,7 @@ const OfferCheckoutCard = () => {
     let description;
     let formattedDescription;
     if (discountPeriods === 1) {
-      formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next 1 ${period}.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
+      formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next ${period}.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
       description = t(
         `subscription-desc-coupon-${period}`,
         formattedDescription,
