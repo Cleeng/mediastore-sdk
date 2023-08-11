@@ -1,5 +1,5 @@
-import store from 'redux/store';
 import i18n from 'i18next';
+import store from 'redux/store';
 import {
   setData as setDataInRedux,
   removeData as removeDataFromRedux
@@ -169,9 +169,13 @@ export const setLanguage = async language => {
   if (!i18n.hasResourceBundle(language, 'translations')) {
     const data = await fetch(
       `${BASE_URL}/cleeng-translations/${language}/translations.json`
-    ).then(response => {
-      return response.json();
-    });
+    )
+      .then(response => {
+        return response.json();
+      })
+      // Do not remove catch below
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      .catch(() => {});
 
     i18n.addResourceBundle(language, 'translations', data, true, true);
   }
