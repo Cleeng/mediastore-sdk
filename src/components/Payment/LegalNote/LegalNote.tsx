@@ -46,7 +46,7 @@ const LegalNote = () => {
           if (isInTrial) {
             return (
               <Trans
-                i18nKey={`legal-notes.trial.period-${offerPeriod as SubscriptionPeriodType}`}
+                i18nKey={`offer-standard-consent-copy.trial.period-${offerPeriod as SubscriptionPeriodType}`}
               >
                 <strong>
                   <>
@@ -69,7 +69,7 @@ const LegalNote = () => {
           if (couponApplied) {
             return (
               <Trans
-                i18nKey={`legal-notes.discount.period-${offerPeriod as SubscriptionPeriodType}`}
+                i18nKey={`offer-standard-consent-copy.discount.period-${offerPeriod as SubscriptionPeriodType}`}
               >
                 <strong>
                   <>
@@ -89,8 +89,9 @@ const LegalNote = () => {
             );
           }
           return (
+            // offer-standard-consent-copy.period
             <Trans
-              i18nKey={`legal-notes.period-${offerPeriod as SubscriptionPeriodType}`}
+              i18nKey={`offer-standard-consent-copy.period-${offerPeriod as SubscriptionPeriodType}`}
             >
               <strong>
                 <>
