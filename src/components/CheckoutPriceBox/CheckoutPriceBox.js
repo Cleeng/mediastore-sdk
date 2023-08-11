@@ -48,19 +48,24 @@ const CheckoutPriceBox = () => {
 
     if (finalPrice === 0) {
       if (discountedPeriods === 1) {
-        // non standard periods
+        // non standard period free
         if (period === '3months' || period === '6months') {
-          description = 'First billing period free!';
-          return description;
+          return t(
+            `coupon-note-billing-period-free`,
+            'First billing period free!'
+          );
         }
         description = t(`coupon-note-${period}-free`, `First ${period} free!`, {
           period
         });
       } else {
-        // non standard periods
+        // non standard periods free
         if (period === '3months' || period === '6months') {
-          description = `First ${discountedPeriods} billing periods free!`;
-          return description;
+          return t(
+            `coupon-note-billing-periods-free`,
+            `First ${discountedPeriods} billing periods free!`,
+            { discountedPeriods }
+          );
         }
         description = t(
           `coupon-note-${period}s-free`,
@@ -78,7 +83,10 @@ const CheckoutPriceBox = () => {
       // non standard periods
       if (period === '3months' || period === '6months') {
         description = `${currencySymbol}${formattedDiscountAmount} off for the first billing period!`;
-        return description;
+        return t('coupon-note-billing-period', description, {
+          currencySymbol,
+          formattedDiscountAmount
+        });
       }
       description = t(
         `coupon-note-${period}`,
@@ -92,8 +100,12 @@ const CheckoutPriceBox = () => {
     } else {
       // non standard periods
       if (period === '3months' || period === '6months') {
-        description = `${currencySymbol}${formattedDiscountAmount} off for the first billing periods!`;
-        return description;
+        description = `${currencySymbol}${formattedDiscountAmount} off for the first ${discountedPeriods} billing periods!`;
+        return t('coupon-note-billing-periods', description, {
+          currencySymbol,
+          formattedDiscountAmount,
+          discountedPeriods
+        });
       }
       description = t(
         `coupon-note-${period}s`,

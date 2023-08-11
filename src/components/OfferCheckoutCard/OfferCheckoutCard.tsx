@@ -135,7 +135,17 @@ const OfferCheckoutCard = () => {
           period as Period
         ]
           .chargedForEveryText as string} for the next billing period.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
-        return formattedDescription;
+        return t(
+          `subscription-desc-coupon.period-${period}`,
+          formattedDescription,
+          {
+            formattedTotalPrice,
+            taxCopy,
+            discountPeriods,
+            currencySymbol,
+            regularPrice
+          }
+        );
       }
 
       formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next ${period}.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
@@ -153,7 +163,17 @@ const OfferCheckoutCard = () => {
         period as Period
       ]
         .chargedForEveryText as string} for the next ${discountPeriods} billing periods.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
-      return formattedDescription;
+      return t(
+        `subscription-desc-coupon.periods-${period}`,
+        formattedDescription,
+        {
+          formattedTotalPrice,
+          taxCopy,
+          discountPeriods,
+          currencySymbol,
+          regularPrice
+        }
+      );
     }
 
     formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next ${discountPeriods} ${period}s.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
