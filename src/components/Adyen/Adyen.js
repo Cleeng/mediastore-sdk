@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { render } from 'react-dom';
-import { getData } from 'util/appConfigHelper';
-import { useTranslation, Trans } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
@@ -18,7 +17,6 @@ import { currencyFormat, isPeriod, periodMapper } from 'util/planHelper';
 import { useSelector } from 'react-redux';
 import Checkbox from 'components/Checkbox';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
-import LegalNotesV2 from 'components/Payment/LegalNote/LegalNotesV2';
 import AdyenStyled from './AdyenStyled';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
 import Loader from '../Loader';

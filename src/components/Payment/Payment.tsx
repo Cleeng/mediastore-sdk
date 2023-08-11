@@ -361,7 +361,6 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       <SectionHeader marginTop="25px" paddingBottom="0" center>
         <>{t('payment.purchase-using', 'Purchase using')}</>
       </SectionHeader>
-      <LegalCopy />
       <PaymentWrapperStyled>
         {isPaymentFinalizationInProgress && <Loader />}
         {shouldShowAdyen && (
@@ -395,7 +394,6 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
           <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
         )}
       </PaymentWrapperStyled>
-      {order?.offerId?.charAt(0) === 'S' && <LegalNote />}
     </PaymentStyled>
   );
 };
