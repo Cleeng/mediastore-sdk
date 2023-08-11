@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { render } from 'react-dom';
-import { useTranslation } from 'react-i18next';
+import { getData } from 'util/appConfigHelper';
+import { useTranslation, Trans } from 'react-i18next';
 import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
@@ -8,13 +9,16 @@ import useScript from 'util/useScriptHook';
 import {
   getAvailablePaymentMethods,
   bankPaymentMethods,
+  standardPaymentMethods,
   bankPaymentMethodsMapper,
   STANDARD_PAYMENT_METHODS,
   BANK_PAYMENT_METHODS
 } from 'util/paymentMethodHelper';
+import { currencyFormat, isPeriod, periodMapper } from 'util/planHelper';
 import { useSelector } from 'react-redux';
 import Checkbox from 'components/Checkbox';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
+import LegalNotesV2 from 'components/Payment/LegalNote/LegalNotesV2';
 import AdyenStyled from './AdyenStyled';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
 import Loader from '../Loader';
@@ -33,9 +37,14 @@ const Adyen = ({
   getDropIn,
   onAdditionalDetails
 }) => {
-  const { discount, totalPrice, offerId } = useSelector(
-    state => state.order.order
-  );
+  const {
+    discount,
+    totalPrice,
+    offerId,
+    currency,
+    priceBreakdown: { offerPrice }
+  } = useSelector(state => state.order.order);
+  const { period: offerPeriod } = useSelector(state => state.offer.offer);
   const {
     adyenConfiguration,
     paymentMethods: publisherPaymentMethods,
@@ -71,31 +80,82 @@ const Adyen = ({
 
   const { t, i18n } = useTranslation();
 
+  const chargedForEveryText =
+    offerPeriod && isPeriod(offerPeriod)
+      ? periodMapper[offerPeriod].chargedForEveryText
+      : null;
+  const readablePrice = `${currencyFormat[currency]}${offerPrice}`;
+  const readablePeriod = chargedForEveryText ? `/${chargedForEveryText}` : '';
+
   const getBankCopy = () => {
     const isFree = totalPrice === 0;
     const isSubscription = offerId?.charAt(0) === 'S';
+    // TODO before the release: standarize transaltions keys
+    // TODO: test if purchase is blocked if checkbox is not checked
+    // TODO: add copy and checkbox to PayPal
 
     if (isMyAccount || (isFree && isSubscription)) {
+      // TODO: add link to T&C
       return t(
         'offer-bank-consent-copy.free-subscription',
-        'You accept the terms and conditions of this agreement and that your account will be charged €0.10 for authentication purposes. This amount will be refunded once the transaction is completed. And your account will be debited on a recurring basis for the full subscription amount.'
+        `By ticking this, you agree to the Terms and Conditions of our service. Your account will be charged €0.10 for authentication purposes. This amount will be refunded once the transaction is completed. Your account will be charged on a recurring basis for the full subscription amount. Your subscription will continue until you cancel.`
       );
     }
 
     if (isSubscription) {
+      // TODO: add link to T&C
       return t(
         'offer-bank-consent-copy.paid-subscription',
-        'You accept the terms and conditions of this agreement. Your account will be debited on a recurring basis for the full subscription amount.'
+        'By ticking this, you agree to the Terms and Conditions of our service. Your account will be charged on a recurring basis for the full subscription amount. Your subscription will continue until you cancel.'
       );
     }
 
     return t(
+      // TODO: add link to T&C
       'offer-bank-consent-copy.paid-not-subscription',
-      'You accept the terms and conditions of this agreement.'
+      'By ticking this, you agree to the Terms and Conditions of our service.'
     );
   };
 
-  const addAdditionalCopyForBankPaymentMethods = methodName => {
+  const getStandardCopy = () => {
+    // TODO: add link to T&C
+    if (isMyAccount) {
+      return t(
+        'offer-standard-consent-copy.my-account',
+        `By ticking this, you agree to the Terms and Conditions of our service. Your account will be charged on a recurring basis for the full subscription amount. Your subscription will continue until you cancel.`
+      );
+    }
+
+    if (discount?.applied && discount.type === 'trial') {
+      // TODO: add link to T&C
+      return t(
+        `legal-notes.trial.period-${offerPeriod}`,
+        "After any free trial and/or promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Cancel'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
+        { readablePrice, readablePeriod }
+      );
+    }
+
+    if (discount?.applied && discount.type !== 'trial') {
+      // TODO: add link to T&C
+      return t(
+        `legal-notes.discount.period-${offerPeriod}`,
+        "After any promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Cancel'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
+        { readablePrice, readablePeriod }
+      );
+    }
+
+    // TODO: add link to T&C
+    return t(
+      'offer-standard-consent-copy.checkout-subscription',
+      "You will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click ‘Cancel.’ By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
+      { readablePrice, readablePeriod }
+    );
+  };
+
+  const addAdditionalCopyForBankPaymentMethods = (
+    methodName,
+    type = 'standard'
+  ) => {
     const parentEl = document.querySelector(
       `.adyen-checkout__payment-method--${methodName}`
     );
@@ -112,15 +172,11 @@ const Adyen = ({
           setIsChecked(!e.target.checked);
         }}
       >
-        {getBankCopy()}
+        {type === 'bank' ? getBankCopy() : getStandardCopy()}
       </Checkbox>
     );
 
     if (parentEl) {
-      const details = parentEl.querySelector(
-        '.adyen-checkout__payment-method__details'
-      );
-
       const doesCheckboxExist = document.querySelector(
         `.checkbox-${methodName}`
       );
@@ -130,14 +186,20 @@ const Adyen = ({
         wrapper.classList.add('checkbox-wrapper');
 
         render(checkbox, wrapper);
-        details.before(wrapper);
+        parentEl.appendChild(wrapper);
       }
     }
   };
 
+  // TO REFACTOR
   const showAdditionalText = () => {
     if (bankPaymentMethodsRef?.current) {
       bankPaymentMethods.forEach(method =>
+        addAdditionalCopyForBankPaymentMethods(method, 'bank')
+      );
+    }
+    if (standardPaymentMethodsRef?.current) {
+      standardPaymentMethods.forEach(method =>
         addAdditionalCopyForBankPaymentMethods(method)
       );
     }
@@ -226,9 +288,14 @@ const Adyen = ({
             paymentMethod: { type: methodName }
           }
         } = state;
-
-        if (bankPaymentMethods.includes(methodName)) {
-          const checkbox = document.querySelector(`.checkbox-${methodName}`);
+        console.log({ methodName });
+        if (
+          bankPaymentMethods.includes(methodName) ||
+          standardPaymentMethods.includes(methodName)
+        ) {
+          const checkbox = document.querySelector(
+            `.checkbox-${methodName === 'scheme' ? 'card' : methodName}`
+          );
 
           if (!checkbox.checked) {
             checkbox.classList.add('adyen-checkout__bank-checkbox--error');
