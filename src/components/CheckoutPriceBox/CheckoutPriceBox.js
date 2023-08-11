@@ -48,10 +48,20 @@ const CheckoutPriceBox = () => {
 
     if (finalPrice === 0) {
       if (discountedPeriods === 1) {
+        // non standard periods
+        if (period === '3months' || period === '6months') {
+          description = 'First billing period free!';
+          return description;
+        }
         description = t(`coupon-note-${period}-free`, `First ${period} free!`, {
           period
         });
       } else {
+        // non standard periods
+        if (period === '3months' || period === '6months') {
+          description = `First ${discountedPeriods} billing periods free!`;
+          return description;
+        }
         description = t(
           `coupon-note-${period}s-free`,
           `First ${discountedPeriods} ${period}s free!`,
@@ -63,7 +73,13 @@ const CheckoutPriceBox = () => {
       }
       return description;
     }
+
     if (discountedPeriods === 1) {
+      // non standard periods
+      if (period === '3months' || period === '6months') {
+        description = `${currencySymbol}${formattedDiscountAmount} off for the first billing period!`;
+        return description;
+      }
       description = t(
         `coupon-note-${period}`,
         `${currencySymbol}${formattedDiscountAmount} off for the first ${period}!`,
@@ -74,6 +90,11 @@ const CheckoutPriceBox = () => {
         }
       );
     } else {
+      // non standard periods
+      if (period === '3months' || period === '6months') {
+        description = `${currencySymbol}${formattedDiscountAmount} off for the first billing periods!`;
+        return description;
+      }
       description = t(
         `coupon-note-${period}s`,
         `${currencySymbol}${formattedDiscountAmount} off for the first ${discountedPeriods} ${period}s!`,
