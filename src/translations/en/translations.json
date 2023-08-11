@@ -315,6 +315,10 @@
   "State is required": "State is required",
   "State/Region": "State/Region",
   "Strong password": "Strong password",
+  "subscription-desc-coupon-week": "You will be charged {{currencySymbol}}{{totalPrice}} (incl. {{taxCopy}}) per week for the next 1 week.<br/>After that time you will be charged a regular price of {{currencySymbol}}{{regularPrice}}.",
+  "subscription-desc-coupon-month": "You will be charged {{currencySymbol}}{{totalPrice}} (incl. {{taxCopy}}) per month for the next 1 month.<br/>After that time you will be charged a regular price of {{currencySymbol}}{{regularPrice}}.",
+  "subscription-desc-coupon-weeks": "You will be charged {{currencySymbol}}{{totalPrice}} (incl. {{taxCopy}}) per week for the next {{discountPeriods}} weeks.<br/>After that time you will be charged a regular price of {{currencySymbol}}{{regularPrice}}.",
+  "subscription-desc-coupon-months": "You will be charged {{currencySymbol}}{{totalPrice}} (incl. {{taxCopy}}) per month for the next {{discountPeriods}} months.<br/>After that time you will be charged a regular price of {{currencySymbol}}{{regularPrice}}.",
   "subscription-desc.period-3months": "You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every 3 months.",
   "subscription-desc.period-6months": "You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every 6 months.",
   "subscription-desc.period-month": "You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every month.",
@@ -482,9 +486,5 @@
   "Your payment details have been updated": "Your payment details have been updated",
   "Your profile details have been changed successfully": "Your profile details have been changed successfully",
   "Your purchase has been successfully completed.": "Your purchase has been successfully completed.",
-  "ZIP/Postal code": "ZIP/Postal code",
-  "subscription-desc-coupon-week": "You will be charged {{currencySymbol}}{{totalPrice}} (incl. {{taxCopy}}) per week for the next 1 week.<br/>After that time you will be charged a regular price of {{currencySymbol}}{{grossPrice}}.",
-  "subscription-desc-coupon-month": "You will be charged {{currencySymbol}}{{totalPrice}} (incl. {{taxCopy}}) per month for the next 1 month.<br/>After that time you will be charged a regular price of {{currencySymbol}}{{grossPrice}}.",
-  "subscription-desc-coupon-weeks": "You will be charged {{currencySymbol}}{{totalPrice}} (incl. {{taxCopy}}) per week for the next {{discountPeriods}} weeks.<br/>After that time you will be charged a regular price of {{currencySymbol}}{{grossPrice}}.",
-  "subscription-desc-coupon-months": "You will be charged {{currencySymbol}}{{totalPrice}} (incl. {{taxCopy}}) per month for the next {{discountPeriods}} months.<br/>After that time you will be charged a regular price of {{currencySymbol}}{{grossPrice}}."
+  "ZIP/Postal code": "ZIP/Postal code"
 }
