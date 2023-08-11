@@ -44,23 +44,27 @@ const OfferCheckoutCard = () => {
     country,
     currency,
     totalPrice,
-    discount
+    discount: {
+      applied: isDiscountApplied,
+      type: discountType,
+      periods: discountPeriods
+    }
   } = useAppSelector(selectOnlyOrder);
 
   const offerType = offerId?.charAt(0);
   const currencySymbol = currencyFormat[currency];
   const isOfferFree =
-    isTrialAvailable || (discount.applied && totalPrice === 0);
+    isTrialAvailable || (isDiscountApplied && totalPrice === 0);
   const grossPrice = isOfferFree
     ? calculateGrossPriceForFreeOffer(offerPrice, taxRate, customerPriceInclTax)
     : formatNumber(totalPrice);
-  const isTrialBadgeVisible = isTrialAvailable && discount.type === 'trial';
+  const isTrialBadgeVisible = isTrialAvailable && discountType === 'trial';
 
   const { t } = useTranslation();
 
-  console.log('offerPrice:', offerPrice);
-  console.log('customerPriceInclTax:', customerPriceInclTax);
-  console.log('calc grossPrice raw:', offerPrice + taxRate * offerPrice);
+  // console.log('offerPrice:', offerPrice);
+  // console.log('customerPriceInclTax:', customerPriceInclTax);
+  // console.log('calc grossPrice raw:', offerPrice + taxRate * offerPrice);
   console.log('grossPrice:', grossPrice);
   console.log('totalPrice:', totalPrice);
 
@@ -122,16 +126,36 @@ const OfferCheckoutCard = () => {
   };
 
   const generateDescriptionForCoupon = () => {
-    const description = `You will be charged ${currencySymbol}${totalPrice} (incl. ${taxCopy}) per ${period} for the next ${
-      discount.periods
-    } ${period}${
-      discount.periods === 1 ? '.' : 's.'
-    } <br/>After that time you will be charged a regular price of ${currencySymbol}${grossPrice}.`;
+    let description;
+    let formattedDescription;
+    if (discountPeriods === 1) {
+      formattedDescription = `You will be charged ${currencySymbol}${totalPrice} (incl. ${taxCopy}) per ${period} for the next 1 ${period}.<br/>After that time you will be charged a regular price of ${currencySymbol}${grossPrice}.`;
+      description = t(
+        `subscription-desc-coupon-${period}`,
+        formattedDescription,
+        { currencySymbol, totalPrice, taxCopy, period, grossPrice }
+      );
+      return description;
+    }
+
+    formattedDescription = `You will be charged ${currencySymbol}${totalPrice} (incl. ${taxCopy}) per ${period} for the next ${discountPeriods} ${period}s.<br/>After that time you will be charged a regular price of ${currencySymbol}${grossPrice}.`;
+    description = t(
+      `subscription-desc-coupon-${period}s`,
+      formattedDescription,
+      {
+        currencySymbol,
+        totalPrice,
+        taxCopy,
+        period,
+        discountPeriods,
+        grossPrice
+      }
+    );
     return description;
   };
 
   const generateSubscriptionDescription = () => {
-    if (discount.type === 'coupon') {
+    if (discountType === 'coupon') {
       return generateDescriptionForCoupon();
     }
 

@@ -53,9 +53,7 @@ const CheckoutPriceBox = () => {
       } else {
         description = t(
           `coupon-note-${period}s-free`,
-          `First ${discountedPeriods} ${
-            period === 'week' ? 'weeks' : 'months'
-          } free!`,
+          `First ${discountedPeriods} ${period}s free!`,
           {
             discountedPeriods,
             period
