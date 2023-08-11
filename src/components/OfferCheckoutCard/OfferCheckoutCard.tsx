@@ -120,6 +120,7 @@ const OfferCheckoutCard = () => {
   };
 
   const generateDescriptionForCoupon = () => {
+    const formattedTotalPrice = formatNumber(totalPrice);
     const regularPrice = calculateGrossPriceForFreeOffer(
       offerPrice,
       taxRate,
@@ -128,22 +129,22 @@ const OfferCheckoutCard = () => {
     let description;
     let formattedDescription;
     if (discountPeriods === 1) {
-      formattedDescription = `You will be charged ${currencySymbol}${totalPrice} (incl. ${taxCopy}) per ${period} for the next 1 ${period}.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
+      formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next 1 ${period}.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
       description = t(
         `subscription-desc-coupon-${period}`,
         formattedDescription,
-        { currencySymbol, totalPrice, taxCopy, period, regularPrice }
+        { currencySymbol, formattedTotalPrice, taxCopy, period, regularPrice }
       );
       return description;
     }
 
-    formattedDescription = `You will be charged ${currencySymbol}${totalPrice} (incl. ${taxCopy}) per ${period} for the next ${discountPeriods} ${period}s.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
+    formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next ${discountPeriods} ${period}s.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
     description = t(
       `subscription-desc-coupon-${period}s`,
       formattedDescription,
       {
         currencySymbol,
-        totalPrice,
+        formattedTotalPrice,
         taxCopy,
         period,
         discountPeriods,

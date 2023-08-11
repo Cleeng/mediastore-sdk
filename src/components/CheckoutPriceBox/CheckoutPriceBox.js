@@ -44,6 +44,7 @@ const CheckoutPriceBox = () => {
 
   const renderCouponNote = () => {
     let description;
+    const formattedDiscountAmount = formatNumber(discountAmount);
 
     if (finalPrice === 0) {
       if (discountedPeriods === 1) {
@@ -65,22 +66,20 @@ const CheckoutPriceBox = () => {
     if (discountedPeriods === 1) {
       description = t(
         `coupon-note-${period}`,
-        `${currencySymbol}${discountAmount} off for the first ${period}!`,
+        `${currencySymbol}${formattedDiscountAmount} off for the first ${period}!`,
         {
           currencySymbol,
-          discountAmount,
+          formattedDiscountAmount,
           period
         }
       );
     } else {
       description = t(
         `coupon-note-${period}s`,
-        `${currencySymbol}${discountAmount} off for the first ${discountedPeriods} ${
-          period === 'week' ? 'weeks' : 'months'
-        }!`,
+        `${currencySymbol}${formattedDiscountAmount} off for the first ${discountedPeriods} ${period}s!`,
         {
           currencySymbol,
-          discountAmount,
+          formattedDiscountAmount,
           discountedPeriods,
           period
         }
