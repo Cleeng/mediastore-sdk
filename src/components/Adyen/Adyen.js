@@ -82,9 +82,9 @@ const Adyen = ({
   const getBankCopy = () => {
     const isFree = totalPrice === 0;
     const isSubscription = offerId?.charAt(0) === 'S';
-    // TODO before the release: standarize transaltions keys
-    // TODO: test if purchase is blocked if checkbox is not checked
-    // TODO: add copy and checkbox to PayPal
+    // TODO before the release: standarize transaltions keys => done, to be checked
+    // TODO: test if purchase is blocked if checkbox is not checked => done, works
+    // TODO: add copy and checkbox to PayPal => done, works, used getStandardCopy
 
     if (isMyAccount || (isFree && isSubscription)) {
       // TODO: add link to T&C
@@ -208,7 +208,7 @@ const Adyen = ({
       `.checkbox-${methodName === 'scheme' ? 'card' : methodName}`
     );
 
-    if (!checkbox.checked) {
+    if (!checkbox?.checked) {
       checkbox.classList.add('adyen-checkout__bank-checkbox--error');
       return false;
     }
