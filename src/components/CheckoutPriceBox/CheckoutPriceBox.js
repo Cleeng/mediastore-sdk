@@ -42,6 +42,55 @@ const CheckoutPriceBox = () => {
 
   const { t } = useTranslation();
 
+  const renderCouponNote = () => {
+    let description;
+
+    if (finalPrice === 0) {
+      if (discountedPeriods === 1) {
+        description = t(`coupon-note-${period}-free`, `First ${period} free!`, {
+          period
+        });
+      } else {
+        description = t(
+          `coupon-note-${period}s-free`,
+          `First ${discountedPeriods} ${
+            period === 'week' ? 'weeks' : 'months'
+          } free!`,
+          {
+            discountedPeriods,
+            period
+          }
+        );
+      }
+      return description;
+    }
+    if (discountedPeriods === 1) {
+      description = t(
+        `coupon-note-${period}`,
+        `${currencySymbol}${discountAmount} off for the first ${period}!`,
+        {
+          currencySymbol,
+          discountAmount,
+          period
+        }
+      );
+    } else {
+      description = t(
+        `coupon-note-${period}s`,
+        `${currencySymbol}${discountAmount} off for the first ${discountedPeriods} ${
+          period === 'week' ? 'weeks' : 'months'
+        }!`,
+        {
+          currencySymbol,
+          discountAmount,
+          discountedPeriods,
+          period
+        }
+      );
+    }
+    return description;
+  };
+
   return (
     <StyledPriceBox>
       <StyledPriceBoxWrapper>
@@ -64,11 +113,7 @@ const CheckoutPriceBox = () => {
                 {t('checkout-price-box.coupon-discount', 'Coupon Discount')}
               </StyledLabel>
               {discountType === 'coupon' && (
-                <CouponNoteStyled>
-                  {finalPrice === 0
-                    ? `First ${discountedPeriods} ${period}s free!`
-                    : `${currencySymbol}${discountAmount} off for the first ${discountedPeriods} ${period}s!`}
-                </CouponNoteStyled>
+                <CouponNoteStyled>{renderCouponNote()}</CouponNoteStyled>
               )}
             </div>
             <StyledOfferPrice>
