@@ -1,5 +1,5 @@
 export type FormField = {
-  value: string;
+  value: string | number;
   error: string;
   translationKey: string;
 };

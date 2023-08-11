@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import {
   selectDeliveryDetails,
   setFieldValue
 } from 'redux/deliveryDetailsSlice';
+import { selectGift } from 'redux/giftSlice';
 import MyAccountInput from 'components/MyAccountInput';
 import {
   InfoText,
@@ -28,6 +30,10 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
     message
   } = useAppSelector(selectDeliveryDetails);
 
+  const {
+    gift: { deliveryDetails, sentAt }
+  } = useAppSelector(selectGift);
+
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
@@ -42,7 +48,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
         validateRecipientEmail(value);
 
         if (confirmRecipientEmail.value) {
-          validateConfirmRecipientEmail(confirmRecipientEmail.value);
+          validateConfirmRecipientEmail(confirmRecipientEmail.value as string);
         }
         break;
       case 'confirmRecipientEmail':
@@ -66,9 +72,29 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
     dispatch(setFieldValue({ name, value }));
   };
 
+  useEffect(() => {
+    if (isMyAccount && deliveryDetails) {
+      dispatch(
+        setFieldValue({
+          name: 'recipientEmail',
+          value: deliveryDetails?.recipientEmail
+        })
+      );
+      dispatch(
+        setFieldValue({
+          name: 'message',
+          value: deliveryDetails?.personalNote
+        })
+      );
+    }
+  }, [deliveryDetails]);
+
+  const isGiftSent = !!sentAt;
+
   return (
     <StyledRecipientForm noValidate>
       <MyAccountInput
+        disabled={isGiftSent}
         error={t(recipientEmail.translationKey, recipientEmail.error)}
         label={t('recipientForm.label.recipient-email', 'Recipient email')}
         name="recipientEmail"
@@ -77,22 +103,25 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
         type="email"
         value={recipientEmail.value}
       />
+      {!isGiftSent && (
+        <MyAccountInput
+          error={t(
+            confirmRecipientEmail.translationKey,
+            confirmRecipientEmail.error
+          )}
+          label={t(
+            'recipientForm.label.confirm-recipient-email',
+            'Confirm recipient email'
+          )}
+          name="confirmRecipientEmail"
+          onBlur={onBlur}
+          onChange={onChange}
+          type="email"
+          value={confirmRecipientEmail.value}
+        />
+      )}
       <MyAccountInput
-        error={t(
-          confirmRecipientEmail.translationKey,
-          confirmRecipientEmail.error
-        )}
-        label={t(
-          'recipientForm.label.confirm-recipient-email',
-          'Confirm recipient email'
-        )}
-        name="confirmRecipientEmail"
-        onBlur={onBlur}
-        onChange={onChange}
-        type="email"
-        value={confirmRecipientEmail.value}
-      />
-      <MyAccountInput
+        disabled={isGiftSent}
         error={t(deliveryDate.translationKey, deliveryDate.error)}
         label={t('recipientForm.label.delivery-date', 'Delivery date')}
         min={new Date().toISOString().split('T')[0]}
@@ -104,9 +133,14 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
       />
       <MessageWrapper>
         <StyledLabel>
-          {t('recipientForm.label.message', 'Add a message')}
+          {isGiftSent ? (
+            <>{t('recipientForm.label.message', 'Message')}</>
+          ) : (
+            <>{t('recipientForm.label.add-message', 'Add a message')}</>
+          )}
         </StyledLabel>
         <StyledMessage
+          disabled={isGiftSent}
           maxLength={150}
           name="message"
           onChange={onChange}

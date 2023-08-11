@@ -1,8 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import {
-  DeliveryDetailsField,
-  DeliveryDetailsInitialState
-} from './types/DeliveryDetailsSlice.types';
+import { DeliveryDetailsField, DeliveryDetailsInitialState } from './types';
 import { RootState } from './rootReducer';
 
 export const initialState: DeliveryDetailsInitialState = {
@@ -22,7 +19,7 @@ export const deliveryDetailsSlice = createSlice({
     },
     setFieldValue: (
       state,
-      action: PayloadAction<{ name: string; value: string }>
+      action: PayloadAction<{ name: string; value: string | number }>
     ) => {
       const {
         payload: { name, value }

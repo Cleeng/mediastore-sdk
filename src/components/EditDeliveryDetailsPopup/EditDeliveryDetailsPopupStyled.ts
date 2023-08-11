@@ -12,6 +12,10 @@ export const ContentStyled = styled.div.attrs(() => ({
   margin: auto;
   width: 80%;
 
+  .msd__spinner {
+    margin-top: 24px;
+  }
+
   form {
     border: unset;
     margin-top: 16px;
@@ -19,7 +23,7 @@ export const ContentStyled = styled.div.attrs(() => ({
 
   ${media.small`
       width: 90%;
-    `}
+  `}
 `;
 
 export const ButtonsStyled = styled.div`

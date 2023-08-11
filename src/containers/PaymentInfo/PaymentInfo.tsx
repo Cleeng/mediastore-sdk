@@ -19,6 +19,7 @@ import {
   updatePaymentDetailsPopup
 } from 'redux/popupSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
+import { hidePopup } from 'redux/popup';
 import { WrapStyled } from './PaymentInfoStyled';
 import { PaymentInfoProps } from './PaymentInfo.types';
 
@@ -49,6 +50,13 @@ const PaymentInfo = ({
     }
 
     return () => {
+      console.log(isOpen);
+      console.log(currentType);
+
+      // if (isOpen) {
+      // dispatch(hidePopup());
+      // }
+
       dispatch(updatePaymentDetailsPopup({ isOpen: false }));
     };
   }, []);

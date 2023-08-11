@@ -2,11 +2,14 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import { resetDeliveryDetailsState } from 'redux/deliveryDetailsSlice';
+import { fetchGift, selectGift } from 'redux/giftSlice';
 import { hidePopup, selectEditDeliveryDetailsPopup } from 'redux/popupSlice';
 import { useAppSelector } from 'redux/store';
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import RecipientForm from 'components/DeliveryDetails/RecipientForm';
+import Loader from 'components/Loader';
+import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
 import { ReactComponent as CheckmarkIcon } from 'assets/images/greenCheckmark.svg';
 import {
   ButtonsStyled,
@@ -20,17 +23,37 @@ const EditDeliveryDetailsPopup = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
-  const { offerId, offerTitle } = useAppSelector(
+  const { giftId, offerId, offerTitle } = useAppSelector(
     selectEditDeliveryDetailsPopup
   );
 
+  // maybe use offerTitle from gift?
+  const {
+    loading,
+    gift: { sentAt }
+  } = useAppSelector(selectGift);
+
   const [currentStep, setCurrentStep] = useState(1);
 
+  const updateGift = () => {
+    const areDeliveryDetailsValid = validateDeliveryDetailsForm();
+
+    if (areDeliveryDetailsValid) {
+      setCurrentStep(2);
+    }
+  };
+
   useEffect(() => {
+    if (giftId) {
+      dispatch(fetchGift(giftId as number));
+    }
+
     return () => {
       dispatch(resetDeliveryDetailsState());
     };
-  }, []);
+  }, [giftId]);
+
+  const isGiftSent = !!sentAt;
 
   return (
     <InnerPopupWrapper
@@ -49,28 +72,62 @@ const EditDeliveryDetailsPopup = () => {
               {t('edit-delivery-details-popup.header', 'Edit Delivery Details')}
             </HeaderStyled>
             <InfoTextStyled>
-              {t(
-                'edit-delivery-details-popup.info-text-1',
-                'You are editing information for your'
-              )}
-              <p>{t(`offer-title-${offerId}`, offerTitle)}</p>
-              {t(
-                'edit-delivery-details-popup.info-text-2',
-                'Please take a moment to update your gift delivery details.'
+              {isGiftSent ? (
+                <>
+                  {t(
+                    'edit-delivery-details-popup.info-text-disabled',
+                    'It is not possible to edit delivery details as the gift has been already sent out to the recipient.'
+                  )}
+                </>
+              ) : (
+                <>
+                  {t(
+                    'edit-delivery-details-popup.info-text-1',
+                    'You are editing information for your'
+                  )}
+                  <p>{t(`offer-title-${offerId}`, offerTitle)}</p>
+                  {t(
+                    'edit-delivery-details-popup.info-text-2',
+                    'Please take a moment to update your gift delivery details.'
+                  )}
+                </>
               )}
             </InfoTextStyled>
-            <RecipientForm isMyAccount />
-            <ButtonsStyled>
-              <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
-                {t('edit-delivery-details-popup.button.cancel', 'Back')}
-              </Button>
-              <Button theme="confirm" onClickFn={() => setCurrentStep(2)}>
-                {t(
-                  'edit-delivery-details-popup.button.confirm',
-                  'Update details'
-                )}
-              </Button>
-            </ButtonsStyled>
+            {loading ? (
+              <Loader />
+            ) : (
+              <>
+                <RecipientForm isMyAccount />
+                <ButtonsStyled>
+                  {isGiftSent ? (
+                    <Button
+                      theme="confirm"
+                      onClickFn={() => dispatch(hidePopup())}
+                    >
+                      {t(
+                        'edit-delivery-details-popup.button.back',
+                        'Back to settings'
+                      )}
+                    </Button>
+                  ) : (
+                    <>
+                      <Button
+                        theme="simple"
+                        onClickFn={() => dispatch(hidePopup())}
+                      >
+                        {t('edit-delivery-details-popup.button.cancel', 'Back')}
+                      </Button>
+                      <Button theme="confirm" onClickFn={updateGift}>
+                        {t(
+                          'edit-delivery-details-popup.button.confirm',
+                          'Update details'
+                        )}
+                      </Button>
+                    </>
+                  )}
+                </ButtonsStyled>
+              </>
+            )}
           </>
         ) : (
           <>
