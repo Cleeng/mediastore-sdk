@@ -265,7 +265,11 @@ const OfferCheckoutCard = () => {
           )}
           <Price
             currency={currencyFormat[currency]}
-            price={Number(grossPrice)}
+            price={
+              discountType === 'coupon' && totalPrice !== 0
+                ? Number(totalPrice)
+                : Number(grossPrice)
+            }
             period={
               offerType === 'S' && period !== 'season'
                 ? t(`offer-price.period-${period}`, period)
