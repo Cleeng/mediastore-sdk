@@ -106,14 +106,12 @@ const CheckoutPriceBox = () => {
 
         {isCouponApplied && (
           <StyledPriceWrapper>
-            <div style={{ display: 'flex', flexDirection: 'column' }}>
-              <StyledLabel>
-                {t('checkout-price-box.coupon-discount', 'Coupon Discount')}
-              </StyledLabel>
-              {discountType === 'coupon' && (
-                <CouponNoteStyled>{renderCouponNote()}</CouponNoteStyled>
-              )}
-            </div>
+            <StyledLabel>
+              {t('checkout-price-box.coupon-discount', 'Coupon Discount')}
+            </StyledLabel>
+            {discountType === 'coupon' && (
+              <CouponNoteStyled>{renderCouponNote()}</CouponNoteStyled>
+            )}
             <StyledOfferPrice>
               - {currencySymbol}
               {formatNumber(discountAmount)}
