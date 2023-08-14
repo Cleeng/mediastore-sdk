@@ -136,16 +136,20 @@ const Adyen = ({
     );
 
     if (parentEl) {
+      const paymentDetailsWrapper = parentEl.querySelector(
+        `.adyen-checkout__payment-method__details`
+      );
+
       const doesCheckboxExist = document.querySelector(
         `.checkbox-${methodName}`
       );
 
       if (!doesCheckboxExist) {
-        const wrapper = document.createElement('div');
-        wrapper.classList.add('checkbox-wrapper');
+        const checkboxWrapper = document.createElement('div');
+        checkboxWrapper.classList.add('checkbox-wrapper');
 
-        render(checkbox, wrapper);
-        parentEl.appendChild(wrapper);
+        render(checkbox, checkboxWrapper);
+        parentEl.insertBefore(checkboxWrapper, paymentDetailsWrapper);
       }
     }
   };
