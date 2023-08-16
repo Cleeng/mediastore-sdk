@@ -37,10 +37,6 @@ const Adyen = ({
   getDropIn,
   onAdditionalDetails
 }) => {
-  // const { discount, totalPrice, offerId } = useSelector(
-  //   state => state.order.order
-  // );
-
   const order = useSelector(selectOnlyOrder);
 
   const { discount, totalPrice, offerId } = order;
