@@ -47,7 +47,7 @@ const OfferCheckoutCard = () => {
     discount: {
       applied: isDiscountApplied,
       type: discountType,
-      periods: discountPeriods
+      periods: discountedPeriods
     }
   } = useAppSelector(selectOnlyOrder);
 
@@ -128,7 +128,7 @@ const OfferCheckoutCard = () => {
     );
     let description;
     let formattedDescription;
-    if (discountPeriods === 1) {
+    if (discountedPeriods === 1) {
       // non-standard period
       if (period === '3months' || period === '6months') {
         formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${periodMapper[
@@ -141,7 +141,7 @@ const OfferCheckoutCard = () => {
           {
             formattedTotalPrice,
             taxCopy,
-            discountPeriods,
+            discountedPeriods,
             currencySymbol,
             regularPrice
           }
@@ -162,21 +162,21 @@ const OfferCheckoutCard = () => {
       formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${periodMapper[
         period as Period
       ]
-        .chargedForEveryText as string} for the next ${discountPeriods} billing periods.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
+        .chargedForEveryText as string} for the next ${discountedPeriods} billing periods.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
       return t(
         `subscription-desc-coupon.periods-${period}`,
         formattedDescription,
         {
           formattedTotalPrice,
           taxCopy,
-          discountPeriods,
+          discountedPeriods,
           currencySymbol,
           regularPrice
         }
       );
     }
 
-    formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next ${discountPeriods} ${period}s.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
+    formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next ${discountedPeriods} ${period}s.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
     description = t(
       `subscription-desc-coupon-${period}s`,
       formattedDescription,
@@ -185,7 +185,7 @@ const OfferCheckoutCard = () => {
         formattedTotalPrice,
         taxCopy,
         period,
-        discountPeriods,
+        discountedPeriods,
         regularPrice
       }
     );

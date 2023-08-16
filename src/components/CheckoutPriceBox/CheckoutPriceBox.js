@@ -3,7 +3,9 @@ import formatNumber from 'util/formatNumber';
 import { useTranslation } from 'react-i18next';
 import { currencyFormat } from 'util/planHelper';
 import calculateTaxValueForFreeOffer from 'util/calculateTaxValueForFreeOffer';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from 'redux/store';
+import { selectOnlyOffer } from 'redux/offerSlice';
+import { selectOnlyOrder } from 'redux/orderSlice';
 import {
   StyledTotalLabel,
   StyledOfferPrice,
@@ -16,9 +18,7 @@ import {
 } from './CheckoutPriceBoxStyled';
 
 const CheckoutPriceBox = () => {
-  const { customerPriceInclTax, period } = useSelector(
-    state => state.offer.offer
-  );
+  const { customerPriceInclTax, period } = useAppSelector(selectOnlyOffer);
   const {
     priceBreakdown: {
       offerPrice,
@@ -36,14 +36,13 @@ const CheckoutPriceBox = () => {
     country,
     totalPrice: finalPrice,
     currency
-  } = useSelector(state => state.order.order);
+  } = useAppSelector(selectOnlyOrder);
 
   const currencySymbol = currencyFormat[currency];
 
   const { t } = useTranslation();
 
-  const renderCouponNote = () => {
-    let description;
+  const getCouponNote = () => {
     const formattedDiscountAmount = formatNumber(discountAmount);
 
     if (finalPrice === 0) {
@@ -55,40 +54,37 @@ const CheckoutPriceBox = () => {
             'First billing period free!'
           );
         }
-        description = t(`coupon-note-${period}-free`, `First ${period} free!`, {
+        return t(`coupon-note-${period}-free`, `First ${period} free!`, {
           period
         });
-      } else {
-        // non standard periods free
-        if (period === '3months' || period === '6months') {
-          return t(
-            `coupon-note-billing-periods-free`,
-            `First ${discountedPeriods} billing periods free!`,
-            { discountedPeriods }
-          );
-        }
-        description = t(
-          `coupon-note-${period}s-free`,
-          `First ${discountedPeriods} ${period}s free!`,
-          {
-            discountedPeriods,
-            period
-          }
+      }
+      // non standard periods free
+      if (period === '3months' || period === '6months') {
+        return t(
+          `coupon-note-billing-periods-free`,
+          `First ${discountedPeriods} billing periods free!`,
+          { discountedPeriods }
         );
       }
-      return description;
+      return t(
+        `coupon-note-${period}s-free`,
+        `First ${discountedPeriods} ${period}s free!`,
+        {
+          discountedPeriods,
+          period
+        }
+      );
     }
-
     if (discountedPeriods === 1) {
       // non standard periods
       if (period === '3months' || period === '6months') {
-        description = `${currencySymbol}${formattedDiscountAmount} off for the first billing period!`;
+        const description = `${currencySymbol}${formattedDiscountAmount} off for the first billing period!`;
         return t('coupon-note-billing-period', description, {
           currencySymbol,
           formattedDiscountAmount
         });
       }
-      description = t(
+      return t(
         `coupon-note-${period}`,
         `${currencySymbol}${formattedDiscountAmount} off for the first ${period}!`,
         {
@@ -97,28 +93,26 @@ const CheckoutPriceBox = () => {
           period
         }
       );
-    } else {
-      // non standard periods
-      if (period === '3months' || period === '6months') {
-        description = `${currencySymbol}${formattedDiscountAmount} off for the first ${discountedPeriods} billing periods!`;
-        return t('coupon-note-billing-periods', description, {
-          currencySymbol,
-          formattedDiscountAmount,
-          discountedPeriods
-        });
-      }
-      description = t(
-        `coupon-note-${period}s`,
-        `${currencySymbol}${formattedDiscountAmount} off for the first ${discountedPeriods} ${period}s!`,
-        {
-          currencySymbol,
-          formattedDiscountAmount,
-          discountedPeriods,
-          period
-        }
-      );
     }
-    return description;
+    // non standard periods
+    if (period === '3months' || period === '6months') {
+      const description = `${currencySymbol}${formattedDiscountAmount} off for the first ${discountedPeriods} billing periods!`;
+      return t('coupon-note-billing-periods', description, {
+        currencySymbol,
+        formattedDiscountAmount,
+        discountedPeriods
+      });
+    }
+    return t(
+      `coupon-note-${period}s`,
+      `${currencySymbol}${formattedDiscountAmount} off for the first ${discountedPeriods} ${period}s!`,
+      {
+        currencySymbol,
+        formattedDiscountAmount,
+        discountedPeriods,
+        period
+      }
+    );
   };
 
   return (
@@ -142,7 +136,7 @@ const CheckoutPriceBox = () => {
               {t('checkout-price-box.coupon-discount', 'Coupon Discount')}
             </StyledLabel>
             {discountType === 'coupon' && (
-              <CouponNoteStyled>{renderCouponNote()}</CouponNoteStyled>
+              <CouponNoteStyled>{getCouponNote()}</CouponNoteStyled>
             )}
             <StyledOfferPrice>
               - {currencySymbol}
