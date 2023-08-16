@@ -119,67 +119,42 @@ const OfferCheckoutCard = () => {
     );
   };
 
-  const generateDescriptionForCoupon = () => {
+  const generateCouponDescription = () => {
     const formattedTotalPrice = formatNumber(totalPrice);
     const regularPrice = calculateGrossPriceForFreeOffer(
       offerPrice,
       taxRate,
       customerPriceInclTax
     );
-    let description;
-    let formattedDescription;
     if (discountedPeriods === 1) {
-      // non-standard period
-      if (period === '3months' || period === '6months') {
-        formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${periodMapper[
-          period as Period
-        ]
-          .chargedForEveryText as string} for the next billing period.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
-        return t(
-          `subscription-desc-coupon.period-${period}`,
-          formattedDescription,
-          {
-            formattedTotalPrice,
-            taxCopy,
-            discountedPeriods,
-            currencySymbol,
-            regularPrice
-          }
-        );
-      }
-
-      formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next ${period}.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
-      description = t(
+      return t(
         `subscription-desc-coupon-${period}`,
-        formattedDescription,
+        `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) now.<br/>After ${
+          period === '3months' || period === '6months' ? '' : 'a'
+        } ${periodMapper[period as Period]
+          .chargedForEveryText as string} you will be charged a regular price of ${currencySymbol}${regularPrice}.`,
         { currencySymbol, formattedTotalPrice, taxCopy, period, regularPrice }
       );
-      return description;
     }
 
     // non-standard periods
     if (period === '3months' || period === '6months') {
-      formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${periodMapper[
+      const description = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${periodMapper[
         period as Period
       ]
         .chargedForEveryText as string} for the next ${discountedPeriods} billing periods.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
-      return t(
-        `subscription-desc-coupon.periods-${period}`,
-        formattedDescription,
-        {
-          formattedTotalPrice,
-          taxCopy,
-          discountedPeriods,
-          currencySymbol,
-          regularPrice
-        }
-      );
+      return t(`subscription-desc-coupon.periods-${period}`, description, {
+        formattedTotalPrice,
+        taxCopy,
+        discountedPeriods,
+        currencySymbol,
+        regularPrice
+      });
     }
 
-    formattedDescription = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next ${discountedPeriods} ${period}s.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
-    description = t(
+    return t(
       `subscription-desc-coupon-${period}s`,
-      formattedDescription,
+      `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next ${discountedPeriods} ${period}s.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`,
       {
         currencySymbol,
         formattedTotalPrice,
@@ -189,12 +164,11 @@ const OfferCheckoutCard = () => {
         regularPrice
       }
     );
-    return description;
   };
 
   const generateSubscriptionDescription = () => {
     if (discountType === 'coupon') {
-      return generateDescriptionForCoupon();
+      return generateCouponDescription();
     }
 
     if (!isTrialAvailable) {
