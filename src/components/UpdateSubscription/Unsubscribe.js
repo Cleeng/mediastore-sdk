@@ -171,8 +171,9 @@ const Unsubscribe = ({
     }
   ];
 
-  const cancellationReasonsToShow =
-    customCancellationReasons || defaultCancellationReasons;
+  const cancellationReasonsToShow = customCancellationReasons.length
+    ? customCancellationReasons
+    : defaultCancellationReasons;
 
   const unsubscribe = async () => {
     window.dispatchEvent(
