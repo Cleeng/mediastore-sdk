@@ -37,11 +37,14 @@ const Adyen = ({
   getDropIn,
   onAdditionalDetails
 }) => {
-  const { discount, totalPrice, offerId } = useSelector(
-    state => state.order.order
-  );
+  // const { discount, totalPrice, offerId } = useSelector(
+  //   state => state.order.order
+  // );
 
   const order = useSelector(selectOnlyOrder);
+
+  const { discount, totalPrice, offerId } = order;
+
   const offer = useSelector(selectOnlyOffer);
 
   const {
@@ -82,10 +85,6 @@ const Adyen = ({
   const getBankCopy = () => {
     const isFree = totalPrice === 0;
     const isSubscription = offerId?.charAt(0) === 'S';
-    // TODO before the release: standarize transaltions keys => done, to be checked
-    // TODO: test if purchase is blocked if checkbox is not checked => done, works
-    // TODO: add copy and checkbox to PayPal => done, works, used getStandardCopy
-
     if (isMyAccount || (isFree && isSubscription)) {
       // TODO: add link to T&C
       return t(
@@ -109,10 +108,7 @@ const Adyen = ({
     );
   };
 
-  const addAdditionalCopyForBankPaymentMethods = (
-    methodName,
-    type = 'standard'
-  ) => {
+  const addLegalCheckboxForPaymentMethod = (methodName, type = 'standard') => {
     const parentEl = document.querySelector(
       `.adyen-checkout__payment-method--${methodName}`
     );
@@ -154,16 +150,15 @@ const Adyen = ({
     }
   };
 
-  // TO REFACTOR
   const showAdditionalText = () => {
     if (bankPaymentMethodsRef?.current) {
       bankPaymentMethods.forEach(method =>
-        addAdditionalCopyForBankPaymentMethods(method, 'bank')
+        addLegalCheckboxForPaymentMethod(method, 'bank')
       );
     }
     if (standardPaymentMethodsRef?.current) {
       standardPaymentMethods.forEach(method =>
-        addAdditionalCopyForBankPaymentMethods(method)
+        addLegalCheckboxForPaymentMethod(method)
       );
     }
   };
@@ -299,7 +294,7 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.card
         },
         applepay: {
-          onClick: async resolve => {
+          onClick: resolve => {
             if (!isCheckboxChecked('applepay')) {
               return;
             }
@@ -316,7 +311,7 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.applePay
         },
         googlepay: {
-          onClick: async resolve => {
+          onClick: resolve => {
             if (!isCheckboxChecked('googlepay')) {
               return;
             }

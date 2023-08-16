@@ -36,12 +36,9 @@ import eventDispatcher, {
   MSSDK_PURCHASE_SUCCESSFUL,
   MSSDK_AUTH_FAILED
 } from '../../util/eventDispatcher';
-import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { PaymentProps } from './Payment.types';
-
-import LegalCopy from './LegalCopy/LegalCopy';
 
 type paymentMethodType =
   | typeof STANDARD_PAYMENT_METHODS

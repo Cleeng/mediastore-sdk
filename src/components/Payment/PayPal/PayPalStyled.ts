@@ -21,7 +21,7 @@ export const CopyStyled = styled.p.attrs(() => ({
   className: 'msd__paypal--text'
 }))`
   font-size: 11px;
-  margin: 10px 20px 10px 20px;
+  margin: 20px 15px;
   line-height: 17px;
   font-weight: 400;
   color: #7b849d;
