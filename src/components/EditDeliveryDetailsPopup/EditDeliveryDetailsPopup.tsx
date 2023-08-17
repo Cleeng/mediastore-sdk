@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
-import { resetDeliveryDetailsState } from 'redux/deliveryDetailsSlice';
-import { fetchGift, selectGift } from 'redux/giftSlice';
+import {
+  resetDeliveryDetailsState,
+  selectDeliveryDetails
+} from 'redux/deliveryDetailsSlice';
+import { fetchGift, fetchUpdateGift, selectGift } from 'redux/giftSlice';
 import { hidePopup, selectEditDeliveryDetailsPopup } from 'redux/popupSlice';
 import { useAppSelector } from 'redux/store';
 import Button from 'components/Button';
@@ -23,6 +26,11 @@ const EditDeliveryDetailsPopup = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
 
+  const [isUpdateLoading, setIsUpdateLoading] = useState(false);
+
+  const { recipientEmail, deliveryDate, message } = useAppSelector(
+    selectDeliveryDetails
+  );
   const { giftId, offerId, offerTitle } = useAppSelector(
     selectEditDeliveryDetailsPopup
   );
@@ -35,10 +43,26 @@ const EditDeliveryDetailsPopup = () => {
 
   const [currentStep, setCurrentStep] = useState(1);
 
-  const updateGift = () => {
+  const updateGift = async () => {
     const areDeliveryDetailsValid = validateDeliveryDetailsForm();
 
     if (areDeliveryDetailsValid) {
+      setIsUpdateLoading(true);
+      await dispatch(
+        fetchUpdateGift({
+          id: giftId as number,
+          payload: {
+            deliveryDetails: {
+              recipientEmail: recipientEmail.value as string,
+              deliveryDate: new Date(deliveryDate.value).valueOf() / 1000,
+              personalNote: message.value
+            }
+          }
+        })
+      );
+
+      setIsUpdateLoading(false);
+
       setCurrentStep(2);
     }
   };
@@ -53,7 +77,8 @@ const EditDeliveryDetailsPopup = () => {
     };
   }, [giftId]);
 
-  const isGiftSent = !!sentAt;
+  // should edit work on sentAt or deliveryDate at least tomorrow?
+  const isGiftSent = !sentAt;
 
   return (
     <InnerPopupWrapper
@@ -118,9 +143,13 @@ const EditDeliveryDetailsPopup = () => {
                         {t('edit-delivery-details-popup.button.cancel', 'Back')}
                       </Button>
                       <Button theme="confirm" onClickFn={updateGift}>
-                        {t(
-                          'edit-delivery-details-popup.button.confirm',
-                          'Update details'
+                        {isUpdateLoading ? (
+                          <Loader buttonLoader color="#ffffff" />
+                        ) : (
+                          t(
+                            'edit-delivery-details-popup.button.confirm',
+                            'Update details'
+                          )
                         )}
                       </Button>
                     </>

@@ -1,14 +1,10 @@
+import { DeliveryDetails } from 'redux/types';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-// move to types also getGift.ts
-type DeliveryDetails = {
-  personalNote: string;
-  recipientEmail: string;
-  deliveryDate: number;
-};
+type ParamsType = { deliveryDetails: DeliveryDetails };
 
-const updateGift = (giftId: number, params: DeliveryDetails) => {
+const updateGift = (giftId: number, params: ParamsType) => {
   const API_URL = getApiURL();
   const url = `${API_URL}/gifts/${giftId}`;
 

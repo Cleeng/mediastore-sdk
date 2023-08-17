@@ -93,11 +93,15 @@ export const validateDeliveryDetailsForm = () => {
     deliveryDetails: { recipientEmail, confirmRecipientEmail, deliveryDate }
   } = store.getState();
 
-  const isRecipientEmailValid = validateRecipientEmail(recipientEmail.value);
-  const isConfirmRecipientEmailValid = validateConfirmRecipientEmail(
-    confirmRecipientEmail.value
+  const isRecipientEmailValid = validateRecipientEmail(
+    recipientEmail.value as string
   );
-  const isDeliveryDateValid = validateDeliveryDate(deliveryDate.value);
+  const isConfirmRecipientEmailValid = validateConfirmRecipientEmail(
+    confirmRecipientEmail.value as string
+  );
+  const isDeliveryDateValid = validateDeliveryDate(
+    deliveryDate.value as string
+  );
 
   const areDeliveryDetailsValid =
     isRecipientEmailValid &&
