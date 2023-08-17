@@ -115,9 +115,11 @@ export const getStandardCopy = (isMyAccount, offer, order) => {
   const {
     discount,
     currency,
-    priceBreakdown: { offerPrice }
+    priceBreakdown: { offerPrice },
+    offerId
   } = order;
 
+  const isSubscription = offerId?.charAt(0) === 'S';
   const chargedForEveryText =
     offerPeriod && isPeriod(offerPeriod)
       ? periodMapper[offerPeriod].chargedForEveryText
@@ -133,28 +135,36 @@ export const getStandardCopy = (isMyAccount, offer, order) => {
     );
   }
 
-  if (discount?.applied && discount.type === 'trial') {
+  if (isSubscription) {
+    if (discount?.applied && discount.type === 'trial') {
+      // TODO: add link to T&C
+      return i18n.t(
+        `offer-standard-consent-copy.trial.period-${offerPeriod}`,
+        "After any free trial and/or promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Cancel'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
+        { readablePrice, readablePeriod }
+      );
+    }
+
+    if (discount?.applied && discount.type !== 'trial') {
+      // TODO: add link to T&C
+      return i18n.t(
+        `offer-standard-consent-copy.discount.period-${offerPeriod}`,
+        "After any promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Cancel'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
+        { readablePrice, readablePeriod }
+      );
+    }
+
     // TODO: add link to T&C
     return i18n.t(
-      `offer-standard-consent-copy.trial.period-${offerPeriod}`,
-      "After any free trial and/or promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Cancel'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
+      `offer-standard-consent-copy.checkout-subscription.period-${offerPeriod}`,
+      "You will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click ‘Cancel.’ By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
       { readablePrice, readablePeriod }
     );
   }
 
-  if (discount?.applied && discount.type !== 'trial') {
-    // TODO: add link to T&C
-    return i18n.t(
-      `offer-standard-consent-copy.discount.period-${offerPeriod}`,
-      "After any promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Cancel'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
-      { readablePrice, readablePeriod }
-    );
-  }
-
-  // TODO: add link to T&C
   return i18n.t(
-    `offer-standard-consent-copy.checkout-subscription.period-${offerPeriod}`,
-    "You will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click ‘Cancel.’ By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
-    { readablePrice, readablePeriod }
+    // TODO: add link to T&C
+    'offer-standard-consent-copy.checkout-not-subscription',
+    'By ticking this, you agree to the Terms and Conditions of our service.'
   );
 };
