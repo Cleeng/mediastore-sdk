@@ -64,6 +64,7 @@ export const StyledPriceWrapper = styled.li`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
+  position: relative;
 
   strong {
     display: flex;
@@ -72,4 +73,15 @@ export const StyledPriceWrapper = styled.li`
     align-items: center;
     width: 100%;
   }
+`;
+
+export const CouponNoteStyled = styled.div.attrs(() => ({
+  className: 'msd__price-coupon__note'
+}))`
+  position: absolute;
+  bottom: -5px;
+  color: ${variables.ConfirmColor};
+  border-radius: 5px;
+
+  font-size: 12px;
 `;

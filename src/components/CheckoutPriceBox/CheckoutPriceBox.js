@@ -3,7 +3,9 @@ import formatNumber from 'util/formatNumber';
 import { useTranslation } from 'react-i18next';
 import { currencyFormat } from 'util/planHelper';
 import calculateTaxValueForFreeOffer from 'util/calculateTaxValueForFreeOffer';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from 'redux/store';
+import { selectOnlyOffer } from 'redux/offerSlice';
+import { selectOnlyOrder } from 'redux/orderSlice';
 import {
   StyledTotalLabel,
   StyledOfferPrice,
@@ -11,11 +13,12 @@ import {
   StyledPriceBoxWrapper,
   StyledTotalOfferPrice,
   StyledLabel,
-  StyledPriceWrapper
+  StyledPriceWrapper,
+  CouponNoteStyled
 } from './CheckoutPriceBoxStyled';
 
 const CheckoutPriceBox = () => {
-  const { customerPriceInclTax } = useSelector(state => state.offer.offer);
+  const { customerPriceInclTax, period } = useAppSelector(selectOnlyOffer);
   const {
     priceBreakdown: {
       offerPrice,
@@ -24,14 +27,93 @@ const CheckoutPriceBox = () => {
       customerServiceFee,
       paymentMethodFee
     },
-    discount: { applied: isCouponApplied },
+    discount: {
+      applied: isCouponApplied,
+      type: discountType,
+      periods: discountedPeriods
+    },
     taxRate,
     country,
     totalPrice: finalPrice,
     currency
-  } = useSelector(state => state.order.order);
+  } = useAppSelector(selectOnlyOrder);
+
+  const currencySymbol = currencyFormat[currency];
 
   const { t } = useTranslation();
+
+  const getCouponNote = () => {
+    const formattedDiscountAmount = formatNumber(discountAmount);
+
+    if (finalPrice === 0) {
+      if (discountedPeriods === 1) {
+        // non standard period free
+        if (period === '3months' || period === '6months') {
+          return t(
+            `coupon-note-billing-period-free`,
+            'First billing period free!'
+          );
+        }
+        return t(`coupon-note-${period}-free`, `First ${period} free!`, {
+          period
+        });
+      }
+      // non standard periods free
+      if (period === '3months' || period === '6months') {
+        return t(
+          `coupon-note-billing-periods-free`,
+          `First ${discountedPeriods} billing periods free!`,
+          { discountedPeriods }
+        );
+      }
+      return t(
+        `coupon-note-${period}s-free`,
+        `First ${discountedPeriods} ${period}s free!`,
+        {
+          discountedPeriods,
+          period
+        }
+      );
+    }
+    if (discountedPeriods === 1) {
+      // non standard periods
+      if (period === '3months' || period === '6months') {
+        const description = `${currencySymbol}${formattedDiscountAmount} off for the first billing period!`;
+        return t('coupon-note-billing-period', description, {
+          currencySymbol,
+          formattedDiscountAmount
+        });
+      }
+      return t(
+        `coupon-note-${period}`,
+        `${currencySymbol}${formattedDiscountAmount} off for the first ${period}!`,
+        {
+          currencySymbol,
+          formattedDiscountAmount,
+          period
+        }
+      );
+    }
+    // non standard periods
+    if (period === '3months' || period === '6months') {
+      const description = `${currencySymbol}${formattedDiscountAmount} off for the first ${discountedPeriods} billing periods!`;
+      return t('coupon-note-billing-periods', description, {
+        currencySymbol,
+        formattedDiscountAmount,
+        discountedPeriods
+      });
+    }
+    return t(
+      `coupon-note-${period}s`,
+      `${currencySymbol}${formattedDiscountAmount} off for the first ${discountedPeriods} ${period}s!`,
+      {
+        currencySymbol,
+        formattedDiscountAmount,
+        discountedPeriods,
+        period
+      }
+    );
+  };
 
   return (
     <StyledPriceBox>
@@ -39,7 +121,7 @@ const CheckoutPriceBox = () => {
         <StyledPriceWrapper>
           <StyledLabel>{t('checkout-price-box.price', 'Price')}</StyledLabel>
           <StyledOfferPrice>
-            {`${currencyFormat[currency]}${formatNumber(offerPrice)} `}
+            {`${currencySymbol}${formatNumber(offerPrice)} `}
             <span>
               {country === 'US'
                 ? t('checkout-price-box.excl-tax', 'excl. Tax')
@@ -53,8 +135,11 @@ const CheckoutPriceBox = () => {
             <StyledLabel>
               {t('checkout-price-box.coupon-discount', 'Coupon Discount')}
             </StyledLabel>
+            {discountType === 'coupon' && (
+              <CouponNoteStyled>{getCouponNote()}</CouponNoteStyled>
+            )}
             <StyledOfferPrice>
-              - {currencyFormat[currency]}
+              - {currencySymbol}
               {formatNumber(discountAmount)}
             </StyledOfferPrice>
           </StyledPriceWrapper>
@@ -69,7 +154,7 @@ const CheckoutPriceBox = () => {
           <StyledOfferPrice>
             {!taxValue && isCouponApplied ? (
               <p style={{ textDecoration: 'line-through' }}>
-                {currencyFormat[currency]}{' '}
+                {currencySymbol}{' '}
                 {calculateTaxValueForFreeOffer(
                   offerPrice,
                   taxRate,
@@ -77,7 +162,7 @@ const CheckoutPriceBox = () => {
                 )}
               </p>
             ) : (
-              `${currencyFormat[currency]}${formatNumber(taxValue)}`
+              `${currencySymbol}${formatNumber(taxValue)}`
             )}
           </StyledOfferPrice>
         </StyledPriceWrapper>
@@ -88,7 +173,7 @@ const CheckoutPriceBox = () => {
               {t('checkout-price-box.service-fee', 'Service Fee')}
             </StyledLabel>
             <StyledOfferPrice>
-              {`${currencyFormat[currency]}${formatNumber(customerServiceFee)}`}
+              {`${currencySymbol}${formatNumber(customerServiceFee)}`}
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
@@ -99,7 +184,7 @@ const CheckoutPriceBox = () => {
               {t('checkout-price-box.payment-method-fee', 'Payment Method Fee')}
             </StyledLabel>
             <StyledOfferPrice>
-              {`${currencyFormat[currency]}${formatNumber(paymentMethodFee)}`}
+              {`${currencySymbol}${formatNumber(paymentMethodFee)}`}
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
@@ -110,7 +195,7 @@ const CheckoutPriceBox = () => {
               {t('checkout-price-box.total', 'Total')}
             </StyledTotalLabel>
             <StyledTotalOfferPrice>
-              {`${currencyFormat[currency]}${formatNumber(finalPrice)}`}
+              {`${currencySymbol}${formatNumber(finalPrice)}`}
             </StyledTotalOfferPrice>
           </strong>
         </StyledPriceWrapper>
