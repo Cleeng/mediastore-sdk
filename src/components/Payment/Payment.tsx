@@ -355,7 +355,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
   return (
     <PaymentStyled>
-      <SectionHeader marginTop="25px" paddingBottom="0" center>
+      <SectionHeader marginTop="25px" paddingBottom="33px" center>
         <>{t('payment.purchase-using', 'Purchase using')}</>
       </SectionHeader>
       <PaymentWrapperStyled>

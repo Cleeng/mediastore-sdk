@@ -387,6 +387,7 @@ const Adyen = ({
 
       if (shouldCreateStandardPaymentSession) {
         setStandardPaymentSession(true);
+
         createSession(STANDARD_PAYMENT_METHODS);
       }
 
