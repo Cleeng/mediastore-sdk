@@ -76,7 +76,7 @@ export const StyledPriceWrapper = styled.li`
 `;
 
 export const CouponNoteStyled = styled.div.attrs(() => ({
-  className: 'msd__coupon-note'
+  className: 'msd__price-coupon__note'
 }))`
   position: absolute;
   bottom: -5px;
