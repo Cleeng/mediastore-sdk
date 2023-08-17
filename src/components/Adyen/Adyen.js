@@ -455,7 +455,7 @@ const Adyen = ({
     if (isDropInPresent && discount?.applied) {
       recreateDropIn();
     }
-  }, [discount.applied]);
+  }, [discount.applied, discount.type]);
 
   useEffect(() => {
     if (isDropInPresent) {
