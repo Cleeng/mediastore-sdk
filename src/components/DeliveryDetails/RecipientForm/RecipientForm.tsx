@@ -82,6 +82,14 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
       );
       dispatch(
         setFieldValue({
+          name: 'deliveryDate',
+          value: new Date(deliveryDetails?.deliveryDate * 1000)
+            .toISOString()
+            .split('T')[0]
+        })
+      );
+      dispatch(
+        setFieldValue({
           name: 'message',
           value: deliveryDetails?.personalNote
         })
