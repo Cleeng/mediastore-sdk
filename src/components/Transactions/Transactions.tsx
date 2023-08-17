@@ -1,21 +1,28 @@
 /* eslint-disable no-nested-ternary */
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import Card from 'components/Card';
-import { dateFormat } from 'util/planHelper';
-import MyAccountError from 'components/MyAccountError';
-import Button from 'components/Button';
-import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
-import SkeletonWrapper from 'components/SkeletonWrapper';
-import { logos, readablePaymentMethodNames } from 'util/paymentMethodHelper';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import {
+  POPUP_TYPES,
+  hidePopup,
+  selectPopupDetails,
+  showPopup
+} from 'redux/popupSlice';
+import { selectOffers } from 'redux/offersSlice';
 import {
   DEFAULT_TRANSACTIONS_NUMBER,
   fetchListCustomerTransactions,
   toggleTransactionList,
   removePausedTransactions
 } from 'redux/transactionsSlice';
-import { useDispatch, useSelector } from 'react-redux';
-
+import { dateFormat } from 'util/planHelper';
+import { logos, readablePaymentMethodNames } from 'util/paymentMethodHelper';
+import Card from 'components/Card';
+import MyAccountError from 'components/MyAccountError';
+import Button from 'components/Button';
+import SkeletonWrapper from 'components/SkeletonWrapper';
+import EditDeliveryDetailsPopup from 'components/EditDeliveryDetailsPopup';
+import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
 import {
   WrapStyled,
   InsideWrapperStyled,
@@ -28,14 +35,17 @@ import {
   ButtonTextStyled,
   TransactionListStyled,
   LogoWrapStyled,
-  InfoStyled
+  InfoStyled,
+  TransactionDataStyled,
+  DotStyled,
+  EditGiftStyled
 } from './TransactionsStyled';
 
 const TransactionsSkeleton = () => (
   <Card withBorder>
     {[...Array(3)].map((_, k) => (
       // eslint-disable-next-line react/no-array-index-key
-      <InsideWrapperStyled key={`skeleton-item-${k}`} length={3}>
+      <InsideWrapperStyled key={`skeleton-item-${k}`}>
         <LeftBoxStyled>
           <SkeletonWrapper height={40} width={40} />
           <InfoStyled>
@@ -67,12 +77,13 @@ const Transactions = () => {
     error,
     loading,
     isListExpanded
-  } = useSelector(state => state.transactions);
-  const { pauseOffersIDs } = useSelector(state => state.offers);
+  } = useAppSelector(state => state.transactions);
+  const { pauseOffersIDs } = useAppSelector(selectOffers);
+  const { isOpen, currentType } = useAppSelector(selectPopupDetails);
 
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const transactionsToShow = isListExpanded
     ? transactions
@@ -84,6 +95,12 @@ const Transactions = () => {
         dispatch(removePausedTransactions(pauseOffersIDs));
       });
     }
+
+    return () => {
+      if (currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP) {
+        dispatch(hidePopup());
+      }
+    };
   }, []);
 
   if (loading) return <TransactionsSkeleton />;
@@ -114,27 +131,28 @@ const Transactions = () => {
     );
   }
 
+  if (isOpen && currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP) {
+    return <EditDeliveryDetailsPopup />;
+  }
+
   return (
     <WrapStyled>
       <Card withBorder>
-        <TransactionListStyled
-          isExpanded={isListExpanded}
-          length={transactionsToShow.length}
-        >
+        <TransactionListStyled>
           {transactionsToShow.map(
             ({
               paymentMethod,
               transactionId,
               offerId,
               offerTitle,
-              transactionDate
+              transactionDate,
+              targetType,
+              targetId
             }) => {
-              const LogoComponent = logos[paymentMethod] || logos.card;
+              const LogoComponent: React.FC = logos[paymentMethod];
+
               return (
-                <InsideWrapperStyled
-                  key={transactionId}
-                  length={transactionsToShow.length}
-                >
+                <InsideWrapperStyled key={transactionId}>
                   <LeftBoxStyled>
                     <LogoWrapStyled>
                       <LogoComponent />
@@ -143,20 +161,46 @@ const Transactions = () => {
                       <TitleStyled>
                         {t(`offer-title-${offerId}`, offerTitle)}
                       </TitleStyled>
-                      <SubTitleStyled>
-                        {t('transactions.paid-with', `Paid with`)}{' '}
-                        {t(
-                          `paymentmethod.${paymentMethod}`,
-                          readablePaymentMethodNames[paymentMethod]
-                        )}
-                      </SubTitleStyled>
+                      <TransactionDataStyled>
+                        <SubTitleStyled>
+                          {t(
+                            `paymentmethod.${paymentMethod}`,
+                            readablePaymentMethodNames[paymentMethod]
+                          )}
+                        </SubTitleStyled>
+                        <DotStyled>·</DotStyled>
+                        <IdStyled>{transactionId}</IdStyled>
+                        <DotStyled>·</DotStyled>
+                        <DateStyled dateTime={dateFormat(transactionDate)}>
+                          {dateFormat(transactionDate)}
+                        </DateStyled>
+                      </TransactionDataStyled>
                     </InfoStyled>
                   </LeftBoxStyled>
                   <RightBoxStyled>
-                    <IdStyled>{transactionId}</IdStyled>
-                    <DateStyled datetime={dateFormat(transactionDate)}>
-                      {dateFormat(transactionDate)}
-                    </DateStyled>
+                    {targetType === 'giftId' && (
+                      <EditGiftStyled
+                        onClick={() => {
+                          dispatch(
+                            showPopup({
+                              type: POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP,
+                              data: {
+                                action: 'editDeliveryDetails',
+                                giftId: targetId,
+                                offerId,
+                                offerTitle
+                              }
+                            })
+                          );
+                        }}
+                        role="button"
+                      >
+                        {t(
+                          'transactions.edit-gift-delivery-details',
+                          'Edit gift delivery details'
+                        )}
+                      </EditGiftStyled>
+                    )}
                   </RightBoxStyled>
                 </InsideWrapperStyled>
               );

@@ -6,13 +6,16 @@ import SectionHeader from 'components/SectionHeader';
 import Transactions from 'components/Transactions';
 import UpdatePaymentDetailsPopup from 'components/UpdatePaymentDetailsPopup';
 import GracePeriodError from 'components/GracePeriodError';
+import EditDeliveryDetailsPopup from 'components/EditDeliveryDetailsPopup';
 import {
   init as initPublisherConfig,
   selectAdyenConfiguration
 } from 'redux/publisherConfigSlice';
 import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
 import {
+  POPUP_TYPES,
   selectPaymentDetailsPopup,
+  selectPopupDetails,
   updatePaymentDetailsPopup
 } from 'redux/popupSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
@@ -26,6 +29,7 @@ const PaymentInfo = ({
   const dispatch = useAppDispatch();
 
   const adyenConfigurationStore = useAppSelector(selectAdyenConfiguration);
+  const { isOpen, currentType } = useAppSelector(selectPopupDetails);
 
   const { t } = useTranslation();
 
@@ -49,34 +53,43 @@ const PaymentInfo = ({
     };
   }, []);
 
-  return (
-    <WrapStyled>
-      <GracePeriodError />
-      {paymentDetailsPopup.isOpen ? (
+  const isEditDeliveryDetailsPopupOpened =
+    isOpen && currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP;
+
+  if (isEditDeliveryDetailsPopupOpened) {
+    return (
+      <WrapStyled>
+        <EditDeliveryDetailsPopup />
+      </WrapStyled>
+    );
+  }
+
+  if (paymentDetailsPopup.isOpen) {
+    return (
+      <WrapStyled>
+        <GracePeriodError />
         <div data-testid="payment-info__update-payment-details-popup">
           <UpdatePaymentDetailsPopup />
         </div>
-      ) : (
-        <>
-          <section>
-            <SectionHeader>
-              <>
-                {t(
-                  'paymentinfo.current-payment-method',
-                  'Current payment method'
-                )}
-              </>
-            </SectionHeader>
-            <PaymentMethod />
-          </section>
-          <section>
-            <SectionHeader marginTop="25px">
-              <>{t('paymentinfo.payment-history', 'Payment history')}</>
-            </SectionHeader>
-            <Transactions />
-          </section>
-        </>
-      )}
+      </WrapStyled>
+    );
+  }
+
+  return (
+    <WrapStyled>
+      <GracePeriodError />
+      <section>
+        <SectionHeader>
+          {t('paymentinfo.current-payment-method', 'Current payment method')}
+        </SectionHeader>
+        <PaymentMethod />
+      </section>
+      <section>
+        <SectionHeader marginTop="25px">
+          <>{t('paymentinfo.payment-history', 'Payment history')}</>
+        </SectionHeader>
+        <Transactions />
+      </section>
     </WrapStyled>
   );
 };

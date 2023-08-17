@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { media } from 'styles/BreakPoints';
 import { FontColor, BackgroundColor } from 'styles/variables';
 
 export const WrapStyled = styled.article.attrs(() => ({
@@ -11,6 +12,10 @@ export const WrapStyled = styled.article.attrs(() => ({
   width: 100%;
   padding: 20px;
   background: ${BackgroundColor};
+
+  ${media.small`
+    padding: 0;
+  `}
 `;
 
 export const HeaderStyled = styled.div`

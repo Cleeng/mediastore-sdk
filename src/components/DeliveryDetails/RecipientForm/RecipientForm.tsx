@@ -18,7 +18,9 @@ import {
   validateRecipientEmail
 } from './validators';
 
-const RecipientForm = () => {
+import { RecipientFormProps } from './RecipientForm.types';
+
+const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
   const {
     recipientEmail,
     confirmRecipientEmail,
@@ -112,12 +114,14 @@ const RecipientForm = () => {
           value={message.value}
         />
       </MessageWrapper>
-      <InfoText>
-        {t(
-          'recipientForm.info-text',
-          'To edit your gift delivery details, access MyAccount and click on the corresponding transaction.'
-        )}
-      </InfoText>
+      {!isMyAccount && (
+        <InfoText>
+          {t(
+            'recipientForm.info-text',
+            'To edit your gift delivery details, access MyAccount and click on the corresponding transaction.'
+          )}
+        </InfoText>
+      )}
     </StyledRecipientForm>
   );
 };

@@ -46,7 +46,8 @@ export const InfoText = styled.p`
   font-size: 13px;
   font-weight: 300;
   font-style: italic;
-  color: #515364;
+  color: ${FontColor};
+
   opacity: 0.7;
   margin-top: 12px;
 `;
