@@ -1,18 +1,22 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { render } from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
+import { selectOnlyOrder } from 'redux/orderSlice';
+import { selectOnlyOffer } from 'redux/offerSlice';
 import useScript from 'util/useScriptHook';
 import {
   getAvailablePaymentMethods,
   bankPaymentMethods,
+  standardPaymentMethods,
   bankPaymentMethodsMapper,
   STANDARD_PAYMENT_METHODS,
-  BANK_PAYMENT_METHODS
+  BANK_PAYMENT_METHODS,
+  getStandardCopy
 } from 'util/paymentMethodHelper';
-import { useSelector } from 'react-redux';
 import Checkbox from 'components/Checkbox';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import AdyenStyled from './AdyenStyled';
@@ -33,9 +37,12 @@ const Adyen = ({
   getDropIn,
   onAdditionalDetails
 }) => {
-  const { discount, totalPrice, offerId } = useSelector(
-    state => state.order.order
-  );
+  const order = useSelector(selectOnlyOrder);
+
+  const { discount, totalPrice, offerId } = order;
+
+  const offer = useSelector(selectOnlyOffer);
+
   const {
     adyenConfiguration,
     paymentMethods: publisherPaymentMethods,
@@ -74,28 +81,30 @@ const Adyen = ({
   const getBankCopy = () => {
     const isFree = totalPrice === 0;
     const isSubscription = offerId?.charAt(0) === 'S';
-
     if (isMyAccount || (isFree && isSubscription)) {
+      // TODO: add link to T&C
       return t(
         'offer-bank-consent-copy.free-subscription',
-        'You accept the terms and conditions of this agreement and that your account will be charged €0.10 for authentication purposes. This amount will be refunded once the transaction is completed. And your account will be debited on a recurring basis for the full subscription amount.'
+        'By ticking this, you agree to the Terms and Conditions of our service. Your account will be charged €0.10 for authentication purposes. This amount will be refunded once the transaction is completed. Your account will be charged on a recurring basis for the full subscription amount. Your subscription will continue until you cancel.'
       );
     }
 
     if (isSubscription) {
+      // TODO: add link to T&C
       return t(
         'offer-bank-consent-copy.paid-subscription',
-        'You accept the terms and conditions of this agreement. Your account will be debited on a recurring basis for the full subscription amount.'
+        'By ticking this, you agree to the Terms and Conditions of our service. Your account will be charged on a recurring basis for the full subscription amount. Your subscription will continue until you cancel.'
       );
     }
 
     return t(
+      // TODO: add link to T&C
       'offer-bank-consent-copy.paid-not-subscription',
-      'You accept the terms and conditions of this agreement.'
+      'By ticking this, you agree to the Terms and Conditions of our service.'
     );
   };
 
-  const addAdditionalCopyForBankPaymentMethods = methodName => {
+  const addLegalCheckboxForPaymentMethod = (methodName, type = 'standard') => {
     const parentEl = document.querySelector(
       `.adyen-checkout__payment-method--${methodName}`
     );
@@ -112,13 +121,15 @@ const Adyen = ({
           setIsChecked(!e.target.checked);
         }}
       >
-        {getBankCopy()}
+        {type === 'bank'
+          ? getBankCopy()
+          : getStandardCopy(isMyAccount, offer, order)}
       </Checkbox>
     );
 
     if (parentEl) {
-      const details = parentEl.querySelector(
-        '.adyen-checkout__payment-method__details'
+      const paymentDetailsWrapper = parentEl.querySelector(
+        `.adyen-checkout__payment-method__details`
       );
 
       const doesCheckboxExist = document.querySelector(
@@ -126,11 +137,11 @@ const Adyen = ({
       );
 
       if (!doesCheckboxExist) {
-        const wrapper = document.createElement('div');
-        wrapper.classList.add('checkbox-wrapper');
+        const checkboxWrapper = document.createElement('div');
+        checkboxWrapper.classList.add('checkbox-wrapper');
 
-        render(checkbox, wrapper);
-        details.before(wrapper);
+        render(checkbox, checkboxWrapper);
+        parentEl.insertBefore(checkboxWrapper, paymentDetailsWrapper);
       }
     }
   };
@@ -138,7 +149,12 @@ const Adyen = ({
   const showAdditionalText = () => {
     if (bankPaymentMethodsRef?.current) {
       bankPaymentMethods.forEach(method =>
-        addAdditionalCopyForBankPaymentMethods(method)
+        addLegalCheckboxForPaymentMethod(method, 'bank')
+      );
+    }
+    if (standardPaymentMethodsRef?.current) {
+      standardPaymentMethods.forEach(method =>
+        addLegalCheckboxForPaymentMethod(method)
       );
     }
   };
@@ -180,6 +196,19 @@ const Adyen = ({
       error,
       fieldType
     });
+  };
+
+  const isCheckboxChecked = methodName => {
+    const checkbox = document.querySelector(
+      `.checkbox-${methodName === 'scheme' ? 'card' : methodName}`
+    );
+
+    if (!checkbox?.checked) {
+      checkbox.classList.add('adyen-checkout__bank-checkbox--error');
+      return false;
+    }
+
+    return true;
   };
 
   const createDropInInstance = async (
@@ -226,12 +255,11 @@ const Adyen = ({
             paymentMethod: { type: methodName }
           }
         } = state;
-
-        if (bankPaymentMethods.includes(methodName)) {
-          const checkbox = document.querySelector(`.checkbox-${methodName}`);
-
-          if (!checkbox.checked) {
-            checkbox.classList.add('adyen-checkout__bank-checkbox--error');
+        if (
+          bankPaymentMethods.includes(methodName) ||
+          standardPaymentMethods.includes(methodName)
+        ) {
+          if (!isCheckboxChecked(methodName)) {
             return false;
           }
         }
@@ -262,6 +290,13 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.card
         },
         applepay: {
+          onClick: resolve => {
+            if (!isCheckboxChecked('applepay')) {
+              return;
+            }
+
+            resolve();
+          },
           ...amountObj,
           ...(applePayConfigurationObj && {
             configuration: {
@@ -272,6 +307,13 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.applePay
         },
         googlepay: {
+          onClick: resolve => {
+            if (!isCheckboxChecked('googlepay')) {
+              return;
+            }
+
+            resolve();
+          },
           environment: getGooglePayEnv(),
           ...(googlePayConfigurationObj && {
             configuration: {
@@ -413,7 +455,7 @@ const Adyen = ({
     if (isDropInPresent && discount?.applied) {
       recreateDropIn();
     }
-  }, [discount.applied]);
+  }, [discount.applied, discount.type]);
 
   useEffect(() => {
     if (isDropInPresent) {

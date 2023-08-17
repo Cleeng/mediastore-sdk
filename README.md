@@ -212,7 +212,6 @@ Config.setCheckoutPayPalUrls({
   cancelUrl: "https://client-website.com/checkout",
   errorUrl: "https://client-website.com/checkout/error"
 });
-Config.setTermsUrl("https://client-website.com/terms"); // optional, for legal notes in the checkout
 Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
@@ -421,7 +420,6 @@ Config.setCheckoutPayPalUrls({
   cancelUrl: "https://client-website.com/my-account",
   errorUrl: "https://client-website.com/my-account/paypal-error"
 });
-Config.setTermsUrl("https://client-website.com/terms"); // optional, for legal notes in the checkout
 Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
