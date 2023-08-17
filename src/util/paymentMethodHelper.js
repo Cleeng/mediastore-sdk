@@ -30,7 +30,7 @@ export const bankPaymentMethods = [
 export const standardPaymentMethods = [
   'card',
   'scheme',
-  'appleypay',
+  'applepay',
   'googlepay',
   'bancontact_card',
   'bcmc'
