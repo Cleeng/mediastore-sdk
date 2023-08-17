@@ -3,6 +3,7 @@ const calculateGrossPriceForFreeOffer = (
   taxRate,
   customerPriceInclTax
 ) => {
+  if (taxRate === 0) return netPrice;
   const grossPrice = netPrice + taxRate * netPrice;
   const shouldRoundGrossPrice =
     customerPriceInclTax === Number(grossPrice.toFixed(2));
