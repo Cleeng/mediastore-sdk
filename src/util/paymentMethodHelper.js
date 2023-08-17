@@ -153,7 +153,7 @@ export const getStandardCopy = (isMyAccount, offer, order) => {
 
   // TODO: add link to T&C
   return i18n.t(
-    'offer-standard-consent-copy.checkout-subscription',
+    `offer-standard-consent-copy.checkout-subscription.period-${offerPeriod}`,
     "You will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click ‘Cancel.’ By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
     { readablePrice, readablePeriod }
   );
