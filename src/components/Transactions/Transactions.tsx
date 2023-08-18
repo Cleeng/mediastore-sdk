@@ -95,12 +95,6 @@ const Transactions = () => {
         dispatch(removePausedTransactions(pauseOffersIDs));
       });
     }
-
-    return () => {
-      if (currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP) {
-        dispatch(hidePopup());
-      }
-    };
   }, []);
 
   if (loading) return <TransactionsSkeleton />;

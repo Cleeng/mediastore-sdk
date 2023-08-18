@@ -15,6 +15,7 @@ import {
   StyledMessage
 } from './RecipientFormStyled';
 import {
+  isDateInFuture,
   validateConfirmRecipientEmail,
   validateDeliveryDate,
   validateRecipientEmail
@@ -31,7 +32,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
   } = useAppSelector(selectDeliveryDetails);
 
   const {
-    gift: { deliveryDetails, sentAt }
+    gift: { deliveryDetails: giftDeliveryDetails, sentAt }
   } = useAppSelector(selectGift);
 
   const dispatch = useAppDispatch();
@@ -73,17 +74,17 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
   };
 
   useEffect(() => {
-    if (isMyAccount && deliveryDetails) {
+    if (isMyAccount && giftDeliveryDetails) {
       dispatch(
         setFieldValue({
           name: 'recipientEmail',
-          value: deliveryDetails?.recipientEmail
+          value: giftDeliveryDetails?.recipientEmail
         })
       );
       dispatch(
         setFieldValue({
           name: 'deliveryDate',
-          value: new Date(deliveryDetails?.deliveryDate * 1000)
+          value: new Date(giftDeliveryDetails?.deliveryDate * 1000)
             .toISOString()
             .split('T')[0]
         })
@@ -91,18 +92,21 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
       dispatch(
         setFieldValue({
           name: 'message',
-          value: deliveryDetails?.personalNote
+          value: giftDeliveryDetails?.personalNote
         })
       );
     }
-  }, [deliveryDetails]);
+  }, [giftDeliveryDetails]);
 
-  const isGiftSent = !!sentAt;
+  // maybe set it *1000 already in store
+  const isGiftEditable =
+    isDateInFuture(new Date(giftDeliveryDetails?.deliveryDate * 1000)) &&
+    !sentAt;
 
   return (
     <StyledRecipientForm noValidate>
       <MyAccountInput
-        disabled={isGiftSent}
+        disabled={!isGiftEditable}
         error={t(recipientEmail.translationKey, recipientEmail.error)}
         label={t('recipientForm.label.recipient-email', 'Recipient email')}
         name="recipientEmail"
@@ -111,7 +115,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
         type="email"
         value={recipientEmail.value}
       />
-      {!isGiftSent && (
+      {isGiftEditable && (
         <MyAccountInput
           error={t(
             confirmRecipientEmail.translationKey,
@@ -129,7 +133,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
         />
       )}
       <MyAccountInput
-        disabled={isGiftSent}
+        disabled={!isGiftEditable}
         error={t(deliveryDate.translationKey, deliveryDate.error)}
         label={t('recipientForm.label.delivery-date', 'Delivery date')}
         min={new Date().toISOString().split('T')[0]}
@@ -141,14 +145,14 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
       />
       <MessageWrapper>
         <StyledLabel>
-          {isGiftSent ? (
-            <>{t('recipientForm.label.message', 'Message')}</>
-          ) : (
+          {isGiftEditable ? (
             <>{t('recipientForm.label.add-message', 'Add a message')}</>
+          ) : (
+            <>{t('recipientForm.label.message', 'Message')}</>
           )}
         </StyledLabel>
         <StyledMessage
-          disabled={isGiftSent}
+          disabled={!isGiftEditable}
           maxLength={150}
           name="message"
           onChange={onChange}

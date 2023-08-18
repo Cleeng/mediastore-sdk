@@ -20,10 +20,20 @@ export const validateRecipientEmail = (value: string) => {
   return !error;
 };
 
-const isDateInPast = (date: Date) => {
+export const isDateInPast = (date: Date) => {
   const now = new Date();
 
   if (date.setHours(0, 0, 0, 0) < now.setHours(0, 0, 0, 0)) {
+    return true;
+  }
+
+  return false;
+};
+
+export const isDateInFuture = (date: Date) => {
+  const now = new Date();
+
+  if (date.setHours(0, 0, 0, 0) > now.setHours(0, 0, 0, 0)) {
     return true;
   }
 
