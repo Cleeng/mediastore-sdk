@@ -127,7 +127,8 @@ const EditDeliveryDetailsPopup = () => {
                             'edit-delivery-details-popup.info-text-disabled',
                             'It is not possible to edit delivery details as the gift has been already sent out to the recipient.'
                           )
-                        : t(
+                        : // add to translations
+                          t(
                             'edit-delivery-details-popup.info-text-disabled2',
                             'It is not possible to edit delivery details as the gift will be sent to the recipient soon.'
                           )}
