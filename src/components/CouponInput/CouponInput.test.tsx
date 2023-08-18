@@ -1,13 +1,13 @@
-import { render, screen } from '@testing-library/react';
 import React from 'react';
+import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
+import * as Colors from 'styles/variables';
 import CouponInput from 'components/CouponInput';
 import {
   MESSAGE_TYPE_SUCCESS,
   MESSAGE_TYPE_FAIL
 } from 'components/Input/InputConstants';
 import userEvent from '@testing-library/user-event';
-import * as Colors from 'styles/variables';
 import { MessageType } from './CouponInput.types';
 
 const messageSuccess = MESSAGE_TYPE_SUCCESS as MessageType;
@@ -26,7 +26,8 @@ const couponInputProps = (
     couponDetails: {
       showMessage,
       message,
-      messageType
+      messageType,
+      translationKey: ''
     },
     onSubmit: (k: string) => k,
     onChange: (k: string) => k,
@@ -38,6 +39,7 @@ const couponInputProps = (
 describe('CouponInput component', () => {
   test('render input with correct value', async () => {
     render(<CouponInput {...couponInputProps('coupon')} />);
+    await userEvent.click(screen.getByTestId('redeem-btn'));
     expect(screen.getByRole('input')).toHaveValue('coupon');
   });
 

@@ -1,12 +1,46 @@
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useAppSelector } from 'redux/store';
+import { selectOnlyOrder } from 'redux/orderSlice';
+import { selectOnlyOffer } from 'redux/offerSlice';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
+import { getStandardCopy } from 'util/paymentMethodHelper';
 import Button from 'components/Button';
-import React from 'react';
-import { PayPalContentStyled, CopyStyled } from './PayPalStyled';
+import Checkbox from 'components/Checkbox';
+import {
+  PayPalContentStyled,
+  CopyStyled,
+  CheckboxWrapperStyled
+} from './PayPalStyled';
 import { PayPalProps } from './PayPal.types';
 
-const PayPal = ({ totalPrice, offerId, onSubmit, isLoading }: PayPalProps) => {
+const PayPal = ({
+  isMyAccount = false,
+  totalPrice,
+  offerId,
+  onSubmit,
+  isLoading
+}: PayPalProps) => {
   const { t } = useTranslation();
+
+  const order = useAppSelector(selectOnlyOrder);
+  const offer = useAppSelector(selectOnlyOffer);
+
+  const [isChecked, setIsChecked] = useState(false);
+
+  const handleSubmit = () => {
+    const checkbox = document.querySelector(
+      `.checkbox-paypal`
+    ) as HTMLInputElement;
+
+    if (!checkbox?.checked) {
+      checkbox.classList.add('adyen-checkout__bank-checkbox--error');
+      return;
+    }
+
+    onSubmit();
+  };
+
   return (
     <PayPalContentStyled>
       <CopyStyled>
@@ -39,9 +73,24 @@ const PayPal = ({ totalPrice, offerId, onSubmit, isLoading }: PayPalProps) => {
             "We'll redirect you to PayPal to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments."
           )}
       </CopyStyled>
+      <CheckboxWrapperStyled>
+        <Checkbox
+          className="adyen-checkout__bank-checkbox checkbox-paypal"
+          checked={isChecked}
+          onClickFn={e => {
+            e.target.parentElement.classList.remove(
+              'adyen-checkout__bank-checkbox--error'
+            );
+
+            setIsChecked(!e.target.checked);
+          }}
+        >
+          {getStandardCopy(isMyAccount, offer, order)}
+        </Checkbox>
+      </CheckboxWrapperStyled>
       <Button
         theme="paypal"
-        onClickFn={onSubmit}
+        onClickFn={handleSubmit}
         disabled={isLoading}
         size="big"
         margin="20px auto auto auto"
