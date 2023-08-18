@@ -64,7 +64,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": ".husky/verify_branch_name && lint-staged && npm run test"
+      "pre-commit": ".husky/verify_branch_name && lint-staged && npm run test",
+      "commit-msg": ".husky/verify_commit_message && lint-staged"
     }
   },
   "lint-staged": {
@@ -85,7 +86,7 @@
     "@babel/cli": "^7.17.3",
     "@babel/core": "^7.17.5",
     "@babel/plugin-transform-runtime": "^7.17.0",
-    "@babel/preset-env": "^7.16.11",
+    "@babel/preset-env": "7.21.5",
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.21.0",
     "@testing-library/jest-dom": "^5.16.5",

@@ -209,9 +209,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                   message: errorMsg
                 }}
                 fullWidth
-                showMessage={isError}
                 value={couponValue}
-                message={errorMsg}
                 couponLoading={isLoading}
                 onSubmit={() => submitCoupon(subscription.subscriptionId)}
                 onChange={e => setCouponValue(e)}

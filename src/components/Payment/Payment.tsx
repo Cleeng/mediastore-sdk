@@ -33,14 +33,12 @@ import {
 } from './PaymentStyled';
 import eventDispatcher, {
   MSSDK_PURCHASE_FAILED,
-  MSSDK_PURCHASE_SUCCESSFUL
+  MSSDK_PURCHASE_SUCCESSFUL,
+  MSSDK_AUTH_FAILED
 } from '../../util/eventDispatcher';
-import LegalNote from './LegalNote/LegalNote';
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { PaymentProps } from './Payment.types';
-
-import LegalCopy from './LegalCopy/LegalCopy';
 
 type paymentMethodType =
   | typeof STANDARD_PAYMENT_METHODS
@@ -94,6 +92,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         .unwrap()
         .catch(errors => {
           if (errors.includes('JWT')) {
+            eventDispatcher(MSSDK_AUTH_FAILED);
             Auth.logout(); // TODO: support properly the logout function
           }
         });
@@ -356,10 +355,9 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
   return (
     <PaymentStyled>
-      <SectionHeader marginTop="25px" paddingBottom="0" center>
+      <SectionHeader marginTop="25px" paddingBottom="33px" center>
         <>{t('payment.purchase-using', 'Purchase using')}</>
       </SectionHeader>
-      <LegalCopy />
       <PaymentWrapperStyled>
         {isPaymentFinalizationInProgress && <Loader />}
         {shouldShowAdyen && (
@@ -393,7 +391,6 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
           <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
         )}
       </PaymentWrapperStyled>
-      {order?.offerId?.charAt(0) === 'S' && <LegalNote />}
     </PaymentStyled>
   );
 };
