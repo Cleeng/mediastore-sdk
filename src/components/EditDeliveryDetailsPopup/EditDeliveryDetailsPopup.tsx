@@ -175,45 +175,43 @@ const EditDeliveryDetailsPopup = () => {
     );
   }
 
-  if (currentStep === 2) {
-    return (
-      <InnerPopupWrapper
-        steps={2}
-        isError={false}
-        currentStep={currentStep}
-        popupTitle={t(
-          'edit-delivery-details-popup.title',
-          'Edit Delivery Details'
-        )}
-      >
-        <ContentStyled>
-          <ThankYouPageStyled>
-            <CheckmarkIcon />
-            <HeaderStyled>
-              {t(
-                'edit-delivery-details-popup.thank-you-page.header',
-                'Delivery Details Updated'
-              )}
-            </HeaderStyled>
-            <InfoTextStyled>
-              {t(
-                'edit-delivery-details-popup.thank-you-page.info-text-1',
-                'Thank you for updating your delivery details for your'
-              )}
-              <p>{t(`offer-title-${offerId}`, offerTitle)}</p>
-              {t(
-                'edit-delivery-details-popup.thank-you-page.info-text-2',
-                'Your changes have been saved and will be reflected in your next delivery.'
-              )}
-            </InfoTextStyled>
-            <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
-              {t('edit-delivery-details-popup.button.back', 'Back to settings')}
-            </Button>
-          </ThankYouPageStyled>
-        </ContentStyled>
-      </InnerPopupWrapper>
-    );
-  }
+  return (
+    <InnerPopupWrapper
+      steps={2}
+      isError={false}
+      currentStep={currentStep}
+      popupTitle={t(
+        'edit-delivery-details-popup.title',
+        'Edit Delivery Details'
+      )}
+    >
+      <ContentStyled>
+        <ThankYouPageStyled>
+          <CheckmarkIcon />
+          <HeaderStyled>
+            {t(
+              'edit-delivery-details-popup.thank-you-page.header',
+              'Delivery Details Updated'
+            )}
+          </HeaderStyled>
+          <InfoTextStyled>
+            {t(
+              'edit-delivery-details-popup.thank-you-page.info-text-1',
+              'Thank you for updating your delivery details for your'
+            )}
+            <p>{t(`offer-title-${offerId}`, offerTitle)}</p>
+            {t(
+              'edit-delivery-details-popup.thank-you-page.info-text-2',
+              'Your changes have been saved and will be reflected in your next delivery.'
+            )}
+          </InfoTextStyled>
+          <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
+            {t('edit-delivery-details-popup.button.back', 'Back to settings')}
+          </Button>
+        </ThankYouPageStyled>
+      </ContentStyled>
+    </InnerPopupWrapper>
+  );
 };
 
 export default EditDeliveryDetailsPopup;
