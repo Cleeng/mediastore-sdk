@@ -12,15 +12,14 @@ import {
 import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
-// import getReadablePeriod from './OfferCheckoutCard.utils';
+import getReadablePeriod from './OfferCheckoutCard.utils';
 import {
   WrapperStyled,
   InnerWrapper,
   TitleStyled,
   DescriptionStyled,
   PriceWrapperStyled,
-  TrialBadgeStyled,
-  IconStyled
+  TrialBadgeStyled
 } from './OfferCheckoutCardStyled';
 import Price from '../Price';
 import OfferDetailsDescription from './OfferDetailsDescription';
@@ -28,7 +27,6 @@ import OfferDetailsDescription from './OfferDetailsDescription';
 const OfferCheckoutCard = () => {
   const {
     offerTitle: title,
-    offerDescription,
     trialAvailable: isTrialAvailable,
     period,
     offerId,
@@ -36,7 +34,8 @@ const OfferCheckoutCard = () => {
     freeDays,
     expiresAt,
     startTime,
-    customerPriceInclTax
+    customerPriceInclTax,
+    offerDescription
   } = useAppSelector(selectOnlyOffer);
 
   const { loading } = useAppSelector(selectOffer);
@@ -82,17 +81,17 @@ const OfferCheckoutCard = () => {
       );
     }
 
-  //   if (freeDays) {
-  //     const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
-  //       period
-  //     )}`;
-  //     return t(`subscription-desc.trial-days.period-${period}`, description, {
-  //       currencySymbol,
-  //       grossPrice,
-  //       taxCopy,
-  //       freeDays
-  //     });
-  //   }
+    if (freeDays) {
+      const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
+        period
+      )}`;
+      return t(`subscription-desc.trial-days.period-${period}`, description, {
+        currencySymbol,
+        grossPrice,
+        taxCopy,
+        freeDays
+      });
+    }
 
     // freePeriods
     let formattedDescription =
@@ -174,62 +173,62 @@ const OfferCheckoutCard = () => {
       return generateCouponDescription();
     }
 
-  //   if (!isTrialAvailable) {
-  //     if (period === 'season') {
-  //       const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) and will be renewed on the next season start date.`;
-  //       return t(`subscription-desc.period-season`, description, {
-  //         currencySymbol,
-  //         grossPrice,
-  //         taxCopy
-  //       });
-  //     }
-  //     const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
-  //       period
-  //     )}`;
-  //     return t(`subscription-desc.period-${period}`, formattedDescription, {
-  //       currencySymbol,
-  //       grossPrice,
-  //       taxCopy
-  //     });
-  //   }
+    if (!isTrialAvailable) {
+      if (period === 'season') {
+        const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) and will be renewed on the next season start date.`;
+        return t(`subscription-desc.period-season`, description, {
+          currencySymbol,
+          grossPrice,
+          taxCopy
+        });
+      }
+      const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
+        period
+      )}`;
+      return t(`subscription-desc.period-${period}`, formattedDescription, {
+        currencySymbol,
+        grossPrice,
+        taxCopy
+      });
+    }
 
-  //   return generateTrialDescription();
-  // };
+    return generateTrialDescription();
+  };
 
-  // const renderDescription = () => {
-  //   if (offerType === 'S') {
-  //     return generateSubscriptionDescription();
-  //   }
-  //   if (offerType === 'P') {
-  //     if (!period) {
-  //       const date = dateFormat(expiresAt, true);
-  //       return t('pass-desc.date', `Access until {{date}}`, { date });
-  //     }
-  //     return periodMapper[period as Period]
-  //       ? `${t(
-  //           `period.${period}`,
-  //           periodMapper[period as Period].accessText as string
-  //         )} ${t('offer-checkout-card.season-pass', 'season pass')}`
-  //       : '';
-  //   }
-  //   if (offerType === 'E') {
-  //     return `Pay-per-view event ${
-  //       startTime ? dateFormat(startTime, true) : ''
-  //     }`;
-  //   }
-  //   if (offerType === 'R') {
-  //     return periodMapper[period as Period]
-  //       ? `${t(
-  //           `period.${period}`,
-  //           periodMapper[period as Period].accessText as string
-  //         )} ${t('offer-checkout-card.access', 'access')}`
-  //       : '';
-  //   }
-  //   if (offerType === 'A') {
-  //     return t('offer-checkout-card.unlimited-access', 'Unlimited access');
-  //   }
-  //   return '';
-  // };
+  const renderDescription = () => {
+    if (offerType === 'S') {
+      return generateSubscriptionDescription();
+    }
+    if (offerType === 'P') {
+      if (!period) {
+        const date = dateFormat(expiresAt, true);
+        return t('pass-desc.date', `Access until {{date}}`, { date });
+      }
+      return periodMapper[period as Period]
+        ? `${t(
+            `period.${period}`,
+            periodMapper[period as Period].accessText as string
+          )} ${t('offer-checkout-card.season-pass', 'season pass')}`
+        : '';
+    }
+    if (offerType === 'E') {
+      return `Pay-per-view event ${
+        startTime ? dateFormat(startTime, true) : ''
+      }`;
+    }
+    if (offerType === 'R') {
+      return periodMapper[period as Period]
+        ? `${t(
+            `period.${period}`,
+            periodMapper[period as Period].accessText as string
+          )} ${t('offer-checkout-card.access', 'access')}`
+        : '';
+    }
+    if (offerType === 'A') {
+      return t('offer-checkout-card.unlimited-access', 'Unlimited access');
+    }
+    return '';
+  };
 
   const renderTrialBadgeDescription = () => {
     if (freeDays) {
@@ -264,14 +263,8 @@ const OfferCheckoutCard = () => {
         >
           <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
           {offerDescription && (
-            <DescriptionStyled
-              style={{
-                display: 'inline',
-                alignItems: 'center',
-                fontSize: '12px'
-              }}
-            >
-              {offerDescription}
+            <DescriptionStyled>
+              {t('offer-description', offerDescription)}
             </DescriptionStyled>
           )}
         </SkeletonWrapper>
@@ -280,24 +273,27 @@ const OfferCheckoutCard = () => {
           width={300}
           margin="0 0 10px 10px"
         >
-          <div style={{ display: ' flex', alignItems: 'center' }}>
-            {/* <DescriptionStyled
-              dangerouslySetInnerHTML={{ __html: renderDescription() }}
-            />
-            <DescriptionStyled /> */}
-            <OfferDetailsDescription
-              country={country}
-              period={period}
-              freeDays={freeDays}
-              currencySymbol={currencySymbol}
-              grossPrice={grossPrice}
-              freePeriods={freePeriods}
-              isTrialAvailable={isTrialAvailable}
-              offerType={offerType}
-              expiresAt={expiresAt}
-              startTime={startTime}
-            />
-          </div>
+          {/* <DescriptionStyled
+            dangerouslySetInnerHTML={{ __html: renderDescription() }}
+          /> */}
+          <OfferDetailsDescription
+            period={period}
+            freeDays={freeDays}
+            currencySymbol={currencySymbol}
+            grossPrice={grossPrice}
+            taxCopy={taxCopy}
+            freePeriods={freePeriods}
+            totalPrice={totalPrice}
+            offerPrice={offerPrice}
+            taxRate={taxRate}
+            customerPriceInclTax={customerPriceInclTax}
+            discountedPeriods={discountedPeriods}
+            discountType={discountType}
+            isTrialAvailable={isTrialAvailable}
+            offerType={offerType}
+            startTime={startTime}
+            expiresAt={expiresAt}
+          />
         </SkeletonWrapper>
       </InnerWrapper>
       <PriceWrapperStyled>
