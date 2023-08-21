@@ -6,6 +6,7 @@ import {
   setFieldValue
 } from 'redux/deliveryDetailsSlice';
 import { selectGift } from 'redux/giftSlice';
+import { POPUP_TYPES, selectPopupDetails } from 'redux/popupSlice';
 import MyAccountInput from 'components/MyAccountInput';
 import {
   InfoText,
@@ -34,6 +35,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
   const {
     gift: { deliveryDetails: giftDeliveryDetails, sentAt }
   } = useAppSelector(selectGift);
+  const { isOpen, currentType } = useAppSelector(selectPopupDetails);
 
   const dispatch = useAppDispatch();
 
@@ -66,6 +68,10 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
   const onChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
+    if (shouldHideValue) {
+      return;
+    }
+
     const {
       target: { name, value }
     } = e;
@@ -104,6 +110,11 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
 
   const isFieldDisabled = isMyAccount && !isGiftEditable;
 
+  const isEditDeliveryDetailsPopupOpened =
+    isOpen && currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP;
+
+  const shouldHideValue = !isMyAccount && isEditDeliveryDetailsPopupOpened;
+
   return (
     <StyledRecipientForm noValidate>
       <MyAccountInput
@@ -114,7 +125,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
         onBlur={onBlur}
         onChange={onChange}
         type="email"
-        value={recipientEmail.value}
+        value={shouldHideValue ? '' : recipientEmail.value}
       />
       {!isFieldDisabled && (
         <MyAccountInput
@@ -130,7 +141,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
           onBlur={onBlur}
           onChange={onChange}
           type="email"
-          value={confirmRecipientEmail.value}
+          value={shouldHideValue ? '' : confirmRecipientEmail.value}
         />
       )}
       <MyAccountInput
@@ -142,7 +153,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
         onBlur={onBlur}
         onChange={onChange}
         type="date"
-        value={deliveryDate.value}
+        value={shouldHideValue ? '' : deliveryDate.value}
       />
       <MessageWrapper>
         <StyledLabel>
@@ -158,7 +169,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
           name="message"
           onChange={onChange}
           rows={3}
-          value={message.value}
+          value={shouldHideValue ? '' : message.value}
         />
       </MessageWrapper>
       {!isMyAccount && (
