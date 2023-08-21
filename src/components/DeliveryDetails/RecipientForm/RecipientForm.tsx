@@ -98,15 +98,16 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
     }
   }, [giftDeliveryDetails]);
 
-  // maybe set it *1000 already in store
   const isGiftEditable =
     isDateInFuture(new Date(giftDeliveryDetails?.deliveryDate * 1000)) &&
     !sentAt;
 
+  const isFieldDisabled = isMyAccount && !isGiftEditable;
+
   return (
     <StyledRecipientForm noValidate>
       <MyAccountInput
-        disabled={!isGiftEditable}
+        disabled={isFieldDisabled}
         error={t(recipientEmail.translationKey, recipientEmail.error)}
         label={t('recipientForm.label.recipient-email', 'Recipient email')}
         name="recipientEmail"
@@ -115,7 +116,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
         type="email"
         value={recipientEmail.value}
       />
-      {isGiftEditable && (
+      {!isFieldDisabled && (
         <MyAccountInput
           error={t(
             confirmRecipientEmail.translationKey,
@@ -133,7 +134,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
         />
       )}
       <MyAccountInput
-        disabled={!isGiftEditable}
+        disabled={isFieldDisabled}
         error={t(deliveryDate.translationKey, deliveryDate.error)}
         label={t('recipientForm.label.delivery-date', 'Delivery date')}
         min={new Date().toISOString().split('T')[0]}
@@ -145,14 +146,14 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
       />
       <MessageWrapper>
         <StyledLabel>
-          {isGiftEditable ? (
-            <>{t('recipientForm.label.add-message', 'Add a message')}</>
-          ) : (
+          {isFieldDisabled ? (
             <>{t('recipientForm.label.message', 'Message')}</>
+          ) : (
+            <>{t('recipientForm.label.add-message', 'Add a message')}</>
           )}
         </StyledLabel>
         <StyledMessage
-          disabled={!isGiftEditable}
+          disabled={isFieldDisabled}
           maxLength={150}
           name="message"
           onChange={onChange}

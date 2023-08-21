@@ -38,7 +38,6 @@ const EditDeliveryDetailsPopup = () => {
     selectEditDeliveryDetailsPopup
   );
 
-  // maybe use offerTitle from gift?
   const {
     loading,
     gift: { sentAt, deliveryDetails: giftDeliveryDetails }
@@ -127,8 +126,7 @@ const EditDeliveryDetailsPopup = () => {
                             'edit-delivery-details-popup.info-text-disabled',
                             'It is not possible to edit delivery details as the gift has been already sent out to the recipient.'
                           )
-                        : // add to translations
-                          t(
+                        : t(
                             'edit-delivery-details-popup.info-text-disabled2',
                             'It is not possible to edit delivery details as the gift will be sent to the recipient soon.'
                           )}
