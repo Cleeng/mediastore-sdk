@@ -264,7 +264,7 @@ const OfferCheckoutCard = () => {
           <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
           {offerDescription && (
             <DescriptionStyled>
-              {t('offer-description', offerDescription)}
+              {t(`offer-description-${offerId}`, offerDescription)}
             </DescriptionStyled>
           )}
         </SkeletonWrapper>

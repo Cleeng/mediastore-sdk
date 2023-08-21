@@ -195,15 +195,14 @@ const OfferDetailsDescription = ({
   };
 
   const renderTestDesc = () => {
-    // const testDesc = `Hey it's ${period}.\nKeep it up!!!!`;
-    const testDesc = renderDescription();
+    const description = renderDescription();
     const cardIcon = <CreditCardIcon />;
     const clockIcon = <ClockIcon />;
-    testDesc.split('\n').map(item => console.log(item));
+    description.split('\n').map(item => console.log(item));
     console.log('desc:', renderDescription());
     return (
       <>
-        {testDesc.split('\n').map(item => (
+        {description.split('\n').map(item => (
           <DescriptionStyled>
             {cardIcon} {item}
           </DescriptionStyled>
