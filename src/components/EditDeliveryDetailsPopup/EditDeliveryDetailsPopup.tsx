@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch } from 'react-redux';
 import {
   resetDeliveryDetailsState,
   selectDeliveryDetails
 } from 'redux/deliveryDetailsSlice';
 import { fetchGift, fetchUpdateGift, selectGift } from 'redux/giftSlice';
 import { hidePopup, selectEditDeliveryDetailsPopup } from 'redux/popupSlice';
-import { useAppSelector } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import RecipientForm from 'components/DeliveryDetails/RecipientForm';
@@ -27,7 +26,7 @@ import {
 
 const EditDeliveryDetailsPopup = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
 
@@ -61,7 +60,11 @@ const EditDeliveryDetailsPopup = () => {
             }
           }
         })
-      );
+      )
+        .unwrap()
+        .catch(err => {
+          throw new Error(err);
+        });
 
       setIsUpdateLoading(false);
 
