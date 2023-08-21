@@ -18,7 +18,7 @@ export const fetchGift = createAsyncThunk<
 >('gift/fetchGift', async (giftId: number, { rejectWithValue }) => {
   try {
     const result = await getGift(giftId);
-    return result as Gift;
+    return result;
   } catch (err) {
     const typedError = err as Error;
     return rejectWithValue(typedError.message);

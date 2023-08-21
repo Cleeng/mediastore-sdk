@@ -35,9 +35,7 @@ const PlanDetails = ({
     offerToSwitch: { offerId: offerToSwitchId }
   } = useAppSelector(selectPlanDetails);
   const { updateList: updateListValue } = useAppSelector(selectPlanDetails);
-  const { isOpen: isPopupOpen, currentType } = useAppSelector(
-    selectPopupDetails
-  );
+  const { isOpen: isPopupOpen } = useAppSelector(selectPopupDetails);
   const { offers } = useAppSelector(state => state.offers);
   const { pauseOffersIDs } = useAppSelector(store => store.offers);
   const { t } = useTranslation();
