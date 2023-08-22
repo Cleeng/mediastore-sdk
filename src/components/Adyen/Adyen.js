@@ -205,11 +205,7 @@ const Adyen = ({
       checkboxMethodName = brand === 'bcmc' ? brand : 'card';
     }
 
-    console.log(checkboxMethodName);
-
     const checkbox = document.querySelector(`.checkbox-${checkboxMethodName}`);
-
-    console.log(checkbox);
 
     if (!checkbox?.checked) {
       checkbox.classList.add('adyen-checkout__bank-checkbox--error');
