@@ -7,27 +7,13 @@ import { ReactComponent as CreditCardIcon } from 'assets/images/offerDescription
 import { ReactComponent as ClockIcon } from 'assets/images/offerDescription/clock-bold.svg';
 import { ReactComponent as CalendarIcon } from 'assets/images/offerDescription/calendar-blank-bold.svg';
 import { ReactComponent as TagIcon } from 'assets/images/offerDescription/tag-bold.svg';
-import getReadablePeriod from './OfferCheckoutCard.utils';
-import { DescriptionStyled, IconStyled } from './OfferCheckoutCardStyled';
-
-type OfferDetailsProps = {
-  period: string;
-  freeDays: number;
-  currencySymbol: string;
-  grossPrice: string;
-  taxCopy: string;
-  freePeriods: number;
-  totalPrice: number;
-  offerPrice: number;
-  taxRate: number;
-  customerPriceInclTax: number;
-  discountedPeriods: number;
-  discountType: string;
-  isTrialAvailable: boolean;
-  offerType: string;
-  startTime: number;
-  expiresAt: number;
-};
+import getReadablePeriod from '../OfferCheckoutCard/OfferCheckoutCard.utils';
+import {
+  DetailsStyled,
+  IconStyled,
+  LineWrapperStyled
+} from './OfferDetailsDescriptionStyled';
+import { OfferDetailsProps } from './OfferDetailsDescription.types';
 
 const OfferDetailsDescription = ({
   period,
@@ -184,11 +170,11 @@ const OfferDetailsDescription = ({
     return (
       <>
         {description.split('\n').map((item, index) => (
-          <DescriptionStyled>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+          <DetailsStyled>
+            <LineWrapperStyled>
               <IconStyled>{icons[index]}</IconStyled> {item}
-            </div>
-          </DescriptionStyled>
+            </LineWrapperStyled>
+          </DetailsStyled>
         ))}
       </>
     );
@@ -201,12 +187,12 @@ const OfferDetailsDescription = ({
         date
       });
       return (
-        <DescriptionStyled>
-          <div style={{ display: 'flex', alignItems: 'center' }}>
+        <DetailsStyled>
+          <LineWrapperStyled>
             <IconStyled>{icon}</IconStyled>
             {description}
-          </div>
-        </DescriptionStyled>
+          </LineWrapperStyled>
+        </DetailsStyled>
       );
     }
     const description = periodMapper[period as Period]
@@ -216,11 +202,11 @@ const OfferDetailsDescription = ({
         )} ${t('offer-checkout-card.season-pass', 'season pass')}`
       : '';
     return (
-      <DescriptionStyled>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+      <DetailsStyled>
+        <LineWrapperStyled>
           <IconStyled>{icon}</IconStyled> {description}
-        </div>
-      </DescriptionStyled>
+        </LineWrapperStyled>
+      </DetailsStyled>
     );
   }
   if (offerType === 'E') {
@@ -229,11 +215,11 @@ const OfferDetailsDescription = ({
       startTime ? dateFormat(startTime, true) : ''
     }`;
     return (
-      <DescriptionStyled>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+      <DetailsStyled>
+        <LineWrapperStyled>
           <IconStyled>{icon}</IconStyled> {description}
-        </div>
-      </DescriptionStyled>
+        </LineWrapperStyled>
+      </DetailsStyled>
     );
   }
   if (offerType === 'R') {
@@ -245,11 +231,11 @@ const OfferDetailsDescription = ({
         )} ${t('offer-checkout-card.access', 'access')}`
       : '';
     return (
-      <DescriptionStyled>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+      <DetailsStyled>
+        <LineWrapperStyled>
           <IconStyled>{icon}</IconStyled> {description}
-        </div>
-      </DescriptionStyled>
+        </LineWrapperStyled>
+      </DetailsStyled>
     );
   }
   if (offerType === 'A') {
@@ -259,14 +245,14 @@ const OfferDetailsDescription = ({
       'Unlimited access'
     );
     return (
-      <DescriptionStyled>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+      <DetailsStyled>
+        <LineWrapperStyled>
           <IconStyled>{icon}</IconStyled> {description}
-        </div>
-      </DescriptionStyled>
+        </LineWrapperStyled>
+      </DetailsStyled>
     );
   }
-  return <DescriptionStyled />;
+  return <DetailsStyled />;
 };
 
 export default OfferDetailsDescription;

@@ -51,7 +51,6 @@ export const DescriptionStyled = styled.p.attrs(() => ({
   className: 'msd__checkout-card-text__description'
 }))`
   font-size: ${TinyFont};
-  font-weight: ${LightFont};
   line-height: 17px;
   white-space: pre-line;
   margin: 9px 0;
@@ -81,11 +80,4 @@ export const TrialBadgeStyled = styled.div.attrs(() => ({
   font-weight: ${MediumFontWeight};
   text-transform: uppercase;
   text-align: center;
-`;
-
-export const IconStyled = styled.span`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-right: 6px;
 `;
