@@ -198,14 +198,8 @@ const Adyen = ({
     });
   };
 
-  const isCheckboxChecked = (methodName, brand) => {
-    let checkboxMethodName = methodName;
-
-    if (methodName === 'scheme') {
-      checkboxMethodName = brand === 'bcmc' ? brand : 'card';
-    }
-
-    const checkbox = document.querySelector(`.checkbox-${checkboxMethodName}`);
+  const isCheckboxChecked = methodName => {
+    const checkbox = document.querySelector(`.checkbox-${methodName}`);
 
     if (!checkbox?.checked) {
       checkbox.classList.add('adyen-checkout__bank-checkbox--error');
@@ -254,17 +248,13 @@ const Adyen = ({
       },
       clientKey: getAdyenClientKey(),
       onSubmit: (state, component) => {
-        const {
-          data: {
-            paymentMethod: { type: methodName, brand }
-          }
-        } = state;
+        const methodName = component.activePaymentMethod.type;
 
         if (
           bankPaymentMethods.includes(methodName) ||
           standardPaymentMethods.includes(methodName)
         ) {
-          if (!isCheckboxChecked(methodName, brand)) {
+          if (!isCheckboxChecked(methodName)) {
             return false;
           }
         }
