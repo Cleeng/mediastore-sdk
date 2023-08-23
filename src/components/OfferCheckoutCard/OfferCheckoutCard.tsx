@@ -82,7 +82,6 @@ const OfferCheckoutCard = () => {
 
   return (
     <WrapperStyled>
-      {/* <div style={{ display: 'flex', alignItems: 'flex-start', width: '90%' }}> */}
       <SkeletonWrapper showChildren={!loading} width={50} height={50}>
         <SubscriptionIcon period={period || offerType} />
       </SkeletonWrapper>
@@ -124,7 +123,6 @@ const OfferCheckoutCard = () => {
           />
         </SkeletonWrapper>
       </InnerWrapper>
-      {/* </div> */}
       <PriceWrapperStyled>
         <SkeletonWrapper showChildren={!loading} width={80} height={30}>
           {isTrialBadgeVisible && (

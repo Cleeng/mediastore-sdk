@@ -10,6 +10,7 @@ import { ReactComponent as TagIcon } from 'assets/images/offerDescription/tag-bo
 import getReadablePeriod from '../OfferCheckoutCard/OfferCheckoutCard.utils';
 import {
   DetailsStyled,
+  DetailsWrapper,
   IconStyled,
   LineWrapperStyled
 } from './OfferDetailsDescriptionStyled';
@@ -168,7 +169,7 @@ const OfferDetailsDescription = ({
     const icons = [<CreditCardIcon />, <ClockIcon />];
     const description = generateSubscriptionDescription();
     return (
-      <>
+      <DetailsWrapper>
         {description.split('\n').map((item, index) => (
           <DetailsStyled>
             <LineWrapperStyled>
@@ -176,7 +177,7 @@ const OfferDetailsDescription = ({
             </LineWrapperStyled>
           </DetailsStyled>
         ))}
-      </>
+      </DetailsWrapper>
     );
   }
   if (offerType === 'P') {
