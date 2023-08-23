@@ -115,7 +115,7 @@ const AdyenStyled = styled.div.attrs(() => ({
 
   .adyen-checkout__bank-checkbox--error {
     .msd__consents__frame {
-      border-color: red;
+      border-color: ${ErrorColor};
     }
   }
 

@@ -25,19 +25,3 @@ export const PaymentErrorStyled = styled.div.attrs(() => ({
   color: ${colors.ErrorColor};
   margin: 30px auto;
 `;
-
-export const LegalNoteWrapperStyled = styled.div.attrs(() => ({
-  className: 'msd__payment__legal'
-}))`
-  margin: 25px auto 0 auto;
-  text-align: center;
-  max-width: 550px;
-`;
-
-export const LegalTextStyled = styled.p<{ marginBottom: string }>`
-  font-size: 11px;
-  margin-bottom: ${({ marginBottom }) => marginBottom};
-  line-height: 17px;
-  font-weight: 400;
-  color: ${colors.MyAccountTextGray};
-`;
