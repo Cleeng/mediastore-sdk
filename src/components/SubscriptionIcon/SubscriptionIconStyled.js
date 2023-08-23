@@ -10,6 +10,7 @@ export const WrapperStyled = styled.figure.attrs(() => ({
   position: relative;
   padding: 10px;
   margin-inline-end: 10px;
+  margin-top: 0;
   border-radius: 8px;
   flex: 0 0 40px;
 

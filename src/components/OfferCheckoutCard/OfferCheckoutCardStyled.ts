@@ -84,6 +84,9 @@ export const TrialBadgeStyled = styled.div.attrs(() => ({
   text-align: center;
 `;
 
-export const IconStyled = styled.div`
+export const IconStyled = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   margin-right: 6px;
 `;

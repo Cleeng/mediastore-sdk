@@ -8,7 +8,7 @@ import { ReactComponent as ClockIcon } from 'assets/images/offerDescription/cloc
 import { ReactComponent as CalendarIcon } from 'assets/images/offerDescription/calendar-blank-bold.svg';
 import { ReactComponent as TagIcon } from 'assets/images/offerDescription/tag-bold.svg';
 import getReadablePeriod from './OfferCheckoutCard.utils';
-import { DescriptionStyled } from './OfferCheckoutCardStyled';
+import { DescriptionStyled, IconStyled } from './OfferCheckoutCardStyled';
 
 const OfferDetailsDescription = ({
   period,
@@ -159,59 +159,95 @@ const OfferDetailsDescription = ({
     return generateTrialDescription();
   };
 
-  const renderDescription = () => {
-    if (offerType === 'S') {
-      return generateSubscriptionDescription();
-    }
-    if (offerType === 'P') {
-      if (!period) {
-        const date = dateFormat(expiresAt, true);
-        return t('pass-desc.date', `Access until {{date}}`, { date });
-      }
-      return periodMapper[period as Period]
-        ? `${t(
-            `period.${period}`,
-            periodMapper[period as Period].accessText as string
-          )} ${t('offer-checkout-card.season-pass', 'season pass')}`
-        : '';
-    }
-    if (offerType === 'E') {
-      return `Pay-per-view event ${
-        startTime ? dateFormat(startTime, true) : ''
-      }`;
-    }
-    if (offerType === 'R') {
-      return periodMapper[period as Period]
-        ? `${t(
-            `period.${period}`,
-            periodMapper[period as Period].accessText as string
-          )} ${t('offer-checkout-card.access', 'access')}`
-        : '';
-    }
-    if (offerType === 'A') {
-      return t('offer-checkout-card.unlimited-access', 'Unlimited access');
-    }
-    return '';
-  };
-
-  const renderTestDesc = () => {
-    const description = renderDescription();
-    const cardIcon = <CreditCardIcon />;
-    const clockIcon = <ClockIcon />;
-    description.split('\n').map(item => console.log(item));
-    console.log('desc:', renderDescription());
+  if (offerType === 'S') {
+    const icons = [<CreditCardIcon />, <ClockIcon />];
+    const description = generateSubscriptionDescription();
     return (
       <>
-        {description.split('\n').map(item => (
+        {description.split('\n').map((item, index) => (
           <DescriptionStyled>
-            {cardIcon} {item}
+            <div style={{ display: 'flex', alignItems: 'center' }}>
+              <IconStyled>{icons[index]}</IconStyled> {item}
+            </div>
           </DescriptionStyled>
         ))}
       </>
     );
-  };
-
-  return <>{renderTestDesc()}</>;
+  }
+  if (offerType === 'P') {
+    const icon = <CalendarIcon />;
+    if (!period) {
+      const date = dateFormat(expiresAt, true);
+      const description = t('pass-desc.date', `Access until {{date}}`, {
+        date
+      });
+      return (
+        <DescriptionStyled>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            <IconStyled>{icon}</IconStyled>
+            {description}
+          </div>
+        </DescriptionStyled>
+      );
+    }
+    const description = periodMapper[period as Period]
+      ? `${t(
+          `period.${period}`,
+          periodMapper[period as Period].accessText as string
+        )} ${t('offer-checkout-card.season-pass', 'season pass')}`
+      : '';
+    return (
+      <DescriptionStyled>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <IconStyled>{icon}</IconStyled> {description}
+        </div>
+      </DescriptionStyled>
+    );
+  }
+  if (offerType === 'E') {
+    const icon = <CalendarIcon />;
+    const description = `Pay-per-view event ${
+      startTime ? dateFormat(startTime, true) : ''
+    }`;
+    return (
+      <DescriptionStyled>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <IconStyled>{icon}</IconStyled> {description}
+        </div>
+      </DescriptionStyled>
+    );
+  }
+  if (offerType === 'R') {
+    const icon = <CalendarIcon />;
+    const description = periodMapper[period as Period]
+      ? `${t(
+          `period.${period}`,
+          periodMapper[period as Period].accessText as string
+        )} ${t('offer-checkout-card.access', 'access')}`
+      : '';
+    return (
+      <DescriptionStyled>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <IconStyled>{icon}</IconStyled> {description}
+        </div>
+      </DescriptionStyled>
+    );
+  }
+  if (offerType === 'A') {
+    const icon = <TagIcon />;
+    const description = t(
+      'offer-checkout-card.unlimited-access',
+      'Unlimited access'
+    );
+    return (
+      <DescriptionStyled>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          <IconStyled>{icon}</IconStyled> {description}
+        </div>
+      </DescriptionStyled>
+    );
+  }
+  return <DescriptionStyled />;
 };
 
 export default OfferDetailsDescription;
