@@ -11,14 +11,16 @@ export const DetailsStyled = styled.p.attrs(() => ({
   margin: 9px 0;
 `;
 
-export const LineWrapperStyled = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-export const IconStyled = styled.span`
+export const IconStyled = styled.span.attrs(() => ({
+  className: 'msd__checkout-card-details__icon'
+}))`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-right: 6px;
+`;
+
+export const LineWrapperStyled = styled.div`
+  display: flex;
+  align-items: center;
 `;
