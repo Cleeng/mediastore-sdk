@@ -10,6 +10,25 @@ import { ReactComponent as TagIcon } from 'assets/images/offerDescription/tag-bo
 import getReadablePeriod from './OfferCheckoutCard.utils';
 import { DescriptionStyled, IconStyled } from './OfferCheckoutCardStyled';
 
+type OfferDetailsProps = {
+  period: string;
+  freeDays: number;
+  currencySymbol: string;
+  grossPrice: string;
+  taxCopy: string;
+  freePeriods: number;
+  totalPrice: number;
+  offerPrice: number;
+  taxRate: number;
+  customerPriceInclTax: number;
+  discountedPeriods: number;
+  discountType: string;
+  isTrialAvailable: boolean;
+  offerType: string;
+  startTime: number;
+  expiresAt: number;
+};
+
 const OfferDetailsDescription = ({
   period,
   freeDays,
@@ -27,7 +46,7 @@ const OfferDetailsDescription = ({
   offerType,
   startTime,
   expiresAt
-}) => {
+}: OfferDetailsProps) => {
   const { t } = useTranslation();
 
   const generateTrialDescription = () => {

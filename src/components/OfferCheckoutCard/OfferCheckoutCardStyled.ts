@@ -51,7 +51,6 @@ export const DescriptionStyled = styled.p.attrs(() => ({
   className: 'msd__checkout-card-text__description'
 }))`
   font-size: ${TinyFont};
-  /* font-weight: ${MediumFontWeight}; */
   font-weight: ${LightFont};
   line-height: 17px;
   white-space: pre-line;

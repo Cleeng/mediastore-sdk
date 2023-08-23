@@ -164,9 +164,6 @@ const OfferCheckoutCard = () => {
           width={300}
           margin="0 0 10px 10px"
         >
-          {/* <DescriptionStyled
-            dangerouslySetInnerHTML={{ __html: renderDescription() }}
-          /> */}
           <OfferDetailsDescription
             period={period}
             freeDays={freeDays}
