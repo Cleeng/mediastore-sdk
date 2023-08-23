@@ -21,9 +21,23 @@ export const validateRecipientEmail = (value: string) => {
 };
 
 const isDateInPast = (date: Date) => {
+  if (!date) return false;
+
   const now = new Date();
 
   if (date.setHours(0, 0, 0, 0) < now.setHours(0, 0, 0, 0)) {
+    return true;
+  }
+
+  return false;
+};
+
+export const isDateInFuture = (date: Date) => {
+  if (!date) return false;
+
+  const now = new Date();
+
+  if (date.setHours(0, 0, 0, 0) > now.setHours(0, 0, 0, 0)) {
     return true;
   }
 
@@ -93,11 +107,15 @@ export const validateDeliveryDetailsForm = () => {
     deliveryDetails: { recipientEmail, confirmRecipientEmail, deliveryDate }
   } = store.getState();
 
-  const isRecipientEmailValid = validateRecipientEmail(recipientEmail.value);
-  const isConfirmRecipientEmailValid = validateConfirmRecipientEmail(
-    confirmRecipientEmail.value
+  const isRecipientEmailValid = validateRecipientEmail(
+    recipientEmail.value as string
   );
-  const isDeliveryDateValid = validateDeliveryDate(deliveryDate.value);
+  const isConfirmRecipientEmailValid = validateConfirmRecipientEmail(
+    confirmRecipientEmail.value as string
+  );
+  const isDeliveryDateValid = validateDeliveryDate(
+    deliveryDate.value as string
+  );
 
   const areDeliveryDetailsValid =
     isRecipientEmailValid &&

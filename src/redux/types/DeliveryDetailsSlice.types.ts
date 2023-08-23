@@ -1,5 +1,5 @@
 export type FormField = {
-  value: string;
+  value: string | number;
   error: string;
   translationKey: string;
 };
@@ -16,3 +16,9 @@ export type DeliveryDetailsField =
   | 'recipientEmail'
   | 'confirmRecipientEmail'
   | 'deliveryDate';
+
+export type DeliveryDetails = {
+  personalNote: string;
+  recipientEmail: string;
+  deliveryDate: number;
+};

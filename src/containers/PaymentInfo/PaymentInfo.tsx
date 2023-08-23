@@ -37,6 +37,9 @@ const PaymentInfo = ({
 
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
+  const isEditDeliveryDetailsPopupOpened =
+    isOpen && currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP;
+
   useEffect(() => {
     dispatch(initPublisherConfig({ adyenConfiguration }));
 
@@ -52,9 +55,6 @@ const PaymentInfo = ({
       dispatch(updatePaymentDetailsPopup({ isOpen: false }));
     };
   }, []);
-
-  const isEditDeliveryDetailsPopupOpened =
-    isOpen && currentType === POPUP_TYPES.EDIT_DELIVERY_DETAILS_POPUP;
 
   if (isEditDeliveryDetailsPopupOpened) {
     return (

@@ -224,8 +224,8 @@ const Adyen = ({
             buyAsAGift: true,
             deliveryDetails: {
               recipientEmail: recipientEmail.value,
-              personalNote: message.value,
-              deliveryDate: new Date(deliveryDate.value).valueOf()
+              deliveryDate: new Date(deliveryDate.value).valueOf() / 1000,
+              personalNote: message.value
             }
           }
         })

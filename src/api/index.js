@@ -29,6 +29,8 @@ import finalizeInitialPayment from './Payment/finalizeInitialPayment';
 import finalizeAddPaymentDetails from './Payment/finalizeAddPaymentDetails';
 import getOffers from './Offers/getOffers';
 import getOffer from './Offers/getOffer';
+import getGift from './Gifts/getGift';
+import updateGift from './Gifts/updateGift';
 
 export {
   getPaymentDetails,
@@ -61,5 +63,7 @@ export {
   finalizeAddPaymentDetails,
   getOffers,
   getOffer,
-  getSwitch
+  getSwitch,
+  getGift,
+  updateGift
 };
