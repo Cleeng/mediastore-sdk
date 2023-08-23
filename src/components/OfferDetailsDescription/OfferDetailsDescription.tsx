@@ -237,49 +237,44 @@ const OfferDetailsDescription = ({
   };
 
   const renderDescriptionForPayPerViewEvent = () => {
-    const icon = <CalendarIcon />;
-    const description = `Pay-per-view event ${
-      startTime ? dateFormat(startTime, true) : ''
-    }`;
     return (
       <DetailsStyled>
         <LineWrapperStyled>
-          <IconStyled>{icon}</IconStyled>
-          {description}
+          <IconStyled>
+            <CalendarIcon />;
+          </IconStyled>
+          {`Pay-per-view event ${startTime ? dateFormat(startTime, true) : ''}`}
         </LineWrapperStyled>
       </DetailsStyled>
     );
   };
 
   const renderDescriptionForTVOD = () => {
-    const icon = <CalendarIcon />;
-    const description = periodMapper[period as Period]
-      ? `${t(
-          `period.${period}`,
-          periodMapper[period as Period].accessText as string
-        )} ${t('offer-checkout-card.access', 'access')}`
-      : '';
     return (
       <DetailsStyled>
         <LineWrapperStyled>
-          <IconStyled>{icon}</IconStyled>
-          {description}
+          <IconStyled>
+            <CalendarIcon />;
+          </IconStyled>
+          {periodMapper[period as Period]
+            ? `${t(
+                `period.${period}`,
+                periodMapper[period as Period].accessText as string
+              )} ${t('offer-checkout-card.access', 'access')}`
+            : ''}
         </LineWrapperStyled>
       </DetailsStyled>
     );
   };
 
   const renderDescriptionForUnlimitedAccess = () => {
-    const icon = <TagIcon />;
-    const description = t(
-      'offer-checkout-card.unlimited-access',
-      'Unlimited access'
-    );
     return (
       <DetailsStyled>
         <LineWrapperStyled>
-          <IconStyled>{icon}</IconStyled>
-          {description}
+          <IconStyled>
+            <TagIcon />
+          </IconStyled>
+          {t('offer-checkout-card.unlimited-access', 'Unlimited access')}
         </LineWrapperStyled>
       </DetailsStyled>
     );
