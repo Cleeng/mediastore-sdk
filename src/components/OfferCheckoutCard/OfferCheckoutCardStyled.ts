@@ -9,8 +9,7 @@ import {
   MicroFont,
   FontColor,
   White,
-  LineColor,
-  LightFont
+  LineColor
 } from 'styles/variables';
 
 export const WrapperStyled = styled.section`
