@@ -16,9 +16,12 @@ import {
   validateDeliveryDetailsForm
 } from 'components/DeliveryDetails/RecipientForm/validators';
 import { ReactComponent as CheckmarkIcon } from 'assets/images/greenCheckmark.svg';
+import { ReactComponent as WarningIcon } from 'assets/images/errors/warning.svg';
+
 import {
   ButtonsStyled,
   ContentStyled,
+  ErrorTextStyled,
   HeaderStyled,
   InfoTextStyled,
   ThankYouPageStyled
@@ -29,6 +32,7 @@ const EditDeliveryDetailsPopup = () => {
   const dispatch = useAppDispatch();
 
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   const { recipientEmail, deliveryDate, message } = useAppSelector(
     selectDeliveryDetails
@@ -45,7 +49,8 @@ const EditDeliveryDetailsPopup = () => {
   const [currentStep, setCurrentStep] = useState(1);
 
   const updateGift = async () => {
-    const areDeliveryDetailsValid = validateDeliveryDetailsForm();
+    // const areDeliveryDetailsValid = validateDeliveryDetailsForm();
+    const areDeliveryDetailsValid = true;
 
     if (areDeliveryDetailsValid) {
       setIsUpdateLoading(true);
@@ -56,6 +61,7 @@ const EditDeliveryDetailsPopup = () => {
             deliveryDetails: {
               recipientEmail: recipientEmail.value as string,
               deliveryDate: new Date(deliveryDate.value).valueOf() / 1000,
+              // deliveryDate: -1,
               personalNote: message.value
             }
           }
@@ -63,7 +69,10 @@ const EditDeliveryDetailsPopup = () => {
       )
         .unwrap()
         .catch(err => {
-          throw new Error(err);
+          // potential space for an additional error state
+          console.log(err);
+          setError(true);
+          // throw new Error(err);
         });
 
       setIsUpdateLoading(false);
@@ -83,9 +92,10 @@ const EditDeliveryDetailsPopup = () => {
     };
   }, [giftId]);
 
-  const isGiftEditable =
-    isDateInFuture(new Date(giftDeliveryDetails?.deliveryDate * 1000)) &&
-    !sentAt;
+  const isGiftEditable = true;
+  // const isGiftEditable =
+  //   isDateInFuture(new Date(giftDeliveryDetails?.deliveryDate * 1000)) &&
+  //   !sentAt;
 
   const isGiftSent = !!sentAt;
 
@@ -186,29 +196,58 @@ const EditDeliveryDetailsPopup = () => {
       )}
     >
       <ContentStyled>
-        <ThankYouPageStyled>
-          <CheckmarkIcon />
-          <HeaderStyled>
-            {t(
-              'edit-delivery-details-popup.thank-you-page.header',
-              'Delivery Details Updated'
-            )}
-          </HeaderStyled>
-          <InfoTextStyled>
-            {t(
-              'edit-delivery-details-popup.thank-you-page.info-text-1',
-              'Thank you for updating your delivery details for your'
-            )}
-            <p>{t(`offer-title-${offerId}`, offerTitle)}</p>
-            {t(
-              'edit-delivery-details-popup.thank-you-page.info-text-2',
-              'Your changes have been saved and will be reflected in your next delivery.'
-            )}
-          </InfoTextStyled>
-          <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
-            {t('edit-delivery-details-popup.button.back', 'Back to settings')}
-          </Button>
-        </ThankYouPageStyled>
+        {error ? (
+          <ThankYouPageStyled>
+            <WarningIcon />
+            <HeaderStyled>
+              {t(
+                'edit-delivery-details-popup.thank-you-page.header',
+                'Failed to update the delivery details'
+              )}
+            </HeaderStyled>
+            <ErrorTextStyled>
+              <strong>
+                {t(
+                  'edit-delivery-details-popup.thank-you-page.error-text-1',
+                  "We weren't able to process your request."
+                )}
+              </strong>
+            </ErrorTextStyled>
+            <ErrorTextStyled>
+              {t(
+                'edit-delivery-details-popup.thank-you-page.error-text-2',
+                'Please try updating the delivery details again in a few minutes.'
+              )}
+            </ErrorTextStyled>
+            <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
+              {t('edit-delivery-details-popup.button.back', 'Back to settings')}
+            </Button>
+          </ThankYouPageStyled>
+        ) : (
+          <ThankYouPageStyled>
+            <CheckmarkIcon />
+            <HeaderStyled>
+              {t(
+                'edit-delivery-details-popup.thank-you-page.header',
+                'Delivery Details Updated'
+              )}
+            </HeaderStyled>
+            <InfoTextStyled>
+              {t(
+                'edit-delivery-details-popup.thank-you-page.info-text-1',
+                'Thank you for updating your delivery details for your'
+              )}
+              <p>{t(`offer-title-${offerId}`, offerTitle)}</p>
+              {t(
+                'edit-delivery-details-popup.thank-you-page.info-text-2',
+                'Your changes have been saved and will be reflected in your next delivery.'
+              )}
+            </InfoTextStyled>
+            <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
+              {t('edit-delivery-details-popup.button.back', 'Back to settings')}
+            </Button>
+          </ThankYouPageStyled>
+        )}
       </ContentStyled>
     </InnerPopupWrapper>
   );

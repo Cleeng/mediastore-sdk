@@ -78,3 +78,12 @@ export const InfoTextStyled = styled.div`
     margin-bottom: 24px;
   }
 `;
+
+export const ErrorTextStyled = styled.div`
+  font-size: 15px;
+  font-weight: 300;
+  text-align: center;
+  max-width: 420px;
+  margin: 5px 0;
+  color: ${FontColor};
+`;
