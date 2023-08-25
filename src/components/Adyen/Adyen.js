@@ -199,9 +199,7 @@ const Adyen = ({
   };
 
   const isCheckboxChecked = methodName => {
-    const checkbox = document.querySelector(
-      `.checkbox-${methodName === 'scheme' ? 'card' : methodName}`
-    );
+    const checkbox = document.querySelector(`.checkbox-${methodName}`);
 
     if (!checkbox?.checked) {
       checkbox.classList.add('adyen-checkout__bank-checkbox--error');
@@ -250,11 +248,8 @@ const Adyen = ({
       },
       clientKey: getAdyenClientKey(),
       onSubmit: (state, component) => {
-        const {
-          data: {
-            paymentMethod: { type: methodName }
-          }
-        } = state;
+        const methodName = component.activePaymentMethod.type;
+
         if (
           bankPaymentMethods.includes(methodName) ||
           standardPaymentMethods.includes(methodName)
