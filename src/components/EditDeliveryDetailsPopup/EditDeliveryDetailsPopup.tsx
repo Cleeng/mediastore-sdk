@@ -49,8 +49,7 @@ const EditDeliveryDetailsPopup = () => {
   const [currentStep, setCurrentStep] = useState(1);
 
   const updateGift = async () => {
-    // const areDeliveryDetailsValid = validateDeliveryDetailsForm();
-    const areDeliveryDetailsValid = true;
+    const areDeliveryDetailsValid = validateDeliveryDetailsForm();
 
     if (areDeliveryDetailsValid) {
       setIsUpdateLoading(true);
@@ -61,18 +60,14 @@ const EditDeliveryDetailsPopup = () => {
             deliveryDetails: {
               recipientEmail: recipientEmail.value as string,
               deliveryDate: new Date(deliveryDate.value).valueOf() / 1000,
-              // deliveryDate: -1,
               personalNote: message.value
             }
           }
         })
       )
         .unwrap()
-        .catch(err => {
-          // potential space for an additional error state
-          console.log(err);
+        .catch(() => {
           setError(true);
-          // throw new Error(err);
         });
 
       setIsUpdateLoading(false);
@@ -92,10 +87,9 @@ const EditDeliveryDetailsPopup = () => {
     };
   }, [giftId]);
 
-  const isGiftEditable = true;
-  // const isGiftEditable =
-  //   isDateInFuture(new Date(giftDeliveryDetails?.deliveryDate * 1000)) &&
-  //   !sentAt;
+  const isGiftEditable =
+    isDateInFuture(new Date(giftDeliveryDetails?.deliveryDate * 1000)) &&
+    !sentAt;
 
   const isGiftSent = !!sentAt;
 
@@ -201,7 +195,7 @@ const EditDeliveryDetailsPopup = () => {
             <WarningIcon />
             <HeaderStyled>
               {t(
-                'edit-delivery-details-popup.thank-you-page.header',
+                'edit-delivery-details-popup.thank-you-page.error-header',
                 'Failed to update the delivery details'
               )}
             </HeaderStyled>
