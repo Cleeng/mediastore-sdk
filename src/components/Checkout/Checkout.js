@@ -7,6 +7,7 @@ import PasswordReset from 'components/PasswordReset';
 import Capture from 'components/Capture/Capture';
 import CheckoutConsents from 'components/CheckoutConsents';
 import OfferContainer from 'containers/OfferContainer';
+import RedeemGift from 'components/RedeemGift';
 import ThankYouPage from 'components/ThankYouPage';
 import Auth from 'services/auth';
 import PasswordResetSuccess from 'components/PasswordResetSuccess';
@@ -108,11 +109,12 @@ class Checkout extends Component {
         );
       case 4:
         return (
-          <OfferContainer
-            offerId={offerId}
-            couponCode={couponCode}
-            onSuccess={() => this.goToStep(CheckoutSteps.PURCHASE.nextStep)}
-          />
+          // <OfferContainer
+          //   offerId={offerId}
+          //   couponCode={couponCode}
+          //   onSuccess={() => this.goToStep(CheckoutSteps.PURCHASE.nextStep)}
+          // />
+          <RedeemGift />
         );
       case 5:
         return <ThankYouPage onSuccess={() => onSuccess()} />;
