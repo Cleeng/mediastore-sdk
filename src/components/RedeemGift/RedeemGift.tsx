@@ -28,10 +28,7 @@ const RedeemGift = () => {
         </SectionHeader>
         <InputWrapperStyled>
           <MyAccountInput
-            // error={t(
-            //   confirmRecipientEmail.translationKey,
-            //   confirmRecipientEmail.error
-            // )}
+            // add error in future task
             onChange={handleChange}
             name="giftCode"
             type="text"
