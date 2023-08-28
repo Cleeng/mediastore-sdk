@@ -39,6 +39,9 @@ const CheckoutSteps = {
   PASSWORD_SUCCESS: {
     stepNumber: 6,
     nextStep: 7
+  },
+  REDEEM_GIFT: {
+    stepNumber: 8
   }
 };
 
@@ -46,12 +49,22 @@ class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentStep: 0
+      currentStep: 0,
+      giftCode: ''
     };
   }
 
   componentDidMount() {
     const { initValues, offerId, adyenConfiguration } = this.props;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const giftCode = urlParams.get('giftCode');
+
+    if (giftCode) {
+      this.setState({
+        giftCode
+      });
+    }
 
     initValues({
       offerId,
@@ -71,7 +84,7 @@ class Checkout extends Component {
   };
 
   render() {
-    const { currentStep } = this.state;
+    const { currentStep, giftCode } = this.state;
     const {
       couponCode,
       onSuccess,
@@ -104,17 +117,20 @@ class Checkout extends Component {
       case 3:
         return (
           <CheckoutConsents
-            onSuccess={() => this.goToStep(CheckoutSteps.CONSENTS.nextStep)}
+            onSuccess={() =>
+              giftCode
+                ? this.goToStep(CheckoutSteps.REDEEM_GIFT.stepNumber)
+                : this.goToStep(CheckoutSteps.CONSENTS.nextStep)
+            }
           />
         );
       case 4:
         return (
-          // <OfferContainer
-          //   offerId={offerId}
-          //   couponCode={couponCode}
-          //   onSuccess={() => this.goToStep(CheckoutSteps.PURCHASE.nextStep)}
-          // />
-          <RedeemGift />
+          <OfferContainer
+            offerId={offerId}
+            couponCode={couponCode}
+            onSuccess={() => this.goToStep(CheckoutSteps.PURCHASE.nextStep)}
+          />
         );
       case 5:
         return <ThankYouPage onSuccess={() => onSuccess()} />;
@@ -133,6 +149,8 @@ class Checkout extends Component {
             resetPasswordCallback={resetPasswordCallback}
           />
         );
+      case 8:
+        return <RedeemGift />;
       default:
         return null;
     }
