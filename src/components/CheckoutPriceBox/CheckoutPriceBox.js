@@ -14,7 +14,9 @@ import {
   StyledTotalOfferPrice,
   StyledLabel,
   StyledPriceWrapper,
-  CouponNoteStyled
+  CouponNoteStyled,
+  CouponNoteOuterWrapper,
+  CouponNoteInnerWrapper
 } from './CheckoutPriceBoxStyled';
 
 const CheckoutPriceBox = () => {
@@ -116,8 +118,8 @@ const CheckoutPriceBox = () => {
   };
 
   return (
-    <StyledPriceBox>
-      <StyledPriceBoxWrapper>
+    <StyledPriceBoxWrapper>
+      <StyledPriceBox>
         <StyledPriceWrapper>
           <StyledLabel>{t('checkout-price-box.price', 'Price')}</StyledLabel>
           <StyledOfferPrice>
@@ -132,16 +134,20 @@ const CheckoutPriceBox = () => {
 
         {isCouponApplied && (
           <StyledPriceWrapper>
-            <StyledLabel>
-              {t('checkout-price-box.coupon-discount', 'Coupon Discount')}
-            </StyledLabel>
-            {discountType === 'coupon' && (
-              <CouponNoteStyled>{getCouponNote()}</CouponNoteStyled>
-            )}
-            <StyledOfferPrice>
-              - {currencySymbol}
-              {formatNumber(discountAmount)}
-            </StyledOfferPrice>
+            <CouponNoteOuterWrapper>
+              <CouponNoteInnerWrapper>
+                <StyledLabel>
+                  {t('checkout-price-box.coupon-discount', 'Coupon Discount')}
+                </StyledLabel>
+                <StyledOfferPrice>
+                  - {currencySymbol}
+                  {formatNumber(discountAmount)}
+                </StyledOfferPrice>
+              </CouponNoteInnerWrapper>
+              {discountType === 'coupon' && (
+                <CouponNoteStyled>{getCouponNote()}</CouponNoteStyled>
+              )}
+            </CouponNoteOuterWrapper>
           </StyledPriceWrapper>
         )}
 
@@ -199,8 +205,8 @@ const CheckoutPriceBox = () => {
             </StyledTotalOfferPrice>
           </strong>
         </StyledPriceWrapper>
-      </StyledPriceBoxWrapper>
-    </StyledPriceBox>
+      </StyledPriceBox>
+    </StyledPriceBoxWrapper>
   );
 };
 
