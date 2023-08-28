@@ -266,7 +266,7 @@ const Adyen = ({
       return true;
     }
 
-    return false;
+    return true;
   };
 
   const isCheckboxChecked = methodName => {
@@ -321,13 +321,8 @@ const Adyen = ({
       onSubmit: async (state, component) => {
         const methodName = component.activePaymentMethod.type;
 
-        if (
-          bankPaymentMethods.includes(methodName) ||
-          standardPaymentMethods.includes(methodName)
-        ) {
-          if (!isCheckboxChecked(methodName)) {
-            return false;
-          }
+        if (!isCheckboxChecked(methodName)) {
+          return false;
         }
 
         component.setStatus('loading');
@@ -364,9 +359,13 @@ const Adyen = ({
         },
         applepay: {
           onClick: async resolve => {
+            if (!isCheckboxChecked('applepay')) {
+              return;
+            }
+
             const areDeliveryDetailsValid = await handleDeliveryDetails();
 
-            if (!areDeliveryDetailsValid || !isCheckboxChecked('applepay')) {
+            if (!areDeliveryDetailsValid) {
               return;
             }
 
@@ -383,9 +382,13 @@ const Adyen = ({
         },
         googlepay: {
           onClick: async resolve => {
+            if (!isCheckboxChecked('googlepay')) {
+              return;
+            }
+
             const areDeliveryDetailsValid = await handleDeliveryDetails();
 
-            if (!areDeliveryDetailsValid || !isCheckboxChecked('googlepay')) {
+            if (!areDeliveryDetailsValid) {
               return;
             }
 
