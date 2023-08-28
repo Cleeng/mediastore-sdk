@@ -58,11 +58,11 @@ class Checkout extends Component {
     const { initValues, offerId, adyenConfiguration } = this.props;
 
     const urlParams = new URLSearchParams(window.location.search);
-    const giftCode = urlParams.get('giftCode');
+    const giftCodeParam = urlParams.get('giftCode');
 
-    if (giftCode) {
+    if (giftCodeParam) {
       this.setState({
-        giftCode
+        giftCode: giftCodeParam
       });
     }
 

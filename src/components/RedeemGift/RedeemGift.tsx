@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -15,6 +15,15 @@ const RedeemGift = () => {
   const { t } = useTranslation();
 
   const [giftCode, setGiftCode] = useState('');
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const giftCodeParam = urlParams.get('giftCode');
+
+    if (giftCodeParam) {
+      setGiftCode(giftCodeParam);
+    }
+  }, [window.location.search]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setGiftCode(e.target.value);
