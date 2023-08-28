@@ -8,6 +8,8 @@ import eventDispatcher, {
   MSSDK_REDEEM_BUTTON_CLICKED,
   MSSDK_REDEEM_COUPON_BUTTON_CLICKED
 } from 'util/eventDispatcher';
+import { useAppSelector } from 'redux/store';
+import { selectOnlyOrder } from 'redux/orderSlice';
 import {
   FormComponentStyled,
   MessageStyled,
@@ -36,28 +38,31 @@ const CouponInput = ({
   );
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [showCouponMessage, setShowCouponMessage] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { t } = useTranslation();
   const { showMessage, message, messageType, translationKey } = couponDetails;
 
-  const disableSuppressMessage = () => setSuppressMessage(false);
+  console.log(couponDetails);
 
-  const clearFadeOutTimeout = () => {
-    if (typeof timeoutId === 'number' && timeoutId > 0) {
-      clearTimeout(timeoutId);
-      setTimeoutId(0);
-    }
-  };
+  // const disableSuppressMessage = () => setSuppressMessage(false);
 
-  const scheduleFadeOut = () => {
-    const timeoutIndex = setTimeout(() => {
-      setSuppressMessage(true);
-      setTimeoutId(true);
-    }, FADE_OUT_DELAY);
-    setTimeoutId(timeoutIndex);
-  };
+  // const clearFadeOutTimeout = () => {
+  //   if (typeof timeoutId === 'number' && timeoutId > 0) {
+  //     clearTimeout(timeoutId);
+  //     setTimeoutId(0);
+  //   }
+  // };
+
+  // const scheduleFadeOut = () => {
+  //   const timeoutIndex = setTimeout(() => {
+  //     setSuppressMessage(true);
+  //     setTimeoutId(true);
+  //   }, FADE_OUT_DELAY);
+  //   setTimeoutId(timeoutIndex);
+  // };
 
   const handleRedeem = async () => {
     if (!isOpen) {
@@ -88,19 +93,33 @@ const CouponInput = ({
       window.removeEventListener(MSSDK_COUPON_FAILED, handleAutoCouponError);
   }, []);
 
-  useEffect(() => {
-    return () => {
-      clearFadeOutTimeout();
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     clearFadeOutTimeout();
+  //   };
+  // }, []);
+
+  // useEffect(() => {
+  //   disableSuppressMessage();
+  //   clearFadeOutTimeout();
+  //   if (showMessage) {
+  //     scheduleFadeOut();
+  //   }
+  // }, [showMessage, message, messageType]);
+
+  console.log(value);
 
   useEffect(() => {
-    disableSuppressMessage();
-    clearFadeOutTimeout();
-    if (showMessage) {
-      scheduleFadeOut();
-    }
-  }, [showMessage, message, messageType]);
+    if (value === '') setShowCouponMessage(false);
+  }, [value]);
+
+  // useEffect(() => {
+  //   if (!isOpen) setShowCouponMessage(false);
+  // }, [value]);
+
+  useEffect(() => {
+    setShowCouponMessage(showMessage);
+  }, [showMessage]);
 
   useEffect(() => {
     if (inputRef.current) inputRef.current.focus();
@@ -157,14 +176,19 @@ const CouponInput = ({
             t('coupon-input.redeem-coupon', 'Redeem coupon')}
         </Button>
       </InputElementWrapperStyled>
-      {isOpen && (
+      {showCouponMessage && isOpen && (
+        <MessageStyled $showMessage $messageType={messageType}>
+          {t(translationKey || '', message)}
+        </MessageStyled>
+      )}
+      {/* {isOpen && (
         <MessageStyled
           $showMessage={showMessage && !suppressMessage}
           $messageType={messageType}
         >
           {t(translationKey || '', message)}
         </MessageStyled>
-      )}
+      )} */}
     </FormComponentStyled>
   );
 };
