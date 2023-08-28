@@ -124,6 +124,10 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
         name="recipientEmail"
         onBlur={onBlur}
         onChange={onChange}
+        placeholder={t(
+          'recipientForm.label.recipient-email',
+          'jdoe@cleeng.com'
+        )}
         type="email"
         value={shouldHideValue ? '' : recipientEmail.value}
       />
@@ -140,6 +144,10 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
           name="confirmRecipientEmail"
           onBlur={onBlur}
           onChange={onChange}
+          placeholder={t(
+            'recipientForm.label.confirm-recipient-email',
+            'jdoe@cleeng.com'
+          )}
           type="email"
           value={shouldHideValue ? '' : confirmRecipientEmail.value}
         />
@@ -168,6 +176,10 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
           maxLength={150}
           name="message"
           onChange={onChange}
+          placeholder={t(
+            'recipientForm.placeholder.message',
+            'I’d give you the gift of never having to leave the house again! Enjoy your new subscription plan. Happy streaming!'
+          )}
           rows={3}
           value={shouldHideValue ? '' : message.value}
         />

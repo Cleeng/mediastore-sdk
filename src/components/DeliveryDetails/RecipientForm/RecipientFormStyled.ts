@@ -88,4 +88,9 @@ export const StyledMessage = styled.textarea`
     background-color: ${BackgroundColor};
     color: ${FontColor};
   }
+
+  &::placeholder {
+    color: rgb(112, 112, 112);
+    font-weight: 300;
+  }
 `;
