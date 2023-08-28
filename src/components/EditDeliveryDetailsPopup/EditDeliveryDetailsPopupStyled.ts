@@ -79,6 +79,8 @@ export const InfoTextStyled = styled.div`
   }
 `;
 
+export const ErrorPageStyled = styled(ThankYouPageStyled)``;
+
 export const ErrorTextStyled = styled.div`
   font-size: 15px;
   font-weight: 300;

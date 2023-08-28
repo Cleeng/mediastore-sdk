@@ -21,6 +21,7 @@ import { ReactComponent as WarningIcon } from 'assets/images/errors/warning.svg'
 import {
   ButtonsStyled,
   ContentStyled,
+  ErrorPageStyled,
   ErrorTextStyled,
   HeaderStyled,
   InfoTextStyled,
@@ -191,7 +192,7 @@ const EditDeliveryDetailsPopup = () => {
     >
       <ContentStyled>
         {error ? (
-          <ThankYouPageStyled>
+          <ErrorPageStyled>
             <WarningIcon />
             <HeaderStyled>
               {t(
@@ -216,7 +217,7 @@ const EditDeliveryDetailsPopup = () => {
             <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
               {t('edit-delivery-details-popup.button.back', 'Back to settings')}
             </Button>
-          </ThankYouPageStyled>
+          </ErrorPageStyled>
         ) : (
           <ThankYouPageStyled>
             <CheckmarkIcon />
