@@ -144,7 +144,7 @@ export const orderSlice = createSlice({
     });
     builder.addCase(fetchUpdateCoupon.pending, (state, action) => {
       state.isCouponLoading = true;
-      const { couponCode } = action?.meta?.arg;
+      const { couponCode } = action.meta.arg;
 
       state.couponDetails = {
         couponCode: couponCode || '',
@@ -157,7 +157,7 @@ export const orderSlice = createSlice({
     builder.addCase(fetchUpdateCoupon.fulfilled, (state, action) => {
       state.isCouponLoading = false;
       state.order = action.payload;
-      const { couponCode } = action?.meta?.arg;
+      const { couponCode } = action.meta.arg;
 
       state.couponDetails = {
         couponCode: couponCode || '',
@@ -169,7 +169,7 @@ export const orderSlice = createSlice({
     });
     builder.addCase(fetchUpdateCoupon.rejected, (state, action) => {
       state.isCouponLoading = false;
-      const { couponCode } = action?.meta?.arg;
+      const { couponCode } = action.meta.arg;
 
       state.couponDetails = {
         couponCode: couponCode || '',
