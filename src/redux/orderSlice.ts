@@ -40,6 +40,7 @@ const initialState: OrderInitialState = {
   loading: true,
   error: '',
   couponDetails: {
+    couponCode: '',
     showMessage: false,
     message: '',
     messageType: MESSAGE_TYPE_SUCCESS,
@@ -141,9 +142,12 @@ export const orderSlice = createSlice({
     builder.addCase(fetchGetOrder.rejected, state => {
       state.loading = false;
     });
-    builder.addCase(fetchUpdateCoupon.pending, state => {
+    builder.addCase(fetchUpdateCoupon.pending, (state, action) => {
       state.isCouponLoading = true;
+      const { couponCode } = action?.meta?.arg;
+
       state.couponDetails = {
+        couponCode: couponCode || '',
         showMessage: false,
         message: '',
         messageType: MESSAGE_TYPE_SUCCESS,
@@ -153,16 +157,22 @@ export const orderSlice = createSlice({
     builder.addCase(fetchUpdateCoupon.fulfilled, (state, action) => {
       state.isCouponLoading = false;
       state.order = action.payload;
+      const { couponCode } = action?.meta?.arg;
+
       state.couponDetails = {
+        couponCode: couponCode || '',
         showMessage: true,
         message: 'Your coupon has been applied!',
         messageType: MESSAGE_TYPE_SUCCESS,
         translationKey: 'coupon-input.success'
       };
     });
-    builder.addCase(fetchUpdateCoupon.rejected, state => {
+    builder.addCase(fetchUpdateCoupon.rejected, (state, action) => {
       state.isCouponLoading = false;
+      const { couponCode } = action?.meta?.arg;
+
       state.couponDetails = {
+        couponCode: couponCode || '',
         showMessage: true,
         message:
           'This is not a valid coupon code for this offer. Please check the code on your coupon and try again.',
