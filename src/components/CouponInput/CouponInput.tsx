@@ -4,8 +4,6 @@ import Button from 'components/Button';
 import { ReactComponent as CloseIcon } from 'assets/images/xmark.svg';
 import { useTranslation } from 'react-i18next';
 import eventDispatcher, {
-  MSSDK_COUPON_FAILED,
-  MSSDK_COUPON_SUCCESSFUL,
   MSSDK_REDEEM_BUTTON_CLICKED,
   MSSDK_REDEEM_COUPON_BUTTON_CLICKED
 } from 'util/eventDispatcher';
@@ -59,17 +57,11 @@ const CouponInput = ({
   };
 
   useEffect(() => {
-    window.addEventListener(MSSDK_COUPON_FAILED, () => setIsOpen(true));
-
-    window.addEventListener(MSSDK_COUPON_SUCCESSFUL, () => setIsOpen(true));
-
-    return () => {
-      window.removeEventListener(MSSDK_COUPON_FAILED, () => setIsOpen(true));
-      window.removeEventListener(MSSDK_COUPON_SUCCESSFUL, () =>
-        setIsOpen(true)
-      );
-    };
-  }, []);
+    if (showMessage) {
+      setIsOpen(true);
+      setShowCouponMessage(true);
+    }
+  }, [showMessage]);
 
   useEffect(() => {
     if (value === '') setShowCouponMessage(false);
