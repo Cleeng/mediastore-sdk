@@ -10,6 +10,7 @@ import {
   Period
 } from 'util/planHelper';
 import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
+import { selectGift } from 'redux/giftSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
 import getReadablePeriod from './OfferCheckoutCard.utils';
@@ -23,7 +24,13 @@ import {
 } from './OfferCheckoutCardStyled';
 import Price from '../Price';
 
-const OfferCheckoutCard = () => {
+type OfferCheckoutCardProps = {
+  isRedeemGift: boolean;
+};
+
+const OfferCheckoutCard = ({
+  isRedeemGift = false
+}: OfferCheckoutCardProps) => {
   const {
     offerTitle: title,
     trialAvailable: isTrialAvailable,
@@ -37,6 +44,9 @@ const OfferCheckoutCard = () => {
   } = useAppSelector(selectOnlyOffer);
 
   const { loading } = useAppSelector(selectOffer);
+  const {
+    verifiedGift: { redeemMode }
+  } = useAppSelector(selectGift);
 
   const {
     priceBreakdown: { offerPrice },
@@ -248,6 +258,22 @@ const OfferCheckoutCard = () => {
     );
   };
 
+  const getRedeemGiftDescription = () => {
+    if (redeemMode === 'EXTEND') {
+      return t(
+        'redeem-gift.description.existing-subscription',
+        `Your existing subscription will be extended for {{period}} for free`,
+        {
+          period
+        }
+      );
+    }
+
+    // inapp sub?
+
+    return '';
+  };
+
   return (
     <WrapperStyled>
       <SkeletonWrapper showChildren={!loading} width={50} height={50}>
@@ -267,30 +293,38 @@ const OfferCheckoutCard = () => {
           margin="0 0 10px 10px"
         >
           <DescriptionStyled
-            dangerouslySetInnerHTML={{ __html: renderDescription() }}
+            dangerouslySetInnerHTML={{
+              __html: isRedeemGift
+                ? getRedeemGiftDescription()
+                : renderDescription()
+            }}
           />
         </SkeletonWrapper>
       </InnerWrapper>
-      <PriceWrapperStyled>
-        <SkeletonWrapper showChildren={!loading} width={80} height={30}>
-          {isTrialBadgeVisible && (
-            <TrialBadgeStyled>{renderTrialBadgeDescription()}</TrialBadgeStyled>
-          )}
-          <Price
-            currency={currencyFormat[currency]}
-            price={
-              discountType === 'coupon' && totalPrice !== 0
-                ? Number(totalPrice)
-                : Number(grossPrice)
-            }
-            period={
-              offerType === 'S' && period !== 'season'
-                ? t(`offer-price.period-${period}`, period)
-                : null
-            }
-          />
-        </SkeletonWrapper>
-      </PriceWrapperStyled>
+      {!isRedeemGift && (
+        <PriceWrapperStyled>
+          <SkeletonWrapper showChildren={!loading} width={80} height={30}>
+            {isTrialBadgeVisible && (
+              <TrialBadgeStyled>
+                {renderTrialBadgeDescription()}
+              </TrialBadgeStyled>
+            )}
+            <Price
+              currency={currencyFormat[currency]}
+              price={
+                discountType === 'coupon' && totalPrice !== 0
+                  ? Number(totalPrice)
+                  : Number(grossPrice)
+              }
+              period={
+                offerType === 'S' && period !== 'season'
+                  ? t(`offer-price.period-${period}`, period)
+                  : null
+              }
+            />
+          </SkeletonWrapper>
+        </PriceWrapperStyled>
+      )}
     </WrapperStyled>
   );
 };

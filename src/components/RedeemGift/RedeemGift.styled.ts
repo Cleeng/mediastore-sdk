@@ -46,3 +46,13 @@ export const InputWrapperStyled = styled.div`
     background-color: ${FontColor};
   }
 `;
+
+export const OfferWrapperStyled = styled.div`
+  width: 100%;
+  max-width: 562px;
+  background: ${colors.BackgroundColor};
+  border: 1px solid ${colors.LineColor};
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 33px;
+`;

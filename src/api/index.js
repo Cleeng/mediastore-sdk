@@ -31,6 +31,7 @@ import getOffers from './Offers/getOffers';
 import getOffer from './Offers/getOffer';
 import getGift from './Gifts/getGift';
 import updateGift from './Gifts/updateGift';
+import verifyGift from './Gifts/verifyGift';
 
 export {
   getPaymentDetails,
@@ -65,5 +66,6 @@ export {
   getOffer,
   getSwitch,
   getGift,
-  updateGift
+  updateGift,
+  verifyGift
 };

@@ -15,6 +15,7 @@ export type Gift = {
 
 export type GiftInitialState = {
   gift: Gift | Record<string, never>;
+  verifiedGift: unknown;
   loading: boolean;
   error: string | null | undefined;
 };

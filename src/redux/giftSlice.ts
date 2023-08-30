@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getGift, updateGift } from 'api';
+import { getGift, updateGift, verifyGift } from 'api';
 import { DeliveryDetails, Gift, GiftInitialState } from './types';
 import { RootState } from './rootReducer';
 
 export const initialState: GiftInitialState = {
   gift: {},
+  verifiedGift: {},
   loading: false,
   error: null
 };
@@ -41,6 +42,23 @@ export const fetchUpdateGift = createAsyncThunk<
   }
 });
 
+export const fetchVerifyGift = createAsyncThunk<
+  unknown,
+  string,
+  {
+    rejectValue: string;
+  }
+>('gift/verifyGift', async (giftCode: string, { rejectWithValue }) => {
+  try {
+    const result = await verifyGift(giftCode);
+
+    return result;
+  } catch (err) {
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
+  }
+});
+
 export const giftSlice = createSlice({
   name: 'gift',
   initialState,
@@ -67,6 +85,19 @@ export const giftSlice = createSlice({
       state.gift = action.payload;
     });
     builder.addCase(fetchUpdateGift.rejected, (state, action) => {
+      state.loading = false;
+      if (action.payload) {
+        state.error = action.payload;
+      }
+    });
+    builder.addCase(fetchVerifyGift.pending, state => {
+      state.loading = true;
+    });
+    builder.addCase(fetchVerifyGift.fulfilled, (state, action) => {
+      state.loading = false;
+      state.verifiedGift = action.payload;
+    });
+    builder.addCase(fetchVerifyGift.rejected, (state, action) => {
       state.loading = false;
       if (action.payload) {
         state.error = action.payload;
