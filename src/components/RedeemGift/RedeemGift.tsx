@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'redux/store';
-import { fetchVerifyGift } from 'redux/giftSlice';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import { fetchVerifyGift, selectGift } from 'redux/giftSlice';
 import { fetchOffer } from 'redux/offerSlice';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -19,35 +19,39 @@ import {
 
 const RedeemGift = () => {
   const [giftCode, setGiftCode] = useState('');
-  const [error, setError] = useState('');
   const [showOffer, setShowOffer] = useState(false);
   const [isVerifyLoading, setIsVerifyLoading] = useState(false);
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
+  const {
+    error,
+    verifiedGift: { redeemable }
+  } = useAppSelector(selectGift);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setGiftCode(e.target.value);
 
   const handleVerify = async () => {
     setIsVerifyLoading(true);
-    const response = await dispatch(fetchVerifyGift(giftCode));
+    try {
+      const resultVerifyGiftAction = await dispatch(
+        fetchVerifyGift(giftCode)
+      ).unwrap();
 
-    if (response?.error) {
+      const { offerId } = resultVerifyGiftAction;
+
+      if (offerId) {
+        setShowOffer(true);
+        await dispatch(fetchOffer(offerId));
+      }
+
       setIsVerifyLoading(false);
-
-      setError(response.payload as string);
+    } catch (e) {
+      setShowOffer(false);
+      setIsVerifyLoading(false);
     }
-
-    const {
-      payload: { offerId }
-    } = response;
-
-    setShowOffer(true);
-
-    setIsVerifyLoading(false);
-
-    dispatch(fetchOffer(offerId));
   };
 
   useEffect(() => {
@@ -68,7 +72,6 @@ const RedeemGift = () => {
         </SectionHeader>
         <InputWrapperStyled>
           <MyAccountInput
-            // add error in future task
             error={error}
             onChange={handleChange}
             name="giftCode"
@@ -89,7 +92,11 @@ const RedeemGift = () => {
             <OfferCheckoutCard isRedeemGift />
           </OfferWrapperStyled>
         )}
-        <Button disabled theme="confirm" onClickFn={() => null}>
+        <Button
+          disabled={!redeemable || isVerifyLoading}
+          theme="confirm"
+          onClickFn={() => null}
+        >
           {t('redeem-gift.button.confirm', 'Confirm & proceed')}
         </Button>
       </RedeemGiftWrapperStyled>

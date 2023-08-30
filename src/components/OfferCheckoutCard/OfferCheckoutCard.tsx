@@ -45,7 +45,7 @@ const OfferCheckoutCard = ({
 
   const { loading } = useAppSelector(selectOffer);
   const {
-    verifiedGift: { redeemMode }
+    verifiedGift: { redeemMode, redeemRefusalReason }
   } = useAppSelector(selectGift);
 
   const {
@@ -92,7 +92,7 @@ const OfferCheckoutCard = ({
     if (freeDays) {
       const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
         period
-      )}`;
+      )}.`;
       return t(`subscription-desc.trial-days.period-${period}`, description, {
         currencySymbol,
         grossPrice,
@@ -192,7 +192,7 @@ const OfferCheckoutCard = ({
       }
       const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
         period
-      )}`;
+      )}.`;
       return t(`subscription-desc.period-${period}`, formattedDescription, {
         currencySymbol,
         grossPrice,
@@ -259,17 +259,35 @@ const OfferCheckoutCard = ({
   };
 
   const getRedeemGiftDescription = () => {
-    if (redeemMode === 'EXTEND') {
+    if (redeemRefusalReason === 'EXTERNAL') {
       return t(
-        'redeem-gift.description.existing-subscription',
-        `Your existing subscription will be extended for {{period}} for free`,
-        {
-          period
-        }
+        'redeem-gift.description.refusal.external',
+        'Your subscription is managed in apple/google store. You will be able to redeem your gift via web when the App Store subscription expires.'
       );
     }
 
-    // inapp sub?
+    if (redeemRefusalReason === 'REDEEMED') {
+      return t(
+        'redeem-gift.description.refusal.redeemed',
+        'Your gift was already redeemed.'
+      );
+    }
+
+    if (redeemRefusalReason === 'INACTIVE_OFFER ') {
+      return t(
+        'redeem-gift.description.refusal.offer-inactive',
+        'This offer is inactive'
+      );
+    }
+
+    if (redeemMode === 'EXTEND') {
+      return t(
+        'redeem-gift.description.existing-subscription',
+        `Your existing subscription will be extended for additional ${getReadablePeriod(
+          period
+        )} for free.`
+      );
+    }
 
     return '';
   };

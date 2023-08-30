@@ -13,9 +13,17 @@ export type Gift = {
   sentAt: number;
 };
 
+export type VerifiedGift = {
+  redeemable: boolean;
+  redeemMode: string;
+  redeemRefusalReason: string | null;
+  extendedSubscriptionId: number;
+  offerId: string;
+};
+
 export type GiftInitialState = {
   gift: Gift | Record<string, never>;
-  verifiedGift: unknown;
+  verifiedGift: VerifiedGift | Record<string, never>;
   loading: boolean;
   error: string | null | undefined;
 };

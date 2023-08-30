@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getGift, updateGift, verifyGift } from 'api';
-import { DeliveryDetails, Gift, GiftInitialState } from './types';
+import { DeliveryDetails, Gift, GiftInitialState, VerifiedGift } from './types';
 import { RootState } from './rootReducer';
 
 export const initialState: GiftInitialState = {
@@ -43,7 +43,7 @@ export const fetchUpdateGift = createAsyncThunk<
 });
 
 export const fetchVerifyGift = createAsyncThunk<
-  unknown,
+  VerifiedGift,
   string,
   {
     rejectValue: string;
@@ -95,12 +95,16 @@ export const giftSlice = createSlice({
     });
     builder.addCase(fetchVerifyGift.fulfilled, (state, action) => {
       state.loading = false;
+      state.error = '';
       state.verifiedGift = action.payload;
     });
     builder.addCase(fetchVerifyGift.rejected, (state, action) => {
       state.loading = false;
+      state.verifiedGift = {};
+
       if (action.payload) {
-        state.error = action.payload;
+        state.error =
+          'Provided gift code is invalid. Please provide a valid code and try again.';
       }
     });
   }

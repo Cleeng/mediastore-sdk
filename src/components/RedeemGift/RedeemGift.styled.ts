@@ -35,6 +35,10 @@ export const InputWrapperStyled = styled.div`
     flex: 1;
   }
 
+  .msd__error {
+    color: ${colors.ErrorColor};
+  }
+
   .msd__button {
     height: 33px;
     position: absolute;
