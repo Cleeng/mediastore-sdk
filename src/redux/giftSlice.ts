@@ -119,8 +119,9 @@ export const giftSlice = createSlice({
       state.verifiedGift = {};
 
       if (action.payload) {
-        state.error =
-          'Provided gift code is invalid. Please provide a valid code and try again.';
+        // state.error =
+        //   'Provided gift code is invalid. Please provide a valid code and try again.';
+        state.error = action.payload;
       }
     });
     builder.addCase(fetchRedeemGift.pending, state => {

@@ -259,24 +259,40 @@ const OfferCheckoutCard = ({
   };
 
   const getRedeemGiftDescription = () => {
+    // add translations
+
     if (redeemRefusalReason === 'EXTERNAL') {
       return t(
         'redeem-gift.description.refusal.external',
-        'Your subscription is managed in apple/google store. You will be able to redeem your gift via web when the App Store subscription expires.'
+        'Your subscription is managed through an external provider. You will be able to redeem your gift via web once your current subscription expires. '
       );
     }
 
     if (redeemRefusalReason === 'REDEEMED') {
       return t(
         'redeem-gift.description.refusal.redeemed',
-        'Your gift was already redeemed.'
+        'The gift code has already been redeemed.'
       );
     }
 
-    if (redeemRefusalReason === 'INACTIVE_OFFER ') {
+    if (redeemRefusalReason === 'INACTIVE_OFFER') {
       return t(
         'redeem-gift.description.refusal.offer-inactive',
-        'This offer is inactive'
+        'The offer you’re trying to purchase is inactive.'
+      );
+    }
+
+    if (redeemRefusalReason === 'GEORESTRICTED') {
+      return t(
+        'redeem-gift.description.refusal.georestricted',
+        'The gift can’t be redeemed due to the offer geo-restrictions.'
+      );
+    }
+
+    if (redeemRefusalReason === 'RECURRING_PROCESS_ALREADY_STARTED') {
+      return t(
+        'redeem-gift.description.refusal.recurring',
+        'The gift code can’t be redeemed as your payment is now being processed.'
       );
     }
 
