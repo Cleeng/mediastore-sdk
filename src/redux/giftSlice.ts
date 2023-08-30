@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getGift, updateGift, verifyGift } from 'api';
+import { getGift, redeemGift, updateGift, verifyGift } from 'api';
 import { DeliveryDetails, Gift, GiftInitialState, VerifiedGift } from './types';
 import { RootState } from './rootReducer';
 
@@ -59,6 +59,22 @@ export const fetchVerifyGift = createAsyncThunk<
   }
 });
 
+export const fetchRedeemGift = createAsyncThunk<
+  unknown,
+  string,
+  {
+    rejectValue: string;
+  }
+>('gift/redeemGift', async (giftCode: string, { rejectWithValue }) => {
+  try {
+    const result = await redeemGift(giftCode);
+    return result;
+  } catch (err) {
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
+  }
+});
+
 export const giftSlice = createSlice({
   name: 'gift',
   initialState,
@@ -105,6 +121,19 @@ export const giftSlice = createSlice({
       if (action.payload) {
         state.error =
           'Provided gift code is invalid. Please provide a valid code and try again.';
+      }
+    });
+    builder.addCase(fetchRedeemGift.pending, state => {
+      state.loading = true;
+    });
+    builder.addCase(fetchRedeemGift.fulfilled, state => {
+      state.loading = false;
+    });
+    builder.addCase(fetchRedeemGift.rejected, (state, action) => {
+      state.loading = false;
+
+      if (action.payload) {
+        state.error = action.payload;
       }
     });
   }

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
-import { fetchVerifyGift, selectGift } from 'redux/giftSlice';
+import { fetchRedeemGift, fetchVerifyGift, selectGift } from 'redux/giftSlice';
 import { fetchOffer } from 'redux/offerSlice';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -21,6 +21,7 @@ const RedeemGift = () => {
   const [giftCode, setGiftCode] = useState('');
   const [showOffer, setShowOffer] = useState(false);
   const [isVerifyLoading, setIsVerifyLoading] = useState(false);
+  const [isRedeemLoading, setIsRedeemLoading] = useState(false);
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -33,7 +34,7 @@ const RedeemGift = () => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setGiftCode(e.target.value);
 
-  const handleVerify = async () => {
+  const handleVerifyGift = async () => {
     setIsVerifyLoading(true);
     try {
       const resultVerifyGiftAction = await dispatch(
@@ -51,6 +52,17 @@ const RedeemGift = () => {
     } catch (e) {
       setShowOffer(false);
       setIsVerifyLoading(false);
+    }
+  };
+
+  const handleRedeemGift = async () => {
+    setIsRedeemLoading(true);
+    try {
+      await dispatch(fetchRedeemGift(giftCode));
+
+      setIsRedeemLoading(false);
+    } catch (e) {
+      setIsRedeemLoading(false);
     }
   };
 
@@ -79,7 +91,11 @@ const RedeemGift = () => {
             value={giftCode}
             placeholder="XXXX-XXXX"
           />
-          <Button disabled={!giftCode} theme="confirm" onClickFn={handleVerify}>
+          <Button
+            disabled={!giftCode}
+            theme="confirm"
+            onClickFn={handleVerifyGift}
+          >
             {isVerifyLoading ? (
               <Loader buttonLoader color="#ffffff" />
             ) : (
@@ -95,9 +111,13 @@ const RedeemGift = () => {
         <Button
           disabled={!redeemable || isVerifyLoading}
           theme="confirm"
-          onClickFn={() => null}
+          onClickFn={handleRedeemGift}
         >
-          {t('redeem-gift.button.confirm', 'Confirm & proceed')}
+          {isRedeemLoading ? (
+            <Loader buttonLoader color="#ffffff" />
+          ) : (
+            t('redeem-gift.button.confirm', 'Confirm & proceed')
+          )}
         </Button>
       </RedeemGiftWrapperStyled>
       <Footer />
