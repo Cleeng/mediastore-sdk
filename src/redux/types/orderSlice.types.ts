@@ -43,6 +43,7 @@ export type OrderInitialState = {
   loading: boolean;
   error: string;
   couponDetails: {
+    couponCode: string;
     showMessage: boolean;
     message: string;
     messageType: typeof MESSAGE_TYPE_SUCCESS | typeof MESSAGE_TYPE_FAIL;
