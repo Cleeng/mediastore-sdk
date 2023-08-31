@@ -126,13 +126,16 @@ const OfferCheckoutCard = () => {
       taxRate,
       customerPriceInclTax
     );
+    const seasonalBasePrice = formatNumber(customerPriceInclTax);
     if (discountedPeriods === 1) {
       return t(
         `subscription-desc-coupon-${period}`,
         `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) now.<br/>After ${
           period === '3months' || period === '6months' ? '' : 'a'
         } ${periodMapper[period as Period]
-          .chargedForEveryText as string} you will be charged a regular price of ${currencySymbol}${regularPrice}.`,
+          .chargedForEveryText as string} you will be charged a regular price of ${currencySymbol}${
+          period === 'season' ? seasonalBasePrice : regularPrice
+        }.`,
         { currencySymbol, formattedTotalPrice, taxCopy, period, regularPrice }
       );
     }
@@ -154,7 +157,9 @@ const OfferCheckoutCard = () => {
 
     return t(
       `subscription-desc-coupon-${period}s`,
-      `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next ${discountedPeriods} ${period}s.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`,
+      `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next ${discountedPeriods} ${period}s.<br/>After that time you will be charged a regular price of ${currencySymbol}${
+        period === 'season' ? seasonalBasePrice : regularPrice
+      }.`,
       {
         currencySymbol,
         formattedTotalPrice,
