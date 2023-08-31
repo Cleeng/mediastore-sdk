@@ -70,10 +70,12 @@ export const InfoTextStyled = styled.div`
   max-width: 380px;
   color: ${FontColor};
   width: 100%;
-  max-width: 300px;
 
   p {
     text-align: center;
     margin-bottom: 24px;
   }
+`;
+export const InfoTextSkeletonStyled = styled(InfoTextStyled)`
+  max-width: 300px;
 `;

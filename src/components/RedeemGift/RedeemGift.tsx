@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { fetchRedeemGift, fetchVerifyGift, selectGift } from 'redux/giftSlice';
 import { fetchOffer } from 'redux/offerSlice';
 import { ReactComponent as CheckmarkIcon } from 'assets/images/greenCheckmark.svg';
+import { getData } from 'util/appConfigHelper';
+import { LinkStyled } from 'components/ThankYouPage/ThankYouPageStyled';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Button from 'components/Button';
@@ -81,17 +83,27 @@ const RedeemGift = () => {
         <ThankYouPageStyled>
           <CheckmarkIcon />
           <HeaderStyled>
-            {t(
-              'edit-delivery-details-popup.thank-you-page.header',
-              'Thank You!'
-            )}
+            {t('redeem-gift.thank-you-page.header', 'Thank You!')}
           </HeaderStyled>
+
           <InfoTextStyled>
-            <p>{t('', 'Your gift have been successfully redeemed. ')}</p>
-            {t(
-              '',
-              'We hope you love it. If you need help from us with your account, you can always find it here.'
-            )}
+            <p>
+              {t(
+                'redeem-gift.thank-you-page.manage-text1',
+                'Your gift have been successfully redeemed.'
+              )}
+            </p>
+            <Trans i18nKey="redeem-gift.thank-you-page.manage-text2">
+              We hope you love it. If you need help from us with your account,
+              you can always find it
+              <LinkStyled
+                href={getData('CLEENG_MY_ACCOUNT_URL')}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                here.
+              </LinkStyled>
+            </Trans>
           </InfoTextStyled>
         </ThankYouPageStyled>
       ) : (

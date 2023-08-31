@@ -87,7 +87,6 @@ export const InfoTextStyled = styled.div`
   max-width: 380px;
   color: ${colors.FontColor};
   width: 100%;
-  max-width: 300px;
 
   p {
     font-weight: 400;

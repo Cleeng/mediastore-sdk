@@ -21,6 +21,7 @@ import {
   ButtonsStyled,
   ContentStyled,
   HeaderStyled,
+  InfoTextSkeletonStyled,
   InfoTextStyled,
   ThankYouPageStyled
 } from './EditDeliveryDetailsPopupStyled';
@@ -101,9 +102,9 @@ const EditDeliveryDetailsPopup = () => {
           <HeaderStyled>
             {t('edit-delivery-details-popup.header', 'Edit Delivery Details')}
           </HeaderStyled>
-          <InfoTextStyled>
+          <InfoTextSkeletonStyled>
             <SkeletonWrapper height={32} margin="0 0 24px 0" />
-          </InfoTextStyled>
+          </InfoTextSkeletonStyled>
           <RecipientForm isMyAccount />
         </ContentStyled>
       </InnerPopupWrapper>
