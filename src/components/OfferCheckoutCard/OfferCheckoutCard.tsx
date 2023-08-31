@@ -259,12 +259,12 @@ const OfferCheckoutCard = ({
   };
 
   const getRedeemGiftDescription = () => {
-    // if (redeemRefusalReason === 'EXTERNAL') {
-    return t(
-      'redeem-gift.description.refusal.external',
-      'Your subscription is managed through an external provider. You will be able to redeem your gift via web once your current subscription expires.'
-    );
-    // }
+    if (redeemRefusalReason === 'EXTERNAL') {
+      return t(
+        'redeem-gift.description.refusal.external',
+        'Your subscription is managed through an external provider. You will be able to redeem your gift via web once your current subscription expires.'
+      );
+    }
 
     if (redeemRefusalReason === 'REDEEMED') {
       return t(
