@@ -68,6 +68,8 @@ export const InfoTextStyled = styled.div`
   text-align: center;
   max-width: 380px;
   color: ${FontColor};
+  width: 100%;
+  max-width: 300px;
 
   p {
     text-align: center;

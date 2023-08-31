@@ -7,6 +7,7 @@ import {
 import { fetchGift, fetchUpdateGift, selectGift } from 'redux/giftSlice';
 import { hidePopup, selectEditDeliveryDetailsPopup } from 'redux/popupSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
+import { ReactComponent as CheckmarkIcon } from 'assets/images/greenCheckmark.svg';
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import RecipientForm from 'components/DeliveryDetails/RecipientForm';
@@ -15,7 +16,7 @@ import {
   isDateInFuture,
   validateDeliveryDetailsForm
 } from 'components/DeliveryDetails/RecipientForm/validators';
-import { ReactComponent as CheckmarkIcon } from 'assets/images/greenCheckmark.svg';
+import SkeletonWrapper from 'components/SkeletonWrapper';
 import {
   ButtonsStyled,
   ContentStyled,
@@ -39,7 +40,8 @@ const EditDeliveryDetailsPopup = () => {
 
   const {
     gift: { sentAt, deliveryDetails: giftDeliveryDetails },
-    isUpdateLoading
+    isUpdateLoading,
+    loading
   } = useAppSelector(selectGift);
 
   const updateGift = async () => {
@@ -100,29 +102,37 @@ const EditDeliveryDetailsPopup = () => {
             {t('edit-delivery-details-popup.header', 'Edit Delivery Details')}
           </HeaderStyled>
           <InfoTextStyled>
-            {isGiftEditable ? (
+            {loading ? (
               <>
-                {t(
-                  'edit-delivery-details-popup.info-text-1',
-                  'You are editing information for your'
-                )}
-                <p>{t(`offer-title-${offerId}`, offerTitle)}</p>
-                {t(
-                  'edit-delivery-details-popup.info-text-2',
-                  'Please take a moment to update your gift delivery details.'
-                )}
+                <SkeletonWrapper height={32} margin="0 0 24px 0" />
               </>
             ) : (
               <>
-                {isGiftSent
-                  ? t(
-                      'edit-delivery-details-popup.info-text-disabled',
-                      'It is not possible to edit delivery details as the gift has been already sent out to the recipient.'
-                    )
-                  : t(
-                      'edit-delivery-details-popup.info-text-disabled2',
-                      'It is not possible to edit delivery details as the gift will be sent to the recipient soon.'
+                {isGiftEditable ? (
+                  <>
+                    {t(
+                      'edit-delivery-details-popup.info-text-1',
+                      'You are editing information for your'
                     )}
+                    <p>{t(`offer-title-${offerId}`, offerTitle)}</p>
+                    {t(
+                      'edit-delivery-details-popup.info-text-2',
+                      'Please take a moment to update your gift delivery details.'
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {isGiftSent
+                      ? t(
+                          'edit-delivery-details-popup.info-text-disabled',
+                          'It is not possible to edit delivery details as the gift has been already sent out to the recipient.'
+                        )
+                      : t(
+                          'edit-delivery-details-popup.info-text-disabled2',
+                          'It is not possible to edit delivery details as the gift will be sent to the recipient soon.'
+                        )}
+                  </>
+                )}
               </>
             )}
           </InfoTextStyled>
