@@ -28,7 +28,7 @@ const EditDeliveryDetailsPopup = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const [isUpdateLoading, setIsUpdateLoading] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
 
   const { recipientEmail, deliveryDate, message } = useAppSelector(
     selectDeliveryDetails
@@ -38,16 +38,14 @@ const EditDeliveryDetailsPopup = () => {
   );
 
   const {
-    gift: { sentAt, deliveryDetails: giftDeliveryDetails }
+    gift: { sentAt, deliveryDetails: giftDeliveryDetails },
+    isUpdateLoading
   } = useAppSelector(selectGift);
-
-  const [currentStep, setCurrentStep] = useState(1);
 
   const updateGift = async () => {
     const areDeliveryDetailsValid = validateDeliveryDetailsForm();
 
     if (areDeliveryDetailsValid) {
-      setIsUpdateLoading(true);
       await dispatch(
         fetchUpdateGift({
           id: giftId as number,
@@ -64,8 +62,6 @@ const EditDeliveryDetailsPopup = () => {
         .catch(err => {
           throw new Error(err);
         });
-
-      setIsUpdateLoading(false);
 
       setCurrentStep(2);
     }
