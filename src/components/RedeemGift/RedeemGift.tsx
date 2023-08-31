@@ -80,7 +80,6 @@ const RedeemGift = () => {
       <Header />
       <RedeemGiftWrapperStyled>
         <SectionHeader center paddingBottom="10px">
-          {/* add translation */}
           {t('redeem-gift.button.header', 'Redeem your gift')}
         </SectionHeader>
         <InputWrapperStyled>
@@ -102,7 +101,6 @@ const RedeemGift = () => {
             ) : (
               t('redeem-gift.button.verify', 'Verify')
             )}
-            {/* add translation */}
           </Button>
         </InputWrapperStyled>
         {showOffer && (
@@ -120,7 +118,6 @@ const RedeemGift = () => {
           ) : (
             t('redeem-gift.button.confirm', 'Confirm & proceed')
           )}
-          {/* add translation */}
         </Button>
       </RedeemGiftWrapperStyled>
       <Footer />

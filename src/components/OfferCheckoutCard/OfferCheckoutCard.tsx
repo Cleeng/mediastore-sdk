@@ -259,14 +259,12 @@ const OfferCheckoutCard = ({
   };
 
   const getRedeemGiftDescription = () => {
-    // add translations
-
-    if (redeemRefusalReason === 'EXTERNAL') {
-      return t(
-        'redeem-gift.description.refusal.external',
-        'Your subscription is managed through an external provider. You will be able to redeem your gift via web once your current subscription expires. '
-      );
-    }
+    // if (redeemRefusalReason === 'EXTERNAL') {
+    return t(
+      'redeem-gift.description.refusal.external',
+      'Your subscription is managed through an external provider. You will be able to redeem your gift via web once your current subscription expires.'
+    );
+    // }
 
     if (redeemRefusalReason === 'REDEEMED') {
       return t(
@@ -298,7 +296,7 @@ const OfferCheckoutCard = ({
 
     if (redeemMode === 'EXTEND') {
       return t(
-        'redeem-gift.description.existing-subscription',
+        `redeem-gift.description.existing-subscription.period-${period}`,
         `Your existing subscription will be extended for additional ${getReadablePeriod(
           period
         )} for free.`
