@@ -40,7 +40,7 @@ const EditDeliveryDetailsPopup = () => {
   );
 
   const {
-    gift: { sentAt, deliveryDetails: giftDeliveryDetails },
+    gift: { deliveryDetails: giftDeliveryDetails, redeemedAt, sentAt },
     isUpdateLoading,
     loading
   } = useAppSelector(selectGift);
@@ -83,9 +83,10 @@ const EditDeliveryDetailsPopup = () => {
 
   const isGiftEditable =
     isDateInFuture(new Date(giftDeliveryDetails?.deliveryDate * 1000)) &&
-    !sentAt;
+    !sentAt &&
+    !redeemedAt;
 
-  const isGiftSent = !!sentAt;
+  const isGiftSent = !!sentAt || !!redeemedAt;
 
   if (loading) {
     return (

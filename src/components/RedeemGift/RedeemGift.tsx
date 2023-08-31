@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { fetchRedeemGift, fetchVerifyGift, selectGift } from 'redux/giftSlice';
-import { fetchOffer } from 'redux/offerSlice';
+import { fetchOffer, selectOffer } from 'redux/offerSlice';
 import { ReactComponent as CheckmarkIcon } from 'assets/images/greenCheckmark.svg';
 import { getData } from 'util/appConfigHelper';
 import { LinkStyled } from 'components/ThankYouPage/ThankYouPageStyled';
@@ -37,6 +37,8 @@ const RedeemGift = () => {
     isVerifyLoading,
     verifiedGift: { redeemable }
   } = useAppSelector(selectGift);
+
+  const { loading: isOfferLoading } = useAppSelector(selectOffer);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setGiftCode(e.target.value);
@@ -76,6 +78,9 @@ const RedeemGift = () => {
     }
   }, [window.location.search]);
 
+  const isConfirmButtonDisabled =
+    !redeemable || isVerifyLoading || isOfferLoading;
+
   return (
     <WrapperStyled>
       <Header />
@@ -85,7 +90,6 @@ const RedeemGift = () => {
           <HeaderStyled>
             {t('redeem-gift.thank-you-page.header', 'Thank You!')}
           </HeaderStyled>
-
           <InfoTextStyled>
             <p>
               {t(
@@ -138,7 +142,7 @@ const RedeemGift = () => {
             </OfferWrapperStyled>
           )}
           <Button
-            disabled={!redeemable || isVerifyLoading}
+            disabled={isConfirmButtonDisabled}
             theme="confirm"
             onClickFn={handleRedeemGift}
           >
