@@ -54,7 +54,7 @@ export const ThankYouPageStyled = styled.div`
 
   > button {
     max-width: 320px;
-    margin-top: 112px;
+    margin-top: 96px;
   }
 `;
 
