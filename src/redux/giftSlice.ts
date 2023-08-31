@@ -8,7 +8,9 @@ export const initialState: GiftInitialState = {
   verifiedGift: {},
   loading: false,
   error: null,
-  isUpdateLoading: false
+  isUpdateLoading: false,
+  isVerifyLoading: false,
+  isRedeemLoading: false
 };
 
 export const fetchGift = createAsyncThunk<
@@ -108,15 +110,15 @@ export const giftSlice = createSlice({
       }
     });
     builder.addCase(fetchVerifyGift.pending, state => {
-      state.loading = true;
+      state.isVerifyLoading = true;
     });
     builder.addCase(fetchVerifyGift.fulfilled, (state, action) => {
-      state.loading = false;
+      state.isVerifyLoading = false;
       state.error = '';
       state.verifiedGift = action.payload;
     });
     builder.addCase(fetchVerifyGift.rejected, (state, action) => {
-      state.loading = false;
+      state.isVerifyLoading = false;
       state.verifiedGift = {};
 
       if (action.payload) {
@@ -125,13 +127,13 @@ export const giftSlice = createSlice({
       }
     });
     builder.addCase(fetchRedeemGift.pending, state => {
-      state.loading = true;
+      state.isRedeemLoading = true;
     });
     builder.addCase(fetchRedeemGift.fulfilled, state => {
-      state.loading = false;
+      state.isRedeemLoading = false;
     });
     builder.addCase(fetchRedeemGift.rejected, (state, action) => {
-      state.loading = false;
+      state.isRedeemLoading = false;
 
       if (action.payload) {
         state.error = action.payload;
