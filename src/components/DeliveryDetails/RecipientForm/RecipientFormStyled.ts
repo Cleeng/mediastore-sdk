@@ -17,27 +17,27 @@ export const StyledRecipientForm = styled.form.attrs(() => ({
   margin-top: 18px;
   padding: 24px 16px;
 
-  > div {
+  .msd__account-input__wrapper {
     margin-bottom: 2px;
-  }
 
-  .msd__error {
-    color: #cb4477;
-  }
+    .msd__account-input__label {
+      margin-bottom: 5px;
+    }
 
-  .msd__account-input__label {
-    margin-bottom: 5px;
-  }
+    .msd__account-input {
+      font-family: inherit;
+      font-size: 16px;
+      padding: 5px 8px;
+      height: 40px;
 
-  .msd__account-input {
-    font-family: inherit;
-    font-size: 16px;
-    padding: 5px 8px;
-    height: 40px;
+      &[value=''] {
+        color: rgb(112, 112, 112);
+        font-weight: 300;
+      }
+    }
 
-    &[value=''] {
-      color: rgb(112, 112, 112);
-      font-weight: 300;
+    .msd__error {
+      color: #cb4477;
     }
   }
 `;

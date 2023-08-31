@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import {
@@ -8,6 +8,7 @@ import {
 import { selectGift } from 'redux/giftSlice';
 import { POPUP_TYPES, selectPopupDetails } from 'redux/popupSlice';
 import MyAccountInput from 'components/MyAccountInput';
+import SkeletonWrapper from 'components/SkeletonWrapper';
 import {
   InfoText,
   MessageWrapper,
@@ -33,6 +34,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
   } = useAppSelector(selectDeliveryDetails);
 
   const {
+    loading,
     gift: { deliveryDetails: giftDeliveryDetails, sentAt }
   } = useAppSelector(selectGift);
   const { isOpen, currentType } = useAppSelector(selectPopupDetails);
@@ -117,80 +119,99 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
 
   return (
     <StyledRecipientForm noValidate>
-      <MyAccountInput
-        disabled={isFieldDisabled}
-        error={t(recipientEmail.translationKey, recipientEmail.error)}
-        label={t('recipientForm.label.recipient-email', 'Recipient email')}
-        name="recipientEmail"
-        onBlur={onBlur}
-        onChange={onChange}
-        placeholder={t(
-          'recipientForm.label.recipient-email',
-          'jdoe@cleeng.com'
-        )}
-        type="email"
-        value={shouldHideValue ? '' : recipientEmail.value}
-      />
-      {!isFieldDisabled && (
-        <MyAccountInput
-          error={t(
-            confirmRecipientEmail.translationKey,
-            confirmRecipientEmail.error
+      {loading ? (
+        <>
+          <>
+            <SkeletonWrapper width={100} margin="0 0 12px 0" />
+            <SkeletonWrapper height={40} margin="0 0 28px 0" />
+          </>
+          <>
+            <SkeletonWrapper width={100} margin="0 0 12px 0" />
+            <SkeletonWrapper height={40} margin="0 0 28px 0" />
+          </>
+          <>
+            <SkeletonWrapper width={100} margin="0 0 12px 0" />
+            <SkeletonWrapper height={92} margin="0 0 28px 0" />
+          </>
+        </>
+      ) : (
+        <>
+          <MyAccountInput
+            disabled={isFieldDisabled}
+            error={t(recipientEmail.translationKey, recipientEmail.error)}
+            label={t('recipientForm.label.recipient-email', 'Recipient email')}
+            name="recipientEmail"
+            onBlur={onBlur}
+            onChange={onChange}
+            placeholder={t(
+              'recipientForm.label.recipient-email',
+              'jdoe@cleeng.com'
+            )}
+            type="email"
+            value={shouldHideValue ? '' : recipientEmail.value}
+          />
+          {!isFieldDisabled && (
+            <MyAccountInput
+              error={t(
+                confirmRecipientEmail.translationKey,
+                confirmRecipientEmail.error
+              )}
+              label={t(
+                'recipientForm.label.confirm-recipient-email',
+                'Confirm recipient email'
+              )}
+              name="confirmRecipientEmail"
+              onBlur={onBlur}
+              onChange={onChange}
+              placeholder={t(
+                'recipientForm.label.confirm-recipient-email',
+                'jdoe@cleeng.com'
+              )}
+              type="email"
+              value={shouldHideValue ? '' : confirmRecipientEmail.value}
+            />
           )}
-          label={t(
-            'recipientForm.label.confirm-recipient-email',
-            'Confirm recipient email'
+          <MyAccountInput
+            disabled={isFieldDisabled}
+            error={t(deliveryDate.translationKey, deliveryDate.error)}
+            label={t('recipientForm.label.delivery-date', 'Delivery date')}
+            min={new Date().toISOString().split('T')[0]}
+            name="deliveryDate"
+            onBlur={onBlur}
+            onChange={onChange}
+            type="date"
+            value={shouldHideValue ? '' : deliveryDate.value}
+          />
+          <MessageWrapper>
+            <StyledLabel>
+              {isFieldDisabled ? (
+                <>{t('recipientForm.label.message', 'Message')}</>
+              ) : (
+                <>{t('recipientForm.label.add-message', 'Add a message')}</>
+              )}
+            </StyledLabel>
+            <StyledMessage
+              disabled={isFieldDisabled}
+              maxLength={150}
+              name="message"
+              onChange={onChange}
+              placeholder={t(
+                'recipientForm.placeholder.message',
+                'I’d give you the gift of never having to leave the house again! Enjoy your new subscription plan. Happy streaming!'
+              )}
+              rows={3}
+              value={shouldHideValue ? '' : message.value}
+            />
+          </MessageWrapper>
+          {!isMyAccount && (
+            <InfoText>
+              {t(
+                'recipientForm.info-text',
+                'To edit your gift delivery details, access MyAccount and click on the corresponding transaction.'
+              )}
+            </InfoText>
           )}
-          name="confirmRecipientEmail"
-          onBlur={onBlur}
-          onChange={onChange}
-          placeholder={t(
-            'recipientForm.label.confirm-recipient-email',
-            'jdoe@cleeng.com'
-          )}
-          type="email"
-          value={shouldHideValue ? '' : confirmRecipientEmail.value}
-        />
-      )}
-      <MyAccountInput
-        disabled={isFieldDisabled}
-        error={t(deliveryDate.translationKey, deliveryDate.error)}
-        label={t('recipientForm.label.delivery-date', 'Delivery date')}
-        min={new Date().toISOString().split('T')[0]}
-        name="deliveryDate"
-        onBlur={onBlur}
-        onChange={onChange}
-        type="date"
-        value={shouldHideValue ? '' : deliveryDate.value}
-      />
-      <MessageWrapper>
-        <StyledLabel>
-          {isFieldDisabled ? (
-            <>{t('recipientForm.label.message', 'Message')}</>
-          ) : (
-            <>{t('recipientForm.label.add-message', 'Add a message')}</>
-          )}
-        </StyledLabel>
-        <StyledMessage
-          disabled={isFieldDisabled}
-          maxLength={150}
-          name="message"
-          onChange={onChange}
-          placeholder={t(
-            'recipientForm.placeholder.message',
-            'I’d give you the gift of never having to leave the house again! Enjoy your new subscription plan. Happy streaming!'
-          )}
-          rows={3}
-          value={shouldHideValue ? '' : message.value}
-        />
-      </MessageWrapper>
-      {!isMyAccount && (
-        <InfoText>
-          {t(
-            'recipientForm.info-text',
-            'To edit your gift delivery details, access MyAccount and click on the corresponding transaction.'
-          )}
-        </InfoText>
+        </>
       )}
     </StyledRecipientForm>
   );

@@ -22,10 +22,11 @@ export const InsideWrapperStyled = styled.li.attrs(() => ({
 }))`
   display: flex;
   justify-content: space-between;
-  flex-wrap: no-wrap;
+  flex-wrap: wrap;
 
   padding: 18px 0;
   border-bottom: 1px solid ${LineColor};
+  gap: 6px;
 
   &:first-child {
     padding: 0 0 18px 0;
@@ -62,15 +63,9 @@ export const RightBoxStyled = styled.div`
   flex-direction: column;
   justify-content: space-between;
   flex-shrink: 0;
-  margin-inline-start: 20px;
+  margin-inline-start: 56px;
   text-align: end;
   justify-content: center;
-
-  ${media.small`
-    text-align: start;
-    margin-inline-start: 56px;
-    margin-top: 6px;
-  `}
 `;
 
 export const TitleStyled = styled.h3.attrs(() => ({
