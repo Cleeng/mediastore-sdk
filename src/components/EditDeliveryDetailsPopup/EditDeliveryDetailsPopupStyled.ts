@@ -11,6 +11,7 @@ export const ContentStyled = styled.div.attrs(() => ({
 
   margin: auto;
   width: 80%;
+  max-width: 376px;
 
   form {
     border: unset;

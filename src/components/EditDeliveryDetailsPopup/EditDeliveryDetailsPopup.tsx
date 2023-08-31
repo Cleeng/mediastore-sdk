@@ -86,6 +86,30 @@ const EditDeliveryDetailsPopup = () => {
 
   const isGiftSent = !!sentAt;
 
+  if (loading) {
+    return (
+      <InnerPopupWrapper
+        steps={2}
+        isError={false}
+        currentStep={1}
+        popupTitle={t(
+          'edit-delivery-details-popup.title',
+          'Edit Delivery Details'
+        )}
+      >
+        <ContentStyled>
+          <HeaderStyled>
+            {t('edit-delivery-details-popup.header', 'Edit Delivery Details')}
+          </HeaderStyled>
+          <InfoTextStyled>
+            <SkeletonWrapper height={32} margin="0 0 24px 0" />
+          </InfoTextStyled>
+          <RecipientForm isMyAccount />
+        </ContentStyled>
+      </InnerPopupWrapper>
+    );
+  }
+
   if (currentStep === 1) {
     return (
       <InnerPopupWrapper
@@ -102,37 +126,31 @@ const EditDeliveryDetailsPopup = () => {
             {t('edit-delivery-details-popup.header', 'Edit Delivery Details')}
           </HeaderStyled>
           <InfoTextStyled>
-            <SkeletonWrapper
-              height={32}
-              margin="0 0 24px 0"
-              showChildren={!loading}
-            >
-              {isGiftEditable ? (
-                <>
-                  {t(
-                    'edit-delivery-details-popup.info-text-1',
-                    'You are editing information for your'
-                  )}
-                  <p>{t(`offer-title-${offerId}`, offerTitle)}</p>
-                  {t(
-                    'edit-delivery-details-popup.info-text-2',
-                    'Please take a moment to update your gift delivery details.'
-                  )}
-                </>
-              ) : (
-                <>
-                  {isGiftSent
-                    ? t(
-                        'edit-delivery-details-popup.info-text-disabled',
-                        'It is not possible to edit delivery details as the gift has been already sent out to the recipient.'
-                      )
-                    : t(
-                        'edit-delivery-details-popup.info-text-disabled2',
-                        'It is not possible to edit delivery details as the gift will be sent to the recipient soon.'
-                      )}
-                </>
-              )}
-            </SkeletonWrapper>
+            {isGiftEditable ? (
+              <>
+                {t(
+                  'edit-delivery-details-popup.info-text-1',
+                  'You are editing information for your'
+                )}
+                <p>{t(`offer-title-${offerId}`, offerTitle)}</p>
+                {t(
+                  'edit-delivery-details-popup.info-text-2',
+                  'Please take a moment to update your gift delivery details.'
+                )}
+              </>
+            ) : (
+              <>
+                {isGiftSent
+                  ? t(
+                      'edit-delivery-details-popup.info-text-disabled',
+                      'It is not possible to edit delivery details as the gift has been already sent out to the recipient.'
+                    )
+                  : t(
+                      'edit-delivery-details-popup.info-text-disabled2',
+                      'It is not possible to edit delivery details as the gift will be sent to the recipient soon.'
+                    )}
+              </>
+            )}
           </InfoTextStyled>
           <RecipientForm isMyAccount />
           <ButtonsStyled>
