@@ -22,8 +22,8 @@ export type VerifiedGift = {
 };
 
 export type GiftInitialState = {
-  gift: Gift | Record<string, never>;
-  verifiedGift: VerifiedGift | Record<string, never>;
-  loading: boolean;
   error: string | null | undefined;
+  gift: Gift | Record<string, never>;
+  isUpdateLoading: boolean;
+  loading: boolean;
 };

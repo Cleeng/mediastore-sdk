@@ -11,10 +11,7 @@ export const ContentStyled = styled.div.attrs(() => ({
 
   margin: auto;
   width: 80%;
-
-  .msd__spinner {
-    margin-top: 24px;
-  }
+  max-width: 376px;
 
   form {
     border: unset;
@@ -72,6 +69,8 @@ export const InfoTextStyled = styled.div`
   text-align: center;
   max-width: 380px;
   color: ${FontColor};
+  width: 100%;
+  max-width: 300px;
 
   p {
     text-align: center;
