@@ -79,7 +79,7 @@ const EmptyPlanView = () => {
   );
 };
 
-const supportedPaymentGateways = ['paypal', 'card', 'adyen'];
+const supportedPaymentGateways = ['paypal', 'card', 'adyen', 'gift'];
 
 const CurrentPlan = () => {
   const [isMessageBoxOpened, setIsMessageBoxOpened] = useState(false);

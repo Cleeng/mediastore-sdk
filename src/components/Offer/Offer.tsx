@@ -58,7 +58,7 @@ const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
           </SectionHeader>
           <StyledOfferDetailsAndCoupon>
             <OfferCardWrapperStyled>
-              <OfferCheckoutCard />
+              <OfferCheckoutCard isRedeemGift={false} />
             </OfferCardWrapperStyled>
             <StyledOfferCouponWrapper>
               <CouponInput
