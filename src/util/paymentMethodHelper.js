@@ -7,6 +7,7 @@ import { ReactComponent as IdealLogo } from 'assets/images/paymentMethods/ideal-
 import { ReactComponent as SofortLogo } from 'assets/images/paymentMethods/sofort-small.svg';
 import { ReactComponent as BancontactLogo } from 'assets/images/paymentMethods/bancontact-small.svg';
 import { currencyFormat, isPeriod, periodMapper } from './planHelper';
+import formatNumber from './formatNumber';
 
 export const supportedPaymentMethods = [
   'card',
@@ -110,21 +111,19 @@ export const getAvailablePaymentMethods = (
 };
 
 export const getStandardCopy = (isMyAccount, offer, order) => {
-  const { period: offerPeriod } = offer;
+  const { period: offerPeriod, customerPriceExclTax: offerBasePrice } = offer;
 
-  const {
-    discount,
-    currency,
-    priceBreakdown: { offerPrice },
-    offerId
-  } = order;
+  const { discount, currency, offerId } = order;
 
   const isSubscription = offerId?.charAt(0) === 'S';
   const chargedForEveryText =
     offerPeriod && isPeriod(offerPeriod)
       ? periodMapper[offerPeriod].chargedForEveryText
       : null;
-  const readablePrice = `${currencyFormat[currency]}${offerPrice}`;
+
+  const readablePrice = `${currencyFormat[currency]}${formatNumber(
+    offerBasePrice
+  )}`;
   const readablePeriod = chargedForEveryText ? `/${chargedForEveryText}` : '';
 
   if (isMyAccount) {

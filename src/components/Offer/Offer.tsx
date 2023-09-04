@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'redux/store';
 import CouponInput from 'components/CouponInput';
@@ -38,8 +38,13 @@ const Offer = ({
     totalPrice,
     discount: { applied: discountApplied }
   } = useAppSelector(selectOnlyOrder);
+  const { couponCode } = couponDetails;
 
   const isFree = totalPrice === 0 && !discountApplied;
+
+  useEffect(() => {
+    setCoupon(couponCode);
+  }, [couponCode]);
 
   if (isFree) {
     return (
