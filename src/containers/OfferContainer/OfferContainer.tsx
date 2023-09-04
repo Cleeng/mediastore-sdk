@@ -42,7 +42,8 @@ const OfferContainer = ({
   adyenConfiguration: adyenConfigurationProp,
   couponCode: couponCodeProp,
   offerId: offerIdProp,
-  onSuccess
+  onSuccess,
+  onRedeemClick
 }: OfferContainerProps) => {
   const [errorMsg, setErrorMsg] = useState<string>();
 
@@ -227,7 +228,11 @@ const OfferContainer = ({
   }
 
   return (
-    <Offer onCouponSubmit={onCouponSubmit} onPaymentComplete={onSuccess} />
+    <Offer
+      onCouponSubmit={onCouponSubmit}
+      onPaymentComplete={onSuccess}
+      onRedeemClick={onRedeemClick}
+    />
   );
 };
 

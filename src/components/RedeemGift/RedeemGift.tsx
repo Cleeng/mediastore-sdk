@@ -23,7 +23,12 @@ import {
   WrapperStyled
 } from './RedeemGift.styled';
 
-const RedeemGift = () => {
+type RedeemGiftProps = {
+  onBackClick: () => void;
+  onSuccess: (...args: unknown[]) => void;
+};
+
+const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
   const [giftCode, setGiftCode] = useState('');
   const [showOffer, setShowOffer] = useState(false);
   const [isGiftRedeemed, setIsGiftRedeemed] = useState(false);
@@ -78,12 +83,23 @@ const RedeemGift = () => {
     }
   }, [window.location.search]);
 
+  useEffect(() => {
+    let timer: ReturnType<typeof setTimeout>;
+
+    if (isGiftRedeemed) {
+      timer = setTimeout(() => {
+        onSuccess();
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [isGiftRedeemed]);
+
   const isConfirmButtonDisabled =
     !redeemable || isVerifyLoading || isOfferLoading;
 
   return (
     <WrapperStyled>
-      <Header />
+      <Header onBackClick={onBackClick} />
       {isGiftRedeemed ? (
         <ThankYouPageStyled>
           <CheckmarkIcon />

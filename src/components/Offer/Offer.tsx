@@ -9,6 +9,7 @@ import Footer from 'components/Footer';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
 import DeliveryDetails from 'components/DeliveryDetails';
+import Button from 'components/Button';
 import { selectOrder, selectOnlyOrder } from 'redux/orderSlice';
 import { selectOffer } from 'redux/offerSlice';
 import {
@@ -21,7 +22,11 @@ import {
 import OfferCheckoutCard from '../OfferCheckoutCard';
 import { OfferProps } from './Offer.types';
 
-const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
+const Offer = ({
+  onCouponSubmit,
+  onPaymentComplete,
+  onRedeemClick
+}: OfferProps) => {
   const { t } = useTranslation();
   const [coupon, setCoupon] = useState('');
   const { isCouponLoading, couponDetails } = useAppSelector(selectOrder);
@@ -69,6 +74,9 @@ const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
                 couponLoading={isCouponLoading}
                 couponDetails={couponDetails}
               />
+              <Button onClickFn={onRedeemClick} type="submit" width="auto">
+                Redeem gift
+              </Button>
             </StyledOfferCouponWrapper>
           </StyledOfferDetailsAndCoupon>
           <CheckoutPriceBox />

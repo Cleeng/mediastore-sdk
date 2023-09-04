@@ -130,6 +130,9 @@ class Checkout extends Component {
             offerId={offerId}
             couponCode={couponCode}
             onSuccess={() => this.goToStep(CheckoutSteps.PURCHASE.nextStep)}
+            onRedeemClick={() =>
+              this.goToStep(CheckoutSteps.REDEEM_GIFT.stepNumber)
+            }
           />
         );
       case 5:
@@ -150,7 +153,14 @@ class Checkout extends Component {
           />
         );
       case 8:
-        return <RedeemGift />;
+        return (
+          <RedeemGift
+            onBackClick={() => {
+              this.goToStep(CheckoutSteps.PURCHASE.stepNumber);
+            }}
+            onSuccess={() => onSuccess()}
+          />
+        );
       default:
         return null;
     }

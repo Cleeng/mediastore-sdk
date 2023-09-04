@@ -259,41 +259,6 @@ const OfferCheckoutCard = ({
   };
 
   const getRedeemGiftDescription = () => {
-    if (redeemRefusalReason === 'EXTERNAL') {
-      return t(
-        'redeem-gift.description.refusal.external',
-        'Your subscription is managed through an external provider. You will be able to redeem your gift via web once your current subscription expires.'
-      );
-    }
-
-    if (redeemRefusalReason === 'REDEEMED') {
-      return t(
-        'redeem-gift.description.refusal.redeemed',
-        'The gift code has already been redeemed.'
-      );
-    }
-
-    if (redeemRefusalReason === 'INACTIVE_OFFER') {
-      return t(
-        'redeem-gift.description.refusal.offer-inactive',
-        'The offer you’re trying to purchase is inactive.'
-      );
-    }
-
-    if (redeemRefusalReason === 'GEORESTRICTED') {
-      return t(
-        'redeem-gift.description.refusal.georestricted',
-        'The gift can’t be redeemed due to the offer geo-restrictions.'
-      );
-    }
-
-    if (redeemRefusalReason === 'RECURRING_PROCESS_ALREADY_STARTED') {
-      return t(
-        'redeem-gift.description.refusal.recurring',
-        'The gift code can’t be redeemed as your payment is now being processed.'
-      );
-    }
-
     if (redeemMode === 'EXTEND') {
       return t(
         `redeem-gift.description.existing-subscription.period-${period}`,
@@ -303,7 +268,40 @@ const OfferCheckoutCard = ({
       );
     }
 
-    return '';
+    switch (redeemRefusalReason) {
+      case 'EXTERNAL':
+        return t(
+          'redeem-gift.description.refusal.external',
+          'Your subscription is managed through an external provider. You will be able to redeem your gift via web once your current subscription expires.'
+        );
+
+      case 'REDEEMED':
+        return t(
+          'redeem-gift.description.refusal.redeemed',
+          'The gift code has already been redeemed.'
+        );
+
+      case 'INACTIVE_OFFER':
+        return t(
+          'redeem-gift.description.refusal.offer-inactive',
+          'The offer you’re trying to purchase is inactive.'
+        );
+
+      case 'GEORESTRICTED':
+        return t(
+          'redeem-gift.description.refusal.georestricted',
+          'The gift can’t be redeemed due to the offer geo-restrictions.'
+        );
+
+      case 'RECURRING_PROCESS_ALREADY_STARTED':
+        return t(
+          'redeem-gift.description.refusal.recurring',
+          'The gift code can’t be redeemed as your payment is now being processed.'
+        );
+
+      default:
+        return '';
+    }
   };
 
   return (

@@ -5,4 +5,5 @@ export type OfferContainerProps = {
   couponCode?: string;
   offerId: string;
   onSuccess: (...args: unknown[]) => void;
+  onRedeemClick: () => void;
 };
