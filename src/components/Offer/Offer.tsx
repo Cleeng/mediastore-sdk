@@ -79,10 +79,10 @@ const Offer = ({
                 couponLoading={isCouponLoading}
                 couponDetails={couponDetails}
               />
-              <Button onClickFn={onRedeemClick} type="submit" width="auto">
-                Redeem gift
-              </Button>
             </StyledOfferCouponWrapper>
+            <Button onClickFn={onRedeemClick} type="submit" width="auto">
+              Redeem gift
+            </Button>
           </StyledOfferDetailsAndCoupon>
           <CheckoutPriceBox />
         </StyledOfferBody>
