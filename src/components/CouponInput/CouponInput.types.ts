@@ -11,6 +11,7 @@ export type CouponInputProps = {
   value: string;
   fullWidth?: boolean;
   couponDetails: {
+    couponCode: string;
     showMessage: boolean;
     message: string;
     messageType: MessageType;

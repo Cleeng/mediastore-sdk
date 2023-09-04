@@ -121,11 +121,14 @@ const OfferCheckoutCard = () => {
 
   const generateCouponDescription = () => {
     const formattedTotalPrice = formatNumber(totalPrice);
-    const regularPrice = calculateGrossPriceForFreeOffer(
-      offerPrice,
-      taxRate,
-      customerPriceInclTax
-    );
+    const regularPrice =
+      period === 'season'
+        ? formatNumber(customerPriceInclTax)
+        : calculateGrossPriceForFreeOffer(
+            offerPrice,
+            taxRate,
+            customerPriceInclTax
+          );
     if (discountedPeriods === 1) {
       return t(
         `subscription-desc-coupon-${period}`,
