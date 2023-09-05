@@ -6,7 +6,8 @@ import { RootState } from './rootReducer';
 export const initialState: GiftInitialState = {
   gift: {},
   loading: false,
-  error: null
+  error: null,
+  isUpdateLoading: false
 };
 
 export const fetchGift = createAsyncThunk<
@@ -60,14 +61,14 @@ export const giftSlice = createSlice({
       }
     });
     builder.addCase(fetchUpdateGift.pending, state => {
-      state.loading = true;
+      state.isUpdateLoading = true;
     });
     builder.addCase(fetchUpdateGift.fulfilled, (state, action) => {
-      state.loading = false;
+      state.isUpdateLoading = false;
       state.gift = action.payload;
     });
     builder.addCase(fetchUpdateGift.rejected, (state, action) => {
-      state.loading = false;
+      state.isUpdateLoading = false;
       if (action.payload) {
         state.error = action.payload;
       }
