@@ -9,7 +9,6 @@ import Footer from 'components/Footer';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
 import DeliveryDetails from 'components/DeliveryDetails';
-import Button from 'components/Button';
 import { selectOrder, selectOnlyOrder } from 'redux/orderSlice';
 import { selectOffer } from 'redux/offerSlice';
 import {
@@ -80,11 +79,8 @@ const Offer = ({
                 couponDetails={couponDetails}
               />
             </StyledOfferCouponWrapper>
-            <Button onClickFn={onRedeemClick} type="submit" width="auto">
-              Redeem gift
-            </Button>
           </StyledOfferDetailsAndCoupon>
-          <CheckoutPriceBox />
+          <CheckoutPriceBox onRedeemClick={onRedeemClick} />
         </StyledOfferBody>
         {giftable && <DeliveryDetails giftable={giftable} />}
         <Payment onPaymentComplete={onPaymentComplete} />
