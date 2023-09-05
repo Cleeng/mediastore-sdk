@@ -4,8 +4,8 @@ import { useAppSelector } from 'redux/store';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import { selectOnlyOffer } from 'redux/offerSlice';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
-import Button from 'components/Button';
 import { getStandardCopy } from 'util/paymentMethodHelper';
+import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
 import {
   PayPalContentStyled,
