@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import { ReactComponent as CardLogo } from 'assets/images/paymentMethods/card.svg';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PPicon.svg';
 import { ReactComponent as ApplePayLogo } from 'assets/images/paymentMethods/applePay.svg';
@@ -5,6 +6,8 @@ import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/go
 import { ReactComponent as IdealLogo } from 'assets/images/paymentMethods/ideal-small.svg';
 import { ReactComponent as SofortLogo } from 'assets/images/paymentMethods/sofort-small.svg';
 import { ReactComponent as BancontactLogo } from 'assets/images/paymentMethods/bancontact-small.svg';
+import { currencyFormat, isPeriod, periodMapper } from './planHelper';
+import formatNumber from './formatNumber';
 
 export const supportedPaymentMethods = [
   'card',
@@ -23,6 +26,15 @@ export const bankPaymentMethods = [
   'directEbanking', // Sofort name in Adyen
   'bancontact_mobile', // Bancontact Mobile name in cleeng-admin
   'bcmc_mobile' // Bancontact Mobile name in Adyen
+];
+
+export const standardPaymentMethods = [
+  'card',
+  'scheme',
+  'applepay',
+  'googlepay',
+  'bancontact_card',
+  'bcmc'
 ];
 
 export const bankPaymentMethodsMapper = {
@@ -96,4 +108,62 @@ export const getAvailablePaymentMethods = (
     : publisherPaymentMethods;
 
   return availablePaymentMethods;
+};
+
+export const getStandardCopy = (isMyAccount, offer, order) => {
+  const { period: offerPeriod, customerPriceExclTax: offerBasePrice } = offer;
+
+  const { discount, currency, offerId } = order;
+
+  const isSubscription = offerId?.charAt(0) === 'S';
+  const chargedForEveryText =
+    offerPeriod && isPeriod(offerPeriod)
+      ? periodMapper[offerPeriod].chargedForEveryText
+      : null;
+
+  const readablePrice = `${currencyFormat[currency]}${formatNumber(
+    offerBasePrice
+  )}`;
+  const readablePeriod = chargedForEveryText ? `/${chargedForEveryText}` : '';
+
+  if (isMyAccount) {
+    // TODO: add link to T&C
+    return i18n.t(
+      'offer-standard-consent-copy.my-account',
+      'By ticking this, you agree to the Terms and Conditions of our service. Your account will be charged on a recurring basis for the full subscription amount. Your subscription will continue until you cancel.'
+    );
+  }
+
+  if (isSubscription) {
+    if (discount?.applied && discount.type === 'trial') {
+      // TODO: add link to T&C
+      return i18n.t(
+        `offer-standard-consent-copy.trial.period-${offerPeriod}`,
+        "After any free trial and/or promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Cancel'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
+        { readablePrice, readablePeriod }
+      );
+    }
+
+    if (discount?.applied && discount.type !== 'trial') {
+      // TODO: add link to T&C
+      return i18n.t(
+        `offer-standard-consent-copy.discount.period-${offerPeriod}`,
+        "After any promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Cancel'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
+        { readablePrice, readablePeriod }
+      );
+    }
+
+    // TODO: add link to T&C
+    return i18n.t(
+      `offer-standard-consent-copy.checkout-subscription.period-${offerPeriod}`,
+      "You will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click ‘Cancel.’ By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
+      { readablePrice, readablePeriod }
+    );
+  }
+
+  return i18n.t(
+    // TODO: add link to T&C
+    'offer-standard-consent-copy.checkout-not-subscription',
+    'By ticking this, you agree to the Terms and Conditions of our service.'
+  );
 };
