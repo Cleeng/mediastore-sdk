@@ -36,7 +36,6 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
       dispatch(setIsGift(true));
     }
 
-    // should cleanup be used with non-empty dependency array?
     return () => {
       dispatch(resetDeliveryDetailsState());
     };
@@ -61,7 +60,6 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
                 'Purchase for myself'
               )}
             </>
-            Purchase for myself
           </StyledButton>
           <StyledButton
             isActive={isGift}
@@ -70,7 +68,6 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
           >
             <GiftIcon />
             {t('deliverydetails.button.purchase-as-gift', 'Purchase as a gift')}
-            Purchase as a gift
           </StyledButton>
         </ButtonsContainer>
         <>{isGift && <RecipientForm />}</>

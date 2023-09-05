@@ -136,7 +136,7 @@ class Checkout extends Component {
           />
         );
       case 5:
-        return <ThankYouPage onSuccess={() => onSuccess()} />;
+        return <ThankYouPage onSuccess={onSuccess} />;
       case 6:
         return (
           <PasswordReset
@@ -158,7 +158,7 @@ class Checkout extends Component {
             onBackClick={() => {
               this.goToStep(CheckoutSteps.PURCHASE.stepNumber);
             }}
-            onSuccess={() => onSuccess()}
+            onSuccess={onSuccess}
           />
         );
       default:
