@@ -96,6 +96,8 @@
   "delete-payment-method.renewal-info": "Any subscriptions connected with this payment method will not be renewed, unless another payment method is added.",
   "delete-payment-method.resign-button": "No, thanks",
   "delete-payment-method.title": "Remove payment method?",
+  "deliverydetails.button.purchase-as-gift": "Purchase as a gift",
+  "deliverydetails.button.purchase-for-myself": "Purchase for myself",
   "deliverydetails.title": "Delivery details",
   "downgrade": "downgrade",
   "E-mail": "E-mail",

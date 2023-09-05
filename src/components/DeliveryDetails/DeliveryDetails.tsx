@@ -55,6 +55,12 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
             disabled={accessGranted}
           >
             <CardIcon />
+            <>
+              {t(
+                'deliverydetails.button.purchase-for-myself',
+                'Purchase for myself'
+              )}
+            </>
             Purchase for myself
           </StyledButton>
           <StyledButton
@@ -63,6 +69,7 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
             disabled={!giftable}
           >
             <GiftIcon />
+            {t('deliverydetails.button.purchase-as-gift', 'Purchase as a gift')}
             Purchase as a gift
           </StyledButton>
         </ButtonsContainer>
