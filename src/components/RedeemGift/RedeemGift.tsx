@@ -1,11 +1,9 @@
 import { useEffect, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { fetchRedeemGift, fetchVerifyGift, selectGift } from 'redux/giftSlice';
 import { fetchOffer, selectOffer } from 'redux/offerSlice';
-import { ReactComponent as CheckmarkIcon } from 'assets/images/greenCheckmark.svg';
-import { getData } from 'util/appConfigHelper';
-import { LinkStyled } from 'components/ThankYouPage/ThankYouPageStyled';
+
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Button from 'components/Button';
@@ -13,13 +11,11 @@ import SectionHeader from 'components/SectionHeader';
 import MyAccountInput from 'components/MyAccountInput';
 import OfferCheckoutCard from 'components/OfferCheckoutCard';
 import Loader from 'components/Loader';
+import ThankYouPage from './ThankYouPage';
 import {
-  HeaderStyled,
-  InfoTextStyled,
   InputWrapperStyled,
   OfferWrapperStyled,
   RedeemGiftWrapperStyled,
-  ThankYouPageStyled,
   WrapperStyled
 } from './RedeemGift.styled';
 
@@ -49,14 +45,12 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
     setGiftCode(e.target.value);
 
   const handleVerifyGift = async () => {
-    const resultVerifyGiftAction = await dispatch(fetchVerifyGift(giftCode))
+    const { offerId } = await dispatch(fetchVerifyGift(giftCode))
       .unwrap()
       .catch(err => {
         setShowOffer(false);
         throw new Error(err);
       });
-
-    const { offerId } = resultVerifyGiftAction;
 
     if (offerId) {
       setShowOffer(true);
@@ -101,31 +95,7 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
     <WrapperStyled>
       <Header onBackClick={onBackClick} />
       {isGiftRedeemed ? (
-        <ThankYouPageStyled>
-          <CheckmarkIcon />
-          <HeaderStyled>
-            {t('redeem-gift.thank-you-page.header', 'Thank You!')}
-          </HeaderStyled>
-          <InfoTextStyled>
-            <p>
-              {t(
-                'redeem-gift.thank-you-page.manage-text1',
-                'Your gift have been successfully redeemed.'
-              )}
-            </p>
-            <Trans i18nKey="redeem-gift.thank-you-page.manage-text2">
-              We hope you love it. If you need help from us with your account,
-              you can always find it
-              <LinkStyled
-                href={getData('CLEENG_MY_ACCOUNT_URL')}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                here.
-              </LinkStyled>
-            </Trans>
-          </InfoTextStyled>
-        </ThankYouPageStyled>
+        <ThankYouPage />
       ) : (
         <RedeemGiftWrapperStyled>
           <SectionHeader center paddingBottom="10px">

@@ -74,6 +74,16 @@ const OfferCheckoutCard = ({
 
   const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 
+  const priceValue =
+    discountType === 'coupon' && totalPrice !== 0
+      ? Number(totalPrice)
+      : Number(grossPrice);
+
+  const periodValue =
+    offerType === 'S' && period !== 'season'
+      ? t(`offer-price.period-${period}`, period)
+      : null;
+
   const generateTrialDescription = () => {
     if (period === 'season' && freeDays) {
       const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days and will be renewed on the next season start date.`;
@@ -344,16 +354,8 @@ const OfferCheckoutCard = ({
             )}
             <Price
               currency={currencyFormat[currency]}
-              price={
-                discountType === 'coupon' && totalPrice !== 0
-                  ? Number(totalPrice)
-                  : Number(grossPrice)
-              }
-              period={
-                offerType === 'S' && period !== 'season'
-                  ? t(`offer-price.period-${period}`, period)
-                  : null
-              }
+              price={priceValue}
+              period={periodValue}
             />
           </SkeletonWrapper>
         </PriceWrapperStyled>

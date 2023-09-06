@@ -54,7 +54,6 @@ export const fetchVerifyGift = createAsyncThunk<
 >('gift/verifyGift', async (giftCode: string, { rejectWithValue }) => {
   try {
     const result = await verifyGift(giftCode);
-
     return result;
   } catch (err) {
     const typedError = err as Error;
