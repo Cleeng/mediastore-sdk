@@ -51,7 +51,7 @@ export const ThankYouPageStyled = styled.div`
 
   > button {
     max-width: 320px;
-    margin-top: 96px;
+    margin-top: 80px;
   }
 `;
 
@@ -76,6 +76,18 @@ export const InfoTextStyled = styled.div`
     margin-bottom: 24px;
   }
 `;
+
 export const InfoTextSkeletonStyled = styled(InfoTextStyled)`
   max-width: 300px;
+`;
+
+export const ErrorPageStyled = styled(ThankYouPageStyled)``;
+
+export const ErrorTextStyled = styled.div`
+  font-size: 15px;
+  font-weight: 300;
+  text-align: center;
+  max-width: 420px;
+  margin: 5px 0;
+  color: ${FontColor};
 `;
