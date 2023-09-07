@@ -1,7 +1,7 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import formatNumber from 'util/formatNumber';
-import { useTranslation } from 'react-i18next';
 import { currencyFormat } from 'util/planHelper';
 import calculateTaxValueForFreeOffer from 'util/calculateTaxValueForFreeOffer';
 import { useAppSelector } from 'redux/store';
@@ -23,7 +23,7 @@ import {
   StyledRedeemButton
 } from './CheckoutPriceBoxStyled';
 
-const CheckoutPriceBox = ({ onRedeemClick }) => {
+const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
   const { customerPriceInclTax, period } = useAppSelector(selectOnlyOffer);
   const {
     priceBreakdown: {
@@ -135,7 +135,6 @@ const CheckoutPriceBox = ({ onRedeemClick }) => {
             </span>
           </StyledOfferPrice>
         </StyledPriceWrapper>
-
         {isCouponApplied && (
           <StyledPriceWrapper>
             <CouponNoteOuterWrapper>
@@ -154,7 +153,6 @@ const CheckoutPriceBox = ({ onRedeemClick }) => {
             </CouponNoteOuterWrapper>
           </StyledPriceWrapper>
         )}
-
         <StyledPriceWrapper>
           <StyledLabel>
             {country === 'US'
@@ -176,7 +174,6 @@ const CheckoutPriceBox = ({ onRedeemClick }) => {
             )}
           </StyledOfferPrice>
         </StyledPriceWrapper>
-
         {customerServiceFee !== 0 && (
           <StyledPriceWrapper>
             <StyledLabel>
@@ -187,7 +184,6 @@ const CheckoutPriceBox = ({ onRedeemClick }) => {
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
-
         {paymentMethodFee !== 0 && (
           <StyledPriceWrapper>
             <StyledLabel>
@@ -198,7 +194,6 @@ const CheckoutPriceBox = ({ onRedeemClick }) => {
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
-
         <StyledPriceWrapper>
           <StyledTotalWrapper>
             <StyledTotalLabel>
@@ -209,24 +204,27 @@ const CheckoutPriceBox = ({ onRedeemClick }) => {
             </StyledTotalOfferPrice>
           </StyledTotalWrapper>
         </StyledPriceWrapper>
-
-        <StyledRedeemButton>
-          <span>Have a gift code?</span>
-          <LinkStyled as="button" onClick={onRedeemClick}>
-            Redeem here
-          </LinkStyled>
-        </StyledRedeemButton>
+        {isCheckout && (
+          <StyledRedeemButton>
+            <span>Have a gift code?</span>
+            <LinkStyled as="button" onClick={onRedeemClick}>
+              Redeem here
+            </LinkStyled>
+          </StyledRedeemButton>
+        )}
       </StyledPriceBox>
     </StyledPriceBoxWrapper>
   );
 };
 
 CheckoutPriceBox.propTypes = {
+  isCheckout: PropTypes.bool,
   onRedeemClick: PropTypes.func
 };
 
 CheckoutPriceBox.defaultProps = {
-  onRedeemClick: () => null
+  onRedeemClick: () => null,
+  isCheckout: false
 };
 
 export { CheckoutPriceBox as PureCheckoutPriceBox };

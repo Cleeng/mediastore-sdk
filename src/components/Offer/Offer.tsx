@@ -22,6 +22,7 @@ import OfferCheckoutCard from '../OfferCheckoutCard';
 import { OfferProps } from './Offer.types';
 
 const Offer = ({
+  isCheckout = false,
   onCouponSubmit,
   onPaymentComplete,
   onRedeemClick
@@ -80,7 +81,10 @@ const Offer = ({
               />
             </StyledOfferCouponWrapper>
           </StyledOfferDetailsAndCoupon>
-          <CheckoutPriceBox onRedeemClick={onRedeemClick} />
+          <CheckoutPriceBox
+            isCheckout={isCheckout}
+            onRedeemClick={onRedeemClick}
+          />
         </StyledOfferBody>
         {giftable && <DeliveryDetails giftable={giftable} />}
         <Payment onPaymentComplete={onPaymentComplete} />

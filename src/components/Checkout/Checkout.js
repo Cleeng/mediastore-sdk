@@ -127,6 +127,7 @@ class Checkout extends Component {
       case 4:
         return (
           <OfferContainer
+            isCheckout
             offerId={offerId}
             couponCode={couponCode}
             onSuccess={() => this.goToStep(CheckoutSteps.PURCHASE.nextStep)}

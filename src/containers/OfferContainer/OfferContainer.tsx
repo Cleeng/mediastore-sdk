@@ -41,6 +41,7 @@ import { OfferContainerProps } from './OfferContainer.types';
 const OfferContainer = ({
   adyenConfiguration: adyenConfigurationProp,
   couponCode: couponCodeProp,
+  isCheckout = false,
   offerId: offerIdProp,
   onSuccess,
   onRedeemClick
@@ -229,6 +230,7 @@ const OfferContainer = ({
 
   return (
     <Offer
+      isCheckout={isCheckout}
       onCouponSubmit={onCouponSubmit}
       onPaymentComplete={onSuccess}
       onRedeemClick={onRedeemClick}
