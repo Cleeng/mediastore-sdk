@@ -31,7 +31,7 @@ const Offer = ({
   const [coupon, setCoupon] = useState('');
   const { isCouponLoading, couponDetails } = useAppSelector(selectOrder);
   const {
-    offerV2: { giftable }
+    offerV2: { giftable = false }
   } = useAppSelector(selectOffer);
 
   const {
