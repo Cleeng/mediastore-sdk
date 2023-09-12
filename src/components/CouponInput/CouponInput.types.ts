@@ -11,6 +11,7 @@ export type CouponInputProps = {
   value: string;
   fullWidth?: boolean;
   couponDetails: {
+    couponCode: string;
     showMessage: boolean;
     message: string;
     messageType: MessageType;
@@ -18,27 +19,25 @@ export type CouponInputProps = {
   };
   onSubmit: (args: string) => void;
   onChange: (args: string) => void;
-  onClose?: () => void;
   onInputToggle?: () => void;
   couponLoading: boolean;
   source: 'myaccount' | 'checkout' | '';
 };
 
-export type InputComponentStyledProps = {
-  fullWidth: boolean;
-  isOpened: boolean;
+export type FormComponentStyledProps = {
+  $fullWidth?: boolean;
+  $isOpen: boolean;
 };
 
 export type MessageStyledProps = {
-  messageType: '' | MessageType;
-  showMessage: boolean;
+  $messageType: '' | MessageType;
+  $showMessage: boolean;
+};
+
+export type InputElementWrapperStyledProps = {
+  $isFocused: boolean;
 };
 
 export type InputElementStyledProps = {
-  isOpened: boolean;
-  fullWidth: boolean;
-};
-
-export type CloseButtonStyledProps = {
-  isInputOpened: boolean;
+  $fullWidth?: boolean;
 };

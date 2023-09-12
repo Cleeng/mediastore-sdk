@@ -44,14 +44,16 @@ export const StyledTotalOfferPrice = styled(StyledOfferPrice).attrs(() => ({
 export const StyledPriceBox = styled.ul.attrs(() => ({
   className: 'msd__price-summary'
 }))`
+  width: 400px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-end;
   padding: 16px 0;
 `;
 
 export const StyledPriceBoxWrapper = styled.div`
-  width: 400px;
+  display: flex;
+  justify-content: flex-end;
 
   ${media.small`
     width: 100%;
@@ -64,6 +66,7 @@ export const StyledPriceWrapper = styled.li`
   justify-content: space-between;
   align-items: center;
   margin-bottom: 12px;
+  position: relative;
 
   strong {
     display: flex;
@@ -72,4 +75,25 @@ export const StyledPriceWrapper = styled.li`
     align-items: center;
     width: 100%;
   }
+`;
+
+export const CouponNoteOuterWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
+
+export const CouponNoteInnerWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const CouponNoteStyled = styled.div.attrs(() => ({
+  className: 'msd__price-coupon__note'
+}))`
+  color: ${variables.ConfirmColor};
+  border-radius: 5px;
+
+  font-size: 12px;
 `;

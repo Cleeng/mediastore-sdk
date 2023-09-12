@@ -212,7 +212,6 @@ Config.setCheckoutPayPalUrls({
   cancelUrl: "https://client-website.com/checkout",
   errorUrl: "https://client-website.com/checkout/error"
 });
-Config.setTermsUrl("https://client-website.com/terms"); // optional, for legal notes in the checkout
 Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
@@ -271,7 +270,7 @@ Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of present
 
 **Props**
 
-- `customCancellationReasons` - array of the custom cancellation reasons. List of these reasons will be displayed in unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
+- `customCancellationReasons` - array of the custom cancellation reasons. List of these reasons will be displayed in unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have value and key. You can use this key in your translations file, otherwise value will be always displayed.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
 - `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in update payment details section. Read more information about adyen configuration [here](#adyen-configuration).
 - `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
@@ -284,8 +283,14 @@ import { Provider } from "react-redux";
 import adyenConfiguration from "./adyenConfiguration";
 
 const customCancellationReasons = [
-  { value: "Poor customer support", key: "support" },
-  { value: "Switch to a different service", key: "service" }
+  {
+    value: "Poor customer support",
+    key: "custom-cancellation-reason.poor-customer-support"
+  },
+  {
+    value: "Switch to a different service",
+    key: "custom-cancellation-reason.switch-to-different-service"
+  }
 ];
 
 <Provider store={store}>
@@ -415,7 +420,6 @@ Config.setCheckoutPayPalUrls({
   cancelUrl: "https://client-website.com/my-account",
   errorUrl: "https://client-website.com/my-account/paypal-error"
 });
-Config.setTermsUrl("https://client-website.com/terms"); // optional, for legal notes in the checkout
 Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
 ```
 
@@ -523,7 +527,7 @@ Config.setRefreshToken("yyy"); // optional
 
 **Props**
 
-- `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value.
+- `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value. You can use this key in your translations file, otherwise value will be always displayed.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
 - `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
@@ -534,8 +538,14 @@ import { PlanDetails } from "@cleeng/mediastore-sdk";
 import { Provider } from "react-redux";
 
 const customCancellationReasons = [
-  { value: "Poor customer support", key: "support" },
-  { value: "Switch to a different service", key: "service" }
+  {
+    value: "Poor customer support",
+    key: "custom-cancellation-reason.poor-customer-support"
+  },
+  {
+    value: "Switch to a different service",
+    key: "custom-cancellation-reason.switch-to-different-service"
+  }
 ];
 
 <Provider store={store}>
@@ -805,6 +815,7 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 | `MSSDK:remove-payment-details-button-clicked`   | `null`                                                                                                              | The event will be emitted after clicking 'Remove your payment method' button in my account.                                                                                                                                                                                                                                                                                                                                               |
 | `MSSDK:remove-payment-details-action-confirmed` | `null`                                                                                                              | The event will be emitted after clicking 'Remove' button in my account update payment details survey. This button removes selected payment method.                                                                                                                                                                                                                                                                                        |
 | `MSSDK:remove-payment-details-action-cancelled` | `null`                                                                                                              | This event will be emitted when the customer resigns to remove payment details.                                                                                                                                                                                                                                                                                                                                                           |
+| `MSSDK:auth-failed`                             | `null`                                                                                                              | This event will be emitted when JWT token expires and there is no refreshToken or fetching refresh token fails.                                                                                                                                                                                                                                                                                                                           |
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 

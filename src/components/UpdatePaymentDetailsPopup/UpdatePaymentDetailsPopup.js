@@ -398,7 +398,11 @@ const UpdatePaymentDetailsPopup = () => {
                 logo="paypal"
                 isLoading={isLoading}
               >
-                <PayPal onSubmit={submitPayPal} isLoading={isLoading} />
+                <PayPal
+                  isMyAccount
+                  onSubmit={submitPayPal}
+                  isLoading={isLoading}
+                />
               </DropInSection>
             )}
         </PaymentMethodsWrapperStyled>

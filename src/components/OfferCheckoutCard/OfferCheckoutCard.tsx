@@ -44,23 +44,27 @@ const OfferCheckoutCard = () => {
     country,
     currency,
     totalPrice,
-    discount
+    discount: {
+      applied: isDiscountApplied,
+      type: discountType,
+      periods: discountedPeriods
+    }
   } = useAppSelector(selectOnlyOrder);
 
   const offerType = offerId?.charAt(0);
   const currencySymbol = currencyFormat[currency];
   const isOfferFree =
-    isTrialAvailable || (discount.applied && totalPrice === 0);
+    isTrialAvailable || (isDiscountApplied && totalPrice === 0);
   const grossPrice = isOfferFree
     ? calculateGrossPriceForFreeOffer(offerPrice, taxRate, customerPriceInclTax)
     : formatNumber(totalPrice);
-  const isTrialBadgeVisible = isTrialAvailable && discount.type === 'trial';
+  const isTrialBadgeVisible = isTrialAvailable && discountType === 'trial';
 
   const { t } = useTranslation();
 
-  const generateTrialDescription = () => {
-    const taxCopy = country === 'US' ? 'Tax' : 'VAT';
+  const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 
+  const generateTrialDescription = () => {
     if (period === 'season' && freeDays) {
       const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days and will be renewed on the next season start date.`;
       return t(
@@ -115,8 +119,60 @@ const OfferCheckoutCard = () => {
     );
   };
 
+  const generateCouponDescription = () => {
+    const formattedTotalPrice = formatNumber(totalPrice);
+    const regularPrice =
+      period === 'season'
+        ? formatNumber(customerPriceInclTax)
+        : calculateGrossPriceForFreeOffer(
+            offerPrice,
+            taxRate,
+            customerPriceInclTax
+          );
+    if (discountedPeriods === 1) {
+      return t(
+        `subscription-desc-coupon-${period}`,
+        `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) now.<br/>After ${
+          period === '3months' || period === '6months' ? '' : 'a'
+        } ${periodMapper[period as Period]
+          .chargedForEveryText as string} you will be charged a regular price of ${currencySymbol}${regularPrice}.`,
+        { currencySymbol, formattedTotalPrice, taxCopy, period, regularPrice }
+      );
+    }
+
+    // non-standard periods
+    if (period === '3months' || period === '6months') {
+      const description = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${periodMapper[
+        period as Period
+      ]
+        .chargedForEveryText as string} for the next ${discountedPeriods} billing periods.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
+      return t(`subscription-desc-coupon.periods-${period}`, description, {
+        formattedTotalPrice,
+        taxCopy,
+        discountedPeriods,
+        currencySymbol,
+        regularPrice
+      });
+    }
+
+    return t(
+      `subscription-desc-coupon-${period}s`,
+      `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next ${discountedPeriods} ${period}s.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`,
+      {
+        currencySymbol,
+        formattedTotalPrice,
+        taxCopy,
+        period,
+        discountedPeriods,
+        regularPrice
+      }
+    );
+  };
+
   const generateSubscriptionDescription = () => {
-    const taxCopy = country === 'US' ? 'Tax' : 'VAT';
+    if (discountType === 'coupon') {
+      return generateCouponDescription();
+    }
 
     if (!isTrialAvailable) {
       if (period === 'season') {
@@ -225,7 +281,11 @@ const OfferCheckoutCard = () => {
           )}
           <Price
             currency={currencyFormat[currency]}
-            price={Number(grossPrice)}
+            price={
+              discountType === 'coupon' && totalPrice !== 0
+                ? Number(totalPrice)
+                : Number(grossPrice)
+            }
             period={
               offerType === 'S' && period !== 'season'
                 ? t(`offer-price.period-${period}`, period)
