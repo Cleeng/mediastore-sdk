@@ -52,6 +52,7 @@ export type PublisherConfigInitialState = {
   }[];
   isPayPalHidden: boolean;
   visiblePaymentMethods: PaymentMethodName[];
+  hiddenPaymentMethods: number[];
   adyenConfiguration: null | AdyenConfiguration;
   displayGracePeriodError: boolean;
 };

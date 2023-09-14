@@ -7,6 +7,7 @@ export const initialState: PublisherConfigInitialState = {
   offerId: '',
   paymentMethods: [],
   visiblePaymentMethods: [],
+  hiddenPaymentMethods: [],
   isPayPalHidden: false,
   adyenConfiguration: null,
   displayGracePeriodError: false
@@ -22,6 +23,9 @@ export const publisherConfigSlice = createSlice({
     }),
     updatePaymentMethods: (state, action: PayloadAction<[]>) => {
       state.paymentMethods = action.payload;
+    },
+    updateHiddenPaymentMethods: (state, action: PayloadAction<[]>) => {
+      state.hiddenPaymentMethods = action.payload;
     }
   }
 });
@@ -35,5 +39,9 @@ export const selectPublisherConfig = (state: RootState) =>
 export const selectDisplayGracePeriodError = (state: RootState) =>
   state.publisherConfig.displayGracePeriodError;
 
-export const { init, updatePaymentMethods } = publisherConfigSlice.actions;
+export const {
+  init,
+  updatePaymentMethods,
+  updateHiddenPaymentMethods
+} = publisherConfigSlice.actions;
 export default publisherConfigSlice.reducer;
