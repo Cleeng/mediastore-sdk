@@ -127,7 +127,6 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       );
       return;
     }
-
     dispatch(updatePaymentMethods(validMethodsFromResponse));
     setIsLoading(false);
 
