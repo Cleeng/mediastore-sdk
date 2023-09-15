@@ -105,6 +105,10 @@ const CheckoutPriceBox = () => {
         discountedPeriods
       });
     }
+    // unlimited
+    if (period === 'year' && discountedPeriods === 999) {
+      return false;
+    }
     return t(
       `coupon-note-${period}s`,
       `${currencySymbol}${formattedDiscountAmount} off for the first ${discountedPeriods} ${period}s!`,
@@ -145,7 +149,9 @@ const CheckoutPriceBox = () => {
                 </StyledOfferPrice>
               </CouponNoteInnerWrapper>
               {discountType === 'coupon' && (
-                <CouponNoteStyled>{getCouponNote()}</CouponNoteStyled>
+                <CouponNoteStyled data-testid="coupon-notes">
+                  {getCouponNote()}
+                </CouponNoteStyled>
               )}
             </CouponNoteOuterWrapper>
           </StyledPriceWrapper>
