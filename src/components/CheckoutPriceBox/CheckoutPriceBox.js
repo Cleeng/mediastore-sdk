@@ -47,6 +47,11 @@ const CheckoutPriceBox = () => {
   const getCouponNote = () => {
     const formattedDiscountAmount = formatNumber(discountAmount);
 
+    // unlimited
+    if (discountedPeriods === 999) {
+      return false;
+    }
+
     if (finalPrice === 0) {
       if (discountedPeriods === 1) {
         // non standard period free
@@ -104,10 +109,6 @@ const CheckoutPriceBox = () => {
         formattedDiscountAmount,
         discountedPeriods
       });
-    }
-    // unlimited
-    if (period === 'year' && discountedPeriods === 999) {
-      return false;
     }
     return t(
       `coupon-note-${period}s`,

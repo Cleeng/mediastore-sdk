@@ -31,7 +31,7 @@ const store = (unlimited = true) => ({
       discount: unlimited ? unlimitedDiscount : notUnlimitedDiscount
     }
   },
-  offer: { offer: { customerPriceInclTax: 123, period: 'year' } }
+  offer: { offer: { customerPriceInclTax: 123, period: 'test' } }
 });
 
 const middleware = [thunk];
