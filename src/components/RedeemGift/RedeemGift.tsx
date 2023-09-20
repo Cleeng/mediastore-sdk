@@ -93,10 +93,10 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
     !redeemable || isVerifyLoading || isOfferLoading;
 
   return (
-    <>
+    <WrapperStyled>
+      <Header onBackClick={onBackClick} />
       {Auth.isLogged() && (
-        <WrapperStyled>
-          <Header onBackClick={onBackClick} />
+        <>
           {isGiftRedeemed ? (
             <ThankYouPage />
           ) : (
@@ -144,9 +144,9 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
             </RedeemGiftWrapperStyled>
           )}
           <Footer />
-        </WrapperStyled>
+        </>
       )}
-    </>
+    </WrapperStyled>
   );
 };
 
