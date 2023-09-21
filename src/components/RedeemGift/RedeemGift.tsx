@@ -92,60 +92,67 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
   const isConfirmButtonDisabled =
     !redeemable || isVerifyLoading || isOfferLoading;
 
+  const renderMainContent = () => {
+    if (!Auth.isLogged()) {
+      return null;
+    }
+    if (isGiftRedeemed) {
+      return <ThankYouPage />;
+    }
+
+    return (
+      <>
+        <RedeemGiftWrapperStyled>
+          <SectionHeader center paddingBottom="10px">
+            {t('redeem-gift.button.header', 'Redeem your gift')}
+          </SectionHeader>
+          <InputWrapperStyled>
+            <MyAccountInput
+              error={error}
+              onChange={handleChange}
+              name="giftCode"
+              type="text"
+              value={giftCode}
+              placeholder="XXXX-XXXX"
+            />
+            <Button
+              disabled={!giftCode}
+              theme="confirm"
+              onClickFn={handleVerifyGift}
+            >
+              {isVerifyLoading ? (
+                <Loader buttonLoader color="#ffffff" />
+              ) : (
+                t('redeem-gift.button.verify', 'Verify')
+              )}
+            </Button>
+          </InputWrapperStyled>
+          {showOffer && (
+            <OfferWrapperStyled>
+              <OfferCheckoutCard isRedeemGift />
+            </OfferWrapperStyled>
+          )}
+          <Button
+            disabled={isConfirmButtonDisabled}
+            theme="confirm"
+            onClickFn={handleRedeemGift}
+          >
+            {isRedeemLoading ? (
+              <Loader buttonLoader color="#ffffff" />
+            ) : (
+              t('redeem-gift.button.confirm', 'Confirm & proceed')
+            )}
+          </Button>
+        </RedeemGiftWrapperStyled>
+        <Footer />
+      </>
+    );
+  };
+
   return (
     <WrapperStyled>
       <Header onBackClick={onBackClick} />
-      {Auth.isLogged() && (
-        <>
-          {isGiftRedeemed ? (
-            <ThankYouPage />
-          ) : (
-            <RedeemGiftWrapperStyled>
-              <SectionHeader center paddingBottom="10px">
-                {t('redeem-gift.button.header', 'Redeem your gift')}
-              </SectionHeader>
-              <InputWrapperStyled>
-                <MyAccountInput
-                  error={error}
-                  onChange={handleChange}
-                  name="giftCode"
-                  type="text"
-                  value={giftCode}
-                  placeholder="XXXX-XXXX"
-                />
-                <Button
-                  disabled={!giftCode}
-                  theme="confirm"
-                  onClickFn={handleVerifyGift}
-                >
-                  {isVerifyLoading ? (
-                    <Loader buttonLoader color="#ffffff" />
-                  ) : (
-                    t('redeem-gift.button.verify', 'Verify')
-                  )}
-                </Button>
-              </InputWrapperStyled>
-              {showOffer && (
-                <OfferWrapperStyled>
-                  <OfferCheckoutCard isRedeemGift />
-                </OfferWrapperStyled>
-              )}
-              <Button
-                disabled={isConfirmButtonDisabled}
-                theme="confirm"
-                onClickFn={handleRedeemGift}
-              >
-                {isRedeemLoading ? (
-                  <Loader buttonLoader color="#ffffff" />
-                ) : (
-                  t('redeem-gift.button.confirm', 'Confirm & proceed')
-                )}
-              </Button>
-            </RedeemGiftWrapperStyled>
-          )}
-          <Footer />
-        </>
-      )}
+      {renderMainContent()}
     </WrapperStyled>
   );
 };
