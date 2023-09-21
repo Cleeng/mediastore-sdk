@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 
 import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
@@ -66,7 +65,8 @@ const ResumeSubscriptionPopup = () => {
           fromOfferId: fromOffer.offerId,
           toOfferId: toOffer.toOfferId,
           switchDirection: toOffer.switchDirection,
-          algorithm: toOffer.algorithm
+          algorithm: toOffer.algorithm,
+          switchId: fromOffer.pendingSwitchId
         });
         setIsLoading(false);
         setStep(STEPS.CONFIRMATION);

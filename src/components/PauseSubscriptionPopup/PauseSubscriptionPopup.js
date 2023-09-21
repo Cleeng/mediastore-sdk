@@ -68,7 +68,8 @@ const PauseSubscriptionPopup = () => {
           fromOfferId: fromOffer.offerId,
           toOfferId: toOffer.toOfferId,
           switchDirection: toOffer.switchDirection,
-          algorithm: toOffer.algorithm
+          algorithm: toOffer.algorithm,
+          switchId: fromOffer.pendingSwitchId
         });
         setIsLoading(false);
         setStep(STEPS.CONFIRMATION);
