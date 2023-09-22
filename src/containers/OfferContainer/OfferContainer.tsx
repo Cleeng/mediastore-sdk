@@ -18,6 +18,7 @@ import {
   fetchCreateOrder,
   fetchGetOrder,
   fetchUpdateCoupon,
+  clearOrder,
   selectOrder
 } from 'redux/orderSlice';
 import eventDispatcher, {
@@ -87,8 +88,8 @@ const OfferContainer = ({
     setData('CLEENG_ORDER_ID', id);
   };
 
-  const reuseSavedOrder = (id: string, longOfferId: string) => {
-    dispatch(fetchGetOrder(id))
+  const reuseSavedOrder = async (id: string, longOfferId: string) => {
+    await dispatch(fetchGetOrder(id))
       .unwrap()
       .then(orderResponse => {
         const { customerId } = jwtDecode<{ customerId: number }>(
@@ -139,6 +140,12 @@ const OfferContainer = ({
   };
 
   useEffect(() => {
+    return () => {
+      dispatch(clearOrder());
+    };
+  }, []);
+
+  useEffect(() => {
     dispatch(
       initValues({
         offerId,
@@ -158,7 +165,7 @@ const OfferContainer = ({
       const orderId = getData('CLEENG_ORDER_ID');
 
       if (orderId) {
-        reuseSavedOrder(orderId, id);
+        await reuseSavedOrder(orderId, id);
       } else {
         await createOrderHandler(id);
       }
@@ -208,7 +215,6 @@ const OfferContainer = ({
     }
     return <ErrorPage type={type} />;
   }
-
   if (isOrderLoading) {
     return (
       <StyledLoaderContainer>
