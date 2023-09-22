@@ -66,7 +66,8 @@ const ResumeSubscriptionPopup = () => {
           toOfferId: toOffer.toOfferId,
           switchDirection: toOffer.switchDirection,
           algorithm: toOffer.algorithm,
-          subscriptionSwitchId: fromOffer.subscriptionId
+          subscriptionSwitchId: resp.id,
+          subscriptionId: fromOffer.subscriptionId
         });
         setIsLoading(false);
         setStep(STEPS.CONFIRMATION);
