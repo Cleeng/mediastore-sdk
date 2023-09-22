@@ -23,6 +23,9 @@ import {
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
+import eventDispatcher, {
+  MSSDK_SWITCH_POPUP_ACTION_SUCCESSFUL
+} from 'util/eventDispatcher';
 import {
   ImageWrapper,
   ArrowStyled,
@@ -64,16 +67,13 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
         toOffer.switchDirection
       );
       if (!resp.errors.length) {
-        window.dispatchEvent(
-          new CustomEvent('MSSDK:switch-popup-action-successful', {
-            detail: {
-              fromOfferId: fromOffer.offerId,
-              toOfferId: toOffer.toOfferId,
-              switchDirection: toOffer.switchDirection,
-              algorithm: toOffer.algorithm
-            }
-          })
-        );
+        eventDispatcher(MSSDK_SWITCH_POPUP_ACTION_SUCCESSFUL, {
+          fromOfferId: fromOffer.offerId,
+          toOfferId: toOffer.toOfferId,
+          switchDirection: toOffer.switchDirection,
+          algorithm: toOffer.algorithm,
+          subscriptionSwitchId: fromOffer.subscriptionId
+        });
         setIsLoading(false);
         setStep(STEPS.CONFIRMATION);
       } else {
