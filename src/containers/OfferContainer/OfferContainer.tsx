@@ -23,6 +23,7 @@ import {
 import eventDispatcher, {
   MSSDK_COUPON_FAILED,
   MSSDK_COUPON_SUCCESSFUL,
+  MSSDK_GOOD_NEWS,
   MSSDK_PURCHASE_LOADED
 } from 'util/eventDispatcher';
 import withPaymentFinalizationHandler from 'containers/withPaymentFinalizationHandler';
@@ -201,9 +202,11 @@ const OfferContainer = ({
     );
   };
   if (errorMsg || offerError || orderError) {
-    return (
-      <ErrorPage type={errorMapping(errorMsg || offerError || orderError)} />
-    );
+    const type = errorMapping(errorMsg || offerError || orderError);
+    if (type === 'alreadyHaveAccess') {
+      eventDispatcher(MSSDK_GOOD_NEWS);
+    }
+    return <ErrorPage type={type} />;
   }
 
   if (isOrderLoading) {
