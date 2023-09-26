@@ -33,7 +33,17 @@ const Consents = ({ error, onChangeFn }) => {
   useEffect(() => {
     async function getConsents() {
       if (publisherId) {
-        await dispatch(fetchPublisherConsents(publisherId));
+        const consents = await dispatch(fetchPublisherConsents(publisherId))
+          .unwrap()
+          .catch(err => {
+            throw new Error(err);
+          });
+
+        consents.forEach((consent, index) => {
+          if (consent.enabledByDefault) {
+            dispatch(setChecked(index));
+          }
+        });
       }
     }
     getConsents();
