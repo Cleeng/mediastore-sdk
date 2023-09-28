@@ -4,7 +4,10 @@ import {
   setData as setDataInRedux,
   removeData as removeDataFromRedux
 } from 'redux/appConfig';
-import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
+import {
+  init as initPublisherConfig,
+  updateHiddenPaymentMethods
+} from 'redux/publisherConfigSlice';
 
 const isLocalStorageAvailable = () => {
   try {
@@ -163,6 +166,11 @@ export const setHidePayPal = () => {
   return true;
 };
 
+export const setHiddenPaymentMethods = hiddenPaymentMethods => {
+  store.dispatch(updateHiddenPaymentMethods(hiddenPaymentMethods));
+  return true;
+};
+
 export const setLanguage = async language => {
   const BASE_URL = window.location.origin;
 
@@ -199,5 +207,6 @@ export default {
   setTermsUrl,
   setHidePayPal,
   setVisibleAdyenPaymentMethods,
+  setHiddenPaymentMethods,
   setLanguage
 };

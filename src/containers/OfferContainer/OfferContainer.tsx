@@ -18,11 +18,13 @@ import {
   fetchCreateOrder,
   fetchGetOrder,
   fetchUpdateCoupon,
+  clearOrder,
   selectOrder
 } from 'redux/orderSlice';
 import eventDispatcher, {
   MSSDK_COUPON_FAILED,
   MSSDK_COUPON_SUCCESSFUL,
+  MSSDK_GOOD_NEWS,
   MSSDK_PURCHASE_LOADED
 } from 'util/eventDispatcher';
 import withPaymentFinalizationHandler from 'containers/withPaymentFinalizationHandler';
@@ -86,8 +88,8 @@ const OfferContainer = ({
     setData('CLEENG_ORDER_ID', id);
   };
 
-  const reuseSavedOrder = (id: string, longOfferId: string) => {
-    dispatch(fetchGetOrder(id))
+  const reuseSavedOrder = async (id: string, longOfferId: string) => {
+    await dispatch(fetchGetOrder(id))
       .unwrap()
       .then(orderResponse => {
         const { customerId } = jwtDecode<{ customerId: number }>(
@@ -138,6 +140,12 @@ const OfferContainer = ({
   };
 
   useEffect(() => {
+    return () => {
+      dispatch(clearOrder());
+    };
+  }, []);
+
+  useEffect(() => {
     dispatch(
       initValues({
         offerId,
@@ -157,7 +165,7 @@ const OfferContainer = ({
       const orderId = getData('CLEENG_ORDER_ID');
 
       if (orderId) {
-        reuseSavedOrder(orderId, id);
+        await reuseSavedOrder(orderId, id);
       } else {
         await createOrderHandler(id);
       }
@@ -201,11 +209,12 @@ const OfferContainer = ({
     );
   };
   if (errorMsg || offerError || orderError) {
-    return (
-      <ErrorPage type={errorMapping(errorMsg || offerError || orderError)} />
-    );
+    const type = errorMapping(errorMsg || offerError || orderError);
+    if (type === 'alreadyHaveAccess') {
+      eventDispatcher(MSSDK_GOOD_NEWS);
+    }
+    return <ErrorPage type={type} />;
   }
-
   if (isOrderLoading) {
     return (
       <StyledLoaderContainer>
