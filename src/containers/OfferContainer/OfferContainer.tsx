@@ -126,7 +126,8 @@ const OfferContainer = ({
           detail: {
             coupon: couponCode,
             source: 'checkout'
-          }
+          },
+          order
         });
       })
       .catch(() => {
