@@ -73,14 +73,7 @@ const CheckoutPriceBox = () => {
           { discountedPeriods }
         );
       }
-      return t(
-        `coupon-note-${period}s-free`,
-        `First ${discountedPeriods} ${period}s free!`,
-        {
-          discountedPeriods,
-          period
-        }
-      );
+      return t(`coupon-note-applied`, 'Promotional Pricing applied!');
     }
     if (discountedPeriods === 1) {
       // non standard periods

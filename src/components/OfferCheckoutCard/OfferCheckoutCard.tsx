@@ -157,7 +157,7 @@ const OfferCheckoutCard = () => {
 
     return t(
       `subscription-desc-coupon-${period}s`,
-      `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the next ${discountedPeriods} ${period}s.<br/>After that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`,
+      `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${period} for the promotional period.<br/>After the promotion ends, you will be charged ${currencySymbol}${regularPrice} per ${period}.`,
       {
         currencySymbol,
         formattedTotalPrice,
