@@ -9,12 +9,7 @@ import { applyCoupon } from 'api';
 import CouponInput from 'components/CouponInput';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { showPopup } from 'redux/popupSlice';
-import { useAppSelector } from 'redux/store';
-import { selectOrder } from 'redux/orderSlice';
-import eventDispatcher, {
-  MSSDK_COUPON_FAILED,
-  MSSDK_COUPON_SUCCESSFUL
-} from 'util/eventDispatcher';
+
 import {
   SubscriptionManagementStyled,
   ManageButtonWrapStyled,
@@ -31,7 +26,6 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
   const { data: switchSettings } = useSelector(
     store => store.plan.switchSettings
   );
-  const { order } = useAppSelector(selectOrder);
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isCouponInputOpened, setIsCouponInputOpened] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -61,13 +55,14 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 ),
                 subscriptionId
               );
-              eventDispatcher(MSSDK_COUPON_SUCCESSFUL, {
-                detail: {
-                  coupon: couponValue,
-                  source: 'myaccount'
-                },
-                order
-              });
+              window.dispatchEvent(
+                new CustomEvent('MSSDK:redeem-coupon-success', {
+                  detail: {
+                    coupon: couponValue,
+                    source: 'myaccount'
+                  }
+                })
+              );
               break;
             case 422:
               if (resp.errors.some(e => e.includes('not found')))
@@ -86,12 +81,14 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 );
               setIsError(true);
               setIsLoading(false);
-              eventDispatcher(MSSDK_COUPON_FAILED, {
-                detail: {
-                  coupon: couponValue,
-                  source: 'myaccount'
-                }
-              });
+              window.dispatchEvent(
+                new CustomEvent('MSSDK:redeem-coupon-failed', {
+                  detail: {
+                    coupon: couponValue,
+                    source: 'myaccount'
+                  }
+                })
+              );
               break;
             default:
               setErrorMsg(
@@ -106,12 +103,14 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
           }
         })
         .catch(() => {
-          eventDispatcher(MSSDK_COUPON_FAILED, {
-            detail: {
-              coupon: couponValue,
-              source: 'myaccount'
-            }
-          });
+          window.dispatchEvent(
+            new CustomEvent('MSSDK:redeem-coupon-failed', {
+              detail: {
+                coupon: couponValue,
+                source: 'myaccount'
+              }
+            })
+          );
           setErrorMsg(
             t('oops-something-went-wrong', 'Oops! Something went wrong.')
           );
