@@ -43,7 +43,11 @@ const OfferCheckoutCard = ({
     customerPriceInclTax
   } = useAppSelector(selectOnlyOffer);
 
-  const { loading } = useAppSelector(selectOffer);
+  const {
+    loading,
+    offerV2: { title: offerV2Title }
+  } = useAppSelector(selectOffer);
+
   const {
     verifiedGift: { redeemMode, redeemRefusalReason }
   } = useAppSelector(selectGift);
@@ -339,7 +343,9 @@ const OfferCheckoutCard = ({
           width={200}
           margin="0 0 10px 10px"
         >
-          <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
+          <TitleStyled>
+            {t(`offer-title-${offerId}`, title || offerV2Title)}
+          </TitleStyled>
         </SkeletonWrapper>
         <SkeletonWrapper
           showChildren={!loading}

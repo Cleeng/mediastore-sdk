@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { fetchRedeemGift, fetchVerifyGift, selectGift } from 'redux/giftSlice';
-import { fetchOffer, selectOffer } from 'redux/offerSlice';
+import { fetchOffer, fetchOfferV2, selectOffer } from 'redux/offerSlice';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
@@ -55,6 +55,9 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
     if (offerId) {
       setShowOffer(true);
       await dispatch(fetchOffer(offerId));
+
+      // fetching offer V2 for offerTitle in case fetchOffer above returns e.g. georestriction
+      await dispatch(fetchOfferV2(offerId.split('_')[0]));
     }
   };
 
