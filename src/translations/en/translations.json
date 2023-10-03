@@ -334,7 +334,7 @@
   "redeem-gift.description.existing-subscription.period-week": "Your existing subscription will be extended for one additional week for free.",
   "redeem-gift.description.existing-subscription.period-year": "Your existing subscription will be extended for one additional year for free.",
   "redeem-gift.description.refusal.external": "Your subscription is managed through an external provider. You will be able to redeem your gift via web once your current subscription expires.",
-  "redeem-gift.description.refusal.georestricted": "The gift can’t be redeemed due to the offer geo-restrictions.",
+  "redeem-gift.description.refusal.offer-georestricted": "The gift can’t be redeemed due to the offer geo-restrictions.",
   "redeem-gift.description.refusal.offer-inactive": "The offer you’re trying to purchase is inactive.",
   "redeem-gift.description.refusal.redeemed": "The gift code has already been redeemed.",
   "redeem-gift.thank-you-page.header": "Thank you!",

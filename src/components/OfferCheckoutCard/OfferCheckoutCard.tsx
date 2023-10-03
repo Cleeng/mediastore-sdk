@@ -282,7 +282,7 @@ const OfferCheckoutCard = ({
     }
 
     switch (redeemRefusalReason) {
-      case 'EXTERNAL':
+      case 'EXTERNALLY_MANAGED_SUBSCRIPTION':
         return t(
           'redeem-gift.description.refusal.external',
           'Your subscription is managed through an external provider. You will be able to redeem your gift via web once your current subscription expires.'
@@ -300,9 +300,9 @@ const OfferCheckoutCard = ({
           'The offer you’re trying to purchase is inactive.'
         );
 
-      case 'GEORESTRICTED':
+      case 'OFFER_GEO_RESTRICTED':
         return t(
-          'redeem-gift.description.refusal.georestricted',
+          'redeem-gift.description.refusal.offer-georestricted',
           'The gift can’t be redeemed due to the offer geo-restrictions.'
         );
 
@@ -311,6 +311,17 @@ const OfferCheckoutCard = ({
           'redeem-gift.description.refusal.recurring',
           'The gift code can’t be redeemed as your payment is now being processed.'
         );
+
+      // TO DO
+      case 'MORE_THAN_ONE_MATCHING_SUBSCRIPTION':
+        return t(
+          'redeem-gift.description.refusal.more-than-one-matching-subscription',
+          ''
+        );
+
+      // TO DO
+      case 'PUBLISHER_GEO_RESTRICTED':
+        return t('redeem-gift.description.refusal.publisher-georestricted', '');
 
       default:
         return '';
