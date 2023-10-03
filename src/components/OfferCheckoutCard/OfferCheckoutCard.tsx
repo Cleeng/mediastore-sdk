@@ -320,7 +320,7 @@ const OfferCheckoutCard = ({
       case 'MORE_THAN_ONE_MATCHING_SUBSCRIPTION':
         return t(
           'redeem-gift.description.refusal.more-than-one-matching-subscription',
-          ''
+          'MORE_THAN_ONE_MATCHING_SUBSCRIPTION'
         );
 
       // TO DO
@@ -328,7 +328,7 @@ const OfferCheckoutCard = ({
         return t('redeem-gift.description.refusal.publisher-georestricted', '');
 
       default:
-        return '';
+        return 'PUBLISHER_GEO_RESTRICTED';
     }
   };
 
