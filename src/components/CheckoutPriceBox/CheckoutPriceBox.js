@@ -20,7 +20,7 @@ import {
 } from './CheckoutPriceBoxStyled';
 
 const CheckoutPriceBox = () => {
-  const { customerPriceInclTax, period } = useAppSelector(selectOnlyOffer);
+  const { customerPriceInclTax } = useAppSelector(selectOnlyOffer);
   const {
     priceBreakdown: {
       offerPrice,
