@@ -45,74 +45,12 @@ const CheckoutPriceBox = () => {
   const { t } = useTranslation();
 
   const getCouponNote = () => {
-    const formattedDiscountAmount = formatNumber(discountAmount);
-
     // unlimited
     if (discountedPeriods === 999) {
       return false;
     }
 
-    if (finalPrice === 0) {
-      if (discountedPeriods === 1) {
-        // non standard period free
-        if (period === '3months' || period === '6months') {
-          return t(
-            `coupon-note-billing-period-free`,
-            'First billing period free!'
-          );
-        }
-        return t(`coupon-note-${period}-free`, `First ${period} free!`, {
-          period
-        });
-      }
-      // non standard periods free
-      if (period === '3months' || period === '6months') {
-        return t(
-          `coupon-note-billing-periods-free`,
-          `First ${discountedPeriods} billing periods free!`,
-          { discountedPeriods }
-        );
-      }
-      return t(`coupon-note-applied`, 'Promotional Pricing applied!');
-    }
-    if (discountedPeriods === 1) {
-      // non standard periods
-      if (period === '3months' || period === '6months') {
-        const description = `${currencySymbol}${formattedDiscountAmount} off for the first billing period!`;
-        return t('coupon-note-billing-period', description, {
-          currencySymbol,
-          formattedDiscountAmount
-        });
-      }
-      return t(
-        `coupon-note-${period}`,
-        `${currencySymbol}${formattedDiscountAmount} off for the first ${period}!`,
-        {
-          currencySymbol,
-          formattedDiscountAmount,
-          period
-        }
-      );
-    }
-    // non standard periods
-    if (period === '3months' || period === '6months') {
-      const description = `${currencySymbol}${formattedDiscountAmount} off for the first ${discountedPeriods} billing periods!`;
-      return t('coupon-note-billing-periods', description, {
-        currencySymbol,
-        formattedDiscountAmount,
-        discountedPeriods
-      });
-    }
-    return t(
-      `coupon-note-${period}s`,
-      `${currencySymbol}${formattedDiscountAmount} off for the first ${discountedPeriods} ${period}s!`,
-      {
-        currencySymbol,
-        formattedDiscountAmount,
-        discountedPeriods,
-        period
-      }
-    );
+    return t(`coupon-note-applied`, 'Promotional Pricing applied!');
   };
 
   return (
