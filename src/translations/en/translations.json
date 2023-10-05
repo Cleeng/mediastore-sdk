@@ -337,6 +337,7 @@
   "redeem-gift.description.refusal.georestricted": "The gift can’t be redeemed due to the offer geo-restrictions.",
   "redeem-gift.description.refusal.offer-inactive": "The offer you’re trying to purchase is inactive.",
   "redeem-gift.description.refusal.redeemed": "The gift code has already been redeemed.",
+  "redeem-gift.error.not-authorized": "User not authorized",
   "redeem-gift.thank-you-page.header": "Thank you!",
   "redeem-gift.thank-you-page.manage-text1": "Your gift have been successfully redeemed. ",
   "redeem-gift.thank-you-page.manage-text2": "We hope you love it. If you need help from us with your account, you can always find it<1>here</1>.",

@@ -3,6 +3,11 @@ export type Errors =
   | 'generalError'
   | 'alreadyHaveAccess'
   | 'cannotPurchase'
-  | 'inactive';
+  | 'inactive'
+  | 'isNotAuth';
 
-export type ErrorPageProps = { type?: Errors; error?: string };
+export type ErrorPageProps = {
+  type?: Errors;
+  error?: string;
+  isRedeemGift?: boolean;
+};

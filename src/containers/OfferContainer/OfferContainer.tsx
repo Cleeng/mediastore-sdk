@@ -202,7 +202,8 @@ const OfferContainer = ({
       ],
       alreadyHaveAccess: ['Access already granted'],
       generalError: ['Request failed with status code 500'],
-      inactive: ['inactive']
+      inactive: ['inactive'],
+      isNotAuth: ['']
     };
     const types = Object.keys(errorTypes) as Errors[];
     if (!err) return undefined;

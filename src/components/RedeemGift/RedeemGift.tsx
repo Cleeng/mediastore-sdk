@@ -12,6 +12,8 @@ import MyAccountInput from 'components/MyAccountInput';
 import OfferCheckoutCard from 'components/OfferCheckoutCard';
 import Loader from 'components/Loader';
 import Auth from 'services/auth';
+import ErrorPage from 'components/ErrorPage';
+import eventDispatcher, { MSSDK_AUTH_FAILED } from 'util/eventDispatcher';
 import ThankYouPage from './ThankYouPage';
 import {
   InputWrapperStyled,
@@ -94,7 +96,10 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
 
   const renderMainContent = () => {
     if (!Auth.isLogged()) {
-      return null;
+      eventDispatcher(MSSDK_AUTH_FAILED, {
+        source: 'RedeemGift'
+      });
+      return <ErrorPage type="isNotAuth" isRedeemGift />;
     }
     if (isGiftRedeemed) {
       return <ThankYouPage />;
