@@ -6,19 +6,7 @@ import thunk from 'redux-thunk';
 import 'i18NextInit';
 import CheckoutPriceBox from './CheckoutPriceBox';
 
-const unlimitedDiscount = {
-  applied: true,
-  type: 'coupon',
-  periods: 999
-};
-
-const notUnlimitedDiscount = {
-  applied: true,
-  type: 'coupon',
-  periods: 123
-};
-
-const store = (unlimited = true) => ({
+const store = (unlimited = true, trial = false) => ({
   order: {
     order: {
       priceBreakdown: {
@@ -28,10 +16,16 @@ const store = (unlimited = true) => ({
         customerServiceFee: '',
         paymentMethodFee: ''
       },
-      discount: unlimited ? unlimitedDiscount : notUnlimitedDiscount
+      discount: {
+        applied: true,
+        type: trial ? 'trial' : 'coupon',
+        periods: unlimited ? 999 : 123
+      }
     }
   },
-  offer: { offer: { customerPriceInclTax: 123, period: 'test' } }
+  offer: {
+    offer: { customerPriceInclTax: 123, period: 'test', trialAvailable: true }
+  }
 });
 
 const middleware = [thunk];
@@ -58,5 +52,25 @@ describe('<CheckoutPriceBox />', () => {
 
     const couponNote = screen.getByTestId('coupon-notes');
     expect(couponNote).not.toHaveTextContent('');
+  });
+
+  it('should display Trial Discount when isTrial is true', () => {
+    render(
+      <Provider store={mockStore(store(false, true))}>
+        <CheckoutPriceBox />
+      </Provider>
+    );
+
+    expect(screen.getByText('Trial Discount')).toBeInTheDocument();
+  });
+
+  it('should display Coupon Discount when isTrial is false', () => {
+    render(
+      <Provider store={mockStore(store(false))}>
+        <CheckoutPriceBox />
+      </Provider>
+    );
+
+    expect(screen.getByText('Coupon Discount')).toBeInTheDocument();
   });
 });
