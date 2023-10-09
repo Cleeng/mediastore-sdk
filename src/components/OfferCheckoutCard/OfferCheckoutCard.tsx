@@ -10,6 +10,7 @@ import {
   Period
 } from 'util/planHelper';
 import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
+import { selectGift } from 'redux/giftSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
 import getReadablePeriod from './OfferCheckoutCard.utils';
@@ -23,7 +24,13 @@ import {
 } from './OfferCheckoutCardStyled';
 import Price from '../Price';
 
-const OfferCheckoutCard = () => {
+type OfferCheckoutCardProps = {
+  isRedeemGift: boolean;
+};
+
+const OfferCheckoutCard = ({
+  isRedeemGift = false
+}: OfferCheckoutCardProps) => {
   const {
     offerTitle: title,
     trialAvailable: isTrialAvailable,
@@ -36,7 +43,14 @@ const OfferCheckoutCard = () => {
     customerPriceInclTax
   } = useAppSelector(selectOnlyOffer);
 
-  const { loading } = useAppSelector(selectOffer);
+  const {
+    loading,
+    offerV2: { title: offerV2Title }
+  } = useAppSelector(selectOffer);
+
+  const {
+    verifiedGift: { redeemMode, redeemRefusalReason }
+  } = useAppSelector(selectGift);
 
   const {
     priceBreakdown: { offerPrice },
@@ -64,6 +78,16 @@ const OfferCheckoutCard = () => {
 
   const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 
+  const priceValue =
+    discountType === 'coupon' && totalPrice !== 0
+      ? Number(totalPrice)
+      : Number(grossPrice);
+
+  const periodValue =
+    offerType === 'S' && period !== 'season'
+      ? t(`offer-price.period-${period}`, period)
+      : null;
+
   const generateTrialDescription = () => {
     if (period === 'season' && freeDays) {
       const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days and will be renewed on the next season start date.`;
@@ -82,7 +106,7 @@ const OfferCheckoutCard = () => {
     if (freeDays) {
       const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days. </br> Next payments will occur every ${getReadablePeriod(
         period
-      )}`;
+      )}.`;
       return t(`subscription-desc.trial-days.period-${period}`, description, {
         currencySymbol,
         grossPrice,
@@ -185,7 +209,7 @@ const OfferCheckoutCard = () => {
       }
       const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) every ${getReadablePeriod(
         period
-      )}`;
+      )}.`;
       return t(`subscription-desc.period-${period}`, formattedDescription, {
         currencySymbol,
         grossPrice,
@@ -251,6 +275,64 @@ const OfferCheckoutCard = () => {
     );
   };
 
+  const getRedeemGiftDescription = () => {
+    if (redeemMode === 'EXTEND') {
+      return t(
+        `redeem-gift.description.existing-subscription.period-${period}`,
+        `Your existing subscription will be extended for additional ${getReadablePeriod(
+          period
+        )} for free.`
+      );
+    }
+
+    switch (redeemRefusalReason) {
+      case 'EXTERNALLY_MANAGED_SUBSCRIPTION':
+        return t(
+          'redeem-gift.description.refusal.external',
+          'You already have an active subscription in a different store, perhaps through a mobile app. Once that subscription expires, you can come back and redeem your gift code here.'
+        );
+
+      case 'REDEEMED':
+        return t(
+          'redeem-gift.description.refusal.redeemed',
+          'This gift code has already been used.'
+        );
+
+      case 'INACTIVE_OFFER':
+        return t(
+          'redeem-gift.description.refusal.offer-inactive',
+          'Sorry, but the offer linked to your gift code is no longer available.'
+        );
+
+      case 'OFFER_GEO_RESTRICTED':
+        return t(
+          'redeem-gift.description.refusal.offer-georestricted',
+          "Sorry, this gift code can't be used in your current location due to geographic restrictions."
+        );
+
+      case 'RECURRING_PROCESS_ALREADY_STARTED':
+        return t(
+          'redeem-gift.description.refusal.recurring-process-started',
+          "You’ll be able to redeem your gift code once we've finished processing a payment on your existing subscription"
+        );
+
+      case 'MORE_THAN_ONE_MATCHING_SUBSCRIPTION':
+        return t(
+          'redeem-gift.description.refusal.more-than-one-matching-subscription',
+          'You currently have multiple subscriptions granting you access to the content this gift provides. When one of those subscriptions expires, you can come back and redeem your gift code here.'
+        );
+
+      case 'PUBLISHER_GEO_RESTRICTED':
+        return t(
+          'redeem-gift.description.refusal.publisher-georestricted',
+          "Sorry, this gift code can't be used in your current location due to geographic restrictions."
+        );
+
+      default:
+        return '';
+    }
+  };
+
   return (
     <WrapperStyled>
       <SkeletonWrapper showChildren={!loading} width={50} height={50}>
@@ -262,7 +344,9 @@ const OfferCheckoutCard = () => {
           width={200}
           margin="0 0 10px 10px"
         >
-          <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
+          <TitleStyled>
+            {t(`offer-title-${offerId}`, title || offerV2Title)}
+          </TitleStyled>
         </SkeletonWrapper>
         <SkeletonWrapper
           showChildren={!loading}
@@ -270,30 +354,30 @@ const OfferCheckoutCard = () => {
           margin="0 0 10px 10px"
         >
           <DescriptionStyled
-            dangerouslySetInnerHTML={{ __html: renderDescription() }}
+            dangerouslySetInnerHTML={{
+              __html: isRedeemGift
+                ? getRedeemGiftDescription()
+                : renderDescription()
+            }}
           />
         </SkeletonWrapper>
       </InnerWrapper>
-      <PriceWrapperStyled>
-        <SkeletonWrapper showChildren={!loading} width={80} height={30}>
-          {isTrialBadgeVisible && (
-            <TrialBadgeStyled>{renderTrialBadgeDescription()}</TrialBadgeStyled>
-          )}
-          <Price
-            currency={currencyFormat[currency]}
-            price={
-              discountType === 'coupon' && totalPrice !== 0
-                ? Number(totalPrice)
-                : Number(grossPrice)
-            }
-            period={
-              offerType === 'S' && period !== 'season'
-                ? t(`offer-price.period-${period}`, period)
-                : null
-            }
-          />
-        </SkeletonWrapper>
-      </PriceWrapperStyled>
+      {!isRedeemGift && (
+        <PriceWrapperStyled>
+          <SkeletonWrapper showChildren={!loading} width={80} height={30}>
+            {isTrialBadgeVisible && (
+              <TrialBadgeStyled>
+                {renderTrialBadgeDescription()}
+              </TrialBadgeStyled>
+            )}
+            <Price
+              currency={currencyFormat[currency]}
+              price={priceValue}
+              period={periodValue}
+            />
+          </SkeletonWrapper>
+        </PriceWrapperStyled>
+      )}
     </WrapperStyled>
   );
 };

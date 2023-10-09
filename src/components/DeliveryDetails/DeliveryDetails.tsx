@@ -7,6 +7,7 @@ import {
   setIsGift
 } from 'redux/deliveryDetailsSlice';
 import { selectOffer } from 'redux/offerSlice';
+import { fetchUpdateOrder, selectOnlyOrder } from 'redux/orderSlice';
 import { ReactComponent as GiftIcon } from 'assets/images/gift.svg';
 import { ReactComponent as CardIcon } from 'assets/images/paymentMethods/card2.svg';
 import SectionHeader from 'components/SectionHeader';
@@ -26,21 +27,46 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
   const { t } = useTranslation();
 
   const { isGift } = useAppSelector(selectDeliveryDetails);
+  const { id: orderId } = useAppSelector(selectOnlyOrder);
+
+  const handleSetIsGift = () => {
+    dispatch(setIsGift(true));
+
+    // dispatch(
+    //   fetchUpdateOrder({
+    //     id: orderId,
+    //     payload: {
+    //       buyAsAGift: true,
+    //       deliveryDetails: {
+    //         recipientEmail: '',
+    //         deliveryDate: '',
+    //         personalNote: ''
+    //       }
+    //     }
+    //   })
+    // )
+    //   .unwrap()
+    //   .catch(err => {
+    //     throw new Error(err);
+    //   });
+  };
 
   const {
     offer: { accessGranted }
   } = useAppSelector(selectOffer);
 
   useEffect(() => {
-    if (accessGranted) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const purchaseAsGiftParam = urlParams.get('purchaseAsGift');
+
+    if (accessGranted || purchaseAsGiftParam === 'true') {
       dispatch(setIsGift(true));
     }
 
-    // should cleanup be used with non-empty dependency array?
     return () => {
       dispatch(resetDeliveryDetailsState());
     };
-  }, [accessGranted]);
+  }, [accessGranted, window.location.search]);
 
   return (
     <>
@@ -55,15 +81,20 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
             disabled={accessGranted}
           >
             <CardIcon />
-            Purchase for myself
+            <>
+              {t(
+                'deliverydetails.button.purchase-for-myself',
+                'Purchase for myself'
+              )}
+            </>
           </StyledButton>
           <StyledButton
             isActive={isGift}
-            onClick={() => dispatch(setIsGift(true))}
+            onClick={handleSetIsGift}
             disabled={!giftable}
           >
             <GiftIcon />
-            Purchase as a gift
+            {t('deliverydetails.button.purchase-as-gift', 'Purchase as a gift')}
           </StyledButton>
         </ButtonsContainer>
         <>{isGift && <RecipientForm />}</>

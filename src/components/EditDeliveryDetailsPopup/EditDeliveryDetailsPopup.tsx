@@ -8,6 +8,7 @@ import { fetchGift, fetchUpdateGift, selectGift } from 'redux/giftSlice';
 import { hidePopup, selectEditDeliveryDetailsPopup } from 'redux/popupSlice';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { ReactComponent as CheckmarkIcon } from 'assets/images/greenCheckmark.svg';
+import { ReactComponent as WarningIcon } from 'assets/images/errors/warning.svg';
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import RecipientForm from 'components/DeliveryDetails/RecipientForm';
@@ -17,7 +18,6 @@ import {
   validateDeliveryDetailsForm
 } from 'components/DeliveryDetails/RecipientForm/validators';
 import SkeletonWrapper from 'components/SkeletonWrapper';
-import { ReactComponent as WarningIcon } from 'assets/images/errors/warning.svg';
 
 import {
   ButtonsStyled,
@@ -25,6 +25,7 @@ import {
   ErrorPageStyled,
   ErrorTextStyled,
   HeaderStyled,
+  InfoTextSkeletonStyled,
   InfoTextStyled,
   ThankYouPageStyled
 } from './EditDeliveryDetailsPopupStyled';
@@ -44,7 +45,7 @@ const EditDeliveryDetailsPopup = () => {
   );
 
   const {
-    gift: { sentAt, deliveryDetails: giftDeliveryDetails },
+    gift: { deliveryDetails: giftDeliveryDetails, redeemedAt, sentAt },
     isUpdateLoading,
     loading
   } = useAppSelector(selectGift);
@@ -87,9 +88,10 @@ const EditDeliveryDetailsPopup = () => {
 
   const isGiftEditable =
     isDateInFuture(new Date(giftDeliveryDetails?.deliveryDate * 1000)) &&
-    !sentAt;
+    !sentAt &&
+    !redeemedAt;
 
-  const isGiftSent = !!sentAt;
+  const isGiftSent = !!sentAt || !!redeemedAt;
 
   if (loading) {
     return (
@@ -106,9 +108,9 @@ const EditDeliveryDetailsPopup = () => {
           <HeaderStyled>
             {t('edit-delivery-details-popup.header', 'Edit Delivery Details')}
           </HeaderStyled>
-          <InfoTextStyled>
+          <InfoTextSkeletonStyled>
             <SkeletonWrapper height={32} margin="0 0 24px 0" />
-          </InfoTextStyled>
+          </InfoTextSkeletonStyled>
           <RecipientForm isMyAccount />
         </ContentStyled>
       </InnerPopupWrapper>

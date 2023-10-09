@@ -35,7 +35,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
 
   const {
     loading,
-    gift: { deliveryDetails: giftDeliveryDetails, sentAt }
+    gift: { deliveryDetails: giftDeliveryDetails, redeemedAt, sentAt }
   } = useAppSelector(selectGift);
   const { isOpen, currentType } = useAppSelector(selectPopupDetails);
 
@@ -108,7 +108,8 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
 
   const isGiftEditable =
     isDateInFuture(new Date(giftDeliveryDetails?.deliveryDate * 1000)) &&
-    !sentAt;
+    !sentAt &&
+    !redeemedAt;
 
   const isFieldDisabled = isMyAccount && !isGiftEditable;
 

@@ -1,13 +1,16 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getGift, updateGift } from 'api';
-import { DeliveryDetails, Gift, GiftInitialState } from './types';
+import { getGift, redeemGift, updateGift, verifyGift } from 'api';
+import { DeliveryDetails, Gift, GiftInitialState, VerifiedGift } from './types';
 import { RootState } from './rootReducer';
 
 export const initialState: GiftInitialState = {
   gift: {},
+  verifiedGift: {},
   loading: false,
   error: null,
-  isUpdateLoading: false
+  isUpdateLoading: false,
+  isVerifyLoading: false,
+  isRedeemLoading: false
 };
 
 export const fetchGift = createAsyncThunk<
@@ -42,6 +45,38 @@ export const fetchUpdateGift = createAsyncThunk<
   }
 });
 
+export const fetchVerifyGift = createAsyncThunk<
+  VerifiedGift,
+  string,
+  {
+    rejectValue: string;
+  }
+>('gift/verifyGift', async (giftCode: string, { rejectWithValue }) => {
+  try {
+    const result = await verifyGift(giftCode);
+    return result;
+  } catch (err) {
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
+  }
+});
+
+export const fetchRedeemGift = createAsyncThunk<
+  unknown,
+  string,
+  {
+    rejectValue: string;
+  }
+>('gift/redeemGift', async (giftCode: string, { rejectWithValue }) => {
+  try {
+    const result = await redeemGift(giftCode);
+    return result;
+  } catch (err) {
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
+  }
+});
+
 export const giftSlice = createSlice({
   name: 'gift',
   initialState,
@@ -69,6 +104,36 @@ export const giftSlice = createSlice({
     });
     builder.addCase(fetchUpdateGift.rejected, (state, action) => {
       state.isUpdateLoading = false;
+      if (action.payload) {
+        state.error = action.payload;
+      }
+    });
+    builder.addCase(fetchVerifyGift.pending, state => {
+      state.isVerifyLoading = true;
+    });
+    builder.addCase(fetchVerifyGift.fulfilled, (state, action) => {
+      state.isVerifyLoading = false;
+      state.error = '';
+      state.verifiedGift = action.payload;
+    });
+    builder.addCase(fetchVerifyGift.rejected, (state, action) => {
+      state.isVerifyLoading = false;
+      state.verifiedGift = {};
+
+      if (action.payload) {
+        state.error =
+          'Provided gift code is invalid. Please provide a valid code and try again.';
+      }
+    });
+    builder.addCase(fetchRedeemGift.pending, state => {
+      state.isRedeemLoading = true;
+    });
+    builder.addCase(fetchRedeemGift.fulfilled, state => {
+      state.isRedeemLoading = false;
+    });
+    builder.addCase(fetchRedeemGift.rejected, (state, action) => {
+      state.isRedeemLoading = false;
+
       if (action.payload) {
         state.error = action.payload;
       }

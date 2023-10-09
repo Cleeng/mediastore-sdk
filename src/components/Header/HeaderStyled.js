@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import * as colors from 'styles/variables';
+import { isRTL } from 'styles/RTLHelper';
 import logoSrc from './img/logoBase64';
 
 export const HeaderStyled = styled.header.attrs(() => ({
@@ -8,7 +9,7 @@ export const HeaderStyled = styled.header.attrs(() => ({
   display: flex;
   position: relative;
 
-  padding: 0;
+  padding: 0 40px;
 
   background-color: ${colors.BackgroundColor};
   border-bottom: 1px ${colors.LineColor} solid;
@@ -32,4 +33,24 @@ export const LogoStyled = styled.div.attrs(() => ({
   background-size: auto 35%;
   background-position: center;
   background-repeat: no-repeat;
+`;
+
+export const ArrowStyled = styled.span`
+  width: 13px;
+  height: 13px;
+  align-self: center;
+
+  border-top: 2px solid ${colors.LineColor};
+  border-right: 2px solid ${colors.LineColor};
+
+  transform: rotate(225deg);
+
+  &:hover {
+    cursor: pointer;
+  }
+/* 
+  ${isRTL() &&
+    css`
+      transform: translateX(-25%) rotate(225deg);
+    `} */
 `;
