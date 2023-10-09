@@ -56,14 +56,17 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
   } = useAppSelector(selectOffer);
 
   useEffect(() => {
-    if (accessGranted) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const purchaseAsGiftParam = urlParams.get('purchaseAsGift');
+
+    if (accessGranted || purchaseAsGiftParam === 'true') {
       dispatch(setIsGift(true));
     }
 
     return () => {
       dispatch(resetDeliveryDetailsState());
     };
-  }, [accessGranted]);
+  }, [accessGranted, window.location.search]);
 
   return (
     <>

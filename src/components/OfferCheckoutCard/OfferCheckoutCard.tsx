@@ -43,7 +43,11 @@ const OfferCheckoutCard = ({
     customerPriceInclTax
   } = useAppSelector(selectOnlyOffer);
 
-  const { loading } = useAppSelector(selectOffer);
+  const {
+    loading,
+    offerV2: { title: offerV2Title }
+  } = useAppSelector(selectOffer);
+
   const {
     verifiedGift: { redeemMode, redeemRefusalReason }
   } = useAppSelector(selectGift);
@@ -282,34 +286,46 @@ const OfferCheckoutCard = ({
     }
 
     switch (redeemRefusalReason) {
-      case 'EXTERNAL':
+      case 'EXTERNALLY_MANAGED_SUBSCRIPTION':
         return t(
           'redeem-gift.description.refusal.external',
-          'Your subscription is managed through an external provider. You will be able to redeem your gift via web once your current subscription expires.'
+          'You already have an active subscription in a different store, perhaps through a mobile app. Once that subscription expires, you can come back and redeem your gift code here.'
         );
 
       case 'REDEEMED':
         return t(
           'redeem-gift.description.refusal.redeemed',
-          'The gift code has already been redeemed.'
+          'This gift code has already been used.'
         );
 
       case 'INACTIVE_OFFER':
         return t(
           'redeem-gift.description.refusal.offer-inactive',
-          'The offer you’re trying to purchase is inactive.'
+          'Sorry, but the offer linked to your gift code is no longer available.'
         );
 
-      case 'GEORESTRICTED':
+      case 'OFFER_GEO_RESTRICTED':
         return t(
-          'redeem-gift.description.refusal.georestricted',
-          'The gift can’t be redeemed due to the offer geo-restrictions.'
+          'redeem-gift.description.refusal.offer-georestricted',
+          "Sorry, this gift code can't be used in your current location due to geographic restrictions."
         );
 
       case 'RECURRING_PROCESS_ALREADY_STARTED':
         return t(
-          'redeem-gift.description.refusal.recurring',
-          'The gift code can’t be redeemed as your payment is now being processed.'
+          'redeem-gift.description.refusal.recurring-process-started',
+          "You’ll be able to redeem your gift code once we've finished processing a payment on your existing subscription"
+        );
+
+      case 'MORE_THAN_ONE_MATCHING_SUBSCRIPTION':
+        return t(
+          'redeem-gift.description.refusal.more-than-one-matching-subscription',
+          'You currently have multiple subscriptions granting you access to the content this gift provides. When one of those subscriptions expires, you can come back and redeem your gift code here.'
+        );
+
+      case 'PUBLISHER_GEO_RESTRICTED':
+        return t(
+          'redeem-gift.description.refusal.publisher-georestricted',
+          "Sorry, this gift code can't be used in your current location due to geographic restrictions."
         );
 
       default:
@@ -328,7 +344,9 @@ const OfferCheckoutCard = ({
           width={200}
           margin="0 0 10px 10px"
         >
-          <TitleStyled>{t(`offer-title-${offerId}`, title)}</TitleStyled>
+          <TitleStyled>
+            {t(`offer-title-${offerId}`, title || offerV2Title)}
+          </TitleStyled>
         </SkeletonWrapper>
         <SkeletonWrapper
           showChildren={!loading}
