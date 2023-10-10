@@ -706,6 +706,9 @@ Config.setRefreshToken("yyy"); // optional
 ## RedeemGift
 
 `RedeemGift` is a component that gives possibility to redeem the gift code and obtain access to the offer received as a gift.
+`RedeemGift` component is available only for authenticated users. If user is not logged in, `MSSDK:auth-failed` event will be emitted.
+
+[Communication (events)](#communication)
 
 **Config methods**
 
