@@ -705,7 +705,7 @@ Config.setRefreshToken("yyy"); // optional
 
 ## RedeemGift
 
-`RedeemGift` is a component that gives users the possibility to redeem the gift code and obtain access to the offer they received as a gift.
+`RedeemGift` is a component that gives possibility to redeem the gift code and obtain access to the offer received as a gift.
 
 **Config methods**
 
