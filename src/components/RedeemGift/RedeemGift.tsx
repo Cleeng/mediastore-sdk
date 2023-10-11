@@ -11,6 +11,9 @@ import SectionHeader from 'components/SectionHeader';
 import MyAccountInput from 'components/MyAccountInput';
 import OfferCheckoutCard from 'components/OfferCheckoutCard';
 import Loader from 'components/Loader';
+import Auth from 'services/auth';
+import ErrorPage from 'components/ErrorPage';
+import eventDispatcher, { MSSDK_AUTH_FAILED } from 'util/eventDispatcher';
 import ThankYouPage from './ThankYouPage';
 import {
   InputWrapperStyled,
@@ -94,12 +97,19 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
   const isConfirmButtonDisabled =
     !redeemable || isVerifyLoading || isOfferLoading;
 
-  return (
-    <WrapperStyled>
-      <Header onBackClick={onBackClick} />
-      {isGiftRedeemed ? (
-        <ThankYouPage />
-      ) : (
+  const renderMainContent = () => {
+    if (!Auth.isLogged()) {
+      eventDispatcher(MSSDK_AUTH_FAILED, {
+        source: 'RedeemGift'
+      });
+      return <ErrorPage type="isNotAuth" isRedeemGift />;
+    }
+    if (isGiftRedeemed) {
+      return <ThankYouPage />;
+    }
+
+    return (
+      <>
         <RedeemGiftWrapperStyled>
           <SectionHeader center paddingBottom="10px">
             {t('redeem-gift.button.header', 'Redeem your gift')}
@@ -142,8 +152,15 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
             )}
           </Button>
         </RedeemGiftWrapperStyled>
-      )}
-      <Footer />
+        <Footer />
+      </>
+    );
+  };
+
+  return (
+    <WrapperStyled>
+      <Header onBackClick={onBackClick} />
+      {renderMainContent()}
     </WrapperStyled>
   );
 };

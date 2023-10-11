@@ -340,6 +340,7 @@
   "redeem-gift.description.refusal.publisher-georestricted": "Sorry, this gift code can't be used in your current location due to geographic restrictions.",
   "redeem-gift.description.refusal.recurring-process-started": "You’ll be able to redeem your gift code once we've finished processing a payment on your existing subscription",
   "redeem-gift.description.refusal.redeemed": "This gift code has already been used",
+  "redeem-gift.error.not-authorized": "User not authorized",
   "redeem-gift.thank-you-page.header": "Thank you!",
   "redeem-gift.thank-you-page.manage-text1": "Your gift have been successfully redeemed. ",
   "redeem-gift.thank-you-page.manage-text2": "We hope you love it. If you need help from us with your account, you can always find it<1>here</1>.",
