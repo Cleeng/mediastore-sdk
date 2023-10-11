@@ -81,37 +81,35 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
   }, [accessGranted, window.location.search]);
 
   return (
-    <>
-      <DeliveryDetailsStyled>
-        <SectionHeader marginTop="25px" center>
-          <>{t('deliverydetails.title', 'Delivery details')}</>
-        </SectionHeader>
-        <ButtonsContainer>
-          <StyledButton
-            isActive={!isGift}
-            onClick={handleSetIsNotGift}
-            disabled={accessGranted}
-          >
-            <CardIcon />
-            <>
-              {t(
-                'deliverydetails.button.purchase-for-myself',
-                'Purchase for myself'
-              )}
-            </>
-          </StyledButton>
-          <StyledButton
-            isActive={isGift}
-            onClick={handleSetIsGift}
-            disabled={!giftable}
-          >
-            <GiftIcon />
-            {t('deliverydetails.button.purchase-as-gift', 'Purchase as a gift')}
-          </StyledButton>
-        </ButtonsContainer>
-        <>{isGift && <RecipientForm />}</>
-      </DeliveryDetailsStyled>
-    </>
+    <DeliveryDetailsStyled>
+      <SectionHeader marginTop="25px" center>
+        <>{t('deliverydetails.title', 'Delivery details')}</>
+      </SectionHeader>
+      <ButtonsContainer>
+        <StyledButton
+          isActive={!isGift}
+          onClick={handleSetIsNotGift}
+          disabled={accessGranted}
+        >
+          <CardIcon />
+          <>
+            {t(
+              'deliverydetails.button.purchase-for-myself',
+              'Purchase for myself'
+            )}
+          </>
+        </StyledButton>
+        <StyledButton
+          isActive={isGift}
+          onClick={handleSetIsGift}
+          disabled={!giftable}
+        >
+          <GiftIcon />
+          {t('deliverydetails.button.purchase-as-gift', 'Purchase as a gift')}
+        </StyledButton>
+      </ButtonsContainer>
+      <>{isGift && <RecipientForm />}</>
+    </DeliveryDetailsStyled>
   );
 };
 
