@@ -137,7 +137,7 @@ const Adyen = ({
       >
         {type === 'bank'
           ? getBankCopy()
-          : getStandardCopy(isMyAccount, offer, order)}
+          : getStandardCopy(isMyAccount, offer, order, deliveryDetails?.isGift)}
       </Checkbox>
     );
 
@@ -542,7 +542,7 @@ const Adyen = ({
     if (isDropInPresent) {
       recreateDropIn();
     }
-  }, [i18n.language]);
+  }, [i18n.language, deliveryDetails?.isGift]);
 
   useEffect(() => {
     if (selectedPaymentMethod?.methodName === 'paypal') {

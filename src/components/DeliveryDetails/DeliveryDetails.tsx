@@ -32,23 +32,35 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
   const handleSetIsGift = () => {
     dispatch(setIsGift(true));
 
-    // dispatch(
-    //   fetchUpdateOrder({
-    //     id: orderId,
-    //     payload: {
-    //       buyAsAGift: true,
-    //       deliveryDetails: {
-    //         recipientEmail: '',
-    //         deliveryDate: '',
-    //         personalNote: ''
-    //       }
-    //     }
-    //   })
-    // )
-    //   .unwrap()
-    //   .catch(err => {
-    //     throw new Error(err);
-    //   });
+    dispatch(
+      fetchUpdateOrder({
+        id: orderId,
+        payload: {
+          buyAsAGift: true
+        }
+      })
+    )
+      .unwrap()
+      .catch(err => {
+        throw new Error(err);
+      });
+  };
+
+  const handleSetIsNotGift = () => {
+    dispatch(setIsGift(false));
+
+    dispatch(
+      fetchUpdateOrder({
+        id: orderId,
+        payload: {
+          buyAsAGift: false
+        }
+      })
+    )
+      .unwrap()
+      .catch(err => {
+        throw new Error(err);
+      });
   };
 
   const {
@@ -77,7 +89,7 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
         <ButtonsContainer>
           <StyledButton
             isActive={!isGift}
-            onClick={() => dispatch(setIsGift(false))}
+            onClick={handleSetIsNotGift}
             disabled={accessGranted}
           >
             <CardIcon />

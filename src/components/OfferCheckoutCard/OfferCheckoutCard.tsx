@@ -12,6 +12,7 @@ import {
 import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
 import { selectGift } from 'redux/giftSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
+import { selectDeliveryDetails } from 'redux/deliveryDetailsSlice';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
 import getReadablePeriod from './OfferCheckoutCard.utils';
 import {
@@ -64,6 +65,8 @@ const OfferCheckoutCard = ({
       periods: discountedPeriods
     }
   } = useAppSelector(selectOnlyOrder);
+
+  const { isGift } = useAppSelector(selectDeliveryDetails);
 
   const offerType = offerId?.charAt(0);
   const currencySymbol = currencyFormat[currency];
@@ -196,6 +199,15 @@ const OfferCheckoutCard = ({
   const generateSubscriptionDescription = () => {
     if (discountType === 'coupon') {
       return generateCouponDescription();
+    }
+
+    if (isGift) {
+      const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}).`;
+      return t(`subscription-desc.gift`, description, {
+        currencySymbol,
+        grossPrice,
+        taxCopy
+      });
     }
 
     if (!isTrialAvailable) {
