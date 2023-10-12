@@ -44,6 +44,8 @@ const PayPal = ({
     onSubmit();
   };
 
+  console.log('paypal');
+
   return (
     <PayPalContentStyled>
       <CopyStyled>
