@@ -51,6 +51,11 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
   const getCouponNote = () => {
     const formattedDiscountAmount = formatNumber(discountAmount);
 
+    // unlimited
+    if (discountedPeriods === 999) {
+      return false;
+    }
+
     if (finalPrice === 0) {
       if (discountedPeriods === 1) {
         // non standard period free
@@ -148,7 +153,9 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
                 </StyledOfferPrice>
               </CouponNoteInnerWrapper>
               {discountType === 'coupon' && (
-                <CouponNoteStyled>{getCouponNote()}</CouponNoteStyled>
+                <CouponNoteStyled data-testid="coupon-notes">
+                  {getCouponNote()}
+                </CouponNoteStyled>
               )}
             </CouponNoteOuterWrapper>
           </StyledPriceWrapper>

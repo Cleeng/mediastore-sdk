@@ -36,7 +36,8 @@ import {
 import eventDispatcher, {
   MSSDK_PURCHASE_FAILED,
   MSSDK_PURCHASE_SUCCESSFUL,
-  MSSDK_AUTH_FAILED
+  MSSDK_AUTH_FAILED,
+  MSSDK_PAYMENT
 } from '../../util/eventDispatcher';
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
@@ -131,7 +132,6 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       );
       return;
     }
-
     dispatch(updatePaymentMethods(validMethodsFromResponse));
     setIsLoading(false);
 
@@ -167,6 +167,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   useEffect(() => {
     fetchPaymentMethods();
     handlePayPalError();
+    eventDispatcher(MSSDK_PAYMENT);
   }, []);
 
   // PayPal

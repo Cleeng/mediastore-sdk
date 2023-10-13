@@ -6,6 +6,7 @@ import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/go
 import { ReactComponent as IdealLogo } from 'assets/images/paymentMethods/ideal-small.svg';
 import { ReactComponent as SofortLogo } from 'assets/images/paymentMethods/sofort-small.svg';
 import { ReactComponent as BancontactLogo } from 'assets/images/paymentMethods/bancontact-small.svg';
+import store from 'redux/store';
 import { currencyFormat, isPeriod, periodMapper } from './planHelper';
 import formatNumber from './formatNumber';
 
@@ -76,17 +77,24 @@ export const validatePaymentMethods = (
   paymentMethods,
   arePaymentMethodsProvidedByPublisher
 ) => {
+  const {
+    publisherConfig: { hiddenPaymentMethods }
+  } = store.getState();
   if (!paymentMethods) return [];
   return paymentMethods.filter(method => {
+    const { id, methodName, paymentGateway } = method;
+    if (hiddenPaymentMethods.includes(id)) {
+      return false;
+    }
     if (
-      supportedPaymentMethods.includes(method.methodName) &&
-      supportedPaymentGateways.includes(method.paymentGateway)
+      supportedPaymentMethods.includes(methodName) &&
+      supportedPaymentGateways.includes(paymentGateway)
     ) {
       return true;
     }
     if (arePaymentMethodsProvidedByPublisher) {
       // eslint-disable-next-line no-console
-      console.error(`Payment method not supported (id: ${method.id})`);
+      console.error(`Payment method not supported (id: ${id})`);
     }
     return false;
   });

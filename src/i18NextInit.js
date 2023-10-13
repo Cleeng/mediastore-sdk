@@ -16,6 +16,7 @@ i18n
     },
     nsSeparator: false,
     keySeparator: false,
+    fallbackLng: false,
     ns: ['translations'],
     defaultNS: 'translations',
     updateMissing: true,

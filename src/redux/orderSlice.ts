@@ -118,7 +118,9 @@ export const fetchGetOrder = createAsyncThunk<
 export const orderSlice = createSlice({
   name: 'order',
   initialState,
-  reducers: {},
+  reducers: {
+    clearOrder: () => initialState
+  },
   extraReducers: builder => {
     builder.addCase(fetchCreateOrder.pending, state => {
       state.loading = true;
@@ -141,7 +143,7 @@ export const orderSlice = createSlice({
       state.order = action.payload;
     });
     builder.addCase(fetchGetOrder.rejected, state => {
-      state.loading = false;
+      state.loading = true;
     });
     builder.addCase(fetchUpdateCoupon.pending, (state, action) => {
       state.isCouponLoading = true;
@@ -197,6 +199,7 @@ export const orderSlice = createSlice({
   }
 });
 
+export const { clearOrder } = orderSlice.actions;
 export const selectOrder = (state: RootState) => state.order;
 export const selectOnlyOrder = (state: RootState) => state.order.order;
 

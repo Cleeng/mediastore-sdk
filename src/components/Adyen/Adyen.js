@@ -49,6 +49,7 @@ const Adyen = ({
     paymentMethods: publisherPaymentMethods,
     visiblePaymentMethods
   } = useAppSelector(state => state.publisherConfig);
+
   const [isLoading, setIsLoading] = useState(true);
   const { selectedPaymentMethod } = useAppSelector(
     state => state.paymentMethods
