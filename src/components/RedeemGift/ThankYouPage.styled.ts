@@ -17,13 +17,21 @@ export const InfoTextStyled = styled.div`
   font-size: 15px;
   font-weight: 300;
   text-align: center;
-  max-width: 380px;
+  max-width: 530px;
   color: ${colors.FontColor};
   width: 100%;
 
   p {
-    font-weight: 400;
+    font-weight: 500;
     text-align: center;
+  }
+`;
+
+export const InfoTextWrapper = styled.div`
+  margin-top: 24px;
+
+  a {
+    font-weight: 500;
   }
 `;
 

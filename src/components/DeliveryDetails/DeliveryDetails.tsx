@@ -32,23 +32,35 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
   const handleSetIsGift = () => {
     dispatch(setIsGift(true));
 
-    // dispatch(
-    //   fetchUpdateOrder({
-    //     id: orderId,
-    //     payload: {
-    //       buyAsAGift: true,
-    //       deliveryDetails: {
-    //         recipientEmail: '',
-    //         deliveryDate: '',
-    //         personalNote: ''
-    //       }
-    //     }
-    //   })
-    // )
-    //   .unwrap()
-    //   .catch(err => {
-    //     throw new Error(err);
-    //   });
+    dispatch(
+      fetchUpdateOrder({
+        id: orderId,
+        payload: {
+          buyAsAGift: true
+        }
+      })
+    )
+      .unwrap()
+      .catch(err => {
+        throw new Error(err);
+      });
+  };
+
+  const handleSetIsNotGift = () => {
+    dispatch(setIsGift(false));
+
+    dispatch(
+      fetchUpdateOrder({
+        id: orderId,
+        payload: {
+          buyAsAGift: false
+        }
+      })
+    )
+      .unwrap()
+      .catch(err => {
+        throw new Error(err);
+      });
   };
 
   const {
@@ -60,7 +72,9 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
     const purchaseAsGiftParam = urlParams.get('purchaseAsGift');
 
     if (accessGranted || purchaseAsGiftParam === 'true') {
-      dispatch(setIsGift(true));
+      handleSetIsGift();
+    } else {
+      handleSetIsNotGift();
     }
 
     return () => {
@@ -69,37 +83,35 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
   }, [accessGranted, window.location.search]);
 
   return (
-    <>
-      <DeliveryDetailsStyled>
-        <SectionHeader marginTop="25px" center>
-          <>{t('deliverydetails.title', 'Delivery details')}</>
-        </SectionHeader>
-        <ButtonsContainer>
-          <StyledButton
-            isActive={!isGift}
-            onClick={() => dispatch(setIsGift(false))}
-            disabled={accessGranted}
-          >
-            <CardIcon />
-            <>
-              {t(
-                'deliverydetails.button.purchase-for-myself',
-                'Purchase for myself'
-              )}
-            </>
-          </StyledButton>
-          <StyledButton
-            isActive={isGift}
-            onClick={handleSetIsGift}
-            disabled={!giftable}
-          >
-            <GiftIcon />
-            {t('deliverydetails.button.purchase-as-gift', 'Purchase as a gift')}
-          </StyledButton>
-        </ButtonsContainer>
-        <>{isGift && <RecipientForm />}</>
-      </DeliveryDetailsStyled>
-    </>
+    <DeliveryDetailsStyled>
+      <SectionHeader marginTop="25px" center>
+        <>{t('deliverydetails.title', 'Delivery details')}</>
+      </SectionHeader>
+      <ButtonsContainer>
+        <StyledButton
+          isActive={!isGift}
+          onClick={handleSetIsNotGift}
+          disabled={accessGranted}
+        >
+          <CardIcon />
+          <>
+            {t(
+              'deliverydetails.button.purchase-for-myself',
+              'Purchase for myself'
+            )}
+          </>
+        </StyledButton>
+        <StyledButton
+          isActive={isGift}
+          onClick={handleSetIsGift}
+          disabled={!giftable}
+        >
+          <GiftIcon />
+          {t('deliverydetails.button.purchase-as-gift', 'Purchase as a gift')}
+        </StyledButton>
+      </ButtonsContainer>
+      <>{isGift && <RecipientForm />}</>
+    </DeliveryDetailsStyled>
   );
 };
 
