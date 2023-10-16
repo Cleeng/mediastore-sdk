@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { fetchRedeemGift, fetchVerifyGift, selectGift } from 'redux/giftSlice';
