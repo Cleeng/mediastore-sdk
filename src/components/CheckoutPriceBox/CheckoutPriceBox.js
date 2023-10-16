@@ -205,7 +205,7 @@ const CheckoutPriceBox = () => {
         <StyledPriceWrapper>
           <strong>
             <StyledTotalLabel>
-              {t('checkout-price-box.total', 'Total')}
+              {t('checkout-price-box.total', 'Today`s total')}
             </StyledTotalLabel>
             <StyledTotalOfferPrice>
               {`${currencySymbol}${formatNumber(finalPrice)}`}
