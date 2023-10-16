@@ -118,7 +118,7 @@ export const getAvailablePaymentMethods = (
   return availablePaymentMethods;
 };
 
-export const getStandardCopy = (isMyAccount, offer, order) => {
+export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
   const { period: offerPeriod, customerPriceExclTax: offerBasePrice } = offer;
 
   const { discount, currency, offerId } = order;
@@ -133,6 +133,14 @@ export const getStandardCopy = (isMyAccount, offer, order) => {
     offerBasePrice
   )}`;
   const readablePeriod = chargedForEveryText ? `/${chargedForEveryText}` : '';
+
+  if (isGift) {
+    return i18n.t(
+      // TODO: add link to T&C
+      'offer-standard-consent-copy.checkout-not-subscription',
+      'By ticking this, you agree to the Terms and Conditions of our service.'
+    );
+  }
 
   if (isMyAccount) {
     // TODO: add link to T&C
