@@ -27,6 +27,10 @@ export const StyledOfferPrice = styled.span.attrs(() => ({
   `}
 `;
 
+export const StyledTotalWrapper = styled.strong`
+  border-top: 1px solid ${variables.LineColor};
+`;
+
 export const StyledTotalLabel = styled(StyledLabel).attrs(() => ({
   className: 'msd__price-summary__total--label'
 }))`
@@ -68,6 +72,10 @@ export const StyledPriceWrapper = styled.li`
   margin-bottom: 12px;
   position: relative;
 
+  &:last-of-type {
+    margin-bottom: unset;
+  }
+
   strong {
     display: flex;
     flex-direction: row;
@@ -96,4 +104,17 @@ export const CouponNoteStyled = styled.div.attrs(() => ({
   border-radius: 5px;
 
   font-size: 12px;
+`;
+
+export const StyledRedeemButton = styled.div`
+  > span {
+    font-size: 13px;
+    color: ${variables.FontColor};
+    font-weight: 400;
+  }
+
+  > button {
+    color: #4eb7a1;
+    text-decoration: underline;
+  }
 `;

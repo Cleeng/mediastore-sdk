@@ -36,6 +36,7 @@ export type Order = {
   taxBreakdown: unknown;
   taxRate: number;
   totalPrice: number;
+  buyAsAGift: boolean;
 };
 
 export type OrderInitialState = {

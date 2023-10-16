@@ -7,6 +7,7 @@ import PasswordReset from 'components/PasswordReset';
 import Capture from 'components/Capture/Capture';
 import CheckoutConsents from 'components/CheckoutConsents';
 import OfferContainer from 'containers/OfferContainer';
+import RedeemGift from 'components/RedeemGift';
 import ThankYouPage from 'components/ThankYouPage';
 import Auth from 'services/auth';
 import PasswordResetSuccess from 'components/PasswordResetSuccess';
@@ -38,6 +39,9 @@ const CheckoutSteps = {
   PASSWORD_SUCCESS: {
     stepNumber: 6,
     nextStep: 7
+  },
+  REDEEM_GIFT: {
+    stepNumber: 8
   }
 };
 
@@ -45,12 +49,22 @@ class Checkout extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentStep: 0
+      currentStep: 0,
+      giftCode: ''
     };
   }
 
   componentDidMount() {
     const { initValues, offerId, adyenConfiguration } = this.props;
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const giftCodeParam = urlParams.get('giftCode');
+
+    if (giftCodeParam) {
+      this.setState({
+        giftCode: giftCodeParam
+      });
+    }
 
     initValues({
       offerId,
@@ -70,7 +84,7 @@ class Checkout extends Component {
   };
 
   render() {
-    const { currentStep } = this.state;
+    const { currentStep, giftCode } = this.state;
     const {
       couponCode,
       onSuccess,
@@ -103,19 +117,27 @@ class Checkout extends Component {
       case 3:
         return (
           <CheckoutConsents
-            onSuccess={() => this.goToStep(CheckoutSteps.CONSENTS.nextStep)}
+            onSuccess={() =>
+              giftCode
+                ? this.goToStep(CheckoutSteps.REDEEM_GIFT.stepNumber)
+                : this.goToStep(CheckoutSteps.CONSENTS.nextStep)
+            }
           />
         );
       case 4:
         return (
           <OfferContainer
+            isCheckout
             offerId={offerId}
             couponCode={couponCode}
             onSuccess={() => this.goToStep(CheckoutSteps.PURCHASE.nextStep)}
+            onRedeemClick={() =>
+              this.goToStep(CheckoutSteps.REDEEM_GIFT.stepNumber)
+            }
           />
         );
       case 5:
-        return <ThankYouPage onSuccess={() => onSuccess()} />;
+        return <ThankYouPage onSuccess={onSuccess} />;
       case 6:
         return (
           <PasswordReset
@@ -129,6 +151,15 @@ class Checkout extends Component {
           <PasswordResetSuccess
             email={getData('CLEENG_CUSTOMER_EMAIL')}
             resetPasswordCallback={resetPasswordCallback}
+          />
+        );
+      case 8:
+        return (
+          <RedeemGift
+            onBackClick={() => {
+              this.goToStep(CheckoutSteps.PURCHASE.stepNumber);
+            }}
+            onSuccess={onSuccess}
           />
         );
       default:

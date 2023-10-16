@@ -35,7 +35,8 @@ const initialState: OrderInitialState = {
     requiredPaymentDetails: false,
     taxBreakdown: '',
     taxRate: 0,
-    totalPrice: 0
+    totalPrice: 0,
+    buyAsAGift: false
   },
   loading: true,
   error: '',

@@ -32,6 +32,7 @@ To find out more about MediaStore SDK, see:
   - [PaymentInfo](#paymentinfo)
   - [TransactionList](#transactionlist)
   - [UpdateProfile](#updateprofile)
+  - [RedeemGift](#redeemgift)
 - [Styling](#styling)
 - [Communication (events)](#communication)
 - [Adyen configuration](#adyen-configuration)
@@ -698,6 +699,42 @@ Config.setRefreshToken("yyy"); // optional
 
 ```javascript
 <Capture onSuccess={() => console.log("success")} />
+```
+
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
+
+## RedeemGift
+
+`RedeemGift` is a component that gives possibility to redeem the gift code and obtain access to the offer received as a gift.
+`RedeemGift` component is available only for authenticated users.
+If user is not logged in, `MSSDK:auth-failed` event will be emitted.
+
+[Communication (events)](#communication)
+
+**Config methods**
+
+```javascript
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
+```
+
+**Props**
+
+- `onSuccess` - callback function called after successful gift code redemption
+- `onBackClick` - callback function enabling the user to go back to the previous view
+
+**Usage sample**
+
+```javascript
+import { RedeemGift, store } from "@cleeng/mediastore-sdk";
+import { Provider } from "react-redux";
+
+<Provider store={store}>
+  <RedeemGift
+    onBackClick={() => console.log("Back to the Checkout")}
+    onSuccess={() => console.log("success")}
+  />
+</Provider>;
 ```
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>

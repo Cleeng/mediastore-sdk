@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'redux/store';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import { selectOnlyOffer } from 'redux/offerSlice';
+import { selectDeliveryDetails } from 'redux/deliveryDetailsSlice';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
 import Button from 'components/Button';
 import { getStandardCopy } from 'util/paymentMethodHelper';
@@ -25,6 +26,8 @@ const PayPal = ({
 
   const order = useAppSelector(selectOnlyOrder);
   const offer = useAppSelector(selectOnlyOffer);
+
+  const { isGift } = useAppSelector(selectDeliveryDetails);
 
   const [isChecked, setIsChecked] = useState(false);
 
@@ -85,7 +88,7 @@ const PayPal = ({
             setIsChecked(!e.target.checked);
           }}
         >
-          {getStandardCopy(isMyAccount, offer, order)}
+          {getStandardCopy(isMyAccount, offer, order, isGift)}
         </Checkbox>
       </CheckboxWrapperStyled>
       <Button
