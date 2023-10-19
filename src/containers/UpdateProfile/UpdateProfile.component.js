@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import { getCustomer, getCaptureStatus, getCustomerConsents } from 'api';
 import MyAccountError from 'components/MyAccountError';
 import MyAccountConsents from 'components/MyAccountConsents';
-import EditPassword from 'components/EditPassword/EditPassword';
+import EditPassword from 'components/EditPassword';
 import AdditionalProfileInfo from 'components/AdditionalProfileInfo';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import GracePeriodError from 'components/GracePeriodError';
@@ -116,6 +116,7 @@ class UpdateProfile extends Component {
       showInnerPopup,
       hideInnerPopup,
       innerPopup,
+      handleLogout,
       t
     } = this.props;
 
@@ -159,6 +160,7 @@ class UpdateProfile extends Component {
             <EditPassword
               hideInnerPopup={hideInnerPopup}
               customerEmail={user.email}
+              handleLogout={handleLogout}
             />
           </>
         ) : (
@@ -268,14 +270,16 @@ UpdateProfile.propTypes = {
   }).isRequired,
   t: PropTypes.func,
   displayGracePeriodError: PropTypes.bool,
-  initPublisherConfig: PropTypes.func.isRequired
+  initPublisherConfig: PropTypes.func.isRequired,
+  handleLogout: PropTypes.func
 };
 
 UpdateProfile.defaultProps = {
   userProfile: { user: null },
   consentsError: '',
   t: k => k,
-  displayGracePeriodError: null
+  displayGracePeriodError: null,
+  handleLogout: k => k
 };
 
 export { UpdateProfile as PureUpdateProfile };
