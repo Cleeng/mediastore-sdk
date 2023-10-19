@@ -144,7 +144,7 @@ const CancelSwitchPopup = () => {
               )}
             </TextStyled>
           </ContentStyled>
-          <ButtonWrapperStyled removeMargin>
+          <ButtonWrapperStyled $removeMargin>
             <Button
               theme="simple"
               onClickFn={() => {
@@ -197,7 +197,7 @@ const CancelSwitchPopup = () => {
               )}
             </TextStyled>
           </ContentStyled>
-          <ButtonWrapperStyled removeMargin>
+          <ButtonWrapperStyled $removeMargin>
             <Button
               theme="confirm"
               onClickFn={() => {

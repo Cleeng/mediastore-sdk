@@ -80,8 +80,8 @@ class EditPassword extends PureComponent {
         {step === 1 && (
           <>
             <ContentStyled>
-              <TitleStyled step={step}>{t('Edit Password')}</TitleStyled>
-              <TextStyled step={step}>
+              <TitleStyled $step={step}>{t('Edit Password')}</TitleStyled>
+              <TextStyled $step={step}>
                 {t(
                   "If you want to edit your password, click 'YES, Reset' to receive password reset instruction on your mail"
                 )}
@@ -102,8 +102,10 @@ class EditPassword extends PureComponent {
         {step === 2 && (
           <>
             <ContentStyled>
-              <TitleStyled step={step}>{t('Email has been sent!')}</TitleStyled>
-              <TextStyled step={step}>
+              <TitleStyled $step={step}>
+                {t('Email has been sent!')}
+              </TitleStyled>
+              <TextStyled $step={step}>
                 {t(
                   'Please check your inbox and check the Instruction to change a password'
                 )}

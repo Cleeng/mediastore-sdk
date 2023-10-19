@@ -135,7 +135,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
               <ArrowStyled />
               <SubscriptionIconStyled period={toOffer.period} showLabel="New" />
             </ImageWrapper>
-            <TitleStyled step={step} textTransform="capitalize">
+            <TitleStyled $step={step} $textTransform="capitalize">
               {t(
                 `switchplan-popup.${toOffer.switchDirection}-title`,
                 toOffer.switchDirection
@@ -399,7 +399,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
               )}
             </TextStyled>
           </ContentStyled>
-          <ButtonWrapperStyled removeMargin>
+          <ButtonWrapperStyled $removeMargin>
             <Button
               theme="simple"
               onClickFn={() => {
@@ -450,10 +450,10 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
             <ImageWrapper>
               <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
             </ImageWrapper>
-            <TitleStyled step={step}>
+            <TitleStyled $step={step}>
               {t('switchplan-popup.success.header', 'Thank You!')}
             </TitleStyled>
-            <TextStyled step={step}>
+            <TextStyled $step={step}>
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
                 <Trans i18nKey="switchplan-popup-confirm-immediatewithoutproration">
                   You have successfully changed your plan to{' '}
@@ -701,7 +701,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
             <ImageWrapper>
               <Close />
             </ImageWrapper>
-            <TitleStyled step={step}>
+            <TitleStyled $step={step}>
               {t('switchplan-popup.error-title', 'An error occurred.')}
             </TitleStyled>
             <TextStyled step={step}>

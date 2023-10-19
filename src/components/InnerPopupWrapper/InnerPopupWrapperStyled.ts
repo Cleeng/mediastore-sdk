@@ -42,23 +42,24 @@ export const WrapperStyled = styled.div.attrs(() => ({
 
 export const DotsWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__popup__dots'
-}))`
+}))<{ $currentStep: number }>`
   display: flex;
   flex-direction: row;
   ${props =>
-    props.currentStep &&
+    props.$currentStep &&
     css`
-      span:nth-child(-n + ${props.currentStep}) {
+      span:nth-child(-n + ${props.$currentStep}) {
         background: ${ConfirmColor};
-      }
+      
     `}
 `;
+
 export const HeaderStyled = styled.div.attrs(() => ({
   className: 'msd__popup__header'
 }))`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space between;
   color: ${FontColor};
   ${media.small`
     margin: 30px 0 0 0;
@@ -97,14 +98,32 @@ export const ContentStyled = styled.div.attrs(() => ({
   `}
 `;
 
+type TitleStyledProps = {
+  $textTransform?:
+    | 'none'
+    | 'capitalize'
+    | 'uppercase'
+    | 'lowercase'
+    | 'full-width'
+    | 'full-size-kana'
+    | 'inherit'
+    | 'initial'
+    | 'revert'
+    | 'revert'
+    | 'revert-layer'
+    | 'unset';
+
+  $step?: number;
+};
+
 export const TitleStyled = styled.h1.attrs(() => ({
   className: 'msd__popup-content__title'
-}))`
+}))<TitleStyledProps>`
   font-size: 26px;
   color: ${FontColor};
   font-weight: 600;
   text-transform: ${props =>
-    props.textTransform ? props.textTransform : 'none'};
+    props.$textTransform ? props.$textTransform : 'none'};
   line-height: 1.2;
 
   ${media.small`
@@ -112,7 +131,7 @@ export const TitleStyled = styled.h1.attrs(() => ({
   `}
 
   ${props =>
-    props.step === 2 &&
+    props.$step === 2 &&
     css`
       font-size: 20px;
       ${media.small`
@@ -137,18 +156,24 @@ export const MailStyled = styled.span.attrs(() => ({
   font-weight: 700;
 `;
 
+type ButtonWrapperStyledProps = {
+  $removeMargin: boolean;
+  $customMargin: string;
+  $fillWrapper: boolean;
+};
+
 export const ButtonWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__popup-content__buttons'
-}))`
+}))<ButtonWrapperStyledProps>`
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-bottom: ${props => (props.removeMargin ? '0' : '60px')};
+  margin-bottom: ${props => (props.$removeMargin ? '0' : '60px')};
 
   ${props =>
-    props.customMargin &&
+    props.$customMargin &&
     css`
-      margin: ${props.customMargin};
+      margin: ${props.$customMargin};
     `}
 
   ${media.small`
@@ -157,7 +182,7 @@ export const ButtonWrapperStyled = styled.div.attrs(() => ({
 
   button {
     text-transform: capitalize;
-    width: ${props => (props.fillWrapper ? '80%' : '40%')};
+    width: ${props => (props.$fillWrapper ? '80%' : '40%')};
     margin: 0 5px;
     &:disabled {
       cursor: not-allowed;
@@ -185,18 +210,14 @@ export const OfferCardWrapperStyled = styled.div.attrs(() => ({
   background: ${CardColor};
   border: 1px solid ${LineColor};
   border-radius: 12px;
-
   padding: 15px;
   max-width: 550px;
-
   text-align: left;
-
   ${props =>
     props.onClick &&
     css`
       cursor: pointer;
     `}
-
   margin: 10px auto 10px auto;
   &:last-child {
     margin: 10px auto 40px auto;
