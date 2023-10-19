@@ -93,17 +93,17 @@ const EditPassword = ({
             <TitleStyled step={step}>{t('Email has been sent!')}</TitleStyled>
             <TextStyled step={step}>
               {t(
-                'Please check your inbox and check the Instruction to change a password'
+                'Please check your inbox and follow the instructions to reset your password.'
               )}
             </TextStyled>
             <TextStyled step={step}>
-              {t('You will be automatically logged out now')}
+              {t('You will be logged out for security reasons.')}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button theme="confirm" onClickFn={() => logout()}>
               {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
-                t('Thanks!')}
+                t('Confirm')}
             </Button>
           </ButtonWrapperStyled>
         </>
