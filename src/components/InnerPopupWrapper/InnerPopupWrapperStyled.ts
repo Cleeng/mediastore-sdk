@@ -59,7 +59,7 @@ export const HeaderStyled = styled.div.attrs(() => ({
 }))`
   display: flex;
   flex-direction: row;
-  justify-content: space between;
+  justify-content: space-between;
   color: ${FontColor};
   ${media.small`
     margin: 30px 0 0 0;
