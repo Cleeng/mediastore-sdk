@@ -19,6 +19,10 @@ export const WrapStyled = styled.div.attrs(() => ({
       display: none;
     `};
 
+  .msd__error {
+    color: ${ErrorColor};
+  }
+
   input[type='date'] {
     text-transform: uppercase;
 
