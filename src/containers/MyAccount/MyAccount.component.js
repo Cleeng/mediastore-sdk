@@ -137,6 +137,10 @@ class MyAccount extends Component {
     }
   }
 
+  handleLogout = () => {
+    this.setState({ isLogged: false });
+  };
+
   checkTerms() {
     const {
       userProfile: { consents }
@@ -210,7 +214,7 @@ class MyAccount extends Component {
       case MYACCCOUNT_TABS.paymentInfo:
         return <PaymentInfo />;
       case MYACCCOUNT_TABS.updateProfile:
-        return <UpdateProfile />;
+        return <UpdateProfile handleLogout={this.handleLogout} />;
       default:
         return null;
     }
