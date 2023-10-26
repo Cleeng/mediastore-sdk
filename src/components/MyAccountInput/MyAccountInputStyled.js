@@ -18,6 +18,19 @@ export const WrapStyled = styled.div.attrs(() => ({
     css`
       display: none;
     `};
+
+  .msd__error {
+    color: ${ErrorColor};
+  }
+
+  input[type='date'] {
+    text-transform: uppercase;
+
+    &::-webkit-calendar-picker-indicator {
+      font-size: 20px;
+      opacity: 0.7;
+    }
+  }
 `;
 
 export const InputElementLabelStyled = styled.label.attrs(() => ({

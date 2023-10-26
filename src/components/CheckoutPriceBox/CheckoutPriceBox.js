@@ -1,11 +1,13 @@
 import React from 'react';
-import formatNumber from 'util/formatNumber';
 import { useTranslation } from 'react-i18next';
+import PropTypes from 'prop-types';
+import formatNumber from 'util/formatNumber';
 import { currencyFormat } from 'util/planHelper';
 import calculateTaxValueForFreeOffer from 'util/calculateTaxValueForFreeOffer';
 import { useAppSelector } from 'redux/store';
 import { selectOnlyOffer } from 'redux/offerSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
+import { LinkStyled } from 'components/ThankYouPage/ThankYouPageStyled';
 import {
   StyledTotalLabel,
   StyledOfferPrice,
@@ -16,10 +18,12 @@ import {
   StyledPriceWrapper,
   CouponNoteStyled,
   CouponNoteOuterWrapper,
-  CouponNoteInnerWrapper
+  CouponNoteInnerWrapper,
+  StyledTotalWrapper,
+  StyledRedeemButton
 } from './CheckoutPriceBoxStyled';
 
-const CheckoutPriceBox = () => {
+const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
   const { customerPriceInclTax } = useAppSelector(selectOnlyOffer);
   const {
     priceBreakdown: {
@@ -40,9 +44,13 @@ const CheckoutPriceBox = () => {
     currency
   } = useAppSelector(selectOnlyOrder);
 
+  const { trialAvailable } = useAppSelector(selectOnlyOffer);
+
   const currencySymbol = currencyFormat[currency];
 
   const { t } = useTranslation();
+
+  const isTrial = trialAvailable && discountType === 'trial';
 
   const getCouponNote = () => {
     // unlimited
@@ -67,13 +75,17 @@ const CheckoutPriceBox = () => {
             </span>
           </StyledOfferPrice>
         </StyledPriceWrapper>
-
         {isCouponApplied && (
           <StyledPriceWrapper>
             <CouponNoteOuterWrapper>
               <CouponNoteInnerWrapper>
                 <StyledLabel>
-                  {t('checkout-price-box.coupon-discount', 'Coupon Discount')}
+                  {isTrial
+                    ? t('checkout-price-box.trial-discount', 'Trial Discount')
+                    : t(
+                        'checkout-price-box.coupon-discount',
+                        'Coupon Discount'
+                      )}
                 </StyledLabel>
                 <StyledOfferPrice>
                   - {currencySymbol}
@@ -88,7 +100,6 @@ const CheckoutPriceBox = () => {
             </CouponNoteOuterWrapper>
           </StyledPriceWrapper>
         )}
-
         <StyledPriceWrapper>
           <StyledLabel>
             {country === 'US'
@@ -110,7 +121,6 @@ const CheckoutPriceBox = () => {
             )}
           </StyledOfferPrice>
         </StyledPriceWrapper>
-
         {customerServiceFee !== 0 && (
           <StyledPriceWrapper>
             <StyledLabel>
@@ -121,7 +131,6 @@ const CheckoutPriceBox = () => {
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
-
         {paymentMethodFee !== 0 && (
           <StyledPriceWrapper>
             <StyledLabel>
@@ -132,20 +141,37 @@ const CheckoutPriceBox = () => {
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
-
         <StyledPriceWrapper>
-          <strong>
+          <StyledTotalWrapper>
             <StyledTotalLabel>
-              {t('checkout-price-box.total', 'Total')}
+              {t('checkout-price-box.total', 'Today`s total')}
             </StyledTotalLabel>
             <StyledTotalOfferPrice>
               {`${currencySymbol}${formatNumber(finalPrice)}`}
             </StyledTotalOfferPrice>
-          </strong>
+          </StyledTotalWrapper>
         </StyledPriceWrapper>
+        {isCheckout && (
+          <StyledRedeemButton>
+            <span>Have a gift code?</span>
+            <LinkStyled as="button" onClick={onRedeemClick}>
+              Redeem here
+            </LinkStyled>
+          </StyledRedeemButton>
+        )}
       </StyledPriceBox>
     </StyledPriceBoxWrapper>
   );
+};
+
+CheckoutPriceBox.propTypes = {
+  isCheckout: PropTypes.bool,
+  onRedeemClick: PropTypes.func
+};
+
+CheckoutPriceBox.defaultProps = {
+  onRedeemClick: () => null,
+  isCheckout: false
 };
 
 export { CheckoutPriceBox as PureCheckoutPriceBox };

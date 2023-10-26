@@ -19,6 +19,7 @@ class MyAccountInput extends Component {
       id,
       placeholder,
       type,
+      min,
       value,
       label,
       onChange,
@@ -28,17 +29,22 @@ class MyAccountInput extends Component {
       error,
       onBlur,
       name,
-      autoComplete
+      autoComplete,
+      required
     } = this.props;
 
     return (
       <WrapStyled hideInput={hideInput}>
-        <InputElementLabelStyled htmlFor={id}>{label}</InputElementLabelStyled>
+        <InputElementLabelStyled htmlFor={id}>
+          {label}
+          {required && ' *'}
+        </InputElementLabelStyled>
         <InputElementStyled
           error={error}
           id={id}
           placeholder={placeholder}
           type={type}
+          min={min}
           value={value}
           disabled={disabled}
           onSubmit={onSubmit}
@@ -62,6 +68,7 @@ MyAccountInput.propTypes = {
   placeholder: PropTypes.string,
   type: PropTypes.string,
   value: PropTypes.string,
+  min: PropTypes.string,
   label: PropTypes.string,
   onChange: PropTypes.func,
   onSubmit: PropTypes.func,
@@ -70,7 +77,8 @@ MyAccountInput.propTypes = {
   error: PropTypes.string,
   onBlur: PropTypes.func,
   name: PropTypes.string,
-  autoComplete: PropTypes.string
+  autoComplete: PropTypes.string,
+  required: PropTypes.bool
 };
 
 MyAccountInput.defaultProps = {
@@ -78,13 +86,15 @@ MyAccountInput.defaultProps = {
   placeholder: '',
   type: 'text',
   value: '',
+  min: '',
   label: '',
-  onChange: () => {},
-  onSubmit: () => {},
-  onBlur: () => {},
+  onChange: () => null,
+  onSubmit: () => null,
+  onBlur: () => null,
   disabled: false,
   hideInput: false,
   error: '',
   name: '',
-  autoComplete: ''
+  autoComplete: '',
+  required: false
 };

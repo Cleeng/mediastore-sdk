@@ -13,7 +13,8 @@ export const POPUP_TYPES = {
   PAUSE_SUBSCRIPTION_POPUP: 'pauseSubscription',
   RESUME_SUBSCRIPTION_POPUP: 'resumeSubscription',
   CANCEL_SWITCH_POPUP: 'cancelSwitch',
-  CANCEL_PAUSE_POPUP: 'cancelPause'
+  CANCEL_PAUSE_POPUP: 'cancelPause',
+  EDIT_DELIVERY_DETAILS_POPUP: 'editDeliveryDetails'
 } as const;
 
 export const PAYMENT_DETAILS_STEPS = {
@@ -34,6 +35,11 @@ const initialState: PopupManagerInitialState = {
   cancelSwitch: null,
   cancelPause: null,
   resumeSubscription: null,
+  editDeliveryDetails: {
+    giftId: null,
+    offerId: '',
+    offerTitle: ''
+  },
   paymentDetails: {
     isOpen: false,
     isLoading: false,
@@ -77,6 +83,9 @@ export const popupSlice = createSlice({
 
 export const selectPaymentDetailsPopup = (state: RootState) =>
   state.popupManager.paymentDetails;
+
+export const selectEditDeliveryDetailsPopup = (state: RootState) =>
+  state.popupManager.editDeliveryDetails;
 
 export const selectPopupDetails = (state: RootState) => ({
   isOpen: state.popupManager.isOpen,

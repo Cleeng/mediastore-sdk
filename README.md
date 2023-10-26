@@ -32,6 +32,7 @@ To find out more about MediaStore SDK, see:
   - [PaymentInfo](#paymentinfo)
   - [TransactionList](#transactionlist)
   - [UpdateProfile](#updateprofile)
+  - [RedeemGift](#redeemgift)
 - [Styling](#styling)
 - [Communication (events)](#communication)
 - [Adyen configuration](#adyen-configuration)
@@ -702,6 +703,42 @@ Config.setRefreshToken("yyy"); // optional
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
 
+## RedeemGift
+
+`RedeemGift` is a component that gives possibility to redeem the gift code and obtain access to the offer received as a gift.
+`RedeemGift` component is available only for authenticated users.
+If user is not logged in, `MSSDK:auth-failed` event will be emitted.
+
+[Communication (events)](#communication)
+
+**Config methods**
+
+```javascript
+Config.setJWT("xxx"); // required
+Config.setRefreshToken("yyy"); // optional
+```
+
+**Props**
+
+- `onSuccess` - callback function called after successful gift code redemption
+- `onBackClick` - callback function enabling the user to go back to the previous view
+
+**Usage sample**
+
+```javascript
+import { RedeemGift, store } from "@cleeng/mediastore-sdk";
+import { Provider } from "react-redux";
+
+<Provider store={store}>
+  <RedeemGift
+    onBackClick={() => console.log("Back to the Checkout")}
+    onSuccess={() => console.log("success")}
+  />
+</Provider>;
+```
+
+<div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
+
 ## Styling
 
 #### Font
@@ -786,11 +823,11 @@ window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
 
 | Event                                           | Event detail                                                                                                                                                                                        | Description                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | ----------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `MSSDK:Purchase-loaded`                         | `null`                                                                                                                                                                                              | The event will be emitted when Purchase component data is loaded.                                                                                                                                                                                                                                                                                                                                                                         |
-| `MSSDK:purchase-successful`                     | `{payment: { ...paymentResponse}`                                                                                                                                                                   | The event will be emitted after successful Adyen payment action. `paymentResponse` object is just as the repsonse from [Adyen payment response](https://developers.cleeng.com/reference/adyen-initial-payment)                                                                                                                                                                                                                            |
-| `MSSDK:purchase-failed`                         | `{reason: "Rejection reason"}`                                                                                                                                                                      | The event will be emitted after failed Adyen payment action.                                                                                                                                                                                                                                                                                                                                                                              |
+| `MSSDK:Purchase-loaded`                         | `{order: {...orderObject } }`                                                                                                                                                                       | The event will be emitted when Purchase component data is loaded.                                                                                                                                                                                                                                                                                                                                                                         |
+| `MSSDK:purchase-successful`                     | `{payment: { ...paymentResponse} }`                                                                                                                                                                 | The event will be emitted after successful Adyen payment action. `paymentResponse` object is just as the repsonse from [Adyen payment response](https://developers.cleeng.com/reference/adyen-initial-payment)                                                                                                                                                                                                                            |
+| `MSSDK:purchase-failed`                         | `{reason: "Rejection reason"} }`                                                                                                                                                                    | The event will be emitted after failed Adyen payment action.                                                                                                                                                                                                                                                                                                                                                                              |
 | `MSSDK:Adyen-error`                             | `{error: "Error message", fieldType: "fieldType"}`                                                                                                                                                  | The event will be emitted when any of the Adyen errors occur, or when the customer fixes the input and the error message disappears. <ul><li>`error` - string with an error message. It will be empty when the error message disappears from the form.</li><li>`fieldType` - informs for which field error occurred. Possible values:<br/> - `encryptedCardNumber`<br/> - `encryptedExpiryDate`<br/> - `encryptedSecurityCode`.</li></ul> |
-| `MSSDK:redeem-coupon-success`                   | <code>{coupon: "coupon code", source: "checkout"&#124;"myaccount"}</code>                                                                                                                           | The event will be emitted after a successful coupon application in the checkout or in my account.                                                                                                                                                                                                                                                                                                                                         |
+| `MSSDK:redeem-coupon-success`                   | <code>{coupon: "coupon code", source: "checkout"&#124;"myaccount", order: { ...orderObject }}</code>                                                                                                | The event will be emitted after a successful coupon application in the checkout or in my account.                                                                                                                                                                                                                                                                                                                                         |
 | `MSSDK:redeem-coupon-failed`                    | <code>{coupon: "coupon code", source: "checkout"&#124;"myaccount"</code>                                                                                                                            | The event will be emitted after a failed coupon application in the checkout or in my account.                                                                                                                                                                                                                                                                                                                                             |
 | `MSSDK:redeem-coupon-button-clicked`            | <code>{source: "checkout"&#124;"myaccount"}</code>                                                                                                                                                  | The event will be emitted after clicking 'Redeem coupon' button in the checkout or my account.                                                                                                                                                                                                                                                                                                                                            |
 | `MSSDK:redeem-button-clicked`                   | <code>{coupon: "coupon code", source: "checkout"&#124;"myaccount"}</code>                                                                                                                           | The event will be emitted after clicking 'Redeem' button in the checkout or my account.                                                                                                                                                                                                                                                                                                                                                   |

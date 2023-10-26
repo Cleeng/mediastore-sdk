@@ -19,6 +19,7 @@ import CheckoutConsents from 'components/CheckoutConsents';
 import PasswordReset from 'components/PasswordReset';
 import ThankYouPage from 'components/ThankYouPage';
 import Checkout from 'components/Checkout';
+import RedeemGift from 'components/RedeemGift';
 
 export {
   // Identity Management
@@ -28,6 +29,7 @@ export {
   // Checkout
   Checkout,
   OfferContainer as Purchase,
+  RedeemGift,
   ThankYouPage,
   // My Account
   MyAccount,
