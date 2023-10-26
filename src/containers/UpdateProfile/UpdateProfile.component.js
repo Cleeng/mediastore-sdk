@@ -173,6 +173,7 @@ class UpdateProfile extends Component {
                 <ProfileDetails
                   firstName={user ? user.firstName : ''}
                   lastName={user ? user.lastName : ''}
+                  capture={capture || {}}
                   email={user ? user.email : ''}
                   isLoading={isUserDetailsLoading || isCaptureLoading}
                   setCurrentUser={setCurrentUser}

@@ -46,7 +46,7 @@ const InputsData = [
   {
     id: 'birthDate',
     label: 'Birth Date',
-    onBlur: '',
+    onBlur: 'isBirthDateValid',
     type: 'date'
   },
   {
@@ -100,6 +100,7 @@ class ProfileDetails extends Component {
       phoneNumber,
       companyName
     } = this.props;
+
     const { updated } = this.state;
     this.setState({
       updated: {
@@ -124,6 +125,7 @@ class ProfileDetails extends Component {
       phoneNumber,
       companyName
     } = this.props;
+
     if (
       isSectionDisabled &&
       (firstName !== updated.firstName ||
@@ -153,69 +155,126 @@ class ProfileDetails extends Component {
     const { updated } = this.state;
     const { email, setCurrentUser, updateCaptureOption, t } = this.props;
     const shouldLogOut = updated.email !== email;
-    if (this.areNamesValid() && this.areEmailAndPasswordValid()) {
-      this.setState({
-        isSubmittingPending: true
-      });
-      updateCustomer({
-        firstName: updated.firstName,
-        lastName: updated.lastName,
-        email: updated.email !== email ? updated.email : '',
-        confirmationPassword:
-          updated.email !== email ? updated.confirmationPassword : ''
-      }).then(response => {
-        this.setState({
-          isSubmittingPending: false
-        });
-        if (response.errors.length) {
-          const errorMsg = response.errors[0];
-          const isEmailError = errorMsg.includes('mail');
-          const isPasswordError = errorMsg.includes('confirmationPassword');
-          this.setState({
-            errors: {
-              confirmationPassword: isPasswordError
-                ? t('Incorect password')
-                : '',
-              email: isEmailError ? errorMsg : ''
-            },
-            successMessage: false
-          });
-        } else {
-          setCurrentUser(response.responseData);
-          this.setState({
-            isSectionDisabled: true,
-            successMessage: true
-          });
-          if (shouldLogOut) {
-            Auth.logout();
-          }
-        }
-      });
+
+    if (
+      !this.areNamesValid() ||
+      !this.areEmailAndPasswordValid() ||
+      !this.isBirthDateValid() ||
+      !this.isCompanyNameValid() ||
+      !this.isPhoneNumberValid()
+    ) {
+      return;
     }
-    if (this.isPhoneNumberValid() && this.isCompanyNameValid()) {
+
+    this.setState({
+      isSubmittingPending: true
+    });
+    updateCustomer({
+      firstName: updated.firstName,
+      lastName: updated.lastName,
+      email: updated.email !== email ? updated.email : '',
+      confirmationPassword:
+        updated.email !== email ? updated.confirmationPassword : ''
+    }).then(response => {
       this.setState({
-        isSubmittingPending: true
+        isSubmittingPending: false
       });
-      updateCaptureAnswers({
-        birthDate: updated.birthDate,
-        companyName: updated.companyName,
-        phoneNumber: updated.phoneNumber
-      }).then(() => {
-        updateCaptureOption({ key: 'birthDate', value: updated.birthDate });
-        updateCaptureOption({ key: 'companyName', value: updated.companyName });
-        updateCaptureOption({ key: 'phoneNumber', value: updated.phoneNumber });
+      if (response.errors.length) {
+        const errorMsg = response.errors[0];
+        const isEmailError = errorMsg.includes('mail');
+        const isPasswordError = errorMsg.includes('confirmationPassword');
         this.setState({
-          isSubmittingPending: false,
+          errors: {
+            confirmationPassword: isPasswordError ? t('Incorect password') : '',
+            email: isEmailError ? errorMsg : ''
+          },
+          successMessage: false
+        });
+      } else {
+        setCurrentUser(response.responseData);
+        this.setState({
           isSectionDisabled: true,
           successMessage: true
         });
+        if (shouldLogOut) {
+          Auth.logout();
+        }
+      }
+    });
+
+    this.setState({
+      isSubmittingPending: true
+    });
+    updateCaptureAnswers({
+      birthDate: updated.birthDate,
+      companyName: updated.companyName,
+      phoneNumber: updated.phoneNumber
+    }).then(() => {
+      updateCaptureOption({ key: 'birthDate', value: updated.birthDate });
+      updateCaptureOption({ key: 'companyName', value: updated.companyName });
+      updateCaptureOption({ key: 'phoneNumber', value: updated.phoneNumber });
+      this.setState({
+        isSubmittingPending: false,
+        isSectionDisabled: true,
+        successMessage: true
       });
+    });
+  };
+
+  isBirthDateValid = () => {
+    const { updated } = this.state;
+    const {
+      t,
+      birthDate: { enabled, required }
+    } = this.props;
+
+    const isBirthDateRequired = enabled && required;
+
+    if (isBirthDateRequired && !updated.birthDate) {
+      this.setState({
+        errors: {
+          birthDate: t('Birth date is required')
+        }
+      });
+
+      return false;
     }
+
+    return true;
   };
 
   areNamesValid = () => {
     const { updated } = this.state;
-    const { t } = this.props;
+    const { t, capture } = this.props;
+
+    const namesSettings = capture?.settings?.find(
+      setting => setting.key === 'firstNameLastName'
+    );
+
+    const { enabled, required } = namesSettings;
+
+    const areNamesRequired = enabled && required;
+
+    if (areNamesRequired && !updated.firstName.length) {
+      this.setState({
+        errors: {
+          firstName: t('First name is required')
+        }
+      });
+
+      return false;
+    }
+
+    if (areNamesRequired && !updated.lastName.length) {
+      this.setState({
+        errors: {
+          lastName: t('Last name is required')
+        }
+      });
+
+      return false;
+    }
+
     if (updated.firstName.length > 50 || updated.lastName.length > 50) {
       this.setState({
         errors: {
@@ -274,7 +333,23 @@ class ProfileDetails extends Component {
 
   isPhoneNumberValid = () => {
     const { updated } = this.state;
-    const { t } = this.props;
+    const {
+      t,
+      phoneNumber: { enabled, required }
+    } = this.props;
+
+    const isPhoneNumberRequired = enabled && required;
+
+    if (isPhoneNumberRequired && !updated.phoneNumber) {
+      this.setState({
+        errors: {
+          phoneNumber: t('Phone number is required')
+        }
+      });
+
+      return false;
+    }
+
     const regexp = /^[0-9()+-\s]+$/;
     if (updated.phoneNumber && !regexp.test(updated.phoneNumber)) {
       this.setState({
@@ -294,7 +369,23 @@ class ProfileDetails extends Component {
 
   isCompanyNameValid = () => {
     const { updated } = this.state;
-    const { t } = this.props;
+    const {
+      t,
+      companyName: { enabled, required }
+    } = this.props;
+
+    const isCompanyNameRequired = enabled && required;
+
+    if (isCompanyNameRequired && !updated.companyName) {
+      this.setState({
+        errors: {
+          companyName: t('Company name is required')
+        }
+      });
+
+      return false;
+    }
+
     if (updated.companyName && updated.companyName.length > 50) {
       this.setState({
         errors: {
@@ -321,7 +412,8 @@ class ProfileDetails extends Component {
   };
 
   render() {
-    const { firstName, lastName, email, isLoading, t } = this.props;
+    const { firstName, lastName, capture, email, isLoading, t } = this.props;
+
     const {
       updated,
       isSectionDisabled,
@@ -329,6 +421,10 @@ class ProfileDetails extends Component {
       errors,
       successMessage
     } = this.state;
+
+    const areNamesRequired = capture?.settings?.find(
+      setting => setting.key === 'firstNameLastName'
+    )?.required;
 
     return (
       <WrapStyled>
@@ -355,11 +451,26 @@ class ProfileDetails extends Component {
                 const shouldBeHidden =
                   typeof this.props[input.id] === 'object' &&
                   !this.props[input.id]?.enabled;
+
+                const isRequired = () => {
+                  switch (input.id) {
+                    case 'firstName':
+                    case 'lastName':
+                      return areNamesRequired;
+
+                    case 'email':
+                      return true;
+
+                    default:
+                      return this.props[input.id]?.required;
+                  }
+                };
+
                 return !shouldBeHidden ? (
                   <MyAccountInput
                     key={input.id}
                     id={input.id}
-                    value={updated[input.id]}
+                    value={updated[input.id] || ''}
                     label={t(input.label)}
                     onChange={e =>
                       this.handleInputChange(input.id, e.target.value)
@@ -378,6 +489,7 @@ class ProfileDetails extends Component {
                         ? 'new-password'
                         : 'off'
                     }
+                    required={isRequired()}
                   />
                 ) : null;
               })}
@@ -447,6 +559,7 @@ ProfileDetails.propTypes = {
   isLoading: PropTypes.bool,
   setCurrentUser: PropTypes.func,
   updateCaptureOption: PropTypes.func,
+  capture: PropTypes.objectOf(PropTypes.any),
   t: PropTypes.func
 };
 
@@ -458,8 +571,9 @@ ProfileDetails.defaultProps = {
   phoneNumber: null,
   companyName: null,
   isLoading: false,
-  setCurrentUser: () => {},
-  updateCaptureOption: () => {},
+  capture: null,
+  setCurrentUser: () => null,
+  updateCaptureOption: () => null,
   t: k => k
 };
 
