@@ -44,9 +44,13 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
     currency
   } = useAppSelector(selectOnlyOrder);
 
+  const { trialAvailable } = useAppSelector(selectOnlyOffer);
+
   const currencySymbol = currencyFormat[currency];
 
   const { t } = useTranslation();
+
+  const isTrial = trialAvailable && discountType === 'trial';
 
   const getCouponNote = () => {
     const formattedDiscountAmount = formatNumber(discountAmount);
@@ -145,7 +149,12 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
             <CouponNoteOuterWrapper>
               <CouponNoteInnerWrapper>
                 <StyledLabel>
-                  {t('checkout-price-box.coupon-discount', 'Coupon Discount')}
+                  {isTrial
+                    ? t('checkout-price-box.trial-discount', 'Trial Discount')
+                    : t(
+                        'checkout-price-box.coupon-discount',
+                        'Coupon Discount'
+                      )}
                 </StyledLabel>
                 <StyledOfferPrice>
                   - {currencySymbol}
