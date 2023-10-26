@@ -125,6 +125,7 @@ class ProfileDetails extends Component {
       phoneNumber,
       companyName
     } = this.props;
+
     if (
       isSectionDisabled &&
       (firstName !== updated.firstName ||
@@ -222,9 +223,14 @@ class ProfileDetails extends Component {
 
   isBirthDateValid = () => {
     const { updated } = this.state;
-    const { t } = this.props;
+    const {
+      t,
+      birthDate: { enabled, required }
+    } = this.props;
 
-    if (!updated.birthDate) {
+    const isBirthDateRequired = enabled && required;
+
+    if (isBirthDateRequired && !updated.birthDate) {
       this.setState({
         errors: {
           birthDate: t('Birth date is required')
@@ -241,9 +247,13 @@ class ProfileDetails extends Component {
     const { updated } = this.state;
     const { t, capture } = this.props;
 
-    const areNamesRequired = capture?.settings?.find(
+    const namesSettings = capture?.settings?.find(
       setting => setting.key === 'firstNameLastName'
-    )?.required;
+    );
+
+    const { enabled, required } = namesSettings;
+
+    const areNamesRequired = enabled && required;
 
     if (areNamesRequired && !updated.firstName.length) {
       this.setState({
@@ -325,10 +335,12 @@ class ProfileDetails extends Component {
     const { updated } = this.state;
     const {
       t,
-      phoneNumber: { required }
+      phoneNumber: { enabled, required }
     } = this.props;
 
-    if (required && !updated.phoneNumber) {
+    const isPhoneNumberRequired = enabled && required;
+
+    if (isPhoneNumberRequired && !updated.phoneNumber) {
       this.setState({
         errors: {
           phoneNumber: t('Phone number is required')
@@ -359,10 +371,12 @@ class ProfileDetails extends Component {
     const { updated } = this.state;
     const {
       t,
-      companyName: { required }
+      companyName: { enabled, required }
     } = this.props;
 
-    if (required && !updated.companyName) {
+    const isCompanyNameRequired = enabled && required;
+
+    if (isCompanyNameRequired && !updated.companyName) {
       this.setState({
         errors: {
           companyName: t('Company name is required')
