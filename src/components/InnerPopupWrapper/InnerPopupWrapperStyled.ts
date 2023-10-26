@@ -156,9 +156,9 @@ export const MailStyled = styled.span.attrs(() => ({
 `;
 
 type ButtonWrapperStyledProps = {
-  $removeMargin: boolean;
-  $customMargin: string;
-  $fillWrapper: boolean;
+  $removeMargin?: boolean;
+  $customMargin?: string;
+  $fillWrapper?: boolean;
 };
 
 export const ButtonWrapperStyled = styled.div.attrs(() => ({

@@ -68,8 +68,8 @@ const EditPassword = ({
       {step === 1 && (
         <>
           <ContentStyled>
-            <TitleStyled step={step}>{t('Edit Password')}</TitleStyled>
-            <TextStyled step={step}>
+            <TitleStyled $step={step}>{t('Edit Password')}</TitleStyled>
+            <TextStyled>
               {t(
                 "If you want to edit your password, click 'YES, Reset' to receive password reset instruction on your mail"
               )}
@@ -90,13 +90,13 @@ const EditPassword = ({
       {step === 2 && (
         <>
           <ContentStyled>
-            <TitleStyled step={step}>{t('Email has been sent!')}</TitleStyled>
-            <TextStyled step={step}>
+            <TitleStyled $step={step}>{t('Email has been sent!')}</TitleStyled>
+            <TextStyled>
               {t(
                 'Please check your inbox and follow the instructions to reset your password.'
               )}
             </TextStyled>
-            <TextStyled step={step}>
+            <TextStyled>
               {t('You will be logged out for security reasons.')}
             </TextStyled>
           </ContentStyled>
