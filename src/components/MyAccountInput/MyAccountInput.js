@@ -29,12 +29,16 @@ class MyAccountInput extends Component {
       error,
       onBlur,
       name,
-      autoComplete
+      autoComplete,
+      required
     } = this.props;
 
     return (
       <WrapStyled hideInput={hideInput}>
-        <InputElementLabelStyled htmlFor={id}>{label}</InputElementLabelStyled>
+        <InputElementLabelStyled htmlFor={id}>
+          {label}
+          {required && ' *'}
+        </InputElementLabelStyled>
         <InputElementStyled
           error={error}
           id={id}
@@ -73,7 +77,8 @@ MyAccountInput.propTypes = {
   error: PropTypes.string,
   onBlur: PropTypes.func,
   name: PropTypes.string,
-  autoComplete: PropTypes.string
+  autoComplete: PropTypes.string,
+  required: PropTypes.bool
 };
 
 MyAccountInput.defaultProps = {
@@ -90,5 +95,6 @@ MyAccountInput.defaultProps = {
   hideInput: false,
   error: '',
   name: '',
-  autoComplete: ''
+  autoComplete: '',
+  required: false
 };
