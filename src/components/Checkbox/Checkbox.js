@@ -30,6 +30,8 @@ const Checkbox = ({
     setIsChecked(checked);
   }, [checked]);
 
+  const spaceKey = ' ';
+
   return (
     <>
       <CheckboxStyled
@@ -48,7 +50,7 @@ const Checkbox = ({
         <CheckFrameStyled
           error={error && required && !isChecked}
           tabIndex="0"
-          onKeyDown={e => (e.keyCode === 32 ? onClickFn() : null)}
+          onKeyDown={e => (e.key === spaceKey ? onClickFn() : null)}
           isMyAccount={isMyAccount}
           isRadioButton={isRadioButton}
           checked={isChecked}
@@ -74,7 +76,7 @@ const Checkbox = ({
           target="_blank"
           rel="noreferrer"
           checked={isChecked}
-          isPayPal={isPayPal}
+          $isPayPal={isPayPal}
         >
           {t('Terms & Conditions')}
         </TermsLinkStyled>
