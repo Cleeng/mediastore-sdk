@@ -108,7 +108,7 @@ const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
           </ErrorMessage>
         )}
       </ContentStyled>
-      <ButtonWrapperStyled removeMargin>
+      <ButtonWrapperStyled $removeMargin>
         <Button theme="simple" onClickFn={() => cancelDeleteAction()}>
           {t('delete-payment-method.resign-button', 'No, thanks')}
         </Button>

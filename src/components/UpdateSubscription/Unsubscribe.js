@@ -256,7 +256,7 @@ const Unsubscribe = ({
               'Pause your subscription until the beginning of next season, you can resume at any time.'
             )}
           </TextStyled>
-          <ButtonWrapperStyled fillWrapper customMargin="80px 0 0">
+          <ButtonWrapperStyled $fillWrapper $customMargin="80px 0 0">
             <Button
               theme="confirm"
               onClickFn={() =>
@@ -282,7 +282,7 @@ const Unsubscribe = ({
               'Or still wants to cancel a subscription?'
             )}
           </TextStyled>
-          <ButtonWrapperStyled removeMargin>
+          <ButtonWrapperStyled $removeMargin>
             <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
               {t('unsubscribe-popup.back-button', 'Back to My Account')}
             </Button>
@@ -356,7 +356,7 @@ const Unsubscribe = ({
               'Or still wants to cancel a subscription?'
             )}
           </TextStyled>
-          <ButtonWrapperStyled removeMargin>
+          <ButtonWrapperStyled $removeMargin>
             <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
               {t('unsubscribe-popup.back-button', 'Back to My Account')}
             </Button>
@@ -440,7 +440,7 @@ const Unsubscribe = ({
               </ReasonsWrapper>
             )}
           </ContentStyled>
-          <ButtonWrapperStyled removeMargin>
+          <ButtonWrapperStyled $removeMargin>
             <Button
               theme="simple"
               onClickFn={() =>

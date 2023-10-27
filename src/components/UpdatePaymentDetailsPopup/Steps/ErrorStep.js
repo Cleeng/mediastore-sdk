@@ -43,7 +43,7 @@ const ErrorStep = () => {
           )}
         </TextStyled>
       </ContentStyled>
-      <ButtonWrapperStyled removeMargin>
+      <ButtonWrapperStyled $removeMargin>
         <Button
           theme="simple"
           onClickFn={() =>

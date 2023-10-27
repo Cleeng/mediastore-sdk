@@ -152,7 +152,7 @@ const UpdatePaymentDetailsPopup = () => {
             )}
           </TextStyled>
         </ContentStyled>
-        <ButtonWrapperStyled removeMargin>
+        <ButtonWrapperStyled $removeMargin>
           <Button
             theme="simple"
             onClickFn={() =>
@@ -425,7 +425,7 @@ const UpdatePaymentDetailsPopup = () => {
           </RemoveLinkStyled>
         )}
       </ContentStyled>
-      <ButtonWrapperStyled removeMargin>
+      <ButtonWrapperStyled $removeMargin>
         <Button
           theme="simple"
           onClickFn={() =>

@@ -537,7 +537,7 @@ const Adyen = ({
     if (isDropInPresent && discount?.applied) {
       recreateDropIn();
     }
-  }, [discount.applied, discount.type]);
+  }, [discount.applied, discount.type, totalPrice]);
 
   useEffect(() => {
     if (isDropInPresent) {

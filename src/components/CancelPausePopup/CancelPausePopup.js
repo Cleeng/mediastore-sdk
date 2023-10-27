@@ -109,7 +109,7 @@ const CancelPausePopup = () => {
               )}
             </TextStyled>
           </ContentStyled>
-          <ButtonWrapperStyled removeMargin>
+          <ButtonWrapperStyled $removeMargin>
             <Button
               theme="simple"
               onClickFn={() => {
@@ -152,7 +152,7 @@ const CancelPausePopup = () => {
               )}
             </TextStyled>
           </ContentStyled>
-          <ButtonWrapperStyled removeMargin>
+          <ButtonWrapperStyled $removeMargin>
             <Button
               theme="confirm"
               onClickFn={() => {
