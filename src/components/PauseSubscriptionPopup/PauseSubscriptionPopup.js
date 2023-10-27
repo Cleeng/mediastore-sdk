@@ -122,7 +122,7 @@ const PauseSubscriptionPopup = () => {
             <ImageWrapper>
               <Close />
             </ImageWrapper>
-            <TitleStyled step={step}>
+            <TitleStyled $step={step}>
               {t('pausesubscription-popup.error-title', 'An error occurred.')}
             </TitleStyled>
             <TextStyled step={step}>
@@ -163,7 +163,7 @@ const PauseSubscriptionPopup = () => {
               <ArrowStyled />
               <SubscriptionIconStyled isPaused showLabel="Paused" />
             </ImageWrapper>
-            <TitleStyled step={step} textTransform="capitalize">
+            <TitleStyled $step={step} $textTransform="capitalize">
               {t('pausesubscription-popup.details.title', 'Subscription pause')}
             </TitleStyled>
             <TextStyled>
@@ -189,7 +189,7 @@ const PauseSubscriptionPopup = () => {
               )}
             </TextStyled>
           </ContentStyled>
-          <ButtonWrapperStyled removeMargin>
+          <ButtonWrapperStyled $removeMargin>
             <Button
               theme="simple"
               onClickFn={() => {
@@ -227,13 +227,13 @@ const PauseSubscriptionPopup = () => {
             <ImageWrapper>
               <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
             </ImageWrapper>
-            <TitleStyled step={step}>
+            <TitleStyled $step={step}>
               {t(
                 'pausesubscription-popup.confirmation.title',
                 'Your pause request has been confirmed.'
               )}
             </TitleStyled>
-            <TextStyled step={step}>
+            <TextStyled $step={step}>
               <Trans i18nKey="pausesubscription-popup.confirmation.info">
                 You will continue to have access to your subscription through
                 your current billing cycle. The pause will go into effect on{' '}
