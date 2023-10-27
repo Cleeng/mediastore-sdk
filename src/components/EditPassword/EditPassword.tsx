@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { t } from 'i18next';
 import jwtDecode from 'jwt-decode';
 import { getData } from 'util/appConfigHelper';
@@ -37,6 +37,8 @@ const EditPassword = ({
       source: 'EditPassword'
     });
   };
+
+  console.log('Hi');
 
   const handleResetPassword = async () => {
     setIsLoading(true);

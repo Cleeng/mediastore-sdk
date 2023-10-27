@@ -1,3 +1,4 @@
+import React from 'react';
 import MyAccountError from 'components/MyAccountError';
 
 import {
