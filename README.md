@@ -96,6 +96,7 @@ Config functions save data to local storage (as `CLEENG_*` items). These data ar
 | `setVisibleAdyenPaymentMethods` | `paymentMethods: string[]`                                   | Array of payment methods names that should be presented in Checkout and MyAccount. Available options: `applepay`, `card`, `googlepay`, `ideal`, `sofort`                |
 | `setHidePayPal`                 | -                                                            | Option to hide PayPal, by default PayPal will be visible when configured                                                                                                |
 | `setLanguage`                   | `language :string`                                           | Option to change language without reloading page                                                                                                                        |
+| `setTermsUrl`                   | `termsUrl :string`                                           | Option to Provide a URL for Terms & Conditions: This feature will display a link to them adjacent to the payment method.                                                |
 
 **Usage sample**
 

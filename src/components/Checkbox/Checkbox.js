@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
+
 import {
   CheckboxStyled,
   CheckFrameStyled,
   CheckMarkStyled,
-  ConsentDefinitionStyled
+  ConsentDefinitionStyled,
+  TermsLinkStyled
 } from './CheckboxStyled';
 
 const Checkbox = ({
@@ -16,51 +19,67 @@ const Checkbox = ({
   isMyAccount,
   className,
   disabled,
-  isRadioButton
+  isRadioButton,
+  termsUrl,
+  isPayPal
 }) => {
   const [isChecked, setIsChecked] = useState(checked);
+  const { t } = useTranslation();
 
   useEffect(() => {
     setIsChecked(checked);
   }, [checked]);
 
   return (
-    <CheckboxStyled
-      onClick={e => {
-        e.stopPropagation();
-        onClickFn(e, disabled, setIsChecked);
-      }}
-      role="checkbox"
-      tabIndex="-1"
-      aria-checked={isChecked}
-      checked={isChecked}
-      aria-label={children}
-      className={className}
-      disabled={disabled}
-    >
-      <CheckFrameStyled
-        error={error && required && !isChecked}
-        tabIndex="0"
-        onKeyDown={e => (e.keyCode === 32 ? onClickFn() : null)}
-        isMyAccount={isMyAccount}
-        isRadioButton={isRadioButton}
-        checked={isChecked}
-      >
-        {isChecked && (
-          <CheckMarkStyled
-            data-testid="checkmark"
-            isMyAccount={isMyAccount}
-            isRadioButton={isRadioButton}
-          />
-        )}
-      </CheckFrameStyled>
-      <ConsentDefinitionStyled
-        dangerouslySetInnerHTML={{
-          __html: `${children}${required && isMyAccount ? '*' : ''}`
+    <>
+      <CheckboxStyled
+        onClick={e => {
+          e.stopPropagation();
+          onClickFn(e, disabled, setIsChecked);
         }}
+        role="checkbox"
+        tabIndex="-1"
+        aria-checked={isChecked}
         checked={isChecked}
-      />
-    </CheckboxStyled>
+        aria-label={children}
+        className={className}
+        disabled={disabled}
+      >
+        <CheckFrameStyled
+          error={error && required && !isChecked}
+          tabIndex="0"
+          onKeyDown={e => (e.keyCode === 32 ? onClickFn() : null)}
+          isMyAccount={isMyAccount}
+          isRadioButton={isRadioButton}
+          checked={isChecked}
+        >
+          {isChecked && (
+            <CheckMarkStyled
+              data-testid="checkmark"
+              isMyAccount={isMyAccount}
+              isRadioButton={isRadioButton}
+            />
+          )}
+        </CheckFrameStyled>
+        <ConsentDefinitionStyled
+          dangerouslySetInnerHTML={{
+            __html: `${children}${required && isMyAccount ? '*' : ''}`
+          }}
+          checked={isChecked}
+        />
+      </CheckboxStyled>
+      {termsUrl && (
+        <TermsLinkStyled
+          href={termsUrl}
+          target="_blank"
+          rel="noreferrer"
+          checked={isChecked}
+          isPayPal={isPayPal}
+        >
+          {t('Terms & Conditions')}
+        </TermsLinkStyled>
+      )}
+    </>
   );
 };
 
@@ -73,7 +92,9 @@ Checkbox.propTypes = {
   isMyAccount: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
-  isRadioButton: PropTypes.bool
+  isRadioButton: PropTypes.bool,
+  termsUrl: PropTypes.string,
+  isPayPal: PropTypes.bool
 };
 
 Checkbox.defaultProps = {
@@ -85,7 +106,9 @@ Checkbox.defaultProps = {
   isMyAccount: false,
   className: '',
   disabled: false,
-  isRadioButton: false
+  isRadioButton: false,
+  termsUrl: '',
+  isPayPal: false
 };
 
 export default Checkbox;

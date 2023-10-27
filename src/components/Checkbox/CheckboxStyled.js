@@ -24,7 +24,7 @@ export const CheckboxStyled = styled.div.attrs(props => ({
     outline: none;
   }
   &:first-of-type {
-    margin-top: 0px;
+    margin-top: 0;
   }
   ${props =>
     props.disabled &&
@@ -155,4 +155,23 @@ export const ErrorFieldStyled = styled.div`
   font-size: 12px;
   font-weight: 300;
   text-align: center;
+`;
+
+export const TermsLinkStyled = styled.a`
+  padding-inline-start: ${({ isPayPal }) => (isPayPal ? '31px' : '-33px')};
+  position: relative;
+  top: ${({ isPayPal }) => (isPayPal ? '0' : '-20px')};
+  font-weight: 400;
+  font-size: 11px;
+  line-height: 17px;
+  text-align: left;
+  color: ${FontColor};
+  text-decoration: underline;
+  opacity: 0.8;
+
+  ${props =>
+    props.checked &&
+    css`
+      opacity: 1;
+    `}
 `;
