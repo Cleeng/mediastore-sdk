@@ -158,7 +158,7 @@ export const ErrorFieldStyled = styled.div`
 `;
 
 export const TermsLinkStyled = styled.a`
-  padding-inline-start: ${({ isPayPal }) => (isPayPal ? '31px' : '-33px')};
+  padding-inline-start: ${({ isPayPal }) => (isPayPal ? '31px' : '33px')};
   position: relative;
   top: ${({ isPayPal }) => (isPayPal ? '0' : '-20px')};
   font-weight: 400;
