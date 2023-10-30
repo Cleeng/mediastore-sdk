@@ -32,6 +32,7 @@ import {
   DowngradesWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import { ReasonsWrapper, StyledItem } from './UpdateSubscriptionStyled';
+import FreeExtension from './FreeExtension';
 
 const Unsubscribe = ({
   customCancellationReasons,
@@ -298,76 +299,77 @@ const Unsubscribe = ({
         </ContentStyled>
       )}
       {currentStep === STEPS.DOWNGRADES && (
-        <ContentStyled>
-          <>
-            <TitleStyled>
-              {t(
-                'unsubscribe-popup.downgrade-instead',
-                'How about a plan downgrade instead of cancellation?'
-              )}
-            </TitleStyled>
-            <TextStyled>
-              {t(
-                'unsubscribe-popup.plans-proposal',
-                'Here are the plans that might suit your needs:'
-              )}
-            </TextStyled>
-          </>
-          <DowngradesWrapperStyled>
-            {downgradesListFiltered.map(downgradeOffer => {
-              return (
-                <OfferCardWrapperStyled
-                  onClick={() =>
-                    dispatch(
-                      showPopup({
-                        type: 'switchPlan',
-                        data: {
-                          offerData: {
-                            ...downgradeOffer
-                          },
-                          isPartOfCancellationFlow: true
-                        }
-                      })
-                    )
-                  }
-                  key={downgradeOffer.toOfferId}
-                >
-                  <OfferCard
-                    period={
-                      periodMapper[downgradeOffer.period].chargedForEveryText
-                    }
-                    offerType="S"
-                    title={downgradeOffer.title}
-                    currency={
-                      currencyFormat[downgradeOffer.nextPaymentPriceCurrency]
-                    }
-                    price={
-                      Math.round(downgradeOffer.nextPaymentPrice * 100) / 100
-                    }
-                    offerId={downgradeOffer.toOfferId}
-                  />
-                </OfferCardWrapperStyled>
-              );
-            })}
-          </DowngradesWrapperStyled>
-          <TextStyled>
-            {t(
-              'unsubscribe-popup.still-cancel',
-              'Or still wants to cancel a subscription?'
-            )}
-          </TextStyled>
-          <ButtonWrapperStyled $removeMargin>
-            <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
-              {t('unsubscribe-popup.back-button', 'Back to My Account')}
-            </Button>
-            <Button
-              theme="confirm"
-              onClickFn={() => setCurrentStep(STEPS.SURVEY)}
-            >
-              {t('unsubscribe-popup.unsubscribe-button-text', 'Unsubscribe')}
-            </Button>
-          </ButtonWrapperStyled>
-        </ContentStyled>
+        <FreeExtension setCurrentStep={setCurrentStep} />
+        // <ContentStyled>
+        //   <>
+        //     <TitleStyled>
+        //       {t(
+        //         'unsubscribe-popup.downgrade-instead',
+        //         'How about a plan downgrade instead of cancellation?'
+        //       )}
+        //     </TitleStyled>
+        //     <TextStyled>
+        //       {t(
+        //         'unsubscribe-popup.plans-proposal',
+        //         'Here are the plans that might suit your needs:'
+        //       )}
+        //     </TextStyled>
+        //   </>
+        //   <DowngradesWrapperStyled>
+        //     {downgradesListFiltered.map(downgradeOffer => {
+        //       return (
+        //         <OfferCardWrapperStyled
+        //           onClick={() =>
+        //             dispatch(
+        //               showPopup({
+        //                 type: 'switchPlan',
+        //                 data: {
+        //                   offerData: {
+        //                     ...downgradeOffer
+        //                   },
+        //                   isPartOfCancellationFlow: true
+        //                 }
+        //               })
+        //             )
+        //           }
+        //           key={downgradeOffer.toOfferId}
+        //         >
+        //           <OfferCard
+        //             period={
+        //               periodMapper[downgradeOffer.period].chargedForEveryText
+        //             }
+        //             offerType="S"
+        //             title={downgradeOffer.title}
+        //             currency={
+        //               currencyFormat[downgradeOffer.nextPaymentPriceCurrency]
+        //             }
+        //             price={
+        //               Math.round(downgradeOffer.nextPaymentPrice * 100) / 100
+        //             }
+        //             offerId={downgradeOffer.toOfferId}
+        //           />
+        //         </OfferCardWrapperStyled>
+        //       );
+        //     })}
+        //   </DowngradesWrapperStyled>
+        //   <TextStyled>
+        //     {t(
+        //       'unsubscribe-popup.still-cancel',
+        //       'Or still wants to cancel a subscription?'
+        //     )}
+        //   </TextStyled>
+        //   <ButtonWrapperStyled $removeMargin>
+        //     <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
+        //       {t('unsubscribe-popup.back-button', 'Back to My Account')}
+        //     </Button>
+        //     <Button
+        //       theme="confirm"
+        //       onClickFn={() => setCurrentStep(STEPS.SURVEY)}
+        //     >
+        //       {t('unsubscribe-popup.unsubscribe-button-text', 'Unsubscribe')}
+        //     </Button>
+        //   </ButtonWrapperStyled>
+        // </ContentStyled>
       )}
       {currentStep === STEPS.SURVEY && (
         <>
