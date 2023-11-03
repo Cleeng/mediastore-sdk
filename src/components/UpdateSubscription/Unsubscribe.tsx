@@ -207,7 +207,6 @@ const Unsubscribe = ({
     dispatch(hidePopup());
   };
 
-  // const { offerTitle, expiresAt, offerId, period } = offerDetails;
   const formattedExpiresAt = dateFormat(Number(offerDetails?.expiresAt));
 
   const scheduledResult = scheduledSwitch();
