@@ -1,13 +1,14 @@
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'redux/store';
 import { hidePopup } from 'redux/popupSlice';
+import Button from 'components/Button';
 import {
   ContentStyled,
   TitleStyled,
   TextStyled,
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
-import Button from 'components/Button';
+import AcceptButtonWrapperStyled from './FreeExtensionStyled';
 
 const STEPS = {
   PAUSE: 'PAUSE',
@@ -17,42 +18,47 @@ const STEPS = {
 };
 
 type FreeExtensionProps = {
-  setCurrentStep: (step: string) => null;
+  setCurrentStep: (step: string) => void;
 };
 
 const FreeExtension = ({ setCurrentStep }: FreeExtensionProps) => {
   const { t } = useTranslation();
-
   const dispatch = useAppDispatch();
 
   return (
     <ContentStyled>
       <>
         <TitleStyled>
-          {t(
-            'unsubscribe-popup.free-extension-instead',
-            'How about a special offer just for you?'
-          )}
+          {t('free-extension.title', 'How about a special offer just for you?')}
         </TitleStyled>
         <TextStyled>
           {t(
-            'unsubscribe-popup.plans-proposal',
+            'free-extension.secondary-text',
             "No words can express how much we will miss you so we figured that we'll let this offer speak for itself"
           )}
         </TextStyled>
       </>
+      <AcceptButtonWrapperStyled>
+        <Button
+          theme="confirm"
+          size="normal"
+          onClickFn={() => console.log('accept')}
+        >
+          {t('free-extension.accept-offer', 'Get X months free')}
+        </Button>
+      </AcceptButtonWrapperStyled>
       <TextStyled>
         {t(
-          'unsubscribe-popup.still-cancel',
+          'free-extension.still-cancel-text',
           'Or still wants to cancel a subscription?'
         )}
       </TextStyled>
       <ButtonWrapperStyled $removeMargin>
         <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
-          {t('unsubscribe-popup.back-button', 'Back to My Account')}
+          {t('free-extension.back-button', 'Back to My Account')}
         </Button>
         <Button theme="confirm" onClickFn={() => setCurrentStep(STEPS.SURVEY)}>
-          {t('unsubscribe-popup.unsubscribe-button-text', 'Unsubscribe')}
+          {t('free-extension.unsubscribe-button-text', 'Unsubscribe')}
         </Button>
       </ButtonWrapperStyled>
     </ContentStyled>

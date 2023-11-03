@@ -33,6 +33,8 @@ export const WrapperStyled = styled.div.attrs(() => ({
   padding: 30px;
   width: 100%;
 
+  overflow-y: auto;
+
   ${media.small`
     height: 100%;
     overflow: scroll;
