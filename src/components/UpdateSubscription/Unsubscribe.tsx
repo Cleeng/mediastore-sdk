@@ -1,17 +1,14 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable react/no-unescaped-entities */
-
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation, Trans } from 'react-i18next';
+import { useEffect, useState } from 'react';
+import { Trans, useTranslation } from 'react-i18next';
 
 import updateSubscription from 'api/Customer/updateSubscription';
 import {
+  CurrencyFormat,
+  currencyFormat,
   dateFormat,
-  periodMapper,
   INFINITE_DATE,
-  currencyFormat
+  Period,
+  periodMapper
 } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 
@@ -20,64 +17,62 @@ import Checkbox from 'components/Checkbox';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
 import OfferCard from 'components/OfferCard';
-import { updateList } from 'redux/planDetailsSlice';
-import { showPopup, hidePopup } from 'redux/popupSlice';
+import {
+  selectSwitchDetails,
+  selectSwitchSettings,
+  updateList
+} from 'redux/planDetailsSlice';
+import { hidePopup, selectOfferData, showPopup } from 'redux/popupSlice';
 
 import {
-  ContentStyled,
-  TitleStyled,
-  TextStyled,
   ButtonWrapperStyled,
+  ContentStyled,
+  DowngradesWrapperStyled,
   OfferCardWrapperStyled,
-  DowngradesWrapperStyled
+  TextStyled,
+  TitleStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
+import { useAppDispatch, useAppSelector } from 'redux/store';
+import { selectOffers } from 'redux/offersSlice';
+import STEPS from 'components/UpdateSubscription/Unsubscribe.enum';
+import { Props } from 'components/UpdateSubscription/Unsubscribe.types';
+import { SwitchSetting } from 'redux/types';
 import { ReasonsWrapper, StyledItem } from './UpdateSubscriptionStyled';
 
 const Unsubscribe = ({
   customCancellationReasons,
   skipAvailableDowngradesStep
-}) => {
-  const STEPS = {
-    PAUSE: 'PAUSE',
-    DOWNGRADES: 'DOWNGRADES',
-    SURVEY: 'SURVEY',
-    CONFIRMATION: 'CONFIRMATION'
-  };
+}: Props) => {
   const INITIAL_STEPS_ARRAY = [STEPS.SURVEY, STEPS.CONFIRMATION];
 
-  const [downgradesList, setDowngradesList] = useState([]);
+  const [downgradesList, setDowngradesList] = useState<Array<SwitchSetting>>(
+    []
+  );
   const [checkedReason, setCheckedReason] = useState('');
-  const [steps, setSteps] = useState([]);
+  const [steps, setSteps] = useState<STEPS[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const { pauseOffersIDs, offers } = useSelector(state => state.offers);
-  const { data: switchSettings } = useSelector(
-    state => state.plan.switchSettings
-  );
-  const { data: switchDetails } = useSelector(
-    state => state.plan.switchDetails
-  );
-  const {
-    updateSubscription: { offerData: offerDetails }
-  } = useSelector(state => state.popupManager);
+  const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
+  const { data: switchSettings } = useAppSelector(selectSwitchSettings);
+  const { data: switchDetails } = useAppSelector(selectSwitchDetails);
+  const offerDetails = useAppSelector(selectOfferData);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
 
   const getDowngrades = () => {
-    if (Object.keys(switchSettings).length) {
-      const offerSwitchSettings = switchSettings[offerDetails.offerId];
-      const availableSorted = [...offerSwitchSettings.available]
+    if (Object.keys(switchSettings).length && offerDetails) {
+      const offerSwitchSettings = switchSettings[offerDetails?.offerId];
+      return [...offerSwitchSettings.available]
         .filter(offer => offer.switchDirection === 'downgrade')
         .sort((aOffer, bOffer) => bOffer.price - aOffer.price);
-      return availableSorted;
     }
     return [];
   };
 
   const scheduledSwitch = () => {
-    if (offerDetails.pendingSwitchId) {
+    if (offerDetails?.pendingSwitchId) {
       return switchDetails[offerDetails.pendingSwitchId];
     }
     return false;
@@ -86,21 +81,23 @@ const Unsubscribe = ({
   const downgrades = getDowngrades();
 
   const shouldShowDowngradeScreen = () => {
-    if (skipAvailableDowngradesStep) {
-      return false;
-    }
+    if (skipAvailableDowngradesStep) return false;
+
+    const scheduled = scheduledSwitch();
     if (
-      offerDetails.pendingSwitchId &&
-      scheduledSwitch().direction === 'downgrade'
-    ) {
+      scheduled &&
+      scheduled.direction === 'downgrade' &&
+      offerDetails?.pendingSwitchId
+    )
       return false;
-    }
-    if (!offerDetails.inTrial && downgrades.length) {
+
+    if (!offerDetails?.inTrial && downgrades.length) {
       const downgradesFiltered = downgrades.filter(
         ({ toOfferId }) => !pauseOffersIDs.includes(toOfferId)
       );
       return !!downgradesFiltered.length;
     }
+
     return false;
   };
 
@@ -116,7 +113,7 @@ const Unsubscribe = ({
 
   const shouldShowDowngrades = shouldShowDowngradeScreen();
   const shouldShowPause = shouldShowPauseScreen();
-  const [currentStep, setCurrentStep] = useState(null);
+  const [currentStep, setCurrentStep] = useState<STEPS | null>(null);
 
   const pauseOffer = downgradesList?.filter(({ toOfferId }) =>
     pauseOffersIDs.includes(toOfferId)
@@ -179,16 +176,16 @@ const Unsubscribe = ({
     window.dispatchEvent(
       new CustomEvent('MSSDK:unsubscribe-action-confirmed', {
         detail: {
-          offerId: offerDetails.offerId,
+          offerId: offerDetails?.offerId,
           cancellationReason: checkedReason
         }
       })
     );
     try {
       setIsLoading(true);
-      const isPauseActive = pauseOffersIDs.includes(offerDetails.offerId);
+      const isPauseActive = pauseOffersIDs.includes(offerDetails?.offerId);
       const response = await updateSubscription({
-        offerId: offerDetails.offerId,
+        offerId: offerDetails?.offerId,
         status: isPauseActive ? 'terminated' : 'cancelled',
         cancellationReason: checkedReason
       });
@@ -210,21 +207,25 @@ const Unsubscribe = ({
     dispatch(hidePopup());
   };
 
-  const { offerTitle, expiresAt, offerId, period } = offerDetails;
-  const formattedExpiresAt = dateFormat(expiresAt);
+  // const { offerTitle, expiresAt, offerId, period } = offerDetails;
+  const formattedExpiresAt = dateFormat(Number(offerDetails?.expiresAt));
+
+  const scheduledResult = scheduledSwitch();
+  const toOfferId =
+    scheduledResult !== false ? scheduledResult.toOfferId : null;
 
   const toOfferIdTitle = offers.find(
-    ({ longId }) => longId === scheduledSwitch().toOfferId
+    ({ longId }: { longId: string }) => longId === toOfferId
   )?.title;
-  const scheduledSwitchTitle = t(
-    `offer-title-${scheduledSwitch().toOfferId}`,
-    toOfferIdTitle
+  const scheduledSwitchTitle = t(`offer-title-${toOfferId}`, toOfferIdTitle);
+  const translatedTitle = t(
+    `offer-title-${offerDetails?.offerId}`,
+    offerDetails ? offerDetails.offerTitle : ''
   );
-  const translatedTitle = t(`offer-title-${offerId}`, offerTitle);
 
   // Filter out the pause subscription
   const downgradesListFiltered = downgradesList?.filter(
-    ({ toOfferId }) => !pauseOffersIDs.includes(toOfferId)
+    ({ toOfferId: offerId }) => !pauseOffersIDs.includes(offerId)
   );
 
   if (!steps || !currentStep) return <></>;
@@ -334,12 +335,15 @@ const Unsubscribe = ({
                 >
                   <OfferCard
                     period={
-                      periodMapper[downgradeOffer.period].chargedForEveryText
+                      periodMapper[downgradeOffer.period as Period]
+                        ?.chargedForEveryText
                     }
                     offerType="S"
                     title={downgradeOffer.title}
                     currency={
-                      currencyFormat[downgradeOffer.nextPaymentPriceCurrency]
+                      currencyFormat[
+                        downgradeOffer.nextPaymentPriceCurrency as CurrencyFormat
+                      ]
                     }
                     price={
                       Math.round(downgradeOffer.nextPaymentPrice * 100) / 100
@@ -375,19 +379,19 @@ const Unsubscribe = ({
             <TitleStyled>
               {t('unsubscribe-popup.survey-title', 'We’re sorry to see you go')}
             </TitleStyled>
-            {period === 'season' ? (
+            {offerDetails?.period === 'season' ? (
               <TextStyled>
                 {t(
                   'unsubscribe-popup.survey.access-info',
                   'You will keep access to your seasonal subscription until {{formattedExpiresAt}}. Before you go, please let us know why you’re leaving.',
                   {
                     formattedExpiresAt:
-                      expiresAt === INFINITE_DATE
+                      offerDetails?.expiresAt === INFINITE_DATE
                         ? t(
                             'unsubscribe-popup.next-season-start',
                             'the next season start'
                           )
-                        : dateFormat(expiresAt)
+                        : dateFormat(offerDetails?.expiresAt)
                   }
                 )}
               </TextStyled>
@@ -401,7 +405,7 @@ const Unsubscribe = ({
                   )
                 ) : (
                   <>
-                    {offerDetails.inTrial
+                    {offerDetails?.inTrial
                       ? t(
                           'unsubscribe-popup.survey.free-trial',
                           'Your {{translatedTitle}} free trial will end on {{formattedExpiresAt}}.',
@@ -416,11 +420,11 @@ const Unsubscribe = ({
                 )}{' '}
                 <Trans i18nKey="unsubscribe-popup.survey.info">
                   If you would like to proceed with cancelling your
-                  subscription, please select 'Unsubscribe' below, and your
-                  subscription will be cancelled as of {{ formattedExpiresAt }}.
-                  Until then, you will continue to have access to all of your
-                  current subscription features. Before you go, please let us
-                  know why you're leaving.
+                  subscription, please select &lsquo;Unsubscribe&rsquo; below,
+                  and your subscription will be cancelled as of{' '}
+                  {{ formattedExpiresAt }}. Until then, you will continue to
+                  have access to all of your current subscription features.
+                  Before you go, please let us know why you&apos;re leaving.
                 </Trans>
               </TextStyled>
             )}
@@ -433,7 +437,7 @@ const Unsubscribe = ({
                       onClickFn={() => setCheckedReason(value)}
                       checked={value === checkedReason}
                     >
-                      {t(key, value)}
+                      <>{t(key, value)}</>
                     </Checkbox>
                   </StyledItem>
                 ))}
@@ -474,12 +478,12 @@ const Unsubscribe = ({
               'You have been successfully unsubscribed. Your current plan will expire on'
             )}{' '}
             <b>
-              {expiresAt === INFINITE_DATE
+              {offerDetails?.expiresAt === INFINITE_DATE
                 ? t(
                     'unsubscribe-popup.next-season-start',
                     'the next season start'
                   )
-                : dateFormat(expiresAt)}
+                : dateFormat(Number(offerDetails?.expiresAt))}
             </b>
             .
           </TextStyled>
@@ -497,21 +501,6 @@ const Unsubscribe = ({
       )}
     </InnerPopupWrapper>
   );
-};
-
-Unsubscribe.propTypes = {
-  customCancellationReasons: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired
-    })
-  ),
-  skipAvailableDowngradesStep: PropTypes.bool
-};
-
-Unsubscribe.defaultProps = {
-  customCancellationReasons: null,
-  skipAvailableDowngradesStep: false
 };
 
 export default Unsubscribe;

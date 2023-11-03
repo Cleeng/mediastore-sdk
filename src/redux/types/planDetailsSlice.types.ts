@@ -1,6 +1,6 @@
 import { CustomerOffer } from 'api/Customer/types';
 
-type SwitchSetting = {
+export type SwitchSetting = {
   toOfferId: string;
   algorithm: string;
   switchDirection: string;
