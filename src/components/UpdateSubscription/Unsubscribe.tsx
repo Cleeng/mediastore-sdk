@@ -1,43 +1,27 @@
 import { useEffect, useState } from 'react';
-import { Trans, useTranslation } from 'react-i18next';
-
+import { useTranslation } from 'react-i18next';
 import updateSubscription from 'api/Customer/updateSubscription';
-import {
-  CurrencyFormat,
-  currencyFormat,
-  dateFormat,
-  INFINITE_DATE,
-  Period,
-  periodMapper
-} from 'util/planHelper';
-import checkmarkIcon from 'assets/images/checkmarkBase';
-
-import Button from 'components/Button';
-import Checkbox from 'components/Checkbox';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
-import Loader from 'components/Loader';
-import OfferCard from 'components/OfferCard';
 import {
   selectSwitchDetails,
-  selectSwitchSettings,
-  updateList
+  selectSwitchSettings
 } from 'redux/planDetailsSlice';
-import { hidePopup, selectOfferData, showPopup } from 'redux/popupSlice';
-
-import {
-  ButtonWrapperStyled,
-  ContentStyled,
-  DowngradesWrapperStyled,
-  OfferCardWrapperStyled,
-  TextStyled,
-  TitleStyled
-} from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
-import { useAppDispatch, useAppSelector } from 'redux/store';
+import { selectOfferData } from 'redux/popupSlice';
+import { useAppSelector } from 'redux/store';
 import { selectOffers } from 'redux/offersSlice';
-import STEPS from 'components/UpdateSubscription/Unsubscribe.enum';
-import { Props } from 'components/UpdateSubscription/Unsubscribe.types';
 import { SwitchSetting } from 'redux/types';
-import { ReasonsWrapper, StyledItem } from './UpdateSubscriptionStyled';
+import {
+  Pause,
+  Downgrades,
+  Survey,
+  Confirmation
+} from 'components/UpdateSubscription/components';
+import eventDispatcher, {
+  UNSUBSCRIBE_ACTION_CONFIRMED
+} from 'util/eventDispatcher';
+import { Props } from './Unsubscribe.types';
+import STEPS from './Unsubscribe.enum';
+import { defaultCancellationReasons } from './utils';
 
 const Unsubscribe = ({
   customCancellationReasons,
@@ -52,12 +36,10 @@ const Unsubscribe = ({
   const [steps, setSteps] = useState<STEPS[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
+  const { pauseOffersIDs } = useAppSelector(selectOffers);
   const { data: switchSettings } = useAppSelector(selectSwitchSettings);
   const { data: switchDetails } = useAppSelector(selectSwitchDetails);
   const offerDetails = useAppSelector(selectOfferData);
-
-  const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
 
@@ -137,50 +119,17 @@ const Unsubscribe = ({
     setCurrentStep(steps[0]);
   }, [steps]);
 
-  const defaultCancellationReasons = [
-    {
-      value: 'Poor customer support',
-      key: 'unsubscribe-popup.cancellation.poor-customer-support'
-    },
-    {
-      value: 'Switch to a different service',
-      key: 'unsubscribe-popup.cancellation.service-switch'
-    },
-    {
-      value: 'Subscription is too expensive',
-      key: 'unsubscribe-popup.cancellation.too-expensive'
-    },
-    {
-      value: 'Video streaming issues',
-      key: 'unsubscribe-popup.cancellation.streaming-issues'
-    },
-    {
-      value: 'Not enough interesting content',
-      key: 'unsubscribe-popup.cancellation.not-interesting-content'
-    },
-    {
-      value: 'Service is hard to use',
-      key: 'unsubscribe-popup.cancellation.hard-to-use'
-    },
-    {
-      value: 'Content I like has ended',
-      key: 'unsubscribe-popup.cancellation.content-ended'
-    }
-  ];
-
   const cancellationReasonsToShow = customCancellationReasons?.length
     ? customCancellationReasons
     : defaultCancellationReasons;
 
   const unsubscribe = async () => {
-    window.dispatchEvent(
-      new CustomEvent('MSSDK:unsubscribe-action-confirmed', {
-        detail: {
-          offerId: offerDetails?.offerId,
-          cancellationReason: checkedReason
-        }
-      })
-    );
+    eventDispatcher(UNSUBSCRIBE_ACTION_CONFIRMED, {
+      detail: {
+        offerId: offerDetails?.offerId,
+        cancellationReason: checkedReason
+      }
+    });
     try {
       setIsLoading(true);
       const isPauseActive = pauseOffersIDs.includes(offerDetails?.offerId);
@@ -202,26 +151,6 @@ const Unsubscribe = ({
     }
   };
 
-  const cancelUnsubscribeAction = () => {
-    window.dispatchEvent(new CustomEvent('MSSDK:unsubscribe-action-cancelled'));
-    dispatch(hidePopup());
-  };
-
-  const formattedExpiresAt = dateFormat(Number(offerDetails?.expiresAt));
-
-  const scheduledResult = scheduledSwitch();
-  const toOfferId =
-    scheduledResult !== false ? scheduledResult.toOfferId : null;
-
-  const toOfferIdTitle = offers.find(
-    ({ longId }: { longId: string }) => longId === toOfferId
-  )?.title;
-  const scheduledSwitchTitle = t(`offer-title-${toOfferId}`, toOfferIdTitle);
-  const translatedTitle = t(
-    `offer-title-${offerDetails?.offerId}`,
-    offerDetails ? offerDetails.offerTitle : ''
-  );
-
   // Filter out the pause subscription
   const downgradesListFiltered = downgradesList?.filter(
     ({ toOfferId: offerId }) => !pauseOffersIDs.includes(offerId)
@@ -237,267 +166,32 @@ const Unsubscribe = ({
       currentStep={steps.indexOf(currentStep) + 1}
     >
       {currentStep === STEPS.PAUSE && (
-        <ContentStyled>
-          <TitleStyled>
-            {t(
-              'unsubscribe-popup.pause-title',
-              'Would you like to pause your subscription instead?'
-            )}
-          </TitleStyled>
-          <TextStyled>
-            {t(
-              'unsubscribe-popup.pause-question',
-              'Need to step away? No problem.'
-            )}
-          </TextStyled>
-          <TextStyled>
-            {t(
-              'unsubscribe-popup.pause-description',
-              'Pause your subscription until the beginning of next season, you can resume at any time.'
-            )}
-          </TextStyled>
-          <ButtonWrapperStyled $fillWrapper $customMargin="80px 0 0">
-            <Button
-              theme="confirm"
-              onClickFn={() =>
-                dispatch(
-                  showPopup({
-                    type: 'pauseSubscription',
-                    data: {
-                      offerData: {
-                        ...pauseOffer[0]
-                      },
-                      isPartOfCancellationFlow: true
-                    }
-                  })
-                )
-              }
-            >
-              {t('unsubscribe-popup.pause-button-text', 'Pause')}
-            </Button>
-          </ButtonWrapperStyled>
-          <TextStyled>
-            {t(
-              'unsubscribe-popup.still-cancel',
-              'Or still wants to cancel a subscription?'
-            )}
-          </TextStyled>
-          <ButtonWrapperStyled $removeMargin>
-            <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
-              {t('unsubscribe-popup.back-button', 'Back to My Account')}
-            </Button>
-            <Button
-              theme="primary"
-              onClickFn={() =>
-                setCurrentStep(steps[steps.indexOf(currentStep) + 1])
-              }
-            >
-              {t('unsubscribe-popup.unsubscribe-button-text', 'Unsubscribe')}
-            </Button>
-          </ButtonWrapperStyled>
-        </ContentStyled>
+        <Pause
+          pauseOffer={pauseOffer[0]}
+          handleClick={() =>
+            setCurrentStep(steps[steps.indexOf(currentStep) + 1])
+          }
+        />
       )}
       {currentStep === STEPS.DOWNGRADES && (
-        <ContentStyled>
-          <>
-            <TitleStyled>
-              {t(
-                'unsubscribe-popup.downgrade-instead',
-                'How about a plan downgrade instead of cancellation?'
-              )}
-            </TitleStyled>
-            <TextStyled>
-              {t(
-                'unsubscribe-popup.plans-proposal',
-                'Here are the plans that might suit your needs:'
-              )}
-            </TextStyled>
-          </>
-          <DowngradesWrapperStyled>
-            {downgradesListFiltered.map(downgradeOffer => {
-              return (
-                <OfferCardWrapperStyled
-                  onClick={() =>
-                    dispatch(
-                      showPopup({
-                        type: 'switchPlan',
-                        data: {
-                          offerData: {
-                            ...downgradeOffer
-                          },
-                          isPartOfCancellationFlow: true
-                        }
-                      })
-                    )
-                  }
-                  key={downgradeOffer.toOfferId}
-                >
-                  <OfferCard
-                    period={
-                      periodMapper[downgradeOffer.period as Period]
-                        ?.chargedForEveryText
-                    }
-                    offerType="S"
-                    title={downgradeOffer.title}
-                    currency={
-                      currencyFormat[
-                        downgradeOffer.nextPaymentPriceCurrency as CurrencyFormat
-                      ]
-                    }
-                    price={
-                      Math.round(downgradeOffer.nextPaymentPrice * 100) / 100
-                    }
-                    offerId={downgradeOffer.toOfferId}
-                  />
-                </OfferCardWrapperStyled>
-              );
-            })}
-          </DowngradesWrapperStyled>
-          <TextStyled>
-            {t(
-              'unsubscribe-popup.still-cancel',
-              'Or still wants to cancel a subscription?'
-            )}
-          </TextStyled>
-          <ButtonWrapperStyled $removeMargin>
-            <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
-              {t('unsubscribe-popup.back-button', 'Back to My Account')}
-            </Button>
-            <Button
-              theme="confirm"
-              onClickFn={() => setCurrentStep(STEPS.SURVEY)}
-            >
-              {t('unsubscribe-popup.unsubscribe-button-text', 'Unsubscribe')}
-            </Button>
-          </ButtonWrapperStyled>
-        </ContentStyled>
+        <Downgrades
+          downgradesListFiltered={downgradesListFiltered}
+          handleClick={() => setCurrentStep(STEPS.SURVEY)}
+        />
       )}
       {currentStep === STEPS.SURVEY && (
-        <>
-          <ContentStyled>
-            <TitleStyled>
-              {t('unsubscribe-popup.survey-title', 'We’re sorry to see you go')}
-            </TitleStyled>
-            {offerDetails?.period === 'season' ? (
-              <TextStyled>
-                {t(
-                  'unsubscribe-popup.survey.access-info',
-                  'You will keep access to your seasonal subscription until {{formattedExpiresAt}}. Before you go, please let us know why you’re leaving.',
-                  {
-                    formattedExpiresAt:
-                      offerDetails?.expiresAt === INFINITE_DATE
-                        ? t(
-                            'unsubscribe-popup.next-season-start',
-                            'the next season start'
-                          )
-                        : dateFormat(offerDetails?.expiresAt)
-                  }
-                )}
-              </TextStyled>
-            ) : (
-              <TextStyled>
-                {scheduledSwitch() ? (
-                  t(
-                    'unsubscribe-popup.survey.switch-pending',
-                    `Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.`,
-                    { scheduledSwitchTitle }
-                  )
-                ) : (
-                  <>
-                    {offerDetails?.inTrial
-                      ? t(
-                          'unsubscribe-popup.survey.free-trial',
-                          'Your {{translatedTitle}} free trial will end on {{formattedExpiresAt}}.',
-                          { translatedTitle, formattedExpiresAt }
-                        )
-                      : t(
-                          'unsubscribe-popup.survey.subscription-paid',
-                          'Your {{translatedTitle}} subscription is paid until {{formattedExpiresAt}}.',
-                          { translatedTitle, formattedExpiresAt }
-                        )}
-                  </>
-                )}{' '}
-                <Trans i18nKey="unsubscribe-popup.survey.info">
-                  If you would like to proceed with cancelling your
-                  subscription, please select &lsquo;Unsubscribe&rsquo; below,
-                  and your subscription will be cancelled as of{' '}
-                  {{ formattedExpiresAt }}. Until then, you will continue to
-                  have access to all of your current subscription features.
-                  Before you go, please let us know why you&apos;re leaving.
-                </Trans>
-              </TextStyled>
-            )}
-            {cancellationReasonsToShow && (
-              <ReasonsWrapper>
-                {cancellationReasonsToShow.map(({ key, value }) => (
-                  <StyledItem key={key}>
-                    <Checkbox
-                      isRadioButton
-                      onClickFn={() => setCheckedReason(value)}
-                      checked={value === checkedReason}
-                    >
-                      <>{t(key, value)}</>
-                    </Checkbox>
-                  </StyledItem>
-                ))}
-              </ReasonsWrapper>
-            )}
-          </ContentStyled>
-          <ButtonWrapperStyled $removeMargin>
-            <Button
-              theme="simple"
-              onClickFn={() =>
-                shouldShowDowngrades
-                  ? setCurrentStep(STEPS.DOWNGRADES)
-                  : cancelUnsubscribeAction()
-              }
-            >
-              {t('unsubscribe-popup.survey.go-back', 'Go back')}
-            </Button>
-            <Button
-              theme="confirm"
-              onClickFn={unsubscribe}
-              disabled={checkedReason === '' || isLoading}
-            >
-              {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
-                t('unsubscribe-popup.survey.unsubscribe', 'Unsubscribe')}
-            </Button>
-          </ButtonWrapperStyled>
-        </>
+        <Survey
+          cancellationReasonsToShow={cancellationReasonsToShow}
+          checkedReason={checkedReason}
+          shouldShowDowngrades={shouldShowDowngrades}
+          isLoading={isLoading}
+          unsubscribe={unsubscribe}
+          handleCheckboxClick={setCheckedReason}
+          handleButtonClick={setCurrentStep}
+          scheduledSwitch={scheduledSwitch}
+        />
       )}
-      {currentStep === STEPS.CONFIRMATION && (
-        <ContentStyled>
-          <img src={checkmarkIcon} alt="checkmark icon" />
-          <TitleStyled>
-            {t('unsubscribe-popup.success.title', 'Miss you already.')}
-          </TitleStyled>
-          <TextStyled>
-            {t(
-              'unsubscribe-popup.success.description',
-              'You have been successfully unsubscribed. Your current plan will expire on'
-            )}{' '}
-            <b>
-              {offerDetails?.expiresAt === INFINITE_DATE
-                ? t(
-                    'unsubscribe-popup.next-season-start',
-                    'the next season start'
-                  )
-                : dateFormat(Number(offerDetails?.expiresAt))}
-            </b>
-            .
-          </TextStyled>
-          <Button
-            width="auto"
-            margin="30px auto 0 auto"
-            onClickFn={() => {
-              dispatch(hidePopup());
-              dispatch(updateList());
-            }}
-          >
-            {t('unsubscribe-popup.back-button', 'Back to My Account')}
-          </Button>
-        </ContentStyled>
-      )}
+      {currentStep === STEPS.CONFIRMATION && <Confirmation />}
     </InnerPopupWrapper>
   );
 };
