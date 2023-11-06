@@ -109,6 +109,7 @@ Config.setOffer("S123456789_US");
 Config.setVisibleAdyenPaymentMethods(["card", "applepay"]);
 Config.setHidePayPal();
 Config.setLanguage("es");
+Config.setTermsUrl("https://your_terms_and_conditions-url.com");
 ```
 
 #### Auth methods
