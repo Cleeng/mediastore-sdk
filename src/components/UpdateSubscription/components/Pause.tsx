@@ -10,13 +10,13 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch } from 'redux/store';
 import { SwitchSetting } from 'redux/types';
 
-function Pause({
+const Pause = ({
   pauseOffer,
   handleClick
 }: {
   pauseOffer: SwitchSetting;
   handleClick: () => void;
-}) {
+}) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -76,7 +76,7 @@ function Pause({
       </ButtonWrapperStyled>
     </ContentStyled>
   );
-}
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export { Pause };

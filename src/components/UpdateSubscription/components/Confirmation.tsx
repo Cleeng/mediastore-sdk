@@ -11,7 +11,7 @@ import checkmarkIcon from 'assets/images/checkmarkBase';
 import { dateFormat, INFINITE_DATE } from 'util/planHelper';
 import { updateList } from 'redux/planDetailsSlice';
 
-function Confirmation() {
+const Confirmation = () => {
   const offerDetails = useAppSelector(selectOfferData);
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
@@ -46,7 +46,7 @@ function Confirmation() {
       </Button>
     </ContentStyled>
   );
-}
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export { Confirmation };

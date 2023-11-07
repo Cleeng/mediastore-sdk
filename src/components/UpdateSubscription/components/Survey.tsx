@@ -18,8 +18,9 @@ import STEPS from 'components/UpdateSubscription/Unsubscribe.enum';
 import Loader from 'components/Loader';
 import { selectOffers } from 'redux/offersSlice';
 import { CancellationReason } from 'containers/PlanDetails/PlanDetails.types';
+import { SwitchDetail } from 'redux/types';
 
-function Survey({
+const Survey = ({
   scheduledSwitch,
   cancellationReasonsToShow,
   checkedReason,
@@ -36,21 +37,8 @@ function Survey({
   unsubscribe: () => Promise<void>;
   handleCheckboxClick: (value: string) => void;
   handleButtonClick: (step: STEPS) => void;
-  scheduledSwitch: () =>
-    | false
-    | {
-        id: string;
-        customerId: number;
-        direction: string;
-        algorithm: string;
-        fromOfferId: string;
-        toOfferId: string;
-        subscriptionId: string;
-        status: string;
-        createdAt: number;
-        updatedAt: number;
-      };
-}) {
+  scheduledSwitch: () => false | SwitchDetail;
+}) => {
   const offerDetails = useAppSelector(selectOfferData);
   const dispatch = useAppDispatch();
 
@@ -170,7 +158,7 @@ function Survey({
       </ButtonWrapperStyled>
     </>
   );
-}
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export { Survey };

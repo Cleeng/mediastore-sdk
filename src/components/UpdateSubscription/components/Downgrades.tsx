@@ -19,13 +19,13 @@ import {
   periodMapper
 } from 'util/planHelper';
 
-function Downgrades({
+const Downgrades = ({
   downgradesListFiltered,
   handleClick
 }: {
   downgradesListFiltered: SwitchSetting[];
   handleClick: () => void;
-}) {
+}) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -99,7 +99,7 @@ function Downgrades({
       </ButtonWrapperStyled>
     </ContentStyled>
   );
-}
+};
 
 // eslint-disable-next-line import/prefer-default-export
 export { Downgrades };
