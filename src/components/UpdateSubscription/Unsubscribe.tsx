@@ -14,7 +14,8 @@ import {
   Pause,
   Downgrades,
   Survey,
-  Confirmation
+  Confirmation,
+  FreeExtension
 } from 'components/UpdateSubscription/components';
 import eventDispatcher, {
   UNSUBSCRIBE_ACTION_CONFIRMED
@@ -174,10 +175,11 @@ const Unsubscribe = ({
         />
       )}
       {currentStep === STEPS.DOWNGRADES && (
-        <Downgrades
-          downgradesListFiltered={downgradesListFiltered}
-          handleClick={() => setCurrentStep(STEPS.SURVEY)}
-        />
+        // <Downgrades
+        //   downgradesListFiltered={downgradesListFiltered}
+        //   handleClick={() => setCurrentStep(STEPS.SURVEY)}
+        // />
+        <FreeExtension setCurrentStep={setCurrentStep} />
       )}
       {currentStep === STEPS.SURVEY && (
         <Survey
