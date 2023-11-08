@@ -62,9 +62,21 @@ type SwitchSettings = {
   nextPaymentPriceCurrencySymbol: string;
 };
 
-type UpdateSubscription = {
+type ExtensionDetails = {
+  // some period type?
+  periodUnit: string;
+  amount: number;
+};
+
+export type RetentionActions = {
+  type: 'FREE_EXTENSION' | 'DOWNGRADE';
+  extensionDetails: ExtensionDetails;
+};
+
+export type UpdateSubscription = {
   action: string;
   offerData: Offer;
+  retentionActions: RetentionActions;
 };
 
 type SwitchPlan = {

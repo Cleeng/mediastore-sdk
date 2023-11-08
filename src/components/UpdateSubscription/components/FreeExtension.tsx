@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import { hidePopup } from 'redux/popupSlice';
+import { UpdateSubscription } from 'redux/types';
 import Button from 'components/Button';
 import {
   ContentStyled,
@@ -9,15 +10,22 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import AcceptButtonWrapperStyled from './FreeExtension.styled';
-import STEPS from '../Unsubscribe.enum';
 
 type FreeExtensionProps = {
-  setCurrentStep: (step: STEPS | null) => void;
+  handleUnsubscribe: () => void;
 };
 
-const FreeExtension = ({ setCurrentStep }: FreeExtensionProps) => {
+const FreeExtension = ({ handleUnsubscribe }: FreeExtensionProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
+  const { updateSubscription } = useAppSelector(state => state.popupManager);
+
+  const {
+    retentionActions: {
+      extensionDetails: { periodUnit, amount }
+    }
+  } = updateSubscription || ({} as UpdateSubscription);
 
   return (
     <ContentStyled>
@@ -33,12 +41,12 @@ const FreeExtension = ({ setCurrentStep }: FreeExtensionProps) => {
         </TextStyled>
       </>
       <AcceptButtonWrapperStyled>
-        <Button
-          theme="confirm"
-          size="normal"
-          onClickFn={() => console.log('accept')}
-        >
-          {t('free-extension.accept-offer', 'Get X months free')}
+        <Button theme="confirm" size="normal" onClickFn={() => null}>
+          {`${t(
+            'free-extension.accept-offer-button-text-1',
+            'Get {{amount}} {{periodUnit}}',
+            { amount, periodUnit }
+          )} ${t('free-extension.accept-offer-button-text-2', 'free')}`}
         </Button>
       </AcceptButtonWrapperStyled>
       <TextStyled>
@@ -51,7 +59,7 @@ const FreeExtension = ({ setCurrentStep }: FreeExtensionProps) => {
         <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
           {t('free-extension.back-button', 'Back to My Account')}
         </Button>
-        <Button theme="confirm" onClickFn={() => setCurrentStep(STEPS.SURVEY)}>
+        <Button theme="confirm" onClickFn={handleUnsubscribe}>
           {t('free-extension.unsubscribe-button-text', 'Unsubscribe')}
         </Button>
       </ButtonWrapperStyled>

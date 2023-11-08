@@ -10,7 +10,7 @@ const UpdateSubscription = ({
   skipAvailableDowngradesStep
 }) => {
   const {
-    updateSubscription: { action }
+    updateSubscription: { action, retentionActions }
   } = useSelector(state => state.popupManager);
 
   if (action === 'unsubscribe') {
@@ -18,6 +18,7 @@ const UpdateSubscription = ({
       <Unsubscribe
         customCancellationReasons={customCancellationReasons}
         skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+        retentionActions={retentionActions}
       />
     );
   }

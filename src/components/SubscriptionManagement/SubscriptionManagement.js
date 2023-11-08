@@ -5,7 +5,7 @@ import Button from 'components/Button';
 import { useDispatch, useSelector } from 'react-redux';
 import { setOfferToSwitch, updateList } from 'redux/planDetailsSlice';
 import { useTranslation } from 'react-i18next';
-import { applyCoupon } from 'api';
+import { applyCoupon, getRetentionActions } from 'api';
 import CouponInput from 'components/CouponInput';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { showPopup } from 'redux/popupSlice';
@@ -144,8 +144,14 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
           {subscription.status === 'active' && !isCouponInputOpened && (
             <SimpleButtonStyled
               theme="simple"
-              onClickFn={event => {
+              onClickFn={async event => {
                 event.stopPropagation();
+                // retention actions call
+
+                const retentionActions = await getRetentionActions(
+                  subscription.offerId
+                );
+
                 dispatch(setOfferToSwitch(subscription));
                 dispatch(
                   showPopup({
@@ -154,7 +160,8 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                       action: 'unsubscribe',
                       offerData: {
                         ...subscription
-                      }
+                      },
+                      retentionActions: retentionActions || null
                     }
                   })
                 );

@@ -129,7 +129,7 @@ const Survey = ({
                   onClickFn={() => handleCheckboxClick(value)}
                   checked={value === checkedReason}
                 >
-                  <>{t(key, value)}</>
+                  {t(key, value)}
                 </Checkbox>
               </StyledItem>
             ))}

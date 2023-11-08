@@ -26,7 +26,8 @@ import { defaultCancellationReasons } from './utils';
 
 const Unsubscribe = ({
   customCancellationReasons,
-  skipAvailableDowngradesStep
+  skipAvailableDowngradesStep,
+  retentionActions
 }: Props) => {
   const INITIAL_STEPS_ARRAY = [STEPS.SURVEY, STEPS.CONFIRMATION];
 
@@ -94,8 +95,22 @@ const Unsubscribe = ({
     return false;
   };
 
-  const shouldShowDowngrades = shouldShowDowngradeScreen();
+  const shouldShowFreeExtensionScreen = () => {
+    if (retentionActions?.type === 'FREE_EXTENSION') {
+      return true;
+    }
+
+    return false;
+  };
+
+  const shouldShowFreeExtension = shouldShowFreeExtensionScreen();
+
+  const shouldShowDowngrades = shouldShowFreeExtension
+    ? false
+    : shouldShowDowngradeScreen();
+
   const shouldShowPause = shouldShowPauseScreen();
+
   const [currentStep, setCurrentStep] = useState<STEPS | null>(null);
 
   const pauseOffer = downgradesList?.filter(({ toOfferId }) =>
@@ -104,12 +119,18 @@ const Unsubscribe = ({
 
   useEffect(() => {
     const tempArray = INITIAL_STEPS_ARRAY.slice();
+
     if (shouldShowDowngrades && !tempArray.includes(STEPS.DOWNGRADES)) {
       tempArray.unshift(STEPS.DOWNGRADES);
     }
     if (shouldShowPause && !tempArray.includes(STEPS.PAUSE)) {
       tempArray.unshift(STEPS.PAUSE);
     }
+
+    if (shouldShowFreeExtension && !tempArray.includes(STEPS.FREE_EXTENSION)) {
+      tempArray.unshift(STEPS.FREE_EXTENSION);
+    }
+
     if (tempArray.length !== steps.length) {
       setSteps(tempArray);
     }
@@ -159,6 +180,9 @@ const Unsubscribe = ({
 
   if (!steps || !currentStep) return <></>;
 
+  const goToNextStep = () =>
+    setCurrentStep(steps[steps.indexOf(currentStep) + 1]);
+
   return (
     <InnerPopupWrapper
       steps={steps.length}
@@ -166,20 +190,17 @@ const Unsubscribe = ({
       isError={isError}
       currentStep={steps.indexOf(currentStep) + 1}
     >
+      {currentStep === STEPS.FREE_EXTENSION && (
+        <FreeExtension handleUnsubscribe={goToNextStep} />
+      )}
       {currentStep === STEPS.PAUSE && (
-        <Pause
-          pauseOffer={pauseOffer[0]}
-          handleClick={() =>
-            setCurrentStep(steps[steps.indexOf(currentStep) + 1])
-          }
-        />
+        <Pause pauseOffer={pauseOffer[0]} handleClick={goToNextStep} />
       )}
       {currentStep === STEPS.DOWNGRADES && (
-        // <Downgrades
-        //   downgradesListFiltered={downgradesListFiltered}
-        //   handleClick={() => setCurrentStep(STEPS.SURVEY)}
-        // />
-        <FreeExtension setCurrentStep={setCurrentStep} />
+        <Downgrades
+          downgradesListFiltered={downgradesListFiltered}
+          handleClick={goToNextStep}
+        />
       )}
       {currentStep === STEPS.SURVEY && (
         <Survey
