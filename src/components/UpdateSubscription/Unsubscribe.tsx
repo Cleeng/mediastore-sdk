@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import updateSubscription from 'api/Customer/updateSubscription';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import {
   selectSwitchDetails,
@@ -16,12 +15,9 @@ import {
   Survey,
   Confirmation
 } from 'components/UpdateSubscription/components';
-import eventDispatcher, {
-  UNSUBSCRIBE_ACTION_CONFIRMED
-} from 'util/eventDispatcher';
+import { selectUnsubscribe } from 'redux/unsubscribeSlice';
 import { Props } from './Unsubscribe.types';
 import STEPS from './Unsubscribe.enum';
-import { defaultCancellationReasons } from './utils';
 
 const Unsubscribe = ({
   customCancellationReasons,
@@ -34,12 +30,11 @@ const Unsubscribe = ({
   );
   const [checkedReason, setCheckedReason] = useState('');
   const [steps, setSteps] = useState<STEPS[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isError, setIsError] = useState(false);
   const { pauseOffersIDs } = useAppSelector(selectOffers);
   const { data: switchSettings } = useAppSelector(selectSwitchSettings);
   const { data: switchDetails } = useAppSelector(selectSwitchDetails);
   const offerDetails = useAppSelector(selectOfferData);
+  const { error: isError } = useAppSelector(selectUnsubscribe);
 
   const { t } = useTranslation();
 
@@ -119,38 +114,6 @@ const Unsubscribe = ({
     setCurrentStep(steps[0]);
   }, [steps]);
 
-  const cancellationReasonsToShow = customCancellationReasons?.length
-    ? customCancellationReasons
-    : defaultCancellationReasons;
-
-  const unsubscribe = async () => {
-    eventDispatcher(UNSUBSCRIBE_ACTION_CONFIRMED, {
-      detail: {
-        offerId: offerDetails?.offerId,
-        cancellationReason: checkedReason
-      }
-    });
-    try {
-      setIsLoading(true);
-      const isPauseActive = pauseOffersIDs.includes(offerDetails?.offerId);
-      const response = await updateSubscription({
-        offerId: offerDetails?.offerId,
-        status: isPauseActive ? 'terminated' : 'cancelled',
-        cancellationReason: checkedReason
-      });
-      if (response.errors.length) {
-        setIsError(true);
-        setIsLoading(false);
-      } else {
-        setCurrentStep(STEPS.CONFIRMATION);
-        setIsLoading(false);
-      }
-    } catch {
-      setIsError(true);
-      setIsLoading(false);
-    }
-  };
-
   // Filter out the pause subscription
   const downgradesListFiltered = downgradesList?.filter(
     ({ toOfferId: offerId }) => !pauseOffersIDs.includes(offerId)
@@ -162,7 +125,7 @@ const Unsubscribe = ({
     <InnerPopupWrapper
       steps={steps.length}
       popupTitle={t('unsubscribe-popup.title', 'Manage your plan')}
-      isError={isError}
+      isError={Boolean(isError)}
       currentStep={steps.indexOf(currentStep) + 1}
     >
       {currentStep === STEPS.PAUSE && (
@@ -181,13 +144,11 @@ const Unsubscribe = ({
       )}
       {currentStep === STEPS.SURVEY && (
         <Survey
-          cancellationReasonsToShow={cancellationReasonsToShow}
+          customCancellationReasons={customCancellationReasons}
           checkedReason={checkedReason}
           shouldShowDowngrades={shouldShowDowngrades}
-          isLoading={isLoading}
-          unsubscribe={unsubscribe}
           handleCheckboxClick={setCheckedReason}
-          handleButtonClick={setCurrentStep}
+          handleButtonClick={() => setCurrentStep(STEPS.DOWNGRADES)}
           scheduledSwitch={scheduledSwitch}
         />
       )}

@@ -25,6 +25,7 @@ import transactionsReducer from './transactionsSlice';
 import publisherConsentsReducer from './publisherConsentsSlice';
 import deliveryDetailsSliceReducer from './deliveryDetailsSlice';
 import giftSliceReducer from './giftSlice';
+import unsubscribeSliceReducer from './unsubscribeSlice';
 
 const rootReducer = combineReducers({
   planDetails: paymentDetailsReducer,
@@ -47,7 +48,8 @@ const rootReducer = combineReducers({
   transactions: transactionsReducer,
   publisherConsents: publisherConsentsReducer,
   deliveryDetails: deliveryDetailsSliceReducer,
-  gift: giftSliceReducer
+  gift: giftSliceReducer,
+  unsubscribe: unsubscribeSliceReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
