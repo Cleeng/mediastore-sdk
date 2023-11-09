@@ -5,10 +5,12 @@ import {
   selectSwitchDetails,
   selectSwitchSettings
 } from 'redux/planDetailsSlice';
-import { selectOfferData } from 'redux/popupSlice';
+import { SwitchSetting } from 'redux/types';
 import { useAppSelector } from 'redux/store';
 import { selectOffers } from 'redux/offersSlice';
-import { SwitchSetting } from 'redux/types';
+import { selectOfferData } from 'redux/popupSlice';
+import { selectUnsubscribe } from 'redux/unsubscribeSlice';
+import { selectRetentionActions } from 'redux/retentionActionsSlice';
 import {
   Pause,
   Downgrades,
@@ -16,14 +18,12 @@ import {
   Confirmation,
   FreeExtension
 } from 'components/UpdateSubscription/components';
-import { selectUnsubscribe } from 'redux/unsubscribeSlice';
 import { Props } from './Unsubscribe.types';
 import STEPS from './Unsubscribe.enum';
 
 const Unsubscribe = ({
   customCancellationReasons,
-  skipAvailableDowngradesStep,
-  retentionActions
+  skipAvailableDowngradesStep
 }: Props) => {
   const INITIAL_STEPS_ARRAY = [STEPS.SURVEY, STEPS.CONFIRMATION];
 
@@ -37,6 +37,8 @@ const Unsubscribe = ({
   const { data: switchDetails } = useAppSelector(selectSwitchDetails);
   const offerDetails = useAppSelector(selectOfferData);
   const { error: isError } = useAppSelector(selectUnsubscribe);
+
+  const { retentionActions } = useAppSelector(selectRetentionActions);
 
   const { t } = useTranslation();
 

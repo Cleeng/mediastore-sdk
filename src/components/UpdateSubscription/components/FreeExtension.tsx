@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { hidePopup } from 'redux/popupSlice';
-import { UpdateSubscription } from 'redux/types';
+import { selectRetentionActions } from 'redux/retentionActionsSlice';
 import Button from 'components/Button';
 import {
   ContentStyled,
@@ -19,13 +19,11 @@ const FreeExtension = ({ handleUnsubscribe }: FreeExtensionProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const { updateSubscription } = useAppSelector(state => state.popupManager);
-
   const {
     retentionActions: {
       extensionDetails: { periodUnit, amount }
     }
-  } = updateSubscription || ({} as UpdateSubscription);
+  } = useAppSelector(selectRetentionActions);
 
   return (
     <ContentStyled>

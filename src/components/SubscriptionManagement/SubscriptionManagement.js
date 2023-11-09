@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
+import { applyCoupon } from 'api';
+import { POPUP_TYPES } from 'redux/innerPopupReducer';
+import { setOfferToSwitch, updateList } from 'redux/planDetailsSlice';
+import {
+  fetchRetentionActions,
+  selectRetentionActions
+} from 'redux/retentionActionsSlice';
+import { showPopup } from 'redux/popupSlice';
 import { currencyFormat } from 'util/planHelper';
 import Button from 'components/Button';
-import { useDispatch, useSelector } from 'react-redux';
-import { setOfferToSwitch, updateList } from 'redux/planDetailsSlice';
-import { useTranslation } from 'react-i18next';
-import { applyCoupon, getRetentionActions } from 'api';
 import CouponInput from 'components/CouponInput';
-import { POPUP_TYPES } from 'redux/innerPopupReducer';
-import { showPopup } from 'redux/popupSlice';
+import Loader from 'components/Loader';
 
 import {
   SubscriptionManagementStyled,
@@ -26,6 +31,11 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
   const { data: switchSettings } = useSelector(
     store => store.plan.switchSettings
   );
+
+  const { isLoading: isRetentionActionsLoading } = useSelector(
+    selectRetentionActions
+  );
+
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isCouponInputOpened, setIsCouponInputOpened] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -146,25 +156,24 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
               theme="simple"
               onClickFn={async event => {
                 event.stopPropagation();
-                // retention actions call
 
-                const retentionActions = await getRetentionActions(
-                  subscription.offerId
+                dispatch(fetchRetentionActions(subscription.offerId)).then(
+                  () => {
+                    dispatch(setOfferToSwitch(subscription));
+                    dispatch(
+                      showPopup({
+                        type: POPUP_TYPES.updateSubscription,
+                        data: {
+                          action: 'unsubscribe',
+                          offerData: {
+                            ...subscription
+                          }
+                        }
+                      })
+                    );
+                  }
                 );
 
-                dispatch(setOfferToSwitch(subscription));
-                dispatch(
-                  showPopup({
-                    type: POPUP_TYPES.updateSubscription,
-                    data: {
-                      action: 'unsubscribe',
-                      offerData: {
-                        ...subscription
-                      },
-                      retentionActions: retentionActions || null
-                    }
-                  })
-                );
                 window.dispatchEvent(
                   new CustomEvent('MSSDK:unsubscribe-button-clicked', {
                     detail: {
@@ -174,7 +183,11 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 );
               }}
             >
-              {t('subscription-management.unsubscribe-button', 'Unsubscribe')}
+              {isRetentionActionsLoading ? (
+                <Loader buttonLoader color="#515364" />
+              ) : (
+                t('subscription-management.unsubscribe-button', 'Unsubscribe')
+              )}
             </SimpleButtonStyled>
           )}
           {subscription.status === 'cancelled' && !isCouponInputOpened && (

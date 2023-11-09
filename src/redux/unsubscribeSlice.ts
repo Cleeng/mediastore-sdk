@@ -4,7 +4,7 @@ import { FetchUnsubscribeParams, UnsubscribeInitialState } from 'redux/types';
 import { RootState } from './rootReducer';
 
 export const initialState: UnsubscribeInitialState = {
-  loading: true,
+  loading: false,
   error: null
 };
 
@@ -18,11 +18,13 @@ export const fetchUnsubscribe = createAsyncThunk<
   'unsubscribe/fetchUnsubscribe',
   async ({ offerId, isPauseActive, checkedReason }, { rejectWithValue }) => {
     try {
-      await updateSubscription({
+      const result = await updateSubscription({
         offerId,
         status: isPauseActive ? 'terminated' : 'cancelled',
         cancellationReason: checkedReason
       });
+
+      return result;
     } catch (err) {
       const typedError = err as Error;
       return rejectWithValue(typedError.message);

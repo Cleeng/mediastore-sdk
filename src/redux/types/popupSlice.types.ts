@@ -1,4 +1,5 @@
 import { PaymentDetail } from 'api/Customer/types';
+import { RetentionActions } from './retentionActionsSlice.types';
 import { PAYMENT_DETAILS_STEPS, POPUP_TYPES } from '../popupSlice';
 
 type Keys = keyof typeof PAYMENT_DETAILS_STEPS;
@@ -60,17 +61,6 @@ type SwitchSettings = {
   nextPaymentPrice: number;
   nextPaymentPriceCurrency: string;
   nextPaymentPriceCurrencySymbol: string;
-};
-
-type ExtensionDetails = {
-  // some period type?
-  periodUnit: string;
-  amount: number;
-};
-
-export type RetentionActions = {
-  type: 'FREE_EXTENSION' | 'DOWNGRADE';
-  extensionDetails: ExtensionDetails;
 };
 
 export type UpdateSubscription = {
