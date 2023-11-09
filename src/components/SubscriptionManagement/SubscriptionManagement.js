@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import mixpanel from 'mixpanel-browser';
 import { currencyFormat } from 'util/planHelper';
 import Button from 'components/Button';
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,6 +37,8 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  mixpanel.init('58fd0d2785acbde61a6c117a642c0360');
 
   const submitCoupon = subscriptionId => {
     if (couponValue) {
@@ -165,6 +168,10 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                     }
                   })
                 );
+                mixpanel.track('Unsubscribe Attempt', {
+                  Component: 'SubscriptionManagement'
+                });
+                console.log("Tracking 'Unsubscribe Attempt'");
               }}
             >
               {t('subscription-management.unsubscribe-button', 'Unsubscribe')}
