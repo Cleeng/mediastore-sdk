@@ -49,8 +49,10 @@ const ThankYouPage = ({ onSuccess }) => {
       <Header />
       <ThankYouPageStyled>
         <IconStyled src={checkmarkIconBase} alt="" />
-        <TitleStyled>{t('thank-you-page.header', 'Thank You!')}</TitleStyled>
-        <MessageStyled>
+        <TitleStyled id="title-thankyou">
+          {t('thank-you-page.header', 'Thank You!')}
+        </TitleStyled>
+        <MessageStyled id="message-payment-method">
           {readablePaymentMethod[paymentMethod] ? (
             <strong>
               {t(
@@ -68,7 +70,7 @@ const ThankYouPage = ({ onSuccess }) => {
             </strong>
           )}
         </MessageStyled>
-        <MessageStyled>
+        <MessageStyled id="message-total-amount">
           {totalAmount
             ? currencySymbol &&
               t(
