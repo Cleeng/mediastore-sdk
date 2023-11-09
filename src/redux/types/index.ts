@@ -8,3 +8,4 @@ export * from './popupSlice.types';
 export * from './publisherConfigSlice.types';
 export * from './giftSlice.types';
 export * from './deliveryDetailsSlice.types';
+export * from './unsubscribe.types';

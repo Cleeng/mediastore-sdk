@@ -14,35 +14,36 @@ import {
   StyledItem
 } from 'components/UpdateSubscription/UpdateSubscriptionStyled';
 import Checkbox from 'components/Checkbox';
-import STEPS from 'components/UpdateSubscription/Unsubscribe.enum';
 import Loader from 'components/Loader';
 import { selectOffers } from 'redux/offersSlice';
 import { CancellationReason } from 'containers/PlanDetails/PlanDetails.types';
 import { SwitchDetail } from 'redux/types';
+import { defaultCancellationReasons } from 'components/UpdateSubscription/utils';
+import { fetchUnsubscribe, selectUnsubscribe } from 'redux/unsubscribeSlice';
+import eventDispatcher, {
+  UNSUBSCRIBE_ACTION_CONFIRMED
+} from 'util/eventDispatcher';
 
 const Survey = ({
   scheduledSwitch,
-  cancellationReasonsToShow,
+  customCancellationReasons,
   checkedReason,
   shouldShowDowngrades,
-  isLoading,
-  unsubscribe,
   handleCheckboxClick,
   handleButtonClick
 }: {
-  cancellationReasonsToShow: CancellationReason[];
+  customCancellationReasons: CancellationReason[] | undefined;
   checkedReason: string;
   shouldShowDowngrades: boolean;
-  isLoading: boolean;
-  unsubscribe: () => Promise<void>;
   handleCheckboxClick: (value: string) => void;
-  handleButtonClick: (step: STEPS) => void;
+  handleButtonClick: () => void;
   scheduledSwitch: () => false | SwitchDetail;
 }) => {
   const offerDetails = useAppSelector(selectOfferData);
   const dispatch = useAppDispatch();
-
+  const { pauseOffersIDs } = useAppSelector(selectOffers);
   const { offers } = useAppSelector(selectOffers);
+  const { loading: isLoading } = useAppSelector(selectUnsubscribe);
 
   const { t } = useTranslation();
 
@@ -64,6 +65,27 @@ const Survey = ({
     `offer-title-${offerDetails?.offerId}`,
     offerDetails ? offerDetails.offerTitle : ''
   );
+
+  const cancellationReasonsToShow = customCancellationReasons?.length
+    ? customCancellationReasons
+    : defaultCancellationReasons;
+  const isPauseActive = pauseOffersIDs.includes(offerDetails?.offerId);
+
+  const handleUnsubscribe = () => {
+    eventDispatcher(UNSUBSCRIBE_ACTION_CONFIRMED, {
+      detail: {
+        offerId: offerDetails?.offerId,
+        cancellationReason: checkedReason
+      }
+    });
+    dispatch(
+      fetchUnsubscribe({
+        offerId: offerDetails?.offerId,
+        checkedReason,
+        isPauseActive
+      })
+    );
+  };
 
   return (
     <>
@@ -141,7 +163,7 @@ const Survey = ({
           theme="simple"
           onClickFn={() =>
             shouldShowDowngrades
-              ? handleButtonClick(STEPS.DOWNGRADES)
+              ? handleButtonClick()
               : cancelUnsubscribeAction()
           }
         >
@@ -149,7 +171,7 @@ const Survey = ({
         </Button>
         <Button
           theme="confirm"
-          onClickFn={unsubscribe}
+          onClickFn={handleUnsubscribe}
           disabled={checkedReason === '' || isLoading}
         >
           {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
