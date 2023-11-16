@@ -8,6 +8,7 @@ export type DeliveryDetailsInitialState = {
   isGift: boolean;
   confirmRecipientEmail: FormField;
   deliveryDate: FormField;
+  deliveryTime: FormField;
   message: { value: string };
   recipientEmail: FormField;
 };

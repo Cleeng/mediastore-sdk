@@ -37,11 +37,7 @@ export const isDateInFuture = (date: Date) => {
 
   const now = new Date();
 
-  if (date.setHours(0, 0, 0, 0) > now.setHours(0, 0, 0, 0)) {
-    return true;
-  }
-
-  return false;
+  return date.setHours(0, 0, 0, 0) > now.setHours(0, 0, 0, 0);
 };
 
 export const validateDeliveryDate = (value: string) => {
@@ -62,6 +58,24 @@ export const validateDeliveryDate = (value: string) => {
       name: 'deliveryDate',
       error,
       translationKey: !value ? 'recipientForm.error.delivery-date' : ''
+    })
+  );
+
+  return !error;
+};
+
+export const validateDeliveryTime = (value: string) => {
+  let error = '';
+
+  if (!value) {
+    error = 'Missing delivery time';
+  }
+
+  store.dispatch(
+    setFieldError({
+      name: 'deliveryTime',
+      error,
+      translationKey: !value ? 'recipientForm.error.delivery-time' : ''
     })
   );
 

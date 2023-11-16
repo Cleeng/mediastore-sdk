@@ -19,6 +19,12 @@ export const WrapStyled = styled.div.attrs(() => ({
       display: none;
     `};
 
+  ${({ width }) =>
+    width &&
+    css`
+      width: ${width};
+    `};
+
   .msd__error {
     color: ${ErrorColor};
   }
