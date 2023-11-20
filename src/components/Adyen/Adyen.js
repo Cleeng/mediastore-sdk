@@ -355,15 +355,13 @@ const Adyen = ({
           return false;
         }
 
-        return true;
+        if (type === BANK_PAYMENT_METHODS) {
+          setShouldFadeOutStandardDropIn(true);
+        } else {
+          setShouldFadeOutBankDropIn(true);
+        }
 
-        // if (type === BANK_PAYMENT_METHODS) {
-        //   setShouldFadeOutStandardDropIn(true);
-        // } else {
-        //   setShouldFadeOutBankDropIn(true);
-        // }
-
-        // return onSubmit(state, component);
+        return onSubmit(state, component);
       },
       onActionHandled: () => {
         if (type === BANK_PAYMENT_METHODS) {
