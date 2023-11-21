@@ -7,7 +7,9 @@ export const FreeExtensionWrapperStyled = styled.div`
   align-items: center;
 
   .msd__popup-content__buttons {
+    width: 100%;
     flex-direction: column;
+    align-items: center;
     gap: 24px;
 
     > button {
