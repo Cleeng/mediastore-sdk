@@ -1,8 +1,13 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { hidePopup } from 'redux/popupSlice';
-import { selectRetentionActions } from 'redux/retentionActionsSlice';
+import {
+  fetchApplyRetentionAction,
+  selectRetentionActions
+} from 'redux/retentionActionsSlice';
 import Button from 'components/Button';
+import Loader from 'components/Loader';
 import {
   ContentStyled,
   TitleStyled,
@@ -10,6 +15,13 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import { LinkStyled } from 'components/ThankYouPage/ThankYouPageStyled';
+import {
+  ImageStyled,
+  ImageWrapper
+} from 'components/SwitchPlanPopup/SwitchPlanPopupStyled';
+import { ReactComponent as Close } from 'assets/images/errors/close.svg';
+import checkmarkIcon from 'assets/images/checkmarkBase';
+
 import {
   FreeExtensionWrapperStyled,
   TextWrapperStyled,
@@ -26,11 +38,79 @@ const FreeExtension = ({ handleUnsubscribe }: FreeExtensionProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
+  const [isError, setIsError] = useState(false);
+  const [isThankYouPage, setIsThankYouPage] = useState(false);
+
   const {
+    isApplyLoading,
     retentionActions: {
-      extensionDetails: { periodUnit, amount }
+      extensionDetails: { periodUnit, amount },
+      offerId
     }
   } = useAppSelector(selectRetentionActions);
+
+  const handleApplyRetentionAction = async () => {
+    const result = await dispatch(fetchApplyRetentionAction(offerId));
+
+    if (result?.error) {
+      setIsError(true);
+      return;
+    }
+
+    setIsThankYouPage(true);
+  };
+
+  if (isError) {
+    return (
+      <>
+        <ContentStyled>
+          <ImageWrapper>
+            <Close />
+          </ImageWrapper>
+          <TitleStyled>
+            {t('switchplan-popup.error-title', 'An error occurred.')}
+          </TitleStyled>
+          <TextStyled>
+            {t(
+              'switchplan-popup.error-description',
+              'We have been unable to extend your plan as an error occurred. Sorry for the inconvenience, please try again.'
+            )}
+          </TextStyled>
+        </ContentStyled>
+        <ButtonWrapperStyled>
+          <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
+            {t('switchplan-popup.back-button', 'Back to My Account')}
+          </Button>
+        </ButtonWrapperStyled>
+      </>
+    );
+  }
+
+  if (isThankYouPage) {
+    return (
+      <>
+        <ContentStyled>
+          <ImageWrapper>
+            <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
+          </ImageWrapper>
+          <TitleStyled>
+            {t('switchplan-popup.success.header', 'Thank You!')}
+          </TitleStyled>
+          <TextStyled>
+            {t(
+              'free-extension.secondary-text',
+              'You have successfully extened your plan'
+            )}
+          </TextStyled>
+        </ContentStyled>
+        <ButtonWrapperStyled>
+          <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
+            {t('switchplan-popup.back-button', 'Back to My Account')}
+          </Button>
+        </ButtonWrapperStyled>
+      </>
+    );
+  }
 
   return (
     <ContentStyled>
@@ -62,8 +142,16 @@ const FreeExtension = ({ handleUnsubscribe }: FreeExtensionProps) => {
             </FreeExtensionCardPeriodStyled>
           </div>
           <AcceptButtonWrapperStyled>
-            <Button theme="confirm" size="normal" onClickFn={() => null}>
-              {t('free-extension.accept-button', 'I accept the offer')}
+            <Button
+              theme="confirm"
+              size="normal"
+              onClickFn={handleApplyRetentionAction}
+            >
+              {isApplyLoading ? (
+                <Loader buttonLoader color="#ffffff" />
+              ) : (
+                t('free-extension.accept-button', 'I accept the offer')
+              )}
             </Button>
           </AcceptButtonWrapperStyled>
         </FreeExtensionCardStyled>

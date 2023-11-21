@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { getRetentionActions } from 'api';
+import { applyRetentionAction, getRetentionActions } from 'api';
 import { RootState } from './rootReducer';
 import {
   RetentionActions,
@@ -9,8 +9,10 @@ import {
 export const initialState: RetentionActionsInitialState = {
   error: null,
   isLoading: false,
+  isApplyLoading: false,
   retentionActions: {
     type: '',
+    offerId: '',
     extensionDetails: { periodUnit: '', amount: 0 }
   }
 };
@@ -24,6 +26,24 @@ export const fetchRetentionActions = createAsyncThunk<
 >('fetchRetentionActions', async (offerId: string, { rejectWithValue }) => {
   try {
     const result = await getRetentionActions(offerId);
+
+    return result;
+  } catch (err) {
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
+  }
+});
+
+export const fetchApplyRetentionAction = createAsyncThunk<
+  object,
+  string,
+  {
+    rejectValue: string;
+  }
+>('fetchApplyRetentionAction', async (offerId: string, { rejectWithValue }) => {
+  try {
+    const result = await applyRetentionAction(offerId);
+
     return result;
   } catch (err) {
     const typedError = err as Error;
@@ -40,11 +60,26 @@ export const retentionActionsSlice = createSlice({
       state.isLoading = true;
     });
     builder.addCase(fetchRetentionActions.fulfilled, (state, action) => {
+      const offerId = action.meta?.arg;
+
       state.isLoading = false;
-      state.retentionActions = action.payload;
+      state.retentionActions = { ...action.payload, offerId };
     });
     builder.addCase(fetchRetentionActions.rejected, (state, action) => {
       state.isLoading = false;
+
+      if (action.payload) {
+        state.error = action.payload;
+      }
+    });
+    builder.addCase(fetchApplyRetentionAction.pending, state => {
+      state.isApplyLoading = true;
+    });
+    builder.addCase(fetchApplyRetentionAction.fulfilled, state => {
+      state.isApplyLoading = false;
+    });
+    builder.addCase(fetchApplyRetentionAction.rejected, (state, action) => {
+      state.isApplyLoading = false;
 
       if (action.payload) {
         state.error = action.payload;
