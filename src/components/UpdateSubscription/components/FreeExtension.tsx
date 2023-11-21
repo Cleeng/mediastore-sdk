@@ -9,7 +9,14 @@ import {
   TextStyled,
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
-import AcceptButtonWrapperStyled from './FreeExtension.styled';
+import { LinkStyled } from 'components/ThankYouPage/ThankYouPageStyled';
+import {
+  FreeExtensionWrapperStyled,
+  TextWrapperStyled,
+  FreeExtensionCardStyled,
+  AcceptButtonWrapperStyled,
+  FreeExtensionCardPeriodStyled
+} from './FreeExtension.styled';
 
 type FreeExtensionProps = {
   handleUnsubscribe: () => void;
@@ -27,40 +34,51 @@ const FreeExtension = ({ handleUnsubscribe }: FreeExtensionProps) => {
 
   return (
     <ContentStyled>
-      <>
-        <TitleStyled>
-          {t('free-extension.title', 'How about a special offer just for you?')}
-        </TitleStyled>
-        <TextStyled>
-          {t(
-            'free-extension.secondary-text',
-            "No words can express how much we will miss you so we figured that we'll let this offer speak for itself"
-          )}
-        </TextStyled>
-      </>
-      <AcceptButtonWrapperStyled>
-        <Button theme="confirm" size="normal" onClickFn={() => null}>
-          {`${t(
-            'free-extension.accept-offer-button-text-1',
-            'Get {{amount}} {{periodUnit}}',
-            { amount, periodUnit }
-          )} ${t('free-extension.accept-offer-button-text-2', 'free')}`}
-        </Button>
-      </AcceptButtonWrapperStyled>
-      <TextStyled>
-        {t(
-          'free-extension.still-cancel-text',
-          'Or still wants to cancel a subscription?'
-        )}
-      </TextStyled>
-      <ButtonWrapperStyled $removeMargin>
-        <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
-          {t('free-extension.back-button', 'Back to My Account')}
-        </Button>
-        <Button theme="confirm" onClickFn={handleUnsubscribe}>
-          {t('free-extension.unsubscribe-button-text', 'Unsubscribe')}
-        </Button>
-      </ButtonWrapperStyled>
+      <FreeExtensionWrapperStyled>
+        <TextWrapperStyled>
+          <TitleStyled>
+            {t(
+              'free-extension.title',
+              'How about a special offer just for you?'
+            )}
+          </TitleStyled>
+          <TextStyled>
+            {t(
+              'free-extension.secondary-text',
+              "No words can express how much we will miss you so we figured that we'll let this offer speak for itself."
+            )}
+          </TextStyled>
+        </TextWrapperStyled>
+        <FreeExtensionCardStyled>
+          <div>
+            <TextStyled>
+              {t('free-extension.card-title', 'FREE EXTENSION')}
+            </TextStyled>
+            <FreeExtensionCardPeriodStyled>
+              {t('free-extension.period-text', '{{amount}} {{periodUnit}}', {
+                amount,
+                periodUnit
+              })}
+            </FreeExtensionCardPeriodStyled>
+          </div>
+          <AcceptButtonWrapperStyled>
+            <Button theme="confirm" size="normal" onClickFn={() => null}>
+              {t('free-extension.accept-button', 'I accept the offer')}
+            </Button>
+          </AcceptButtonWrapperStyled>
+        </FreeExtensionCardStyled>
+        <ButtonWrapperStyled $removeMargin>
+          <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
+            {t('free-extension.back-button', 'Back to My Account')}
+          </Button>
+          <LinkStyled as="button" onClick={handleUnsubscribe}>
+            {t(
+              'free-extension.unsubscribe-button',
+              'I want to unsubscribe anyway'
+            )}
+          </LinkStyled>
+        </ButtonWrapperStyled>
+      </FreeExtensionWrapperStyled>
     </ContentStyled>
   );
 };

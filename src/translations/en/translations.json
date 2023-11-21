@@ -566,10 +566,11 @@
   "Your purchase has been successfully completed.": "Your purchase has been successfully completed.",
   "ZIP/Postal code": "ZIP/Postal code",
   "free-extension.title": "How about a special offer just for you?",
+  "free-extension.card-title": "FREE EXTENSION",
   "free-extension.secondary-text": "No words can express how much we will miss you so we figured that we'll let this offer speak for itself",
-  "free-extension.accept-offer-button-text-1": "Get",
-  "free-extension.accept-offer-button-text-2": "free",
+  "free-extension.period-text": "{{amount}} {{periodUnit}}",
+  "free-extension.accept-button": "I accept the offer",
   "free-extension.still-cancel-text": "Or still wants to cancel a subscription?",
   "free-extension.back-button": "Back to My Account",
-  "free-extension.unsubscribe-button-text": "Unsubscribe"
+  "free-extension.unsubscribe-button": "I want to unsubscribe anyway"
 }
