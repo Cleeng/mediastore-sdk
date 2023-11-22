@@ -172,8 +172,10 @@ const Unsubscribe = ({
           customCancellationReasons={customCancellationReasons}
           checkedReason={checkedReason}
           shouldShowDowngrades={shouldShowDowngrades}
+          shouldShowFreeExtension={shouldShowFreeExtension}
+          showFreeExtension={() => setCurrentStep(STEPS.FREE_EXTENSION)}
           handleCheckboxClick={setCheckedReason}
-          handleButtonClick={() => setCurrentStep(STEPS.DOWNGRADES)}
+          showDowngrades={() => setCurrentStep(STEPS.DOWNGRADES)}
           scheduledSwitch={scheduledSwitch}
         />
       )}

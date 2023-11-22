@@ -50,12 +50,11 @@ const FreeExtension = ({ handleUnsubscribe }: FreeExtensionProps) => {
   } = useAppSelector(selectRetentionActions);
 
   const handleApplyRetentionAction = async () => {
-    const result = await dispatch(fetchApplyRetentionAction(offerId));
-
-    if (result?.error) {
-      setIsError(true);
-      return;
-    }
+    await dispatch(fetchApplyRetentionAction(offerId))
+      .unwrap()
+      .catch(() => {
+        setIsError(true);
+      });
 
     setIsThankYouPage(true);
   };
@@ -68,18 +67,18 @@ const FreeExtension = ({ handleUnsubscribe }: FreeExtensionProps) => {
             <Close />
           </ImageWrapper>
           <TitleStyled>
-            {t('switchplan-popup.error-title', 'An error occurred.')}
+            {t('free-extension.error.title', 'An error occurred.')}
           </TitleStyled>
           <TextStyled>
             {t(
-              'switchplan-popup.error-description',
+              'free-extension.error.description',
               'We have been unable to extend your plan as an error occurred. Sorry for the inconvenience, please try again.'
             )}
           </TextStyled>
         </ContentStyled>
         <ButtonWrapperStyled>
           <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
-            {t('switchplan-popup.back-button', 'Back to My Account')}
+            {t('free-extension.error.back-button', 'Back to My Account')}
           </Button>
         </ButtonWrapperStyled>
       </>
@@ -94,18 +93,18 @@ const FreeExtension = ({ handleUnsubscribe }: FreeExtensionProps) => {
             <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
           </ImageWrapper>
           <TitleStyled>
-            {t('switchplan-popup.success.header', 'Thank You!')}
+            {t('free-extension.success.header', 'Thank You!')}
           </TitleStyled>
           <TextStyled>
             {t(
-              'free-extension.secondary-text',
-              'You have successfully extened your plan'
+              'free-extension.success.description',
+              'You have successfully extended your plan'
             )}
           </TextStyled>
         </ContentStyled>
         <ButtonWrapperStyled>
           <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
-            {t('switchplan-popup.back-button', 'Back to My Account')}
+            {t('free-extension.success.back-button', 'Back to My Account')}
           </Button>
         </ButtonWrapperStyled>
       </>

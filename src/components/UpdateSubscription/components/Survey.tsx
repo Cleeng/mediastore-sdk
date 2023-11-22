@@ -29,14 +29,18 @@ const Survey = ({
   customCancellationReasons,
   checkedReason,
   shouldShowDowngrades,
-  handleCheckboxClick,
-  handleButtonClick
+  showDowngrades,
+  shouldShowFreeExtension,
+  showFreeExtension,
+  handleCheckboxClick
 }: {
   customCancellationReasons: CancellationReason[] | undefined;
   checkedReason: string;
   shouldShowDowngrades: boolean;
+  shouldShowFreeExtension: boolean;
   handleCheckboxClick: (value: string) => void;
-  handleButtonClick: () => void;
+  showDowngrades: () => void;
+  showFreeExtension: () => void;
   scheduledSwitch: () => false | SwitchDetail;
 }) => {
   const offerDetails = useAppSelector(selectOfferData);
@@ -85,6 +89,20 @@ const Survey = ({
         isPauseActive
       })
     );
+  };
+
+  const handleGoBackButton = () => {
+    if (shouldShowFreeExtension) {
+      showFreeExtension();
+      return;
+    }
+
+    if (shouldShowDowngrades) {
+      showDowngrades();
+      return;
+    }
+
+    cancelUnsubscribeAction();
   };
 
   return (
@@ -159,14 +177,7 @@ const Survey = ({
         )}
       </ContentStyled>
       <ButtonWrapperStyled $removeMargin>
-        <Button
-          theme="simple"
-          onClickFn={() =>
-            shouldShowDowngrades
-              ? handleButtonClick()
-              : cancelUnsubscribeAction()
-          }
-        >
+        <Button theme="simple" onClickFn={handleGoBackButton}>
           {t('unsubscribe-popup.survey.go-back', 'Go back')}
         </Button>
         <Button
