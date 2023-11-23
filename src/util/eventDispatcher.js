@@ -40,3 +40,5 @@ export const MSSDK_CANCEL_SWITCH_ACTION_CANCELLED =
 export const MSSDK_AUTH_FAILED = 'MSSDK:auth-failed';
 export const MSSDK_GOOD_NEWS = 'MSSDK:good-news-page';
 export const MSSDK_PAYMENT = 'MSSDK:payment-page';
+export const UNSUBSCRIBE_ACTION_CONFIRMED =
+  'MSSDK:unsubscribe-action-confirmed';
