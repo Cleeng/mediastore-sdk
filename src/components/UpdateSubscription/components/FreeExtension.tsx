@@ -59,6 +59,34 @@ const FreeExtension = ({ handleUnsubscribe }: FreeExtensionProps) => {
     setIsThankYouPage(true);
   };
 
+  const renderPeriodTextElement = () => {
+    if (amount > 1) {
+      return (
+        <>
+          {`${amount} ${t(
+            `free-extension.period.${periodUnit}s`,
+            '{{periodUnit}}s',
+            {
+              periodUnit
+            }
+          )}`}
+        </>
+      );
+    }
+
+    return (
+      <>
+        {`${amount} ${t(
+          `free-extension.period.${periodUnit}`,
+          '{{periodUnit}}',
+          {
+            periodUnit
+          }
+        )}`}
+      </>
+    );
+  };
+
   if (isError) {
     return (
       <>
@@ -134,10 +162,7 @@ const FreeExtension = ({ handleUnsubscribe }: FreeExtensionProps) => {
               {t('free-extension.card-title', 'FREE EXTENSION')}
             </TextStyled>
             <FreeExtensionCardPeriodStyled>
-              {t('free-extension.period-text', '{{amount}} {{periodUnit}}', {
-                amount,
-                periodUnit
-              })}
+              {renderPeriodTextElement()}
             </FreeExtensionCardPeriodStyled>
           </div>
           <AcceptButtonWrapperStyled>
