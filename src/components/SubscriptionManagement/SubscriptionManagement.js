@@ -154,7 +154,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
           {subscription.status === 'active' && !isCouponInputOpened && (
             <SimpleButtonStyled
               theme="simple"
-              onClickFn={async event => {
+              onClickFn={event => {
                 event.stopPropagation();
 
                 dispatch(fetchRetentionActions(subscription.offerId)).then(

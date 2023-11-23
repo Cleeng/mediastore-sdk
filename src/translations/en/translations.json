@@ -139,6 +139,12 @@
   "free-extension.error.back-button": "Back to My Account",
   "free-extension.error.description": "We have been unable to extend your plan as an error occurred. Sorry for the inconvenience, please try again.",
   "free-extension.error.title": "An error occurred.",
+  "free-extension.period.day": "day",
+  "free-extension.period.days": "days",
+  "free-extension.period.month": "month",
+  "free-extension.period.months": "months",
+  "free-extension.period.week": "week",
+  "free-extension.period.weeks": "weeks",
   "free-extension.secondary-text": "No words can express how much we will miss you so we figured that we'll let this offer speak for itself.",
   "free-extension.success.back-button": "Back to My Account",
   "free-extension.success.description": "You have successfully extended your plan",
@@ -576,12 +582,5 @@
   "Your payment details have been updated": "Your payment details have been updated",
   "Your profile details have been changed successfully": "Your profile details have been changed successfully",
   "Your purchase has been successfully completed.": "Your purchase has been successfully completed.",
-  "ZIP/Postal code": "ZIP/Postal code",
-
-  "free-extension.period.day": "day",
-  "free-extension.period.days": "days",
-  "free-extension.period.week": "week",
-  "free-extension.period.weeks": "weeks",
-  "free-extension.period.month": "month",
-  "free-extension.period.months": "months"
+  "ZIP/Postal code": "ZIP/Postal code"
 }

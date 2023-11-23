@@ -1,6 +1,5 @@
 type ExtensionDetails = {
-  // some period type?
-  periodUnit: string;
+  periodUnit: 'day' | 'week' | 'month' | '';
   amount: number;
 };
 
