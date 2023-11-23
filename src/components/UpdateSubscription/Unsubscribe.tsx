@@ -101,11 +101,9 @@ const Unsubscribe = ({
   };
 
   const shouldShowFreeExtension = shouldShowFreeExtensionScreen();
-
   const shouldShowDowngrades = shouldShowFreeExtension
     ? false
     : shouldShowDowngradeScreen();
-
   const shouldShowPause = shouldShowPauseScreen();
 
   const [currentStep, setCurrentStep] = useState<STEPS | null>(null);
