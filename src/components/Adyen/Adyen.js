@@ -21,8 +21,9 @@ import {
 import Checkbox from 'components/Checkbox';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
+import { selectTermsUrl } from 'redux/publisherConfigSlice';
+import eventDispatcher, { MSSDK_ADYEN_ERROR } from 'util/eventDispatcher';
 import AdyenStyled from './AdyenStyled';
-import eventDispatcher, { MSSDK_ADYEN_ERROR } from '../../util/eventDispatcher';
 import Loader from '../Loader';
 import {
   getAdyenEnv,
@@ -41,6 +42,7 @@ const Adyen = ({
 }) => {
   const order = useAppSelector(selectOnlyOrder);
   const offer = useAppSelector(selectOnlyOffer);
+  const termsUrl = useAppSelector(selectTermsUrl);
 
   const { id: orderId, buyAsAGift, discount, totalPrice, offerId } = order;
 
@@ -135,6 +137,7 @@ const Adyen = ({
 
           setIsChecked(!e.target.checked);
         }}
+        termsUrl={termsUrl}
       >
         {type === 'bank'
           ? getBankCopy()
