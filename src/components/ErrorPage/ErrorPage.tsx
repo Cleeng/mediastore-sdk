@@ -44,17 +44,26 @@ const errorTypes: Record<
     icon: Close,
     description: 'We are sorry! This offer is no longer available',
     translationKey: 'offer-error.not-available'
+  },
+  isNotAuth: {
+    icon: Close,
+    description: 'User not authorized',
+    translationKey: 'redeem-gift-error.not-authorized'
   }
 };
 
-const ErrorPage = ({ type = 'generalError', error = '' }: ErrorPageProps) => {
+const ErrorPage = ({
+  type = 'generalError',
+  error = '',
+  isRedeemGift = false
+}: ErrorPageProps) => {
   const { t } = useTranslation();
   const typeParams = errorTypes[type];
   const Icon = typeParams.icon;
 
   return (
     <ErrorPageWrapper>
-      <Header />
+      {!isRedeemGift && <Header />}
       <ErrorPageStyled>
         <IconStyled>
           <Icon />

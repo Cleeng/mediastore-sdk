@@ -8,7 +8,9 @@ import SectionHeader from 'components/SectionHeader';
 import Footer from 'components/Footer';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
+import DeliveryDetails from 'components/DeliveryDetails';
 import { selectOrder, selectOnlyOrder } from 'redux/orderSlice';
+import { selectOffer } from 'redux/offerSlice';
 import {
   StyledOfferBody,
   StyledOfferWrapper,
@@ -19,10 +21,19 @@ import {
 import OfferCheckoutCard from '../OfferCheckoutCard';
 import { OfferProps } from './Offer.types';
 
-const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
+const Offer = ({
+  isCheckout = false,
+  onCouponSubmit,
+  onPaymentComplete,
+  onRedeemClick
+}: OfferProps) => {
   const { t } = useTranslation();
   const [coupon, setCoupon] = useState('');
   const { isCouponLoading, couponDetails } = useAppSelector(selectOrder);
+  const {
+    offerV2: { giftable = false }
+  } = useAppSelector(selectOffer);
+
   const {
     totalPrice,
     discount: { applied: discountApplied }
@@ -57,7 +68,7 @@ const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
           </SectionHeader>
           <StyledOfferDetailsAndCoupon>
             <OfferCardWrapperStyled>
-              <OfferCheckoutCard />
+              <OfferCheckoutCard isRedeemGift={false} />
             </OfferCardWrapperStyled>
             <StyledOfferCouponWrapper>
               <CouponInput
@@ -70,8 +81,12 @@ const Offer = ({ onCouponSubmit, onPaymentComplete }: OfferProps) => {
               />
             </StyledOfferCouponWrapper>
           </StyledOfferDetailsAndCoupon>
-          <CheckoutPriceBox />
+          <CheckoutPriceBox
+            isCheckout={isCheckout}
+            onRedeemClick={onRedeemClick}
+          />
         </StyledOfferBody>
+        {giftable && <DeliveryDetails giftable={giftable} />}
         <Payment onPaymentComplete={onPaymentComplete} />
       </main>
       <Footer />

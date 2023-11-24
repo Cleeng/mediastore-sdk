@@ -28,6 +28,7 @@ export const StyledOfferBody = styled.section.attrs(() => ({
   className: 'msd__checkout-wrapper'
 }))`
   padding: 25px 35px;
+  border-bottom: 1px solid ${variables.LineColor};
 
   ${media.small`
     padding: 0 10px;

@@ -9,7 +9,12 @@ import { updateOrder, getPaymentMethods } from 'api';
 import { setData, getData, removeData } from 'util/appConfigHelper';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { unwrapResult } from '@reduxjs/toolkit';
-import { fetchOffer, setFreeOffer, selectOffer } from 'redux/offerSlice';
+import {
+  fetchOffer,
+  fetchOfferV2,
+  setFreeOffer,
+  selectOffer
+} from 'redux/offerSlice';
 import {
   init as initValues,
   selectPublisherConfig
@@ -38,8 +43,10 @@ import { OfferContainerProps } from './OfferContainer.types';
 const OfferContainer = ({
   adyenConfiguration: adyenConfigurationProp,
   couponCode: couponCodeProp,
+  isCheckout = false,
   offerId: offerIdProp,
-  onSuccess
+  onSuccess,
+  onRedeemClick
 }: OfferContainerProps) => {
   const [errorMsg, setErrorMsg] = useState<string>();
 
@@ -126,7 +133,8 @@ const OfferContainer = ({
           detail: {
             coupon: couponCode,
             source: 'checkout'
-          }
+          },
+          order
         });
       })
       .catch(() => {
@@ -159,7 +167,10 @@ const OfferContainer = ({
 
     const init = async () => {
       const resultOfferAction = await dispatch(fetchOffer(offerId));
+
+      await dispatch(fetchOfferV2(offerId.split('_')[0]));
       const { offerId: id } = unwrapResult(resultOfferAction);
+
       setData('CLEENG_OFFER_ID', id);
       setData('CLEENG_OFFER_TYPE', id.charAt(0));
       const orderId = getData('CLEENG_ORDER_ID');
@@ -179,7 +190,9 @@ const OfferContainer = ({
 
   useEffect(() => {
     if (!isOrderLoading || errorMsg || offerError || orderError) {
-      eventDispatcher(MSSDK_PURCHASE_LOADED);
+      eventDispatcher(MSSDK_PURCHASE_LOADED, {
+        order
+      });
     }
   }, [isOrderLoading, errorMsg, offerError, offerError]);
 
@@ -200,7 +213,8 @@ const OfferContainer = ({
       ],
       alreadyHaveAccess: ['Access already granted'],
       generalError: ['Request failed with status code 500'],
-      inactive: ['inactive']
+      inactive: ['inactive'],
+      isNotAuth: ['']
     };
     const types = Object.keys(errorTypes) as Errors[];
     if (!err) return undefined;
@@ -228,7 +242,12 @@ const OfferContainer = ({
   }
 
   return (
-    <Offer onCouponSubmit={onCouponSubmit} onPaymentComplete={onSuccess} />
+    <Offer
+      isCheckout={isCheckout}
+      onCouponSubmit={onCouponSubmit}
+      onPaymentComplete={onSuccess}
+      onRedeemClick={onRedeemClick}
+    />
   );
 };
 

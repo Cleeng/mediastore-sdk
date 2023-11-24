@@ -28,6 +28,11 @@ import updatePayPalPaymentDetails from './PaymentDetails/updatePayPalPaymentDeta
 import finalizeInitialPayment from './Payment/finalizeInitialPayment';
 import finalizeAddPaymentDetails from './Payment/finalizeAddPaymentDetails';
 import getOffers from './Offers/getOffers';
+import getOffer from './Offers/getOffer';
+import getGift from './Gifts/getGift';
+import updateGift from './Gifts/updateGift';
+import verifyGift from './Gifts/verifyGift';
+import redeemGift from './Gifts/redeemGift';
 
 export {
   getPaymentDetails,
@@ -59,5 +64,10 @@ export {
   finalizeInitialPayment,
   finalizeAddPaymentDetails,
   getOffers,
-  getSwitch
+  getOffer,
+  getSwitch,
+  getGift,
+  updateGift,
+  verifyGift,
+  redeemGift
 };

@@ -119,7 +119,7 @@ const ResumeSubscriptionPopup = () => {
             <ImageWrapper>
               <Close />
             </ImageWrapper>
-            <TitleStyled step={step}>
+            <TitleStyled $step={step}>
               {t('resumesubscription-popup.error-header', 'An error occurred.')}
             </TitleStyled>
             <TextStyled step={step}>
@@ -158,7 +158,7 @@ const ResumeSubscriptionPopup = () => {
               <ArrowStyled />
               <SubscriptionIconStyled period={toOffer.period} showLabel="New" />
             </ImageWrapper>
-            <TitleStyled step={step} textTransform="capitalize">
+            <TitleStyled $step={step} $textTransform="capitalize">
               {t(
                 'resumesubscription-popup.header',
                 'Resume your {{ planName }} subscription',
@@ -179,7 +179,7 @@ const ResumeSubscriptionPopup = () => {
               )}
             </TextStyled>
           </ContentStyled>
-          <ButtonWrapperStyled removeMargin>
+          <ButtonWrapperStyled $removeMargin>
             <Button theme="simple" onClickFn={closePopupAndRefresh}>
               {t('resumesubscription-popup.back-button-text', 'Continue Pause')}
             </Button>
@@ -202,14 +202,14 @@ const ResumeSubscriptionPopup = () => {
             <ImageWrapper>
               <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
             </ImageWrapper>
-            <TitleStyled step={step}>
+            <TitleStyled $step={step}>
               {t(
                 'resumesubscription-popup.success-header',
                 'Your {{ planName }} subscription has been resumed',
                 { planName }
               )}
             </TitleStyled>
-            <TextStyled step={step}>
+            <TextStyled $step={step}>
               {t(
                 'resumesubscription-popup.success-text',
                 'You can now access your {{ planName }} subscription.',
