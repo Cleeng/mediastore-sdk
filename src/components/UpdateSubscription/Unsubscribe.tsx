@@ -92,18 +92,14 @@ const Unsubscribe = ({
     return false;
   };
 
-  const shouldShowFreeExtensionScreen = () => {
-    if (retentionActions?.type === 'FREE_EXTENSION') {
-      return true;
-    }
-
-    return false;
-  };
+  const shouldShowFreeExtensionScreen = () =>
+    retentionActions?.type === 'FREE_EXTENSION';
 
   const shouldShowFreeExtension = shouldShowFreeExtensionScreen();
-  const shouldShowDowngrades = shouldShowFreeExtension
-    ? false
-    : shouldShowDowngradeScreen();
+
+  const shouldShowDowngrades =
+    !shouldShowFreeExtension && shouldShowDowngradeScreen();
+
   const shouldShowPause = shouldShowPauseScreen();
 
   const [currentStep, setCurrentStep] = useState<STEPS | null>(null);

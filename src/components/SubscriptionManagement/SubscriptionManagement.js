@@ -7,7 +7,7 @@ import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { setOfferToSwitch, updateList } from 'redux/planDetailsSlice';
 import {
   fetchRetentionActions,
-  selectRetentionActions
+  selectRetentionActionsIsLoading
 } from 'redux/retentionActionsSlice';
 import { showPopup } from 'redux/popupSlice';
 import { currencyFormat } from 'util/planHelper';
@@ -32,8 +32,8 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
     store => store.plan.switchSettings
   );
 
-  const { isLoading: isRetentionActionsLoading } = useSelector(
-    selectRetentionActions
+  const isRetentionActionsLoading = useSelector(
+    selectRetentionActionsIsLoading
   );
 
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);

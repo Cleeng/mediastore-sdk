@@ -91,4 +91,10 @@ export const retentionActionsSlice = createSlice({
 export const selectRetentionActions = (state: RootState) =>
   state.retentionActions;
 
+export const selectOnlyRetentionActions = (state: RootState) =>
+  state.retentionActions.retentionActions;
+
+export const selectRetentionActionsIsLoading = (state: RootState) =>
+  state.retentionActions.isLoading;
+
 export default retentionActionsSlice.reducer;

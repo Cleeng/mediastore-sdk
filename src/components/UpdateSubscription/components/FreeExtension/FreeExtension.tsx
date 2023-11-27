@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from 'redux/store';
 import { hidePopup } from 'redux/popupSlice';
 import {
   fetchApplyRetentionAction,
+  selectOnlyRetentionActions,
   selectRetentionActions
 } from 'redux/retentionActionsSlice';
 import Button from 'components/Button';
@@ -15,12 +16,6 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import { LinkStyled } from 'components/ThankYouPage/ThankYouPageStyled';
-import {
-  ImageStyled,
-  ImageWrapper
-} from 'components/SwitchPlanPopup/SwitchPlanPopupStyled';
-import { ReactComponent as Close } from 'assets/images/errors/close.svg';
-import checkmarkIcon from 'assets/images/checkmarkBase';
 
 import {
   FreeExtensionWrapperStyled,
@@ -29,25 +24,26 @@ import {
   AcceptButtonWrapperStyled,
   FreeExtensionCardPeriodStyled
 } from './FreeExtension.styled';
+import FreeExtensionError from './FreeExtensionError';
+import FreeExtensionConfirmation from './FreeExtensionConfirmation';
 
-type FreeExtensionProps = {
+const FreeExtension = ({
+  handleUnsubscribe
+}: {
   handleUnsubscribe: () => void;
-};
-
-const FreeExtension = ({ handleUnsubscribe }: FreeExtensionProps) => {
+}) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
   const [isError, setIsError] = useState(false);
   const [isThankYouPage, setIsThankYouPage] = useState(false);
 
+  const { isApplyLoading } = useAppSelector(selectRetentionActions);
+
   const {
-    isApplyLoading,
-    retentionActions: {
-      extensionDetails: { periodUnit, amount },
-      offerId
-    }
-  } = useAppSelector(selectRetentionActions);
+    extensionDetails: { periodUnit, amount },
+    offerId
+  } = useAppSelector(selectOnlyRetentionActions);
 
   const handleApplyRetentionAction = async () => {
     await dispatch(fetchApplyRetentionAction(offerId))
@@ -88,55 +84,11 @@ const FreeExtension = ({ handleUnsubscribe }: FreeExtensionProps) => {
   };
 
   if (isError) {
-    return (
-      <>
-        <ContentStyled>
-          <ImageWrapper>
-            <Close />
-          </ImageWrapper>
-          <TitleStyled>
-            {t('free-extension.error.title', 'An error occurred.')}
-          </TitleStyled>
-          <TextStyled>
-            {t(
-              'free-extension.error.description',
-              'We have been unable to extend your plan as an error occurred. Sorry for the inconvenience, please try again.'
-            )}
-          </TextStyled>
-        </ContentStyled>
-        <ButtonWrapperStyled>
-          <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
-            {t('free-extension.error.back-button', 'Back to My Account')}
-          </Button>
-        </ButtonWrapperStyled>
-      </>
-    );
+    return <FreeExtensionError />;
   }
 
   if (isThankYouPage) {
-    return (
-      <>
-        <ContentStyled>
-          <ImageWrapper>
-            <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
-          </ImageWrapper>
-          <TitleStyled>
-            {t('free-extension.success.header', 'Thank You!')}
-          </TitleStyled>
-          <TextStyled>
-            {t(
-              'free-extension.success.description',
-              'You have successfully extended your plan'
-            )}
-          </TextStyled>
-        </ContentStyled>
-        <ButtonWrapperStyled>
-          <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
-            {t('free-extension.success.back-button', 'Back to My Account')}
-          </Button>
-        </ButtonWrapperStyled>
-      </>
-    );
+    return <FreeExtensionConfirmation />;
   }
 
   return (
