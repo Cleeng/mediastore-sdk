@@ -49,14 +49,6 @@ export const TitleStyled = styled.h2.attrs(() => ({
     line-height: 19px;
   `};
 `;
-export const DescriptionStyled = styled.p.attrs(() => ({
-  className: 'msd__subscription-text__description'
-}))`
-  font-size: ${TinyFont};
-  font-weight: ${MediumFontWeight};
-  line-height: 17px;
-  margin: 9px 0;
-`;
 
 export const PriceWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__subscription-price__wrapper'
