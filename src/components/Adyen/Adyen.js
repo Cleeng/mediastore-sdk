@@ -57,6 +57,8 @@ const Adyen = ({
     state => state.paymentMethods
   );
 
+  const selectedPaymentMethodRef = useRef(selectedPaymentMethod);
+
   const deliveryDetails = useAppSelector(selectDeliveryDetails);
   const deliveryDetailsRef = useRef(null);
   const buyAsAGiftRef = useRef(buyAsAGift || null);
@@ -65,6 +67,10 @@ const Adyen = ({
     deliveryDetailsRef.current = deliveryDetails;
     buyAsAGiftRef.current = buyAsAGift;
   }, [deliveryDetails, buyAsAGift]);
+
+  useEffect(() => {
+    selectedPaymentMethodRef.current = selectedPaymentMethod;
+  }, [selectedPaymentMethod]);
 
   const standardPaymentMethodsRef = useRef(null);
   const bankPaymentMethodsRef = useRef(null);
@@ -274,7 +280,17 @@ const Adyen = ({
   };
 
   const isCheckboxChecked = methodName => {
-    const checkbox = document.querySelector(`.checkbox-${methodName}`);
+    const isBancontactCard =
+      selectedPaymentMethodRef?.current?.methodName === 'bancontact_card';
+
+    let checkbox = document.querySelector(`.checkbox-${methodName}`);
+
+    // condition below needs to be verified when new 'scheme' is added
+    if (methodName === 'scheme') {
+      checkbox = document.querySelector(
+        `.checkbox-${isBancontactCard ? 'bcmc' : 'card'}`
+      );
+    }
 
     if (!checkbox?.checked) {
       checkbox.classList.add('adyen-checkout__bank-checkbox--error');
@@ -323,7 +339,11 @@ const Adyen = ({
       },
       clientKey: getAdyenClientKey(),
       onSubmit: async (state, component) => {
-        const methodName = component.activePaymentMethod.type;
+        const {
+          data: { paymentMethod }
+        } = state;
+
+        const methodName = paymentMethod?.type;
 
         if (!isCheckboxChecked(methodName)) {
           return false;
