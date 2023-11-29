@@ -25,11 +25,7 @@ const isDateInPast = (date: Date) => {
 
   const now = new Date();
 
-  if (date.setHours(0, 0, 0, 0) < now.setHours(0, 0, 0, 0)) {
-    return true;
-  }
-
-  return false;
+  return date < now;
 };
 
 export const isDateInFuture = (date: Date) => {
@@ -40,8 +36,11 @@ export const isDateInFuture = (date: Date) => {
   return date.setHours(0, 0, 0, 0) > now.setHours(0, 0, 0, 0);
 };
 
-export const validateDeliveryDate = (value: string) => {
-  const deliveryDate = new Date(value);
+export const validateDeliveryDate = (
+  value: string,
+  deliveryTime: string | number
+) => {
+  const deliveryDate = new Date(`${value}T${deliveryTime}`);
 
   let error = '';
 
@@ -64,7 +63,10 @@ export const validateDeliveryDate = (value: string) => {
   return !error;
 };
 
-export const validateDeliveryTime = (value: string) => {
+export const validateDeliveryTime = (
+  value: string,
+  deliveryDate: string | number
+) => {
   let error = '';
 
   if (!value) {
@@ -78,6 +80,20 @@ export const validateDeliveryTime = (value: string) => {
       translationKey: !value ? 'recipientForm.error.delivery-time' : ''
     })
   );
+
+  if (deliveryDate) {
+    const date = new Date(`${deliveryDate}T${value}`);
+    if (isDateInPast(date)) {
+      error = 'Invalid delivery date';
+    }
+    store.dispatch(
+      setFieldError({
+        name: 'deliveryDate',
+        error,
+        translationKey: !value ? 'recipientForm.error.delivery-date' : ''
+      })
+    );
+  }
 
   return !error;
 };
@@ -118,7 +134,12 @@ export const validateConfirmRecipientEmail = (value: string) => {
 
 export const validateDeliveryDetailsForm = () => {
   const {
-    deliveryDetails: { recipientEmail, confirmRecipientEmail, deliveryDate }
+    deliveryDetails: {
+      recipientEmail,
+      confirmRecipientEmail,
+      deliveryDate,
+      deliveryTime
+    }
   } = store.getState();
 
   const isRecipientEmailValid = validateRecipientEmail(
@@ -128,7 +149,8 @@ export const validateDeliveryDetailsForm = () => {
     confirmRecipientEmail.value as string
   );
   const isDeliveryDateValid = validateDeliveryDate(
-    deliveryDate.value as string
+    deliveryDate.value as string,
+    deliveryTime.value
   );
 
   const areDeliveryDetailsValid =

@@ -67,10 +67,10 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
         validateConfirmRecipientEmail(value);
         break;
       case 'deliveryDate':
-        validateDeliveryDate(value);
+        validateDeliveryDate(value, deliveryTime.value);
         break;
       case 'deliveryTime':
-        validateDeliveryTime(value);
+        validateDeliveryTime(value, deliveryDate.value);
         break;
       default:
         break;
