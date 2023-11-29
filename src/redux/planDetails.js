@@ -1,3 +1,5 @@
+// WHOLE FILE TO BE DELETED? - let me know in code review if this planDetails.js is needed
+
 /* eslint-disable no-param-reassign */
 import { createAction, createReducer } from '@reduxjs/toolkit';
 

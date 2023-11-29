@@ -23,20 +23,23 @@ import { fetchUnsubscribe, selectUnsubscribe } from 'redux/unsubscribeSlice';
 import eventDispatcher, {
   UNSUBSCRIBE_ACTION_CONFIRMED
 } from 'util/eventDispatcher';
+import STEPS from '../Unsubscribe.enum';
 
 const Survey = ({
   scheduledSwitch,
   customCancellationReasons,
   checkedReason,
   shouldShowDowngrades,
-  handleCheckboxClick,
-  handleButtonClick
+  shouldShowFreeExtension,
+  setCurrentStep,
+  handleCheckboxClick
 }: {
   customCancellationReasons: CancellationReason[] | undefined;
   checkedReason: string;
   shouldShowDowngrades: boolean;
+  shouldShowFreeExtension: boolean;
   handleCheckboxClick: (value: string) => void;
-  handleButtonClick: () => void;
+  setCurrentStep: (step: STEPS) => void;
   scheduledSwitch: () => false | SwitchDetail;
 }) => {
   const offerDetails = useAppSelector(selectOfferData);
@@ -71,20 +74,36 @@ const Survey = ({
     : defaultCancellationReasons;
   const isPauseActive = pauseOffersIDs.includes(offerDetails?.offerId);
 
-  const handleUnsubscribe = () => {
+  const handleUnsubscribe = async () => {
     eventDispatcher(UNSUBSCRIBE_ACTION_CONFIRMED, {
       detail: {
         offerId: offerDetails?.offerId,
         cancellationReason: checkedReason
       }
     });
-    dispatch(
+    await dispatch(
       fetchUnsubscribe({
         offerId: offerDetails?.offerId,
         checkedReason,
         isPauseActive
       })
     );
+
+    setCurrentStep(STEPS.CONFIRMATION);
+  };
+
+  const handleGoBackButton = () => {
+    if (shouldShowFreeExtension) {
+      setCurrentStep(STEPS.FREE_EXTENSION);
+      return;
+    }
+
+    if (shouldShowDowngrades) {
+      setCurrentStep(STEPS.DOWNGRADES);
+      return;
+    }
+
+    cancelUnsubscribeAction();
   };
 
   return (
@@ -159,14 +178,7 @@ const Survey = ({
         )}
       </ContentStyled>
       <ButtonWrapperStyled $removeMargin>
-        <Button
-          theme="simple"
-          onClickFn={() =>
-            shouldShowDowngrades
-              ? handleButtonClick()
-              : cancelUnsubscribeAction()
-          }
-        >
+        <Button theme="simple" onClickFn={handleGoBackButton}>
           {t('unsubscribe-popup.survey.go-back', 'Go back')}
         </Button>
         <Button

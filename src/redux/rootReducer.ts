@@ -4,52 +4,53 @@ import {
   configureStore,
   PreloadedState
 } from '@reduxjs/toolkit';
-import paymentDetailsReducer from './planDetails';
-import userProfileReducer from './userProfile';
-import popupReducer from './popup';
 import appConfigReducer from './appConfig';
-import innerPopupReducer from './innerPopupReducer';
-import offerReducer from './offerSlice';
-import orderReducer from './orderSlice';
-import paymentMethodsReducer from './paymentMethodsSlice';
-import publisherConfigReducer from './publisherConfigSlice';
-import paymentReducer from './paymentSlice';
-import finalizeInitialPaymentReducer from './finalizePaymentSlice';
+import deliveryDetailsReducer from './deliveryDetailsSlice';
 import finalizeAddPaymentDetailsReducer from './finalizeAddPaymentDetailsSlice';
-import popupManagerReducer from './popupSlice';
+import finalizeInitialPaymentReducer from './finalizePaymentSlice';
+import giftReducer from './giftSlice';
+import innerPopupReducer from './innerPopupReducer';
 import myaccountReducer from './myaccountSlice';
-import planDetailsReducer from './planDetailsSlice';
+import offerReducer from './offerSlice';
 import offersReducer from './offersSlice';
-import paymentDetailsSliceReducer from './paymentDetailsSlice';
-import transactionsReducer from './transactionsSlice';
+import orderReducer from './orderSlice';
+import paymentReducer from './paymentSlice';
+import paymentDetailsReducer from './paymentDetailsSlice';
+import paymentMethodsReducer from './paymentMethodsSlice';
+import planDetailsReducer from './planDetailsSlice';
+import popupReducer from './popup';
+import popupManagerReducer from './popupSlice';
+import publisherConfigReducer from './publisherConfigSlice';
 import publisherConsentsReducer from './publisherConsentsSlice';
-import deliveryDetailsSliceReducer from './deliveryDetailsSlice';
-import giftSliceReducer from './giftSlice';
-import unsubscribeSliceReducer from './unsubscribeSlice';
+import retentionActionsReducer from './retentionActionsSlice';
+import transactionsReducer from './transactionsSlice';
+import unsubscribeReducer from './unsubscribeSlice';
+import userProfileReducer from './userProfile';
 
 const rootReducer = combineReducers({
-  planDetails: paymentDetailsReducer,
-  userProfile: userProfileReducer,
-  popup: popupReducer,
   appConfig: appConfigReducer,
-  innerPopup: innerPopupReducer,
-  offer: offerReducer,
-  order: orderReducer,
-  paymentMethods: paymentMethodsReducer,
-  publisherConfig: publisherConfigReducer,
-  payment: paymentReducer,
+  deliveryDetails: deliveryDetailsReducer,
   finalizeAddPaymentDetails: finalizeAddPaymentDetailsReducer,
-  popupManager: popupManagerReducer,
-  myaccount: myaccountReducer,
   finalizeInitialPayment: finalizeInitialPaymentReducer,
-  plan: planDetailsReducer,
+  gift: giftReducer,
+  innerPopup: innerPopupReducer,
+  myaccount: myaccountReducer,
+  offer: offerReducer,
   offers: offersReducer,
-  paymentDetails: paymentDetailsSliceReducer,
-  transactions: transactionsReducer,
+  order: orderReducer,
+  payment: paymentReducer,
+  paymentDetails: paymentDetailsReducer,
+  paymentMethods: paymentMethodsReducer,
+  plan: planDetailsReducer,
+  // removed planDetails - to be checked if was needed
+  popup: popupReducer,
+  popupManager: popupManagerReducer,
+  publisherConfig: publisherConfigReducer,
   publisherConsents: publisherConsentsReducer,
-  deliveryDetails: deliveryDetailsSliceReducer,
-  gift: giftSliceReducer,
-  unsubscribe: unsubscribeSliceReducer
+  retentionActions: retentionActionsReducer,
+  transactions: transactionsReducer,
+  unsubscribe: unsubscribeReducer,
+  userProfile: userProfileReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

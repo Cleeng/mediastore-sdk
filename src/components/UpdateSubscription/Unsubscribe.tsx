@@ -5,17 +5,19 @@ import {
   selectSwitchDetails,
   selectSwitchSettings
 } from 'redux/planDetailsSlice';
-import { selectOfferData } from 'redux/popupSlice';
+import { SwitchSetting } from 'redux/types';
 import { useAppSelector } from 'redux/store';
 import { selectOffers } from 'redux/offersSlice';
-import { SwitchSetting } from 'redux/types';
+import { selectOfferData } from 'redux/popupSlice';
+import { selectUnsubscribe } from 'redux/unsubscribeSlice';
+import { selectRetentionActions } from 'redux/retentionActionsSlice';
 import {
   Pause,
   Downgrades,
   Survey,
-  Confirmation
+  Confirmation,
+  FreeExtension
 } from 'components/UpdateSubscription/components';
-import { selectUnsubscribe } from 'redux/unsubscribeSlice';
 import { Props } from './Unsubscribe.types';
 import STEPS from './Unsubscribe.enum';
 
@@ -29,12 +31,18 @@ const Unsubscribe = ({
     []
   );
   const [checkedReason, setCheckedReason] = useState('');
+  const [isFreeExtensionSecondStep, setIsFreeExtensionSecondStep] = useState(
+    false
+  );
+
   const [steps, setSteps] = useState<STEPS[]>([]);
   const { pauseOffersIDs } = useAppSelector(selectOffers);
   const { data: switchSettings } = useAppSelector(selectSwitchSettings);
   const { data: switchDetails } = useAppSelector(selectSwitchDetails);
   const offerDetails = useAppSelector(selectOfferData);
   const { error: isError } = useAppSelector(selectUnsubscribe);
+
+  const { retentionActions } = useAppSelector(selectRetentionActions);
 
   const { t } = useTranslation();
 
@@ -88,8 +96,16 @@ const Unsubscribe = ({
     return false;
   };
 
-  const shouldShowDowngrades = shouldShowDowngradeScreen();
+  const shouldShowFreeExtensionScreen = () =>
+    retentionActions?.type === 'FREE_EXTENSION';
+
+  const shouldShowFreeExtension = shouldShowFreeExtensionScreen();
+
+  const shouldShowDowngrades =
+    !shouldShowFreeExtension && shouldShowDowngradeScreen();
+
   const shouldShowPause = shouldShowPauseScreen();
+
   const [currentStep, setCurrentStep] = useState<STEPS | null>(null);
 
   const pauseOffer = downgradesList?.filter(({ toOfferId }) =>
@@ -98,12 +114,18 @@ const Unsubscribe = ({
 
   useEffect(() => {
     const tempArray = INITIAL_STEPS_ARRAY.slice();
+
     if (shouldShowDowngrades && !tempArray.includes(STEPS.DOWNGRADES)) {
       tempArray.unshift(STEPS.DOWNGRADES);
     }
     if (shouldShowPause && !tempArray.includes(STEPS.PAUSE)) {
       tempArray.unshift(STEPS.PAUSE);
     }
+
+    if (shouldShowFreeExtension && !tempArray.includes(STEPS.FREE_EXTENSION)) {
+      tempArray.unshift(STEPS.FREE_EXTENSION);
+    }
+
     if (tempArray.length !== steps.length) {
       setSteps(tempArray);
     }
@@ -121,25 +143,31 @@ const Unsubscribe = ({
 
   if (!steps || !currentStep) return <></>;
 
+  const goToNextStep = () =>
+    setCurrentStep(steps[steps.indexOf(currentStep) + 1]);
+
   return (
     <InnerPopupWrapper
-      steps={steps.length}
+      steps={isFreeExtensionSecondStep ? 2 : steps.length}
       popupTitle={t('unsubscribe-popup.title', 'Manage your plan')}
       isError={Boolean(isError)}
-      currentStep={steps.indexOf(currentStep) + 1}
+      currentStep={
+        isFreeExtensionSecondStep ? 2 : steps.indexOf(currentStep) + 1
+      }
     >
-      {currentStep === STEPS.PAUSE && (
-        <Pause
-          pauseOffer={pauseOffer[0]}
-          handleClick={() =>
-            setCurrentStep(steps[steps.indexOf(currentStep) + 1])
-          }
+      {currentStep === STEPS.FREE_EXTENSION && (
+        <FreeExtension
+          handleUnsubscribe={goToNextStep}
+          setIsFreeExtensionSecondStep={setIsFreeExtensionSecondStep}
         />
+      )}
+      {currentStep === STEPS.PAUSE && (
+        <Pause pauseOffer={pauseOffer[0]} handleClick={goToNextStep} />
       )}
       {currentStep === STEPS.DOWNGRADES && (
         <Downgrades
           downgradesListFiltered={downgradesListFiltered}
-          handleClick={() => setCurrentStep(STEPS.SURVEY)}
+          handleClick={goToNextStep}
         />
       )}
       {currentStep === STEPS.SURVEY && (
@@ -147,8 +175,9 @@ const Unsubscribe = ({
           customCancellationReasons={customCancellationReasons}
           checkedReason={checkedReason}
           shouldShowDowngrades={shouldShowDowngrades}
+          shouldShowFreeExtension={shouldShowFreeExtension}
           handleCheckboxClick={setCheckedReason}
-          handleButtonClick={() => setCurrentStep(STEPS.DOWNGRADES)}
+          setCurrentStep={setCurrentStep}
           scheduledSwitch={scheduledSwitch}
         />
       )}
