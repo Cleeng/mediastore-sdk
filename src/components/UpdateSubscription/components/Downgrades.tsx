@@ -7,17 +7,11 @@ import {
   TitleStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
-import { hidePopup, showPopup } from 'redux/popupSlice';
+import { hidePopup, selectPopupManager, showPopup } from 'redux/popupSlice';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import { SwitchSetting } from 'redux/types';
-import OfferCard from 'components/OfferCard';
-import {
-  CurrencyFormat,
-  currencyFormat,
-  Period,
-  periodMapper
-} from 'util/planHelper';
+import OfferSwitchCard from 'components/OfferSwitchCard';
 
 const Downgrades = ({
   downgradesListFiltered,
@@ -28,6 +22,10 @@ const Downgrades = ({
 }) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
+  const { updateSubscription } = useAppSelector(selectPopupManager);
+
+  const offerId = updateSubscription?.offerData?.offerId || '';
 
   return (
     <ContentStyled>
@@ -64,20 +62,9 @@ const Downgrades = ({
               }
               key={downgradeOffer.toOfferId}
             >
-              <OfferCard
-                period={
-                  periodMapper[downgradeOffer.period as Period]
-                    ?.chargedForEveryText
-                }
-                offerType="S"
-                title={downgradeOffer.title}
-                currency={
-                  currencyFormat[
-                    downgradeOffer.nextPaymentPriceCurrency as CurrencyFormat
-                  ]
-                }
-                price={Math.round(downgradeOffer.nextPaymentPrice * 100) / 100}
-                offerId={downgradeOffer.toOfferId}
+              <OfferSwitchCard
+                toOfferId={downgradeOffer.toOfferId}
+                baseOfferId={offerId}
               />
             </OfferCardWrapperStyled>
           );

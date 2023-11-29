@@ -123,9 +123,10 @@ export const setOfferSelectionUrl = url => {
   return false;
 };
 
-export const setTermsUrl = url => {
-  if (url) {
-    setData('CLEENG_TERMS_URL', url);
+export const setTermsUrl = termsUrl => {
+  if (termsUrl) {
+    setData('CLEENG_TERMS_URL', termsUrl);
+    store.dispatch(initPublisherConfig({ termsUrl }));
     return true;
   }
   return false;

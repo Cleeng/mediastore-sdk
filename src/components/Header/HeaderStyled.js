@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import * as colors from 'styles/variables';
+import { LogoUrl } from 'styles/variables';
 import { isRTL } from 'styles/RTLHelper';
 import logoSrc from './img/logoBase64';
 
@@ -29,7 +30,7 @@ export const LogoStyled = styled.div.attrs(() => ({
   height: 80px;
   width: 100%;
 
-  background-image: url(${logoSrc});
+  background-image: url(${LogoUrl || logoSrc});
   background-size: auto 35%;
   background-position: center;
   background-repeat: no-repeat;
