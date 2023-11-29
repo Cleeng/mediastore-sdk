@@ -16,6 +16,8 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import { LinkStyled } from 'components/ThankYouPage/ThankYouPageStyled';
+import FreeExtensionError from './FreeExtensionError';
+import FreeExtensionConfirmation from './FreeExtensionConfirmation';
 
 import {
   FreeExtensionWrapperStyled,
@@ -24,14 +26,13 @@ import {
   AcceptButtonWrapperStyled,
   FreeExtensionCardPeriodStyled
 } from './FreeExtension.styled';
-import FreeExtensionError from './FreeExtensionError';
-import FreeExtensionConfirmation from './FreeExtensionConfirmation';
+
+import { FreeExtensionProps } from './FreeExtension.types';
 
 const FreeExtension = ({
-  handleUnsubscribe
-}: {
-  handleUnsubscribe: () => void;
-}) => {
+  handleUnsubscribe,
+  setIsFreeExtensionSecondStep
+}: FreeExtensionProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -50,9 +51,11 @@ const FreeExtension = ({
       .unwrap()
       .catch(() => {
         setIsError(true);
+        setIsFreeExtensionSecondStep(true);
       });
 
     setIsThankYouPage(true);
+    setIsFreeExtensionSecondStep(true);
   };
 
   const renderPeriodTextElement = () => {

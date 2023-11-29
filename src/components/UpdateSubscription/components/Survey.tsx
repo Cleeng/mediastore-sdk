@@ -23,15 +23,15 @@ import { fetchUnsubscribe, selectUnsubscribe } from 'redux/unsubscribeSlice';
 import eventDispatcher, {
   UNSUBSCRIBE_ACTION_CONFIRMED
 } from 'util/eventDispatcher';
+import STEPS from '../Unsubscribe.enum';
 
 const Survey = ({
   scheduledSwitch,
   customCancellationReasons,
   checkedReason,
   shouldShowDowngrades,
-  showDowngrades,
   shouldShowFreeExtension,
-  showFreeExtension,
+  setCurrentStep,
   handleCheckboxClick
 }: {
   customCancellationReasons: CancellationReason[] | undefined;
@@ -39,8 +39,7 @@ const Survey = ({
   shouldShowDowngrades: boolean;
   shouldShowFreeExtension: boolean;
   handleCheckboxClick: (value: string) => void;
-  showDowngrades: () => void;
-  showFreeExtension: () => void;
+  setCurrentStep: (step: STEPS) => void;
   scheduledSwitch: () => false | SwitchDetail;
 }) => {
   const offerDetails = useAppSelector(selectOfferData);
@@ -75,30 +74,32 @@ const Survey = ({
     : defaultCancellationReasons;
   const isPauseActive = pauseOffersIDs.includes(offerDetails?.offerId);
 
-  const handleUnsubscribe = () => {
+  const handleUnsubscribe = async () => {
     eventDispatcher(UNSUBSCRIBE_ACTION_CONFIRMED, {
       detail: {
         offerId: offerDetails?.offerId,
         cancellationReason: checkedReason
       }
     });
-    dispatch(
+    await dispatch(
       fetchUnsubscribe({
         offerId: offerDetails?.offerId,
         checkedReason,
         isPauseActive
       })
     );
+
+    setCurrentStep(STEPS.CONFIRMATION);
   };
 
   const handleGoBackButton = () => {
     if (shouldShowFreeExtension) {
-      showFreeExtension();
+      setCurrentStep(STEPS.FREE_EXTENSION);
       return;
     }
 
     if (shouldShowDowngrades) {
-      showDowngrades();
+      setCurrentStep(STEPS.DOWNGRADES);
       return;
     }
 

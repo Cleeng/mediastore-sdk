@@ -31,6 +31,10 @@ const Unsubscribe = ({
     []
   );
   const [checkedReason, setCheckedReason] = useState('');
+  const [isFreeExtensionSecondStep, setIsFreeExtensionSecondStep] = useState(
+    false
+  );
+
   const [steps, setSteps] = useState<STEPS[]>([]);
   const { pauseOffersIDs } = useAppSelector(selectOffers);
   const { data: switchSettings } = useAppSelector(selectSwitchSettings);
@@ -144,13 +148,18 @@ const Unsubscribe = ({
 
   return (
     <InnerPopupWrapper
-      steps={steps.length}
+      steps={isFreeExtensionSecondStep ? 2 : steps.length}
       popupTitle={t('unsubscribe-popup.title', 'Manage your plan')}
       isError={Boolean(isError)}
-      currentStep={steps.indexOf(currentStep) + 1}
+      currentStep={
+        isFreeExtensionSecondStep ? 2 : steps.indexOf(currentStep) + 1
+      }
     >
       {currentStep === STEPS.FREE_EXTENSION && (
-        <FreeExtension handleUnsubscribe={goToNextStep} />
+        <FreeExtension
+          handleUnsubscribe={goToNextStep}
+          setIsFreeExtensionSecondStep={setIsFreeExtensionSecondStep}
+        />
       )}
       {currentStep === STEPS.PAUSE && (
         <Pause pauseOffer={pauseOffer[0]} handleClick={goToNextStep} />
@@ -167,9 +176,8 @@ const Unsubscribe = ({
           checkedReason={checkedReason}
           shouldShowDowngrades={shouldShowDowngrades}
           shouldShowFreeExtension={shouldShowFreeExtension}
-          showFreeExtension={() => setCurrentStep(STEPS.FREE_EXTENSION)}
           handleCheckboxClick={setCheckedReason}
-          showDowngrades={() => setCurrentStep(STEPS.DOWNGRADES)}
+          setCurrentStep={setCurrentStep}
           scheduledSwitch={scheduledSwitch}
         />
       )}
