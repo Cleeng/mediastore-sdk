@@ -54,7 +54,6 @@ export const TransactionListStyled = styled.ul.attrs(() => ({
 `;
 
 export const LeftBoxStyled = styled.div`
-  max-width: 70%;
   display: flex;
 `;
 
@@ -63,7 +62,7 @@ export const RightBoxStyled = styled.div`
   flex-direction: column;
   justify-content: space-between;
   flex-shrink: 0;
-  margin-inline-start: 56px;
+  margin-inline-start: 60px;
   text-align: end;
   justify-content: center;
 `;
@@ -127,8 +126,8 @@ export const ButtonTextStyled = styled.span.attrs(() => ({
 
 export const LogoWrapStyled = styled.div`
   display: flex;
-  height: 38px;
-  min-width: 38px;
+  height: 42px;
+  min-width: 42px;
   justify-content: center;
   align-items: center;
   border: 1px solid #d4d4df;
