@@ -135,7 +135,6 @@ export const LogoWrapStyled = styled.div`
   padding: 0 5px;
   svg {
     height: auto;
-    margin-left: 1px;
   }
 `;
 
