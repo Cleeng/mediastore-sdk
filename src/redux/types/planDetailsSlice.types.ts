@@ -1,6 +1,6 @@
 import { CustomerOffer } from 'api/Customer/types';
 
-type SwitchSetting = {
+export type SwitchSetting = {
   toOfferId: string;
   algorithm: string;
   switchDirection: string;
@@ -12,6 +12,10 @@ type SwitchSetting = {
   nextPaymentPrice: number;
   nextPaymentPriceCurrency: string;
   nextPaymentPriceCurrencySymbol: string;
+  reason?: {
+    code: string;
+    message: string;
+  };
 };
 
 export type SwitchSettings = {
@@ -21,19 +25,21 @@ export type SwitchSettings = {
   };
 };
 
+export type SwitchDetailsObject = {
+  id: string;
+  customerId: number;
+  direction: string;
+  algorithm: string;
+  fromOfferId: string;
+  toOfferId: string;
+  subscriptionId: string;
+  status: string;
+  createdAt: number;
+  updatedAt: number;
+};
+
 export type SwitchDetails = {
-  [key: string]: {
-    id: string;
-    customerId: number;
-    direction: string;
-    algorithm: string;
-    fromOfferId: string;
-    toOfferId: string;
-    subscriptionId: string;
-    status: string;
-    createdAt: number;
-    updatedAt: number;
-  };
+  [key: string]: SwitchDetailsObject;
 };
 
 export type PlanDetailsInitialState = {

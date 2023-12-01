@@ -6,6 +6,10 @@ import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/go
 import { ReactComponent as IdealLogo } from 'assets/images/paymentMethods/ideal-small.svg';
 import { ReactComponent as SofortLogo } from 'assets/images/paymentMethods/sofort-small.svg';
 import { ReactComponent as BancontactLogo } from 'assets/images/paymentMethods/bancontact-small.svg';
+import { ReactComponent as RokuLogo } from 'assets/images/paymentMethods/roku_color.svg';
+import { ReactComponent as AmazonLogo } from 'assets/images/paymentMethods/amazon_color.svg';
+import { ReactComponent as AndroidLogo } from 'assets/images/paymentMethods/android_color.svg';
+
 import store from 'redux/store';
 import { currencyFormat, isPeriod, periodMapper } from './planHelper';
 import formatNumber from './formatNumber';
@@ -64,11 +68,15 @@ export const logos = {
   card: CardLogo,
   paypal: PaypalLogo,
   applepay: ApplePayLogo,
+  apple: ApplePayLogo,
   googlepay: GooglePayLogo,
   ideal: IdealLogo,
   sofort: SofortLogo,
   bancontact_card: BancontactLogo,
-  bancontact_mobile: BancontactLogo
+  bancontact_mobile: BancontactLogo,
+  roku: RokuLogo,
+  amazon: AmazonLogo,
+  android: AndroidLogo
 };
 
 export default logos;
@@ -136,14 +144,12 @@ export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
 
   if (isGift) {
     return i18n.t(
-      // TODO: add link to T&C
       'offer-standard-consent-copy.checkout-not-subscription',
       'By ticking this, you agree to the Terms and Conditions of our service.'
     );
   }
 
   if (isMyAccount) {
-    // TODO: add link to T&C
     return i18n.t(
       'offer-standard-consent-copy.my-account',
       'By ticking this, you agree to the Terms and Conditions of our service. Your account will be charged on a recurring basis for the full subscription amount. Your subscription will continue until you cancel.'
@@ -152,7 +158,6 @@ export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
 
   if (isSubscription) {
     if (discount?.applied && discount.type === 'trial') {
-      // TODO: add link to T&C
       return i18n.t(
         `offer-standard-consent-copy.trial.period-${offerPeriod}`,
         "After any free trial and/or promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Cancel'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
@@ -161,7 +166,6 @@ export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
     }
 
     if (discount?.applied && discount.type !== 'trial') {
-      // TODO: add link to T&C
       return i18n.t(
         `offer-standard-consent-copy.discount.period-${offerPeriod}`,
         "After any promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Cancel'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
@@ -169,7 +173,6 @@ export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
       );
     }
 
-    // TODO: add link to T&C
     return i18n.t(
       `offer-standard-consent-copy.checkout-subscription.period-${offerPeriod}`,
       "You will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click ‘Cancel.’ By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
@@ -178,7 +181,6 @@ export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
   }
 
   return i18n.t(
-    // TODO: add link to T&C
     'offer-standard-consent-copy.checkout-not-subscription',
     'By ticking this, you agree to the Terms and Conditions of our service.'
   );

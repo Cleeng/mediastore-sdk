@@ -8,6 +8,7 @@ import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPa
 import { getStandardCopy } from 'util/paymentMethodHelper';
 import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
+import { selectTermsUrl } from 'redux/publisherConfigSlice';
 import {
   PayPalContentStyled,
   CopyStyled,
@@ -26,6 +27,7 @@ const PayPal = ({
 
   const order = useAppSelector(selectOnlyOrder);
   const offer = useAppSelector(selectOnlyOffer);
+  const termsUrl = useAppSelector(selectTermsUrl);
 
   const { isGift } = useAppSelector(selectDeliveryDetails);
 
@@ -87,6 +89,8 @@ const PayPal = ({
 
             setIsChecked(!e.target.checked);
           }}
+          termsUrl={termsUrl}
+          isPayPal
         >
           {getStandardCopy(isMyAccount, offer, order, isGift)}
         </Checkbox>

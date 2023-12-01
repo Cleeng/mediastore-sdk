@@ -19,7 +19,7 @@ import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
-import OfferCard from 'components/OfferCard';
+import OfferSwitchCard from 'components/OfferSwitchCard';
 import { updateList } from 'redux/planDetailsSlice';
 import { showPopup, hidePopup } from 'redux/popupSlice';
 
@@ -332,19 +332,9 @@ const Unsubscribe = ({
                   }
                   key={downgradeOffer.toOfferId}
                 >
-                  <OfferCard
-                    period={
-                      periodMapper[downgradeOffer.period].chargedForEveryText
-                    }
-                    offerType="S"
-                    title={downgradeOffer.title}
-                    currency={
-                      currencyFormat[downgradeOffer.nextPaymentPriceCurrency]
-                    }
-                    price={
-                      Math.round(downgradeOffer.nextPaymentPrice * 100) / 100
-                    }
-                    offerId={downgradeOffer.toOfferId}
+                  <OfferSwitchCard
+                    toOfferId={downgradeOffer.toOfferId}
+                    baseOfferId={offerId}
                   />
                 </OfferCardWrapperStyled>
               );
