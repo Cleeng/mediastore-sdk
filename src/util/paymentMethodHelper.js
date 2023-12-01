@@ -6,6 +6,10 @@ import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/go
 import { ReactComponent as IdealLogo } from 'assets/images/paymentMethods/ideal-small.svg';
 import { ReactComponent as SofortLogo } from 'assets/images/paymentMethods/sofort-small.svg';
 import { ReactComponent as BancontactLogo } from 'assets/images/paymentMethods/bancontact-small.svg';
+import { ReactComponent as RokuLogo } from 'assets/images/paymentMethods/roku_color.svg';
+import { ReactComponent as AmazonLogo } from 'assets/images/paymentMethods/amazon_color.svg';
+import { ReactComponent as AndroidLogo } from 'assets/images/paymentMethods/android_color.svg';
+
 import store from 'redux/store';
 import { currencyFormat, isPeriod, periodMapper } from './planHelper';
 import formatNumber from './formatNumber';
@@ -64,11 +68,15 @@ export const logos = {
   card: CardLogo,
   paypal: PaypalLogo,
   applepay: ApplePayLogo,
+  apple: ApplePayLogo,
   googlepay: GooglePayLogo,
   ideal: IdealLogo,
   sofort: SofortLogo,
   bancontact_card: BancontactLogo,
-  bancontact_mobile: BancontactLogo
+  bancontact_mobile: BancontactLogo,
+  roku: RokuLogo,
+  amazon: AmazonLogo,
+  android: AndroidLogo
 };
 
 export default logos;
