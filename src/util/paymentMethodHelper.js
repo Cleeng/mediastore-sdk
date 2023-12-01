@@ -6,7 +6,7 @@ import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/go
 import { ReactComponent as IdealLogo } from 'assets/images/paymentMethods/ideal-small.svg';
 import { ReactComponent as SofortLogo } from 'assets/images/paymentMethods/sofort-small.svg';
 import { ReactComponent as BancontactLogo } from 'assets/images/paymentMethods/bancontact-small.svg';
-import { ReactComponent as GiftIcon } from 'assets/images/gift.svg';
+import { ReactComponent as GiftLogo } from 'assets/images/gift.svg';
 import store from 'redux/store';
 import { currencyFormat, isPeriod, periodMapper } from './planHelper';
 import formatNumber from './formatNumber';
@@ -70,7 +70,7 @@ export const logos = {
   sofort: SofortLogo,
   bancontact_card: BancontactLogo,
   bancontact_mobile: BancontactLogo,
-  gift: GiftIcon
+  gift: GiftLogo
 };
 
 export default logos;
