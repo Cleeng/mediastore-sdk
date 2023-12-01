@@ -1,3 +1,4 @@
+import React from 'react';
 import { useAppSelector } from 'redux/store';
 import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';

@@ -1,3 +1,4 @@
+import React from 'react';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import {
   WrapperStyled,
