@@ -156,7 +156,7 @@ const Transactions = () => {
                 <InsideWrapperStyled key={transactionId}>
                   <LeftBoxStyled>
                     <LogoWrapStyled>
-                      <LogoComponent />
+                      {LogoComponent && <LogoComponent />}
                     </LogoWrapStyled>
                     <InfoStyled>
                       <TitleStyled>
