@@ -42,8 +42,7 @@ export const StyledButton = styled.button<{ isActive: boolean }>`
     overflow: visible;
 
     path {
-      fill: ${({ isActive }) =>
-        isActive ? '#4EB7A1' : '#CCD5E2'}; // maybe make same as LineColor
+      fill: ${({ isActive }) => (isActive ? '#4EB7A1' : '#CCD5E2')};
     }
   }
 `;
