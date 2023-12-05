@@ -72,7 +72,11 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                     'Invalid coupon code.'
                   )
                 );
-              if (resp.errors.some(e => e.includes('already')))
+              if (
+                resp.errors.some(
+                  e => e.includes('applied') || e.includes('reserved')
+                )
+              )
                 setErrorMsg(
                   t(
                     'subscription-management.coupon-already-used',
