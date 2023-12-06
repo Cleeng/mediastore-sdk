@@ -56,6 +56,7 @@ export type PublisherConfigInitialState = {
   adyenConfiguration: null | AdyenConfiguration;
   displayGracePeriodError: boolean;
   termsUrl: string;
+  enable3DSRedirectFlow: boolean;
 };
 
 type OfferIdPayload = {
