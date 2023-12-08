@@ -5,8 +5,6 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
-import mixpanel from 'mixpanel-browser';
-
 
 import updateSubscription from 'api/Customer/updateSubscription';
 import {
@@ -66,8 +64,6 @@ const Unsubscribe = ({
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
-
-  mixpanel.init('58fd0d2785acbde61a6c117a642c0360');
 
   const getDowngrades = () => {
     if (Object.keys(switchSettings).length) {
@@ -457,14 +453,7 @@ const Unsubscribe = ({
             </Button>
             <Button
               theme="confirm"
-              onClickFn={() => {
-                unsubscribe();
-                mixpanel.track('Unsubscribe Successful', {
-                  "reason" : checkedReason
-                });
-                console.log("Tracking 'Unsubscribe Successful'");
-                console.log("Reason:", checkedReason);
-              }}
+              onClickFn={unsubscribe}
               disabled={checkedReason === '' || isLoading}
             >
               {(isLoading && <Loader buttonLoader color="#ffffff" />) ||

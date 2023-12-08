@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
-import mixpanel from 'mixpanel-browser';
 import formatNumber from 'util/formatNumber';
 import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
 
@@ -57,8 +56,6 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
-
-  mixpanel.init('58fd0d2785acbde61a6c117a642c0360');
 
   const changePlan = async () => {
     setIsLoading(true);
@@ -437,16 +434,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
             >
               {t('switchplan-popup.resign-button', 'Keep Current Plan')}
             </Button>
-            <Button
-              theme="confirm"
-              onClickFn={() => {
-                changePlan();
-                if (isPartOfCancellationFlow) {
-                  mixpanel.track('Retention Successful');
-                  console.log("Tracking 'Retention Successful'");
-                }
-              }}
-            >
+            <Button theme="confirm" onClickFn={changePlan}>
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
