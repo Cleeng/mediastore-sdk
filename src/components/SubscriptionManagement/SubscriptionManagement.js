@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import mixpanel from 'mixpanel-browser';
 import { currencyFormat } from 'util/planHelper';
 import Button from 'components/Button';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,6 +9,8 @@ import { applyCoupon } from 'api';
 import CouponInput from 'components/CouponInput';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { showPopup } from 'redux/popupSlice';
+import { getData } from 'util/appConfigHelper';
+import trackMixpanelEvent from 'util/trackMixpanelEvent';
 
 import {
   SubscriptionManagementStyled,
@@ -33,17 +34,26 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
   const [errorMsg, setErrorMsg] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [couponValue, setCouponValue] = useState('');
-  const isPaused = pauseOffersIDs.includes(subscription.offerId);
+
+  const userId = getData('CLEENG_CUSTOMER_ID');
+  const publisherId = getData('CLEENG_PUBLISHER_ID');
+  const {
+    offerId,
+    offerTitle,
+    nextPaymentPrice: offerPrice,
+    nextPaymentCurrency: offerCurrency,
+    status,
+    subscriptionId
+  } = subscription;
+  const isPaused = pauseOffersIDs.includes(offerId);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  mixpanel.init('58fd0d2785acbde61a6c117a642c0360');
-
-  const submitCoupon = subscriptionId => {
+  const submitCoupon = targetSubscriptionId => {
     if (couponValue) {
       setIsLoading(true);
-      applyCoupon(subscriptionId, couponValue)
+      applyCoupon(targetSubscriptionId, couponValue)
         .then(resp => {
           switch (resp.status) {
             case 200:
@@ -56,7 +66,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                   'subscription-management.coupon-redeemed',
                   'Your Coupon has been successfully reedemed.'
                 ),
-                subscriptionId
+                targetSubscriptionId
               );
               window.dispatchEvent(
                 new CustomEvent('MSSDK:redeem-coupon-success', {
@@ -144,7 +154,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
       </ManageButtonWrapStyled>
       <SubscriptionActionsStyled isOpened={isOptionsVisible}>
         <WrapperStyled>
-          {subscription.status === 'active' && !isCouponInputOpened && (
+          {status === 'active' && !isCouponInputOpened && (
             <SimpleButtonStyled
               theme="simple"
               onClickFn={event => {
@@ -164,20 +174,24 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 window.dispatchEvent(
                   new CustomEvent('MSSDK:unsubscribe-button-clicked', {
                     detail: {
-                      offerId: subscription.offerId
+                      offerId
                     }
                   })
                 );
-                mixpanel.track('Unsubscribe Attempt', {
-                  Component: 'SubscriptionManagement'
+                trackMixpanelEvent('Unsubscribe Attempt', {
+                  distinct_id: userId,
+                  publisherId,
+                  offerId,
+                  offerTitle,
+                  offerPrice,
+                  offerCurrency
                 });
-                console.log("Tracking 'Unsubscribe Attempt'");
               }}
             >
               {t('subscription-management.unsubscribe-button', 'Unsubscribe')}
             </SimpleButtonStyled>
           )}
-          {subscription.status === 'cancelled' && !isCouponInputOpened && (
+          {status === 'cancelled' && !isCouponInputOpened && (
             <FullWidthButtonStyled
               theme="simple"
               onClickFn={event => {
@@ -189,9 +203,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                       action: 'resubscribe',
                       offerData: {
                         ...subscription,
-                        price: `${subscription.nextPaymentPrice}${
-                          currencyFormat[subscription.nextPaymentCurrency]
-                        }`
+                        price: `${offerPrice}${currencyFormat[offerCurrency]}`
                       }
                     }
                   })
@@ -199,7 +211,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 window.dispatchEvent(
                   new CustomEvent('MSSDK:resume-button-clicked', {
                     detail: {
-                      offerId: subscription.offerId
+                      offerId
                     }
                   })
                 );
@@ -208,7 +220,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
               {t('subscription-management.resume-button', 'Resume')}
             </FullWidthButtonStyled>
           )}
-          {subscription.status !== 'cancelled' && !isPaused && (
+          {status !== 'cancelled' && !isPaused && (
             <CouponWrapStyled>
               <CouponInput
                 couponDetails={{
@@ -218,7 +230,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 fullWidth
                 value={couponValue}
                 couponLoading={isLoading}
-                onSubmit={() => submitCoupon(subscription.subscriptionId)}
+                onSubmit={() => submitCoupon(subscriptionId)}
                 onChange={e => setCouponValue(e)}
                 onClose={() => setIsCouponInputOpened(val => !val)}
                 onInputToggle={() => setIsCouponInputOpened(val => !val)}
