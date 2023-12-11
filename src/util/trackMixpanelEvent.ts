@@ -1,7 +1,8 @@
 /* eslint-disable camelcase */
 import mixpanel from 'mixpanel-browser';
+import { getData } from './appConfigHelper';
 
-// staging
+// Mixpanel token for staging
 const MIXPANEL_TOKEN = '58fd0d2785acbde61a6c117a642c0360';
 
 mixpanel.init(MIXPANEL_TOKEN);
@@ -16,9 +17,13 @@ type EventData = {
 };
 
 const trackMixpanelEvent = (eventName: string, eventData: EventData) => {
-  mixpanel.track(eventName, {
-    ...eventData
-  });
+  const environment = getData('CLEENG_ENVIRONMENT');
+
+  if (environment === 'production' || environment === 'staging') {
+    mixpanel.track(eventName, {
+      ...eventData
+    });
+  }
 };
 
 export default trackMixpanelEvent;
