@@ -19,10 +19,8 @@ import { selectOffers } from 'redux/offersSlice';
 import { CancellationReason } from 'containers/PlanDetails/PlanDetails.types';
 import { SwitchDetail } from 'redux/types';
 import { defaultCancellationReasons } from 'components/UpdateSubscription/utils';
-import { fetchUnsubscribe, selectUnsubscribe } from 'redux/unsubscribeSlice';
-import eventDispatcher, {
-  UNSUBSCRIBE_ACTION_CONFIRMED
-} from 'util/eventDispatcher';
+import { selectUnsubscribe } from 'redux/unsubscribeSlice';
+
 import STEPS from '../Unsubscribe.enum';
 
 const Survey = ({
@@ -32,7 +30,8 @@ const Survey = ({
   shouldShowDowngrades,
   shouldShowFreeExtension,
   setCurrentStep,
-  handleCheckboxClick
+  handleCheckboxClick,
+  handleUnsubscribe
 }: {
   customCancellationReasons: CancellationReason[] | undefined;
   checkedReason: string;
@@ -41,10 +40,10 @@ const Survey = ({
   handleCheckboxClick: (value: string) => void;
   setCurrentStep: (step: STEPS) => void;
   scheduledSwitch: () => false | SwitchDetail;
+  handleUnsubscribe: () => void;
 }) => {
   const offerDetails = useAppSelector(selectOfferData);
   const dispatch = useAppDispatch();
-  const { pauseOffersIDs } = useAppSelector(selectOffers);
   const { offers } = useAppSelector(selectOffers);
   const { loading: isLoading } = useAppSelector(selectUnsubscribe);
 
@@ -72,25 +71,6 @@ const Survey = ({
   const cancellationReasonsToShow = customCancellationReasons?.length
     ? customCancellationReasons
     : defaultCancellationReasons;
-  const isPauseActive = pauseOffersIDs.includes(offerDetails?.offerId);
-
-  const handleUnsubscribe = async () => {
-    eventDispatcher(UNSUBSCRIBE_ACTION_CONFIRMED, {
-      detail: {
-        offerId: offerDetails?.offerId,
-        cancellationReason: checkedReason
-      }
-    });
-    await dispatch(
-      fetchUnsubscribe({
-        offerId: offerDetails?.offerId,
-        checkedReason,
-        isPauseActive
-      })
-    );
-
-    setCurrentStep(STEPS.CONFIRMATION);
-  };
 
   const handleGoBackButton = () => {
     if (shouldShowFreeExtension) {

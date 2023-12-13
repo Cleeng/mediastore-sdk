@@ -6,11 +6,14 @@ import {
   selectSwitchSettings
 } from 'redux/planDetailsSlice';
 import { SwitchSetting } from 'redux/types';
-import { useAppSelector } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import { selectOffers } from 'redux/offersSlice';
 import { selectOfferData } from 'redux/popupSlice';
-import { selectUnsubscribe } from 'redux/unsubscribeSlice';
+import { fetchUnsubscribe, selectUnsubscribe } from 'redux/unsubscribeSlice';
 import { selectRetentionActions } from 'redux/retentionActionsSlice';
+import eventDispatcher, {
+  UNSUBSCRIBE_ACTION_CONFIRMED
+} from 'util/eventDispatcher';
 import {
   Pause,
   Downgrades,
@@ -45,6 +48,7 @@ const Unsubscribe = ({
   const { retentionActions } = useAppSelector(selectRetentionActions);
 
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const getDowngrades = () => {
     if (Object.keys(switchSettings).length && offerDetails) {
@@ -141,10 +145,30 @@ const Unsubscribe = ({
     ({ toOfferId: offerId }) => !pauseOffersIDs.includes(offerId)
   );
 
+  const isPauseActive = pauseOffersIDs.includes(offerDetails?.offerId);
+
   if (!steps || !currentStep) return <></>;
 
   const goToNextStep = () =>
     setCurrentStep(steps[steps.indexOf(currentStep) + 1]);
+
+  const handleUnsubscribe = async () => {
+    eventDispatcher(UNSUBSCRIBE_ACTION_CONFIRMED, {
+      detail: {
+        offerId: offerDetails?.offerId,
+        cancellationReason: checkedReason
+      }
+    });
+    await dispatch(
+      fetchUnsubscribe({
+        offerId: offerDetails?.offerId,
+        checkedReason,
+        isPauseActive
+      })
+    );
+
+    setCurrentStep(STEPS.CONFIRMATION);
+  };
 
   return (
     <InnerPopupWrapper
@@ -179,6 +203,7 @@ const Unsubscribe = ({
           handleCheckboxClick={setCheckedReason}
           setCurrentStep={setCurrentStep}
           scheduledSwitch={scheduledSwitch}
+          handleUnsubscribe={handleUnsubscribe}
         />
       )}
       {currentStep === STEPS.CONFIRMATION && <Confirmation />}
