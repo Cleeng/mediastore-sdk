@@ -27,6 +27,7 @@ export const getData = name => {
     ? localStorage.getItem(name)
     : store.getState().appConfig[name];
   if (!result && name === 'CLEENG_AUTH_TOKEN') {
+    // eslint-disable-next-line no-console
     console.error(
       `Unable to get CLEENG_AUTH_TOKEN from local storage or redux store`
     );
@@ -123,9 +124,10 @@ export const setOfferSelectionUrl = url => {
   return false;
 };
 
-export const setTermsUrl = url => {
-  if (url) {
-    setData('CLEENG_TERMS_URL', url);
+export const setTermsUrl = termsUrl => {
+  if (termsUrl) {
+    setData('CLEENG_TERMS_URL', termsUrl);
+    store.dispatch(initPublisherConfig({ termsUrl }));
     return true;
   }
   return false;
