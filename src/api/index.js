@@ -33,6 +33,8 @@ import getGift from './Gifts/getGift';
 import updateGift from './Gifts/updateGift';
 import verifyGift from './Gifts/verifyGift';
 import redeemGift from './Gifts/redeemGift';
+import getRetentionActions from './Customer/getRetentionActions';
+import applyRetentionAction from './Customer/applyRetentionAction';
 
 export {
   getPaymentDetails,
@@ -69,5 +71,7 @@ export {
   getGift,
   updateGift,
   verifyGift,
-  redeemGift
+  redeemGift,
+  getRetentionActions,
+  applyRetentionAction
 };

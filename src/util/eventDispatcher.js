@@ -43,3 +43,5 @@ export const MSSDK_SWITCH_BUTTON_CLICKED = 'MSSDK:switch-button-clicked';
 export const MSSDK_AUTH_FAILED = 'MSSDK:auth-failed';
 export const MSSDK_GOOD_NEWS = 'MSSDK:good-news-page';
 export const MSSDK_PAYMENT = 'MSSDK:payment-page';
+export const UNSUBSCRIBE_ACTION_CONFIRMED =
+  'MSSDK:unsubscribe-action-confirmed';

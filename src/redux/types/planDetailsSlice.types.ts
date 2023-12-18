@@ -12,10 +12,6 @@ export type SwitchSetting = {
   nextPaymentPrice: number;
   nextPaymentPriceCurrency: string;
   nextPaymentPriceCurrencySymbol: string;
-  reason?: {
-    code: string;
-    message: string;
-  };
 };
 
 export type SwitchSettings = {
@@ -25,7 +21,7 @@ export type SwitchSettings = {
   };
 };
 
-export type SwitchDetailsObject = {
+export type SwitchDetail = {
   id: string;
   customerId: number;
   direction: string;
@@ -39,7 +35,7 @@ export type SwitchDetailsObject = {
 };
 
 export type SwitchDetails = {
-  [key: string]: SwitchDetailsObject;
+  [key: string]: SwitchDetail;
 };
 
 export type PlanDetailsInitialState = {
