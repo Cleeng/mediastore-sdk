@@ -94,4 +94,5 @@ export const selectFinalizePayment = (state: RootState) =>
 export const {
   setShouldShowFinalizePaymentComponent
 } = finalizePaymentSlice.actions;
+
 export default finalizePaymentSlice.reducer;
