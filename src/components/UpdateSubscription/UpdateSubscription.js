@@ -7,7 +7,8 @@ import Resubscribe from './Resubscribe';
 
 const UpdateSubscription = ({
   customCancellationReasons,
-  skipAvailableDowngradesStep
+  skipAvailableDowngradesStep,
+  skipAvailableFreeExtensionStep
 }) => {
   const {
     updateSubscription: { action }
@@ -18,6 +19,7 @@ const UpdateSubscription = ({
       <Unsubscribe
         customCancellationReasons={customCancellationReasons}
         skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+        skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
       />
     );
   }
@@ -34,12 +36,14 @@ UpdateSubscription.propTypes = {
       value: PropTypes.string.isRequired
     })
   ),
-  skipAvailableDowngradesStep: PropTypes.bool
+  skipAvailableDowngradesStep: PropTypes.bool,
+  skipAvailableFreeExtensionStep: PropTypes.bool
 };
 
 UpdateSubscription.defaultProps = {
   customCancellationReasons: null,
-  skipAvailableDowngradesStep: false
+  skipAvailableDowngradesStep: false,
+  skipAvailableFreeExtensionStep: false
 };
 
 export { UpdateSubscription as PureUpdateSubscription };

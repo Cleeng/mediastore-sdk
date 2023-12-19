@@ -69,8 +69,8 @@ yarn add @cleeng/mediastore-sdk styled-components
 ```javascript
 // import the following stylesheets in _app.js for Next.js projects, or your main App component for other use cases
 
-import "@adyen/adyen-web/dist/adyen.css";
-import "react-loading-skeleton/dist/skeleton.css";
+import '@adyen/adyen-web/dist/adyen.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 ```
 
 #### 2. Configuration
@@ -102,16 +102,16 @@ Config functions save data to local storage (as `CLEENG_*` items). These data ar
 **Usage sample**
 
 ```javascript
-import { Config } from "@cleeng/mediastore-sdk";
+import { Config } from '@cleeng/mediastore-sdk';
 
-Config.setEnvironment("sandbox");
-Config.setPublisher("123456789");
-Config.setOffer("S123456789_US");
-Config.setVisibleAdyenPaymentMethods(["card", "applepay"]);
+Config.setEnvironment('sandbox');
+Config.setPublisher('123456789');
+Config.setOffer('S123456789_US');
+Config.setVisibleAdyenPaymentMethods(['card', 'applepay']);
 Config.setHidePayPal();
 Config.setEnable3DSRedirectFlow();
-Config.setLanguage("es");
-Config.setTermsUrl("https://your_terms_and_conditions-url.com");
+Config.setLanguage('es');
+Config.setTermsUrl('https://your_terms_and_conditions-url.com');
 ```
 
 #### Auth methods
@@ -209,15 +209,15 @@ If you prefer smaller components, you can use these to implement the exact featu
 **Config methods**
 
 ```javascript
-Config.setPublisherId("123456789"); // required
-Config.setMyAccountUrl("https://client-website.com/my-account"); // required for legal notes
+Config.setPublisherId('123456789'); // required
+Config.setMyAccountUrl('https://client-website.com/my-account'); // required for legal notes
 Config.setCheckoutPayPalUrls({
   // PayPal redirection URLs, required for PayPal payment
-  successUrl: "https://client-website.com/checkout/success",
-  cancelUrl: "https://client-website.com/checkout",
-  errorUrl: "https://client-website.com/checkout/error"
+  successUrl: 'https://client-website.com/checkout/success',
+  cancelUrl: 'https://client-website.com/checkout',
+  errorUrl: 'https://client-website.com/checkout/error'
 });
-Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
+Config.setVisibleAdyenPaymentMethods(['card', 'googlepay']); // array of presented payment methods
 ```
 
 **Props**
@@ -231,17 +231,17 @@ Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of present
 **Usage**
 
 ```javascript
-import { Checkout, store } from "@cleeng/mediastore-sdk";
-import { Provider } from "react-redux";
-import adyenConfiguration from "./adyenConfiguration";
+import { Checkout, store } from '@cleeng/mediastore-sdk';
+import { Provider } from 'react-redux';
+import adyenConfiguration from './adyenConfiguration';
 
 <Provider store={store}>
   <Checkout
-    onSuccess={() => console.log("success")}
-    offerId={"S531234647_PL"}
+    onSuccess={() => console.log('success')}
+    offerId={'S531234647_PL'}
     adyenConfiguration={adyenConfiguration}
     resetPasswordCallback={() =>
-      console.log("redirect customer to the login page")
+      console.log('redirect customer to the login page')
     }
   />
 </Provider>;
@@ -261,40 +261,41 @@ import adyenConfiguration from "./adyenConfiguration";
 **Config methods**
 
 ```javascript
-Config.setPublisher("111111111"); // required when JWT or refreshToken are not provided
-Config.setJWT("xxx"); // optional, when Login should be skipped
-Config.setRefreshToken("yyy"); // optional
+Config.setPublisher('111111111'); // required when JWT or refreshToken are not provided
+Config.setJWT('xxx'); // optional, when Login should be skipped
+Config.setRefreshToken('yyy'); // optional
 Config.setMyAccountPayPalUrls({
   // PayPal redirection URLs, required for update PayPal payment details
-  successUrl: "https://client-website.com/my-account/payment-info",
-  cancelUrl: "https://client-website.com/my-account/payment-info",
-  errorUrl: "https://client-website.com/my-account/paypal-error"
+  successUrl: 'https://client-website.com/my-account/payment-info',
+  cancelUrl: 'https://client-website.com/my-account/payment-info',
+  errorUrl: 'https://client-website.com/my-account/paypal-error'
 });
-Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
+Config.setVisibleAdyenPaymentMethods(['card', 'googlepay']); // array of presented payment methods
 ```
 
 **Props**
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of these reasons will be displayed in unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have value and key. You can use this key in your translations file, otherwise value will be always displayed.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+- `skipAvailableFreeExtensionStep` - an optional parameter that can be used to skip available Free Extension step in the unsubscribe process.
 - `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in update payment details section. Read more information about adyen configuration [here](#adyen-configuration).
 - `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
 **Usage sample**
 
 ```javascript
-import { MyAccount, store } from "@cleeng/mediastore-sdk";
-import { Provider } from "react-redux";
-import adyenConfiguration from "./adyenConfiguration";
+import { MyAccount, store } from '@cleeng/mediastore-sdk';
+import { Provider } from 'react-redux';
+import adyenConfiguration from './adyenConfiguration';
 
 const customCancellationReasons = [
   {
-    value: "Poor customer support",
-    key: "custom-cancellation-reason.poor-customer-support"
+    value: 'Poor customer support',
+    key: 'custom-cancellation-reason.poor-customer-support'
   },
   {
-    value: "Switch to a different service",
-    key: "custom-cancellation-reason.switch-to-different-service"
+    value: 'Switch to a different service',
+    key: 'custom-cancellation-reason.switch-to-different-service'
   }
 ];
 
@@ -317,7 +318,7 @@ const customCancellationReasons = [
 **Config methods**
 
 ```javascript
-Config.setPublisher("111111111"); // required
+Config.setPublisher('111111111'); // required
 ```
 
 **Props**
@@ -354,8 +355,8 @@ Config.setPublisher("111111111");
 **Config methods**
 
 ```javascript
-Config.setPublisher("111111111"); // required
-Config.setOffer("S123456789_US"); // optional, can be used as a replacement of setPublisher
+Config.setPublisher('111111111'); // required
+Config.setOffer('S123456789_US'); // optional, can be used as a replacement of setPublisher
 ```
 
 **Props**
@@ -369,12 +370,12 @@ Config.setOffer("S123456789_US"); // optional, can be used as a replacement of s
 **Usage sample**
 
 ```javascript
-Config.setPublisher("111111111");
+Config.setPublisher('111111111');
 
 <Login
-  onSuccess={() => console.log("success")}
-  onRegisterClick={() => console.log("register button clicked")}
-  onPasswordResetClick={() => console.log("password reset button clicked")}
+  onSuccess={() => console.log('success')}
+  onRegisterClick={() => console.log('register button clicked')}
+  onPasswordResetClick={() => console.log('password reset button clicked')}
 />;
 ```
 
@@ -387,7 +388,7 @@ Config.setPublisher("111111111");
 **Config methods**
 
 ```javascript
-Config.setPublisher("111111111"); // required
+Config.setPublisher('111111111'); // required
 ```
 
 **Props**
@@ -397,7 +398,7 @@ Config.setPublisher("111111111"); // required
 **Usage sample**
 
 ```javascript
-<PasswordReset onSuccess={() => console.log("success")} />
+<PasswordReset onSuccess={() => console.log('success')} />
 ```
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
@@ -416,30 +417,30 @@ Config.setPublisher("111111111"); // required
 **Config methods**
 
 ```javascript
-Config.setJWT("xxx"); // required conditionally, if Login or Register component is not used
-Config.setRefreshToken("yyy"); // optional
-Config.setMyAccountUrl("https://client-website.com/my-account"); // required for legal notes
+Config.setJWT('xxx'); // required conditionally, if Login or Register component is not used
+Config.setRefreshToken('yyy'); // optional
+Config.setMyAccountUrl('https://client-website.com/my-account'); // required for legal notes
 Config.setCheckoutPayPalUrls({
   // PayPal redirection URLs, required for PayPal payment
-  successUrl: "https://client-website.com/my-account",
-  cancelUrl: "https://client-website.com/my-account",
-  errorUrl: "https://client-website.com/my-account/paypal-error"
+  successUrl: 'https://client-website.com/my-account',
+  cancelUrl: 'https://client-website.com/my-account',
+  errorUrl: 'https://client-website.com/my-account/paypal-error'
 });
-Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
+Config.setVisibleAdyenPaymentMethods(['card', 'googlepay']); // array of presented payment methods
 ```
 
 **Usage sample**
 
 ```javascript
-import { Purchase, Config, store } from "@cleeng/mediastore-sdk";
-import { Provider } from "react-redux";
-import adyenConfiguration from "./adyenConfiguration";
+import { Purchase, Config, store } from '@cleeng/mediastore-sdk';
+import { Provider } from 'react-redux';
+import adyenConfiguration from './adyenConfiguration';
 
 <Provider store={store}>
   <Purchase
     offerId="S538257415_PL"
     adyenConfiguration={adyenConfiguration}
-    onSuccess={() => console.log("success")}
+    onSuccess={() => console.log('success')}
   />
 </Provider>;
 ```
@@ -453,19 +454,20 @@ import adyenConfiguration from "./adyenConfiguration";
 **Props**
 
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+- `skipAvailableFreeExtensionStep` - an optional parameter that can be used to skip available Free Extension step in the unsubscribe process.
 
 **Config methods**
 
 ```javascript
-Config.setJWT("xxx"); // required
-Config.setRefreshToken("yyy"); // optional
+Config.setJWT('xxx'); // required
+Config.setRefreshToken('yyy'); // optional
 ```
 
 **Usage sample**
 
 ```javascript
-import { Subscriptions, store } from "@cleeng/mediastore-sdk";
-import { Provider } from "react-redux";
+import { Subscriptions, store } from '@cleeng/mediastore-sdk';
+import { Provider } from 'react-redux';
 
 <Provider store={store}>
   <Subscriptions skipAvailableDowngradesStep />
@@ -481,8 +483,8 @@ This component shows a list of available switches for a given subscription passe
 **Config methods**
 
 ```javascript
-Config.setJWT("xxx"); // required
-Config.setRefreshToken("yyy"); // optional
+Config.setJWT('xxx'); // required
+Config.setRefreshToken('yyy'); // optional
 ```
 
 **Props**
@@ -499,18 +501,18 @@ If you are providing the `toOfferId` prop you need to validate if this switch is
 **Usage sample**
 
 ```javascript
-Config.setJWT("xxx"); // required
-Config.setRefreshToken("yyy"); // optional
+Config.setJWT('xxx'); // required
+Config.setRefreshToken('yyy'); // optional
 ```
 
 **Usage sample**
 
 ```javascript
-import { SubscriptionSwitches, store } from "@cleeng/mediastore-sdk";
-import { Provider } from "react-redux";
+import { SubscriptionSwitches, store } from '@cleeng/mediastore-sdk';
+import { Provider } from 'react-redux';
 
 <Provider store={store}>
-  <SubscriptionSwitches offerId={"S538257415_PL"} />
+  <SubscriptionSwitches offerId={'S538257415_PL'} />
 </Provider>;
 ```
 
@@ -526,30 +528,31 @@ import { Provider } from "react-redux";
 **Config methods**
 
 ```javascript
-Config.setJWT("xxx"); // required
-Config.setRefreshToken("yyy"); // optional
+Config.setJWT('xxx'); // required
+Config.setRefreshToken('yyy'); // optional
 ```
 
 **Props**
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value. You can use this key in your translations file, otherwise value will be always displayed.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+- `skipAvailableFreeExtensionStep` - an optional parameter that can be used to skip available Free Extension step in the unsubscribe process.
 - `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
 **Usage sample**
 
 ```javascript
-import { PlanDetails } from "@cleeng/mediastore-sdk";
-import { Provider } from "react-redux";
+import { PlanDetails } from '@cleeng/mediastore-sdk';
+import { Provider } from 'react-redux';
 
 const customCancellationReasons = [
   {
-    value: "Poor customer support",
-    key: "custom-cancellation-reason.poor-customer-support"
+    value: 'Poor customer support',
+    key: 'custom-cancellation-reason.poor-customer-support'
   },
   {
-    value: "Switch to a different service",
-    key: "custom-cancellation-reason.switch-to-different-service"
+    value: 'Switch to a different service',
+    key: 'custom-cancellation-reason.switch-to-different-service'
   }
 ];
 
@@ -574,15 +577,15 @@ PaymentInfo is a component that contains all information about customer payments
 **Config methods**
 
 ```javascript
-Config.setJWT("xxx"); // required
-Config.setRefreshToken("yyy"); // optional
+Config.setJWT('xxx'); // required
+Config.setRefreshToken('yyy'); // optional
 Config.setMyAccountPayPalUrls({
   // PayPal redirection URLs, required for update PayPal payment details
-  successUrl: "https://client-website.com/my-account/payment-info",
-  cancelUrl: "https://client-website.com/my-account/payment-info",
-  errorUrl: "https://client-website.com/my-account/paypal-error"
+  successUrl: 'https://client-website.com/my-account/payment-info',
+  cancelUrl: 'https://client-website.com/my-account/payment-info',
+  errorUrl: 'https://client-website.com/my-account/paypal-error'
 });
-Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of presented payment methods
+Config.setVisibleAdyenPaymentMethods(['card', 'googlepay']); // array of presented payment methods
 ```
 
 **Props**
@@ -593,9 +596,9 @@ Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of present
 **Usage sample**
 
 ```javascript
-import { PaymentInfo, store } from "@cleeng/mediastore-sdk";
-import { Provider } from "react-redux";
-import adyenConfiguration from "./adyenConfiguration";
+import { PaymentInfo, store } from '@cleeng/mediastore-sdk';
+import { Provider } from 'react-redux';
+import adyenConfiguration from './adyenConfiguration';
 
 <Provider store={store}>
   <PaymentInfo
@@ -614,15 +617,15 @@ import adyenConfiguration from "./adyenConfiguration";
 **Config methods**
 
 ```javascript
-Config.setJWT("xxx"); // required
-Config.setRefreshToken("yyy"); // optional
+Config.setJWT('xxx'); // required
+Config.setRefreshToken('yyy'); // optional
 ```
 
 **Usage sample**
 
 ```javascript
-import { TransactionList, store } from "@cleeng/mediastore-sdk";
-import { Provider } from "react-redux";
+import { TransactionList, store } from '@cleeng/mediastore-sdk';
+import { Provider } from 'react-redux';
 
 <Provider store={store}>
   <TransactionList />
@@ -640,8 +643,8 @@ Customers will also be able to reset their password or update consents from the 
 **Config methods**
 
 ```javascript
-Config.setJWT("xxx"); // required
-Config.setRefreshToken("yyy"); // optional
+Config.setJWT('xxx'); // required
+Config.setRefreshToken('yyy'); // optional
 ```
 
 **Props**
@@ -651,8 +654,8 @@ Config.setRefreshToken("yyy"); // optional
 **Usage sample**
 
 ```javascript
-import { UpdateProfile, store } from "@cleeng/mediastore-sdk";
-import { Provider } from "react-redux";
+import { UpdateProfile, store } from '@cleeng/mediastore-sdk';
+import { Provider } from 'react-redux';
 
 <Provider store={store}>
   <UpdateProfile displayGracePeriodError />
@@ -668,8 +671,8 @@ import { Provider } from "react-redux";
 **Config methods**
 
 ```javascript
-Config.setJWT("xxx"); // required
-Config.setRefreshToken("yyy"); // optional
+Config.setJWT('xxx'); // required
+Config.setRefreshToken('yyy'); // optional
 ```
 
 **Props**
@@ -677,7 +680,7 @@ Config.setRefreshToken("yyy"); // optional
 - `onSuccess` \* - callback function called after successful form submission, or immediately if there are no available consents fields to update
 
 ```javascript
-<CheckoutConsents onSuccess={() => console.log("success")} />
+<CheckoutConsents onSuccess={() => console.log('success')} />
 ```
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
@@ -691,8 +694,8 @@ If there are any required, and unanswered, capture questions, this component wil
 **Config methods**
 
 ```javascript
-Config.setJWT("xxx"); // required
-Config.setRefreshToken("yyy"); // optional
+Config.setJWT('xxx'); // required
+Config.setRefreshToken('yyy'); // optional
 ```
 
 **Props**
@@ -702,7 +705,7 @@ Config.setRefreshToken("yyy"); // optional
 **Usage sample**
 
 ```javascript
-<Capture onSuccess={() => console.log("success")} />
+<Capture onSuccess={() => console.log('success')} />
 ```
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
@@ -718,8 +721,8 @@ If user is not logged in, `MSSDK:auth-failed` event will be emitted.
 **Config methods**
 
 ```javascript
-Config.setJWT("xxx"); // required
-Config.setRefreshToken("yyy"); // optional
+Config.setJWT('xxx'); // required
+Config.setRefreshToken('yyy'); // optional
 ```
 
 **Props**
@@ -730,13 +733,13 @@ Config.setRefreshToken("yyy"); // optional
 **Usage sample**
 
 ```javascript
-import { RedeemGift, store } from "@cleeng/mediastore-sdk";
-import { Provider } from "react-redux";
+import { RedeemGift, store } from '@cleeng/mediastore-sdk';
+import { Provider } from 'react-redux';
 
 <Provider store={store}>
   <RedeemGift
-    onBackClick={() => console.log("Back to the Checkout")}
-    onSuccess={() => console.log("success")}
+    onBackClick={() => console.log('Back to the Checkout')}
+    onSuccess={() => console.log('success')}
   />
 </Provider>;
 ```
@@ -750,7 +753,7 @@ import { Provider } from "react-redux";
 If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSSDK components by:
 
 ```javascript
-import "@cleeng/mediastore-sdk/dist/styles/msdFont.css";
+import '@cleeng/mediastore-sdk/dist/styles/msdFont.css';
 ```
 
 #### Styling options
@@ -768,14 +771,14 @@ Here is an example how to do it:
 
 ```javascript
 Config.setTheme({
-  fontColor: "#ffffff",
-  backgroundColor: "#292525",
-  cardColor: "#675d5d",
-  successColor: "#435dc5",
-  primaryColor: "#435dc5",
-  loaderColor: "#cccccc",
-  errorColor: "red",
-  logoUrl: "link-to-the-logo"
+  fontColor: '#ffffff',
+  backgroundColor: '#292525',
+  cardColor: '#675d5d',
+  successColor: '#435dc5',
+  primaryColor: '#435dc5',
+  loaderColor: '#cccccc',
+  errorColor: 'red',
+  logoUrl: 'link-to-the-logo'
 });
 ```
 
@@ -792,7 +795,7 @@ Here is a simple example how styles can be added:
   border-bottom: none;
 }
 .msd__header div {
-  background-image: url("./logo\ —\ white.png");
+  background-image: url('./logo\ —\ white.png');
   background-size: auto 60%;
 }
 .msd__auth-wrapper {
@@ -815,11 +818,11 @@ Components provide a way of communication with your application. Components send
 To react to events, add an event listener, like in the sample below:
 
 ```javascript
-window.addEventListener("MSSDK:Purchase-loaded", () =>
-  console.log("Purchase component loaded")
+window.addEventListener('MSSDK:Purchase-loaded', () =>
+  console.log('Purchase component loaded')
 );
-window.addEventListener("MSSDK:redeem-coupon-failed", evt =>
-  console.log("Customer tried to apply coupon:", evt.detail.coupon)
+window.addEventListener('MSSDK:redeem-coupon-failed', evt =>
+  console.log('Customer tried to apply coupon:', evt.detail.coupon)
 );
 ```
 
@@ -951,13 +954,13 @@ Below, you can find a short guide on how to implement custom copies or translati
 4. To enable a new language, you have to add `?lng=es` at the end of your url or set an entry in your local storage.
 
 ```javascript
-localStorage.setItem("i18nextLng", "es");
+localStorage.setItem('i18nextLng', 'es');
 ```
 
 5. To change language without reloading the page you can use Config method, it will automatically change i18nextLng in local storage.
 
 ```javascript
-Config.setLanguage("es");
+Config.setLanguage('es');
 ```
 
 Some of the languages require different directions than the default left-to-right. MediaStore SDK components library support right-to-left direction which can be enabled by adding the `dir` attribute to `html` tag.

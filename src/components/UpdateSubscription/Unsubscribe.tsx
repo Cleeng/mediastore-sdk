@@ -26,7 +26,8 @@ import STEPS from './Unsubscribe.enum';
 
 const Unsubscribe = ({
   customCancellationReasons,
-  skipAvailableDowngradesStep
+  skipAvailableDowngradesStep,
+  skipAvailableFreeExtensionStep
 }: Props) => {
   const INITIAL_STEPS_ARRAY = [STEPS.SURVEY, STEPS.CONFIRMATION];
 
@@ -100,10 +101,9 @@ const Unsubscribe = ({
     return false;
   };
 
-  const shouldShowFreeExtensionScreen = () =>
-    retentionActions?.type === 'FREE_EXTENSION';
-
-  const shouldShowFreeExtension = shouldShowFreeExtensionScreen();
+  const shouldShowFreeExtension =
+    retentionActions?.type === 'FREE_EXTENSION' &&
+    !skipAvailableFreeExtensionStep;
 
   const shouldShowDowngrades =
     !shouldShowFreeExtension && shouldShowDowngradeScreen();
