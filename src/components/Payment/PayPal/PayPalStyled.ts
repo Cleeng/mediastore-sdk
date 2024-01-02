@@ -47,5 +47,9 @@ export const CheckboxWrapperStyled = styled.div`
     .msd__consents__frame {
       border-color: ${ErrorColor};
     }
+
+    .msd__consents__text {
+      color: ${ErrorColor};
+    }
   }
 `;
