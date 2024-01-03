@@ -65,24 +65,54 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
               );
               break;
             case 422:
-              if (resp.errors.some(e => e.includes('not found')))
+              if (resp.errors.some(e => e.includes('not found'))) {
                 setErrorMsg(
                   t(
                     'subscription-management.invalid-coupon',
                     'Invalid coupon code.'
                   )
                 );
-              if (
-                resp.errors.some(
-                  e => e.includes('applied') || e.includes('reserved')
-                )
-              )
+              }
+              if (resp.errors.some(e => e.includes('already used'))) {
                 setErrorMsg(
                   t(
                     'subscription-management.coupon-already-used',
                     'Coupon already used'
                   )
                 );
+              }
+              if (
+                resp.errors.some(e =>
+                  e.includes('cannot be applied on existing subscription')
+                )
+              ) {
+                setErrorMsg(
+                  t(
+                    'subscription-management.coupon-cannot-be-applied-on-existing-subscription',
+                    'Coupon cannot be applied on existing subscription'
+                  )
+                );
+              }
+              if (
+                resp.errors.some(e =>
+                  e.includes('cannot be applied on this offer')
+                )
+              ) {
+                setErrorMsg(
+                  t(
+                    'subscription-management.coupon-cannot-be-applied-on-this-offer',
+                    'Coupon cannot be applied on this offer'
+                  )
+                );
+              }
+              if (resp.errors.some(e => e.includes('reserved'))) {
+                setErrorMsg(
+                  t(
+                    'subscription-management.coupon-reserved',
+                    'Coupon reserved'
+                  )
+                );
+              }
               setIsError(true);
               setIsLoading(false);
               window.dispatchEvent(
