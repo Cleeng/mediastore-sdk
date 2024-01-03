@@ -226,10 +226,14 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
               maxLength={150}
               name="message"
               onChange={onChange}
-              placeholder={t(
-                'recipientForm.placeholder.message',
-                'I’d give you the gift of never having to leave the house again! Enjoy your new subscription plan. Happy streaming!'
-              )}
+              placeholder={
+                isFieldDisabled
+                  ? ''
+                  : t(
+                      'recipientForm.placeholder.message',
+                      'I’d give you the gift of never having to leave the house again! Enjoy your new subscription plan. Happy streaming!'
+                    )
+              }
               rows={3}
               value={shouldHideValue ? '' : message.value}
             />

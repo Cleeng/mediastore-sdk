@@ -10,7 +10,9 @@ export const initialState: PublisherConfigInitialState = {
   hiddenPaymentMethods: [],
   isPayPalHidden: false,
   adyenConfiguration: null,
-  displayGracePeriodError: false
+  displayGracePeriodError: false,
+  termsUrl: '',
+  enable3DSRedirectFlow: false
 };
 
 export const publisherConfigSlice = createSlice({
@@ -38,6 +40,9 @@ export const selectPublisherConfig = (state: RootState) =>
 
 export const selectDisplayGracePeriodError = (state: RootState) =>
   state.publisherConfig.displayGracePeriodError;
+
+export const selectTermsUrl = (state: RootState) =>
+  state.publisherConfig.termsUrl;
 
 export const {
   init,

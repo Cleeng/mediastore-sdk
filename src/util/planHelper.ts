@@ -38,17 +38,15 @@ export const isPeriod = (s: string): s is Period => {
   return period.some(p => p === s);
 };
 
-export const periodMapper: Record<
-  Period,
-  {
-    label: string;
-    color: string;
-    bg: string;
-    border: string;
-    chargedForEveryText?: string;
-    accessText?: string;
-  }
-> = {
+export type PeriodProperties = {
+  label: string;
+  color: string;
+  bg: string;
+  border: string;
+  chargedForEveryText?: string;
+  accessText?: string;
+};
+export const periodMapper: Record<Period, PeriodProperties> = {
   // Subscription and season pass
   day: {
     label: 'D',

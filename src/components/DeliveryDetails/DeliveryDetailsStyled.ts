@@ -38,8 +38,11 @@ export const StyledButton = styled.button<{ isActive: boolean }>`
     opacity: 50%;
   }
 
-  svg path {
-    fill: ${({ isActive }) =>
-      isActive ? '#4EB7A1' : '#CCD5E2'}; // maybe make same as LineColor
+  svg {
+    overflow: visible;
+
+    path {
+      fill: ${({ isActive }) => (isActive ? '#4EB7A1' : '#CCD5E2')};
+    }
   }
 `;

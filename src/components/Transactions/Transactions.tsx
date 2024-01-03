@@ -149,13 +149,14 @@ const Transactions = () => {
               targetType,
               targetId
             }) => {
-              const LogoComponent: React.FC = logos[paymentMethod];
+              const LogoComponent: React.FC =
+                targetType === 'giftId' ? logos.gift : logos[paymentMethod];
 
               return (
                 <InsideWrapperStyled key={transactionId}>
                   <LeftBoxStyled>
                     <LogoWrapStyled>
-                      <LogoComponent />
+                      {LogoComponent && <LogoComponent />}
                     </LogoWrapStyled>
                     <InfoStyled>
                       <TitleStyled>

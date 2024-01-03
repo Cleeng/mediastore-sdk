@@ -1,4 +1,5 @@
 import { PaymentDetail } from 'api/Customer/types';
+import { RetentionActions } from './retentionActionsSlice.types';
 import { PAYMENT_DETAILS_STEPS, POPUP_TYPES } from '../popupSlice';
 
 type Keys = keyof typeof PAYMENT_DETAILS_STEPS;
@@ -62,9 +63,10 @@ type SwitchSettings = {
   nextPaymentPriceCurrencySymbol: string;
 };
 
-type UpdateSubscription = {
+export type UpdateSubscription = {
   action: string;
   offerData: Offer;
+  retentionActions: RetentionActions;
 };
 
 type SwitchPlan = {
@@ -80,16 +82,18 @@ type PauseSubscription = {
 type CancelSwitch = {
   pendingSwitchId: string;
   switchDirection: string;
+  switchOfferTitle: string;
   baseOfferTitle: string;
-  baseOfferExpirationDate: string;
+  baseOfferExpirationDate: number;
   baseOfferPrice: string;
 };
 
 type CancelPause = {
   pendingSwitchId: string;
   switchDirection: string;
+  switchOfferTitle: string;
   baseOfferTitle: string;
-  baseOfferExpirationDate: string;
+  baseOfferExpirationDate: number;
   baseOfferPrice: string;
 };
 
