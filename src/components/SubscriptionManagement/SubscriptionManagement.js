@@ -81,6 +81,14 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                   )
                 );
               }
+              if (resp.errors.some(e => e.includes('already applied'))) {
+                setErrorMsg(
+                  t(
+                    'subscription-management.coupon-already-applied',
+                    'Coupon already applied'
+                  )
+                );
+              }
               if (resp.errors.some(e => e.includes('already used'))) {
                 setErrorMsg(
                   t(
