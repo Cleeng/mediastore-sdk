@@ -8,5 +8,6 @@ type CancellationReason = {
 export type Props = {
   customCancellationReasons?: CancellationReason[];
   skipAvailableDowngradesStep?: boolean;
+  skipAvailableFreeExtensionStep?: boolean;
   retentionActions: RetentionActions;
 };

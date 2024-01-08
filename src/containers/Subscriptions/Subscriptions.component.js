@@ -21,7 +21,8 @@ import { WrapStyled } from './SubscriptionsStyled';
 
 const Subscriptions = ({
   customCancellationReasons,
-  skipAvailableDowngradesStep
+  skipAvailableDowngradesStep,
+  skipAvailableFreeExtensionStep
 }) => {
   const { data: currentPlan } = useSelector(state => state.plan.currentPlan);
   const { updateList: updateListValue } = useSelector(state => state.plan);
@@ -85,6 +86,7 @@ const Subscriptions = ({
       <PlanDetailsPopupManager
         customCancellationReasons={customCancellationReasons}
         skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+        skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
       />
     );
 
@@ -105,12 +107,14 @@ Subscriptions.propTypes = {
       value: PropTypes.string.isRequired
     })
   ),
-  skipAvailableDowngradesStep: PropTypes.bool
+  skipAvailableDowngradesStep: PropTypes.bool,
+  skipAvailableFreeExtensionStep: PropTypes.bool
 };
 
 Subscriptions.defaultProps = {
   customCancellationReasons: null,
-  skipAvailableDowngradesStep: false
+  skipAvailableDowngradesStep: false,
+  skipAvailableFreeExtensionStep: false
 };
 
 export default Subscriptions;

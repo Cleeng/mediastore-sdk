@@ -6,6 +6,7 @@ export type CancellationReason = {
 export type PlanDetailsPopupManagerProps = {
   customCancellationReasons?: CancellationReason[];
   skipAvailableDowngradesStep?: boolean;
+  skipAvailableFreeExtensionStep?: boolean;
   onCancel?: () => void;
   onSwitchSuccess?: () => void;
   onSwitchError?: () => void;

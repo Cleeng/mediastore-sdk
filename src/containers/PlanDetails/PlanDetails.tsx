@@ -28,6 +28,7 @@ import { PlanDetailsProps } from './PlanDetails.types';
 const PlanDetails = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
+  skipAvailableFreeExtensionStep,
   displayGracePeriodError
 }: PlanDetailsProps) => {
   const { data: currentPlan } = useAppSelector(selectCurrentPlan);
@@ -112,6 +113,7 @@ const PlanDetails = ({
       <PlanDetailsPopupManager
         customCancellationReasons={customCancellationReasons}
         skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+        skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
       />
     );
 

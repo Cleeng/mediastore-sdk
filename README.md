@@ -277,6 +277,7 @@ Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of present
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of these reasons will be displayed in unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have value and key. You can use this key in your translations file, otherwise value will be always displayed.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+- `skipAvailableFreeExtensionStep` - an optional parameter that can be used to skip available Free Extension step in the unsubscribe process.
 - `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in update payment details section. Read more information about adyen configuration [here](#adyen-configuration).
 - `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
@@ -453,6 +454,7 @@ import adyenConfiguration from "./adyenConfiguration";
 **Props**
 
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+- `skipAvailableFreeExtensionStep` - an optional parameter that can be used to skip available Free Extension step in the unsubscribe process.
 
 **Config methods**
 
@@ -534,6 +536,7 @@ Config.setRefreshToken("yyy"); // optional
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value. You can use this key in your translations file, otherwise value will be always displayed.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+- `skipAvailableFreeExtensionStep` - an optional parameter that can be used to skip available Free Extension step in the unsubscribe process.
 - `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
 **Usage sample**
