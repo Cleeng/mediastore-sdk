@@ -117,6 +117,9 @@ const AdyenStyled = styled.div.attrs(() => ({
     .msd__consents__frame {
       border-color: ${ErrorColor};
     }
+    .msd__consents__text {
+      color: ${ErrorColor};
+    }
   }
 
   .adyen-checkout__payment-method--standalone {
