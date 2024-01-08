@@ -11,7 +11,8 @@ export const initialState: PublisherConfigInitialState = {
   isPayPalHidden: false,
   adyenConfiguration: null,
   displayGracePeriodError: false,
-  termsUrl: ''
+  termsUrl: '',
+  enable3DSRedirectFlow: false
 };
 
 export const publisherConfigSlice = createSlice({

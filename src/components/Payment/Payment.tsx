@@ -182,7 +182,12 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         return;
       }
 
-      const { recipientEmail, deliveryDate, message } = deliveryDetails;
+      const {
+        recipientEmail,
+        deliveryDate,
+        deliveryTime,
+        message
+      } = deliveryDetails;
 
       await dispatch(
         fetchUpdateOrder({
@@ -192,7 +197,10 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
             deliveryDetails: {
               recipientEmail: recipientEmail.value,
               personalNote: message.value,
-              deliveryDate: new Date(deliveryDate.value).valueOf() / 1000
+              deliveryDate:
+                new Date(
+                  `${deliveryDate.value}T${deliveryTime.value}`
+                ).valueOf() / 1000
             }
           }
         })

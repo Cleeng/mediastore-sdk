@@ -10,16 +10,22 @@ import { POPUP_TYPES, selectPopupDetails } from 'redux/popupSlice';
 import MyAccountInput from 'components/MyAccountInput';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import {
+  getDate,
+  getTime
+} from 'components/DeliveryDetails/RecipientForm/helpers';
+import {
   InfoText,
   MessageWrapper,
   StyledRecipientForm,
   StyledLabel,
-  StyledMessage
+  StyledMessage,
+  DateContainer
 } from './RecipientFormStyled';
 import {
   isDateInFuture,
   validateConfirmRecipientEmail,
   validateDeliveryDate,
+  validateDeliveryTime,
   validateRecipientEmail
 } from './validators';
 
@@ -30,6 +36,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
     recipientEmail,
     confirmRecipientEmail,
     deliveryDate,
+    deliveryTime,
     message
   } = useAppSelector(selectDeliveryDetails);
 
@@ -60,7 +67,10 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
         validateConfirmRecipientEmail(value);
         break;
       case 'deliveryDate':
-        validateDeliveryDate(value);
+        validateDeliveryDate(value, deliveryTime.value);
+        break;
+      case 'deliveryTime':
+        validateDeliveryTime(value, deliveryDate.value);
         break;
       default:
         break;
@@ -77,8 +87,10 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
     const {
       target: { name, value }
     } = e;
-
     dispatch(setFieldValue({ name, value }));
+    if (name === 'deliveryDate' && !deliveryTime.value) {
+      dispatch(setFieldValue({ name: 'deliveryTime', value: '00:00' }));
+    }
   };
 
   useEffect(() => {
@@ -92,9 +104,13 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
       dispatch(
         setFieldValue({
           name: 'deliveryDate',
-          value: new Date(giftDeliveryDetails?.deliveryDate * 1000)
-            .toISOString()
-            .split('T')[0]
+          value: getDate(giftDeliveryDetails?.deliveryDate)
+        })
+      );
+      dispatch(
+        setFieldValue({
+          name: 'deliveryTime',
+          value: getTime(giftDeliveryDetails?.deliveryDate)
         })
       );
       dispatch(
@@ -172,17 +188,31 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
               value={shouldHideValue ? '' : confirmRecipientEmail.value}
             />
           )}
-          <MyAccountInput
-            disabled={isFieldDisabled}
-            error={t(deliveryDate.translationKey, deliveryDate.error)}
-            label={t('recipientForm.label.delivery-date', 'Delivery date')}
-            min={new Date().toISOString().split('T')[0]}
-            name="deliveryDate"
-            onBlur={onBlur}
-            onChange={onChange}
-            type="date"
-            value={shouldHideValue ? '' : deliveryDate.value}
-          />
+          <DateContainer>
+            <MyAccountInput
+              disabled={isFieldDisabled}
+              error={t(deliveryDate.translationKey, deliveryDate.error)}
+              label={t('recipientForm.label.delivery-date', 'Delivery date')}
+              min={new Date().toISOString().split('T')[0]}
+              name="deliveryDate"
+              onBlur={onBlur}
+              onChange={onChange}
+              type="date"
+              value={shouldHideValue ? '' : deliveryDate.value}
+              width="50%"
+            />
+            <MyAccountInput
+              disabled={isFieldDisabled}
+              error={t(deliveryTime.translationKey, deliveryTime.error)}
+              label={t('recipientForm.label.delivery-time', 'Delivery time')}
+              name="deliveryTime"
+              onBlur={onBlur}
+              onChange={onChange}
+              type="time"
+              value={shouldHideValue ? '' : deliveryTime.value}
+              width="50%"
+            />
+          </DateContainer>
           <MessageWrapper>
             <StyledLabel>
               {isFieldDisabled ? (
@@ -196,10 +226,14 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
               maxLength={150}
               name="message"
               onChange={onChange}
-              placeholder={t(
-                'recipientForm.placeholder.message',
-                'I’d give you the gift of never having to leave the house again! Enjoy your new subscription plan. Happy streaming!'
-              )}
+              placeholder={
+                isFieldDisabled
+                  ? ''
+                  : t(
+                      'recipientForm.placeholder.message',
+                      'I’d give you the gift of never having to leave the house again! Enjoy your new subscription plan. Happy streaming!'
+                    )
+              }
               rows={3}
               value={shouldHideValue ? '' : message.value}
             />

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+// eslint-disable-next-line react/no-deprecated
 import { render } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
@@ -44,7 +45,14 @@ const Adyen = ({
   const offer = useAppSelector(selectOnlyOffer);
   const termsUrl = useAppSelector(selectTermsUrl);
 
-  const { id: orderId, buyAsAGift, discount, totalPrice, offerId } = order;
+  const {
+    id: orderId,
+    buyAsAGift,
+    discount,
+    totalPrice,
+    offerId,
+    priceBreakdown: { discountAmount }
+  } = order;
 
   const {
     adyenConfiguration,
@@ -235,6 +243,7 @@ const Adyen = ({
       const {
         recipientEmail,
         deliveryDate,
+        deliveryTime,
         message
       } = deliveryDetailsRef.current;
 
@@ -245,7 +254,10 @@ const Adyen = ({
             buyAsAGift: true,
             deliveryDetails: {
               recipientEmail: recipientEmail.value,
-              deliveryDate: new Date(deliveryDate.value).valueOf() / 1000,
+              deliveryDate:
+                new Date(
+                  `${deliveryDate.value}T${deliveryTime.value}`
+                ).valueOf() / 1000,
               personalNote: message.value
             }
           }
@@ -560,7 +572,7 @@ const Adyen = ({
     if (isDropInPresent && discount?.applied) {
       recreateDropIn();
     }
-  }, [discount.applied, discount.type, totalPrice]);
+  }, [discount.applied, discount.type, discountAmount]);
 
   useEffect(() => {
     if (isDropInPresent) {

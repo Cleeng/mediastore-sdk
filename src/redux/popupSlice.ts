@@ -93,6 +93,11 @@ export const selectPopupDetails = (state: RootState) => ({
   currentType: state.popupManager.currentType
 });
 
+export const selectOfferData = (state: RootState) =>
+  state.popupManager.updateSubscription?.offerData;
+
+export const selectPopupManager = (state: RootState) => state.popupManager;
+
 export const {
   updatePaymentDetailsPopup,
   resetPaymentDetailsPopupState,

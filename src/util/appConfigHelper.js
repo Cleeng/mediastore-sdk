@@ -27,6 +27,7 @@ export const getData = name => {
     ? localStorage.getItem(name)
     : store.getState().appConfig[name];
   if (!result && name === 'CLEENG_AUTH_TOKEN') {
+    // eslint-disable-next-line no-console
     console.error(
       `Unable to get CLEENG_AUTH_TOKEN from local storage or redux store`
     );
@@ -172,6 +173,15 @@ export const setHiddenPaymentMethods = hiddenPaymentMethods => {
   return true;
 };
 
+export const setEnable3DSRedirectFlow = () => {
+  store.dispatch(
+    initPublisherConfig({
+      enable3DSRedirectFlow: true
+    })
+  );
+  return true;
+};
+
 export const setLanguage = async language => {
   const BASE_URL = window.location.origin;
 
@@ -209,5 +219,6 @@ export default {
   setHidePayPal,
   setVisibleAdyenPaymentMethods,
   setHiddenPaymentMethods,
-  setLanguage
+  setLanguage,
+  setEnable3DSRedirectFlow
 };

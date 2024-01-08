@@ -94,3 +94,9 @@ export const StyledMessage = styled.textarea`
     font-weight: 300;
   }
 `;
+
+export const DateContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+`;
