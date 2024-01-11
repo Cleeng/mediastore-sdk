@@ -97,6 +97,7 @@ Config functions save data to local storage (as `CLEENG_*` items). These data ar
 | `setTheme`                      | `styles:object`                                              | More information in the [Styling](#styling) section.                                                                                                                    |
 | `setVisibleAdyenPaymentMethods` | `paymentMethods: string[]`                                   | Array of payment methods names that should be presented in Checkout and MyAccount. Available options: `applepay`, `card`, `googlepay`, `ideal`, `sofort`                |
 | `setHidePayPal`                 | -                                                            | Option to hide PayPal, by default PayPal will be visible when configured                                                                                                |
+| `setEnable3DSRedirectFlow`      | -                                                            | Set to true to force 3DS redirect flow.                                                                                                                                 |
 | `setLanguage`                   | `language :string`                                           | Option to change language without reloading page                                                                                                                        |
 | `setTermsUrl`                   | `termsUrl :string`                                           | Option to Provide a URL for Terms & Conditions: This feature will display a link to them adjacent to the payment method.                                                |
 
@@ -110,6 +111,7 @@ Config.setPublisher("123456789");
 Config.setOffer("S123456789_US");
 Config.setVisibleAdyenPaymentMethods(["card", "applepay"]);
 Config.setHidePayPal();
+Config.setEnable3DSRedirectFlow();
 Config.setLanguage("es");
 Config.setTermsUrl("https://your_terms_and_conditions-url.com");
 ```
@@ -277,6 +279,7 @@ Config.setVisibleAdyenPaymentMethods(["card", "googlepay"]); // array of present
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of these reasons will be displayed in unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have value and key. You can use this key in your translations file, otherwise value will be always displayed.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+- `skipAvailableFreeExtensionStep` - an optional parameter that can be used to skip available Free Extension step in the unsubscribe process.
 - `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in update payment details section. Read more information about adyen configuration [here](#adyen-configuration).
 - `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
@@ -453,6 +456,7 @@ import adyenConfiguration from "./adyenConfiguration";
 **Props**
 
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+- `skipAvailableFreeExtensionStep` - an optional parameter that can be used to skip available Free Extension step in the unsubscribe process.
 
 **Config methods**
 
@@ -534,6 +538,7 @@ Config.setRefreshToken("yyy"); // optional
 
 - `customCancellationReasons` - array of the custom cancellation reasons. List of that reasons will be displayed on unsubscribe popup. The provided cancellation reasons will replace our default ones. Every cancellation reason should have key and value. You can use this key in your translations file, otherwise value will be always displayed.
 - `skipAvailableDowngradesStep` - an optional parameter that can be used to skip available downgrades step in the unsubscribe process.
+- `skipAvailableFreeExtensionStep` - an optional parameter that can be used to skip available Free Extension step in the unsubscribe process.
 - `displayGracePeriodError` - an optional parameter that can be used to display error when customer is in a grace period.
 
 **Usage sample**

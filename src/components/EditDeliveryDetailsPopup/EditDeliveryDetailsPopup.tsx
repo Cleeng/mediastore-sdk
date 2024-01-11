@@ -37,9 +37,12 @@ const EditDeliveryDetailsPopup = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [error, setError] = useState(false);
 
-  const { recipientEmail, deliveryDate, message } = useAppSelector(
-    selectDeliveryDetails
-  );
+  const {
+    recipientEmail,
+    deliveryDate,
+    deliveryTime,
+    message
+  } = useAppSelector(selectDeliveryDetails);
   const { giftId, offerId, offerTitle } = useAppSelector(
     selectEditDeliveryDetailsPopup
   );
@@ -60,7 +63,10 @@ const EditDeliveryDetailsPopup = () => {
           payload: {
             deliveryDetails: {
               recipientEmail: recipientEmail.value as string,
-              deliveryDate: new Date(deliveryDate.value).valueOf() / 1000,
+              deliveryDate:
+                new Date(
+                  `${deliveryDate.value}T${deliveryTime.value}`
+                ).valueOf() / 1000,
               personalNote: message.value
             }
           }

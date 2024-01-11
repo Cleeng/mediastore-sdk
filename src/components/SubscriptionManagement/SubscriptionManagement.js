@@ -88,20 +88,39 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
               );
               break;
             case 422:
-              if (resp.errors.some(e => e.includes('not found')))
+              if (
+                resp.errors.some(
+                  e =>
+                    e.includes('not found') ||
+                    e.includes('cannot be applied on this offer') ||
+                    e.includes('cannot be applied on existing subscription') ||
+                    e.includes('reserved')
+                )
+              ) {
                 setErrorMsg(
                   t(
                     'subscription-management.invalid-coupon',
                     'Invalid coupon code.'
                   )
                 );
-              if (resp.errors.some(e => e.includes('already')))
+              }
+              if (resp.errors.some(e => e.includes('already applied'))) {
+                setErrorMsg(
+                  t(
+                    'subscription-management.coupon-already-applied',
+                    'Coupon already applied'
+                  )
+                );
+              }
+              if (resp.errors.some(e => e.includes('already used'))) {
                 setErrorMsg(
                   t(
                     'subscription-management.coupon-already-used',
                     'Coupon already used'
                   )
                 );
+              }
+
               setIsError(true);
               setIsLoading(false);
               window.dispatchEvent(

@@ -243,6 +243,7 @@ const Adyen = ({
       const {
         recipientEmail,
         deliveryDate,
+        deliveryTime,
         message
       } = deliveryDetailsRef.current;
 
@@ -253,7 +254,10 @@ const Adyen = ({
             buyAsAGift: true,
             deliveryDetails: {
               recipientEmail: recipientEmail.value,
-              deliveryDate: new Date(deliveryDate.value).valueOf() / 1000,
+              deliveryDate:
+                new Date(
+                  `${deliveryDate.value}T${deliveryTime.value}`
+                ).valueOf() / 1000,
               personalNote: message.value
             }
           }

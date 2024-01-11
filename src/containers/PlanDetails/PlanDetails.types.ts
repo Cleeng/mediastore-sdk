@@ -8,6 +8,7 @@ export type CancellationReason = {
 export type PlanDetailsProps = {
   customCancellationReasons: CancellationReason[];
   skipAvailableDowngradesStep: boolean;
+  skipAvailableFreeExtensionStep: boolean;
   displayGracePeriodError: boolean;
 };
 

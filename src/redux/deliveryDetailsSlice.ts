@@ -7,6 +7,7 @@ export const initialState: DeliveryDetailsInitialState = {
   recipientEmail: { value: '', error: '', translationKey: '' },
   confirmRecipientEmail: { value: '', error: '', translationKey: '' },
   deliveryDate: { value: '', error: '', translationKey: '' },
+  deliveryTime: { value: '', error: '', translationKey: '' },
   message: { value: '' }
 };
 

@@ -106,7 +106,8 @@ const OfferContainer = ({
           !(
             orderResponse.offerId === longOfferId &&
             orderResponse.customerId === customerId
-          )
+          ) ||
+          !orderResponse?.paymentMethodId
         ) {
           removeData('CLEENG_ORDER_ID');
           createOrderHandler(longOfferId);
