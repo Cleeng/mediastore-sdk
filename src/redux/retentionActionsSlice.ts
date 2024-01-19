@@ -13,7 +13,9 @@ export const initialState: RetentionActionsInitialState = {
   retentionActions: {
     type: '',
     offerId: '',
-    extensionDetails: { periodUnit: '', amount: 0 }
+    extensionDetails: { periodUnit: '', amount: 0 },
+    downgradeDetails: { offers: [] },
+    pauseDetails: {}
   }
 };
 
