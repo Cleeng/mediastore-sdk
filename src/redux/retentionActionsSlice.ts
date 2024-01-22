@@ -60,6 +60,7 @@ export const retentionActionsSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchRetentionActions.pending, state => {
       state.isLoading = true;
+      state.retentionActions = initialState.retentionActions;
     });
     builder.addCase(fetchRetentionActions.fulfilled, (state, action) => {
       const offerId = action.meta?.arg;
