@@ -57,14 +57,11 @@ const Pause = ({
             )
           }
         >
-          {t('unsubscribe-popup.pause-button-text', 'Pause')}
+          {t('unsubscribe-popup.pause-button-text', 'Pause my subscription')}
         </Button>
       </ButtonWrapperStyled>
       <TextStyled>
-        {t(
-          'unsubscribe-popup.still-cancel',
-          'Or still wants to cancel a subscription?'
-        )}
+        {t('unsubscribe-popup.still-cancel', 'Still want to cancel?')}
       </TextStyled>
       <ButtonWrapperStyled $removeMargin>
         <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
