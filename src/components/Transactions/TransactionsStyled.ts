@@ -1,6 +1,6 @@
 /* eslint-disable no-nested-ternary */
 import styled, { css } from 'styled-components';
-import { LineColor, FontColor } from 'styles/variables';
+import { LineColor, FontColor, ConfirmColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const WrapStyled = styled.article.attrs(() => ({
@@ -159,7 +159,7 @@ export const EditGiftStyled = styled.p`
   font-weight: 600;
   font-size: 12px;
   text-decoration: underline;
-  color: #4eb7a1;
+  color: ${ConfirmColor};
 
   &:hover {
     cursor: pointer;
