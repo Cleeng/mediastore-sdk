@@ -159,8 +159,7 @@ export const EditGiftStyled = styled.p`
   font-weight: 600;
   font-size: 12px;
   text-decoration: underline;
-  /* color: ${ConfirmColor}; */
-  color: red;
+  color: ${ConfirmColor};
 
   &:hover {
     cursor: pointer;
