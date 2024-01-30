@@ -19,7 +19,7 @@ import {
   WrapperStyled,
   InnerWrapper,
   TitleStyled,
-  DescriptionStyled,
+  PublisherDescriptionStyled,
   PriceWrapperStyled,
   TrialBadgeStyled
 } from './OfferCheckoutCardStyled';
@@ -41,7 +41,8 @@ const OfferCheckoutCard = ({
     freeDays,
     expiresAt,
     startTime,
-    customerPriceInclTax
+    customerPriceInclTax,
+    offerDescription: publisherDescription
   } = useAppSelector(selectOnlyOffer);
 
   const {
@@ -334,13 +335,18 @@ const OfferCheckoutCard = ({
           <TitleStyled>
             {t(`offer-title-${offerId}`, title || offerV2Title)}
           </TitleStyled>
+          {publisherDescription && (
+            <PublisherDescriptionStyled>
+              {t(`offer-description-${offerId}`, publisherDescription)}
+            </PublisherDescriptionStyled>
+          )}
         </SkeletonWrapper>
         <SkeletonWrapper
           showChildren={!loading}
           width={300}
           margin="0 0 10px 10px"
         >
-          <DescriptionStyled
+          <PublisherDescriptionStyled
             dangerouslySetInnerHTML={{
               __html: isRedeemGift
                 ? getRedeemGiftDescription()

@@ -46,7 +46,7 @@ export const TitleStyled = styled.h2.attrs(() => ({
     line-height: 19px;
   `};
 `;
-export const DescriptionStyled = styled.p.attrs(() => ({
+export const PublisherDescriptionStyled = styled.p.attrs(() => ({
   className: 'msd__checkout-card-text__description'
 }))`
   font-size: ${TinyFont};
