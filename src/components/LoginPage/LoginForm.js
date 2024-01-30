@@ -139,7 +139,7 @@ class LoginForm extends Component {
       <FromStyled onSubmit={this.handleSubmit} noValidate>
         {emailChanged && !generalError && !hideSuccessMessage ? (
           <FormSuccessStyled>
-            {t('Your email has been changed succesfully')}
+            {t('Your email has been changed successfully')}
           </FormSuccessStyled>
         ) : (
           <FormErrorStyled>{generalError}</FormErrorStyled>
@@ -189,7 +189,7 @@ LoginForm.defaultProps = {
   publisherId: '',
   isMyAccount: false,
   emailChanged: false,
-  onSuccess: () => {},
+  onSuccess: null,
   t: k => k
 };
 
