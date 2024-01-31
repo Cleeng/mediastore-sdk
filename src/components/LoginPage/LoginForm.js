@@ -189,7 +189,7 @@ LoginForm.defaultProps = {
   publisherId: '',
   isMyAccount: false,
   emailChanged: false,
-  onSuccess: null,
+  onSuccess: () => null,
   t: k => k
 };
 
