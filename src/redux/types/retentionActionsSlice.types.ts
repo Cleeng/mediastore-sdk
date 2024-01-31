@@ -1,12 +1,20 @@
+import { SwitchSetting } from './planDetailsSlice.types';
+
 type ExtensionDetails = {
   periodUnit: 'day' | 'week' | 'month' | '';
   amount: number;
 };
 
+type DowngradeDetails = {
+  offers: SwitchSetting[];
+};
+
 export type RetentionActions = {
+  downgradeDetails: DowngradeDetails;
   extensionDetails: ExtensionDetails;
-  type: '' | 'FREE_EXTENSION' | 'DOWNGRADE';
+  pauseDetails: object;
   offerId: string;
+  type: '' | 'FREE_EXTENSION' | 'DOWNGRADE' | 'PAUSE';
 };
 
 export type RetentionActionsInitialState = {

@@ -61,6 +61,10 @@ export const SecurityStyled = styled.div.attrs(() => ({
     padding-right: 5px;
     margin-bottom: -1px;
     max-height: 13px;
+
+    path {
+      fill: ${colors.ConfirmColor} !important;
+    }
   }
 `;
 

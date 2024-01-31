@@ -114,7 +114,7 @@ export const StyledRedeemButton = styled.div`
   }
 
   > button {
-    color: #4eb7a1;
+    color: ${variables.ConfirmColor};
     text-decoration: underline;
   }
 `;

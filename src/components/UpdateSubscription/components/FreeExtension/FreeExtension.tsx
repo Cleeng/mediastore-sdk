@@ -113,10 +113,10 @@ const FreeExtension = ({
         </TextWrapperStyled>
         <FreeExtensionCardStyled>
           <div>
-            <TextStyled>
+            <TextStyled id="free-extension-card-title">
               {t('free-extension.card-title', 'FREE EXTENSION')}
             </TextStyled>
-            <FreeExtensionCardPeriodStyled>
+            <FreeExtensionCardPeriodStyled id="free-extension-period">
               {renderPeriodTextElement()}
             </FreeExtensionCardPeriodStyled>
           </div>
