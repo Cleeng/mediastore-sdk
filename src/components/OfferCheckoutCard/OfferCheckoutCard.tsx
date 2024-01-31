@@ -14,6 +14,7 @@ import { selectGift } from 'redux/giftSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import { selectDeliveryDetails } from 'redux/deliveryDetailsSlice';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
+import OfferDescription from 'components/OfferCheckoutCard/OfferDescription';
 import getReadablePeriod from './OfferCheckoutCard.utils';
 import {
   WrapperStyled,
@@ -335,6 +336,7 @@ const OfferCheckoutCard = ({
           <TitleStyled>
             {t(`offer-title-${offerId}`, title || offerV2Title)}
           </TitleStyled>
+          {/* The name PublisherDescriptionStyled is valid only here */}
           {publisherDescription && (
             <PublisherDescriptionStyled>
               {t(`offer-description-${offerId}`, publisherDescription)}
@@ -346,6 +348,7 @@ const OfferCheckoutCard = ({
           width={300}
           margin="0 0 10px 10px"
         >
+          {/* The name PublisherDescriptionStyled isn't accurate here - it's left only not to duplicate styled component. Ultimately, OfferDescription should be used as seen in the below piee of code. */}
           <PublisherDescriptionStyled
             dangerouslySetInnerHTML={{
               __html: isRedeemGift
@@ -353,6 +356,26 @@ const OfferCheckoutCard = ({
                 : renderDescription()
             }}
           />
+          {/* The idea was to move all of the description logic to OfferDescription component. */}
+          {/* It's worth mentioning that the logic inside OfferDescription does not include latest changes related to copy, neither those responsible for gifting descriptions */}
+          {/* <OfferDescription
+            period={period}
+            freeDays={freeDays}
+            currencySymbol={currencySymbol}
+            grossPrice={grossPrice}
+            taxCopy={taxCopy}
+            freePeriods={freePeriods}
+            totalPrice={totalPrice}
+            offerPrice={offerPrice}
+            taxRate={taxRate}
+            customerPriceInclTax={customerPriceInclTax}
+            discountedPeriods={discountedPeriods}
+            discountType={discountType}
+            isTrialAvailable={isTrialAvailable}
+            offerType={offerType}
+            startTime={startTime}
+            expiresAt={expiresAt}
+          /> */}
         </SkeletonWrapper>
       </InnerWrapper>
       {!isRedeemGift && (
