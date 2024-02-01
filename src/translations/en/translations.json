@@ -53,6 +53,7 @@
   "Confirm Email": "Confirm Email",
   "Confirm Registration": "Confirm Registration",
   "Confirmation password": "Confirmation password",
+  "consents-general-error": "Unable to fetch terms & conditions. Publisher is not recognized",
   "Continue": "Continue",
   "Could be stronger": "Could be stronger",
   "coupon-input.error": "This is not a valid coupon code for this offer. Please check the code on your coupon and try again.",

@@ -21,6 +21,10 @@ const store = (
   publisherConfig: { publisherId: '' }
 });
 
+const consentsProps = {
+  onChangeFn: () => null
+};
+
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
 
@@ -28,7 +32,7 @@ describe('Consents component', () => {
   test('should render GeneralErrorStyled when publisherId is not given (if loading = false)', async () => {
     const { getByTestId } = render(
       <Provider store={mockStore(store(false, 'noPublisherId'))}>
-        <Consent />
+        <Consent {...consentsProps} />
       </Provider>
     );
 
@@ -37,7 +41,7 @@ describe('Consents component', () => {
   test('should render GeneralErrorStyled when publisherId is not given (if loading = true)', async () => {
     const { getByTestId } = render(
       <Provider store={mockStore(store(true, 'noPublisherId'))}>
-        <Consent />
+        <Consent {...consentsProps} />
       </Provider>
     );
 
@@ -46,7 +50,7 @@ describe('Consents component', () => {
   test('should render Loader component', async () => {
     const { getByTestId } = render(
       <Provider store={mockStore(store(true))}>
-        <Consent />
+        <Consent {...consentsProps} />
       </Provider>
     );
 
@@ -71,7 +75,7 @@ describe('Consents component', () => {
 
     render(
       <Provider store={mockStore(store(false, '', publisherConsents, checked))}>
-        <Consent />
+        <Consent {...consentsProps} />
       </Provider>
     );
 
