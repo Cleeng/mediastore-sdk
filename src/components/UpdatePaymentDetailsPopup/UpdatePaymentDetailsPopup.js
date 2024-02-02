@@ -436,7 +436,10 @@ const UpdatePaymentDetailsPopup = () => {
             )
           }
         >
-          {t('update-payment-details-popup.cancel', 'Cancel')}
+          {t(
+            'update-payment-details-popup.success.back',
+            'Back to Payment Details'
+          )}
         </Button>
       </ButtonWrapperStyled>
       <WarningMessageStyled>
