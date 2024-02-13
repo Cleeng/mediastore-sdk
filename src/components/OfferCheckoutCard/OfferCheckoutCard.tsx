@@ -124,8 +124,6 @@ const OfferCheckoutCard = ({
           width={300}
           margin="0 0 10px 10px"
         >
-          {/* The idea was to move all of the description logic to OfferDescription component. */}
-          {/* It's worth mentioning that the logic inside OfferDescription does not include latest changes related to copy, neither those responsible for gifting descriptions */}
           <OfferDescription
             period={period}
             freeDays={freeDays}
