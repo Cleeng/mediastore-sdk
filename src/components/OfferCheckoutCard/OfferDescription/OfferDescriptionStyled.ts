@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { TinyFont, LightFont } from 'styles/variables';
+import { TinyFont, LightFont, FontColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 export const DetailsWrapper = styled.div`
@@ -31,4 +31,11 @@ export const IconStyled = styled.span.attrs(() => ({
 export const LineWrapperStyled = styled.div`
   display: flex;
   align-items: center;
+`;
+
+export const DescriptionStyled = styled.p`
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 17px;
+  color: ${FontColor};
 `;

@@ -15,4 +15,5 @@ export type OfferDetailsProps = {
   offerType: string;
   startTime: number;
   expiresAt: number;
+  isRedeemGift: boolean;
 };

@@ -1,5 +1,7 @@
 import { useTranslation } from 'react-i18next';
 
+import { useAppSelector } from 'redux/store';
+import { selectGift } from 'redux/giftSlice';
 import formatNumber from 'util/formatNumber';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
 import { dateFormat, periodMapper, Period } from 'util/planHelper';
@@ -9,6 +11,7 @@ import { ReactComponent as CalendarIcon } from 'assets/images/offerDescription/c
 import { ReactComponent as TagIcon } from 'assets/images/offerDescription/tag-bold.svg';
 import getReadablePeriod from '../OfferCheckoutCard.utils';
 import {
+  DescriptionStyled,
   DetailsStyled,
   DetailsWrapper,
   IconStyled,
@@ -32,9 +35,72 @@ const OfferDescription = ({
   isTrialAvailable,
   offerType,
   startTime,
-  expiresAt
+  expiresAt,
+  isRedeemGift
 }: OfferDetailsProps) => {
   const { t } = useTranslation();
+
+  const {
+    verifiedGift: { redeemMode, redeemRefusalReason }
+  } = useAppSelector(selectGift);
+
+  const renderRedeemGiftDescription = () => {
+    if (redeemMode === 'EXTEND') {
+      return t(
+        `redeem-gift.description.existing-subscription.period-${period}`,
+        `Your existing subscription will be extended for additional ${getReadablePeriod(
+          period
+        )} for free.`
+      );
+    }
+
+    switch (redeemRefusalReason) {
+      case 'EXTERNALLY_MANAGED_SUBSCRIPTION':
+        return t(
+          'redeem-gift.description.refusal.external',
+          'You already have an active subscription in a different store, perhaps through a mobile app. Once that subscription expires, you can come back and redeem your gift code here.'
+        );
+
+      case 'REDEEMED':
+        return t(
+          'redeem-gift.description.refusal.redeemed',
+          'This gift code has already been used.'
+        );
+
+      case 'INACTIVE_OFFER':
+        return t(
+          'redeem-gift.description.refusal.offer-inactive',
+          'Sorry, but the offer linked to your gift code is no longer available.'
+        );
+
+      case 'OFFER_GEO_RESTRICTED':
+        return t(
+          'redeem-gift.description.refusal.offer-georestricted',
+          "Sorry, this gift code can't be used in your current location due to geographic restrictions."
+        );
+
+      case 'RECURRING_PROCESS_ALREADY_STARTED':
+        return t(
+          'redeem-gift.description.refusal.recurring-process-started',
+          "You’ll be able to redeem your gift code once we've finished processing a payment on your existing subscription"
+        );
+
+      case 'MORE_THAN_ONE_MATCHING_SUBSCRIPTION':
+        return t(
+          'redeem-gift.description.refusal.more-than-one-matching-subscription',
+          'You currently have multiple subscriptions granting you access to the content this gift provides. When one of those subscriptions expires, you can come back and redeem your gift code here.'
+        );
+
+      case 'PUBLISHER_GEO_RESTRICTED':
+        return t(
+          'redeem-gift.description.refusal.publisher-georestricted',
+          "Sorry, this gift code can't be used in your current location due to geographic restrictions."
+        );
+
+      default:
+        return '';
+    }
+  };
 
   const renderDescriptionForSubscription = () => {
     const generateTrialDescription = () => {
@@ -281,6 +347,9 @@ const OfferDescription = ({
   };
 
   const renderDescriptionByType = () => {
+    if (isRedeemGift) {
+      return renderRedeemGiftDescription();
+    }
     if (offerType === 'S') {
       return renderDescriptionForSubscription();
     }
@@ -299,7 +368,7 @@ const OfferDescription = ({
     return false;
   };
 
-  return renderDescriptionByType();
+  return <DescriptionStyled>{renderDescriptionByType()}</DescriptionStyled>;
 };
 
 export default OfferDescription;
