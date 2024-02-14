@@ -302,49 +302,43 @@ const OfferDescription = ({
     );
   };
 
-  const renderDescriptionForPayPerViewEvent = () => {
-    return (
-      <DetailsStyled>
-        <LineWrapperStyled>
-          <IconStyled>
-            <CalendarIcon />;
-          </IconStyled>
-          {`Pay-per-view event ${startTime ? dateFormat(startTime, true) : ''}`}
-        </LineWrapperStyled>
-      </DetailsStyled>
-    );
-  };
+  const renderDescriptionForPayPerViewEvent = () => (
+    <DetailsStyled>
+      <LineWrapperStyled>
+        <IconStyled>
+          <CalendarIcon />;
+        </IconStyled>
+        {`Pay-per-view event ${startTime ? dateFormat(startTime, true) : ''}`}
+      </LineWrapperStyled>
+    </DetailsStyled>
+  );
 
-  const renderDescriptionForTVOD = () => {
-    return (
-      <DetailsStyled>
-        <LineWrapperStyled>
-          <IconStyled>
-            <CalendarIcon />;
-          </IconStyled>
-          {periodMapper[period as Period]
-            ? `${t(
-                `period.${period}`,
-                periodMapper[period as Period].accessText as string
-              )} ${t('offer-checkout-card.access', 'access')}`
-            : ''}
-        </LineWrapperStyled>
-      </DetailsStyled>
-    );
-  };
+  const renderDescriptionForTVOD = () => (
+    <DetailsStyled>
+      <LineWrapperStyled>
+        <IconStyled>
+          <CalendarIcon />;
+        </IconStyled>
+        {periodMapper[period as Period]
+          ? `${t(
+              `period.${period}`,
+              periodMapper[period as Period].accessText as string
+            )} ${t('offer-checkout-card.access', 'access')}`
+          : ''}
+      </LineWrapperStyled>
+    </DetailsStyled>
+  );
 
-  const renderDescriptionForUnlimitedAccess = () => {
-    return (
-      <DetailsStyled>
-        <LineWrapperStyled>
-          <IconStyled>
-            <TagIcon />
-          </IconStyled>
-          {t('offer-checkout-card.unlimited-access', 'Unlimited access')}
-        </LineWrapperStyled>
-      </DetailsStyled>
-    );
-  };
+  const renderDescriptionForUnlimitedAccess = () => (
+    <DetailsStyled>
+      <LineWrapperStyled>
+        <IconStyled>
+          <TagIcon />
+        </IconStyled>
+        {t('offer-checkout-card.unlimited-access', 'Unlimited access')}
+      </LineWrapperStyled>
+    </DetailsStyled>
+  );
 
   const renderDescriptionByType = () => {
     if (isRedeemGift) {
