@@ -13,7 +13,9 @@ export const initialState: RetentionActionsInitialState = {
   retentionActions: {
     type: '',
     offerId: '',
-    extensionDetails: { periodUnit: '', amount: 0 }
+    extensionDetails: { periodUnit: '', amount: 0 },
+    downgradeDetails: { offers: [] },
+    pauseDetails: {}
   }
 };
 
@@ -58,6 +60,7 @@ export const retentionActionsSlice = createSlice({
   extraReducers: builder => {
     builder.addCase(fetchRetentionActions.pending, state => {
       state.isLoading = true;
+      state.retentionActions = initialState.retentionActions;
     });
     builder.addCase(fetchRetentionActions.fulfilled, (state, action) => {
       const offerId = action.meta?.arg;

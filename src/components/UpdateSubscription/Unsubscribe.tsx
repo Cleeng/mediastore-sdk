@@ -81,11 +81,15 @@ const Unsubscribe = ({
     )
       return false;
 
-    if (!offerDetails?.inTrial && downgrades.length) {
-      const downgradesFiltered = downgrades.filter(
+    const {
+      downgradeDetails: { offers }
+    } = retentionActions;
+
+    if (!offerDetails?.inTrial && offers.length) {
+      const downgradeOffersFiltered = offers.filter(
         ({ toOfferId }) => !pauseOffersIDs.includes(toOfferId)
       );
-      return !!downgradesFiltered.length;
+      return !!downgradeOffersFiltered.length;
     }
 
     return false;
@@ -106,9 +110,10 @@ const Unsubscribe = ({
     !skipAvailableFreeExtensionStep;
 
   const shouldShowDowngrades =
-    !shouldShowFreeExtension && shouldShowDowngradeScreen();
+    retentionActions?.type === 'DOWNGRADE' && shouldShowDowngradeScreen();
 
-  const shouldShowPause = shouldShowPauseScreen();
+  const shouldShowPause =
+    retentionActions?.type === 'PAUSE' && shouldShowPauseScreen();
 
   const [currentStep, setCurrentStep] = useState<STEPS | null>(null);
 

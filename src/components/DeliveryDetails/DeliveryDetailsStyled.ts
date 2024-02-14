@@ -24,8 +24,9 @@ export const StyledButton = styled.button<{ isActive: boolean }>`
   height: 96px;
   border-radius: 12px;
   border: 1px solid;
-  border-color: ${({ isActive }) => (isActive ? '#4EB7A1' : colors.LineColor)};
-  color: ${({ isActive }) => (isActive ? '#4EB7A1' : '#CCD5E2')};
+  border-color: ${({ isActive }) =>
+    isActive ? colors.ConfirmColor : colors.LineColor};
+  color: ${({ isActive }) => (isActive ? colors.ConfirmColor : '#CCD5E2')};
   background-color: white;
   font-size: 12px;
   font-weight: 400;
@@ -42,7 +43,7 @@ export const StyledButton = styled.button<{ isActive: boolean }>`
     overflow: visible;
 
     path {
-      fill: ${({ isActive }) => (isActive ? '#4EB7A1' : '#CCD5E2')};
+      fill: ${({ isActive }) => (isActive ? colors.ConfirmColor : '#CCD5E2')};
     }
   }
 `;
