@@ -3,7 +3,6 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import withPaymentFinalizationHandler from 'containers/withPaymentFinalizationHandler';
 
 const TestComponent = () => <div data-testid="testComponent">Test</div>;
@@ -15,12 +14,12 @@ const store = {
     shouldShowFinalizePaymentComponent: false,
     payment: {
       paymentMethod: null,
-      currency: null
-    }
-  }
+      currency: null,
+    },
+  },
 };
 
-const middleware = [thunk];
+const middleware = [];
 const mockStore = configureStore(middleware);
 
 describe('withPaymentFinalizationHandler component', () => {
@@ -28,7 +27,7 @@ describe('withPaymentFinalizationHandler component', () => {
     const { getByTestId } = render(
       <Provider store={mockStore(store)}>
         <WrappedComponent />
-      </Provider>
+      </Provider>,
     );
 
     getByTestId('testComponent');
@@ -40,12 +39,12 @@ describe('withPaymentFinalizationHandler component', () => {
         store={mockStore({
           finalizeInitialPayment: {
             ...store.finalizeInitialPayment,
-            shouldShowFinalizePaymentComponent: true
-          }
+            shouldShowFinalizePaymentComponent: true,
+          },
         })}
       >
         <WrappedComponent />
-      </Provider>
+      </Provider>,
     );
 
     getByTestId('PaymentFinalizationPage-loader');

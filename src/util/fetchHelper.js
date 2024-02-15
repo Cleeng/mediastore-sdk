@@ -1,5 +1,5 @@
 import merge from 'lodash.merge';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import Auth from 'services/auth';
 import { getData, setData } from 'util/appConfigHelper';
 import getApiURL from 'util/environmentHelper';
@@ -37,9 +37,9 @@ const fetchNewTokens = async () => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       ...(environment === 'production' && {
-        'X-Requested-By': `mediastore-sdk@${version}`
-      })
-    }
+        'X-Requested-By': `mediastore-sdk@${version}`,
+      }),
+    },
   });
   const responseJSON = await response.json();
   setData(JWT, responseJSON.responseData.jwt);
@@ -58,9 +58,9 @@ const generatePromiseWithHeaders = (url, options) => {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         ...(environment === 'production' && {
-          'X-Requested-By': `mediastore-sdk@${version}`
-        })
-      }
+          'X-Requested-By': `mediastore-sdk@${version}`,
+        }),
+      },
     });
   }
 
@@ -87,6 +87,7 @@ const fetchWithJWT = async (url, options = {}) => {
           REFRESH_TOKEN_ERROR = true;
           eventDispatcher(MSSDK_AUTH_FAILED);
           Auth.logout();
+          // eslint-disable-next-line no-promise-executor-return
           return new Promise((resolve, reject) => reject());
         });
     } else {
@@ -119,9 +120,9 @@ export const fetchWithHeaders = async (url, options = {}) => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       ...(environment === 'production' && {
-        'X-Requested-By': `mediastore-sdk@${version}`
-      })
-    }
+        'X-Requested-By': `mediastore-sdk@${version}`,
+      }),
+    },
   });
 
   return window.fetch(url, optionsWithToken);

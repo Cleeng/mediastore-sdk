@@ -1,7 +1,7 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const createOrder = (offerId: string, paymentMethodId = 0): Promise<any> => {
   const API_URL = getApiURL();

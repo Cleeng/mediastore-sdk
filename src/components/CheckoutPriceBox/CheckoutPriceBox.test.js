@@ -2,7 +2,6 @@ import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import 'i18NextInit';
 import CheckoutPriceBox from './CheckoutPriceBox';
 
@@ -14,21 +13,21 @@ const store = (unlimited = true, trial = false) => ({
         discountAmount: 70,
         taxValue: '',
         customerServiceFee: '',
-        paymentMethodFee: ''
+        paymentMethodFee: '',
       },
       discount: {
         applied: true,
         type: trial ? 'trial' : 'coupon',
-        periods: unlimited ? 999 : 123
-      }
-    }
+        periods: unlimited ? 999 : 123,
+      },
+    },
   },
   offer: {
-    offer: { customerPriceInclTax: 123, period: 'test', trialAvailable: true }
-  }
+    offer: { customerPriceInclTax: 123, period: 'test', trialAvailable: true },
+  },
 });
 
-const middleware = [thunk];
+const middleware = [];
 const mockStore = configureStore(middleware);
 
 describe('<CheckoutPriceBox />', () => {
@@ -36,7 +35,7 @@ describe('<CheckoutPriceBox />', () => {
     render(
       <Provider store={mockStore(store())}>
         <CheckoutPriceBox />
-      </Provider>
+      </Provider>,
     );
 
     const couponNote = screen.getByTestId('coupon-notes');
@@ -47,7 +46,7 @@ describe('<CheckoutPriceBox />', () => {
     render(
       <Provider store={mockStore(store(false))}>
         <CheckoutPriceBox />
-      </Provider>
+      </Provider>,
     );
 
     const couponNote = screen.getByTestId('coupon-notes');
@@ -58,7 +57,7 @@ describe('<CheckoutPriceBox />', () => {
     render(
       <Provider store={mockStore(store(false, true))}>
         <CheckoutPriceBox />
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText('Trial Discount')).toBeInTheDocument();
@@ -68,7 +67,7 @@ describe('<CheckoutPriceBox />', () => {
     render(
       <Provider store={mockStore(store(false))}>
         <CheckoutPriceBox />
-      </Provider>
+      </Provider>,
     );
 
     expect(screen.getByText('Coupon Discount')).toBeInTheDocument();

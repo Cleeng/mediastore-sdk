@@ -3,11 +3,11 @@ import { createSlice } from '@reduxjs/toolkit';
 export const MYACCCOUNT_TABS = {
   planDetails: 'planDetails',
   paymentInfo: 'paymentInfo',
-  updateProfile: 'updateProfile'
+  updateProfile: 'updateProfile',
 };
 
 const initialState = {
-  activeTab: MYACCCOUNT_TABS.planDetails
+  activeTab: MYACCCOUNT_TABS.planDetails,
 };
 
 export const myaccountSlice = createSlice({
@@ -16,9 +16,8 @@ export const myaccountSlice = createSlice({
   reducers: {
     setActiveTab(state, { payload }) {
       state.activeTab = payload;
-    }
+    },
   },
-  extraReducers: {}
 });
 
 export const { setActiveTab } = myaccountSlice.actions;

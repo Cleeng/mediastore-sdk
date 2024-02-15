@@ -1,7 +1,7 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const applyCoupon = async (subscriptionId, couponCode) => {
   const API_URL = getApiURL();
@@ -11,14 +11,14 @@ const applyCoupon = async (subscriptionId, couponCode) => {
 
   const resp = await fetchWithJWT(url, {
     method: 'PATCH',
-    body: JSON.stringify({ couponCode })
+    body: JSON.stringify({ couponCode }),
   });
 
   const json = await resp.json();
 
   return {
     status: resp.status,
-    ...json
+    ...json,
   };
 };
 

@@ -18,12 +18,12 @@ class LoginForm extends Component {
       password: '',
       errors: {
         email: '',
-        password: ''
+        password: '',
       },
       generalError: '',
       processing: false,
       overloaded: false,
-      hideSuccessMessage: false
+      hideSuccessMessage: false,
     };
   }
 
@@ -39,8 +39,8 @@ class LoginForm extends Component {
     this.setState(() => ({
       errors: {
         ...errors,
-        email: t(message)
-      }
+        email: t(message),
+      },
     }));
   };
 
@@ -51,8 +51,8 @@ class LoginForm extends Component {
     this.setState(() => ({
       errors: {
         ...errors,
-        password: t(message)
-      }
+        password: t(message),
+      },
     }));
   };
 
@@ -61,13 +61,13 @@ class LoginForm extends Component {
     const { t } = this.props;
     const errorFields = {
       email: t(validateEmailField(email)),
-      password: t(validatePasswordField(password))
+      password: t(validatePasswordField(password)),
     };
     this.setState({ errors: errorFields, generalError: '' });
-    return !Object.keys(errorFields).find(key => errorFields[key] !== '');
+    return !Object.keys(errorFields).find((key) => errorFields[key] !== '');
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.validateFields()) {
       this.login();
@@ -80,13 +80,13 @@ class LoginForm extends Component {
 
     this.setState({
       processing: true,
-      hideSuccessMessage: true
+      hideSuccessMessage: true,
     });
 
     const response = await loginCustomer(
       email,
       password,
-      publisherId ? { publisherId } : { offerId }
+      publisherId ? { publisherId } : { offerId },
     );
     if (response.status === 200) {
       Auth.login(
@@ -97,7 +97,7 @@ class LoginForm extends Component {
         response.responseData.refreshToken,
         null,
         null,
-        onSuccess
+        onSuccess,
       );
     } else if (response.status === 401 || response.status === 422) {
       this.renderError('Wrong email or password');
@@ -107,7 +107,7 @@ class LoginForm extends Component {
       setTimeout(() => {
         this.setState({
           overloaded: false,
-          generalError: ''
+          generalError: '',
         });
       }, 10 * 1000);
     } else {
@@ -120,7 +120,7 @@ class LoginForm extends Component {
     const { t } = this.props;
     this.setState({
       processing: false,
-      generalError: t(message)
+      generalError: t(message),
     });
   };
 
@@ -132,7 +132,7 @@ class LoginForm extends Component {
       generalError,
       processing,
       overloaded,
-      hideSuccessMessage
+      hideSuccessMessage,
     } = this.state;
     const { emailChanged, t } = this.props;
     return (
@@ -149,7 +149,7 @@ class LoginForm extends Component {
           label={t('Email')}
           floatingLabels={false}
           value={email}
-          onChange={e => this.setState({ email: e })}
+          onChange={(e) => this.setState({ email: e })}
           onBlur={this.validateEmail}
           error={errors.email}
         />
@@ -157,7 +157,7 @@ class LoginForm extends Component {
           label={t('Password')}
           floatingLabels={false}
           value={password}
-          onChange={e => this.setState({ password: e })}
+          onChange={(e) => this.setState({ password: e })}
           onBlur={this.validatePassword}
           error={errors.password}
         />
@@ -181,7 +181,7 @@ LoginForm.propTypes = {
   isMyAccount: PropTypes.bool,
   emailChanged: PropTypes.bool,
   onSuccess: PropTypes.func,
-  t: PropTypes.func
+  t: PropTypes.func,
 };
 
 LoginForm.defaultProps = {
@@ -190,7 +190,7 @@ LoginForm.defaultProps = {
   isMyAccount: false,
   emailChanged: false,
   onSuccess: () => null,
-  t: k => k
+  t: (k) => k,
 };
 
 export default LoginForm;

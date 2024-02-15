@@ -21,7 +21,7 @@ const store = (currentPlan: CurrentPlan[], displayGracePeriodError = true) => ({
 const pastDate = 16762771;
 const futureDate = 99999999999999;
 
-const middleware = [thunk];
+const middleware = [];
 const mockStore = configureStore(middleware);
 
 describe('GracePeriodError component', () => {

@@ -3,7 +3,6 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import PaymentFinalizationPage from './PaymentFinalizationPage';
 
 const store = {
@@ -11,13 +10,13 @@ const store = {
     payment: {
       id: null,
       paymentMethod: null,
-      currency: null
+      currency: null,
     },
-    error: null
-  }
+    error: null,
+  },
 };
 
-const middleware = [thunk];
+const middleware = [];
 const mockStore = configureStore(middleware);
 
 describe('PaymentFinalizationPage component', () => {
@@ -25,7 +24,7 @@ describe('PaymentFinalizationPage component', () => {
     const { getByTestId } = render(
       <Provider store={mockStore(store)}>
         <PaymentFinalizationPage />
-      </Provider>
+      </Provider>,
     );
 
     getByTestId('PaymentFinalizationPage-loader');
@@ -38,13 +37,13 @@ describe('PaymentFinalizationPage component', () => {
             ...store,
             finalizeInitialPayment: {
               payment: {
-                id: 123
-              }
-            }
+                id: 123,
+              },
+            },
           })}
         >
           <PaymentFinalizationPage />
-        </Provider>
+        </Provider>,
       );
 
       getByTestId('ThankYouPage-component');
@@ -57,13 +56,13 @@ describe('PaymentFinalizationPage component', () => {
             ...store,
             finalizeInitialPayment: {
               payment: {
-                id: 123
-              }
-            }
+                id: 123,
+              },
+            },
           })}
         >
           <PaymentFinalizationPage onSuccess={mockFn} />
-        </Provider>
+        </Provider>,
       );
       expect(queryByTestId('ThankYouPage-component')).toBeNull();
       expect(mockFn).toHaveBeenCalled();
@@ -76,12 +75,12 @@ describe('PaymentFinalizationPage component', () => {
         store={mockStore({
           ...store,
           finalizeInitialPayment: {
-            error: 'Refused'
-          }
+            error: 'Refused',
+          },
         })}
       >
         <PaymentFinalizationPage />
-      </Provider>
+      </Provider>,
     );
 
     getByTestId('FailedPaymentPage-component');

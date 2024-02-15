@@ -25,7 +25,7 @@ const consentsProps = {
   onChangeFn: () => null
 };
 
-const middleware = [thunk];
+const middleware = [];
 const mockStore = configureStore(middleware);
 
 describe('Consents component', () => {

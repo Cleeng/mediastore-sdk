@@ -2,57 +2,63 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { finalizeAddPaymentDetails } from 'api';
 import eventDispatcher, {
   MSSDK_UPDATE_PAYMENT_DETAILS_FAILED,
-  MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL
+  MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL,
 } from '../util/eventDispatcher';
 
 const initialState = {
   loading: false,
   paymentDetails: null,
-  error: null
+  error: null,
 };
 
 export const fetchFinalizeAddPaymentDetails = createAsyncThunk(
   'finalizeAddPaymentDetails',
   async ({ paymentMethodId, details }, { getState, rejectWithValue }) => {
     const {
-      paymentMethods: { selectedPaymentMethod }
+      paymentMethods: { selectedPaymentMethod },
     } = getState();
     try {
       const { paymentDetails } = await finalizeAddPaymentDetails(
         paymentMethodId || selectedPaymentMethod?.id,
-        details
+        details,
       );
       return paymentDetails;
     } catch (err) {
       return rejectWithValue(err.message);
     }
-  }
+  },
 );
 
 export const finalizeAddPaymentDetailsSlice = createSlice({
   name: 'finalizeAddPaymentDetails',
   initialState,
   reducers: {},
-  extraReducers: {
-    [fetchFinalizeAddPaymentDetails.pending]: state => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchFinalizeAddPaymentDetails.pending, (state) => {
       state.loading = true;
-    },
-    [fetchFinalizeAddPaymentDetails.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.paymentDetails = payload;
-      state.error = null;
-      eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL, {
-        payload
-      });
-    },
-    [fetchFinalizeAddPaymentDetails.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
-      eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED, {
-        payload
-      });
-    }
-  }
+    });
+    builder.addCase(
+      fetchFinalizeAddPaymentDetails.fulfilled,
+      (state, { payload }) => {
+        state.loading = false;
+        state.paymentDetails = payload;
+        state.error = null;
+        eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL, {
+          payload,
+        });
+      },
+    );
+    builder.addCase(
+      fetchFinalizeAddPaymentDetails.rejected,
+      (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+        eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED, {
+          payload,
+        });
+      },
+    );
+  },
 });
 
 export default finalizeAddPaymentDetailsSlice.reducer;

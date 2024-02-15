@@ -1,0 +1,5 @@
+. "$(dirname -- "$0")/_/husky.sh"
+
+commit_message=$(cat $1)
+sh .husky/verify_commit_message "$commit_message"
+npx --no lint-staged
