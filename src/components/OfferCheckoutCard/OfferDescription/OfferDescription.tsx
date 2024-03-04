@@ -105,7 +105,7 @@ const OfferDescription = ({
   const renderDescriptionForSubscription = () => {
     const generateTrialDescription = () => {
       if (period === 'season' && freeDays) {
-        const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days and will be renewed on the next season start date.`;
+        const formattedDescription = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) after {{freeDays}} days\nNext payment will occur on the next season start date.`;
         return t(
           `subscription-desc.trial-days.period-season`,
           formattedDescription,
@@ -212,7 +212,7 @@ const OfferDescription = ({
 
       if (!isTrialAvailable) {
         if (period === 'season') {
-          const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}}) and will be renewed on the next season start date.`;
+          const description = `You will be charged {{currencySymbol}}{{grossPrice}} (incl. {{taxCopy}})\nNext payment will occur the next season start date.`;
           return t(`subscription-desc.period-season`, description, {
             currencySymbol,
             grossPrice,
