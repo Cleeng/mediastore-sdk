@@ -103,9 +103,9 @@ Login.propTypes = {
 Login.defaultProps = {
   urlProps: {},
   isMyAccount: false,
-  onSuccess: () => {},
-  onRegisterClick: () => {},
-  onPasswordResetClick: () => {},
+  onSuccess: () => null,
+  onRegisterClick: () => null,
+  onPasswordResetClick: () => null,
   t: k => k
 };
 

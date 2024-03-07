@@ -3,7 +3,7 @@ import * as colors from 'styles/variables';
 
 export const FooterStyled = styled.footer.attrs(props => ({
   className: `msd__footer ${
-    props.isTransparent ? 'msd__footer--transparent' : ''
+    props.$isTransparent ? 'msd__footer--transparent' : ''
   }`
 }))`
   position: absolute;
@@ -18,16 +18,16 @@ export const FooterStyled = styled.footer.attrs(props => ({
 
   border-top: 1px solid ${colors.LineColor};
   background-color: ${props =>
-    props.isTransparent ? 'transparent' : colors.BackgroundColor};
+    props.$isTransparent ? 'transparent' : colors.BackgroundColor};
 
   ${props =>
-    props.isTransparent &&
+    props.$isTransparent &&
     css`
       border: none;
     `}
 
   ${props =>
-    props.isInPopup &&
+    props.$isInPopup &&
     css`
       position: fixed;
       left: 0;

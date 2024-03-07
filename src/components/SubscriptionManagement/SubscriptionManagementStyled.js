@@ -43,7 +43,7 @@ export const SubscriptionActionsStyled = styled.div.attrs(() => ({
   transition: all 0.3s ease-in-out;
 
   ${props =>
-    props.isOpened &&
+    props.$isOpened &&
     css`
       max-height: 500px;
     `}
@@ -69,7 +69,7 @@ export const ButtonTextStyled = styled.span.attrs(() => ({
     transition: all 0.3s ease-in-out;
     content: '▼';
     ${props =>
-      props.isExpanded &&
+      props.$isExpanded &&
       css`
         transform: scaleY(0.8) rotateX(180deg);
       `}

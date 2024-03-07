@@ -176,12 +176,12 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
     <SubscriptionManagementStyled>
       <ManageButtonWrapStyled>
         <Button theme="simple" width="unset" onClickFn={e => toggle(e)}>
-          <ButtonTextStyled isExpanded={isOptionsVisible}>
+          <ButtonTextStyled $isExpanded={isOptionsVisible}>
             {t('subscription-management.manage-button', 'Manage')}
           </ButtonTextStyled>
         </Button>
       </ManageButtonWrapStyled>
-      <SubscriptionActionsStyled isOpened={isOptionsVisible}>
+      <SubscriptionActionsStyled $isOpened={isOptionsVisible}>
         <WrapperStyled>
           {status === 'active' && !isCouponInputOpened && (
             <SimpleButtonStyled

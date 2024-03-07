@@ -29,9 +29,9 @@ export const ButtonStyled = styled(Button).attrs(() => ({
   min-width: 100px;
 
   ${props =>
-    props.width &&
+    props.$width &&
     css`
-      width: ${props.width};
+      width: ${props.$width};
     `}
 
   ${mediaFrom.small &&
@@ -55,7 +55,7 @@ export const CheckboxStyled = styled(Checkbox).attrs(() => ({
     `}
 
   ${props =>
-    props.hide &&
+    props.$hide &&
     css`
       display: none;
     `}

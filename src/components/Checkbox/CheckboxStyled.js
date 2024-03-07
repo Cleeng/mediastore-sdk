@@ -8,7 +8,7 @@ import {
 } from '../../styles/variables';
 
 export const CheckboxStyled = styled.div.attrs(props => ({
-  className: `msd__consents ${props.disabled ? 'msd__consents--disabled' : ''}`
+  className: `msd__consents ${props.$disabled ? 'msd__consents--disabled' : ''}`
 }))`
   display: flex;
   width: 100%;
@@ -27,7 +27,7 @@ export const CheckboxStyled = styled.div.attrs(props => ({
     margin-top: 0;
   }
   ${props =>
-    props.disabled &&
+    props.$disabled &&
     css`
       opacity: 0.7;
     `}
@@ -35,7 +35,7 @@ export const CheckboxStyled = styled.div.attrs(props => ({
 
 export const ConsentDefinitionStyled = styled.div.attrs(props => ({
   className: `msd__consents__text ${
-    props.checked ? 'msd__consents__text--checked' : ''
+    props.$checked ? 'msd__consents__text--checked' : ''
   }`
 }))`
   position: relative;
@@ -54,7 +54,7 @@ export const ConsentDefinitionStyled = styled.div.attrs(props => ({
   }
   opacity: 0.8;
   ${props =>
-    props.checked &&
+    props.$checked &&
     css`
       opacity: 1;
     `}
@@ -62,10 +62,10 @@ export const ConsentDefinitionStyled = styled.div.attrs(props => ({
 
 export const CheckFrameStyled = styled.div.attrs(props => ({
   className: `msd__consents__frame ${
-    props.error ? 'msd__consents__frame--error' : ''
-  } ${props.checked ? 'msd__consents__frame--checked' : ''}
-  ${props.isRadioButton ? 'msd__consents__frame--radio' : ''} ${
-    props.isMyAccount ? 'msd__consents__frame--account' : ''
+    props.$error ? 'msd__consents__frame--error' : ''
+  } ${props.$checked ? 'msd__consents__frame--checked' : ''}
+  ${props.$isRadioButton ? 'msd__consents__frame--radio' : ''} ${
+    props.$isMyAccount ? 'msd__consents__frame--account' : ''
   }`
 }))`
   position: relative;
@@ -81,25 +81,25 @@ export const CheckFrameStyled = styled.div.attrs(props => ({
     outline: 2px solid ${FocusColor};
   }
   ${props =>
-    props.error &&
+    props.$error &&
     css`
       border-color: ${ErrorColor};
     `}
   ${props =>
-    props.isRadioButton &&
+    props.$isRadioButton &&
     css`
       border-radius: 50%;
     `}
   ${props =>
-    props.isRadioButton &&
-    props.checked &&
+    props.$isRadioButton &&
+    props.$checked &&
     css`
       border: 1px solid ${ConfirmColor};
     `}
 
   ${props =>
-    props.isMyAccount &&
-    props.checked &&
+    props.$isMyAccount &&
+    props.$checked &&
     css`
       border-color: ${ConfirmColor};
     `}
@@ -107,8 +107,8 @@ export const CheckFrameStyled = styled.div.attrs(props => ({
 
 export const CheckMarkStyled = styled.div.attrs(props => ({
   className: `msd__consents__check-mark ${
-    props.isRadioButton ? 'msd__consents__check-mark--radio' : ''
-  } ${props.isMyAccount ? 'msd__consents__check-mark--account' : ''}`
+    props.$isRadioButton ? 'msd__consents__check-mark--radio' : ''
+  } ${props.$isMyAccount ? 'msd__consents__check-mark--account' : ''}`
 }))`
   position: absolute;
 
@@ -119,7 +119,7 @@ export const CheckMarkStyled = styled.div.attrs(props => ({
   background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMi44MjgiIGhlaWdodD0iOS44MjgiIHZpZXdCb3g9IjAgMCAxMi44MjggOS44MjgiPjxkZWZzPjxzdHlsZT4uYXtmaWxsOm5vbmU7c3Ryb2tlOiM3YzhjYTU7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLXdpZHRoOjJweDt9PC9zdHlsZT48L2RlZnM+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE4My4wODYgLTM5OS4wODYpIj48bGluZSBjbGFzcz0iYSIgeDI9IjMiIHkyPSIzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxODQuNSA0MDQuNSkiLz48bGluZSBjbGFzcz0iYSIgeDE9IjciIHkyPSI3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxODcuNSA0MDAuNSkiLz48L2c+PC9zdmc+');
   background-repeat: no-repeat;
   ${props =>
-    props.isRadioButton &&
+    props.$isRadioButton &&
     css`
       top: 50%;
       left: 50%;
@@ -132,7 +132,7 @@ export const CheckMarkStyled = styled.div.attrs(props => ({
       border-radius: 50%;
     `}
   ${props =>
-    props.isMyAccount &&
+    props.$isMyAccount &&
     css`
       width: 20px;
       height: 20px;
@@ -158,7 +158,7 @@ export const ErrorFieldStyled = styled.div`
 `;
 
 export const TermsLinkStyled = styled.a`
-  padding-inline-start: ${({ isPayPal }) => (isPayPal ? '31px' : '33px')};
+  padding-inline-start: ${props => (props.$isPayPal ? '31px' : '33px')};
   position: relative;
   top: ${({ isPayPal }) => (isPayPal ? '0' : '-20px')};
   font-weight: 400;
@@ -170,7 +170,7 @@ export const TermsLinkStyled = styled.a`
   opacity: 0.8;
 
   ${props =>
-    props.checked &&
+    props.$checked &&
     css`
       opacity: 1;
     `}

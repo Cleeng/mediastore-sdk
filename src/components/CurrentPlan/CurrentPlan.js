@@ -121,12 +121,12 @@ const CurrentPlan = () => {
                 )
                   dispatch(setOfferToSwitch(subItem));
               }}
-              cursorPointer={
+              $cursorPointer={
                 subscriptions.length > 1 &&
                 subItem.status === 'active' &&
                 subItem.offerType === 'S'
               }
-              isSelected={
+              $isSelected={
                 subscriptions.length > 1 &&
                 offerToSwitch.offerId === subItem.offerId
               }

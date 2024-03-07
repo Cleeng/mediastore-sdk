@@ -29,14 +29,14 @@ const MyAccountError = ({
   const IconComponent = generalError ? serverIcon : icon;
   return (
     <WrapStyled
-      withBorder={withBorder}
-      fullHeight={fullHeight}
-      centered={centered}
-      margin={margin}
-      fullWidth={fullWidth}
+      $withBorder={withBorder}
+      $fullHeight={fullHeight}
+      $centered={centered}
+      $margin={margin}
+      $fullWidth={fullWidth}
       onClick={onClick}
-      isSmallCard={isSmallCard}
-      direction={direction}
+      $isSmallCard={isSmallCard}
+      $direction={direction}
     >
       {(icon || generalError) && (
         <IconStyled>

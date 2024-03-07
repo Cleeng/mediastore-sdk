@@ -3,7 +3,7 @@ import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
 const ButtonStyled = styled.button.attrs(props => ({
-  className: `msd__button msd__button--${props.theme}`
+  className: `msd__button msd__button--${props.$theme}`
 }))`
   position: relative;
   display: flex;
@@ -45,7 +45,7 @@ const ButtonStyled = styled.button.attrs(props => ({
 
 
   ${props =>
-    props.size === 'big' &&
+    props.$size === 'big' &&
     css`
       padding: 20px;
       font-size: 16px;
@@ -53,7 +53,7 @@ const ButtonStyled = styled.button.attrs(props => ({
     `}
 
   ${props =>
-    props.size === 'normal' &&
+    props.$size === 'normal' &&
     css`
       padding: 12px 25px;
       font-size: 13px;
@@ -61,7 +61,7 @@ const ButtonStyled = styled.button.attrs(props => ({
     `}
 
   ${props =>
-    (props.theme === 'confirm' &&
+    (props.$theme === 'confirm' &&
       css`
         color: ${colors.White};
         background-color: ${colors.ConfirmColor};
@@ -72,7 +72,7 @@ const ButtonStyled = styled.button.attrs(props => ({
           opacity: 1;
         }
       `) ||
-    (props.theme === 'primary' &&
+    (props.$theme === 'primary' &&
       css`
         color: ${colors.White};
         background-color: ${colors.PrimaryColor};
@@ -83,7 +83,7 @@ const ButtonStyled = styled.button.attrs(props => ({
           opacity: 1;
         }
       `) ||
-    (props.theme === 'paypal' &&
+    (props.$theme === 'paypal' &&
       css`
         color: ${colors.White};
         background-color: ${colors.PayPal};
@@ -94,7 +94,7 @@ const ButtonStyled = styled.button.attrs(props => ({
           opacity: 1;
         }
       `) ||
-    (props.theme === 'danger' &&
+    (props.$theme === 'danger' &&
       css`
         color: ${colors.White};
         background-color: ${colors.ErrorColor};
@@ -105,7 +105,7 @@ const ButtonStyled = styled.button.attrs(props => ({
           opacity: 1;
         }
       `) ||
-    (props.theme === 'payment' &&
+    (props.$theme === 'payment' &&
       css`
         height: 48px;
         width: 30%;
@@ -129,7 +129,7 @@ const ButtonStyled = styled.button.attrs(props => ({
           opacity: 0.9;
         }
       `) ||
-    (props.theme === 'secondary' &&
+    (props.$theme === 'secondary' &&
       css`
         background-color: ${colors.SecondaryColor};
         border: 1px solid ${colors.BackgroundColor};
@@ -142,7 +142,7 @@ const ButtonStyled = styled.button.attrs(props => ({
           border: 1px solid ${colors.LineColor};
         }
       `) ||
-    (props.theme === 'simple' &&
+    (props.$theme === 'simple' &&
       css`
         background-color: transparent;
         border: 1px solid ${colors.LineColor};
@@ -156,7 +156,7 @@ const ButtonStyled = styled.button.attrs(props => ({
           border: 1px solid ${colors.LineColor};
         }
       `) ||
-    (props.theme === 'navLink' &&
+    (props.$theme === 'navLink' &&
       css`
         position: absolute;
         top: 50%;
@@ -188,7 +188,7 @@ const ButtonStyled = styled.button.attrs(props => ({
           left: 10px;
         `}
       `) ||
-    (props.theme === 'link' &&
+    (props.$theme === 'link' &&
       css`
         display: inline-block;
 
@@ -213,24 +213,24 @@ const ButtonStyled = styled.button.attrs(props => ({
       `)}
 
   ${props =>
-    props.fontWeight &&
+    props.$fontWeight &&
     css`
-      font-weight: ${props.fontWeight};
+      font-weight: ${props.$fontWeight};
     `}
   ${props =>
-    props.fontSize &&
+    props.$fontSize &&
     css`
-      font-size: ${props.fontSize};
+      font-size: ${props.$fontSize};
     `}
   ${props =>
-    props.margin &&
+    props.$margin &&
     css`
-      margin: ${props.margin};
+      margin: ${props.$margin};
     `}
   ${props =>
-    props.width &&
+    props.$width &&
     css`
-      width: ${props.width};
+      width: ${props.$width};
     `}
   ${props =>
     props.disabled &&
@@ -238,12 +238,12 @@ const ButtonStyled = styled.button.attrs(props => ({
       filter: opacity(0.7);
     `}
   ${props =>
-    props.padding &&
+    props.$padding &&
     css`
-      padding: ${props.padding};
+      padding: ${props.$padding};
     `}
   ${props =>
-    props.icon &&
+    props.$icon &&
     css`
       &::before {
         position: absolute;
@@ -254,7 +254,7 @@ const ButtonStyled = styled.button.attrs(props => ({
         left: 15px;
         top: 50%;
         transform: translateY(-50%);
-        content: url(${props.icon});
+        content: url(${props.$icon});
       }
     `}
 `;

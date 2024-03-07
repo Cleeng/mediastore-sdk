@@ -1,6 +1,6 @@
 export type DropInSectionWrapperStyled = {
-  isSelected: boolean;
-  fadeOutSection: boolean;
+  $isSelected: boolean;
+  $fadeOutSection: boolean;
 };
 
 export type DropInSectionProps = {

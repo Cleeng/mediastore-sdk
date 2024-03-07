@@ -20,8 +20,8 @@ export const CardsWrapper = styled.div.attrs<CardsWrapperProps>(() => ({
       justify-self: center;
     }
   }
-  ${({ numberOfItems }) =>
-    numberOfItems === 1 &&
+  ${props =>
+    props.$numberOfItems === 1 &&
     css`
       grid-template-columns: 1fr;
       > div {

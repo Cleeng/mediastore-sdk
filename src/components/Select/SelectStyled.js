@@ -59,7 +59,7 @@ export const ReactSelectStyled = styled(ReactSelect).attrs(() => ({
     }
   }
   ${props =>
-    props.isMyAccount &&
+    props.$isMyAccount &&
     css`
       .react-select__control {
         border: 1px solid #d3dbe6;
@@ -71,7 +71,7 @@ export const ReactSelectStyled = styled(ReactSelect).attrs(() => ({
       }
     `}
   ${props =>
-    props.required &&
+    props.$required &&
     css`
       .react-select__value-container {
         &::after {

@@ -7,7 +7,11 @@ const resetPassword = async (customerEmail, publisherId = '') => {
   try {
     const res = await fetchWithHeaders(url, {
       method: 'PUT',
-      body: JSON.stringify({ publisherId, customerEmail })
+      body: JSON.stringify({
+        publisherId,
+        customerEmail,
+        resetUrl: 'https://www.google.com/'
+      })
     });
     const json = await res.json();
     if (json.message) {

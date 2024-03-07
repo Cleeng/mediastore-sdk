@@ -122,7 +122,7 @@ const SubscriptionSwitchesList = () => {
             <SubscriptionStyled
               as="article"
               key={subItem.toOfferId}
-              hide={pendingSwtichesToOfferIdsArray.find(
+              $hide={pendingSwtichesToOfferIdsArray.find(
                 item => item === subItem.toOfferId
               )}
             >
