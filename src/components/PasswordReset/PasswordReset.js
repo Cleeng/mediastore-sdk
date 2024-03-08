@@ -87,41 +87,38 @@ class PasswordReset extends Component {
     const { t } = this.props;
 
     return (
-      // <PasswordResetWrapperStyled>
-      //   <Header />
-      //   <PasswordResetPageStyled>
-      //     <StyledTitle>{t('Forgot your password?')}</StyledTitle>
-      //     <StyledMessage>
-      //       {t(
-      //         'Just enter your email address below and we will send you a link to reset your password'
-      //       )}
-      //     </StyledMessage>
-      //     <FormStyled onSubmit={this.onSubmit} noValidate>
-      //       <EmailInput
-      //         label={t('Email')}
-      //         error={message}
-      //         value={value}
-      //         onChange={v => this.setState({ value: v })}
-      //       />
-      //       <Button
-      //         type="submit"
-      //         theme="confirm"
-      //         size="big"
-      //         disabled={processing || overloaded}
-      //       >
-      //         {processing ? (
-      //           <Loader buttonLoader color="#ffffff" />
-      //         ) : (
-      //           t('Reset Password')
-      //         )}
-      //       </Button>
-      //     </FormStyled>
-      //   </PasswordResetPageStyled>
-      //   <Footer />
-      // </PasswordResetWrapperStyled>
-      <Button theme="confirm" width="200px">
-        Test button
-      </Button>
+      <PasswordResetWrapperStyled>
+        <Header />
+        <PasswordResetPageStyled>
+          <StyledTitle>{t('Forgot your password?')}</StyledTitle>
+          <StyledMessage>
+            {t(
+              'Just enter your email address below and we will send you a link to reset your password'
+            )}
+          </StyledMessage>
+          <FormStyled onSubmit={this.onSubmit} noValidate>
+            <EmailInput
+              label={t('Email')}
+              error={message}
+              value={value}
+              onChange={v => this.setState({ value: v })}
+            />
+            <Button
+              type="submit"
+              theme="confirm"
+              size="big"
+              disabled={processing || overloaded}
+            >
+              {processing ? (
+                <Loader buttonLoader color="#ffffff" />
+              ) : (
+                t('Reset Password')
+              )}
+            </Button>
+          </FormStyled>
+        </PasswordResetPageStyled>
+        <Footer />
+      </PasswordResetWrapperStyled>
     );
   }
 }
