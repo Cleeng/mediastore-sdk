@@ -9,8 +9,7 @@ const resetPassword = async (customerEmail, publisherId = '') => {
       method: 'PUT',
       body: JSON.stringify({
         publisherId,
-        customerEmail,
-        resetUrl: 'https://www.google.com/'
+        customerEmail
       })
     });
     const json = await res.json();
