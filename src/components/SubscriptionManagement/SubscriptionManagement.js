@@ -224,7 +224,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
               }}
             >
               {isRetentionActionsLoading ? (
-                <Loader buttonLoader color="#515364" />
+                <Loader buttonLoader color="#ffffff" />
               ) : (
                 t('subscription-management.unsubscribe-button', 'Unsubscribe')
               )}
