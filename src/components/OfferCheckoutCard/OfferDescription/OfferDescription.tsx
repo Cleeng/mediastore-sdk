@@ -136,12 +136,12 @@ const OfferDescription = ({
       if (period === 'month') {
         formattedDescription +=
           freePeriods === 1
-            ? 'after month. </br>Next payments will occur every month.'
+            ? 'after month.\nNext payments will occur every month.'
             : 'after {{freePeriods}} months.\nNext payments will occur every month.';
       } else if (period === 'week') {
         formattedDescription +=
           freePeriods === 1
-            ? 'after week. </br>Next payments will occur every week.'
+            ? 'after week.\nNext payments will occur every week.'
             : 'after {{freePeriods}} weeks.\n>Next payments will occur every week.';
       }
       return t(
