@@ -1,13 +1,17 @@
 import { fetchWithHeaders } from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-const resetPassword = async (customerEmail, publisherId = '') => {
+const resetPassword = async (customerEmail, publisherId = '', resetUrl) => {
   const API_URL = getApiURL();
   const url = `${API_URL}/customers/passwords`;
   try {
     const res = await fetchWithHeaders(url, {
       method: 'PUT',
-      body: JSON.stringify({ publisherId, customerEmail })
+      body: JSON.stringify({
+        publisherId,
+        customerEmail,
+        resetUrl
+      })
     });
     const json = await res.json();
     if (json.message) {

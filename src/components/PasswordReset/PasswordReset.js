@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import store from 'redux/store';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
 import EmailInput from 'components/EmailInput';
@@ -33,13 +34,19 @@ class PasswordReset extends Component {
   onSubmit = async e => {
     e.preventDefault();
     const publisherId = getData('CLEENG_PUBLISHER_ID');
+
     const { value } = this.state;
     const { onSuccess, t } = this.props;
+
+    const {
+      publisherConfig: { resetUrl }
+    } = store.getState();
+
     if (this.validateFields()) {
       this.setState({
         processing: true
       });
-      const response = await resetPassword(value, publisherId);
+      const response = await resetPassword(value, publisherId, resetUrl);
       if (response.errors.length) {
         if (response.status === 429) {
           this.setState({

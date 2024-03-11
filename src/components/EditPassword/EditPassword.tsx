@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useAppSelector } from 'redux/store';
+import { selectPublisherConfig } from 'redux/publisherConfigSlice';
 import { t } from 'i18next';
 import jwtDecode from 'jwt-decode';
 import { getData } from 'util/appConfigHelper';
@@ -26,6 +28,8 @@ const EditPassword = ({
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
+  const { resetUrl } = useAppSelector(selectPublisherConfig);
+
   const renderNextStep = () => {
     setStep(prevStep => prevStep + 1);
   };
@@ -44,7 +48,12 @@ const EditPassword = ({
       const { publisherId } = jwtDecode(getData('CLEENG_AUTH_TOKEN')) as {
         publisherId: string;
       };
-      const response = await resetPassword(customerEmail, String(publisherId));
+
+      const response = await resetPassword(
+        customerEmail,
+        String(publisherId),
+        resetUrl
+      );
       if (!response.errors.length) {
         renderNextStep();
         setIsLoading(false);
