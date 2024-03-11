@@ -3,7 +3,7 @@ import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import jwtDecode from 'jwt-decode';
 
-const createOrder = (offerId: string, paymentMethodId = 0): Promise<any> => {
+const createOrder = (offerId: string, buyAsAGift: boolean): Promise<any> => {
   const API_URL = getApiURL();
   const { customerId } = jwtDecode<{ customerId: number }>(
     getData('CLEENG_AUTH_TOKEN')
@@ -16,7 +16,8 @@ const createOrder = (offerId: string, paymentMethodId = 0): Promise<any> => {
     body: JSON.stringify({
       offerId,
       customerId,
-      paymentMethodId
+      paymentMethodId: 0,
+      buyAsAGift
     })
   })
     .then(async res => {
