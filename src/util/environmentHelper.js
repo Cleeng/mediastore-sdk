@@ -3,6 +3,7 @@ import { getData } from 'util/appConfigHelper';
 const ENVIRONMENTS = {
   DEVELOPMENT: '',
   STAGING: 'https://hc0f1jaa70.execute-api.eu-west-1.amazonaws.com/staging',
+  STAGING2: 'https://mediastoreapi-staging2.stardustlab.com',
   SANDBOX: 'https://mediastoreapi-sandbox.cleeng.com',
   PRODUCTION: 'https://mediastoreapi.cleeng.com'
 };
@@ -14,6 +15,8 @@ const getApiURL = () => {
       return ENVIRONMENTS.DEVELOPMENT;
     case 'staging':
       return ENVIRONMENTS.STAGING;
+    case 'staging2':
+      return ENVIRONMENTS.STAGING2;
     case 'sandbox':
       return ENVIRONMENTS.SANDBOX;
     case 'production':
