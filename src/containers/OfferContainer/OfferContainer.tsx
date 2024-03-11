@@ -89,24 +89,16 @@ const OfferContainer = ({
     accessGranted?: boolean,
     giftable?: boolean
   ) => {
-    console.log('createOrderHandler');
-
     const urlParams = new URLSearchParams(window.location.search);
     const purchaseAsGiftParam = urlParams.get('purchaseAsGift');
 
     let resultOrderAction;
 
-    console.log({ giftable, accessGranted });
-
     if (giftable && (accessGranted || purchaseAsGiftParam === 'true')) {
-      console.log('created buyAsAGift: true');
-
       resultOrderAction = await dispatch(
         fetchCreateOrder({ offerId: longOfferId, buyAsAGift: true })
       );
     } else {
-      console.log('created buyAsAGift: false');
-
       resultOrderAction = await dispatch(
         fetchCreateOrder({ offerId: longOfferId, buyAsAGift: false })
       );
