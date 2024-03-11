@@ -16,7 +16,7 @@ import {
   StyledOfferWrapper,
   StyledOfferDetailsAndCoupon,
   StyledOfferCouponWrapper,
-  OfferCardWrapperStyled
+  OfferCardWrapperStyled,
 } from './OfferStyled';
 import OfferCheckoutCard from '../OfferCheckoutCard';
 import { OfferProps } from './Offer.types';
@@ -25,18 +25,18 @@ const Offer = ({
   isCheckout = false,
   onCouponSubmit,
   onPaymentComplete,
-  onRedeemClick
+  onRedeemClick,
 }: OfferProps) => {
   const { t } = useTranslation();
   const [coupon, setCoupon] = useState('');
   const { isCouponLoading, couponDetails } = useAppSelector(selectOrder);
   const {
-    offerV2: { giftable = false }
+    offerV2: { giftable = false },
   } = useAppSelector(selectOffer);
 
   const {
     totalPrice,
-    discount: { applied: discountApplied }
+    discount: { applied: discountApplied },
   } = useAppSelector(selectOnlyOrder);
   const { couponCode } = couponDetails;
 

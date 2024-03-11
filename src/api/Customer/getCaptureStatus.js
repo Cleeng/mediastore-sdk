@@ -1,7 +1,7 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 const getCaptureStatus = async () => {
   const API_URL = getApiURL();
@@ -9,8 +9,8 @@ const getCaptureStatus = async () => {
 
   const url = `${API_URL}/customers/${customerId}/capture/status`;
   return fetchWithJWT(url, {
-    method: 'GET'
-  }).then(res => {
+    method: 'GET',
+  }).then((res) => {
     return res.json();
   });
 };

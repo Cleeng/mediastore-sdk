@@ -1,4 +1,5 @@
-import jwtDecode from 'jwt-decode';
+/* eslint-disable default-param-last */
+import { jwtDecode } from 'jwt-decode';
 import { getData, setData, removeData } from 'util/appConfigHelper';
 import getCaptureStatus from 'api/Customer/getCaptureStatus';
 import getCustomerConsents from 'api/Customer/getCustomerConsents';
@@ -8,11 +9,11 @@ class Auth {
     this.isAuthenticated = false;
     this.myAccount = {
       mainPage: '/my-account/plan-details',
-      loginPage: '/my-account/login'
+      loginPage: '/my-account/login',
     };
     this.checkout = {
       mainPage: '/offer',
-      loginPage: '/login'
+      loginPage: '/login',
     };
     this.capturePage = '/capture';
     this.consentsPage = '/consents';
@@ -24,9 +25,9 @@ class Auth {
     email,
     jwt,
     refreshToken,
-    cb = t => t,
+    cb = (t) => t,
     args = [],
-    callback = t => t
+    callback = (t) => t,
   ) {
     this.isAuthenticated = true;
     const { customerId } = jwtDecode(jwt);
@@ -43,23 +44,23 @@ class Auth {
     let shouldCaptureBeDisplayed = false;
     let data = {};
 
-    const consentsResponse = getCustomerConsents().then(resp => {
+    const consentsResponse = getCustomerConsents().then((resp) => {
       const { consents } = resp.responseData;
       shouldConsentsBeDisplayed = isRegister
         ? false
         : consents.some(
-            consent =>
+            (consent) =>
               consent.newestVersion > consent.version ||
-              consent.needsUpdate === true
+              consent.needsUpdate === true,
           );
     });
 
-    const captureResponse = getCaptureStatus().then(resp => {
+    const captureResponse = getCaptureStatus().then((resp) => {
       if (resp.responseData.shouldCaptureBeDisplayed === true) {
         shouldCaptureBeDisplayed = true;
         data = {
           ...data,
-          settings: resp.responseData.settings
+          settings: resp.responseData.settings,
         };
       }
     });
@@ -70,15 +71,15 @@ class Auth {
         redirectUrl: [
           shouldCaptureBeDisplayed ? this.capturePage : null,
           shouldConsentsBeDisplayed ? this.consentsPage : null,
-          redirectUrl
-        ].filter(Boolean)
+          redirectUrl,
+        ].filter(Boolean),
       };
     });
 
     callback();
   }
 
-  logout(callback = t => t) {
+  logout(callback = (t) => t) {
     this.isAuthenticated = false;
     removeData('CLEENG_AUTH_TOKEN');
     removeData('CLEENG_REFRESH_TOKEN');

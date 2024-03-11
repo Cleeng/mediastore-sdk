@@ -10,18 +10,19 @@ export const hidePopup = createAction(HIDE_POPUP);
 const initialState = {
   isPopupShown: false,
   popupType: '',
-  consents: []
+  consents: [],
 };
 
-const popupReducer = createReducer(initialState, {
-  SHOW_POPUP: (state, action) => {
-    state.isPopupShown = true;
-    state.popupType = action.payload.type;
-    state.consents = action.payload.consents;
-  },
-  HIDE_POPUP: state => {
-    state.isPopupShown = false;
-  }
+const popupReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(showPopup, (state, action) => {
+      state.isPopupShown = true;
+      state.popupType = action.payload.type;
+      state.consents = action.payload.consents;
+    })
+    .addCase(hidePopup, (state) => {
+      state.isPopupShown = false;
+    });
 });
 
 export default popupReducer;

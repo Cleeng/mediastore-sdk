@@ -1,0 +1,5 @@
+. "$(dirname -- "$0")/_/husky.sh"
+
+sh .husky/verify_branch_name
+npx --no lint-staged
+npm run test

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useAppSelector } from 'redux/store';
 import { selectPublisherConfig } from 'redux/publisherConfigSlice';
 import { t } from 'i18next';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { getData } from 'util/appConfigHelper';
 import resetPassword from 'api/Auth/resetPassword';
 import Button from 'components/Button';

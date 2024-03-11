@@ -1,9 +1,9 @@
 import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
-const updateCaptureAnswers = async anwsers => {
+const updateCaptureAnswers = async (anwsers) => {
   const API_URL = getApiURL();
   const { customerId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
 
@@ -22,19 +22,19 @@ const updateCaptureAnswers = async anwsers => {
     birthDate: anwsers.birthDate || null,
     companyName: anwsers.companyName || null,
     phoneNumber: anwsers.phoneNumber || null,
-    customAnswers: anwsers.customAnswers || null
+    customAnswers: anwsers.customAnswers || null,
   };
 
   const resp = await fetchWithJWT(url, {
     method: 'PUT',
-    body: JSON.stringify(payload)
+    body: JSON.stringify(payload),
   });
 
   const json = await resp.json();
 
   return {
     status: resp.status,
-    ...json
+    ...json,
   };
 };
 

@@ -8,7 +8,7 @@ const initialState = {
   error: [],
   showToggleButton: false,
   loading: false,
-  isListExpanded: false
+  isListExpanded: false,
 };
 
 export const fetchListCustomerTransactions = createAsyncThunk(
@@ -20,7 +20,7 @@ export const fetchListCustomerTransactions = createAsyncThunk(
     } catch (error) {
       return rejectWithValue(error.message);
     }
-  }
+  },
 );
 
 export const transactionsSlice = createSlice({
@@ -32,30 +32,34 @@ export const transactionsSlice = createSlice({
     },
     removePausedTransactions(state, { payload }) {
       state.transactions = state.transactions.filter(
-        ({ offerId }) => !payload.includes(offerId)
+        ({ offerId }) => !payload.includes(offerId),
       );
       state.showToggleButton =
         state.transactions.length > DEFAULT_TRANSACTIONS_NUMBER;
-    }
+    },
   },
-  extraReducers: {
-    [fetchListCustomerTransactions.pending]: state => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchListCustomerTransactions.pending, (state) => {
       state.loading = true;
-    },
-    [fetchListCustomerTransactions.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.transactions = payload;
-      state.showToggleButton = payload.length > DEFAULT_TRANSACTIONS_NUMBER;
-    },
-    [fetchListCustomerTransactions.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
-    }
-  }
+    });
+    builder.addCase(
+      fetchListCustomerTransactions.fulfilled,
+      (state, { payload }) => {
+        state.loading = false;
+        state.transactions = payload;
+        state.showToggleButton = payload.length > DEFAULT_TRANSACTIONS_NUMBER;
+      },
+    );
+    builder.addCase(
+      fetchListCustomerTransactions.rejected,
+      (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      },
+    );
+  },
 });
 
-export const {
-  toggleTransactionList,
-  removePausedTransactions
-} = transactionsSlice.actions;
+export const { toggleTransactionList, removePausedTransactions } =
+  transactionsSlice.actions;
 export default transactionsSlice.reducer;

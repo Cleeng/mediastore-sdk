@@ -20,34 +20,35 @@ const initialState = {
   user: null,
   capture: null,
   consents: [],
-  consentsError: ''
+  consentsError: '',
 };
 
-const userProfileReducer = createReducer(initialState, {
-  SET_CURRENT_USER: (state, action) => {
-    state.user = action.payload;
-  },
-  SET_USER_CAPTURE: (state, action) => {
-    state.capture = action.payload;
-  },
-  UPDATE_CAPTURE_OPTION: (state, action) => {
-    const newState = {
-      ...state.capture,
-      settings: state.capture.settings.map(setting => {
-        if (setting.key === action.payload.key) {
-          return { ...setting, answer: action.payload.value };
-        }
-        return setting;
-      })
-    };
-    state.capture = newState;
-  },
-  SET_CONSENTS: (state, action) => {
-    state.consents = action.payload;
-  },
-  SET_CONSENTS_ERROR: (state, action) => {
-    state.consentsError = action.payload;
-  }
+const userProfileReducer = createReducer(initialState, (builder) => {
+  builder
+    .addCase(setCurrentUser, (state, action) => {
+      state.user = action.payload;
+    })
+    .addCase(setUserCapture, (state, action) => {
+      state.capture = action.payload;
+    })
+    .addCase(updateCaptureOption, (state, action) => {
+      const newState = {
+        ...state.capture,
+        settings: state.capture.settings.map((setting) => {
+          if (setting.key === action.payload.key) {
+            return { ...setting, answer: action.payload.value };
+          }
+          return setting;
+        }),
+      };
+      state.capture = newState;
+    })
+    .addCase(setConsents, (state, action) => {
+      state.consents = action.payload;
+    })
+    .addCase(setConsentsError, (state, action) => {
+      state.consentsError = action.payload;
+    });
 });
 
 export default userProfileReducer;

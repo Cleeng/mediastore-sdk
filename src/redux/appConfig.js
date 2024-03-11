@@ -16,16 +16,17 @@ const initialState = {
   CLEENG_PAYMENT_METHOD_ID: '',
   CLEENG_CUSTOMER_EMAIL: '',
   CLEENG_HOSTED: '',
-  CLEENG_HEADER_OFF: ''
+  CLEENG_HEADER_OFF: '',
 };
 
-const appConfig = createReducer(initialState, {
-  SET_DATA: (state, action) => {
-    state[action.payload.name] = action.payload.value;
-  },
-  REMOVE_DATA: (state, action) => {
-    state[action.payload.name] = '';
-  }
+const appConfig = createReducer(initialState, (builder) => {
+  builder
+    .addCase(setData, (state, action) => {
+      state[action.payload.name] = action.payload.value;
+    })
+    .addCase(removeData, (state, action) => {
+      state[action.payload.name] = '';
+    });
 });
 
 export default appConfig;
