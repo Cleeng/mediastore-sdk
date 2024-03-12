@@ -142,7 +142,7 @@ const OfferDescription = ({
         formattedDescription +=
           freePeriods === 1
             ? 'after week.\nNext payments will occur every week.'
-            : 'after {{freePeriods}} weeks.\n>Next payments will occur every week.';
+            : 'after {{freePeriods}} weeks.\nNext payments will occur every week.';
       }
       return t(
         `subscription-desc.trial-period${
