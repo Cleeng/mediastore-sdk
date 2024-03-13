@@ -53,13 +53,13 @@ const initialState: OrderInitialState = {
 
 export const fetchCreateOrder = createAsyncThunk<
   Order,
-  string,
+  { offerId: string; buyAsAGift: boolean },
   {
     rejectValue: string;
   }
->('order/createOrder', async (offerId: string, { rejectWithValue }) => {
+>('order/createOrder', async ({ offerId, buyAsAGift }, { rejectWithValue }) => {
   try {
-    const { order } = await createOrder(offerId);
+    const { order } = await createOrder(offerId, buyAsAGift);
     return order;
   } catch (err) {
     const typedError = err as Error;

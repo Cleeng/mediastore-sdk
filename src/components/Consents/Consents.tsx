@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import PropTypes from 'prop-types';
 import Checkbox from 'components/Checkbox';
 import Loader from 'components/Loader';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import {
   fetchPublisherConsents,
   setChecked
@@ -16,19 +15,20 @@ import {
   GeneralErrorStyled,
   FieldsetStyled
 } from './ConsentsStyled';
+import { ConsentsProps } from './Consents.types';
 
-const Consents = ({ error, onChangeFn }) => {
+const Consents = ({ error, onChangeFn }: ConsentsProps) => {
   const {
     publisherConsents,
     checked,
     loading,
     error: generalError
-  } = useSelector(state => state.publisherConsents);
-  const { publisherId } = useSelector(state => state.publisherConfig);
+  } = useAppSelector(state => state.publisherConsents);
+  const { publisherId } = useAppSelector(state => state.publisherConfig);
 
   const { t } = useTranslation();
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     async function getConsents() {
@@ -44,6 +44,8 @@ const Consents = ({ error, onChangeFn }) => {
             dispatch(setChecked(index));
           }
         });
+      } else {
+        console.error('Unable to get publisherId from redux store');
       }
     }
     getConsents();
@@ -57,7 +59,10 @@ const Consents = ({ error, onChangeFn }) => {
   if (generalError === 'noPublisherId') {
     return (
       <GeneralErrorStyled data-testid="consents__general-error">
-        {t('Unable to fetch terms & conditions. Publisher is not recognized')}
+        {t(
+          'consents-general-error',
+          'Unable to fetch terms & conditions. Publisher is not recognized'
+        )}
       </GeneralErrorStyled>
     );
   }
@@ -72,17 +77,16 @@ const Consents = ({ error, onChangeFn }) => {
     <ConsentsWrapperStyled>
       <FieldsetStyled>
         <InvisibleLegend>Consents </InvisibleLegend>
-        {publisherConsents.map((consent, index) => {
+        {publisherConsents.map(({ label, required }, index) => {
           return (
             <Checkbox
               onClickFn={() => dispatch(setChecked(index))}
               checked={checked[index]}
               error={error}
-              key={consent.label}
-              required={consent.required && !checked[index]}
+              key={label}
+              required={required && !checked[index]}
             >
-              {translateConsents(consent.label, t) +
-                (consent.required ? '*' : '')}
+              {translateConsents(label, t) + (required ? '*' : '')}
             </Checkbox>
           );
         })}
@@ -90,16 +94,6 @@ const Consents = ({ error, onChangeFn }) => {
       {error && <ConsentsErrorStyled>{error}</ConsentsErrorStyled>}
     </ConsentsWrapperStyled>
   );
-};
-
-Consents.propTypes = {
-  error: PropTypes.string,
-  onChangeFn: PropTypes.func
-};
-
-Consents.defaultProps = {
-  error: '',
-  onChangeFn: () => null
 };
 
 export default Consents;

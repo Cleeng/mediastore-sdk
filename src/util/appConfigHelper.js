@@ -133,6 +133,14 @@ export const setTermsUrl = termsUrl => {
   return false;
 };
 
+export const setResetUrl = resetUrl => {
+  if (resetUrl) {
+    store.dispatch(initPublisherConfig({ resetUrl }));
+    return true;
+  }
+  return false;
+};
+
 export const setTheme = theme => {
   const themeString = JSON.stringify(theme);
   if (theme) {
@@ -216,6 +224,7 @@ export default {
   setJWT,
   setRefreshToken,
   setTermsUrl,
+  setResetUrl,
   setHidePayPal,
   setVisibleAdyenPaymentMethods,
   setHiddenPaymentMethods,

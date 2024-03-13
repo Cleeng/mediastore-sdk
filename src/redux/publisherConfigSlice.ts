@@ -12,6 +12,7 @@ export const initialState: PublisherConfigInitialState = {
   adyenConfiguration: null,
   displayGracePeriodError: false,
   termsUrl: '',
+  resetUrl: '',
   enable3DSRedirectFlow: false
 };
 

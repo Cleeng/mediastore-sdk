@@ -51,13 +51,16 @@ const OfferContainer = ({
   const [errorMsg, setErrorMsg] = useState<string>();
 
   const dispatch = useAppDispatch();
+
   const {
     offerId: offerIdStore,
     adyenConfiguration: adyenConfigurationStore
   } = useAppSelector(selectPublisherConfig);
+
   const { order, loading: isOrderLoading, error: orderError } = useAppSelector(
     selectOrder
   );
+
   const { error: offerError } = useAppSelector(selectOffer);
 
   const offerId = offerIdProp || offerIdStore;
@@ -81,8 +84,26 @@ const OfferContainer = ({
     });
   };
 
-  const createOrderHandler = async (longOfferId: string) => {
-    const resultOrderAction = await dispatch(fetchCreateOrder(longOfferId));
+  const createOrderHandler = async (
+    longOfferId: string,
+    accessGranted?: boolean,
+    giftable?: boolean
+  ) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const purchaseAsGiftParam = urlParams.get('purchaseAsGift');
+
+    let resultOrderAction;
+
+    if (giftable && (accessGranted || purchaseAsGiftParam === 'true')) {
+      resultOrderAction = await dispatch(
+        fetchCreateOrder({ offerId: longOfferId, buyAsAGift: true })
+      );
+    } else {
+      resultOrderAction = await dispatch(
+        fetchCreateOrder({ offerId: longOfferId, buyAsAGift: false })
+      );
+    }
+
     const {
       id,
       totalPrice,
@@ -168,9 +189,12 @@ const OfferContainer = ({
 
     const init = async () => {
       const resultOfferAction = await dispatch(fetchOffer(offerId));
+      const resultOfferV2Action = await dispatch(
+        fetchOfferV2(offerId.split('_')[0])
+      );
 
-      await dispatch(fetchOfferV2(offerId.split('_')[0]));
-      const { offerId: id } = unwrapResult(resultOfferAction);
+      const { accessGranted, offerId: id } = unwrapResult(resultOfferAction);
+      const { giftable } = unwrapResult(resultOfferV2Action);
 
       setData('CLEENG_OFFER_ID', id);
       setData('CLEENG_OFFER_TYPE', id.charAt(0));
@@ -179,7 +203,7 @@ const OfferContainer = ({
       if (orderId) {
         await reuseSavedOrder(orderId, id);
       } else {
-        await createOrderHandler(id);
+        await createOrderHandler(id, accessGranted as boolean, giftable);
       }
     };
     init();
