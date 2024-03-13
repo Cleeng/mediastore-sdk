@@ -1,3 +1,5 @@
+## <div align="center">This is a temporary package for React 16. Please, use the [official package ](https://www.npmjs.com/package/@cleeng/mediastore-sdk) instead.</div>
+
 # <div align="center"> MediaStore SDK</div>
 
 > **Warning**
@@ -46,15 +48,15 @@ To find out more about MediaStore SDK, see:
 #### Prerequisites
 
 - Node v14.15.0
-- React (v18.2.0)
+- React (v16.8.0)
 
 #### Installation
 
 ```
 // npm
-npm i @cleeng/mediastore-sdk styled-components
+npm i @cleeng/mediastore-sdk-react-16 styled-components
 // or yarn
-yarn add @cleeng/mediastore-sdk styled-components
+yarn add @cleeng/mediastore-sdk-react-16 styled-components
 
 ```
 

@@ -4,7 +4,7 @@ module.exports = function(api) {
   const presets = [
     '@babel/preset-env',
     '@babel/preset-typescript',
-    ['@babel/preset-react', { runtime: 'automatic' }]
+    ['@babel/preset-react', { runtime: 'classic' }]
   ];
   const plugins = [
     'macros',

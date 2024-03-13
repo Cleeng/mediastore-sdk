@@ -1,5 +1,6 @@
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import Card from 'components/Card';
+import React from 'react';
 import {
   CardStyled,
   CardTypeStyled,

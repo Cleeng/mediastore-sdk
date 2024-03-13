@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 
@@ -19,7 +19,6 @@ import {
   resetOfferToSwitch,
   updateList
 } from 'redux/planDetailsSlice';
-
 import { fetchOffers } from 'redux/offersSlice';
 import { CustomerOffer } from 'api/Customer/types/getCustomerOffers.types';
 import { WrapStyled } from './PlanDetailsStyled';

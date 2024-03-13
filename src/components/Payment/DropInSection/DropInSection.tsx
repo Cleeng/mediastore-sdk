@@ -2,6 +2,7 @@ import { ReactComponent as PayPalIcon } from 'assets/images/paymentMethods/PPico
 import classNames from 'classnames';
 import { selectPaymentMethods } from 'redux/paymentMethodsSlice';
 import { useAppSelector } from 'redux/store';
+import React from 'react';
 import {
   IconWrapperStyled,
   TextStyled,

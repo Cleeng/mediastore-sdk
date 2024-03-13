@@ -1,3 +1,4 @@
+import React from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { selectCurrentPlan, selectSwitchDetails } from 'redux/planDetailsSlice';
 import { SwitchDetailsObject } from 'redux/types/planDetailsSlice.types';

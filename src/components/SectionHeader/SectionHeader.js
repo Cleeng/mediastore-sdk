@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { FontColor, BigFont, BoldFont } from 'styles/variables';
+import React from 'react';
 
 const HeadingStyled = styled.h1.attrs(() => ({
   className: 'msd__section-header'

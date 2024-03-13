@@ -1,4 +1,5 @@
 import '@testing-library/jest-dom';
+import React from 'react';
 import PaymentInfo from 'containers/PaymentInfo';
 import 'i18NextInit';
 import { updatePaymentDetailsPopup } from 'redux/popupSlice';

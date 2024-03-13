@@ -1,3 +1,4 @@
+import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { ReactComponent as CheckmarkIcon } from 'assets/images/greenCheckmark.svg';
 import { getData } from 'util/appConfigHelper';

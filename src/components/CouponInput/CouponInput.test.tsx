@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import * as Colors from 'styles/variables';
@@ -25,7 +26,8 @@ const couponInputProps = (
     couponDetails: {
       showMessage,
       message,
-      messageType
+      messageType,
+      translationKey: ''
     },
     onSubmit: (k: string) => k,
     onChange: (k: string) => k,

@@ -7,6 +7,7 @@ import { currencyFormat } from 'util/planHelper';
 import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
 import { selectOnlyOrder } from 'redux/orderSlice';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
+import React from 'react';
 import OfferDescription from 'components/OfferCheckoutCard/OfferDescription';
 import {
   WrapperStyled,

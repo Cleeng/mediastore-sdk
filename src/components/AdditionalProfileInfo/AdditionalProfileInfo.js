@@ -232,5 +232,5 @@ AdditionalProfileInfo.propTypes = {
 AdditionalProfileInfo.defaultProps = {
   isLoading: false,
   data: null,
-  updateCaptureOption: () => {}
+  updateCaptureOption: () => null
 };
