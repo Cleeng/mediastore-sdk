@@ -30,7 +30,7 @@ export type Offer = {
   offerCountry: string;
   offerCurrency: string;
   offerCurrencySymbol: string;
-  offerDescription: unknown;
+  offerDescription: string;
   offerId: string;
   offerPrice: number;
   offerTitle: string;

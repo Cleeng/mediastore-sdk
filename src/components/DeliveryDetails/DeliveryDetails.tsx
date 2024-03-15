@@ -72,7 +72,7 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
     const purchaseAsGiftParam = urlParams.get('purchaseAsGift');
 
     if (accessGranted || purchaseAsGiftParam === 'true') {
-      handleSetIsGift();
+      dispatch(setIsGift(true));
     } else {
       handleSetIsNotGift();
     }
