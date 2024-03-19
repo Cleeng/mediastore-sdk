@@ -11,6 +11,7 @@ import { ReactComponent as CalendarIcon } from 'assets/images/offerDescription/c
 import { ReactComponent as TagIcon } from 'assets/images/offerDescription/tag-bold.svg';
 import getReadablePeriod from '../OfferCheckoutCard.utils';
 import {
+  DescriptionWrapperStyled,
   DescriptionStyled,
   DetailsStyled,
   DetailsWrapper,
@@ -242,7 +243,7 @@ const OfferDescription = ({
               <IconStyled>
                 <CreditCardIcon />
               </IconStyled>
-              {descriptionLines[0]}
+              <DescriptionStyled>{descriptionLines[0]}</DescriptionStyled>
             </LineWrapperStyled>
           </DetailsStyled>
           <DetailsStyled>
@@ -250,7 +251,7 @@ const OfferDescription = ({
               <IconStyled>
                 <ClockIcon />
               </IconStyled>
-              {descriptionLines[1]}
+              <DescriptionStyled>{descriptionLines[1]}</DescriptionStyled>
             </LineWrapperStyled>
           </DetailsStyled>
         </DetailsWrapper>
@@ -264,7 +265,7 @@ const OfferDescription = ({
             <IconStyled>
               <CreditCardIcon />
             </IconStyled>
-            {description}
+            <DescriptionStyled>{description}</DescriptionStyled>
           </LineWrapperStyled>
         </DetailsStyled>
       </DetailsWrapper>
@@ -296,7 +297,7 @@ const OfferDescription = ({
       <DetailsStyled>
         <LineWrapperStyled>
           <IconStyled>{icon}</IconStyled>
-          {description}
+          <DescriptionStyled>{description}</DescriptionStyled>
         </LineWrapperStyled>
       </DetailsStyled>
     );
@@ -308,7 +309,9 @@ const OfferDescription = ({
         <IconStyled>
           <CalendarIcon />;
         </IconStyled>
-        {`Pay-per-view event ${startTime ? dateFormat(startTime, true) : ''}`}
+        <DescriptionStyled>
+          {`Pay-per-view event ${startTime ? dateFormat(startTime, true) : ''}`}
+        </DescriptionStyled>
       </LineWrapperStyled>
     </DetailsStyled>
   );
@@ -319,12 +322,14 @@ const OfferDescription = ({
         <IconStyled>
           <CalendarIcon />;
         </IconStyled>
-        {periodMapper[period as Period]
-          ? `${t(
-              `period.${period}`,
-              periodMapper[period as Period].accessText as string
-            )} ${t('offer-checkout-card.access', 'access')}`
-          : ''}
+        <DescriptionStyled>
+          {periodMapper[period as Period]
+            ? `${t(
+                `period.${period}`,
+                periodMapper[period as Period].accessText as string
+              )} ${t('offer-checkout-card.access', 'access')}`
+            : ''}
+        </DescriptionStyled>
       </LineWrapperStyled>
     </DetailsStyled>
   );
@@ -335,7 +340,9 @@ const OfferDescription = ({
         <IconStyled>
           <TagIcon />
         </IconStyled>
-        {t('offer-checkout-card.unlimited-access', 'Unlimited access')}
+        <DescriptionStyled>
+          {t('offer-checkout-card.unlimited-access', 'Unlimited access')}
+        </DescriptionStyled>
       </LineWrapperStyled>
     </DetailsStyled>
   );
@@ -362,7 +369,11 @@ const OfferDescription = ({
     return false;
   };
 
-  return <DescriptionStyled>{renderDescriptionByType()}</DescriptionStyled>;
+  return (
+    <DescriptionWrapperStyled>
+      {renderDescriptionByType()}
+    </DescriptionWrapperStyled>
+  );
 };
 
 export default OfferDescription;

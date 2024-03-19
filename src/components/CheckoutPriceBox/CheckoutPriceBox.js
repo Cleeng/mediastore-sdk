@@ -153,9 +153,11 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
         </StyledPriceWrapper>
         {isCheckout && (
           <StyledRedeemButton>
-            <span>Have a gift code?</span>
+            <span>
+              {t('checkout-price-box.gift-code-label', 'Have a gift code?')}
+            </span>
             <LinkStyled as="button" onClick={onRedeemClick}>
-              Redeem here
+              {t('checkout-price-box.button.redeem', 'Redeem here')}
             </LinkStyled>
           </StyledRedeemButton>
         )}
