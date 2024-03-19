@@ -18,7 +18,7 @@ export const SubscriptionStyled = styled.div.attrs(() => ({
 
   ${props =>
     props.onClick &&
-    props.cursorPointer &&
+    props.$cursorPointer &&
     css`
       cursor: pointer;
     `}
@@ -48,7 +48,7 @@ export const SubscriptionStyled = styled.div.attrs(() => ({
     transition: opacity 0.2s ease-out;
   }
   ${props =>
-    props.isSelected &&
+    props.$isSelected &&
     css`
       &::after {
         opacity: 1;
@@ -56,7 +56,7 @@ export const SubscriptionStyled = styled.div.attrs(() => ({
     `}
 
   ${props =>
-    props.hide &&
+    props.$hide &&
     css`
       display: none;
     `}
@@ -78,7 +78,7 @@ export const ButtonTextStyled = styled.span`
     right: -17px;
     bottom: 0;
     font-size: 11px;
-    ${props => (props.isExpanded ? "content: '▲'" : "content: '▼'")};
+    ${props => (props.$isExpanded ? "content: '▲'" : "content: '▼'")};
   }
 `;
 

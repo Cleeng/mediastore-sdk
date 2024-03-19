@@ -85,7 +85,7 @@ const Popup = () => {
   return (
     <WrapperStyled>
       <HeaderStyled>
-        <DotsWrapperStyled currentStep={step}>
+        <DotsWrapperStyled $currentStep={step}>
           {steps.length > 1 &&
             steps.map(({ title }) => <DotStyled key={title} />)}
         </DotsWrapperStyled>

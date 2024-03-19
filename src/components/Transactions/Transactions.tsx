@@ -221,7 +221,7 @@ const Transactions = () => {
             onClickFn={() => dispatch(toggleTransactionList())}
             padding="12px 33px 12px 20px"
           >
-            <ButtonTextStyled isExpanded={isListExpanded}>
+            <ButtonTextStyled $isExpanded={isListExpanded}>
               {isListExpanded
                 ? t('transactions.show-less', 'Show less')
                 : t('transactions.show-more', 'Show more')}

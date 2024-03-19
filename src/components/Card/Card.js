@@ -6,9 +6,9 @@ import { WrapStyled } from './CardStyled';
 const Card = ({ as, className, children, withShadow, withBorder }) => (
   <WrapStyled
     as={as}
-    withShadow={withShadow}
+    $withShadow={withShadow}
     className={className}
-    withBorder={withBorder}
+    $withBorder={withBorder}
   >
     {children}
   </WrapStyled>

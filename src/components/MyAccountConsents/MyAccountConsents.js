@@ -116,7 +116,7 @@ class MyAccountConsents extends Component {
             key={item.name}
             disabled={(isSectionDisabled || item.required) && !showConsentsOnly}
             required={item.required}
-            hide={showConsentsOnly && !item.required}
+            $hide={showConsentsOnly && !item.required}
           >
             {translateConsents(item.label, t)}
           </CheckboxStyled>
@@ -181,7 +181,7 @@ MyAccountConsents.defaultProps = {
   consents: [],
   isLoading: false,
   showConsentsOnly: false,
-  saveConsents: () => {},
+  saveConsents: () => null,
   t: k => k
 };
 
