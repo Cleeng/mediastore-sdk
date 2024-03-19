@@ -11,8 +11,8 @@ import {
 
 const Footer = ({ className, isInPopup, isCheckout, isTransparent }) => (
   <FooterStyled
-    isInPopup={isInPopup}
-    isTransparent={isTransparent}
+    $isInPopup={isInPopup}
+    $isTransparent={isTransparent}
     className={className}
   >
     <ProductByStyled>

@@ -32,11 +32,12 @@ const Select = ({
         placeholder={label}
         value={value}
         required={required}
+        $required={required}
         onChange={handleChange}
         options={values}
         name={name}
         isDisabled={disabled}
-        isMyAccount={isMyAccount}
+        $isMyAccount={isMyAccount}
         getOptionLabel={option => option.label}
       />
     </SelectStyled>
@@ -60,7 +61,7 @@ Select.defaultProps = {
   required: false,
   name: '',
   value: {},
-  onChange: () => {},
+  onChange: () => null,
   disabled: false,
   isMyAccount: false
 };

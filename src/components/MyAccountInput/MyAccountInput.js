@@ -35,13 +35,13 @@ class MyAccountInput extends Component {
     } = this.props;
 
     return (
-      <WrapStyled hideInput={hideInput} width={width}>
+      <WrapStyled $hideInput={hideInput} $width={width}>
         <InputElementLabelStyled htmlFor={id}>
           {label}
           {required && ' *'}
         </InputElementLabelStyled>
         <InputElementStyled
-          error={error}
+          $error={error}
           id={id}
           placeholder={placeholder}
           type={type}
@@ -54,9 +54,7 @@ class MyAccountInput extends Component {
           name={name}
           autoComplete={autoComplete}
         />
-        <ErrorWrapper id={`${id}-desc`} isMyAccount>
-          {error}
-        </ErrorWrapper>
+        <ErrorWrapper id={`${id}-desc`}>{error}</ErrorWrapper>
       </WrapStyled>
     );
   }

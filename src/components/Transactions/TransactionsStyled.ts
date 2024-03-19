@@ -105,7 +105,7 @@ export const DateStyled = styled.time.attrs(() => ({
 
 export const ButtonTextStyled = styled.span.attrs(() => ({
   className: 'msd__transactions__button-text'
-}))<{ isExpanded: boolean }>`
+}))<{ $isExpanded: boolean }>`
   position: relative;
   line-height: 1.2;
   &:after {
@@ -117,7 +117,7 @@ export const ButtonTextStyled = styled.span.attrs(() => ({
     transition: all 0.3s ease-in-out;
     content: '▼';
     ${props =>
-      props.isExpanded &&
+      props.$isExpanded &&
       css`
         transform: scaleY(0.8) rotateX(180deg);
       `}

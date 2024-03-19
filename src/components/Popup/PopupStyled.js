@@ -102,9 +102,9 @@ export const DotsWrapperStyled = styled.div`
   display: flex;
   flex-direction: row;
   ${props =>
-    props.currentStep &&
+    props.$currentStep &&
     css`
-      span:nth-child(-n + ${props.currentStep}) {
+      span:nth-child(-n + ${props.$currentStep}) {
         background: ${FontColor};
       }
     `}

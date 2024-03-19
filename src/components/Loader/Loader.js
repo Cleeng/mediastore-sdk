@@ -10,11 +10,11 @@ const Loader = ({
   isMyAccount
 }) => (
   <LoaderStyled
-    buttonLoader={buttonLoader}
-    smallLoader={smallLoader}
-    centered={centered}
-    color={color}
-    isMyAccount={isMyAccount}
+    $buttonLoader={buttonLoader}
+    $smallLoader={smallLoader}
+    $centered={centered}
+    $color={color}
+    $isMyAccount={isMyAccount}
   >
     <div />
     <div />

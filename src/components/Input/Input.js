@@ -36,10 +36,7 @@ const Input = ({
   return (
     <ThemeProvider theme={inputTheme}>
       <InputComponentStyled>
-        <InputElementWrapperStyled
-          error={error}
-          passwordStrength={passwordStrength}
-        >
+        <InputElementWrapperStyled>
           {required && <InputRequiredStyled>*</InputRequiredStyled>}
           <InputElementStyled
             data-testid="input"
@@ -52,14 +49,14 @@ const Input = ({
             ref={reference}
             aria-required={ariaRequired}
             aria-invalid={ariaInvalid}
-            withIcon={icon}
-            floatingLabels={floatingLabels}
+            $withIcon={icon}
+            $floatingLabels={floatingLabels}
           />
           <LabelStyled
             data-testid="input-label"
             htmlFor={placeholder}
-            hasValue={value}
-            withIcon={icon}
+            $hasValue={value}
+            $withIcon={icon}
           >
             {placeholder}
           </LabelStyled>
@@ -81,7 +78,7 @@ const Input = ({
         </InputElementWrapperStyled>
 
         <ErrorWrapper
-          passwordStrength={passwordStrength}
+          $passwordStrength={passwordStrength}
           id={`${placeholder}-desc`}
         >
           {error}
@@ -120,12 +117,12 @@ Input.propTypes = {
 Input.defaultProps = {
   placeholder: '',
   type: 'text',
-  onChange: () => {},
-  onBlur: () => {},
+  onChange: () => null,
+  onBlur: () => null,
   error: '',
   value: '',
   showVisibilityIcon: false,
-  handleClickShowPassword: () => {},
+  handleClickShowPassword: () => null,
   showPassword: false,
   passwordStrength: '',
   ariaRequired: false,
@@ -133,7 +130,7 @@ Input.defaultProps = {
   icon: null,
   required: false,
   floatingLabels: true,
-  reference: () => {}
+  reference: () => null
 };
 
 export default Input;

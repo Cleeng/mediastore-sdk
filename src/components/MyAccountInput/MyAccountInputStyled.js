@@ -14,15 +14,15 @@ export const WrapStyled = styled.div.attrs(() => ({
   margin-bottom: 12px;
 
   ${props =>
-    props.hideInput &&
+    props.$hideInput &&
     css`
       display: none;
     `};
 
-  ${({ width }) =>
-    width &&
+  ${props =>
+    props.$width &&
     css`
-      width: ${width};
+      width: ${props.$width};
     `};
 
   .msd__error {
@@ -75,7 +75,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
   }
 
   ${props =>
-    props.error &&
+    props.$error &&
     css`
       border: 1px solid ${ErrorColor};
     `}

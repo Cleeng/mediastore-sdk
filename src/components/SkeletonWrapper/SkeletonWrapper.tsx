@@ -13,7 +13,7 @@ const SkeletonWrapper = ({
   return showChildren ? (
     <>{children}</>
   ) : (
-    <SkeletonWrapperStyled width={width} margin={margin}>
+    <SkeletonWrapperStyled $width={width} $margin={margin}>
       <SkeletonTheme baseColor={LoaderColor}>
         <StyledSkeleton {...props} />
       </SkeletonTheme>

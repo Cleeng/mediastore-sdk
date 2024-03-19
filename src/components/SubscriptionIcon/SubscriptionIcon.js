@@ -12,11 +12,11 @@ const SubscriptionIcon = ({ period, showLabel, className, isPaused }) => {
     <>
       <WrapperStyled
         $color={color || null}
-        bg={bg || null}
-        border={border || null}
+        $bg={bg || null}
+        $border={border || null}
         className={className}
       >
-        {showLabel && <LabelStyled label={showLabel}>{showLabel}</LabelStyled>}
+        {showLabel && <LabelStyled $label={showLabel}>{showLabel}</LabelStyled>}
         {isPaused ? <PauseIcon /> : label || ''}
       </WrapperStyled>
     </>

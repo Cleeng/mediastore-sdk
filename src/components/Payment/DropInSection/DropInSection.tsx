@@ -34,9 +34,9 @@ const DropInSection = ({
 
   return (
     <WrapperStyled
-      isSelected={isSelected}
+      $isSelected={isSelected}
       onClick={handleOnClick}
-      fadeOutSection={fadeOutSection}
+      $fadeOutSection={fadeOutSection}
     >
       <TextStyled>
         <span

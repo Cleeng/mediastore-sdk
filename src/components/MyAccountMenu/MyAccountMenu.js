@@ -30,10 +30,10 @@ const MyAccountMenu = () => {
             return (
               <ItemWrapStyled
                 key={label}
-                visibleOnDesktop={visibleOnDesktop}
+                $visibleOnDesktop={visibleOnDesktop}
                 onClick={() => onMenuItemClick(id)}
               >
-                <ItemStyled isActive={activeTab === id}>
+                <ItemStyled $isActive={activeTab === id}>
                   <ItemIconWrapStyled>
                     <IconComponent />
                   </ItemIconWrapStyled>

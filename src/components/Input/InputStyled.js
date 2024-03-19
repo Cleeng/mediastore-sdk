@@ -24,7 +24,7 @@ export const LabelStyled = styled.label.attrs(() => ({
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
   ${props =>
-    props.withIcon &&
+    props.$withIcon &&
     css`
       inset-inline-start: 40px;
     `}
@@ -45,7 +45,7 @@ export const LabelStyled = styled.label.attrs(() => ({
   }
 
   ${props =>
-    props.hasValue &&
+    props.$hasValue &&
     css`
       transform: translate(0, -25px) scaleY(0.9);
       &::after {
@@ -54,8 +54,8 @@ export const LabelStyled = styled.label.attrs(() => ({
     `}
 
   ${props =>
-    props.hasValue &&
-    props.withIcon &&
+    props.$hasValue &&
+    props.$withIcon &&
     css`
       transform: translate(-26px, -25px) scaleY(0.9);
     `}
@@ -85,14 +85,6 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
       }
     }
   }
-
-  ${props =>
-    props.icon &&
-    css`
-      &::before {
-        content: url(${props.icon});
-      }
-    `};
 `;
 
 export const InputElementStyled = styled.input.attrs(() => ({
@@ -116,7 +108,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
     transform: translate(0, -25px) scaleY(0.9);
     color: ${({ theme }) => theme.ConfirmColor};
     ${props =>
-      props.withIcon &&
+      props.$withIcon &&
       css`
         transform: translate(-26px, -25px) scaleY(0.9);
       `}
@@ -126,7 +118,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
   }
 
   ${props =>
-    props.floatingLabels === false &&
+    props.$floatingLabels === false &&
     css`
       & + label {
         transform: translate(0, -25px) scaleY(0.9);
@@ -170,21 +162,13 @@ export const ErrorWrapper = styled.div.attrs(() => ({
   transition: 0.2s ease-in-out;
 
   ${props =>
-    props.passwordStrength &&
+    props.$passwordStrength &&
     css`
       color: ${props.theme.PasswordStrengthColors[props.passwordStrength]};
     `}
 
   font-size: 13px;
   text-align: start;
-
-  ${props =>
-    props.isMyAccount &&
-    css`
-      position: relative;
-      margin: 5px 0 10px 0;
-      top: unset;
-    `}
 `;
 
 export const StyledPasswordVisibility = styled.img.attrs(() => ({
