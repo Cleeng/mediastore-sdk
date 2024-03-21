@@ -82,6 +82,8 @@ const Popup = () => {
     return <ConsentsIcon />;
   };
 
+  console.log(stepData);
+
   return (
     <WrapperStyled>
       <HeaderStyled>
