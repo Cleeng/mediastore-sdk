@@ -132,7 +132,10 @@ class MyAccountConsents extends Component {
                     }
                     width="100%"
                   >
-                    {t('Update Terms')}
+                    {t(
+                      'myaccount-consents.button.update-terms',
+                      'Update Terms'
+                    )}
                   </ButtonStyled>
                 ) : (
                   <>
@@ -145,7 +148,7 @@ class MyAccountConsents extends Component {
                         })
                       }
                     >
-                      {t('Cancel')}
+                      {t('myaccount-consents.button.cancel', 'Cancel')}
                     </ButtonStyled>
                     <ButtonStyled
                       theme="confirm"
@@ -155,7 +158,7 @@ class MyAccountConsents extends Component {
                       {(isSubmittingPending && (
                         <Loader buttonLoader color="#ffffff" />
                       )) ||
-                        t('Save')}
+                        t('myaccount-consents.button.save', 'Save')}
                     </ButtonStyled>
                   </>
                 )}
