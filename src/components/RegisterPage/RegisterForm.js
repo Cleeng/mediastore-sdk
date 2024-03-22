@@ -106,7 +106,7 @@ class RegisterForm extends Component {
     if (!localesResponse.responseData) {
       this.setState({
         processing: false,
-        generalError: t('An error occurred.')
+        generalError: t('register-form.error.general', 'An error occurred.')
       });
       return false;
     }
@@ -133,14 +133,23 @@ class RegisterForm extends Component {
     } else if (response.status === 422) {
       if (response.errors[0].includes('Enterprise account is required')) {
         this.renderError(
-          'You would need our product <a href="https://cleeng.com/core-ott-subscriber-management" target="_blank">Core</a> to call this API'
+          t(
+            'register-form.error.account',
+            'You would need our product <a href="https://cleeng.com/core-ott-subscriber-management" target="_blank">Core</a> to call this API'
+          )
         );
       } else {
-        this.renderError('Customer already exists.');
+        this.renderError(
+          'register-form.error.customer-exists',
+          'Customer already exists.'
+        );
       }
     } else if (response.status === 429) {
       this.setState({ disableActionButton: true });
-      this.renderError('Server overloaded. Please try again later.');
+      this.renderError(
+        'register-form.error.server-overloaded',
+        'Server overloaded. Please try again later.'
+      );
       setTimeout(() => {
         this.setState({
           disableActionButton: false,
@@ -150,7 +159,7 @@ class RegisterForm extends Component {
     } else {
       this.setState({
         processing: false,
-        generalError: t('An error occurred.')
+        generalError: t('register-form.error.general', 'An error occurred.')
       });
     }
     return true;
@@ -158,9 +167,11 @@ class RegisterForm extends Component {
 
   renderError = (message = 'An error occurred.') => {
     const { t } = this.props;
+
     this.setState({
       processing: false,
-      generalError: t(message)
+      generalError:
+        message || t('register-form.error.general', 'An error occurred.')
     });
   };
 
@@ -198,7 +209,7 @@ class RegisterForm extends Component {
       <FromStyled onSubmit={this.handleSubmit} noValidate>
         <FormErrorStyled dangerouslySetInnerHTML={{ __html: generalError }} />
         <EmailInput
-          label={t('Email')}
+          label={t('register-form.label.email', 'Email')}
           floatingLabels={false}
           value={email}
           onChange={e => this.setState({ email: e })}
@@ -206,7 +217,7 @@ class RegisterForm extends Component {
           error={errors.email}
         />
         <PasswordInput
-          label={t('Password')}
+          label={t('register-form.label.password', 'Password')}
           floatingLabels={false}
           value={password}
           onChange={this.handlePasswordChange}
@@ -230,7 +241,11 @@ class RegisterForm extends Component {
           margin="10px 0"
           disabled={processing || disableActionButton || publisherConsentsError}
         >
-          {processing ? <Loader buttonLoader color="#ffffff" /> : t('Register')}
+          {processing ? (
+            <Loader buttonLoader color="#ffffff" />
+          ) : (
+            t('register-form.button.register', 'Register')
+          )}
         </Button>
       </FromStyled>
     );
@@ -245,7 +260,7 @@ RegisterForm.propTypes = {
 
 RegisterForm.defaultProps = {
   publisherId: '',
-  onSuccess: () => undefined,
+  onSuccess: () => null,
   t: k => k
 };
 

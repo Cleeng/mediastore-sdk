@@ -44,7 +44,7 @@ class Register extends Component {
             size="big"
             onClickFn={() => onHaveAccountClick()}
           >
-            {t('Have an account?')}
+            {t('register.button.have-an-account', 'Have an account?')}
           </Button>
         </ContentWrapperStyled>
         <Footer />
