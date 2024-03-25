@@ -37,4 +37,5 @@ yarn-error.log*
 .idea
 
 .prettierrc
+.prettierrc.js
 tsconfig.tsbuildinfo

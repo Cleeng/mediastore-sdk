@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import ReCAPTCHA from 'react-google-recaptcha';
 import {
   validateRegisterPassword,
   validateEmailField,
-  validateConsentsField
+  validateConsentsField,
+  validateCaptcha
 } from 'util/validators';
 import { selectPublisherConfig } from 'redux/publisherConfigSlice';
 import { selectPublisherConsents } from 'redux/publisherConsentsSlice';
@@ -18,25 +20,28 @@ import { FromStyled, FormErrorStyled } from 'components/LoginPage/LoginStyled';
 import Button from 'components/Button';
 import EmailInput from 'components/EmailInput';
 import PasswordInput from 'components/PasswordInput';
+import { Consent as ConsentType } from 'types/Consents.types';
 import { RegisterFormProps } from './RegisterForm.types';
+import { RecaptchaError, RecaptchaWrapper } from './RegisterFormStyled';
 
 type Errors = {
   email: string;
   password: string;
   consents: string;
+  captcha: string;
 };
 
 const errorsInitialState = {
   email: '',
   password: '',
-  consents: ''
+  consents: '',
+  captcha: ''
 };
 
 export const Register = ({ onSuccess }: RegisterFormProps) => {
-  console.log('New Register after refactor');
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [consents, setConsents] = useState([]);
+  const [consents, setConsents] = useState<ConsentType[]>([]);
   const [errors, setErrors] = useState<Errors>(errorsInitialState);
   const [generalError, setGeneralError] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -51,6 +56,7 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
   const { error: publisherConsentsError } = useAppSelector(
     selectPublisherConsents
   );
+  const recaptchaRef = React.createRef<ReCAPTCHA>();
 
   const handleClickShowPassword = () =>
     setShowPassword(prevValue => !prevValue);
@@ -76,10 +82,12 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
   };
 
   const validateFields = () => {
-    const errorFields = {
+    const recaptchaValue = recaptchaRef.current?.getValue();
+    const errorFields: Errors = {
       email: t(validateEmailField(email)),
       password: t(validateRegisterPassword(password)),
-      consents: t(validateConsentsField(consents, consentDefinitions))
+      consents: t(validateConsentsField(consents, consentDefinitions)),
+      captcha: t(validateCaptcha(recaptchaValue))
     };
     setErrors(errorFields);
     return !(Object.keys(errorFields) as Array<keyof Errors>).find(
@@ -99,12 +107,20 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
   };
 
   const handlePasswordChange = (value: string) => {
-    console.log('handlePasswordChange ', value, errors);
     setPassword(value);
     setErrors(prevValue => {
       return {
         ...prevValue,
         password: ''
+      };
+    });
+  };
+
+  const handleRecaptchaChange = () => {
+    setErrors(prevValue => {
+      return {
+        ...prevValue,
+        captcha: ''
       };
     });
   };
@@ -116,6 +132,7 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
 
   const register = async () => {
     setProcessing(true);
+    const recaptchaValue = recaptchaRef.current?.getValue();
     const localesResponse = await getCustomerLocales();
     if (!localesResponse.responseData) {
       setProcessing(false);
@@ -129,7 +146,8 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
       publisherId,
       locale,
       country,
-      currency
+      currency,
+      recaptchaValue
     );
     if (response.status === 200) {
       Auth.login(
@@ -196,6 +214,14 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
         t={t}
       />
       <Consent error={errors.consents} onChangeFn={handleConsentsChange} />
+      <RecaptchaWrapper>
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          sitekey="6Ld3D5UpAAAAAOBQUGtg2JrPwjO3O7bgdbPlNRJ6"
+          onChange={handleRecaptchaChange}
+        />
+        <RecaptchaError>{errors.captcha}</RecaptchaError>
+      </RecaptchaWrapper>
       <Button
         type="submit"
         size="big"

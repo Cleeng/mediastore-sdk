@@ -48,3 +48,8 @@ export function validateEmailField(value) {
 
   return message;
 }
+
+export function validateCaptcha(value) {
+  const message = 'Google reCAPTCHA verification required.';
+  return value ? '' : message;
+}
