@@ -140,8 +140,7 @@ class RegisterForm extends Component {
         );
       } else {
         this.renderError(
-          'register-form.error.customer-exists',
-          'Customer already exists.'
+          t('register-form.error.customer-exists', 'Customer already exists.')
         );
       }
     } else if (response.status === 429) {
