@@ -24,7 +24,7 @@ const registerCustomer = async (
         currency
       }),
       headers: {
-        'X-Recaptcha-Data': reCAPTCHA
+        ...(reCAPTCHA && { 'X-Recaptcha-Data': reCAPTCHA })
       }
     });
     const json = await resp.json();

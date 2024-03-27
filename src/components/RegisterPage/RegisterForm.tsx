@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReCAPTCHA from 'react-google-recaptcha';
 import {
@@ -8,8 +8,9 @@ import {
   validateCaptcha
 } from 'util/validators';
 import { selectPublisherConfig } from 'redux/publisherConfigSlice';
+import { fetchSettings, selectSettings } from 'redux/settingsSlice';
 import { selectPublisherConsents } from 'redux/publisherConsentsSlice';
-import { useAppSelector } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import registerCustomer from 'api/Auth/registerCustomer';
 import getCustomerLocales from 'api/Customer/getCustomerLocales';
 import submitConsents from 'api/Customer/submitConsents';
@@ -41,22 +42,30 @@ const errorsInitialState = {
 export const Register = ({ onSuccess }: RegisterFormProps) => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const [consents, setConsents] = useState<ConsentType[]>([]);
+  const [consents, setConsents] = useState<boolean[]>([]);
   const [errors, setErrors] = useState<Errors>(errorsInitialState);
   const [generalError, setGeneralError] = useState<string>('');
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [consentDefinitions, setConsentDefinitions] = useState([]);
+  const [consentDefinitions, setConsentDefinitions] = useState<ConsentType[]>(
+    []
+  );
   const [processing, setProcessing] = useState<boolean>(false);
   const [disableActionButton, setDisableActionButton] = useState<boolean>(
     false
   );
 
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
   const { publisherId } = useAppSelector(selectPublisherConfig);
   const { error: publisherConsentsError } = useAppSelector(
     selectPublisherConsents
   );
+  const { settings, loading } = useAppSelector(selectSettings);
   const recaptchaRef = React.createRef<ReCAPTCHA>();
+
+  useEffect(() => {
+    if (publisherId) dispatch(fetchSettings(publisherId));
+  }, []);
 
   const handleClickShowPassword = () =>
     setShowPassword(prevValue => !prevValue);
@@ -87,7 +96,9 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
       email: t(validateEmailField(email)),
       password: t(validateRegisterPassword(password)),
       consents: t(validateConsentsField(consents, consentDefinitions)),
-      captcha: t(validateCaptcha(recaptchaValue))
+      captcha: settings?.isCaptchaRequired
+        ? t(validateCaptcha(recaptchaValue))
+        : ''
     };
     setErrors(errorFields);
     return !(Object.keys(errorFields) as Array<keyof Errors>).find(
@@ -95,9 +106,12 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
     );
   };
 
-  const handleConsentsChange = (value, consentDefinitions) => {
+  const handleConsentsChange = (
+    value: boolean[],
+    consentDefinitionsParam: ConsentType[]
+  ) => {
     setConsents(value);
-    setConsentDefinitions(consentDefinitions);
+    setConsentDefinitions(consentDefinitionsParam);
     setErrors(prevValue => {
       return {
         ...prevValue,
@@ -214,14 +228,16 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
         t={t}
       />
       <Consent error={errors.consents} onChangeFn={handleConsentsChange} />
-      <RecaptchaWrapper>
-        <ReCAPTCHA
-          ref={recaptchaRef}
-          sitekey="6Ld3D5UpAAAAAOBQUGtg2JrPwjO3O7bgdbPlNRJ6"
-          onChange={handleRecaptchaChange}
-        />
-        <RecaptchaError>{errors.captcha}</RecaptchaError>
-      </RecaptchaWrapper>
+      {settings?.isCaptchaRequired && !loading && (
+        <RecaptchaWrapper>
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            sitekey="6Ld3D5UpAAAAAOBQUGtg2JrPwjO3O7bgdbPlNRJ6"
+            onChange={handleRecaptchaChange}
+          />
+          <RecaptchaError>{errors.captcha}</RecaptchaError>
+        </RecaptchaWrapper>
+      )}
       <Button
         type="submit"
         size="big"
