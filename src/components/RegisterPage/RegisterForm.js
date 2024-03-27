@@ -146,8 +146,10 @@ class RegisterForm extends Component {
     } else if (response.status === 429) {
       this.setState({ disableActionButton: true });
       this.renderError(
-        'register-form.error.server-overloaded',
-        'Server overloaded. Please try again later.'
+        t(
+          'register-form.error.server-overloaded',
+          'Server overloaded. Please try again later.'
+        )
       );
       setTimeout(() => {
         this.setState({
