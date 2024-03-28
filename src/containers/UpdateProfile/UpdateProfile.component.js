@@ -53,7 +53,7 @@ class UpdateProfile extends Component {
         })
         .catch(() => {
           this.setState({
-            detailsError: [t('Something went wrong..')],
+            detailsError: [t('updateprofile.error', 'Something went wrong..')],
             isUserDetailsLoading: false
           });
         });
@@ -77,7 +77,7 @@ class UpdateProfile extends Component {
         })
         .catch(() => {
           this.setState({
-            detailsError: [t('Something went wrong..')],
+            detailsError: [t('updateprofile.error', 'Something went wrong..')],
             isCaptureLoading: false
           });
         });
@@ -165,7 +165,9 @@ class UpdateProfile extends Component {
           </>
         ) : (
           <>
-            <SectionHeader>{t('Profile details')}</SectionHeader>
+            <SectionHeader>
+              {t('updateprofile.header.profile-details', 'Profile details')}
+            </SectionHeader>
             {detailsError.length !== 0 ? (
               <MyAccountError generalError />
             ) : (
@@ -184,7 +186,12 @@ class UpdateProfile extends Component {
                 />
                 {address && address.enabled && (
                   <SectionStyled>
-                    <SectionHeader>{t('Address details')}</SectionHeader>
+                    <SectionHeader>
+                      {t(
+                        'updateprofile.header.address-details',
+                        'Address details'
+                      )}
+                    </SectionHeader>
                     <AddressDetails
                       data={address}
                       isLoading={isCaptureLoading}
@@ -194,7 +201,7 @@ class UpdateProfile extends Component {
                 )}
                 <SectionStyled>
                   <SectionHeader marginTop="25px">
-                    {t('Password')}
+                    {t('updateprofile.header.password', 'Password')}
                   </SectionHeader>
                   <Password
                     showInnerPopup={() =>
@@ -204,7 +211,12 @@ class UpdateProfile extends Component {
                 </SectionStyled>
                 {customSettings && customSettings.length > 0 && (
                   <SectionStyled>
-                    <SectionHeader>{t('Additional Options')}</SectionHeader>
+                    <SectionHeader>
+                      {t(
+                        'updateprofile.header.additional-options',
+                        'Additional Options'
+                      )}
+                    </SectionHeader>
                     <AdditionalProfileInfo
                       data={customSettings}
                       updateCaptureOption={updateCaptureOption}
@@ -215,8 +227,7 @@ class UpdateProfile extends Component {
             )}
             <SectionStyled>
               <SectionHeader marginTop="25px">
-                {' '}
-                {t('Terms Details')}
+                {t('updateprofile.header.terms-details', 'Terms Details')}
               </SectionHeader>
               {consentsError.length !== 0 ? (
                 <MyAccountError generalError />

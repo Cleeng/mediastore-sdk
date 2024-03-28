@@ -42,7 +42,9 @@ const Capture = ({ settings, onSuccess }) => {
           <Loader />
         ) : (
           <>
-            <CaptureTitle>{t('Confirm Registration')}</CaptureTitle>
+            <CaptureTitle>
+              {t('capture.confirm-registration', 'Confirm Registration')}
+            </CaptureTitle>
             <CaptureForm settings={captureSettings} onSuccess={onSuccess} />
           </>
         )}
@@ -59,7 +61,7 @@ Capture.propTypes = {
 
 Capture.defaultProps = {
   settings: [],
-  onSuccess: () => {}
+  onSuccess: () => null
 };
 
 export default Capture;

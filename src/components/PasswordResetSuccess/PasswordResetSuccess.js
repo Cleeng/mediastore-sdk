@@ -25,15 +25,27 @@ const PasswordResetSuccess = ({ email, resetPasswordCallback }) => {
         <Loader>
           <Checkmark />
         </Loader>
-        <StyledTitle>{t('Password link sent')}</StyledTitle>
+        <StyledTitle>
+          {t('password-reset-success.title', 'Password link sent')}
+        </StyledTitle>
         <StyledMessage>
           {email
-            ? t('Please check your inbox at {{email}}', { email })
-            : t('Please check your inbox')}
+            ? t(
+                'password-reset-success.check-inbox-with-email',
+                'Please check your inbox at {{email}}',
+                { email }
+              )
+            : t(
+                'password-reset-success.check-inbox',
+                'Please check your inbox'
+              )}
         </StyledMessage>
         <NoteStyled>
           <Button theme="link" onClickFn={resetPasswordCallback}>
-            {t('Go back to the login page')}
+            {t(
+              'password-reset-success.button.back',
+              'Go back to the login page'
+            )}
           </Button>
           &nbsp;
         </NoteStyled>

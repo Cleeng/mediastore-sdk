@@ -405,7 +405,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
           {isLoading ? (
             <Loader buttonLoader color="#ffffff" />
           ) : (
-            <>{t('Complete purchase')}</>
+            <>{t('payment.complete-purchase', 'Complete purchase')}</>
           )}
         </Button>
       </PaymentStyled>

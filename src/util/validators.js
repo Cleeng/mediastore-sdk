@@ -1,3 +1,5 @@
+import i18n from 'i18next';
+
 export function validateEmail(email) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; //eslint-disable-line
   return re.test(String(email).toLowerCase());
@@ -11,42 +13,52 @@ export function validateConsents(value, consentDefinitions) {
 
 export function validateConsentsField(value, consents) {
   if (!validateConsents(value, consents)) {
-    return 'Please agree on all required consents to use this service';
+    return i18n.t(
+      'validators.consents',
+      'Please agree on all required consents to use this service'
+    );
   }
   return '';
 }
 
 export function validatePasswordField(password) {
-  let message = '';
   if (password === '') {
-    message = 'Please fill out this field.';
+    return i18n.t('validators.password', 'Please fill out this field.');
   }
-  return message;
+  return '';
 }
 
 export function validateRegisterPassword(password) {
-  let message = '';
   const re = /[0-9]+/;
   const validPassword = re.test(password) && password.length >= 8;
+
   if (password === '') {
-    message = 'Please fill out this field.';
-  } else if (!validPassword) {
-    message =
-      'Your password must contain at least 8 characters, including 1 digit.';
+    return i18n.t('validators.password', 'Please fill out this field.');
   }
-  return message;
+
+  if (!validPassword) {
+    return i18n.t(
+      'validators.password-invalid',
+      'Your password must contain at least 8 characters, including 1 digit.'
+    );
+  }
+
+  return '';
 }
 
 export function validateEmailField(value) {
-  let message = '';
-  if (!validateEmail(value)) {
-    message = 'The email address is not properly formatted.';
-  }
   if (value === '') {
-    message = 'Please fill out this field.';
+    return i18n.t('validators.email', 'Please fill out this field.');
   }
 
-  return message;
+  if (!validateEmail(value)) {
+    return i18n.t(
+      'validators.email-invalid',
+      'The email address is not properly formatted.'
+    );
+  }
+
+  return '';
 }
 
 export function validateCaptcha(value) {

@@ -8,7 +8,9 @@ const TransactionList = () => {
   const { t } = useTranslation();
   return (
     <WrapStyled>
-      <SectionHeader marginTop="25px">{t('Transactions')}</SectionHeader>
+      <SectionHeader marginTop="25px">
+        {t('transaction-list.header', 'Transactions')}
+      </SectionHeader>
       <Transactions />
     </WrapStyled>
   );

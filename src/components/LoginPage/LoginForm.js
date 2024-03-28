@@ -78,6 +78,8 @@ class LoginForm extends Component {
     const { offerId, isMyAccount, publisherId, onSuccess } = this.props;
     const { email, password } = this.state;
 
+    const { t } = this.props;
+
     this.setState({
       processing: true,
       hideSuccessMessage: true
@@ -100,10 +102,17 @@ class LoginForm extends Component {
         onSuccess
       );
     } else if (response.status === 401 || response.status === 422) {
-      this.renderError('Wrong email or password');
+      this.renderError(
+        t('login-form.error.wrong-email-or-password', 'Wrong email or password')
+      );
     } else if (response.status === 429) {
       this.setState({ overloaded: true });
-      this.renderError('Server overloaded. Please try again later.', true);
+      this.renderError(
+        t(
+          'login-form.error.server-overloaded',
+          'Server overloaded. Please try again later.'
+        )
+      );
       setTimeout(() => {
         this.setState({
           overloaded: false,
@@ -116,11 +125,12 @@ class LoginForm extends Component {
     return true;
   };
 
-  renderError = (message = 'An error occurred.') => {
+  renderError = message => {
     const { t } = this.props;
     this.setState({
       processing: false,
-      generalError: t(message)
+      generalError:
+        message || t('login-form.error.general-error', 'An error occurred.')
     });
   };
 
@@ -139,7 +149,10 @@ class LoginForm extends Component {
       <FromStyled onSubmit={this.handleSubmit} noValidate>
         {emailChanged && !generalError && !hideSuccessMessage ? (
           <FormSuccessStyled>
-            {t('Your email has been changed successfully')}
+            {t(
+              'login-form.email-change-success',
+              'Your email has been changed successfully'
+            )}
           </FormSuccessStyled>
         ) : (
           <FormErrorStyled>{generalError}</FormErrorStyled>
@@ -168,7 +181,11 @@ class LoginForm extends Component {
           margin="10px 0"
           disabled={processing || overloaded}
         >
-          {processing ? <Loader buttonLoader color="#ffffff" /> : t('Sign in')}
+          {processing ? (
+            <Loader buttonLoader color="#ffffff" />
+          ) : (
+            t('login-form.button.sign-in', 'Sign in')
+          )}
         </Button>
       </FromStyled>
     );

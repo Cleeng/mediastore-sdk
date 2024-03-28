@@ -139,7 +139,9 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
 
   const renderError = (message = 'An error occurred.') => {
     setProcessing(false);
-    setGeneralError(t(message));
+    setGeneralError(
+      message || t('register-form.error.general', 'An error occurred.')
+    );
   };
 
   const register = async () => {
@@ -148,7 +150,7 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
     const localesResponse = await getCustomerLocales();
     if (!localesResponse.responseData) {
       setProcessing(false);
-      setGeneralError(t('An error occurred.'));
+      setGeneralError(t('register-form.error.general', 'An error occurred.'));
       return false;
     }
     const { locale, country, currency } = localesResponse.responseData;
@@ -175,21 +177,31 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
     } else if (response.status === 422) {
       if (response.errors[0].includes('Enterprise account is required')) {
         renderError(
-          'You would need our product <a href="https://cleeng.com/core-ott-subscriber-management" target="_blank">Core</a> to call this API'
+          t(
+            'register-form.error.account',
+            'You would need our product <a href="https://cleeng.com/core-ott-subscriber-management" target="_blank">Core</a> to call this API'
+          )
         );
       } else {
-        renderError('Customer already exists.');
+        renderError(
+          t('register-form.error.customer-exists', 'Customer already exists.')
+        );
       }
     } else if (response.status === 429) {
       setDisableActionButton(true);
-      renderError('Server overloaded. Please try again later.');
+      renderError(
+        t(
+          'register-form.error.server-overloaded',
+          'Server overloaded. Please try again later.'
+        )
+      );
       setTimeout(() => {
         setDisableActionButton(false);
         setGeneralError('');
       }, 10 * 1000);
     } else {
       setProcessing(false);
-      setGeneralError(t('An error occurred.'));
+      setGeneralError(t('register-form.error.general', 'An error occurred.'));
     }
     return true;
   };
@@ -205,7 +217,7 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
     <FromStyled onSubmit={handleSubmit} noValidate>
       <FormErrorStyled dangerouslySetInnerHTML={{ __html: generalError }} />
       <EmailInput
-        label={t('Email')}
+        label={t('register-form.label.email', 'Email')}
         floatingLabels={false}
         value={email}
         onChange={e => setEmail(e)}
@@ -213,7 +225,7 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
         error={errors.email}
       />
       <PasswordInput
-        label={t('Password')}
+        label={t('register-form.label.password', 'Password')}
         floatingLabels={false}
         value={password}
         onChange={handlePasswordChange}
@@ -243,7 +255,11 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
         margin="10px 0"
         disabled={processing || disableActionButton || !!publisherConsentsError}
       >
-        {processing ? <Loader buttonLoader color="#ffffff" /> : t('Register')}
+        {processing ? (
+          <Loader buttonLoader color="#ffffff" />
+        ) : (
+          t('register-form.button.register', 'Register')
+        )}
       </Button>
     </FromStyled>
   );
