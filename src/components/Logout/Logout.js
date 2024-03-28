@@ -7,7 +7,7 @@ const Logout = () => {
   const { t } = useTranslation();
   return (
     <Button onClickFn={() => Auth.logout()} theme="navLink">
-      {t('Back to login')}
+      {t('logout.back-button', 'Back to login')}
     </Button>
   );
 };

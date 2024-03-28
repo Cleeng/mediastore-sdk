@@ -64,7 +64,7 @@ const MyAccountError = ({
           width="auto"
           onClickFn={() => window.location.reload()}
         >
-          {t('myaccounterror.try-again-button', 'Try again')}
+          {t('myaccounterror.button.try-again', 'Try again')}
         </Button>
       )}
     </WrapStyled>

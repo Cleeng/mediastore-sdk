@@ -78,7 +78,7 @@ const Checkbox = ({
           $checked={isChecked}
           $isPayPal={isPayPal}
         >
-          {t('Terms & Conditions')}
+          {t('checkbox.terms-link', 'Terms & Conditions')}
         </TermsLinkStyled>
       )}
     </>

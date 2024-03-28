@@ -52,7 +52,10 @@ class PasswordReset extends Component {
           this.setState({
             overloaded: true,
             processing: false,
-            message: 'Server overloaded. Please try again later.'
+            message: t(
+              'password-reset.error.server-overloaded',
+              'Server overloaded. Please try again later.'
+            )
           });
           setTimeout(() => {
             this.setState({
@@ -81,7 +84,10 @@ class PasswordReset extends Component {
     const errorFields = {
       email: EMAIL_REGEX.test(value)
         ? ''
-        : t('This address does not seem to have a normal email format.')
+        : t(
+            'password-reset.error.invalid-email',
+            'This address does not seem to have a normal email format.'
+          )
     };
     this.setState({
       message: errorFields.email
@@ -97,15 +103,18 @@ class PasswordReset extends Component {
       <PasswordResetWrapperStyled>
         <Header />
         <PasswordResetPageStyled>
-          <StyledTitle>{t('Forgot your password?')}</StyledTitle>
+          <StyledTitle>
+            {t('password-reset.error.title', 'Forgot your password?')}
+          </StyledTitle>
           <StyledMessage>
             {t(
+              'password-reset.error.message',
               'Just enter your email address below and we will send you a link to reset your password'
             )}
           </StyledMessage>
           <FormStyled onSubmit={this.onSubmit} noValidate>
             <EmailInput
-              label={t('Email')}
+              label={t('password-reset.label.email', 'Email')}
               error={message}
               value={value}
               onChange={v => this.setState({ value: v })}
@@ -119,7 +128,7 @@ class PasswordReset extends Component {
               {processing ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t('Reset Password')
+                t('password-reset.button.reset-password', 'Reset Password')
               )}
             </Button>
           </FormStyled>

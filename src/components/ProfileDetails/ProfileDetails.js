@@ -23,43 +23,50 @@ const InputsData = [
     id: 'firstName',
     label: 'First Name',
     onBlur: 'areNamesValid',
-    type: 'text'
+    type: 'text',
+    translationKey: 'profiledetails.label.first-name'
   },
   {
     id: 'lastName',
     label: 'Last Name',
     onBlur: 'areNamesValid',
-    type: 'text'
+    type: 'text',
+    translationKey: 'profiledetails.label.last-name'
   },
   {
     id: 'email',
     label: 'E-mail',
     onBlur: 'areEmailAndPasswordValid',
-    type: 'email'
+    type: 'email',
+    translationKey: 'profiledetails.label.email'
   },
   {
     id: 'confirmationPassword',
-    label: 'Confirmation password',
+    label: 'Password confirmation',
     onBlur: 'areEmailAndPasswordValid',
-    type: 'password'
+    type: 'password',
+    translationKey: 'profiledetails.label.password-confirmation'
   },
   {
     id: 'birthDate',
     label: 'Birth Date',
     onBlur: 'isBirthDateValid',
-    type: 'date'
+    type: 'date',
+    translationKey: 'profiledetails.label.birth-date'
   },
   {
     id: 'phoneNumber',
     label: 'Phone Number',
     onBlur: 'isPhoneNumberValid',
-    type: 'tel'
+    type: 'tel',
+    translationKey: 'profiledetails.label.phone-number'
   },
   {
     id: 'companyName',
     label: 'Company Name',
     onBlur: 'isCompanyNameValid',
-    type: 'text'
+    type: 'text',
+    translationKey: 'profiledetails.label.company-name'
   }
 ];
 
@@ -185,7 +192,9 @@ class ProfileDetails extends Component {
         const isPasswordError = errorMsg.includes('confirmationPassword');
         this.setState({
           errors: {
-            confirmationPassword: isPasswordError ? t('Incorect password') : '',
+            confirmationPassword: isPasswordError
+              ? t('profiledetails.error.incorect-password', 'Incorect password')
+              : '',
             email: isEmailError ? errorMsg : ''
           },
           successMessage: false
@@ -233,7 +242,10 @@ class ProfileDetails extends Component {
     if (isBirthDateRequired && !updated.birthDate) {
       this.setState({
         errors: {
-          birthDate: t('Birth date is required')
+          birthDate: t(
+            'profiledetails.error.birth-date',
+            'Birth date is required'
+          )
         }
       });
 
@@ -258,7 +270,10 @@ class ProfileDetails extends Component {
     if (areNamesRequired && !updated.firstName.length) {
       this.setState({
         errors: {
-          firstName: t('First name is required')
+          firstName: t(
+            'profiledetails.error.first-name',
+            'First name is required'
+          )
         }
       });
 
@@ -268,7 +283,7 @@ class ProfileDetails extends Component {
     if (areNamesRequired && !updated.lastName.length) {
       this.setState({
         errors: {
-          lastName: t('Last name is required')
+          lastName: t('profiledetails.error.last-name', 'Last name is required')
         }
       });
 
@@ -280,11 +295,17 @@ class ProfileDetails extends Component {
         errors: {
           firstName:
             updated.firstName.length > 50
-              ? t('First name can have max 50 characters')
+              ? t(
+                  'profiledetails.error.first-name-characters',
+                  'First name can have max 50 characters'
+                )
               : '',
           lastName:
             updated.lastName.length > 50
-              ? t('Last name can have max 50 characters')
+              ? t(
+                  'profiledetails.error.last-name-characters',
+                  'Last name can have max 50 characters'
+                )
               : ''
         }
       });
@@ -316,6 +337,7 @@ class ProfileDetails extends Component {
           confirmationPassword: updated.confirmationPassword
             ? ''
             : t(
+                'profiledetails.error.password-confirmation',
                 'Please confirm your password to proceed with changing your email address.'
               )
         }
@@ -343,7 +365,10 @@ class ProfileDetails extends Component {
     if (isPhoneNumberRequired && !updated.phoneNumber) {
       this.setState({
         errors: {
-          phoneNumber: t('Phone number is required')
+          phoneNumber: t(
+            'profiledetails.error.phone-number',
+            'Phone number is required'
+          )
         }
       });
 
@@ -354,7 +379,10 @@ class ProfileDetails extends Component {
     if (updated.phoneNumber && !regexp.test(updated.phoneNumber)) {
       this.setState({
         errors: {
-          phoneNumber: t('This is not a valid phone number')
+          phoneNumber: t(
+            'profiledetails.error.phone-number-not-valid',
+            'This is not a valid phone number'
+          )
         }
       });
       return false;
@@ -379,7 +407,10 @@ class ProfileDetails extends Component {
     if (isCompanyNameRequired && !updated.companyName) {
       this.setState({
         errors: {
-          companyName: t('Company name is required')
+          companyName: t(
+            'profiledetails.error.company-name',
+            'Company name is required'
+          )
         }
       });
 
@@ -391,7 +422,10 @@ class ProfileDetails extends Component {
         errors: {
           companyName:
             updated.companyName.length > 50
-              ? t('Company name can have max 50 characters')
+              ? t(
+                  'profiledetails.error.company-name-characters',
+                  'Company name can have max 50 characters'
+                )
               : ''
         }
       });
@@ -444,7 +478,10 @@ class ProfileDetails extends Component {
             <FormStyled onSubmit={this.updateProfile}>
               {successMessage && (
                 <SuccessMessageStyled>
-                  {t('Your profile details have been changed successfully')}
+                  {t(
+                    'profiledetails.success-message',
+                    'Your profile details have been changed successfully'
+                  )}
                 </SuccessMessageStyled>
               )}
               {InputsData.map(input => {
@@ -471,7 +508,7 @@ class ProfileDetails extends Component {
                     key={input.id}
                     id={input.id}
                     value={updated[input.id] || ''}
-                    label={t(input.label)}
+                    label={t(input.translationKey, input.label)}
                     onChange={e =>
                       this.handleInputChange(input.id, e.target.value)
                     }
@@ -501,7 +538,7 @@ class ProfileDetails extends Component {
                     }
                     width="100%"
                   >
-                    {t('Edit Profile')}
+                    {t('profiledetails.button.edit-profile', 'Edit Profile')}
                   </ButtonStyled>
                 ) : (
                   <>
@@ -525,7 +562,7 @@ class ProfileDetails extends Component {
                         })
                       }
                     >
-                      {t('Cancel')}
+                      {t('profiledetails.button.cancel', 'Cancel')}
                     </ButtonStyled>
                     <ButtonStyled
                       onClickFn={this.updateProfile}
@@ -536,7 +573,7 @@ class ProfileDetails extends Component {
                       {(isSubmittingPending && (
                         <Loader buttonLoader color="#ffffff" />
                       )) ||
-                        t('Save')}
+                        t('profiledetails.button.save', 'Save')}
                     </ButtonStyled>
                   </>
                 )}

@@ -82,6 +82,8 @@ const Popup = () => {
     return <ConsentsIcon />;
   };
 
+  console.log(stepData);
+
   return (
     <WrapperStyled>
       <HeaderStyled>
@@ -89,12 +91,18 @@ const Popup = () => {
           {steps.length > 1 &&
             steps.map(({ title }) => <DotStyled key={title} />)}
         </DotsWrapperStyled>
-        <HeaderTitleStyled>{t(stepData.headerTitle)}</HeaderTitleStyled>
+        <HeaderTitleStyled>
+          {t(stepData.translationKeys.header, stepData.headerTitle)}
+        </HeaderTitleStyled>
       </HeaderStyled>
       <ContentStyled step={consents.length ? step : 1}>
         {renderIcon()}
-        <TitleStyled step={step}>{t(stepData.title)}</TitleStyled>
-        <TextStyled step={step}>{t(stepData.text)}</TextStyled>
+        <TitleStyled step={step}>
+          {t(stepData.translationKeys.title, stepData.title)}
+        </TitleStyled>
+        <TextStyled step={step}>
+          {t(stepData.translationKeys.text, stepData.text)}
+        </TextStyled>
         {step === 2 && consents && (
           // TODO: Remove setConsents and consents props and use redux in MyAccountConsents
           <MyAccountConsents
@@ -116,7 +124,7 @@ const Popup = () => {
             width="auto"
           >
             {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
-              t(stepData.buttonText)}
+              t(stepData.translationKeys.button, stepData.buttonText)}
           </ButtonStyled>
         </InnerWrapperStyled>
       </ButtonWrapperStyled>

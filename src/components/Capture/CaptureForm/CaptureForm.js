@@ -101,11 +101,15 @@ const CaptureForm = ({ settings, onSuccess }) => {
 
   const validateNames = inputName => {
     if (inputName === 'firstName' && !firstName.value) {
-      firstName.setError(t('First Name is required'));
+      firstName.setError(
+        t('captureform.error.first-name', 'First Name is required')
+      );
     }
 
     if (inputName === 'lastName' && !lastName.value) {
-      lastName.setError(t('Last Name is required'));
+      lastName.setError(
+        t('captureform.error.last-name', 'Last Name is required')
+      );
     }
     if (!firstName.value || !lastName.value) setIsError(true);
   };
@@ -115,10 +119,16 @@ const CaptureForm = ({ settings, onSuccess }) => {
     if (!address.value || !city || !state || !postCode) {
       setIsError(true);
     }
-    if (!address.value) address.setError(t('Address is required'));
-    if (!city.value) city.setError(t('City is required'));
-    if (!state.value) state.setError(t('State is required'));
-    if (!postCode.value) postCode.setError(t('Post code is required'));
+    if (!address.value)
+      address.setError(t('captureform.error.address', 'Address is required'));
+    if (!city.value)
+      city.setError(t('captureform.error.city', 'City is required'));
+    if (!state.value)
+      state.setError(t('captureform.error.state', 'State is required'));
+    if (!postCode.value)
+      postCode.setError(
+        t('captureform.error.post-code', 'Post code is required')
+      );
   };
 
   const validateEmail = () => {
@@ -131,21 +141,27 @@ const CaptureForm = ({ settings, onSuccess }) => {
 
   const validateCompany = () => {
     if (!companyName.value) {
-      companyName.setError(t('Company name is required'));
+      companyName.setError(
+        t('captureform.error.company-name', 'Company name is required')
+      );
       setIsError(true);
     }
   };
 
   const validatePhone = () => {
     if (!phoneNumber.value) {
-      phoneNumber.setError(t('Phone number is required'));
+      phoneNumber.setError(
+        t('captureform.error.phone-number', 'Phone number is required')
+      );
       setIsError(true);
     }
   };
 
   const validateBirthDate = () => {
     if (!birthDate.value) {
-      birthDate.setError(t('Birth date is required'));
+      birthDate.setError(
+        t('captureform.error.birth-date', 'Birth date is required')
+      );
       setIsError(true);
     }
   };
@@ -156,7 +172,10 @@ const CaptureForm = ({ settings, onSuccess }) => {
         setIsError(true);
         return {
           ...item,
-          error: t('Answer on that question is required')
+          error: t(
+            'captureform.error.custom-question',
+            'Answer on that question is required'
+          )
         };
       }
       return { ...item, error: '' };
@@ -225,7 +244,10 @@ const CaptureForm = ({ settings, onSuccess }) => {
         {isEnabled('firstNameLastName') && (
           <CaptureRowStyled>
             <Input
-              placeholder={t('First Name')}
+              placeholder={t(
+                'captureform.placeholder.first-name',
+                'First Name'
+              )}
               value={firstName.value}
               error={firstName.error}
               onChange={val => firstName.setValue(val)}
@@ -233,7 +255,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
               required={isRequired('firstNameLastName')}
             />
             <Input
-              placeholder={t('Last Name')}
+              placeholder={t('captureform.placeholder.last-name', 'Last Name')}
               value={lastName.value}
               error={lastName.error}
               onChange={val => lastName.setValue(val)}
@@ -244,7 +266,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
         )}
         {isEnabled('email') && (
           <EmailInput
-            label={t('Confirm Email')}
+            label={t('captureform.placeholder.confirm-email', 'Confirm Email')}
             value={email.value}
             error={email.error}
             onChange={val => email.setValue(val)}
@@ -254,7 +276,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
         )}
         {isEnabled('birthDate') && (
           <DateInput
-            label={t('Date of Birth')}
+            label={t('captureform.placeholder.date-of-birth', 'Date of Birth')}
             value={birthDate.value}
             error={birthDate.error}
             onChange={val => birthDate.setValue(val)}
@@ -264,7 +286,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
         )}
         {isEnabled('companyName') && (
           <Input
-            placeholder={t('Company')}
+            placeholder={t('captureform.placeholder.company', 'Company')}
             value={companyName.value}
             error={companyName.error}
             onChange={val => companyName.setValue(val)}
@@ -274,7 +296,10 @@ const CaptureForm = ({ settings, onSuccess }) => {
         )}
         {isEnabled('phoneNumber') && (
           <Input
-            placeholder={t('Mobile phone')}
+            placeholder={t(
+              'captureform.placeholder.mobile-phone',
+              'Mobile phone'
+            )}
             value={phoneNumber.value}
             error={phoneNumber.error}
             onChange={val => phoneNumber.setValue(val)}
@@ -285,7 +310,10 @@ const CaptureForm = ({ settings, onSuccess }) => {
         {isEnabled('address') && (
           <CaptureGroupStyled>
             <Input
-              placeholder={t('Address line 1')}
+              placeholder={t(
+                'captureform.placeholder.addres-line-1',
+                'Address line 1'
+              )}
               value={address.value}
               error={address.error}
               onChange={val => address.setValue(val)}
@@ -293,12 +321,15 @@ const CaptureForm = ({ settings, onSuccess }) => {
               required={isRequired('address')}
             />
             <Input
-              placeholder={t('Address line 2')}
+              placeholder={t(
+                'captureform.placeholder.address-line-2',
+                'Address line 2'
+              )}
               value={address2.value}
               onChange={val => address2.setValue(val)}
             />
             <Input
-              placeholder={t('City')}
+              placeholder={t('captureform.placeholder.city', 'City')}
               value={city.value}
               error={city.error}
               onChange={val => city.setValue(val)}
@@ -307,7 +338,10 @@ const CaptureForm = ({ settings, onSuccess }) => {
             />
             <CaptureRowStyled>
               <Input
-                placeholder={t('State/Region')}
+                placeholder={t(
+                  'captureform.placeholder.state-region',
+                  'State/Region'
+                )}
                 value={state.value}
                 error={state.error}
                 onChange={val => state.setValue(val)}
@@ -315,7 +349,10 @@ const CaptureForm = ({ settings, onSuccess }) => {
                 required={isRequired('address')}
               />
               <Input
-                placeholder={t('ZIP/Postal code')}
+                placeholder={t(
+                  'captureform.placeholder.zip-postal-code',
+                  'ZIP/Postal code'
+                )}
                 value={postCode.value}
                 error={postCode.error}
                 onChange={val => postCode.setValue(val)}
@@ -417,7 +454,11 @@ const CaptureForm = ({ settings, onSuccess }) => {
           return <div />;
         })}
         <Button type="submit" size="big" theme="confirm" margin="10px 0">
-          {processing ? <Loader buttonLoader color="#ffffff" /> : t('Continue')}
+          {processing ? (
+            <Loader buttonLoader color="#ffffff" />
+          ) : (
+            t('captureform.button.continue', 'Continue')
+          )}
         </Button>
       </CaptureFormStyled>
     </>
@@ -431,7 +472,7 @@ CaptureForm.propTypes = {
 
 CaptureForm.defaultProps = {
   settings: [],
-  onSuccess: () => {}
+  onSuccess: () => null
 };
 
 export default CaptureForm;
