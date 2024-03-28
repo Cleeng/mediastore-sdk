@@ -228,6 +228,7 @@ Config.setVisibleAdyenPaymentMethods(['card', 'googlepay']); // array of present
 - `resetPasswordCallback` - function called after a successful reset password request, when customer clicks 'Go back to the login page'
 - `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in purchase section. Read more information about Adyen configuration [here](#adyen-configuration).
 - `couponCode` - coupon code that should be automatically applied
+- `hideRedeemButton` - an optional parameter that can be used to hide 'Redeem here' button
 
 **Usage**
 
