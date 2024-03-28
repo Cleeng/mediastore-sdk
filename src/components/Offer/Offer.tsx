@@ -25,7 +25,8 @@ const Offer = ({
   isCheckout = false,
   onCouponSubmit,
   onPaymentComplete,
-  onRedeemClick
+  onRedeemClick,
+  hideRedeemButton
 }: OfferProps) => {
   const { t } = useTranslation();
   const [coupon, setCoupon] = useState('');
@@ -82,6 +83,7 @@ const Offer = ({
             </StyledOfferCouponWrapper>
           </StyledOfferDetailsAndCoupon>
           <CheckoutPriceBox
+            hideRedeemButton={hideRedeemButton}
             isCheckout={isCheckout}
             onRedeemClick={onRedeemClick}
           />

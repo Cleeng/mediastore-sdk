@@ -46,7 +46,8 @@ const OfferContainer = ({
   isCheckout = false,
   offerId: offerIdProp,
   onSuccess,
-  onRedeemClick
+  onRedeemClick,
+  hideRedeemButton
 }: OfferContainerProps) => {
   const [errorMsg, setErrorMsg] = useState<string>();
 
@@ -268,6 +269,7 @@ const OfferContainer = ({
 
   return (
     <Offer
+      hideRedeemButton={hideRedeemButton}
       isCheckout={isCheckout}
       onCouponSubmit={onCouponSubmit}
       onPaymentComplete={onSuccess}
