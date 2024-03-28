@@ -123,7 +123,6 @@ export const fetchWithHeaders = async (url, options = {}) => {
       })
     }
   });
-
   return window.fetch(url, optionsWithToken);
 };
 

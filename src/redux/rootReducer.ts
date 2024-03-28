@@ -26,6 +26,7 @@ import retentionActionsReducer from './retentionActionsSlice';
 import transactionsReducer from './transactionsSlice';
 import unsubscribeReducer from './unsubscribeSlice';
 import userProfileReducer from './userProfile';
+import settingsReducer from './settingsSlice';
 
 const rootReducer = combineReducers({
   appConfig: appConfigReducer,
@@ -50,7 +51,8 @@ const rootReducer = combineReducers({
   retentionActions: retentionActionsReducer,
   transactions: transactionsReducer,
   unsubscribe: unsubscribeReducer,
-  userProfile: userProfileReducer
+  userProfile: userProfileReducer,
+  settings: settingsReducer
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
