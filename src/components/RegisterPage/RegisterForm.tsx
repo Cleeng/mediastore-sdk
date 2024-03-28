@@ -40,19 +40,17 @@ const errorsInitialState = {
 };
 
 export const Register = ({ onSuccess }: RegisterFormProps) => {
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [consents, setConsents] = useState<boolean[]>([]);
   const [errors, setErrors] = useState<Errors>(errorsInitialState);
-  const [generalError, setGeneralError] = useState<string>('');
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [generalError, setGeneralError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [consentDefinitions, setConsentDefinitions] = useState<ConsentType[]>(
     []
   );
-  const [processing, setProcessing] = useState<boolean>(false);
-  const [disableActionButton, setDisableActionButton] = useState<boolean>(
-    false
-  );
+  const [processing, setProcessing] = useState(false);
+  const [disableActionButton, setDisableActionButton] = useState(false);
 
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
