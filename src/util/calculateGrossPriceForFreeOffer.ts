@@ -12,7 +12,7 @@ const calculateGrossPriceForFreeOffer = (
     return grossPrice.toFixed(2);
   }
   // required to handle price edge cases
-  return (Math.trunc(grossPrice * 100) / 100).toFixed(2);
+  return (Math.trunc(Math.ceil(grossPrice * 100)) / 100).toFixed(2);
 };
 
 export default calculateGrossPriceForFreeOffer;

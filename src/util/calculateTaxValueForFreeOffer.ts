@@ -11,7 +11,7 @@ const calculateTaxValueForFreeOffer = (
     return taxValue.toFixed(2);
   }
   // required to handle tax edge cases
-  return (Math.trunc(taxValue * 100) / 100).toFixed(2);
+  return (Math.trunc(Math.ceil(taxValue * 100)) / 100).toFixed(2);
 };
 
 export default calculateTaxValueForFreeOffer;
