@@ -628,6 +628,7 @@
   "validators.email-invalid": "The email address is not properly formatted.",
   "validators.password": "Please fill out this field.",
   "validators.password-invalid": "Your password must contain at least 8 characters, including 1 digit.",
+  "validators.captcha-invalid": "Google reCAPTCHA verification required.",
   "Video rental {{days}} days": "Video rental {{days}} days",
   "Video rental {{hours}}h": "Video rental {{hours}}h",
   "week": "week",

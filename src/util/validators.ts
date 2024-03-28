@@ -1,17 +1,24 @@
 import i18n from 'i18next';
+import { Consent } from 'types/Consents.types';
 
-export function validateEmail(email) {
+export function validateEmail(email: string) {
   const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; //eslint-disable-line
   return re.test(String(email).toLowerCase());
 }
 
-export function validateConsents(value, consentDefinitions) {
+export function validateConsents(
+  value: boolean[],
+  consentDefinitions: Consent[]
+): boolean {
   return consentDefinitions.every(
     (consent, index) => !(consent.required && !value[index])
   );
 }
 
-export function validateConsentsField(value, consents) {
+export function validateConsentsField(
+  value: boolean[],
+  consents: Consent[]
+): string {
   if (!validateConsents(value, consents)) {
     return i18n.t(
       'validators.consents',
@@ -21,14 +28,14 @@ export function validateConsentsField(value, consents) {
   return '';
 }
 
-export function validatePasswordField(password) {
+export function validatePasswordField(password: string): string {
   if (password === '') {
     return i18n.t('validators.password', 'Please fill out this field.');
   }
   return '';
 }
 
-export function validateRegisterPassword(password) {
+export function validateRegisterPassword(password: string): string {
   const re = /[0-9]+/;
   const validPassword = re.test(password) && password.length >= 8;
 
@@ -46,7 +53,7 @@ export function validateRegisterPassword(password) {
   return '';
 }
 
-export function validateEmailField(value) {
+export function validateEmailField(value: string): string {
   if (value === '') {
     return i18n.t('validators.email', 'Please fill out this field.');
   }
@@ -61,7 +68,10 @@ export function validateEmailField(value) {
   return '';
 }
 
-export function validateCaptcha(value) {
-  const message = 'Google reCAPTCHA verification required.';
+export function validateCaptcha(value: string | null | undefined): string {
+  const message = i18n.t(
+    'validators.captcha-invalid',
+    'Google reCAPTCHA verification required.'
+  );
   return value ? '' : message;
 }

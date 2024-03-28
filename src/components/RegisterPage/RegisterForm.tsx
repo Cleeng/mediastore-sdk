@@ -73,7 +73,7 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
     setErrors(prevValue => {
       return {
         ...prevValue,
-        email: t(message)
+        email: message
       };
     });
   };
@@ -83,7 +83,7 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
     setErrors(prevValue => {
       return {
         ...prevValue,
-        password: t(message)
+        password: message
       };
     });
   };
@@ -91,11 +91,11 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
   const validateFields = () => {
     const recaptchaValue = recaptchaRef.current?.getValue();
     const errorFields: Errors = {
-      email: t(validateEmailField(email)),
-      password: t(validateRegisterPassword(password)),
-      consents: t(validateConsentsField(consents, consentDefinitions)),
+      email: validateEmailField(email),
+      password: validateRegisterPassword(password),
+      consents: validateConsentsField(consents, consentDefinitions),
       captcha: settings?.isCaptchaRequired
-        ? t(validateCaptcha(recaptchaValue))
+        ? validateCaptcha(recaptchaValue)
         : ''
     };
     setErrors(errorFields);
