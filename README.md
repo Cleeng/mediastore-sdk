@@ -245,6 +245,7 @@ import adyenConfiguration from './adyenConfiguration';
     resetPasswordCallback={() =>
       console.log('redirect customer to the login page')
     }
+    hideRedeemButton
   />
 </Provider>;
 ```
