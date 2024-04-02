@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReCAPTCHA from 'react-google-recaptcha';
 import {
@@ -59,7 +59,7 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
     selectPublisherConsents
   );
   const { settings, loading } = useAppSelector(selectSettings);
-  const recaptchaRef = React.createRef<ReCAPTCHA>();
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   useEffect(() => {
     if (publisherId) dispatch(fetchSettings(publisherId));
@@ -144,6 +144,10 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
     );
   };
 
+  const resetCaptcha = () => {
+    if (recaptchaRef.current) recaptchaRef.current.reset();
+  };
+
   const register = async () => {
     setProcessing(true);
     const recaptchaValue = recaptchaRef.current?.getValue();
@@ -175,6 +179,7 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
         onSuccess
       );
     } else if (response.status === 422) {
+      resetCaptcha();
       if (response.errors[0].includes('Enterprise account is required')) {
         renderError(
           t(
@@ -188,6 +193,7 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
         );
       }
     } else if (response.status === 429) {
+      resetCaptcha();
       setDisableActionButton(true);
       renderError(
         t(
