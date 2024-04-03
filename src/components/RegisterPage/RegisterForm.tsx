@@ -39,7 +39,7 @@ const errorsInitialState = {
   captcha: ''
 };
 
-export const Register = ({ onSuccess }: RegisterFormProps) => {
+export const Register = ({ onSuccess, hideCaptcha }: RegisterFormProps) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [consents, setConsents] = useState<boolean[]>([]);
@@ -94,9 +94,10 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
       email: validateEmailField(email),
       password: validateRegisterPassword(password),
       consents: validateConsentsField(consents, consentDefinitions),
-      captcha: settings?.isCaptchaRequired
-        ? validateCaptcha(recaptchaValue)
-        : ''
+      captcha:
+        settings?.isCaptchaRequired && !hideCaptcha
+          ? validateCaptcha(recaptchaValue)
+          : ''
     };
     setErrors(errorFields);
     return !(Object.keys(errorFields) as Array<keyof Errors>).find(
@@ -244,7 +245,7 @@ export const Register = ({ onSuccess }: RegisterFormProps) => {
         t={t}
       />
       <Consent error={errors.consents} onChangeFn={handleConsentsChange} />
-      {settings?.isCaptchaRequired && !loading && (
+      {settings?.isCaptchaRequired && !hideCaptcha && !loading && (
         <RecaptchaWrapper>
           <ReCAPTCHA
             ref={recaptchaRef}

@@ -90,7 +90,8 @@ class Checkout extends Component {
       onSuccess,
       offerId,
       resetPasswordCallback,
-      hideRedeemButton
+      hideRedeemButton,
+      hideCaptcha
     } = this.props;
 
     switch (currentStep) {
@@ -107,6 +108,7 @@ class Checkout extends Component {
           <Register
             onSuccess={() => this.goToStep(CheckoutSteps.REGISTER.nextStep)}
             onHaveAccountClick={() => this.goToStep(0)}
+            hideCaptcha={hideCaptcha}
           />
         );
       case 2:
@@ -174,6 +176,7 @@ Checkout.propTypes = {
   adyenConfiguration: PropTypes.objectOf(PropTypes.any),
   couponCode: PropTypes.string,
   hideRedeemButton: PropTypes.bool,
+  hideCaptcha: PropTypes.bool,
   initValues: PropTypes.func.isRequired,
   offerId: PropTypes.string,
   onSuccess: PropTypes.func,
@@ -184,6 +187,7 @@ Checkout.defaultProps = {
   adyenConfiguration: null,
   couponCode: null,
   hideRedeemButton: false,
+  hideCaptcha: false,
   offerId: null,
   onSuccess: () => null,
   resetPasswordCallback: () => null

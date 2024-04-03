@@ -9,14 +9,18 @@ import {
 import RegisterForm from './RegisterForm';
 import { RegisterProps } from './Register.types';
 
-const Register = ({ onSuccess, onHaveAccountClick }: RegisterProps) => {
+const Register = ({
+  onSuccess,
+  onHaveAccountClick,
+  hideCaptcha = false
+}: RegisterProps) => {
   const { t } = useTranslation();
 
   return (
     <RegisterWrapperStyled>
       <Header />
       <ContentWrapperStyled>
-        <RegisterForm onSuccess={onSuccess} />
+        <RegisterForm onSuccess={onSuccess} hideCaptcha={hideCaptcha} />
         <Button
           theme="secondary"
           size="big"
