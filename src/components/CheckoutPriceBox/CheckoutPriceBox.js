@@ -23,7 +23,7 @@ import {
   StyledRedeemButton
 } from './CheckoutPriceBoxStyled';
 
-const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
+const CheckoutPriceBox = ({ hideRedeemButton, isCheckout, onRedeemClick }) => {
   const { customerPriceInclTax } = useAppSelector(selectOnlyOffer);
   const {
     priceBreakdown: {
@@ -60,6 +60,8 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
 
     return t(`coupon-note-applied`, 'Promotional Pricing applied!');
   };
+
+  const shouldShowRedeemButton = !hideRedeemButton && isCheckout;
 
   return (
     <StyledPriceBoxWrapper>
@@ -151,7 +153,7 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
             </StyledTotalOfferPrice>
           </StyledTotalWrapper>
         </StyledPriceWrapper>
-        {isCheckout && (
+        {shouldShowRedeemButton && (
           <StyledRedeemButton>
             <span>
               {t('checkout-price-box.gift-code-label', 'Have a gift code?')}
@@ -167,13 +169,15 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
 };
 
 CheckoutPriceBox.propTypes = {
+  hideRedeemButton: PropTypes.bool,
   isCheckout: PropTypes.bool,
   onRedeemClick: PropTypes.func
 };
 
 CheckoutPriceBox.defaultProps = {
-  onRedeemClick: () => null,
-  isCheckout: false
+  hideRedeemButton: false,
+  isCheckout: false,
+  onRedeemClick: () => null
 };
 
 export { CheckoutPriceBox as PureCheckoutPriceBox };
