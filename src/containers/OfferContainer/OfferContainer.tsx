@@ -72,10 +72,11 @@ const OfferContainer = ({
       const {
         responseData: { paymentMethods }
       } = paymentMethodResponse;
+
       const properPaymentMethodId = paymentMethods.find(method =>
         getData('CLEENG_OFFER_TYPE') === 'S'
-          ? method.methodName === 'manual'
-          : method.methodName !== 'manual'
+          ? method.paymentGateway === 'free-offer'
+          : method.paymentGateway !== 'free-offer'
       );
       if (properPaymentMethodId) {
         updateOrder(orderId, {

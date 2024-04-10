@@ -37,9 +37,9 @@ export type PaymentMethodName =
   | 'sofort'
   | 'bancontact_card'
   | 'bancontact_mobile'
-  | 'manual';
+  | 'free-offer';
 
-export type PaymentGateway = 'adyen' | 'paypal' | 'manual';
+export type PaymentGateway = 'adyen' | 'paypal' | 'free-offer';
 
 export type PublisherConfigInitialState = {
   publisherId: string;
