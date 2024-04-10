@@ -206,6 +206,7 @@ If you prefer smaller components, you can use these to implement the exact featu
 - [Checkout Consents](#checkoutconsents)
 - [Purchase](#purchase)
 - [PasswordReset](#passwordreset)
+- [RedeemGift](#redeemgift)
 
 **Config methods**
 
