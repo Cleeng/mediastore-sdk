@@ -74,12 +74,12 @@ const OfferContainer = ({
         responseData: { paymentMethods }
       } = paymentMethodResponse;
 
-      const properPaymentMethodId = paymentMethods.find(
+      const freeOfferPaymentMethod = paymentMethods.find(
         method => method.paymentGateway === 'free-offer'
       );
-      if (properPaymentMethodId) {
+      if (freeOfferPaymentMethod) {
         updateOrder(orderId, {
-          paymentMethodId: properPaymentMethodId.id
+          paymentMethodId: freeOfferPaymentMethod.id
         });
       }
     });
