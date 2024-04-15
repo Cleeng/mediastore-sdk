@@ -24,7 +24,8 @@ import {
   fetchGetOrder,
   fetchUpdateCoupon,
   clearOrder,
-  selectOrder
+  selectOrder,
+  fetchUpdateOrder
 } from 'redux/orderSlice';
 import eventDispatcher, {
   MSSDK_COUPON_FAILED,
@@ -73,10 +74,8 @@ const OfferContainer = ({
         responseData: { paymentMethods }
       } = paymentMethodResponse;
 
-      const properPaymentMethodId = paymentMethods.find(method =>
-        getData('CLEENG_OFFER_TYPE') === 'S'
-          ? method.paymentGateway === 'free-offer'
-          : method.paymentGateway !== 'free-offer'
+      const properPaymentMethodId = paymentMethods.find(
+        method => method.paymentGateway === 'free-offer'
       );
       if (properPaymentMethodId) {
         updateOrder(orderId, {
@@ -152,7 +151,27 @@ const OfferContainer = ({
       })
     )
       .unwrap()
-      .then(() => {
+      .then(orderResponse => {
+        const { id, totalPrice, requiredPaymentDetails } = orderResponse;
+
+        if (totalPrice === 0 && !requiredPaymentDetails) {
+          getPaymentMethods().then(paymentMethodResponse => {
+            const {
+              responseData: { paymentMethods }
+            } = paymentMethodResponse;
+
+            const freeOfferPaymentMethod = paymentMethods.find(
+              method => method.paymentGateway === 'free-offer'
+            );
+
+            dispatch(
+              fetchUpdateOrder({
+                id,
+                payload: { paymentMethodId: freeOfferPaymentMethod?.id }
+              })
+            );
+          });
+        }
         eventDispatcher(MSSDK_COUPON_SUCCESSFUL, {
           detail: {
             coupon: couponCode,
