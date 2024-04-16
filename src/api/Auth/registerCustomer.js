@@ -8,7 +8,7 @@ const registerCustomer = async (
   locale,
   country,
   currency,
-  reCAPTCHA
+  captchaValue
 ) => {
   const url = `${getApiURL()}/customers`;
 
@@ -21,11 +21,9 @@ const registerCustomer = async (
         publisherId,
         locale,
         country,
-        currency
-      }),
-      headers: {
-        ...(reCAPTCHA && { 'X-Recaptcha-Data': reCAPTCHA })
-      }
+        currency,
+        captchaValue
+      })
     });
     const json = await resp.json();
     return {
