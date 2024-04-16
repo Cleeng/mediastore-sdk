@@ -162,7 +162,7 @@ const OfferContainer = ({
           method => method.paymentGateway === 'coupon'
         );
 
-        if (freeOfferPaymentMethod?.id) {
+        if (!freeOfferPaymentMethod?.id) {
           setErrorMsg('No payment method found');
           return;
         }
