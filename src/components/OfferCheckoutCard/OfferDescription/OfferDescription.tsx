@@ -307,7 +307,7 @@ const OfferDescription = ({
     <DetailsStyled>
       <LineWrapperStyled>
         <IconStyled>
-          <CalendarIcon />;
+          <CalendarIcon />
         </IconStyled>
         <DescriptionStyled>
           {`Pay-per-view event ${startTime ? dateFormat(startTime, true) : ''}`}
@@ -320,7 +320,7 @@ const OfferDescription = ({
     <DetailsStyled>
       <LineWrapperStyled>
         <IconStyled>
-          <CalendarIcon />;
+          <CalendarIcon />
         </IconStyled>
         <DescriptionStyled>
           {periodMapper[period as Period]
