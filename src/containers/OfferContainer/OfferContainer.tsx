@@ -164,10 +164,17 @@ const OfferContainer = ({
               method => method.paymentGateway === 'coupon'
             );
 
+            if (!freeOfferPaymentMethod?.id) {
+              setErrorMsg('No payment method found');
+              return;
+            }
+
             dispatch(
               fetchUpdateOrder({
                 id,
-                payload: { paymentMethodId: freeOfferPaymentMethod?.id }
+                payload: {
+                  paymentMethodId: freeOfferPaymentMethod?.id
+                }
               })
             );
           });
@@ -260,14 +267,17 @@ const OfferContainer = ({
       alreadyHaveAccess: ['Access already granted'],
       generalError: ['Request failed with status code 500'],
       inactive: ['inactive'],
-      isNotAuth: ['']
+      isNotAuth: [''],
+      paymentMethodNotFound: ['No payment method found']
     };
     const types = Object.keys(errorTypes) as Errors[];
     if (!err) return undefined;
+
     return types.find(type =>
       errorTypes[type].find(item => item.includes(err) || err.includes(item))
     );
   };
+
   if (errorMsg || offerError || orderError) {
     const type = errorMapping(errorMsg || offerError || orderError);
     if (type === 'alreadyHaveAccess') {
@@ -275,6 +285,7 @@ const OfferContainer = ({
     }
     return <ErrorPage type={type} />;
   }
+
   if (isOrderLoading) {
     return (
       <StyledLoaderContainer>
