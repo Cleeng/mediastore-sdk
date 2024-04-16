@@ -161,7 +161,7 @@ const OfferContainer = ({
             } = paymentMethodResponse;
 
             const freeOfferPaymentMethod = paymentMethods.find(
-              method => method.paymentGateway === 'free-offer'
+              method => method.paymentGateway === 'coupon'
             );
 
             dispatch(
