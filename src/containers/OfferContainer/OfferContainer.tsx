@@ -27,6 +27,7 @@ import {
   selectOrder,
   fetchUpdateOrder
 } from 'redux/orderSlice';
+import { Order } from 'redux/types';
 import eventDispatcher, {
   MSSDK_COUPON_FAILED,
   MSSDK_COUPON_SUCCESSFUL,
@@ -121,6 +122,8 @@ const OfferContainer = ({
     await dispatch(fetchGetOrder(id))
       .unwrap()
       .then(orderResponse => {
+        checkIfCouponPaymentGatewayExists(orderResponse);
+
         const { customerId } = jwtDecode<{ customerId: number }>(
           getData('CLEENG_AUTH_TOKEN')
         );
@@ -141,6 +144,41 @@ const OfferContainer = ({
       });
   };
 
+  const checkIfCouponPaymentGatewayExists = (orderObj: Order) => {
+    const {
+      id,
+      totalPrice,
+      requiredPaymentDetails,
+      discount: { applied }
+    } = orderObj;
+
+    if (applied && totalPrice === 0 && !requiredPaymentDetails) {
+      getPaymentMethods().then(paymentMethodResponse => {
+        const {
+          responseData: { paymentMethods }
+        } = paymentMethodResponse;
+
+        const freeOfferPaymentMethod = paymentMethods.find(
+          method => method.paymentGateway === 'coupon'
+        );
+
+        if (freeOfferPaymentMethod?.id) {
+          setErrorMsg('No payment method found');
+          return;
+        }
+
+        dispatch(
+          fetchUpdateOrder({
+            id,
+            payload: {
+              paymentMethodId: freeOfferPaymentMethod?.id
+            }
+          })
+        );
+      });
+    }
+  };
+
   const onCouponSubmit = (couponCode: string) => {
     if (couponCode === '') return;
 
@@ -152,33 +190,8 @@ const OfferContainer = ({
     )
       .unwrap()
       .then(orderResponse => {
-        const { id, totalPrice, requiredPaymentDetails } = orderResponse;
+        checkIfCouponPaymentGatewayExists(orderResponse);
 
-        if (totalPrice === 0 && !requiredPaymentDetails) {
-          getPaymentMethods().then(paymentMethodResponse => {
-            const {
-              responseData: { paymentMethods }
-            } = paymentMethodResponse;
-
-            const freeOfferPaymentMethod = paymentMethods.find(
-              method => method.paymentGateway === 'coupon'
-            );
-
-            if (!freeOfferPaymentMethod?.id) {
-              setErrorMsg('No payment method found');
-              return;
-            }
-
-            dispatch(
-              fetchUpdateOrder({
-                id,
-                payload: {
-                  paymentMethodId: freeOfferPaymentMethod?.id
-                }
-              })
-            );
-          });
-        }
         eventDispatcher(MSSDK_COUPON_SUCCESSFUL, {
           detail: {
             coupon: couponCode,
