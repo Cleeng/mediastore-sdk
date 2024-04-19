@@ -22,11 +22,11 @@ import {
   StyledRedeemButton
 } from './CheckoutPriceBoxStyled';
 
-interface CheckoutPriceBoxProps {
+type CheckoutPriceBoxProps = {
   hideRedeemButton: boolean;
   isCheckout: boolean;
   onRedeemClick: () => void;
-}
+};
 
 const CheckoutPriceBox = ({
   hideRedeemButton,
