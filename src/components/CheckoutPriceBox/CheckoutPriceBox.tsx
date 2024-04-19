@@ -1,4 +1,3 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import PropTypes from 'prop-types';
 import formatNumber from 'util/formatNumber';
@@ -23,7 +22,17 @@ import {
   StyledRedeemButton
 } from './CheckoutPriceBoxStyled';
 
-const CheckoutPriceBox = ({ hideRedeemButton, isCheckout, onRedeemClick }) => {
+type CheckoutPriceBoxProps = {
+  hideRedeemButton: boolean;
+  isCheckout: boolean;
+  onRedeemClick: () => void;
+};
+
+const CheckoutPriceBox = ({
+  hideRedeemButton,
+  isCheckout,
+  onRedeemClick
+}: CheckoutPriceBoxProps) => {
   const { customerPriceInclTax } = useAppSelector(selectOnlyOffer);
   const {
     priceBreakdown: {
@@ -67,8 +76,10 @@ const CheckoutPriceBox = ({ hideRedeemButton, isCheckout, onRedeemClick }) => {
     <StyledPriceBoxWrapper>
       <StyledPriceBox>
         <StyledPriceWrapper>
-          <StyledLabel>{t('checkout-price-box.price', 'Price')}</StyledLabel>
-          <StyledOfferPrice>
+          <StyledLabel id="offerPriceLabel">
+            {t('checkout-price-box.price', 'Price')}
+          </StyledLabel>
+          <StyledOfferPrice id="offerPriceValue">
             {`${currencySymbol}${formatNumber(offerPrice)} `}
             <span>
               {country === 'US'
@@ -81,7 +92,7 @@ const CheckoutPriceBox = ({ hideRedeemButton, isCheckout, onRedeemClick }) => {
           <StyledPriceWrapper>
             <CouponNoteOuterWrapper>
               <CouponNoteInnerWrapper>
-                <StyledLabel>
+                <StyledLabel id="discountAmountLabel">
                   {isTrial
                     ? t('checkout-price-box.trial-discount', 'Trial Discount')
                     : t(
@@ -89,7 +100,7 @@ const CheckoutPriceBox = ({ hideRedeemButton, isCheckout, onRedeemClick }) => {
                         'Coupon Discount'
                       )}
                 </StyledLabel>
-                <StyledOfferPrice>
+                <StyledOfferPrice id="discountAmount">
                   - {currencySymbol}
                   {formatNumber(discountAmount)}
                 </StyledOfferPrice>
@@ -103,12 +114,12 @@ const CheckoutPriceBox = ({ hideRedeemButton, isCheckout, onRedeemClick }) => {
           </StyledPriceWrapper>
         )}
         <StyledPriceWrapper>
-          <StyledLabel>
+          <StyledLabel id="taxValueLabel">
             {country === 'US'
               ? t('checkout-price-box.applicable-tax', 'Applicable Tax')
               : t('checkout-price-box.applicable-vat', 'Applicable VAT')}
           </StyledLabel>
-          <StyledOfferPrice>
+          <StyledOfferPrice id="taxValue">
             {!taxValue && isCouponApplied ? (
               <p style={{ textDecoration: 'line-through' }}>
                 {currencySymbol}{' '}
@@ -125,30 +136,30 @@ const CheckoutPriceBox = ({ hideRedeemButton, isCheckout, onRedeemClick }) => {
         </StyledPriceWrapper>
         {customerServiceFee !== 0 && (
           <StyledPriceWrapper>
-            <StyledLabel>
+            <StyledLabel id="customerServiceFeeLabel">
               {t('checkout-price-box.service-fee', 'Service Fee')}
             </StyledLabel>
-            <StyledOfferPrice>
+            <StyledOfferPrice id="customerServiceFee">
               {`${currencySymbol}${formatNumber(customerServiceFee)}`}
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
         {paymentMethodFee !== 0 && (
           <StyledPriceWrapper>
-            <StyledLabel>
+            <StyledLabel id="paymentMethodFeeLabel">
               {t('checkout-price-box.payment-method-fee', 'Payment Method Fee')}
             </StyledLabel>
-            <StyledOfferPrice>
+            <StyledOfferPrice id="paymentMethodFee">
               {`${currencySymbol}${formatNumber(paymentMethodFee)}`}
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
         <StyledPriceWrapper>
           <StyledTotalWrapper>
-            <StyledTotalLabel>
+            <StyledTotalLabel id="finalPriceLabel">
               {t('checkout-price-box.total', 'Today`s total')}
             </StyledTotalLabel>
-            <StyledTotalOfferPrice>
+            <StyledTotalOfferPrice id="finalPrice">
               {`${currencySymbol}${formatNumber(finalPrice)}`}
             </StyledTotalOfferPrice>
           </StyledTotalWrapper>
