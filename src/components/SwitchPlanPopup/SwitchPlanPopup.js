@@ -102,7 +102,10 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
     return (
       <InnerPopupWrapper
         steps={2}
-        popupTitle={t('switchplan-popup.change-plan', 'Change Plan')}
+        popupTitle={t(
+          `switchplan-popup.change-plan.${toOffer.switchDirection}`,
+          `${toOffer.switchDirection} Plan`
+        )}
         currentStep={1}
       >
         <SkeletonWrapper
@@ -118,7 +121,10 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
   return (
     <InnerPopupWrapper
       steps={isPartOfCancellationFlow ? 3 : 2}
-      popupTitle={t('switchplan-popup.change-plan', 'Change Plan')}
+      popupTitle={t(
+        `switchplan-popup.change-plan.${toOffer.switchDirection}`,
+        `${toOffer.switchDirection} Plan`
+      )}
       currentStep={
         isPartOfCancellationFlow ? STEPS_NUMBERS[step] + 1 : STEPS_NUMBERS[step]
       }
@@ -138,7 +144,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
             <TitleStyled $step={step} $textTransform="capitalize">
               {t(
                 `switchplan-popup.${toOffer.switchDirection}-title`,
-                toOffer.switchDirection
+                `${toOffer.switchDirection} your plan`
               )}
             </TitleStyled>
             <TextStyled step={step}>
@@ -438,7 +444,10 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t('switchplan-popup.confirm-button', 'Change Plan')
+                t(
+                  `switchplan-popup.confirm-button.${toOffer.switchDirection}`,
+                  `${toOffer.switchDirection} Plan`
+                )
               )}
             </Button>
           </ButtonWrapperStyled>
@@ -455,8 +464,10 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
             </TitleStyled>
             <TextStyled $step={step}>
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
-                <Trans i18nKey="switchplan-popup-confirm-immediatewithoutproration">
-                  You have successfully changed your plan to{' '}
+                <Trans
+                  i18nKey={`switchplan-popup-confirm-immediatewithoutproration.${toOffer.switchDirection}`}
+                >
+                  You have successfully {toOffer.switchDirection}d your plan to{' '}
                   <strong>
                     {{
                       newPlan: t(
@@ -519,8 +530,11 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 </Trans>
               )}
               {toOffer.algorithm === 'DEFERRED' && (
-                <Trans i18nKey="switchplan-popup-confirm-deferred">
-                  You have successfully requested the switch to{' '}
+                <Trans
+                  i18nKey={`switchplan-popup-confirm-deferred-${toOffer.switchDirection}`}
+                >
+                  You have successfully requested the {toOffer.switchDirection}{' '}
+                  to{' '}
                   <strong>
                     {{
                       newPlan: t(

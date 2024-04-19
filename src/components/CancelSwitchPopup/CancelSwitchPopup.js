@@ -109,7 +109,10 @@ const CancelSwitchPopup = () => {
   return (
     <InnerPopupWrapper
       steps={2}
-      popupTitle={t('cancelswitch-popup.title', 'Cancel switch')}
+      popupTitle={t(
+        `cancelswitch-popup.title.${switchDirection}`,
+        `Cancel ${switchDirection}`
+      )}
       currentStep={step}
       isError={isError}
     >
@@ -117,7 +120,10 @@ const CancelSwitchPopup = () => {
         <>
           <ContentStyled>
             <TitleStyled>
-              {t('cancelswitch-popup.title', 'Cancel switch')}
+              {t(
+                `cancelswitch-popup.title.${switchDirection}`,
+                `Cancel ${switchDirection}`
+              )}
             </TitleStyled>
             <TextStyled>
               {t(
@@ -139,8 +145,8 @@ const CancelSwitchPopup = () => {
               <br />
               <br />
               {t(
-                'cancelswitch-popup.question',
-                'Are you sure you want to cancel the switch?'
+                `cancelswitch-popup.question.${switchDirection}`,
+                `Are you sure you want to cancel the ${switchDirection}?`
               )}
             </TextStyled>
           </ContentStyled>
@@ -162,7 +168,10 @@ const CancelSwitchPopup = () => {
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t('cancelswitch-popup.confirm-button-text', 'Cancel switch')
+                t(
+                  `cancelswitch-popup.confirm-button-text.${switchDirection}`,
+                  `Cancel ${switchDirection}`
+                )
               )}
             </Button>
           </ButtonWrapperStyled>

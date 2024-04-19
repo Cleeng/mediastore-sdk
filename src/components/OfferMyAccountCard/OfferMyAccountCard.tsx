@@ -135,24 +135,27 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
         }
       );
     }
-    switch (pendingSwitchDetails.algorithm) {
+
+    const { algorithm, direction } = pendingSwitchDetails;
+
+    switch (algorithm) {
       case 'IMMEDIATE_WITHOUT_PRORATION':
         return t(
-          'offer-card.switch-details.immediate-without-proration',
-          `Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{translatedSwitchTitle}} renews automatically. You can cancel anytime.`,
+          `offer-card.switch-details-${direction}.immediate-without-proration`,
+          `Your ${direction} is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{translatedSwitchTitle}} renews automatically. You can cancel anytime.`,
           { subscriptionExpirationDate, translatedSwitchTitle }
         );
       case 'IMMEDIATE_AND_CHARGE_WITH_REFUND':
       case 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION':
         return t(
-          'offer-card.switch-details.immediate-and-charge-with-refund-or-without-proration',
-          `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{translatedSwitchTitle}}. You can cancel anytime.`,
+          `offer-card.switch-details-${direction}.immediate-and-charge-with-refund-or-without-proration`,
+          `Your ${direction} is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{translatedSwitchTitle}}. You can cancel anytime.`,
           { translatedSwitchTitle }
         );
       case 'DEFERRED':
         return t(
-          'offer-card.switch-details.deferred',
-          `Your switch is pending. You will have access to {{translatedTitle}} until {{subscriptionExpirationDate}}. From that time you will be charged your new price and will have access to {{translatedSwitchTitle}}. You can cancel this at any time.`,
+          `offer-card.switch-details-${direction}.deferred`,
+          `Your ${direction} is pending. You will have access to {{translatedTitle}} until {{subscriptionExpirationDate}}. From that time you will be charged your new price and will have access to {{translatedSwitchTitle}}. You can cancel this at any time.`,
           {
             translatedTitle,
             subscriptionExpirationDate,
@@ -282,7 +285,10 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
               >
                 {isPauseInProgress
                   ? t('offer-card.cancel-pause-button', 'Cancel pause')
-                  : t('offer-card.cancel-switch', 'Cancel switch')}
+                  : t(
+                      `offer-card.cancel-${pendingSwitchDetails.direction}`,
+                      `Cancel ${pendingSwitchDetails.direction}`
+                    )}
               </SubBoxButtonStyled>
             )}
           </SubBoxContentStyled>

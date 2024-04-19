@@ -68,7 +68,7 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
       case 'TO_FREE_OFFER_NOT_ALLOWED':
         return t(
           'offer-card.error.to-free-offer',
-          'Switching from a paid to a free offer is not possible'
+          'Downgrading from a paid to a free offer is not possible'
         );
       case 'SUBSCRIPTION_WITH_COUPON_NOT_ALLOWED':
         return t(
