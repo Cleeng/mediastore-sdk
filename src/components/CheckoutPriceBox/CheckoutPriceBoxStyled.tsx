@@ -1,18 +1,18 @@
 import styled from 'styled-components';
 import * as variables from 'styles/variables';
 import { media } from 'styles/BreakPoints';
+import { PropsWithChildren } from 'react';
 
 export const StyledLabel = styled.span.attrs(() => ({
   className: 'msd__price-summary__label'
-}))`
+}))<PropsWithChildren>`
   font-size: 16px;
   color: ${variables.FontColor};
 `;
 
 export const StyledOfferPrice = styled.span.attrs(() => ({
   className: 'msd__price-summary__ammount'
-}))`
-  float: right;
+}))<PropsWithChildren>`
   font-size: 16px;
   font-weight: bold;
   color: ${variables.FontColor};
@@ -31,14 +31,18 @@ export const StyledTotalWrapper = styled.strong`
   border-top: 1px solid ${variables.LineColor};
 `;
 
-export const StyledTotalLabel = styled(StyledLabel).attrs(() => ({
-  className: 'msd__price-summary__total--label'
-}))`
+export const StyledTotalLabel: typeof StyledLabel = styled(StyledLabel).attrs(
+  () => ({
+    className: 'msd__price-summary__total--label'
+  })
+)<PropsWithChildren>`
   font-weight: ${variables.BoldFont};
   text-transform: uppercase;
 `;
 
-export const StyledTotalOfferPrice = styled(StyledOfferPrice).attrs(() => ({
+export const StyledTotalOfferPrice: typeof StyledOfferPrice = styled(
+  StyledOfferPrice
+).attrs(() => ({
   className: 'msd__price-summary__total--ammount'
 }))`
   font-size: 25px;
