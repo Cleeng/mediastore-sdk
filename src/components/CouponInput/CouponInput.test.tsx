@@ -107,4 +107,27 @@ describe('CouponInput component', () => {
       `max-width: 300px;`
     );
   });
+
+  test('calls the onSubmit function after redeeming a coupon', async () => {
+    const onSubmit = jest.fn();
+    render(
+      <Provider store={mockStore(orderInitialState)}>
+        <CouponInput
+          {...couponInputProps('', false, '', messageSuccess, false)}
+          onSubmit={onSubmit}
+        />
+      </Provider>
+    );
+
+    await userEvent.click(
+      screen.getByRole('button', { name: /Redeem coupon/i })
+    );
+    await userEvent.type(
+      screen.getByPlaceholderText('Your coupon'),
+      'couponCode'
+    );
+    await userEvent.click(screen.getByRole('button', { name: /Redeem/i }));
+
+    expect(onSubmit).toHaveBeenCalled();
+  });
 });

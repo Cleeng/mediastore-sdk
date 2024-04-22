@@ -94,6 +94,7 @@ const CouponInput = ({
               type="button"
               aria-label="close"
               onClick={handleClose}
+              data-testid="closeRedeemCouponButton"
             >
               <CloseIcon />
             </CloseButtonStyled>
@@ -129,7 +130,6 @@ const CouponInput = ({
             t('coupon-input.redeem-coupon', 'Redeem coupon')}
         </Button>
       </InputElementWrapperStyled>
-      {/* here */}
       {showCouponMessage && isOpen && (
         <MessageStyled $showMessage $messageType={messageType}>
           {t(translationKey || '', message)}
