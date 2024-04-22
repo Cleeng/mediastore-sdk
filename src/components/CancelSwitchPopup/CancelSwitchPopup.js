@@ -119,7 +119,7 @@ const CancelSwitchPopup = () => {
       {step === 1 && (
         <>
           <ContentStyled>
-            <TitleStyled>
+            <TitleStyled $textTransform="capitalize">
               {t(
                 `cancelswitch-popup.title.${switchDirection}`,
                 `Cancel ${switchDirection}`
@@ -127,8 +127,8 @@ const CancelSwitchPopup = () => {
             </TitleStyled>
             <TextStyled>
               {t(
-                'cancelswitch-popup.switch-pending',
-                `Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to cancel the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.`,
+                `cancelswitch-popup.pending.${switchDirection}`,
+                `Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to cancel the {{switchDirection}}, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.`,
                 {
                   switchDirection: t(switchDirection, switchDirection),
                   switchOfferTitle,
@@ -181,10 +181,10 @@ const CancelSwitchPopup = () => {
         <>
           <ContentStyled>
             <img src={checkmarkIconBase} alt="checkmark icon" />
-            <TitleStyled>
+            <TitleStyled $textTransform="capitalize">
               {t(
-                'cancelswitch-popup.switch-cancelled-title',
-                'Switch canceled'
+                `cancelswitch-popup.cancelled-title.${switchDirection}`,
+                `${switchDirection} canceled`
               )}
             </TitleStyled>
             <TextStyled>
