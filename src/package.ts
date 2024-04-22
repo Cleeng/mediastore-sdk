@@ -30,7 +30,9 @@ window.onload = () => {
   const externalPaymentId = urlParams.get('externalPaymentId');
   if (externalPaymentId) {
     eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
-      externalPaymentId
+      payment: {
+        externalPaymentId
+      }
     });
   }
 };
