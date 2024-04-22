@@ -24,7 +24,8 @@ import {
   fetchGetOrder,
   fetchUpdateCoupon,
   clearOrder,
-  selectOrder
+  selectOrder,
+  setOrderCouponMessage
 } from 'redux/orderSlice';
 import eventDispatcher, {
   MSSDK_COUPON_FAILED,
@@ -142,7 +143,18 @@ const OfferContainer = ({
   };
 
   const onCouponSubmit = (couponCode: string) => {
-    if (couponCode === '') return;
+    if (!couponCode) {
+      dispatch(
+        setOrderCouponMessage({
+          messageType: 'fail',
+          translationKey: 'coupon-input.error',
+          showMessage: true,
+          message: 'Please provide a valid coupon code.'
+        })
+      );
+
+      return;
+    }
 
     dispatch(
       fetchUpdateCoupon({

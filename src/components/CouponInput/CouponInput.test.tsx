@@ -7,6 +7,11 @@ import {
   MESSAGE_TYPE_FAIL
 } from 'components/Input/InputConstants';
 import userEvent from '@testing-library/user-event';
+import { orderInitialState } from 'redux/orderSlice';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+
 import { CouponInputProps, MessageType } from './CouponInput.types';
 
 const messageSuccess = MESSAGE_TYPE_SUCCESS as MessageType;
@@ -36,15 +41,26 @@ const couponInputProps = (
   };
 };
 
+const middleware = [thunk];
+const mockStore = configureStore(middleware);
+
 describe('CouponInput component', () => {
   test('render input with correct value', async () => {
-    render(<CouponInput {...couponInputProps('coupon')} />);
+    render(
+      <Provider store={mockStore(orderInitialState)}>
+        <CouponInput {...couponInputProps('coupon')} />
+      </Provider>
+    );
     await userEvent.click(screen.getByTestId('redeem-btn'));
     expect(screen.getByRole('input')).toHaveValue('coupon');
   });
 
   test('show success message', async () => {
-    render(<CouponInput {...couponInputProps('', true, 'Success')} />);
+    render(
+      <Provider store={mockStore(orderInitialState)}>
+        <CouponInput {...couponInputProps('', true, 'Success')} />
+      </Provider>
+    );
     await userEvent.click(screen.getByTestId('redeem-btn'));
     expect(screen.getByText('Success')).toHaveStyle(
       `color: ${Colors.ConfirmColor}`
@@ -53,7 +69,9 @@ describe('CouponInput component', () => {
 
   test('show error message', async () => {
     render(
-      <CouponInput {...couponInputProps('', true, 'Error', messageFail)} />
+      <Provider store={mockStore(orderInitialState)}>
+        <CouponInput {...couponInputProps('', true, 'Error', messageFail)} />
+      </Provider>
     );
     await userEvent.click(screen.getByTestId('redeem-btn'));
     expect(screen.getByText('Error')).toHaveStyle(
@@ -63,7 +81,11 @@ describe('CouponInput component', () => {
 
   test('check input with fullWidth props', async () => {
     render(
-      <CouponInput {...couponInputProps('', false, '', messageSuccess, true)} />
+      <Provider store={mockStore(orderInitialState)}>
+        <CouponInput
+          {...couponInputProps('', false, '', messageSuccess, true)}
+        />
+      </Provider>
     );
     expect(screen.getByTestId('inputcomponent')).toHaveStyle(
       `max-width: 300px;`
@@ -74,9 +96,11 @@ describe('CouponInput component', () => {
 
   test('check input without fullWidth props', async () => {
     render(
-      <CouponInput
-        {...couponInputProps('', false, '', messageSuccess, false)}
-      />
+      <Provider store={mockStore(orderInitialState)}>
+        <CouponInput
+          {...couponInputProps('', false, '', messageSuccess, false)}
+        />
+      </Provider>
     );
     await userEvent.click(screen.getByTestId('redeem-btn'));
     expect(screen.getByTestId('inputcomponent')).toHaveStyle(
