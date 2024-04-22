@@ -4,7 +4,8 @@ export type Errors =
   | 'alreadyHaveAccess'
   | 'cannotPurchase'
   | 'inactive'
-  | 'isNotAuth';
+  | 'isNotAuth'
+  | 'paymentMethodNotFound';
 
 export type ErrorPageProps = {
   type?: Errors;
