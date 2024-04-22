@@ -1,15 +1,15 @@
-import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { Provider } from "react-redux";
-import configureStore from "redux-mock-store";
-import thunk from "redux-thunk";
-import Consent from "components/Consents";
-import "i18NextInit";
-import { Consent as ConsentType } from "types/Consents.types";
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import Consent from 'components/Consents';
+import 'i18NextInit';
+import { Consent as ConsentType } from 'types/Consents.types';
 
 const store = (
   loading = false,
-  error = "",
+  error = '',
   publisherConsents: ConsentType[] = [],
   checked: boolean[] = []
 ) => ({
@@ -19,7 +19,7 @@ const store = (
     loading,
     error
   },
-  publisherConfig: { publisherId: "" }
+  publisherConfig: { publisherId: '' }
 });
 
 const consentsProps = {
@@ -29,67 +29,67 @@ const consentsProps = {
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
 
-describe("Consents component", () => {
-  test("should render GeneralErrorStyled when publisherId is not given (if loading = false)", async () => {
+describe('Consents component', () => {
+  test('should render GeneralErrorStyled when publisherId is not given (if loading = false)', async () => {
     const { getByTestId } = render(
-      <Provider store={mockStore(store(false, "noPublisherId"))}>
+      <Provider store={mockStore(store(false, 'noPublisherId'))}>
         <Consent {...consentsProps} />
       </Provider>
     );
 
-    expect(getByTestId("consents__general-error")).toBeInTheDocument();
+    expect(getByTestId('consents__general-error')).toBeInTheDocument();
   });
-  test("should render GeneralErrorStyled when publisherId is not given (if loading = true)", async () => {
+  test('should render GeneralErrorStyled when publisherId is not given (if loading = true)', async () => {
     const { getByTestId } = render(
-      <Provider store={mockStore(store(true, "noPublisherId"))}>
+      <Provider store={mockStore(store(true, 'noPublisherId'))}>
         <Consent {...consentsProps} />
       </Provider>
     );
 
-    expect(getByTestId("consents__general-error")).toBeInTheDocument();
+    expect(getByTestId('consents__general-error')).toBeInTheDocument();
   });
-  test("should render Loader component", async () => {
+  test('should render Loader component', async () => {
     const { getByTestId } = render(
       <Provider store={mockStore(store(true))}>
         <Consent {...consentsProps} />
       </Provider>
     );
 
-    expect(getByTestId("consents__loader")).toBeInTheDocument();
+    expect(getByTestId('consents__loader')).toBeInTheDocument();
   });
-  test("should render consents", async () => {
+  test('should render consents', async () => {
     const publisherConsents: ConsentType[] = [
       {
-        name: "broadcaster_terms",
-        label: "Label 1",
-        version: "1",
+        name: 'broadcaster_terms',
+        label: 'Label 1',
+        version: '1',
         required: true,
         broadcasterId: 123,
         enabledByDefault: false,
-        value: ""
+        value: ''
       },
       {
-        name: "broadcaster_marketing",
-        label: "Label 2",
-        version: "1",
+        name: 'broadcaster_marketing',
+        label: 'Label 2',
+        version: '1',
         required: false,
         broadcasterId: 123,
         enabledByDefault: false,
-        value: ""
+        value: ''
       }
     ];
     const checked = [false, true];
 
     render(
-      <Provider store={mockStore(store(false, "", publisherConsents, checked))}>
+      <Provider store={mockStore(store(false, '', publisherConsents, checked))}>
         <Consent {...consentsProps} />
       </Provider>
     );
 
-    expect(screen.getByRole("checkbox", { checked: false })).toHaveTextContent(
+    expect(screen.getByRole('checkbox', { checked: false })).toHaveTextContent(
       publisherConsents[0].label
     );
-    expect(screen.getByRole("checkbox", { checked: true })).toHaveTextContent(
+    expect(screen.getByRole('checkbox', { checked: true })).toHaveTextContent(
       publisherConsents[1].label
     );
   });

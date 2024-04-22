@@ -1,21 +1,21 @@
-import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import * as Colors from "styles/variables";
-import CouponInput from "components/CouponInput";
+import { render, screen } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import * as Colors from 'styles/variables';
+import CouponInput from 'components/CouponInput';
 import {
   MESSAGE_TYPE_SUCCESS,
   MESSAGE_TYPE_FAIL
-} from "components/Input/InputConstants";
-import userEvent from "@testing-library/user-event";
-import { CouponInputProps, MessageType } from "./CouponInput.types";
+} from 'components/Input/InputConstants';
+import userEvent from '@testing-library/user-event';
+import { CouponInputProps, MessageType } from './CouponInput.types';
 
 const messageSuccess = MESSAGE_TYPE_SUCCESS as MessageType;
 const messageFail = MESSAGE_TYPE_FAIL as MessageType;
 
 const couponInputProps = (
-  value = "",
+  value = '',
   showMessage = true,
-  message = "",
+  message = '',
   messageType = messageSuccess,
   fullWidth = false
 ): CouponInputProps => {
@@ -26,60 +26,60 @@ const couponInputProps = (
       showMessage,
       message,
       messageType,
-      couponCode: "",
-      translationKey: ""
+      couponCode: '',
+      translationKey: ''
     },
     onSubmit: (k: string) => k,
     onChange: (k: string) => k,
     couponLoading: false,
-    source: "" as const
+    source: '' as const
   };
 };
 
-describe("CouponInput component", () => {
-  test("render input with correct value", async () => {
-    render(<CouponInput {...couponInputProps("coupon")} />);
-    await userEvent.click(screen.getByTestId("redeem-btn"));
-    expect(screen.getByRole("input")).toHaveValue("coupon");
+describe('CouponInput component', () => {
+  test('render input with correct value', async () => {
+    render(<CouponInput {...couponInputProps('coupon')} />);
+    await userEvent.click(screen.getByTestId('redeem-btn'));
+    expect(screen.getByRole('input')).toHaveValue('coupon');
   });
 
-  test("show success message", async () => {
-    render(<CouponInput {...couponInputProps("", true, "Success")} />);
-    await userEvent.click(screen.getByTestId("redeem-btn"));
-    expect(screen.getByText("Success")).toHaveStyle(
+  test('show success message', async () => {
+    render(<CouponInput {...couponInputProps('', true, 'Success')} />);
+    await userEvent.click(screen.getByTestId('redeem-btn'));
+    expect(screen.getByText('Success')).toHaveStyle(
       `color: ${Colors.ConfirmColor}`
     );
   });
 
-  test("show error message", async () => {
+  test('show error message', async () => {
     render(
-      <CouponInput {...couponInputProps("", true, "Error", messageFail)} />
+      <CouponInput {...couponInputProps('', true, 'Error', messageFail)} />
     );
-    await userEvent.click(screen.getByTestId("redeem-btn"));
-    expect(screen.getByText("Error")).toHaveStyle(
+    await userEvent.click(screen.getByTestId('redeem-btn'));
+    expect(screen.getByText('Error')).toHaveStyle(
       `color: ${Colors.ErrorColor}`
     );
   });
 
-  test("check input with fullWidth props", async () => {
+  test('check input with fullWidth props', async () => {
     render(
-      <CouponInput {...couponInputProps("", false, "", messageSuccess, true)} />
+      <CouponInput {...couponInputProps('', false, '', messageSuccess, true)} />
     );
-    expect(screen.getByTestId("inputcomponent")).toHaveStyle(
+    expect(screen.getByTestId('inputcomponent')).toHaveStyle(
       `max-width: 300px;`
     );
-    await userEvent.click(screen.getByTestId("redeem-btn"));
-    expect(screen.getByTestId("inputcomponent")).toHaveStyle(`max-width: 100%`);
+    await userEvent.click(screen.getByTestId('redeem-btn'));
+    expect(screen.getByTestId('inputcomponent')).toHaveStyle(`max-width: 100%`);
   });
 
-  test("check input without fullWidth props", async () => {
+  test('check input without fullWidth props', async () => {
     render(
       <CouponInput
-        {...couponInputProps("", false, "", messageSuccess, false)}
+        {...couponInputProps('', false, '', messageSuccess, false)}
       />
     );
-    await userEvent.click(screen.getByTestId("redeem-btn"));
-    expect(screen.getByTestId("inputcomponent")).toHaveStyle(
+    await userEvent.click(screen.getByTestId('redeem-btn'));
+    expect(screen.getByTestId('inputcomponent')).toHaveStyle(
       `max-width: 300px;`
     );
   });

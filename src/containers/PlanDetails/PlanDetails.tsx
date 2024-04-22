@@ -1,14 +1,14 @@
-import { useEffect, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { useAppDispatch, useAppSelector } from "redux/store";
+import { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 
-import SectionHeader from "components/SectionHeader";
-import CurrentPlan from "components/CurrentPlan";
-import SubscriptionSwitchesList from "components/SubscriptionSwitchesList";
-import GracePeriodError from "components/GracePeriodError";
-import PlanDetailsPopupManager from "components/PlanDetailsPopupManager";
-import { init } from "redux/publisherConfigSlice";
-import { selectPopupDetails, hidePopup } from "redux/popupSlice";
+import SectionHeader from 'components/SectionHeader';
+import CurrentPlan from 'components/CurrentPlan';
+import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
+import GracePeriodError from 'components/GracePeriodError';
+import PlanDetailsPopupManager from 'components/PlanDetailsPopupManager';
+import { init } from 'redux/publisherConfigSlice';
+import { selectPopupDetails, hidePopup } from 'redux/popupSlice';
 import {
   selectPlanDetails,
   selectCurrentPlan,
@@ -18,12 +18,12 @@ import {
   setOfferToSwitch,
   resetOfferToSwitch,
   updateList
-} from "redux/planDetailsSlice";
+} from 'redux/planDetailsSlice';
 
-import { fetchOffers } from "redux/offersSlice";
-import { CustomerOffer } from "api/Customer/types/getCustomerOffers.types";
-import { WrapStyled } from "./PlanDetailsStyled";
-import { PlanDetailsProps } from "./PlanDetails.types";
+import { fetchOffers } from 'redux/offersSlice';
+import { CustomerOffer } from 'api/Customer/types/getCustomerOffers.types';
+import { WrapStyled } from './PlanDetailsStyled';
+import { PlanDetailsProps } from './PlanDetails.types';
 
 const PlanDetails = ({
   customCancellationReasons,
@@ -57,7 +57,7 @@ const PlanDetails = ({
 
     const activeSubscriptions = customerOffers.filter(
       (offer: CustomerOffer) =>
-        offer.status === "active" && offer.offerType === "S"
+        offer.status === 'active' && offer.offerType === 'S'
     );
 
     const offersWithPendingSwitches = activeSubscriptions.filter(
@@ -103,7 +103,7 @@ const PlanDetails = ({
   }, [updateListValue]);
 
   const activeSubscriptions = currentPlan.filter(
-    offer => offer.status === "active" && offer.offerType === "S"
+    offer => offer.status === 'active' && offer.offerType === 'S'
   );
 
   const isPauseActive = (pauseOffersIDs as string[]).includes(offerToSwitchId);
@@ -121,13 +121,13 @@ const PlanDetails = ({
     <WrapStyled>
       <GracePeriodError />
       <SectionHeader>
-        <>{t("plandetails.current-plan", "Current Plan")}</>
+        <>{t('plandetails.current-plan', 'Current Plan')}</>
       </SectionHeader>
       <CurrentPlan />
       {activeSubscriptions.length !== 0 && !isPauseActive && (
         <>
           <SectionHeader>
-            <>{t("plandetails.change-plan", "Change Plan")}</>
+            <>{t('plandetails.change-plan', 'Change Plan')}</>
           </SectionHeader>
           <SubscriptionSwitchesList />
         </>

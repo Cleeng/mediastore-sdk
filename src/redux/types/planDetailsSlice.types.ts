@@ -1,4 +1,4 @@
-import { CustomerOffer } from "api/Customer/types";
+import { CustomerOffer } from 'api/Customer/types';
 
 export type SwitchSetting = {
   toOfferId: string;
