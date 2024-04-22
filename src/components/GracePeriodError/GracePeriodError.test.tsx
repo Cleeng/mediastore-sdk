@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import { CustomerOffer as CurrentPlan } from 'api/Customer/types';
-import { currentPlanMock } from 'util/planDetailsMock';
+import currentPlanMock from 'util/planDetailsMock';
 import GracePeriodError from './GracePeriodError';
 
 const store = (currentPlan: CurrentPlan[], displayGracePeriodError = true) => ({

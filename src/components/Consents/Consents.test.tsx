@@ -5,12 +5,13 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import Consent from 'components/Consents';
 import 'i18NextInit';
+import { Consent as ConsentType } from 'types/Consents.types';
 
 const store = (
   loading = false,
   error = '',
-  publisherConsents = [],
-  checked = []
+  publisherConsents: ConsentType[] = [],
+  checked: boolean[] = []
 ) => ({
   publisherConsents: {
     publisherConsents,
@@ -57,18 +58,24 @@ describe('Consents component', () => {
     expect(getByTestId('consents__loader')).toBeInTheDocument();
   });
   test('should render consents', async () => {
-    const publisherConsents = [
+    const publisherConsents: ConsentType[] = [
       {
         name: 'broadcaster_terms',
         label: 'Label 1',
         version: '1',
-        required: true
+        required: true,
+        broadcasterId: 123,
+        enabledByDefault: false,
+        value: ''
       },
       {
         name: 'broadcaster_marketing',
         label: 'Label 2',
         version: '1',
-        required: false
+        required: false,
+        broadcasterId: 123,
+        enabledByDefault: false,
+        value: ''
       }
     ];
     const checked = [false, true];

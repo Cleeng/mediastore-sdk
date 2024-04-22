@@ -12,6 +12,10 @@ export type SwitchSetting = {
   nextPaymentPrice: number;
   nextPaymentPriceCurrency: string;
   nextPaymentPriceCurrencySymbol: string;
+  reason?: {
+    code: string;
+    message: string;
+  };
 };
 
 export type SwitchSettings = {

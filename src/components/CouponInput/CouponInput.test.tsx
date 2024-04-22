@@ -7,7 +7,7 @@ import {
   MESSAGE_TYPE_FAIL
 } from 'components/Input/InputConstants';
 import userEvent from '@testing-library/user-event';
-import { MessageType } from './CouponInput.types';
+import { CouponInputProps, MessageType } from './CouponInput.types';
 
 const messageSuccess = MESSAGE_TYPE_SUCCESS as MessageType;
 const messageFail = MESSAGE_TYPE_FAIL as MessageType;
@@ -18,14 +18,16 @@ const couponInputProps = (
   message = '',
   messageType = messageSuccess,
   fullWidth = false
-) => {
+): CouponInputProps => {
   return {
     value,
     fullWidth,
     couponDetails: {
       showMessage,
       message,
-      messageType
+      messageType,
+      couponCode: '',
+      translationKey: ''
     },
     onSubmit: (k: string) => k,
     onChange: (k: string) => k,
