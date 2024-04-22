@@ -49,6 +49,11 @@ const errorTypes: Record<
     icon: Close,
     description: 'User not authorized',
     translationKey: 'redeem-gift-error.not-authorized'
+  },
+  paymentMethodNotFound: {
+    icon: DeleteCreditCard,
+    description: 'No payment method found',
+    translationKey: 'offer-error.no-payment-method-found'
   }
 };
 
