@@ -230,6 +230,7 @@
   "offer-error.geo-restrictions": "We are sorry! The content you are trying to access is not available in your country.",
   "offer-error.inactive": "inactive",
   "offer-error.invalid-offerid": "Invalid param offerId",
+  "offer-error.no-payment-method-found": "No payment method found",
   "offer-error.not-available": "We are sorry! This offer is no longer available",
   "offer-error.not-exist": "Offer does not exist or is not provided.",
   "offer-error.not-set": "Offer not set",
