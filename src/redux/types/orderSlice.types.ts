@@ -39,17 +39,24 @@ export type Order = {
   buyAsAGift: boolean;
 };
 
+type MessageType = typeof MESSAGE_TYPE_FAIL | typeof MESSAGE_TYPE_SUCCESS;
+
+export type OrderCouponDetailsMessage = {
+  showMessage: boolean;
+  message: string;
+  messageType: MessageType;
+  translationKey: string;
+};
+
+type OrderCouponDetails = OrderCouponDetailsMessage & {
+  couponCode: string;
+};
+
 export type OrderInitialState = {
   order: Order;
   loading: boolean;
   error: string;
-  couponDetails: {
-    couponCode: string;
-    showMessage: boolean;
-    message: string;
-    messageType: typeof MESSAGE_TYPE_SUCCESS | typeof MESSAGE_TYPE_FAIL;
-    translationKey: string;
-  };
+  couponDetails: OrderCouponDetails;
   isCouponLoading: boolean;
   isUpdateLoading: boolean;
 };
