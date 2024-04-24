@@ -104,14 +104,20 @@ const CaptureForm = ({ settings, onSuccess }) => {
       firstName.setError(
         t('captureform.error.first-name', 'First Name is required')
       );
+      setIsError(true);
     }
 
     if (inputName === 'lastName' && !lastName.value) {
       lastName.setError(
         t('captureform.error.last-name', 'Last Name is required')
       );
+      setIsError(true);
     }
-    if (!firstName.value || !lastName.value) setIsError(true);
+
+    if (!inputName) {
+      validateNames('firstName');
+      validateNames('lastName');
+    }
   };
 
   const validateAddress = () => {
