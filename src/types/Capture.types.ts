@@ -1,5 +1,3 @@
-// * the disable below is because template literals in types are supported from prettier@2.2.0 and we don't have it yet
-// eslint-disable-next-line
 export type CustomCaptureSettingKey = `custom_${number}`;
 
 type CaptureSettingBase = {
