@@ -502,8 +502,10 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_WITH_REFUND' && (
-                <Trans i18nKey="switchplan-popup-confirm-immediateandchargewithrefund">
-                  You have successfully changed your plan to{' '}
+                <Trans
+                  i18nKey={`switchplan-popup-confirm-immediateandchargewithrefund.${toOffer.switchDirection}`}
+                >
+                  You have successfully {toOffer.switchDirection}d your plan to{' '}
                   <strong>
                     {{
                       newPlan: t(
@@ -567,8 +569,10 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (
-                <Trans i18nKey="switchplan-popup-confirm-immediateandchargefullprice">
-                  You have successfully changed your plan to{' '}
+                <Trans
+                  i18nKey={`switchplan-popup-confirm-immediateandchargefullprice.${toOffer.switchDirection}`}
+                >
+                  You have successfully {toOffer.switchDirection}d your plan to{' '}
                   <strong>
                     {{
                       newPlan: t(
@@ -596,8 +600,10 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITH_FULL_REFUND' && (
-                <Trans i18nKey="switchplan-popup-confirm-immediateandchargewithfullrefund">
-                  You have successfully changed your plan to{' '}
+                <Trans
+                  i18nKey={`switchplan-popup-confirm-immediateandchargewithfullrefund.${toOffer.switchDirection}`}
+                >
+                  You have successfully {toOffer.switchDirection}d your plan to{' '}
                   <strong>
                     {{
                       newPlan: t(
@@ -625,8 +631,10 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION' && (
-                <Trans i18nKey="switchplan-popup-confirm-immediateandchargewithoutproration">
-                  You have successfully changed your plan to{' '}
+                <Trans
+                  i18nKey={`switchplan-popup-confirm-immediateandchargewithoutproration.${toOffer.switchDirection}`}
+                >
+                  You have successfully {toOffer.switchDirection}d your plan to{' '}
                   <strong>
                     {{
                       newPlan: t(
@@ -653,8 +661,10 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_WITH_TIME_PRORATION' && (
-                <Trans i18nKey="switchplan-popup-confirm-immediatewithtimeproration">
-                  You have successfully changed your plan to{' '}
+                <Trans
+                  i18nKey={`switchplan-popup-confirm-immediatewithtimeproration.${toOffer.switchDirection}`}
+                >
+                  You have successfully {toOffer.switchDirection}d your plan to{' '}
                   <strong>
                     {{
                       newPlan: t(
@@ -676,8 +686,10 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITH_TIME_PRORATION' && (
-                <Trans i18nKey="switchplan-popup-confirm-immediateandchargewithtimeproration">
-                  You have successfully changed your plan to{' '}
+                <Trans
+                  i18nKey={`switchplan-popup-confirm-immediateandchargewithtimeproration.${toOffer.switchDirection}`}
+                >
+                  You have successfully {toOffer.switchDirection}d your plan to{' '}
                   <strong>
                     {{
                       newPlan: t(
