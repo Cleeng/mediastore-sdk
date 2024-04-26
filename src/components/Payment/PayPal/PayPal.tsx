@@ -7,7 +7,7 @@ import { selectDeliveryDetails } from 'redux/deliveryDetailsSlice';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
 import Button from 'components/Button';
 import { getStandardCopy } from 'util/paymentMethodHelper';
-import Checkbox from 'components/Checkbox';
+import CheckboxLegacy from 'components/CheckboxLegacy';
 import { selectTermsUrl } from 'redux/publisherConfigSlice';
 import {
   PayPalContentStyled,
@@ -79,7 +79,7 @@ const PayPal = ({
           )}
       </CopyStyled>
       <CheckboxWrapperStyled>
-        <Checkbox
+        <CheckboxLegacy
           className="adyen-checkout__bank-checkbox checkbox-paypal"
           checked={isChecked}
           onClickFn={e => {
@@ -93,7 +93,7 @@ const PayPal = ({
           isPayPal
         >
           {getStandardCopy(isMyAccount, offer, order, isGift)}
-        </Checkbox>
+        </CheckboxLegacy>
       </CheckboxWrapperStyled>
       <Button
         theme="paypal"

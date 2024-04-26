@@ -61,7 +61,8 @@ module.exports = {
         optionalDependencies: false
       }
     ],
-    'no-use-before-define': 'off'
+    'no-use-before-define': 'off',
+    'react/require-default-props': 'off'
   },
   settings: {
     'import/resolver': {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import { ErrorWrapper } from 'components/Input/InputStyled';
+import { ErrorWrapper } from 'components/InputLegacy/InputStyled';
 import {
   WrapStyled,
   InputElementStyled,

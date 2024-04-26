@@ -7,7 +7,7 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
-import Checkbox from 'components/Checkbox';
+import CheckboxLegacy from 'components/CheckboxLegacy';
 import {
   CheckoutConsentsStyled,
   CheckoutConsentsContentStyled,
@@ -118,7 +118,7 @@ const CheckoutConsents = ({ onSuccess }) => {
               <CheckoutConsentsListStyled role="list">
                 {consents.map(consent => (
                   <CheckoutConsentsCheckbox key={consent.name}>
-                    <Checkbox
+                    <CheckboxLegacy
                       isMyAccount
                       onClickFn={(e, isConsentDisabled) =>
                         handleClick(e, isConsentDisabled, consent)
@@ -127,7 +127,7 @@ const CheckoutConsents = ({ onSuccess }) => {
                       required={consent.required}
                     >
                       {translateConsents(consent.label, t)}
-                    </Checkbox>
+                    </CheckboxLegacy>
                     <CheckoutConsentsError>
                       {consent.error}
                     </CheckoutConsentsError>

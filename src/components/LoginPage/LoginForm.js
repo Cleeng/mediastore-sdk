@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Loader from 'components/Loader';
 import Auth from 'services/auth';
 import Button from 'components/Button';
-import EmailInput from 'components/EmailInput';
+import EmailInputLegacy from 'components/EmailInputLegacy';
 import PasswordInput from 'components/PasswordInput';
 import { validatePasswordField, validateEmailField } from 'util/validators';
 import loginCustomer from '../../api/Auth/loginCustomer';
@@ -157,7 +157,7 @@ class LoginForm extends Component {
         ) : (
           <FormErrorStyled>{generalError}</FormErrorStyled>
         )}
-        <EmailInput
+        <EmailInputLegacy
           reference={this.emailInput}
           label={t('Email')}
           floatingLabels={false}

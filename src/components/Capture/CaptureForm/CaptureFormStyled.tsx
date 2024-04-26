@@ -1,9 +1,6 @@
-/* eslint-disable import/prefer-default-export */
 import styled, { css } from 'styled-components';
 import { media } from 'styles/BreakPoints';
 import { ErrorColor } from 'styles/variables';
-
-export const CaptureFormStyled = styled.form``;
 
 export const CaptureRowStyled = styled.div`
   display: flex;
@@ -13,13 +10,11 @@ export const CaptureRowStyled = styled.div`
   `}
 `;
 
-export const CaptureGroupStyled = styled.div``;
-
 export const CaptureBoxStyled = styled.div`
   padding: 10px;
 `;
 
-export const CaptureQuestionStyled = styled.div`
+export const CaptureQuestionStyled = styled.div<{ required: boolean }>`
   text-align: left;
   ${props =>
     props.required &&

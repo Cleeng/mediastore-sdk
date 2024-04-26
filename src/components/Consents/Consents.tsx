@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import Checkbox from 'components/Checkbox';
+import CheckboxLegacy from 'components/CheckboxLegacy';
 import Loader from 'components/Loader';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'redux/store';
@@ -79,7 +79,7 @@ const Consents = ({ error, onChangeFn }: ConsentsProps) => {
         <InvisibleLegend>Consents </InvisibleLegend>
         {publisherConsents.map(({ label, required }, index) => {
           return (
-            <Checkbox
+            <CheckboxLegacy
               onClickFn={() => dispatch(setChecked(index))}
               checked={checked[index]}
               error={error}
@@ -87,7 +87,7 @@ const Consents = ({ error, onChangeFn }: ConsentsProps) => {
               required={required && !checked[index]}
             >
               {translateConsents(label, t) + (required ? '*' : '')}
-            </Checkbox>
+            </CheckboxLegacy>
           );
         })}
       </FieldsetStyled>

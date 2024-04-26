@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
+import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {
+  HiddenCheckboxInput,
   CheckboxStyled,
   CheckFrameStyled,
   CheckMarkStyled,
@@ -10,46 +10,65 @@ import {
   TermsLinkStyled
 } from './CheckboxStyled';
 
+export type CheckboxProps = {
+  isChecked: boolean;
+  required?: boolean;
+  error?: string;
+  isMyAccount?: boolean;
+  className?: string;
+  disabled?: boolean;
+  isRadioButton?: boolean;
+  termsUrl?: string;
+  isPayPal?: boolean;
+  id: string;
+  children: string;
+  onClickFn: (
+    event?: ChangeEvent<HTMLInputElement>,
+    isDisabled?: boolean
+  ) => void;
+};
+
 const Checkbox = ({
   children,
   onClickFn,
   error,
-  checked,
+  isChecked,
   required,
   isMyAccount,
-  className,
-  disabled,
+  className = '',
+  disabled = false,
   isRadioButton,
   termsUrl,
-  isPayPal
-}) => {
-  const [isChecked, setIsChecked] = useState(checked);
+  isPayPal,
+  id
+}: CheckboxProps) => {
   const { t } = useTranslation();
-
-  useEffect(() => {
-    setIsChecked(checked);
-  }, [checked]);
 
   const spaceKey = ' ';
 
   return (
     <>
       <CheckboxStyled
-        onClick={e => {
-          e.stopPropagation();
-          onClickFn(e, disabled, setIsChecked);
-        }}
-        role="checkbox"
-        tabIndex="-1"
-        aria-checked={isChecked}
-        checked={isChecked}
+        data-testid={`${id}-label`}
+        htmlFor={id}
         aria-label={children}
-        className={className}
+        $className={className}
         $disabled={disabled}
       >
+        <HiddenCheckboxInput
+          id={id}
+          type="checkbox"
+          checked={isChecked}
+          disabled={disabled}
+          required={required}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            e.stopPropagation();
+            onClickFn(e, disabled);
+          }}
+        />
         <CheckFrameStyled
-          $error={error && required && !isChecked}
-          tabIndex="0"
+          $error={!!error && required && !isChecked}
+          tabIndex={0}
           onKeyDown={e => (e.key === spaceKey ? onClickFn() : null)}
           $isMyAccount={isMyAccount}
           $isRadioButton={isRadioButton}
@@ -83,34 +102,6 @@ const Checkbox = ({
       )}
     </>
   );
-};
-
-Checkbox.propTypes = {
-  checked: PropTypes.bool,
-  required: PropTypes.bool,
-  onClickFn: PropTypes.func,
-  error: PropTypes.string,
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  isMyAccount: PropTypes.bool,
-  className: PropTypes.string,
-  disabled: PropTypes.bool,
-  isRadioButton: PropTypes.bool,
-  termsUrl: PropTypes.string,
-  isPayPal: PropTypes.bool
-};
-
-Checkbox.defaultProps = {
-  error: '',
-  checked: false,
-  required: false,
-  onClickFn: t => t,
-  children: '',
-  isMyAccount: false,
-  className: '',
-  disabled: false,
-  isRadioButton: false,
-  termsUrl: '',
-  isPayPal: false
 };
 
 export default Checkbox;

@@ -1,14 +1,28 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { SelectStyled, ReactSelectStyled } from './SelectStyled';
 
-export const mapToSelectFormat = array => {
+type Option = {
+  label: string;
+  value: string;
+};
+type SelectProps = {
+  values: Option[];
+  label: string;
+  required: boolean;
+  value: Option | null;
+  name: string;
+  onChange: (name: string, value: Option) => void;
+  disabled?: boolean;
+  isMyAccount?: boolean;
+};
+
+export const mapToSelectFormat = (array: string[]): Option[] => {
   const newArray = array.map(item => {
     return {
       label: item,
       value: item
     };
   });
+
   return newArray;
 };
 
@@ -21,10 +35,15 @@ const Select = ({
   required,
   disabled,
   isMyAccount
-}) => {
-  const handleChange = option => {
+}: SelectProps) => {
+  const handleChange = (option: Option | null) => {
+    if (!option) {
+      return;
+    }
+
     onChange(name, option);
   };
+
   return (
     <SelectStyled>
       <ReactSelectStyled
@@ -33,37 +52,15 @@ const Select = ({
         value={value}
         required={required}
         $required={required}
-        onChange={handleChange}
+        onChange={newValue => handleChange(newValue as Option)}
         options={values}
         name={name}
         isDisabled={disabled}
         $isMyAccount={isMyAccount}
-        getOptionLabel={option => option.label}
+        getOptionLabel={option => (option as Option).label}
       />
     </SelectStyled>
   );
-};
-
-Select.propTypes = {
-  values: PropTypes.arrayOf(PropTypes.any),
-  label: PropTypes.string,
-  required: PropTypes.bool,
-  value: PropTypes.objectOf(PropTypes.string),
-  name: PropTypes.string,
-  onChange: PropTypes.func,
-  disabled: PropTypes.bool,
-  isMyAccount: PropTypes.bool
-};
-
-Select.defaultProps = {
-  values: [],
-  label: '',
-  required: false,
-  name: '',
-  value: {},
-  onChange: () => null,
-  disabled: false,
-  isMyAccount: false
 };
 
 export default Select;

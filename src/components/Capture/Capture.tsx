@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
 import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import getCaptureStatus from 'api/Customer/getCaptureStatus';
+import { CaptureProps, CaptureSetting } from 'types/Capture.types';
 import CaptureForm from './CaptureForm/CaptureForm';
 
 import {
@@ -13,9 +13,11 @@ import {
   CaptureTitle
 } from './CaptureStyled';
 
-const Capture = ({ settings, onSuccess }) => {
+const noop = () => null;
+
+const Capture = ({ settings = [], onSuccess = noop }: CaptureProps) => {
   const { t } = useTranslation();
-  const [captureSettings, setCaptureSettings] = useState(null);
+  const [captureSettings, setCaptureSettings] = useState<CaptureSetting[]>();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -52,16 +54,6 @@ const Capture = ({ settings, onSuccess }) => {
       {!isLoading && captureSettings && <Footer isCheckout={false} />}
     </CaptureStyled>
   );
-};
-
-Capture.propTypes = {
-  settings: PropTypes.arrayOf(PropTypes.any),
-  onSuccess: PropTypes.func
-};
-
-Capture.defaultProps = {
-  settings: [],
-  onSuccess: () => null
 };
 
 export default Capture;

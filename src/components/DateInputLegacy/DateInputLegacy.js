@@ -1,11 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from 'components/Input';
+import InputLegacy from 'components/InputLegacy';
 import { ReactComponent as CalendarIcon } from 'assets/images/calendar.svg';
 
-const DateInput = ({ value, onChange, onBlur, error, label, required }) => {
+const DateInputLegacy = ({
+  value,
+  onChange,
+  onBlur,
+  error,
+  label,
+  required
+}) => {
   return (
-    <Input
+    <InputLegacy
       type="date"
       placeholder={label}
       format="dd/mm/yyyy"
@@ -19,7 +26,7 @@ const DateInput = ({ value, onChange, onBlur, error, label, required }) => {
   );
 };
 
-DateInput.propTypes = {
+DateInputLegacy.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
@@ -28,7 +35,7 @@ DateInput.propTypes = {
   required: PropTypes.bool
 };
 
-DateInput.defaultProps = {
+DateInputLegacy.defaultProps = {
   value: '',
   onChange: () => {},
   onBlur: () => {},
@@ -37,4 +44,4 @@ DateInput.defaultProps = {
   required: false
 };
 
-export default DateInput;
+export default DateInputLegacy;

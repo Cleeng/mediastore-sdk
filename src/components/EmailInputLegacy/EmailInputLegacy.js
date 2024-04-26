@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from 'components/Input';
+import InputLegacy from 'components/InputLegacy';
 
-const EmailInput = ({
+const EmailInputLegacy = ({
   value,
   onChange,
   onBlur,
@@ -12,7 +12,7 @@ const EmailInput = ({
   required,
   reference
 }) => (
-  <Input
+  <InputLegacy
     placeholder={label}
     floatingLabels={floatingLabels}
     type="email"
@@ -27,7 +27,7 @@ const EmailInput = ({
   />
 );
 
-EmailInput.propTypes = {
+EmailInputLegacy.propTypes = {
   value: PropTypes.string,
   onChange: PropTypes.func,
   onBlur: PropTypes.func,
@@ -38,7 +38,7 @@ EmailInput.propTypes = {
   reference: PropTypes.oneOfType([PropTypes.func, PropTypes.shape()])
 };
 
-EmailInput.defaultProps = {
+EmailInputLegacy.defaultProps = {
   value: '',
   onChange: () => {},
   onBlur: () => {},
@@ -49,4 +49,4 @@ EmailInput.defaultProps = {
   reference: () => {}
 };
 
-export default EmailInput;
+export default EmailInputLegacy;

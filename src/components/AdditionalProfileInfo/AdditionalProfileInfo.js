@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import Loader from 'components/Loader';
 import MyAccountInput from 'components/MyAccountInput';
-import Select, { mapToSelectFormat } from 'components/Select/Select';
-import Checkbox from 'components/Checkbox';
+import SelectLegacy, {
+  mapToSelectFormat
+} from 'components/SelectLegacy/SelectLegacy';
+import CheckboxLegacy from 'components/CheckboxLegacy';
 import useMessage from 'hooks/useMessage';
 import { updateCaptureAnswers } from 'api';
 import {
@@ -125,7 +127,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
             if (setting.values.length === 1)
               return (
                 <InputWrapStyled key={setting.key}>
-                  <Checkbox
+                  <CheckboxLegacy
                     isMyAccount
                     onClickFn={(e, disabled) =>
                       !disabled &&
@@ -138,14 +140,14 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                     disabled={isSectionDisabled}
                   >
                     {setting.question}
-                  </Checkbox>
+                  </CheckboxLegacy>
                 </InputWrapStyled>
               );
             if (setting.values.length === 2)
               return (
                 <InputWrapStyled key={setting.key}>
                   <InputLabelStyled>{setting.question}</InputLabelStyled>
-                  <Checkbox
+                  <CheckboxLegacy
                     key={`${setting.key}-01`}
                     onClickFn={(e, disabled) =>
                       !disabled &&
@@ -156,8 +158,8 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                     checked={setting.value === setting.values[0]}
                   >
                     {setting.values[0]}
-                  </Checkbox>
-                  <Checkbox
+                  </CheckboxLegacy>
+                  <CheckboxLegacy
                     key={`${setting.key}-02`}
                     onClickFn={(e, disabled) =>
                       !disabled &&
@@ -168,12 +170,12 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                     checked={setting.value === setting.values[1]}
                   >
                     {setting.values[1]}
-                  </Checkbox>
+                  </CheckboxLegacy>
                 </InputWrapStyled>
               );
             return (
               <InputWrapStyled key={setting.key}>
-                <Select
+                <SelectLegacy
                   isMyAccount
                   id={setting.key}
                   key={setting.key}
