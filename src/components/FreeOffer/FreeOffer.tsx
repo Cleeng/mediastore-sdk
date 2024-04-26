@@ -14,15 +14,22 @@ import {
   CardStyled,
   SubscriptionIconStyled,
   ButtonWrapperStyled,
-  ErrorMessageStyled
+  ErrorMessageStyled,
+  PublisherDescriptionStyled
 } from './FreeOfferStyled';
 import { FreeOfferProps } from './FreeOffer.types';
 
 const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
   const { loading: isLoading, error } = useAppSelector(selectPayment);
-  const { period, expiresAt, startTime, offerTitle, offerId } = useAppSelector(
-    selectOnlyOffer
-  );
+  const {
+    period,
+    expiresAt,
+    startTime,
+    offerTitle,
+    offerId,
+    offerDescription
+  } = useAppSelector(selectOnlyOffer);
+
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
@@ -78,6 +85,11 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
         <DescriptionStyled>
           {generateDescriptionForFreeOffer()}
         </DescriptionStyled>
+        {offerDescription && (
+          <PublisherDescriptionStyled>
+            {t('free-offer.publisher-description', offerDescription)}
+          </PublisherDescriptionStyled>
+        )}
         <ButtonWrapperStyled>
           <Button
             theme="confirm"

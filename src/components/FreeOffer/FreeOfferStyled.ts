@@ -54,6 +54,14 @@ export const DescriptionStyled = styled.h2.attrs(() => ({
   font-size: ${MediumFont};
 `;
 
+export const PublisherDescriptionStyled = styled.h2.attrs(() => ({
+  className: 'msd__checkout-card__description'
+}))`
+  margin-bottom: 32px;
+
+  font-size: ${SmallFont};
+`;
+
 export const SubTextStyled = styled.p.attrs(() => ({
   className: 'msd__checkout-card__subtext'
 }))`
