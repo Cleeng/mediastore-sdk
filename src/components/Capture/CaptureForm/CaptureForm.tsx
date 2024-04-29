@@ -76,14 +76,14 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
     }
 
     const enabledCustomSettings: CustomSetting[] = settings.filter(
-      item => isCustomSetting(item) && item.enabled
+      (item) => isCustomSetting(item) && item.enabled
     ) as CustomSetting[];
     const transformedSettings: CustomSetting[] = enabledCustomSettings.map(
-      item => ({
+      (item) => ({
         ...item,
         value: item.answer ? item.answer : '',
         values: isCustomSetting(item)
-          ? item.value.split(';').map(i => {
+          ? item.value.split(';').map((i) => {
               const value = i.trim();
               const label = value;
               return {
@@ -99,7 +99,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
   }, []);
 
   const getSettingByKey = (key: string) => {
-    return settings.find(setting => setting.key === key);
+    return settings.find((setting) => setting.key === key);
   };
 
   const isEnabled = (key: string): boolean => {
@@ -189,7 +189,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
   };
 
   const validateCustomSettings = () => {
-    const newArr = customSettings.map(item => {
+    const newArr = customSettings.map((item) => {
       if (item.enabled && item.required && !item.value) {
         setIsError(true);
         return {
@@ -222,7 +222,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
     key: string,
     option: { value: string; label?: string }
   ) => {
-    const newArr = customSettings.map(item => {
+    const newArr = customSettings.map((item) => {
       return {
         ...item,
         value: item.key === key ? option.value : item.value
@@ -235,7 +235,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
     e.preventDefault();
     validateFields();
     if (!isError) {
-      const customAnswers = customSettings.map(item => {
+      const customAnswers = customSettings.map((item) => {
         return {
           questionId: item.key,
           question: item.question,
@@ -275,7 +275,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
               )}
               value={firstName.value}
               error={firstName.error}
-              onChange={val => firstName.setValue(val)}
+              onChange={(val) => firstName.setValue(val)}
               onBlur={() => validateNames('firstName')}
               required={isRequired('firstNameLastName')}
             />
@@ -283,7 +283,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
               placeholder={t('captureform.placeholder.last-name', 'Last Name')}
               value={lastName.value}
               error={lastName.error}
-              onChange={val => lastName.setValue(val)}
+              onChange={(val) => lastName.setValue(val)}
               onBlur={() => validateNames('lastName')}
               required={isRequired('firstNameLastName')}
             />
@@ -314,7 +314,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
             placeholder={t('captureform.placeholder.company', 'Company')}
             value={companyName.value}
             error={companyName.error}
-            onChange={val => companyName.setValue(val)}
+            onChange={(val) => companyName.setValue(val)}
             onBlur={() => validateCompany()}
             required={isRequired('companyName')}
           />
@@ -327,7 +327,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
             )}
             value={phoneNumber.value}
             error={phoneNumber.error}
-            onChange={val => phoneNumber.setValue(val)}
+            onChange={(val) => phoneNumber.setValue(val)}
             onBlur={() => validatePhone()}
             required={isRequired('phoneNumber')}
           />
@@ -341,7 +341,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
               )}
               value={address.value}
               error={address.error}
-              onChange={val => address.setValue(val)}
+              onChange={(val) => address.setValue(val)}
               onBlur={() => validateAddress()}
               required={isRequired('address')}
             />
@@ -351,13 +351,13 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
                 'Address line 2'
               )}
               value={address2.value}
-              onChange={val => address2.setValue(val)}
+              onChange={(val) => address2.setValue(val)}
             />
             <Input
               placeholder={t('captureform.placeholder.city', 'City')}
               value={city.value}
               error={city.error}
-              onChange={val => city.setValue(val)}
+              onChange={(val) => city.setValue(val)}
               onBlur={() => validateAddress()}
               required={isRequired('address')}
             />
@@ -369,7 +369,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
                 )}
                 value={state.value}
                 error={state.error}
-                onChange={val => state.setValue(val)}
+                onChange={(val) => state.setValue(val)}
                 onBlur={() => validateAddress()}
                 required={isRequired('address')}
               />
@@ -380,14 +380,14 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
                 )}
                 value={postCode.value}
                 error={postCode.error}
-                onChange={val => postCode.setValue(val)}
+                onChange={(val) => postCode.setValue(val)}
                 onBlur={() => validateAddress()}
                 required={isRequired('address')}
               />
             </CaptureRowStyled>
           </div>
         )}
-        {customSettings.map(setting => {
+        {customSettings.map((setting) => {
           if (setting.values.length === 1 && isEnabled(setting.key))
             return (
               <CaptureBoxStyled key={setting.key}>
@@ -473,7 +473,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
                 placeholder={setting.question}
                 value={setting.value}
                 error={setting.error}
-                onChange={val =>
+                onChange={(val) =>
                   handleCustomSetting(setting.key, { value: val })
                 }
                 onBlur={() => validateCustomSettings()}

@@ -25,7 +25,7 @@ const Capture = ({ settings = [], onSuccess = noop }: CaptureProps) => {
       setCaptureSettings(settings);
       setIsLoading(false);
     } else {
-      getCaptureStatus().then(resp => {
+      getCaptureStatus().then((resp) => {
         if (resp.responseData.shouldCaptureBeDisplayed === true) {
           setCaptureSettings(resp.responseData.settings);
           setIsLoading(false);

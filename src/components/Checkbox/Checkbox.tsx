@@ -45,6 +45,9 @@ const Checkbox = ({
   const { t } = useTranslation();
 
   const spaceKey = ' ';
+  const consentDefinitionText = `${children}${
+    required && isMyAccount ? '*' : ''
+  }`;
 
   return (
     <>
@@ -69,7 +72,7 @@ const Checkbox = ({
         <CheckFrameStyled
           $error={!!error && required && !isChecked}
           tabIndex={0}
-          onKeyDown={e => (e.key === spaceKey ? onClickFn() : null)}
+          onKeyDown={(e) => (e.key === spaceKey ? onClickFn() : null)}
           $isMyAccount={isMyAccount}
           $isRadioButton={isRadioButton}
           $checked={isChecked}
@@ -84,7 +87,7 @@ const Checkbox = ({
         </CheckFrameStyled>
         <ConsentDefinitionStyled
           dangerouslySetInnerHTML={{
-            __html: `${children}${required && isMyAccount ? '*' : ''}`
+            __html: consentDefinitionText
           }}
           $checked={isChecked}
         />
