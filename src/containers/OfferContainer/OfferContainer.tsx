@@ -25,6 +25,7 @@ import {
   fetchUpdateCoupon,
   clearOrder,
   selectOrder,
+  setOrderCouponMessage,
   fetchUpdateOrder
 } from 'redux/orderSlice';
 import { Order } from 'redux/types';
@@ -180,7 +181,18 @@ const OfferContainer = ({
   };
 
   const onCouponSubmit = (couponCode: string) => {
-    if (couponCode === '') return;
+    if (!couponCode) {
+      dispatch(
+        setOrderCouponMessage({
+          messageType: 'fail',
+          translationKey: 'coupon-input.error',
+          showMessage: true,
+          message: 'Please provide a valid coupon code.'
+        })
+      );
+
+      return;
+    }
 
     dispatch(
       fetchUpdateCoupon({

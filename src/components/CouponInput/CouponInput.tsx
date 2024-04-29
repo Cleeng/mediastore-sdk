@@ -8,6 +8,8 @@ import eventDispatcher, {
   MSSDK_REDEEM_COUPON_BUTTON_CLICKED
 } from 'util/eventDispatcher';
 
+import { clearOrderCouponMessage } from 'redux/orderSlice';
+import { useAppDispatch } from 'redux/store';
 import {
   FormComponentStyled,
   MessageStyled,
@@ -31,7 +33,7 @@ const CouponInput = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
   const [showCouponMessage, setShowCouponMessage] = useState(false);
-
+  const dispatch = useAppDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
 
   const { t } = useTranslation();
@@ -53,6 +55,7 @@ const CouponInput = ({
       setIsOpen(false);
       if (onInputToggle) onInputToggle();
       onChange('');
+      dispatch(clearOrderCouponMessage());
     }
   };
 
@@ -91,6 +94,7 @@ const CouponInput = ({
               type="button"
               aria-label="close"
               onClick={handleClose}
+              data-testid="closeRedeemCouponButton"
             >
               <CloseIcon />
             </CloseButtonStyled>
