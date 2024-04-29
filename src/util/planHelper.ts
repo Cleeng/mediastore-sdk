@@ -32,10 +32,10 @@ export type SubscriptionPeriodType =
   | 'week'
   | 'year';
 
-export type Period = typeof period[number];
+export type Period = (typeof period)[number];
 
 export const isPeriod = (s: string): s is Period => {
-  return period.some(p => p === s);
+  return period.some((p) => p === s);
 };
 
 export type PeriodProperties = {
@@ -261,7 +261,8 @@ export type CurrencyFormat =
   | 'EGP'
   | 'QAR'
   | 'KWD'
-  | 'AED';
+  | 'AED'
+  | 'THB';
 
 export const currencyFormat: Record<CurrencyFormat, string> = {
   EUR: '€',
@@ -293,6 +294,7 @@ export const currencyFormat: Record<CurrencyFormat, string> = {
   QAR: 'QR',
   KWD: 'KD',
   AED: 'د.إ',
+  THB: '฿',
   '€': '€',
   $: '$',
   '£': '£'
