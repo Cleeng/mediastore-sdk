@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
+import {
+  MESSAGE_TYPE_FAIL,
+  MESSAGE_TYPE_SUCCESS
+} from 'components/InputLegacy';
 import { createOrder, getOrder, updateOrder } from '../api';
 import { RootState } from './rootReducer';
 import { Order, OrderCouponDetailsMessage, OrderInitialState } from './types';

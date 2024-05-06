@@ -19,7 +19,7 @@ import {
   BANK_PAYMENT_METHODS,
   getStandardCopy
 } from 'util/paymentMethodHelper';
-import Checkbox from 'components/Checkbox';
+import CheckboxLegacy from 'components/CheckboxLegacy';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
 import { selectTermsUrl } from 'redux/publisherConfigSlice';
@@ -141,7 +141,7 @@ const Adyen = ({
     );
 
     const checkbox = (
-      <Checkbox
+      <CheckboxLegacy
         className={`adyen-checkout__bank-checkbox checkbox-${methodName}`}
         checked={false}
         onClickFn={(e, _, setIsChecked) => {
@@ -156,7 +156,7 @@ const Adyen = ({
         {type === 'bank'
           ? getBankCopy()
           : getStandardCopy(isMyAccount, offer, order, deliveryDetails?.isGift)}
-      </Checkbox>
+      </CheckboxLegacy>
     );
 
     if (parentEl) {

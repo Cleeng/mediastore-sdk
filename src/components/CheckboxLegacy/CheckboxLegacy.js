@@ -8,9 +8,9 @@ import {
   CheckMarkStyled,
   ConsentDefinitionStyled,
   TermsLinkStyled
-} from './CheckboxStyled';
+} from './CheckboxLegacyStyled';
 
-const Checkbox = ({
+const CheckboxLegacy = ({
   children,
   onClickFn,
   error,
@@ -85,7 +85,7 @@ const Checkbox = ({
   );
 };
 
-Checkbox.propTypes = {
+CheckboxLegacy.propTypes = {
   checked: PropTypes.bool,
   required: PropTypes.bool,
   onClickFn: PropTypes.func,
@@ -99,7 +99,7 @@ Checkbox.propTypes = {
   isPayPal: PropTypes.bool
 };
 
-Checkbox.defaultProps = {
+CheckboxLegacy.defaultProps = {
   error: '',
   checked: false,
   required: false,
@@ -113,4 +113,4 @@ Checkbox.defaultProps = {
   isPayPal: false
 };
 
-export default Checkbox;
+export default CheckboxLegacy;

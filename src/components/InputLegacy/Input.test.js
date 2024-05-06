@@ -2,17 +2,17 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import '@testing-library/jest-dom';
-import Input from 'components/Input/Input';
+import InputLegacy from 'components/InputLegacy/InputLegacy';
 
 describe('Input component', () => {
   test('should render correctly without props', () => {
-    const { getByTestId } = render(<Input />);
+    const { getByTestId } = render(<InputLegacy />);
 
     getByTestId('input');
   });
   test('should have correct id and label when placeholder is passed', () => {
     const testPlaceholder = 'test-input';
-    render(<Input placeholder={testPlaceholder} />);
+    render(<InputLegacy placeholder={testPlaceholder} />);
 
     const inputEl = screen.getByTestId('input');
     const inputLabelEl = screen.getByTestId('input-label');
@@ -22,14 +22,14 @@ describe('Input component', () => {
     expect(inputLabelEl).toHaveTextContent(testPlaceholder);
   });
   test('should show visibility icon when showVisibilityIcon is passed', () => {
-    render(<Input showVisibilityIcon />);
+    render(<InputLegacy showVisibilityIcon />);
 
     expect(screen.getByTestId('input')).toBeInTheDocument();
     expect(screen.getByTestId('input-visibility-icon')).toBeInTheDocument();
   });
   test('should be calling passed onChange function when user change something', async () => {
     const onChangeFunction = jest.fn();
-    render(<Input onChange={onChangeFunction} />);
+    render(<InputLegacy onChange={onChangeFunction} />);
 
     await userEvent.type(screen.getByTestId('input'), 'Text');
     expect(onChangeFunction).toHaveBeenCalledTimes(4);
@@ -37,7 +37,7 @@ describe('Input component', () => {
   test('should be calling passed handleClickShowPassword function when user click on toggle button', async () => {
     const showPasswordFunction = jest.fn();
     render(
-      <Input
+      <InputLegacy
         showVisibilityIcon
         handleClickShowPassword={showPasswordFunction}
       />

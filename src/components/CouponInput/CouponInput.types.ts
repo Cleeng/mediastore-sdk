@@ -1,7 +1,7 @@
 import {
   MESSAGE_TYPE_SUCCESS,
   MESSAGE_TYPE_FAIL
-} from 'components/Input/InputConstants';
+} from 'components/InputLegacy/InputConstants';
 
 export type MessageType =
   | typeof MESSAGE_TYPE_SUCCESS

@@ -1,29 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Input from 'components/Input';
 import EmailInput from 'components/EmailInput';
 import DateInput from 'components/DateInput';
-import Select from 'components/Select/Select';
+import Select from 'components/Select';
 import Checkbox from 'components/Checkbox';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateCaptureAnswers } from 'api';
 import { validateEmailField } from 'util/validators';
+import {
+  CaptureProps,
+  CaptureSetting,
+  CustomCaptureSetting
+} from 'types/Capture.types';
 import useInput from './useInput';
 import {
-  CaptureFormStyled,
   CaptureRowStyled,
-  CaptureGroupStyled,
   CaptureBoxStyled,
   CaptureQuestionStyled,
   CaptureError
 } from './CaptureFormStyled';
 
-const CaptureForm = ({ settings, onSuccess }) => {
+const isCustomSetting = (
+  setting: CaptureSetting
+): setting is CustomCaptureSetting => setting.key.startsWith('custom_');
+
+type CustomSetting = CustomCaptureSetting & {
+  values: Array<{ value: string; label: string }>;
+  error?: string | null;
+};
+
+const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
   const { t } = useTranslation();
   const [processing, setProcessing] = useState(false);
-  const [customSettings, setCustomSetting] = useState([]);
+  const [customSettings, setCustomSettings] = useState<CustomSetting[]>([]);
   const firstName = useInput('');
   const lastName = useInput('');
   const email = useInput('');
@@ -37,8 +49,8 @@ const CaptureForm = ({ settings, onSuccess }) => {
   const postCode = useInput('');
 
   let isError = false;
-  const setIsError = v => {
-    isError = v;
+  const setIsError = (updatedErrorState: boolean) => {
+    isError = updatedErrorState;
   };
 
   useEffect(() => {
@@ -62,44 +74,47 @@ const CaptureForm = ({ settings, onSuccess }) => {
         postCode.setValue(item.answer.postCode);
       }
     }
-    const transformedSettings = settings
-      .filter(item => {
-        return item.key.startsWith('custom') && item.enabled;
+
+    const enabledCustomSettings: CustomSetting[] = settings.filter(
+      (item) => isCustomSetting(item) && item.enabled
+    ) as CustomSetting[];
+    const transformedSettings: CustomSetting[] = enabledCustomSettings.map(
+      (item) => ({
+        ...item,
+        value: item.answer ? item.answer : '',
+        values: isCustomSetting(item)
+          ? item.value.split(';').map((i) => {
+              const value = i.trim();
+              const label = value;
+              return {
+                value,
+                label
+              };
+            })
+          : []
       })
-      .map(item => {
-        return {
-          ...item,
-          value: item.answer ? item.answer : '',
-          values: item.value
-            ? item.value.split(';').map(i => {
-                const value = i.trim();
-                const label = value;
-                return {
-                  value,
-                  label
-                };
-              })
-            : []
-        };
-      });
-    setCustomSetting(transformedSettings);
+    );
+
+    setCustomSettings(transformedSettings);
   }, []);
 
-  const getSettingByKey = key => {
-    return settings.find(setting => setting.key === key);
+  const getSettingByKey = (key: string) => {
+    return settings.find((setting) => setting.key === key);
   };
 
-  const isRequired = key => {
+  const isEnabled = (key: string): boolean => {
     const setting = getSettingByKey(key);
-    return setting?.required;
+
+    return setting?.enabled ?? false;
   };
 
-  const isEnabled = key => {
+  const isRequired = (key: string): boolean => {
     const setting = getSettingByKey(key);
-    return setting?.enabled;
+
+    return setting?.required ?? false;
   };
 
-  const validateNames = inputName => {
+  const validateNames = (inputName?: string) => {
     if (inputName === 'firstName' && !firstName.value) {
       firstName.setError(
         t('captureform.error.first-name', 'First Name is required')
@@ -139,8 +154,9 @@ const CaptureForm = ({ settings, onSuccess }) => {
 
   const validateEmail = () => {
     const message = validateEmailField(email.value);
+
     if (message) {
-      email.setError(t(message));
+      email.setError(message);
       setIsError(true);
     }
   };
@@ -173,7 +189,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
   };
 
   const validateCustomSettings = () => {
-    const newArr = customSettings.map(item => {
+    const newArr = customSettings.map((item) => {
       if (item.enabled && item.required && !item.value) {
         setIsError(true);
         return {
@@ -186,7 +202,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
       }
       return { ...item, error: '' };
     });
-    setCustomSetting(newArr);
+    setCustomSettings(newArr);
   };
 
   const validateFields = () => {
@@ -202,21 +218,24 @@ const CaptureForm = ({ settings, onSuccess }) => {
     validateCustomSettings();
   };
 
-  const handleCustomSetting = (key, option) => {
-    const newArr = customSettings.map(item => {
+  const handleCustomSetting = (
+    key: string,
+    option: { value: string; label?: string }
+  ) => {
+    const newArr = customSettings.map((item) => {
       return {
         ...item,
         value: item.key === key ? option.value : item.value
       };
     });
-    setCustomSetting(newArr);
+    setCustomSettings(newArr);
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     validateFields();
     if (!isError) {
-      const customAnswers = customSettings.map(item => {
+      const customAnswers = customSettings.map((item) => {
         return {
           questionId: item.key,
           question: item.question,
@@ -246,7 +265,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
 
   return (
     <>
-      <CaptureFormStyled onSubmit={handleSubmit} noValidate>
+      <form onSubmit={handleSubmit} noValidate>
         {isEnabled('firstNameLastName') && (
           <CaptureRowStyled>
             <Input
@@ -256,7 +275,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
               )}
               value={firstName.value}
               error={firstName.error}
-              onChange={val => firstName.setValue(val)}
+              onChange={(val) => firstName.setValue(val)}
               onBlur={() => validateNames('firstName')}
               required={isRequired('firstNameLastName')}
             />
@@ -264,7 +283,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
               placeholder={t('captureform.placeholder.last-name', 'Last Name')}
               value={lastName.value}
               error={lastName.error}
-              onChange={val => lastName.setValue(val)}
+              onChange={(val) => lastName.setValue(val)}
               onBlur={() => validateNames('lastName')}
               required={isRequired('firstNameLastName')}
             />
@@ -275,7 +294,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
             label={t('captureform.placeholder.confirm-email', 'Confirm Email')}
             value={email.value}
             error={email.error}
-            onChange={val => email.setValue(val)}
+            onChange={(val: string) => email.setValue(val)}
             onBlur={() => validateEmail()}
             required={isRequired('email')}
           />
@@ -285,7 +304,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
             label={t('captureform.placeholder.date-of-birth', 'Date of Birth')}
             value={birthDate.value}
             error={birthDate.error}
-            onChange={val => birthDate.setValue(val)}
+            onChange={(val: string) => birthDate.setValue(val)}
             onBlur={() => validateBirthDate()}
             required={isRequired('birthDate')}
           />
@@ -295,7 +314,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
             placeholder={t('captureform.placeholder.company', 'Company')}
             value={companyName.value}
             error={companyName.error}
-            onChange={val => companyName.setValue(val)}
+            onChange={(val) => companyName.setValue(val)}
             onBlur={() => validateCompany()}
             required={isRequired('companyName')}
           />
@@ -308,13 +327,13 @@ const CaptureForm = ({ settings, onSuccess }) => {
             )}
             value={phoneNumber.value}
             error={phoneNumber.error}
-            onChange={val => phoneNumber.setValue(val)}
+            onChange={(val) => phoneNumber.setValue(val)}
             onBlur={() => validatePhone()}
             required={isRequired('phoneNumber')}
           />
         )}
         {isEnabled('address') && (
-          <CaptureGroupStyled>
+          <div>
             <Input
               placeholder={t(
                 'captureform.placeholder.addres-line-1',
@@ -322,7 +341,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
               )}
               value={address.value}
               error={address.error}
-              onChange={val => address.setValue(val)}
+              onChange={(val) => address.setValue(val)}
               onBlur={() => validateAddress()}
               required={isRequired('address')}
             />
@@ -332,13 +351,13 @@ const CaptureForm = ({ settings, onSuccess }) => {
                 'Address line 2'
               )}
               value={address2.value}
-              onChange={val => address2.setValue(val)}
+              onChange={(val) => address2.setValue(val)}
             />
             <Input
               placeholder={t('captureform.placeholder.city', 'City')}
               value={city.value}
               error={city.error}
-              onChange={val => city.setValue(val)}
+              onChange={(val) => city.setValue(val)}
               onBlur={() => validateAddress()}
               required={isRequired('address')}
             />
@@ -350,7 +369,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
                 )}
                 value={state.value}
                 error={state.error}
-                onChange={val => state.setValue(val)}
+                onChange={(val) => state.setValue(val)}
                 onBlur={() => validateAddress()}
                 required={isRequired('address')}
               />
@@ -361,21 +380,23 @@ const CaptureForm = ({ settings, onSuccess }) => {
                 )}
                 value={postCode.value}
                 error={postCode.error}
-                onChange={val => postCode.setValue(val)}
+                onChange={(val) => postCode.setValue(val)}
                 onBlur={() => validateAddress()}
                 required={isRequired('address')}
               />
             </CaptureRowStyled>
-          </CaptureGroupStyled>
+          </div>
         )}
-        {customSettings.map(setting => {
+        {customSettings.map((setting) => {
           if (setting.values.length === 1 && isEnabled(setting.key))
             return (
               <CaptureBoxStyled key={setting.key}>
                 <CaptureQuestionStyled required={setting.required}>
                   {setting.question}
                 </CaptureQuestionStyled>
+
                 <Checkbox
+                  id={setting.key}
                   key={setting.key}
                   onClickFn={() =>
                     handleCustomSetting(setting.key, {
@@ -383,7 +404,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
                       label: setting.value ? '' : setting.values[0].value
                     })
                   }
-                  checked={setting.value === setting.values[0].value}
+                  isChecked={setting.value === setting.values[0].value}
                 >
                   {setting.values[0].value}
                 </Checkbox>
@@ -397,6 +418,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
                   {setting.question}
                 </CaptureQuestionStyled>
                 <Checkbox
+                  id={`${setting.key}-01`}
                   key={`${setting.key}-01`}
                   onClickFn={() =>
                     handleCustomSetting(setting.key, {
@@ -405,11 +427,12 @@ const CaptureForm = ({ settings, onSuccess }) => {
                     })
                   }
                   isRadioButton
-                  checked={setting.value === setting.values[0].value}
+                  isChecked={setting.value === setting.values[0].value}
                 >
                   {setting.values[0].value}
                 </Checkbox>
                 <Checkbox
+                  id={`${setting.key}-02`}
                   key={`${setting.key}-02`}
                   onClickFn={() =>
                     handleCustomSetting(setting.key, {
@@ -418,7 +441,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
                     })
                   }
                   isRadioButton
-                  checked={setting.value === setting.values[1].value}
+                  isChecked={setting.value === setting.values[1].value}
                 >
                   {setting.values[1].value}
                 </Checkbox>
@@ -450,7 +473,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
                 placeholder={setting.question}
                 value={setting.value}
                 error={setting.error}
-                onChange={val =>
+                onChange={(val) =>
                   handleCustomSetting(setting.key, { value: val })
                 }
                 onBlur={() => validateCustomSettings()}
@@ -466,7 +489,7 @@ const CaptureForm = ({ settings, onSuccess }) => {
             t('captureform.button.continue', 'Continue')
           )}
         </Button>
-      </CaptureFormStyled>
+      </form>
     </>
   );
 };

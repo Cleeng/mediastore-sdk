@@ -5,7 +5,7 @@ import Loader from 'components/Loader';
 import Consent from 'components/Consents';
 import { FromStyled, FormErrorStyled } from 'components/LoginPage/LoginStyled';
 import Button from 'components/Button';
-import EmailInput from 'components/EmailInput';
+import EmailInputLegacy from 'components/EmailInputLegacy';
 import PasswordInput from 'components/PasswordInput';
 import {
   validateRegisterPassword,
@@ -209,7 +209,7 @@ class RegisterForm extends Component {
     return (
       <FromStyled onSubmit={this.handleSubmit} noValidate>
         <FormErrorStyled dangerouslySetInnerHTML={{ __html: generalError }} />
-        <EmailInput
+        <EmailInputLegacy
           label={t('register-form.label.email', 'Email')}
           floatingLabels={false}
           value={email}

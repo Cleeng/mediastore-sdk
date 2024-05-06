@@ -1,16 +1,16 @@
 import { useState } from 'react';
 
-const useInput = initialValue => {
+const useInput = (initialValue: string) => {
   const [value, setHookValue] = useState(initialValue);
   const [error, setError] = useState('');
 
-  const setValue = v => {
-    const newValue = v || '';
+  const setValue = (newValue: string) => {
+    const sanitizedValue = newValue || '';
     setError('');
-    setHookValue(newValue);
+    setHookValue(sanitizedValue);
   };
 
-  const onChange = newValue => {
+  const onChange = (newValue: string) => {
     setValue(newValue);
   };
 

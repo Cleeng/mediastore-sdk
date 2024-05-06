@@ -1,5 +1,8 @@
 import { CurrencyFormat } from 'util/planHelper';
-import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
+import {
+  MESSAGE_TYPE_FAIL,
+  MESSAGE_TYPE_SUCCESS
+} from 'components/InputLegacy';
 
 export type Order = {
   billingAddress: unknown;

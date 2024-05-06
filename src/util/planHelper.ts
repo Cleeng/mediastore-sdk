@@ -32,10 +32,10 @@ export type SubscriptionPeriodType =
   | 'week'
   | 'year';
 
-export type Period = typeof period[number];
+export type Period = (typeof period)[number];
 
 export const isPeriod = (s: string): s is Period => {
-  return period.some(p => p === s);
+  return period.some((p) => p === s);
 };
 
 export type PeriodProperties = {

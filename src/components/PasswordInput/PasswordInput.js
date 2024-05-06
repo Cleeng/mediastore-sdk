@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Input from 'components/Input';
+import InputLegacy from 'components/InputLegacy';
 
 class PasswordInput extends React.Component {
   constructor(props) {
@@ -110,7 +110,7 @@ class PasswordInput extends React.Component {
     const errorMsg = error || passError;
     return (
       <>
-        <Input
+        <InputLegacy
           placeholder={label}
           floatingLabels={floatingLabels}
           type={showPassword ? 'text' : 'password'}

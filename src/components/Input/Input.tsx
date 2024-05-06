@@ -1,9 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
 import { ThemeProvider } from 'styled-components';
 import { inputTheme } from 'styles/variables';
+import { PasswordStrength } from 'types/generic.types';
+import { ReactNode } from 'react';
 import visibility from './icons/visibleBase64';
-import visibilityOff from './icons/unvisibleBase64';
+import visibilityOff from './icons/invisibleBase64';
 import {
   InputComponentStyled,
   InputElementWrapperStyled,
@@ -15,8 +15,27 @@ import {
   InputRequiredStyled
 } from './InputStyled';
 
+type InputProps = {
+  placeholder: string;
+  type?: 'text' | 'password' | 'date' | 'email';
+  value: string;
+  onChange: (value: string) => void;
+  onBlur?: () => void;
+  error?: string | null | undefined;
+  showVisibilityIcon?: boolean;
+  handleClickShowPassword?: () => void;
+  showPassword?: boolean;
+  passwordStrength?: PasswordStrength;
+  required?: boolean;
+  invalid?: boolean;
+  icon?: ReactNode;
+  floatingLabels?: boolean;
+  reference?: () => void;
+  format?: string;
+};
+
 const Input = ({
-  type,
+  type = 'text',
   placeholder,
   value,
   onChange,
@@ -26,13 +45,13 @@ const Input = ({
   handleClickShowPassword,
   showPassword,
   passwordStrength,
-  ariaRequired,
-  ariaInvalid,
+  invalid,
   icon,
   required,
   floatingLabels,
-  reference
-}) => {
+  reference,
+  format
+}: InputProps) => {
   return (
     <ThemeProvider theme={inputTheme}>
       <InputComponentStyled>
@@ -47,16 +66,17 @@ const Input = ({
             type={type}
             onBlur={onBlur}
             ref={reference}
-            aria-required={ariaRequired}
-            aria-invalid={ariaInvalid}
-            $withIcon={icon}
-            $floatingLabels={floatingLabels}
+            required={required}
+            aria-invalid={invalid}
+            $withIcon={!!icon}
+            $floatingLabels={!!floatingLabels}
+            format={format}
           />
           <LabelStyled
             data-testid="input-label"
             htmlFor={placeholder}
-            $hasValue={value}
-            $withIcon={icon}
+            $hasValue={!!value}
+            $withIcon={!!icon}
           >
             {placeholder}
           </LabelStyled>
@@ -64,7 +84,7 @@ const Input = ({
             <StyledButton
               data-testid="input-visibility-icon"
               onClick={handleClickShowPassword}
-              tabIndex="0"
+              tabIndex={0}
               aria-label="toggle password visibility"
               type="button"
             >
@@ -86,51 +106,6 @@ const Input = ({
       </InputComponentStyled>
     </ThemeProvider>
   );
-};
-
-Input.propTypes = {
-  placeholder: PropTypes.string,
-  type: PropTypes.oneOf(['text', 'password', 'date', 'email']),
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-  onBlur: PropTypes.func,
-  error: PropTypes.string,
-  showVisibilityIcon: PropTypes.bool,
-  handleClickShowPassword: PropTypes.func,
-  showPassword: PropTypes.bool,
-  passwordStrength: PropTypes.oneOf([
-    'Weak',
-    'Fair',
-    'Good',
-    'Strong',
-    'NotValid',
-    ''
-  ]),
-  ariaRequired: PropTypes.bool,
-  ariaInvalid: PropTypes.bool,
-  icon: PropTypes.elementType,
-  required: PropTypes.bool,
-  floatingLabels: PropTypes.bool,
-  reference: PropTypes.oneOfType([PropTypes.func, PropTypes.shape()])
-};
-
-Input.defaultProps = {
-  placeholder: '',
-  type: 'text',
-  onChange: () => null,
-  onBlur: () => null,
-  error: '',
-  value: '',
-  showVisibilityIcon: false,
-  handleClickShowPassword: () => null,
-  showPassword: false,
-  passwordStrength: '',
-  ariaRequired: false,
-  ariaInvalid: false,
-  icon: null,
-  required: false,
-  floatingLabels: true,
-  reference: () => null
 };
 
 export default Input;

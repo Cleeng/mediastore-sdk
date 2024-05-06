@@ -5,7 +5,7 @@ import CouponInput from 'components/CouponInput';
 import {
   MESSAGE_TYPE_SUCCESS,
   MESSAGE_TYPE_FAIL
-} from 'components/Input/InputConstants';
+} from 'components/InputLegacy/InputConstants';
 import userEvent from '@testing-library/user-event';
 import { orderInitialState } from 'redux/orderSlice';
 import { Provider } from 'react-redux';
