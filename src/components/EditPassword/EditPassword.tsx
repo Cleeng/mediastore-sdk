@@ -31,7 +31,7 @@ const EditPassword = ({
   const { resetUrl } = useAppSelector(selectPublisherConfig);
 
   const renderNextStep = () => {
-    setStep(prevStep => prevStep + 1);
+    setStep((prevStep) => prevStep + 1);
   };
 
   const logout = () => {
@@ -89,11 +89,11 @@ const EditPassword = ({
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme="simple" onClickFn={() => hideInnerPopup()}>
+            <Button theme='simple' onClickFn={() => hideInnerPopup()}>
               {t('edit-password.button.no-thanks', 'No, thanks')}
             </Button>
-            <Button theme="confirm" onClickFn={handleResetPassword}>
-              {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
+            <Button theme='confirm' onClickFn={handleResetPassword}>
+              {(isLoading && <Loader buttonLoader color='#ffffff' />) ||
                 t('edit-password.button.yes-reset', 'Yes, reset')}
             </Button>
           </ButtonWrapperStyled>
@@ -119,8 +119,8 @@ const EditPassword = ({
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme="confirm" onClickFn={() => logout()}>
-              {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
+            <Button theme='confirm' onClickFn={() => logout()}>
+              {(isLoading && <Loader buttonLoader color='#ffffff' />) ||
                 t('edit-password.button.confirm', 'Confirm')}
             </Button>
           </ButtonWrapperStyled>

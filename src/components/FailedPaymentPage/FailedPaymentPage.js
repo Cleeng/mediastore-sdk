@@ -16,12 +16,12 @@ import {
 import { ReactComponent as WarningIcon } from 'assets/images/errors/warning.svg';
 
 const FailedPaymentPage = () => {
-  const { error } = useSelector(state => state.finalizeInitialPayment);
+  const { error } = useSelector((state) => state.finalizeInitialPayment);
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
   return (
-    <StyledOfferWrapper data-testid="FailedPaymentPage-component">
+    <StyledOfferWrapper data-testid='FailedPaymentPage-component'>
       <Header />
       <ThankYouPageStyled>
         <WarningIcon />
@@ -38,30 +38,30 @@ const FailedPaymentPage = () => {
         </MessageStyled>
         <MessageStyled>
           {error.includes('Refused') ? (
-            <Trans i18nKey="failed-payment-page.desc-refused">
+            <Trans i18nKey='failed-payment-page.desc-refused'>
               To complete your purchase, please
               <LinkStyled
-                as="button"
+                as='button'
                 onClick={() =>
                   dispatch(setShouldShowFinalizePaymentComponent(false))
                 }
-                target="_blank"
-                rel="noopener noreferrer"
+                target='_blank'
+                rel='noopener noreferrer'
               >
                 try again
               </LinkStyled>
               using a different payment method.
             </Trans>
           ) : (
-            <Trans i18nKey="failed-payment-page.desc-error">
+            <Trans i18nKey='failed-payment-page.desc-error'>
               To complete your purchase, please
               <LinkStyled
-                as="button"
+                as='button'
                 onClick={() =>
                   dispatch(setShouldShowFinalizePaymentComponent(false))
                 }
-                target="_blank"
-                rel="noopener noreferrer"
+                target='_blank'
+                rel='noopener noreferrer'
               >
                 try again.
               </LinkStyled>

@@ -76,7 +76,7 @@ export const CheckoutConsentsError = styled.div.attrs(() => ({
   font-size: 13px;
   text-align: left;
 
-  ${props =>
+  ${(props) =>
     props.center &&
     css`
       text-align: center;

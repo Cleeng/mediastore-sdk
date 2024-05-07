@@ -23,8 +23,8 @@ const Consents = ({ error, onChangeFn }: ConsentsProps) => {
     checked,
     loading,
     error: generalError
-  } = useAppSelector(state => state.publisherConsents);
-  const { publisherId } = useAppSelector(state => state.publisherConfig);
+  } = useAppSelector((state) => state.publisherConsents);
+  const { publisherId } = useAppSelector((state) => state.publisherConfig);
 
   const { t } = useTranslation();
 
@@ -35,7 +35,7 @@ const Consents = ({ error, onChangeFn }: ConsentsProps) => {
       if (publisherId) {
         const consents = await dispatch(fetchPublisherConsents(publisherId))
           .unwrap()
-          .catch(err => {
+          .catch((err) => {
             throw new Error(err);
           });
 
@@ -58,7 +58,7 @@ const Consents = ({ error, onChangeFn }: ConsentsProps) => {
 
   if (generalError === 'noPublisherId') {
     return (
-      <GeneralErrorStyled data-testid="consents__general-error">
+      <GeneralErrorStyled data-testid='consents__general-error'>
         {t(
           'consents-general-error',
           'Unable to fetch terms & conditions. Publisher is not recognized'
@@ -68,7 +68,7 @@ const Consents = ({ error, onChangeFn }: ConsentsProps) => {
   }
   if (loading) {
     return (
-      <ConsentsWrapperStyled data-testid="consents__loader">
+      <ConsentsWrapperStyled data-testid='consents__loader'>
         <Loader />
       </ConsentsWrapperStyled>
     );

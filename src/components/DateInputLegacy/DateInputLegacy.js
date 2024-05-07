@@ -13,9 +13,9 @@ const DateInputLegacy = ({
 }) => {
   return (
     <InputLegacy
-      type="date"
+      type='date'
       placeholder={label}
-      format="dd/mm/yyyy"
+      format='dd/mm/yyyy'
       value={value}
       icon={CalendarIcon}
       onChange={onChange}
@@ -37,8 +37,8 @@ DateInputLegacy.propTypes = {
 
 DateInputLegacy.defaultProps = {
   value: '',
-  onChange: () => {},
-  onBlur: () => {},
+  onChange: () => null,
+  onBlur: () => null,
   error: '',
   label: '',
   required: false

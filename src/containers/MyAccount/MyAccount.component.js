@@ -54,7 +54,7 @@ class MyAccount extends Component {
     if (Auth.isLogged()) {
       if (userProfile.consents.length === 0) {
         getCustomerConsents()
-          .then(response => {
+          .then((response) => {
             if (!response.errors.length) {
               setConsents(response.responseData.consents);
               this.checkTerms();
@@ -66,7 +66,7 @@ class MyAccount extends Component {
       }
 
       if (!userProfile.user) {
-        getCustomer().then(response => {
+        getCustomer().then((response) => {
           if (response.errors.length) {
             this.setState({
               errors: response.errors
@@ -104,7 +104,7 @@ class MyAccount extends Component {
     if (Auth.isLogged()) {
       if (userProfile.consents.length === 0) {
         getCustomerConsents()
-          .then(response => {
+          .then((response) => {
             if (!response.errors.length) {
               setConsents(response.responseData.consents);
               this.checkTerms();
@@ -116,7 +116,7 @@ class MyAccount extends Component {
       }
 
       if (!userProfile.user) {
-        getCustomer().then(response => {
+        getCustomer().then((response) => {
           if (response.errors.length) {
             this.setState({
               errors: response.errors
@@ -148,7 +148,7 @@ class MyAccount extends Component {
     if (consents.length !== 0) {
       // Not checked required terms
       const notCheckedTerms = consents.filter(
-        item =>
+        (item) =>
           item.required &&
           item.state === 'declined' &&
           item.version === item.newestVersion
@@ -160,10 +160,10 @@ class MyAccount extends Component {
 
       // New version of terms and consents
       const consentsUpdateRequired = consents.filter(
-        item => !item.required && item.needsUpdate === true
+        (item) => !item.required && item.needsUpdate === true
       );
       const termsUpdateRequired = consents.filter(
-        item => item.required && item.version !== item.newestVersion
+        (item) => item.required && item.version !== item.newestVersion
       );
       if (termsUpdateRequired.length && consentsUpdateRequired.length) {
         this.renderPopup(true, POPUP_TYPE.complexUpdate, [

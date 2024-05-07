@@ -1,7 +1,7 @@
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-const getSwitch = async switchId => {
+const getSwitch = async (switchId) => {
   const API_URL = getApiURL();
 
   const url = `${API_URL}/subscription_switches/${switchId}`;
@@ -9,14 +9,14 @@ const getSwitch = async switchId => {
   return fetchWithJWT(url, {
     method: 'GET'
   })
-    .then(async res => {
+    .then(async (res) => {
       const { responseData, errors } = await res.json();
       if (!res.ok) {
         throw new Error(errors[0]);
       }
       return responseData;
     })
-    .catch(err => {
+    .catch((err) => {
       throw new Error(err);
     });
 };

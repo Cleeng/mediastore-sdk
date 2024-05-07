@@ -13,13 +13,13 @@ export const WrapStyled = styled.div.attrs(() => ({
   position: relative;
   margin-bottom: 12px;
 
-  ${props =>
+  ${(props) =>
     props.$hideInput &&
     css`
       display: none;
     `};
 
-  ${props =>
+  ${(props) =>
     props.$width &&
     css`
       width: ${props.$width};
@@ -60,9 +60,9 @@ export const InputElementStyled = styled.input.attrs(() => ({
   line-height: 13px;
 
   ${isRTL() &&
-    css`
-      text-align: right;
-    `}
+  css`
+    text-align: right;
+  `}
 
   &:focus,
   &:active {
@@ -74,7 +74,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
     color: ${FontColor};
   }
 
-  ${props =>
+  ${(props) =>
     props.$error &&
     css`
       border: 1px solid ${ErrorColor};

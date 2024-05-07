@@ -27,9 +27,9 @@ const CheckoutConsents = ({ onSuccess }) => {
 
   useEffect(() => {
     getCustomerConsents()
-      .then(resp => {
+      .then((resp) => {
         const consentsToAccept = resp.responseData.consents.filter(
-          consent =>
+          (consent) =>
             consent.newestVersion > consent.version ||
             consent.needsUpdate === true
         );
@@ -40,7 +40,7 @@ const CheckoutConsents = ({ onSuccess }) => {
   }, []);
 
   const handleClick = (e, isConsentDisabled, clicked) => {
-    const updatedConsents = consents.map(consent => {
+    const updatedConsents = consents.map((consent) => {
       if (consent.name === clicked.name) {
         return {
           ...consent,
@@ -54,7 +54,7 @@ const CheckoutConsents = ({ onSuccess }) => {
 
   const validateConsents = () => {
     let isError = false;
-    const updatedConsents = consents.map(consent => {
+    const updatedConsents = consents.map((consent) => {
       if (consent.required && consent.state === 'declined') {
         isError = true;
         return {
@@ -73,7 +73,7 @@ const CheckoutConsents = ({ onSuccess }) => {
 
   const updateConsents = () => {
     if (validateConsents()) {
-      const payload = consents.map(consent => {
+      const payload = consents.map((consent) => {
         return {
           name: consent.name,
           version: consent.newestVersion,
@@ -115,8 +115,8 @@ const CheckoutConsents = ({ onSuccess }) => {
                   'Please accept Terms & Conditions'
                 )}
               </CheckoutConsentsSubTitleStyled>
-              <CheckoutConsentsListStyled role="list">
-                {consents.map(consent => (
+              <CheckoutConsentsListStyled role='list'>
+                {consents.map((consent) => (
                   <CheckoutConsentsCheckbox key={consent.name}>
                     <CheckboxLegacy
                       isMyAccount
@@ -139,9 +139,9 @@ const CheckoutConsents = ({ onSuccess }) => {
                   </CheckoutConsentsError>
                 )}
               </CheckoutConsentsListStyled>
-              <Button size="big" theme="confirm" onClickFn={updateConsents}>
+              <Button size='big' theme='confirm' onClickFn={updateConsents}>
                 {processing ? (
-                  <Loader buttonLoader color="#ffffff" />
+                  <Loader buttonLoader color='#ffffff' />
                 ) : (
                   t('checkout-consents.button.continue', 'Continue')
                 )}

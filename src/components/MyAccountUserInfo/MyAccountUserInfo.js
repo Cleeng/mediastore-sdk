@@ -12,11 +12,11 @@ import {
 } from './MyAccountUserInfoStyled';
 
 const MyAccountUserInfo = () => {
-  const { user } = useSelector(state => state.userProfile);
+  const { user } = useSelector((state) => state.userProfile);
 
   const {
     data: [plan]
-  } = useSelector(state => state.plan.currentPlan);
+  } = useSelector((state) => state.plan.currentPlan);
 
   const { t } = useTranslation();
 
@@ -45,7 +45,7 @@ const MyAccountUserInfo = () => {
           <MailStyled $bigger={!isNameSet}>{user?.email}</MailStyled>
         </SkeletonWrapper>
         {/* TODO: fix contrast issue */}
-        <SkeletonWrapper showChildren={isDataLoaded} height={36} margin="0">
+        <SkeletonWrapper showChildren={isDataLoaded} height={36} margin='0'>
           {subscription && <TextStyled>{subscription}</TextStyled>}
         </SkeletonWrapper>
       </DetailsStyled>

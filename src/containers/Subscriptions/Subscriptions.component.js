@@ -24,16 +24,16 @@ const Subscriptions = ({
   skipAvailableDowngradesStep,
   skipAvailableFreeExtensionStep
 }) => {
-  const { data: currentPlan } = useSelector(state => state.plan.currentPlan);
-  const { updateList: updateListValue } = useSelector(state => state.plan);
-  const { offers } = useSelector(state => state.offers);
-  const { isOpen: isPopupOpen } = useSelector(state => state.popupManager);
+  const { data: currentPlan } = useSelector((state) => state.plan.currentPlan);
+  const { updateList: updateListValue } = useSelector((state) => state.plan);
+  const { offers } = useSelector((state) => state.offers);
+  const { isOpen: isPopupOpen } = useSelector((state) => state.popupManager);
 
   const { t } = useTranslation();
   const didMount = useRef(false);
   const dispatch = useDispatch();
 
-  const getAndSaveSwitchSettings = async customerSubscriptions => {
+  const getAndSaveSwitchSettings = async (customerSubscriptions) => {
     if (customerSubscriptions.length > 1) {
       dispatch(resetOfferToSwitch());
     }
@@ -44,11 +44,11 @@ const Subscriptions = ({
     const customerOffers = await dispatch(fetchCustomerOffers()).unwrap();
 
     const activeSubscriptions = customerOffers.filter(
-      offer => offer.status === 'active' && offer.offerType === 'S'
+      (offer) => offer.status === 'active' && offer.offerType === 'S'
     );
 
     const offersWithPendingSwitches = activeSubscriptions.filter(
-      sub => sub.pendingSwitchId
+      (sub) => sub.pendingSwitchId
     );
 
     dispatch(fetchPendingSwitches(offersWithPendingSwitches));

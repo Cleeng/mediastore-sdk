@@ -72,7 +72,7 @@ export const TextStyled = styled.p`
   line-height: 1.5;
   margin: 20px 0;
 
-  ${props =>
+  ${(props) =>
     props.step === 2 &&
     css`
       opacity: 0.6;
@@ -101,7 +101,7 @@ export const InfoStyled = styled.span`
 export const DotsWrapperStyled = styled.div`
   display: flex;
   flex-direction: row;
-  ${props =>
+  ${(props) =>
     props.$currentStep &&
     css`
       span:nth-child(-n + ${props.$currentStep}) {

@@ -18,7 +18,7 @@ const Password = ({ showInnerPopup }) => {
         <InnerWrapperStyled>
           <OldPasswordStyled>••••••••</OldPasswordStyled>
           <Button
-            width="auto"
+            width='auto'
             onClickFn={() => showInnerPopup({ type: POPUP_TYPES.editPassword })}
           >
             {t('Edit Password')}

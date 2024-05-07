@@ -76,10 +76,10 @@ const CheckoutPriceBox = ({
     <StyledPriceBoxWrapper>
       <StyledPriceBox>
         <StyledPriceWrapper>
-          <StyledLabel id="offerPriceLabel">
+          <StyledLabel id='offerPriceLabel'>
             {t('checkout-price-box.price', 'Price')}
           </StyledLabel>
-          <StyledOfferPrice id="offerPriceValue">
+          <StyledOfferPrice id='offerPriceValue'>
             {`${currencySymbol}${formatNumber(offerPrice)} `}
             <span>
               {country === 'US'
@@ -92,7 +92,7 @@ const CheckoutPriceBox = ({
           <StyledPriceWrapper>
             <CouponNoteOuterWrapper>
               <CouponNoteInnerWrapper>
-                <StyledLabel id="discountAmountLabel">
+                <StyledLabel id='discountAmountLabel'>
                   {isTrial
                     ? t('checkout-price-box.trial-discount', 'Trial Discount')
                     : t(
@@ -100,13 +100,13 @@ const CheckoutPriceBox = ({
                         'Coupon Discount'
                       )}
                 </StyledLabel>
-                <StyledOfferPrice id="discountAmount">
+                <StyledOfferPrice id='discountAmount'>
                   - {currencySymbol}
                   {formatNumber(discountAmount)}
                 </StyledOfferPrice>
               </CouponNoteInnerWrapper>
               {discountType === 'coupon' && (
-                <CouponNoteStyled data-testid="coupon-notes">
+                <CouponNoteStyled data-testid='coupon-notes'>
                   {getCouponNote()}
                 </CouponNoteStyled>
               )}
@@ -114,12 +114,12 @@ const CheckoutPriceBox = ({
           </StyledPriceWrapper>
         )}
         <StyledPriceWrapper>
-          <StyledLabel id="taxValueLabel">
+          <StyledLabel id='taxValueLabel'>
             {country === 'US'
               ? t('checkout-price-box.applicable-tax', 'Applicable Tax')
               : t('checkout-price-box.applicable-vat', 'Applicable VAT')}
           </StyledLabel>
-          <StyledOfferPrice id="taxValue">
+          <StyledOfferPrice id='taxValue'>
             {!taxValue && isCouponApplied ? (
               <p style={{ textDecoration: 'line-through' }}>
                 {currencySymbol}{' '}
@@ -136,30 +136,30 @@ const CheckoutPriceBox = ({
         </StyledPriceWrapper>
         {customerServiceFee !== 0 && (
           <StyledPriceWrapper>
-            <StyledLabel id="customerServiceFeeLabel">
+            <StyledLabel id='customerServiceFeeLabel'>
               {t('checkout-price-box.service-fee', 'Service Fee')}
             </StyledLabel>
-            <StyledOfferPrice id="customerServiceFee">
+            <StyledOfferPrice id='customerServiceFee'>
               {`${currencySymbol}${formatNumber(customerServiceFee)}`}
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
         {paymentMethodFee !== 0 && (
           <StyledPriceWrapper>
-            <StyledLabel id="paymentMethodFeeLabel">
+            <StyledLabel id='paymentMethodFeeLabel'>
               {t('checkout-price-box.payment-method-fee', 'Payment Method Fee')}
             </StyledLabel>
-            <StyledOfferPrice id="paymentMethodFee">
+            <StyledOfferPrice id='paymentMethodFee'>
               {`${currencySymbol}${formatNumber(paymentMethodFee)}`}
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
         <StyledPriceWrapper>
           <StyledTotalWrapper>
-            <StyledTotalLabel id="finalPriceLabel">
+            <StyledTotalLabel id='finalPriceLabel'>
               {t('checkout-price-box.total', 'Today`s total')}
             </StyledTotalLabel>
-            <StyledTotalOfferPrice id="finalPrice">
+            <StyledTotalOfferPrice id='finalPrice'>
               {`${currencySymbol}${formatNumber(finalPrice)}`}
             </StyledTotalOfferPrice>
           </StyledTotalWrapper>
@@ -169,7 +169,7 @@ const CheckoutPriceBox = ({
             <span>
               {t('checkout-price-box.gift-code-label', 'Have a gift code?')}
             </span>
-            <LinkStyled as="button" onClick={onRedeemClick}>
+            <LinkStyled as='button' onClick={onRedeemClick}>
               {t('checkout-price-box.button.redeem', 'Redeem here')}
             </LinkStyled>
           </StyledRedeemButton>

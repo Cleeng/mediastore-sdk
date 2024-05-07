@@ -19,9 +19,9 @@ export const WrapperStyled = styled.figure.attrs(() => ({
   font-weight: ${BoldFont};
   text-align: center;
 
-  background-color: ${props => props.$bg};
-  color: ${props => props.$color};
-  border: 1px solid ${props => props.$border};
+  background-color: ${(props) => props.$bg};
+  color: ${(props) => props.$color};
+  border: 1px solid ${(props) => props.$border};
 
   svg {
     path:first-of-type,
@@ -50,7 +50,7 @@ export const LabelStyled = styled.span`
   height: 18px;
   width: 48px;
 
-  background: ${props => (props.$label === 'New' ? ConfirmColor : FontColor)};
+  background: ${(props) => (props.$label === 'New' ? ConfirmColor : FontColor)};
   border-radius: 10px;
 
   color: ${White};

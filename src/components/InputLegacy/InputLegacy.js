@@ -39,11 +39,11 @@ const InputLegacy = ({
         <InputElementWrapperStyled>
           {required && <InputRequiredStyled>*</InputRequiredStyled>}
           <InputElementStyled
-            data-testid="input"
+            data-testid='input'
             id={placeholder}
-            autoComplete="off"
+            autoComplete='off'
             value={value}
-            onChange={event => onChange(event.target.value)}
+            onChange={(event) => onChange(event.target.value)}
             type={type}
             onBlur={onBlur}
             ref={reference}
@@ -53,7 +53,7 @@ const InputLegacy = ({
             $floatingLabels={floatingLabels}
           />
           <LabelStyled
-            data-testid="input-label"
+            data-testid='input-label'
             htmlFor={placeholder}
             $hasValue={value}
             $withIcon={icon}
@@ -62,16 +62,16 @@ const InputLegacy = ({
           </LabelStyled>
           {showVisibilityIcon && (
             <StyledButton
-              data-testid="input-visibility-icon"
+              data-testid='input-visibility-icon'
               onClick={handleClickShowPassword}
-              tabIndex="0"
-              aria-label="toggle password visibility"
-              type="button"
+              tabIndex='0'
+              aria-label='toggle password visibility'
+              type='button'
             >
               {showPassword ? (
-                <StyledPasswordVisibility src={visibilityOff} alt="" />
+                <StyledPasswordVisibility src={visibilityOff} alt='' />
               ) : (
-                <StyledPasswordVisibility src={visibility} alt="" />
+                <StyledPasswordVisibility src={visibility} alt='' />
               )}
             </StyledButton>
           )}

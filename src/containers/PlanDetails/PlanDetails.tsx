@@ -37,8 +37,8 @@ const PlanDetails = ({
   } = useAppSelector(selectPlanDetails);
   const { updateList: updateListValue } = useAppSelector(selectPlanDetails);
   const { isOpen: isPopupOpen } = useAppSelector(selectPopupDetails);
-  const { offers } = useAppSelector(state => state.offers);
-  const { pauseOffersIDs } = useAppSelector(store => store.offers);
+  const { offers } = useAppSelector((state) => state.offers);
+  const { pauseOffersIDs } = useAppSelector((store) => store.offers);
   const { t } = useTranslation();
   const didMount = useRef(false);
   const dispatch = useAppDispatch();
@@ -103,7 +103,7 @@ const PlanDetails = ({
   }, [updateListValue]);
 
   const activeSubscriptions = currentPlan.filter(
-    offer => offer.status === 'active' && offer.offerType === 'S'
+    (offer) => offer.status === 'active' && offer.offerType === 'S'
   );
 
   const isPauseActive = (pauseOffersIDs as string[]).includes(offerToSwitchId);

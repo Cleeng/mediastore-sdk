@@ -29,7 +29,7 @@ const CancelPausePopup = () => {
   const [step, setStep] = useState(1);
 
   const { data: allSwitchDetails } = useSelector(
-    state => state.plan.switchDetails
+    (state) => state.plan.switchDetails
   );
   const {
     cancelPause: {
@@ -38,7 +38,7 @@ const CancelPausePopup = () => {
       baseOfferPrice,
       baseOfferTitle
     }
-  } = useSelector(state => state.popupManager);
+  } = useSelector((state) => state.popupManager);
 
   const switchDetails = allSwitchDetails[pendingSwitchId];
   const { t } = useTranslation();
@@ -111,7 +111,7 @@ const CancelPausePopup = () => {
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
             <Button
-              theme="simple"
+              theme='simple'
               onClickFn={() => {
                 eventDispatcher(
                   MSSDK_CANCEL_SWITCH_ACTION_CANCELLED,
@@ -122,9 +122,9 @@ const CancelPausePopup = () => {
             >
               {t('cancelpause-popup.resign', 'No, thanks')}
             </Button>
-            <Button theme="danger" onClickFn={cancelPause}>
+            <Button theme='danger' onClickFn={cancelPause}>
               {isLoading ? (
-                <Loader buttonLoader color="#ffffff" />
+                <Loader buttonLoader color='#ffffff' />
               ) : (
                 t('cancelpause-popup.confirm-button-text', 'Cancel pause')
               )}
@@ -135,7 +135,7 @@ const CancelPausePopup = () => {
       {step === 2 && (
         <>
           <ContentStyled>
-            <img src={checkmarkIconBase} alt="checkmark icon" />
+            <img src={checkmarkIconBase} alt='checkmark icon' />
             <TitleStyled>
               {t(
                 'cancelpause-popup.confirmation-title',
@@ -154,7 +154,7 @@ const CancelPausePopup = () => {
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
             <Button
-              theme="confirm"
+              theme='confirm'
               onClickFn={() => {
                 dispatch(updateList());
                 dispatch(hidePopup());

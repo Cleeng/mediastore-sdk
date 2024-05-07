@@ -62,7 +62,7 @@ export const ReactSelectStyled = styled(ReactSelect).attrs(() => ({
       background-color: #fff;
     }
   }
-  ${props =>
+  ${(props) =>
     props.$isMyAccount &&
     css`
       .react-select__control {
@@ -74,7 +74,7 @@ export const ReactSelectStyled = styled(ReactSelect).attrs(() => ({
         font-size: 13px;
       }
     `}
-  ${props =>
+  ${(props) =>
     props.$required &&
     css`
       .react-select__value-container {

@@ -33,7 +33,7 @@ const paymentDetailsReducer = createReducer(initialState, {
   SET_CURRENT_PLAN: (state, action) => {
     state.currentPlan = action.payload;
   },
-  UPDATE_LIST: state => {
+  UPDATE_LIST: (state) => {
     state.updateList = !state.updateList;
   },
   SET_OFFER_TO_SWITCH: (state, action) => {
@@ -50,20 +50,20 @@ const paymentDetailsReducer = createReducer(initialState, {
   SET_SWITCH_SETTINGS: (state, action) => {
     state.switchSettings[action.payload.offerId] = action.payload.settings;
   },
-  POPULATE_SWITCH_TITLE: state => {
+  POPULATE_SWITCH_TITLE: (state) => {
     const switchesToFulfill = [];
-    Object.keys(state.switchDetails).forEach(pendingSwitchId => {
+    Object.keys(state.switchDetails).forEach((pendingSwitchId) => {
       if (!state.switchDetails[pendingSwitchId].title) {
         switchesToFulfill.push(pendingSwitchId);
       }
     });
     if (switchesToFulfill.length && state.switchSettings) {
-      switchesToFulfill.forEach(pendingSwitchId => {
-        Object.keys(state.switchSettings).forEach(offerId => {
+      switchesToFulfill.forEach((pendingSwitchId) => {
+        Object.keys(state.switchSettings).forEach((offerId) => {
           const switchSettingsDetails = state.switchSettings[
             offerId
           ].available.find(
-            item =>
+            (item) =>
               item.toOfferId === state.switchDetails[pendingSwitchId].toOfferId
           );
           if (switchSettingsDetails) {

@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components';
 import * as colors from 'styles/variables';
 
-export const FooterStyled = styled.footer.attrs(props => ({
+export const FooterStyled = styled.footer.attrs((props) => ({
   className: `msd__footer ${
     props.$isTransparent ? 'msd__footer--transparent' : ''
   }`
@@ -17,16 +17,16 @@ export const FooterStyled = styled.footer.attrs(props => ({
   padding: 10px 34px;
 
   border-top: 1px solid ${colors.LineColor};
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.$isTransparent ? 'transparent' : colors.BackgroundColor};
 
-  ${props =>
+  ${(props) =>
     props.$isTransparent &&
     css`
       border: none;
     `}
 
-  ${props =>
+  ${(props) =>
     props.$isInPopup &&
     css`
       position: fixed;

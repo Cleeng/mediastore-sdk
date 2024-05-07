@@ -56,14 +56,14 @@ const OfferContainer = ({
 
   const dispatch = useAppDispatch();
 
-  const {
-    offerId: offerIdStore,
-    adyenConfiguration: adyenConfigurationStore
-  } = useAppSelector(selectPublisherConfig);
+  const { offerId: offerIdStore, adyenConfiguration: adyenConfigurationStore } =
+    useAppSelector(selectPublisherConfig);
 
-  const { order, loading: isOrderLoading, error: orderError } = useAppSelector(
-    selectOrder
-  );
+  const {
+    order,
+    loading: isOrderLoading,
+    error: orderError
+  } = useAppSelector(selectOrder);
 
   const { error: offerError } = useAppSelector(selectOffer);
 
@@ -71,13 +71,13 @@ const OfferContainer = ({
   const adyenConfiguration = adyenConfigurationProp || adyenConfigurationStore;
 
   const freeOfferPaymentMethodHandler = (orderId: number) => {
-    getPaymentMethods().then(paymentMethodResponse => {
+    getPaymentMethods().then((paymentMethodResponse) => {
       const {
         responseData: { paymentMethods }
       } = paymentMethodResponse;
 
       const freeOfferPaymentMethod = paymentMethods.find(
-        method => method.paymentGateway === 'free-offer'
+        (method) => method.paymentGateway === 'free-offer'
       );
       if (freeOfferPaymentMethod) {
         updateOrder(orderId, {
@@ -122,7 +122,7 @@ const OfferContainer = ({
   const reuseSavedOrder = async (id: string, longOfferId: string) => {
     await dispatch(fetchGetOrder(id))
       .unwrap()
-      .then(orderResponse => {
+      .then((orderResponse) => {
         checkIfCouponPaymentGatewayExists(orderResponse);
 
         const { customerId } = jwtDecode<{ customerId: number }>(
@@ -154,13 +154,13 @@ const OfferContainer = ({
     } = orderObj;
 
     if (applied && totalPrice === 0 && !requiredPaymentDetails) {
-      getPaymentMethods().then(paymentMethodResponse => {
+      getPaymentMethods().then((paymentMethodResponse) => {
         const {
           responseData: { paymentMethods }
         } = paymentMethodResponse;
 
         const freeOfferPaymentMethod = paymentMethods.find(
-          method => method.paymentGateway === 'coupon'
+          (method) => method.paymentGateway === 'coupon'
         );
 
         if (!freeOfferPaymentMethod?.id) {
@@ -201,7 +201,7 @@ const OfferContainer = ({
       })
     )
       .unwrap()
-      .then(orderResponse => {
+      .then((orderResponse) => {
         checkIfCouponPaymentGatewayExists(orderResponse);
 
         eventDispatcher(MSSDK_COUPON_SUCCESSFUL, {
@@ -298,8 +298,8 @@ const OfferContainer = ({
     const types = Object.keys(errorTypes) as Errors[];
     if (!err) return undefined;
 
-    return types.find(type =>
-      errorTypes[type].find(item => item.includes(err) || err.includes(item))
+    return types.find((type) =>
+      errorTypes[type].find((item) => item.includes(err) || err.includes(item))
     );
   };
 

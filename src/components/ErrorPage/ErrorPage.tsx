@@ -73,7 +73,7 @@ const ErrorPage = ({
         <IconStyled>
           <Icon />
         </IconStyled>
-        <MessageStyled id="offer-error-description">
+        <MessageStyled id='offer-error-description'>
           {error || t(typeParams.translationKey, typeParams.description)}
         </MessageStyled>
       </ErrorPageStyled>

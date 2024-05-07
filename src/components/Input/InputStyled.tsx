@@ -37,7 +37,7 @@ export const LabelStyled = styled.label.attrs(() => ({
   color: ${({ theme }) => theme.FontColor};
   transition: 200ms cubic-bezier(0, 0, 0.2, 1) 0ms;
 
-  ${props =>
+  ${(props) =>
     props.$withIcon &&
     css`
       inset-inline-start: 40px;
@@ -58,7 +58,7 @@ export const LabelStyled = styled.label.attrs(() => ({
     opacity: 0;
   }
 
-  ${props =>
+  ${(props) =>
     props.$hasValue &&
     css`
       transform: translate(0, -25px) scaleY(0.9);
@@ -67,7 +67,7 @@ export const LabelStyled = styled.label.attrs(() => ({
       }
     `}
 
-  ${props =>
+  ${(props) =>
     props.$hasValue &&
     props.$withIcon &&
     css`
@@ -121,7 +121,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
   &:focus + label {
     transform: translate(0, -25px) scaleY(0.9);
     color: ${({ theme }) => theme.ConfirmColor};
-    ${props =>
+    ${(props) =>
       props.$withIcon &&
       css`
         transform: translate(-26px, -25px) scaleY(0.9);
@@ -131,7 +131,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
     }
   }
 
-  ${props =>
+  ${(props) =>
     props.$floatingLabels === false &&
     css`
       & + label {
@@ -146,7 +146,7 @@ export const InputElementStyled = styled.input.attrs(() => ({
     width: 100%;
   `}
 
-  ${props =>
+  ${(props) =>
     props.type === 'date' &&
     css`
       text-transform: uppercase;
@@ -175,7 +175,7 @@ export const ErrorWrapper = styled.div.attrs(() => ({
   color: ${({ theme }) => theme.ErrorColor};
   transition: 0.2s ease-in-out;
 
-  ${props =>
+  ${(props) =>
     props.$passwordStrength &&
     css`
       color: ${props.theme.PasswordStrengthColors[props.$passwordStrength]};

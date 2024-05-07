@@ -71,7 +71,7 @@ const UpdatePaymentDetailsPopup = () => {
   };
 
   const { isLoading, step, initPaymentMethod } = useSelector(
-    state => state.popupManager.paymentDetails
+    (state) => state.popupManager.paymentDetails
   );
 
   const dispatch = useDispatch();
@@ -79,16 +79,15 @@ const UpdatePaymentDetailsPopup = () => {
   const [standardDropInInstance, setStandardDropInInstance] = useState(null);
   const [bankDropInInstance, setBankDropInInstance] = useState(null);
   const { paymentMethods, isPayPalHidden } = useSelector(
-    state => state.publisherConfig
+    (state) => state.publisherConfig
   );
-  const { paymentDetails } = useSelector(state => state.paymentDetails);
+  const { paymentDetails } = useSelector((state) => state.paymentDetails);
   const { loading: isFinalizeAddPaymentDetailsLoading } = useSelector(
-    state => state.finalizeAddPaymentDetails
+    (state) => state.finalizeAddPaymentDetails
   );
-  const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
-    false
-  );
-  const selectPaymentMethodHandler = paymentMethodName => {
+  const [isActionHandlingProcessing, setIsActionHandlingProcessing] =
+    useState(false);
+  const selectPaymentMethodHandler = (paymentMethodName) => {
     const paymentMethodObj = paymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
@@ -97,7 +96,7 @@ const UpdatePaymentDetailsPopup = () => {
 
   useEffect(() => {
     if (!paymentMethods.length) {
-      getPaymentMethods().then(resp => {
+      getPaymentMethods().then((resp) => {
         const { responseData } = resp;
         if (responseData) {
           const { paymentMethods: paymentMethodsFromBackend } = responseData;
@@ -154,7 +153,7 @@ const UpdatePaymentDetailsPopup = () => {
         </ContentStyled>
         <ButtonWrapperStyled $removeMargin>
           <Button
-            theme="simple"
+            theme='simple'
             onClickFn={() =>
               dispatch(updatePaymentDetailsPopup({ isOpen: false }))
             }
@@ -166,7 +165,7 @@ const UpdatePaymentDetailsPopup = () => {
     );
   }
 
-  const onAdditionalDetails = state => {
+  const onAdditionalDetails = (state) => {
     const {
       data: { details }
     } = state;
@@ -244,11 +243,11 @@ const UpdatePaymentDetailsPopup = () => {
 
   const submitPayPal = () => {
     const paymentMethodId = paymentMethods.find(
-      item => item.paymentGateway === 'paypal' && item.methodName === 'paypal'
+      (item) => item.paymentGateway === 'paypal' && item.methodName === 'paypal'
     )?.id;
     dispatch(updatePaymentDetailsPopup({ isLoading: true }));
     updatePayPalPaymentDetails(paymentMethodId)
-      .then(resp => {
+      .then((resp) => {
         eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL);
         window.location.href = resp.responseData.redirectUrl;
       })
@@ -394,8 +393,8 @@ const UpdatePaymentDetailsPopup = () => {
             !isActionHandlingProcessing && (
               <DropInSection
                 selectPaymentMethod={selectPaymentMethodHandler}
-                title="PayPal"
-                logo="paypal"
+                title='PayPal'
+                logo='paypal'
                 isLoading={isLoading}
               >
                 <PayPal
@@ -406,7 +405,7 @@ const UpdatePaymentDetailsPopup = () => {
               </DropInSection>
             )}
         </PaymentMethodsWrapperStyled>
-        {paymentDetails.find(item => item.active)?.id && (
+        {paymentDetails.find((item) => item.active)?.id && (
           <RemoveLinkStyled
             onClick={() => {
               eventDispatcher(MSSDK_REMOVE_PAYMENT_DETAILS_BUTTON_CLICKED);
@@ -427,7 +426,7 @@ const UpdatePaymentDetailsPopup = () => {
       </ContentStyled>
       <ButtonWrapperStyled $removeMargin>
         <Button
-          theme="simple"
+          theme='simple'
           onClickFn={() =>
             dispatch(
               updatePaymentDetailsPopup({

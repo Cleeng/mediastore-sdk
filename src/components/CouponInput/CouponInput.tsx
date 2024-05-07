@@ -82,7 +82,7 @@ const CouponInput = ({
     <FormComponentStyled
       $isOpen={isOpen}
       $fullWidth={fullWidth}
-      onSubmit={async e => {
+      onSubmit={async (e) => {
         e.preventDefault();
         await handleRedeem();
       }}
@@ -91,19 +91,19 @@ const CouponInput = ({
         {isOpen && (
           <>
             <CloseButtonStyled
-              type="button"
-              aria-label="close"
+              type='button'
+              aria-label='close'
               onClick={handleClose}
-              data-testid="closeRedeemCouponButton"
+              data-testid='closeRedeemCouponButton'
             >
               <CloseIcon />
             </CloseButtonStyled>
             <InputElementStyled
-              type="text"
+              type='text'
               placeholder={
                 t('coupon-input.placeholder', 'Your coupon') as string
               }
-              autoComplete="off"
+              autoComplete='off'
               value={value}
               ref={inputRef}
               readOnly={couponLoading}
@@ -122,8 +122,8 @@ const CouponInput = ({
             />
           </>
         )}
-        <Button type="submit" width="auto" testid="redeem-btn">
-          {couponLoading && <Loader buttonLoader color="#ffffff" />}
+        <Button type='submit' width='auto' testid='redeem-btn'>
+          {couponLoading && <Loader buttonLoader color='#ffffff' />}
           {!couponLoading && isOpen && t('coupon-input.redeem', 'Redeem')}
           {!couponLoading &&
             !isOpen &&

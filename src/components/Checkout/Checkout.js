@@ -77,7 +77,7 @@ class Checkout extends Component {
     }
   }
 
-  goToStep = step => {
+  goToStep = (step) => {
     this.setState({
       currentStep: step
     });
@@ -189,8 +189,8 @@ Checkout.defaultProps = {
   resetPasswordCallback: () => null
 };
 
-export const mapDispatchToProps = dispatch => ({
-  initValues: values => {
+export const mapDispatchToProps = (dispatch) => ({
+  initValues: (values) => {
     dispatch(init(values));
   }
 });

@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
-const ButtonStyled = styled.button.attrs(props => ({
+const ButtonStyled = styled.button.attrs((props) => ({
   className: `msd__button msd__button--${props.$theme}`
 }))`
   position: relative;
@@ -42,9 +42,7 @@ const ButtonStyled = styled.button.attrs(props => ({
     }
   }
 
-
-
-  ${props =>
+  ${(props) =>
     props.$size === 'big' &&
     css`
       padding: 20px;
@@ -52,7 +50,7 @@ const ButtonStyled = styled.button.attrs(props => ({
       font-weight: 400;
     `}
 
-  ${props =>
+  ${(props) =>
     props.$size === 'normal' &&
     css`
       padding: 12px 25px;
@@ -60,7 +58,7 @@ const ButtonStyled = styled.button.attrs(props => ({
       font-weight: 600;
     `}
 
-  ${props =>
+  ${(props) =>
     (props.$theme === 'confirm' &&
       css`
         color: ${colors.White};
@@ -212,37 +210,37 @@ const ButtonStyled = styled.button.attrs(props => ({
         }
       `)}
 
-  ${props =>
+  ${(props) =>
     props.$fontWeight &&
     css`
       font-weight: ${props.$fontWeight};
     `}
-  ${props =>
+  ${(props) =>
     props.$fontSize &&
     css`
       font-size: ${props.$fontSize};
     `}
-  ${props =>
+  ${(props) =>
     props.$margin &&
     css`
       margin: ${props.$margin};
     `}
-  ${props =>
+  ${(props) =>
     props.$width &&
     css`
       width: ${props.$width};
     `}
-  ${props =>
+  ${(props) =>
     props.disabled &&
     css`
       filter: opacity(0.7);
     `}
-  ${props =>
+  ${(props) =>
     props.$padding &&
     css`
       padding: ${props.$padding};
     `}
-  ${props =>
+  ${(props) =>
     props.$icon &&
     css`
       &::before {

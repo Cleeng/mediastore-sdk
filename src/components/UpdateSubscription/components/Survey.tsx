@@ -131,7 +131,7 @@ const Survey = ({
                     )}
               </>
             )}{' '}
-            <Trans i18nKey="unsubscribe-popup.survey.info">
+            <Trans i18nKey='unsubscribe-popup.survey.info'>
               If you would like to proceed with cancelling your subscription,
               please select &lsquo;Unsubscribe&rsquo; below, and your
               subscription will be cancelled as of {{ formattedExpiresAt }}.
@@ -158,15 +158,15 @@ const Survey = ({
         )}
       </ContentStyled>
       <ButtonWrapperStyled $removeMargin>
-        <Button theme="simple" onClickFn={handleGoBackButton}>
+        <Button theme='simple' onClickFn={handleGoBackButton}>
           {t('unsubscribe-popup.survey.go-back', 'Go back')}
         </Button>
         <Button
-          theme="confirm"
+          theme='confirm'
           onClickFn={handleUnsubscribe}
           disabled={checkedReason === '' || isLoading}
         >
-          {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
+          {(isLoading && <Loader buttonLoader color='#ffffff' />) ||
             t('unsubscribe-popup.survey.unsubscribe', 'Unsubscribe')}
         </Button>
       </ButtonWrapperStyled>

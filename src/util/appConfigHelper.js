@@ -22,7 +22,7 @@ const isLocalStorageAvailable = () => {
   }
 };
 
-export const getData = name => {
+export const getData = (name) => {
   const result = isLocalStorageAvailable()
     ? localStorage.getItem(name)
     : store.getState().appConfig[name];
@@ -41,19 +41,19 @@ export const setData = (name, value) =>
     ? localStorage.setItem(name, value)
     : store.dispatch(setDataInRedux({ name, value }));
 
-export const removeData = name =>
+export const removeData = (name) =>
   isLocalStorageAvailable()
     ? localStorage.removeItem(name)
     : store.dispatch(removeDataFromRedux({ name }));
 
-export const setJWT = jwt => {
+export const setJWT = (jwt) => {
   if (jwt) {
     setData('CLEENG_AUTH_TOKEN', jwt);
     return true;
   }
   return false;
 };
-export const setRefreshToken = refreshToken => {
+export const setRefreshToken = (refreshToken) => {
   if (refreshToken) {
     setData('CLEENG_REFRESH_TOKEN', refreshToken);
     return true;
@@ -61,7 +61,7 @@ export const setRefreshToken = refreshToken => {
   return false;
 };
 
-export const setPublisher = publisherId => {
+export const setPublisher = (publisherId) => {
   if (publisherId) {
     setData('CLEENG_PUBLISHER_ID', publisherId);
     store.dispatch(initPublisherConfig({ publisherId }));
@@ -70,7 +70,7 @@ export const setPublisher = publisherId => {
   return false;
 };
 
-export const setOffer = offerId => {
+export const setOffer = (offerId) => {
   if (offerId) {
     setData('CLEENG_OFFER_ID', offerId);
     return true;
@@ -78,7 +78,7 @@ export const setOffer = offerId => {
   return false;
 };
 
-export const setEnvironment = env => {
+export const setEnvironment = (env) => {
   if (env) {
     setData('CLEENG_ENVIRONMENT', env);
     return true;
@@ -86,7 +86,7 @@ export const setEnvironment = env => {
   return false;
 };
 
-export const setCheckoutPayPalUrls = urls => {
+export const setCheckoutPayPalUrls = (urls) => {
   if (urls) {
     const { successUrl, cancelUrl, errorUrl } = urls;
     setData('CLEENG_CHECKOUT_PP_SUCCESS', successUrl);
@@ -97,7 +97,7 @@ export const setCheckoutPayPalUrls = urls => {
   return false;
 };
 
-export const setMyAccountPayPalUrls = urls => {
+export const setMyAccountPayPalUrls = (urls) => {
   if (urls) {
     const { successUrl, cancelUrl, errorUrl } = urls;
     setData('CLEENG_MYACCOUNT_PP_SUCCESS', successUrl);
@@ -108,7 +108,7 @@ export const setMyAccountPayPalUrls = urls => {
   return false;
 };
 
-export const setMyAccountUrl = url => {
+export const setMyAccountUrl = (url) => {
   if (url) {
     setData('CLEENG_MY_ACCOUNT_URL', url);
     return true;
@@ -116,7 +116,7 @@ export const setMyAccountUrl = url => {
   return false;
 };
 
-export const setOfferSelectionUrl = url => {
+export const setOfferSelectionUrl = (url) => {
   if (url) {
     setData('CLEENG_OFFER_SELECTION_URL', url);
     return true;
@@ -124,7 +124,7 @@ export const setOfferSelectionUrl = url => {
   return false;
 };
 
-export const setTermsUrl = termsUrl => {
+export const setTermsUrl = (termsUrl) => {
   if (termsUrl) {
     setData('CLEENG_TERMS_URL', termsUrl);
     store.dispatch(initPublisherConfig({ termsUrl }));
@@ -133,7 +133,7 @@ export const setTermsUrl = termsUrl => {
   return false;
 };
 
-export const setResetUrl = resetUrl => {
+export const setResetUrl = (resetUrl) => {
   if (resetUrl) {
     store.dispatch(initPublisherConfig({ resetUrl }));
     return true;
@@ -141,7 +141,7 @@ export const setResetUrl = resetUrl => {
   return false;
 };
 
-export const setTheme = theme => {
+export const setTheme = (theme) => {
   const themeString = JSON.stringify(theme);
   if (theme) {
     setData('CLEENG_THEME', themeString);
@@ -158,7 +158,7 @@ export const getTheme = () => {
   return false;
 };
 
-export const setVisibleAdyenPaymentMethods = visiblePaymentMethods => {
+export const setVisibleAdyenPaymentMethods = (visiblePaymentMethods) => {
   store.dispatch(
     initPublisherConfig({
       visiblePaymentMethods
@@ -176,7 +176,7 @@ export const setHidePayPal = () => {
   return true;
 };
 
-export const setHiddenPaymentMethods = hiddenPaymentMethods => {
+export const setHiddenPaymentMethods = (hiddenPaymentMethods) => {
   store.dispatch(updateHiddenPaymentMethods(hiddenPaymentMethods));
   return true;
 };
@@ -190,14 +190,14 @@ export const setEnable3DSRedirectFlow = () => {
   return true;
 };
 
-export const setLanguage = async language => {
+export const setLanguage = async (language) => {
   const BASE_URL = window.location.origin;
 
   if (!i18n.hasResourceBundle(language, 'translations')) {
     const data = await fetch(
       `${BASE_URL}/cleeng-translations/${language}/translations.json`
     )
-      .then(response => {
+      .then((response) => {
         return response.json();
       })
       // Do not remove catch below

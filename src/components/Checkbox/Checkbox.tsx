@@ -60,7 +60,7 @@ const Checkbox = ({
       >
         <HiddenCheckboxInput
           id={id}
-          type="checkbox"
+          type='checkbox'
           checked={isChecked}
           disabled={disabled}
           required={required}
@@ -79,7 +79,7 @@ const Checkbox = ({
         >
           {isChecked && (
             <CheckMarkStyled
-              data-testid="checkmark"
+              data-testid='checkmark'
               $isMyAccount={isMyAccount}
               $isRadioButton={isRadioButton}
             />
@@ -95,8 +95,8 @@ const Checkbox = ({
       {termsUrl && (
         <TermsLinkStyled
           href={termsUrl}
-          target="_blank"
-          rel="noreferrer"
+          target='_blank'
+          rel='noreferrer'
           $checked={isChecked}
           $isPayPal={isPayPal}
         >

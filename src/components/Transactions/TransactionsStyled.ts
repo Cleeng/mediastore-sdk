@@ -116,7 +116,7 @@ export const ButtonTextStyled = styled.span.attrs(() => ({
     transform: scaleY(0.8) rotate(0deg);
     transition: all 0.3s ease-in-out;
     content: '▼';
-    ${props =>
+    ${(props) =>
       props.$isExpanded &&
       css`
         transform: scaleY(0.8) rotateX(180deg);

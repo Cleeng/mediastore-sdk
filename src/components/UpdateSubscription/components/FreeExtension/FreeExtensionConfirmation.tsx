@@ -22,7 +22,7 @@ const FreeExtensionConfirmation = () => {
     <>
       <ContentStyled>
         <ImageWrapper>
-          <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
+          <ImageStyled src={checkmarkIcon} alt='checkmark icon' />
         </ImageWrapper>
         <TitleStyled>
           {t('free-extension.success.header', 'Thank You!')}
@@ -35,7 +35,7 @@ const FreeExtensionConfirmation = () => {
         </TextStyled>
       </ContentStyled>
       <ButtonWrapperStyled>
-        <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
+        <Button theme='confirm' onClickFn={() => dispatch(hidePopup())}>
           {t('free-extension.success.back-button', 'Back to My Account')}
         </Button>
       </ButtonWrapperStyled>

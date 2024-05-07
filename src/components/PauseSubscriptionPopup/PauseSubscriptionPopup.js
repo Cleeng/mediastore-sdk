@@ -45,11 +45,11 @@ const PauseSubscriptionPopup = () => {
   const [step, setStep] = useState(STEPS.PAUSE_DETAILS);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
-  const { offerToSwitch: fromOffer } = useSelector(state => state.plan);
+  const { offerToSwitch: fromOffer } = useSelector((state) => state.plan);
   const {
     isLoading: isPopupLoading,
     pauseSubscription: { offerData: toOffer }
-  } = useSelector(state => state.popupManager);
+  } = useSelector((state) => state.popupManager);
 
   const dispatch = useDispatch();
 
@@ -104,7 +104,7 @@ const PauseSubscriptionPopup = () => {
           showChildren={false}
           height={200}
           width={450}
-          margin="auto"
+          margin='auto'
         />
       </InnerPopupWrapper>
     );
@@ -133,7 +133,7 @@ const PauseSubscriptionPopup = () => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme="confirm" onClickFn={closePopupAndRefresh}>
+            <Button theme='confirm' onClickFn={closePopupAndRefresh}>
               {t('pausesubscription-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
@@ -157,17 +157,17 @@ const PauseSubscriptionPopup = () => {
             <ImageWrapper>
               <SubscriptionIconStyled
                 period={fromOffer.period}
-                showLabel="Current"
+                showLabel='Current'
                 gray
               />
               <ArrowStyled />
-              <SubscriptionIconStyled isPaused showLabel="Paused" />
+              <SubscriptionIconStyled isPaused showLabel='Paused' />
             </ImageWrapper>
-            <TitleStyled $step={step} $textTransform="capitalize">
+            <TitleStyled $step={step} $textTransform='capitalize'>
               {t('pausesubscription-popup.details.title', 'Subscription pause')}
             </TitleStyled>
             <TextStyled>
-              <Trans i18nKey="pausesubscription-popup.details.info">
+              <Trans i18nKey='pausesubscription-popup.details.info'>
                 On your next billing cycle (
                 <strong>{{ pauseStartingDate }}</strong>) your subscription
                 pause will go into effect. While your subscription is paused,
@@ -191,7 +191,7 @@ const PauseSubscriptionPopup = () => {
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
             <Button
-              theme="simple"
+              theme='simple'
               onClickFn={() => {
                 dispatch(
                   showPopup({
@@ -208,9 +208,9 @@ const PauseSubscriptionPopup = () => {
             >
               {t('pausesubscription-popup.details.back', 'Back')}
             </Button>
-            <Button theme="confirm" onClickFn={pauseSubscription}>
+            <Button theme='confirm' onClickFn={pauseSubscription}>
               {isLoading ? (
-                <Loader buttonLoader color="#ffffff" />
+                <Loader buttonLoader color='#ffffff' />
               ) : (
                 t(
                   'pausesubscription-popup.confirm-button',
@@ -225,7 +225,7 @@ const PauseSubscriptionPopup = () => {
         <>
           <ContentStyled>
             <ImageWrapper>
-              <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
+              <ImageStyled src={checkmarkIcon} alt='checkmark icon' />
             </ImageWrapper>
             <TitleStyled $step={step}>
               {t(
@@ -234,7 +234,7 @@ const PauseSubscriptionPopup = () => {
               )}
             </TitleStyled>
             <TextStyled $step={step}>
-              <Trans i18nKey="pausesubscription-popup.confirmation.info">
+              <Trans i18nKey='pausesubscription-popup.confirmation.info'>
                 You will continue to have access to your subscription through
                 your current billing cycle. The pause will go into effect on{' '}
                 <strong>{{ pauseStartingDate }}</strong>
@@ -242,7 +242,7 @@ const PauseSubscriptionPopup = () => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme="confirm" onClickFn={closePopupAndRefresh}>
+            <Button theme='confirm' onClickFn={closePopupAndRefresh}>
               {t('pausesubscription-popup.resign-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>

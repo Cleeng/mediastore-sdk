@@ -113,21 +113,21 @@ const FreeExtension = ({
         </TextWrapperStyled>
         <FreeExtensionCardStyled>
           <div>
-            <TextStyled id="free-extension-card-title">
+            <TextStyled id='free-extension-card-title'>
               {t('free-extension.card-title', 'FREE EXTENSION')}
             </TextStyled>
-            <FreeExtensionCardPeriodStyled id="free-extension-period">
+            <FreeExtensionCardPeriodStyled id='free-extension-period'>
               {renderPeriodTextElement()}
             </FreeExtensionCardPeriodStyled>
           </div>
           <AcceptButtonWrapperStyled>
             <Button
-              theme="confirm"
-              size="normal"
+              theme='confirm'
+              size='normal'
               onClickFn={handleApplyRetentionAction}
             >
               {isApplyLoading ? (
-                <Loader buttonLoader color="#ffffff" />
+                <Loader buttonLoader color='#ffffff' />
               ) : (
                 t('free-extension.accept-button', 'I accept the offer')
               )}
@@ -135,10 +135,10 @@ const FreeExtension = ({
           </AcceptButtonWrapperStyled>
         </FreeExtensionCardStyled>
         <ButtonWrapperStyled $removeMargin>
-          <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
+          <Button theme='simple' onClickFn={() => dispatch(hidePopup())}>
             {t('free-extension.back-button', 'Back to My Account')}
           </Button>
-          <LinkStyled as="button" onClick={handleUnsubscribe}>
+          <LinkStyled as='button' onClick={handleUnsubscribe}>
             {t(
               'free-extension.unsubscribe-button',
               'I want to unsubscribe anyway'

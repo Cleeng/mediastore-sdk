@@ -56,12 +56,12 @@ const EmptyPlanView = () => {
         </TitleStyled>
         <SubTitleStyled>
           {getData('CLEENG_OFFER_SELECTION_URL') ? (
-            <Trans i18nKey="currentplan.no-offers-text-withlink">
+            <Trans i18nKey='currentplan.no-offers-text-withlink'>
               If you{' '}
               <a
                 href={getData('CLEENG_OFFER_SELECTION_URL')}
-                target="_blank"
-                rel="noreferrer"
+                target='_blank'
+                rel='noreferrer'
               >
                 choose your plan
               </a>
@@ -88,8 +88,8 @@ const CurrentPlan = () => {
     data: subscriptions,
     loading: isLoading,
     error: errors
-  } = useSelector(state => state.plan.currentPlan);
-  const { offerToSwitch } = useSelector(state => state.plan);
+  } = useSelector((state) => state.plan.currentPlan);
+  const { offerToSwitch } = useSelector((state) => state.plan);
   const dispatch = useDispatch();
 
   const showMessageBox = (type, text, subscriptionId) => {
@@ -108,10 +108,10 @@ const CurrentPlan = () => {
   return (
     <WrapStyled>
       <>
-        {subscriptions.map(subItem => {
+        {subscriptions.map((subItem) => {
           return (
             <SubscriptionStyled
-              as="article"
+              as='article'
               key={subItem.offerId}
               onClick={() => {
                 if (
