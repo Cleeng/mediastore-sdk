@@ -109,20 +109,26 @@ const CancelSwitchPopup = () => {
   return (
     <InnerPopupWrapper
       steps={2}
-      popupTitle={t('cancelswitch-popup.title', 'Cancel switch')}
+      popupTitle={t(
+        `cancelswitch-popup.title.${switchDirection}`,
+        `Cancel ${switchDirection}`
+      )}
       currentStep={step}
       isError={isError}
     >
       {step === 1 && (
         <>
           <ContentStyled>
-            <TitleStyled>
-              {t('cancelswitch-popup.title', 'Cancel switch')}
+            <TitleStyled $textTransform="capitalize">
+              {t(
+                `cancelswitch-popup.title.${switchDirection}`,
+                `Cancel ${switchDirection}`
+              )}
             </TitleStyled>
             <TextStyled>
               {t(
-                'cancelswitch-popup.switch-pending',
-                `Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to cancel the switch, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.`,
+                `cancelswitch-popup.pending.${switchDirection}`,
+                `Your {{switchDirection}} to {{switchOfferTitle}} is still pending and will take effect on {{baseOfferExpirationDate}}. If you decide to cancel the {{switchDirection}}, you will keep access to current plan and be charged {{baseOfferPrice}} on the next billing date.`,
                 {
                   switchDirection: t(switchDirection, switchDirection),
                   switchOfferTitle,
@@ -139,8 +145,8 @@ const CancelSwitchPopup = () => {
               <br />
               <br />
               {t(
-                'cancelswitch-popup.question',
-                'Are you sure you want to cancel the switch?'
+                `cancelswitch-popup.question.${switchDirection}`,
+                `Are you sure you want to cancel the ${switchDirection}?`
               )}
             </TextStyled>
           </ContentStyled>
@@ -162,7 +168,10 @@ const CancelSwitchPopup = () => {
               {isLoading ? (
                 <Loader buttonLoader color="#ffffff" />
               ) : (
-                t('cancelswitch-popup.confirm-button-text', 'Cancel switch')
+                t(
+                  `cancelswitch-popup.confirm-button-text.${switchDirection}`,
+                  `Cancel ${switchDirection}`
+                )
               )}
             </Button>
           </ButtonWrapperStyled>
@@ -172,10 +181,10 @@ const CancelSwitchPopup = () => {
         <>
           <ContentStyled>
             <img src={checkmarkIconBase} alt="checkmark icon" />
-            <TitleStyled>
+            <TitleStyled $textTransform="capitalize">
               {t(
-                'cancelswitch-popup.switch-cancelled-title',
-                'Switch canceled'
+                `cancelswitch-popup.cancelled-title.${switchDirection}`,
+                `${switchDirection} canceled`
               )}
             </TitleStyled>
             <TextStyled>

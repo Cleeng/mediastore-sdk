@@ -81,6 +81,7 @@ export const HeaderTitleStyled = styled.h1.attrs(() => ({
 }))`
   font-size: 14px;
   margin: 0;
+  text-transform: capitalize;
 `;
 
 /* USE IT FOR CHILDREN */
