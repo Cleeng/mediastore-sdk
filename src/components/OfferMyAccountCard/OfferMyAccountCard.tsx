@@ -1,27 +1,27 @@
-import { useAppDispatch, useAppSelector } from 'redux/store';
-import { selectCurrentPlan, selectSwitchDetails } from 'redux/planDetailsSlice';
-import { selectOffers } from 'redux/offersSlice';
-import { useTranslation } from 'react-i18next';
-import SubscriptionIcon from 'components/SubscriptionIcon';
-import Price from 'components/Price';
-import { ReactComponent as EditBlockedIcon } from 'assets/images/noEdit.svg';
-import SkeletonWrapper from 'components/SkeletonWrapper';
-import { ReactComponent as DowngradeIcon } from 'assets/images/downgrade_pending.svg';
-import { ReactComponent as UpgradeIcon } from 'assets/images/upgrade_pending.svg';
-import { ReactComponent as PauseIcon } from 'assets/images/pause_noti.svg';
+import { useAppDispatch, useAppSelector } from "redux/store";
+import { selectCurrentPlan, selectSwitchDetails } from "redux/planDetailsSlice";
+import { selectOffers } from "redux/offersSlice";
+import { useTranslation } from "react-i18next";
+import SubscriptionIcon from "components/SubscriptionIcon";
+import Price from "components/Price";
+import { ReactComponent as EditBlockedIcon } from "assets/images/noEdit.svg";
+import SkeletonWrapper from "components/SkeletonWrapper";
+import { ReactComponent as DowngradeIcon } from "assets/images/downgrade_pending.svg";
+import { ReactComponent as UpgradeIcon } from "assets/images/upgrade_pending.svg";
+import { ReactComponent as PauseIcon } from "assets/images/pause_noti.svg";
 import {
   dateFormat,
   INFINITE_DATE,
   currencyFormat,
-  CurrencyFormat
-} from 'util/planHelper';
-import { CustomerOffer } from 'api/Customer/types';
-import { showPopup, POPUP_TYPES } from 'redux/popupSlice';
-import { Offer } from 'redux/types/offersSlice.types';
+  CurrencyFormat,
+} from "util/planHelper";
+import { CustomerOffer } from "api/Customer/types";
+import { showPopup, POPUP_TYPES } from "redux/popupSlice";
+import { Offer } from "redux/types/offersSlice.types";
 import eventDispatcher, {
-  MSSDK_CANCEL_SWITCH_BUTTON_CLICKED
-} from 'util/eventDispatcher';
-import { SwitchDetail } from 'redux/types';
+  MSSDK_CANCEL_SWITCH_BUTTON_CLICKED,
+} from "util/eventDispatcher";
+import { SwitchDetail } from "redux/types";
 import {
   WrapperStyled,
   InnerWrapper,
@@ -31,9 +31,9 @@ import {
   SubBoxStyled,
   BoxTextStyled,
   SubBoxButtonStyled,
-  SubBoxContentStyled
-} from './OfferMyAccountCardStyled';
-import { OfferMyAccountCardProps } from './OfferMyAccountCard.types';
+  SubBoxContentStyled,
+} from "./OfferMyAccountCardStyled";
+import { OfferMyAccountCardProps } from "./OfferMyAccountCard.types";
 
 const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   const { t } = useTranslation();
@@ -54,7 +54,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     expiresAt,
     period,
     status,
-    isExternallyManaged
+    isExternallyManaged,
   } =
     currentPlan.find((sub: CustomerOffer) => sub.offerId === offerId) ||
     ({} as CustomerOffer);
@@ -80,33 +80,33 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   const generateDescription = () => {
     const renewalDate =
       expiresAt === INFINITE_DATE
-        ? t('currentplan.next-season-start', 'the next season start')
+        ? t("currentplan.next-season-start", "the next season start")
         : dateFormat(expiresAt);
 
-    if (offerType === 'S' && status === 'active' && !pendingSwitchId) {
+    if (offerType === "S" && status === "active" && !pendingSwitchId) {
       return `${t(
-        'currentplan.subscription.renews-info',
-        'Renews automatically on {{renewalDate}}',
+        "currentplan.subscription.renews-info",
+        "Renews automatically on {{renewalDate}}",
         {
-          renewalDate
+          renewalDate,
         }
       )}`;
     }
-    if (offerType === 'S' && status === 'cancelled') {
+    if (offerType === "S" && status === "cancelled") {
       return `${t(
-        'currentplan.subscription.expire-info',
-        'This plan will expire on {{renewalDate}}',
+        "currentplan.subscription.expire-info",
+        "This plan will expire on {{renewalDate}}",
         {
-          renewalDate
+          renewalDate,
         }
       )}`;
     }
-    if (offerType === 'P') {
-      return `${t('currentplan.pass.expires-on', 'Expires on')} ${dateFormat(
+    if (offerType === "P") {
+      return `${t("currentplan.pass.expires-on", "Expires on")} ${dateFormat(
         expiresAt
       )}`;
     }
-    return '';
+    return "";
   };
 
   const getPendingSwitchCopy = () => {
@@ -114,7 +114,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
 
     const subscriptionExpirationDate =
       expiresAt === INFINITE_DATE
-        ? t('offer-card.next-season-start', 'the next season start')
+        ? t("offer-card.next-season-start", "the next season start")
         : dateFormat(expiresAt);
 
     const { fromOfferId, toOfferId } = pendingSwitchDetails;
@@ -127,11 +127,11 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     // PAUSE FEATURE
     if (isPauseInProgress) {
       return t(
-        'offer-card.info-box.pause-information-text',
-        'Your current plan will be paused starting on {{subscriptionExpirationDate}}. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ translatedTitle }}. You can cancel this pause request at any time.',
+        "offer-card.info-box.pause-information-text",
+        "Your current plan will be paused starting on {{subscriptionExpirationDate}}. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ translatedTitle }}. You can cancel this pause request at any time.",
         {
           subscriptionExpirationDate,
-          translatedTitle
+          translatedTitle,
         }
       );
     }
@@ -139,31 +139,31 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     const { algorithm, direction } = pendingSwitchDetails;
 
     switch (algorithm) {
-      case 'IMMEDIATE_WITHOUT_PRORATION':
+      case "IMMEDIATE_WITHOUT_PRORATION":
         return t(
           `offer-card.switch-details-${direction}.immediate-without-proration`,
           `Your ${direction} is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{translatedSwitchTitle}} renews automatically. You can cancel anytime.`,
           { subscriptionExpirationDate, translatedSwitchTitle }
         );
-      case 'IMMEDIATE_AND_CHARGE_WITH_REFUND':
-      case 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION':
+      case "IMMEDIATE_AND_CHARGE_WITH_REFUND":
+      case "IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION":
         return t(
           `offer-card.switch-details-${direction}.immediate-and-charge-with-refund-or-without-proration`,
           `Your ${direction} is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{translatedSwitchTitle}}. You can cancel anytime.`,
           { translatedSwitchTitle }
         );
-      case 'DEFERRED':
+      case "DEFERRED":
         return t(
           `offer-card.switch-details-${direction}.deferred`,
           `Your ${direction} is pending. You will have access to {{translatedTitle}} until {{subscriptionExpirationDate}}. From that time you will be charged your new price and will have access to {{translatedSwitchTitle}}. You can cancel this at any time.`,
           {
             translatedTitle,
             subscriptionExpirationDate,
-            translatedSwitchTitle
+            translatedSwitchTitle,
           }
         );
       default:
-        return '';
+        return "";
     }
   };
 
@@ -172,25 +172,25 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     if (isExternallyManaged) {
       if (!paymentMethod) {
         return t(
-          'offer-card.error.inapp-external-no-pmt-method',
-          'Use an external service to edit the plan.'
+          "offer-card.error.inapp-external-no-pmt-method",
+          "Use an external service to edit the plan."
         );
       }
       return t(
-        'offer-card.error.inapp-external',
+        "offer-card.error.inapp-external",
         `${
           paymentMethod ? `Subscription purchased via ${paymentMethod}. ` : ``
         } Use an external service to edit the plan.`,
         { paymentMethod }
       );
     }
-    return '';
+    return "";
   };
 
   const getIcon = () => {
     if (isPauseInProgress) return PauseIcon;
-    if (pendingSwitchDetails?.direction === 'downgrade') return DowngradeIcon;
-    if (pendingSwitchDetails?.direction === 'upgrade') return UpgradeIcon;
+    if (pendingSwitchDetails?.direction === "downgrade") return DowngradeIcon;
+    if (pendingSwitchDetails?.direction === "upgrade") return UpgradeIcon;
     return EditBlockedIcon;
   };
 
@@ -230,9 +230,10 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
               {period && (
                 <Price
                   currency={currency}
-                  price={nextPaymentPrice || totalPrice}
+                  nextPaymentPrice={nextPaymentPrice}
+                  totalPrice={totalPrice}
                   period={
-                    period !== 'season'
+                    period !== "season"
                       ? t(`offer-price.period-${period}`, period)
                       : null
                   }
@@ -249,48 +250,49 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
           <SubBoxContentStyled>
             <BoxTextStyled
               dangerouslySetInnerHTML={{
-                __html: getDescription() || ''
+                __html: getDescription() || "",
               }}
             />
-            {pendingSwitchId && pendingSwitchDetails?.algorithm === 'DEFERRED' && (
-              <SubBoxButtonStyled
-                onClick={() => {
-                  eventDispatcher(MSSDK_CANCEL_SWITCH_BUTTON_CLICKED, {
-                    pendingSwitchId,
-                    fromOfferId: pendingSwitchDetails.fromOfferId,
-                    toOfferId: pendingSwitchDetails.toOfferId
-                  });
+            {pendingSwitchId &&
+              pendingSwitchDetails?.algorithm === "DEFERRED" && (
+                <SubBoxButtonStyled
+                  onClick={() => {
+                    eventDispatcher(MSSDK_CANCEL_SWITCH_BUTTON_CLICKED, {
+                      pendingSwitchId,
+                      fromOfferId: pendingSwitchDetails.fromOfferId,
+                      toOfferId: pendingSwitchDetails.toOfferId,
+                    });
 
-                  dispatch(
-                    showPopup({
-                      type: isPauseInProgress
-                        ? POPUP_TYPES.CANCEL_PAUSE_POPUP
-                        : POPUP_TYPES.CANCEL_SWITCH_POPUP,
-                      data: {
-                        pendingSwitchId,
-                        switchDirection: pendingSwitchDetails.direction,
-                        switchOfferTitle:
-                          pendingSwitchDetails &&
-                          offers.find(
-                            ({ longId }: Offer) =>
-                              longId === pendingSwitchDetails.toOfferId
-                          )?.title,
-                        baseOfferTitle: offerTitle,
-                        baseOfferExpirationDate: expiresAt,
-                        baseOfferPrice: `${currency}${nextPaymentPrice}`
-                      }
-                    })
-                  );
-                }}
-              >
-                {isPauseInProgress
-                  ? t('offer-card.cancel-pause-button', 'Cancel pause')
-                  : t(
-                      `offer-card.cancel-${pendingSwitchDetails.direction}`,
-                      `Cancel ${pendingSwitchDetails.direction}`
-                    )}
-              </SubBoxButtonStyled>
-            )}
+                    dispatch(
+                      showPopup({
+                        type: isPauseInProgress
+                          ? POPUP_TYPES.CANCEL_PAUSE_POPUP
+                          : POPUP_TYPES.CANCEL_SWITCH_POPUP,
+                        data: {
+                          pendingSwitchId,
+                          switchDirection: pendingSwitchDetails.direction,
+                          switchOfferTitle:
+                            pendingSwitchDetails &&
+                            offers.find(
+                              ({ longId }: Offer) =>
+                                longId === pendingSwitchDetails.toOfferId
+                            )?.title,
+                          baseOfferTitle: offerTitle,
+                          baseOfferExpirationDate: expiresAt,
+                          baseOfferPrice: `${currency}${nextPaymentPrice}`,
+                        },
+                      })
+                    );
+                  }}
+                >
+                  {isPauseInProgress
+                    ? t("offer-card.cancel-pause-button", "Cancel pause")
+                    : t(
+                        `offer-card.cancel-${pendingSwitchDetails.direction}`,
+                        `Cancel ${pendingSwitchDetails.direction}`
+                      )}
+                </SubBoxButtonStyled>
+              )}
           </SubBoxContentStyled>
         </SubBoxStyled>
       )}

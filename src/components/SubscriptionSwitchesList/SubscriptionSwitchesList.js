@@ -11,7 +11,7 @@ import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { showPopup } from 'redux/popupSlice';
 import eventDispatcher, {
-  MSSDK_SWITCH_BUTTON_CLICKED
+  MSSDK_SWITCH_BUTTON_CLICKED,
 } from 'util/eventDispatcher';
 import { ButtonWrapperStyled } from './SubscriptionSwitchesListStyled';
 import mapErrorToText from './helper';
@@ -20,23 +20,23 @@ const SubscriptionSwitchesList = () => {
   const { t } = useTranslation();
 
   const { data: switchDetails } = useSelector(
-    state => state.plan.switchDetails
+    (state) => state.plan.switchDetails
   );
-  const { pauseOffersIDs } = useSelector(state => state.offers);
-  const { offerToSwitch } = useSelector(state => state.plan);
+  const { pauseOffersIDs } = useSelector((state) => state.offers);
+  const { offerToSwitch } = useSelector((state) => state.plan);
 
   const {
     data: allSwitchSettings,
     loading: isSwitchSettingsLoading,
-    error: isAllSwitchSettingsError
-  } = useSelector(state => state.plan.switchSettings);
+    error: isAllSwitchSettingsError,
+  } = useSelector((state) => state.plan.switchSettings);
 
   const isOfferSelected = !!offerToSwitch.offerId;
 
   const switchSettings = allSwitchSettings[offerToSwitch?.offerId] || {};
   const fromOfferId = offerToSwitch?.offerId;
-  const pendingSwtichesToOfferIdsArray = Object.keys(switchDetails).map(
-    item => {
+  const pendingSwitchesToOfferIdsArray = Object.keys(switchDetails).map(
+    (item) => {
       return switchDetails[item].toOfferId;
     }
   );
@@ -76,11 +76,11 @@ const SubscriptionSwitchesList = () => {
 
   // Filter out the pause subscription
   const availableFiltered = availableSorted?.filter(
-    offer => !pauseOffersIDs.includes(offer.toOfferId)
+    (offer) => !pauseOffersIDs.includes(offer.toOfferId)
   );
   const unavailableFiltered = Array.isArray(switchSettings.unavailable)
     ? switchSettings.unavailable.filter(
-        offer => !pauseOffersIDs.includes(offer.toOfferId)
+        (offer) => !pauseOffersIDs.includes(offer.toOfferId)
       )
     : [];
 
@@ -117,13 +117,13 @@ const SubscriptionSwitchesList = () => {
   return (
     <>
       {!!availableFiltered.length &&
-        availableFiltered.map(subItem => {
+        availableFiltered.map((subItem) => {
           return (
             <SubscriptionStyled
               as="article"
               key={subItem.toOfferId}
-              $hide={pendingSwtichesToOfferIdsArray.find(
-                item => item === subItem.toOfferId
+              $hide={pendingSwitchesToOfferIdsArray.find(
+                (item) => item === subItem.toOfferId
               )}
             >
               <OfferSwitchCard
@@ -137,16 +137,16 @@ const SubscriptionSwitchesList = () => {
                       fromOfferId,
                       toOfferId: subItem.toOfferId,
                       switchDirection: subItem.switchDirection,
-                      algorithm: subItem.algorithm
+                      algorithm: subItem.algorithm,
                     });
                     dispatch(
                       showPopup({
                         type: POPUP_TYPES.switchPlan,
                         data: {
                           offerData: {
-                            ...subItem
-                          }
-                        }
+                            ...subItem,
+                          },
+                        },
                       })
                     );
                   }}
@@ -161,7 +161,7 @@ const SubscriptionSwitchesList = () => {
           );
         })}
       {!!unavailableFiltered.length &&
-        unavailableFiltered.map(subItem => {
+        unavailableFiltered.map((subItem) => {
           return (
             <SubscriptionStyled key={subItem.toOfferId}>
               <OfferSwitchCard
