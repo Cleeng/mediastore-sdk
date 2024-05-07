@@ -7,7 +7,7 @@ import { StyledButton, StyledMethodName } from './PaymentMethodButtonStyled';
 const PaymentMethodButton = ({ methodName, onClickFn }) => {
   const LogoComponent = logos[methodName];
   return (
-    <StyledButton onClickFn={onClickFn} theme="simple">
+    <StyledButton onClickFn={onClickFn} theme='simple'>
       {LogoComponent ? (
         <LogoComponent />
       ) : (
@@ -24,7 +24,7 @@ PaymentMethodButton.propTypes = {
 
 PaymentMethodButton.defaultProps = {
   methodName: '',
-  onClickFn: () => {}
+  onClickFn: () => null
 };
 
 export default PaymentMethodButton;

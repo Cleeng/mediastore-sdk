@@ -72,9 +72,7 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
   };
 
   const getAccessToFreeOffer = useCallback(() => {
-    dispatch(submitPaymentWithoutDetails())
-      .unwrap()
-      .then(onPaymentComplete);
+    dispatch(submitPaymentWithoutDetails()).unwrap().then(onPaymentComplete);
   }, []);
 
   return (
@@ -92,14 +90,14 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
         )}
         <ButtonWrapperStyled>
           <Button
-            theme="confirm"
-            width="200px"
+            theme='confirm'
+            width='200px'
             onClickFn={getAccessToFreeOffer}
             disabled={isLoading}
           >
             <>
               {isLoading ? (
-                <Loader buttonLoader color="#ffffff" />
+                <Loader buttonLoader color='#ffffff' />
               ) : (
                 t('free-offer.get-access', 'Get Access')
               )}

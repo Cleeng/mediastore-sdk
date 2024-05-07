@@ -33,7 +33,7 @@ const userProfileReducer = createReducer(initialState, {
   UPDATE_CAPTURE_OPTION: (state, action) => {
     const newState = {
       ...state.capture,
-      settings: state.capture.settings.map(setting => {
+      settings: state.capture.settings.map((setting) => {
         if (setting.key === action.payload.key) {
           return { ...setting, answer: action.payload.value };
         }

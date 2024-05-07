@@ -34,7 +34,7 @@ export const finalizeAddPaymentDetailsSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers: {
-    [fetchFinalizeAddPaymentDetails.pending]: state => {
+    [fetchFinalizeAddPaymentDetails.pending]: (state) => {
       state.loading = true;
     },
     [fetchFinalizeAddPaymentDetails.fulfilled]: (state, { payload }) => {

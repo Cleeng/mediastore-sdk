@@ -59,7 +59,7 @@ export const CheckboxStyled = styled.label.attrs(
   &:first-of-type {
     margin-top: 0;
   }
-  ${props =>
+  ${(props) =>
     props.$disabled &&
     css`
       opacity: 0.7;
@@ -88,7 +88,7 @@ export const ConsentDefinitionStyled = styled.div.attrs(
     }
   }
   opacity: 0.8;
-  ${props =>
+  ${(props) =>
     props.$checked &&
     css`
       opacity: 1;
@@ -117,24 +117,24 @@ export const CheckFrameStyled = styled.div.attrs(
   &:focus {
     outline: 2px solid ${FocusColor};
   }
-  ${props =>
+  ${(props) =>
     props.$error &&
     css`
       border-color: ${ErrorColor};
     `}
-  ${props =>
+  ${(props) =>
     props.$isRadioButton &&
     css`
       border-radius: 50%;
     `}
-  ${props =>
+  ${(props) =>
     props.$isRadioButton &&
     props.$checked &&
     css`
       border: 1px solid ${ConfirmColor};
     `}
 
-  ${props =>
+  ${(props) =>
     props.$isMyAccount &&
     props.$checked &&
     css`
@@ -157,7 +157,7 @@ export const CheckMarkStyled = styled.div.attrs(
   left: 3px;
   background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMi44MjgiIGhlaWdodD0iOS44MjgiIHZpZXdCb3g9IjAgMCAxMi44MjggOS44MjgiPjxkZWZzPjxzdHlsZT4uYXtmaWxsOm5vbmU7c3Ryb2tlOiM3YzhjYTU7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLXdpZHRoOjJweDt9PC9zdHlsZT48L2RlZnM+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE4My4wODYgLTM5OS4wODYpIj48bGluZSBjbGFzcz0iYSIgeDI9IjMiIHkyPSIzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxODQuNSA0MDQuNSkiLz48bGluZSBjbGFzcz0iYSIgeDE9IjciIHkyPSI3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxODcuNSA0MDAuNSkiLz48L2c+PC9zdmc+');
   background-repeat: no-repeat;
-  ${props =>
+  ${(props) =>
     props.$isRadioButton &&
     css`
       top: 50%;
@@ -170,7 +170,7 @@ export const CheckMarkStyled = styled.div.attrs(
       background: ${ConfirmColor};
       border-radius: 50%;
     `}
-  ${props =>
+  ${(props) =>
     props.$isMyAccount &&
     css`
       width: 20px;
@@ -197,7 +197,7 @@ export const ErrorFieldStyled = styled.div`
 `;
 
 export const TermsLinkStyled = styled.a<TermsLinkStyledProps>`
-  padding-inline-start: ${props => (props.$isPayPal ? '31px' : '33px')};
+  padding-inline-start: ${(props) => (props.$isPayPal ? '31px' : '33px')};
   position: relative;
   top: ${({ $isPayPal }) => ($isPayPal ? '0' : '-20px')};
   font-weight: 400;
@@ -208,7 +208,7 @@ export const TermsLinkStyled = styled.a<TermsLinkStyledProps>`
   text-decoration: underline;
   opacity: 0.8;
 
-  ${props =>
+  ${(props) =>
     props.$checked &&
     css`
       opacity: 1;

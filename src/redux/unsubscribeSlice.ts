@@ -36,11 +36,11 @@ export const unsubscribeSlice = createSlice({
   name: 'unsubscribe',
   initialState,
   reducers: {},
-  extraReducers: builder => {
-    builder.addCase(fetchUnsubscribe.pending, state => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchUnsubscribe.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(fetchUnsubscribe.fulfilled, state => {
+    builder.addCase(fetchUnsubscribe.fulfilled, (state) => {
       state.loading = false;
     });
     builder.addCase(fetchUnsubscribe.rejected, (state, { payload }) => {

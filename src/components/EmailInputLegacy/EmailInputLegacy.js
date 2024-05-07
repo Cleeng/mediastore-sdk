@@ -15,7 +15,7 @@ const EmailInputLegacy = ({
   <InputLegacy
     placeholder={label}
     floatingLabels={floatingLabels}
-    type="email"
+    type='email'
     value={value}
     onChange={onChange}
     onBlur={onBlur}
@@ -40,13 +40,13 @@ EmailInputLegacy.propTypes = {
 
 EmailInputLegacy.defaultProps = {
   value: '',
-  onChange: () => {},
-  onBlur: () => {},
+  onChange: () => null,
+  onBlur: () => null,
   error: '',
   label: 'Email',
   floatingLabels: true,
   required: false,
-  reference: () => {}
+  reference: () => null
 };
 
 export default EmailInputLegacy;

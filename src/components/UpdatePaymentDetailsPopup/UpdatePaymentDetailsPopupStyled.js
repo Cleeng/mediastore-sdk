@@ -15,7 +15,7 @@ export const ImageWrapper = styled.div.attrs(() => ({
   margin: 0 auto 40px auto;
 `;
 
-export const PPIconStyled = styled(props => <PPIcon {...props} />)`
+export const PPIconStyled = styled((props) => <PPIcon {...props} />)`
   margin-right: 10px;
   filter: brightness(0) invert(1);
 `;
@@ -46,7 +46,7 @@ export const RemoveLinkStyled = styled.a.attrs(() => ({
   }
 `;
 
-export const DeleteIconStyled = styled(props => <DeleteIcon {...props} />)`
+export const DeleteIconStyled = styled((props) => <DeleteIcon {...props} />)`
   margin-inline-end: 10px;
   font-size: 9px;
 `;

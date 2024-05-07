@@ -84,7 +84,7 @@ export const MailStyled = styled.div.attrs(() => ({
   text-overflow: ellipsis;
   line-height: 1.2;
 
-  ${props =>
+  ${(props) =>
     props.$bigger &&
     css`
       font-size: 14px;
@@ -125,7 +125,7 @@ export const DetailsStyled = styled.div.attrs(() => ({
 
   color: ${FontColor};
 
-  ${props =>
+  ${(props) =>
     props.$isEmpty &&
     css`
       ${NameStyled} {

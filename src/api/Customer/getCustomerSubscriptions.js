@@ -10,7 +10,7 @@ const getCustomerSubscriptions = async () => {
   const url = `${API_URL}/customers/${customerId}/subscriptions`;
   return fetchWithJWT(url, {
     method: 'GET'
-  }).then(res => {
+  }).then((res) => {
     return res.json();
   });
 };

@@ -75,9 +75,9 @@ export const StyledMessage = styled.textarea`
   resize: none;
 
   ${isRTL() &&
-    css`
-      text-align: right;
-    `}
+  css`
+    text-align: right;
+  `}
 
   &:focus,
   &:active {

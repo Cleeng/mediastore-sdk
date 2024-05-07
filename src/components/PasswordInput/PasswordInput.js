@@ -11,7 +11,7 @@ class PasswordInput extends React.Component {
     };
   }
 
-  onChangeFunction = value => {
+  onChangeFunction = (value) => {
     const { onChange, showPasswordStrength } = this.props;
     if (showPasswordStrength) {
       const passwordStrength = this.validateNewPassword(value);
@@ -23,7 +23,7 @@ class PasswordInput extends React.Component {
     onChange(value);
   };
 
-  validateNewPassword = pass => {
+  validateNewPassword = (pass) => {
     let score = 0;
     if (
       pass &&
@@ -79,7 +79,7 @@ class PasswordInput extends React.Component {
     return 'NotValid';
   };
 
-  getErrorMessage = msg => {
+  getErrorMessage = (msg) => {
     const { t } = this.props;
     const errorLabel = {
       Weak: t('password-input.error.weak', 'Weak'),
@@ -155,7 +155,7 @@ PasswordInput.defaultProps = {
   label: 'Password',
   floatingLabels: true,
   showPasswordStrength: false,
-  t: k => k
+  t: (k) => k
 };
 
 export default PasswordInput;

@@ -9,7 +9,7 @@ import { init as initPublisherConfig } from 'redux/publisherConfigSlice';
 import { setActiveTab } from 'redux/myaccountSlice';
 import MyAccount from './MyAccount.component';
 
-export const mapStateToProps = state => {
+export const mapStateToProps = (state) => {
   return {
     userProfile: state.userProfile,
     consents: state.consents,
@@ -18,15 +18,15 @@ export const mapStateToProps = state => {
   };
 };
 
-export const mapDispatchToProps = dispatch => {
+export const mapDispatchToProps = (dispatch) => {
   return {
-    setCurrentUser: currentUser => {
+    setCurrentUser: (currentUser) => {
       dispatch(setCurrentUser(currentUser));
     },
-    setConsents: consents => {
+    setConsents: (consents) => {
       dispatch(setConsents(consents));
     },
-    setConsentsError: msg => {
+    setConsentsError: (msg) => {
       dispatch(setConsentsError(msg));
     },
     showPopup: (type, consents) => {
@@ -35,10 +35,10 @@ export const mapDispatchToProps = dispatch => {
     hidePopup: () => {
       dispatch(hidePopup());
     },
-    initPublisherConfig: payload => {
+    initPublisherConfig: (payload) => {
       dispatch(initPublisherConfig(payload));
     },
-    setActiveTab: payload => {
+    setActiveTab: (payload) => {
       dispatch(setActiveTab(payload));
     }
   };

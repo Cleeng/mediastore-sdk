@@ -10,7 +10,7 @@ const modifiedOffers = [
   'S248815997_US'
 ];
 
-const isPriceTemporaryModified = offerId => {
+const isPriceTemporaryModified = (offerId) => {
   return modifiedOffers.includes(offerId);
 };
 

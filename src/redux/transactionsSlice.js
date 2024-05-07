@@ -39,7 +39,7 @@ export const transactionsSlice = createSlice({
     }
   },
   extraReducers: {
-    [fetchListCustomerTransactions.pending]: state => {
+    [fetchListCustomerTransactions.pending]: (state) => {
       state.loading = true;
     },
     [fetchListCustomerTransactions.fulfilled]: (state, { payload }) => {
@@ -54,8 +54,6 @@ export const transactionsSlice = createSlice({
   }
 });
 
-export const {
-  toggleTransactionList,
-  removePausedTransactions
-} = transactionsSlice.actions;
+export const { toggleTransactionList, removePausedTransactions } =
+  transactionsSlice.actions;
 export default transactionsSlice.reducer;

@@ -13,7 +13,7 @@ const AdyenStyled = styled.div.attrs(() => ({
   max-width: 376px;
   margin: 12px auto 0 auto;
 
-  ${props =>
+  ${(props) =>
     props.$isMyAccount &&
     css`
       .adyen-checkout__label__text {
@@ -128,7 +128,7 @@ const AdyenStyled = styled.div.attrs(() => ({
     }
   }
 
-  ${props =>
+  ${(props) =>
     props.$isAdditionalPayment &&
     css`
       .adyen-checkout__payment-method--standalone {

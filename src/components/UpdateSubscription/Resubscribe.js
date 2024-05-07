@@ -27,7 +27,7 @@ const Resubscribe = () => {
 
   const {
     updateSubscription: { offerData: offerDetails }
-  } = useSelector(state => state.popupManager);
+  } = useSelector((state) => state.popupManager);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -99,22 +99,22 @@ const Resubscribe = () => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme="simple" onClickFn={() => cancelResubscribeAction()}>
+            <Button theme='simple' onClickFn={() => cancelResubscribeAction()}>
               {t('resubscribe-popup.no-thanks', 'No, thanks')}
             </Button>
             <Button
-              theme="confirm"
+              theme='confirm'
               onClickFn={resubscribe}
               disabled={isLoading}
             >
-              {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
+              {(isLoading && <Loader buttonLoader color='#ffffff' />) ||
                 t('resubscribe-popup.resume', 'Resume')}
             </Button>
           </ButtonWrapperStyled>
         </>
       ) : (
         <ContentStyled>
-          <img src={checkmarkIcon} alt="checkmark icon" />
+          <img src={checkmarkIcon} alt='checkmark icon' />
           <TitleStyled>
             {t('resubscribe-popup.success.title', 'Your plan has been renewed')}
           </TitleStyled>
@@ -136,8 +136,8 @@ const Resubscribe = () => {
             </b>
           </TextStyled>
           <Button
-            width="auto"
-            margin="30px auto 0 auto"
+            width='auto'
+            margin='30px auto 0 auto'
             onClickFn={() => {
               dispatch(hidePopup());
               dispatch(updateList());

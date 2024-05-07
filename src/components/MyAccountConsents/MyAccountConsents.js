@@ -43,8 +43,8 @@ class MyAccountConsents extends Component {
     if (e.target.tagName.toLowerCase() === 'a') return; // enable to open link
     if (isConsentDisabled || (!showConsentsOnly && item.required)) return;
     const { updatedConsents } = this.state;
-    const itemIndex = updatedConsents.findIndex(el => el.name === item.name);
-    this.setState(prevState => {
+    const itemIndex = updatedConsents.findIndex((el) => el.name === item.name);
+    this.setState((prevState) => {
       const copyConsentObj = { ...prevState.updatedConsents[itemIndex] };
       copyConsentObj.state = this.toggleState(copyConsentObj.state);
       const stateCopy = [...prevState.updatedConsents];
@@ -56,11 +56,11 @@ class MyAccountConsents extends Component {
     });
   }
 
-  toggleState = state => (state === 'accepted' ? 'declined' : 'accepted');
+  toggleState = (state) => (state === 'accepted' ? 'declined' : 'accepted');
 
   saveConsentsInState() {
     const { consents } = this.props;
-    const showButtonToUpdate = consents.find(el => !el.required);
+    const showButtonToUpdate = consents.find((el) => !el.required);
     this.setState({
       updatedConsents: consents,
       showButtonToUpdate: !!showButtonToUpdate
@@ -70,7 +70,7 @@ class MyAccountConsents extends Component {
   updateConsents() {
     const { updatedConsents } = this.state;
     const { setConsents } = this.props;
-    const payload = updatedConsents.map(item => {
+    const payload = updatedConsents.map((item) => {
       return {
         name: item.name,
         version: item.newestVersion,
@@ -106,7 +106,7 @@ class MyAccountConsents extends Component {
       <Loader isMyAccount />
     ) : (
       <CardStyled showConsentsOnly={showConsentsOnly} withBorder>
-        {sortedConsents.map(item => (
+        {sortedConsents.map((item) => (
           <CheckboxStyled
             isMyAccount
             onClickFn={(e, isConsentDisabled) =>
@@ -130,7 +130,7 @@ class MyAccountConsents extends Component {
                     onClickFn={() =>
                       this.setState({ isSectionDisabled: false })
                     }
-                    width="100%"
+                    width='100%'
                   >
                     {t(
                       'myaccount-consents.button.update-terms',
@@ -140,7 +140,7 @@ class MyAccountConsents extends Component {
                 ) : (
                   <>
                     <ButtonStyled
-                      theme="simple"
+                      theme='simple'
                       onClickFn={() =>
                         this.setState({
                           isSectionDisabled: true,
@@ -151,12 +151,12 @@ class MyAccountConsents extends Component {
                       {t('myaccount-consents.button.cancel', 'Cancel')}
                     </ButtonStyled>
                     <ButtonStyled
-                      theme="confirm"
+                      theme='confirm'
                       onClickFn={() => this.updateConsents()}
                       disabled={isSubmittingPending}
                     >
                       {(isSubmittingPending && (
-                        <Loader buttonLoader color="#ffffff" />
+                        <Loader buttonLoader color='#ffffff' />
                       )) ||
                         t('myaccount-consents.button.save', 'Save')}
                     </ButtonStyled>
@@ -185,7 +185,7 @@ MyAccountConsents.defaultProps = {
   isLoading: false,
   showConsentsOnly: false,
   saveConsents: () => null,
-  t: k => k
+  t: (k) => k
 };
 
 export { MyAccountConsents as PureMyAccountConsents };

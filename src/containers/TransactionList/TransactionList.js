@@ -8,7 +8,7 @@ const TransactionList = () => {
   const { t } = useTranslation();
   return (
     <WrapStyled>
-      <SectionHeader marginTop="25px">
+      <SectionHeader marginTop='25px'>
         {t('transaction-list.header', 'Transactions')}
       </SectionHeader>
       <Transactions />

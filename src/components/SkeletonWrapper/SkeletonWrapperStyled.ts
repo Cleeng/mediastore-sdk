@@ -17,19 +17,19 @@ export const SkeletonWrapperStyled = styled.div.attrs<SkeletonWrapperProps>(
   overflow: hidden;
   text-align: center;
 
-  ${props =>
+  ${(props) =>
     props.$width &&
     css`
       width: ${props.$width}px;
     `}
 
-    ${props =>
-      props.$margin &&
-      css`
-        margin: ${props.$margin};
-      `}
+  ${(props) =>
+    props.$margin &&
+    css`
+      margin: ${props.$margin};
+    `}
 
-  ${props =>
+  ${(props) =>
     props.$align &&
     css`
       text-align: ${props.$align};
@@ -39,7 +39,7 @@ export const SkeletonWrapperStyled = styled.div.attrs<SkeletonWrapperProps>(
 export const StyledSkeleton = styled(Skeleton)`
   border-radius: 16px !important;
 
-  ${props =>
+  ${(props) =>
     props.circle &&
     css`
       border-radius: 50% !important;

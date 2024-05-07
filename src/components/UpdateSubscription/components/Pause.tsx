@@ -40,9 +40,9 @@ const Pause = ({
           'Pause your subscription until the beginning of next season, you can resume at any time.'
         )}
       </TextStyled>
-      <ButtonWrapperStyled $fillWrapper $customMargin="80px 0 0">
+      <ButtonWrapperStyled $fillWrapper $customMargin='80px 0 0'>
         <Button
-          theme="confirm"
+          theme='confirm'
           onClickFn={() =>
             dispatch(
               showPopup({
@@ -64,10 +64,10 @@ const Pause = ({
         {t('unsubscribe-popup.still-cancel', 'Still want to cancel?')}
       </TextStyled>
       <ButtonWrapperStyled $removeMargin>
-        <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
+        <Button theme='simple' onClickFn={() => dispatch(hidePopup())}>
           {t('unsubscribe-popup.back-button', 'Back to My Account')}
         </Button>
-        <Button theme="primary" onClickFn={handleClick}>
+        <Button theme='primary' onClickFn={handleClick}>
           {t('unsubscribe-popup.unsubscribe-button-text', 'Unsubscribe')}
         </Button>
       </ButtonWrapperStyled>

@@ -6,7 +6,7 @@ import {
 } from 'redux/popupSlice';
 import { setActiveTab, MYACCCOUNT_TABS } from 'redux/myaccountSlice';
 
-const withAddPaymentDetailsFinalizationHandler = Component => {
+const withAddPaymentDetailsFinalizationHandler = (Component) => {
   return ({ ...props }) => {
     const dispatch = useDispatch();
     const adyenRedirectResult =

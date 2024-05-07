@@ -30,7 +30,7 @@ export const SubscriptionIconStyled = styled(SubscriptionIcon)`
     }
   }
 
-  ${props =>
+  ${(props) =>
     props.gray &&
     css`
       filter: grayscale(80%);
@@ -57,9 +57,9 @@ export const ArrowStyled = styled.span`
   transform: translateX(-25%) rotate(45deg);
 
   ${isRTL() &&
-    css`
-      transform: translateX(-25%) rotate(225deg);
-    `}
+  css`
+    transform: translateX(-25%) rotate(225deg);
+  `}
 `;
 
 export const ImageStyled = styled.img``;

@@ -3,10 +3,10 @@ import { RetentionActions } from './retentionActionsSlice.types';
 import { PAYMENT_DETAILS_STEPS, POPUP_TYPES } from '../popupSlice';
 
 type Keys = keyof typeof PAYMENT_DETAILS_STEPS;
-type Steps = typeof PAYMENT_DETAILS_STEPS[Keys];
+type Steps = (typeof PAYMENT_DETAILS_STEPS)[Keys];
 
 type PopupTypesKeys = keyof typeof POPUP_TYPES;
-type PopupTypes = typeof POPUP_TYPES[PopupTypesKeys];
+type PopupTypes = (typeof POPUP_TYPES)[PopupTypesKeys];
 
 type PaymentDetails = {
   isOpen: boolean;

@@ -15,9 +15,9 @@ export const WrapperStyled = styled.div.attrs(() => ({
   justify-content: center;
   background-color: ${colors.White};
   border-radius: 12px;
-  border: 1px solid ${props => (props.$isSelected ? ConfirmColor : '#D3DBE6')};
-  cursor: ${props => (props.$fadeOutSection ? 'default' : 'pointer')};
-  opacity: ${props => (props.$fadeOutSection ? '.2' : '1')};
+  border: 1px solid ${(props) => (props.$isSelected ? ConfirmColor : '#D3DBE6')};
+  cursor: ${(props) => (props.$fadeOutSection ? 'default' : 'pointer')};
+  opacity: ${(props) => (props.$fadeOutSection ? '.2' : '1')};
 
   &:hover .adyen-checkout__payment-method__radio {
     box-shadow: 0 0 3px 1px #808080;

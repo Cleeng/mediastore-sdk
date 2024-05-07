@@ -41,7 +41,7 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
       })
     )
       .unwrap()
-      .catch(err => {
+      .catch((err) => {
         throw new Error(err);
       });
   };
@@ -58,7 +58,7 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
       })
     )
       .unwrap()
-      .catch(err => {
+      .catch((err) => {
         throw new Error(err);
       });
   };
@@ -84,7 +84,7 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
 
   return (
     <DeliveryDetailsStyled>
-      <SectionHeader marginTop="25px" center>
+      <SectionHeader marginTop='25px' center>
         <>{t('deliverydetails.title', 'Delivery details')}</>
       </SectionHeader>
       <ButtonsContainer>

@@ -16,14 +16,12 @@ const mapErrorToText = {
   },
   PAYMENT_GATEWAY_NOT_SUPPORTED: {
     title: {
-      text:
-        'Your payment method does not allow switching to a new plan from here.',
+      text: 'Your payment method does not allow switching to a new plan from here.',
       translationKey:
         'subscription-switches-list.error.payment-gateway-not-supported.title'
     },
     subtitle: {
-      text:
-        'If you signed up via a mobile app, it may be possible to change your plan there.',
+      text: 'If you signed up via a mobile app, it may be possible to change your plan there.',
       translationKey:
         'subscription-switches-list.error.payment-gateway-not-supported.subtitle'
     },
@@ -31,8 +29,7 @@ const mapErrorToText = {
   },
   SUBSCRIPTION_WITH_COUPON_NOT_ALLOWED: {
     title: {
-      text:
-        "You can't change your subscription if a coupon was applied. To change plan, please cancel your current subscription and purchase a new one",
+      text: "You can't change your subscription if a coupon was applied. To change plan, please cancel your current subscription and purchase a new one",
       translationKey:
         'subscription-switches-list.error.subscription-with-coupon-not-allowed.title'
     },

@@ -60,11 +60,11 @@ export const paymentSlice = createSlice({
   name: 'paymentSlice',
   initialState,
   reducers: {},
-  extraReducers: builder => {
-    builder.addCase(submitPaymentWithoutDetails.pending, state => {
+  extraReducers: (builder) => {
+    builder.addCase(submitPaymentWithoutDetails.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(submitPaymentWithoutDetails.fulfilled, state => {
+    builder.addCase(submitPaymentWithoutDetails.fulfilled, (state) => {
       state.loading = false;
     });
     builder.addCase(

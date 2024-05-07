@@ -30,12 +30,12 @@ const ThankYouPage = () => {
           'We hope you love it. Remember that in order to keep your access after your gift expires, you will need to add a payment method to your account.'
         )}
         <InfoTextWrapper>
-          <Trans i18nKey="redeem-gift.thank-you-page.manage-text2">
+          <Trans i18nKey='redeem-gift.thank-you-page.manage-text2'>
             If you need help from us with your account, you can always find it
             <LinkStyled
               href={getData('CLEENG_MY_ACCOUNT_URL')}
-              target="_blank"
-              rel="noopener noreferrer"
+              target='_blank'
+              rel='noopener noreferrer'
             >
               here.
             </LinkStyled>

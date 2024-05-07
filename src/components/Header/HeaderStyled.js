@@ -17,7 +17,7 @@ export const HeaderStyled = styled.header.attrs(() => ({
 
   text-align: center;
 
-  ${props =>
+  ${(props) =>
     props.switchOff &&
     css`
       display: none;
@@ -49,9 +49,9 @@ export const ArrowStyled = styled.span`
   &:hover {
     cursor: pointer;
   }
-/* 
+  /* 
   ${isRTL() &&
-    css`
-      transform: translateX(-25%) rotate(225deg);
-    `} */
+  css`
+    transform: translateX(-25%) rotate(225deg);
+  `} */
 `;

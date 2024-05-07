@@ -44,11 +44,11 @@ const ResumeSubscriptionPopup = () => {
   const [step, setStep] = useState(STEPS.RESUME_DETAILS);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
-  const { offerToSwitch: fromOffer } = useSelector(state => state.plan);
+  const { offerToSwitch: fromOffer } = useSelector((state) => state.plan);
   const {
     isLoading: isPopupLoading,
     resumeSubscription: { offerData: toOffer }
-  } = useSelector(state => state.popupManager);
+  } = useSelector((state) => state.popupManager);
 
   const dispatch = useDispatch();
 
@@ -101,7 +101,7 @@ const ResumeSubscriptionPopup = () => {
           showChildren={false}
           height={200}
           width={450}
-          margin="auto"
+          margin='auto'
         />
       </InnerPopupWrapper>
     );
@@ -130,7 +130,7 @@ const ResumeSubscriptionPopup = () => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme="confirm" onClickFn={closePopupAndRefresh}>
+            <Button theme='confirm' onClickFn={closePopupAndRefresh}>
               {t(
                 'resumesubscription-popup.error-back-button',
                 'Back to My Account'
@@ -154,11 +154,11 @@ const ResumeSubscriptionPopup = () => {
         <>
           <ContentStyled>
             <ImageWrapper>
-              <SubscriptionIconStyled isPaused showLabel="Paused" gray />
+              <SubscriptionIconStyled isPaused showLabel='Paused' gray />
               <ArrowStyled />
-              <SubscriptionIconStyled period={toOffer.period} showLabel="New" />
+              <SubscriptionIconStyled period={toOffer.period} showLabel='New' />
             </ImageWrapper>
-            <TitleStyled $step={step} $textTransform="capitalize">
+            <TitleStyled $step={step} $textTransform='capitalize'>
               {t(
                 'resumesubscription-popup.header',
                 'Resume your {{ planName }} subscription',
@@ -180,12 +180,12 @@ const ResumeSubscriptionPopup = () => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
-            <Button theme="simple" onClickFn={closePopupAndRefresh}>
+            <Button theme='simple' onClickFn={closePopupAndRefresh}>
               {t('resumesubscription-popup.back-button-text', 'Continue Pause')}
             </Button>
-            <Button theme="confirm" onClickFn={resumeSubscription}>
+            <Button theme='confirm' onClickFn={resumeSubscription}>
               {isLoading ? (
-                <Loader buttonLoader color="#ffffff" />
+                <Loader buttonLoader color='#ffffff' />
               ) : (
                 t(
                   'resumesubscription-popup.confirm-button-text',
@@ -200,7 +200,7 @@ const ResumeSubscriptionPopup = () => {
         <>
           <ContentStyled>
             <ImageWrapper>
-              <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
+              <ImageStyled src={checkmarkIcon} alt='checkmark icon' />
             </ImageWrapper>
             <TitleStyled $step={step}>
               {t(
@@ -218,7 +218,7 @@ const ResumeSubscriptionPopup = () => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme="confirm" onClickFn={closePopupAndRefresh}>
+            <Button theme='confirm' onClickFn={closePopupAndRefresh}>
               {t('resumesubscription-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>

@@ -31,12 +31,12 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
 
   useEffect(() => {
     if (data) {
-      const newData = data.map(setting => {
+      const newData = data.map((setting) => {
         return {
           ...setting,
           value: setting.answer ? setting.answer : '',
           values: setting.value
-            ? setting.value.split(';').map(v => v.trim())
+            ? setting.value.split(';').map((v) => v.trim())
             : []
         };
       });
@@ -46,7 +46,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
   }, [data]);
 
   const handleCustomSetting = (key, value) => {
-    const newArr = customSettings.map(item => {
+    const newArr = customSettings.map((item) => {
       return {
         ...item,
         value: item.key === key ? value : item.value
@@ -62,7 +62,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
 
   const onSubmit = () => {
     setIsPending(true);
-    const customAnswers = customSettings.map(setting => {
+    const customAnswers = customSettings.map((setting) => {
       return {
         questionId: setting.key,
         question: setting.question,
@@ -109,7 +109,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
       {customSettings && (
         <Card withBorder>
           {message && <MessageStyled type={type}>{message}</MessageStyled>}
-          {customSettings.map(setting => {
+          {customSettings.map((setting) => {
             if (setting.values.length === 0)
               return (
                 <InputWrapStyled key={setting.key}>
@@ -117,7 +117,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                     id={setting.key}
                     label={setting.question}
                     value={setting.value}
-                    onChange={e =>
+                    onChange={(e) =>
                       handleCustomSetting(setting.key, e.target.value)
                     }
                     disabled={isSectionDisabled}
@@ -202,7 +202,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                   setIsSectionDisabled(false);
                   resetMessage();
                 }}
-                width="100%"
+                width='100%'
               >
                 {t(
                   'additional-profile-info.button.edit-profile',
@@ -211,16 +211,16 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
               </ButtonStyled>
             ) : (
               <>
-                <ButtonStyled theme="simple" onClickFn={onCancel}>
+                <ButtonStyled theme='simple' onClickFn={onCancel}>
                   {t('additional-profile-info.button.cancel', 'Cancel')}
                 </ButtonStyled>
                 <ButtonStyled
                   onClickFn={onSubmit}
                   disabled={isPending}
-                  type="submit"
-                  theme="confirm"
+                  type='submit'
+                  theme='confirm'
                 >
-                  {(isPending && <Loader buttonLoader color="#ffffff" />) ||
+                  {(isPending && <Loader buttonLoader color='#ffffff' />) ||
                     t('additional-profile-info.button.save', 'Save')}
                 </ButtonStyled>
               </>

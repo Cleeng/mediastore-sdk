@@ -6,7 +6,7 @@ import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import withPaymentFinalizationHandler from 'containers/withPaymentFinalizationHandler';
 
-const TestComponent = () => <div data-testid="testComponent">Test</div>;
+const TestComponent = () => <div data-testid='testComponent'>Test</div>;
 const WrappedComponent = withPaymentFinalizationHandler(TestComponent);
 
 const store = {

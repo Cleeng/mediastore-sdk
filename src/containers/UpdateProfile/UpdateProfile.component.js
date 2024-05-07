@@ -39,7 +39,7 @@ class UpdateProfile extends Component {
         isUserDetailsLoading: true
       });
       getCustomer()
-        .then(response => {
+        .then((response) => {
           if (response.errors.length) {
             this.setState({
               detailsError: response.errors
@@ -63,7 +63,7 @@ class UpdateProfile extends Component {
         isCaptureLoading: true
       });
       getCaptureStatus()
-        .then(response => {
+        .then((response) => {
           if (response.errors.length) {
             this.setState({
               detailsError: response.errors
@@ -98,7 +98,7 @@ class UpdateProfile extends Component {
   }
 
   getObjectByKey = (array, key) => {
-    return array.find(setting => setting.key === key);
+    return array.find((setting) => setting.key === key);
   };
 
   render() {
@@ -122,7 +122,7 @@ class UpdateProfile extends Component {
 
     if (!consents.length) {
       getCustomerConsents()
-        .then(response => {
+        .then((response) => {
           if (!response.errors.length) {
             setConsents(response.responseData.consents);
           }
@@ -132,12 +132,12 @@ class UpdateProfile extends Component {
 
     const address =
       capture && capture.isCaptureEnabled
-        ? capture.settings.filter(setting => setting.key === 'address')[0]
+        ? capture.settings.filter((setting) => setting.key === 'address')[0]
         : null;
     const customSettings =
       capture && capture.isCaptureEnabled
         ? capture.settings.filter(
-            setting => setting.key.startsWith('custom') && setting.enabled
+            (setting) => setting.key.startsWith('custom') && setting.enabled
           )
         : null;
     const birthDate =
@@ -200,7 +200,7 @@ class UpdateProfile extends Component {
                   </SectionStyled>
                 )}
                 <SectionStyled>
-                  <SectionHeader marginTop="25px">
+                  <SectionHeader marginTop='25px'>
                     {t('updateprofile.header.password', 'Password')}
                   </SectionHeader>
                   <Password
@@ -226,7 +226,7 @@ class UpdateProfile extends Component {
               </>
             )}
             <SectionStyled>
-              <SectionHeader marginTop="25px">
+              <SectionHeader marginTop='25px'>
                 {t('updateprofile.header.terms-details', 'Terms Details')}
               </SectionHeader>
               {consentsError.length !== 0 ? (
@@ -289,9 +289,9 @@ UpdateProfile.propTypes = {
 UpdateProfile.defaultProps = {
   userProfile: { user: null },
   consentsError: '',
-  t: k => k,
+  t: (k) => k,
   displayGracePeriodError: null,
-  handleLogout: k => k
+  handleLogout: (k) => k
 };
 
 export { UpdateProfile as PureUpdateProfile };

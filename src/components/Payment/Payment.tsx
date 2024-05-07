@@ -76,9 +76,8 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     typeof RedirectElement | null
   >(null);
 
-  const [isActionHandlingProcessing, setIsActionHandlingProcessing] = useState(
-    false
-  );
+  const [isActionHandlingProcessing, setIsActionHandlingProcessing] =
+    useState(false);
 
   const dispatch = useAppDispatch();
 
@@ -95,7 +94,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         })
       )
         .unwrap()
-        .catch(errors => {
+        .catch((errors) => {
           if (errors.includes('JWT')) {
             eventDispatcher(MSSDK_AUTH_FAILED);
             Auth.logout(); // TODO: support properly the logout function
@@ -182,12 +181,8 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         return;
       }
 
-      const {
-        recipientEmail,
-        deliveryDate,
-        deliveryTime,
-        message
-      } = deliveryDetails;
+      const { recipientEmail, deliveryDate, deliveryTime, message } =
+        deliveryDetails;
 
       await dispatch(
         fetchUpdateOrder({
@@ -206,7 +201,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         })
       )
         .unwrap()
-        .catch(err => {
+        .catch((err) => {
           throw new Error(err);
         });
     }
@@ -221,7 +216,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         })
       )
         .unwrap()
-        .catch(err => {
+        .catch((err) => {
           throw new Error(err);
         });
     }
@@ -294,7 +289,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       // force Adyen remount
       setStandardDropInInstance(null);
       setBankDropInInstance(null);
-      setAdyenKey(key => (key ? null : 1));
+      setAdyenKey((key) => (key ? null : 1));
       return;
     }
 
@@ -332,7 +327,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
     dispatch(submitPaymentWithoutDetails())
       .unwrap()
-      .then(payment => {
+      .then((payment) => {
         eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
           ...payment,
           offerId: order?.offerId
@@ -373,7 +368,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   if (noPaymentMethods && !isLoading) {
     return (
       <PaymentStyled>
-        <SectionHeader marginTop="25px" center>
+        <SectionHeader marginTop='25px' center>
           <>{t('payment.purchase-using', 'Purchase using')}</>
         </SectionHeader>
         {generalError ? (
@@ -398,13 +393,13 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         )}
         <Button
           onClickFn={paymentWithoutDetails}
-          theme="confirm"
-          width="250px"
-          size="big"
-          margin="20px auto 0 auto"
+          theme='confirm'
+          width='250px'
+          size='big'
+          margin='20px auto 0 auto'
         >
           {isLoading ? (
-            <Loader buttonLoader color="#ffffff" />
+            <Loader buttonLoader color='#ffffff' />
           ) : (
             <>{t('payment.complete-purchase', 'Complete purchase')}</>
           )}
@@ -415,7 +410,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
   return (
     <PaymentStyled>
-      <SectionHeader marginTop="25px" paddingBottom="33px" center>
+      <SectionHeader marginTop='25px' paddingBottom='33px' center>
         <>{t('payment.purchase-using', 'Purchase using')}</>
       </SectionHeader>
       <PaymentWrapperStyled>
@@ -435,8 +430,8 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
           !isActionHandlingProcessing && (
             <DropInSection
               selectPaymentMethod={selectPaymentMethodHandler}
-              title="PayPal"
-              logo="paypal"
+              title='PayPal'
+              logo='paypal'
               isLoading={isLoading}
             >
               <PayPal

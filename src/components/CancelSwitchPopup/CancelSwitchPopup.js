@@ -23,7 +23,7 @@ const CancelSwitchPopup = () => {
   const [step, setStep] = useState(1);
 
   const { data: allSwitchDetails } = useSelector(
-    state => state.plan.switchDetails
+    (state) => state.plan.switchDetails
   );
   const {
     cancelSwitch: {
@@ -34,7 +34,7 @@ const CancelSwitchPopup = () => {
       baseOfferExpirationDate,
       baseOfferPrice
     }
-  } = useSelector(state => state.popupManager);
+  } = useSelector((state) => state.popupManager);
 
   const switchDetails = allSwitchDetails[pendingSwitchId];
   const eventsPayload = {
@@ -119,7 +119,7 @@ const CancelSwitchPopup = () => {
       {step === 1 && (
         <>
           <ContentStyled>
-            <TitleStyled $textTransform="capitalize">
+            <TitleStyled $textTransform='capitalize'>
               {t(
                 `cancelswitch-popup.title.${switchDirection}`,
                 `Cancel ${switchDirection}`
@@ -152,7 +152,7 @@ const CancelSwitchPopup = () => {
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
             <Button
-              theme="simple"
+              theme='simple'
               onClickFn={() => {
                 window.dispatchEvent(
                   new CustomEvent('MSSDK:cancel-switch-action-cancelled', {
@@ -164,9 +164,9 @@ const CancelSwitchPopup = () => {
             >
               {t('cancelswitch-popup.resign', 'No, thanks')}
             </Button>
-            <Button theme="danger" onClickFn={cancelSwitch}>
+            <Button theme='danger' onClickFn={cancelSwitch}>
               {isLoading ? (
-                <Loader buttonLoader color="#ffffff" />
+                <Loader buttonLoader color='#ffffff' />
               ) : (
                 t(
                   `cancelswitch-popup.confirm-button-text.${switchDirection}`,
@@ -180,8 +180,8 @@ const CancelSwitchPopup = () => {
       {step === 2 && (
         <>
           <ContentStyled>
-            <img src={checkmarkIconBase} alt="checkmark icon" />
-            <TitleStyled $textTransform="capitalize">
+            <img src={checkmarkIconBase} alt='checkmark icon' />
+            <TitleStyled $textTransform='capitalize'>
               {t(
                 `cancelswitch-popup.cancelled-title.${switchDirection}`,
                 `${switchDirection} canceled`
@@ -208,7 +208,7 @@ const CancelSwitchPopup = () => {
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
             <Button
-              theme="confirm"
+              theme='confirm'
               onClickFn={() => {
                 dispatch(hidePopup());
                 dispatch(updateList());

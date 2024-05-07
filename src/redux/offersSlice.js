@@ -25,7 +25,7 @@ export const offersSlice = createSlice({
   name: 'offers',
   initialState,
   extraReducers: {
-    [fetchOffers.pending]: state => {
+    [fetchOffers.pending]: (state) => {
       state.loading = true;
     },
     [fetchOffers.fulfilled]: (state, { payload }) => {
@@ -38,7 +38,7 @@ export const offersSlice = createSlice({
         .filter(
           ({ externalProperties }) => externalProperties.PAUSE_OFFER === 'true'
         )
-        .map(item => item.longId);
+        .map((item) => item.longId);
     },
     [fetchOffers.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -47,6 +47,6 @@ export const offersSlice = createSlice({
   }
 });
 
-export const selectOffers = state => state.offers;
+export const selectOffers = (state) => state.offers;
 
 export default offersSlice.reducer;

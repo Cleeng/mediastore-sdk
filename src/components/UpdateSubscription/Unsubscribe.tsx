@@ -35,9 +35,8 @@ const Unsubscribe = ({
     []
   );
   const [checkedReason, setCheckedReason] = useState('');
-  const [isFreeExtensionSecondStep, setIsFreeExtensionSecondStep] = useState(
-    false
-  );
+  const [isFreeExtensionSecondStep, setIsFreeExtensionSecondStep] =
+    useState(false);
 
   const [steps, setSteps] = useState<STEPS[]>([]);
   const { pauseOffersIDs } = useAppSelector(selectOffers);
@@ -55,7 +54,7 @@ const Unsubscribe = ({
     if (Object.keys(switchSettings).length && offerDetails) {
       const offerSwitchSettings = switchSettings[offerDetails?.offerId];
       return [...offerSwitchSettings.available]
-        .filter(offer => offer.switchDirection === 'downgrade')
+        .filter((offer) => offer.switchDirection === 'downgrade')
         .sort((aOffer, bOffer) => bOffer.price - aOffer.price);
     }
     return [];

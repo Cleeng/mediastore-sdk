@@ -75,11 +75,11 @@ class RegisterForm extends Component {
       consents: t(validateConsentsField(consents, consentDefinitions))
     };
     this.setState({ errors: errorFields });
-    return !Object.keys(errorFields).find(key => errorFields[key] !== '');
+    return !Object.keys(errorFields).find((key) => errorFields[key] !== '');
   };
 
   handleConsentsChange = (value, consentDefinitions) => {
-    this.setState(prev => ({
+    this.setState((prev) => ({
       consents: value,
       consentDefinitions,
       errors: {
@@ -89,7 +89,7 @@ class RegisterForm extends Component {
     }));
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.validateFields()) {
       this.register();
@@ -176,7 +176,7 @@ class RegisterForm extends Component {
     });
   };
 
-  handlePasswordChange = value => {
+  handlePasswordChange = (value) => {
     const { errors } = this.state;
     this.setState({
       password: value,
@@ -213,7 +213,7 @@ class RegisterForm extends Component {
           label={t('register-form.label.email', 'Email')}
           floatingLabels={false}
           value={email}
-          onChange={e => this.setState({ email: e })}
+          onChange={(e) => this.setState({ email: e })}
           onBlur={this.validateEmail}
           error={errors.email}
         />
@@ -236,14 +236,14 @@ class RegisterForm extends Component {
           onChangeFn={this.handleConsentsChange}
         />
         <Button
-          type="submit"
-          size="big"
-          theme="confirm"
-          margin="10px 0"
+          type='submit'
+          size='big'
+          theme='confirm'
+          margin='10px 0'
           disabled={processing || disableActionButton || publisherConsentsError}
         >
           {processing ? (
-            <Loader buttonLoader color="#ffffff" />
+            <Loader buttonLoader color='#ffffff' />
           ) : (
             t('register-form.button.register', 'Register')
           )}
@@ -262,10 +262,10 @@ RegisterForm.propTypes = {
 RegisterForm.defaultProps = {
   publisherId: '',
   onSuccess: () => null,
-  t: k => k
+  t: (k) => k
 };
 
-export const mapStateToProps = state => ({
+export const mapStateToProps = (state) => ({
   publisherConsentsError: state.publisherConsents.error
 });
 

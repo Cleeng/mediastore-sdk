@@ -27,7 +27,9 @@ const PaymentFinalizationPage = ({ onSuccess }) => {
       window.history.replaceState(null, null, window.location.pathname);
     });
   };
-  const { error, payment } = useSelector(state => state.finalizeInitialPayment);
+  const { error, payment } = useSelector(
+    (state) => state.finalizeInitialPayment
+  );
 
   useEffect(() => {
     if (adyenRedirectResult && orderId) {
@@ -48,7 +50,7 @@ const PaymentFinalizationPage = ({ onSuccess }) => {
   }
 
   return (
-    <StyledOfferWrapper data-testid="PaymentFinalizationPage-loader">
+    <StyledOfferWrapper data-testid='PaymentFinalizationPage-loader'>
       <Header />
       <StyledLoaderContent>
         <Loader />

@@ -41,7 +41,7 @@ const PasswordResetSuccess = ({ email, resetPasswordCallback }) => {
               )}
         </StyledMessage>
         <NoteStyled>
-          <Button theme="link" onClickFn={resetPasswordCallback}>
+          <Button theme='link' onClickFn={resetPasswordCallback}>
             {t(
               'password-reset-success.button.back',
               'Go back to the login page'

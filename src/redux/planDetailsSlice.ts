@@ -121,8 +121,8 @@ export const planDetailsSlice = createSlice({
       }
     }
   },
-  extraReducers: builder => {
-    builder.addCase(fetchCustomerOffers.pending, state => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchCustomerOffers.pending, (state) => {
       state.currentPlan.loading = true;
     });
     builder.addCase(fetchCustomerOffers.fulfilled, (state, action) => {
@@ -133,7 +133,7 @@ export const planDetailsSlice = createSlice({
       state.currentPlan.loading = false;
       state.currentPlan.error = action.payload;
     });
-    builder.addCase(fetchPendingSwitches.pending, state => {
+    builder.addCase(fetchPendingSwitches.pending, (state) => {
       state.switchDetails.loading = true;
     });
     builder.addCase(fetchPendingSwitches.fulfilled, (state, action) => {
@@ -144,7 +144,7 @@ export const planDetailsSlice = createSlice({
       state.switchDetails.loading = false;
       state.switchDetails.error = action.payload;
     });
-    builder.addCase(fetchAvailableSwitches.pending, state => {
+    builder.addCase(fetchAvailableSwitches.pending, (state) => {
       state.switchSettings.loading = true;
     });
     builder.addCase(fetchAvailableSwitches.fulfilled, (state, action) => {

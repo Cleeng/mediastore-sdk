@@ -11,7 +11,7 @@ import {
   AdditionalLabelStyled
 } from './PriceStyled';
 
-const addSpaceAfterNumber = str => {
+const addSpaceAfterNumber = (str) => {
   if (!/\d/.test(str.charAt(0))) {
     return str;
   }
@@ -24,7 +24,7 @@ const Price = ({ currency, price, period }) => (
       <CurrencyStyled>{currency}</CurrencyStyled>
       <PriceStyled>{formatNumber(price)}</PriceStyled>
       <AdditionalLabelStyled>
-        <Trans i18nKey="price-additional-label"> </Trans>
+        <Trans i18nKey='price-additional-label'> </Trans>
       </AdditionalLabelStyled>
     </InnerWrapper>
     {period && (
