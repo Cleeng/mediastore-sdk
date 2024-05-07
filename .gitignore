@@ -36,5 +36,4 @@ yarn-error.log*
 # WebStorm
 .idea
 
-.prettierrc
 tsconfig.tsbuildinfo
