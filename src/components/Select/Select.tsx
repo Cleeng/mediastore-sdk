@@ -16,7 +16,7 @@ type SelectProps = {
 };
 
 export const mapToSelectFormat = (array: string[]): Option[] => {
-  const newArray = array.map(item => {
+  const newArray = array.map((item) => {
     return {
       label: item,
       value: item
@@ -47,17 +47,17 @@ const Select = ({
   return (
     <SelectStyled>
       <ReactSelectStyled
-        classNamePrefix="react-select"
+        classNamePrefix='react-select'
         placeholder={label}
         value={value}
         required={required}
         $required={required}
-        onChange={newValue => handleChange(newValue as Option)}
+        onChange={(newValue) => handleChange(newValue as Option)}
         options={values}
         name={name}
         isDisabled={disabled}
         $isMyAccount={isMyAccount}
-        getOptionLabel={option => (option as Option).label}
+        getOptionLabel={(option) => (option as Option).label}
       />
     </SelectStyled>
   );

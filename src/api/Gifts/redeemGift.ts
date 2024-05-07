@@ -9,14 +9,14 @@ const redeemGift = async (giftCode: string): Promise<VerifiedGift> => {
   return fetchWithJWT(url, {
     method: 'POST'
   })
-    .then(async res => {
+    .then(async (res) => {
       const { responseData, errors } = await res.json();
       if (!res.ok) {
         throw new Error(errors[0]);
       }
       return responseData;
     })
-    .catch(err => {
+    .catch((err) => {
       throw new Error(err);
     });
 };

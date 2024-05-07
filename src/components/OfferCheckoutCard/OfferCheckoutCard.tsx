@@ -108,7 +108,7 @@ const OfferCheckoutCard = ({
         <SkeletonWrapper
           showChildren={!loading}
           width={200}
-          margin="0 0 10px 10px"
+          margin='0 0 10px 10px'
         >
           <TitleStyled>
             {t(`offer-title-${offerId}`, title || offerV2Title)}
@@ -122,7 +122,7 @@ const OfferCheckoutCard = ({
         <SkeletonWrapper
           showChildren={!loading}
           width={300}
-          margin="0 0 10px 10px"
+          margin='0 0 10px 10px'
         >
           <OfferDescription
             period={period}

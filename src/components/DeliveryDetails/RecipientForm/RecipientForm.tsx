@@ -139,16 +139,16 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
       {loading ? (
         <>
           <>
-            <SkeletonWrapper width={100} margin="0 0 12px 0" />
-            <SkeletonWrapper height={40} margin="0 0 28px 0" />
+            <SkeletonWrapper width={100} margin='0 0 12px 0' />
+            <SkeletonWrapper height={40} margin='0 0 28px 0' />
           </>
           <>
-            <SkeletonWrapper width={100} margin="0 0 12px 0" />
-            <SkeletonWrapper height={40} margin="0 0 28px 0" />
+            <SkeletonWrapper width={100} margin='0 0 12px 0' />
+            <SkeletonWrapper height={40} margin='0 0 28px 0' />
           </>
           <>
-            <SkeletonWrapper width={100} margin="0 0 12px 0" />
-            <SkeletonWrapper height={92} margin="0 0 28px 0" />
+            <SkeletonWrapper width={100} margin='0 0 12px 0' />
+            <SkeletonWrapper height={92} margin='0 0 28px 0' />
           </>
         </>
       ) : (
@@ -157,14 +157,14 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
             disabled={isFieldDisabled}
             error={t(recipientEmail.translationKey, recipientEmail.error)}
             label={t('recipientForm.label.recipient-email', 'Recipient email')}
-            name="recipientEmail"
+            name='recipientEmail'
             onBlur={onBlur}
             onChange={onChange}
             placeholder={t(
               'recipientForm.label.recipient-email',
               'jdoe@cleeng.com'
             )}
-            type="email"
+            type='email'
             value={shouldHideValue ? '' : recipientEmail.value}
           />
           {!isFieldDisabled && (
@@ -177,14 +177,14 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
                 'recipientForm.label.confirm-recipient-email',
                 'Confirm recipient email'
               )}
-              name="confirmRecipientEmail"
+              name='confirmRecipientEmail'
               onBlur={onBlur}
               onChange={onChange}
               placeholder={t(
                 'recipientForm.label.confirm-recipient-email',
                 'jdoe@cleeng.com'
               )}
-              type="email"
+              type='email'
               value={shouldHideValue ? '' : confirmRecipientEmail.value}
             />
           )}
@@ -194,23 +194,23 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
               error={t(deliveryDate.translationKey, deliveryDate.error)}
               label={t('recipientForm.label.delivery-date', 'Delivery date')}
               min={new Date().toISOString().split('T')[0]}
-              name="deliveryDate"
+              name='deliveryDate'
               onBlur={onBlur}
               onChange={onChange}
-              type="date"
+              type='date'
               value={shouldHideValue ? '' : deliveryDate.value}
-              width="50%"
+              width='50%'
             />
             <MyAccountInput
               disabled={isFieldDisabled}
               error={t(deliveryTime.translationKey, deliveryTime.error)}
               label={t('recipientForm.label.delivery-time', 'Delivery time')}
-              name="deliveryTime"
+              name='deliveryTime'
               onBlur={onBlur}
               onChange={onChange}
-              type="time"
+              type='time'
               value={shouldHideValue ? '' : deliveryTime.value}
-              width="50%"
+              width='50%'
             />
           </DateContainer>
           <MessageWrapper>
@@ -224,7 +224,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
             <StyledMessage
               disabled={isFieldDisabled}
               maxLength={150}
-              name="message"
+              name='message'
               onChange={onChange}
               placeholder={
                 isFieldDisabled

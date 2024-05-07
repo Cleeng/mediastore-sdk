@@ -3,13 +3,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import PaymentFinalizationPage from 'components/PaymentFinalizationPage';
 import { setShouldShowFinalizePaymentComponent } from 'redux/finalizePaymentSlice';
 
-const withPaymentFinalizationHandler = Component => {
+const withPaymentFinalizationHandler = (Component) => {
   // eslint-disable-next-line react/prop-types
   return function WithPaymentFinalizationHandler({ onSuccess, ...props }) {
     const dispatch = useDispatch();
 
     const { error, shouldShowFinalizePaymentComponent } = useSelector(
-      state => state.finalizeInitialPayment
+      (state) => state.finalizeInitialPayment
     );
 
     const adyenRedirectResult = new URLSearchParams(window.location.search).get(

@@ -13,12 +13,12 @@ const OfferSwitchCardLoader = () => {
         <SkeletonWrapper
           showChildren={false}
           width={200}
-          margin="0 10px 10px 10px"
+          margin='0 10px 10px 10px'
         />
         <SkeletonWrapper
           showChildren={false}
           width={300}
-          margin="0 10px 10px 10px"
+          margin='0 10px 10px 10px'
         />
       </InnerWrapper>
       <PriceWrapperStyled>

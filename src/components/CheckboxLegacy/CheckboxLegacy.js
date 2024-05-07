@@ -35,12 +35,12 @@ const CheckboxLegacy = ({
   return (
     <>
       <CheckboxStyled
-        onClick={e => {
+        onClick={(e) => {
           e.stopPropagation();
           onClickFn(e, disabled, setIsChecked);
         }}
-        role="checkbox"
-        tabIndex="-1"
+        role='checkbox'
+        tabIndex='-1'
         aria-checked={isChecked}
         checked={isChecked}
         aria-label={children}
@@ -49,15 +49,15 @@ const CheckboxLegacy = ({
       >
         <CheckFrameStyled
           $error={error && required && !isChecked}
-          tabIndex="0"
-          onKeyDown={e => (e.key === spaceKey ? onClickFn() : null)}
+          tabIndex='0'
+          onKeyDown={(e) => (e.key === spaceKey ? onClickFn() : null)}
           $isMyAccount={isMyAccount}
           $isRadioButton={isRadioButton}
           $checked={isChecked}
         >
           {isChecked && (
             <CheckMarkStyled
-              data-testid="checkmark"
+              data-testid='checkmark'
               $isMyAccount={isMyAccount}
               $isRadioButton={isRadioButton}
             />
@@ -73,8 +73,8 @@ const CheckboxLegacy = ({
       {termsUrl && (
         <TermsLinkStyled
           href={termsUrl}
-          target="_blank"
-          rel="noreferrer"
+          target='_blank'
+          rel='noreferrer'
           $checked={isChecked}
           $isPayPal={isPayPal}
         >
@@ -103,7 +103,7 @@ CheckboxLegacy.defaultProps = {
   error: '',
   checked: false,
   required: false,
-  onClickFn: t => t,
+  onClickFn: (t) => t,
   children: '',
   isMyAccount: false,
   className: '',

@@ -14,9 +14,9 @@ import {
 } from './MyAccountMenuStyled';
 
 const MyAccountMenu = () => {
-  const { activeTab } = useSelector(state => state.myaccount);
+  const { activeTab } = useSelector((state) => state.myaccount);
   const dispatch = useDispatch();
-  const onMenuItemClick = id => {
+  const onMenuItemClick = (id) => {
     dispatch(setActiveTab(id));
   };
   const { t } = useTranslation();

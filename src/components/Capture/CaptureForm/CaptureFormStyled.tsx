@@ -16,7 +16,7 @@ export const CaptureBoxStyled = styled.div`
 
 export const CaptureQuestionStyled = styled.div<{ required: boolean }>`
   text-align: left;
-  ${props =>
+  ${(props) =>
     props.required &&
     css`
       &::after {

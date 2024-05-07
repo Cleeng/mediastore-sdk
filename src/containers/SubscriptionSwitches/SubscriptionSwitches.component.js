@@ -27,18 +27,18 @@ const SubscriptionSwitches = ({
   onSwitchSuccess,
   onSwitchError
 }) => {
-  const { isOpen: isPopupOpen } = useSelector(state => state.popupManager);
+  const { isOpen: isPopupOpen } = useSelector((state) => state.popupManager);
   const { data: switchSettings } = useSelector(
-    store => store.plan.switchSettings
+    (store) => store.plan.switchSettings
   );
-  const { offers } = useSelector(state => state.offers);
+  const { offers } = useSelector((state) => state.offers);
   const [switchSettingsError, setSwitchSettingsError] = useState(false);
 
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
 
-  const getAndSaveSwitchSettings = async selectedSubscriptionData => {
+  const getAndSaveSwitchSettings = async (selectedSubscriptionData) => {
     await dispatch(fetchAvailableSwitches([selectedSubscriptionData]));
   };
 
@@ -56,7 +56,7 @@ const SubscriptionSwitches = ({
     dispatch(fetchPendingSwitches(offersWithPendingSwitches));
 
     const selectedSubscriptionData = activeSubscriptions.find(
-      offer => offer.offerId === offerId
+      (offer) => offer.offerId === offerId
     );
     if (!selectedSubscriptionData) {
       setSwitchSettingsError(true);
@@ -69,7 +69,7 @@ const SubscriptionSwitches = ({
   const immediatelyOpenSwitchPopupIfPossible = () => {
     if (offerId && toOfferId) {
       const toOfferData = switchSettings[offerId]?.available.find(
-        item => item.toOfferId === toOfferId
+        (item) => item.toOfferId === toOfferId
       );
       if (!toOfferData) return;
       dispatch(

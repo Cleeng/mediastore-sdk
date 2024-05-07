@@ -24,7 +24,7 @@ const EmailInput = ({
   <Input
     placeholder={label}
     floatingLabels={floatingLabels}
-    type="email"
+    type='email'
     value={value}
     onChange={onChange}
     onBlur={onBlur}

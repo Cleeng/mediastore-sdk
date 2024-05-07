@@ -81,8 +81,8 @@ export const giftSlice = createSlice({
   name: 'gift',
   initialState,
   reducers: {},
-  extraReducers: builder => {
-    builder.addCase(fetchGift.pending, state => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchGift.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(fetchGift.fulfilled, (state, action) => {
@@ -95,7 +95,7 @@ export const giftSlice = createSlice({
         state.error = action.payload;
       }
     });
-    builder.addCase(fetchUpdateGift.pending, state => {
+    builder.addCase(fetchUpdateGift.pending, (state) => {
       state.isUpdateLoading = true;
     });
     builder.addCase(fetchUpdateGift.fulfilled, (state, action) => {
@@ -108,7 +108,7 @@ export const giftSlice = createSlice({
         state.error = action.payload;
       }
     });
-    builder.addCase(fetchVerifyGift.pending, state => {
+    builder.addCase(fetchVerifyGift.pending, (state) => {
       state.isVerifyLoading = true;
     });
     builder.addCase(fetchVerifyGift.fulfilled, (state, action) => {
@@ -125,10 +125,10 @@ export const giftSlice = createSlice({
           'Provided gift code is invalid. Please provide a valid code and try again.';
       }
     });
-    builder.addCase(fetchRedeemGift.pending, state => {
+    builder.addCase(fetchRedeemGift.pending, (state) => {
       state.isRedeemLoading = true;
     });
-    builder.addCase(fetchRedeemGift.fulfilled, state => {
+    builder.addCase(fetchRedeemGift.fulfilled, (state) => {
       state.isRedeemLoading = false;
     });
     builder.addCase(fetchRedeemGift.rejected, (state, action) => {

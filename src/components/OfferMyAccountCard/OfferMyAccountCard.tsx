@@ -206,7 +206,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
           <SkeletonWrapper
             showChildren={!loading}
             width={200}
-            margin="0 10px 10px 10px"
+            margin='0 10px 10px 10px'
           >
             <TitleStyled>
               <>{t(`offer-title-${offerId}`, offerTitle)}</>
@@ -215,7 +215,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
           <SkeletonWrapper
             showChildren={!loading}
             width={300}
-            margin="0 10px 10px 10px"
+            margin='0 10px 10px 10px'
           >
             {generateDescription() && (
               <DescriptionStyled
@@ -252,45 +252,46 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
                 __html: getDescription() || ''
               }}
             />
-            {pendingSwitchId && pendingSwitchDetails?.algorithm === 'DEFERRED' && (
-              <SubBoxButtonStyled
-                onClick={() => {
-                  eventDispatcher(MSSDK_CANCEL_SWITCH_BUTTON_CLICKED, {
-                    pendingSwitchId,
-                    fromOfferId: pendingSwitchDetails.fromOfferId,
-                    toOfferId: pendingSwitchDetails.toOfferId
-                  });
+            {pendingSwitchId &&
+              pendingSwitchDetails?.algorithm === 'DEFERRED' && (
+                <SubBoxButtonStyled
+                  onClick={() => {
+                    eventDispatcher(MSSDK_CANCEL_SWITCH_BUTTON_CLICKED, {
+                      pendingSwitchId,
+                      fromOfferId: pendingSwitchDetails.fromOfferId,
+                      toOfferId: pendingSwitchDetails.toOfferId
+                    });
 
-                  dispatch(
-                    showPopup({
-                      type: isPauseInProgress
-                        ? POPUP_TYPES.CANCEL_PAUSE_POPUP
-                        : POPUP_TYPES.CANCEL_SWITCH_POPUP,
-                      data: {
-                        pendingSwitchId,
-                        switchDirection: pendingSwitchDetails.direction,
-                        switchOfferTitle:
-                          pendingSwitchDetails &&
-                          offers.find(
-                            ({ longId }: Offer) =>
-                              longId === pendingSwitchDetails.toOfferId
-                          )?.title,
-                        baseOfferTitle: offerTitle,
-                        baseOfferExpirationDate: expiresAt,
-                        baseOfferPrice: `${currency}${nextPaymentPrice}`
-                      }
-                    })
-                  );
-                }}
-              >
-                {isPauseInProgress
-                  ? t('offer-card.cancel-pause-button', 'Cancel pause')
-                  : t(
-                      `offer-card.cancel-${pendingSwitchDetails.direction}`,
-                      `Cancel ${pendingSwitchDetails.direction}`
-                    )}
-              </SubBoxButtonStyled>
-            )}
+                    dispatch(
+                      showPopup({
+                        type: isPauseInProgress
+                          ? POPUP_TYPES.CANCEL_PAUSE_POPUP
+                          : POPUP_TYPES.CANCEL_SWITCH_POPUP,
+                        data: {
+                          pendingSwitchId,
+                          switchDirection: pendingSwitchDetails.direction,
+                          switchOfferTitle:
+                            pendingSwitchDetails &&
+                            offers.find(
+                              ({ longId }: Offer) =>
+                                longId === pendingSwitchDetails.toOfferId
+                            )?.title,
+                          baseOfferTitle: offerTitle,
+                          baseOfferExpirationDate: expiresAt,
+                          baseOfferPrice: `${currency}${nextPaymentPrice}`
+                        }
+                      })
+                    );
+                  }}
+                >
+                  {isPauseInProgress
+                    ? t('offer-card.cancel-pause-button', 'Cancel pause')
+                    : t(
+                        `offer-card.cancel-${pendingSwitchDetails.direction}`,
+                        `Cancel ${pendingSwitchDetails.direction}`
+                      )}
+                </SubBoxButtonStyled>
+              )}
           </SubBoxContentStyled>
         </SubBoxStyled>
       )}

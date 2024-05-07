@@ -29,9 +29,9 @@ import {
 } from './SubscriptionManagementStyled';
 
 const SubscriptionManagement = ({ subscription, showMessageBox }) => {
-  const { pauseOffersIDs } = useSelector(store => store.offers);
+  const { pauseOffersIDs } = useSelector((store) => store.offers);
   const { data: switchSettings } = useSelector(
-    store => store.plan.switchSettings
+    (store) => store.plan.switchSettings
   );
 
   const isRetentionActionsLoading = useSelector(
@@ -60,11 +60,11 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const submitCoupon = targetSubscriptionId => {
+  const submitCoupon = (targetSubscriptionId) => {
     if (couponValue) {
       setIsLoading(true);
       applyCoupon(targetSubscriptionId, couponValue)
-        .then(resp => {
+        .then((resp) => {
           switch (resp.status) {
             case 200:
               setIsCouponInputOpened(false);
@@ -90,7 +90,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
             case 422:
               if (
                 resp.errors.some(
-                  e =>
+                  (e) =>
                     e.includes('not found') ||
                     e.includes('cannot be applied on this offer') ||
                     e.includes('cannot be applied on existing subscription') ||
@@ -104,7 +104,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                   )
                 );
               }
-              if (resp.errors.some(e => e.includes('already applied'))) {
+              if (resp.errors.some((e) => e.includes('already applied'))) {
                 setErrorMsg(
                   t(
                     'subscription-management.coupon-already-applied',
@@ -112,7 +112,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                   )
                 );
               }
-              if (resp.errors.some(e => e.includes('already used'))) {
+              if (resp.errors.some((e) => e.includes('already used'))) {
                 setErrorMsg(
                   t(
                     'subscription-management.coupon-already-used',
@@ -167,15 +167,15 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
     }
   };
 
-  const toggle = e => {
+  const toggle = (e) => {
     e.stopPropagation();
-    setIsOptionsVisible(isVisible => !isVisible);
+    setIsOptionsVisible((isVisible) => !isVisible);
   };
 
   return (
     <SubscriptionManagementStyled>
       <ManageButtonWrapStyled>
-        <Button theme="simple" width="unset" onClickFn={e => toggle(e)}>
+        <Button theme='simple' width='unset' onClickFn={(e) => toggle(e)}>
           <ButtonTextStyled $isExpanded={isOptionsVisible}>
             {t('subscription-management.manage-button', 'Manage')}
           </ButtonTextStyled>
@@ -185,8 +185,8 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
         <WrapperStyled>
           {status === 'active' && !isCouponInputOpened && (
             <SimpleButtonStyled
-              theme="simple"
-              onClickFn={event => {
+              theme='simple'
+              onClickFn={(event) => {
                 event.stopPropagation();
 
                 dispatch(fetchRetentionActions(subscription.offerId)).then(
@@ -224,7 +224,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
               }}
             >
               {isRetentionActionsLoading ? (
-                <Loader buttonLoader color="#ffffff" />
+                <Loader buttonLoader color='#ffffff' />
               ) : (
                 t('subscription-management.unsubscribe-button', 'Unsubscribe')
               )}
@@ -232,8 +232,8 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
           )}
           {status === 'cancelled' && !isCouponInputOpened && (
             <FullWidthButtonStyled
-              theme="simple"
-              onClickFn={event => {
+              theme='simple'
+              onClickFn={(event) => {
                 event.stopPropagation();
                 dispatch(
                   showPopup({
@@ -270,17 +270,17 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 value={couponValue}
                 couponLoading={isLoading}
                 onSubmit={() => submitCoupon(subscriptionId)}
-                onChange={e => setCouponValue(e)}
-                onClose={() => setIsCouponInputOpened(val => !val)}
-                onInputToggle={() => setIsCouponInputOpened(val => !val)}
-                source="myaccount"
+                onChange={(e) => setCouponValue(e)}
+                onClose={() => setIsCouponInputOpened((val) => !val)}
+                onInputToggle={() => setIsCouponInputOpened((val) => !val)}
+                source='myaccount'
               />
             </CouponWrapStyled>
           )}
           {isPaused && (
             <SimpleButtonStyled
-              theme="primary"
-              onClickFn={event => {
+              theme='primary'
+              onClickFn={(event) => {
                 event.stopPropagation();
                 dispatch(
                   showPopup({

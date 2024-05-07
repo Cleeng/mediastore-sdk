@@ -29,7 +29,7 @@ class Register extends Component {
     }
   }
 
-  setPublisherId = value => this.setState({ publisherId: value });
+  setPublisherId = (value) => this.setState({ publisherId: value });
 
   render() {
     const { publisherId } = this.state;
@@ -40,8 +40,8 @@ class Register extends Component {
         <ContentWrapperStyled>
           <RegisterForm t={t} publisherId={publisherId} onSuccess={onSuccess} />
           <Button
-            theme="secondary"
-            size="big"
+            theme='secondary'
+            size='big'
             onClickFn={() => onHaveAccountClick()}
           >
             {t('register.button.have-an-account', 'Have an account?')}
@@ -65,7 +65,7 @@ Register.defaultProps = {
   urlProps: {},
   onSuccess: () => null,
   onHaveAccountClick: () => null,
-  t: k => k
+  t: (k) => k
 };
 
 export { Register as PureRegister };

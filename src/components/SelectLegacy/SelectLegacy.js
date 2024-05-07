@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { SelectStyled, ReactSelectStyled } from './SelectStyled';
 
-export const mapToSelectFormat = array => {
-  const newArray = array.map(item => {
+export const mapToSelectFormat = (array) => {
+  const newArray = array.map((item) => {
     return {
       label: item,
       value: item
@@ -23,13 +23,13 @@ const SelectLegacy = ({
   disabled,
   isMyAccount
 }) => {
-  const handleChange = option => {
+  const handleChange = (option) => {
     onChange(name, option);
   };
   return (
     <SelectStyled>
       <ReactSelectStyled
-        classNamePrefix="react-select"
+        classNamePrefix='react-select'
         placeholder={label}
         value={value}
         required={required}
@@ -39,7 +39,7 @@ const SelectLegacy = ({
         name={name}
         isDisabled={disabled}
         $isMyAccount={isMyAccount}
-        getOptionLabel={option => option.label}
+        getOptionLabel={(option) => option.label}
       />
     </SelectStyled>
   );

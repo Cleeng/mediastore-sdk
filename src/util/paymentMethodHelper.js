@@ -91,7 +91,7 @@ export const validatePaymentMethods = (
     publisherConfig: { hiddenPaymentMethods }
   } = store.getState();
   if (!paymentMethods) return [];
-  return paymentMethods.filter(method => {
+  return paymentMethods.filter((method) => {
     const { id, methodName, paymentGateway } = method;
     if (hiddenPaymentMethods.includes(id)) {
       return false;

@@ -34,8 +34,8 @@ export const consentsSlice = createSlice({
       state.checked[payload] = !state.checked[payload];
     }
   },
-  extraReducers: builder => {
-    builder.addCase(fetchPublisherConsents.pending, state => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchPublisherConsents.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(fetchPublisherConsents.fulfilled, (state, { payload }) => {

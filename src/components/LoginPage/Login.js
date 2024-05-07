@@ -38,19 +38,14 @@ class Login extends Component {
     }
   }
 
-  setOfferId = value => this.setState({ offerId: value });
+  setOfferId = (value) => this.setState({ offerId: value });
 
-  setPublisherId = value => this.setState({ publisherId: value });
+  setPublisherId = (value) => this.setState({ publisherId: value });
 
   render() {
     const { offerId, publisherId, emailChanged } = this.state;
-    const {
-      isMyAccount,
-      onSuccess,
-      onPasswordResetClick,
-      onRegisterClick,
-      t
-    } = this.props;
+    const { isMyAccount, onSuccess, onPasswordResetClick, onRegisterClick, t } =
+      this.props;
 
     return (
       <LoginWrapperStyled>
@@ -67,8 +62,8 @@ class Login extends Component {
           {!isMyAccount && (
             <>
               <Button
-                theme="secondary"
-                size="big"
+                theme='secondary'
+                size='big'
                 onClickFn={() => onRegisterClick()}
               >
                 {t('login.button.go-to-register', 'Go to register')}
@@ -77,8 +72,8 @@ class Login extends Component {
           )}
           {!isMyAccount && (
             <Button
-              theme="link"
-              margin="20px auto 0 auto"
+              theme='link'
+              margin='20px auto 0 auto'
               onClickFn={() => onPasswordResetClick()}
             >
               {t('login.button.forgot-password', 'Forgot password?')}
@@ -106,7 +101,7 @@ Login.defaultProps = {
   onSuccess: () => null,
   onRegisterClick: () => null,
   onPasswordResetClick: () => null,
-  t: k => k
+  t: (k) => k
 };
 
 export { Login as PureLogin };

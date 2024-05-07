@@ -14,7 +14,7 @@ const subscriptionSwitch = async (offerId, toOfferId, switchDirection) => {
       toOfferId,
       switchDirection
     })
-  }).then(res => {
+  }).then((res) => {
     return res.json();
   });
 };

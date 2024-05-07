@@ -71,13 +71,8 @@ const TransactionsSkeleton = () => (
 );
 
 const Transactions = () => {
-  const {
-    transactions,
-    showToggleButton,
-    error,
-    loading,
-    isListExpanded
-  } = useAppSelector(state => state.transactions);
+  const { transactions, showToggleButton, error, loading, isListExpanded } =
+    useAppSelector((state) => state.transactions);
   const { pauseOffersIDs } = useAppSelector(selectOffers);
   const { isOpen, currentType } = useAppSelector(selectPopupDetails);
 
@@ -194,7 +189,7 @@ const Transactions = () => {
                             })
                           );
                         }}
-                        role="button"
+                        role='button'
                       >
                         {t(
                           'transactions.edit-gift-delivery-details',
@@ -210,16 +205,16 @@ const Transactions = () => {
         </TransactionListStyled>
         {showToggleButton && (
           <Button
-            theme="primary"
-            margin="20px 0 0 auto"
-            width="unset"
+            theme='primary'
+            margin='20px 0 0 auto'
+            width='unset'
             label={
               isListExpanded
                 ? t('transactions.show-less', 'Show less')
                 : t('transactions.show-more', 'Show more')
             }
             onClickFn={() => dispatch(toggleTransactionList())}
-            padding="12px 33px 12px 20px"
+            padding='12px 33px 12px 20px'
           >
             <ButtonTextStyled $isExpanded={isListExpanded}>
               {isListExpanded

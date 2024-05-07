@@ -45,9 +45,6 @@ export const selectDisplayGracePeriodError = (state: RootState) =>
 export const selectTermsUrl = (state: RootState) =>
   state.publisherConfig.termsUrl;
 
-export const {
-  init,
-  updatePaymentMethods,
-  updateHiddenPaymentMethods
-} = publisherConfigSlice.actions;
+export const { init, updatePaymentMethods, updateHiddenPaymentMethods } =
+  publisherConfigSlice.actions;
 export default publisherConfigSlice.reducer;

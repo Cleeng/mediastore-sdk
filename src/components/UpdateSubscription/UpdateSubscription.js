@@ -12,7 +12,7 @@ const UpdateSubscription = ({
 }) => {
   const {
     updateSubscription: { action }
-  } = useSelector(state => state.popupManager);
+  } = useSelector((state) => state.popupManager);
 
   if (action === 'unsubscribe') {
     return (

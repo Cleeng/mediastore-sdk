@@ -3,7 +3,7 @@ import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import jwtDecode from 'jwt-decode';
 
-const updateCaptureAnswers = async anwsers => {
+const updateCaptureAnswers = async (anwsers) => {
   const API_URL = getApiURL();
   const { customerId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
 

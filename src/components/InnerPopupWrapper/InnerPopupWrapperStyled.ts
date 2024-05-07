@@ -44,7 +44,7 @@ export const DotsWrapperStyled = styled.div.attrs(() => ({
 }))<{ $currentStep: number }>`
   display: flex;
   flex-direction: row;
-  ${props =>
+  ${(props) =>
     props.$currentStep &&
     css`
       span:nth-child(-n + ${props.$currentStep}) {
@@ -122,7 +122,7 @@ export const TitleStyled = styled.h1.attrs(() => ({
   font-size: 26px;
   color: ${FontColor};
   font-weight: 600;
-  text-transform: ${props =>
+  text-transform: ${(props) =>
     props.$textTransform ? props.$textTransform : 'none'};
   line-height: 1.2;
 
@@ -130,7 +130,7 @@ export const TitleStyled = styled.h1.attrs(() => ({
     font-size: 27px;
   `}
 
-  ${props =>
+  ${(props) =>
     props.$step === 2 &&
     css`
       font-size: 20px;
@@ -168,9 +168,9 @@ export const ButtonWrapperStyled = styled.div.attrs(() => ({
   display: flex;
   flex-direction: row;
   justify-content: center;
-  margin-bottom: ${props => (props.$removeMargin ? '0' : '60px')};
+  margin-bottom: ${(props) => (props.$removeMargin ? '0' : '60px')};
 
-  ${props =>
+  ${(props) =>
     props.$customMargin &&
     css`
       margin: ${props.$customMargin};
@@ -182,7 +182,7 @@ export const ButtonWrapperStyled = styled.div.attrs(() => ({
 
   button {
     text-transform: capitalize;
-    width: ${props => (props.$fillWrapper ? '80%' : '40%')};
+    width: ${(props) => (props.$fillWrapper ? '80%' : '40%')};
     margin: 0 5px;
     &:disabled {
       cursor: not-allowed;
@@ -213,7 +213,7 @@ export const OfferCardWrapperStyled = styled.div.attrs(() => ({
   padding: 15px;
   max-width: 550px;
   text-align: left;
-  ${props =>
+  ${(props) =>
     props.onClick &&
     css`
       cursor: pointer;

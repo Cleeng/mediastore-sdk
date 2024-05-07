@@ -50,7 +50,7 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
   const handleVerifyGift = async () => {
     const { offerId } = await dispatch(fetchVerifyGift(giftCode))
       .unwrap()
-      .catch(err => {
+      .catch((err) => {
         setShowOffer(false);
         throw new Error(err);
       });
@@ -67,7 +67,7 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
   const handleRedeemGift = async () => {
     await dispatch(fetchRedeemGift(giftCode))
       .unwrap()
-      .catch(err => {
+      .catch((err) => {
         throw new Error(err);
       });
 
@@ -102,7 +102,7 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
       eventDispatcher(MSSDK_AUTH_FAILED, {
         source: 'RedeemGift'
       });
-      return <ErrorPage type="isNotAuth" isRedeemGift />;
+      return <ErrorPage type='isNotAuth' isRedeemGift />;
     }
     if (isGiftRedeemed) {
       return <ThankYouPage />;
@@ -111,25 +111,25 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
     return (
       <>
         <RedeemGiftWrapperStyled>
-          <SectionHeader center paddingBottom="10px">
+          <SectionHeader center paddingBottom='10px'>
             {t('redeem-gift.button.header', 'Redeem your gift')}
           </SectionHeader>
           <InputWrapperStyled>
             <MyAccountInput
               error={error}
               onChange={handleChange}
-              name="giftCode"
-              type="text"
+              name='giftCode'
+              type='text'
               value={giftCode}
-              placeholder="XXXX-XXXX"
+              placeholder='XXXX-XXXX'
             />
             <Button
               disabled={!giftCode}
-              theme="confirm"
+              theme='confirm'
               onClickFn={handleVerifyGift}
             >
               {isVerifyLoading ? (
-                <Loader buttonLoader color="#ffffff" />
+                <Loader buttonLoader color='#ffffff' />
               ) : (
                 t('redeem-gift.button.verify', 'Verify')
               )}
@@ -142,11 +142,11 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
           )}
           <Button
             disabled={isConfirmButtonDisabled}
-            theme="confirm"
+            theme='confirm'
             onClickFn={handleRedeemGift}
           >
             {isRedeemLoading ? (
-              <Loader buttonLoader color="#ffffff" />
+              <Loader buttonLoader color='#ffffff' />
             ) : (
               t('redeem-gift.button.confirm', 'Confirm & proceed')
             )}

@@ -20,23 +20,23 @@ const SubscriptionSwitchesList = () => {
   const { t } = useTranslation();
 
   const { data: switchDetails } = useSelector(
-    state => state.plan.switchDetails
+    (state) => state.plan.switchDetails
   );
-  const { pauseOffersIDs } = useSelector(state => state.offers);
-  const { offerToSwitch } = useSelector(state => state.plan);
+  const { pauseOffersIDs } = useSelector((state) => state.offers);
+  const { offerToSwitch } = useSelector((state) => state.plan);
 
   const {
     data: allSwitchSettings,
     loading: isSwitchSettingsLoading,
     error: isAllSwitchSettingsError
-  } = useSelector(state => state.plan.switchSettings);
+  } = useSelector((state) => state.plan.switchSettings);
 
   const isOfferSelected = !!offerToSwitch.offerId;
 
   const switchSettings = allSwitchSettings[offerToSwitch?.offerId] || {};
   const fromOfferId = offerToSwitch?.offerId;
   const pendingSwtichesToOfferIdsArray = Object.keys(switchDetails).map(
-    item => {
+    (item) => {
       return switchDetails[item].toOfferId;
     }
   );
@@ -63,7 +63,7 @@ const SubscriptionSwitchesList = () => {
           'subscription-switches-list.offer-not-selected',
           'Click on the plan that you would like to switch from'
         )}
-        margin="0 auto"
+        margin='0 auto'
       />
     );
   }
@@ -76,11 +76,11 @@ const SubscriptionSwitchesList = () => {
 
   // Filter out the pause subscription
   const availableFiltered = availableSorted?.filter(
-    offer => !pauseOffersIDs.includes(offer.toOfferId)
+    (offer) => !pauseOffersIDs.includes(offer.toOfferId)
   );
   const unavailableFiltered = Array.isArray(switchSettings.unavailable)
     ? switchSettings.unavailable.filter(
-        offer => !pauseOffersIDs.includes(offer.toOfferId)
+        (offer) => !pauseOffersIDs.includes(offer.toOfferId)
       )
     : [];
 
@@ -95,7 +95,7 @@ const SubscriptionSwitchesList = () => {
         icon={error.icon}
         title={t(error.title.translationKey, error.title.text)}
         subtitle={t(error.subtitle.translationKey, error.subtitle.text)}
-        margin="0 auto"
+        margin='0 auto'
         fullWidth
       />
     );
@@ -109,7 +109,7 @@ const SubscriptionSwitchesList = () => {
           'subscription-switches-list.switching-unavailable',
           "Looks like there aren't any options for switching from your current plan right now"
         )}
-        margin="0 auto"
+        margin='0 auto'
       />
     );
   }
@@ -117,13 +117,13 @@ const SubscriptionSwitchesList = () => {
   return (
     <>
       {!!availableFiltered.length &&
-        availableFiltered.map(subItem => {
+        availableFiltered.map((subItem) => {
           return (
             <SubscriptionStyled
-              as="article"
+              as='article'
               key={subItem.toOfferId}
               $hide={pendingSwtichesToOfferIdsArray.find(
-                item => item === subItem.toOfferId
+                (item) => item === subItem.toOfferId
               )}
             >
               <OfferSwitchCard
@@ -161,7 +161,7 @@ const SubscriptionSwitchesList = () => {
           );
         })}
       {!!unavailableFiltered.length &&
-        unavailableFiltered.map(subItem => {
+        unavailableFiltered.map((subItem) => {
           return (
             <SubscriptionStyled key={subItem.toOfferId}>
               <OfferSwitchCard

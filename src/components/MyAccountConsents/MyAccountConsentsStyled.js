@@ -10,7 +10,7 @@ export const CardStyled = styled(Card).attrs(() => ({
 }))`
   margin-bottom: 0;
 
-  ${props =>
+  ${(props) =>
     props.showConsentsOnly &&
     css`
       padding: 0 0 20px 0;
@@ -28,18 +28,18 @@ export const ButtonStyled = styled(Button).attrs(() => ({
   width: 48%;
   min-width: 100px;
 
-  ${props =>
+  ${(props) =>
     props.$width &&
     css`
       width: ${props.$width};
     `}
 
   ${mediaFrom.small &&
-    css`
-      margin: 20px 0 0 5px;
-      width: unset;
-      max-width: unset;
-    `}
+  css`
+    margin: 20px 0 0 5px;
+    width: unset;
+    max-width: unset;
+  `}
 `;
 
 export const CheckboxStyled = styled(CheckboxLegacy).attrs(() => ({
@@ -48,13 +48,13 @@ export const CheckboxStyled = styled(CheckboxLegacy).attrs(() => ({
   align-items: flex-start;
   line-height: 1.3rem;
 
-  ${props =>
+  ${(props) =>
     props.disabled &&
     css`
       cursor: default;
     `}
 
-  ${props =>
+  ${(props) =>
     props.$hide &&
     css`
       display: none;

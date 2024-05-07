@@ -76,6 +76,7 @@
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint --no-ignore --fix",
+      "prettier --write",
       "git add --force"
     ],
     "*.{ts,tsx}": [

@@ -18,7 +18,7 @@ export const FormComponentStyled = styled.form.attrs(() => ({
 
   max-width: 300px;
 
-  ${props =>
+  ${(props) =>
     props.$isOpen &&
     props.$fullWidth &&
     css`
@@ -30,7 +30,7 @@ export const FormComponentStyled = styled.form.attrs(() => ({
 export const MessageStyled = styled.div.attrs(() => ({
   className: 'msd__coupon-input__message'
 }))<MessageStyledProps>`
-  color: ${props =>
+  color: ${(props) =>
     props.$messageType === MESSAGE_TYPE_SUCCESS
       ? Colors.ConfirmColor
       : Colors.ErrorColor};
@@ -38,7 +38,7 @@ export const MessageStyled = styled.div.attrs(() => ({
 
   font-size: 12px;
 
-  opacity: ${props => (props.$showMessage ? 1 : 0)};
+  opacity: ${(props) => (props.$showMessage ? 1 : 0)};
   transition: opacity 250ms linear;
 `;
 
@@ -56,7 +56,7 @@ export const InputElementWrapperStyled = styled.div.attrs(() => ({
 
   background: white;
 
-  ${props =>
+  ${(props) =>
     props.$isFocused &&
     css`
       outline: 1px solid ${Colors.FocusColor};
@@ -85,14 +85,14 @@ export const InputElementStyled = styled.input.attrs(() => ({
         max-width: 100%;
       `}
 
-  ${props =>
+  ${(props) =>
     props.$fullWidth &&
     css`
       width: 100%;
       max-width: 100%;
     `}
 
-  ${props =>
+  ${(props) =>
     props.readOnly &&
     css`
       opacity: 0.5;

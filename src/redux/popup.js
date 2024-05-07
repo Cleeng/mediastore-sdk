@@ -19,7 +19,7 @@ const popupReducer = createReducer(initialState, {
     state.popupType = action.payload.type;
     state.consents = action.payload.consents;
   },
-  HIDE_POPUP: state => {
+  HIDE_POPUP: (state) => {
     state.isPopupShown = false;
   }
 });

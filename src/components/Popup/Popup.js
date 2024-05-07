@@ -29,12 +29,12 @@ const Popup = () => {
   const [updatedConsents, setUpdatedConsents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [allowSubmitConsents, setAllowSubmitConsents] = useState(false);
-  const { popupType, consents } = useSelector(state => state.popup);
+  const { popupType, consents } = useSelector((state) => state.popup);
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
 
-  const checkAccess = items => {
+  const checkAccess = (items) => {
     const shouldBlockConfirmButton = items.find(
       ({ required, state }) => required && state === 'declined'
     );
@@ -66,7 +66,7 @@ const Popup = () => {
       return;
     }
 
-    setStep(prevStep => prevStep + 1);
+    setStep((prevStep) => prevStep + 1);
   };
 
   const stepData = popupData[popupType].steps[step - 1];
@@ -106,7 +106,7 @@ const Popup = () => {
           <MyAccountConsents
             consents={consents}
             showConsentsOnly
-            saveConsents={items => {
+            saveConsents={(items) => {
               setUpdatedConsents(items);
               checkAccess(items);
             }}
@@ -119,9 +119,9 @@ const Popup = () => {
           <ButtonStyled
             onClickFn={handleActionButton}
             disabled={step === 2 && !allowSubmitConsents}
-            width="auto"
+            width='auto'
           >
-            {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
+            {(isLoading && <Loader buttonLoader color='#ffffff' />) ||
               t(stepData.translationKeys.button, stepData.buttonText)}
           </ButtonStyled>
         </InnerWrapperStyled>

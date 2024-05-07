@@ -5,8 +5,7 @@ const popupData = {
         headerTitle: 'Terms & Conditions',
         icon: true,
         title: 'Hi there!',
-        text:
-          'Your brand new account is waiting for you. Just one last step. We would like you to review our terms and conditions before continuing to your account.',
+        text: 'Your brand new account is waiting for you. Just one last step. We would like you to review our terms and conditions before continuing to your account.',
         buttonText: 'Let’s do it',
         translationKeys: {
           header: 'popup.not-checked-terms.header',
@@ -19,8 +18,7 @@ const popupData = {
         headerTitle: 'Terms & Conditions',
         icon: true,
         title: 'Terms & Conditions',
-        text:
-          'Please accept our terms and conditions before continuing to your account.',
+        text: 'Please accept our terms and conditions before continuing to your account.',
         buttonText: 'Continue',
         translationKeys: {
           header: 'popup.not-checked-terms2.header',
@@ -37,8 +35,7 @@ const popupData = {
         headerTitle: 'Terms update',
         icon: true,
         title: 'A change in our terms',
-        text:
-          'One of our mandatory terms has been updated. Review the changes to continue.',
+        text: 'One of our mandatory terms has been updated. Review the changes to continue.',
         buttonText: 'Okey, Go next',
         translationKeys: {
           header: 'popup.terms-update-required.header',
@@ -51,8 +48,7 @@ const popupData = {
         headerTitle: 'Terms update',
         icon: null,
         title: 'Update to terms & conditions',
-        text:
-          'Please review and accept our updated terms and conditions before continuing to your account.',
+        text: 'Please review and accept our updated terms and conditions before continuing to your account.',
         buttonText: 'Continue',
         translationKeys: {
           header: 'popup.terms-update-required2.header',
@@ -69,8 +65,7 @@ const popupData = {
         headerTitle: 'Terms update',
         icon: true,
         title: 'Update to terms & conditions',
-        text:
-          'We have updated our terms and conditions. Please take a few minutes to review the changes in your profile section',
+        text: 'We have updated our terms and conditions. Please take a few minutes to review the changes in your profile section',
         buttonText: 'Continue',
         translationKeys: {
           header: 'popup.consents-update-required.header',
@@ -102,8 +97,7 @@ const popupData = {
         headerTitle: 'Terms update',
         icon: null,
         title: 'Update to terms & conditions',
-        text:
-          'Please review and accept our updated terms and conditions before continuing to your account.',
+        text: 'Please review and accept our updated terms and conditions before continuing to your account.',
         buttonText: 'Continue',
         translationKeys: {
           header: 'popup.complex-update2.header',

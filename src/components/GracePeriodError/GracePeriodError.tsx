@@ -31,12 +31,12 @@ const GracePeriodError = () => {
   if (!isPeriodError) return null;
 
   return (
-    <GracePeriodErrorStyled data-testid="grace-period-error">
+    <GracePeriodErrorStyled data-testid='grace-period-error'>
       <IconStyled>
-        <AlertIcon data-testid="alert-svg" />
+        <AlertIcon data-testid='alert-svg' />
       </IconStyled>
       <p>
-        <Trans i18nKey="grace-period-error">
+        <Trans i18nKey='grace-period-error'>
           Your subscription couldn&apos;t be renewed due to a payment method
           issue. Please <WarningMessageStyled>update it</WarningMessageStyled>{' '}
           to avoid losing access to the content.

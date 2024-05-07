@@ -37,12 +37,8 @@ const EditDeliveryDetailsPopup = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [error, setError] = useState(false);
 
-  const {
-    recipientEmail,
-    deliveryDate,
-    deliveryTime,
-    message
-  } = useAppSelector(selectDeliveryDetails);
+  const { recipientEmail, deliveryDate, deliveryTime, message } =
+    useAppSelector(selectDeliveryDetails);
   const { giftId, offerId, offerTitle } = useAppSelector(
     selectEditDeliveryDetailsPopup
   );
@@ -115,7 +111,7 @@ const EditDeliveryDetailsPopup = () => {
             {t('edit-delivery-details-popup.header', 'Edit Delivery Details')}
           </HeaderStyled>
           <InfoTextSkeletonStyled>
-            <SkeletonWrapper height={32} margin="0 0 24px 0" />
+            <SkeletonWrapper height={32} margin='0 0 24px 0' />
           </InfoTextSkeletonStyled>
           <RecipientForm isMyAccount />
         </ContentStyled>
@@ -169,12 +165,12 @@ const EditDeliveryDetailsPopup = () => {
           <ButtonsStyled>
             {isGiftEditable ? (
               <>
-                <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
+                <Button theme='simple' onClickFn={() => dispatch(hidePopup())}>
                   {t('edit-delivery-details-popup.button.cancel', 'Back')}
                 </Button>
-                <Button theme="confirm" onClickFn={updateGift}>
+                <Button theme='confirm' onClickFn={updateGift}>
                   {isUpdateLoading ? (
-                    <Loader buttonLoader color="#ffffff" />
+                    <Loader buttonLoader color='#ffffff' />
                   ) : (
                     t(
                       'edit-delivery-details-popup.button.confirm',
@@ -184,7 +180,7 @@ const EditDeliveryDetailsPopup = () => {
                 </Button>
               </>
             ) : (
-              <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
+              <Button theme='confirm' onClickFn={() => dispatch(hidePopup())}>
                 {t(
                   'edit-delivery-details-popup.button.back',
                   'Back to settings'
@@ -231,7 +227,7 @@ const EditDeliveryDetailsPopup = () => {
                 'Please try updating the delivery details again in a few minutes.'
               )}
             </ErrorTextStyled>
-            <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
+            <Button theme='confirm' onClickFn={() => dispatch(hidePopup())}>
               {t('edit-delivery-details-popup.button.back', 'Back to settings')}
             </Button>
           </ErrorPageStyled>
@@ -255,7 +251,7 @@ const EditDeliveryDetailsPopup = () => {
                 'Your changes have been saved and will be reflected in your next delivery.'
               )}
             </InfoTextStyled>
-            <Button theme="confirm" onClickFn={() => dispatch(hidePopup())}>
+            <Button theme='confirm' onClickFn={() => dispatch(hidePopup())}>
               {t('edit-delivery-details-popup.button.back', 'Back to settings')}
             </Button>
           </ThankYouPageStyled>

@@ -2,7 +2,7 @@ import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import { getData } from 'util/appConfigHelper';
 
-const updatePayPalPaymentDetails = async paymentMethodId => {
+const updatePayPalPaymentDetails = async (paymentMethodId) => {
   const API_URL = getApiURL();
   const url = `${API_URL}/connectors/paypal/v1/payment_details/tokens`;
 

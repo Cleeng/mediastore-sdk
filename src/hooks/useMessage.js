@@ -4,7 +4,7 @@ const useMessage = () => {
   const [message, setMessageText] = useState('');
   const [type, setType] = useState('');
 
-  const setMessage = newMessage => {
+  const setMessage = (newMessage) => {
     setMessageText(newMessage.message);
     setType(newMessage.type);
   };

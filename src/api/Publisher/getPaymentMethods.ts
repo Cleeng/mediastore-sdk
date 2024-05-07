@@ -9,7 +9,7 @@ const getPaymentMethods = (): Promise<{
       paymentGateway: string;
       logoUrl: string;
     }[];
-    message: string,
+    message: string;
     status: number;
   };
   errors: string;
@@ -18,7 +18,7 @@ const getPaymentMethods = (): Promise<{
 
   return fetchWithJWT(`${API_URL}/payment-methods`, {
     method: 'GET'
-  }).then(res => res.json());
+  }).then((res) => res.json());
 };
 
 export default getPaymentMethods;

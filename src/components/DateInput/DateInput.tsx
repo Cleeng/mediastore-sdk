@@ -20,9 +20,9 @@ const DateInput = ({
 }: DateInputProps) => {
   return (
     <Input
-      type="date"
+      type='date'
       placeholder={label}
-      format="dd/mm/yyyy"
+      format='dd/mm/yyyy'
       value={value}
       icon={CalendarIcon}
       onChange={onChange}

@@ -48,11 +48,11 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setError] = useState(false);
 
-  const { offerToSwitch: fromOffer } = useSelector(state => state.plan);
+  const { offerToSwitch: fromOffer } = useSelector((state) => state.plan);
   const {
     isLoading: isPopupLoading,
     switchPlan: { offerData: toOffer, isPartOfCancellationFlow }
-  } = useSelector(state => state.popupManager);
+  } = useSelector((state) => state.popupManager);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -112,7 +112,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
           showChildren={false}
           height={200}
           width={450}
-          margin="auto"
+          margin='auto'
         />
       </InnerPopupWrapper>
     );
@@ -135,20 +135,20 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
             <ImageWrapper>
               <SubscriptionIconStyled
                 period={fromOffer.period}
-                showLabel="Current"
+                showLabel='Current'
                 gray
               />
               <ArrowStyled />
-              <SubscriptionIconStyled period={toOffer.period} showLabel="New" />
+              <SubscriptionIconStyled period={toOffer.period} showLabel='New' />
             </ImageWrapper>
-            <TitleStyled $step={step} $textTransform="capitalize">
+            <TitleStyled $step={step} $textTransform='capitalize'>
               {t(
                 `switchplan-popup.${toOffer.switchDirection}-title`,
                 `${toOffer.switchDirection} your plan`
               )}
             </TitleStyled>
             <TextStyled step={step}>
-              <Trans i18nKey="switchplan-popup-info">
+              <Trans i18nKey='switchplan-popup-info'>
                 You are about to change your plan from{' '}
                 <strong>
                   {{
@@ -170,7 +170,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 .
               </Trans>{' '}
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
-                <Trans i18nKey="switchplan-popup-info-immediatewithoutproration">
+                <Trans i18nKey='switchplan-popup-info-immediatewithoutproration'>
                   You will be immediately granted access to your selected plan
                   and charged a new price{' '}
                   <strong>
@@ -199,7 +199,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_WITH_REFUND' && (
-                <Trans i18nKey="switchplan-popup-info-immediateandchargewithrefund">
+                <Trans i18nKey='switchplan-popup-info-immediateandchargewithrefund'>
                   You will be charged{' '}
                   <strong>
                     {{
@@ -229,7 +229,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITH_FULL_REFUND' && (
-                <Trans i18nKey="switchplan-popup-info-immediateandchargewithfullrefund">
+                <Trans i18nKey='switchplan-popup-info-immediateandchargewithfullrefund'>
                   You will be charged{' '}
                   <strong>
                     {{
@@ -257,7 +257,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 </Trans>
               )}
               {toOffer.algorithm === 'DEFERRED' && (
-                <Trans i18nKey="switchplan-popup-info-deferred">
+                <Trans i18nKey='switchplan-popup-info-deferred'>
                   You will continue to have access to{' '}
                   <strong>
                     {{
@@ -293,7 +293,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (
-                <Trans i18nKey="switchplan-popup-info-immediateandchargefullprice">
+                <Trans i18nKey='switchplan-popup-info-immediateandchargefullprice'>
                   You will be charged{' '}
                   <strong>
                     {{
@@ -322,7 +322,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION' && (
-                <Trans i18nKey="switchplan-popup-info-immediateandchargewithoutproration">
+                <Trans i18nKey='switchplan-popup-info-immediateandchargewithoutproration'>
                   You will be charged{' '}
                   <strong>
                     {{
@@ -339,7 +339,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_WITH_TIME_PRORATION' && (
-                <Trans i18nKey="switchplan-popup-info-immediatewithtimeproration">
+                <Trans i18nKey='switchplan-popup-info-immediatewithtimeproration'>
                   You will be immediately granted access to your selected plan.
                   Your next billing date will be changed and pushed towards,
                   based on the time left on your previous subscription. From
@@ -358,7 +358,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
               )}
               {toOffer.algorithm ===
                 'IMMEDIATE_AND_CHARGE_WITH_TIME_PRORATION' && (
-                <Trans i18nKey="switchplan-popup-info-immediateandchargewithtimeproration">
+                <Trans i18nKey='switchplan-popup-info-immediateandchargewithtimeproration'>
                   You will be immediately charged{' '}
                   <strong>
                     {{
@@ -407,7 +407,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
             <Button
-              theme="simple"
+              theme='simple'
               onClickFn={() => {
                 if (isPartOfCancellationFlow) {
                   dispatch(
@@ -440,9 +440,9 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
             >
               {t('switchplan-popup.resign-button', 'Keep Current Plan')}
             </Button>
-            <Button theme="confirm" onClickFn={changePlan}>
+            <Button theme='confirm' onClickFn={changePlan}>
               {isLoading ? (
-                <Loader buttonLoader color="#ffffff" />
+                <Loader buttonLoader color='#ffffff' />
               ) : (
                 t(
                   `switchplan-popup.confirm-button.${toOffer.switchDirection}`,
@@ -457,7 +457,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
         <>
           <ContentStyled>
             <ImageWrapper>
-              <ImageStyled src={checkmarkIcon} alt="checkmark icon" />
+              <ImageStyled src={checkmarkIcon} alt='checkmark icon' />
             </ImageWrapper>
             <TitleStyled $step={step}>
               {t('switchplan-popup.success.header', 'Thank You!')}
@@ -713,7 +713,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button
-              theme="confirm"
+              theme='confirm'
               onClickFn={onSwitchSuccess || closePopupAndRefresh}
             >
               {t('switchplan-popup.back-button', 'Back to My Account')}
@@ -742,7 +742,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button
-              theme="confirm"
+              theme='confirm'
               onClickFn={onSwitchError || closePopupAndRefresh}
             >
               {t('switchplan-popup.back-button', 'Back to My Account')}

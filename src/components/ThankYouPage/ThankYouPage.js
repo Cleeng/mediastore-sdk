@@ -22,7 +22,7 @@ import {
 const ThankYouPage = ({ onSuccess }) => {
   const {
     payment: { paymentMethod, totalAmount: totalAmountFromStore, currency }
-  } = useSelector(state => state.finalizeInitialPayment);
+  } = useSelector((state) => state.finalizeInitialPayment);
 
   const { t } = useTranslation();
 
@@ -45,14 +45,14 @@ const ThankYouPage = ({ onSuccess }) => {
   }, []);
 
   return (
-    <ThankYouPageWrapperStyled data-testid="ThankYouPage-component">
+    <ThankYouPageWrapperStyled data-testid='ThankYouPage-component'>
       <Header />
       <ThankYouPageStyled>
-        <IconStyled src={checkmarkIconBase} alt="" />
-        <TitleStyled id="title-thankyou">
+        <IconStyled src={checkmarkIconBase} alt='' />
+        <TitleStyled id='title-thankyou'>
           {t('thank-you-page.header', 'Thank You!')}
         </TitleStyled>
-        <MessageStyled id="message-payment-method">
+        <MessageStyled id='message-payment-method'>
           {readablePaymentMethod[paymentMethod] ? (
             <strong>
               {t(
@@ -70,7 +70,7 @@ const ThankYouPage = ({ onSuccess }) => {
             </strong>
           )}
         </MessageStyled>
-        <MessageStyled id="message-total-amount">
+        <MessageStyled id='message-total-amount'>
           {totalAmount
             ? currencySymbol &&
               t(
@@ -82,12 +82,12 @@ const ThankYouPage = ({ onSuccess }) => {
                 }
               )
             : null}
-          <Trans i18nKey="thank-you-page.manage-text">
+          <Trans i18nKey='thank-you-page.manage-text'>
             You can manage your account from
             <LinkStyled
               href={getData('CLEENG_MY_ACCOUNT_URL')}
-              target="_blank"
-              rel="noopener noreferrer"
+              target='_blank'
+              rel='noopener noreferrer'
             >
               here.
             </LinkStyled>
@@ -104,7 +104,7 @@ ThankYouPage.propTypes = {
 };
 
 ThankYouPage.defaultProps = {
-  onSuccess: t => t
+  onSuccess: (t) => t
 };
 
 export { ThankYouPage as PureThankYouPage };

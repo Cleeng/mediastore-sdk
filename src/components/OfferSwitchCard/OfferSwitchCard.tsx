@@ -27,16 +27,14 @@ import {
 
 const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
   const { t } = useTranslation();
-  const {
-    data: allSwitchSettings,
-    loading: isSwitchSettingsLoading
-  } = useAppSelector(selectSwitchSettings);
+  const { data: allSwitchSettings, loading: isSwitchSettingsLoading } =
+    useAppSelector(selectSwitchSettings);
   const switchDetails =
     allSwitchSettings[baseOfferId].available.find(
-      switchData => switchData.toOfferId === toOfferId
+      (switchData) => switchData.toOfferId === toOfferId
     ) ||
     allSwitchSettings[baseOfferId].unavailable.find(
-      switchData => switchData.toOfferId === toOfferId
+      (switchData) => switchData.toOfferId === toOfferId
     ) ||
     ({} as SwitchSetting);
 
@@ -109,7 +107,7 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
           <SkeletonWrapper
             showChildren={!isSwitchSettingsLoading}
             width={200}
-            margin="0 10px 10px 10px"
+            margin='0 10px 10px 10px'
           >
             <TitleStyled>
               {t(`offer-title-${toOfferId}`, switchDetails.title)}
@@ -118,7 +116,7 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
           <SkeletonWrapper
             showChildren={!isSwitchSettingsLoading}
             width={300}
-            margin="0 10px 10px 10px"
+            margin='0 10px 10px 10px'
           />
         </InnerWrapper>
         <PriceWrapperStyled>
