@@ -11,7 +11,7 @@ import { ReactComponent as selectPlanIcon } from 'assets/images/selectPlan.svg';
 import { POPUP_TYPES } from 'redux/innerPopupReducer';
 import { showPopup } from 'redux/popupSlice';
 import eventDispatcher, {
-  MSSDK_SWITCH_BUTTON_CLICKED,
+  MSSDK_SWITCH_BUTTON_CLICKED
 } from 'util/eventDispatcher';
 import { ButtonWrapperStyled } from './SubscriptionSwitchesListStyled';
 import mapErrorToText from './helper';
@@ -28,7 +28,7 @@ const SubscriptionSwitchesList = () => {
   const {
     data: allSwitchSettings,
     loading: isSwitchSettingsLoading,
-    error: isAllSwitchSettingsError,
+    error: isAllSwitchSettingsError
   } = useSelector((state) => state.plan.switchSettings);
 
   const isOfferSelected = !!offerToSwitch.offerId;
@@ -63,7 +63,7 @@ const SubscriptionSwitchesList = () => {
           'subscription-switches-list.offer-not-selected',
           'Click on the plan that you would like to switch from'
         )}
-        margin="0 auto"
+        margin='0 auto'
       />
     );
   }
@@ -95,7 +95,7 @@ const SubscriptionSwitchesList = () => {
         icon={error.icon}
         title={t(error.title.translationKey, error.title.text)}
         subtitle={t(error.subtitle.translationKey, error.subtitle.text)}
-        margin="0 auto"
+        margin='0 auto'
         fullWidth
       />
     );
@@ -109,7 +109,7 @@ const SubscriptionSwitchesList = () => {
           'subscription-switches-list.switching-unavailable',
           "Looks like there aren't any options for switching from your current plan right now"
         )}
-        margin="0 auto"
+        margin='0 auto'
       />
     );
   }
@@ -120,7 +120,7 @@ const SubscriptionSwitchesList = () => {
         availableFiltered.map((subItem) => {
           return (
             <SubscriptionStyled
-              as="article"
+              as='article'
               key={subItem.toOfferId}
               $hide={pendingSwitchesToOfferIdsArray.find(
                 (item) => item === subItem.toOfferId
@@ -137,16 +137,16 @@ const SubscriptionSwitchesList = () => {
                       fromOfferId,
                       toOfferId: subItem.toOfferId,
                       switchDirection: subItem.switchDirection,
-                      algorithm: subItem.algorithm,
+                      algorithm: subItem.algorithm
                     });
                     dispatch(
                       showPopup({
                         type: POPUP_TYPES.switchPlan,
                         data: {
                           offerData: {
-                            ...subItem,
-                          },
-                        },
+                            ...subItem
+                          }
+                        }
                       })
                     );
                   }}

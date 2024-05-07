@@ -1,29 +1,29 @@
-import { useTranslation } from "react-i18next";
-import SubscriptionIcon from "components/SubscriptionIcon";
-import SkeletonWrapper from "components/SkeletonWrapper";
-import { useAppSelector } from "redux/store";
-import formatNumber from "util/formatNumber";
-import { currencyFormat } from "util/planHelper";
-import { selectOffer, selectOnlyOffer } from "redux/offerSlice";
-import { selectOnlyOrder } from "redux/orderSlice";
-import calculateGrossPriceForFreeOffer from "util/calculateGrossPriceForFreeOffer";
-import OfferDescription from "components/OfferCheckoutCard/OfferDescription";
+import { useTranslation } from 'react-i18next';
+import SubscriptionIcon from 'components/SubscriptionIcon';
+import SkeletonWrapper from 'components/SkeletonWrapper';
+import { useAppSelector } from 'redux/store';
+import formatNumber from 'util/formatNumber';
+import { currencyFormat } from 'util/planHelper';
+import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
+import { selectOnlyOrder } from 'redux/orderSlice';
+import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
+import OfferDescription from 'components/OfferCheckoutCard/OfferDescription';
 import {
   WrapperStyled,
   InnerWrapper,
   TitleStyled,
   PublisherDescriptionStyled,
   PriceWrapperStyled,
-  TrialBadgeStyled,
-} from "./OfferCheckoutCardStyled";
-import Price from "../Price";
+  TrialBadgeStyled
+} from './OfferCheckoutCardStyled';
+import Price from '../Price';
 
 type OfferCheckoutCardProps = {
   isRedeemGift: boolean;
 };
 
 const OfferCheckoutCard = ({
-  isRedeemGift = false,
+  isRedeemGift = false
 }: OfferCheckoutCardProps) => {
   const {
     offerTitle: title,
@@ -35,15 +35,15 @@ const OfferCheckoutCard = ({
     expiresAt,
     startTime,
     customerPriceInclTax,
-    offerDescription: publisherDescription,
+    offerDescription: publisherDescription
   } = useAppSelector(selectOnlyOffer);
 
   const {
     loading,
     offerV2: {
       title: offerV2Title,
-      price: { amount: baseOfferPrice },
-    },
+      price: { amount: baseOfferPrice }
+    }
   } = useAppSelector(selectOffer);
 
   const {
@@ -55,8 +55,8 @@ const OfferCheckoutCard = ({
     discount: {
       applied: isDiscountApplied,
       type: discountType,
-      periods: discountedPeriods,
-    },
+      periods: discountedPeriods
+    }
   } = useAppSelector(selectOnlyOrder);
 
   const offerType = offerId?.charAt(0);
@@ -66,27 +66,27 @@ const OfferCheckoutCard = ({
   const grossPrice = isOfferFree
     ? calculateGrossPriceForFreeOffer(offerPrice, taxRate, customerPriceInclTax)
     : formatNumber(totalPrice);
-  const isTrialBadgeVisible = isTrialAvailable && discountType === "trial";
+  const isTrialBadgeVisible = isTrialAvailable && discountType === 'trial';
 
   const { t } = useTranslation();
 
-  const taxCopy = country === "US" ? "Tax" : "VAT";
+  const taxCopy = country === 'US' ? 'Tax' : 'VAT';
 
   const periodValue =
-    offerType === "S" && period !== "season"
+    offerType === 'S' && period !== 'season'
       ? t(`offer-price.period-${period}`, period)
       : null;
 
   const renderTrialBadgeDescription = () => {
     if (freeDays) {
-      return t("trial-badge-days", `{{freeDays}} days free trial`, {
-        freeDays,
+      return t('trial-badge-days', `{{freeDays}} days free trial`, {
+        freeDays
       });
     }
 
     if (freePeriods === 1) {
       return t(`trial-badge.period-${period}`, `1 {{period}} free trial`, {
-        period,
+        period
       });
     }
 
@@ -106,7 +106,7 @@ const OfferCheckoutCard = ({
         <SkeletonWrapper
           showChildren={!loading}
           width={200}
-          margin="0 0 10px 10px"
+          margin='0 0 10px 10px'
         >
           <TitleStyled>
             {t(`offer-title-${offerId}`, title || offerV2Title)}
@@ -120,7 +120,7 @@ const OfferCheckoutCard = ({
         <SkeletonWrapper
           showChildren={!loading}
           width={300}
-          margin="0 0 10px 10px"
+          margin='0 0 10px 10px'
         >
           <OfferDescription
             period={period}

@@ -1,16 +1,16 @@
-import styled from "styled-components";
-import { mediaFrom } from "styles/BreakPoints";
-import * as variables from "styles/variables";
+import styled from 'styled-components';
+import { mediaFrom } from 'styles/BreakPoints';
+import * as variables from 'styles/variables';
 import {
   FontColor,
   BigFont,
   LargeFont,
   MediumFontWeight,
-  TinyFont,
-} from "styles/variables";
+  TinyFont
+} from 'styles/variables';
 
 export const WrapperStyled = styled.h3.attrs(() => ({
-  className: "msd__subscription-price",
+  className: 'msd__subscription-price'
 }))`
   display: flex;
   flex-direction: row;
@@ -26,7 +26,7 @@ export const WrapperStyled = styled.h3.attrs(() => ({
   `}
 `;
 export const CurrencyStyled = styled.span.attrs(() => ({
-  className: "msd__subscription-price__currency",
+  className: 'msd__subscription-price__currency'
 }))`
   margin-right: 2px;
 
@@ -38,7 +38,7 @@ export const CurrencyStyled = styled.span.attrs(() => ({
   `}
 `;
 export const PriceStyled = styled.span.attrs(() => ({
-  className: "msd__subscription-price__amount",
+  className: 'msd__subscription-price__amount'
 }))`
   font-size: ${BigFont};
 
@@ -50,7 +50,7 @@ export const PriceStyled = styled.span.attrs(() => ({
 `;
 
 export const PeriodStyled = styled.span.attrs(() => ({
-  className: "msd__subscription-price__period",
+  className: 'msd__subscription-price__period'
 }))`
   margin: auto 0 auto 5px;
 
@@ -62,7 +62,7 @@ export const InnerWrapper = styled.div`
 `;
 
 export const AdditionalLabelStyled = styled.p.attrs(() => ({
-  className: "msd__subscription-price__additional-label",
+  className: 'msd__subscription-price__additional-label'
 }))`
   font-size: 10px;
   line-height: 10px;
@@ -94,7 +94,7 @@ export const OriginalPrice = styled.div`
 `;
 
 export const DiscountPercentage = styled.div.attrs(() => ({
-  className: "msd__subscription-price__discount-wrapper",
+  className: 'msd__subscription-price__discount-wrapper'
 }))`
   background-color: ${variables.PrimaryColor};
   color: ${variables.White};

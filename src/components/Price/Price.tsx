@@ -1,5 +1,5 @@
-import { Trans } from "react-i18next";
-import formatNumber from "util/formatNumber";
+import { Trans } from 'react-i18next';
+import formatNumber from 'util/formatNumber';
 import {
   WrapperStyled,
   CurrencyStyled,
@@ -10,8 +10,8 @@ import {
   DiscountPercentage,
   PriceContainer,
   OriginalPrice,
-  DiscountContainer,
-} from "./PriceStyled";
+  DiscountContainer
+} from './PriceStyled';
 
 const addSpaceAfterNumber = (str: string): string => {
   if (!/\d/.test(str.charAt(0))) {
@@ -32,10 +32,10 @@ const Price = ({
   currency,
   nextPaymentPrice,
   totalPrice,
-  period,
+  period
 }: PriceProps) => {
   const isDiscountApplied =
-    typeof nextPaymentPrice === "number" && nextPaymentPrice < totalPrice;
+    typeof nextPaymentPrice === 'number' && nextPaymentPrice < totalPrice;
 
   return (
     <PriceContainer>
@@ -60,7 +60,7 @@ const Price = ({
             {formatNumber(nextPaymentPrice || totalPrice)}
           </PriceStyled>
           <AdditionalLabelStyled>
-            <Trans i18nKey="price-additional-label"> </Trans>
+            <Trans i18nKey='price-additional-label'> </Trans>
           </AdditionalLabelStyled>
         </InnerWrapper>
         {period && (
