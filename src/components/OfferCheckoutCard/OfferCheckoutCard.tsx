@@ -156,6 +156,7 @@ const OfferCheckoutCard = ({
               nextPaymentPrice={totalPrice}
               totalPrice={baseOfferPrice}
               period={periodValue}
+              isTrialBadgeVisible={isTrialBadgeVisible}
             />
           </SkeletonWrapper>
         </PriceWrapperStyled>

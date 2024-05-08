@@ -26,39 +26,36 @@ type PriceProps = {
   nextPaymentPrice: number | undefined;
   totalPrice: number;
   period: string | null;
+  isTrialBadgeVisible?: boolean;
 };
 
 const Price = ({
   currency,
   nextPaymentPrice,
   totalPrice,
-  period
+  period,
+  isTrialBadgeVisible
 }: PriceProps) => {
   const isDiscountApplied =
     typeof nextPaymentPrice === 'number' && nextPaymentPrice < totalPrice;
+  const discountPercentageValue =
+    Math.ceil(1 - (nextPaymentPrice || totalPrice) / totalPrice) * 10 || 100;
 
   return (
     <PriceContainer>
-      {isDiscountApplied && (
+      {isDiscountApplied && !isTrialBadgeVisible && (
         <DiscountContainer>
           <OriginalPrice>
             <CurrencyStyled>{currency}</CurrencyStyled>
             {formatNumber(totalPrice)}
           </OriginalPrice>
-          <DiscountPercentage>
-            -
-            {Math.ceil(1 - (nextPaymentPrice || totalPrice) / totalPrice) *
-              10 || 100}
-            %
-          </DiscountPercentage>
+          <DiscountPercentage>-{discountPercentageValue}%</DiscountPercentage>
         </DiscountContainer>
       )}
       <WrapperStyled>
         <InnerWrapper>
           <CurrencyStyled>{currency}</CurrencyStyled>
-          <PriceStyled>
-            {formatNumber(nextPaymentPrice || totalPrice)}
-          </PriceStyled>
+          <PriceStyled>{formatNumber(nextPaymentPrice || 0)}</PriceStyled>
           <AdditionalLabelStyled>
             <Trans i18nKey='price-additional-label'> </Trans>
           </AdditionalLabelStyled>
