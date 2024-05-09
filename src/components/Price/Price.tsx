@@ -39,7 +39,7 @@ const Price = ({
   const isDiscountApplied =
     typeof nextPaymentPrice === 'number' && nextPaymentPrice < totalPrice;
   const discountPercentageValue =
-    Math.ceil(1 - (nextPaymentPrice || totalPrice) / totalPrice) * 10 || 100;
+    Math.ceil((1 - (nextPaymentPrice || totalPrice) / totalPrice) * 100) || 100;
 
   return (
     <PriceContainer>
