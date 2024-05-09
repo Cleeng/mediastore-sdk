@@ -31,7 +31,9 @@ const Footer = ({ className, isInPopup, isCheckout, isTransparent }) => {
       </ProductByStyled>
       {isCheckout && (
         <SecurityStyled>
-          <SecurityIcon />
+          <SecurityIcon
+            title={t('footer.secured-checkout', 'Secured checkout')}
+          />
           {t('footer.secured-checkout', 'Secured checkout')}
         </SecurityStyled>
       )}
