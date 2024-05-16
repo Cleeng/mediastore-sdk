@@ -54,7 +54,7 @@ export type OfferV2 = {
   id: string;
   title: string;
   description: string;
-  price: Price;
+  price: Price | undefined;
   active: boolean;
   type: OfferType;
   geoRestriction: GeoRestriction[];

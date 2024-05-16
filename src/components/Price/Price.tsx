@@ -1,4 +1,4 @@
-import { Trans } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
 import {
   WrapperStyled,
@@ -7,19 +7,12 @@ import {
   PeriodStyled,
   InnerWrapper,
   AdditionalLabelStyled,
-  DiscountPercentage,
+  DiscountValue,
   PriceContainer,
   OriginalPrice,
   DiscountContainer
 } from './PriceStyled';
-
-const addSpaceAfterNumber = (str: string): string => {
-  if (!/\d/.test(str.charAt(0))) {
-    return str;
-  }
-
-  return `${str.charAt(0)} ${str.substring(1)}`;
-};
+import { addSpaceAfterNumber } from './utils';
 
 type PriceProps = {
   currency: string;
@@ -27,6 +20,7 @@ type PriceProps = {
   totalPrice: number;
   period: string | null;
   isTrialBadgeVisible?: boolean;
+  isPromoPriceActive?: boolean;
 };
 
 const Price = ({
@@ -34,12 +28,18 @@ const Price = ({
   nextPaymentPrice,
   totalPrice,
   period,
-  isTrialBadgeVisible
+  isTrialBadgeVisible,
+  isPromoPriceActive
 }: PriceProps) => {
+  const { t } = useTranslation();
+
   const isDiscountApplied =
     typeof nextPaymentPrice === 'number' && nextPaymentPrice < totalPrice;
   const discountPercentageValue =
     Math.ceil((1 - (nextPaymentPrice || totalPrice) / totalPrice) * 100) || 100;
+  const discountValue = isPromoPriceActive
+    ? t('checkout-price-box.promo', 'Promo')
+    : `-${discountPercentageValue}%`;
 
   return (
     <PriceContainer>
@@ -49,7 +49,7 @@ const Price = ({
             <CurrencyStyled>{currency}</CurrencyStyled>
             {formatNumber(totalPrice)}
           </OriginalPrice>
-          <DiscountPercentage>-{discountPercentageValue}%</DiscountPercentage>
+          <DiscountValue>{discountValue}</DiscountValue>
         </DiscountContainer>
       )}
       <WrapperStyled>

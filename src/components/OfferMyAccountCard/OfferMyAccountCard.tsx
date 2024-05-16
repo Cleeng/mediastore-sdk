@@ -3,7 +3,7 @@ import { selectCurrentPlan, selectSwitchDetails } from 'redux/planDetailsSlice';
 import { selectOffers } from 'redux/offersSlice';
 import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
-import Price from 'components/Price';
+import Price, { isPromoPriceActive } from 'components/Price';
 import { ReactComponent as EditBlockedIcon } from 'assets/images/noEdit.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { ReactComponent as DowngradeIcon } from 'assets/images/downgrade_pending.svg';
@@ -22,6 +22,7 @@ import eventDispatcher, {
   MSSDK_CANCEL_SWITCH_BUTTON_CLICKED
 } from 'util/eventDispatcher';
 import { SwitchDetail } from 'redux/types';
+import { selectOffer } from 'redux/offerSlice';
 import {
   WrapperStyled,
   InnerWrapper,
@@ -58,6 +59,11 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   } =
     currentPlan.find((sub: CustomerOffer) => sub.offerId === offerId) ||
     ({} as CustomerOffer);
+
+  const {
+    offerV2: { price }
+  } = useAppSelector(selectOffer);
+  const priceRules = price?.rules;
 
   const currency =
     currencyFormat[
@@ -237,6 +243,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
                       ? t(`offer-price.period-${period}`, period)
                       : null
                   }
+                  isPromoPriceActive={isPromoPriceActive(priceRules)}
                 />
               )}
             </SkeletonWrapper>

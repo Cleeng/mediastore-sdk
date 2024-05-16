@@ -251,6 +251,7 @@ const OfferDescription = ({
               <IconStyled>
                 <ClockIcon />
               </IconStyled>
+              {/* HERE */}
               <DescriptionStyled>{descriptionLines[1]}</DescriptionStyled>
             </LineWrapperStyled>
           </DetailsStyled>

@@ -33,7 +33,8 @@ const CheckoutPriceBox = ({
   isCheckout,
   onRedeemClick
 }: CheckoutPriceBoxProps) => {
-  const { customerPriceInclTax } = useAppSelector(selectOnlyOffer);
+  const { customerPriceInclTax, trialAvailable } =
+    useAppSelector(selectOnlyOffer);
   const {
     priceBreakdown: {
       offerPrice,
@@ -52,8 +53,6 @@ const CheckoutPriceBox = ({
     totalPrice: finalPrice,
     currency
   } = useAppSelector(selectOnlyOrder);
-
-  const { trialAvailable } = useAppSelector(selectOnlyOffer);
 
   const currencySymbol = currencyFormat[currency];
 

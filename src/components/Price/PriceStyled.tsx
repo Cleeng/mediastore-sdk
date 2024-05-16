@@ -93,13 +93,14 @@ export const OriginalPrice = styled.div`
   text-decoration: line-through;
 `;
 
-export const DiscountPercentage = styled.div.attrs(() => ({
-  className: 'msd__subscription-price__discount-wrapper'
+export const DiscountValue = styled.div.attrs(() => ({
+  className: 'msd__subscription-price__discount-value'
 }))`
   background-color: ${variables.PrimaryColor};
   color: ${variables.White};
   border-radius: 4px;
   text-align: center;
+  text-transform: uppercase;
   font-family: inherit;
   font-size: 13px;
   font-style: normal;

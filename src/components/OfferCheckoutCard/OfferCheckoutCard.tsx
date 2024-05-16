@@ -16,7 +16,7 @@ import {
   PriceWrapperStyled,
   TrialBadgeStyled
 } from './OfferCheckoutCardStyled';
-import Price from '../Price';
+import Price, { isPromoPriceActive } from '../Price';
 
 type OfferCheckoutCardProps = {
   isRedeemGift: boolean;
@@ -40,11 +40,10 @@ const OfferCheckoutCard = ({
 
   const {
     loading,
-    offerV2: {
-      title: offerV2Title,
-      price: { amount: baseOfferPrice }
-    }
+    offerV2: { title: offerV2Title, price }
   } = useAppSelector(selectOffer);
+  const baseOfferPrice = price?.amount || 0;
+  const priceRules = price?.rules;
 
   const {
     priceBreakdown: { offerPrice },
@@ -157,6 +156,7 @@ const OfferCheckoutCard = ({
               totalPrice={baseOfferPrice}
               period={periodValue}
               isTrialBadgeVisible={isTrialBadgeVisible}
+              isPromoPriceActive={isPromoPriceActive(priceRules)}
             />
           </SkeletonWrapper>
         </PriceWrapperStyled>
