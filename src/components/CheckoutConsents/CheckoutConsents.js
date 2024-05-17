@@ -59,7 +59,10 @@ const CheckoutConsents = ({ onSuccess }) => {
         isError = true;
         return {
           ...consent,
-          error: t('This consent is required')
+          error: t(
+            'checkout-consents.error.required',
+            'This consent is required'
+          )
         };
       }
       return consent;
@@ -84,7 +87,12 @@ const CheckoutConsents = ({ onSuccess }) => {
           onSuccess();
         })
         .catch(() => {
-          setGeneralError(t('Something went wrong. Try again later'));
+          setGeneralError(
+            t(
+              'checkout-consents.error.submit',
+              'Something went wrong. Try again later'
+            )
+          );
         });
     }
   };
@@ -99,10 +107,13 @@ const CheckoutConsents = ({ onSuccess }) => {
           ) : (
             <>
               <CheckoutConsentsTitleStyled>
-                {t('Terms & Conditions')}
+                {t('checkout-consents.title', 'Terms & Conditions')}
               </CheckoutConsentsTitleStyled>
               <CheckoutConsentsSubTitleStyled>
-                {t('Please accept Terms & Conditions')}
+                {t(
+                  'checkout-consents.subtitle',
+                  'Please accept Terms & Conditions'
+                )}
               </CheckoutConsentsSubTitleStyled>
               <CheckoutConsentsListStyled role="list">
                 {consents.map(consent => (
@@ -132,7 +143,7 @@ const CheckoutConsents = ({ onSuccess }) => {
                 {processing ? (
                   <Loader buttonLoader color="#ffffff" />
                 ) : (
-                  t('Continue')
+                  t('checkout-consents.button.continue', 'Continue')
                 )}
               </Button>
             </>

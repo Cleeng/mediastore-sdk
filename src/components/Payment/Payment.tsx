@@ -334,7 +334,8 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       .unwrap()
       .then(payment => {
         eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
-          payment
+          ...payment,
+          offerId: order?.offerId
         });
         if (onPaymentComplete) {
           onPaymentComplete();
@@ -405,7 +406,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
           {isLoading ? (
             <Loader buttonLoader color="#ffffff" />
           ) : (
-            <>{t('Complete purchase')}</>
+            <>{t('payment.complete-purchase', 'Complete purchase')}</>
           )}
         </Button>
       </PaymentStyled>

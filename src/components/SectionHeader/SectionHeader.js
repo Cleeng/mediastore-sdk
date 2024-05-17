@@ -6,28 +6,28 @@ import React from 'react';
 const HeadingStyled = styled.h1.attrs(() => ({
   className: 'msd__section-header'
 }))`
-  padding-bottom: ${({ paddingBottom }) => paddingBottom};
+  padding-bottom: ${props => props.$paddingBottom};
   font-size: ${BigFont};
   font-weight: ${BoldFont};
   color: ${FontColor};
   text-transform: uppercase;
   ${props =>
-    props.center &&
+    props.$center &&
     css`
       text-align: center;
     `}
   ${props =>
-    props.marginTop &&
+    props.$marginTop &&
     css`
-      margin-top: ${props.marginTop};
+      margin-top: ${props.$marginTop};
     `};
 `;
 
 const SectionHeader = ({ children, center, marginTop, paddingBottom }) => (
   <HeadingStyled
-    center={center}
-    marginTop={marginTop}
-    paddingBottom={paddingBottom}
+    $center={center}
+    $marginTop={marginTop}
+    $paddingBottom={paddingBottom}
   >
     {children}
   </HeadingStyled>

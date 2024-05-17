@@ -35,14 +35,14 @@ const MyAccountUserInfo = () => {
       >
         <PhotoStyled />
       </SkeletonWrapper>
-      <DetailsStyled isEmpty={!user?.email}>
+      <DetailsStyled $isEmpty={!user?.email}>
         <SkeletonWrapper showChildren={isDataLoaded} height={26}>
           {isNameSet && (
             <NameStyled>{`${user?.firstName} ${user?.lastName}`}</NameStyled>
           )}
         </SkeletonWrapper>
         <SkeletonWrapper showChildren={isDataLoaded}>
-          <MailStyled bigger={!isNameSet}>{user?.email}</MailStyled>
+          <MailStyled $bigger={!isNameSet}>{user?.email}</MailStyled>
         </SkeletonWrapper>
         {/* TODO: fix contrast issue */}
         <SkeletonWrapper showChildren={isDataLoaded} height={36} margin="0">

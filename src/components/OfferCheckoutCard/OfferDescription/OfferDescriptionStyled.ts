@@ -6,12 +6,9 @@ export const DetailsWrapper = styled.div`
   margin: 9px 0;
 `;
 
-export const DetailsStyled = styled.p.attrs(() => ({
+export const DetailsStyled = styled.div.attrs(() => ({
   className: 'msd__checkout-card-details__description'
 }))`
-  font-size: ${TinyFont};
-  font-weight: ${LightFont};
-  line-height: 17px;
   white-space: pre-line;
   margin: 6px 0;
 `;
@@ -33,9 +30,12 @@ export const LineWrapperStyled = styled.div`
   align-items: center;
 `;
 
+export const DescriptionWrapperStyled = styled.div``;
+
 export const DescriptionStyled = styled.p`
-  font-size: 11px;
-  font-weight: 300;
+  font-size: ${TinyFont};
+  font-weight: ${LightFont};
   line-height: 17px;
+  white-space: pre-line;
   color: ${FontColor};
 `;

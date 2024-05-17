@@ -24,8 +24,11 @@ import {
   fetchGetOrder,
   fetchUpdateCoupon,
   clearOrder,
-  selectOrder
+  selectOrder,
+  setOrderCouponMessage,
+  fetchUpdateOrder
 } from 'redux/orderSlice';
+import { Order } from 'redux/types';
 import eventDispatcher, {
   MSSDK_COUPON_FAILED,
   MSSDK_COUPON_SUCCESSFUL,
@@ -46,7 +49,8 @@ const OfferContainer = ({
   isCheckout = false,
   offerId: offerIdProp,
   onSuccess,
-  onRedeemClick
+  onRedeemClick,
+  hideRedeemButton
 }: OfferContainerProps) => {
   const [errorMsg, setErrorMsg] = useState<string>();
 
@@ -71,14 +75,13 @@ const OfferContainer = ({
       const {
         responseData: { paymentMethods }
       } = paymentMethodResponse;
-      const properPaymentMethodId = paymentMethods.find(method =>
-        getData('CLEENG_OFFER_TYPE') === 'S'
-          ? method.methodName === 'manual'
-          : method.methodName !== 'manual'
+
+      const freeOfferPaymentMethod = paymentMethods.find(
+        method => method.paymentGateway === 'free-offer'
       );
-      if (properPaymentMethodId) {
+      if (freeOfferPaymentMethod) {
         updateOrder(orderId, {
-          paymentMethodId: properPaymentMethodId.id
+          paymentMethodId: freeOfferPaymentMethod.id
         });
       }
     });
@@ -120,6 +123,8 @@ const OfferContainer = ({
     await dispatch(fetchGetOrder(id))
       .unwrap()
       .then(orderResponse => {
+        checkIfCouponPaymentGatewayExists(orderResponse);
+
         const { customerId } = jwtDecode<{ customerId: number }>(
           getData('CLEENG_AUTH_TOKEN')
         );
@@ -140,8 +145,54 @@ const OfferContainer = ({
       });
   };
 
+  const checkIfCouponPaymentGatewayExists = (orderObj: Order) => {
+    const {
+      id,
+      totalPrice,
+      requiredPaymentDetails,
+      discount: { applied }
+    } = orderObj;
+
+    if (applied && totalPrice === 0 && !requiredPaymentDetails) {
+      getPaymentMethods().then(paymentMethodResponse => {
+        const {
+          responseData: { paymentMethods }
+        } = paymentMethodResponse;
+
+        const freeOfferPaymentMethod = paymentMethods.find(
+          method => method.paymentGateway === 'coupon'
+        );
+
+        if (!freeOfferPaymentMethod?.id) {
+          setErrorMsg('No payment method found');
+          return;
+        }
+
+        dispatch(
+          fetchUpdateOrder({
+            id,
+            payload: {
+              paymentMethodId: freeOfferPaymentMethod?.id
+            }
+          })
+        );
+      });
+    }
+  };
+
   const onCouponSubmit = (couponCode: string) => {
-    if (couponCode === '') return;
+    if (!couponCode) {
+      dispatch(
+        setOrderCouponMessage({
+          messageType: 'fail',
+          translationKey: 'coupon-input.error',
+          showMessage: true,
+          message: 'Please provide a valid coupon code.'
+        })
+      );
+
+      return;
+    }
 
     dispatch(
       fetchUpdateCoupon({
@@ -150,7 +201,9 @@ const OfferContainer = ({
       })
     )
       .unwrap()
-      .then(() => {
+      .then(orderResponse => {
+        checkIfCouponPaymentGatewayExists(orderResponse);
+
         eventDispatcher(MSSDK_COUPON_SUCCESSFUL, {
           detail: {
             coupon: couponCode,
@@ -239,14 +292,17 @@ const OfferContainer = ({
       alreadyHaveAccess: ['Access already granted'],
       generalError: ['Request failed with status code 500'],
       inactive: ['inactive'],
-      isNotAuth: ['']
+      isNotAuth: [''],
+      paymentMethodNotFound: ['No payment method found']
     };
     const types = Object.keys(errorTypes) as Errors[];
     if (!err) return undefined;
+
     return types.find(type =>
       errorTypes[type].find(item => item.includes(err) || err.includes(item))
     );
   };
+
   if (errorMsg || offerError || orderError) {
     const type = errorMapping(errorMsg || offerError || orderError);
     if (type === 'alreadyHaveAccess') {
@@ -254,6 +310,7 @@ const OfferContainer = ({
     }
     return <ErrorPage type={type} />;
   }
+
   if (isOrderLoading) {
     return (
       <StyledLoaderContainer>
@@ -268,6 +325,7 @@ const OfferContainer = ({
 
   return (
     <Offer
+      hideRedeemButton={hideRedeemButton}
       isCheckout={isCheckout}
       onCouponSubmit={onCouponSubmit}
       onPaymentComplete={onSuccess}

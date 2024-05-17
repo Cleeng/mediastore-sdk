@@ -208,6 +208,7 @@ If you prefer smaller components, you can use these to implement the exact featu
 - [Checkout Consents](#checkoutconsents)
 - [Purchase](#purchase)
 - [PasswordReset](#passwordreset)
+- [RedeemGift](#redeemgift)
 
 **Config methods**
 
@@ -230,6 +231,7 @@ Config.setVisibleAdyenPaymentMethods(['card', 'googlepay']); // array of present
 - `resetPasswordCallback` - function called after a successful reset password request, when customer clicks 'Go back to the login page'
 - `adyenConfiguration` - an optional parameter that can be used to customize look and feel of the Adyen payment in purchase section. Read more information about Adyen configuration [here](#adyen-configuration).
 - `couponCode` - coupon code that should be automatically applied
+- `hideRedeemButton` - an optional parameter that can be used to hide 'Redeem here' button
 
 **Usage**
 
@@ -246,6 +248,7 @@ import adyenConfiguration from './adyenConfiguration';
     resetPasswordCallback={() =>
       console.log('redirect customer to the login page')
     }
+    hideRedeemButton
   />
 </Provider>;
 ```

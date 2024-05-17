@@ -20,12 +20,12 @@ export const WrapStyled = styled.div.attrs(() => ({
   background-color: ${CardColor};
 
   ${props =>
-    props.withShadow &&
+    props.$withShadow &&
     css`
       box-shadow: 0px 3px 50px #0000001f;
     `}
   ${props =>
-    props.withBorder &&
+    props.$withBorder &&
     css`
       border: 1px solid #d3dbe6;
     `}

@@ -82,11 +82,12 @@ class PasswordInput extends React.Component {
   getErrorMessage = msg => {
     const { t } = this.props;
     const errorLabel = {
-      Weak: t('Weak'),
-      Fair: t('Could be stronger'),
-      Good: t('Good password'),
-      Strong: t('Strong password'),
+      Weak: t('password-input.error.weak', 'Weak'),
+      Fair: t('password-input.error.fair', 'Could be stronger'),
+      Good: t('password-input.error.good', 'Good password'),
+      Strong: t('password-input.error.strong', 'Strong password'),
       NotValid: t(
+        'password-input.error.not-valid',
         'Your password must contain at least 8 characters, including 1 digit.'
       )
     };
@@ -145,12 +146,12 @@ PasswordInput.propTypes = {
 
 PasswordInput.defaultProps = {
   value: '',
-  onChange: () => {},
-  onBlur: () => {},
+  onChange: () => null,
+  onBlur: () => null,
   error: '',
   showVisibilityIcon: false,
   showPassword: false,
-  handleClickShowPassword: () => {},
+  handleClickShowPassword: () => null,
   label: 'Password',
   floatingLabels: true,
   showPasswordStrength: false,

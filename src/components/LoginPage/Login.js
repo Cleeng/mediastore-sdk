@@ -71,7 +71,7 @@ class Login extends Component {
                 size="big"
                 onClickFn={() => onRegisterClick()}
               >
-                {t('Go to register')}
+                {t('login.button.go-to-register', 'Go to register')}
               </Button>
             </>
           )}
@@ -81,7 +81,7 @@ class Login extends Component {
               margin="20px auto 0 auto"
               onClickFn={() => onPasswordResetClick()}
             >
-              {t('Forgot password?')}
+              {t('login.button.forgot-password', 'Forgot password?')}
             </Button>
           )}
         </ContentWrapperStyled>
@@ -103,9 +103,9 @@ Login.propTypes = {
 Login.defaultProps = {
   urlProps: {},
   isMyAccount: false,
-  onSuccess: () => {},
-  onRegisterClick: () => {},
-  onPasswordResetClick: () => {},
+  onSuccess: () => null,
+  onRegisterClick: () => null,
+  onPasswordResetClick: () => null,
   t: k => k
 };
 

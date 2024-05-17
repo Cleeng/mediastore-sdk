@@ -1,6 +1,6 @@
-import { CustomersOffer as CurrentPlan } from '../api/Customer/getCustomerOffers';
+import { CustomersOffer } from 'containers/PlanDetails/PlanDetails.types';
 
-export const currentPlanMock = {
+const currentPlanMock = {
   subscriptionId: 280213389,
   offerId: 'S131174549_PL',
   status: 'active',
@@ -13,9 +13,12 @@ export const currentPlanMock = {
   paymentMethod: 'card',
   externalPaymentId: 'D2RGHBT7PGNG5S82',
   inTrial: false,
-  pendingSwitchId: null,
+  pendingSwitchId: '',
   offerType: 'S',
   offerTitle: 'Test',
   period: 'month',
-  totalPrice: 90
-} as CurrentPlan;
+  totalPrice: 90,
+  customerCurrency: 'USD'
+} as CustomersOffer;
+
+export default currentPlanMock;

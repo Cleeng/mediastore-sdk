@@ -85,7 +85,7 @@ export const MailStyled = styled.div.attrs(() => ({
   line-height: 1.2;
 
   ${props =>
-    props.bigger &&
+    props.$bigger &&
     css`
       font-size: 14px;
       font-weight: 700;
@@ -126,7 +126,7 @@ export const DetailsStyled = styled.div.attrs(() => ({
   color: ${FontColor};
 
   ${props =>
-    props.isEmpty &&
+    props.$isEmpty &&
     css`
       ${NameStyled} {
         background-color: ${MyAccountTextLightGray};

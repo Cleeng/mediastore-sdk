@@ -30,14 +30,14 @@ const MyAccountError = ({
   const IconComponent = generalError ? serverIcon : icon;
   return (
     <WrapStyled
-      withBorder={withBorder}
-      fullHeight={fullHeight}
-      centered={centered}
-      margin={margin}
-      fullWidth={fullWidth}
+      $withBorder={withBorder}
+      $fullHeight={fullHeight}
+      $centered={centered}
+      $margin={margin}
+      $fullWidth={fullWidth}
       onClick={onClick}
-      isSmallCard={isSmallCard}
-      direction={direction}
+      $isSmallCard={isSmallCard}
+      $direction={direction}
     >
       {(icon || generalError) && (
         <IconStyled>
@@ -65,7 +65,7 @@ const MyAccountError = ({
           width="auto"
           onClickFn={() => window.location.reload()}
         >
-          {t('myaccounterror.try-again-button', 'Try again')}
+          {t('myaccounterror.button.try-again', 'Try again')}
         </Button>
       )}
     </WrapStyled>

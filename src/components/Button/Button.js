@@ -45,14 +45,14 @@ const Button = ({
       {...ButtonProps}
       disabled={disabled}
       aria-label={label}
-      size={size}
-      theme={theme}
-      fontSize={fontSize}
-      margin={margin}
-      fontWeight={fontWeight}
-      width={width}
-      icon={icon}
-      padding={padding}
+      $size={size}
+      $theme={theme}
+      $fontSize={fontSize}
+      $margin={margin}
+      $fontWeight={fontWeight}
+      $width={width}
+      $icon={icon}
+      $padding={padding}
       className={className}
       data-testid={testid}
     >

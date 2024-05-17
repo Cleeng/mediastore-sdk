@@ -72,16 +72,19 @@ const EditPassword = ({
   return (
     <InnerPopupWrapper
       steps={2}
-      popupTitle={t('Edit Password')}
+      popupTitle={t('edit-password.popup-title', 'Edit Password')}
       isError={isError}
       currentStep={step}
     >
       {step === 1 && (
         <>
           <ContentStyled>
-            <TitleStyled $step={step}>{t('Edit Password')}</TitleStyled>
+            <TitleStyled $step={step}>
+              {t('edit-password.title.step1', 'Edit Password')}
+            </TitleStyled>
             <TextStyled>
               {t(
+                'edit-password.text.step1',
                 "If you want to edit your password, click 'YES, Reset' to receive password reset instruction on your mail"
               )}
               <MailStyled> {customerEmail}.</MailStyled>
@@ -89,11 +92,11 @@ const EditPassword = ({
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button theme="simple" onClickFn={() => hideInnerPopup()}>
-              {t('No, thanks')}
+              {t('edit-password.button.no-thanks', 'No, thanks')}
             </Button>
             <Button theme="confirm" onClickFn={handleResetPassword}>
               {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
-                t('Yes, Reset')}
+                t('edit-password.button.yes-reset', 'Yes, reset')}
             </Button>
           </ButtonWrapperStyled>
         </>
@@ -101,20 +104,26 @@ const EditPassword = ({
       {step === 2 && (
         <>
           <ContentStyled>
-            <TitleStyled $step={step}>{t('Email has been sent!')}</TitleStyled>
+            <TitleStyled $step={step}>
+              {t('edit-password.title.step2', 'Email has been sent!')}
+            </TitleStyled>
             <TextStyled>
               {t(
+                'edit-password.text.step2',
                 'Please check your inbox and follow the instructions to reset your password.'
               )}
             </TextStyled>
             <TextStyled>
-              {t('You will be logged out for security reasons.')}
+              {t(
+                'edit-password.text2.step2',
+                'You will be logged out for security reasons.'
+              )}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button theme="confirm" onClickFn={() => logout()}>
               {(isLoading && <Loader buttonLoader color="#ffffff" />) ||
-                t('Confirm')}
+                t('edit-password.button.confirm', 'Confirm')}
             </Button>
           </ButtonWrapperStyled>
         </>

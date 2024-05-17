@@ -31,7 +31,7 @@ export const ItemWrapStyled = styled.div.attrs(() => ({
   className: 'msd__account-sidebar__item'
 }))`
   ${props =>
-    !props.visibleOnDesktop &&
+    !props.$visibleOnDesktop &&
     css`
       ${mediaFrom.small`
         display: none;
@@ -128,7 +128,7 @@ export const ItemStyled = styled.div.attrs(() => ({
   }
 
   ${props =>
-    props.isActive &&
+    props.$isActive &&
     css`
       ${ItemIconWrapStyled} {
         path {

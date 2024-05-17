@@ -2,9 +2,9 @@ import styled, { css } from 'styled-components';
 import Skeleton from 'react-loading-skeleton';
 
 type SkeletonWrapperProps = {
-  width: number | null;
-  margin: string;
-  align?: string;
+  $width: number | null;
+  $margin: string;
+  $align?: string;
 };
 export const SkeletonWrapperStyled = styled.div.attrs<SkeletonWrapperProps>(
   () => ({
@@ -18,21 +18,21 @@ export const SkeletonWrapperStyled = styled.div.attrs<SkeletonWrapperProps>(
   text-align: center;
 
   ${props =>
-    props.width &&
+    props.$width &&
     css`
-      width: ${props.width}px;
+      width: ${props.$width}px;
     `}
 
     ${props =>
-      props.margin &&
+      props.$margin &&
       css`
-        margin: ${props.margin};
+        margin: ${props.$margin};
       `}
 
   ${props =>
-    props.align &&
+    props.$align &&
     css`
-      text-align: ${props.align};
+      text-align: ${props.$align};
     `}
 `;
 

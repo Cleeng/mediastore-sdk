@@ -49,7 +49,10 @@
     "compile": "npm run clean && cross-env NODE_ENV=production babel src --ignore spec.js,test.js,stories.js --out-dir dist --copy-files --extensions '.ts,.tsx,.js'",
     "publish-dev": "npm run compile && yalc publish --push",
     "ts-coverage-ts": "typescript-coverage-report --project \"./tsconfig.json\" --ignore-files \"src/**/*.js*\"",
-    "ts-coverage-js": "typescript-coverage-report --project \"./tsconfig.json\" --ignore-files \"src/**/*.ts*\""
+    "ts-coverage-js": "typescript-coverage-report --project \"./tsconfig.json\" --ignore-files \"src/**/*.ts*\"",
+    "ts-check": "tsc --skipLibCheck --noEmit --pretty",
+    "lint": "eslint . --ext js,jsx,ts,tsx",
+    "lint-fix": "npm run lint --fix"
   },
   "browserslist": {
     "production": [
@@ -72,6 +75,12 @@
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint --no-ignore --fix",
+      "git add --force"
+    ],
+    "*.{ts,tsx}": [
+      "bash -c 'npm run ts-check'",
+      "eslint --fix",
+      "prettier --write",
       "git add --force"
     ],
     "*.{json,md,graphql}": [

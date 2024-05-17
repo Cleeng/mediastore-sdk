@@ -55,13 +55,13 @@ export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
   max-width: 320px;
 
   padding: 18px;
-  margin: ${props => (props.margin ? props.margin : '0 auto 32px auto')} ;
+  margin: ${props => (props.$margin ? props.$margin : '0 auto 32px auto')} ;
 
   text-align: center;
   line-height: 1.4;
 
   ${props =>
-    props.fullWidth &&
+    props.$fullWidth &&
     css`
       width: 100%;
       max-width: unset;
@@ -69,7 +69,7 @@ export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
 
 
   ${props =>
-    props.withBorder &&
+    props.$withBorder &&
     css`
       border: 1px dashed ${IconsColor};
       border-radius: 20px;
@@ -77,7 +77,7 @@ export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
     `}
 
   ${props =>
-    props.direction === 'row' &&
+    props.$direction === 'row' &&
     css`
       display: flex;
       flex-direction: row-reverse;
@@ -97,7 +97,7 @@ export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
     `}
 
   ${props =>
-    props.fullHeight &&
+    props.$fullHeight &&
     css`
       height: 100%;
       margin: auto;
@@ -111,7 +111,7 @@ export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
     `}
 
     ${props =>
-      props.centered &&
+      props.$centered &&
       css`
         margin: auto;
       `}
@@ -139,7 +139,7 @@ export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
       }
     `}
     ${props =>
-      props.isSmallCard &&
+      props.$isSmallCard &&
       css`
         width: 265px;
         padding: 26px 0;

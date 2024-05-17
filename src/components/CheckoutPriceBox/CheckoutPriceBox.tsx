@@ -23,7 +23,17 @@ import {
   StyledRedeemButton
 } from './CheckoutPriceBoxStyled';
 
-const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
+type CheckoutPriceBoxProps = {
+  hideRedeemButton: boolean;
+  isCheckout: boolean;
+  onRedeemClick: () => void;
+};
+
+const CheckoutPriceBox = ({
+  hideRedeemButton,
+  isCheckout,
+  onRedeemClick
+}: CheckoutPriceBoxProps) => {
   const { customerPriceInclTax } = useAppSelector(selectOnlyOffer);
   const {
     priceBreakdown: {
@@ -61,12 +71,16 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
     return t(`coupon-note-applied`, 'Promotional Pricing applied!');
   };
 
+  const shouldShowRedeemButton = !hideRedeemButton && isCheckout;
+
   return (
     <StyledPriceBoxWrapper>
       <StyledPriceBox>
         <StyledPriceWrapper>
-          <StyledLabel>{t('checkout-price-box.price', 'Price')}</StyledLabel>
-          <StyledOfferPrice>
+          <StyledLabel id="offerPriceLabel">
+            {t('checkout-price-box.price', 'Price')}
+          </StyledLabel>
+          <StyledOfferPrice id="offerPriceValue">
             {`${currencySymbol}${formatNumber(offerPrice)} `}
             <span>
               {country === 'US'
@@ -79,7 +93,7 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
           <StyledPriceWrapper>
             <CouponNoteOuterWrapper>
               <CouponNoteInnerWrapper>
-                <StyledLabel>
+                <StyledLabel id="discountAmountLabel">
                   {isTrial
                     ? t('checkout-price-box.trial-discount', 'Trial Discount')
                     : t(
@@ -87,7 +101,7 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
                         'Coupon Discount'
                       )}
                 </StyledLabel>
-                <StyledOfferPrice>
+                <StyledOfferPrice id="discountAmount">
                   - {currencySymbol}
                   {formatNumber(discountAmount)}
                 </StyledOfferPrice>
@@ -101,12 +115,12 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
           </StyledPriceWrapper>
         )}
         <StyledPriceWrapper>
-          <StyledLabel>
+          <StyledLabel id="taxValueLabel">
             {country === 'US'
               ? t('checkout-price-box.applicable-tax', 'Applicable Tax')
               : t('checkout-price-box.applicable-vat', 'Applicable VAT')}
           </StyledLabel>
-          <StyledOfferPrice>
+          <StyledOfferPrice id="taxValue">
             {!taxValue && isCouponApplied ? (
               <p style={{ textDecoration: 'line-through' }}>
                 {currencySymbol}{' '}
@@ -123,39 +137,41 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
         </StyledPriceWrapper>
         {customerServiceFee !== 0 && (
           <StyledPriceWrapper>
-            <StyledLabel>
+            <StyledLabel id="customerServiceFeeLabel">
               {t('checkout-price-box.service-fee', 'Service Fee')}
             </StyledLabel>
-            <StyledOfferPrice>
+            <StyledOfferPrice id="customerServiceFee">
               {`${currencySymbol}${formatNumber(customerServiceFee)}`}
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
         {paymentMethodFee !== 0 && (
           <StyledPriceWrapper>
-            <StyledLabel>
+            <StyledLabel id="paymentMethodFeeLabel">
               {t('checkout-price-box.payment-method-fee', 'Payment Method Fee')}
             </StyledLabel>
-            <StyledOfferPrice>
+            <StyledOfferPrice id="paymentMethodFee">
               {`${currencySymbol}${formatNumber(paymentMethodFee)}`}
             </StyledOfferPrice>
           </StyledPriceWrapper>
         )}
         <StyledPriceWrapper>
           <StyledTotalWrapper>
-            <StyledTotalLabel>
+            <StyledTotalLabel id="finalPriceLabel">
               {t('checkout-price-box.total', 'Today`s total')}
             </StyledTotalLabel>
-            <StyledTotalOfferPrice>
+            <StyledTotalOfferPrice id="finalPrice">
               {`${currencySymbol}${formatNumber(finalPrice)}`}
             </StyledTotalOfferPrice>
           </StyledTotalWrapper>
         </StyledPriceWrapper>
-        {isCheckout && (
+        {shouldShowRedeemButton && (
           <StyledRedeemButton>
-            <span>Have a gift code?</span>
+            <span>
+              {t('checkout-price-box.gift-code-label', 'Have a gift code?')}
+            </span>
             <LinkStyled as="button" onClick={onRedeemClick}>
-              Redeem here
+              {t('checkout-price-box.button.redeem', 'Redeem here')}
             </LinkStyled>
           </StyledRedeemButton>
         )}
@@ -165,13 +181,15 @@ const CheckoutPriceBox = ({ isCheckout, onRedeemClick }) => {
 };
 
 CheckoutPriceBox.propTypes = {
+  hideRedeemButton: PropTypes.bool,
   isCheckout: PropTypes.bool,
   onRedeemClick: PropTypes.func
 };
 
 CheckoutPriceBox.defaultProps = {
-  onRedeemClick: () => null,
-  isCheckout: false
+  hideRedeemButton: false,
+  isCheckout: false,
+  onRedeemClick: () => null
 };
 
 export { CheckoutPriceBox as PureCheckoutPriceBox };

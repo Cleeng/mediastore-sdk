@@ -45,21 +45,21 @@ const Checkbox = ({
         checked={isChecked}
         aria-label={children}
         className={className}
-        disabled={disabled}
+        $disabled={disabled}
       >
         <CheckFrameStyled
-          error={error && required && !isChecked}
+          $error={error && required && !isChecked}
           tabIndex="0"
           onKeyDown={e => (e.key === spaceKey ? onClickFn() : null)}
-          isMyAccount={isMyAccount}
-          isRadioButton={isRadioButton}
-          checked={isChecked}
+          $isMyAccount={isMyAccount}
+          $isRadioButton={isRadioButton}
+          $checked={isChecked}
         >
           {isChecked && (
             <CheckMarkStyled
               data-testid="checkmark"
-              isMyAccount={isMyAccount}
-              isRadioButton={isRadioButton}
+              $isMyAccount={isMyAccount}
+              $isRadioButton={isRadioButton}
             />
           )}
         </CheckFrameStyled>
@@ -67,7 +67,7 @@ const Checkbox = ({
           dangerouslySetInnerHTML={{
             __html: `${children}${required && isMyAccount ? '*' : ''}`
           }}
-          checked={isChecked}
+          $checked={isChecked}
         />
       </CheckboxStyled>
       {termsUrl && (
@@ -75,10 +75,10 @@ const Checkbox = ({
           href={termsUrl}
           target="_blank"
           rel="noreferrer"
-          checked={isChecked}
+          $checked={isChecked}
           $isPayPal={isPayPal}
         >
-          {t('Terms & Conditions')}
+          {t('checkbox.terms-link', 'Terms & Conditions')}
         </TermsLinkStyled>
       )}
     </>

@@ -89,7 +89,7 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
       </SectionHeader>
       <ButtonsContainer>
         <StyledButton
-          isActive={!isGift}
+          $isActive={!isGift}
           onClick={handleSetIsNotGift}
           disabled={accessGranted}
         >
@@ -102,7 +102,7 @@ const DeliveryDetails = ({ giftable }: DeliveryDetailsProps) => {
           </>
         </StyledButton>
         <StyledButton
-          isActive={isGift}
+          $isActive={isGift}
           onClick={handleSetIsGift}
           disabled={!giftable}
         >

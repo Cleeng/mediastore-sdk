@@ -1,4 +1,4 @@
-import { PaymentDetail } from '../../api/Customer/getPaymentDetails';
+import { PaymentDetail } from 'api/Customer/types';
 
 export type PaymentCardProps = {
   details: PaymentDetail;

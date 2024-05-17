@@ -261,7 +261,8 @@ export type CurrencyFormat =
   | 'EGP'
   | 'QAR'
   | 'KWD'
-  | 'AED';
+  | 'AED'
+  | 'THB';
 
 export const currencyFormat: Record<CurrencyFormat, string> = {
   EUR: '€',
@@ -293,6 +294,7 @@ export const currencyFormat: Record<CurrencyFormat, string> = {
   QAR: 'QR',
   KWD: 'KD',
   AED: 'د.إ',
+  THB: '฿',
   '€': '€',
   $: '$',
   '£': '£'

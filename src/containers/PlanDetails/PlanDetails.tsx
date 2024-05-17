@@ -105,7 +105,7 @@ const PlanDetails = ({
     offer => offer.status === 'active' && offer.offerType === 'S'
   );
 
-  const isPauseActive = pauseOffersIDs.includes(offerToSwitchId);
+  const isPauseActive = (pauseOffersIDs as string[]).includes(offerToSwitchId);
 
   if (isPopupOpen)
     return (

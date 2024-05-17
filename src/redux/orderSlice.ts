@@ -1,10 +1,10 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
 import { createOrder, getOrder, updateOrder } from '../api';
 import { RootState } from './rootReducer';
-import { Order, OrderInitialState } from './types';
+import { Order, OrderCouponDetailsMessage, OrderInitialState } from './types';
 
-const initialState: OrderInitialState = {
+export const orderInitialState: OrderInitialState = {
   order: {
     billingAddress: '',
     country: '',
@@ -117,9 +117,29 @@ export const fetchGetOrder = createAsyncThunk<
 
 export const orderSlice = createSlice({
   name: 'order',
-  initialState,
+  initialState: orderInitialState,
   reducers: {
-    clearOrder: () => initialState
+    clearOrder: () => orderInitialState,
+    setOrderCouponMessage: (
+      state,
+      action: PayloadAction<OrderCouponDetailsMessage>
+    ) => {
+      state.couponDetails = {
+        ...state.couponDetails,
+        ...action.payload
+      };
+    },
+    clearOrderCouponMessage: state => {
+      const { couponDetails } = state;
+
+      state.couponDetails = {
+        ...couponDetails,
+        showMessage: false,
+        message: '',
+        messageType: MESSAGE_TYPE_SUCCESS,
+        translationKey: ''
+      };
+    }
   },
   extraReducers: builder => {
     builder.addCase(fetchCreateOrder.pending, state => {
@@ -199,7 +219,11 @@ export const orderSlice = createSlice({
   }
 });
 
-export const { clearOrder } = orderSlice.actions;
+export const {
+  clearOrder,
+  setOrderCouponMessage,
+  clearOrderCouponMessage
+} = orderSlice.actions;
 export const selectOrder = (state: RootState) => state.order;
 export const selectOnlyOrder = (state: RootState) => state.order.order;
 

@@ -78,7 +78,10 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
           });
         }
         setMessage({
-          message: t('Your answers have been changed successfully'),
+          message: t(
+            'additional-profile-info.success-message',
+            'Your answers have been changed successfully'
+          ),
           type: 'success'
         });
         setIsPending(false);
@@ -86,7 +89,10 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
       })
       .catch(() => {
         setMessage({
-          message: t('Something went wrong. Try again later.'),
+          message: t(
+            'additional-profile-info.error.submit',
+            'Something went wrong. Try again later.'
+          ),
           type: 'error'
         });
         setIsPending(false);
@@ -196,12 +202,15 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                 }}
                 width="100%"
               >
-                {t('Edit Profile')}
+                {t(
+                  'additional-profile-info.button.edit-profile',
+                  'Edit Profile'
+                )}
               </ButtonStyled>
             ) : (
               <>
                 <ButtonStyled theme="simple" onClickFn={onCancel}>
-                  {t('Cancel')}
+                  {t('additional-profile-info.button.cancel', 'Cancel')}
                 </ButtonStyled>
                 <ButtonStyled
                   onClickFn={onSubmit}
@@ -210,7 +219,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                   theme="confirm"
                 >
                   {(isPending && <Loader buttonLoader color="#ffffff" />) ||
-                    t('Save')}
+                    t('additional-profile-info.button.save', 'Save')}
                 </ButtonStyled>
               </>
             )}

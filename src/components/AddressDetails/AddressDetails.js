@@ -48,7 +48,10 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
       .then(() => {
         updateCaptureOption({ key: 'address', value: address });
         setMessage({
-          message: t('Your address details have been changed successfully'),
+          message: t(
+            'address-details.success-message',
+            'Your address details have been changed successfully'
+          ),
           type: 'success'
         });
         setIsPending(false);
@@ -56,7 +59,10 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
       })
       .catch(() => {
         setMessage({
-          message: t('Something went wrong. Try again later.'),
+          message: t(
+            'address-details.error.submit',
+            'Something went wrong. Try again later.'
+          ),
           type: 'error'
         });
         setIsPending(false);
@@ -73,21 +79,21 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
           {message && <MessageStyled type={type}>{message}</MessageStyled>}
           <MyAccountInput
             id="address"
-            label={t('Address Line 1')}
+            label={t('address-details.label.address-line-1', 'Address Line 1')}
             value={address.address || ''}
             onChange={e => onAddressChange('address', e.target.value)}
             disabled={isSectionDisabled}
           />
           <MyAccountInput
             id="address2"
-            label={t('Address Line 2')}
+            label={t('address-details.label.address-line-2', 'Address Line 2')}
             value={address.address2 || ''}
             onChange={e => onAddressChange('address2', e.target.value)}
             disabled={isSectionDisabled}
           />
           <MyAccountInput
             id="city"
-            label={t('City')}
+            label={t('address-details.label.city', 'City')}
             value={address.city || ''}
             onChange={e => onAddressChange('city', e.target.value)}
             disabled={isSectionDisabled}
@@ -95,14 +101,17 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
           <RowStyled>
             <MyAccountInput
               id="state"
-              label={t('State')}
+              label={t('address-details.label.state', 'State')}
               value={address.state || ''}
               onChange={e => onAddressChange('state', e.target.value)}
               disabled={isSectionDisabled}
             />
             <MyAccountInput
               id="postCode"
-              label={t('Zip/Postal code')}
+              label={t(
+                'address-details.label.zip-postal-code',
+                'Zip/Postal code'
+              )}
               value={address.postCode || ''}
               onChange={e => onAddressChange('postCode', e.target.value)}
               disabled={isSectionDisabled}
@@ -117,12 +126,12 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
                 }}
                 width="100%"
               >
-                {t('Edit Address')}
+                {t('address-details.button.edit-address', 'Edit Address')}
               </ButtonStyled>
             ) : (
               <>
                 <ButtonStyled theme="simple" onClickFn={() => onCancel()}>
-                  {t('Cancel')}
+                  {t('address-details.button.cancel', 'Cancel')}
                 </ButtonStyled>
                 <ButtonStyled
                   onClickFn={onSubmit}
@@ -131,7 +140,7 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
                   theme="confirm"
                 >
                   {(isPending && <Loader buttonLoader color="#ffffff" />) ||
-                    t('Save')}
+                    t('address-details.button.save', 'Save')}
                 </ButtonStyled>
               </>
             )}

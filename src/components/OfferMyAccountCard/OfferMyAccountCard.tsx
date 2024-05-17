@@ -1,7 +1,6 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from 'redux/store';
 import { selectCurrentPlan, selectSwitchDetails } from 'redux/planDetailsSlice';
-import { SwitchDetailsObject } from 'redux/types/planDetailsSlice.types';
 import { selectOffers } from 'redux/offersSlice';
 import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
@@ -23,6 +22,7 @@ import { Offer } from 'redux/types/offersSlice.types';
 import eventDispatcher, {
   MSSDK_CANCEL_SWITCH_BUTTON_CLICKED
 } from 'util/eventDispatcher';
+import { SwitchDetail } from 'redux/types';
 import {
   WrapperStyled,
   InnerWrapper,
@@ -70,7 +70,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
 
   const pendingSwitchDetails = pendingSwitchId
     ? switchDetailsStore[pendingSwitchId]
-    : ({} as SwitchDetailsObject);
+    : ({} as SwitchDetail);
 
   // PAUSE FEATURE
   const isPaused = pauseOffersIDs.includes(offerId);

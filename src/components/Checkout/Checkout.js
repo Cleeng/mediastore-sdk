@@ -89,7 +89,8 @@ class Checkout extends Component {
       couponCode,
       onSuccess,
       offerId,
-      resetPasswordCallback
+      resetPasswordCallback,
+      hideRedeemButton
     } = this.props;
 
     switch (currentStep) {
@@ -134,6 +135,7 @@ class Checkout extends Component {
             onRedeemClick={() =>
               this.goToStep(CheckoutSteps.REDEEM_GIFT.stepNumber)
             }
+            hideRedeemButton={hideRedeemButton}
           />
         );
       case 5:
@@ -169,20 +171,22 @@ class Checkout extends Component {
 }
 
 Checkout.propTypes = {
+  adyenConfiguration: PropTypes.objectOf(PropTypes.any),
   couponCode: PropTypes.string,
+  hideRedeemButton: PropTypes.bool,
+  initValues: PropTypes.func.isRequired,
   offerId: PropTypes.string,
   onSuccess: PropTypes.func,
-  resetPasswordCallback: PropTypes.func,
-  adyenConfiguration: PropTypes.objectOf(PropTypes.any),
-  initValues: PropTypes.func.isRequired
+  resetPasswordCallback: PropTypes.func
 };
 
 Checkout.defaultProps = {
+  adyenConfiguration: null,
   couponCode: null,
+  hideRedeemButton: false,
   offerId: null,
   onSuccess: () => null,
-  resetPasswordCallback: () => null,
-  adyenConfiguration: null
+  resetPasswordCallback: () => null
 };
 
 export const mapDispatchToProps = dispatch => ({

@@ -1,3 +1,3 @@
 export type CardsWrapperProps = {
-  numberOfItems: number;
+  $numberOfItems: number;
 };

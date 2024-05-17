@@ -64,7 +64,7 @@ const PaymentMethod = () => {
 
   if (loading) {
     return (
-      <CardsWrapper numberOfItems={1}>
+      <CardsWrapper $numberOfItems={1}>
         <PaymentCardSkeleton />
       </CardsWrapper>
     );
@@ -81,7 +81,7 @@ const PaymentMethod = () => {
   if (!activeItems) {
     return (
       <WrapStyled>
-        <CardsWrapper numberOfItems={1}>
+        <CardsWrapper $numberOfItems={1}>
           <MyAccountError
             icon={AddIcon}
             title={t(
@@ -112,7 +112,7 @@ const PaymentMethod = () => {
 
   return (
     <WrapStyled>
-      <CardsWrapper numberOfItems={activeOrBoundPaymentDetails.length}>
+      <CardsWrapper $numberOfItems={activeOrBoundPaymentDetails.length}>
         {activeOrBoundPaymentDetails.map(paymentDetail =>
           renderPaymentMethodItem(paymentDetail)
         )}
