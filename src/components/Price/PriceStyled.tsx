@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
+import * as variables from 'styles/variables';
 import {
   FontColor,
   BigFont,
@@ -68,4 +69,42 @@ export const AdditionalLabelStyled = styled.p.attrs(() => ({
   text-align: right;
   color: inherit;
   margin-top: 2px;
+`;
+
+export const PriceContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+export const DiscountContainer = styled.div`
+  display: flex;
+  gap: 4px;
+  margin-bottom: 8px;
+`;
+
+export const OriginalPrice = styled.div`
+  color: #a2a6b7;
+  font-family: inherit;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: ${variables.BoldFont};
+  line-height: normal;
+  text-decoration: line-through;
+`;
+
+export const DiscountValue = styled.div.attrs(() => ({
+  className: 'msd__subscription-price__discount-value'
+}))`
+  background-color: ${variables.PrimaryColor};
+  color: ${variables.White};
+  border-radius: 4px;
+  text-align: center;
+  text-transform: uppercase;
+  font-family: inherit;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: ${variables.BoldFont};
+  line-height: normal;
+  padding: 2px 6px;
 `;

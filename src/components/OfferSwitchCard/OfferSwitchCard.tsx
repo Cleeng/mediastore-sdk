@@ -127,12 +127,13 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
           >
             <Price
               currency={currency}
-              price={
+              nextPaymentPrice={
                 isPriceTemporaryModified(toOfferId) &&
                 switchDetails.algorithm !== 'DEFERRED'
                   ? switchDetails.price
                   : switchDetails.nextPaymentPrice
               }
+              totalPrice={switchDetails.price}
               period={
                 switchDetails.period !== 'season'
                   ? t(

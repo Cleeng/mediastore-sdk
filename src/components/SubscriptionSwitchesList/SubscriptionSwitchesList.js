@@ -35,7 +35,7 @@ const SubscriptionSwitchesList = () => {
 
   const switchSettings = allSwitchSettings[offerToSwitch?.offerId] || {};
   const fromOfferId = offerToSwitch?.offerId;
-  const pendingSwtichesToOfferIdsArray = Object.keys(switchDetails).map(
+  const pendingSwitchesToOfferIdsArray = Object.keys(switchDetails).map(
     (item) => {
       return switchDetails[item].toOfferId;
     }
@@ -122,7 +122,7 @@ const SubscriptionSwitchesList = () => {
             <SubscriptionStyled
               as='article'
               key={subItem.toOfferId}
-              $hide={pendingSwtichesToOfferIdsArray.find(
+              $hide={pendingSwitchesToOfferIdsArray.find(
                 (item) => item === subItem.toOfferId
               )}
             >
