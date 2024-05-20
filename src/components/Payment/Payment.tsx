@@ -329,8 +329,10 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       .unwrap()
       .then((payment) => {
         eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
-          ...payment,
-          offerId: order?.offerId
+          payment: {
+            ...payment,
+            offerId: order?.offerId
+          }
         });
         if (onPaymentComplete) {
           onPaymentComplete();
