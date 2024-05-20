@@ -72,6 +72,7 @@
   "checkout-price-box.service-fee": "Service Fee",
   "checkout-price-box.total": "Today`s total",
   "checkout-price-box.trial-discount": "Trial Discount",
+  "checkout-price-box.promo": "Promo",
   "Confirm": "Potwierdź",
   "consents-general-error": "Unable to fetch terms & conditions. Publisher is not recognized",
   "Continue": "Kontynuuj",
