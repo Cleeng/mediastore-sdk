@@ -20,6 +20,22 @@ import PasswordReset from 'components/PasswordReset';
 import ThankYouPage from 'components/ThankYouPage';
 import Checkout from 'components/Checkout';
 import RedeemGift from 'components/RedeemGift';
+import eventDispatcher, {
+  MSSDK_PURCHASE_SUCCESSFUL
+} from 'util/eventDispatcher';
+
+window.onload = () => {
+  const queryString = window.location.search;
+  const urlParams = new URLSearchParams(queryString);
+  const externalPaymentId = urlParams.get('externalPaymentId');
+  if (externalPaymentId) {
+    eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
+      payment: {
+        externalPaymentId
+      }
+    });
+  }
+};
 
 export {
   // Identity Management
