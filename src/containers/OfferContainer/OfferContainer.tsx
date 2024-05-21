@@ -56,14 +56,14 @@ const OfferContainer = ({
 
   const dispatch = useAppDispatch();
 
-  const { offerId: offerIdStore, adyenConfiguration: adyenConfigurationStore } =
-    useAppSelector(selectPublisherConfig);
-
   const {
-    order,
-    loading: isOrderLoading,
-    error: orderError
-  } = useAppSelector(selectOrder);
+    offerId: offerIdStore,
+    adyenConfiguration: adyenConfigurationStore
+  } = useAppSelector(selectPublisherConfig);
+
+  const { order, loading: isOrderLoading, error: orderError } = useAppSelector(
+    selectOrder
+  );
 
   const { error: offerError } = useAppSelector(selectOffer);
 
@@ -133,7 +133,7 @@ const OfferContainer = ({
             orderResponse.offerId === longOfferId &&
             orderResponse.customerId === customerId
           ) ||
-          !orderResponse?.paymentMethodId
+          orderResponse?.paymentMethodId === undefined
         ) {
           removeData('CLEENG_ORDER_ID');
           createOrderHandler(longOfferId);
