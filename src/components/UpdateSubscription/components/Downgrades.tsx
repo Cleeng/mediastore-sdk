@@ -45,7 +45,7 @@ const Downgrades = ({
         </TextStyled>
       </>
       <DowngradesWrapperStyled>
-        {downgradesListFiltered.map(downgradeOffer => {
+        {downgradesListFiltered.map((downgradeOffer) => {
           return (
             <OfferCardWrapperStyled
               onClick={() =>
@@ -75,10 +75,10 @@ const Downgrades = ({
         {t('unsubscribe-popup.still-cancel', 'Still want to cancel?')}
       </TextStyled>
       <ButtonWrapperStyled $removeMargin>
-        <Button theme="simple" onClickFn={() => dispatch(hidePopup())}>
+        <Button theme='simple' onClickFn={() => dispatch(hidePopup())}>
           {t('unsubscribe-popup.back-button', 'Back to My Account')}
         </Button>
-        <Button theme="confirm" onClickFn={handleClick}>
+        <Button theme='confirm' onClickFn={handleClick}>
           {t('unsubscribe-popup.unsubscribe-button-text', 'Unsubscribe')}
         </Button>
       </ButtonWrapperStyled>

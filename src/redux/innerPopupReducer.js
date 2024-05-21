@@ -29,7 +29,7 @@ const popupReducer = createReducer(initialState, {
     state.type = action.payload.type;
     state.data = action.payload.data;
   },
-  HIDE_INNER_POPUP: state => {
+  HIDE_INNER_POPUP: (state) => {
     state.isOpen = false;
     state.type = '';
     state.data = {};

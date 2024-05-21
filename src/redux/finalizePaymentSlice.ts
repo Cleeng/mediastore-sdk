@@ -58,8 +58,8 @@ export const finalizePaymentSlice = createSlice({
       state.shouldShowFinalizePaymentComponent = action.payload;
     }
   },
-  extraReducers: builder => {
-    builder.addCase(fetchFinalizeInitialPayment.pending, state => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchFinalizeInitialPayment.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(fetchFinalizeInitialPayment.fulfilled, (state, action) => {
@@ -91,8 +91,7 @@ export const finalizePaymentSlice = createSlice({
 export const selectFinalizePayment = (state: RootState) =>
   state.finalizeInitialPayment;
 
-export const {
-  setShouldShowFinalizePaymentComponent
-} = finalizePaymentSlice.actions;
+export const { setShouldShowFinalizePaymentComponent } =
+  finalizePaymentSlice.actions;
 
 export default finalizePaymentSlice.reducer;

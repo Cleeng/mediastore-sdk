@@ -61,8 +61,8 @@ const MyAccountError = ({
       </DetailsStyled>
       {generalError && (
         <Button
-          margin="20px auto auto auto"
-          width="auto"
+          margin='20px auto auto auto'
+          width='auto'
           onClickFn={() => window.location.reload()}
         >
           {t('myaccounterror.button.try-again', 'Try again')}

@@ -50,7 +50,7 @@ const PaymentCard = ({ details }: PaymentCardProps) => {
                 <LogoComponent />
                 {/* TODO: alternative implementation for GlobalStyles */}
                 <VisuallyHidden />
-                <figcaption className="visually-hidden">
+                <figcaption className='visually-hidden'>
                   {logoCaption}
                 </figcaption>
               </CardTypeStyled>
@@ -86,7 +86,7 @@ const PaymentCard = ({ details }: PaymentCardProps) => {
             </CardDetailsStyled>
           </CardInfoStyled>
           <CardEditStyled
-            type="button"
+            type='button'
             onClick={() => {
               dispatch(
                 updatePaymentDetailsPopup({

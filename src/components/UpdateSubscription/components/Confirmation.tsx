@@ -19,7 +19,7 @@ const Confirmation = () => {
 
   return (
     <ContentStyled>
-      <img src={checkmarkIcon} alt="checkmark icon" />
+      <img src={checkmarkIcon} alt='checkmark icon' />
       <TitleStyled>
         {t('unsubscribe-popup.success.title', 'Miss you already.')}
       </TitleStyled>
@@ -36,8 +36,8 @@ const Confirmation = () => {
         .
       </TextStyled>
       <Button
-        width="auto"
-        margin="30px auto 0 auto"
+        width='auto'
+        margin='30px auto 0 auto'
         onClickFn={() => {
           dispatch(hidePopup());
           dispatch(updateList());

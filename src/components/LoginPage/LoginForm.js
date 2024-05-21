@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Loader from 'components/Loader';
 import Auth from 'services/auth';
 import Button from 'components/Button';
-import EmailInput from 'components/EmailInput';
+import EmailInputLegacy from 'components/EmailInputLegacy';
 import PasswordInput from 'components/PasswordInput';
 import { validatePasswordField, validateEmailField } from 'util/validators';
 import loginCustomer from '../../api/Auth/loginCustomer';
@@ -64,10 +64,10 @@ class LoginForm extends Component {
       password: t(validatePasswordField(password))
     };
     this.setState({ errors: errorFields, generalError: '' });
-    return !Object.keys(errorFields).find(key => errorFields[key] !== '');
+    return !Object.keys(errorFields).find((key) => errorFields[key] !== '');
   };
 
-  handleSubmit = event => {
+  handleSubmit = (event) => {
     event.preventDefault();
     if (this.validateFields()) {
       this.login();
@@ -125,7 +125,7 @@ class LoginForm extends Component {
     return true;
   };
 
-  renderError = message => {
+  renderError = (message) => {
     const { t } = this.props;
     this.setState({
       processing: false,
@@ -157,12 +157,12 @@ class LoginForm extends Component {
         ) : (
           <FormErrorStyled>{generalError}</FormErrorStyled>
         )}
-        <EmailInput
+        <EmailInputLegacy
           reference={this.emailInput}
           label={t('Email')}
           floatingLabels={false}
           value={email}
-          onChange={e => this.setState({ email: e })}
+          onChange={(e) => this.setState({ email: e })}
           onBlur={this.validateEmail}
           error={errors.email}
         />
@@ -170,19 +170,19 @@ class LoginForm extends Component {
           label={t('Password')}
           floatingLabels={false}
           value={password}
-          onChange={e => this.setState({ password: e })}
+          onChange={(e) => this.setState({ password: e })}
           onBlur={this.validatePassword}
           error={errors.password}
         />
         <Button
-          type="submit"
-          size="big"
-          theme="confirm"
-          margin="10px 0"
+          type='submit'
+          size='big'
+          theme='confirm'
+          margin='10px 0'
           disabled={processing || overloaded}
         >
           {processing ? (
-            <Loader buttonLoader color="#ffffff" />
+            <Loader buttonLoader color='#ffffff' />
           ) : (
             t('login-form.button.sign-in', 'Sign in')
           )}
@@ -207,7 +207,7 @@ LoginForm.defaultProps = {
   isMyAccount: false,
   emailChanged: false,
   onSuccess: () => null,
-  t: k => k
+  t: (k) => k
 };
 
 export default LoginForm;

@@ -18,7 +18,7 @@ import { ImageWrapper } from '../UpdatePaymentDetailsPopupStyled';
 const ErrorStep = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { error } = useSelector(state => state.finalizeAddPaymentDetails);
+  const { error } = useSelector((state) => state.finalizeAddPaymentDetails);
 
   return (
     <>
@@ -31,12 +31,12 @@ const ErrorStep = () => {
         </TitleStyled>
         <TextStyled>
           {error?.includes('Refused') ? (
-            <Trans i18nKey="update-payment-details-popup.refused">
+            <Trans i18nKey='update-payment-details-popup.refused'>
               We weren’t able to update your payment method. <br /> Please try
               again.
             </Trans>
           ) : (
-            <Trans i18nKey="update-payment-details-popup.error">
+            <Trans i18nKey='update-payment-details-popup.error'>
               We weren’t able to update your payment details. <br /> Please try
               again using different payment method.
             </Trans>
@@ -45,7 +45,7 @@ const ErrorStep = () => {
       </ContentStyled>
       <ButtonWrapperStyled $removeMargin>
         <Button
-          theme="simple"
+          theme='simple'
           onClickFn={() =>
             dispatch(
               updatePaymentDetailsPopup({

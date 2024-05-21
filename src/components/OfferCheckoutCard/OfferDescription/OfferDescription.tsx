@@ -172,18 +172,18 @@ const OfferDescription = ({
           `subscription-desc-coupon-${period}`,
           `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) now.\nAfter ${
             period === '3months' || period === '6months' ? '' : 'a'
-          } ${periodMapper[period as Period]
-            .chargedForEveryText as string} you will be charged a regular price of ${currencySymbol}${regularPrice}.`,
+          } ${
+            periodMapper[period as Period].chargedForEveryText as string
+          } you will be charged a regular price of ${currencySymbol}${regularPrice}.`,
           { currencySymbol, formattedTotalPrice, taxCopy, period, regularPrice }
         );
       }
 
       // non-standard periods
       if (period === '3months' || period === '6months') {
-        const description = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${periodMapper[
-          period as Period
-        ]
-          .chargedForEveryText as string} for the next ${discountedPeriods} billing periods.\nAfter that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
+        const description = `You will be charged ${currencySymbol}${formattedTotalPrice} (incl. ${taxCopy}) per ${
+          periodMapper[period as Period].chargedForEveryText as string
+        } for the next ${discountedPeriods} billing periods.\nAfter that time you will be charged a regular price of ${currencySymbol}${regularPrice}.`;
         return t(`subscription-desc-coupon.periods-${period}`, description, {
           formattedTotalPrice,
           taxCopy,

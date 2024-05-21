@@ -20,12 +20,8 @@ const PaymentMethod = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const {
-    paymentDetails,
-    error,
-    loading,
-    activeOrBoundPaymentDetails
-  } = useAppSelector(selectPaymentDetails);
+  const { paymentDetails, error, loading, activeOrBoundPaymentDetails } =
+    useAppSelector(selectPaymentDetails);
 
   const renderPaymentMethodItem = (paymentDetail: PaymentDetail) => {
     const { paymentMethod, id } = paymentDetail;
@@ -54,7 +50,7 @@ const PaymentMethod = () => {
         );
     }
   };
-  const activeItems = activeOrBoundPaymentDetails.find(item => item.active);
+  const activeItems = activeOrBoundPaymentDetails.find((item) => item.active);
 
   useEffect(() => {
     if (paymentDetails?.length === 0) {
@@ -102,7 +98,7 @@ const PaymentMethod = () => {
                 })
               );
             }}
-            direction="row"
+            direction='row'
             fullWidth
           />
         </CardsWrapper>
@@ -113,7 +109,7 @@ const PaymentMethod = () => {
   return (
     <WrapStyled>
       <CardsWrapper $numberOfItems={activeOrBoundPaymentDetails.length}>
-        {activeOrBoundPaymentDetails.map(paymentDetail =>
+        {activeOrBoundPaymentDetails.map((paymentDetail) =>
           renderPaymentMethodItem(paymentDetail)
         )}
       </CardsWrapper>

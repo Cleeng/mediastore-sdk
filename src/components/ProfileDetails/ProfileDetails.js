@@ -99,14 +99,8 @@ class ProfileDetails extends Component {
   }
 
   componentDidMount() {
-    const {
-      firstName,
-      lastName,
-      email,
-      birthDate,
-      phoneNumber,
-      companyName
-    } = this.props;
+    const { firstName, lastName, email, birthDate, phoneNumber, companyName } =
+      this.props;
 
     const { updated } = this.state;
     this.setState({
@@ -124,14 +118,8 @@ class ProfileDetails extends Component {
 
   componentDidUpdate() {
     const { updated, isSectionDisabled } = this.state;
-    const {
-      firstName,
-      lastName,
-      email,
-      birthDate,
-      phoneNumber,
-      companyName
-    } = this.props;
+    const { firstName, lastName, email, birthDate, phoneNumber, companyName } =
+      this.props;
 
     if (
       isSectionDisabled &&
@@ -157,7 +145,7 @@ class ProfileDetails extends Component {
     }
   }
 
-  updateProfile = e => {
+  updateProfile = (e) => {
     e.preventDefault();
     const { updated } = this.state;
     const { email, setCurrentUser, updateCaptureOption, t } = this.props;
@@ -182,7 +170,7 @@ class ProfileDetails extends Component {
       email: updated.email !== email ? updated.email : '',
       confirmationPassword:
         updated.email !== email ? updated.confirmationPassword : ''
-    }).then(response => {
+    }).then((response) => {
       this.setState({
         isSubmittingPending: false
       });
@@ -260,7 +248,7 @@ class ProfileDetails extends Component {
     const { t, capture } = this.props;
 
     const namesSettings = capture?.settings?.find(
-      setting => setting.key === 'firstNameLastName'
+      (setting) => setting.key === 'firstNameLastName'
     );
 
     const { enabled, required } = namesSettings;
@@ -440,7 +428,7 @@ class ProfileDetails extends Component {
   };
 
   handleInputChange = (fieldName, inputValue) => {
-    this.setState(prevState => ({
+    this.setState((prevState) => ({
       updated: { ...prevState.updated, [fieldName]: inputValue }
     }));
   };
@@ -457,7 +445,7 @@ class ProfileDetails extends Component {
     } = this.state;
 
     const areNamesRequired = capture?.settings?.find(
-      setting => setting.key === 'firstNameLastName'
+      (setting) => setting.key === 'firstNameLastName'
     )?.required;
 
     return (
@@ -468,11 +456,11 @@ class ProfileDetails extends Component {
               {[...Array(3)].map((i, k) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <React.Fragment key={`skeleton-item-${k}`}>
-                  <SkeletonWrapper width={100} margin="0 0 12px 0" />
-                  <SkeletonWrapper height={40} margin="0 0 28px 0" />
+                  <SkeletonWrapper width={100} margin='0 0 12px 0' />
+                  <SkeletonWrapper height={40} margin='0 0 28px 0' />
                 </React.Fragment>
               ))}
-              <SkeletonWrapper height={40} width={140} margin="40px 0 0 auto" />
+              <SkeletonWrapper height={40} width={140} margin='40px 0 0 auto' />
             </>
           ) : (
             <FormStyled onSubmit={this.updateProfile}>
@@ -484,7 +472,7 @@ class ProfileDetails extends Component {
                   )}
                 </SuccessMessageStyled>
               )}
-              {InputsData.map(input => {
+              {InputsData.map((input) => {
                 const shouldBeHidden =
                   typeof this.props[input.id] === 'object' &&
                   !this.props[input.id]?.enabled;
@@ -509,7 +497,7 @@ class ProfileDetails extends Component {
                     id={input.id}
                     value={updated[input.id] || ''}
                     label={t(input.translationKey, input.label)}
-                    onChange={e =>
+                    onChange={(e) =>
                       this.handleInputChange(input.id, e.target.value)
                     }
                     disabled={isSectionDisabled}
@@ -536,14 +524,14 @@ class ProfileDetails extends Component {
                     onClickFn={() =>
                       this.setState({ isSectionDisabled: false })
                     }
-                    width="100%"
+                    width='100%'
                   >
                     {t('profiledetails.button.edit-profile', 'Edit Profile')}
                   </ButtonStyled>
                 ) : (
                   <>
                     <ButtonStyled
-                      theme="simple"
+                      theme='simple'
                       onClickFn={() =>
                         this.setState({
                           isSectionDisabled: true,
@@ -567,11 +555,11 @@ class ProfileDetails extends Component {
                     <ButtonStyled
                       onClickFn={this.updateProfile}
                       disabled={isSubmittingPending}
-                      type="submit"
-                      theme="confirm"
+                      type='submit'
+                      theme='confirm'
                     >
                       {(isSubmittingPending && (
-                        <Loader buttonLoader color="#ffffff" />
+                        <Loader buttonLoader color='#ffffff' />
                       )) ||
                         t('profiledetails.button.save', 'Save')}
                     </ButtonStyled>
@@ -611,7 +599,7 @@ ProfileDetails.defaultProps = {
   capture: null,
   setCurrentUser: () => null,
   updateCaptureOption: () => null,
-  t: k => k
+  t: (k) => k
 };
 
 export { ProfileDetails as PureProfileDetails };

@@ -76,7 +76,7 @@ const Offer = ({
                 onSubmit={onCouponSubmit}
                 value={coupon}
                 onChange={(e: string) => setCoupon(e)}
-                source="checkout"
+                source='checkout'
                 couponLoading={isCouponLoading}
                 couponDetails={couponDetails}
               />

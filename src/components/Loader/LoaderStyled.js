@@ -21,13 +21,13 @@ export const LoaderStyled = styled.div.attrs(() => ({
   position: relative;
   width: 64px;
   height: 64px;
-  ${props =>
+  ${(props) =>
     props.$isMyAccount &&
     css`
       margin: 50px auto;
     `};
 
-  ${props =>
+  ${(props) =>
     props.$centered &&
     css`
       position: absolute;
@@ -40,10 +40,10 @@ export const LoaderStyled = styled.div.attrs(() => ({
     position: absolute;
     width: 5px;
     height: 5px;
-    background: ${props => (props.$color ? props.$color : '#d4d4d4')};
+    background: ${(props) => (props.$color ? props.$color : '#d4d4d4')};
     border-radius: 50%;
     animation: ${LoaderKeyframeStyled} 1.2s linear infinite;
-    ${props =>
+    ${(props) =>
       props.$isMyAccount &&
       css`
         background: ${FontColor};
@@ -122,7 +122,7 @@ export const LoaderStyled = styled.div.attrs(() => ({
     left: 50px;
   }
 
-  ${props =>
+  ${(props) =>
     props.$buttonLoader &&
     css`
       width: 18px;
@@ -130,7 +130,7 @@ export const LoaderStyled = styled.div.attrs(() => ({
       transform: scale(0.4) translate(-20px, -25px);
     `}
 
-  ${props =>
+  ${(props) =>
     props.$smallLoader &&
     css`
       position: absolute;

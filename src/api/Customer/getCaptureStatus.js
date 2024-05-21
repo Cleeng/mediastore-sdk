@@ -10,7 +10,7 @@ const getCaptureStatus = async () => {
   const url = `${API_URL}/customers/${customerId}/capture/status`;
   return fetchWithJWT(url, {
     method: 'GET'
-  }).then(res => {
+  }).then((res) => {
     return res.json();
   });
 };

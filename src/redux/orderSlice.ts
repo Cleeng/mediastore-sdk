@@ -1,5 +1,8 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { MESSAGE_TYPE_FAIL, MESSAGE_TYPE_SUCCESS } from 'components/Input';
+import {
+  MESSAGE_TYPE_FAIL,
+  MESSAGE_TYPE_SUCCESS
+} from 'components/InputLegacy';
 import { createOrder, getOrder, updateOrder } from '../api';
 import { RootState } from './rootReducer';
 import { Order, OrderCouponDetailsMessage, OrderInitialState } from './types';
@@ -129,7 +132,7 @@ export const orderSlice = createSlice({
         ...action.payload
       };
     },
-    clearOrderCouponMessage: state => {
+    clearOrderCouponMessage: (state) => {
       const { couponDetails } = state;
 
       state.couponDetails = {
@@ -141,8 +144,8 @@ export const orderSlice = createSlice({
       };
     }
   },
-  extraReducers: builder => {
-    builder.addCase(fetchCreateOrder.pending, state => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchCreateOrder.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(fetchCreateOrder.fulfilled, (state, action) => {
@@ -155,14 +158,14 @@ export const orderSlice = createSlice({
         state.error = payload;
       }
     });
-    builder.addCase(fetchGetOrder.pending, state => {
+    builder.addCase(fetchGetOrder.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(fetchGetOrder.fulfilled, (state, action) => {
       state.loading = false;
       state.order = action.payload;
     });
-    builder.addCase(fetchGetOrder.rejected, state => {
+    builder.addCase(fetchGetOrder.rejected, (state) => {
       state.loading = true;
     });
     builder.addCase(fetchUpdateCoupon.pending, (state, action) => {
@@ -203,7 +206,7 @@ export const orderSlice = createSlice({
         translationKey: 'coupon-input.error'
       };
     });
-    builder.addCase(fetchUpdateOrder.pending, state => {
+    builder.addCase(fetchUpdateOrder.pending, (state) => {
       state.isUpdateLoading = true;
     });
     builder.addCase(fetchUpdateOrder.fulfilled, (state, action) => {
@@ -219,11 +222,8 @@ export const orderSlice = createSlice({
   }
 });
 
-export const {
-  clearOrder,
-  setOrderCouponMessage,
-  clearOrderCouponMessage
-} = orderSlice.actions;
+export const { clearOrder, setOrderCouponMessage, clearOrderCouponMessage } =
+  orderSlice.actions;
 export const selectOrder = (state: RootState) => state.order;
 export const selectOnlyOrder = (state: RootState) => state.order.order;
 

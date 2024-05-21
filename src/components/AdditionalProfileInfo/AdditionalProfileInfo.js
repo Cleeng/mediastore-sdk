@@ -4,8 +4,10 @@ import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import Loader from 'components/Loader';
 import MyAccountInput from 'components/MyAccountInput';
-import Select, { mapToSelectFormat } from 'components/Select/Select';
-import Checkbox from 'components/Checkbox';
+import SelectLegacy, {
+  mapToSelectFormat
+} from 'components/SelectLegacy/SelectLegacy';
+import CheckboxLegacy from 'components/CheckboxLegacy';
 import useMessage from 'hooks/useMessage';
 import { updateCaptureAnswers } from 'api';
 import {
@@ -29,12 +31,12 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
 
   useEffect(() => {
     if (data) {
-      const newData = data.map(setting => {
+      const newData = data.map((setting) => {
         return {
           ...setting,
           value: setting.answer ? setting.answer : '',
           values: setting.value
-            ? setting.value.split(';').map(v => v.trim())
+            ? setting.value.split(';').map((v) => v.trim())
             : []
         };
       });
@@ -44,7 +46,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
   }, [data]);
 
   const handleCustomSetting = (key, value) => {
-    const newArr = customSettings.map(item => {
+    const newArr = customSettings.map((item) => {
       return {
         ...item,
         value: item.key === key ? value : item.value
@@ -60,7 +62,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
 
   const onSubmit = () => {
     setIsPending(true);
-    const customAnswers = customSettings.map(setting => {
+    const customAnswers = customSettings.map((setting) => {
       return {
         questionId: setting.key,
         question: setting.question,
@@ -107,7 +109,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
       {customSettings && (
         <Card withBorder>
           {message && <MessageStyled type={type}>{message}</MessageStyled>}
-          {customSettings.map(setting => {
+          {customSettings.map((setting) => {
             if (setting.values.length === 0)
               return (
                 <InputWrapStyled key={setting.key}>
@@ -115,7 +117,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                     id={setting.key}
                     label={setting.question}
                     value={setting.value}
-                    onChange={e =>
+                    onChange={(e) =>
                       handleCustomSetting(setting.key, e.target.value)
                     }
                     disabled={isSectionDisabled}
@@ -125,7 +127,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
             if (setting.values.length === 1)
               return (
                 <InputWrapStyled key={setting.key}>
-                  <Checkbox
+                  <CheckboxLegacy
                     isMyAccount
                     onClickFn={(e, disabled) =>
                       !disabled &&
@@ -138,14 +140,14 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                     disabled={isSectionDisabled}
                   >
                     {setting.question}
-                  </Checkbox>
+                  </CheckboxLegacy>
                 </InputWrapStyled>
               );
             if (setting.values.length === 2)
               return (
                 <InputWrapStyled key={setting.key}>
                   <InputLabelStyled>{setting.question}</InputLabelStyled>
-                  <Checkbox
+                  <CheckboxLegacy
                     key={`${setting.key}-01`}
                     onClickFn={(e, disabled) =>
                       !disabled &&
@@ -156,8 +158,8 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                     checked={setting.value === setting.values[0]}
                   >
                     {setting.values[0]}
-                  </Checkbox>
-                  <Checkbox
+                  </CheckboxLegacy>
+                  <CheckboxLegacy
                     key={`${setting.key}-02`}
                     onClickFn={(e, disabled) =>
                       !disabled &&
@@ -168,12 +170,12 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                     checked={setting.value === setting.values[1]}
                   >
                     {setting.values[1]}
-                  </Checkbox>
+                  </CheckboxLegacy>
                 </InputWrapStyled>
               );
             return (
               <InputWrapStyled key={setting.key}>
-                <Select
+                <SelectLegacy
                   isMyAccount
                   id={setting.key}
                   key={setting.key}
@@ -200,7 +202,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                   setIsSectionDisabled(false);
                   resetMessage();
                 }}
-                width="100%"
+                width='100%'
               >
                 {t(
                   'additional-profile-info.button.edit-profile',
@@ -209,16 +211,16 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
               </ButtonStyled>
             ) : (
               <>
-                <ButtonStyled theme="simple" onClickFn={onCancel}>
+                <ButtonStyled theme='simple' onClickFn={onCancel}>
                   {t('additional-profile-info.button.cancel', 'Cancel')}
                 </ButtonStyled>
                 <ButtonStyled
                   onClickFn={onSubmit}
                   disabled={isPending}
-                  type="submit"
-                  theme="confirm"
+                  type='submit'
+                  theme='confirm'
                 >
-                  {(isPending && <Loader buttonLoader color="#ffffff" />) ||
+                  {(isPending && <Loader buttonLoader color='#ffffff' />) ||
                     t('additional-profile-info.button.save', 'Save')}
                 </ButtonStyled>
               </>

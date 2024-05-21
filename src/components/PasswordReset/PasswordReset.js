@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import store from 'redux/store';
 import PropTypes from 'prop-types';
 import { withTranslation } from 'react-i18next';
-import EmailInput from 'components/EmailInput';
+import EmailInputLegacy from 'components/EmailInputLegacy';
 import Button from 'components/Button';
 import Header from 'components/Header';
 import Loader from 'components/Loader';
@@ -113,7 +113,7 @@ class PasswordReset extends Component {
             )}
           </StyledMessage>
           <FormStyled onSubmit={this.onSubmit} noValidate>
-            <EmailInput
+            <EmailInputLegacy
               label={t('password-reset.label.email', 'Email')}
               error={message}
               value={value}

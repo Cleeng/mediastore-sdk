@@ -19,7 +19,7 @@ import {
   BANK_PAYMENT_METHODS,
   getStandardCopy
 } from 'util/paymentMethodHelper';
-import Checkbox from 'components/Checkbox';
+import CheckboxLegacy from 'components/CheckboxLegacy';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
 import { selectTermsUrl } from 'redux/publisherConfigSlice';
@@ -58,11 +58,11 @@ const Adyen = ({
     adyenConfiguration,
     paymentMethods: publisherPaymentMethods,
     visiblePaymentMethods
-  } = useAppSelector(state => state.publisherConfig);
+  } = useAppSelector((state) => state.publisherConfig);
 
   const [isLoading, setIsLoading] = useState(true);
   const { selectedPaymentMethod } = useAppSelector(
-    state => state.paymentMethods
+    (state) => state.paymentMethods
   );
 
   const selectedPaymentMethodRef = useRef(selectedPaymentMethod);
@@ -92,15 +92,12 @@ const Adyen = ({
 
   const [noPaymentMethods, setNoPaymentMethods] = useState(false);
 
-  const [
-    shouldFadeOutStandardDropIn,
-    setShouldFadeOutStandardDropIn
-  ] = useState(false);
+  const [shouldFadeOutStandardDropIn, setShouldFadeOutStandardDropIn] =
+    useState(false);
   const [shouldFadeOutBankDropIn, setShouldFadeOutBankDropIn] = useState(false);
 
-  const [shouldHideStandardDropIn, setShouldHideStandardDropIn] = useState(
-    false
-  );
+  const [shouldHideStandardDropIn, setShouldHideStandardDropIn] =
+    useState(false);
   const [shouldHideBankDropIn, setShouldHideBankDropIn] = useState(false);
 
   useScript('https://pay.google.com/gp/p/js/pay.js');
@@ -141,7 +138,7 @@ const Adyen = ({
     );
 
     const checkbox = (
-      <Checkbox
+      <CheckboxLegacy
         className={`adyen-checkout__bank-checkbox checkbox-${methodName}`}
         checked={false}
         onClickFn={(e, _, setIsChecked) => {
@@ -156,7 +153,7 @@ const Adyen = ({
         {type === 'bank'
           ? getBankCopy()
           : getStandardCopy(isMyAccount, offer, order, deliveryDetails?.isGift)}
-      </Checkbox>
+      </CheckboxLegacy>
     );
 
     if (parentEl) {
@@ -180,12 +177,12 @@ const Adyen = ({
 
   const showAdditionalText = () => {
     if (bankPaymentMethodsRef?.current) {
-      bankPaymentMethods.forEach(method =>
+      bankPaymentMethods.forEach((method) =>
         addLegalCheckboxForPaymentMethod(method, 'bank')
       );
     }
     if (standardPaymentMethodsRef?.current) {
-      standardPaymentMethods.forEach(method =>
+      standardPaymentMethods.forEach((method) =>
         addLegalCheckboxForPaymentMethod(method)
       );
     }
@@ -194,7 +191,7 @@ const Adyen = ({
   const onSelect = async ({ type }) =>
     selectPaymentMethod(bankPaymentMethodsMapper[type] || type);
 
-  const mountStandardDropIn = adyenCheckout => {
+  const mountStandardDropIn = (adyenCheckout) => {
     if (standardPaymentMethodsRef?.current) {
       const dropin = adyenCheckout.create('dropin', {
         onSelect,
@@ -210,7 +207,7 @@ const Adyen = ({
     }
   };
 
-  const mountBankDropIn = adyenCheckout => {
+  const mountBankDropIn = (adyenCheckout) => {
     if (bankPaymentMethodsRef?.current) {
       const dropin = adyenCheckout.create('dropin', {
         onSelect,
@@ -240,12 +237,8 @@ const Adyen = ({
         return false;
       }
 
-      const {
-        recipientEmail,
-        deliveryDate,
-        deliveryTime,
-        message
-      } = deliveryDetailsRef.current;
+      const { recipientEmail, deliveryDate, deliveryTime, message } =
+        deliveryDetailsRef.current;
 
       await dispatch(
         fetchUpdateOrder({
@@ -264,7 +257,7 @@ const Adyen = ({
         })
       )
         .unwrap()
-        .catch(err => {
+        .catch((err) => {
           throw new Error(err);
         });
 
@@ -281,7 +274,7 @@ const Adyen = ({
         })
       )
         .unwrap()
-        .catch(err => {
+        .catch((err) => {
           throw new Error(err);
         });
 
@@ -291,7 +284,7 @@ const Adyen = ({
     return true;
   };
 
-  const isCheckboxChecked = methodName => {
+  const isCheckboxChecked = (methodName) => {
     const isBancontactCard =
       selectedPaymentMethodRef?.current?.methodName === 'bancontact_card';
 
@@ -329,10 +322,10 @@ const Adyen = ({
     };
     const applePayConfigurationObj =
       paymentMethods &&
-      paymentMethods.find(item => item.type === 'applepay')?.configuration;
+      paymentMethods.find((item) => item.type === 'applepay')?.configuration;
     const googlePayConfigurationObj =
       paymentMethods &&
-      paymentMethods.find(item => item.type === 'googlepay')?.configuration;
+      paymentMethods.find((item) => item.type === 'googlepay')?.configuration;
 
     const configuration = {
       locale: adyenConfiguration?.locale || i18n?.language || 'en-US',
@@ -394,7 +387,7 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.card
         },
         applepay: {
-          onClick: async resolve => {
+          onClick: async (resolve) => {
             if (!isCheckboxChecked('applepay')) {
               return;
             }
@@ -417,7 +410,7 @@ const Adyen = ({
           ...adyenConfiguration?.paymentMethodsConfiguration?.applePay
         },
         googlepay: {
-          onClick: async resolve => {
+          onClick: async (resolve) => {
             if (!isCheckboxChecked('googlepay')) {
               return;
             }
@@ -463,7 +456,7 @@ const Adyen = ({
     setIsLoading(false);
   };
 
-  const createSession = async paymentMethodsType => {
+  const createSession = async (paymentMethodsType) => {
     try {
       const response = await createPaymentSession(
         paymentMethodsType,

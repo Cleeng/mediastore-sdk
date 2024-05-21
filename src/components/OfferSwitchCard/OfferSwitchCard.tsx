@@ -28,16 +28,14 @@ import {
 
 const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
   const { t } = useTranslation();
-  const {
-    data: allSwitchSettings,
-    loading: isSwitchSettingsLoading
-  } = useAppSelector(selectSwitchSettings);
+  const { data: allSwitchSettings, loading: isSwitchSettingsLoading } =
+    useAppSelector(selectSwitchSettings);
   const switchDetails =
     allSwitchSettings[baseOfferId].available.find(
-      switchData => switchData.toOfferId === toOfferId
+      (switchData) => switchData.toOfferId === toOfferId
     ) ||
     allSwitchSettings[baseOfferId].unavailable.find(
-      switchData => switchData.toOfferId === toOfferId
+      (switchData) => switchData.toOfferId === toOfferId
     ) ||
     ({} as SwitchSetting);
 
@@ -69,7 +67,7 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
       case 'TO_FREE_OFFER_NOT_ALLOWED':
         return t(
           'offer-card.error.to-free-offer',
-          'Switching from a paid to a free offer is not possible'
+          'Downgrading from a paid to a free offer is not possible'
         );
       case 'SUBSCRIPTION_WITH_COUPON_NOT_ALLOWED':
         return t(
@@ -110,7 +108,7 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
           <SkeletonWrapper
             showChildren={!isSwitchSettingsLoading}
             width={200}
-            margin="0 10px 10px 10px"
+            margin='0 10px 10px 10px'
           >
             <TitleStyled>
               {t(`offer-title-${toOfferId}`, switchDetails.title)}
@@ -119,7 +117,7 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
           <SkeletonWrapper
             showChildren={!isSwitchSettingsLoading}
             width={300}
-            margin="0 10px 10px 10px"
+            margin='0 10px 10px 10px'
           />
         </InnerWrapper>
         <PriceWrapperStyled>
@@ -130,12 +128,13 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
           >
             <Price
               currency={currency}
-              price={
+              nextPaymentPrice={
                 isPriceTemporaryModified(toOfferId) &&
                 switchDetails.algorithm !== 'DEFERRED'
                   ? switchDetails.price
                   : switchDetails.nextPaymentPrice
               }
+              totalPrice={switchDetails.price}
               period={
                 switchDetails.period !== 'season'
                   ? t(

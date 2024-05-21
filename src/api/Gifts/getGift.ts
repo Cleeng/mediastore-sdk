@@ -9,14 +9,14 @@ const getGift = async (giftId: number): Promise<Gift> => {
   return fetchWithJWT(url, {
     method: 'GET'
   })
-    .then(async res => {
+    .then(async (res) => {
       const { responseData, errors } = await res.json();
       if (!res.ok) {
         throw new Error(errors[0]);
       }
       return responseData;
     })
-    .catch(err => {
+    .catch((err) => {
       throw new Error(err);
     });
 };

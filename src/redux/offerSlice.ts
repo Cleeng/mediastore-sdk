@@ -52,8 +52,8 @@ export const offerSlice = createSlice({
       state.isOfferFree = action.payload;
     }
   },
-  extraReducers: builder => {
-    builder.addCase(fetchOffer.pending, state => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchOffer.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(fetchOffer.fulfilled, (state, action) => {
@@ -66,7 +66,7 @@ export const offerSlice = createSlice({
         state.error = action.payload;
       }
     });
-    builder.addCase(fetchOfferV2.pending, state => {
+    builder.addCase(fetchOfferV2.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(fetchOfferV2.fulfilled, (state, action) => {

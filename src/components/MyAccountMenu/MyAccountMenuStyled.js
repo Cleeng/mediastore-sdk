@@ -30,7 +30,7 @@ export const ItemsStyled = styled.div.attrs(() => ({
 export const ItemWrapStyled = styled.div.attrs(() => ({
   className: 'msd__account-sidebar__item'
 }))`
-  ${props =>
+  ${(props) =>
     !props.$visibleOnDesktop &&
     css`
       ${mediaFrom.small`
@@ -95,9 +95,9 @@ export const ItemLabelStyled = styled.div.attrs(() => ({
     transform-origin: 0% 50%;
 
     ${isRTL() &&
-      css`
-        transform-origin: 100% 50%;
-      `}
+    css`
+      transform-origin: 100% 50%;
+    `}
   }
 
   ${mediaFrom.small`
@@ -127,7 +127,7 @@ export const ItemStyled = styled.div.attrs(() => ({
     }
   }
 
-  ${props =>
+  ${(props) =>
     props.$isActive &&
     css`
       ${ItemIconWrapStyled} {

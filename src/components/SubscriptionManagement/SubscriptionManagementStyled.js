@@ -42,7 +42,7 @@ export const SubscriptionActionsStyled = styled.div.attrs(() => ({
   overflow: hidden;
   transition: all 0.3s ease-in-out;
 
-  ${props =>
+  ${(props) =>
     props.$isOpened &&
     css`
       max-height: 500px;
@@ -68,7 +68,7 @@ export const ButtonTextStyled = styled.span.attrs(() => ({
     transform: scaleY(0.8) rotate(0deg);
     transition: all 0.3s ease-in-out;
     content: '▼';
-    ${props =>
+    ${(props) =>
       props.$isExpanded &&
       css`
         transform: scaleY(0.8) rotateX(180deg);
@@ -86,20 +86,20 @@ export const SimpleButtonStyled = styled(Button).attrs(() => ({
     opacity: 0.9;
   }
   ${mediaFrom.small &&
-    css`
-      margin: 0;
-      width: unset;
-      max-width: unset;
-    `}
+  css`
+    margin: 0;
+    width: unset;
+    max-width: unset;
+  `}
 `;
 
 export const FullWidthButtonStyled = styled(Button)`
   width: 100%;
   ${mediaFrom.small &&
-    css`
-      width: unset;
-      max-width: unset;
-    `}
+  css`
+    width: unset;
+    max-width: unset;
+  `}
 `;
 
 export const CouponWrapStyled = styled.div`

@@ -52,7 +52,8 @@
     "ts-coverage-js": "typescript-coverage-report --project \"./tsconfig.json\" --ignore-files \"src/**/*.ts*\"",
     "ts-check": "tsc --skipLibCheck --noEmit --pretty",
     "lint": "eslint . --ext js,jsx,ts,tsx",
-    "lint-fix": "npm run lint --fix"
+    "lint-fix": "npm run lint --fix",
+    "dev": "npm run --prefix ../mediastore-sdk-demo-2024 dev & onchange './src/**' -e './src/**/*.(spec|test|type|types).[jt]s?(x)' -- npm run publish-dev"
   },
   "browserslist": {
     "production": [
@@ -75,6 +76,7 @@
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint --no-ignore --fix",
+      "prettier --write",
       "git add --force"
     ],
     "*.{ts,tsx}": [
@@ -128,7 +130,8 @@
     "jest": "^29.2.1",
     "jest-environment-jsdom": "^29.2.1",
     "lint-staged": "^9.5.0",
-    "prettier": "^1.19.1",
+    "onchange": "^7.1.0",
+    "prettier": "^2.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "redux-mock-store": "^1.5.4",

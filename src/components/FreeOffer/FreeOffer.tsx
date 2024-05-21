@@ -14,15 +14,22 @@ import {
   CardStyled,
   SubscriptionIconStyled,
   ButtonWrapperStyled,
-  ErrorMessageStyled
+  ErrorMessageStyled,
+  PublisherDescriptionStyled
 } from './FreeOfferStyled';
 import { FreeOfferProps } from './FreeOffer.types';
 
 const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
   const { loading: isLoading, error } = useAppSelector(selectPayment);
-  const { period, expiresAt, startTime, offerTitle, offerId } = useAppSelector(
-    selectOnlyOffer
-  );
+  const {
+    period,
+    expiresAt,
+    startTime,
+    offerTitle,
+    offerId,
+    offerDescription
+  } = useAppSelector(selectOnlyOffer);
+
   const dispatch = useAppDispatch();
 
   const { t } = useTranslation();
@@ -65,9 +72,7 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
   };
 
   const getAccessToFreeOffer = useCallback(() => {
-    dispatch(submitPaymentWithoutDetails())
-      .unwrap()
-      .then(onPaymentComplete);
+    dispatch(submitPaymentWithoutDetails()).unwrap().then(onPaymentComplete);
   }, []);
 
   return (
@@ -78,16 +83,21 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
         <DescriptionStyled>
           {generateDescriptionForFreeOffer()}
         </DescriptionStyled>
+        {offerDescription && (
+          <PublisherDescriptionStyled>
+            {t('free-offer.publisher-description', offerDescription)}
+          </PublisherDescriptionStyled>
+        )}
         <ButtonWrapperStyled>
           <Button
-            theme="confirm"
-            width="200px"
+            theme='confirm'
+            width='200px'
             onClickFn={getAccessToFreeOffer}
             disabled={isLoading}
           >
             <>
               {isLoading ? (
-                <Loader buttonLoader color="#ffffff" />
+                <Loader buttonLoader color='#ffffff' />
               ) : (
                 t('free-offer.get-access', 'Get Access')
               )}

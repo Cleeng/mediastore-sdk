@@ -30,15 +30,15 @@ export const paymentDetailsSlice = createSlice({
   name: 'paymentDetails',
   initialState,
   reducers: {},
-  extraReducers: builder => {
-    builder.addCase(fetchPaymentDetails.pending, state => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchPaymentDetails.pending, (state) => {
       state.loading = true;
     });
     builder.addCase(fetchPaymentDetails.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.paymentDetails = payload?.paymentDetails;
       state.activeOrBoundPaymentDetails = payload?.paymentDetails.filter(
-        item => item.active || item.bound
+        (item) => item.active || item.bound
       );
     });
     builder.addCase(fetchPaymentDetails.rejected, (state, action) => {

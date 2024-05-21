@@ -17,7 +17,7 @@ import {
   PriceWrapperStyled,
   TrialBadgeStyled
 } from './OfferCheckoutCardStyled';
-import Price from '../Price';
+import Price, { isPromoPriceActive } from '../Price';
 
 type OfferCheckoutCardProps = {
   isRedeemGift: boolean;
@@ -41,8 +41,10 @@ const OfferCheckoutCard = ({
 
   const {
     loading,
-    offerV2: { title: offerV2Title }
+    offerV2: { title: offerV2Title, price }
   } = useAppSelector(selectOffer);
+  const baseOfferPrice = price?.amount || 0;
+  const priceRules = price?.rules;
 
   const {
     priceBreakdown: { offerPrice },
@@ -69,11 +71,6 @@ const OfferCheckoutCard = ({
   const { t } = useTranslation();
 
   const taxCopy = country === 'US' ? 'Tax' : 'VAT';
-
-  const priceValue =
-    discountType === 'coupon' && totalPrice !== 0
-      ? Number(totalPrice)
-      : Number(grossPrice);
 
   const periodValue =
     offerType === 'S' && period !== 'season'
@@ -109,7 +106,7 @@ const OfferCheckoutCard = ({
         <SkeletonWrapper
           showChildren={!loading}
           width={200}
-          margin="0 0 10px 10px"
+          margin='0 0 10px 10px'
         >
           <TitleStyled>
             {t(`offer-title-${offerId}`, title || offerV2Title)}
@@ -123,7 +120,7 @@ const OfferCheckoutCard = ({
         <SkeletonWrapper
           showChildren={!loading}
           width={300}
-          margin="0 0 10px 10px"
+          margin='0 0 10px 10px'
         >
           <OfferDescription
             period={period}
@@ -156,8 +153,11 @@ const OfferCheckoutCard = ({
             )}
             <Price
               currency={currencyFormat[currency]}
-              price={priceValue}
+              nextPaymentPrice={totalPrice}
+              totalPrice={baseOfferPrice}
               period={periodValue}
+              isTrialBadgeVisible={isTrialBadgeVisible}
+              isPromoPriceActive={isPromoPriceActive(priceRules)}
             />
           </SkeletonWrapper>
         </PriceWrapperStyled>

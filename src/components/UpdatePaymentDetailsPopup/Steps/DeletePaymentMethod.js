@@ -36,7 +36,7 @@ const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   const { initPaymentMethod } = useSelector(
-    state => state.popupManager.paymentDetails
+    (state) => state.popupManager.paymentDetails
   );
 
   const deletePaymentMethod = () => {
@@ -46,7 +46,7 @@ const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
     setIsError(false);
     setIsButtonLoading(true);
     deletePaymentDetails(initPaymentMethod.id)
-      .then(resp => {
+      .then((resp) => {
         if (!resp.errors.length) {
           setIsButtonLoading(false);
           dispatch(
@@ -109,12 +109,12 @@ const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
         )}
       </ContentStyled>
       <ButtonWrapperStyled $removeMargin>
-        <Button theme="simple" onClickFn={() => cancelDeleteAction()}>
+        <Button theme='simple' onClickFn={() => cancelDeleteAction()}>
           {t('delete-payment-method.resign-button', 'No, thanks')}
         </Button>
-        <Button theme="danger" onClickFn={deletePaymentMethod}>
+        <Button theme='danger' onClickFn={deletePaymentMethod}>
           {isButtonLoading ? (
-            <Loader buttonLoader color="#ffffff" />
+            <Loader buttonLoader color='#ffffff' />
           ) : (
             t('delete-payment-method.confirm-button', 'Remove')
           )}

@@ -57,8 +57,8 @@ export const retentionActionsSlice = createSlice({
   name: 'retentionActions',
   initialState,
   reducers: {},
-  extraReducers: builder => {
-    builder.addCase(fetchRetentionActions.pending, state => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchRetentionActions.pending, (state) => {
       state.isLoading = true;
       state.retentionActions = initialState.retentionActions;
     });
@@ -75,10 +75,10 @@ export const retentionActionsSlice = createSlice({
         state.error = action.payload;
       }
     });
-    builder.addCase(fetchApplyRetentionAction.pending, state => {
+    builder.addCase(fetchApplyRetentionAction.pending, (state) => {
       state.isApplyLoading = true;
     });
-    builder.addCase(fetchApplyRetentionAction.fulfilled, state => {
+    builder.addCase(fetchApplyRetentionAction.fulfilled, (state) => {
       state.isApplyLoading = false;
     });
     builder.addCase(fetchApplyRetentionAction.rejected, (state, action) => {

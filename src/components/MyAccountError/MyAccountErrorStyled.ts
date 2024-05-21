@@ -47,7 +47,7 @@ export const DetailsStyled = styled.div.attrs(() => ({
 export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
   className: 'msd__info-box'
 }))<WrapStyledProps>`
- * {
+  * {
     box-sizing: border-box;
   }
   box-sizing: border-box;
@@ -55,20 +55,19 @@ export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
   max-width: 320px;
 
   padding: 18px;
-  margin: ${props => (props.$margin ? props.$margin : '0 auto 32px auto')} ;
+  margin: ${(props) => (props.$margin ? props.$margin : '0 auto 32px auto')};
 
   text-align: center;
   line-height: 1.4;
 
-  ${props =>
+  ${(props) =>
     props.$fullWidth &&
     css`
       width: 100%;
       max-width: unset;
     `}
 
-
-  ${props =>
+  ${(props) =>
     props.$withBorder &&
     css`
       border: 1px dashed ${IconsColor};
@@ -76,7 +75,7 @@ export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
       padding: 35px 0;
     `}
 
-  ${props =>
+  ${(props) =>
     props.$direction === 'row' &&
     css`
       display: flex;
@@ -96,7 +95,7 @@ export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
       }
     `}
 
-  ${props =>
+  ${(props) =>
     props.$fullHeight &&
     css`
       height: 100%;
@@ -110,13 +109,13 @@ export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
       `}
     `}
 
-    ${props =>
-      props.$centered &&
-      css`
-        margin: auto;
-      `}
+    ${(props) =>
+    props.$centered &&
+    css`
+      margin: auto;
+    `}
 
-  ${props =>
+  ${(props) =>
     props.onClick &&
     css`
       cursor: pointer;
@@ -138,21 +137,21 @@ export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
         }
       }
     `}
-    ${props =>
-      props.$isSmallCard &&
-      css`
-        width: 265px;
-        padding: 26px 0;
-        height: 160px;
-        margin: 0 auto;
-        ${TitleStyled} {
-          font-size: 14px;
-        }
-        ${SubTitleStyled} {
-          font-size: 12px;
-        }
-        ${IconStyled} {
-          margin: auto auto 5px auto;
-        }
-      `}
+    ${(props) =>
+    props.$isSmallCard &&
+    css`
+      width: 265px;
+      padding: 26px 0;
+      height: 160px;
+      margin: 0 auto;
+      ${TitleStyled} {
+        font-size: 14px;
+      }
+      ${SubTitleStyled} {
+        font-size: 12px;
+      }
+      ${IconStyled} {
+        margin: auto auto 5px auto;
+      }
+    `}
 `;

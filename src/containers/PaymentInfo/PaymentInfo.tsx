@@ -68,7 +68,7 @@ const PaymentInfo = ({
     return (
       <WrapStyled>
         <GracePeriodError />
-        <div data-testid="payment-info__update-payment-details-popup">
+        <div data-testid='payment-info__update-payment-details-popup'>
           <UpdatePaymentDetailsPopup />
         </div>
       </WrapStyled>
@@ -85,7 +85,7 @@ const PaymentInfo = ({
         <PaymentMethod />
       </section>
       <section>
-        <SectionHeader marginTop="25px">
+        <SectionHeader marginTop='25px'>
           <>{t('paymentinfo.payment-history', 'Payment history')}</>
         </SectionHeader>
         <Transactions />

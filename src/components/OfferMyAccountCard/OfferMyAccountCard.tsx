@@ -4,7 +4,7 @@ import { selectCurrentPlan, selectSwitchDetails } from 'redux/planDetailsSlice';
 import { selectOffers } from 'redux/offersSlice';
 import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
-import Price from 'components/Price';
+import Price, { isPromoPriceActive } from 'components/Price';
 import { ReactComponent as EditBlockedIcon } from 'assets/images/noEdit.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { ReactComponent as DowngradeIcon } from 'assets/images/downgrade_pending.svg';
@@ -23,6 +23,7 @@ import eventDispatcher, {
   MSSDK_CANCEL_SWITCH_BUTTON_CLICKED
 } from 'util/eventDispatcher';
 import { SwitchDetail } from 'redux/types';
+import { selectOffer } from 'redux/offerSlice';
 import {
   WrapperStyled,
   InnerWrapper,
@@ -59,6 +60,11 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   } =
     currentPlan.find((sub: CustomerOffer) => sub.offerId === offerId) ||
     ({} as CustomerOffer);
+
+  const {
+    offerV2: { price }
+  } = useAppSelector(selectOffer);
+  const priceRules = price?.rules;
 
   const currency =
     currencyFormat[
@@ -136,24 +142,27 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
         }
       );
     }
-    switch (pendingSwitchDetails.algorithm) {
+
+    const { algorithm, direction } = pendingSwitchDetails;
+
+    switch (algorithm) {
       case 'IMMEDIATE_WITHOUT_PRORATION':
         return t(
-          'offer-card.switch-details.immediate-without-proration',
-          `Your switch is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{translatedSwitchTitle}} renews automatically. You can cancel anytime.`,
+          `offer-card.switch-details-${direction}.immediate-without-proration`,
+          `Your ${direction} is pending and should be completed within few minutes. You will be charged a new price starting {{subscriptionExpirationDate}}.{{translatedSwitchTitle}} renews automatically. You can cancel anytime.`,
           { subscriptionExpirationDate, translatedSwitchTitle }
         );
       case 'IMMEDIATE_AND_CHARGE_WITH_REFUND':
       case 'IMMEDIATE_AND_CHARGE_WITHOUT_PRORATION':
         return t(
-          'offer-card.switch-details.immediate-and-charge-with-refund-or-without-proration',
-          `Your switch is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{translatedSwitchTitle}}. You can cancel anytime.`,
+          `offer-card.switch-details-${direction}.immediate-and-charge-with-refund-or-without-proration`,
+          `Your ${direction} is pending and should be completed within few minutes. You will be charged a new price immediately and get access to {{translatedSwitchTitle}}. You can cancel anytime.`,
           { translatedSwitchTitle }
         );
       case 'DEFERRED':
         return t(
-          'offer-card.switch-details.deferred',
-          `Your switch is pending. You will have access to {{translatedTitle}} until {{subscriptionExpirationDate}}. From that time you will be charged your new price and will have access to {{translatedSwitchTitle}}. You can cancel this at any time.`,
+          `offer-card.switch-details-${direction}.deferred`,
+          `Your ${direction} is pending. You will have access to {{translatedTitle}} until {{subscriptionExpirationDate}}. From that time you will be charged your new price and will have access to {{translatedSwitchTitle}}. You can cancel this at any time.`,
           {
             translatedTitle,
             subscriptionExpirationDate,
@@ -204,7 +213,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
           <SkeletonWrapper
             showChildren={!loading}
             width={200}
-            margin="0 10px 10px 10px"
+            margin='0 10px 10px 10px'
           >
             <TitleStyled>
               <>{t(`offer-title-${offerId}`, offerTitle)}</>
@@ -213,7 +222,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
           <SkeletonWrapper
             showChildren={!loading}
             width={300}
-            margin="0 10px 10px 10px"
+            margin='0 10px 10px 10px'
           >
             {generateDescription() && (
               <DescriptionStyled
@@ -228,12 +237,14 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
               {period && (
                 <Price
                   currency={currency}
-                  price={nextPaymentPrice || totalPrice}
+                  nextPaymentPrice={nextPaymentPrice}
+                  totalPrice={totalPrice}
                   period={
                     period !== 'season'
                       ? t(`offer-price.period-${period}`, period)
                       : null
                   }
+                  isPromoPriceActive={isPromoPriceActive(priceRules)}
                 />
               )}
             </SkeletonWrapper>
@@ -250,42 +261,46 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
                 __html: getDescription() || ''
               }}
             />
-            {pendingSwitchId && pendingSwitchDetails?.algorithm === 'DEFERRED' && (
-              <SubBoxButtonStyled
-                onClick={() => {
-                  eventDispatcher(MSSDK_CANCEL_SWITCH_BUTTON_CLICKED, {
-                    pendingSwitchId,
-                    fromOfferId: pendingSwitchDetails.fromOfferId,
-                    toOfferId: pendingSwitchDetails.toOfferId
-                  });
+            {pendingSwitchId &&
+              pendingSwitchDetails?.algorithm === 'DEFERRED' && (
+                <SubBoxButtonStyled
+                  onClick={() => {
+                    eventDispatcher(MSSDK_CANCEL_SWITCH_BUTTON_CLICKED, {
+                      pendingSwitchId,
+                      fromOfferId: pendingSwitchDetails.fromOfferId,
+                      toOfferId: pendingSwitchDetails.toOfferId
+                    });
 
-                  dispatch(
-                    showPopup({
-                      type: isPauseInProgress
-                        ? POPUP_TYPES.CANCEL_PAUSE_POPUP
-                        : POPUP_TYPES.CANCEL_SWITCH_POPUP,
-                      data: {
-                        pendingSwitchId,
-                        switchDirection: pendingSwitchDetails.direction,
-                        switchOfferTitle:
-                          pendingSwitchDetails &&
-                          offers.find(
-                            ({ longId }: Offer) =>
-                              longId === pendingSwitchDetails.toOfferId
-                          )?.title,
-                        baseOfferTitle: offerTitle,
-                        baseOfferExpirationDate: expiresAt,
-                        baseOfferPrice: `${currency}${nextPaymentPrice}`
-                      }
-                    })
-                  );
-                }}
-              >
-                {isPauseInProgress
-                  ? t('offer-card.cancel-pause-button', 'Cancel pause')
-                  : t('offer-card.cancel-switch', 'Cancel switch')}
-              </SubBoxButtonStyled>
-            )}
+                    dispatch(
+                      showPopup({
+                        type: isPauseInProgress
+                          ? POPUP_TYPES.CANCEL_PAUSE_POPUP
+                          : POPUP_TYPES.CANCEL_SWITCH_POPUP,
+                        data: {
+                          pendingSwitchId,
+                          switchDirection: pendingSwitchDetails.direction,
+                          switchOfferTitle:
+                            pendingSwitchDetails &&
+                            offers.find(
+                              ({ longId }: Offer) =>
+                                longId === pendingSwitchDetails.toOfferId
+                            )?.title,
+                          baseOfferTitle: offerTitle,
+                          baseOfferExpirationDate: expiresAt,
+                          baseOfferPrice: `${currency}${nextPaymentPrice}`
+                        }
+                      })
+                    );
+                  }}
+                >
+                  {isPauseInProgress
+                    ? t('offer-card.cancel-pause-button', 'Cancel pause')
+                    : t(
+                        `offer-card.cancel-${pendingSwitchDetails.direction}`,
+                        `Cancel ${pendingSwitchDetails.direction}`
+                      )}
+                </SubBoxButtonStyled>
+              )}
           </SubBoxContentStyled>
         </SubBoxStyled>
       )}
