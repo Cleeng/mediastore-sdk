@@ -1,5 +1,7 @@
 import { Trans, useTranslation } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
+import { selectOnlyOrder } from 'redux/orderSlice';
+import { useAppSelector } from 'redux/store';
 import {
   WrapperStyled,
   CurrencyStyled,
@@ -21,7 +23,6 @@ type PriceProps = {
   period: string | null;
   isTrialBadgeVisible?: boolean;
   isPromoPriceActive?: boolean;
-  isDiscountApplied: boolean;
 };
 
 const Price = ({
@@ -30,10 +31,12 @@ const Price = ({
   totalPrice,
   period,
   isTrialBadgeVisible,
-  isPromoPriceActive,
-  isDiscountApplied
+  isPromoPriceActive
 }: PriceProps) => {
   const { t } = useTranslation();
+  const {
+    discount: { applied: isDiscountApplied }
+  } = useAppSelector(selectOnlyOrder);
 
   const shouldUseDiscountedValue =
     isDiscountApplied &&

@@ -14,7 +14,6 @@ import {
 import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
 import { selectSwitchSettings } from 'redux/planDetailsSlice';
 import { SwitchSetting } from 'redux/types/planDetailsSlice.types';
-import { selectOnlyOrder } from 'redux/orderSlice';
 import { OfferSwitchCardProps } from './OfferSwitchCard.types';
 import {
   WrapperStyled,
@@ -30,9 +29,6 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
   const { t } = useTranslation();
   const { data: allSwitchSettings, loading: isSwitchSettingsLoading } =
     useAppSelector(selectSwitchSettings);
-  const {
-    discount: { applied: isDiscountApplied }
-  } = useAppSelector(selectOnlyOrder);
   const switchDetails =
     allSwitchSettings[baseOfferId].available.find(
       (switchData) => switchData.toOfferId === toOfferId
@@ -146,7 +142,6 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
                     )
                   : null
               }
-              isDiscountApplied={isDiscountApplied}
             />
           </SkeletonWrapper>
         </PriceWrapperStyled>

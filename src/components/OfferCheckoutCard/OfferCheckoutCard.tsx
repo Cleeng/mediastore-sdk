@@ -157,7 +157,6 @@ const OfferCheckoutCard = ({
               period={periodValue}
               isTrialBadgeVisible={isTrialBadgeVisible}
               isPromoPriceActive={isPromoPriceActive(priceRules)}
-              isDiscountApplied={isDiscountApplied}
             />
           </SkeletonWrapper>
         </PriceWrapperStyled>

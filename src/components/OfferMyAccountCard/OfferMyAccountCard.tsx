@@ -23,7 +23,6 @@ import eventDispatcher, {
 } from 'util/eventDispatcher';
 import { SwitchDetail } from 'redux/types';
 import { selectOffer } from 'redux/offerSlice';
-import { selectOnlyOrder } from 'redux/orderSlice';
 import {
   WrapperStyled,
   InnerWrapper,
@@ -43,9 +42,6 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   const { data: currentPlan, loading } = useAppSelector(selectCurrentPlan);
   const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
   const { data: switchDetailsStore } = useAppSelector(selectSwitchDetails);
-  const {
-    discount: { applied: isDiscountApplied }
-  } = useAppSelector(selectOnlyOrder);
   const {
     offerType,
     offerTitle,
@@ -247,7 +243,6 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
                       : null
                   }
                   isPromoPriceActive={isPromoPriceActive(priceRules)}
-                  isDiscountApplied={isDiscountApplied}
                 />
               )}
             </SkeletonWrapper>
