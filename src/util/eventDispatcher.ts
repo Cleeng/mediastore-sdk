@@ -1,6 +1,6 @@
 export const eventDispatcher = (
   title: string,
-  detail: Record<string, unknown>
+  detail?: Record<string, unknown>
 ) => {
   window.dispatchEvent(
     new CustomEvent(title, {

@@ -21,6 +21,7 @@ type PriceProps = {
   period: string | null;
   isTrialBadgeVisible?: boolean;
   isPromoPriceActive?: boolean;
+  isDiscountApplied: boolean;
 };
 
 const Price = ({
@@ -29,12 +30,15 @@ const Price = ({
   totalPrice,
   period,
   isTrialBadgeVisible,
-  isPromoPriceActive
+  isPromoPriceActive,
+  isDiscountApplied
 }: PriceProps) => {
   const { t } = useTranslation();
 
-  const isDiscountApplied =
-    typeof nextPaymentPrice === 'number' && nextPaymentPrice < totalPrice;
+  const shouldUseDiscountedValue =
+    isDiscountApplied &&
+    typeof nextPaymentPrice === 'number' &&
+    nextPaymentPrice < totalPrice;
   const discountPercentageValue =
     Math.ceil((1 - (nextPaymentPrice || totalPrice) / totalPrice) * 100) || 100;
   const discountValue = isPromoPriceActive
@@ -43,7 +47,7 @@ const Price = ({
 
   return (
     <PriceContainer>
-      {isDiscountApplied && !isTrialBadgeVisible && (
+      {shouldUseDiscountedValue && !isTrialBadgeVisible && (
         <DiscountContainer>
           <OriginalPrice>
             <CurrencyStyled>{currency}</CurrencyStyled>
