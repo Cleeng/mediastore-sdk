@@ -56,14 +56,14 @@ const OfferContainer = ({
 
   const dispatch = useAppDispatch();
 
-  const {
-    offerId: offerIdStore,
-    adyenConfiguration: adyenConfigurationStore
-  } = useAppSelector(selectPublisherConfig);
+  const { offerId: offerIdStore, adyenConfiguration: adyenConfigurationStore } =
+    useAppSelector(selectPublisherConfig);
 
-  const { order, loading: isOrderLoading, error: orderError } = useAppSelector(
-    selectOrder
-  );
+  const {
+    order,
+    loading: isOrderLoading,
+    error: orderError
+  } = useAppSelector(selectOrder);
 
   const { error: offerError } = useAppSelector(selectOffer);
 

@@ -42,7 +42,6 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   const { data: currentPlan, loading } = useAppSelector(selectCurrentPlan);
   const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
   const { data: switchDetailsStore } = useAppSelector(selectSwitchDetails);
-
   const {
     offerType,
     offerTitle,
