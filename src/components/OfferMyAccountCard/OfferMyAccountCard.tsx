@@ -200,6 +200,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   };
 
   const IconComponent = getIcon();
+  const description = generateDescription();
 
   return (
     <>
@@ -222,9 +223,9 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
             width={300}
             margin='0 10px 10px 10px'
           >
-            {generateDescription() && (
+            {description && (
               <DescriptionStyled
-                dangerouslySetInnerHTML={{ __html: generateDescription() }}
+                dangerouslySetInnerHTML={{ __html: description }}
               />
             )}
           </SkeletonWrapper>

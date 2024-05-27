@@ -46,20 +46,22 @@ export const TitleStyled = styled.h1.attrs(() => ({
   line-height: 1.2em;
 `;
 
-export const DescriptionStyled = styled.h2.attrs(() => ({
+export const DescriptionStyled = styled.p.attrs(() => ({
   className: 'msd__checkout-card__description'
 }))`
-  margin: 0 0 30px 0;
-
+  color: ${FontColor};
   font-size: ${MediumFont};
+  font-weight: ${BoldFont};
+  margin: 0 0 30px 0;
 `;
 
-export const PublisherDescriptionStyled = styled.h2.attrs(() => ({
+export const PublisherDescriptionStyled = styled.p.attrs(() => ({
   className: 'msd__checkout-card__description'
 }))`
-  margin-bottom: 32px;
-
+  color: ${FontColor};
   font-size: ${SmallFont};
+  font-weight: ${BoldFont};
+  margin-bottom: 32px;
 `;
 
 export const SubTextStyled = styled.p.attrs(() => ({
