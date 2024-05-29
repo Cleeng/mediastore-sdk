@@ -1,4 +1,4 @@
-import { AdyenConfiguration } from 'redux/types/publisherConfigSlice.types';
+import { AdyenConfiguration } from 'appRedux/types/publisherConfigSlice.types';
 
 export type OfferContainerProps = {
   adyenConfiguration?: AdyenConfiguration;

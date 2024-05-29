@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from 'redux/store';
+import { useAppSelector } from 'appRedux/store';
 import CouponInput from 'components/CouponInput';
 import Payment from 'components/Payment';
 import Header from 'components/Header';
@@ -9,8 +9,8 @@ import Footer from 'components/Footer';
 import CheckoutPriceBox from 'components/CheckoutPriceBox';
 import FreeOffer from 'components/FreeOffer';
 import DeliveryDetails from 'components/DeliveryDetails';
-import { selectOrder, selectOnlyOrder } from 'redux/orderSlice';
-import { selectOffer } from 'redux/offerSlice';
+import { selectOrder, selectOnlyOrder } from 'appRedux/orderSlice';
+import { selectOffer } from 'appRedux/offerSlice';
 import {
   StyledOfferBody,
   StyledOfferWrapper,

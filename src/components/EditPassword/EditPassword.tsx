@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { useAppSelector } from 'redux/store';
-import { selectPublisherConfig } from 'redux/publisherConfigSlice';
+import { useAppSelector } from 'appRedux/store';
+import { selectPublisherConfig } from 'appRedux/publisherConfigSlice';
 import { t } from 'i18next';
 import jwtDecode from 'jwt-decode';
 import { getData } from 'util/appConfigHelper';

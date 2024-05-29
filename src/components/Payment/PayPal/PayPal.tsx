@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppSelector } from 'redux/store';
-import { selectOnlyOrder } from 'redux/orderSlice';
-import { selectOnlyOffer } from 'redux/offerSlice';
-import { selectDeliveryDetails } from 'redux/deliveryDetailsSlice';
-import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
+import { useAppSelector } from 'appRedux/store';
+import { selectOnlyOrder } from 'appRedux/orderSlice';
+import { selectOnlyOffer } from 'appRedux/offerSlice';
+import { selectDeliveryDetails } from 'appRedux/deliveryDetailsSlice';
+import PaypalLogo from 'assets/images/paymentMethods/PayPalColor.svg';
 import Button from 'components/Button';
 import { getStandardCopy } from 'util/paymentMethodHelper';
 import CheckboxLegacy from 'components/CheckboxLegacy';
-import { selectTermsUrl } from 'redux/publisherConfigSlice';
+import { selectTermsUrl } from 'appRedux/publisherConfigSlice';
 import {
   PayPalContentStyled,
   CopyStyled,

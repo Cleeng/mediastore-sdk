@@ -1,15 +1,15 @@
 import { useEffect, useRef, useState } from 'react';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
-import { ReactComponent as CloseIcon } from 'assets/images/xmark.svg';
+import CloseIcon from 'assets/images/xmark.svg';
 import { useTranslation } from 'react-i18next';
 import eventDispatcher, {
   MSSDK_REDEEM_BUTTON_CLICKED,
   MSSDK_REDEEM_COUPON_BUTTON_CLICKED
 } from 'util/eventDispatcher';
 
-import { clearOrderCouponMessage } from 'redux/orderSlice';
-import { useAppDispatch } from 'redux/store';
+import { clearOrderCouponMessage } from 'appRedux/orderSlice';
+import { useAppDispatch } from 'appRedux/store';
 import {
   FormComponentStyled,
   MessageStyled,

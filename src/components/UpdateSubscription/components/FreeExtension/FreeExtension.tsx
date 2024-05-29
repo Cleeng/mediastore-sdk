@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'redux/store';
-import { hidePopup } from 'redux/popupSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
+import { hidePopup } from 'appRedux/popupSlice';
 import {
   fetchApplyRetentionAction,
   selectOnlyRetentionActions,
   selectRetentionActions
-} from 'redux/retentionActionsSlice';
+} from 'appRedux/retentionActionsSlice';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import {

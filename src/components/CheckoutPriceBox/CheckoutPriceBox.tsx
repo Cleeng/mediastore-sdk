@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import formatNumber from 'util/formatNumber';
 import { currencyFormat } from 'util/planHelper';
 import calculateTaxValueForFreeOffer from 'util/calculateTaxValueForFreeOffer';
-import { useAppSelector } from 'redux/store';
-import { selectOnlyOffer } from 'redux/offerSlice';
-import { selectOnlyOrder } from 'redux/orderSlice';
+import { useAppSelector } from 'appRedux/store';
+import { selectOnlyOffer } from 'appRedux/offerSlice';
+import { selectOnlyOrder } from 'appRedux/orderSlice';
 import { LinkStyled } from 'components/ThankYouPage/ThankYouPageStyled';
 import {
   StyledTotalLabel,

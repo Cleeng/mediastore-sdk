@@ -3,9 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { periodMapper, dateFormat, Period } from 'util/planHelper';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
-import { submitPaymentWithoutDetails, selectPayment } from 'redux/paymentSlice';
-import { useAppDispatch, useAppSelector } from 'redux/store';
-import { selectOnlyOffer } from 'redux/offerSlice';
+import {
+  submitPaymentWithoutDetails,
+  selectPayment
+} from 'appRedux/paymentSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
+import { selectOnlyOffer } from 'appRedux/offerSlice';
 import {
   WrapStyled,
   TitleStyled,

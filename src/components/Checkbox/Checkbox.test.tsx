@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
 
 import Checkbox from 'components/Checkbox';
+import { vi } from 'vitest';
 
 const defaultProps = {
   isChecked: false,
@@ -48,7 +48,7 @@ describe('Checkbox component', () => {
   });
 
   test('should be calling onClick when user click', async () => {
-    const onClickFunction = jest.fn();
+    const onClickFunction = vi.fn();
     render(<Checkbox {...defaultProps} onClickFn={onClickFunction} />);
     await userEvent.click(screen.getByRole('checkbox'));
     expect(screen.getByRole('checkbox')).toBeInTheDocument();

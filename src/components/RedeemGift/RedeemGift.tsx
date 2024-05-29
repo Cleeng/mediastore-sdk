@@ -1,8 +1,12 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'redux/store';
-import { fetchRedeemGift, fetchVerifyGift, selectGift } from 'redux/giftSlice';
-import { fetchOffer, fetchOfferV2, selectOffer } from 'redux/offerSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
+import {
+  fetchRedeemGift,
+  fetchVerifyGift,
+  selectGift
+} from 'appRedux/giftSlice';
+import { fetchOffer, fetchOfferV2, selectOffer } from 'appRedux/offerSlice';
 
 import Header from 'components/Header';
 import Footer from 'components/Footer';
