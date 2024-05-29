@@ -78,6 +78,7 @@
   "Continue": "Continue",
   "coupon-input.error": "This is not a valid coupon code for this offer. Please check the code on your coupon and try again.",
   "coupon-input.placeholder": "Your coupon",
+  "coupon-input.clear-coupon": "Clear coupon code",
   "coupon-input.redeem": "Redeem",
   "coupon-input.redeem-coupon": "Redeem coupon",
   "coupon-input.success": "Your coupon has been applied!",

@@ -22,6 +22,58 @@ import {
 } from './FreeOfferStyled';
 import { FreeOfferProps } from './FreeOffer.types';
 
+type GenerateDescriptionForFreeOfferArguments = {
+  offerType: string;
+  period: string;
+  expiresAt: number;
+  startTime: number;
+  t: (
+    translationKey: string,
+    fallbackText: string,
+    options?: Record<string, string>
+  ) => string;
+};
+
+const generateDescriptionForFreeOffer = ({
+  expiresAt,
+  offerType,
+  period,
+  startTime,
+  t
+}: GenerateDescriptionForFreeOfferArguments) => {
+  switch (offerType) {
+    case 'S': {
+      return t('free-offer.subscription', 'Free subscription');
+    }
+    case 'P': {
+      if (!period) {
+        return t('free-offer.pass', 'Access until {{date}}', {
+          date: dateFormat(expiresAt, true)
+        });
+      }
+      return `${t(
+        `period.${period}`,
+        periodMapper[period as Period].accessText as string
+      )} ${t('free-offer.free-pass', 'free pass')}`;
+    }
+    case 'E': {
+      return t('free-offer.event', 'Free event {{date}}', {
+        date: startTime ? dateFormat(startTime, true) : ''
+      });
+    }
+    case 'R': {
+      return `${t(
+        `period.${period}`,
+        periodMapper[period as Period].accessText as string
+      )} ${t('free-offer.free-access', 'free access')}`;
+    }
+    case 'A':
+      return t('free-offer.unlimited-access', 'Unlimited access');
+    default:
+      return '';
+  }
+};
+
 const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
   const { loading: isLoading, error } = useAppSelector(selectPayment);
   const {
@@ -32,47 +84,18 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
     offerId,
     offerDescription
   } = useAppSelector(selectOnlyOffer);
-
   const dispatch = useAppDispatch();
-
   const { t } = useTranslation();
 
   const offerType = offerId?.charAt(0);
   const icon = period || offerType;
-
-  const generateDescriptionForFreeOffer = () => {
-    switch (offerType) {
-      case 'S': {
-        return t('free-offer.subscription', 'Free subscription');
-      }
-      case 'P': {
-        if (!period) {
-          return t('free-offer.pass', 'Access until {{date}}', {
-            date: dateFormat(expiresAt, true)
-          });
-        }
-        return `${t(
-          `period.${period}`,
-          periodMapper[period as Period].accessText as string
-        )} ${t('free-offer.free-pass', 'free pass')}`;
-      }
-      case 'E': {
-        return t('free-offer.event', 'Free event {{date}}', {
-          date: startTime ? dateFormat(startTime, true) : ''
-        });
-      }
-      case 'R': {
-        return `${t(
-          `period.${period}`,
-          periodMapper[period as Period].accessText as string
-        )} ${t('free-offer.free-access', 'free access')}`;
-      }
-      case 'A':
-        return t('free-offer.unlimited-access', 'Unlimited access');
-      default:
-        return '';
-    }
-  };
+  const description = generateDescriptionForFreeOffer({
+    expiresAt,
+    offerType,
+    period,
+    startTime,
+    t
+  });
 
   const getAccessToFreeOffer = useCallback(() => {
     dispatch(submitPaymentWithoutDetails()).unwrap().then(onPaymentComplete);
@@ -83,9 +106,7 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
       <CardStyled>
         <SubscriptionIconStyled icon={icon} />
         <TitleStyled>{t(`offer-title-${offerId}`, offerTitle)}</TitleStyled>
-        <DescriptionStyled>
-          {generateDescriptionForFreeOffer()}
-        </DescriptionStyled>
+        {description && <DescriptionStyled>{description}</DescriptionStyled>}
         {offerDescription && (
           <PublisherDescriptionStyled>
             {t('free-offer.publisher-description', offerDescription)}

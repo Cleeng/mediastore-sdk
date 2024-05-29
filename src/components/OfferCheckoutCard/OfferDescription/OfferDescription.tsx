@@ -235,7 +235,8 @@ const OfferDescription = ({
 
     const description = generateSubscriptionDescription();
     const descriptionLines = description.split('\n');
-    if (descriptionLines.length !== 1) {
+
+    if (descriptionLines.length > 1) {
       return (
         <DetailsWrapper>
           <DetailsStyled>

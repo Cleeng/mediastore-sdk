@@ -1,6 +1,4 @@
-import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { PropTypes } from 'prop-types';
 import SecurityIcon from 'assets/images/security.svg';
 import CleengLogo from 'assets/images/cleeng.svg';
 import {
@@ -10,15 +8,21 @@ import {
   CleengLogoWrapperStyled
 } from './FooterStyled';
 
-const Footer = ({ className, isInPopup, isCheckout, isTransparent }) => {
+type FooterProps = {
+  isInPopup?: boolean;
+  isCheckout?: boolean;
+  isTransparent?: boolean;
+};
+
+const Footer = ({
+  isInPopup = false,
+  isCheckout = true,
+  isTransparent = false
+}: FooterProps) => {
   const { t } = useTranslation();
 
   return (
-    <FooterStyled
-      $isInPopup={isInPopup}
-      $isTransparent={isTransparent}
-      className={className}
-    >
+    <FooterStyled $isInPopup={isInPopup} $isTransparent={isTransparent}>
       <ProductByStyled>
         Powered by
         <CleengLogoWrapperStyled
@@ -31,26 +35,14 @@ const Footer = ({ className, isInPopup, isCheckout, isTransparent }) => {
       </ProductByStyled>
       {isCheckout && (
         <SecurityStyled>
-          <SecurityIcon />
+          <SecurityIcon
+            title={t('footer.secured-checkout', 'Secured checkout')}
+          />
           {t('footer.secured-checkout', 'Secured checkout')}
         </SecurityStyled>
       )}
     </FooterStyled>
   );
-};
-
-Footer.propTypes = {
-  isInPopup: PropTypes.bool,
-  isCheckout: PropTypes.bool,
-  isTransparent: PropTypes.bool,
-  className: PropTypes.string
-};
-
-Footer.defaultProps = {
-  isInPopup: false,
-  isCheckout: true,
-  isTransparent: false,
-  className: ''
 };
 
 export default Footer;
