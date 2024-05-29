@@ -54,8 +54,8 @@ jobs:
       - name: install deps
         run: npm ci
 
-      - name: compile the bundle
-        run: npm run compile
+      - name: build the bundle
+        run: npm run build
 
       - name: push the bundle to ${{ inputs.access }} registry
         run: npm publish --access ${{ inputs.access }}
