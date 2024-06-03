@@ -122,3 +122,19 @@ export const StyledRedeemButton = styled.div`
     text-decoration: underline;
   }
 `;
+
+export const RemoveCouponButton = styled.button.attrs(() => ({
+  className: 'msd__price-coupon__remove-button'
+}))`
+  border: none;
+  background-color: inherit;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: ${variables.BigFont};
+  font-weight: ${variables.MediumFontWeight};
+  color: ${variables.FontColor};
+
+  &:hover {
+    color: ${variables.PrimaryColor};
+  }
+`;
