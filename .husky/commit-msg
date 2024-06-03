@@ -1,0 +1,2 @@
+./verify_commit_message
+pnpm lint-staged

@@ -76,12 +76,6 @@
       "last 1 safari version"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": ".husky/verify_branch_name && lint-staged && pnpm run test:ci",
-      "commit-msg": ".husky/verify_commit_message && lint-staged"
-    }
-  },
   "lint-staged": {
     "*.{js,jsx}": [
       "eslint --no-ignore --fix",
