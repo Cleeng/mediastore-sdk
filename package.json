@@ -53,14 +53,14 @@
     "test": "vitest",
     "test:ci": "vitest run",
     "clean": "rimraf dist",
-    "publish-dev": "npm run build && yalc publish --push",
+    "publish-dev": "pnpm build && yalc publish --push",
     "ts-coverage-ts": "typescript-coverage-report --project \"./tsconfig.json\" --ignore-files \"src/**/*.js*\"",
     "ts-coverage-js": "typescript-coverage-report --project \"./tsconfig.json\" --ignore-files \"src/**/*.ts*\"",
     "ts-check": "tsc --skipLibCheck --noEmit --pretty",
     "lint": "eslint . --ext js,jsx,ts,tsx",
-    "lint-fix": "npm run lint --fix",
-    "dev": "npm run --prefix ../mediastore-sdk-demo-2024 dev & onchange './src/**' -e './src/**/*.(spec|test|type|types).[jt]s?(x)' -- npm run publish-dev",
-    "build": "npm run clean && vite build",
+    "lint-fix": "pnpm lint --fix",
+    "dev": "pnpm run --prefix ../mediastore-sdk-demo-2024 dev & onchange './src/**' -e './src/**/*.(spec|test|type|types).[jt]s?(x)' -- pnpm publish-dev",
+    "build": "pnpm clean && vite build",
     "dev:vite": "vite dev",
     "preview": "vite preview"
   },
@@ -78,7 +78,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": ".husky/verify_branch_name && lint-staged && npm run test:ci",
+      "pre-commit": ".husky/verify_branch_name && lint-staged && pnpm run test:ci",
       "commit-msg": ".husky/verify_commit_message && lint-staged"
     }
   },
@@ -89,7 +89,7 @@
       "git add --force"
     ],
     "*.{ts,tsx}": [
-      "bash -c 'npm run ts-check'",
+      "bash -c 'pnpm ts-check'",
       "eslint --fix",
       "prettier --write",
       "git add --force"

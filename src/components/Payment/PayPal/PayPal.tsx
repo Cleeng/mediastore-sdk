@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'appRedux/store';
 import { selectOnlyOrder } from 'appRedux/orderSlice';
@@ -82,8 +82,8 @@ const PayPal = ({
         <CheckboxLegacy
           className='adyen-checkout__bank-checkbox checkbox-paypal'
           checked={isChecked}
-          onClickFn={(e) => {
-            e.target.parentElement.classList.remove(
+          onClickFn={(e: ChangeEvent<HTMLInputElement>) => {
+            e.target.parentElement?.classList.remove(
               'adyen-checkout__bank-checkbox--error'
             );
 

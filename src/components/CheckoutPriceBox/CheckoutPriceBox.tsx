@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
 import formatNumber from 'util/formatNumber';
 import { currencyFormat } from 'util/planHelper';
 import calculateTaxValueForFreeOffer from 'util/calculateTaxValueForFreeOffer';
@@ -176,18 +175,6 @@ const CheckoutPriceBox = ({
       </StyledPriceBox>
     </StyledPriceBoxWrapper>
   );
-};
-
-CheckoutPriceBox.propTypes = {
-  hideRedeemButton: PropTypes.bool,
-  isCheckout: PropTypes.bool,
-  onRedeemClick: PropTypes.func
-};
-
-CheckoutPriceBox.defaultProps = {
-  hideRedeemButton: false,
-  isCheckout: false,
-  onRedeemClick: () => null
 };
 
 export { CheckoutPriceBox as PureCheckoutPriceBox };
