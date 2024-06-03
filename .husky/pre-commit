@@ -1,3 +1,0 @@
-./verify_branch_name
-pnpm lint-staged
-pnpm test:ci
