@@ -59,10 +59,11 @@
     "ts-check": "tsc --skipLibCheck --noEmit --pretty",
     "lint": "eslint . --ext js,jsx,ts,tsx",
     "lint-fix": "pnpm lint --fix",
-    "dev": "pnpm run --prefix ../mediastore-sdk-demo-2024 dev & onchange './src/**' -e './src/**/*.(spec|test|type|types).[jt]s?(x)' -- pnpm publish-dev",
+    "dev": "pnpm --prefix ../mediastore-sdk-demo-2024 dev & onchange './src/**' -e './src/**/*.(spec|test|type|types).[jt]s?(x)' -- pnpm publish-dev",
     "build": "pnpm clean && vite build",
     "dev:vite": "vite dev",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "preinstall": "npx only-allow pnpm"
   },
   "browserslist": {
     "production": [
