@@ -12,7 +12,7 @@ export default defineConfig({
     lib: {
       entry: {
         index: path.resolve(__dirname, 'src/package.ts'),
-        msdFont: path.resolve(__dirname, 'src/styles/msdFont.css')
+        'styles/msdFont': path.resolve(__dirname, 'src/styles/msdFont.css')
       },
       name: '@cleeng/mediastore-sdk',
       fileName: 'cleeng-mediastore-sdk',
