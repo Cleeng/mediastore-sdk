@@ -4,7 +4,6 @@ current_branch_name=$(git rev-parse --abbrev-ref HEAD)
 jira_id_regex="MSSDK-([[:digit:]]|external)+"
 jira_id=$(printf "$current_branch_name" | grep -Eo $jira_id_regex)
 
-# current_commit_name=$(cat $HUSKY_GIT_PARAMS)
 current_commit_name=$1
 commit_name_regex="^(chore|docs|feat|fix|refactor|style|test)\/$jira_id:[[:space:]][[:alnum:]]+"
 merge_name_regex="^Merge[[:space:]]branch[[:space:]].*"
@@ -32,6 +31,5 @@ then
   echo "$invalid_commit_message"
   exit 1
 fi
-
 
 exit 0
