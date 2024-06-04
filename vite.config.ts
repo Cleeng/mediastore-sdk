@@ -8,10 +8,15 @@ export default defineConfig({
   plugins: [react(), svgr({ include: '**/*.svg' })],
   build: {
     target: 'es2015',
+    cssCodeSplit: true,
     lib: {
-      entry: path.resolve(__dirname, 'src/package.ts'),
+      entry: {
+        index: path.resolve(__dirname, 'src/package.ts'),
+        msdFont: path.resolve(__dirname, 'src/styles/msdFont.css')
+      },
       name: '@cleeng/mediastore-sdk',
-      fileName: 'cleeng-mediastore-sdk'
+      fileName: 'cleeng-mediastore-sdk',
+      formats: ['es']
     },
     rollupOptions: {
       external: ['react', 'react-redux'],
