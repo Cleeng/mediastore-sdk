@@ -1,6 +1,4 @@
-// eslint-disable-next-line no-use-before-define
 import React, { PropsWithChildren } from 'react';
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { render, RenderOptions } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { PreloadedState } from '@reduxjs/toolkit';
