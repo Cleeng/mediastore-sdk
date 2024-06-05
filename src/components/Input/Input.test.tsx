@@ -1,7 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import InputLegacy from 'components/InputLegacy/InputLegacy';
-import { vi } from 'vitest';
 
 describe('Input component', () => {
   test('should render correctly without props', () => {

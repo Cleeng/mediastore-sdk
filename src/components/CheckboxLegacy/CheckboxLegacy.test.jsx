@@ -3,7 +3,6 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
 import CheckboxLegacy from 'components/CheckboxLegacy';
-import { vi } from 'vitest';
 
 describe('CheckboxLegacy component', () => {
   test('should render correctly without props', () => {

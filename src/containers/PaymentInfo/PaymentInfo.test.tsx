@@ -3,7 +3,7 @@ import 'i18NextInit';
 import { updatePaymentDetailsPopup } from 'appRedux/popupSlice';
 import renderWithProviders from 'util/testHelpers';
 import { setupStore } from 'appRedux/rootReducer';
-import { vi, type Mock } from 'vitest';
+import { type Mock } from 'vitest';
 
 global.fetch = vi.fn(() =>
   Promise.resolve({

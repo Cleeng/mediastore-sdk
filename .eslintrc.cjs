@@ -15,7 +15,8 @@ module.exports = {
     Atomics: 'readonly',
     SharedArrayBuffer: 'readonly',
     document: true,
-    ENVIRONMENT_CONFIGURATION: true
+    ENVIRONMENT_CONFIGURATION: true,
+    vi: true
   },
   parser: '@typescript-eslint/parser',
   parserOptions: {
