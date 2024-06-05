@@ -1,0 +1,6 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+commit_message=$(cat $1)
+sh .husky/scripts/verify_commit_message "$commit_message"
+pnpm exec lint-staged

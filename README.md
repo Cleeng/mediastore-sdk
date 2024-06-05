@@ -442,7 +442,7 @@ import adyenConfiguration from './adyenConfiguration';
 
 <Provider store={store}>
   <Purchase
-    offerId="S538257415_PL"
+    offerId='S538257415_PL'
     adyenConfiguration={adyenConfiguration}
     onSuccess={() => console.log('success')}
   />
@@ -825,7 +825,7 @@ To react to events, add an event listener, like in the sample below:
 window.addEventListener('MSSDK:Purchase-loaded', () =>
   console.log('Purchase component loaded')
 );
-window.addEventListener('MSSDK:redeem-coupon-failed', evt =>
+window.addEventListener('MSSDK:redeem-coupon-failed', (evt) =>
   console.log('Customer tried to apply coupon:', evt.detail.coupon)
 );
 ```
