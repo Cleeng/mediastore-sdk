@@ -37,11 +37,11 @@ const PayPal = ({
     const checkbox: HTMLInputElement | null =
       document.querySelector(`#paypal-input`);
 
-    const checkboxWrapper: HTMLInputElement | null =
+    const checkboxLabel: HTMLInputElement | null =
       document.querySelector(`.paypal-inputLabel`);
 
     if (!checkbox?.checked) {
-      checkboxWrapper?.classList.add('adyen-checkout__bank-checkbox--error');
+      checkboxLabel?.classList.add('adyen-checkout__bank-checkbox--error');
       return;
     }
 
@@ -85,7 +85,7 @@ const PayPal = ({
           className='adyen-checkout__bank-checkbox paypal-inputLabel'
           id='paypal-input'
           isChecked={isChecked}
-          onClickFn={(event?: ChangeEvent<HTMLInputElement> | undefined) => {
+          onClickFn={(event: ChangeEvent<HTMLInputElement> | undefined) => {
             if (!event) {
               return;
             }
