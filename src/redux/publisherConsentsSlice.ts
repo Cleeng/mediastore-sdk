@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { getConsents } from 'api';
 import { Consent } from 'types/Consents.types';
 import { PublisherConsentsInitialState } from './types/publisherConsentsSlice.types';
@@ -29,11 +29,11 @@ export const fetchPublisherConsents = createAsyncThunk<
 export const consentsSlice = createSlice({
   name: 'publisherConsents',
   initialState,
-  reducers: {
-    setChecked(state, { payload }) {
+  reducers: (create) => ({
+    setChecked: create.reducer((state, { payload }: PayloadAction<number>) => {
       state.checked[payload] = !state.checked[payload];
-    }
-  },
+    })
+  }),
   extraReducers: (builder) => {
     builder.addCase(fetchPublisherConsents.pending, (state) => {
       state.loading = true;

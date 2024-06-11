@@ -1,15 +1,12 @@
-import React from 'react';
-import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import withPaymentFinalizationHandler from 'containers/withPaymentFinalizationHandler';
+import renderWithProviders from 'util/testHelpers';
+import { screen } from '@testing-library/react';
 
 const TestComponent = () => <div data-testid='testComponent'>Test</div>;
 const WrappedComponent = withPaymentFinalizationHandler(TestComponent);
 
-const store = {
+const initialState = {
   finalizeInitialPayment: {
     error: null,
     shouldShowFinalizePaymentComponent: false,
@@ -20,35 +17,26 @@ const store = {
   }
 };
 
-const middleware = [thunk];
-const mockStore = configureStore(middleware);
-
 describe('withPaymentFinalizationHandler component', () => {
-  test('by deafult should return wrapped component', async () => {
-    const { getByTestId } = render(
-      <Provider store={mockStore(store)}>
-        <WrappedComponent />
-      </Provider>
-    );
+  test('by default should return wrapped component', async () => {
+    renderWithProviders(<WrappedComponent />, {
+      preloadedState: initialState
+    });
 
-    getByTestId('testComponent');
+    screen.getByTestId('testComponent');
   });
 
   test('return PaymentFinalizationPage if shouldShowFinalizePaymentComponent is set to true', async () => {
-    const { getByTestId, queryByTestId } = render(
-      <Provider
-        store={mockStore({
-          finalizeInitialPayment: {
-            ...store.finalizeInitialPayment,
-            shouldShowFinalizePaymentComponent: true
-          }
-        })}
-      >
-        <WrappedComponent />
-      </Provider>
-    );
+    renderWithProviders(<WrappedComponent />, {
+      preloadedState: {
+        finalizeInitialPayment: {
+          ...initialState.finalizeInitialPayment,
+          shouldShowFinalizePaymentComponent: true
+        }
+      }
+    });
 
-    getByTestId('PaymentFinalizationPage-loader');
-    expect(queryByTestId('testComponent')).toBeNull();
+    screen.getByTestId('PaymentFinalizationPage-loader');
+    expect(screen.queryByTestId('testComponent')).toBeNull();
   });
 });

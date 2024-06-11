@@ -121,18 +121,17 @@ export const fetchGetOrder = createAsyncThunk<
 export const orderSlice = createSlice({
   name: 'order',
   initialState: orderInitialState,
-  reducers: {
-    clearOrder: () => orderInitialState,
-    setOrderCouponMessage: (
-      state,
-      action: PayloadAction<OrderCouponDetailsMessage>
-    ) => {
-      state.couponDetails = {
-        ...state.couponDetails,
-        ...action.payload
-      };
-    },
-    clearOrderCouponMessage: (state) => {
+  reducers: (create) => ({
+    clearOrder: create.reducer(() => orderInitialState),
+    setOrderCouponMessage: create.reducer(
+      (state, action: PayloadAction<OrderCouponDetailsMessage>) => {
+        state.couponDetails = {
+          ...state.couponDetails,
+          ...action.payload
+        };
+      }
+    ),
+    clearOrderCouponMessage: create.reducer((state) => {
       const { couponDetails } = state;
 
       state.couponDetails = {
@@ -142,8 +141,8 @@ export const orderSlice = createSlice({
         messageType: MESSAGE_TYPE_SUCCESS,
         translationKey: ''
       };
-    }
-  },
+    })
+  }),
   extraReducers: (builder) => {
     builder.addCase(fetchCreateOrder.pending, (state) => {
       state.loading = true;

@@ -19,18 +19,20 @@ export const initialState: PublisherConfigInitialState = {
 export const publisherConfigSlice = createSlice({
   name: 'publisherConfig',
   initialState,
-  reducers: {
-    init: (state, action: PayloadAction<initPayloadAction>) => ({
+  reducers: (create) => ({
+    init: create.reducer((state, action: PayloadAction<initPayloadAction>) => ({
       ...state,
       ...action.payload
-    }),
-    updatePaymentMethods: (state, action: PayloadAction<[]>) => {
+    })),
+    updatePaymentMethods: create.reducer((state, action: PayloadAction<[]>) => {
       state.paymentMethods = action.payload;
-    },
-    updateHiddenPaymentMethods: (state, action: PayloadAction<[]>) => {
-      state.hiddenPaymentMethods = action.payload;
-    }
-  }
+    }),
+    updateHiddenPaymentMethods: create.reducer(
+      (state, action: PayloadAction<[]>) => {
+        state.hiddenPaymentMethods = action.payload;
+      }
+    )
+  })
 });
 
 export const selectAdyenConfiguration = (state: RootState) =>

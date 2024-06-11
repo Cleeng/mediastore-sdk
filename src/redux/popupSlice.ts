@@ -51,34 +51,39 @@ const initialState: PopupManagerInitialState = {
 export const popupSlice = createSlice({
   name: 'popupManager',
   initialState,
-  reducers: {
-    updatePaymentDetailsPopup(
-      state,
-      action: PayloadAction<updatePaymentDetailsPopupPayloadAction>
-    ) {
-      state.paymentDetails = {
-        ...state.paymentDetails,
-        ...action.payload
-      };
-    },
-    resetPaymentDetailsPopupState(state) {
+  reducers: (create) => ({
+    updatePaymentDetailsPopup: create.reducer(
+      (
+        state,
+        action: PayloadAction<updatePaymentDetailsPopupPayloadAction>
+      ) => {
+        state.paymentDetails = {
+          ...state.paymentDetails,
+          ...action.payload
+        };
+      }
+    ),
+    resetPaymentDetailsPopupState: create.reducer((state) => {
       state.paymentDetails = initialState.paymentDetails;
-    },
-    showPopup(state, action: PayloadAction<PopupType & PopupData>) {
-      if (state.currentType) {
+    }),
+    showPopup: create.reducer(
+      (state, action: PayloadAction<PopupType & PopupData>) => {
+        if (state.currentType) {
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          state[state.currentType] = initialState[state.currentType];
+          state.currentType = null;
+        }
+
+        state.isOpen = true;
+        state.currentType = action.payload.type;
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        state[state.currentType] = initialState[state.currentType];
-        state.currentType = null;
+        state[action.payload.type] = action.payload.data;
       }
-      state.isOpen = true;
-      state.currentType = action.payload.type;
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      state[action.payload.type] = action.payload.data;
-    },
-    hidePopup: () => initialState
-  }
+    ),
+    hidePopup: create.reducer(() => initialState)
+  })
 });
 
 export const selectPaymentDetailsPopup = (state: RootState) =>

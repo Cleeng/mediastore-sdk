@@ -32,26 +32,31 @@ export const fetchFinalizeAddPaymentDetails = createAsyncThunk(
 export const finalizeAddPaymentDetailsSlice = createSlice({
   name: 'finalizeAddPaymentDetails',
   initialState,
-  reducers: {},
-  extraReducers: {
-    [fetchFinalizeAddPaymentDetails.pending]: (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchFinalizeAddPaymentDetails.pending, (state) => {
       state.loading = true;
-    },
-    [fetchFinalizeAddPaymentDetails.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.paymentDetails = payload;
-      state.error = null;
-      eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL, {
-        payload
-      });
-    },
-    [fetchFinalizeAddPaymentDetails.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
-      eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED, {
-        payload
-      });
-    }
+    });
+    builder.addCase(
+      fetchFinalizeAddPaymentDetails.fulfilled,
+      (state, { payload }) => {
+        state.loading = false;
+        state.paymentDetails = payload;
+        state.error = null;
+        eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL, {
+          payload
+        });
+      }
+    );
+    builder.addCase(
+      fetchFinalizeAddPaymentDetails.rejected,
+      (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+        eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED, {
+          payload
+        });
+      }
+    );
   }
 });
 
