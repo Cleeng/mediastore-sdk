@@ -139,7 +139,7 @@ const Adyen = ({
 
     const checkbox = (
       <CheckboxLegacy
-        className={`adyen-checkout__bank-checkbox checkbox-${methodName}`}
+        className={`adyen-checkout__bank-checkbox checkbox-wrapper-${methodName}`}
         checked={false}
         id={`checkbox-${methodName}`}
         onClickFn={(e, _, setIsChecked) => {
@@ -163,7 +163,7 @@ const Adyen = ({
       );
 
       const doesCheckboxExist = document.querySelector(
-        `.checkbox-${methodName}`
+        `#checkbox-${methodName}`
       );
 
       if (!doesCheckboxExist) {
@@ -290,7 +290,9 @@ const Adyen = ({
       selectedPaymentMethodRef?.current?.methodName === 'bancontact_card';
 
     let checkbox = document.querySelector(`#checkbox-${methodName}`);
-    let checkboxWrapper = document.querySelector(`.checkbox-${methodName}`);
+    let checkboxWrapper = document.querySelector(
+      `.checkbox-wrapper-${methodName}`
+    );
 
     // condition below needs to be verified when new 'scheme' is added
     if (methodName === 'scheme') {

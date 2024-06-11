@@ -38,7 +38,9 @@ const PayPal = ({
       `#checkbox-paypal`
     ) as HTMLInputElement;
 
-    const checkboxWrapper = checkbox.parentElement as HTMLLabelElement;
+    const checkboxWrapper = document.querySelector(
+      `.checkbox-wrapper-paypal`
+    ) as HTMLInputElement;
 
     if (!checkbox?.checked) {
       checkboxWrapper.classList.add('adyen-checkout__bank-checkbox--error');
@@ -82,7 +84,7 @@ const PayPal = ({
       </CopyStyled>
       <CheckboxWrapperStyled>
         <Checkbox
-          className='adyen-checkout__bank-checkbox checkbox-paypal'
+          className='adyen-checkout__bank-checkbox checkbox-wrapper-paypal'
           id='checkbox-paypal'
           isChecked={isChecked}
           onClickFn={(event?: ChangeEvent<HTMLInputElement> | undefined) => {
