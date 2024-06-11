@@ -51,10 +51,9 @@
     "ts-coverage-ts": "typescript-coverage-report --project \"./tsconfig.json\" --ignore-files \"src/**/*.js*\"",
     "ts-coverage-js": "typescript-coverage-report --project \"./tsconfig.json\" --ignore-files \"src/**/*.ts*\"",
     "ts-check": "tsc --skipLibCheck --noEmit --pretty",
-    "lint": "eslint . --ext js,jsx,ts,tsx",
+    "lint": "eslint ./src --ext js,jsx,ts,tsx",
     "lint-fix": "pnpm lint --fix",
-    "dev": "pnpm --prefix ../mediastore-sdk-demo-2024 dev & onchange './src/**' -e './src/**/*.(spec|test|type|types).[jt]s?(x)' -- pnpm publish-dev",
-    "prepare": "husky"
+    "dev": "pnpm --prefix ../mediastore-sdk-demo-2024 dev & onchange './src/**' -e './src/**/*.(spec|test|type|types).[jt]s?(x)' -- pnpm publish-dev"
   },
   "browserslist": {
     "production": [
