@@ -7,6 +7,7 @@ import {
   CheckFrameStyled,
   CheckMarkStyled,
   ConsentDefinitionStyled,
+  HiddenCheckboxInput,
   TermsLinkStyled
 } from './CheckboxLegacyStyled';
 
@@ -21,7 +22,8 @@ const CheckboxLegacy = ({
   disabled,
   isRadioButton,
   termsUrl,
-  isPayPal
+  isPayPal,
+  id
 }) => {
   const [isChecked, setIsChecked] = useState(checked);
   const { t } = useTranslation();
@@ -47,6 +49,13 @@ const CheckboxLegacy = ({
         className={className}
         $disabled={disabled}
       >
+        <HiddenCheckboxInput
+          id={id}
+          type='checkbox'
+          checked={isChecked}
+          disabled={disabled}
+          required={required}
+        />
         <CheckFrameStyled
           $error={error && required && !isChecked}
           tabIndex='0'
@@ -96,7 +105,8 @@ CheckboxLegacy.propTypes = {
   disabled: PropTypes.bool,
   isRadioButton: PropTypes.bool,
   termsUrl: PropTypes.string,
-  isPayPal: PropTypes.bool
+  isPayPal: PropTypes.bool,
+  id: PropTypes.string
 };
 
 CheckboxLegacy.defaultProps = {
@@ -110,7 +120,8 @@ CheckboxLegacy.defaultProps = {
   disabled: false,
   isRadioButton: false,
   termsUrl: '',
-  isPayPal: false
+  isPayPal: false,
+  id: ''
 };
 
 export default CheckboxLegacy;

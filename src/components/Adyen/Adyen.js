@@ -141,6 +141,7 @@ const Adyen = ({
       <CheckboxLegacy
         className={`adyen-checkout__bank-checkbox checkbox-${methodName}`}
         checked={false}
+        id={`checkbox-${methodName}`}
         onClickFn={(e, _, setIsChecked) => {
           e.target.parentElement.classList.remove(
             'adyen-checkout__bank-checkbox--error'
@@ -288,17 +289,21 @@ const Adyen = ({
     const isBancontactCard =
       selectedPaymentMethodRef?.current?.methodName === 'bancontact_card';
 
-    let checkbox = document.querySelector(`.checkbox-${methodName}`);
+    let checkbox = document.querySelector(`#checkbox-${methodName}`);
+    let checkboxWrapper = document.querySelector(`.checkbox-${methodName}`);
 
     // condition below needs to be verified when new 'scheme' is added
     if (methodName === 'scheme') {
-      checkbox = document.querySelector(
-        `.checkbox-${isBancontactCard ? 'bcmc' : 'card'}`
+      const schemeCheckbox = document.querySelector(
+        `#checkbox-${isBancontactCard ? 'bcmc' : 'card'}`
       );
+
+      checkbox = schemeCheckbox;
+      checkboxWrapper = schemeCheckbox.parentElement;
     }
 
     if (!checkbox?.checked) {
-      checkbox.classList.add('adyen-checkout__bank-checkbox--error');
+      checkboxWrapper.classList.add('adyen-checkout__bank-checkbox--error');
       return false;
     }
 

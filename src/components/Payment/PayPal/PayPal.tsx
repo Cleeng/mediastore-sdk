@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'redux/store';
 import { selectOnlyOrder } from 'redux/orderSlice';
@@ -7,7 +7,7 @@ import { selectDeliveryDetails } from 'redux/deliveryDetailsSlice';
 import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PayPalColor.svg';
 import Button from 'components/Button';
 import { getStandardCopy } from 'util/paymentMethodHelper';
-import CheckboxLegacy from 'components/CheckboxLegacy';
+import Checkbox from 'components/Checkbox';
 import { selectTermsUrl } from 'redux/publisherConfigSlice';
 import {
   PayPalContentStyled,
@@ -35,11 +35,13 @@ const PayPal = ({
 
   const handleSubmit = () => {
     const checkbox = document.querySelector(
-      `.checkbox-paypal`
+      `#checkbox-paypal`
     ) as HTMLInputElement;
 
+    const checkboxWrapper = checkbox.parentElement as HTMLLabelElement;
+
     if (!checkbox?.checked) {
-      checkbox.classList.add('adyen-checkout__bank-checkbox--error');
+      checkboxWrapper.classList.add('adyen-checkout__bank-checkbox--error');
       return;
     }
 
@@ -79,21 +81,24 @@ const PayPal = ({
           )}
       </CopyStyled>
       <CheckboxWrapperStyled>
-        <CheckboxLegacy
+        <Checkbox
           className='adyen-checkout__bank-checkbox checkbox-paypal'
-          checked={isChecked}
-          onClickFn={(e) => {
-            e.target.parentElement.classList.remove(
+          id='checkbox-paypal'
+          isChecked={isChecked}
+          onClickFn={(event?: ChangeEvent<HTMLInputElement> | undefined) => {
+            event?.target.parentElement?.classList.remove(
               'adyen-checkout__bank-checkbox--error'
             );
 
-            setIsChecked(!e.target.checked);
+            if (event) {
+              setIsChecked(event?.target.checked);
+            }
           }}
           termsUrl={termsUrl}
           isPayPal
         >
           {getStandardCopy(isMyAccount, offer, order, isGift)}
-        </CheckboxLegacy>
+        </Checkbox>
       </CheckboxWrapperStyled>
       <Button
         theme='paypal'
