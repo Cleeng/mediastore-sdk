@@ -41,13 +41,13 @@ const CheckboxLegacy = ({
           e.stopPropagation();
           onClickFn(e, disabled, setIsChecked);
         }}
-        role='checkbox'
         tabIndex='-1'
         aria-checked={isChecked}
         checked={isChecked}
         aria-label={children}
         className={className}
         $disabled={disabled}
+        data-testid='checkbox-legacy'
       >
         <HiddenCheckboxInput
           id={id}
