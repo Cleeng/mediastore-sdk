@@ -139,9 +139,9 @@ const Adyen = ({
 
     const checkbox = (
       <CheckboxLegacy
-        className={`adyen-checkout__bank-checkbox checkbox-wrapper-${methodName}`}
+        className={`adyen-checkout__bank-checkbox ${methodName}-inputWrapper`}
         checked={false}
-        id={`checkbox-${methodName}`}
+        id={`${methodName}-input`}
         onClickFn={(e, _, setIsChecked) => {
           e.target.parentElement.classList.remove(
             'adyen-checkout__bank-checkbox--error'
@@ -162,9 +162,7 @@ const Adyen = ({
         `.adyen-checkout__payment-method__details`
       );
 
-      const doesCheckboxExist = document.querySelector(
-        `#checkbox-${methodName}`
-      );
+      const doesCheckboxExist = document.querySelector(`#${methodName}-input`);
 
       if (!doesCheckboxExist) {
         const checkboxWrapper = document.createElement('div');
@@ -289,19 +287,21 @@ const Adyen = ({
     const isBancontactCard =
       selectedPaymentMethodRef?.current?.methodName === 'bancontact_card';
 
-    let checkbox = document.querySelector(`#checkbox-${methodName}`);
-    let checkboxWrapper = document.querySelector(
-      `.checkbox-wrapper-${methodName}`
-    );
+    let checkbox = document.querySelector(`#${methodName}-input`);
+    let checkboxWrapper = document.querySelector(`.${methodName}-inputWrapper`);
 
     // condition below needs to be verified when new 'scheme' is added
     if (methodName === 'scheme') {
       const schemeCheckbox = document.querySelector(
-        `#checkbox-${isBancontactCard ? 'bcmc' : 'card'}`
+        `#${isBancontactCard ? 'bcmc' : 'card'}-input`
+      );
+
+      const schemeCheckboxWrapper = document.querySelector(
+        `.${isBancontactCard ? 'bcmc' : 'card'}-inputWrapper`
       );
 
       checkbox = schemeCheckbox;
-      checkboxWrapper = schemeCheckbox.parentElement;
+      checkboxWrapper = schemeCheckboxWrapper;
     }
 
     if (!checkbox?.checked) {

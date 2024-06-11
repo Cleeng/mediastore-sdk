@@ -34,16 +34,14 @@ const PayPal = ({
   const [isChecked, setIsChecked] = useState(false);
 
   const handleSubmit = () => {
-    const checkbox = document.querySelector(
-      `#checkbox-paypal`
-    ) as HTMLInputElement;
+    const checkbox: HTMLInputElement | null =
+      document.querySelector(`#paypal-input`);
 
-    const checkboxWrapper = document.querySelector(
-      `.checkbox-wrapper-paypal`
-    ) as HTMLInputElement;
+    const checkboxWrapper: HTMLInputElement | null =
+      document.querySelector(`.paypal-inputLabel`);
 
     if (!checkbox?.checked) {
-      checkboxWrapper.classList.add('adyen-checkout__bank-checkbox--error');
+      checkboxWrapper?.classList.add('adyen-checkout__bank-checkbox--error');
       return;
     }
 
@@ -84,17 +82,19 @@ const PayPal = ({
       </CopyStyled>
       <CheckboxWrapperStyled>
         <Checkbox
-          className='adyen-checkout__bank-checkbox checkbox-wrapper-paypal'
-          id='checkbox-paypal'
+          className='adyen-checkout__bank-checkbox paypal-inputLabel'
+          id='paypal-input'
           isChecked={isChecked}
           onClickFn={(event?: ChangeEvent<HTMLInputElement> | undefined) => {
-            event?.target.parentElement?.classList.remove(
+            if (!event) {
+              return;
+            }
+
+            event.target.parentElement?.classList.remove(
               'adyen-checkout__bank-checkbox--error'
             );
 
-            if (event) {
-              setIsChecked(event?.target.checked);
-            }
+            setIsChecked(event.target.checked);
           }}
           termsUrl={termsUrl}
           isPayPal

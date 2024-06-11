@@ -121,7 +121,7 @@ CheckboxLegacy.defaultProps = {
   isRadioButton: false,
   termsUrl: '',
   isPayPal: false,
-  id: ''
+  id: null
 };
 
 export default CheckboxLegacy;
