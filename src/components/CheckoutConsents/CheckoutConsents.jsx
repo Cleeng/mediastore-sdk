@@ -7,14 +7,14 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
-import CheckboxLegacy from 'components/CheckboxLegacy';
+import Checkbox from 'components/Checkbox';
 import {
   CheckoutConsentsStyled,
   CheckoutConsentsContentStyled,
   CheckoutConsentsTitleStyled,
   CheckoutConsentsSubTitleStyled,
   CheckoutConsentsListStyled,
-  CheckoutConsentsCheckbox,
+  CheckoutConsentsListItem,
   CheckoutConsentsError
 } from './CheckoutConsentsStyled';
 
@@ -117,21 +117,22 @@ const CheckoutConsents = ({ onSuccess }) => {
               </CheckoutConsentsSubTitleStyled>
               <CheckoutConsentsListStyled role='list'>
                 {consents.map((consent) => (
-                  <CheckoutConsentsCheckbox key={consent.name}>
-                    <CheckboxLegacy
+                  <CheckoutConsentsListItem key={consent.name}>
+                    <Checkbox
                       isMyAccount
+                      id={consent.name}
                       onClickFn={(e, isConsentDisabled) =>
                         handleClick(e, isConsentDisabled, consent)
                       }
-                      checked={consent.state === 'accepted'}
+                      isChecked={consent.state === 'accepted'}
                       required={consent.required}
                     >
                       {translateConsents(consent.label, t)}
-                    </CheckboxLegacy>
+                    </Checkbox>
                     <CheckoutConsentsError>
                       {consent.error}
                     </CheckoutConsentsError>
-                  </CheckoutConsentsCheckbox>
+                  </CheckoutConsentsListItem>
                 ))}
                 {generalError && (
                   <CheckoutConsentsError center>

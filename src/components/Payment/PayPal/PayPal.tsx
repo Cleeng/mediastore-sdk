@@ -7,7 +7,7 @@ import { selectDeliveryDetails } from 'appRedux/deliveryDetailsSlice';
 import PaypalLogo from 'assets/images/paymentMethods/PayPalColor.svg';
 import Button from 'components/Button';
 import { getStandardCopy } from 'util/paymentMethodHelper';
-import CheckboxLegacy from 'components/CheckboxLegacy';
+import Checkbox from 'components/Checkbox';
 import { selectTermsUrl } from 'appRedux/publisherConfigSlice';
 import {
   PayPalContentStyled,
@@ -34,12 +34,14 @@ const PayPal = ({
   const [isChecked, setIsChecked] = useState(false);
 
   const handleSubmit = () => {
-    const checkbox = document.querySelector(
-      `.checkbox-paypal`
-    ) as HTMLInputElement;
+    const checkbox: HTMLInputElement | null =
+      document.querySelector(`#paypal-input`);
+
+    const checkboxLabel: HTMLInputElement | null =
+      document.querySelector(`.paypal-inputLabel`);
 
     if (!checkbox?.checked) {
-      checkbox.classList.add('adyen-checkout__bank-checkbox--error');
+      checkboxLabel?.classList.add('adyen-checkout__bank-checkbox--error');
       return;
     }
 
@@ -79,21 +81,26 @@ const PayPal = ({
           )}
       </CopyStyled>
       <CheckboxWrapperStyled>
-        <CheckboxLegacy
-          className='adyen-checkout__bank-checkbox checkbox-paypal'
-          checked={isChecked}
-          onClickFn={(e: ChangeEvent<HTMLInputElement>) => {
-            e.target.parentElement?.classList.remove(
+        <Checkbox
+          className='adyen-checkout__bank-checkbox paypal-inputLabel'
+          id='paypal-input'
+          isChecked={isChecked}
+          onClickFn={(event: ChangeEvent<HTMLInputElement> | undefined) => {
+            if (!event) {
+              return;
+            }
+
+            event.target.parentElement?.classList.remove(
               'adyen-checkout__bank-checkbox--error'
             );
 
-            setIsChecked(!e.target.checked);
+            setIsChecked(event.target.checked);
           }}
           termsUrl={termsUrl}
           isPayPal
         >
           {getStandardCopy(isMyAccount, offer, order, isGift)}
-        </CheckboxLegacy>
+        </Checkbox>
       </CheckboxWrapperStyled>
       <Button
         theme='paypal'
