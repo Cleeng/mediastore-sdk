@@ -14,7 +14,7 @@ import {
   ReasonsWrapper,
   StyledItem
 } from 'components/UpdateSubscription/UpdateSubscriptionStyled';
-import CheckboxLegacy from 'components/CheckboxLegacy';
+import Checkbox from 'components/Checkbox';
 import Loader from 'components/Loader';
 import { selectOffers } from 'redux/offersSlice';
 import { CancellationReason } from 'containers/PlanDetails/PlanDetails.types';
@@ -146,13 +146,14 @@ const Survey = ({
           <ReasonsWrapper>
             {cancellationReasonsToShow.map(({ key, value }) => (
               <StyledItem key={key}>
-                <CheckboxLegacy
+                <Checkbox
+                  id={key}
                   isRadioButton
                   onClickFn={() => handleCheckboxClick(value)}
-                  checked={value === checkedReason}
+                  isChecked={value === checkedReason}
                 >
                   {t(key, value)}
-                </CheckboxLegacy>
+                </Checkbox>
               </StyledItem>
             ))}
           </ReasonsWrapper>

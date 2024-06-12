@@ -1,11 +1,17 @@
 import styled, { css } from 'styled-components';
 import * as colors from 'styles/variables';
 
-export const FooterStyled = styled.footer.attrs((props) => ({
+type FooterStyledProps = {
+  $isTransparent?: boolean;
+  $isInPopup?: boolean;
+  className?: string;
+};
+
+export const FooterStyled = styled.footer.attrs((props: FooterStyledProps) => ({
   className: `msd__footer ${
     props.$isTransparent ? 'msd__footer--transparent' : ''
   }`
-}))`
+}))<FooterStyledProps>`
   position: absolute;
   bottom: 0;
   left: 0;

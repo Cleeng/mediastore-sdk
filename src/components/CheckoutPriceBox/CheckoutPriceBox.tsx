@@ -1,13 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
 import formatNumber from 'util/formatNumber';
 import { currencyFormat } from 'util/planHelper';
 import calculateTaxValueForFreeOffer from 'util/calculateTaxValueForFreeOffer';
-import { useAppSelector } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import { selectOnlyOffer } from 'redux/offerSlice';
-import { selectOnlyOrder } from 'redux/orderSlice';
+import { fetchUpdateCoupon, selectOnlyOrder } from 'redux/orderSlice';
 import { LinkStyled } from 'components/ThankYouPage/ThankYouPageStyled';
+import { useCallback } from 'react';
 import {
   StyledTotalLabel,
   StyledOfferPrice,
@@ -20,7 +20,8 @@ import {
   CouponNoteOuterWrapper,
   CouponNoteInnerWrapper,
   StyledTotalWrapper,
-  StyledRedeemButton
+  StyledRedeemButton,
+  RemoveCouponButton
 } from './CheckoutPriceBoxStyled';
 
 type CheckoutPriceBoxProps = {
@@ -34,6 +35,7 @@ const CheckoutPriceBox = ({
   isCheckout,
   onRedeemClick
 }: CheckoutPriceBoxProps) => {
+  const dispatch = useAppDispatch();
   const { customerPriceInclTax, trialAvailable } =
     useAppSelector(selectOnlyOffer);
   const {
@@ -52,7 +54,8 @@ const CheckoutPriceBox = ({
     taxRate,
     country,
     totalPrice: finalPrice,
-    currency
+    currency,
+    id: orderId
   } = useAppSelector(selectOnlyOrder);
 
   const currencySymbol = currencyFormat[currency];
@@ -69,6 +72,10 @@ const CheckoutPriceBox = ({
 
     return t(`coupon-note-applied`, 'Promotional Pricing applied!');
   };
+
+  const removeCoupon = useCallback(async () => {
+    await dispatch(fetchUpdateCoupon({ id: orderId, couponCode: null }));
+  }, [dispatch, fetchUpdateCoupon, orderId]);
 
   const shouldShowRedeemButton = !hideRedeemButton && isCheckout;
 
@@ -93,12 +100,23 @@ const CheckoutPriceBox = ({
             <CouponNoteOuterWrapper>
               <CouponNoteInnerWrapper>
                 <StyledLabel id='discountAmountLabel'>
-                  {isTrial
-                    ? t('checkout-price-box.trial-discount', 'Trial Discount')
-                    : t(
+                  {isTrial ? (
+                    t('checkout-price-box.trial-discount', 'Trial Discount')
+                  ) : (
+                    <>
+                      {t(
                         'checkout-price-box.coupon-discount',
                         'Coupon Discount'
                       )}
+                      &nbsp;
+                      <RemoveCouponButton onClick={removeCoupon}>
+                        {t(
+                          'checkout-price-box.remove-coupon-discount',
+                          '[Remove]'
+                        )}
+                      </RemoveCouponButton>
+                    </>
+                  )}
                 </StyledLabel>
                 <StyledOfferPrice id='discountAmount'>
                   - {currencySymbol}
@@ -177,18 +195,6 @@ const CheckoutPriceBox = ({
       </StyledPriceBox>
     </StyledPriceBoxWrapper>
   );
-};
-
-CheckoutPriceBox.propTypes = {
-  hideRedeemButton: PropTypes.bool,
-  isCheckout: PropTypes.bool,
-  onRedeemClick: PropTypes.func
-};
-
-CheckoutPriceBox.defaultProps = {
-  hideRedeemButton: false,
-  isCheckout: false,
-  onRedeemClick: () => null
 };
 
 export { CheckoutPriceBox as PureCheckoutPriceBox };

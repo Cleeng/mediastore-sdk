@@ -88,7 +88,7 @@ export const fetchUpdateOrder = createAsyncThunk<
 
 export const fetchUpdateCoupon = createAsyncThunk<
   Order,
-  { id: string | number; couponCode: string },
+  { id: string | number; couponCode: string | null },
   {
     rejectValue: string;
   }
@@ -187,8 +187,8 @@ export const orderSlice = createSlice({
 
       state.couponDetails = {
         couponCode: couponCode || '',
-        showMessage: true,
-        message: 'Your coupon has been applied!',
+        showMessage: !!couponCode,
+        message: couponCode ? 'Your coupon has been applied!' : '',
         messageType: MESSAGE_TYPE_SUCCESS,
         translationKey: 'coupon-input.success'
       };

@@ -1,0 +1,3 @@
+sh .husky/scripts/verify_branch_name
+pnpm exec lint-staged
+pnpm test

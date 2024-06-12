@@ -92,7 +92,7 @@ const CouponInput = ({
           <>
             <CloseButtonStyled
               type='button'
-              aria-label='close'
+              aria-label={t('coupon-input.clear-coupon', 'Clear coupon code')}
               onClick={handleClose}
               data-testid='closeRedeemCouponButton'
             >
@@ -100,9 +100,7 @@ const CouponInput = ({
             </CloseButtonStyled>
             <InputElementStyled
               type='text'
-              placeholder={
-                t('coupon-input.placeholder', 'Your coupon') as string
-              }
+              placeholder={t('coupon-input.placeholder', 'Your coupon')}
               autoComplete='off'
               value={value}
               ref={inputRef}
@@ -115,9 +113,7 @@ const CouponInput = ({
                 setIsFocused(true);
               }}
               onBlur={() => setIsFocused(false)}
-              aria-label={
-                t('coupon-input.placeholder', 'Your coupon') as string
-              }
+              aria-label={t('coupon-input.placeholder', 'Your coupon')}
               aria-required={false}
             />
           </>

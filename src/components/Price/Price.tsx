@@ -1,6 +1,8 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
+import { selectOnlyOrder } from 'redux/orderSlice';
+import { useAppSelector } from 'redux/store';
 import {
   WrapperStyled,
   CurrencyStyled,
@@ -33,9 +35,14 @@ const Price = ({
   isPromoPriceActive
 }: PriceProps) => {
   const { t } = useTranslation();
+  const {
+    discount: { applied: isDiscountApplied }
+  } = useAppSelector(selectOnlyOrder);
 
-  const isDiscountApplied =
-    typeof nextPaymentPrice === 'number' && nextPaymentPrice < totalPrice;
+  const shouldUseDiscountedValue =
+    isDiscountApplied &&
+    typeof nextPaymentPrice === 'number' &&
+    nextPaymentPrice < totalPrice;
   const discountPercentageValue =
     Math.ceil((1 - (nextPaymentPrice || totalPrice) / totalPrice) * 100) || 100;
   const discountValue = isPromoPriceActive
@@ -44,7 +51,7 @@ const Price = ({
 
   return (
     <PriceContainer>
-      {isDiscountApplied && !isTrialBadgeVisible && (
+      {shouldUseDiscountedValue && !isTrialBadgeVisible && (
         <DiscountContainer>
           <OriginalPrice>
             <CurrencyStyled>{currency}</CurrencyStyled>

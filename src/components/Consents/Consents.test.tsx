@@ -87,11 +87,12 @@ describe('Consents component', () => {
       </Provider>
     );
 
-    expect(screen.getByRole('checkbox', { checked: false })).toHaveTextContent(
-      publisherConsents[0].label
-    );
-    expect(screen.getByRole('checkbox', { checked: true })).toHaveTextContent(
-      publisherConsents[1].label
-    );
+    expect(
+      screen.getByRole('checkbox', { checked: false }).parentElement
+    ).toHaveTextContent(publisherConsents[0].label);
+
+    expect(
+      screen.getByRole('checkbox', { checked: true }).parentElement
+    ).toHaveTextContent(publisherConsents[1].label);
   });
 });

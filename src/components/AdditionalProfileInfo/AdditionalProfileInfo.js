@@ -7,7 +7,7 @@ import MyAccountInput from 'components/MyAccountInput';
 import SelectLegacy, {
   mapToSelectFormat
 } from 'components/SelectLegacy/SelectLegacy';
-import CheckboxLegacy from 'components/CheckboxLegacy';
+import Checkbox from 'components/Checkbox';
 import useMessage from 'hooks/useMessage';
 import { updateCaptureAnswers } from 'api';
 import {
@@ -127,8 +127,9 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
             if (setting.values.length === 1)
               return (
                 <InputWrapStyled key={setting.key}>
-                  <CheckboxLegacy
+                  <Checkbox
                     isMyAccount
+                    id={setting.key}
                     onClickFn={(e, disabled) =>
                       !disabled &&
                       handleCustomSetting(
@@ -136,41 +137,43 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                         setting.value ? '' : setting.values[0]
                       )
                     }
-                    checked={setting.value === setting.values[0]}
+                    isChecked={setting.value === setting.values[0]}
                     disabled={isSectionDisabled}
                   >
                     {setting.question}
-                  </CheckboxLegacy>
+                  </Checkbox>
                 </InputWrapStyled>
               );
             if (setting.values.length === 2)
               return (
                 <InputWrapStyled key={setting.key}>
                   <InputLabelStyled>{setting.question}</InputLabelStyled>
-                  <CheckboxLegacy
+                  <Checkbox
                     key={`${setting.key}-01`}
+                    id={`${setting.key}-01`}
                     onClickFn={(e, disabled) =>
                       !disabled &&
                       handleCustomSetting(setting.key, setting.values[0])
                     }
                     isRadioButton
                     disabled={isSectionDisabled}
-                    checked={setting.value === setting.values[0]}
+                    isChecked={setting.value === setting.values[0]}
                   >
                     {setting.values[0]}
-                  </CheckboxLegacy>
-                  <CheckboxLegacy
+                  </Checkbox>
+                  <Checkbox
                     key={`${setting.key}-02`}
+                    id={`${setting.key}-02`}
                     onClickFn={(e, disabled) =>
                       !disabled &&
                       handleCustomSetting(setting.key, setting.values[1])
                     }
                     isRadioButton
                     disabled={isSectionDisabled}
-                    checked={setting.value === setting.values[1]}
+                    isChecked={setting.value === setting.values[1]}
                   >
                     {setting.values[1]}
-                  </CheckboxLegacy>
+                  </Checkbox>
                 </InputWrapStyled>
               );
             return (
