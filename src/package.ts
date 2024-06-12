@@ -23,7 +23,6 @@ import RedeemGift from 'components/RedeemGift';
 import eventDispatcher, {
   MSSDK_PURCHASE_SUCCESSFUL
 } from 'util/eventDispatcher';
-import cleengEmbeddableScript from './scripts/index';
 
 window.onload = () => {
   const queryString = window.location.search;
@@ -62,6 +61,5 @@ export {
   TransactionList,
   Subscriptions,
   Subscriptions as Offers,
-  store,
-  cleengEmbeddableScript
+  store
 };
