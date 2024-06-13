@@ -1,5 +1,4 @@
 import { useState, useEffect, FormEvent } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Input from 'components/Input';
 import EmailInput from 'components/EmailInput';
@@ -492,16 +491,6 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
       </form>
     </>
   );
-};
-
-CaptureForm.propTypes = {
-  settings: PropTypes.arrayOf(PropTypes.any),
-  onSuccess: PropTypes.func
-};
-
-CaptureForm.defaultProps = {
-  settings: [],
-  onSuccess: () => null
 };
 
 export default CaptureForm;

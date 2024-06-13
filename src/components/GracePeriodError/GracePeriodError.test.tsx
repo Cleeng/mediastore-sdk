@@ -21,8 +21,9 @@ const store = (currentPlan: CurrentPlan[], displayGracePeriodError = true) => ({
 const pastDate = 16762771;
 const futureDate = 99999999999999;
 
-const middleware = [thunk];
-const mockStore = configureStore(middleware);
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const mockStore = configureStore([thunk]);
 
 describe('GracePeriodError component', () => {
   test('renders warning with correct styles', async () => {

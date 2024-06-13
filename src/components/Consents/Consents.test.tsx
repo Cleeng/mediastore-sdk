@@ -4,20 +4,22 @@ import Consent from 'components/Consents';
 import 'i18NextInit';
 import { Consent as ConsentType } from 'types/Consents.types';
 import renderWithProviders from 'util/testHelpers';
+import { RootState } from 'redux/rootReducer';
+import { initialState } from 'redux/publisherConfigSlice';
 
 const store = (
   loading = false,
   error = '',
   publisherConsents: ConsentType[] = [],
   checked: boolean[] = []
-) => ({
+): Partial<RootState> => ({
   publisherConsents: {
     publisherConsents,
     checked,
     loading,
     error
   },
-  publisherConfig: { publisherId: '' }
+  publisherConfig: { ...initialState, publisherId: '' }
 });
 
 const consentsProps = {
@@ -73,11 +75,12 @@ describe('Consents component', () => {
       preloadedState: store(false, '', publisherConsents, checked)
     });
 
-    expect(screen.getByRole('checkbox', { checked: false })).toHaveTextContent(
-      publisherConsents[0].label
-    );
-    expect(screen.getByRole('checkbox', { checked: true })).toHaveTextContent(
-      publisherConsents[1].label
-    );
+    expect(
+      screen.getByRole('checkbox', { checked: false }).parentElement
+    ).toHaveTextContent(publisherConsents[0].label);
+
+    expect(
+      screen.getByRole('checkbox', { checked: true }).parentElement
+    ).toHaveTextContent(publisherConsents[1].label);
   });
 });

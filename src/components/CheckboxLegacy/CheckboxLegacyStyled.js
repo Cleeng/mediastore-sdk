@@ -33,6 +33,13 @@ export const CheckboxStyled = styled.div.attrs((props) => ({
     `}
 `;
 
+export const HiddenCheckboxInput = styled.input`
+  position: absolute;
+  width: 1em;
+  height: 1em;
+  opacity: 0;
+`;
+
 export const ConsentDefinitionStyled = styled.div.attrs((props) => ({
   className: `msd__consents__text ${
     props.$checked ? 'msd__consents__text--checked' : ''

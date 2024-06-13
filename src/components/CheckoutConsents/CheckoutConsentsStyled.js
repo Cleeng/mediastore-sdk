@@ -62,7 +62,7 @@ export const CheckoutConsentsListStyled = styled.ul.attrs(() => ({
   list-style: none;
 `;
 
-export const CheckoutConsentsCheckbox = styled.li``;
+export const CheckoutConsentsListItem = styled.li``;
 
 export const CheckoutConsentsError = styled.div.attrs(() => ({
   className: 'msd__consents__error'
