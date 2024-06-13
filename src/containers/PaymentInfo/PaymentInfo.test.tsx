@@ -5,7 +5,7 @@ import { updatePaymentDetailsPopup } from 'redux/popupSlice';
 import renderWithProviders from 'util/testHelpers';
 import { setupStore } from 'redux/rootReducer';
 
-global.fetch = jest.fn(() =>
+globalThis.fetch = jest.fn(() =>
   Promise.resolve({
     json: () => Promise.resolve({ test: null })
   })

@@ -34,7 +34,6 @@ export type PaymentMethodName =
   | 'googlepay'
   | 'paypal'
   | 'ideal'
-  | 'sofort'
   | 'bancontact_card'
   | 'bancontact_mobile'
   | 'free-offer';
