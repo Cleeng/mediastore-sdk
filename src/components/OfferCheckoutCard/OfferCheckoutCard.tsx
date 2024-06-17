@@ -1,11 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import SkeletonWrapper from 'components/SkeletonWrapper';
-import { useAppSelector } from 'redux/store';
+import { useAppSelector } from 'appRedux/store';
 import formatNumber from 'util/formatNumber';
 import { currencyFormat } from 'util/planHelper';
-import { selectOffer, selectOnlyOffer } from 'redux/offerSlice';
-import { selectOnlyOrder } from 'redux/orderSlice';
+import { selectOffer, selectOnlyOffer } from 'appRedux/offerSlice';
+import { selectOnlyOrder } from 'appRedux/orderSlice';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
 import OfferDescription from 'components/OfferCheckoutCard/OfferDescription';
 import {

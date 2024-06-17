@@ -1,16 +1,16 @@
 import i18n from 'i18next';
-import { ReactComponent as CardLogo } from 'assets/images/paymentMethods/card.svg';
-import { ReactComponent as PaypalLogo } from 'assets/images/paymentMethods/PPicon.svg';
-import { ReactComponent as ApplePayLogo } from 'assets/images/paymentMethods/applePay.svg';
-import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/googlepay.svg';
-import { ReactComponent as IdealLogo } from 'assets/images/paymentMethods/ideal-small.svg';
-import { ReactComponent as BancontactLogo } from 'assets/images/paymentMethods/bancontact-small.svg';
-import { ReactComponent as GiftLogo } from 'assets/images/gift.svg';
-import { ReactComponent as RokuLogo } from 'assets/images/paymentMethods/roku_color.svg';
-import { ReactComponent as AmazonLogo } from 'assets/images/paymentMethods/amazon_color.svg';
-import { ReactComponent as AndroidLogo } from 'assets/images/paymentMethods/android_color.svg';
+import CardLogo from 'assets/images/paymentMethods/card.svg';
+import PaypalLogo from 'assets/images/paymentMethods/PPicon.svg';
+import ApplePayLogo from 'assets/images/paymentMethods/applePay.svg';
+import GooglePayLogo from 'assets/images/paymentMethods/googlepay.svg';
+import IdealLogo from 'assets/images/paymentMethods/ideal-small.svg';
+import BancontactLogo from 'assets/images/paymentMethods/bancontact-small.svg';
+import GiftLogo from 'assets/images/gift.svg';
+import RokuLogo from 'assets/images/paymentMethods/roku_color.svg';
+import AmazonLogo from 'assets/images/paymentMethods/amazon_color.svg';
+import AndroidLogo from 'assets/images/paymentMethods/android_color.svg';
 
-import store from 'redux/store';
+import store from 'appRedux/store';
 import { currencyFormat, isPeriod, periodMapper } from './planHelper';
 import formatNumber from './formatNumber';
 

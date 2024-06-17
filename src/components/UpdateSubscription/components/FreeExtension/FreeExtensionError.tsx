@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'redux/store';
-import { hidePopup } from 'redux/popupSlice';
-import { ReactComponent as Close } from 'assets/images/errors/close.svg';
+import { useAppDispatch } from 'appRedux/store';
+import { hidePopup } from 'appRedux/popupSlice';
+import Close from 'assets/images/errors/close.svg';
 import Button from 'components/Button';
 import {
   ContentStyled,

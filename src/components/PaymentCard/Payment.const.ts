@@ -1,17 +1,17 @@
-import { ReactComponent as Visa } from 'assets/images/paymentMethods/visa_payment_method.svg';
-import { ReactComponent as AmericanExpress } from 'assets/images/paymentMethods/american_express.svg';
-import { ReactComponent as MasterCard } from 'assets/images/paymentMethods/master_card.svg';
-import { ReactComponent as Paypal } from 'assets/images/paymentMethods/PPicon.svg';
-import { ReactComponent as Android } from 'assets/images/paymentMethods/android_color.svg';
-import { ReactComponent as Amazon } from 'assets/images/paymentMethods/amazon.svg';
-import { ReactComponent as Apple } from 'assets/images/paymentMethods/apple.svg';
-import { ReactComponent as Roku } from 'assets/images/paymentMethods/roku.svg';
-import { ReactComponent as ApplePayLogo } from 'assets/images/paymentMethods/applePay.svg';
-import { ReactComponent as GooglePayLogo } from 'assets/images/paymentMethods/googlepay.svg';
-import { ReactComponent as Discover } from 'assets/images/paymentMethods/discover.svg';
-import { ReactComponent as Diners } from 'assets/images/paymentMethods/diners.svg';
-import { ReactComponent as Ideal } from 'assets/images/paymentMethods/ideal.svg';
-import { ReactComponent as Bancontact } from 'assets/images/paymentMethods/bancontact.svg';
+import Visa from 'assets/images/paymentMethods/visa_payment_method.svg';
+import AmericanExpress from 'assets/images/paymentMethods/american_express.svg';
+import MasterCard from 'assets/images/paymentMethods/master_card.svg';
+import Paypal from 'assets/images/paymentMethods/PPicon.svg';
+import Android from 'assets/images/paymentMethods/android_color.svg';
+import Amazon from 'assets/images/paymentMethods/amazon.svg';
+import Apple from 'assets/images/paymentMethods/apple.svg';
+import Roku from 'assets/images/paymentMethods/roku.svg';
+import ApplePayLogo from 'assets/images/paymentMethods/applePay.svg';
+import GooglePayLogo from 'assets/images/paymentMethods/googlepay.svg';
+import Discover from 'assets/images/paymentMethods/discover.svg';
+import Diners from 'assets/images/paymentMethods/diners.svg';
+import Ideal from 'assets/images/paymentMethods/ideal.svg';
+import Bancontact from 'assets/images/paymentMethods/bancontact.svg';
 
 // eslint-disable-next-line import/prefer-default-export
 export const CardTypes = {

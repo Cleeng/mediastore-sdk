@@ -1,6 +1,6 @@
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
-import { VerifiedGift } from 'redux/types';
+import { VerifiedGift } from 'appRedux/types';
 
 const verifyGift = async (giftCode: string): Promise<VerifiedGift> => {
   const API_URL = getApiURL();

@@ -1,20 +1,20 @@
 /* eslint-disable no-nested-ternary */
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import {
   POPUP_TYPES,
   hidePopup,
   selectPopupDetails,
   showPopup
-} from 'redux/popupSlice';
-import { selectOffers } from 'redux/offersSlice';
+} from 'appRedux/popupSlice';
+import { selectOffers } from 'appRedux/offersSlice';
 import {
   DEFAULT_TRANSACTIONS_NUMBER,
   fetchListCustomerTransactions,
   toggleTransactionList,
   removePausedTransactions
-} from 'redux/transactionsSlice';
+} from 'appRedux/transactionsSlice';
 import { dateFormat } from 'util/planHelper';
 import { logos, readablePaymentMethodNames } from 'util/paymentMethodHelper';
 import Card from 'components/Card';
@@ -22,7 +22,7 @@ import MyAccountError from 'components/MyAccountError';
 import Button from 'components/Button';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import EditDeliveryDetailsPopup from 'components/EditDeliveryDetailsPopup';
-import { ReactComponent as noTransactionsIcon } from 'assets/images/errors/transaction_icon.svg';
+import noTransactionsIcon from 'assets/images/errors/transaction_icon.svg';
 import {
   WrapStyled,
   InsideWrapperStyled,

@@ -493,9 +493,4 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
   );
 };
 
-CaptureForm.defaultProps = {
-  settings: [],
-  onSuccess: () => null
-};
-
 export default CaptureForm;

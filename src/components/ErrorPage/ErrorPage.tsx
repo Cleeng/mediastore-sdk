@@ -1,10 +1,10 @@
 // eslint-disable-next-line no-use-before-define
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as Close } from 'assets/images/errors/close.svg';
-import { ReactComponent as DeleteCreditCard } from 'assets/images/errors/deleteCreditCard.svg';
-import { ReactComponent as Lock } from 'assets/images/errors/lock.svg';
-import { ReactComponent as Warning } from 'assets/images/errors/warning.svg';
+import Close from 'assets/images/errors/close.svg';
+import DeleteCreditCard from 'assets/images/errors/deleteCreditCard.svg';
+import Lock from 'assets/images/errors/lock.svg';
+import Warning from 'assets/images/errors/warning.svg';
 import Header from 'components/Header';
 import {
   ErrorPageWrapper,

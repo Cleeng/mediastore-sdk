@@ -1,14 +1,14 @@
 import { useTranslation } from 'react-i18next';
 
-import { useAppSelector } from 'redux/store';
-import { selectGift } from 'redux/giftSlice';
+import { useAppSelector } from 'appRedux/store';
+import { selectGift } from 'appRedux/giftSlice';
 import formatNumber from 'util/formatNumber';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
 import { dateFormat, periodMapper, Period } from 'util/planHelper';
-import { ReactComponent as CreditCardIcon } from 'assets/images/offerDescription/credit-card-bold.svg';
-import { ReactComponent as ClockIcon } from 'assets/images/offerDescription/clock-bold.svg';
-import { ReactComponent as CalendarIcon } from 'assets/images/offerDescription/calendar-blank-bold.svg';
-import { ReactComponent as TagIcon } from 'assets/images/offerDescription/tag-bold.svg';
+import CreditCardIcon from 'assets/images/offerDescription/credit-card-bold.svg';
+import ClockIcon from 'assets/images/offerDescription/clock-bold.svg';
+import CalendarIcon from 'assets/images/offerDescription/calendar-blank-bold.svg';
+import TagIcon from 'assets/images/offerDescription/tag-bold.svg';
 import getReadablePeriod from '../OfferCheckoutCard.utils';
 import {
   DescriptionWrapperStyled,

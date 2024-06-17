@@ -1,4 +1,4 @@
-import { DeliveryDetails } from 'redux/types';
+import { DeliveryDetails } from 'appRedux/types';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 

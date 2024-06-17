@@ -1,8 +1,8 @@
-import { useAppSelector } from 'redux/store';
+import { useAppSelector } from 'appRedux/store';
 import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price from 'components/Price';
-import { ReactComponent as BlockedIcon } from 'assets/images/blocked.svg';
+import BlockedIcon from 'assets/images/blocked.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import {
   currencyFormat,
@@ -12,8 +12,8 @@ import {
   Period
 } from 'util/planHelper';
 import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
-import { selectSwitchSettings } from 'redux/planDetailsSlice';
-import { SwitchSetting } from 'redux/types/planDetailsSlice.types';
+import { selectSwitchSettings } from 'appRedux/planDetailsSlice';
+import { SwitchSetting } from 'appRedux/types/planDetailsSlice.types';
 import { OfferSwitchCardProps } from './OfferSwitchCard.types';
 import {
   WrapperStyled,
