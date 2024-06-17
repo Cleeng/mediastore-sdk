@@ -23,14 +23,14 @@ const initialState = {
   consentsError: ''
 };
 
-const userProfileReducer = createReducer(initialState, {
-  SET_CURRENT_USER: (state, action) => {
+const userProfileReducer = createReducer(initialState, (builder) => {
+  builder.addCase(SET_CURRENT_USER, (state, action) => {
     state.user = action.payload;
-  },
-  SET_USER_CAPTURE: (state, action) => {
+  });
+  builder.addCase(SET_USER_CAPTURE, (state, action) => {
     state.capture = action.payload;
-  },
-  UPDATE_CAPTURE_OPTION: (state, action) => {
+  });
+  builder.addCase(UPDATE_CAPTURE_OPTION, (state, action) => {
     const newState = {
       ...state.capture,
       settings: state.capture.settings.map((setting) => {
@@ -41,13 +41,13 @@ const userProfileReducer = createReducer(initialState, {
       })
     };
     state.capture = newState;
-  },
-  SET_CONSENTS: (state, action) => {
+  });
+  builder.addCase(SET_CONSENTS, (state, action) => {
     state.consents = action.payload;
-  },
-  SET_CONSENTS_ERROR: (state, action) => {
+  });
+  builder.addCase(SET_CONSENTS_ERROR, (state, action) => {
     state.consentsError = action.payload;
-  }
+  });
 });
 
 export default userProfileReducer;

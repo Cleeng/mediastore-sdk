@@ -26,31 +26,37 @@ export const fetchListCustomerTransactions = createAsyncThunk(
 export const transactionsSlice = createSlice({
   name: 'transactions',
   initialState,
-  reducers: {
-    toggleTransactionList(state) {
+  reducers: (create) => ({
+    toggleTransactionList: create.reducer((state) => {
       state.isListExpanded = !state.isListExpanded;
-    },
-    removePausedTransactions(state, { payload }) {
+    }),
+    removePausedTransactions: create.reducer((state, { payload }) => {
       state.transactions = state.transactions.filter(
         ({ offerId }) => !payload.includes(offerId)
       );
       state.showToggleButton =
         state.transactions.length > DEFAULT_TRANSACTIONS_NUMBER;
-    }
-  },
-  extraReducers: {
-    [fetchListCustomerTransactions.pending]: (state) => {
+    })
+  }),
+  extraReducers: (builder) => {
+    builder.addCase(fetchListCustomerTransactions.pending, (state) => {
       state.loading = true;
-    },
-    [fetchListCustomerTransactions.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.transactions = payload;
-      state.showToggleButton = payload.length > DEFAULT_TRANSACTIONS_NUMBER;
-    },
-    [fetchListCustomerTransactions.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
-    }
+    });
+    builder.addCase(
+      fetchListCustomerTransactions.fulfilled,
+      (state, { payload }) => {
+        state.loading = false;
+        state.transactions = payload;
+        state.showToggleButton = payload.length > DEFAULT_TRANSACTIONS_NUMBER;
+      }
+    );
+    builder.addCase(
+      fetchListCustomerTransactions.rejected,
+      (state, { payload }) => {
+        state.loading = false;
+        state.error = payload;
+      }
+    );
   }
 });
 

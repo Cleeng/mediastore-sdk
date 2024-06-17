@@ -17,7 +17,7 @@ const noop = () => null;
 
 const Capture = ({ settings = [], onSuccess = noop }: CaptureProps) => {
   const { t } = useTranslation();
-  const [captureSettings, setCaptureSettings] = useState<CaptureSetting[]>();
+  const [captureSettings, setCaptureSettings] = useState<CaptureSetting[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {

@@ -1,5 +1,3 @@
-/* eslint-disable no-param-reassign */
-
 import { createAction, createReducer } from '@reduxjs/toolkit';
 
 export const SET_DATA = 'SET_DATA';
@@ -19,13 +17,13 @@ const initialState = {
   CLEENG_HEADER_OFF: ''
 };
 
-const appConfig = createReducer(initialState, {
-  SET_DATA: (state, action) => {
+const appConfig = createReducer(initialState, (builder) => {
+  builder.addCase(SET_DATA, (state, action) => {
     state[action.payload.name] = action.payload.value;
-  },
-  REMOVE_DATA: (state, action) => {
+  });
+  builder.addCase(REMOVE_DATA, (state, action) => {
     state[action.payload.name] = '';
-  }
+  });
 });
 
 export default appConfig;

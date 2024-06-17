@@ -56,7 +56,7 @@ export const fetchApplyRetentionAction = createAsyncThunk<
 export const retentionActionsSlice = createSlice({
   name: 'retentionActions',
   initialState,
-  reducers: {},
+  reducers: () => ({}),
   extraReducers: (builder) => {
     builder.addCase(fetchRetentionActions.pending, (state) => {
       state.isLoading = true;

@@ -13,12 +13,11 @@ const initialState = {
 export const myaccountSlice = createSlice({
   name: 'myaccount',
   initialState,
-  reducers: {
-    setActiveTab(state, { payload }) {
+  reducers: (create) => ({
+    setActiveTab: create.reducer((state, { payload }) => {
       state.activeTab = payload;
-    }
-  },
-  extraReducers: {}
+    })
+  })
 });
 
 export const { setActiveTab } = myaccountSlice.actions;

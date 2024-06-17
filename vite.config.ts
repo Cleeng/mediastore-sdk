@@ -7,6 +7,7 @@ import svgr from 'vite-plugin-svgr';
 export default defineConfig({
   plugins: [react(), svgr({ include: '**/*.svg' })],
   build: {
+    sourcemap: true,
     target: 'es2015',
     cssCodeSplit: true,
     lib: {

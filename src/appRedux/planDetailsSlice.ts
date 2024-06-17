@@ -1,8 +1,15 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './rootReducer';
 import { CustomerOffer } from '../api/Customer/types';
 import { PlanDetailsInitialState, SwitchDetails } from './types';
 import { getCustomerOffers, getSwitch, getAvailableSwitches } from '../api';
+
+type SwitchDetailChangeAction = {
+  type: string;
+  details: {
+    pendingSwitchId: number;
+  };
+};
 
 const initialState: PlanDetailsInitialState = {
   currentPlan: {
@@ -99,28 +106,33 @@ export const fetchAvailableSwitches = createAsyncThunk<
 export const planDetailsSlice = createSlice({
   name: 'plan',
   initialState,
-  reducers: {
-    setOfferToSwitch(state, { payload }) {
-      state.offerToSwitch = payload;
-    },
-    resetOfferToSwitch(state) {
-      state.offerToSwitch = initialState.offerToSwitch;
-    },
-    updateList(state) {
-      state.updateList = !state.updateList;
-    },
-    setSwitchDetails(state, { payload }) {
-      const { details, type } = payload;
-      if (type === 'delete') {
-        delete state.switchDetails.data[details.pendingSwitchId];
-      } else {
-        state.switchDetails.data = Object.assign(
-          state.switchDetails.data,
-          details
-        );
+  reducers: (create) => ({
+    setOfferToSwitch: create.reducer(
+      (state, { payload }: PayloadAction<CustomerOffer>) => {
+        state.offerToSwitch = payload;
       }
-    }
-  },
+    ),
+    resetOfferToSwitch: create.reducer((state) => {
+      state.offerToSwitch = initialState.offerToSwitch;
+    }),
+    updateList: create.reducer((state) => {
+      state.updateList = !state.updateList;
+    }),
+    setSwitchDetails: create.reducer(
+      (state, { payload }: PayloadAction<SwitchDetailChangeAction>) => {
+        const { details, type } = payload;
+
+        if (type === 'delete') {
+          delete state.switchDetails.data[details.pendingSwitchId];
+        } else {
+          state.switchDetails.data = Object.assign(
+            state.switchDetails.data,
+            details
+          );
+        }
+      }
+    )
+  }),
   extraReducers: (builder) => {
     builder.addCase(fetchCustomerOffers.pending, (state) => {
       state.currentPlan.loading = true;

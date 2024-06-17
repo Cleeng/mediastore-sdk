@@ -29,7 +29,7 @@ export const fetchPaymentDetails = createAsyncThunk<
 export const paymentDetailsSlice = createSlice({
   name: 'paymentDetails',
   initialState,
-  reducers: {},
+  reducers: () => ({}),
   extraReducers: (builder) => {
     builder.addCase(fetchPaymentDetails.pending, (state) => {
       state.loading = true;

@@ -29,28 +29,28 @@ const initialState = {
   switchDetails: {}
 };
 
-const paymentDetailsReducer = createReducer(initialState, {
-  SET_CURRENT_PLAN: (state, action) => {
+const paymentDetailsReducer = createReducer(initialState, (builder) => {
+  builder.addCase(SET_CURRENT_PLAN, (state, action) => {
     state.currentPlan = action.payload;
-  },
-  UPDATE_LIST: (state) => {
+  });
+  builder.addCase(UPDATE_LIST, (state) => {
     state.updateList = !state.updateList;
-  },
-  SET_OFFER_TO_SWITCH: (state, action) => {
+  });
+  builder.addCase(SET_OFFER_TO_SWITCH, (state, action) => {
     state.offerToSwitch = action.payload;
-  },
-  SET_SWITCH_DETAILS: (state, action) => {
+  });
+  builder.addCase(SET_SWITCH_DETAILS, (state, action) => {
     const { details, type } = action.payload;
     if (type === 'delete') {
       delete state.switchDetails[details.pendingSwitchId];
     } else {
       state.switchDetails = Object.assign(state.switchDetails, details);
     }
-  },
-  SET_SWITCH_SETTINGS: (state, action) => {
+  });
+  builder.addCase(SET_SWITCH_SETTINGS, (state, action) => {
     state.switchSettings[action.payload.offerId] = action.payload.settings;
-  },
-  POPULATE_SWITCH_TITLE: (state) => {
+  });
+  builder.addCase(POPULATE_SWITCH_TITLE, (state) => {
     const switchesToFulfill = [];
     Object.keys(state.switchDetails).forEach((pendingSwitchId) => {
       if (!state.switchDetails[pendingSwitchId].title) {
@@ -76,7 +76,7 @@ const paymentDetailsReducer = createReducer(initialState, {
         });
       });
     }
-  }
+  });
 });
 
 export default paymentDetailsReducer;
