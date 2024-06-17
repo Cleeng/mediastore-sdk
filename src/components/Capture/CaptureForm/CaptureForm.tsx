@@ -22,6 +22,11 @@ import {
   CaptureError
 } from './CaptureFormStyled';
 
+// const PHONE_NUMBER_REGEX =
+//   /(?:([+]\d{1,4})[-.\s]?)?(?:[(](\d{1,3})[)][-.\s]?)?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,9})/;
+
+const PHONE_NUMBER_REGEX = /^([+]?\d{1,2}[-\s]?|)\d{3}[-\s]?\d{3}[-\s]?\d{4}$/;
+
 const isCustomSetting = (
   setting: CaptureSetting
 ): setting is CustomCaptureSetting => setting.key.startsWith('custom_');
@@ -173,6 +178,17 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
     if (!phoneNumber.value) {
       phoneNumber.setError(
         t('captureform.error.phone-number', 'Phone number is required')
+      );
+
+      setIsError(true);
+      return;
+    }
+
+    const isPhoneNumberValid = PHONE_NUMBER_REGEX.test(phoneNumber.value);
+
+    if (!isPhoneNumberValid) {
+      phoneNumber.setError(
+        t('captureform.error.phone-number-invalid', 'Phone number is invalid')
       );
       setIsError(true);
     }
