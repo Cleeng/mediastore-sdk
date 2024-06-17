@@ -1,4 +1,4 @@
-import { PaymentGateway } from 'redux/types';
+import { PaymentGateway } from 'appRedux/types';
 
 export type CustomerOffer = {
   offerId: string;

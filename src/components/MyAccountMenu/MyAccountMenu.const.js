@@ -1,6 +1,6 @@
-import { ReactComponent as PlanIcon } from './icons/plan_details.svg';
-import { ReactComponent as PaymentIcon } from './icons/payment.svg';
-import { ReactComponent as UpdateIcon } from './icons/update.svg';
+import PlanIcon from './icons/plan_details.svg';
+import PaymentIcon from './icons/payment.svg';
+import UpdateIcon from './icons/update.svg';
 
 // eslint-disable-next-line import/prefer-default-export
 export const MenuItems = [

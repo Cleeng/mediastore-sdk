@@ -58,8 +58,8 @@ jobs:
       - name: install deps
         run: pnpm install
 
-      - name: compile the bundle
-        run: pnpm compile
+      - name: build the bundle
+        run: pnpm build
 
       - name: push the bundle to ${{ inputs.access }} registry
         run: npm publish --access ${{ inputs.access }}

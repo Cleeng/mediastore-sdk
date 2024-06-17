@@ -47,7 +47,10 @@ const Capture = ({ settings = [], onSuccess = noop }: CaptureProps) => {
             <CaptureTitle>
               {t('capture.confirm-registration', 'Confirm Registration')}
             </CaptureTitle>
-            <CaptureForm settings={captureSettings} onSuccess={onSuccess} />
+            <CaptureForm
+              settings={captureSettings || []}
+              onSuccess={onSuccess}
+            />
           </>
         )}
       </CaptureContentStyled>

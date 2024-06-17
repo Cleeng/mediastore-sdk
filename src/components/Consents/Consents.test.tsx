@@ -1,11 +1,10 @@
 import { screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import Consent from 'components/Consents';
 import 'i18NextInit';
 import { Consent as ConsentType } from 'types/Consents.types';
 import renderWithProviders from 'util/testHelpers';
-import { RootState } from 'redux/rootReducer';
-import { initialState } from 'redux/publisherConfigSlice';
+import { RootState } from 'appRedux/rootReducer';
+import { initialState } from 'appRedux/publisherConfigSlice';
 
 const store = (
   loading = false,

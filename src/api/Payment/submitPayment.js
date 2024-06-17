@@ -2,7 +2,7 @@ import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import generateReturnUrl from 'util/returnUrlHelper';
-import store from 'redux/store';
+import store from 'appRedux/store';
 
 const submitPayment = async (paymentMethod, browserInfo, billingAddress) => {
   const API_URL = getApiURL();

@@ -5,9 +5,9 @@ import {
   TitleStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
-import { hidePopup, selectOfferData } from 'redux/popupSlice';
+import { hidePopup, selectOfferData } from 'appRedux/popupSlice';
 import { Trans, useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { dateFormat, INFINITE_DATE } from 'util/planHelper';
 import {
   ReasonsWrapper,
@@ -15,11 +15,11 @@ import {
 } from 'components/UpdateSubscription/UpdateSubscriptionStyled';
 import Checkbox from 'components/Checkbox';
 import Loader from 'components/Loader';
-import { selectOffers } from 'redux/offersSlice';
+import { selectOffers } from 'appRedux/offersSlice';
 import { CancellationReason } from 'containers/PlanDetails/PlanDetails.types';
-import { SwitchDetail } from 'redux/types';
+import { SwitchDetail } from 'appRedux/types';
 import { defaultCancellationReasons } from 'components/UpdateSubscription/utils';
-import { selectUnsubscribe } from 'redux/unsubscribeSlice';
+import { selectUnsubscribe } from 'appRedux/unsubscribeSlice';
 
 import STEPS from '../Unsubscribe.enum';
 

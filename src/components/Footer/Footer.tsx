@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as SecurityIcon } from 'assets/images/security.svg';
-import { ReactComponent as CleengLogo } from 'assets/images/cleeng.svg';
+import SecurityIcon from 'assets/images/security.svg';
+import CleengLogo from 'assets/images/cleeng.svg';
 import {
   FooterStyled,
   ProductByStyled,

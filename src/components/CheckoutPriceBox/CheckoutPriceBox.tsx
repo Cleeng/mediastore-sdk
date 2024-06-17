@@ -2,9 +2,9 @@ import { useTranslation } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
 import { currencyFormat } from 'util/planHelper';
 import calculateTaxValueForFreeOffer from 'util/calculateTaxValueForFreeOffer';
-import { useAppDispatch, useAppSelector } from 'redux/store';
-import { selectOnlyOffer } from 'redux/offerSlice';
-import { fetchUpdateCoupon, selectOnlyOrder } from 'redux/orderSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
+import { selectOnlyOffer } from 'appRedux/offerSlice';
+import { fetchUpdateCoupon, selectOnlyOrder } from 'appRedux/orderSlice';
 import { LinkStyled } from 'components/ThankYouPage/ThankYouPageStyled';
 import { useCallback } from 'react';
 import {

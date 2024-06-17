@@ -1,6 +1,5 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import '@testing-library/jest-dom';
 import InputLegacy from 'components/InputLegacy/InputLegacy';
 
 describe('Input component', () => {
@@ -27,14 +26,14 @@ describe('Input component', () => {
     expect(screen.getByTestId('input-visibility-icon')).toBeInTheDocument();
   });
   test('should be calling passed onChange function when user change something', async () => {
-    const onChangeFunction = jest.fn();
+    const onChangeFunction = vi.fn();
     render(<InputLegacy onChange={onChangeFunction} />);
 
     await userEvent.type(screen.getByTestId('input'), 'Text');
     expect(onChangeFunction).toHaveBeenCalledTimes(4);
   });
   test('should be calling passed handleClickShowPassword function when user click on toggle button', async () => {
-    const showPasswordFunction = jest.fn();
+    const showPasswordFunction = vi.fn();
     render(
       <InputLegacy
         showVisibilityIcon

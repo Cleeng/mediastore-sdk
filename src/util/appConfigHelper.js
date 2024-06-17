@@ -1,13 +1,13 @@
 import i18n from 'i18next';
-import store from 'redux/store';
+import store from 'appRedux/store';
 import {
   setData as setDataInRedux,
   removeData as removeDataFromRedux
-} from 'redux/appConfig';
+} from 'appRedux/appConfig';
 import {
   init as initPublisherConfig,
   updateHiddenPaymentMethods
-} from 'redux/publisherConfigSlice';
+} from 'appRedux/publisherConfigSlice';
 
 const isLocalStorageAvailable = () => {
   try {

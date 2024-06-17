@@ -1,5 +1,5 @@
-import store from 'redux/store';
-import { setFieldError } from 'redux/deliveryDetailsSlice';
+import store from 'appRedux/store';
+import { setFieldError } from 'appRedux/deliveryDetailsSlice';
 import { validateEmailField } from 'util/validators';
 
 export const validateRecipientEmail = (value: string) => {

@@ -1,4 +1,4 @@
-import { RetentionActions } from 'redux/types';
+import { RetentionActions } from 'appRedux/types';
 
 type CancellationReason = {
   value: string;
