@@ -9,14 +9,13 @@ const initialState: PaymentMethodsInitialState = {
 export const paymentMethodsSlice = createSlice({
   name: 'paymentMethods',
   initialState,
-  reducers: {
-    setSelectedPaymentMethod(
-      state,
-      action: PayloadAction<Record<string, unknown>>
-    ) {
-      state.selectedPaymentMethod = action.payload;
-    }
-  }
+  reducers: (create) => ({
+    setSelectedPaymentMethod: create.reducer(
+      (state, action: PayloadAction<Record<string, unknown>>) => {
+        state.selectedPaymentMethod = action.payload;
+      }
+    )
+  })
 });
 
 export const selectPaymentMethods = (state: RootState) => state.paymentMethods;

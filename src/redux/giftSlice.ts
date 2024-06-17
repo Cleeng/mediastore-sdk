@@ -80,7 +80,7 @@ export const fetchRedeemGift = createAsyncThunk<
 export const giftSlice = createSlice({
   name: 'gift',
   initialState,
-  reducers: {},
+  reducers: () => ({}),
   extraReducers: (builder) => {
     builder.addCase(fetchGift.pending, (state) => {
       state.loading = true;

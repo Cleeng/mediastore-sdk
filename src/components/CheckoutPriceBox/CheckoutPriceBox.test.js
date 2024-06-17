@@ -1,12 +1,11 @@
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
-import 'i18NextInit';
+import { Provider } from 'react-redux';
 import CheckoutPriceBox from './CheckoutPriceBox';
 
-const store = (unlimited = true, trial = false) => ({
+const getPreloadedState = (unlimited = true, trial = false) => ({
   order: {
     order: {
       priceBreakdown: {
@@ -28,25 +27,30 @@ const store = (unlimited = true, trial = false) => ({
   }
 });
 
+const defaultProps = {
+  hideRedeemButton: false,
+  isCheckout: true,
+  onRedeemClick: () => null
+};
+
 const middleware = [thunk];
 const mockStore = configureStore(middleware);
 
 describe('<CheckoutPriceBox />', () => {
   it('should not display coupon note for unlimited coupon with yearly period', () => {
     render(
-      <Provider store={mockStore(store())}>
-        <CheckoutPriceBox />
+      <Provider store={mockStore(getPreloadedState())}>
+        <CheckoutPriceBox {...defaultProps} />
       </Provider>
     );
 
-    const couponNote = screen.getByTestId('coupon-notes');
-    expect(couponNote).toHaveTextContent('');
+    expect(screen.getByTestId('coupon-notes')).toHaveTextContent('');
   });
 
   it('should display coupon note for NOT unlimited coupon with yearly period', () => {
     render(
-      <Provider store={mockStore(store(false))}>
-        <CheckoutPriceBox />
+      <Provider store={mockStore(getPreloadedState(false))}>
+        <CheckoutPriceBox {...defaultProps} />
       </Provider>
     );
 
@@ -56,8 +60,8 @@ describe('<CheckoutPriceBox />', () => {
 
   it('should display Trial Discount when isTrial is true', () => {
     render(
-      <Provider store={mockStore(store(false, true))}>
-        <CheckoutPriceBox />
+      <Provider store={mockStore(getPreloadedState(false, true))}>
+        <CheckoutPriceBox {...defaultProps} />
       </Provider>
     );
 
@@ -66,8 +70,8 @@ describe('<CheckoutPriceBox />', () => {
 
   it('should display Coupon Discount when isTrial is false', () => {
     render(
-      <Provider store={mockStore(store(false))}>
-        <CheckoutPriceBox />
+      <Provider store={mockStore(getPreloadedState(false))}>
+        <CheckoutPriceBox {...defaultProps} />
       </Provider>
     );
 

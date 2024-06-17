@@ -35,7 +35,7 @@ export const fetchUnsubscribe = createAsyncThunk<
 export const unsubscribeSlice = createSlice({
   name: 'unsubscribe',
   initialState,
-  reducers: {},
+  reducers: () => ({}),
   extraReducers: (builder) => {
     builder.addCase(fetchUnsubscribe.pending, (state) => {
       state.loading = true;

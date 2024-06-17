@@ -18,7 +18,8 @@ import {
 } from './PasswordResetStyled';
 
 // eslint-disable-next-line no-useless-escape
-const EMAIL_REGEX = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+const EMAIL_REGEX =
+  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 class PasswordReset extends Component {
   constructor(props) {
@@ -31,7 +32,7 @@ class PasswordReset extends Component {
     };
   }
 
-  onSubmit = async e => {
+  onSubmit = async (e) => {
     e.preventDefault();
     const publisherId = getData('CLEENG_PUBLISHER_ID');
 
@@ -92,7 +93,7 @@ class PasswordReset extends Component {
     this.setState({
       message: errorFields.email
     });
-    return !Object.keys(errorFields).find(key => errorFields[key] !== '');
+    return !Object.keys(errorFields).find((key) => errorFields[key] !== '');
   }
 
   render() {
@@ -117,16 +118,16 @@ class PasswordReset extends Component {
               label={t('password-reset.label.email', 'Email')}
               error={message}
               value={value}
-              onChange={v => this.setState({ value: v })}
+              onChange={(v) => this.setState({ value: v })}
             />
             <Button
-              type="submit"
-              theme="confirm"
-              size="big"
+              type='submit'
+              theme='confirm'
+              size='big'
               disabled={processing || overloaded}
             >
               {processing ? (
-                <Loader buttonLoader color="#ffffff" />
+                <Loader buttonLoader color='#ffffff' />
               ) : (
                 t('password-reset.button.reset-password', 'Reset Password')
               )}
@@ -153,7 +154,7 @@ PasswordReset.propTypes = {
 };
 PasswordReset.defaultProps = {
   urlProps: {},
-  t: k => k
+  t: (k) => k
 };
 
 export { PasswordReset as PurePasswordReset };

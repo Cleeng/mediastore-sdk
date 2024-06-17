@@ -59,7 +59,7 @@ export const submitPaymentWithoutDetails = createAsyncThunk<
 export const paymentSlice = createSlice({
   name: 'paymentSlice',
   initialState,
-  reducers: {},
+  reducers: () => ({}),
   extraReducers: (builder) => {
     builder.addCase(submitPaymentWithoutDetails.pending, (state) => {
       state.loading = true;
