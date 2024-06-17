@@ -50,28 +50,29 @@ export const fetchFinalizeInitialPayment = createAsyncThunk<
 export const finalizePaymentSlice = createSlice({
   name: 'finalizeInitialPayment',
   initialState,
-  reducers: {
-    setShouldShowFinalizePaymentComponent(
-      state,
-      action: PayloadAction<boolean>
-    ) {
-      state.shouldShowFinalizePaymentComponent = action.payload;
-    }
-  },
+  reducers: (create) => ({
+    setShouldShowFinalizePaymentComponent: create.reducer(
+      (state, action: PayloadAction<boolean>) => {
+        state.shouldShowFinalizePaymentComponent = action.payload;
+      }
+    )
+  }),
   extraReducers: (builder) => {
     builder.addCase(fetchFinalizeInitialPayment.pending, (state) => {
       state.loading = true;
     });
-    builder.addCase(fetchFinalizeInitialPayment.fulfilled, (state, action) => {
-      state.loading = false;
-      state.error = null;
-      state.payment = action.payload;
-      state.shouldShowFinalizePaymentComponent = true;
-      const { payload } = action;
-      eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
-        payload
-      });
-    });
+    builder.addCase(
+      fetchFinalizeInitialPayment.fulfilled,
+      (state, { payload }) => {
+        state.loading = false;
+        state.error = null;
+        state.payment = payload;
+        state.shouldShowFinalizePaymentComponent = true;
+        eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
+          payload
+        });
+      }
+    );
     builder.addCase(
       fetchFinalizeInitialPayment.rejected,
       (state, { payload }) => {

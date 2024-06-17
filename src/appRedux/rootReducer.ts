@@ -1,8 +1,7 @@
 import {
-  AnyAction,
+  UnknownAction,
   combineReducers,
-  configureStore,
-  PreloadedState
+  configureStore
 } from '@reduxjs/toolkit';
 import appConfigReducer from './appConfig';
 import deliveryDetailsReducer from './deliveryDetailsSlice';
@@ -55,12 +54,14 @@ const rootReducer = combineReducers({
 
 export type RootState = ReturnType<typeof rootReducer>;
 
-export function setupStore(preloadedState?: PreloadedState<RootState>) {
+export function setupStore(preloadedState?: Partial<RootState>) {
   return configureStore({
     reducer: rootReducer,
     preloadedState
   });
 }
 
-export default (state: Parameters<typeof rootReducer>[0], action: AnyAction) =>
-  rootReducer(action.type === 'USER_LOGOUT' ? undefined : state, action);
+export default (
+  state: Parameters<typeof rootReducer>[0],
+  action: UnknownAction
+) => rootReducer(action.type === 'USER_LOGOUT' ? undefined : state, action);

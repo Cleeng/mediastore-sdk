@@ -24,11 +24,11 @@ export const fetchOffers = createAsyncThunk(
 export const offersSlice = createSlice({
   name: 'offers',
   initialState,
-  extraReducers: {
-    [fetchOffers.pending]: (state) => {
+  extraReducers: (builder) => {
+    builder.addCase(fetchOffers.pending, (state) => {
       state.loading = true;
-    },
-    [fetchOffers.fulfilled]: (state, { payload }) => {
+    });
+    builder.addCase(fetchOffers.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.offers = payload;
       state.pauseOffers = payload.filter(
@@ -39,11 +39,11 @@ export const offersSlice = createSlice({
           ({ externalProperties }) => externalProperties.PAUSE_OFFER === 'true'
         )
         .map((item) => item.longId);
-    },
-    [fetchOffers.rejected]: (state, { payload }) => {
+    });
+    builder.addCase(fetchOffers.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-    }
+    });
   }
 });
 

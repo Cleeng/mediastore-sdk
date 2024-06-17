@@ -14,37 +14,41 @@ export const initialState: DeliveryDetailsInitialState = {
 export const deliveryDetailsSlice = createSlice({
   name: 'deliveryDetails',
   initialState,
-  reducers: {
-    setIsGift: (state, action: PayloadAction<boolean>) => {
+  reducers: (create) => ({
+    setIsGift: create.reducer((state, action: PayloadAction<boolean>) => {
       state.isGift = action.payload;
-    },
-    setFieldValue: (
-      state,
-      action: PayloadAction<{ name: string; value: string | number }>
-    ) => {
-      const {
-        payload: { name, value }
-      } = action;
+    }),
+    setFieldValue: create.reducer(
+      (
+        state,
+        action: PayloadAction<{ name: string; value: string | number }>
+      ) => {
+        const {
+          payload: { name, value }
+        } = action;
 
-      state[name as DeliveryDetailsField].value = value;
-    },
-    setFieldError: (
-      state,
-      action: PayloadAction<{
-        name: string;
-        error: string;
-        translationKey: string;
-      }>
-    ) => {
-      const {
-        payload: { name, error, translationKey }
-      } = action;
+        state[name as DeliveryDetailsField].value = value;
+      }
+    ),
+    setFieldError: create.reducer(
+      (
+        state,
+        action: PayloadAction<{
+          name: string;
+          error: string;
+          translationKey: string;
+        }>
+      ) => {
+        const {
+          payload: { name, error, translationKey }
+        } = action;
 
-      state[name as DeliveryDetailsField].error = error;
-      state[name as DeliveryDetailsField].translationKey = translationKey;
-    },
-    resetDeliveryDetailsState: () => initialState
-  }
+        state[name as DeliveryDetailsField].error = error;
+        state[name as DeliveryDetailsField].translationKey = translationKey;
+      }
+    ),
+    resetDeliveryDetailsState: create.reducer(() => initialState)
+  })
 });
 
 export const {

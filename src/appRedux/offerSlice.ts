@@ -47,11 +47,11 @@ export const fetchOfferV2 = createAsyncThunk<
 export const offerSlice = createSlice({
   name: 'offer',
   initialState,
-  reducers: {
-    setFreeOffer(state, action: PayloadAction<boolean>) {
+  reducers: (create) => ({
+    setFreeOffer: create.reducer((state, action: PayloadAction<boolean>) => {
       state.isOfferFree = action.payload;
-    }
-  },
+    })
+  }),
   extraReducers: (builder) => {
     builder.addCase(fetchOffer.pending, (state) => {
       state.loading = true;

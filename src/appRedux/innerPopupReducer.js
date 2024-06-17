@@ -23,17 +23,17 @@ const initialState = {
   data: {}
 };
 
-const popupReducer = createReducer(initialState, {
-  SHOW_INNER_POPUP: (state, action) => {
+const popupReducer = createReducer(initialState, (builder) => {
+  builder.addCase(SHOW_INNER_POPUP, (state, action) => {
     state.isOpen = true;
     state.type = action.payload.type;
     state.data = action.payload.data;
-  },
-  HIDE_INNER_POPUP: (state) => {
+  });
+  builder.addCase(HIDE_INNER_POPUP, (state) => {
     state.isOpen = false;
     state.type = '';
     state.data = {};
-  }
+  });
 });
 
 export default popupReducer;

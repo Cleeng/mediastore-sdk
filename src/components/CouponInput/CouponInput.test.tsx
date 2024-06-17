@@ -40,8 +40,9 @@ const couponInputProps = (
   };
 };
 
-const middleware = [thunk];
-const mockStore = configureStore(middleware);
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const mockStore = configureStore([thunk]);
 
 describe('CouponInput component', () => {
   test('render input with correct value', async () => {
