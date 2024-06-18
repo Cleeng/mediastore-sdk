@@ -11,11 +11,11 @@ export default defineConfig({
     cssCodeSplit: true,
     lib: {
       entry: {
-        index: path.resolve(__dirname, 'src/package.ts'),
-        'styles/msdFont': path.resolve(__dirname, 'src/styles/msdFont.css')
+        'cleeng-mediastore-sdk': path.resolve(__dirname, 'src/package.ts'),
+        'styles/msdFont': path.resolve(__dirname, 'src/styles/msdFont.css'),
+        'cleeng-script': path.resolve(__dirname, 'src/scripts/index.js')
       },
       name: '@cleeng/mediastore-sdk',
-      fileName: 'cleeng-mediastore-sdk',
       formats: ['es']
     },
     rollupOptions: {

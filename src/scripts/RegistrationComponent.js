@@ -1,8 +1,12 @@
 import CleengComponent from './CleengComponent';
 
 class RegistrationComponent extends CleengComponent {
-  constructor() {
-    super('register');
+  constructor({ offerId, publisherId }) {
+    super({
+      slug: 'register',
+      offerId,
+      publisherId
+    });
   }
 }
 

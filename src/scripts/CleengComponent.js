@@ -1,13 +1,21 @@
-const generateEmbeddableUrl = (slug) => {
+import { EMBEDDED_COMPONENT_DOMAIN } from './constants';
+
+const generateEmbeddableUrl = ({ slug, ...params }) => {
   // todo: provide a mapping for components and their paths
-  return `https://hosted-mssdk.netlify.app/${slug}`;
+  const urlParams = new URLSearchParams(params).toString();
+
+  return `${EMBEDDED_COMPONENT_DOMAIN}/${slug}?${urlParams}`;
 };
 
 export default class CleengComponent {
   embeddableUrl = '';
 
-  constructor(slug) {
-    this.embeddableUrl = generateEmbeddableUrl(slug);
+  constructor({ slug, offerId, publisherId }) {
+    this.embeddableUrl = generateEmbeddableUrl({
+      slug,
+      offerId,
+      publisher: publisherId
+    });
   }
 
   appendToNodeWithId(parentNodeId) {
@@ -22,8 +30,8 @@ export default class CleengComponent {
     const cleengNode = document.createElement('iframe');
     cleengNode.src = this.embeddableUrl;
     cleengNode.title = 'cleeng-embedded-mediastore-sdk';
-    cleengNode.height = '800px';
-    cleengNode.width = '1000px';
+    cleengNode.height = '100%';
+    cleengNode.width = '100%';
 
     mountContainer.appendChild(cleengNode);
   }
