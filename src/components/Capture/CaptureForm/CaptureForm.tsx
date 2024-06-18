@@ -23,8 +23,6 @@ import {
   CaptureError
 } from './CaptureFormStyled';
 
-// const PHONE_NUMBER_REGEX = /(^[+]?([0-9][-|" "]?){4,16})$/;
-
 const isCustomSetting = (
   setting: CaptureSetting
 ): setting is CustomCaptureSetting => setting.key.startsWith('custom_');
