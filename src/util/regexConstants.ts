@@ -1,7 +1,7 @@
 export const EMAIL_REGEX =
-  /^((?!\.)[\w\-_.]*[+]?[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/;
+  /^((?!\.)[\w\-.]*[+]?[^.])(@\w+)(\.\w+(\.\w+)?[^\W])$/;
 
-export const PHONE_NUMBER_REGEX = /(^[+]?([\d][-|" "]?){4,16})$/;
+export const PHONE_NUMBER_REGEX = /(^[+]?(\d[-|\s]?){4,16})$/;
 
 export const REGEX_HREF_OPEN_TAG = /<a(.|\n)*?>/;
 
