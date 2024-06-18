@@ -22,10 +22,7 @@ import {
   CaptureError
 } from './CaptureFormStyled';
 
-// const PHONE_NUMBER_REGEX =
-//   /(?:([+]\d{1,4})[-.\s]?)?(?:[(](\d{1,3})[)][-.\s]?)?(\d{1,4})[-.\s]?(\d{1,4})[-.\s]?(\d{1,9})/;
-
-const PHONE_NUMBER_REGEX = /^([+]?\d{1,2}[-\s]?|)\d{3}[-\s]?\d{3}[-\s]?\d{4}$/;
+const PHONE_NUMBER_REGEX = /(^[+]?([0-9][-|" "]?){4,16})$/;
 
 const isCustomSetting = (
   setting: CaptureSetting
