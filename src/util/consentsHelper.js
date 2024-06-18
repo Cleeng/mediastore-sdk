@@ -1,16 +1,15 @@
-const regexHrefOpenTag = new RegExp(/<a(.|\n)*?>/);
-const regexHrefCloseTag = new RegExp(/<\/a(.|\n)*?>/);
+import { REGEX_HREF_CLOSING_TAG, REGEX_HREF_OPEN_TAG } from './regexConstants';
 
 const translateConsents = (consentContent, t) => {
-  const openTagContent = regexHrefOpenTag.exec(consentContent);
-  const closeTagContent = regexHrefCloseTag.exec(consentContent);
+  const openTagContent = REGEX_HREF_OPEN_TAG.exec(consentContent);
+  const closeTagContent = REGEX_HREF_CLOSING_TAG.exec(consentContent);
   if (openTagContent) {
     let modifiedConsentContent = consentContent.replace(
-      regexHrefOpenTag,
+      REGEX_HREF_OPEN_TAG,
       '{{htmltag}}'
     );
     modifiedConsentContent = modifiedConsentContent.replace(
-      regexHrefCloseTag,
+      REGEX_HREF_CLOSING_TAG,
       '{{endhtmltag}}'
     );
     return `${t(modifiedConsentContent, {

@@ -9,6 +9,7 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateCaptureAnswers } from 'api';
 import { validateEmailField } from 'util/validators';
+import { PHONE_NUMBER_REGEX } from 'util/regexConstants';
 import {
   CaptureProps,
   CaptureSetting,
@@ -22,7 +23,7 @@ import {
   CaptureError
 } from './CaptureFormStyled';
 
-const PHONE_NUMBER_REGEX = /(^[+]?([0-9][-|" "]?){4,16})$/;
+// const PHONE_NUMBER_REGEX = /(^[+]?([0-9][-|" "]?){4,16})$/;
 
 const isCustomSetting = (
   setting: CaptureSetting

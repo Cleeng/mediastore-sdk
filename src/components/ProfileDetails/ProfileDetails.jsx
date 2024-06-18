@@ -11,6 +11,7 @@ import {
   SuccessMessageStyled
 } from 'components/MyAccountConsents/MyAccountConsentsStyled';
 import { validateEmailField } from 'util/validators';
+import { PHONE_NUMBER_REGEX } from 'util/regexConstants';
 import updateCustomer from 'api/Customer/updateCustomer';
 import updateCaptureAnswers from 'api/Customer/updateCaptureAnswers';
 import Auth from 'services/auth';
@@ -363,8 +364,7 @@ class ProfileDetails extends Component {
       return false;
     }
 
-    const regexp = /^[0-9()+-\s]+$/;
-    if (updated.phoneNumber && !regexp.test(updated.phoneNumber)) {
+    if (updated.phoneNumber && !PHONE_NUMBER_REGEX.test(updated.phoneNumber)) {
       this.setState({
         errors: {
           phoneNumber: t(
