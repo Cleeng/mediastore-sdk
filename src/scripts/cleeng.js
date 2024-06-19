@@ -1,7 +1,10 @@
+import CheckoutComponent from './CheckoutComponents';
 import RegistrationComponent from './RegistrationComponent';
 
 export default class Cleeng {
   RegistrationComponent = RegistrationComponent;
+
+  CheckoutComponent = CheckoutComponent;
 
   constructor() {
     this.APIKey = '';
