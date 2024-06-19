@@ -3,7 +3,6 @@ import RegistrationComponent from './RegistrationComponent';
 
 export default class Cleeng {
   RegistrationComponent = RegistrationComponent;
-
   CheckoutComponent = CheckoutComponent;
 
   constructor() {
