@@ -21,8 +21,8 @@ type PaymentDetailCardGooglePay = GeneralPaymentDetail & {
     | 'android'
     | 'ideal'
     | 'bancontact_card'
-    | 'bancontact_mobile'
-    | 'sofort';
+    | 'bancontact_mobile';
+
   paymentMethodSpecificParams: {
     holderName: string;
     cardExpirationDate: string;

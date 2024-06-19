@@ -12,7 +12,6 @@ import Discover from 'assets/images/paymentMethods/discover.svg';
 import Diners from 'assets/images/paymentMethods/diners.svg';
 import Ideal from 'assets/images/paymentMethods/ideal.svg';
 import Bancontact from 'assets/images/paymentMethods/bancontact.svg';
-import Sofort from 'assets/images/paymentMethods/sofort.svg';
 
 // eslint-disable-next-line import/prefer-default-export
 export const CardTypes = {
@@ -85,11 +84,6 @@ export const CardTypes = {
     icon: Ideal,
     caption: 'Ideal',
     title: 'iDeal'
-  },
-  sofort: {
-    icon: Sofort,
-    caption: 'Sofort',
-    title: 'Sofort'
   },
   bancontact_card: {
     icon: Bancontact,

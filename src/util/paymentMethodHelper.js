@@ -4,7 +4,6 @@ import PaypalLogo from 'assets/images/paymentMethods/PPicon.svg';
 import ApplePayLogo from 'assets/images/paymentMethods/applePay.svg';
 import GooglePayLogo from 'assets/images/paymentMethods/googlepay.svg';
 import IdealLogo from 'assets/images/paymentMethods/ideal-small.svg';
-import SofortLogo from 'assets/images/paymentMethods/sofort-small.svg';
 import BancontactLogo from 'assets/images/paymentMethods/bancontact-small.svg';
 import GiftLogo from 'assets/images/gift.svg';
 import RokuLogo from 'assets/images/paymentMethods/roku_color.svg';
@@ -21,15 +20,12 @@ export const supportedPaymentMethods = [
   'applepay',
   'googlepay',
   'ideal',
-  'sofort',
   'bancontact_card',
   'bancontact_mobile'
 ];
 
 export const bankPaymentMethods = [
   'ideal',
-  'sofort', // Sofort name in cleeng-admin
-  'directEbanking', // Sofort name in Adyen
   'bancontact_mobile', // Bancontact Mobile name in cleeng-admin
   'bcmc_mobile' // Bancontact Mobile name in Adyen
 ];
@@ -45,7 +41,6 @@ export const standardPaymentMethods = [
 
 export const bankPaymentMethodsMapper = {
   bcmc_mobile: 'bancontact_mobile',
-  directEbanking: 'sofort',
   bcmc: 'bancontact_card'
 };
 
@@ -58,7 +53,6 @@ export const readablePaymentMethodNames = {
   applepay: 'ApplePay',
   googlepay: 'GooglePay',
   ideal: 'iDEAL',
-  sofort: 'Sofort',
   bancontact_card: 'Bancontact Card',
   bancontact_mobile: 'Bancontact Mobile'
 };
@@ -72,7 +66,6 @@ export const logos = {
   apple: ApplePayLogo,
   googlepay: GooglePayLogo,
   ideal: IdealLogo,
-  sofort: SofortLogo,
   bancontact_card: BancontactLogo,
   bancontact_mobile: BancontactLogo,
   gift: GiftLogo,
