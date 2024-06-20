@@ -69,7 +69,10 @@ const CheckoutPriceBox = ({
       return false;
     }
 
-    return t(`coupon-note-applied`, 'Promotional Pricing applied!');
+    return t(
+      'checkout-price-box.coupon-note-applied',
+      'Promotional Pricing applied!'
+    );
   };
 
   const removeCoupon = useCallback(async () => {
@@ -77,6 +80,8 @@ const CheckoutPriceBox = ({
   }, [dispatch, fetchUpdateCoupon, orderId]);
 
   const shouldShowRedeemButton = !hideRedeemButton && isCheckout;
+
+  console.log(discountType);
 
   return (
     <StyledPriceBoxWrapper>
