@@ -1,16 +1,15 @@
-import { EMBEDDED_COMPONENT_DOMAIN } from './constants';
-
-const generateEmbeddableUrl = ({ slug, ...params }) => {
-  // todo: provide a mapping for components and their paths
-  const urlParams = new URLSearchParams(params).toString();
-
-  return `${EMBEDDED_COMPONENT_DOMAIN}/${slug}?${urlParams}`;
-};
+import { generateEmbeddableUrl } from './utils';
 
 export default class CleengComponent {
   embeddableUrl = '';
 
-  constructor({ slug, offerId, publisherId }) {
+  constructor({ slug, offerId, publisherId, isConfigured }) {
+    if (!isConfigured) {
+      throw new Error(
+        'The cleeng.configure method has not been called yet. Make sure to call it first before trying to embed any components.'
+      );
+    }
+
     this.embeddableUrl = generateEmbeddableUrl({
       slug,
       offerId,
