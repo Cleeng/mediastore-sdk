@@ -3,4 +3,3 @@
 
 commit_message=$(cat $1)
 sh .husky/scripts/verify_commit_message "$commit_message"
-pnpm exec lint-staged
