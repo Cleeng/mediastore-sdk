@@ -1,4 +1,4 @@
-import { EMBEDDED_COMPONENT_DOMAIN } from './constants';
+import { HOSTED_COMPONENTS_DOMAIN } from './constants';
 
 export const kebabCase = (textToTransform) =>
   textToTransform
@@ -9,5 +9,5 @@ export const kebabCase = (textToTransform) =>
 export const generateEmbeddableUrl = ({ slug, ...params }) => {
   const urlParams = new URLSearchParams(params).toString();
 
-  return `${EMBEDDED_COMPONENT_DOMAIN}/${slug}?${urlParams}`;
+  return `${HOSTED_COMPONENTS_DOMAIN}/${slug}?${urlParams}`;
 };
