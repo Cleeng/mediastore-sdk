@@ -81,8 +81,6 @@ const CheckoutPriceBox = ({
 
   const shouldShowRedeemButton = !hideRedeemButton && isCheckout;
 
-  console.log(discountType);
-
   return (
     <StyledPriceBoxWrapper>
       <StyledPriceBox>
