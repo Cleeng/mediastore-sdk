@@ -95,7 +95,7 @@ Config functions save data to local storage (as `CLEENG_*` items). These data ar
 | `setMyAccountUrl`               | `url: string`                                                | My account URL. Needed for checkout legal notes                                                                                                                         |
 | `setOfferSelectionUrl`          | `url: string`                                                | Url to offer selection page. Recommended for CTA when the customer has no active plan                                                                                   |
 | `setTheme`                      | `styles:object`                                              | More information in the [Styling](#styling) section.                                                                                                                    |
-| `setVisibleAdyenPaymentMethods` | `paymentMethods: string[]`                                   | Array of payment methods names that should be presented in Checkout and MyAccount. Available options: `applepay`, `card`, `googlepay`, `ideal`, `sofort`                |
+| `setVisibleAdyenPaymentMethods` | `paymentMethods: string[]`                                   | Array of payment methods names that should be presented in Checkout and MyAccount. Available options: `applepay`, `card`, `googlepay`, `ideal`                          |
 | `setHidePayPal`                 | -                                                            | Option to hide PayPal, by default PayPal will be visible when configured                                                                                                |
 | `setEnable3DSRedirectFlow`      | -                                                            | Set to true to force 3DS redirect flow.                                                                                                                                 |
 | `setLanguage`                   | `language :string`                                           | Option to change language without reloading page                                                                                                                        |
@@ -875,7 +875,7 @@ window.addEventListener('MSSDK:redeem-coupon-failed', (evt) =>
 
 By passing a special prop `adyenConfiguration` we are giving a possibility to customize an Adyen instance. Components that accept this prop are [MyAccount](#myaccount), [Checkout](#checkout), [PaymentInfo](#paymentinfo) and [Purchase](#purchase).
 
-If the payment method is not presented in the `paymentMethodConfiguration` object, then it doesn't have any optional configuration available, eg. sofort.
+If the payment method is not presented in the `paymentMethodConfiguration` object, then it doesn't have any optional configuration available.
 
 The example Adyen configuration object with described properties is shown below:
 

@@ -7,18 +7,18 @@ import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import { updateOrder, getPaymentMethods } from 'api';
 import { setData, getData, removeData } from 'util/appConfigHelper';
-import { useAppDispatch, useAppSelector } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { unwrapResult } from '@reduxjs/toolkit';
 import {
   fetchOffer,
   fetchOfferV2,
   setFreeOffer,
   selectOffer
-} from 'redux/offerSlice';
+} from 'appRedux/offerSlice';
 import {
   init as initValues,
   selectPublisherConfig
-} from 'redux/publisherConfigSlice';
+} from 'appRedux/publisherConfigSlice';
 import {
   fetchCreateOrder,
   fetchGetOrder,
@@ -27,8 +27,8 @@ import {
   selectOrder,
   setOrderCouponMessage,
   fetchUpdateOrder
-} from 'redux/orderSlice';
-import { Order } from 'redux/types';
+} from 'appRedux/orderSlice';
+import { Order } from 'appRedux/types';
 import eventDispatcher, {
   MSSDK_COUPON_FAILED,
   MSSDK_COUPON_SUCCESSFUL,

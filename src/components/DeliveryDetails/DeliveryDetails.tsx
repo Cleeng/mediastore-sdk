@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import {
   resetDeliveryDetailsState,
   selectDeliveryDetails,
   setIsGift
-} from 'redux/deliveryDetailsSlice';
-import { selectOffer } from 'redux/offerSlice';
-import { fetchUpdateOrder, selectOnlyOrder } from 'redux/orderSlice';
-import { ReactComponent as GiftIcon } from 'assets/images/gift.svg';
-import { ReactComponent as CardIcon } from 'assets/images/paymentMethods/card2.svg';
+} from 'appRedux/deliveryDetailsSlice';
+import { selectOffer } from 'appRedux/offerSlice';
+import { fetchUpdateOrder, selectOnlyOrder } from 'appRedux/orderSlice';
+import GiftIcon from 'assets/images/gift.svg';
+import CardIcon from 'assets/images/paymentMethods/card2.svg';
 import SectionHeader from 'components/SectionHeader';
 import RecipientForm from './RecipientForm';
 import {

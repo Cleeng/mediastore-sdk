@@ -10,15 +10,15 @@ import EditDeliveryDetailsPopup from 'components/EditDeliveryDetailsPopup';
 import {
   init as initPublisherConfig,
   selectAdyenConfiguration
-} from 'redux/publisherConfigSlice';
+} from 'appRedux/publisherConfigSlice';
 import withAddPaymentDetailsFinalizationHandler from 'containers/WithAddPaymentDetailsFinalizationHandler';
 import {
   POPUP_TYPES,
   selectPaymentDetailsPopup,
   selectPopupDetails,
   updatePaymentDetailsPopup
-} from 'redux/popupSlice';
-import { useAppDispatch, useAppSelector } from 'redux/store';
+} from 'appRedux/popupSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { WrapStyled } from './PaymentInfoStyled';
 import { PaymentInfoProps } from './PaymentInfo.types';
 

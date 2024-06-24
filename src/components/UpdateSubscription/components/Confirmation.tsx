@@ -5,12 +5,12 @@ import {
   TitleStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
-import { hidePopup, selectOfferData } from 'redux/popupSlice';
+import { hidePopup, selectOfferData } from 'appRedux/popupSlice';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 import { dateFormat, INFINITE_DATE } from 'util/planHelper';
-import { updateList } from 'redux/planDetailsSlice';
+import { updateList } from 'appRedux/planDetailsSlice';
 
 const Confirmation = () => {
   const offerDetails = useAppSelector(selectOfferData);

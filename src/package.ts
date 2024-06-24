@@ -1,4 +1,4 @@
-import 'i18NextInit';
+import './i18NextInit';
 
 import Card from 'components/Card';
 import OfferContainer from 'containers/OfferContainer';
@@ -6,7 +6,7 @@ import Login from 'components/LoginPage';
 import Register from 'components/RegisterPage';
 import MyAccount from 'containers/MyAccount';
 import Auth from 'services/auth';
-import store from 'redux/store';
+import store from 'appRedux/store';
 import Config from 'util/appConfigHelper';
 import PlanDetails from 'containers/PlanDetails';
 import PaymentInfo from 'containers/PaymentInfo';
@@ -24,18 +24,20 @@ import eventDispatcher, {
   MSSDK_PURCHASE_SUCCESSFUL
 } from 'util/eventDispatcher';
 
-window.onload = () => {
-  const queryString = window.location.search;
-  const urlParams = new URLSearchParams(queryString);
-  const externalPaymentId = urlParams.get('externalPaymentId');
-  if (externalPaymentId) {
-    eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
-      payment: {
-        externalPaymentId
-      }
-    });
-  }
-};
+if (typeof window !== 'undefined') {
+  window.onload = () => {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const externalPaymentId = urlParams.get('externalPaymentId');
+    if (externalPaymentId) {
+      eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
+        payment: {
+          externalPaymentId
+        }
+      });
+    }
+  };
+}
 
 export {
   // Identity Management

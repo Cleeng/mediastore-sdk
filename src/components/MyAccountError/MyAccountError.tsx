@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import Button from 'components/Button';
-import { ReactComponent as serverIcon } from 'assets/images/errors/sad_server.svg';
+import serverIcon from 'assets/images/errors/sad_server.svg';
 import React from 'react';
 import {
   WrapStyled,

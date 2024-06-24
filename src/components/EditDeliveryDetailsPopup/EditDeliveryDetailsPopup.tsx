@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import {
   resetDeliveryDetailsState,
   selectDeliveryDetails
-} from 'redux/deliveryDetailsSlice';
-import { fetchGift, fetchUpdateGift, selectGift } from 'redux/giftSlice';
-import { hidePopup, selectEditDeliveryDetailsPopup } from 'redux/popupSlice';
-import { useAppDispatch, useAppSelector } from 'redux/store';
-import { ReactComponent as CheckmarkIcon } from 'assets/images/greenCheckmark.svg';
-import { ReactComponent as WarningIcon } from 'assets/images/errors/warning.svg';
+} from 'appRedux/deliveryDetailsSlice';
+import { fetchGift, fetchUpdateGift, selectGift } from 'appRedux/giftSlice';
+import { hidePopup, selectEditDeliveryDetailsPopup } from 'appRedux/popupSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
+import CheckmarkIcon from 'assets/images/greenCheckmark.svg';
+import WarningIcon from 'assets/images/errors/warning.svg';
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import RecipientForm from 'components/DeliveryDetails/RecipientForm';

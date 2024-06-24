@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from 'components/Input';
-import { ReactComponent as CalendarIcon } from 'assets/images/calendar.svg';
+import CalendarIcon from 'assets/images/calendar.svg';
 
 type DateInputProps = {
   value: string;

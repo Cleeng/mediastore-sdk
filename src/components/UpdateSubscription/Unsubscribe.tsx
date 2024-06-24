@@ -4,13 +4,13 @@ import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import {
   selectSwitchDetails,
   selectSwitchSettings
-} from 'redux/planDetailsSlice';
-import { SwitchSetting } from 'redux/types';
-import { useAppDispatch, useAppSelector } from 'redux/store';
-import { selectOffers } from 'redux/offersSlice';
-import { selectOfferData } from 'redux/popupSlice';
-import { fetchUnsubscribe, selectUnsubscribe } from 'redux/unsubscribeSlice';
-import { selectRetentionActions } from 'redux/retentionActionsSlice';
+} from 'appRedux/planDetailsSlice';
+import { SwitchSetting } from 'appRedux/types';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
+import { selectOffers } from 'appRedux/offersSlice';
+import { selectOfferData } from 'appRedux/popupSlice';
+import { fetchUnsubscribe, selectUnsubscribe } from 'appRedux/unsubscribeSlice';
+import { selectRetentionActions } from 'appRedux/retentionActionsSlice';
 import eventDispatcher, {
   UNSUBSCRIBE_ACTION_CONFIRMED
 } from 'util/eventDispatcher';

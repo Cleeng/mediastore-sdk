@@ -1,9 +1,12 @@
 import React, { useEffect } from 'react';
-import { ReactComponent as AlertIcon } from 'assets/images/errors/alert.svg';
+import AlertIcon from 'assets/images/errors/alert.svg';
 import { Trans } from 'react-i18next';
-import { fetchCustomerOffers, selectCurrentPlan } from 'redux/planDetailsSlice';
-import { useAppDispatch, useAppSelector } from 'redux/store';
-import { selectDisplayGracePeriodError } from 'redux/publisherConfigSlice';
+import {
+  fetchCustomerOffers,
+  selectCurrentPlan
+} from 'appRedux/planDetailsSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
+import { selectDisplayGracePeriodError } from 'appRedux/publisherConfigSlice';
 import {
   GracePeriodErrorStyled,
   WarningMessageStyled,

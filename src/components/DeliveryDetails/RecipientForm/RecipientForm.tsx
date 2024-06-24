@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import {
   selectDeliveryDetails,
   setFieldValue
-} from 'redux/deliveryDetailsSlice';
-import { selectGift } from 'redux/giftSlice';
-import { POPUP_TYPES, selectPopupDetails } from 'redux/popupSlice';
+} from 'appRedux/deliveryDetailsSlice';
+import { selectGift } from 'appRedux/giftSlice';
+import { POPUP_TYPES, selectPopupDetails } from 'appRedux/popupSlice';
 import MyAccountInput from 'components/MyAccountInput';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import {

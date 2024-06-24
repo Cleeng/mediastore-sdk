@@ -1,15 +1,18 @@
 import React from 'react';
-import { useAppDispatch, useAppSelector } from 'redux/store';
-import { selectCurrentPlan, selectSwitchDetails } from 'redux/planDetailsSlice';
-import { selectOffers } from 'redux/offersSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
+import {
+  selectCurrentPlan,
+  selectSwitchDetails
+} from 'appRedux/planDetailsSlice';
+import { selectOffers } from 'appRedux/offersSlice';
 import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price, { isPromoPriceActive } from 'components/Price';
-import { ReactComponent as EditBlockedIcon } from 'assets/images/noEdit.svg';
 import SkeletonWrapper from 'components/SkeletonWrapper';
-import { ReactComponent as DowngradeIcon } from 'assets/images/downgrade_pending.svg';
-import { ReactComponent as UpgradeIcon } from 'assets/images/upgrade_pending.svg';
-import { ReactComponent as PauseIcon } from 'assets/images/pause_noti.svg';
+import EditBlockedIcon from 'assets/images/noEdit.svg';
+import DowngradeIcon from 'assets/images/downgrade_pending.svg';
+import UpgradeIcon from 'assets/images/upgrade_pending.svg';
+import PauseIcon from 'assets/images/pause_noti.svg';
 import {
   dateFormat,
   INFINITE_DATE,
@@ -17,13 +20,13 @@ import {
   CurrencyFormat
 } from 'util/planHelper';
 import { CustomerOffer } from 'api/Customer/types';
-import { showPopup, POPUP_TYPES } from 'redux/popupSlice';
-import { Offer } from 'redux/types/offersSlice.types';
+import { showPopup, POPUP_TYPES } from 'appRedux/popupSlice';
+import { Offer } from 'appRedux/types/offersSlice.types';
 import eventDispatcher, {
   MSSDK_CANCEL_SWITCH_BUTTON_CLICKED
 } from 'util/eventDispatcher';
-import { SwitchDetail } from 'redux/types';
-import { selectOffer } from 'redux/offerSlice';
+import { SwitchDetail } from 'appRedux/types';
+import { selectOffer } from 'appRedux/offerSlice';
 import {
   WrapperStyled,
   InnerWrapper,

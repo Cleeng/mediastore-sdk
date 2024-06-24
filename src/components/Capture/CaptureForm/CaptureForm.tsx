@@ -1,5 +1,4 @@
 import React, { useState, useEffect, FormEvent } from 'react';
-import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Input from 'components/Input';
 import EmailInput from 'components/EmailInput';
@@ -10,6 +9,7 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateCaptureAnswers } from 'api';
 import { validateEmailField } from 'util/validators';
+import { PHONE_NUMBER_REGEX } from 'util/regexConstants';
 import {
   CaptureProps,
   CaptureSetting,
@@ -174,6 +174,17 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
     if (!phoneNumber.value) {
       phoneNumber.setError(
         t('captureform.error.phone-number', 'Phone number is required')
+      );
+
+      setIsError(true);
+      return;
+    }
+
+    const isPhoneNumberValid = PHONE_NUMBER_REGEX.test(phoneNumber.value);
+
+    if (!isPhoneNumberValid) {
+      phoneNumber.setError(
+        t('captureform.error.phone-number-invalid', 'Phone number is invalid')
       );
       setIsError(true);
     }
@@ -492,16 +503,6 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
       </form>
     </>
   );
-};
-
-CaptureForm.propTypes = {
-  settings: PropTypes.arrayOf(PropTypes.any),
-  onSuccess: PropTypes.func
-};
-
-CaptureForm.defaultProps = {
-  settings: [],
-  onSuccess: () => null
 };
 
 export default CaptureForm;

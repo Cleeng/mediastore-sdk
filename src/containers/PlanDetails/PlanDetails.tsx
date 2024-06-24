@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 
 import SectionHeader from 'components/SectionHeader';
 import CurrentPlan from 'components/CurrentPlan';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import GracePeriodError from 'components/GracePeriodError';
 import PlanDetailsPopupManager from 'components/PlanDetailsPopupManager';
-import { init } from 'redux/publisherConfigSlice';
-import { selectPopupDetails, hidePopup } from 'redux/popupSlice';
+import { init } from 'appRedux/publisherConfigSlice';
+import { selectPopupDetails, hidePopup } from 'appRedux/popupSlice';
 import {
   selectPlanDetails,
   selectCurrentPlan,
@@ -18,8 +18,8 @@ import {
   setOfferToSwitch,
   resetOfferToSwitch,
   updateList
-} from 'redux/planDetailsSlice';
-import { fetchOffers } from 'redux/offersSlice';
+} from 'appRedux/planDetailsSlice';
+import { fetchOffers } from 'appRedux/offersSlice';
 import { CustomerOffer } from 'api/Customer/types/getCustomerOffers.types';
 import { WrapStyled } from './PlanDetailsStyled';
 import { PlanDetailsProps } from './PlanDetails.types';

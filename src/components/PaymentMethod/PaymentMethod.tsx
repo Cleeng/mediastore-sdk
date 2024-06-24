@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReactComponent as AddIcon } from 'assets/images/add.svg';
+import AddIcon from 'assets/images/add.svg';
 import MyAccountError from 'components/MyAccountError';
 import PaymentCard from 'components/PaymentCard';
 import {
   fetchPaymentDetails,
   selectPaymentDetails
-} from 'redux/paymentDetailsSlice';
+} from 'appRedux/paymentDetailsSlice';
 import {
   PAYMENT_DETAILS_STEPS,
   updatePaymentDetailsPopup
-} from 'redux/popupSlice';
-import { useAppDispatch, useAppSelector } from 'redux/store';
+} from 'appRedux/popupSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { PaymentDetail } from 'api/Customer/types';
 import { WrapStyled, CardsWrapper, Message } from './PaymentMethodStyled';
 import PaymentCardSkeleton from '../PaymentCardSkeleton/PaymentCardSkeleton';
@@ -37,7 +37,6 @@ const PaymentMethod = () => {
       case 'ideal':
       case 'bancontact_card':
       case 'bancontact_mobile':
-      case 'sofort':
         return <PaymentCard key={id} details={paymentDetail} />;
       default:
         return (

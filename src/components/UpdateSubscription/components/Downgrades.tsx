@@ -8,10 +8,10 @@ import {
   TitleStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
-import { hidePopup, selectPopupManager, showPopup } from 'redux/popupSlice';
+import { hidePopup, selectPopupManager, showPopup } from 'appRedux/popupSlice';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'redux/store';
-import { SwitchSetting } from 'redux/types';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
+import { SwitchSetting } from 'appRedux/types';
 import OfferSwitchCard from 'components/OfferSwitchCard';
 
 const Downgrades = ({

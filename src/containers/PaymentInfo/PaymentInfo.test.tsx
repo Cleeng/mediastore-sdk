@@ -1,16 +1,16 @@
-import '@testing-library/jest-dom';
 import React from 'react';
 import PaymentInfo from 'containers/PaymentInfo';
 import 'i18NextInit';
-import { updatePaymentDetailsPopup } from 'redux/popupSlice';
+import { updatePaymentDetailsPopup } from 'appRedux/popupSlice';
 import renderWithProviders from 'util/testHelpers';
-import { setupStore } from 'redux/rootReducer';
+import { setupStore } from 'appRedux/rootReducer';
+import { type Mock } from 'vitest';
 
-global.fetch = jest.fn(() =>
+global.fetch = vi.fn(() =>
   Promise.resolve({
     json: () => Promise.resolve({ test: null })
   })
-) as jest.Mock;
+) as Mock;
 
 describe('PaymentInfo component', () => {
   test('should render PaymentMethod and Transactions component if paymentDetails is not open', async () => {

@@ -3,8 +3,8 @@ import Card from 'components/Card';
 import eventDispatcher, {
   MSSDK_EDIT_PAYMENT_BUTTON_CLICKED
 } from 'util/eventDispatcher';
-import { updatePaymentDetailsPopup } from 'redux/popupSlice';
-import { useAppDispatch } from 'redux/store';
+import { updatePaymentDetailsPopup } from 'appRedux/popupSlice';
+import { useAppDispatch } from 'appRedux/store';
 import React from 'react';
 import { CardTypes, CardTypesKey } from './Payment.const';
 import {

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
-import { selectOnlyOrder } from 'redux/orderSlice';
-import { useAppSelector } from 'redux/store';
+import { useAppSelector } from 'appRedux/store';
+import { selectOnlyOrder } from 'appRedux/orderSlice';
 import {
   WrapperStyled,
   CurrencyStyled,

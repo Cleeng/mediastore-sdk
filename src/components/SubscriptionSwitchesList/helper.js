@@ -1,4 +1,4 @@
-import { ReactComponent as subscriptionCardPlaceholderIcon } from 'assets/images/subscriptionCardPlaceholder.svg';
+import subscriptionCardPlaceholderIcon from 'assets/images/subscriptionCardPlaceholder.svg';
 
 const mapErrorToText = {
   RECURRING_PROCESS_ALREADY_STARTED: {

@@ -1,4 +1,4 @@
-import store from 'redux/store';
+import store from 'appRedux/store';
 
 const generateReturnUrl = ({ queryParams, isMyAccount }) => {
   const {

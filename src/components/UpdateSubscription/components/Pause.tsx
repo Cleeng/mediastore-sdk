@@ -6,10 +6,10 @@ import {
   TitleStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
-import { hidePopup, showPopup } from 'redux/popupSlice';
+import { hidePopup, showPopup } from 'appRedux/popupSlice';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'redux/store';
-import { SwitchSetting } from 'redux/types';
+import { useAppDispatch } from 'appRedux/store';
+import { SwitchSetting } from 'appRedux/types';
 
 const Pause = ({
   pauseOffer,

@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom';
 import * as Colors from 'styles/variables';
 import CouponInput from 'components/CouponInput';
 import {
@@ -8,7 +7,7 @@ import {
   MESSAGE_TYPE_FAIL
 } from 'components/InputLegacy/InputConstants';
 import userEvent from '@testing-library/user-event';
-import { orderInitialState } from 'redux/orderSlice';
+import { orderInitialState } from 'appRedux/orderSlice';
 import { Provider } from 'react-redux';
 import configureStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
@@ -42,8 +41,9 @@ const couponInputProps = (
   };
 };
 
-const middleware = [thunk];
-const mockStore = configureStore(middleware);
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+const mockStore = configureStore([thunk]);
 
 describe('CouponInput component', () => {
   test('render input with correct value', async () => {
@@ -110,7 +110,7 @@ describe('CouponInput component', () => {
   });
 
   test('calls the onSubmit function after redeeming a coupon', async () => {
-    const onSubmit = jest.fn();
+    const onSubmit = vi.fn();
     render(
       <Provider store={mockStore(orderInitialState)}>
         <CouponInput

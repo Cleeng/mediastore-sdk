@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch } from 'redux/store';
-import { hidePopup } from 'redux/popupSlice';
+import { useAppDispatch } from 'appRedux/store';
+import { hidePopup } from 'appRedux/popupSlice';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 import Button from 'components/Button';
 import {

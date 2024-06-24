@@ -1,5 +1,5 @@
-import { useAppSelector } from 'redux/store';
-import { POPUP_TYPES, selectPopupDetails } from 'redux/popupSlice';
+import { useAppSelector } from 'appRedux/store';
+import { POPUP_TYPES, selectPopupDetails } from 'appRedux/popupSlice';
 import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription';
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
 import PauseSubscriptionPopup from 'components/PauseSubscriptionPopup';

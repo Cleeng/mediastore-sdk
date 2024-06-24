@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getPaymentMethods, submitPayment, submitPayPalPayment } from 'api';
-import { submitPaymentWithoutDetails } from 'redux/paymentSlice';
+import { submitPaymentWithoutDetails } from 'appRedux/paymentSlice';
 import Button from 'components/Button';
 import Adyen from 'components/Adyen';
 import Loader from 'components/Loader';
@@ -10,8 +10,8 @@ import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/Recipien
 import {
   fetchFinalizeInitialPayment,
   selectFinalizePayment
-} from 'redux/finalizePaymentSlice';
-import { selectDeliveryDetails } from 'redux/deliveryDetailsSlice';
+} from 'appRedux/finalizePaymentSlice';
+import { selectDeliveryDetails } from 'appRedux/deliveryDetailsSlice';
 import Auth from 'services/auth';
 import {
   validatePaymentMethods,
@@ -23,10 +23,10 @@ import {
 import {
   updatePaymentMethods,
   selectPublisherConfig
-} from 'redux/publisherConfigSlice';
-import { fetchUpdateOrder, selectOnlyOrder } from 'redux/orderSlice';
-import { setSelectedPaymentMethod } from 'redux/paymentMethodsSlice';
-import { useAppDispatch, useAppSelector } from 'redux/store';
+} from 'appRedux/publisherConfigSlice';
+import { fetchUpdateOrder, selectOnlyOrder } from 'appRedux/orderSlice';
+import { setSelectedPaymentMethod } from 'appRedux/paymentMethodsSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import RedirectElement from '@adyen/adyen-web';
 import {
   PaymentErrorStyled,

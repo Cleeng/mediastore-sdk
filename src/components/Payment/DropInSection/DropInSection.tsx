@@ -1,7 +1,7 @@
-import { ReactComponent as PayPalIcon } from 'assets/images/paymentMethods/PPicon.svg';
+import PayPalIcon from 'assets/images/paymentMethods/PPicon.svg';
 import classNames from 'classnames';
-import { selectPaymentMethods } from 'redux/paymentMethodsSlice';
-import { useAppSelector } from 'redux/store';
+import { selectPaymentMethods } from 'appRedux/paymentMethodsSlice';
+import { useAppSelector } from 'appRedux/store';
 import React from 'react';
 import {
   IconWrapperStyled,
