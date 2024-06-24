@@ -62,7 +62,8 @@
     "dev-vite": "vite dev",
     "preview": "vite preview",
     "lint-fix": "pnpm lint --fix",
-    "dev": "pnpm --prefix ../mediastore-sdk-demo-2024 dev & onchange './src/**' -e './src/**/*.(spec|test|type|types).[jt]s?(x)' -- pnpm publish-dev"
+    "dev": "pnpm --prefix ../mediastore-sdk-demo-2024 dev & onchange './src/**' -e './src/**/*.(spec|test|type|types).[jt]s?(x)' -- pnpm publish-dev",
+    "dev-windows": "start /B cmd /c pnpm --prefix ..\\mediastore-sdk-demo-2024 dev & onchange \"./src/**\" -e \"./src/**/*.(spec|test|type|types).[jt]s?(x)\" -- pnpm publish-dev"
   },
   "browserslist": {
     "production": [
