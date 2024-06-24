@@ -64,6 +64,7 @@
   "checkout-price-box.applicable-vat": "Applicable VAT",
   "checkout-price-box.button.redeem": "Redeem here",
   "checkout-price-box.coupon-discount": "Coupon Discount",
+  "checkout-price-box.coupon-note-applied": "Promotional Pricing applied!",
   "checkout-price-box.remove-coupon-discount": "[Remove]",
   "checkout-price-box.excl-tax": "excl. Tax",
   "checkout-price-box.excl-vat": "excl. VAT",
