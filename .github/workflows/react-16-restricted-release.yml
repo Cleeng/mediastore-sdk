@@ -8,6 +8,8 @@ on:
         description: 'Branch name'
         required: true
         default: 'react-16-temporary-support'
+    secrets:
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   publish:
@@ -15,8 +17,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-    secrets:
-      TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
         with:
