@@ -1,17 +1,29 @@
 name: Prepare feature package - React 16
 
-on: push
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: 'Branch name'
+        required: true
+        default: 'react-16-temporary-support'
 
 jobs:
   publish:
-    uses: ./.github/workflows/call-publish.yml
-    permissions:
-      contents: read
-      packages: write
-    with:
-      access: restricted
-      registry: npm.pkg.github.com
-      scope: '@cleeng'
-      branch: ${{ github.head_ref }}
-    secrets:
-      TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
+      - uses: ./.github/workflows/call-publish.yml
+        permissions:
+          contents: read
+          packages: write
+        with:
+          access: restricted
+          registry: npm.pkg.github.com
+          scope: '@cleeng'
+          branch: ${{ github.head_ref }}
+        secrets:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
