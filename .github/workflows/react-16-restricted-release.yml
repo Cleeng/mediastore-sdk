@@ -10,7 +10,7 @@ on:
 
 jobs:
   publish:
-    runs-on: ubuntu-latest # Added this line
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
