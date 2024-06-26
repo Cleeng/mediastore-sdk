@@ -8,8 +8,6 @@ on:
         description: 'Branch name'
         required: true
         default: 'react-16-temporary-support'
-    secrets:
-      TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   publish:
