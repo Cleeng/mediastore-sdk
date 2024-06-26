@@ -16,13 +16,8 @@ jobs:
         with:
           ref: ${{ github.event.inputs.branch }}
       - uses: ./.github/workflows/call-publish.yml
-        permissions:
-          contents: read
-          packages: write
         with:
           access: restricted
           registry: npm.pkg.github.com
           scope: '@cleeng'
           branch: ${{ github.head_ref }}
-        secrets:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
