@@ -12,14 +12,14 @@ on:
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v2
         with:
           ref: ${{ github.event.inputs.branch }}
       - uses: ./.github/workflows/call-publish.yml
-        permissions:
-          contents: read
-          packages: write
         with:
           access: restricted
           registry: npm.pkg.github.com
