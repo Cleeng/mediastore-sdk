@@ -1,5 +1,8 @@
 name: Prepare feature package - React 16
 
+on:
+  workflow_dispatch:
+
 jobs:
   publish:
     uses: ./.github/workflows/call-publish.yml
