@@ -1,7 +1,6 @@
 name: Prepare feature package - React 16
 
-on:
-  workflow_dispatch:
+on: push
 
 jobs:
   publish:
