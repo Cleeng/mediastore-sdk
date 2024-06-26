@@ -11,6 +11,7 @@ on:
 
 jobs:
   publish:
+    runs-on: ubuntu-latest # Added this line
     steps:
       - uses: actions/checkout@v2
         with:
