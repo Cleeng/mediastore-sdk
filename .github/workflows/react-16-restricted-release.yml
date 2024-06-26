@@ -15,6 +15,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+    secrets:
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -25,5 +27,3 @@ jobs:
           registry: npm.pkg.github.com
           scope: '@cleeng'
           branch: ${{ github.head_ref }}
-        secrets:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
