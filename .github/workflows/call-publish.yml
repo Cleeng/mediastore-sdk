@@ -17,6 +17,10 @@ on:
         type: string
         required: false
         default: main
+      isReact16Version:
+        type: boolean
+        required: false
+        default: false
     secrets:
       TOKEN:
         required: true
@@ -55,6 +59,11 @@ jobs:
           sed -i
           "s/0.0.0-development/${{ inputs.access == 'public' && env.public || env.restricted }}/"
           package.json
+
+      - name: Set package name for react-16-temporary-support
+        if: inputs.isReact16Version == true
+        run: >
+          jq '.name="@cleeng/mediastore-sdk-react-16"' package.json > temp.json && mv temp.json package.json
 
       - name: install deps
         run: pnpm install

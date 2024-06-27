@@ -20,5 +20,6 @@ jobs:
       registry: npm.pkg.github.com
       scope: '@cleeng'
       branch: ${{ github.head_ref }}
+      isReact16Version: true
     secrets:
       TOKEN: ${{ secrets.GITHUB_TOKEN }}
