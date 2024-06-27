@@ -21,6 +21,7 @@ jobs:
       access: restricted
       registry: npm.pkg.github.com
       scope: '@cleeng'
-      branch: ${{ github.event.inputs.branch }}
+      # branch: ${{ github.event.inputs.branch }}
+      branch: 'chore/MSSDK-1787-react-16-private-publish-script'
     secrets:
       TOKEN: ${{ secrets.GITHUB_TOKEN }}
