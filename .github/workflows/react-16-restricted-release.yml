@@ -1,6 +1,9 @@
 name: Prepare restricted testing feature package - React 16
 
 on:
+  push:
+    branches:
+      - 'chore/MSSDK-1787-react-16-private-publish-script'
   workflow_dispatch:
     inputs:
       branch:
