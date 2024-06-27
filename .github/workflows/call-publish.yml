@@ -49,7 +49,8 @@ jobs:
       - name: patch sdk version
         env:
           public: ${{ inputs.branch == 'react-16-temporary-support' && env.tag || github.event.release.tag_name }}
-          restricted: ${{ env.tag }}-${{ github.event.number }}-${{ github.event.pull_request.head.sha }}
+          restricted: ${{ env.tag }}-${{ github.event.number }}-${{ github.sha }}
+          # restricted: ${{ env.tag }}-${{ github.event.number }}-${{ github.event.pull_request.head.sha }}
         run: >
           sed -i
           "s/0.0.0-development/${{ inputs.access == 'public' && env.public || env.restricted }}/"
