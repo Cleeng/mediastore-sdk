@@ -1,7 +1,6 @@
 name: Prepare restricted testing feature package - React 16
 
 on:
-  push:
   workflow_dispatch:
     inputs:
       branch:
