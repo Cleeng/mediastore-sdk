@@ -2,8 +2,6 @@ name: Prepare restricted testing feature package - React 16
 
 on:
   push:
-    branches:
-      - 'chore/MSSDK-1787-react-16-private-publish-script'
   workflow_dispatch:
     inputs:
       branch:
@@ -21,7 +19,6 @@ jobs:
       access: restricted
       registry: npm.pkg.github.com
       scope: '@cleeng'
-      # branch: ${{ github.event.inputs.branch }}
-      branch: 'chore/MSSDK-1787-react-16-private-publish-script'
+      branch: ${{ github.head_ref }}
     secrets:
       TOKEN: ${{ secrets.GITHUB_TOKEN }}
