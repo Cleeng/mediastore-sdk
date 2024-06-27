@@ -23,4 +23,4 @@ jobs:
       scope: '@cleeng'
       branch: ${{ github.event.inputs.branch }}
     secrets:
-      TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}
