@@ -2,11 +2,6 @@ name: Prepare restricted testing feature package - React 16
 
 on:
   workflow_dispatch:
-    inputs:
-      branch:
-        description: 'Branch name'
-        required: true
-        default: 'react-16-temporary-support'
 
 jobs:
   publish:
