@@ -1,3 +1,4 @@
+import React from 'react';
 import PaymentInfo from 'containers/PaymentInfo';
 import 'i18NextInit';
 import { updatePaymentDetailsPopup } from 'appRedux/popupSlice';

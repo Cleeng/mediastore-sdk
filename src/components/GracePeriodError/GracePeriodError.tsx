@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import AlertIcon from 'assets/images/errors/alert.svg';
 import { Trans } from 'react-i18next';
 import {

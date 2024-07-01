@@ -1,3 +1,4 @@
+import React from 'react';
 import { SelectStyled, ReactSelectStyled } from './SelectStyled';
 
 type Option = {

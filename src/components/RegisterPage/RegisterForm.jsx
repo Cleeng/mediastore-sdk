@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import submitConsents from 'api/Customer/submitConsents';
 import Loader from 'components/Loader';

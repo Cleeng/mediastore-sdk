@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useAppSelector } from 'appRedux/store';
 import { selectPublisherConfig } from 'appRedux/publisherConfigSlice';
 import { t } from 'i18next';
@@ -41,6 +41,8 @@ const EditPassword = ({
       source: 'EditPassword'
     });
   };
+
+  console.log('Hi');
 
   const handleResetPassword = async () => {
     setIsLoading(true);

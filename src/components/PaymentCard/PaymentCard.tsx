@@ -5,6 +5,7 @@ import eventDispatcher, {
 } from 'util/eventDispatcher';
 import { updatePaymentDetailsPopup } from 'appRedux/popupSlice';
 import { useAppDispatch } from 'appRedux/store';
+import React from 'react';
 import { CardTypes, CardTypesKey } from './Payment.const';
 import {
   CardStyled,

@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react';
+import React, { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import {

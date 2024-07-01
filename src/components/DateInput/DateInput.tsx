@@ -1,3 +1,4 @@
+import React from 'react';
 import Input from 'components/Input';
 import CalendarIcon from 'assets/images/calendar.svg';
 

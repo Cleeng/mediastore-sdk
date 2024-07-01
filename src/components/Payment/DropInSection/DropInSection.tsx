@@ -2,6 +2,7 @@ import PayPalIcon from 'assets/images/paymentMethods/PPicon.svg';
 import classNames from 'classnames';
 import { selectPaymentMethods } from 'appRedux/paymentMethodsSlice';
 import { useAppSelector } from 'appRedux/store';
+import React from 'react';
 import {
   IconWrapperStyled,
   TextStyled,

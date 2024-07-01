@@ -1,4 +1,4 @@
-import { useState, useEffect, FormEvent } from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
 import Input from 'components/Input';
 import EmailInput from 'components/EmailInput';
