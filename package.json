@@ -26,7 +26,7 @@
     "styled-components": ">= 5"
   },
   "dependencies": {
-    "@adyen/adyen-web": "~5.38.0",
+    "@adyen/adyen-web": "~5.66.1",
     "@reduxjs/toolkit": "^2.2.5",
     "camelcase": "^5.3.1",
     "classnames": "^2.3.2",
