@@ -17,6 +17,10 @@ on:
         type: string
         required: false
         default: main
+      isReact16Version:
+        type: boolean
+        required: false
+        default: false
     secrets:
       TOKEN:
         required: true
@@ -49,11 +53,16 @@ jobs:
       - name: patch sdk version
         env:
           public: ${{ inputs.branch == 'react-16-temporary-support' && env.tag || github.event.release.tag_name }}
-          restricted: ${{ env.tag }}-${{ github.event.number }}-${{ github.event.pull_request.head.sha }}
+          restricted: ${{ env.tag }}-${{ github.event.number || github.run_id }}-${{ github.sha }}
         run: >
           sed -i
           "s/0.0.0-development/${{ inputs.access == 'public' && env.public || env.restricted }}/"
           package.json
+
+      - name: Set package name for react-16-temporary-support
+        if: inputs.isReact16Version == true
+        run: >
+          jq '.name="@cleeng/mediastore-sdk-react-16"' package.json > temp.json && mv temp.json package.json
 
       - name: install deps
         run: pnpm install
