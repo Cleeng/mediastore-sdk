@@ -3,13 +3,10 @@ import { generateEmbeddableUrl } from './utils';
 export default class CleengComponent {
   embeddableUrl = '';
 
-  constructor({ slug, offerId, publisherId, isConfigured }) {
-    if (!isConfigured) {
-      throw new Error(
-        'The cleeng.configure method has not been called yet. Make sure to call it first before trying to embed any components.'
-      );
-    }
+  componentName = '';
 
+  constructor({ slug, offerId, publisherId }) {
+    this.componentName = slug;
     this.embeddableUrl = generateEmbeddableUrl({
       slug,
       offerId,
@@ -31,6 +28,7 @@ export default class CleengComponent {
     cleengNode.title = 'cleeng-embedded-mediastore-sdk';
     cleengNode.height = '100%';
     cleengNode.width = '100%';
+    cleengNode.id = `cleeng-embedded-mediastore-sdk-${this.componentName}-component`;
 
     mountContainer.appendChild(cleengNode);
   }

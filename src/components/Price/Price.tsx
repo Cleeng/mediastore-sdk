@@ -43,7 +43,8 @@ const Price = ({
     typeof nextPaymentPrice === 'number' &&
     nextPaymentPrice < totalPrice;
   const discountPercentageValue =
-    Math.ceil((1 - (nextPaymentPrice || totalPrice) / totalPrice) * 100) || 100;
+    Math.round((1 - (nextPaymentPrice || totalPrice) / totalPrice) * 100) ||
+    100;
   const discountValue = isPromoPriceActive
     ? t('checkout-price-box.promo', 'Promo')
     : `-${discountPercentageValue}%`;
