@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@adyen/adyen-web':
-        specifier: ~5.38.0
-        version: 5.38.0
+        specifier: ~5.66.1
+        version: 5.66.1
       '@reduxjs/toolkit':
         specifier: ^2.2.5
         version: 2.2.5(react-redux@7.2.9(react-dom@16.14.0(react@16.14.0))(react@16.14.0))(react@16.14.0)
@@ -222,8 +222,8 @@ packages:
   '@adobe/css-tools@4.4.0':
     resolution: {integrity: sha512-Ff9+ksdQQB3rMncgqDK78uLznstjyfIf2Arnh22pW8kBpLs6rpKDwgnZT46hin5Hl1WzazzK64DOrhSwYpS7bQ==}
 
-  '@adyen/adyen-web@5.38.0':
-    resolution: {integrity: sha512-4/Mm4cPxTwrACIDA+dfit/njV+uRXZPeHGewLyojD39taOGIGezKwjASc5y5p5Q4kTLbIW71TVWZ9JjRyJ7sNQ==}
+  '@adyen/adyen-web@5.66.1':
+    resolution: {integrity: sha512-VAXK4hZrK5YyHQC/fLqBe/iArwmJj8KMfLD67s6rLPpsBKvKFGglJNB7CkoBUjN0KLCQ/1rSx+IlBnC33sJIxw==}
 
   '@ampproject/remapping@2.3.0':
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
@@ -1080,8 +1080,8 @@ packages:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
     engines: {node: '>= 10'}
 
-  '@types/applepayjs@3.0.4':
-    resolution: {integrity: sha512-RqaVZWy1Kj4e1PoUoOI8uA+4UuuLpicQFxfU9Y/xWJFZFT6mFB4PiiY911iDxFk7pdvaj5HKH7VsWRisRca1Rg==}
+  '@types/applepayjs@14.0.6':
+    resolution: {integrity: sha512-nyq2+UXJL7rtcaWRtD3Tr028YTtthVFe0Y1vBhm34b+gmFdNi3VFDTsVbIxii3OgyD3CHskICZJd0tEhanqrFg==}
 
   '@types/aria-query@5.0.4':
     resolution: {integrity: sha512-rfT93uj5s0PRL7EzccGMs3brplhcrghnDoV26NqKhCAS1hVo+WdNsPvE/yb6ilfr5hi2MEk6d5EWJTKdxg8jVw==}
@@ -3272,8 +3272,8 @@ packages:
     resolution: {integrity: sha512-Wglpdk03BSfXkHoQa3b/oulrotAkwrlLDRSOb9D0bN86FdRyE9lppSp33aHNPgBa0JKCoB+drFLZkQoRRYae5A==}
     engines: {node: ^10 || ^12 || >=14}
 
-  preact@10.11.3:
-    resolution: {integrity: sha512-eY93IVpod/zG3uMF22Unl8h9KkrcKIRs2EGar8hwLZZDU1lkjph303V9HZBwufh2s736U6VXuhD109LYqPoffg==}
+  preact@10.13.2:
+    resolution: {integrity: sha512-q44QFLhOhty2Bd0Y46fnYW0gD/cbVM9dUVtNTDKPcdXSMA7jfY+Jpd6rk3GB0lcQss0z5s/6CmVP0Z/hV+g6pw==}
 
   prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
@@ -4236,15 +4236,15 @@ snapshots:
 
   '@adobe/css-tools@4.4.0': {}
 
-  '@adyen/adyen-web@5.38.0':
+  '@adyen/adyen-web@5.66.1':
     dependencies:
       '@babel/runtime': 7.24.7
       '@babel/runtime-corejs3': 7.24.7
-      '@types/applepayjs': 3.0.4
+      '@types/applepayjs': 14.0.6
       '@types/googlepay': 0.7.6
       classnames: 2.5.1
       core-js-pure: 3.37.1
-      preact: 10.11.3
+      preact: 10.13.2
 
   '@ampproject/remapping@2.3.0':
     dependencies:
@@ -5154,7 +5154,7 @@ snapshots:
 
   '@tootallnate/once@2.0.0': {}
 
-  '@types/applepayjs@3.0.4': {}
+  '@types/applepayjs@14.0.6': {}
 
   '@types/aria-query@5.0.4': {}
 
@@ -7836,7 +7836,7 @@ snapshots:
       picocolors: 1.0.1
       source-map-js: 1.2.0
 
-  preact@10.11.3: {}
+  preact@10.13.2: {}
 
   prelude-ls@1.2.1: {}
 

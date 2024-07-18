@@ -86,7 +86,6 @@ const ThankYouPage = ({ onSuccess }) => {
             You can manage your account from
             <LinkStyled
               href={getData('CLEENG_MY_ACCOUNT_URL')}
-              target='_blank'
               rel='noopener noreferrer'
             >
               here.
