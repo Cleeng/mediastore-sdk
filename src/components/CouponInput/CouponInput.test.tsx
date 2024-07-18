@@ -1,3 +1,4 @@
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import * as Colors from 'styles/variables';
 import CouponInput from 'components/CouponInput';

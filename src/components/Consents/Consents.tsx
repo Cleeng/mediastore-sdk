@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Checkbox from 'components/Checkbox';
 import Loader from 'components/Loader';
 import { useTranslation } from 'react-i18next';

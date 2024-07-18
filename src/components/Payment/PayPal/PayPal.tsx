@@ -1,12 +1,12 @@
-import { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppSelector } from 'appRedux/store';
 import { selectOnlyOrder } from 'appRedux/orderSlice';
 import { selectOnlyOffer } from 'appRedux/offerSlice';
 import { selectDeliveryDetails } from 'appRedux/deliveryDetailsSlice';
 import PaypalLogo from 'assets/images/paymentMethods/PayPalColor.svg';
-import Button from 'components/Button';
 import { getStandardCopy } from 'util/paymentMethodHelper';
+import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
 import { selectTermsUrl } from 'appRedux/publisherConfigSlice';
 import {

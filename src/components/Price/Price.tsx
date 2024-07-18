@@ -1,3 +1,4 @@
+import React from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
 import { useAppSelector } from 'appRedux/store';

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import Loader from 'components/Loader';
 import Button from 'components/Button';
 import CloseIcon from 'assets/images/xmark.svg';

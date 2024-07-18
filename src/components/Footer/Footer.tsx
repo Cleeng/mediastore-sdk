@@ -1,3 +1,4 @@
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 import SecurityIcon from 'assets/images/security.svg';
 import CleengLogo from 'assets/images/cleeng.svg';

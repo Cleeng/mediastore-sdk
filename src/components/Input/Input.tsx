@@ -1,7 +1,7 @@
 import { ThemeProvider } from 'styled-components';
 import { inputTheme } from 'styles/variables';
 import { PasswordStrength } from 'types/generic.types';
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import visibility from './icons/visibleBase64';
 import visibilityOff from './icons/invisibleBase64';
 import {
