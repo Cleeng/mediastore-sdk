@@ -1,7 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { getOffers } from 'api';
+import OfferV2 from 'types/OfferV2.types';
+import { RootState } from './rootReducer';
+import { OffersInitialState } from './types';
 
-const initialState = {
+const initialState: OffersInitialState = {
   offers: [],
   pauseOffers: [],
   pauseOffersIDs: [],
@@ -9,21 +12,26 @@ const initialState = {
   error: null
 };
 
-export const fetchOffers = createAsyncThunk(
-  'offers/fetchOffers',
-  async (arg, { rejectWithValue }) => {
-    try {
-      const result = await getOffers();
-      return result;
-    } catch (err) {
-      return rejectWithValue(err.message);
-    }
+export const fetchOffers = createAsyncThunk<
+  OfferV2[],
+  void,
+  {
+    rejectValue: string;
   }
-);
+>('offers/fetchOffers', async (_, { rejectWithValue }) => {
+  try {
+    const result = await getOffers();
+    return result;
+  } catch (err) {
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
+  }
+});
 
 export const offersSlice = createSlice({
   name: 'offers',
   initialState,
+  reducers: () => ({}),
   extraReducers: (builder) => {
     builder.addCase(fetchOffers.pending, (state) => {
       state.loading = true;
@@ -47,6 +55,6 @@ export const offersSlice = createSlice({
   }
 });
 
-export const selectOffers = (state) => state.offers;
+export const selectOffers = (state: RootState) => state.offers;
 
 export default offersSlice.reducer;
