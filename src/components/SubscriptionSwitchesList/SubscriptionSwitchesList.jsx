@@ -13,6 +13,7 @@ import { showPopup } from 'appRedux/popupSlice';
 import eventDispatcher, {
   MSSDK_SWITCH_BUTTON_CLICKED
 } from 'util/eventDispatcher';
+import serverIcon from 'assets/images/errors/sad_server.svg';
 import { ButtonWrapperStyled } from './SubscriptionSwitchesListStyled';
 import mapErrorToText from './helper';
 
@@ -40,6 +41,7 @@ const SubscriptionSwitchesList = () => {
       return switchDetails[item].toOfferId;
     }
   );
+  const EXTERNALLY_MANAGED_ERROR = 'Subscription is externally managed';
 
   const dispatch = useDispatch();
 
@@ -52,6 +54,20 @@ const SubscriptionSwitchesList = () => {
   }
 
   if (isAllSwitchSettingsError?.length) {
+    if (isAllSwitchSettingsError.includes(EXTERNALLY_MANAGED_ERROR))
+      return (
+        <MyAccountError
+          title={t(
+            'subscription-switches-list.offer-externally-managed-title',
+            'Subscription is externally managed.'
+          )}
+          subtitle={t(
+            'subscription-switches-list.offer-externally-managed-subtitle',
+            'Use an external service to change the plan.'
+          )}
+          icon={serverIcon}
+        />
+      );
     return <MyAccountError generalError />;
   }
 
