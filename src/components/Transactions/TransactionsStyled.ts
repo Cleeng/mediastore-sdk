@@ -127,7 +127,7 @@ export const ButtonTextStyled = styled.span.attrs(() => ({
 export const LogoWrapStyled = styled.div`
   display: flex;
   height: 42px;
-  min-width: 42px;
+  width: 42px;
   justify-content: center;
   align-items: center;
   border: 1px solid #d4d4df;
