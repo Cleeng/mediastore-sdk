@@ -2,7 +2,7 @@ import { AdyenConfiguration } from 'appRedux/types/publisherConfigSlice.types';
 
 export type OfferContainerProps = {
   adyenConfiguration?: AdyenConfiguration;
-  couponCode?: string;
+  couponCode?: string | null | undefined;
   hideRedeemButton: boolean;
   isCheckout?: boolean;
   offerId: string;

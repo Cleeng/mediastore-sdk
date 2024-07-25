@@ -180,8 +180,8 @@ const OfferContainer = ({
     }
   };
 
-  const onCouponSubmit = (couponCode: string) => {
-    if (!couponCode) {
+  const onCouponSubmit = (couponCode: string | null | undefined) => {
+    if (couponCode === undefined || couponCode === '') {
       dispatch(
         setOrderCouponMessage({
           messageType: 'fail',
@@ -275,7 +275,7 @@ const OfferContainer = ({
   }, [isOrderLoading, errorMsg, offerError, offerError]);
 
   useEffect(() => {
-    if (couponCodeProp && order.id !== 0) {
+    if ((!!couponCodeProp || couponCodeProp === null) && order.id !== 0) {
       onCouponSubmit(couponCodeProp);
     }
   }, [couponCodeProp, order.id]);

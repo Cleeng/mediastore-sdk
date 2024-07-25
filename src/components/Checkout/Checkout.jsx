@@ -173,7 +173,7 @@ class Checkout extends Component {
 
 Checkout.propTypes = {
   adyenConfiguration: PropTypes.objectOf(PropTypes.any),
-  couponCode: PropTypes.string,
+  couponCode: PropTypes.oneOfType([PropTypes.string, undefined, null]),
   hideRedeemButton: PropTypes.bool,
   initValues: PropTypes.func.isRequired,
   offerId: PropTypes.string,
@@ -183,7 +183,7 @@ Checkout.propTypes = {
 
 Checkout.defaultProps = {
   adyenConfiguration: null,
-  couponCode: null,
+  couponCode: undefined,
   hideRedeemButton: false,
   offerId: null,
   onSuccess: () => null,
