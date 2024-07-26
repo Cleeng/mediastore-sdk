@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { useTranslation } from 'react-i18next';
 import { SubscriptionStyled } from 'components/CurrentPlan/CurrentPlanStyled';
 import { SimpleButtonStyled } from 'components/SubscriptionManagement/SubscriptionManagementStyled';
@@ -8,28 +10,28 @@ import OfferSwitchCard from 'components/OfferSwitchCard';
 import OfferSwitchCardLoader from 'components/OfferSwitchCard/OfferSwitchCardLoader';
 import MyAccountError from 'components/MyAccountError';
 import selectPlanIcon from 'assets/images/selectPlan.svg';
-import { POPUP_TYPES } from 'appRedux/innerPopupReducer';
-import { showPopup } from 'appRedux/popupSlice';
+import { POPUP_TYPES, showPopup } from 'appRedux/popupSlice';
 import eventDispatcher, {
   MSSDK_SWITCH_BUTTON_CLICKED
 } from 'util/eventDispatcher';
+import serverIcon from 'assets/images/errors/sad_server.svg';
 import { ButtonWrapperStyled } from './SubscriptionSwitchesListStyled';
 import mapErrorToText from './helper';
 
 const SubscriptionSwitchesList = () => {
   const { t } = useTranslation();
 
-  const { data: switchDetails } = useSelector(
+  const { data: switchDetails } = useAppSelector(
     (state) => state.plan.switchDetails
   );
-  const { pauseOffersIDs } = useSelector((state) => state.offers);
-  const { offerToSwitch } = useSelector((state) => state.plan);
+  const { pauseOffersIDs } = useAppSelector((state) => state.offers);
+  const { offerToSwitch } = useAppSelector((state) => state.plan);
 
   const {
     data: allSwitchSettings,
     loading: isSwitchSettingsLoading,
     error: isAllSwitchSettingsError
-  } = useSelector((state) => state.plan.switchSettings);
+  } = useAppSelector((state) => state.plan.switchSettings);
 
   const isOfferSelected = !!offerToSwitch.offerId;
 
@@ -40,8 +42,9 @@ const SubscriptionSwitchesList = () => {
       return switchDetails[item].toOfferId;
     }
   );
+  const EXTERNALLY_MANAGED_ERROR = 'Subscription is externally managed';
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   if (isSwitchSettingsLoading) {
     return (
@@ -52,6 +55,20 @@ const SubscriptionSwitchesList = () => {
   }
 
   if (isAllSwitchSettingsError?.length) {
+    if (isAllSwitchSettingsError.includes(EXTERNALLY_MANAGED_ERROR))
+      return (
+        <MyAccountError
+          title={t(
+            'subscription-switches-list.offer-externally-managed-title',
+            'Subscription is externally managed.'
+          )}
+          subtitle={t(
+            'subscription-switches-list.offer-externally-managed-subtitle',
+            'Use an external service to change the plan.'
+          )}
+          icon={serverIcon}
+        />
+      );
     return <MyAccountError generalError />;
   }
 
@@ -119,6 +136,8 @@ const SubscriptionSwitchesList = () => {
       {!!availableFiltered.length &&
         availableFiltered.map((subItem) => {
           return (
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             <SubscriptionStyled
               as='article'
               key={subItem.toOfferId}
@@ -141,7 +160,7 @@ const SubscriptionSwitchesList = () => {
                     });
                     dispatch(
                       showPopup({
-                        type: POPUP_TYPES.switchPlan,
+                        type: POPUP_TYPES.SWITCH_PLAN_POPUP,
                         data: {
                           offerData: {
                             ...subItem

@@ -525,6 +525,8 @@
   "subscription-switches-list.error.recurring-process-already-started.subtitle": "Once the new one starts, you can switch to a new offer.",
   "subscription-switches-list.error.recurring-process-already-started.title": "You are at the end of the billing cycle for your current offer.",
   "subscription-switches-list.error.subscription-with-coupon-not-allowed.title": "You can't change your subscription if a coupon was applied. To change plan, please cancel your current subscription and purchase a new one",
+  "subscription-switches-list.offer-externally-managed-title": "Subscription is externally managed.",
+  "subscription-switches-list.offer-externally-managed-subtitle": "Use an external service to change the plan.",
   "subscription-switches-list.offer-not-selected": "Click on the plan that you would like to switch from",
   "subscription-switches-list.switch-in-progress": "Subscription switch in progress!",
   "subscription-switches-list.switching-unavailable": "Looks like there aren't any options for switching from your current plan right now",

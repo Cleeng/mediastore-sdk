@@ -51,3 +51,11 @@ export type OfferInitialState = {
   error: string | null | undefined;
   isOfferFree: boolean;
 };
+
+export type OffersInitialState = {
+  offers: OfferV2[];
+  pauseOffers: OfferV2[];
+  pauseOffersIDs: string[];
+  loading: boolean;
+  error: string | null | undefined;
+};

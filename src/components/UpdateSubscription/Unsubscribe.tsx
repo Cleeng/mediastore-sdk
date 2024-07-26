@@ -149,7 +149,9 @@ const Unsubscribe = ({
     ({ toOfferId: offerId }) => !pauseOffersIDs.includes(offerId)
   );
 
-  const isPauseActive = pauseOffersIDs.includes(offerDetails?.offerId);
+  const isPauseActive = offerDetails?.offerId
+    ? pauseOffersIDs.includes(offerDetails?.offerId)
+    : false;
 
   if (!steps || !currentStep) return <></>;
 

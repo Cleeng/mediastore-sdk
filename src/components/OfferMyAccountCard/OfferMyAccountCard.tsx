@@ -20,12 +20,12 @@ import {
 } from 'util/planHelper';
 import { CustomerOffer } from 'api/Customer/types';
 import { showPopup, POPUP_TYPES } from 'appRedux/popupSlice';
-import { Offer } from 'appRedux/types/offersSlice.types';
 import eventDispatcher, {
   MSSDK_CANCEL_SWITCH_BUTTON_CLICKED
 } from 'util/eventDispatcher';
 import { SwitchDetail } from 'appRedux/types';
 import { selectOffer } from 'appRedux/offerSlice';
+import OfferV2 from 'types/OfferV2.types';
 import {
   WrapperStyled,
   InnerWrapper,
@@ -126,9 +126,8 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
         : dateFormat(expiresAt);
 
     const { fromOfferId, toOfferId } = pendingSwitchDetails;
-    const toOfferIdTitle = offers.find(
-      ({ longId }: Offer) => longId === toOfferId
-    )?.title;
+    const toOfferIdTitle =
+      offers.find(({ longId }: OfferV2) => longId === toOfferId)?.title || '';
     const translatedTitle = t(`offer-title-${fromOfferId}`, offerTitle);
     const translatedSwitchTitle = t(`offer-title-${toOfferId}`, toOfferIdTitle);
 
@@ -282,11 +281,12 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
                           pendingSwitchId,
                           switchDirection: pendingSwitchDetails.direction,
                           switchOfferTitle:
-                            pendingSwitchDetails &&
-                            offers.find(
-                              ({ longId }: Offer) =>
-                                longId === pendingSwitchDetails.toOfferId
-                            )?.title,
+                            (pendingSwitchDetails &&
+                              offers.find(
+                                ({ longId }: OfferV2) =>
+                                  longId === pendingSwitchDetails.toOfferId
+                              )?.title) ||
+                            '',
                           baseOfferTitle: offerTitle,
                           baseOfferExpirationDate: expiresAt,
                           baseOfferPrice: `${currency}${nextPaymentPrice}`

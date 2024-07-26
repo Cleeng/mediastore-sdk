@@ -59,9 +59,9 @@ const Survey = ({
   const toOfferId =
     scheduledResult !== false ? scheduledResult.toOfferId : null;
 
-  const toOfferIdTitle = offers.find(
-    ({ longId }: { longId: string }) => longId === toOfferId
-  )?.title;
+  const toOfferIdTitle =
+    offers.find(({ longId }: { longId: string }) => longId === toOfferId)
+      ?.title || '';
   const scheduledSwitchTitle = t(`offer-title-${toOfferId}`, toOfferIdTitle);
   const translatedTitle = t(
     `offer-title-${offerDetails?.offerId}`,
