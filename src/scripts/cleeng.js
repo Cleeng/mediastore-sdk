@@ -3,10 +3,10 @@ import { CLEENG_EXPOSED_COMPONENTS } from './constants';
 import { kebabCase } from './utils';
 
 export default class Cleeng {
-  configure({ publisherId, offerId }) {
+  configure({ publisherId, offerId, cleengAuthToken, cleengRefreshToken }) {
     if (!publisherId) {
       throw new Error(
-        "Cleeng needs the publisher's ID in order to configure properly. Please pass your publisher ID."
+        "Cleeng needs the publisher's ID in order to configure properly. Please pass your Cleeng publisher ID."
       );
     }
 
@@ -15,7 +15,9 @@ export default class Cleeng {
       this.components[componentName] = new CleengComponent({
         slug: kebabCase(componentName),
         offerId,
-        publisherId
+        publisherId,
+        cleengAuthToken,
+        cleengRefreshToken
       });
     });
   }

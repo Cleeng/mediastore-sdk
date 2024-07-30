@@ -18,3 +18,5 @@ export const CLEENG_EXPOSED_COMPONENTS = {
   checkoutConsents: null,
   thankYou: null
 };
+
+export const CLEENG_CREDENTIALS_MESSAGE_TYPE = 'cleeng-credentials';
