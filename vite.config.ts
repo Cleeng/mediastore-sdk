@@ -40,7 +40,8 @@ export default defineConfig({
       services: path.resolve(__dirname, './src/services'),
       api: path.resolve(__dirname, './src/api'),
       hooks: path.resolve(__dirname, './src/hooks'),
-      i18NextInit: path.resolve(__dirname, './src/i18NextInit.js')
+      i18NextInit: path.resolve(__dirname, './src/i18NextInit.js'),
+      scripts: path.resolve(__dirname, './src/scripts')
     }
   },
   test: {
