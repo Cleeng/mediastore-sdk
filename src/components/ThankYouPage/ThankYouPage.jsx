@@ -8,8 +8,8 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
 import { getData } from 'util/appConfigHelper';
+import { isHostedMSSDK, handleTopNavigate } from 'util/hostedComponentsHelper';
 import formatNumber from 'util/formatNumber';
-import { HOSTED_COMPONENTS_DOMAIN } from 'scripts/constants';
 
 import {
   ThankYouPageWrapperStyled,
@@ -19,6 +19,8 @@ import {
   LinkStyled,
   IconStyled
 } from './ThankYouPageStyled';
+
+const MY_ACCOUNT_URL = getData('CLEENG_MY_ACCOUNT_URL');
 
 const ThankYouPage = ({ onSuccess }) => {
   const {
@@ -44,15 +46,6 @@ const ThankYouPage = ({ onSuccess }) => {
     }, 3000);
     return () => clearTimeout(timer);
   }, []);
-
-  const isHostedMSSDK = window.location.origin === HOSTED_COMPONENTS_DOMAIN;
-  const MY_ACCOUNT_URL = getData('CLEENG_MY_ACCOUNT_URL');
-
-  const handleTopNavigate = (URL) => {
-    if (window.top) {
-      window.top.location.href = URL;
-    }
-  };
 
   return (
     <ThankYouPageWrapperStyled data-testid='ThankYouPage-component'>
