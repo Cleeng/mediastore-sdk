@@ -9,6 +9,8 @@ import {
   updateHiddenPaymentMethods
 } from 'appRedux/publisherConfigSlice';
 
+import defaultEnglishTranslations from 'translations/en/translations.json';
+
 const isLocalStorageAvailable = () => {
   try {
     localStorage.setItem('CLEENG_LS', 'yes');
@@ -212,6 +214,25 @@ export const setLanguage = async (language) => {
   return true;
 };
 
+export const addTranslations = async (translations) => {
+  if (!translations) {
+    return false;
+  }
+
+  const editedTranslations = { ...defaultEnglishTranslations, ...translations };
+
+  i18n.addResourceBundle(
+    'customTranslations',
+    'translations',
+    editedTranslations,
+    true,
+    true
+  );
+
+  i18n.changeLanguage('customTranslations');
+  return true;
+};
+
 export default {
   setPublisher,
   setOffer,
@@ -229,5 +250,6 @@ export default {
   setVisibleAdyenPaymentMethods,
   setHiddenPaymentMethods,
   setLanguage,
-  setEnable3DSRedirectFlow
+  setEnable3DSRedirectFlow,
+  addTranslations
 };
