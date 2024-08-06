@@ -8,6 +8,7 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
 import { getData } from 'util/appConfigHelper';
+import { isHostedMSSDK, handleTopNavigate } from 'util/hostedComponentsHelper';
 import formatNumber from 'util/formatNumber';
 
 import {
@@ -18,6 +19,8 @@ import {
   LinkStyled,
   IconStyled
 } from './ThankYouPageStyled';
+
+const MY_ACCOUNT_URL = getData('CLEENG_MY_ACCOUNT_URL');
 
 const ThankYouPage = ({ onSuccess }) => {
   const {
@@ -85,8 +88,9 @@ const ThankYouPage = ({ onSuccess }) => {
           <Trans i18nKey='thank-you-page.manage-text'>
             You can manage your account from
             <LinkStyled
-              href={getData('CLEENG_MY_ACCOUNT_URL')}
+              href={isHostedMSSDK ? '#' : MY_ACCOUNT_URL}
               rel='noopener noreferrer'
+              onClick={() => isHostedMSSDK && handleTopNavigate(MY_ACCOUNT_URL)}
             >
               here.
             </LinkStyled>
