@@ -206,6 +206,7 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
                   resetMessage();
                 }}
                 width='100%'
+                theme='confirm'
               >
                 {t(
                   'additional-profile-info.button.edit-profile',

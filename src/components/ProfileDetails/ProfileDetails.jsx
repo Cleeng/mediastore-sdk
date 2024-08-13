@@ -519,6 +519,7 @@ class ProfileDetails extends Component {
                       this.setState({ isSectionDisabled: false })
                     }
                     width='100%'
+                    theme='confirm'
                   >
                     {t('profiledetails.button.edit-profile', 'Edit Profile')}
                   </ButtonStyled>

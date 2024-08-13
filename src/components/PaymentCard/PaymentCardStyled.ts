@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { White, FontColor } from 'styles/variables';
+import { White, FontColor, ConfirmColor } from 'styles/variables';
 import { mediaFrom } from 'styles/BreakPoints';
 import * as colors from 'styles/variables';
 
@@ -79,7 +79,7 @@ export const CardEditStyled = styled.button.attrs(() => ({
   color: ${White};
 
   padding: 11px 25px;
-  background-color: ${FontColor};
+  background-color: ${ConfirmColor};
   font-size: 14px;
   line-height: 16px;
   font-weight: 600;

@@ -34,6 +34,9 @@ export const PayPalIconContentStyled = styled.div.attrs(() => ({
 `;
 
 export const CheckboxWrapperStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+
   .msd__consents__text {
     font-size: 11px;
     line-height: 17px;

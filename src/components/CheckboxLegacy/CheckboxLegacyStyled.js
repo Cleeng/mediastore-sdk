@@ -53,6 +53,7 @@ export const ConsentDefinitionStyled = styled.div.attrs((props) => ({
   font-weight: 400;
   text-align: left;
   pointer-events: none;
+  user-select: none;
 
   a {
     color: ${FontColor};
@@ -180,6 +181,7 @@ export const TermsLinkStyled = styled.a`
   color: #515364;
   text-decoration: underline;
   opacity: 0.8;
+  user-select: none;
 
   ${(props) =>
     props.$checked &&
