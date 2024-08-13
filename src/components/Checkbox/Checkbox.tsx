@@ -84,7 +84,7 @@ const Checkbox = ({
               $isMyAccount={isMyAccount}
               $isRadioButton={isRadioButton}
             >
-              <CheckboxCheckmark />
+              {!isRadioButton && <CheckboxCheckmark />}
             </CheckMarkStyled>
           )}
         </CheckFrameStyled>
