@@ -45,6 +45,7 @@ export const CheckboxWrapperStyled = styled.div`
 
   .adyen-checkout__bank-checkbox {
     color: #515364;
+    margin-bottom: 20px;
   }
 
   .adyen-checkout__bank-checkbox--error {

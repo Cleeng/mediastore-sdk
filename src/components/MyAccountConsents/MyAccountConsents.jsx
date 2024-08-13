@@ -112,7 +112,7 @@ class MyAccountConsents extends Component {
             onClickFn={(e, isConsentDisabled) =>
               this.handleClick(e, isConsentDisabled, item)
             }
-            checked={item.state === 'accepted'}
+            isChecked={item.state === 'accepted'}
             key={item.name}
             disabled={(isSectionDisabled || item.required) && !showConsentsOnly}
             required={item.required}
