@@ -80,4 +80,21 @@ export default class CleengComponent {
     mountContainer.appendChild(cleengNode);
     this.populateCredentialsToIFrame();
   }
+
+  removeCleengNode(parentNodeId) {
+    const mountContainer = document.getElementById(parentNodeId);
+    const cleengNodeToRemove = document.getElementById(
+      `cleeng-embedded-mediastore-sdk-${this.componentName}-component`
+    );
+
+    if (!mountContainer) {
+      throw new Error(
+        `Cleeng couldn't find a container with provided selector: ${parentNodeId}. Please make sure that an HTML node with the passed selector is present in the DOM.`
+      );
+    }
+
+    if (cleengNodeToRemove) {
+      mountContainer.removeChild(cleengNodeToRemove);
+    }
+  }
 }
