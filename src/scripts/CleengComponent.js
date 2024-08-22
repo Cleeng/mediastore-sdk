@@ -47,7 +47,7 @@ export default class CleengComponent {
             cleengRefreshToken: this.cleengRefreshToken
           }
         },
-        '*'
+        import.meta.env.VITE_HOSTED_COMPONENTS_DOMAIN
       );
     };
 
