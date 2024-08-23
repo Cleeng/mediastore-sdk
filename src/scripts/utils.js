@@ -10,7 +10,5 @@ export const kebabCase = (textToTransform) =>
 export const generateEmbeddableUrl = ({ slug, ...params }) => {
   const urlParams = new URLSearchParams(params).toString();
 
-  return `${hostedComponentsDomain}${
-    buildMode === 'production' ? '' : `/${buildMode}`
-  }/app/${slug}?${urlParams}`;
+  return `${hostedComponentsDomain}/app/${slug}?${urlParams}`;
 };
