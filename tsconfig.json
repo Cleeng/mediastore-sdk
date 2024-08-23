@@ -2,6 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./src",
     "target": "ES6",
+    "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "checkJs": false,
@@ -22,6 +23,6 @@
     "incremental": true,
     "types": ["@testing-library/jest-dom", "vitest/globals"]
   },
-  "include": ["src", "additional.d.ts"],
+  "include": ["src", "additional.d.ts", "vite-env.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

@@ -1,7 +1,4 @@
-import {
-  CLEENG_CREDENTIALS_MESSAGE_TYPE,
-  HOSTED_COMPONENTS_DOMAIN
-} from './constants';
+import { CLEENG_CREDENTIALS_MESSAGE_TYPE } from './constants';
 import { generateEmbeddableUrl } from './utils';
 
 export default class CleengComponent {
@@ -50,7 +47,7 @@ export default class CleengComponent {
             cleengRefreshToken: this.cleengRefreshToken
           }
         },
-        HOSTED_COMPONENTS_DOMAIN
+        import.meta.env.VITE_HOSTED_COMPONENTS_DOMAIN
       );
     };
 
