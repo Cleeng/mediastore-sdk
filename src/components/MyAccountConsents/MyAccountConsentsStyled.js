@@ -1,6 +1,6 @@
 import styled, { css } from 'styled-components';
 import Button from 'components/Button';
-import CheckboxLegacy from 'components/CheckboxLegacy';
+import Checkbox from 'components/Checkbox';
 import Card from 'components/Card';
 import { mediaFrom } from 'styles/BreakPoints';
 import { ConfirmColor } from 'styles/variables';
@@ -42,7 +42,7 @@ export const ButtonStyled = styled(Button).attrs(() => ({
   `}
 `;
 
-export const CheckboxStyled = styled(CheckboxLegacy).attrs(() => ({
+export const CheckboxStyled = styled(Checkbox).attrs(() => ({
   className: 'msd__profile-consents__checkbox'
 }))`
   align-items: flex-start;

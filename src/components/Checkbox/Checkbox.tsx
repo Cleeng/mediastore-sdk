@@ -1,5 +1,6 @@
 import { ChangeEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import CheckboxCheckmark from 'assets/images/checkboxCheckmark.svg';
 
 import {
   HiddenCheckboxInput,
@@ -82,7 +83,9 @@ const Checkbox = ({
               data-testid='checkmark'
               $isMyAccount={isMyAccount}
               $isRadioButton={isRadioButton}
-            />
+            >
+              {!isRadioButton && <CheckboxCheckmark />}
+            </CheckMarkStyled>
           )}
         </CheckFrameStyled>
         <ConsentDefinitionStyled

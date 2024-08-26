@@ -107,7 +107,11 @@ const SubscriptionSwitches = ({
   }, [switchSettings]);
 
   if (switchSettingsError) {
-    return <MyAccountError generalError />;
+    return (
+      <WrapStyled>
+        <MyAccountError generalError />;
+      </WrapStyled>
+    );
   }
 
   if (isPopupOpen)

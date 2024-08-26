@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { FontColor, IconsColor } from 'styles/variables';
+import { ConfirmColor, FontColor, IconsColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 import { WrapStyledProps } from './MyAccountError.types';
 
@@ -35,8 +35,14 @@ export const IconStyled = styled.div.attrs(() => ({
   display: flex;
   justify-content: center;
   margin: auto auto 10px auto;
+
   svg {
     max-width: 490px;
+
+    ellipse {
+      fill: ${ConfirmColor};
+      stroke: ${ConfirmColor};
+    }
   }
 `;
 
