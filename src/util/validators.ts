@@ -1,9 +1,8 @@
 import i18n from 'i18next';
+import { EMAIL_REGEX } from 'util/regexConstants';
 
 export function validateEmail(email: string) {
-  const re =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; //eslint-disable-line
-  return re.test(String(email).toLowerCase());
+  return EMAIL_REGEX.test(String(email).toLowerCase());
 }
 
 export function validateConsents(value: any[], consentDefinitions: any[]) {
