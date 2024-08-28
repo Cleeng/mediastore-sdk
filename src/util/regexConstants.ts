@@ -1,4 +1,4 @@
-export const EMAIL_REGEX = /^(\w+)([+]\w+)?@(\w+)((\.\w{2,})+)$/;
+export const EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
 export const PHONE_NUMBER_REGEX = /(^[+]?(\d[-|\s]?){4,16})$/;
 
