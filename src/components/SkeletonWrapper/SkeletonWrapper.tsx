@@ -16,7 +16,7 @@ const SkeletonWrapper = ({
     <>{children}</>
   ) : (
     <SkeletonWrapperStyled $width={width} $margin={margin}>
-      <SkeletonTheme baseColor={theme?.loaderColor || LoaderColor}>
+      <SkeletonTheme baseColor={theme?.loaderColor ?? LoaderColor}>
         <StyledSkeleton {...props} />
       </SkeletonTheme>
     </SkeletonWrapperStyled>
