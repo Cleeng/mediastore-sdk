@@ -59,7 +59,10 @@ const CheckboxLegacy = ({
         <CheckFrameStyled
           $error={error && required && !isChecked}
           tabIndex='0'
-          onKeyDown={(e) => (e.key === spaceKey ? onClickFn() : null)}
+          checked={isChecked}
+          onKeyDown={(e) =>
+            e.key === spaceKey ? onClickFn(e, disabled, setIsChecked) : null
+          }
           $isMyAccount={isMyAccount}
           $isRadioButton={isRadioButton}
           $checked={isChecked}

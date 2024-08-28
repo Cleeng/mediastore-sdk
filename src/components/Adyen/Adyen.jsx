@@ -143,9 +143,13 @@ const Adyen = ({
         checked={false}
         id={`${methodName}-input`}
         onClickFn={(e, _, setIsChecked) => {
-          e.target.parentElement.classList.remove(
-            'adyen-checkout__bank-checkbox--error'
-          );
+          e.target.classList.remove('adyen-checkout__bank-checkbox--error');
+
+          if (e.key === ' ') {
+            e.target.parentElement.classList.remove(
+              'adyen-checkout__bank-checkbox--error'
+            );
+          }
 
           setIsChecked(!e.target.checked);
         }}

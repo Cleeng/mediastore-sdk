@@ -38,6 +38,7 @@ export const HiddenCheckboxInput = styled.input`
   width: 1em;
   height: 1em;
   opacity: 0;
+  pointer-events: none;
 `;
 
 export const ConsentDefinitionStyled = styled.div.attrs((props) => ({
@@ -51,6 +52,9 @@ export const ConsentDefinitionStyled = styled.div.attrs((props) => ({
 
   font-weight: 400;
   text-align: left;
+  pointer-events: none;
+  user-select: none;
+
   a {
     color: ${(props) => props.theme.fontColor || FontColor};
 
@@ -83,6 +87,7 @@ export const CheckFrameStyled = styled.div.attrs((props) => ({
   width: 20px;
   min-width: 20px;
   height: 20px;
+  pointer-events: none;
 
   &:focus {
     outline: 2px solid ${FocusColor};
@@ -118,6 +123,7 @@ export const CheckMarkStyled = styled.div.attrs((props) => ({
   } ${props.$isMyAccount ? 'msd__consents__check-mark--account' : ''}`
 }))`
   position: absolute;
+  pointer-events: none;
 
   width: 13px;
   height: 10px;
@@ -172,9 +178,10 @@ export const TermsLinkStyled = styled.a`
   font-size: 11px;
   line-height: 17px;
   text-align: left;
-  color: ${(props) => props.theme.fontColor || FontColor};
+  color: #515364;
   text-decoration: underline;
   opacity: 0.8;
+  user-select: none;
 
   ${(props) =>
     props.$checked &&

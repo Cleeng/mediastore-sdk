@@ -66,7 +66,6 @@ const AdyenStyled = styled.div.attrs(() => ({
 
   .adyen-checkout__input,
   .adyen-checkout__dropdown__button {
-    color: ${(props) => props.theme.fontColor || FontColor} !important;
     border-color: #d8ddea;
     box-shadow: none;
   }
@@ -100,7 +99,13 @@ const AdyenStyled = styled.div.attrs(() => ({
   }
 
   .checkbox-wrapper {
+    display: flex;
+    flex-direction: column;
     margin: 10px 20px 20px 20px;
+  }
+
+  .adyen-checkout__card-input {
+    text-align: start;
   }
 
   .adyen-checkout__bank-checkbox {

@@ -7,7 +7,7 @@ import { selectDeliveryDetails } from 'appRedux/deliveryDetailsSlice';
 import PaypalLogo from 'assets/images/paymentMethods/PayPalColor.svg';
 import Button from 'components/Button';
 import { getStandardCopy } from 'util/paymentMethodHelper';
-import Checkbox from 'components/Checkbox';
+import CheckboxLegacy from 'components/CheckboxLegacy';
 import { selectTermsUrl } from 'appRedux/publisherConfigSlice';
 import {
   PayPalContentStyled,
@@ -81,26 +81,35 @@ const PayPal = ({
           )}
       </CopyStyled>
       <CheckboxWrapperStyled>
-        <Checkbox
+        <CheckboxLegacy
           className='adyen-checkout__bank-checkbox paypal-inputLabel'
+          checked={isChecked}
           id='paypal-input'
-          isChecked={isChecked}
           onClickFn={(event: ChangeEvent<HTMLInputElement> | undefined) => {
             if (!event) {
               return;
             }
 
-            event.target.parentElement?.classList.remove(
+            if (
+              event.nativeEvent instanceof KeyboardEvent &&
+              event.nativeEvent.key === ' '
+            ) {
+              event.target.parentElement?.classList.remove(
+                'adyen-checkout__bank-checkbox--error'
+              );
+            }
+
+            event.target.classList.remove(
               'adyen-checkout__bank-checkbox--error'
             );
 
-            setIsChecked(event.target.checked);
+            setIsChecked(!event.target.checked);
           }}
           termsUrl={termsUrl}
           isPayPal
         >
           {getStandardCopy(isMyAccount, offer, order, isGift)}
-        </Checkbox>
+        </CheckboxLegacy>
       </CheckboxWrapperStyled>
       <Button
         theme='paypal'

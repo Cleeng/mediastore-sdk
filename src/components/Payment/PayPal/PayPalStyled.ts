@@ -34,6 +34,9 @@ export const PayPalIconContentStyled = styled.div.attrs(() => ({
 `;
 
 export const CheckboxWrapperStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+
   .msd__consents__text {
     font-size: 11px;
     line-height: 17px;
@@ -41,6 +44,11 @@ export const CheckboxWrapperStyled = styled.div`
 
   .msd__consents__frame {
     align-self: start;
+  }
+
+  .adyen-checkout__bank-checkbox {
+    color: #515364;
+    margin-bottom: 20px;
   }
 
   .adyen-checkout__bank-checkbox--error {
