@@ -8,7 +8,7 @@ export const PasswordResetSuccessPageStyled = styled.div`
   text-align: center;
   line-height: 1.3em;
   font-size: 15px;
-  color: ${colors.FontColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
 
   font-weight: bold;
 `;
@@ -28,7 +28,7 @@ export const StyledMessage = styled.div`
 `;
 
 export const StyledLink = styled.span`
-  color: ${colors.FontColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
   font-weight: bold;
   &:hover {
     text-decoration: underline;

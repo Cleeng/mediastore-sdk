@@ -26,7 +26,7 @@ export const ConsentsErrorStyled = styled.div.attrs(() => ({
   width: 100%;
   height: 13px;
 
-  color: ${ErrorColor};
+  color: ${(props) => props.theme.errorColor || ErrorColor};
 
   font-size: 13px;
 `;
@@ -50,7 +50,7 @@ export const GeneralErrorStyled = styled.p`
   }
   box-sizing: border-box;
   margin-bottom: 30px;
-  color: ${ErrorColor};
+  color: ${(props) => props.theme.errorColor || ErrorColor};
   font-size: 13px;
 `;
 

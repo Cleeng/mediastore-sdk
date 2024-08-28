@@ -10,7 +10,8 @@ export const CheckoutConsentsStyled = styled.div.attrs(() => ({
   }
   box-sizing: border-box;
   position: relative;
-  background: ${colors.BackgroundColor};
+  background: ${(props) =>
+    props.theme.backgroundColor || colors.BackgroundColor};
 `;
 
 export const CheckoutConsentsContentStyled = styled.div.attrs(() => ({
@@ -39,7 +40,7 @@ export const CheckoutConsentsTitleStyled = styled.h2.attrs(() => ({
   text-align: center;
   font-weight: 700;
 
-  color: ${colors.FontColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
 `;
 
 export const CheckoutConsentsSubTitleStyled = styled.p.attrs(() => ({
@@ -51,7 +52,7 @@ export const CheckoutConsentsSubTitleStyled = styled.p.attrs(() => ({
   text-align: center;
   font-weight: 700;
 
-  color: ${colors.FontColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
   filter: brightness(1.7);
 `;
 
@@ -71,7 +72,7 @@ export const CheckoutConsentsError = styled.div.attrs(() => ({
   height: 13px;
   margin-top: 8px;
   content: '';
-  color: ${colors.ErrorColor};
+  color: ${(props) => props.theme.errorColor || colors.ErrorColor};
   transition: 0.2s ease-in-out;
   font-size: 13px;
   text-align: left;

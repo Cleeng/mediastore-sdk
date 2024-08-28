@@ -10,7 +10,7 @@ export const WrapStyled = styled.div`
 export const SubscriptionStyled = styled.div.attrs(() => ({
   className: 'msd__account__subscription'
 }))`
-  background: ${CardColor};
+  background: ${(props) => props.theme.cardColor || CardColor};
   border: 1px solid ${LineColor};
   border-radius: 12px;
 
@@ -41,7 +41,7 @@ export const SubscriptionStyled = styled.div.attrs(() => ({
     z-index: -1;
 
     border-radius: 12px;
-    border: 1px solid ${ConfirmColor};
+    border: 1px solid ${(props) => props.theme.successColor || ConfirmColor};
     box-shadow: 0px 3px 20px #6767672c;
 
     opacity: 0;

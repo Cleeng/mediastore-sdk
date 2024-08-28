@@ -78,7 +78,7 @@ export const ItemLabelStyled = styled.div.attrs(() => ({
   width: auto;
   margin: auto;
 
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 13px;
 
   font-weight: 700;
@@ -89,7 +89,8 @@ export const ItemLabelStyled = styled.div.attrs(() => ({
   &:after {
     display: block;
     content: '';
-    border-bottom: 2px solid ${ConfirmColor};
+    border-bottom: 2px solid
+      ${(props) => props.theme.successColor || ConfirmColor};
     transform: scaleX(0);
     transition: transform 250ms ease-in-out;
     transform-origin: 0% 50%;
@@ -133,7 +134,7 @@ export const ItemStyled = styled.div.attrs(() => ({
       ${ItemIconWrapStyled} {
         path {
           opacity: 1;
-          fill: ${ConfirmColor};
+          fill: ${props.theme.successColor || ConfirmColor};
         }
       }
 

@@ -8,7 +8,7 @@ export const WrapStyled = styled.div.attrs(() => ({
 export const MessageStyled = styled.div.attrs(() => ({
   className: 'msd__profile-capture__message'
 }))`
-  color: ${ConfirmColor};
+  color: ${(props) => props.theme.successColor || ConfirmColor};
   text-align: center;
   margin: 5px 0 15px 0;
   font-size: 12px;
@@ -24,6 +24,6 @@ export const InputLabelStyled = styled.div.attrs(() => ({
 }))`
   display: block;
   margin-bottom: 12px;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 13px;
 `;

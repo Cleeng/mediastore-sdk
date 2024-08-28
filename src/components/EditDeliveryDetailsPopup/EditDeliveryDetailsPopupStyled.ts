@@ -60,7 +60,7 @@ export const HeaderStyled = styled.h2`
   font-size: 25px;
   font-weight: 600;
   margin: 40px 0 24px 0;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 `;
 
 export const InfoTextStyled = styled.div`
@@ -68,7 +68,7 @@ export const InfoTextStyled = styled.div`
   font-weight: 300;
   text-align: center;
   max-width: 380px;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   width: 100%;
 
   p {
@@ -89,5 +89,5 @@ export const ErrorTextStyled = styled.div`
   text-align: center;
   max-width: 420px;
   margin: 5px 0;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 `;

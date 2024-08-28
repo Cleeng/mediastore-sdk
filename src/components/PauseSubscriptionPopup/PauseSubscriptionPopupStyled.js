@@ -18,7 +18,7 @@ export const SubscriptionIconStyled = styled(SubscriptionIcon)`
   font-size: 30px;
 
   span {
-    background: ${ConfirmColor};
+    background: ${(props) => props.theme.successColor || ConfirmColor};
   }
 
   svg {
@@ -26,7 +26,7 @@ export const SubscriptionIconStyled = styled(SubscriptionIcon)`
     width: 50px;
     path:first-of-type,
     path:last-of-type {
-      fill: ${ConfirmColor};
+      fill: ${(props) => props.theme.successColor || ConfirmColor};
     }
   }
 

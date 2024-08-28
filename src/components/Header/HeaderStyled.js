@@ -12,7 +12,8 @@ export const HeaderStyled = styled.header.attrs(() => ({
 
   padding: 0 40px;
 
-  background-color: ${colors.BackgroundColor};
+  background-color: ${(props) =>
+    props.theme.backgroundColor || colors.BackgroundColor};
   border-bottom: 1px ${colors.LineColor} solid;
 
   text-align: center;
@@ -30,7 +31,8 @@ export const LogoStyled = styled.div.attrs(() => ({
   height: 80px;
   width: 100%;
 
-  background-image: url(${LogoUrl || logoSrc});
+  background-image: url(${(props) =>
+    props.theme.logoUrl || LogoUrl || logoSrc});
   background-size: auto 35%;
   background-position: center;
   background-repeat: no-repeat;
@@ -49,7 +51,7 @@ export const ArrowStyled = styled.span`
   &:hover {
     cursor: pointer;
   }
-  /* 
+  /*
   ${isRTL() &&
   css`
     transform: translateX(-25%) rotate(225deg);

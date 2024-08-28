@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { getTheme } from 'util/appConfigHelper';
 
 const {

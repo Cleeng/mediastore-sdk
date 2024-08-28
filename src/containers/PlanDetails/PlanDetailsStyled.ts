@@ -9,5 +9,5 @@ export const WrapStyled = styled.div`
   box-sizing: border-box;
   width: 100%;
   padding: 20px;
-  background: ${BackgroundColor};
+  background: ${(props) => props.theme.backgroundColor || BackgroundColor};
 `;

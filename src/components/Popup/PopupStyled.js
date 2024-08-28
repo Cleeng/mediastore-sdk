@@ -57,7 +57,7 @@ export const ButtonWrapperStyled = styled.div`
 `;
 export const TitleStyled = styled.h1`
   font-size: 30px;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-weight: 700;
 
   ${media.small`
@@ -66,7 +66,7 @@ export const TitleStyled = styled.h1`
 `;
 
 export const TextStyled = styled.p`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   opacity: 0.8;
   font-size: 14px;
   line-height: 1.5;
@@ -93,7 +93,7 @@ export const ButtonStyled = styled(Button)`
 `;
 
 export const InfoStyled = styled.span`
-  color: ${ErrorColor};
+  color: ${(props) => props.theme.errorColor || ErrorColor};
   font-size: 13px;
   margin-bottom: 25px;
   display: block;
@@ -105,7 +105,7 @@ export const DotsWrapperStyled = styled.div`
     props.$currentStep &&
     css`
       span:nth-child(-n + ${props.$currentStep}) {
-        background: ${FontColor};
+        background: ${props.theme.fontColor || FontColor};
       }
     `}
 `;
@@ -115,7 +115,7 @@ export const HeaderStyled = styled.div`
   justify-content: space-between;
   width: 90%;
   margin: 50px 0 0 0;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   ${media.small`
     margin: 30px 0 0 0;
   `}

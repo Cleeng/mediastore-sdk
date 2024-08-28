@@ -19,7 +19,7 @@ export const WrapperStyled = styled.h3.attrs(() => ({
 
   align-items: center;
 
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
   ${mediaFrom.small`
     flex-wrap: nowrap;
@@ -96,7 +96,8 @@ export const OriginalPrice = styled.div`
 export const DiscountValue = styled.div.attrs(() => ({
   className: 'msd__subscription-price__discount-value'
 }))`
-  background-color: ${variables.PrimaryColor};
+  background-color: ${(props) =>
+    props.theme.primaryColor || variables.PrimaryColor};
   color: ${variables.White};
   border-radius: 4px;
   text-align: center;

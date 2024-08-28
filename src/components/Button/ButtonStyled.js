@@ -62,7 +62,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
     (props.$theme === 'confirm' &&
       css`
         color: ${colors.White};
-        background-color: ${colors.ConfirmColor};
+        background-color: ${props.theme.successColor || colors.ConfirmColor};
         opacity: 0.9;
         &:hover,
         &:focus {
@@ -73,7 +73,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
     (props.$theme === 'primary' &&
       css`
         color: ${colors.White};
-        background-color: ${colors.PrimaryColor};
+        background-color: ${props.theme.primaryColor || colors.PrimaryColor};
         opacity: 0.9;
         &:hover,
         &:focus {
@@ -95,7 +95,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
     (props.$theme === 'danger' &&
       css`
         color: ${colors.White};
-        background-color: ${colors.ErrorColor};
+        background-color: ${props.theme.errorColor || colors.ErrorColor};
         opacity: 0.9;
         &:hover,
         &:focus {
@@ -129,9 +129,11 @@ const ButtonStyled = styled.button.attrs((props) => ({
       `) ||
     (props.$theme === 'secondary' &&
       css`
-        background-color: ${colors.SecondaryColor};
-        border: 1px solid ${colors.BackgroundColor};
-        color: ${colors.FontColor};
+        background-color: ${props.theme.secondaryColor ||
+        colors.SecondaryColor};
+        border: 1px solid
+          ${props.theme.backgroundColor || colors.BackgroundColor};
+        color: ${props.theme.fontColor || colors.FontColor};
         &:hover,
         &:focus,
         &:active {
@@ -144,7 +146,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
       css`
         background-color: transparent;
         border: 1px solid ${colors.LineColor};
-        color: ${colors.FontColor};
+        color: ${props.theme.fontColor || colors.FontColor};
         &:not(:disabled):hover,
         &:focus {
           cursor: pointer;
@@ -167,7 +169,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
 
         transform: translateY(-45%);
         background-color: transparent;
-        color: ${colors.FontColor};
+        color: ${props.theme.fontColor || colors.FontColor};
         font-size: 16px;
         letter-spacing: 0.025em;
         font-weight: 500;
@@ -196,7 +198,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
 
         border-radius: none;
         background-color: transparent;
-        color: ${colors.FontColor};
+        color: ${props.theme.fontColor || colors.FontColor};
 
         text-decoration: underline;
         letter-spacing: 0.025em;

@@ -17,7 +17,7 @@ export const ReactSelectStyled = styled(ReactSelect).attrs(() => ({
 }))`
   &:focus-within,
   &:focus {
-    border-color: ${Colors.ConfirmColor};
+    border-color: ${(props) => props.theme.successColor || Colors.ConfirmColor};
   }
   .react-select__control {
     background: white;
@@ -27,20 +27,22 @@ export const ReactSelectStyled = styled(ReactSelect).attrs(() => ({
     &--is-focused {
       &:focus-within,
       &:focus {
-        border-color: ${Colors.ConfirmColor};
+        border-color: ${(props) =>
+          props.theme.successColor || Colors.ConfirmColor};
         box-shadow: none;
       }
     }
     &--is-disabled {
-      background-color: ${Colors.BackgroundColor};
+      background-color: ${(props) =>
+        props.theme.backgroundColor || Colors.BackgroundColor};
     }
   }
   .react-select__placeholder {
-    color: ${Colors.FontColor};
+    color: ${(props) => props.theme.fontColor || Colors.FontColor};
   }
   .react-select__value-container {
     padding: 13px 15px 14px;
-    color: ${Colors.FontColor};
+    color: ${(props) => props.theme.fontColor || Colors.FontColor};
   }
   .react-select__menu {
     border-radius: 0px;
@@ -54,7 +56,7 @@ export const ReactSelectStyled = styled(ReactSelect).attrs(() => ({
       background-color: ${Colors.MediumGrey};
     }
     &--is-selected {
-      color: ${Colors.ConfirmColor};
+      color: ${(props) => props.theme.successColor || Colors.ConfirmColor};
       background-color: #fff;
     }
   }
@@ -84,7 +86,7 @@ export const ReactSelectStyled = styled(ReactSelect).attrs(() => ({
           height: 9px;
           font-size: 12px;
           line-height: 12px;
-          color: ${Colors.ErrorColor};
+          color: ${props.theme.errorColor || Colors.ErrorColor};
         }
       }
     `}

@@ -37,5 +37,5 @@ export const DescriptionStyled = styled.p`
   font-weight: ${LightFont};
   line-height: 17px;
   white-space: pre-line;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 `;

@@ -46,7 +46,7 @@ export const InfoText = styled.p`
   font-size: 13px;
   font-weight: 300;
   font-style: italic;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
   opacity: 0.7;
   margin-top: 12px;
@@ -59,7 +59,7 @@ export const MessageWrapper = styled.div`
 `;
 
 export const StyledLabel = styled.label`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 13px;
 `;
 
@@ -85,8 +85,9 @@ export const StyledMessage = styled.textarea`
   }
 
   &:disabled {
-    background-color: ${BackgroundColor};
-    color: ${FontColor};
+    background-color: ${(props) =>
+      props.theme.backgroundColor || BackgroundColor};
+    color: ${(props) => props.theme.fontColor || FontColor};
   }
 
   &::placeholder {

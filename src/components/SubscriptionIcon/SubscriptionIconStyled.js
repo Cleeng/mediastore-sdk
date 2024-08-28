@@ -26,7 +26,7 @@ export const WrapperStyled = styled.figure.attrs(() => ({
   svg {
     path:first-of-type,
     path:last-of-type {
-      fill: ${ConfirmColor};
+      fill: ${(props) => props.theme.successColor || ConfirmColor};
     }
   }
 
@@ -34,7 +34,7 @@ export const WrapperStyled = styled.figure.attrs(() => ({
     flex: 0 0 50px;
     margin-inline-end: 15px;
     padding: 14px 10px;
-    
+
     font-size: 20px;
   `}
 `;
@@ -50,7 +50,10 @@ export const LabelStyled = styled.span`
   height: 18px;
   width: 48px;
 
-  background: ${(props) => (props.$label === 'New' ? ConfirmColor : FontColor)};
+  background: ${(props) =>
+    props.$label === 'New'
+      ? props.theme.successColor || ConfirmColor
+      : props.theme.fontColor || FontColor};
   border-radius: 10px;
 
   color: ${White};

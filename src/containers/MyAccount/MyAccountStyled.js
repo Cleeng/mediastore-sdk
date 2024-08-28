@@ -33,7 +33,7 @@ export const HeaderStyled = styled.div.attrs(() => ({
   position: relative;
   padding: 0 26px;
 
-  background: ${BackgroundColor};
+  background: ${(props) => props.theme.backgroundColor || BackgroundColor};
 
   footer {
     display: none;
