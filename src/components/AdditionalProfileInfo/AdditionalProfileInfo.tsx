@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import PropTypes from 'prop-types';
 import Card from 'components/Card';
 import Loader from 'components/Loader';
 import MyAccountInput from 'components/MyAccountInput';
@@ -21,17 +20,39 @@ import {
   InputLabelStyled
 } from './AdditionalProfileInfoStyled';
 
-const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
+type CustomSetting = {
+  key: string;
+  question: string;
+  answer?: string;
+  value: string;
+  values: string[];
+};
+
+type AdditionalProfileInfoProps = {
+  data: CustomSetting[] | null;
+  isLoading: boolean;
+  updateCaptureOption: (option: { key: string; value: string }) => void;
+};
+
+const AdditionalProfileInfo = ({
+  data,
+  isLoading,
+  updateCaptureOption
+}: AdditionalProfileInfoProps) => {
   const { t } = useTranslation();
   const [isSectionDisabled, setIsSectionDisabled] = useState(true);
   const [isPending, setIsPending] = useState(false);
-  const [customSettings, setCustomSettings] = useState(null);
-  const [initialSettings, setInitialSettings] = useState(null);
-  const [message, type, setMessage, resetMessage] = useMessage();
+  const [customSettings, setCustomSettings] = useState<CustomSetting[] | null>(
+    null
+  );
+  const [initialSettings, setInitialSettings] = useState<
+    CustomSetting[] | null
+  >(null);
+  const [message, , setMessage, resetMessage] = useMessage();
 
   useEffect(() => {
     if (data) {
-      const newData = data.map((setting) => {
+      const newData: CustomSetting[] = data.map((setting) => {
         return {
           ...setting,
           value: setting.answer ? setting.answer : '',
@@ -45,7 +66,11 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
     }
   }, [data]);
 
-  const handleCustomSetting = (key, value) => {
+  const handleCustomSetting = (key: string, value: string) => {
+    if (!customSettings) {
+      return;
+    }
+
     const newArr = customSettings.map((item) => {
       return {
         ...item,
@@ -60,7 +85,11 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
     setIsSectionDisabled(true);
   };
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
+    if (!customSettings) {
+      return;
+    }
+
     setIsPending(true);
     const customAnswers = customSettings.map((setting) => {
       return {
@@ -69,37 +98,41 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
         value: setting.value
       };
     });
-    updateCaptureAnswers({
-      customAnswers
-    })
-      .then(() => {
-        for (let i = 0; i < customSettings.length; i += 1) {
-          updateCaptureOption({
-            key: customSettings[i].key,
-            value: customSettings[i].value
-          });
-        }
-        setMessage({
-          message: t(
-            'additional-profile-info.success-message',
-            'Your answers have been changed successfully'
-          ),
-          type: 'success'
-        });
-        setIsPending(false);
-        setIsSectionDisabled(true);
-      })
-      .catch(() => {
-        setMessage({
-          message: t(
-            'additional-profile-info.error.submit',
-            'Something went wrong. Try again later.'
-          ),
-          type: 'error'
-        });
-        setIsPending(false);
-        setIsSectionDisabled(true);
+
+    try {
+      await updateCaptureAnswers({
+        customAnswers
       });
+
+      customSettings.forEach((setting) =>
+        updateCaptureOption({
+          key: setting.key,
+          value: setting.value
+        })
+      );
+
+      setMessage({
+        message: t(
+          'additional-profile-info.success-message',
+          'Your answers have been changed successfully'
+        ),
+        type: 'success'
+      });
+
+      setIsPending(false);
+      setIsSectionDisabled(true);
+    } catch (e) {
+      setMessage({
+        message: t(
+          'additional-profile-info.error.submit',
+          'Something went wrong. Try again later.'
+        ),
+        type: 'error'
+      });
+
+      setIsPending(false);
+      setIsSectionDisabled(true);
+    }
   };
 
   return isLoading ? (
@@ -108,17 +141,19 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
     <WrapStyled>
       {customSettings && (
         <Card withBorder>
-          {message && <MessageStyled type={type}>{message}</MessageStyled>}
+          {message && <MessageStyled>{message}</MessageStyled>}
           {customSettings.map((setting) => {
+            const { key, question, value, values } = setting;
+
             if (setting.values.length === 0)
               return (
-                <InputWrapStyled key={setting.key}>
+                <InputWrapStyled key={key}>
                   <MyAccountInput
-                    id={setting.key}
-                    label={setting.question}
-                    value={setting.value}
-                    onChange={(e) =>
-                      handleCustomSetting(setting.key, e.target.value)
+                    id={key}
+                    label={question}
+                    value={value}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      handleCustomSetting(key, e.target.value)
                     }
                     disabled={isSectionDisabled}
                   />
@@ -126,74 +161,66 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
               );
             if (setting.values.length === 1)
               return (
-                <InputWrapStyled key={setting.key}>
+                <InputWrapStyled key={key}>
                   <Checkbox
                     isMyAccount
-                    id={setting.key}
-                    onClickFn={(e, disabled) =>
+                    id={key}
+                    onClickFn={(_, disabled) =>
                       !disabled &&
-                      handleCustomSetting(
-                        setting.key,
-                        setting.value ? '' : setting.values[0]
-                      )
+                      handleCustomSetting(key, value ? '' : setting.values[0])
                     }
-                    isChecked={setting.value === setting.values[0]}
+                    isChecked={value === setting.values[0]}
                     disabled={isSectionDisabled}
                   >
-                    {setting.question}
+                    {question}
                   </Checkbox>
                 </InputWrapStyled>
               );
             if (setting.values.length === 2)
               return (
-                <InputWrapStyled key={setting.key}>
-                  <InputLabelStyled>{setting.question}</InputLabelStyled>
+                <InputWrapStyled key={key}>
+                  <InputLabelStyled>{question}</InputLabelStyled>
                   <Checkbox
-                    key={`${setting.key}-01`}
-                    id={`${setting.key}-01`}
-                    onClickFn={(e, disabled) =>
-                      !disabled &&
-                      handleCustomSetting(setting.key, setting.values[0])
+                    key={`${key}-01`}
+                    id={`${key}-01`}
+                    onClickFn={(_, disabled) =>
+                      !disabled && handleCustomSetting(key, values[0])
                     }
                     isRadioButton
                     disabled={isSectionDisabled}
-                    isChecked={setting.value === setting.values[0]}
+                    isChecked={value === values[0]}
                   >
-                    {setting.values[0]}
+                    {values[0]}
                   </Checkbox>
                   <Checkbox
-                    key={`${setting.key}-02`}
-                    id={`${setting.key}-02`}
-                    onClickFn={(e, disabled) =>
-                      !disabled &&
-                      handleCustomSetting(setting.key, setting.values[1])
+                    key={`${key}-02`}
+                    id={`${key}-02`}
+                    onClickFn={(_, disabled) =>
+                      !disabled && handleCustomSetting(key, values[1])
                     }
                     isRadioButton
                     disabled={isSectionDisabled}
-                    isChecked={setting.value === setting.values[1]}
+                    isChecked={value === values[1]}
                   >
-                    {setting.values[1]}
+                    {values[1]}
                   </Checkbox>
                 </InputWrapStyled>
               );
             return (
-              <InputWrapStyled key={setting.key}>
+              <InputWrapStyled key={key}>
                 <SelectLegacy
                   isMyAccount
-                  id={setting.key}
-                  key={setting.key}
-                  label={setting.question}
-                  name={setting.key}
-                  value={
-                    setting.value
-                      ? { value: setting.value, label: setting.value }
-                      : null
-                  }
-                  values={mapToSelectFormat(setting.values)}
+                  id={key}
+                  key={key}
+                  label={question}
+                  name={key}
+                  value={value ? { value, label: value } : null}
+                  values={mapToSelectFormat(values)}
                   disabled={isSectionDisabled}
-                  onChange={(key, value) =>
-                    handleCustomSetting(key, value.value)
-                  }
+                  onChange={(
+                    settingKey: string,
+                    settingValue: { value: string }
+                  ) => handleCustomSetting(settingKey, settingValue.value)}
                 />
               </InputWrapStyled>
             );
@@ -237,15 +264,3 @@ const AdditionalProfileInfo = ({ data, isLoading, updateCaptureOption }) => {
 };
 
 export default AdditionalProfileInfo;
-
-AdditionalProfileInfo.propTypes = {
-  isLoading: PropTypes.bool,
-  data: PropTypes.arrayOf(PropTypes.any),
-  updateCaptureOption: PropTypes.func
-};
-
-AdditionalProfileInfo.defaultProps = {
-  isLoading: false,
-  data: null,
-  updateCaptureOption: () => null
-};

@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { Message, MessageType, UseMessageReturnType } from 'types/hooks';
 
-const useMessage = () => {
+const useMessage = (): UseMessageReturnType => {
   const [message, setMessageText] = useState('');
-  const [type, setType] = useState('');
+  const [type, setType] = useState<MessageType>('');
 
-  const setMessage = (newMessage) => {
+  const setMessage = (newMessage: Message) => {
     setMessageText(newMessage.message);
     setType(newMessage.type);
   };
