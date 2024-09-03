@@ -210,7 +210,6 @@ const AdditionalProfileInfo = ({
               <InputWrapStyled key={key}>
                 <SelectLegacy
                   isMyAccount
-                  id={key}
                   key={key}
                   label={question}
                   name={key}
