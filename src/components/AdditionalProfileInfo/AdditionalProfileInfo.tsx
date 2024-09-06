@@ -14,25 +14,15 @@ import {
   ButtonWrapperStyled
 } from 'components/MyAccountConsents/MyAccountConsentsStyled';
 import {
-  WrapStyled,
+  AdditionalProfileInfoProps,
+  CustomSetting
+} from 'types/AdditionalProfileInfo.types';
+import {
   MessageStyled,
+  WrapStyled,
   InputWrapStyled,
   InputLabelStyled
 } from './AdditionalProfileInfoStyled';
-
-type CustomSetting = {
-  key: string;
-  question: string;
-  answer?: string;
-  value: string;
-  values: string[];
-};
-
-type AdditionalProfileInfoProps = {
-  data: CustomSetting[] | null;
-  isLoading: boolean;
-  updateCaptureOption: (option: { key: string; value: string }) => void;
-};
 
 const AdditionalProfileInfo = ({
   data,
