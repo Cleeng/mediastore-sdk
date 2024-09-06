@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Message, MessageType, UseMessageReturnType } from 'types/hooks';
+import { Message, MessageType, UseMessageReturnType } from 'types/hooks.types';
 
 const useMessage = (): UseMessageReturnType => {
   const [message, setMessageText] = useState('');
