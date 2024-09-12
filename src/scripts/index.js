@@ -2,4 +2,6 @@ import Cleeng from './cleeng';
 
 const cleengInstance = new Cleeng();
 
-window.cleeng = cleengInstance;
+if (typeof window !== 'undefined') {
+  window.cleeng = cleengInstance;
+}
