@@ -5,6 +5,7 @@
     "module": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
+    "outDir": "dist",
     "checkJs": false,
     "skipLibCheck": true,
     "esModuleInterop": true,
