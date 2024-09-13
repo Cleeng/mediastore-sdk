@@ -7,7 +7,7 @@ import { getCustomerOffers, getSwitch, getAvailableSwitches } from '../api';
 type SwitchDetailChangeAction = {
   type: string;
   details: {
-    pendingSwitchId: number;
+    pendingSwitchId: string;
   };
 };
 

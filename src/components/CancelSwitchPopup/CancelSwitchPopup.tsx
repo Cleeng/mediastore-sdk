@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useState, useEffect } from 'react';
+// import { useDispatch, useSelector } from 'react-redux';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import { useTranslation } from 'react-i18next';
 import Button from 'components/Button';
@@ -7,8 +7,10 @@ import Loader from 'components/Loader';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
 import { updateList, setSwitchDetails } from 'appRedux/planDetailsSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
+import { CancelSwitch } from 'appRedux/types';
 import { hidePopup } from 'appRedux/popupSlice';
-import { dateFormat, INFINITE_DATE } from 'util';
+import { dateFormat, INFINITE_DATE } from 'util/planHelper';
 
 import {
   ContentStyled,
@@ -22,19 +24,20 @@ const CancelSwitchPopup = () => {
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
 
-  const { data: allSwitchDetails } = useSelector(
+  const { data: allSwitchDetails } = useAppSelector(
     (state) => state.plan.switchDetails
   );
+
+  const { cancelSwitch } = useAppSelector((state) => state.popupManager);
+
   const {
-    cancelSwitch: {
-      pendingSwitchId,
-      switchDirection,
-      switchOfferTitle: untranslatedSwitchOfferTitle,
-      baseOfferTitle: untranslatedBaseOfferTitle,
-      baseOfferExpirationDate,
-      baseOfferPrice
-    }
-  } = useSelector((state) => state.popupManager);
+    pendingSwitchId,
+    switchDirection,
+    switchOfferTitle: untranslatedSwitchOfferTitle,
+    baseOfferTitle: untranslatedBaseOfferTitle,
+    baseOfferExpirationDate,
+    baseOfferPrice
+  } = cancelSwitch as CancelSwitch;
 
   const switchDetails = allSwitchDetails[pendingSwitchId];
   const eventsPayload = {
@@ -42,9 +45,12 @@ const CancelSwitchPopup = () => {
     fromOfferId: switchDetails && switchDetails.fromOfferId,
     toOfferId: switchDetails && switchDetails.toOfferId
   };
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const [offerIdsFallback, setOfferIdsFallback] = useState({}); // required to keep translations in step 2
+  const [offerIdsFallback, setOfferIdsFallback] = useState<{
+    fromOfferId: string;
+    toOfferId: string;
+  } | null>(null); // required to keep translations in step 2
 
   const { t } = useTranslation();
 
@@ -58,15 +64,15 @@ const CancelSwitchPopup = () => {
   }, [switchDetails]);
 
   const baseOfferTitle = t(
-    `offer-title-${offerIdsFallback.fromOfferId}`,
+    `offer-title-${offerIdsFallback?.fromOfferId}`,
     untranslatedBaseOfferTitle
   );
   const switchOfferTitle = t(
-    `offer-title-${offerIdsFallback.toOfferId}`,
+    `offer-title-${offerIdsFallback?.toOfferId}`,
     untranslatedSwitchOfferTitle
   );
 
-  const cancelSwitch = async () => {
+  const handleCancelSwitch = async () => {
     window.dispatchEvent(
       new CustomEvent('MSSDK:cancel-switch-action-triggered', {
         detail: eventsPayload
@@ -164,7 +170,7 @@ const CancelSwitchPopup = () => {
             >
               {t('cancelswitch-popup.resign', 'No, thanks')}
             </Button>
-            <Button theme='danger' onClickFn={cancelSwitch}>
+            <Button theme='danger' onClickFn={handleCancelSwitch}>
               {isLoading ? (
                 <Loader buttonLoader color='#ffffff' />
               ) : (
