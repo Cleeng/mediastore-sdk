@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import { useTranslation } from 'react-i18next';
+import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { updateSwitch } from 'api';
