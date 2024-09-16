@@ -7,7 +7,8 @@ export const MessageBoxStyled = styled.div.attrs(() => ({
   display: flex;
   align-items: center;
   padding: 12px;
-  background-color: ${BackgroundColor};
+  background-color: ${(props) =>
+    props.theme.backgroundColor || BackgroundColor};
   border: 1px solid ${LineColor};
   border-radius: 7px;
 `;
@@ -21,7 +22,7 @@ export const MessageBoxIconWrapStyled = styled.div.attrs(() => ({
 
   width: 18px;
   height: 18px;
-  background-color: ${ConfirmColor};
+  background-color: ${(props) => props.theme.successColor || ConfirmColor};
   border-radius: 3px;
 
   svg {
@@ -35,5 +36,5 @@ export const MessageBoxMessageStyled = styled.div.attrs(() => ({
 }))`
   margin-left: 13px;
   font-size: 12px;
-  color: ${ConfirmColor};
+  color: ${(props) => props.theme.successColor || ConfirmColor};
 `;

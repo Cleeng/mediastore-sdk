@@ -9,7 +9,8 @@ export const StyledOfferWrapper = styled.div`
   box-sizing: border-box;
   position: relative;
   width: 100%;
-  background: ${variables.BackgroundColor};
+  background: ${(props) =>
+    props.theme.backgroundColor || variables.BackgroundColor};
 `;
 
 export const StyledOfferCouponWrapper = styled.div`
@@ -39,7 +40,8 @@ export const OfferCardWrapperStyled = styled.article.attrs(() => ({
   className: 'msd__offer-card'
 }))`
   width: 100%;
-  background: ${variables.BackgroundColor};
+  background: ${(props) =>
+    props.theme.backgroundColor || variables.BackgroundColor};
   border: 1px solid ${variables.LineColor};
   border-radius: 12px;
 

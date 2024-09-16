@@ -17,7 +17,8 @@ export const StyledLoaderContent = styled.div`
   margin: 0 auto;
   padding: 80px 120px 120px;
 
-  background-color: ${colors.BackgroundColor};
+  background-color: ${(props) =>
+    props.theme.backgroundColor || colors.BackgroundColor};
 
   text-align: center;
 

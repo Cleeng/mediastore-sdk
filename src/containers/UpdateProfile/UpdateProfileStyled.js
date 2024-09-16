@@ -10,7 +10,8 @@ export const WrapStyled = styled.div.attrs(() => ({
   box-sizing: border-box;
   width: 100%;
   padding: 20px;
-  background: ${colors.BackgroundColor};
+  background: ${(props) =>
+    props.theme.backgroundColor || colors.BackgroundColor};
 `;
 
 export const SectionStyled = styled.section``;

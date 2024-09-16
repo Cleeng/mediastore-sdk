@@ -26,7 +26,7 @@ export const InnerWrapper = styled.div.attrs(() => ({
   className: 'msd__subscription-text__wrapper'
 }))`
   max-width: 50%;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   margin-inline-end: 15px;
 
   ${mediaFrom.small`
@@ -65,7 +65,7 @@ export const TrialBadgeStyled = styled.div.attrs(() => ({
   padding: 4px 8px;
   margin-bottom: 4px;
   background-color: ${White};
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   border: 1px solid ${LineColor};
   border-radius: 10px;
   font-size: 9px;
@@ -83,7 +83,7 @@ export const SubBoxStyled = styled.div.attrs(() => ({
   margin: 15px 0;
   padding: 12px;
   border: 1px solid ${LineColor};
-  background: ${BackgroundColor};
+  background: ${(props) => props.theme.backgroundColor || BackgroundColor};
   border-radius: 4px;
   svg {
     min-width: 18px;
@@ -95,7 +95,7 @@ export const BoxTextStyled = styled.p.attrs(() => ({
   className: 'msd__subscription-subcard__title'
 }))`
   font-size: ${TinyFont};
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   margin-inline: 10px 0;
   line-height: initial;
 `;
@@ -106,7 +106,7 @@ export const SubBoxButtonStyled = styled.button`
   padding: 0;
   margin: 8px 0 0 10px;
   background-color: transparent;
-  color: ${ConfirmColor};
+  color: ${(props) => props.theme.successColor || ConfirmColor};
   border: none;
   font-size: 13px;
   font-weight: 600;

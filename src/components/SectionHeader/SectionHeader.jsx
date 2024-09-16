@@ -8,7 +8,7 @@ const HeadingStyled = styled.h1.attrs(() => ({
   padding-bottom: ${(props) => props.$paddingBottom};
   font-size: ${BigFont};
   font-weight: ${BoldFont};
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   text-transform: uppercase;
   ${(props) =>
     props.$center &&

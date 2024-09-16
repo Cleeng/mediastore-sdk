@@ -11,5 +11,5 @@ export const WrapStyled = styled.div.attrs(() => ({
   box-sizing: border-box;
   width: 100%;
   padding: 20px;
-  background: ${BackgroundColor};
+  background: ${(props) => props.theme.backgroundColor || BackgroundColor};
 `;

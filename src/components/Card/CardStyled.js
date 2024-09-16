@@ -17,7 +17,7 @@ export const WrapStyled = styled.div.attrs(() => ({
 
   margin-bottom: 32px;
 
-  background-color: ${CardColor};
+  background-color: ${(props) => props.theme.cardColor || CardColor};
 
   ${(props) =>
     props.$withShadow &&
