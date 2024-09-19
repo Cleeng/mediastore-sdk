@@ -21,8 +21,9 @@ export const ErrorPageStyled = styled.div`
   margin: 0 auto;
   padding: 80px 120px 70px;
 
-  background-color: ${colors.BackgroundColor};
-  color: ${colors.FontColor};
+  background-color: ${(props) =>
+    props.theme.backgroundColor || colors.BackgroundColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
 
   font-size: 15px;
 `;

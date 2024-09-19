@@ -25,7 +25,7 @@ export const RowStyled = styled.div`
 export const MessageStyled = styled.div.attrs(() => ({
   className: 'msd__profile-message--success'
 }))`
-  color: ${ConfirmColor};
+  color: ${(props) => props.theme.successColor || ConfirmColor};
   text-align: center;
   margin: 5px 0 15px 0;
   font-size: 12px;

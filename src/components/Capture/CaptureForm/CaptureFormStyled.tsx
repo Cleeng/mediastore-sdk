@@ -25,7 +25,7 @@ export const CaptureQuestionStyled = styled.div<{ required: boolean }>`
         height: 9px;
         font-size: 12px;
         line-height: 12px;
-        color: ${ErrorColor};
+        color: ${props.theme.errorColor || ErrorColor};
       }
     `}
 `;
@@ -35,7 +35,7 @@ export const CaptureError = styled.div`
   height: 13px;
   margin-top: 8px;
   content: '';
-  color: ${ErrorColor};
+  color: ${(props) => props.theme.errorColor || ErrorColor};
   -webkit-transition: 0.2s ease-in-out;
   transition: 0.2s ease-in-out;
   font-size: 13px;

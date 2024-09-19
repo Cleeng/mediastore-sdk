@@ -24,7 +24,7 @@ export const ErrorMessage = styled.p.attrs(() => ({
   className: 'msd__popup-content__erro'
 }))`
   width: 100%;
-  color: ${ErrorColor};
+  color: ${(props) => props.theme.errorColor || ErrorColor};
   margin: 10px 0;
   text-align: center;
 `;
@@ -32,7 +32,7 @@ export const ErrorMessage = styled.p.attrs(() => ({
 export const RemoveLinkStyled = styled.a.attrs(() => ({
   className: 'msd__popup-content__error-link'
 }))`
-  color: ${ErrorColor};
+  color: ${(props) => props.theme.errorColor || ErrorColor};
   text-decoration: underline;
   font-size: 12px;
   font-weight: 600;

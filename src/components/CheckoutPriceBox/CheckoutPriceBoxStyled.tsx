@@ -7,7 +7,7 @@ export const StyledLabel = styled.span.attrs(() => ({
   className: 'msd__price-summary__label'
 }))<PropsWithChildren>`
   font-size: 16px;
-  color: ${variables.FontColor};
+  color: ${(props) => props.theme.fontColor || variables.FontColor};
 `;
 
 export const StyledOfferPrice = styled.span.attrs(() => ({
@@ -15,7 +15,7 @@ export const StyledOfferPrice = styled.span.attrs(() => ({
 }))<PropsWithChildren>`
   font-size: 16px;
   font-weight: bold;
-  color: ${variables.FontColor};
+  color: ${(props) => props.theme.fontColor || variables.FontColor};
   margin: 16px 0;
 
   & span {
@@ -104,7 +104,7 @@ export const CouponNoteInnerWrapper = styled.div`
 export const CouponNoteStyled = styled.div.attrs(() => ({
   className: 'msd__price-coupon__note'
 }))`
-  color: ${variables.ConfirmColor};
+  color: ${(props) => props.theme.successColor || variables.ConfirmColor};
   border-radius: 5px;
 
   font-size: 12px;
@@ -113,12 +113,12 @@ export const CouponNoteStyled = styled.div.attrs(() => ({
 export const StyledRedeemButton = styled.div`
   > span {
     font-size: 13px;
-    color: ${variables.FontColor};
+    color: ${(props) => props.theme.fontColor || variables.FontColor};
     font-weight: 400;
   }
 
   > button {
-    color: ${variables.ConfirmColor};
+    color: ${(props) => props.theme.successColor || variables.ConfirmColor};
     text-decoration: underline;
   }
 `;
@@ -132,9 +132,9 @@ export const RemoveCouponButton = styled.button.attrs(() => ({
   font-family: inherit;
   font-size: ${variables.BigFont};
   font-weight: ${variables.MediumFontWeight};
-  color: ${variables.FontColor};
+  color: ${(props) => props.theme.fontColor || variables.FontColor};
 
   &:hover {
-    color: ${variables.PrimaryColor};
+    color: ${(props) => props.theme.primaryColor || variables.PrimaryColor};
   }
 `;

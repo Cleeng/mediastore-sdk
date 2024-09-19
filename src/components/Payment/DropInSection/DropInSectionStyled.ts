@@ -15,7 +15,9 @@ export const WrapperStyled = styled.div.attrs(() => ({
   justify-content: center;
   background-color: ${colors.White};
   border-radius: 12px;
-  border: 1px solid ${(props) => (props.$isSelected ? ConfirmColor : '#D3DBE6')};
+  border: 1px solid
+    ${(props) =>
+      props.$isSelected ? props.theme.successColor || ConfirmColor : '#D3DBE6'};
   cursor: ${(props) => (props.$fadeOutSection ? 'default' : 'pointer')};
   opacity: ${(props) => (props.$fadeOutSection ? '.2' : '1')};
 
@@ -23,7 +25,7 @@ export const WrapperStyled = styled.div.attrs(() => ({
     box-shadow: 0 0 3px 1px #808080;
   }
   .adyen-checkout__payment-method__radio--selected {
-    background-color: ${ConfirmColor};
+    background-color: ${(props) => props.theme.successColor || ConfirmColor};
   }
 `;
 

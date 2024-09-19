@@ -46,7 +46,7 @@ export const LoaderStyled = styled.div.attrs(() => ({
     ${(props) =>
       props.$isMyAccount &&
       css`
-        background: ${FontColor};
+        background: ${props.theme.fontColor || FontColor};
       `};
   }
 

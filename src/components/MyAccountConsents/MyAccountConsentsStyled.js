@@ -78,7 +78,7 @@ export const InfoStyled = styled.div.attrs(() => ({
 export const SuccessMessageStyled = styled.h6.attrs(() => ({
   className: 'msd__message--success'
 }))`
-  color: ${ConfirmColor};
+  color: ${(props) => props.theme.successColor || ConfirmColor};
   text-align: center;
   margin: 5px 0 15px 0;
   font-size: 12px;

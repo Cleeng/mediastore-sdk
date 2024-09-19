@@ -27,7 +27,7 @@ export const CardTypeStyled = styled.figure.attrs(() => ({
 export const CardNumberStyled = styled.div.attrs(() => ({
   className: 'msd__payment-card__number'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 13px;
   font-weight: 600;
   line-height: 20px;
@@ -36,7 +36,7 @@ export const CardNumberStyled = styled.div.attrs(() => ({
 export const HolderNameStyled = styled.div.attrs(() => ({
   className: 'msd__payment-holder__name'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 13px;
   font-weight: 300;
 `;
@@ -44,7 +44,7 @@ export const HolderNameStyled = styled.div.attrs(() => ({
 export const CardExpirationStyled = styled.div.attrs(() => ({
   className: 'msd__payment-data__wrapper'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 12px;
 
   display: flex;
@@ -53,7 +53,7 @@ export const CardExpirationStyled = styled.div.attrs(() => ({
 export const CardExpirationLabel = styled.div.attrs(() => ({
   className: 'msd__payment-data__label'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 13px;
   font-weight: 300;
   margin-bottom: 4px;
@@ -63,7 +63,7 @@ export const CardExpirationLabel = styled.div.attrs(() => ({
 export const CardExpirationDateStyled = styled.time.attrs(() => ({
   className: 'msd__payment-data__value'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 13px;
   font-weight: 300;
 
@@ -79,7 +79,7 @@ export const CardEditStyled = styled.button.attrs(() => ({
   color: ${White};
 
   padding: 11px 25px;
-  background-color: ${ConfirmColor};
+  background-color: ${(props) => props.theme.successColor || ConfirmColor};
   font-size: 14px;
   line-height: 16px;
   font-weight: 600;
@@ -120,7 +120,7 @@ export const CardDetailsStyled = styled.div.attrs(() => ({
 export const CardDetailsNameStyled = styled.div.attrs(() => ({
   className: 'msd__payment-method__name'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 13px;
   font-weight: 600;
   line-height: 20px;
