@@ -15,7 +15,7 @@ type ButtonStyledProps = {
 };
 
 const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
-  className: `msd__button msd__button--${props.$theme}`
+  className: `msd__button ${props.$theme ? `msd__button--${props.$theme}` : ''}`
 }))`
   position: relative;
   display: flex;

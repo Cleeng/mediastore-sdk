@@ -3,6 +3,7 @@ import ButtonStyled from './ButtonStyled';
 
 const Button = ({
   children,
+  className,
   disabled,
   fontSize,
   fontWeight,
@@ -20,18 +21,20 @@ const Button = ({
   return (
     <ButtonStyled
       aria-label={label}
+      className={className}
       data-testid={testid}
       disabled={disabled}
       onClick={onClickFn}
+      theme={theme}
       type={type}
+      $fontSize={fontSize}
+      $fontWeight={fontWeight}
+      $icon={icon}
+      $margin={margin}
+      $padding={padding}
       $size={size}
       $theme={theme}
-      $fontSize={fontSize}
-      $margin={margin}
-      $fontWeight={fontWeight}
       $width={width}
-      $icon={icon}
-      $padding={padding}
     >
       {children}
     </ButtonStyled>

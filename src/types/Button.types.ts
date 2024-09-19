@@ -22,13 +22,14 @@ export type ButtonTheme = (typeof BUTTON_THEME)[keyof typeof BUTTON_THEME];
 
 export type ButtonProps = {
   children?: ReactNode;
+  className?: `msd__button ${string}` | undefined;
   disabled?: boolean;
   fontSize?: string;
   fontWeight?: string;
   icon?: string;
   label?: string;
   margin?: string;
-  onClickFn?: () => void;
+  onClickFn?: () => unknown;
   padding?: string;
   size?: ButtonSize;
   testid?: string;

@@ -36,7 +36,7 @@ export const ManageButtonWrapStyled = styled.div`
 
 export const SubscriptionActionsStyled = styled.div.attrs(() => ({
   className: 'msd__manage-box__actions'
-}))`
+}))<{ $isOpened: boolean }>`
   width: 100%;
   max-height: 0px;
   overflow: hidden;
@@ -57,7 +57,7 @@ export const SubscriptionActionsStyled = styled.div.attrs(() => ({
 
 export const ButtonTextStyled = styled.span.attrs(() => ({
   className: 'msd__manage-box__button-text'
-}))`
+}))<{ $isExpanded: boolean }>`
   position: relative;
   line-height: 1.2;
   &:after {
@@ -82,11 +82,12 @@ export const SimpleButtonStyled = styled(Button).attrs(() => ({
   width: 48%;
 
   text-transform: capitalize;
+
   &:disabled:hover {
     opacity: 0.9;
   }
-  ${mediaFrom.small &&
-  css`
+
+  ${mediaFrom.small`
     margin: 0;
     width: unset;
     max-width: unset;
@@ -95,8 +96,7 @@ export const SimpleButtonStyled = styled(Button).attrs(() => ({
 
 export const FullWidthButtonStyled = styled(Button)`
   width: 100%;
-  ${mediaFrom.small &&
-  css`
+  ${mediaFrom.small`
     width: unset;
     max-width: unset;
   `}

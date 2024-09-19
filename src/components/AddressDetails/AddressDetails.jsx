@@ -125,6 +125,7 @@ const AddressDetails = ({ data, isLoading, updateCaptureOption }) => {
                   resetMessage();
                 }}
                 width='100%'
+                theme='confirm'
               >
                 {t('address-details.button.edit-address', 'Edit Address')}
               </ButtonStyled>
