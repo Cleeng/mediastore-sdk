@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import submitConsents from 'api/Customer/submitConsents';
 import Loader from 'components/Loader';
@@ -43,6 +43,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const [consentDefinitions, setConsentDefinitions] = useState<ConsentType[]>(
     []
   );
+  const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout>>();
   const [processing, setProcessing] = useState(false);
   const [disableActionButton, setDisableActionButton] = useState(false);
 
@@ -51,6 +52,12 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const { error: publisherConsentsError } = useAppSelector(
     selectPublisherConsents
   );
+
+  useEffect(() => {
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
 
   const handleClickShowPassword = () =>
     setShowPassword((prevValue) => !prevValue);
@@ -82,9 +89,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
       consents: validateConsentsField(consents, consentDefinitions)
     };
     setErrors(errorFields);
-    return !(Object.keys(errorFields) as Array<keyof Errors>).find(
-      (key) => errorFields[key] !== ''
-    );
+    return !Object.values(errorFields).some((error) => error !== '');
   };
 
   const handleConsentsChange = (
@@ -167,10 +172,11 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
           'Server overloaded. Please try again later.'
         )
       );
-      setTimeout(() => {
+      const timeoutIdValue = setTimeout(() => {
         setDisableActionButton(false);
         setGeneralError('');
       }, 10 * 1000);
+      setTimeoutId(timeoutIdValue);
     } else {
       setProcessing(false);
       setGeneralError(t('register-form.error.general', 'An error occurred.'));
