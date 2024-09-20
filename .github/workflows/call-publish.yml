@@ -56,7 +56,7 @@ jobs:
           restricted: ${{ env.tag }}-${{ github.event.number || github.run_id }}-${{ github.sha }}
         run: >
           sed -i
-          "s/0.0.0-development/${{ inputs.access == 'public' && env.public || env.restricted }}/"
+          "s/0.0.0.development/${{ inputs.access == 'public' && env.public || env.restricted }}/"
           package.json
 
       - name: Get package version
@@ -64,12 +64,8 @@ jobs:
           if [[ ${{ github.event_name }} == 'release' ]]; then
             echo "PACKAGE_VERSION=${{ github.event.release.tag_name }}" >> $GITHUB_ENV
           else
-            echo "PACKAGE_VERSION=0.0.0-dev.$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+            echo "PACKAGE_VERSION=0.0.0.development.$(git rev-parse --short HEAD)" >> $GITHUB_ENV
           fi
-
-      - name: Update package.json version
-        run: |
-          jq '.version = env.PACKAGE_VERSION' package.json > temp.json && mv temp.json package.json
 
       - name: Set package name for react-16-temporary-support
         if: inputs.isReact16Version == true
