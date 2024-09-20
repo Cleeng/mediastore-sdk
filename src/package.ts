@@ -7,7 +7,7 @@ import Register from 'components/RegisterPage';
 import MyAccount from 'containers/MyAccount';
 import Auth from 'services/auth';
 import store from 'appRedux/store';
-import Config, { getData } from 'util/appConfigHelper';
+import Config from 'util/appConfigHelper';
 import PlanDetails from 'containers/PlanDetails';
 import PaymentInfo from 'containers/PaymentInfo';
 import TransactionList from 'containers/TransactionList';
@@ -24,17 +24,17 @@ import eventDispatcher, {
   MSSDK_PURCHASE_SUCCESSFUL
 } from 'util/eventDispatcher';
 
-const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
-const CURRENT_BUILD_ENVIRONMENT =
-  getData('CLEENG_ENVIRONMENT') ?? import.meta.env.MODE;
+// const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
+// const CURRENT_BUILD_ENVIRONMENT =
+//   getData('CLEENG_ENVIRONMENT') ?? import.meta.env.MODE;
 // const shouldInitializeSentry = SENTRY_SUPPORTED_ENVIRONMENTS.includes(
 //   CURRENT_BUILD_ENVIRONMENT
 // );
 
-console.log('#### mssdk', {
-  SENTRY_SUPPORTED_ENVIRONMENTS,
-  CURRENT_BUILD_ENVIRONMENT
-});
+// console.log('#### mssdk', {
+//   SENTRY_SUPPORTED_ENVIRONMENTS,
+//   CURRENT_BUILD_ENVIRONMENT
+// });
 
 if (typeof window !== 'undefined') {
   window.onload = () => {
