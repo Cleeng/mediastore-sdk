@@ -1,5 +1,6 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { getPaymentMethods, submitPayment, submitPayPalPayment } from 'api';
 import { submitPaymentWithoutDetails } from 'appRedux/paymentSlice';
 import Button from 'components/Button';
@@ -58,6 +59,8 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   const deliveryDetails = useAppSelector(selectDeliveryDetails);
 
   const { t } = useTranslation();
+
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
   const { loading: isPaymentFinalizationInProgress } = useAppSelector(
@@ -173,6 +176,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   const submitPayPal = async () => {
     const { isGift } = deliveryDetails;
     const { id, buyAsAGift } = order;
+    const captchaValue = await recaptchaRef.current.executeAsync();
 
     if (isGift) {
       const areDeliveryDetailsValid = validateDeliveryDetailsForm();
@@ -222,7 +226,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     }
 
     setIsLoading(true);
-    const { responseData } = await submitPayPalPayment();
+    const { responseData } = await submitPayPalPayment(captchaValue);
     if (responseData?.redirectUrl) {
       window.location.href = responseData.redirectUrl;
     } else {
@@ -261,10 +265,12 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     } = state;
     setGeneralError('');
     setIsLoading(true);
+    const captchaValue = await recaptchaRef.current.executeAsync();
     const { errors, responseData } = await submitPayment(
       paymentMethod,
       browserInfo,
-      billingAddress
+      billingAddress,
+      captchaValue
     );
     if (errors?.length) {
       eventDispatcher(MSSDK_PURCHASE_FAILED, {
@@ -322,10 +328,15 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
   // Payment without payment details
   const paymentWithoutDetails = async () => {
+    console.log('test 1');
+
     setIsLoading(true);
     setGeneralError('');
+    console.log('test 2');
+    const captchaValue = await recaptchaRef.current.executeAsync();
+    console.log('test 2');
 
-    dispatch(submitPaymentWithoutDetails())
+    dispatch(submitPaymentWithoutDetails(captchaValue))
       .unwrap()
       .then((payment) => {
         eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
@@ -406,6 +417,12 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
             <>{t('payment.complete-purchase', 'Complete purchase')}</>
           )}
         </Button>
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          size='invisible'
+          badge='bottomright'
+          sitekey='6LdMy9YpAAAAAO2J_xXuWLYVEtaafqCEv05pJWmc'
+        />
       </PaymentStyled>
     );
   }
@@ -447,6 +464,12 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         {generalError && (
           <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
         )}
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          size='invisible'
+          badge='bottomright'
+          sitekey='6LdMy9YpAAAAAO2J_xXuWLYVEtaafqCEv05pJWmc'
+        />
       </PaymentWrapperStyled>
     </PaymentStyled>
   );

@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { getConsents } from 'api';
 import { Consent } from 'types/Consents.types';
 import { PublisherConsentsInitialState } from './types/publisherConsentsSlice.types';
+import { RootState } from './rootReducer';
 
 const initialState: PublisherConsentsInitialState = {
   publisherConsents: [],
@@ -51,6 +52,9 @@ export const consentsSlice = createSlice({
     });
   }
 });
+
+export const selectPublisherConsents = (state: RootState) =>
+  state.publisherConsents;
 
 export const { setChecked } = consentsSlice.actions;
 export default consentsSlice.reducer;
