@@ -1,5 +1,5 @@
 import './i18NextInit';
-// import * as Sentry from '@sentry/react';
+import * as Sentry from '@sentry/react';
 import Card from 'components/Card';
 import OfferContainer from 'containers/OfferContainer';
 import Login from 'components/LoginPage';
@@ -25,6 +25,8 @@ import eventDispatcher, {
 } from 'util/eventDispatcher';
 
 // const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
+
+console.log('#### mssdk', Sentry);
 
 if (typeof window !== 'undefined') {
   window.onload = () => {
