@@ -17,14 +17,14 @@ export default defineConfig({
     //   reactComponentAnnotation: { enabled: true }
     // })
   ],
-  define: {
-    'import.meta.env.VITE_MEDIASTORE_SDK_VERSION': JSON.stringify(
-      process.env.VITE_MEDIASTORE_SDK_VERSION || packageVersion
-    ),
-    'import.meta.env.VITE_SENTRY_DSN': JSON.stringify(
-      process.env.VITE_SENTRY_DSN || ''
-    )
-  },
+  // define: {
+  //   'import.meta.env.VITE_MEDIASTORE_SDK_VERSION': JSON.stringify(
+  //     process.env.VITE_MEDIASTORE_SDK_VERSION || packageVersion
+  //   ),
+  //   'import.meta.env.VITE_SENTRY_DSN': JSON.stringify(
+  //     process.env.VITE_SENTRY_DSN || ''
+  //   )
+  // },
   build: {
     target: 'es2015',
     cssCodeSplit: true,
