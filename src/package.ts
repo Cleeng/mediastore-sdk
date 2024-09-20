@@ -25,6 +25,11 @@ import eventDispatcher, {
 } from 'util/eventDispatcher';
 
 const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
+const CURRENT_BUILD_ENVIRONMENT =
+  getData('CLEENG_ENVIRONMENT') ?? import.meta.env.MODE;
+const shouldInitializeSentry = SENTRY_SUPPORTED_ENVIRONMENTS.includes(
+  CURRENT_BUILD_ENVIRONMENT
+);
 
 if (typeof window !== 'undefined') {
   window.onload = () => {
@@ -41,10 +46,7 @@ if (typeof window !== 'undefined') {
   };
 }
 
-if (
-  SENTRY_SUPPORTED_ENVIRONMENTS.includes(getData('CLEENG_ENVIRONMENT')) ||
-  SENTRY_SUPPORTED_ENVIRONMENTS.includes(import.meta.env.MODE)
-) {
+if (shouldInitializeSentry) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     environment: import.meta.env.MODE,
