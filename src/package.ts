@@ -1,5 +1,5 @@
 import './i18NextInit';
-import * as Sentry from '@sentry/react';
+// import * as Sentry from '@sentry/react';
 import Card from 'components/Card';
 import OfferContainer from 'containers/OfferContainer';
 import Login from 'components/LoginPage';
@@ -27,9 +27,14 @@ import eventDispatcher, {
 const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
 const CURRENT_BUILD_ENVIRONMENT =
   getData('CLEENG_ENVIRONMENT') ?? import.meta.env.MODE;
-const shouldInitializeSentry = SENTRY_SUPPORTED_ENVIRONMENTS.includes(
+// const shouldInitializeSentry = SENTRY_SUPPORTED_ENVIRONMENTS.includes(
+//   CURRENT_BUILD_ENVIRONMENT
+// );
+
+console.log('#### mssdk', {
+  SENTRY_SUPPORTED_ENVIRONMENTS,
   CURRENT_BUILD_ENVIRONMENT
-);
+});
 
 if (typeof window !== 'undefined') {
   window.onload = () => {
@@ -46,31 +51,31 @@ if (typeof window !== 'undefined') {
   };
 }
 
-if (shouldInitializeSentry) {
-  Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN,
-    environment: import.meta.env.MODE,
-    release: import.meta.env.VITE_MEDIASTORE_SDK_VERSION,
-    integrations: [
-      Sentry.browserTracingIntegration(),
-      Sentry.replayIntegration()
-    ],
-    tracesSampleRate: 1.0,
-    tracePropagationTargets: [
-      'localhost',
-      /^https:\/\/auth\.api\.prod\.cleeng\.com\/.*/,
-      /^https:\/\/auth\.api\.sandbox\.cleeng\.com\/.*/,
-      /^https:\/\/api\.cleeng\.com\/3\.0\/json-rpc\/.*/,
-      /^https:\/\/sandbox\.cleeng\.com\/api\/3\.0\/json-rpc\/.*/,
-      /^https:\/\/mediastoreapi\.cleeng\.com\/.*/,
-      /^https:\/\/mediastoreapi-sandbox\.cleeng\.com\/.*/,
-      /^https:\/\/api\.cleeng\.com\/3\.1\/.*/,
-      /^https:\/\/api\.sandbox\.cleeng\.com\/3\.1\/.*/
-    ],
-    replaysSessionSampleRate: 0.1,
-    replaysOnErrorSampleRate: 1.0
-  });
-}
+// if (false) {
+//   Sentry.init({
+//     dsn: import.meta.env.VITE_SENTRY_DSN,
+//     environment: import.meta.env.MODE,
+//     release: import.meta.env.VITE_MEDIASTORE_SDK_VERSION,
+//     integrations: [
+//       Sentry.browserTracingIntegration(),
+//       Sentry.replayIntegration()
+//     ],
+//     tracesSampleRate: 1.0,
+//     tracePropagationTargets: [
+//       'localhost',
+//       /^https:\/\/auth\.api\.prod\.cleeng\.com\/.*/,
+//       /^https:\/\/auth\.api\.sandbox\.cleeng\.com\/.*/,
+//       /^https:\/\/api\.cleeng\.com\/3\.0\/json-rpc\/.*/,
+//       /^https:\/\/sandbox\.cleeng\.com\/api\/3\.0\/json-rpc\/.*/,
+//       /^https:\/\/mediastoreapi\.cleeng\.com\/.*/,
+//       /^https:\/\/mediastoreapi-sandbox\.cleeng\.com\/.*/,
+//       /^https:\/\/api\.cleeng\.com\/3\.1\/.*/,
+//       /^https:\/\/api\.sandbox\.cleeng\.com\/3\.1\/.*/
+//     ],
+//     replaysSessionSampleRate: 0.1,
+//     replaysOnErrorSampleRate: 1.0
+//   });
+// }
 
 export {
   // Identity Management
