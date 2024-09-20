@@ -1,10 +1,10 @@
 /// <reference types="vitest" />
-import { sentryVitePlugin } from '@sentry/vite-plugin';
+// import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { defineConfig } from 'vite';
 import path from 'node:path';
 import react from '@vitejs/plugin-react-swc';
 import svgr from 'vite-plugin-svgr';
-import { version as packageVersion } from './package.json';
+// import { version as packageVersion } from './package.json';
 
 export default defineConfig({
   plugins: [
