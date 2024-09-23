@@ -41,7 +41,7 @@ const AddressDetails = ({
   const [isPending, setIsPending] = useState(false);
   const [address, setAddress] = useState<Address | null>(null);
   const [initialAddress, setInitialAddress] = useState<Address | null>(null);
-  const [message, , setMessage, resetMessage] = useMessage();
+  const { message, type, setMessage, resetMessage } = useMessage();
 
   useEffect(() => {
     if (data) {
@@ -84,6 +84,7 @@ const AddressDetails = ({
         ),
         type: 'success'
       });
+
       setIsPending(false);
       setIsSectionDisabled(true);
     } catch (e) {
@@ -105,7 +106,7 @@ const AddressDetails = ({
     <WrapStyled>
       {address && (
         <Card withBorder>
-          {message && <MessageStyled>{message}</MessageStyled>}
+          {message && <MessageStyled $type={type}>{message}</MessageStyled>}
           <MyAccountInput
             id='address'
             label={t('address-details.label.address-line-1', 'Address Line 1')}

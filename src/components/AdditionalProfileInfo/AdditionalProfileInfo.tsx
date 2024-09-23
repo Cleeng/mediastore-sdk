@@ -32,13 +32,9 @@ const AdditionalProfileInfo = ({
   const { t } = useTranslation();
   const [isSectionDisabled, setIsSectionDisabled] = useState(true);
   const [isPending, setIsPending] = useState(false);
-  const [customSettings, setCustomSettings] = useState<CustomSetting[] | null>(
-    null
-  );
-  const [initialSettings, setInitialSettings] = useState<
-    CustomSetting[] | null
-  >(null);
-  const [message, , setMessage, resetMessage] = useMessage();
+  const [customSettings, setCustomSettings] = useState<CustomSetting[]>([]);
+  const [initialSettings, setInitialSettings] = useState<CustomSetting[]>([]);
+  const { message, type, setMessage, resetMessage } = useMessage();
 
   useEffect(() => {
     if (data) {
@@ -131,7 +127,7 @@ const AdditionalProfileInfo = ({
     <WrapStyled>
       {customSettings && (
         <Card withBorder>
-          {message && <MessageStyled>{message}</MessageStyled>}
+          {message && <MessageStyled $type={type}>{message}</MessageStyled>}
           {customSettings.map((setting) => {
             const { key, question, value, values } = setting;
 

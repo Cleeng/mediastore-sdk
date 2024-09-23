@@ -15,7 +15,7 @@ const useMessage = (): UseMessageReturnType => {
     setType('');
   };
 
-  return [message, type, setMessage, resetMessage];
+  return { message, type, setMessage, resetMessage };
 };
 
 export default useMessage;
