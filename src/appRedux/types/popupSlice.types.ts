@@ -79,7 +79,7 @@ type PauseSubscription = {
   isPartOfCancellationFlow?: boolean;
 };
 
-export type CancelSwitch = {
+type CancelSwitch = {
   pendingSwitchId: string;
   switchDirection: string;
   switchOfferTitle: string;
