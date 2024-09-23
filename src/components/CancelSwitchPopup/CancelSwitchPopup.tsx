@@ -22,14 +22,32 @@ const CancelSwitchPopup = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
+  const [offerIdsFallback, setOfferIdsFallback] = useState<{
+    fromOfferId: string;
+    toOfferId: string;
+  } | null>(null); // required to keep translations in step 2
 
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
 
   const { data: allSwitchDetails } = useAppSelector(
     (state) => state.plan.switchDetails
   );
 
   const { cancelSwitch } = useAppSelector((state) => state.popupManager);
+
+  useEffect(() => {
+    if (cancelSwitch) {
+      const switchDetails = allSwitchDetails[cancelSwitch.pendingSwitchId];
+
+      if (switchDetails) {
+        setOfferIdsFallback({
+          fromOfferId: switchDetails && switchDetails.fromOfferId,
+          toOfferId: switchDetails && switchDetails.toOfferId
+        });
+      }
+    }
+  }, [cancelSwitch]);
 
   if (!cancelSwitch) {
     return <MyAccountError generalError centered />;
@@ -50,21 +68,6 @@ const CancelSwitchPopup = () => {
     fromOfferId: switchDetails && switchDetails.fromOfferId,
     toOfferId: switchDetails && switchDetails.toOfferId
   };
-  const dispatch = useAppDispatch();
-
-  const [offerIdsFallback, setOfferIdsFallback] = useState<{
-    fromOfferId: string;
-    toOfferId: string;
-  } | null>(null); // required to keep translations in step 2
-
-  useEffect(() => {
-    if (switchDetails) {
-      setOfferIdsFallback({
-        fromOfferId: switchDetails && switchDetails.fromOfferId,
-        toOfferId: switchDetails && switchDetails.toOfferId
-      });
-    }
-  }, [switchDetails]);
 
   const baseOfferTitle = t(
     `offer-title-${offerIdsFallback?.fromOfferId}`,
