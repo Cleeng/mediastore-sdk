@@ -3,11 +3,11 @@ import { useTranslation } from 'react-i18next';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
+import MyAccountError from 'components/MyAccountError';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
 import { updateList, setSwitchDetails } from 'appRedux/planDetailsSlice';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
-import { CancelSwitch } from 'appRedux/types';
 import { hidePopup } from 'appRedux/popupSlice';
 import { dateFormat, INFINITE_DATE } from 'util/planHelper';
 
@@ -23,11 +23,17 @@ const CancelSwitchPopup = () => {
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
 
+  const { t } = useTranslation();
+
   const { data: allSwitchDetails } = useAppSelector(
     (state) => state.plan.switchDetails
   );
 
   const { cancelSwitch } = useAppSelector((state) => state.popupManager);
+
+  if (!cancelSwitch) {
+    return <MyAccountError generalError centered />;
+  }
 
   const {
     pendingSwitchId,
@@ -36,7 +42,7 @@ const CancelSwitchPopup = () => {
     baseOfferTitle: untranslatedBaseOfferTitle,
     baseOfferExpirationDate,
     baseOfferPrice
-  } = cancelSwitch as CancelSwitch;
+  } = cancelSwitch;
 
   const switchDetails = allSwitchDetails[pendingSwitchId];
   const eventsPayload = {
@@ -50,8 +56,6 @@ const CancelSwitchPopup = () => {
     fromOfferId: string;
     toOfferId: string;
   } | null>(null); // required to keep translations in step 2
-
-  const { t } = useTranslation();
 
   useEffect(() => {
     if (switchDetails) {
