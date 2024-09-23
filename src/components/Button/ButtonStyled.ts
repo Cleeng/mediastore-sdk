@@ -1,9 +1,21 @@
 import styled, { css } from 'styled-components';
+import { ButtonSize, ButtonTheme } from 'types/Button.types';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 
-const ButtonStyled = styled.button.attrs((props) => ({
-  className: `msd__button msd__button--${props.$theme}`
+type ButtonStyledProps = {
+  $fontSize?: string;
+  $fontWeight?: string;
+  $icon?: string;
+  $margin?: string;
+  $padding?: string;
+  $size?: ButtonSize;
+  $theme?: ButtonTheme;
+  $width?: string;
+};
+
+const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
+  className: `msd__button ${props.$theme ? `msd__button--${props.$theme}` : ''}`
 }))`
   position: relative;
   display: flex;
@@ -42,7 +54,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
     }
   }
 
-  ${(props) =>
+  ${(props: ButtonStyledProps) =>
     props.$size === 'big' &&
     css`
       padding: 20px;
