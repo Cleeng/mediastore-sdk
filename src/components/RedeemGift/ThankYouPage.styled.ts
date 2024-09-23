@@ -18,7 +18,7 @@ export const InfoTextStyled = styled.div`
   font-weight: 300;
   text-align: center;
   max-width: 530px;
-  color: ${colors.FontColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
   width: 100%;
 
   p {
@@ -40,5 +40,5 @@ export const HeaderStyled = styled.h2`
   font-size: 25px;
   font-weight: 600;
   margin: 40px 0 24px 0;
-  color: ${colors.FontColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
 `;

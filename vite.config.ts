@@ -19,11 +19,12 @@ export default defineConfig({
       formats: ['es']
     },
     rollupOptions: {
-      external: ['react', 'react-redux'],
+      external: ['react', 'react-redux', 'styled-components'],
       output: {
         globals: {
           react: 'React',
-          'react-redux': 'reactRedux'
+          'react-redux': 'reactRedux',
+          'styled-components': 'styled-components'
         }
       }
     }

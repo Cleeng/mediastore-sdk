@@ -6,7 +6,8 @@ export const PaymentStyled = styled.section.attrs(() => ({
 }))`
   padding: 20px 35px 70px 35px;
   width: 100%;
-  background-color: ${colors.BackgroundColor};
+  background-color: ${(props) =>
+    props.theme.backgroundColor || colors.BackgroundColor};
   border-bottom: 1px solid ${colors.LineColor};
 `;
 
@@ -22,6 +23,6 @@ export const PaymentErrorStyled = styled.div.attrs(() => ({
 }))`
   text-align: center;
   font-size: 15px;
-  color: ${colors.ErrorColor};
+  color: ${(props) => props.theme.errorColor || colors.ErrorColor};
   margin: 30px auto;
 `;

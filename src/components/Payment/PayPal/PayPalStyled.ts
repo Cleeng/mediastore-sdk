@@ -53,11 +53,11 @@ export const CheckboxWrapperStyled = styled.div`
 
   .adyen-checkout__bank-checkbox--error {
     .msd__consents__frame {
-      border-color: ${ErrorColor};
+      border-color: ${(props) => props.theme.errorColor || ErrorColor};
     }
 
     .msd__consents__text {
-      color: ${ErrorColor};
+      color: ${(props) => props.theme.errorColor || ErrorColor};
     }
   }
 `;

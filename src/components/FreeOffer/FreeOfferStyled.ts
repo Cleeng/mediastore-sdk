@@ -30,10 +30,10 @@ export const CardStyled = styled.div.attrs(() => ({
 
   border: 1px solid ${LineColor};
   border-radius: 12px;
-  background: ${BackgroundColor};
+  background: ${(props) => props.theme.backgroundColor || BackgroundColor};
 
   text-align: center;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 `;
 
 export const TitleStyled = styled.h1.attrs(() => ({
@@ -49,7 +49,7 @@ export const TitleStyled = styled.h1.attrs(() => ({
 export const DescriptionStyled = styled.p.attrs(() => ({
   className: 'msd__checkout-card__description'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: ${MediumFont};
   font-weight: ${BoldFont};
   margin: 0 0 30px 0;
@@ -58,7 +58,7 @@ export const DescriptionStyled = styled.p.attrs(() => ({
 export const PublisherDescriptionStyled = styled.p.attrs(() => ({
   className: 'msd__checkout-card__description'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: ${SmallFont};
   font-weight: ${BoldFont};
   margin-bottom: 32px;
@@ -93,7 +93,7 @@ export const ErrorMessageStyled = styled.div.attrs(() => ({
   className: 'msd__checkout-card__message--error'
 }))`
   margin-top: 10px;
-  color: ${ErrorColor};
+  color: ${(props) => props.theme.errorColor || ErrorColor};
   font-size: 12px;
   line-height: 1.3em;
 `;

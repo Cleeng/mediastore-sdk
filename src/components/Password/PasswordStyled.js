@@ -15,7 +15,7 @@ export const InnerWrapperStyled = styled.div`
 export const OldPasswordStyled = styled.span.attrs(() => ({
   className: 'msd__profile-password__old'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   letter-spacing: 2px;
   font-weight: 700;
 `;

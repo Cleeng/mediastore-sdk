@@ -35,7 +35,7 @@ export const InputWrapperStyled = styled.div`
   }
 
   .msd__error {
-    color: ${colors.ErrorColor};
+    color: ${(props) => props.theme.errorColor || colors.ErrorColor};
   }
 
   .msd__button {
@@ -46,14 +46,15 @@ export const InputWrapperStyled = styled.div`
     right: 2px;
     max-width: 96px;
     border-radius: 4px;
-    background-color: ${colors.FontColor};
+    background-color: ${(props) => props.theme.fontColor || colors.FontColor};
   }
 `;
 
 export const OfferWrapperStyled = styled.div`
   width: 100%;
   max-width: 562px;
-  background: ${colors.BackgroundColor};
+  background: ${(props) =>
+    props.theme.backgroundColor || colors.BackgroundColor};
   border: 1px solid ${colors.LineColor};
   border-radius: 12px;
   padding: 20px;

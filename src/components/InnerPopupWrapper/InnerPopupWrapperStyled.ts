@@ -48,8 +48,7 @@ export const DotsWrapperStyled = styled.div.attrs(() => ({
     props.$currentStep &&
     css`
       span:nth-child(-n + ${props.$currentStep}) {
-        background: ${ConfirmColor};
-      
+        background: ${props.theme.successColor || ConfirmColor};
     `}
 `;
 
@@ -59,7 +58,7 @@ export const HeaderStyled = styled.div.attrs(() => ({
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   ${media.small`
     margin: 30px 0 0 0;
   `}
@@ -120,7 +119,7 @@ export const TitleStyled = styled.h1.attrs(() => ({
   className: 'msd__popup-content__title'
 }))<TitleStyledProps>`
   font-size: 26px;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-weight: 600;
   text-transform: ${(props) =>
     props.$textTransform ? props.$textTransform : 'none'};
@@ -143,7 +142,7 @@ export const TitleStyled = styled.h1.attrs(() => ({
 export const TextStyled = styled.p.attrs(() => ({
   className: 'msd__popup-content__text'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   opacity: 0.8;
   font-size: 14px;
   line-height: 1.5;
@@ -193,7 +192,7 @@ export const ButtonWrapperStyled = styled.div.attrs(() => ({
 export const WarningMessageStyled = styled.p.attrs(() => ({
   className: 'msd__popup-content__warning'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   opacity: 0.8;
   font-size: 11px;
   margin: 15px 0 0 0;
@@ -207,7 +206,7 @@ export const DowngradesWrapperStyled = styled.div.attrs(() => ({
 export const OfferCardWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__popup-content__downgrade-wrapper'
 }))`
-  background: ${CardColor};
+  background: ${(props) => props.theme.cardColor || CardColor};
   border: 1px solid ${LineColor};
   border-radius: 12px;
   padding: 15px;

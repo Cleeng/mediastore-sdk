@@ -9,7 +9,7 @@ export const TitleStyled = styled.div.attrs(() => ({
   max-width: 380px;
   margin: 10px auto 0 auto;
 
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
   font-size: 16px;
 `;
@@ -17,7 +17,7 @@ export const TitleStyled = styled.div.attrs(() => ({
 export const SubTitleStyled = styled.div.attrs(() => ({
   className: 'msd__info-box__subtitle'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
   font-size: 13px;
 

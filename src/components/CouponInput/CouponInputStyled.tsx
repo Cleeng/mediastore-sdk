@@ -32,8 +32,8 @@ export const MessageStyled = styled.div.attrs(() => ({
 }))<MessageStyledProps>`
   color: ${(props) =>
     props.$messageType === MESSAGE_TYPE_SUCCESS
-      ? Colors.ConfirmColor
-      : Colors.ErrorColor};
+      ? props.theme.successColor || Colors.ConfirmColor
+      : props.theme.errorColor || Colors.ErrorColor};
   border-radius: 5px;
 
   font-size: 12px;
@@ -108,7 +108,8 @@ export const CloseButtonStyled = styled.button.attrs(() => ({
   top: 50%;
   inset-inline-start: 7px;
   transform: translate(0, -50%);
-  background-color: ${Colors.PrimaryColor};
+  background-color: ${(props) =>
+    props.theme.primaryColor || Colors.PrimaryColor};
   padding: 0;
   border: 0;
   border-radius: 50%;

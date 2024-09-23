@@ -155,6 +155,7 @@ const AddressDetails = ({
                   resetMessage();
                 }}
                 width='100%'
+                theme='confirm'
               >
                 {t('address-details.button.edit-address', 'Edit Address')}
               </ButtonStyled>

@@ -70,7 +70,7 @@ export const RightBoxStyled = styled.div`
 export const TitleStyled = styled.h3.attrs(() => ({
   className: 'msd__transaction__title'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
   font-size: 13px;
   font-weight: 700;
@@ -82,7 +82,7 @@ export const SubTitleStyled = styled.div.attrs(() => ({
 }))`
   margin-top: 6px;
 
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
   font-size: 12px;
 `;
@@ -159,7 +159,7 @@ export const EditGiftStyled = styled.p`
   font-weight: 600;
   font-size: 12px;
   text-decoration: underline;
-  color: ${ConfirmColor};
+  color: ${(props) => props.theme.successColor || ConfirmColor};
 
   &:hover {
     cursor: pointer;
