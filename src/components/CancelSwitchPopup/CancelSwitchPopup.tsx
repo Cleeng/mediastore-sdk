@@ -19,6 +19,14 @@ import {
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
 const CancelSwitchPopup = () => {
+  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
+  const { data: allSwitchDetails } = useAppSelector(
+    (state) => state.plan.switchDetails
+  );
+  const { cancelSwitch } = useAppSelector((state) => state.popupManager);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
@@ -27,25 +35,18 @@ const CancelSwitchPopup = () => {
     toOfferId: string;
   } | null>(null); // required to keep translations in step 2
 
-  const { t } = useTranslation();
-  const dispatch = useAppDispatch();
-
-  const { data: allSwitchDetails } = useAppSelector(
-    (state) => state.plan.switchDetails
-  );
-
-  const { cancelSwitch } = useAppSelector((state) => state.popupManager);
-
   useEffect(() => {
-    if (cancelSwitch) {
-      const switchDetails = allSwitchDetails[cancelSwitch.pendingSwitchId];
+    if (!cancelSwitch) {
+      return;
+    }
 
-      if (switchDetails) {
-        setOfferIdsFallback({
-          fromOfferId: switchDetails && switchDetails.fromOfferId,
-          toOfferId: switchDetails && switchDetails.toOfferId
-        });
-      }
+    const switchDetails = allSwitchDetails[cancelSwitch.pendingSwitchId];
+
+    if (switchDetails) {
+      setOfferIdsFallback({
+        fromOfferId: switchDetails && switchDetails.fromOfferId,
+        toOfferId: switchDetails && switchDetails.toOfferId
+      });
     }
   }, [cancelSwitch]);
 
