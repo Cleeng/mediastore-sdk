@@ -12,7 +12,7 @@ export const MessageStyled = styled.div.attrs(() => ({
   color: ${({ $type, theme }) =>
     $type === MESSAGE_TYPE.SUCCESS
       ? theme.successColor || ConfirmColor
-      : ErrorColor};
+      : theme.errorColor || ErrorColor};
   text-align: center;
   margin: 5px 0 15px 0;
   font-size: 12px;
