@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { ConfirmColor, FontColor } from 'styles/variables';
+import { ConfirmColor, ErrorColor, FontColor } from 'styles/variables';
+import { MESSAGE_TYPE, MessageType } from 'types/hooks.types';
 
 export const WrapStyled = styled.div.attrs(() => ({
   className: 'msd__profile-capture__wrapper'
@@ -7,8 +8,11 @@ export const WrapStyled = styled.div.attrs(() => ({
 
 export const MessageStyled = styled.div.attrs(() => ({
   className: 'msd__profile-capture__message'
-}))`
-  color: ${(props) => props.theme.successColor || ConfirmColor};
+}))<{ $type: MessageType }>`
+  color: ${({ $type, theme }) =>
+    $type === MESSAGE_TYPE.SUCCESS
+      ? theme.successColor || ConfirmColor
+      : theme.errorColor || ErrorColor};
   text-align: center;
   margin: 5px 0 15px 0;
   font-size: 12px;

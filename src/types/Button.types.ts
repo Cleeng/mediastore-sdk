@@ -37,3 +37,15 @@ export type ButtonProps = {
   type?: 'button' | 'submit' | 'reset';
   width?: string;
 };
+
+export type ButtonStyledProps = {
+  children?: ReactNode;
+  $fontSize?: string;
+  $fontWeight?: string;
+  $icon?: string;
+  $margin?: string;
+  $padding?: string;
+  $size?: ButtonSize;
+  $theme?: ButtonTheme;
+  $width?: string;
+};

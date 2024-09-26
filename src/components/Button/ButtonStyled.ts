@@ -1,18 +1,7 @@
 import styled, { css } from 'styled-components';
-import { ButtonSize, ButtonTheme } from 'types/Button.types';
+import { ButtonStyledProps } from 'types/Button.types';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
-
-type ButtonStyledProps = {
-  $fontSize?: string;
-  $fontWeight?: string;
-  $icon?: string;
-  $margin?: string;
-  $padding?: string;
-  $size?: ButtonSize;
-  $theme?: ButtonTheme;
-  $width?: string;
-};
 
 const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
   className: `msd__button ${props.$theme ? `msd__button--${props.$theme}` : ''}`

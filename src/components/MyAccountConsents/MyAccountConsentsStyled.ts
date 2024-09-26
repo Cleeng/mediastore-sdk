@@ -4,10 +4,11 @@ import Checkbox from 'components/Checkbox';
 import Card from 'components/Card';
 import { mediaFrom } from 'styles/BreakPoints';
 import { ConfirmColor } from 'styles/variables';
+import { ButtonStyledProps } from 'types/Button.types';
 
 export const CardStyled = styled(Card).attrs(() => ({
   className: 'msd__profile-consents__card'
-}))`
+}))<{ showConsentsOnly: boolean }>`
   margin-bottom: 0;
 
   ${(props) =>
@@ -23,7 +24,7 @@ export const CardStyled = styled(Card).attrs(() => ({
 `;
 export const ButtonStyled = styled(Button).attrs(() => ({
   className: 'msd__profile-consents__button'
-}))`
+}))<ButtonStyledProps>`
   margin: 20px 0 10px 0;
   width: 48%;
   min-width: 100px;
@@ -34,8 +35,7 @@ export const ButtonStyled = styled(Button).attrs(() => ({
       width: ${props.$width};
     `}
 
-  ${mediaFrom.small &&
-  css`
+  ${mediaFrom.small`
     margin: 20px 0 0 5px;
     width: unset;
     max-width: unset;
@@ -44,7 +44,7 @@ export const ButtonStyled = styled(Button).attrs(() => ({
 
 export const CheckboxStyled = styled(Checkbox).attrs(() => ({
   className: 'msd__profile-consents__checkbox'
-}))`
+}))<{ $hide: boolean }>`
   align-items: flex-start;
   line-height: 1.3rem;
 
