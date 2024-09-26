@@ -1,35 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { updateCaptureAnswers } from 'api';
+import useMessage from 'hooks/useMessage';
 import Card from 'components/Card';
 import MyAccountInput from 'components/MyAccountInput';
 import Loader from 'components/Loader';
-import useMessage from 'hooks/useMessage';
-import { updateCaptureAnswers } from 'api';
 import {
   ButtonStyled,
   ButtonWrapperStyled
 } from 'components/MyAccountConsents/MyAccountConsentsStyled';
+import {
+  Address,
+  AddressDetailsProps
+} from 'types/components/AddressDetails.types';
 
 import { WrapStyled, RowStyled, MessageStyled } from './AddressDetailsStyled';
-
-type Address = {
-  address: string | null;
-  address2: string | null;
-  city: string | null;
-  state: string | null;
-  postCode: string | null;
-};
-
-type AddressDetailsProps = {
-  data: {
-    answer: Address;
-    enabled: boolean;
-    key: string;
-    required: boolean;
-  };
-  isLoading?: boolean;
-  updateCaptureOption: (params: { key: string; value: Address }) => void;
-};
 
 const AddressDetails = ({
   data,

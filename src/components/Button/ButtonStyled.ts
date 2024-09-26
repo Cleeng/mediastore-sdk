@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { ButtonStyledProps } from 'types/Button.types';
+import { ButtonStyledProps } from 'types/components/Button.types';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 

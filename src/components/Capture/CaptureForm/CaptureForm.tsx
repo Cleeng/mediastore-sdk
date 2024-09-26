@@ -14,7 +14,7 @@ import {
   CaptureProps,
   CaptureSetting,
   CustomCaptureSetting
-} from 'types/Capture.types';
+} from 'types/components/Capture.types';
 import useInput from './useInput';
 import {
   CaptureRowStyled,

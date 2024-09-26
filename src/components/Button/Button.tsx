@@ -1,4 +1,4 @@
-import { ButtonProps } from 'types/Button.types';
+import { ButtonProps } from 'types/components/Button.types';
 import ButtonStyled from './ButtonStyled';
 
 const Button = ({

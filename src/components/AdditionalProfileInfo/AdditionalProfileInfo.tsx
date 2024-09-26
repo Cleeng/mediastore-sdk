@@ -16,7 +16,7 @@ import {
 import {
   AdditionalProfileInfoProps,
   CustomSetting
-} from 'types/AdditionalProfileInfo.types';
+} from 'types/components/AdditionalProfileInfo.types';
 import {
   MessageStyled,
   WrapStyled,

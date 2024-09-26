@@ -4,7 +4,7 @@ import Header from 'components/Header';
 import Footer from 'components/Footer';
 import Loader from 'components/Loader';
 import getCaptureStatus from 'api/Customer/getCaptureStatus';
-import { CaptureProps, CaptureSetting } from 'types/Capture.types';
+import { CaptureProps, CaptureSetting } from 'types/components/Capture.types';
 import CaptureForm from './CaptureForm/CaptureForm';
 
 import {

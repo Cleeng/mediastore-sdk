@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { getConsents } from 'api';
-import { Consent } from 'types/Consents.types';
+import { Consent } from 'types/components/Consents.types';
 import { PublisherConsentsInitialState } from './types/publisherConsentsSlice.types';
 
 const initialState: PublisherConsentsInitialState = {
