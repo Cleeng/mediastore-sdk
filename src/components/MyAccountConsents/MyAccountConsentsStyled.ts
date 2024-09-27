@@ -4,7 +4,7 @@ import Checkbox from 'components/Checkbox';
 import Card from 'components/Card';
 import { mediaFrom } from 'styles/BreakPoints';
 import { ConfirmColor } from 'styles/variables';
-import { ButtonStyledProps } from 'types/components/Button.types';
+import { ButtonStyledProps } from 'components/Button/Button.types';
 
 export const CardStyled = styled(Card).attrs(() => ({
   className: 'msd__profile-consents__card'

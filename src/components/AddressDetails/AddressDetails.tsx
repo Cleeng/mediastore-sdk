@@ -9,10 +9,7 @@ import {
   ButtonStyled,
   ButtonWrapperStyled
 } from 'components/MyAccountConsents/MyAccountConsentsStyled';
-import {
-  Address,
-  AddressDetailsProps
-} from 'types/components/AddressDetails.types';
+import { Address, AddressDetailsProps } from './AddressDetails.types';
 
 import { WrapStyled, RowStyled, MessageStyled } from './AddressDetailsStyled';
 

@@ -1,5 +1,5 @@
-import { CardProps } from 'types/components/Card.types';
 import { WrapStyled } from './CardStyled';
+import { CardProps } from './Card.types';
 
 const Card = ({
   as = 'article',
