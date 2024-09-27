@@ -51,9 +51,6 @@ class Login extends Component {
       <LoginWrapperStyled>
         <Header />
         <ContentWrapperStyled>
-          <button type='button' onClick={() => maksTesting()}>
-            Maks kliknij tutaj
-          </button>
           <LoginForm
             t={t}
             offerId={offerId}

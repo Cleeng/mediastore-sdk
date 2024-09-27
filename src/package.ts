@@ -66,7 +66,18 @@ if (
       /^https:\/\/api\.sandbox\.cleeng\.com\/3\.1\/.*/
     ],
     replaysSessionSampleRate: 0.1,
-    replaysOnErrorSampleRate: 1.0
+    replaysOnErrorSampleRate: 1.0,
+    beforeSend(event) {
+      return {
+        ...event,
+        extra: {
+          ...event.extra,
+          cleengEnvironment: getData('CLEENG_ENVIRONMENT'),
+          publisher: getData('CLEENG_PUBLISHER_ID'),
+          offer: getData('CLEENG_OFFER_ID')
+        }
+      };
+    }
   });
 }
 

@@ -85,8 +85,6 @@ jobs:
 
       - name: build the bundle
         run: pnpm build
-        env:
-          VITE_SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
 
       - name: push the bundle to ${{ inputs.access }} registry
         run: npm publish --access ${{ inputs.access }}
