@@ -15,3 +15,4 @@ jobs:
       branch: react-16-temporary-support
     secrets:
       TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
