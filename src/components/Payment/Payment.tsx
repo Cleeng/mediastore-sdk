@@ -412,8 +412,8 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
   return (
     <PaymentStyled>
-      <button type='button' onClick={() => maksCheckoutErrorLoggingTesting()}>
-        Maks kliknij tutaj
+      <button type='button' onClick={() => maksCheckoutFinalTesting()}>
+        🍉🍉🍉🍉🍉
       </button>
       <SectionHeader marginTop='25px' paddingBottom='33px' center>
         <>{t('payment.purchase-using', 'Purchase using')}</>

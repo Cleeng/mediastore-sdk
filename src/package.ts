@@ -47,7 +47,7 @@ if (
 ) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
-    environment: import.meta.env.MODE,
+    environment: getData('CLEENG_ENVIRONMENT'),
     release: import.meta.env.VITE_MEDIASTORE_SDK_VERSION,
     integrations: [
       Sentry.browserTracingIntegration(),
@@ -72,9 +72,8 @@ if (
         ...event,
         extra: {
           ...event.extra,
-          cleengEnvironment: getData('CLEENG_ENVIRONMENT'),
-          publisher: getData('CLEENG_PUBLISHER_ID'),
-          offer: getData('CLEENG_OFFER_ID')
+          publisherId: getData('CLEENG_PUBLISHER_ID'),
+          offerId: getData('CLEENG_OFFER_ID')
         }
       };
     }
