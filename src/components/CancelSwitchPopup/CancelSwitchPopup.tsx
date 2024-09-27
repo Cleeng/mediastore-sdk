@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import InnerPopupWrapper from 'components/InnerPopupWrapper';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
+import MyAccountError from 'components/MyAccountError';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
 import { updateList, setSwitchDetails } from 'appRedux/planDetailsSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { hidePopup } from 'appRedux/popupSlice';
-import { dateFormat, INFINITE_DATE } from 'util';
+import { dateFormat, INFINITE_DATE } from 'util/planHelper';
 
 import {
   ContentStyled,
@@ -18,23 +19,49 @@ import {
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
 const CancelSwitchPopup = () => {
+  const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+
+  const { data: allSwitchDetails } = useAppSelector(
+    (state) => state.plan.switchDetails
+  );
+  const { cancelSwitch } = useAppSelector((state) => state.popupManager);
+
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
+  const [offerIdsFallback, setOfferIdsFallback] = useState<{
+    fromOfferId: string;
+    toOfferId: string;
+  } | null>(null); // required to keep translations in step 2
 
-  const { data: allSwitchDetails } = useSelector(
-    (state) => state.plan.switchDetails
-  );
-  const {
-    cancelSwitch: {
-      pendingSwitchId,
-      switchDirection,
-      switchOfferTitle: untranslatedSwitchOfferTitle,
-      baseOfferTitle: untranslatedBaseOfferTitle,
-      baseOfferExpirationDate,
-      baseOfferPrice
+  useEffect(() => {
+    if (!cancelSwitch) {
+      return;
     }
-  } = useSelector((state) => state.popupManager);
+
+    const switchDetails = allSwitchDetails[cancelSwitch.pendingSwitchId];
+
+    if (switchDetails) {
+      setOfferIdsFallback({
+        fromOfferId: switchDetails && switchDetails.fromOfferId,
+        toOfferId: switchDetails && switchDetails.toOfferId
+      });
+    }
+  }, [cancelSwitch]);
+
+  if (!cancelSwitch) {
+    return <MyAccountError generalError centered />;
+  }
+
+  const {
+    pendingSwitchId,
+    switchDirection,
+    switchOfferTitle: untranslatedSwitchOfferTitle,
+    baseOfferTitle: untranslatedBaseOfferTitle,
+    baseOfferExpirationDate,
+    baseOfferPrice
+  } = cancelSwitch;
 
   const switchDetails = allSwitchDetails[pendingSwitchId];
   const eventsPayload = {
@@ -42,31 +69,17 @@ const CancelSwitchPopup = () => {
     fromOfferId: switchDetails && switchDetails.fromOfferId,
     toOfferId: switchDetails && switchDetails.toOfferId
   };
-  const dispatch = useDispatch();
-
-  const [offerIdsFallback, setOfferIdsFallback] = useState({}); // required to keep translations in step 2
-
-  const { t } = useTranslation();
-
-  useEffect(() => {
-    if (switchDetails) {
-      setOfferIdsFallback({
-        fromOfferId: switchDetails && switchDetails.fromOfferId,
-        toOfferId: switchDetails && switchDetails.toOfferId
-      });
-    }
-  }, [switchDetails]);
 
   const baseOfferTitle = t(
-    `offer-title-${offerIdsFallback.fromOfferId}`,
+    `offer-title-${offerIdsFallback?.fromOfferId}`,
     untranslatedBaseOfferTitle
   );
   const switchOfferTitle = t(
-    `offer-title-${offerIdsFallback.toOfferId}`,
+    `offer-title-${offerIdsFallback?.toOfferId}`,
     untranslatedSwitchOfferTitle
   );
 
-  const cancelSwitch = async () => {
+  const handleCancelSwitch = async () => {
     window.dispatchEvent(
       new CustomEvent('MSSDK:cancel-switch-action-triggered', {
         detail: eventsPayload
@@ -164,7 +177,7 @@ const CancelSwitchPopup = () => {
             >
               {t('cancelswitch-popup.resign', 'No, thanks')}
             </Button>
-            <Button theme='danger' onClickFn={cancelSwitch}>
+            <Button theme='danger' onClickFn={handleCancelSwitch}>
               {isLoading ? (
                 <Loader buttonLoader color='#ffffff' />
               ) : (
