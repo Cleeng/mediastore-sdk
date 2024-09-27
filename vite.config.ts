@@ -1,11 +1,30 @@
 /// <reference types="vitest" />
+// import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { defineConfig } from 'vite';
 import path from 'node:path';
 import react from '@vitejs/plugin-react-swc';
 import svgr from 'vite-plugin-svgr';
+// import { version as packageVersion } from './package.json';
 
 export default defineConfig({
-  plugins: [react(), svgr({ include: '**/*.svg' })],
+  plugins: [
+    react(),
+    svgr({ include: '**/*.svg' })
+    // TODO: to be brought back in MSSDK-1925
+    // sentryVitePlugin({
+    //   org: 'cleeng',
+    //   project: 'mediastore-sdk',
+    //   reactComponentAnnotation: { enabled: true }
+    // })
+  ],
+  // define: {
+  //   'import.meta.env.VITE_MEDIASTORE_SDK_VERSION': JSON.stringify(
+  //     process.env.VITE_MEDIASTORE_SDK_VERSION || packageVersion
+  //   ),
+  //   'import.meta.env.VITE_SENTRY_DSN': JSON.stringify(
+  //     process.env.VITE_SENTRY_DSN || ''
+  //   )
+  // },
   build: {
     target: 'es2015',
     cssCodeSplit: true,
@@ -28,6 +47,8 @@ export default defineConfig({
         }
       }
     }
+    // TODO: to be brought back in MSSDK-1925
+    // sourcemap: true
   },
   resolve: {
     alias: {
