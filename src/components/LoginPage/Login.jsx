@@ -50,6 +50,13 @@ class Login extends Component {
     return (
       <LoginWrapperStyled>
         <Header />
+        <button
+          onClick={() => {
+            throw new Error('sourcemaps testing 33333');
+          }}
+        >
+          Test Sentry 33333
+        </button>
         <ContentWrapperStyled>
           <LoginForm
             t={t}
