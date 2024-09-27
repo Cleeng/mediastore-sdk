@@ -26,6 +26,8 @@ on:
         required: true
       SENTRY_DSN:
         required: true
+      SENTRY_AUTH_TOKEN:
+        required: true
 
 jobs:
   publish:
@@ -85,6 +87,8 @@ jobs:
 
       - name: build the bundle
         run: pnpm build
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
       - name: push the bundle to ${{ inputs.access }} registry
         run: npm publish --access ${{ inputs.access }}
