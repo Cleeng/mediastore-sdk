@@ -25,6 +25,7 @@ import eventDispatcher, {
 } from 'util/eventDispatcher';
 
 const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
+const cleengEnvironment = getData('CLEENG_ENVIRONMENT');
 
 if (typeof window !== 'undefined') {
   window.onload = () => {
@@ -41,13 +42,10 @@ if (typeof window !== 'undefined') {
   };
 }
 
-if (
-  SENTRY_SUPPORTED_ENVIRONMENTS.includes(getData('CLEENG_ENVIRONMENT')) ||
-  SENTRY_SUPPORTED_ENVIRONMENTS.includes(import.meta.env.MODE)
-) {
+if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
-    environment: getData('CLEENG_ENVIRONMENT'),
+    environment: cleengEnvironment,
     release: import.meta.env.VITE_MEDIASTORE_SDK_VERSION,
     integrations: [
       Sentry.browserTracingIntegration(),
