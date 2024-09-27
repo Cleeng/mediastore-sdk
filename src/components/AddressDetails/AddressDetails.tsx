@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { updateCaptureAnswers } from 'api';
 import useMessage from 'hooks/useMessage';
+import { updateCaptureAnswers } from 'api';
 import Card from 'components/Card';
 import MyAccountInput from 'components/MyAccountInput';
 import Loader from 'components/Loader';
@@ -10,7 +10,6 @@ import {
   ButtonWrapperStyled
 } from 'components/MyAccountConsents/MyAccountConsentsStyled';
 import { Address, AddressDetailsProps } from './AddressDetails.types';
-
 import { WrapStyled, RowStyled, MessageStyled } from './AddressDetailsStyled';
 
 const AddressDetails = ({

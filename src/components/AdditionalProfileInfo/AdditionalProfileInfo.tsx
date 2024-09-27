@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import useMessage from 'hooks/useMessage';
+import { updateCaptureAnswers } from 'api';
 import Card from 'components/Card';
 import Loader from 'components/Loader';
 import MyAccountInput from 'components/MyAccountInput';
@@ -7,8 +9,6 @@ import SelectLegacy, {
   mapToSelectFormat
 } from 'components/SelectLegacy/SelectLegacy';
 import Checkbox from 'components/Checkbox';
-import useMessage from 'hooks/useMessage';
-import { updateCaptureAnswers } from 'api';
 import {
   ButtonStyled,
   ButtonWrapperStyled
