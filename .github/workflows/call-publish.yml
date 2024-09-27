@@ -24,6 +24,8 @@ on:
     secrets:
       TOKEN:
         required: true
+      SENTRY_DSN:
+        required: true
 
 jobs:
   publish:
