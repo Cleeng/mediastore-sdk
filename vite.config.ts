@@ -13,7 +13,8 @@ export default defineConfig(({ mode }) => ({
       org: 'cleeng',
       project: 'mediastore-sdk',
       authToken: process.env.SENTRY_AUTH_TOKEN,
-      disable: mode !== 'production'
+      disable: mode !== 'production',
+      reactComponentAnnotation: { enabled: true }
     })
   ],
   build: {
