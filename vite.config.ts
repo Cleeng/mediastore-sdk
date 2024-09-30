@@ -10,9 +10,9 @@ export default defineConfig(({ mode }) => ({
     react(),
     svgr({ include: '**/*.svg' }),
     sentryVitePlugin({
-      authToken: process.env.SENTRY_AUTH_TOKEN,
       org: 'cleeng',
-      project: 'mediastore-sdk'
+      project: 'mediastore-sdk',
+      authToken: process.env.SENTRY_AUTH_TOKEN
       // disable: mode !== 'production'
     })
   ],
