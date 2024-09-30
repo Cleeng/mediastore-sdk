@@ -38,6 +38,15 @@ class Register extends Component {
       <RegisterWrapperStyled>
         <Header />
         <ContentWrapperStyled>
+          <button
+            id='some-crash-test-button'
+            type='button'
+            onClick={() => {
+              throw new Error('crash test button clicked!');
+            }}
+          >
+            click me to crash!
+          </button>
           <RegisterForm t={t} publisherId={publisherId} onSuccess={onSuccess} />
           <Button
             theme='secondary'

@@ -8,8 +8,6 @@ import saveOfferId from 'util/offerIdHelper';
 import savePublisherId from 'util/publisherIdHelper';
 import { getData } from 'util/appConfigHelper';
 
-import { version } from '../../../package.json';
-
 import { ContentWrapperStyled, LoginWrapperStyled } from './LoginStyled';
 import LoginForm from './LoginForm';
 
@@ -49,26 +47,10 @@ class Login extends Component {
     const { isMyAccount, onSuccess, onPasswordResetClick, onRegisterClick, t } =
       this.props;
 
-    console.log('##### ', {
-      'process.env.npm_package_version': process.env.npm_package_version,
-      viteenv: import.meta.env.VITE_MEDIASTORE_SDK_VERSION,
-      packageJsonVersion: version
-    });
-
     return (
       <LoginWrapperStyled>
         <Header />
         <ContentWrapperStyled>
-          <button
-            type='button'
-            onClick={() => {
-              throw new Error(
-                'yet another sourcemaps testing attempt 🍉🍉🍉🍉'
-              );
-            }}
-          >
-            🍉🍉🍉🍉🍉
-          </button>
           <LoginForm
             t={t}
             offerId={offerId}
