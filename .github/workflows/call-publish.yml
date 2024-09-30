@@ -68,8 +68,10 @@ jobs:
         run: >
           jq '.name="@cleeng/mediastore-sdk-react-16"' package.json > temp.json && mv temp.json package.json
 
-      - name: Set VITE_MEDIASTORE_SDK_VERSION environment variable for correct Sentry release initialization
-        run: echo "VITE_MEDIASTORE_SDK_VERSION=$PACKAGE_VERSION" >> $GITHUB_ENV
+      - name: Set VITE_MEDIASTORE_SDK_VERSION
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "VITE_MEDIASTORE_SDK_VERSION=${VERSION}" >> $GITHUB_ENV
 
       - name: Set VITE_SENTRY_DSN environment variable for correct Sentry release initialization
         run: echo "VITE_SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> $GITHUB_ENV
