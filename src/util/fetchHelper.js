@@ -42,6 +42,13 @@ const fetchNewTokens = async () => {
     }
   });
   const responseJSON = await response.json();
+  if (responseJSON.errors.length) {
+    eventDispatcher(MSSDK_AUTH_FAILED, {
+      source: 'fetchHelper',
+      message: responseJSON.errors[0],
+      refreshToken: getData('CLEENG_REFRESH_TOKEN')
+    });
+  }
   setData(JWT, responseJSON.responseData.jwt);
   setData(REFRESH_TOKEN, responseJSON.responseData.refreshToken);
 };
@@ -72,7 +79,11 @@ const fetchWithJWT = async (url, options = {}) => {
   const refreshToken = retrieveRefreshToken();
 
   if (isExpired && !refreshToken) {
-    eventDispatcher(MSSDK_AUTH_FAILED);
+    eventDispatcher(MSSDK_AUTH_FAILED, {
+      source: 'fetchHelper',
+      message:
+        'Unable to get CLEENG_REFRESH_TOKEN from local storage or redux store'
+    });
     Auth.logout();
   }
 
@@ -85,7 +96,6 @@ const fetchWithJWT = async (url, options = {}) => {
         .catch(() => {
           IS_FETCHING_REFRESH_TOKEN = false;
           REFRESH_TOKEN_ERROR = true;
-          eventDispatcher(MSSDK_AUTH_FAILED);
           Auth.logout();
           return new Promise((resolve, reject) => reject());
         });
