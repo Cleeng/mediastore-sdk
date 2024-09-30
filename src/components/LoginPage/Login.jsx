@@ -62,10 +62,12 @@ class Login extends Component {
           <button
             type='button'
             onClick={() => {
-              throw new Error('yet another sourcemaps testing attempt');
+              throw new Error(
+                'yet another sourcemaps testing attempt 🍉🍉🍉🍉'
+              );
             }}
           >
-            Test Sentry 123
+            🍉🍉🍉🍉🍉
           </button>
           <LoginForm
             t={t}
