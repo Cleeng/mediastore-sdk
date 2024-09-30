@@ -73,6 +73,11 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
           echo "VITE_MEDIASTORE_SDK_VERSION=${VERSION}" >> $GITHUB_ENV
 
+      - name: Set SENTRY_RELEASE
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "SENTRY_RELEASE=${VERSION}" >> $GITHUB_ENV
+
       - name: Set VITE_SENTRY_DSN environment variable for correct Sentry release initialization
         run: echo "VITE_SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> $GITHUB_ENV
 
