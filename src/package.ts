@@ -42,8 +42,7 @@ if (typeof window !== 'undefined') {
   };
 }
 
-// if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
-if (true) {
+if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     environment: cleengEnvironment,

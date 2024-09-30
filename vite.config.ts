@@ -12,8 +12,8 @@ export default defineConfig(({ mode }) => ({
     sentryVitePlugin({
       org: 'cleeng',
       project: 'mediastore-sdk',
-      authToken: process.env.SENTRY_AUTH_TOKEN
-      // disable: mode !== 'production'
+      authToken: process.env.SENTRY_AUTH_TOKEN,
+      disable: mode !== 'production'
     })
   ],
   build: {
@@ -38,8 +38,7 @@ export default defineConfig(({ mode }) => ({
         }
       }
     },
-    // sourcemap: mode === 'production'
-    sourcemap: true
+    sourcemap: mode === 'production'
   },
   resolve: {
     alias: {
