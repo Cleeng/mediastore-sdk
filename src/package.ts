@@ -47,9 +47,7 @@ if (true) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     environment: cleengEnvironment,
-    release: `@cleeng/mediastore-sdk@${
-      import.meta.env.VITE_MEDIASTORE_SDK_VERSION
-    }`,
+    release: `@cleeng/mediastore-sdk@${process.env.npm_package_version}`,
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration()
