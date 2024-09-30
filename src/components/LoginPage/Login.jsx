@@ -50,14 +50,15 @@ class Login extends Component {
     return (
       <LoginWrapperStyled>
         <Header />
-        <button
-          onClick={() => {
-            throw new Error('sourcemaps testing 33333');
-          }}
-        >
-          Test Sentry 33333
-        </button>
         <ContentWrapperStyled>
+          <button
+            type='button'
+            onClick={() => {
+              throw new Error('sourcemaps testing 123');
+            }}
+          >
+            Test Sentry 123
+          </button>
           <LoginForm
             t={t}
             offerId={offerId}

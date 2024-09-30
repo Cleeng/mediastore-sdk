@@ -42,11 +42,14 @@ if (typeof window !== 'undefined') {
   };
 }
 
-if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
+// if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
+if (true) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     environment: cleengEnvironment,
-    release: import.meta.env.VITE_MEDIASTORE_SDK_VERSION,
+    release: `@cleeng/mediastore-sdk@${
+      import.meta.env.VITE_MEDIASTORE_SDK_VERSION
+    }`,
     integrations: [
       Sentry.browserTracingIntegration(),
       Sentry.replayIntegration()
