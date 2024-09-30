@@ -90,6 +90,16 @@ jobs:
         env:
           SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
+      - name: Upload sourcemaps to Sentry
+        run: |
+          npx @sentry/cli releases new $VITE_MEDIASTORE_SDK_VERSION
+            npx @sentry/cli releases files $VITE_MEDIASTORE_SDK_VERSION upload-sourcemaps ./dist --url-prefix '~/'
+            npx @sentry/cli releases finalize $VITE_MEDIASTORE_SDK_VERSION
+          env:
+            SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+            SENTRY_ORG: cleeng
+            SENTRY_PROJECT: mediastore-sdk
+
       - name: push the bundle to ${{ inputs.access }} registry
         run: npm publish --access ${{ inputs.access }}
         env:
