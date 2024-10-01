@@ -53,7 +53,7 @@ class Login extends Component {
         <ContentWrapperStyled>
           <Button
             id='crashingLinkaaaaaaaaaaaaabbbbbbbbbbb'
-            onClick={thisThrowsAnError}
+            onClickFn={thisThrowsAnError}
           >
             make a wish (that will not work aaaaaaaa)
           </Button>
