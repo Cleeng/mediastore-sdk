@@ -9,6 +9,10 @@ import { validatePasswordField, validateEmailField } from 'util/validators';
 import loginCustomer from '../../api/Auth/loginCustomer';
 import { FromStyled, FormErrorStyled, FormSuccessStyled } from './LoginStyled';
 
+export const thisThrowsAnError = () => {
+  throw new Error('new error thrown');
+};
+
 class LoginForm extends Component {
   constructor(props) {
     super(props);

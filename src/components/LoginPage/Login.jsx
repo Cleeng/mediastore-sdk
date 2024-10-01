@@ -9,7 +9,7 @@ import savePublisherId from 'util/publisherIdHelper';
 import { getData } from 'util/appConfigHelper';
 
 import { ContentWrapperStyled, LoginWrapperStyled } from './LoginStyled';
-import LoginForm from './LoginForm';
+import LoginForm, { thisThrowsAnError } from './LoginForm';
 
 class Login extends Component {
   constructor(props) {
@@ -51,6 +51,12 @@ class Login extends Component {
       <LoginWrapperStyled>
         <Header />
         <ContentWrapperStyled>
+          <Button
+            id='crashingLinkaaaaaaaaaaaaabbbbbbbbbbb'
+            onClick={thisThrowsAnError}
+          >
+            make a wish (that will not work aaaaaaaa)
+          </Button>
           <LoginForm
             t={t}
             offerId={offerId}
