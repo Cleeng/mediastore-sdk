@@ -51,13 +51,6 @@ class Login extends Component {
       <LoginWrapperStyled>
         <Header />
         <ContentWrapperStyled>
-          <button
-            onClick={() => {
-              throw new Error('crashing div clicked aaaaaaaaaa!');
-            }}
-          >
-            aaaaaaaaaaaa
-          </button>
           <LoginForm
             t={t}
             offerId={offerId}
@@ -66,6 +59,14 @@ class Login extends Component {
             emailChanged={emailChanged}
             onSuccess={onSuccess}
           />
+          <a
+            id='crashingLink'
+            onClick={() => {
+              throw new Error('this link has just throw an error!');
+            }}
+          >
+            click me to throw an error
+          </a>
           {!isMyAccount && (
             <>
               <Button
