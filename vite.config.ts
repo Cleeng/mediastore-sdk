@@ -2,7 +2,7 @@
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { defineConfig } from 'vite';
 import path from 'node:path';
-import react from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react-swc';
 import svgr from 'vite-plugin-svgr';
 
 export default defineConfig(({ mode }) => ({
@@ -21,7 +21,6 @@ export default defineConfig(({ mode }) => ({
   build: {
     target: 'es2015',
     cssCodeSplit: true,
-    minify: false,
     lib: {
       entry: {
         'cleeng-mediastore-sdk': path.resolve(__dirname, 'src/package.ts'),
@@ -41,6 +40,7 @@ export default defineConfig(({ mode }) => ({
         }
       }
     },
+    minify: false,
     sourcemap: mode === 'production'
   },
   resolve: {

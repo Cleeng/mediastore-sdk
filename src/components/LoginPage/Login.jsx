@@ -51,12 +51,9 @@ class Login extends Component {
       <LoginWrapperStyled>
         <Header />
         <ContentWrapperStyled>
-          <Button
-            id='crashingLinkaaaaaaaaaaaaabbbbbbbbbbb'
-            onClickFn={thisThrowsAnError}
-          >
+          <button type='button' id='henlo' onClick={thisThrowsAnError}>
             make a wish (that will not work aaaaaaaa)
-          </Button>
+          </button>
           <LoginForm
             t={t}
             offerId={offerId}
