@@ -45,7 +45,6 @@ if (typeof window !== 'undefined') {
 if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
-    dist: import.meta.env.VITE_MEDIASTORE_SDK_VERSION,
     environment: cleengEnvironment,
     release: import.meta.env.VITE_MEDIASTORE_SDK_VERSION,
     integrations: [
