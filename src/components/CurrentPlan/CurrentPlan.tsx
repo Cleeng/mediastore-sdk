@@ -1,30 +1,20 @@
 /* eslint-disable no-nested-ternary */
 
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Trans, useTranslation } from 'react-i18next';
-import { getData } from 'util/appConfigHelper';
-
-import NoSubscriptionsIcon from 'assets/images/errors/sad_coupon.svg';
+import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { setOfferToSwitch } from 'appRedux/planDetailsSlice';
-
 import MyAccountError from 'components/MyAccountError';
 import OfferMyAccountCard from 'components/OfferMyAccountCard';
 import OfferMyAccountCardLoader from 'components/OfferMyAccountCard/OfferMyAccountCardLoader';
 import SubscriptionManagement from 'components/SubscriptionManagement';
 import MessageBox from 'components/MessageBox';
-
-import {
-  WrapStyled as ErrorWrapStyled,
-  TitleStyled,
-  SubTitleStyled,
-  IconStyled
-} from 'components/MyAccountError/MyAccountErrorStyled';
+import EmptyPlanView from './EmptyPlanView';
 import {
   WrapStyled,
   SubscriptionStyled,
   StatusMessageWrapStyled
 } from './CurrentPlanStyled';
+import { MessageBoxType } from './CurrentPlan.types';
 
 export const SkeletonCard = () => {
   return (
@@ -42,57 +32,29 @@ const ErrorView = () => {
   );
 };
 
-const EmptyPlanView = () => {
-  const { t } = useTranslation();
-
-  return (
-    <WrapStyled>
-      <ErrorWrapStyled>
-        <IconStyled>
-          <NoSubscriptionsIcon />
-        </IconStyled>
-        <TitleStyled>
-          {t('currentplan.no-offers-title', 'No offers yet!')}
-        </TitleStyled>
-        <SubTitleStyled>
-          {getData('CLEENG_OFFER_SELECTION_URL') ? (
-            <Trans i18nKey='currentplan.no-offers-text-withlink'>
-              If you{' '}
-              <a
-                href={getData('CLEENG_OFFER_SELECTION_URL')}
-                target='_blank'
-                rel='noreferrer'
-              >
-                choose your plan
-              </a>
-              , you will be able to manage your offers here.
-            </Trans>
-          ) : (
-            t(
-              'currentplan.no-offers-text',
-              'If you choose your plan, you will be able to manage your offers here.'
-            )
-          )}
-        </SubTitleStyled>
-      </ErrorWrapStyled>
-    </WrapStyled>
-  );
-};
-
 const CurrentPlan = () => {
   const [isMessageBoxOpened, setIsMessageBoxOpened] = useState(false);
-  const [messageBoxType, setMessageBoxType] = useState(null);
+  const [messageBoxType, setMessageBoxType] = useState<MessageBoxType | null>(
+    null
+  );
   const [messageBoxText, setMessageBoxText] = useState('');
-  const [messageSubscriptionId, setMessageSubscriptionId] = useState(null);
+  const [messageSubscriptionId, setMessageSubscriptionId] = useState<
+    number | null
+  >(null);
+
   const {
     data: subscriptions,
     loading: isLoading,
     error: errors
-  } = useSelector((state) => state.plan.currentPlan);
-  const { offerToSwitch } = useSelector((state) => state.plan);
-  const dispatch = useDispatch();
+  } = useAppSelector((state) => state.plan.currentPlan);
+  const { offerToSwitch } = useAppSelector((state) => state.plan);
+  const dispatch = useAppDispatch();
 
-  const showMessageBox = (type, text, subscriptionId) => {
+  const showMessageBox = (
+    type: MessageBoxType,
+    text: string,
+    subscriptionId: number
+  ) => {
     setIsMessageBoxOpened(true);
     setMessageBoxType(type);
     setMessageBoxText(text);
@@ -109,27 +71,26 @@ const CurrentPlan = () => {
     <WrapStyled>
       <>
         {subscriptions.map((subItem) => {
+          const isClickable =
+            subscriptions.length > 1 &&
+            subItem.offerType === 'S' &&
+            subItem.status === 'active';
+
+          const isSelected =
+            subscriptions.length > 1 &&
+            offerToSwitch.offerId === subItem.offerId;
+
           return (
             <SubscriptionStyled
               as='article'
               key={subItem.offerId}
               onClick={() => {
-                if (
-                  subscriptions.length > 1 &&
-                  subItem.offerType === 'S' &&
-                  subItem.status === 'active'
-                )
+                if (isClickable) {
                   dispatch(setOfferToSwitch(subItem));
+                }
               }}
-              $cursorPointer={
-                subscriptions.length > 1 &&
-                subItem.status === 'active' &&
-                subItem.offerType === 'S'
-              }
-              $isSelected={
-                subscriptions.length > 1 &&
-                offerToSwitch.offerId === subItem.offerId
-              }
+              $cursorPointer={isClickable}
+              $isSelected={isSelected}
             >
               <OfferMyAccountCard offerId={subItem.offerId} />
               {isMessageBoxOpened &&

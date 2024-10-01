@@ -141,9 +141,11 @@ const SubscriptionSwitchesList = () => {
             <SubscriptionStyled
               as='article'
               key={subItem.toOfferId}
-              $hide={pendingSwitchesToOfferIdsArray.find(
-                (item) => item === subItem.toOfferId
-              )}
+              $hide={
+                !!pendingSwitchesToOfferIdsArray.find(
+                  (item) => item === subItem.toOfferId
+                )
+              }
             >
               <OfferSwitchCard
                 baseOfferId={fromOfferId}

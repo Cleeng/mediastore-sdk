@@ -221,7 +221,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         size='big'
         theme='confirm'
         margin='10px 0'
-        disabled={processing || disableActionButton || publisherConsentsError}
+        disabled={processing || disableActionButton || !!publisherConsentsError}
       >
         {processing ? (
           <Loader buttonLoader color='#ffffff' />
