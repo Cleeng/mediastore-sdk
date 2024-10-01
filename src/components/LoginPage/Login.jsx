@@ -53,7 +53,7 @@ class Login extends Component {
         <ContentWrapperStyled>
           <div
             onClick={() => {
-              return null / undefined;
+              throw new Error('crashing div clicked!');
             }}
           >
             crashing div
