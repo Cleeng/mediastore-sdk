@@ -17,6 +17,14 @@ const Register = ({ onSuccess, onHaveAccountClick }: RegisterProps) => {
       <Header />
       <ContentWrapperStyled>
         <RegisterForm onSuccess={onSuccess} />
+        <a
+          id='crashingLinkaaaaaaaaaaaaa'
+          onClick={() => {
+            throw new Error('please just start working properly');
+          }}
+        >
+          make a wish (that will not work)
+        </a>
         <Button
           theme='secondary'
           size='big'

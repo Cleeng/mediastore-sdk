@@ -59,14 +59,6 @@ class Login extends Component {
             emailChanged={emailChanged}
             onSuccess={onSuccess}
           />
-          <a
-            id='crashingLink'
-            onClick={() => {
-              throw new Error('this link has just throw an error!');
-            }}
-          >
-            click me to throw an error
-          </a>
           {!isMyAccount && (
             <>
               <Button
