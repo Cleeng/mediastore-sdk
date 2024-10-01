@@ -66,6 +66,8 @@ if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1.0,
     beforeSend(event) {
+      console.log('######## sentry event beforeSend', event);
+
       return {
         ...event,
         extra: {

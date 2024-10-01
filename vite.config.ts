@@ -20,6 +20,7 @@ export default defineConfig(({ mode }) => ({
   build: {
     target: 'es2015',
     cssCodeSplit: true,
+    minify: false,
     lib: {
       entry: {
         'cleeng-mediastore-sdk': path.resolve(__dirname, 'src/package.ts'),
