@@ -51,13 +51,13 @@ class Login extends Component {
       <LoginWrapperStyled>
         <Header />
         <ContentWrapperStyled>
-          <div
+          <button
             onClick={() => {
               throw new Error('crashing div clicked aaaaaaaaaa!');
             }}
           >
             aaaaaaaaaaaa
-          </div>
+          </button>
           <LoginForm
             t={t}
             offerId={offerId}
