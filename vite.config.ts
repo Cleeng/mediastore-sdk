@@ -14,7 +14,8 @@ export default defineConfig(({ mode }) => ({
       project: 'mediastore-sdk',
       authToken: process.env.SENTRY_AUTH_TOKEN,
       disable: mode !== 'production',
-      reactComponentAnnotation: { enabled: true }
+      reactComponentAnnotation: { enabled: true },
+      debug: true
     })
   ],
   build: {

@@ -53,10 +53,10 @@ class Login extends Component {
         <ContentWrapperStyled>
           <div
             onClick={() => {
-              throw new Error('crashing div clicked!');
+              throw new Error('crashing div clicked aaaaaaaaaa!');
             }}
           >
-            crashing div
+            aaaaaaaaaaaa
           </div>
           <LoginForm
             t={t}
