@@ -51,15 +51,6 @@ const ThankYouPage = ({ onSuccess }) => {
     <ThankYouPageWrapperStyled data-testid='ThankYouPage-component'>
       <Header />
       <ThankYouPageStyled>
-        <button
-          id='some-crash-test-button'
-          type='button'
-          onClick={() => {
-            throw new Error('crash test button clicked!');
-          }}
-        >
-          click me to crash!
-        </button>
         <IconStyled src={checkmarkIconBase} alt='' />
         <TitleStyled id='title-thankyou'>
           {t('thank-you-page.header', 'Thank You!')}

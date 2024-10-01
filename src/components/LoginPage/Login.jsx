@@ -51,6 +51,13 @@ class Login extends Component {
       <LoginWrapperStyled>
         <Header />
         <ContentWrapperStyled>
+          <div
+            onClick={() => {
+              return null / undefined;
+            }}
+          >
+            crashing div
+          </div>
           <LoginForm
             t={t}
             offerId={offerId}
