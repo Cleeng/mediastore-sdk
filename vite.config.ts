@@ -39,8 +39,6 @@ export default defineConfig(({ mode }) => ({
         }
       }
     },
-    minify: false,
-    cssMinify: false,
     sourcemap: mode === 'production'
   },
   resolve: {

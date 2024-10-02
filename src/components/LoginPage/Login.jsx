@@ -9,7 +9,7 @@ import savePublisherId from 'util/publisherIdHelper';
 import { getData } from 'util/appConfigHelper';
 
 import { ContentWrapperStyled, LoginWrapperStyled } from './LoginStyled';
-import LoginForm, { thisThrowsAnError } from './LoginForm';
+import LoginForm from './LoginForm';
 
 class Login extends Component {
   constructor(props) {
@@ -51,9 +51,6 @@ class Login extends Component {
       <LoginWrapperStyled>
         <Header />
         <ContentWrapperStyled>
-          <button type='button' id='henlo' onClick={thisThrowsAnError}>
-            make a wish (that will not work bbbbbbbbbbbbbb)
-          </button>
           <LoginForm
             t={t}
             offerId={offerId}
@@ -108,9 +105,5 @@ Login.defaultProps = {
 };
 
 export { Login as PureLogin };
-
-const LoginComponent = withTranslation()(Login);
-
-export { LoginComponent };
 
 export default withTranslation()(Login);

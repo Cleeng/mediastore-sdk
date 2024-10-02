@@ -2,7 +2,7 @@ import './i18NextInit';
 import * as Sentry from '@sentry/react';
 import Card from 'components/Card';
 import OfferContainer from 'containers/OfferContainer';
-import { LoginComponent } from 'components/LoginPage';
+import Login from 'components/LoginPage';
 import Register from 'components/RegisterPage';
 import MyAccount from 'containers/MyAccount';
 import Auth from 'services/auth';
@@ -50,10 +50,6 @@ if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
     attachStacktrace: true,
     autoSessionTracking: true,
     sendClientReports: true,
-    // integrations: [
-    //   Sentry.browserTracingIntegration(),
-    //   Sentry.replayIntegration()
-    // ],
     tracesSampleRate: 1.0,
     tracePropagationTargets: [
       'localhost',
@@ -69,8 +65,6 @@ if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
     replaysSessionSampleRate: 0.1,
     replaysOnErrorSampleRate: 1.0,
     beforeSend(event) {
-      console.log('######## sentry event beforeSend', event);
-
       return {
         ...event,
         extra: {
@@ -87,7 +81,6 @@ export {
   // Identity Management
   Register,
   Login,
-  LoginComponent,
   PasswordReset,
   // Checkout
   Checkout,
