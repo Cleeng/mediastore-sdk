@@ -1,4 +1,4 @@
-import React from 'react';
+import { ReactNode } from 'react';
 
 export type MyAccountErrorProps = {
   title?: string | null;
@@ -23,5 +23,5 @@ export type WrapStyledProps = {
   $centered?: boolean;
   $isSmallCard?: boolean;
   $direction?: 'row' | 'column';
-  children: React.ReactNode;
+  children: ReactNode;
 };
