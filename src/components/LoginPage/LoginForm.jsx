@@ -10,7 +10,7 @@ import loginCustomer from '../../api/Auth/loginCustomer';
 import { FromStyled, FormErrorStyled, FormSuccessStyled } from './LoginStyled';
 
 export const thisThrowsAnError = () => {
-  throw new Error('new error thrown');
+  throw new Error('new error thrown without integrations');
 };
 
 class LoginForm extends Component {

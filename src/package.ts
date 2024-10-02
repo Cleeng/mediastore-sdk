@@ -50,10 +50,10 @@ if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
     attachStacktrace: true,
     autoSessionTracking: true,
     sendClientReports: true,
-    integrations: [
-      Sentry.browserTracingIntegration(),
-      Sentry.replayIntegration()
-    ],
+    // integrations: [
+    //   Sentry.browserTracingIntegration(),
+    //   Sentry.replayIntegration()
+    // ],
     tracesSampleRate: 1.0,
     tracePropagationTargets: [
       'localhost',
