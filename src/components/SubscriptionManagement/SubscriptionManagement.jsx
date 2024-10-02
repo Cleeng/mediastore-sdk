@@ -16,6 +16,7 @@ import CouponInput from 'components/CouponInput';
 import Loader from 'components/Loader';
 import { getData } from 'util/appConfigHelper';
 import trackMixpanelEvent from 'util/trackMixpanelEvent';
+import { FontColor } from 'styles/variables';
 
 import {
   SubscriptionManagementStyled,
@@ -224,7 +225,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
               }}
             >
               {isRetentionActionsLoading ? (
-                <Loader buttonLoader color='#ffffff' />
+                <Loader buttonLoader color={FontColor} />
               ) : (
                 t('subscription-management.unsubscribe-button', 'Unsubscribe')
               )}
