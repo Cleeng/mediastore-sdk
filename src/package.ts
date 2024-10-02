@@ -2,7 +2,7 @@ import './i18NextInit';
 import * as Sentry from '@sentry/react';
 import Card from 'components/Card';
 import OfferContainer from 'containers/OfferContainer';
-import Login from 'components/LoginPage';
+import { LoginComponent } from 'components/LoginPage';
 import Register from 'components/RegisterPage';
 import MyAccount from 'containers/MyAccount';
 import Auth from 'services/auth';
@@ -87,6 +87,7 @@ export {
   // Identity Management
   Register,
   Login,
+  LoginComponent,
   PasswordReset,
   // Checkout
   Checkout,

@@ -109,4 +109,8 @@ Login.defaultProps = {
 
 export { Login as PureLogin };
 
+const LoginComponent = withTranslation()(Login);
+
+export { LoginComponent };
+
 export default withTranslation()(Login);

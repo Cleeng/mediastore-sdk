@@ -1,3 +1,5 @@
-import Login from './Login';
+import Login, { LoginComponent } from './Login';
+
+export { LoginComponent };
 
 export default Login;
