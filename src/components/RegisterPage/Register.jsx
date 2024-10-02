@@ -40,7 +40,7 @@ class Register extends Component {
         <ContentWrapperStyled>
           <RegisterForm t={t} publisherId={publisherId} onSuccess={onSuccess} />
           <Button
-            theme='secondary'
+            variant='secondary'
             size='big'
             onClickFn={() => onHaveAccountClick()}
           >

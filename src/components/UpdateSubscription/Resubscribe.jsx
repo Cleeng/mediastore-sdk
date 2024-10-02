@@ -99,11 +99,14 @@ const Resubscribe = () => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme='simple' onClickFn={() => cancelResubscribeAction()}>
+            <Button
+              variant='simple'
+              onClickFn={() => cancelResubscribeAction()}
+            >
               {t('resubscribe-popup.no-thanks', 'No, thanks')}
             </Button>
             <Button
-              theme='confirm'
+              variant='confirm'
               onClickFn={resubscribe}
               disabled={isLoading}
             >

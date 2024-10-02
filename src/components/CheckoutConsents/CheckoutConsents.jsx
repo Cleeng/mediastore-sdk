@@ -140,7 +140,7 @@ const CheckoutConsents = ({ onSuccess }) => {
                   </CheckoutConsentsError>
                 )}
               </CheckoutConsentsListStyled>
-              <Button size='big' theme='confirm' onClickFn={updateConsents}>
+              <Button size='big' variant='confirm' onClickFn={updateConsents}>
                 {processing ? (
                   <Loader buttonLoader color='#ffffff' />
                 ) : (

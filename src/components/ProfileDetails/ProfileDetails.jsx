@@ -519,14 +519,14 @@ class ProfileDetails extends Component {
                       this.setState({ isSectionDisabled: false })
                     }
                     width='100%'
-                    theme='confirm'
+                    variant='confirm'
                   >
                     {t('profiledetails.button.edit-profile', 'Edit Profile')}
                   </ButtonStyled>
                 ) : (
                   <>
                     <ButtonStyled
-                      theme='simple'
+                      variant='simple'
                       onClickFn={() =>
                         this.setState({
                           isSectionDisabled: true,
@@ -551,7 +551,7 @@ class ProfileDetails extends Component {
                       onClickFn={this.updateProfile}
                       disabled={isSubmittingPending}
                       type='submit'
-                      theme='confirm'
+                      variant='confirm'
                     >
                       {(isSubmittingPending && (
                         <Loader buttonLoader color='#ffffff' />

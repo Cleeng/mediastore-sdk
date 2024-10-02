@@ -218,7 +218,7 @@ const AdditionalProfileInfo = ({
                   resetMessage();
                 }}
                 width='100%'
-                theme='confirm'
+                variant='confirm'
               >
                 {t(
                   'additional-profile-info.button.edit-profile',
@@ -227,14 +227,14 @@ const AdditionalProfileInfo = ({
               </ButtonStyled>
             ) : (
               <>
-                <ButtonStyled theme='simple' onClickFn={onCancel}>
+                <ButtonStyled variant='simple' onClickFn={onCancel}>
                   {t('additional-profile-info.button.cancel', 'Cancel')}
                 </ButtonStyled>
                 <ButtonStyled
                   onClickFn={onSubmit}
                   disabled={isPending}
                   type='submit'
-                  theme='confirm'
+                  variant='confirm'
                 >
                   {(isPending && <Loader buttonLoader color='#ffffff' />) ||
                     t('additional-profile-info.button.save', 'Save')}

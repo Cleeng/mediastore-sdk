@@ -136,20 +136,20 @@ const AddressDetails = ({
                   resetMessage();
                 }}
                 width='100%'
-                theme='confirm'
+                variant='confirm'
               >
                 {t('address-details.button.edit-address', 'Edit Address')}
               </ButtonStyled>
             ) : (
               <>
-                <ButtonStyled theme='simple' onClickFn={() => onCancel()}>
+                <ButtonStyled variant='simple' onClickFn={() => onCancel()}>
                   {t('address-details.button.cancel', 'Cancel')}
                 </ButtonStyled>
                 <ButtonStyled
                   onClickFn={onSubmit}
                   disabled={isPending}
                   type='submit'
-                  theme='confirm'
+                  variant='confirm'
                 >
                   {(isPending && <Loader buttonLoader color='#ffffff' />) ||
                     t('address-details.button.save', 'Save')}

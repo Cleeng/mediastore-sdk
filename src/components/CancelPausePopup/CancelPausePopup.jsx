@@ -111,7 +111,7 @@ const CancelPausePopup = () => {
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
             <Button
-              theme='simple'
+              variant='simple'
               onClickFn={() => {
                 eventDispatcher(
                   MSSDK_CANCEL_SWITCH_ACTION_CANCELLED,
@@ -122,7 +122,7 @@ const CancelPausePopup = () => {
             >
               {t('cancelpause-popup.resign', 'No, thanks')}
             </Button>
-            <Button theme='danger' onClickFn={cancelPause}>
+            <Button variant='danger' onClickFn={cancelPause}>
               {isLoading ? (
                 <Loader buttonLoader color='#ffffff' />
               ) : (
@@ -154,7 +154,7 @@ const CancelPausePopup = () => {
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
             <Button
-              theme='confirm'
+              variant='confirm'
               onClickFn={() => {
                 dispatch(updateList());
                 dispatch(hidePopup());

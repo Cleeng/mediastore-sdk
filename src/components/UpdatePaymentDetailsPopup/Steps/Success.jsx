@@ -34,7 +34,7 @@ const Success = () => {
       </ContentStyled>
       <ButtonWrapperStyled $removeMargin>
         <Button
-          theme='simple'
+          variant='simple'
           onClickFn={() => dispatch(resetPaymentDetailsPopupState())}
         >
           {t(

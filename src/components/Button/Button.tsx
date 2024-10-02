@@ -14,7 +14,7 @@ const Button = ({
   padding,
   size,
   testid,
-  theme,
+  variant,
   type,
   width
 }: ButtonProps) => {
@@ -25,7 +25,6 @@ const Button = ({
       data-testid={testid}
       disabled={disabled}
       onClick={onClickFn}
-      theme={theme}
       type={type}
       $fontSize={fontSize}
       $fontWeight={fontWeight}
@@ -33,7 +32,7 @@ const Button = ({
       $margin={margin}
       $padding={padding}
       $size={size}
-      $theme={theme}
+      $variant={variant}
       $width={width}
     >
       {children}

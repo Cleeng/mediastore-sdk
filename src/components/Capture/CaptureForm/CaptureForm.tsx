@@ -493,7 +493,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
             );
           return <div />;
         })}
-        <Button type='submit' size='big' theme='confirm' margin='10px 0'>
+        <Button type='submit' size='big' variant='confirm' margin='10px 0'>
           {processing ? (
             <Loader buttonLoader color='#ffffff' />
           ) : (

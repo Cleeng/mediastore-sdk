@@ -175,7 +175,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
   return (
     <SubscriptionManagementStyled>
       <ManageButtonWrapStyled>
-        <Button theme='simple' width='unset' onClickFn={(e) => toggle(e)}>
+        <Button variant='simple' width='unset' onClickFn={(e) => toggle(e)}>
           <ButtonTextStyled $isExpanded={isOptionsVisible}>
             {t('subscription-management.manage-button', 'Manage')}
           </ButtonTextStyled>
@@ -185,7 +185,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
         <WrapperStyled>
           {status === 'active' && !isCouponInputOpened && (
             <SimpleButtonStyled
-              theme='simple'
+              variant='simple'
               onClickFn={(event) => {
                 event.stopPropagation();
 
@@ -232,7 +232,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
           )}
           {status === 'cancelled' && !isCouponInputOpened && (
             <FullWidthButtonStyled
-              theme='simple'
+              variant='simple'
               onClickFn={(event) => {
                 event.stopPropagation();
                 dispatch(
@@ -279,7 +279,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
           )}
           {isPaused && (
             <SimpleButtonStyled
-              theme='primary'
+              variant='primary'
               onClickFn={(event) => {
                 event.stopPropagation();
                 dispatch(

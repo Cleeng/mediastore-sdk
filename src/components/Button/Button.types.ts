@@ -5,7 +5,7 @@ export const BUTTON_SIZE = {
   NORMAL: 'normal'
 } as const;
 
-export const BUTTON_THEME = {
+export const BUTTON_VARIANT = {
   PRIMARY: 'primary',
   SECONDARY: 'secondary',
   SIMPLE: 'simple',
@@ -18,7 +18,8 @@ export const BUTTON_THEME = {
 } as const;
 
 export type ButtonSize = (typeof BUTTON_SIZE)[keyof typeof BUTTON_SIZE];
-export type ButtonTheme = (typeof BUTTON_THEME)[keyof typeof BUTTON_THEME];
+export type ButtonVariant =
+  (typeof BUTTON_VARIANT)[keyof typeof BUTTON_VARIANT];
 
 export type ButtonProps = {
   children?: ReactNode;
@@ -33,7 +34,7 @@ export type ButtonProps = {
   padding?: string;
   size?: ButtonSize;
   testid?: string;
-  theme?: ButtonTheme;
+  variant?: ButtonVariant;
   type?: 'button' | 'submit' | 'reset';
   width?: string;
 };
@@ -46,6 +47,6 @@ export type ButtonStyledProps = {
   $margin?: string;
   $padding?: string;
   $size?: ButtonSize;
-  $theme?: ButtonTheme;
+  $variant?: ButtonVariant;
   $width?: string;
 };

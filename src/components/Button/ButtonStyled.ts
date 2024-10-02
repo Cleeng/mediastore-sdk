@@ -4,7 +4,9 @@ import { media } from 'styles/BreakPoints';
 import { ButtonStyledProps } from './Button.types';
 
 const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
-  className: `msd__button ${props.$theme ? `msd__button--${props.$theme}` : ''}`
+  className: `msd__button ${
+    props.$variant ? `msd__button--${props.$variant}` : ''
+  }`
 }))`
   position: relative;
   display: flex;
@@ -60,7 +62,7 @@ const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
     `}
 
   ${(props) =>
-    (props.$theme === 'confirm' &&
+    (props.$variant === 'confirm' &&
       css`
         color: ${colors.White};
         background-color: ${props.theme.successColor || colors.ConfirmColor};
@@ -71,7 +73,7 @@ const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
           opacity: 1;
         }
       `) ||
-    (props.$theme === 'primary' &&
+    (props.$variant === 'primary' &&
       css`
         color: ${colors.White};
         background-color: ${props.theme.primaryColor || colors.PrimaryColor};
@@ -82,7 +84,7 @@ const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
           opacity: 1;
         }
       `) ||
-    (props.$theme === 'paypal' &&
+    (props.$variant === 'paypal' &&
       css`
         color: ${colors.White};
         background-color: ${colors.PayPal};
@@ -93,7 +95,7 @@ const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
           opacity: 1;
         }
       `) ||
-    (props.$theme === 'danger' &&
+    (props.$variant === 'danger' &&
       css`
         color: ${colors.White};
         background-color: ${props.theme.errorColor || colors.ErrorColor};
@@ -104,7 +106,7 @@ const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
           opacity: 1;
         }
       `) ||
-    (props.$theme === 'payment' &&
+    (props.$variant === 'payment' &&
       css`
         height: 48px;
         width: 30%;
@@ -128,7 +130,7 @@ const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
           opacity: 0.9;
         }
       `) ||
-    (props.$theme === 'secondary' &&
+    (props.$variant === 'secondary' &&
       css`
         background-color: ${props.theme.secondaryColor ||
         colors.SecondaryColor};
@@ -143,7 +145,7 @@ const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
           border: 1px solid ${colors.LineColor};
         }
       `) ||
-    (props.$theme === 'simple' &&
+    (props.$variant === 'simple' &&
       css`
         background-color: transparent;
         border: 1px solid ${colors.LineColor};
@@ -157,7 +159,7 @@ const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
           border: 1px solid ${colors.LineColor};
         }
       `) ||
-    (props.$theme === 'navLink' &&
+    (props.$variant === 'navLink' &&
       css`
         position: absolute;
         top: 50%;
@@ -189,7 +191,7 @@ const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
           left: 10px;
         `}
       `) ||
-    (props.$theme === 'link' &&
+    (props.$variant === 'link' &&
       css`
         display: inline-block;
 
