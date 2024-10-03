@@ -47,10 +47,9 @@ if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
     dsn: import.meta.env.VITE_SENTRY_DSN,
     environment: cleengEnvironment,
     release: import.meta.env.VITE_MEDIASTORE_SDK_VERSION,
-    integrations: [
-      Sentry.browserTracingIntegration(),
-      Sentry.replayIntegration()
-    ],
+    attachStacktrace: true,
+    autoSessionTracking: true,
+    sendClientReports: true,
     tracesSampleRate: 1.0,
     tracePropagationTargets: [
       'localhost',

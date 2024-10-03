@@ -16,3 +16,4 @@ jobs:
     secrets:
       TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
       SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+      SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
