@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import InnerPopupWrapper from 'components/InnerPopupWrapper';
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import Button from 'components/Button';
-import Loader from 'components/Loader';
+import { setSwitchDetails, updateList } from 'appRedux/planDetailsSlice';
+import { hidePopup } from 'appRedux/popupSlice';
+import { useAppSelector } from 'appRedux/store';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
+import InnerPopupWrapper from 'components/InnerPopupWrapper';
+import Button from 'components/Button';
+import Loader from 'components/Loader';
+import MyAccountError from 'components/MyAccountError';
 import eventDispatcher, {
   MSSDK_CANCEL_SWITCH_ACTION_TRIGGERED,
   MSSDK_CANCEL_SWITCH_ACTION_SUCCESSFUL,
   MSSDK_CANCEL_SWITCH_ACTION_FAILED,
   MSSDK_CANCEL_SWITCH_ACTION_CANCELLED
 } from 'util/eventDispatcher';
-import { setSwitchDetails, updateList } from 'appRedux/planDetailsSlice';
-import { hidePopup } from 'appRedux/popupSlice';
-import { dateFormat } from 'util';
+import { dateFormat } from 'util/planHelper';
 
 import {
   ContentStyled,
@@ -24,24 +26,30 @@ import {
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 
 const CancelPausePopup = () => {
+  const { t } = useTranslation();
+  const dispatch = useDispatch();
+
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [step, setStep] = useState(1);
 
-  const { data: allSwitchDetails } = useSelector(
+  const { data: allSwitchDetails } = useAppSelector(
     (state) => state.plan.switchDetails
   );
+  const { cancelPause } = useAppSelector((state) => state.popupManager);
+
+  if (!cancelPause) {
+    return <MyAccountError generalError centered />;
+  }
+
   const {
-    cancelPause: {
-      pendingSwitchId,
-      baseOfferExpirationDate,
-      baseOfferPrice,
-      baseOfferTitle
-    }
-  } = useSelector((state) => state.popupManager);
+    pendingSwitchId,
+    baseOfferExpirationDate,
+    baseOfferPrice,
+    baseOfferTitle
+  } = cancelPause;
 
   const switchDetails = allSwitchDetails[pendingSwitchId];
-  const { t } = useTranslation();
 
   const eventsPayload = {
     pendingSwitchId,
@@ -49,9 +57,7 @@ const CancelPausePopup = () => {
     toOfferId: switchDetails?.toOfferId
   };
 
-  const dispatch = useDispatch();
-
-  const cancelPause = async () => {
+  const handleCancelPause = async () => {
     eventDispatcher(MSSDK_CANCEL_SWITCH_ACTION_TRIGGERED, eventsPayload);
     setIsLoading(true);
     try {
@@ -122,7 +128,7 @@ const CancelPausePopup = () => {
             >
               {t('cancelpause-popup.resign', 'No, thanks')}
             </Button>
-            <Button variant='danger' onClickFn={cancelPause}>
+            <Button variant='danger' onClickFn={handleCancelPause}>
               {isLoading ? (
                 <Loader buttonLoader color='#ffffff' />
               ) : (
