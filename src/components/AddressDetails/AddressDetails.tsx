@@ -1,35 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import useMessage from 'hooks/useMessage';
+import { updateCaptureAnswers } from 'api';
 import Card from 'components/Card';
 import MyAccountInput from 'components/MyAccountInput';
 import Loader from 'components/Loader';
-import useMessage from 'hooks/useMessage';
-import { updateCaptureAnswers } from 'api';
 import {
   ButtonStyled,
   ButtonWrapperStyled
 } from 'components/MyAccountConsents/MyAccountConsentsStyled';
-
+import { Address, AddressDetailsProps } from './AddressDetails.types';
 import { WrapStyled, RowStyled, MessageStyled } from './AddressDetailsStyled';
-
-type Address = {
-  address: string | null;
-  address2: string | null;
-  city: string | null;
-  state: string | null;
-  postCode: string | null;
-};
-
-type AddressDetailsProps = {
-  data: {
-    answer: Address;
-    enabled: boolean;
-    key: string;
-    required: boolean;
-  };
-  isLoading?: boolean;
-  updateCaptureOption: (params: { key: string; value: Address }) => void;
-};
 
 const AddressDetails = ({
   data,
@@ -155,20 +136,20 @@ const AddressDetails = ({
                   resetMessage();
                 }}
                 width='100%'
-                theme='confirm'
+                variant='confirm'
               >
                 {t('address-details.button.edit-address', 'Edit Address')}
               </ButtonStyled>
             ) : (
               <>
-                <ButtonStyled theme='simple' onClickFn={() => onCancel()}>
+                <ButtonStyled variant='simple' onClickFn={() => onCancel()}>
                   {t('address-details.button.cancel', 'Cancel')}
                 </ButtonStyled>
                 <ButtonStyled
                   onClickFn={onSubmit}
                   disabled={isPending}
                   type='submit'
-                  theme='confirm'
+                  variant='confirm'
                 >
                   {(isPending && <Loader buttonLoader color='#ffffff' />) ||
                     t('address-details.button.save', 'Save')}

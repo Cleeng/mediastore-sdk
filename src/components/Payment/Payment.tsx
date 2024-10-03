@@ -397,7 +397,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         )}
         <Button
           onClickFn={paymentWithoutDetails}
-          theme='confirm'
+          variant='confirm'
           width='250px'
           size='big'
           margin='20px auto 0 auto'

@@ -1,5 +1,8 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { useTranslation } from 'react-i18next';
+import { updateCaptureAnswers } from 'api';
+import { validateEmailField } from 'util/validators';
+import { PHONE_NUMBER_REGEX } from 'util/regexConstants';
 import Input from 'components/Input';
 import EmailInput from 'components/EmailInput';
 import DateInput from 'components/DateInput';
@@ -7,15 +10,12 @@ import Select from 'components/Select';
 import Checkbox from 'components/Checkbox';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
-import { updateCaptureAnswers } from 'api';
-import { validateEmailField } from 'util/validators';
-import { PHONE_NUMBER_REGEX } from 'util/regexConstants';
+import useInput from './useInput';
 import {
   CaptureProps,
   CaptureSetting,
   CustomCaptureSetting
-} from 'types/Capture.types';
-import useInput from './useInput';
+} from '../Capture.types';
 import {
   CaptureRowStyled,
   CaptureBoxStyled,
@@ -493,7 +493,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
             );
           return <div />;
         })}
-        <Button type='submit' size='big' theme='confirm' margin='10px 0'>
+        <Button type='submit' size='big' variant='confirm' margin='10px 0'>
           {processing ? (
             <Loader buttonLoader color='#ffffff' />
           ) : (

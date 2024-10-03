@@ -118,7 +118,12 @@ const CouponInput = ({
             />
           </>
         )}
-        <Button type='submit' width='auto' testid='redeem-btn'>
+        <Button
+          variant='primary'
+          type='submit'
+          width='auto'
+          testid='redeem-btn'
+        >
           {couponLoading && <Loader buttonLoader color='#ffffff' />}
           {!couponLoading && isOpen && t('coupon-input.redeem', 'Redeem')}
           {!couponLoading &&

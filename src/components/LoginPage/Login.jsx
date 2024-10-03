@@ -62,7 +62,7 @@ class Login extends Component {
           {!isMyAccount && (
             <>
               <Button
-                theme='secondary'
+                variant='secondary'
                 size='big'
                 onClickFn={() => onRegisterClick()}
               >
@@ -72,7 +72,7 @@ class Login extends Component {
           )}
           {!isMyAccount && (
             <Button
-              theme='link'
+              variant='link'
               margin='20px auto 0 auto'
               onClickFn={() => onPasswordResetClick()}
             >

@@ -140,7 +140,7 @@ class MyAccountConsents extends Component {
                 ) : (
                   <>
                     <ButtonStyled
-                      theme='simple'
+                      variant='simple'
                       onClickFn={() =>
                         this.setState({
                           isSectionDisabled: true,
@@ -151,7 +151,7 @@ class MyAccountConsents extends Component {
                       {t('myaccount-consents.button.cancel', 'Cancel')}
                     </ButtonStyled>
                     <ButtonStyled
-                      theme='confirm'
+                      variant='confirm'
                       onClickFn={() => this.updateConsents()}
                       disabled={isSubmittingPending}
                     >

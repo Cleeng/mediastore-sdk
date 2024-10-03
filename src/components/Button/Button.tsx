@@ -1,4 +1,4 @@
-import { ButtonProps } from 'types/Button.types';
+import { ButtonProps } from './Button.types';
 import ButtonStyled from './ButtonStyled';
 
 const Button = ({
@@ -14,31 +14,28 @@ const Button = ({
   padding,
   size,
   testid,
-  theme,
-  type,
+  variant = 'primary',
+  type = 'button',
   width
-}: ButtonProps) => {
-  return (
-    <ButtonStyled
-      aria-label={label}
-      className={className}
-      data-testid={testid}
-      disabled={disabled}
-      onClick={onClickFn}
-      theme={theme}
-      type={type}
-      $fontSize={fontSize}
-      $fontWeight={fontWeight}
-      $icon={icon}
-      $margin={margin}
-      $padding={padding}
-      $size={size}
-      $theme={theme}
-      $width={width}
-    >
-      {children}
-    </ButtonStyled>
-  );
-};
+}: ButtonProps) => (
+  <ButtonStyled
+    aria-label={label}
+    className={className}
+    data-testid={testid}
+    disabled={disabled}
+    onClick={onClickFn}
+    type={type}
+    $fontSize={fontSize}
+    $fontWeight={fontWeight}
+    $icon={icon}
+    $margin={margin}
+    $padding={padding}
+    $size={size}
+    $variant={variant}
+    $width={width}
+  >
+    {children}
+  </ButtonStyled>
+);
 
 export default Button;

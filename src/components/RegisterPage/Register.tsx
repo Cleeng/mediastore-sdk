@@ -18,7 +18,7 @@ const Register = ({ onSuccess, onHaveAccountClick }: RegisterProps) => {
       <ContentWrapperStyled>
         <RegisterForm onSuccess={onSuccess} />
         <Button
-          theme='secondary'
+          variant='secondary'
           size='big'
           onClickFn={() => onHaveAccountClick()}
         >
