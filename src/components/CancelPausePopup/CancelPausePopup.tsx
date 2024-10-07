@@ -1,9 +1,8 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { setSwitchDetails, updateList } from 'appRedux/planDetailsSlice';
 import { hidePopup } from 'appRedux/popupSlice';
-import { useAppSelector } from 'appRedux/store';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
@@ -27,7 +26,7 @@ import {
 
 const CancelPausePopup = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
