@@ -1,6 +1,7 @@
 import { Trans, useTranslation } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
 import { useAppSelector } from 'appRedux/store';
+import { selectOnlyOffer } from 'appRedux/offerSlice';
 import { selectOnlyOrder } from 'appRedux/orderSlice';
 import {
   WrapperStyled,
@@ -35,16 +36,19 @@ const Price = ({
 }: PriceProps) => {
   const { t } = useTranslation();
   const {
-    discount: { applied: isDiscountApplied }
+    discount: { applied: isDiscountApplied },
+    priceBreakdown: { discountAmount, offerPrice }
   } = useAppSelector(selectOnlyOrder);
+
+  const { customerPriceInclTax } = useAppSelector(selectOnlyOffer);
 
   const shouldUseDiscountedValue =
     isDiscountApplied &&
     typeof nextPaymentPrice === 'number' &&
     nextPaymentPrice < totalPrice;
+
   const discountPercentageValue =
-    Math.round((1 - (nextPaymentPrice || totalPrice) / totalPrice) * 100) ||
-    100;
+    Math.round((discountAmount / offerPrice) * 100) || 100;
   const discountValue = isPromoPriceActive
     ? t('checkout-price-box.promo', 'Promo')
     : `-${discountPercentageValue}%`;
@@ -55,7 +59,7 @@ const Price = ({
         <DiscountContainer>
           <OriginalPrice>
             <CurrencyStyled>{currency}</CurrencyStyled>
-            {formatNumber(totalPrice)}
+            {formatNumber(customerPriceInclTax)}
           </OriginalPrice>
           <DiscountValue>{discountValue}</DiscountValue>
         </DiscountContainer>
