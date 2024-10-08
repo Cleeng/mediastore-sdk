@@ -24,7 +24,8 @@ import eventDispatcher, {
   MSSDK_PURCHASE_SUCCESSFUL
 } from 'util/eventDispatcher';
 
-const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
+// const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
+const SENTRY_SUPPORTED_ENVIRONMENTS: string[] = [];
 const cleengEnvironment = getData('CLEENG_ENVIRONMENT');
 
 if (typeof window !== 'undefined') {
