@@ -23,7 +23,7 @@ export type VerifiedGift = {
 
 export type GiftInitialState = {
   error: string | null | undefined;
-  gift: Gift | Record<string, never>;
+  gift: Gift;
   isUpdateLoading: boolean;
   isRedeemLoading: boolean;
   isVerifyLoading: boolean;

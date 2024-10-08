@@ -4,7 +4,18 @@ import { DeliveryDetails, Gift, GiftInitialState, VerifiedGift } from './types';
 import { RootState } from './rootReducer';
 
 export const initialState: GiftInitialState = {
-  gift: {},
+  gift: {
+    code: '',
+    deliveryDetails: {
+      personalNote: '',
+      recipientEmail: '',
+      deliveryDate: 0
+    },
+    id: 0,
+    offerId: '',
+    redeemedAt: 0,
+    sentAt: 0
+  },
   verifiedGift: {},
   loading: false,
   error: null,

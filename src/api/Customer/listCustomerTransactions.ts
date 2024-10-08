@@ -2,11 +2,12 @@ import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import jwtDecode from 'jwt-decode';
+import { TransactionsInitialState } from 'appRedux/types';
 
 const listCustomerTransactions = async (
   limit = 50,
   offset = 0
-): Promise<{ items: unknown }> => {
+): Promise<{ items: TransactionsInitialState['transactions'] }> => {
   const API_URL = getApiURL();
   const { customerId } = jwtDecode<{ customerId: number }>(
     getData('CLEENG_AUTH_TOKEN')

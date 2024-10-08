@@ -54,7 +54,11 @@ export const readablePaymentMethodNames = {
   googlepay: 'GooglePay',
   ideal: 'iDEAL',
   bancontact_card: 'Bancontact Card',
-  bancontact_mobile: 'Bancontact Mobile'
+  bancontact_mobile: 'Bancontact Mobile',
+  apple: 'Apple',
+  roku: 'Roku',
+  amazon: 'Amazon',
+  android: 'Android'
 };
 
 export const supportedPaymentGateways = ['adyen', 'paypal'];
