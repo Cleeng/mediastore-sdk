@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import {
   selectCurrentPlan,
@@ -18,6 +19,7 @@ import {
   currencyFormat,
   CurrencyFormat
 } from 'util/planHelper';
+import getSwitches from 'api/Customer/getSwitches';
 import { CustomerOffer } from 'api/Customer/types';
 import { showPopup, POPUP_TYPES } from 'appRedux/popupSlice';
 import eventDispatcher, {
@@ -42,6 +44,9 @@ import { OfferMyAccountCardProps } from './OfferMyAccountCard.types';
 const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
+  const [switches, setSwitches] = useState<SwitchDetail[]>([]);
+
   const { data: currentPlan, loading } = useAppSelector(selectCurrentPlan);
   const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
   const { data: switchDetailsStore } = useAppSelector(selectSwitchDetails);
@@ -66,6 +71,16 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     offerV2: { price }
   } = useAppSelector(selectOffer);
   const priceRules = price?.rules;
+
+  const getCustomerSwitches = async () => {
+    const customerSwitches = await getSwitches();
+
+    setSwitches(customerSwitches);
+  };
+
+  useEffect(() => {
+    getCustomerSwitches();
+  }, []);
 
   const currency =
     currencyFormat[
@@ -174,7 +189,23 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     }
   };
 
+  const getPendingUpgradeCopy = () => {
+    return t(``, `Your upgrade switch is pending`);
+  };
+
   const getDescription = () => {
+    if (switches.length > 0) {
+      const pendingUpgrade = switches.find(
+        (switchDetail) =>
+          switchDetail.status === 'inprogress' &&
+          switchDetail.direction === 'upgrade'
+      );
+
+      if (pendingUpgrade) {
+        return getPendingUpgradeCopy();
+      }
+    }
+
     if (pendingSwitchId) return getPendingSwitchCopy();
     if (isExternallyManaged) {
       if (!paymentMethod) {
