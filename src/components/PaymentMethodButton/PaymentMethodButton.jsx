@@ -7,7 +7,7 @@ import { StyledButton, StyledMethodName } from './PaymentMethodButtonStyled';
 const PaymentMethodButton = ({ methodName, onClickFn }) => {
   const LogoComponent = logos[methodName];
   return (
-    <StyledButton onClickFn={onClickFn} theme='simple'>
+    <StyledButton onClickFn={onClickFn} variant='simple'>
       {LogoComponent ? (
         <LogoComponent />
       ) : (

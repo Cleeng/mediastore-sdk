@@ -130,7 +130,7 @@ const ResumeSubscriptionPopup = () => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme='confirm' onClickFn={closePopupAndRefresh}>
+            <Button variant='confirm' onClickFn={closePopupAndRefresh}>
               {t(
                 'resumesubscription-popup.error-back-button',
                 'Back to My Account'
@@ -180,10 +180,10 @@ const ResumeSubscriptionPopup = () => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
-            <Button theme='simple' onClickFn={closePopupAndRefresh}>
+            <Button variant='simple' onClickFn={closePopupAndRefresh}>
               {t('resumesubscription-popup.back-button-text', 'Continue Pause')}
             </Button>
-            <Button theme='confirm' onClickFn={resumeSubscription}>
+            <Button variant='confirm' onClickFn={resumeSubscription}>
               {isLoading ? (
                 <Loader buttonLoader color='#ffffff' />
               ) : (
@@ -218,7 +218,7 @@ const ResumeSubscriptionPopup = () => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme='confirm' onClickFn={closePopupAndRefresh}>
+            <Button variant='confirm' onClickFn={closePopupAndRefresh}>
               {t('resumesubscription-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>

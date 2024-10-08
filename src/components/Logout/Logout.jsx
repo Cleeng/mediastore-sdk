@@ -6,7 +6,7 @@ import Auth from 'services/auth';
 const Logout = () => {
   const { t } = useTranslation();
   return (
-    <Button onClickFn={() => Auth.logout()} theme='navLink'>
+    <Button onClickFn={() => Auth.logout()} variant='navLink'>
       {t('logout.back-button', 'Back to login')}
     </Button>
   );

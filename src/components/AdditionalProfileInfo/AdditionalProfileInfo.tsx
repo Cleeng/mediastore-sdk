@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import useMessage from 'hooks/useMessage';
+import { updateCaptureAnswers } from 'api';
 import Card from 'components/Card';
 import Loader from 'components/Loader';
 import MyAccountInput from 'components/MyAccountInput';
@@ -7,8 +9,6 @@ import SelectLegacy, {
   mapToSelectFormat
 } from 'components/SelectLegacy/SelectLegacy';
 import Checkbox from 'components/Checkbox';
-import useMessage from 'hooks/useMessage';
-import { updateCaptureAnswers } from 'api';
 import {
   ButtonStyled,
   ButtonWrapperStyled
@@ -16,7 +16,7 @@ import {
 import {
   AdditionalProfileInfoProps,
   CustomSetting
-} from 'types/AdditionalProfileInfo.types';
+} from './AdditionalProfileInfo.types';
 import {
   MessageStyled,
   WrapStyled,
@@ -218,7 +218,7 @@ const AdditionalProfileInfo = ({
                   resetMessage();
                 }}
                 width='100%'
-                theme='confirm'
+                variant='confirm'
               >
                 {t(
                   'additional-profile-info.button.edit-profile',
@@ -227,14 +227,14 @@ const AdditionalProfileInfo = ({
               </ButtonStyled>
             ) : (
               <>
-                <ButtonStyled theme='simple' onClickFn={onCancel}>
+                <ButtonStyled variant='simple' onClickFn={onCancel}>
                   {t('additional-profile-info.button.cancel', 'Cancel')}
                 </ButtonStyled>
                 <ButtonStyled
                   onClickFn={onSubmit}
                   disabled={isPending}
                   type='submit'
-                  theme='confirm'
+                  variant='confirm'
                 >
                   {(isPending && <Loader buttonLoader color='#ffffff' />) ||
                     t('additional-profile-info.button.save', 'Save')}

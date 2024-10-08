@@ -177,7 +177,7 @@ class LoginForm extends Component {
         <Button
           type='submit'
           size='big'
-          theme='confirm'
+          variant='confirm'
           margin='10px 0'
           disabled={processing || overloaded}
         >

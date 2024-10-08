@@ -207,7 +207,7 @@ const Transactions = () => {
         </TransactionListStyled>
         {showToggleButton && (
           <Button
-            theme='primary'
+            variant='primary'
             margin='20px 0 0 auto'
             width='unset'
             label={

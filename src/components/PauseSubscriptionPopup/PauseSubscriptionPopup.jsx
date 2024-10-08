@@ -133,7 +133,7 @@ const PauseSubscriptionPopup = () => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme='confirm' onClickFn={closePopupAndRefresh}>
+            <Button variant='confirm' onClickFn={closePopupAndRefresh}>
               {t('pausesubscription-popup.back-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>
@@ -191,7 +191,7 @@ const PauseSubscriptionPopup = () => {
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
             <Button
-              theme='simple'
+              variant='simple'
               onClickFn={() => {
                 dispatch(
                   showPopup({
@@ -208,7 +208,7 @@ const PauseSubscriptionPopup = () => {
             >
               {t('pausesubscription-popup.details.back', 'Back')}
             </Button>
-            <Button theme='confirm' onClickFn={pauseSubscription}>
+            <Button variant='confirm' onClickFn={pauseSubscription}>
               {isLoading ? (
                 <Loader buttonLoader color='#ffffff' />
               ) : (
@@ -242,7 +242,7 @@ const PauseSubscriptionPopup = () => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme='confirm' onClickFn={closePopupAndRefresh}>
+            <Button variant='confirm' onClickFn={closePopupAndRefresh}>
               {t('pausesubscription-popup.resign-button', 'Back to My Account')}
             </Button>
           </ButtonWrapperStyled>

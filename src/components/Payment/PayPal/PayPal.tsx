@@ -112,7 +112,7 @@ const PayPal = ({
         </CheckboxLegacy>
       </CheckboxWrapperStyled>
       <Button
-        theme='paypal'
+        variant='paypal'
         onClickFn={handleSubmit}
         disabled={isLoading}
         size='big'
