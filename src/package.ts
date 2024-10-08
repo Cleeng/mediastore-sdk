@@ -24,8 +24,8 @@ import eventDispatcher, {
   MSSDK_PURCHASE_SUCCESSFUL
 } from 'util/eventDispatcher';
 
+const SHOULD_USE_SENTRY = false;
 // const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
-const SENTRY_SUPPORTED_ENVIRONMENTS: string[] = [];
 const cleengEnvironment = getData('CLEENG_ENVIRONMENT');
 
 if (typeof window !== 'undefined') {
@@ -43,7 +43,8 @@ if (typeof window !== 'undefined') {
   };
 }
 
-if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
+// if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
+if (SHOULD_USE_SENTRY) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     environment: cleengEnvironment,
