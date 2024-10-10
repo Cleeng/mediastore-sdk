@@ -87,10 +87,10 @@ jobs:
       - name: build the bundle
         run: pnpm build
 
-      - name: Upload sourcemaps to Sentry
-        run: pnpm sentry:upload-sourcemaps
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+      # - name: Upload sourcemaps to Sentry
+      #   run: pnpm sentry:upload-sourcemaps
+      #   env:
+      #     SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
       - name: push the bundle to ${{ inputs.access }} registry
         run: npm publish --access ${{ inputs.access }}
