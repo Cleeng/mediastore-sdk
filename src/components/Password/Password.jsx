@@ -20,7 +20,7 @@ const Password = ({ showInnerPopup }) => {
           <Button
             width='auto'
             onClickFn={() => showInnerPopup({ type: POPUP_TYPES.editPassword })}
-            theme='confirm'
+            variant='confirm'
           >
             {t('Edit Password')}
           </Button>

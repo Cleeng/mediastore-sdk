@@ -159,11 +159,11 @@ const Survey = ({
         )}
       </ContentStyled>
       <ButtonWrapperStyled $removeMargin>
-        <Button theme='simple' onClickFn={handleGoBackButton}>
+        <Button variant='simple' onClickFn={handleGoBackButton}>
           {t('unsubscribe-popup.survey.go-back', 'Go back')}
         </Button>
         <Button
-          theme='confirm'
+          variant='confirm'
           onClickFn={handleUnsubscribe}
           disabled={checkedReason === '' || isLoading}
         >

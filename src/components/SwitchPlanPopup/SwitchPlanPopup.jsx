@@ -407,7 +407,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
             <Button
-              theme='simple'
+              variant='simple'
               onClickFn={() => {
                 if (isPartOfCancellationFlow) {
                   dispatch(
@@ -440,7 +440,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
             >
               {t('switchplan-popup.resign-button', 'Keep Current Plan')}
             </Button>
-            <Button theme='confirm' onClickFn={changePlan}>
+            <Button variant='confirm' onClickFn={changePlan}>
               {isLoading ? (
                 <Loader buttonLoader color='#ffffff' />
               ) : (
@@ -713,7 +713,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button
-              theme='confirm'
+              variant='confirm'
               onClickFn={onSwitchSuccess || closePopupAndRefresh}
             >
               {t('switchplan-popup.back-button', 'Back to My Account')}
@@ -742,7 +742,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
           </ContentStyled>
           <ButtonWrapperStyled>
             <Button
-              theme='confirm'
+              variant='confirm'
               onClickFn={onSwitchError || closePopupAndRefresh}
             >
               {t('switchplan-popup.back-button', 'Back to My Account')}

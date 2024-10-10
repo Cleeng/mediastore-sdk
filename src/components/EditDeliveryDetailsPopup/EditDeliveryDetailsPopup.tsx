@@ -165,10 +165,13 @@ const EditDeliveryDetailsPopup = () => {
           <ButtonsStyled>
             {isGiftEditable ? (
               <>
-                <Button theme='simple' onClickFn={() => dispatch(hidePopup())}>
+                <Button
+                  variant='simple'
+                  onClickFn={() => dispatch(hidePopup())}
+                >
                   {t('edit-delivery-details-popup.button.cancel', 'Back')}
                 </Button>
-                <Button theme='confirm' onClickFn={updateGift}>
+                <Button variant='confirm' onClickFn={updateGift}>
                   {isUpdateLoading ? (
                     <Loader buttonLoader color='#ffffff' />
                   ) : (
@@ -180,7 +183,7 @@ const EditDeliveryDetailsPopup = () => {
                 </Button>
               </>
             ) : (
-              <Button theme='confirm' onClickFn={() => dispatch(hidePopup())}>
+              <Button variant='confirm' onClickFn={() => dispatch(hidePopup())}>
                 {t(
                   'edit-delivery-details-popup.button.back',
                   'Back to settings'
@@ -227,7 +230,7 @@ const EditDeliveryDetailsPopup = () => {
                 'Please try updating the delivery details again in a few minutes.'
               )}
             </ErrorTextStyled>
-            <Button theme='confirm' onClickFn={() => dispatch(hidePopup())}>
+            <Button variant='confirm' onClickFn={() => dispatch(hidePopup())}>
               {t('edit-delivery-details-popup.button.back', 'Back to settings')}
             </Button>
           </ErrorPageStyled>
@@ -251,7 +254,7 @@ const EditDeliveryDetailsPopup = () => {
                 'Your changes have been saved and will be reflected in your next delivery.'
               )}
             </InfoTextStyled>
-            <Button theme='confirm' onClickFn={() => dispatch(hidePopup())}>
+            <Button variant='confirm' onClickFn={() => dispatch(hidePopup())}>
               {t('edit-delivery-details-popup.button.back', 'Back to settings')}
             </Button>
           </ThankYouPageStyled>

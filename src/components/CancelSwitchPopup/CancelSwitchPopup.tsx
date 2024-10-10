@@ -165,7 +165,7 @@ const CancelSwitchPopup = () => {
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
             <Button
-              theme='simple'
+              variant='simple'
               onClickFn={() => {
                 window.dispatchEvent(
                   new CustomEvent('MSSDK:cancel-switch-action-cancelled', {
@@ -177,7 +177,7 @@ const CancelSwitchPopup = () => {
             >
               {t('cancelswitch-popup.resign', 'No, thanks')}
             </Button>
-            <Button theme='danger' onClickFn={handleCancelSwitch}>
+            <Button variant='danger' onClickFn={handleCancelSwitch}>
               {isLoading ? (
                 <Loader buttonLoader color='#ffffff' />
               ) : (
@@ -221,7 +221,7 @@ const CancelSwitchPopup = () => {
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
             <Button
-              theme='confirm'
+              variant='confirm'
               onClickFn={() => {
                 dispatch(hidePopup());
                 dispatch(updateList());

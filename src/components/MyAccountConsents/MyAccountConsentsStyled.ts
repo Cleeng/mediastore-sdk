@@ -1,10 +1,10 @@
 import styled, { css } from 'styled-components';
+import { mediaFrom } from 'styles/BreakPoints';
+import { ConfirmColor } from 'styles/variables';
 import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
 import Card from 'components/Card';
-import { mediaFrom } from 'styles/BreakPoints';
-import { ConfirmColor } from 'styles/variables';
-import { ButtonStyledProps } from 'types/Button.types';
+import { ButtonStyledProps } from 'components/Button/Button.types';
 
 export const CardStyled = styled(Card).attrs(() => ({
   className: 'msd__profile-consents__card'

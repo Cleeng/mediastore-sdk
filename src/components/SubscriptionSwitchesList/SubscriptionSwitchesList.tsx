@@ -153,6 +153,7 @@ const SubscriptionSwitchesList = () => {
               />
               <ButtonWrapperStyled>
                 <SimpleButtonStyled
+                  variant='primary'
                   onClickFn={() => {
                     eventDispatcher(MSSDK_SWITCH_BUTTON_CLICKED, {
                       fromOfferId,

@@ -28,7 +28,7 @@
   "dependencies": {
     "@adyen/adyen-web": "~5.66.1",
     "@reduxjs/toolkit": "^2.2.5",
-    "@sentry/react": "^8.30.0",
+    "@sentry/react": "^8.32.0",
     "camelcase": "^5.3.1",
     "classnames": "^2.3.2",
     "dotenv": "6.2.0",
@@ -117,7 +117,7 @@
     "@types/styled-components": "^5.1.26",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
     "@typescript-eslint/parser": "^5.54.0",
-    "@vitejs/plugin-react-swc": "^3.7.0",
+    "@vitejs/plugin-react-swc": "^3.7.1",
     "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
@@ -147,7 +147,7 @@
     "stylelint-processor-styled-components": "^1.10.0",
     "typescript": "^4.9.5",
     "typescript-coverage-report": "^0.7.0",
-    "vite": "^5.2.12",
+    "vite": "^5.4.8",
     "vite-plugin-svgr": "^4.2.0",
     "vitest": "^1.6.0"
   }
