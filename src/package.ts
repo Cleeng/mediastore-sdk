@@ -1,5 +1,5 @@
+import './sentryInit';
 import './i18NextInit';
-import * as Sentry from '@sentry/react';
 import Card from 'components/Card';
 import OfferContainer from 'containers/OfferContainer';
 import Login from 'components/LoginPage';
@@ -7,7 +7,7 @@ import Register from 'components/RegisterPage';
 import MyAccount from 'containers/MyAccount';
 import Auth from 'services/auth';
 import store from 'appRedux/store';
-import Config, { getData } from 'util/appConfigHelper';
+import Config from 'util/appConfigHelper';
 import PlanDetails from 'containers/PlanDetails';
 import PaymentInfo from 'containers/PaymentInfo';
 import TransactionList from 'containers/TransactionList';
@@ -24,10 +24,6 @@ import eventDispatcher, {
   MSSDK_PURCHASE_SUCCESSFUL
 } from 'util/eventDispatcher';
 
-const SHOULD_USE_SENTRY = false;
-// const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
-const cleengEnvironment = getData('CLEENG_ENVIRONMENT');
-
 if (typeof window !== 'undefined') {
   window.onload = () => {
     const queryString = window.location.search;
@@ -41,42 +37,26 @@ if (typeof window !== 'undefined') {
       });
     }
   };
-}
 
-// if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
-if (SHOULD_USE_SENTRY) {
-  Sentry.init({
-    dsn: import.meta.env.VITE_SENTRY_DSN,
-    environment: cleengEnvironment,
-    release: import.meta.env.VITE_MEDIASTORE_SDK_VERSION,
-    attachStacktrace: true,
-    autoSessionTracking: true,
-    sendClientReports: true,
-    tracesSampleRate: 1.0,
-    tracePropagationTargets: [
-      'localhost',
-      /^https:\/\/auth\.api\.prod\.cleeng\.com\/.*/,
-      /^https:\/\/auth\.api\.sandbox\.cleeng\.com\/.*/,
-      /^https:\/\/api\.cleeng\.com\/3\.0\/json-rpc\/.*/,
-      /^https:\/\/sandbox\.cleeng\.com\/api\/3\.0\/json-rpc\/.*/,
-      /^https:\/\/mediastoreapi\.cleeng\.com\/.*/,
-      /^https:\/\/mediastoreapi-sandbox\.cleeng\.com\/.*/,
-      /^https:\/\/api\.cleeng\.com\/3\.1\/.*/,
-      /^https:\/\/api\.sandbox\.cleeng\.com\/3\.1\/.*/
-    ],
-    replaysSessionSampleRate: 0.1,
-    replaysOnErrorSampleRate: 1.0,
-    beforeSend(event) {
-      return {
-        ...event,
-        extra: {
-          ...event.extra,
-          publisherId: getData('CLEENG_PUBLISHER_ID'),
-          offerId: getData('CLEENG_OFFER_ID')
-        }
-      };
-    }
-  });
+  // window.addEventListener('error', (event: ErrorEvent) => {
+  //   console.log('############# Uncaught error:', event);
+  // });
+  // Global error handling
+  // window.onerror = (message, source, lineno, colno, error) => {
+  //   console.log('########### Global error caught:', {
+  //     message,
+  //     source,
+  //     lineno,
+  //     colno,
+  //     error
+  //   });
+  //   // Optionally, you can show a user-friendly message or report the error to a monitoring service
+  // };
+
+  // window.addEventListener('unhandledrejection', (event) => {
+  //   console.log('############# Unhandled promise rejection:', event.reason);
+  //   // Optionally, you can show a user-friendly message or report the error to a monitoring service
+  // });
 }
 
 export {
