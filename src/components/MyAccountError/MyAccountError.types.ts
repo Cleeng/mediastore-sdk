@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export type MyAccountErrorProps = {
   title?: string | null;
   subtitle?: string | null;
@@ -14,11 +16,12 @@ export type MyAccountErrorProps = {
 };
 
 export type WrapStyledProps = {
-  $margin: string;
-  $fullWidth: boolean;
-  $withBorder: boolean;
-  $fullHeight: boolean;
-  $centered: boolean;
-  $isSmallCard: boolean;
-  $direction: 'row' | 'column';
+  $margin?: string;
+  $fullWidth?: boolean;
+  $withBorder?: boolean;
+  $fullHeight?: boolean;
+  $centered?: boolean;
+  $isSmallCard?: boolean;
+  $direction?: 'row' | 'column';
+  children: ReactNode;
 };
