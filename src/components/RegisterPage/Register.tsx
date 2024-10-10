@@ -22,6 +22,13 @@ const Register = ({ onSuccess, onHaveAccountClick }: RegisterProps) => {
           crash!
         </Button>
         <Button
+          onClickFn={() => {
+            Promise.reject(new Error('Unhandled promise rejection'));
+          }}
+        >
+          promise rejection!
+        </Button>
+        <Button
           variant='secondary'
           size='big'
           onClickFn={() => onHaveAccountClick()}
