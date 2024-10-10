@@ -27,8 +27,8 @@ export default defineConfig({
           'styled-components': 'styled-components'
         }
       }
-    }
-    // sourcemap: true
+    },
+    sourcemap: true
   },
   resolve: {
     alias: {
