@@ -11,7 +11,7 @@ const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
 const cleengEnvironment = getData('CLEENG_ENVIRONMENT');
 
 if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
-  const mediastoreSDKRegex = /@?cleeng.mediastore-sdk/;
+  const mediastoreSDKRegexp = /@?cleeng.mediastore-sdk/;
 
   // * filter out the integrations that use the global context
   const integrations = getDefaultIntegrations({}).filter(
@@ -60,20 +60,18 @@ if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
 
   const scope = new Scope();
   scope.setClient(client);
-
   client.init();
 
   window.addEventListener('error', (event: ErrorEvent) => {
-    if (!mediastoreSDKRegex.test(event.error.stack ?? event.filename ?? '')) {
+    if (!mediastoreSDKRegexp.test(event.error.stack ?? event.filename ?? '')) {
       return;
     }
     scope.captureException(event);
   });
-
   window.addEventListener(
     'unhandledrejection',
     (event: PromiseRejectionEvent) => {
-      if (!mediastoreSDKRegex.test(event.reason.stack ?? '')) {
+      if (!mediastoreSDKRegexp.test(event.reason.stack ?? '')) {
         return;
       }
       scope.captureException(event);
