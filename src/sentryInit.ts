@@ -78,9 +78,26 @@ if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
 
     console.log('######################### sentry init > error event', event);
 
-    scope.setExtras({ ...event });
+    // scope.setExtras({ ...event });
+    // scope.addBreadcrumb({});
     scope.captureException(event);
   });
+
+  window.addEventListener(
+    'unhandledrejection',
+    (event: PromiseRejectionEvent) => {
+      console.log(
+        '########### sentry init > Unhandled promise rejection:',
+        event
+      );
+
+      if (!mediastoreSDKRegex.test(event.reason.stack ?? '')) {
+        return;
+      }
+
+      scope.captureException(event);
+    }
+  );
   // }
   // window.addEventListener(
   //   'unhandledrejection',
