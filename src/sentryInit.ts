@@ -86,14 +86,14 @@ if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
   window.addEventListener(
     'unhandledrejection',
     (event: PromiseRejectionEvent) => {
+      if (!mediastoreSDKRegex.test(event.reason.stack ?? '')) {
+        return;
+      }
+
       console.log(
         '########### sentry init > Unhandled promise rejection:',
         event
       );
-
-      if (!mediastoreSDKRegex.test(event.reason.stack ?? '')) {
-        return;
-      }
 
       scope.captureException(event);
     }
