@@ -37,26 +37,6 @@ if (typeof window !== 'undefined') {
       });
     }
   };
-
-  // window.addEventListener('error', (event: ErrorEvent) => {
-  //   console.log('############# Uncaught error:', event);
-  // });
-  // Global error handling
-  // window.onerror = (message, source, lineno, colno, error) => {
-  //   console.log('########### Global error caught:', {
-  //     message,
-  //     source,
-  //     lineno,
-  //     colno,
-  //     error
-  //   });
-  //   // Optionally, you can show a user-friendly message or report the error to a monitoring service
-  // };
-
-  // window.addEventListener('unhandledrejection', (event) => {
-  //   console.log('############# Unhandled promise rejection:', event.reason);
-  //   // Optionally, you can show a user-friendly message or report the error to a monitoring service
-  // });
 }
 
 export {

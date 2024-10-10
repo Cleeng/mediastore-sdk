@@ -62,7 +62,6 @@
     "build": "pnpm clean && vite build --mode production",
     "build:sandbox": "pnpm clean && vite build --mode sandbox",
     "build:staging": "pnpm clean && vite build --mode staging",
-    "sentry:upload-sourcemaps": "sentry-cli releases files $npm_package_version upload-sourcemaps ./dist --rewrite --url-prefix '~/dist' --validate --project your-project-slug",
     "dev-vite": "vite dev",
     "preview": "vite preview",
     "lint-fix": "pnpm lint --fix",

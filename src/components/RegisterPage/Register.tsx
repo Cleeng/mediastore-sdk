@@ -8,7 +8,6 @@ import Footer from 'components/Footer';
 import { useTranslation } from 'react-i18next';
 import RegisterForm from './RegisterForm';
 import { RegisterProps } from './Register.types';
-// import { withErrorBoundary } from 'containers/ErrorBoundary/ErrorBoundaryContainer';
 
 const Register = ({ onSuccess, onHaveAccountClick }: RegisterProps) => {
   const { t } = useTranslation();
@@ -18,16 +17,6 @@ const Register = ({ onSuccess, onHaveAccountClick }: RegisterProps) => {
       <Header />
       <ContentWrapperStyled>
         <RegisterForm onSuccess={onSuccess} />
-        <Button onClickFn={() => sharedEnvironmentReportingTests()}>
-          crash!
-        </Button>
-        <Button
-          onClickFn={() => {
-            Promise.reject(new Error('Unhandled promise rejection'));
-          }}
-        >
-          promise rejection!
-        </Button>
         <Button
           variant='secondary'
           size='big'
@@ -41,5 +30,4 @@ const Register = ({ onSuccess, onHaveAccountClick }: RegisterProps) => {
   );
 };
 
-// export default withErrorBoundary<RegisterProps>(Register);
 export default Register;

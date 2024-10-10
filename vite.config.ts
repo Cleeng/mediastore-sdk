@@ -5,7 +5,7 @@ import path from 'node:path';
 import react from '@vitejs/plugin-react-swc';
 import svgr from 'vite-plugin-svgr';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     svgr({ include: '**/*.svg' }),
@@ -13,7 +13,7 @@ export default defineConfig({
       org: 'cleeng',
       project: 'mediastore-sdk',
       authToken: process.env.SENTRY_AUTH_TOKEN,
-      // disable: mode !== 'production',
+      disable: mode !== 'production',
       reactComponentAnnotation: { enabled: true }
     })
   ],
@@ -39,7 +39,7 @@ export default defineConfig({
         }
       }
     },
-    sourcemap: true
+    sourcemap: mode === 'production'
   },
   resolve: {
     alias: {
@@ -64,4 +64,4 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts']
   }
-});
+}));
