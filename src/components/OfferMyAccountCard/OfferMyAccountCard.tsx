@@ -194,16 +194,13 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   };
 
   const getDescription = () => {
-    if (switches.length > 0) {
-      const pendingUpgrade = switches.find(
-        (switchDetail) =>
-          switchDetail.status === 'inprogress' &&
-          switchDetail.direction === 'upgrade'
-      );
+    const pendingUpgrade = switches.find(
+      ({ status: switchStatus, direction }) =>
+        switchStatus === 'inprogress' && direction === 'upgrade'
+    );
 
-      if (pendingUpgrade) {
-        return getPendingUpgradeCopy();
-      }
+    if (pendingUpgrade) {
+      return getPendingUpgradeCopy();
     }
 
     if (pendingSwitchId) return getPendingSwitchCopy();
