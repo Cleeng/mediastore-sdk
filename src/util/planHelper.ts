@@ -300,7 +300,7 @@ export const currencyFormat: Record<CurrencyFormat, string> = {
   '£': '£'
 };
 
-export function dateFormat(timestamp: number, showTime = false) {
+export const dateFormat = (timestamp: number, showTime = false) => {
   const date = new Date(timestamp * 1000);
   const resultString = date.toLocaleDateString();
   if (showTime) {
@@ -311,6 +311,6 @@ export function dateFormat(timestamp: number, showTime = false) {
     })}`;
   }
   return resultString;
-}
+};
 
 export const INFINITE_DATE = 2145913200;

@@ -50,7 +50,7 @@ export const DetailsStyled = styled.div.attrs(() => ({
   className: 'msd__info-details'
 }))``;
 
-export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
+export const WrapStyled = styled.div.attrs(() => ({
   className: 'msd__info-box'
 }))<WrapStyledProps>`
   * {
