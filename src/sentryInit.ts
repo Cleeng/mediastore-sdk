@@ -10,10 +10,7 @@ import { getData } from 'util/appConfigHelper';
 const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
 const cleengEnvironment = getData('CLEENG_ENVIRONMENT');
 
-if (
-  typeof window !== 'undefined' &&
-  SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)
-) {
+if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
   const mediastoreSDKRegexp = /@?cleeng.mediastore-sdk/;
 
   // * filter out the integrations that use the global context
