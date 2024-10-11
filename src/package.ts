@@ -22,7 +22,7 @@ import eventDispatcher, {
   MSSDK_PURCHASE_SUCCESSFUL
 } from 'util/eventDispatcher';
 
-import './sentryInit';
+// import './sentryInit';
 import './i18NextInit';
 
 if (typeof window !== 'undefined') {
