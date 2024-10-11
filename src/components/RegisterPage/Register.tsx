@@ -25,6 +25,15 @@ const Register = ({ onSuccess, onHaveAccountClick }: RegisterProps) => {
           Purged repo crash test
         </Button>
         <Button
+          onClickFn={() => {
+            Promise.reject(
+              new Error('Purged repo --- Unresolved promise rejection test')
+            );
+          }}
+        >
+          Unresolved Promise Rejection Test
+        </Button>
+        <Button
           variant='secondary'
           size='big'
           onClickFn={() => onHaveAccountClick()}
