@@ -16,14 +16,26 @@ const Register = ({ onSuccess, onHaveAccountClick }: RegisterProps) => {
     <RegisterWrapperStyled>
       <Header />
       <div>
-        MSSDK section:
+        <div>MSSDK section start:</div>
         <Button
           onClickFn={() => {
-            mssdkCrashTestForSharedEnvs();
+            mssdkSharedEnvFinalTesting();
           }}
         >
           Crash MSSDK
         </Button>
+        <Button
+          onClickFn={() => {
+            Promise.reject(
+              new Error(
+                'mssdk shared env final testing - Unhandled promise rejection'
+              )
+            );
+          }}
+        >
+          Throw Unhandled Rejection
+        </Button>
+        <div>MSSDK section end:</div>
       </div>
       <ContentWrapperStyled>
         <RegisterForm onSuccess={onSuccess} />
