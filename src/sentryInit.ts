@@ -66,6 +66,14 @@ if (
   client.init();
 
   window.addEventListener('error', (event: ErrorEvent) => {
+    console.log('####### mssdk error event: ', event);
+    console.log(
+      '####### mssdk error condition result: ',
+      !mediastoreSDKRegexp.test(event.error.stack ?? event.filename ?? '')
+    );
+    console.log('####### mssdk error stack: ', event.error.stack);
+    console.log('####### mssdk error filename: ', event.filename);
+
     if (!mediastoreSDKRegexp.test(event.error.stack ?? event.filename ?? '')) {
       return;
     }
