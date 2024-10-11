@@ -18,6 +18,13 @@ const Register = ({ onSuccess, onHaveAccountClick }: RegisterProps) => {
       <ContentWrapperStyled>
         <RegisterForm onSuccess={onSuccess} />
         <Button
+          onClickFn={() => {
+            purgedSentryRepoCrashTest();
+          }}
+        >
+          Purged repo crash test
+        </Button>
+        <Button
           variant='secondary'
           size='big'
           onClickFn={() => onHaveAccountClick()}
