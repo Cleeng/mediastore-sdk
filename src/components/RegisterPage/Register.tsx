@@ -15,6 +15,16 @@ const Register = ({ onSuccess, onHaveAccountClick }: RegisterProps) => {
   return (
     <RegisterWrapperStyled>
       <Header />
+      <div>
+        MSSDK section:
+        <Button
+          onClickFn={() => {
+            mssdkCrashTestForSharedEnvs();
+          }}
+        >
+          Crash MSSDK
+        </Button>
+      </div>
       <ContentWrapperStyled>
         <RegisterForm onSuccess={onSuccess} />
         <Button
