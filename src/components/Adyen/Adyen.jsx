@@ -579,6 +579,15 @@ const Adyen = ({
   }, [discount.applied, discount.type, discountAmount]);
 
   useEffect(() => {
+    // reload page if it was loaded from bfcache
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        window.location.reload();
+      }
+    });
+  }, []);
+
+  useEffect(() => {
     if (isDropInPresent) {
       recreateDropIn();
     }
