@@ -578,13 +578,19 @@ const Adyen = ({
     }
   }, [discount.applied, discount.type, discountAmount]);
 
+  const handleReloadCachedPage = (event) => {
+    if (event.persisted) {
+      window.location.reload();
+    }
+  };
+
   useEffect(() => {
     // reload page if it was loaded from bfcache
-    window.addEventListener('pageshow', (event) => {
-      if (event.persisted) {
-        window.location.reload();
-      }
-    });
+    window.addEventListener('pageshow', handleReloadCachedPage);
+
+    return () => {
+      window.removeEventListener('pageshow', handleReloadCachedPage);
+    };
   }, []);
 
   useEffect(() => {
