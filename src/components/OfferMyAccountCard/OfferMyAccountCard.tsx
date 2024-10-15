@@ -74,7 +74,6 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
 
   const getCustomerSwitches = async () => {
     const customerSwitches = await getSwitches();
-
     setSwitches(customerSwitches);
   };
 
@@ -138,7 +137,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   };
 
   const getPendingSwitchCopy = () => {
-    if (!pendingSwitchDetails) return '';
+    if (!pendingSwitchDetails) return null;
 
     const subscriptionExpirationDate =
       expiresAt === INFINITE_DATE
