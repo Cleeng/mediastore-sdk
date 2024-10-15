@@ -94,6 +94,11 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     ? switchDetailsStore[pendingSwitchId]
     : ({} as SwitchDetail);
 
+  const isUpgradePending = switches.find(
+    ({ status: switchStatus, direction }) =>
+      switchStatus === 'inprogress' && direction === 'upgrade'
+  );
+
   // PAUSE FEATURE
   const isPaused = pauseOffersIDs.includes(offerId);
   const isPauseInProgress = pendingSwitchDetails
@@ -133,7 +138,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   };
 
   const getPendingSwitchCopy = () => {
-    if (!pendingSwitchDetails) return null;
+    if (!pendingSwitchDetails) return '';
 
     const subscriptionExpirationDate =
       expiresAt === INFINITE_DATE
@@ -190,16 +195,14 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   };
 
   const getPendingUpgradeCopy = () => {
-    return t(``, `Your upgrade switch is pending`);
+    return t(
+      `offer-card.switch-details.upgrade.pending`,
+      `Your upgrade is pending.`
+    );
   };
 
   const getDescription = () => {
-    const pendingUpgrade = switches.find(
-      ({ status: switchStatus, direction }) =>
-        switchStatus === 'inprogress' && direction === 'upgrade'
-    );
-
-    if (pendingUpgrade) {
+    if (isUpgradePending) {
       return getPendingUpgradeCopy();
     }
 
@@ -222,10 +225,45 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     return '';
   };
 
+  const handleCancelSwitch = () => {
+    if (!pendingSwitchId) {
+      return;
+    }
+
+    eventDispatcher(MSSDK_CANCEL_SWITCH_BUTTON_CLICKED, {
+      pendingSwitchId,
+      fromOfferId: pendingSwitchDetails.fromOfferId,
+      toOfferId: pendingSwitchDetails.toOfferId
+    });
+
+    dispatch(
+      showPopup({
+        type: isPauseInProgress
+          ? POPUP_TYPES.CANCEL_PAUSE_POPUP
+          : POPUP_TYPES.CANCEL_SWITCH_POPUP,
+        data: {
+          pendingSwitchId,
+          switchDirection: pendingSwitchDetails.direction,
+          switchOfferTitle:
+            (pendingSwitchDetails &&
+              offers.find(
+                ({ longId }: OfferV2) =>
+                  longId === pendingSwitchDetails.toOfferId
+              )?.title) ||
+            '',
+          baseOfferTitle: offerTitle,
+          baseOfferExpirationDate: expiresAt,
+          baseOfferPrice: `${currency}${nextPaymentPrice}`
+        }
+      })
+    );
+  };
+
   const getIcon = () => {
     if (isPauseInProgress) return PauseIcon;
     if (pendingSwitchDetails?.direction === 'downgrade') return DowngradeIcon;
-    if (pendingSwitchDetails?.direction === 'upgrade') return UpgradeIcon;
+    if (pendingSwitchDetails?.direction === 'upgrade' || isUpgradePending)
+      return UpgradeIcon;
     return EditBlockedIcon;
   };
 
@@ -254,9 +292,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
             margin='0 10px 10px 10px'
           >
             {description && (
-              <DescriptionStyled
-                dangerouslySetInnerHTML={{ __html: description }}
-              />
+              <DescriptionStyled>{description}</DescriptionStyled>
             )}
           </SkeletonWrapper>
         </InnerWrapper>
@@ -285,44 +321,15 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
         <SubBoxStyled>
           <IconComponent />
           <SubBoxContentStyled>
-            <BoxTextStyled
-              dangerouslySetInnerHTML={{
-                __html: getDescription() || ''
-              }}
-            />
+            <BoxTextStyled>{getDescription()}</BoxTextStyled>
+            {isUpgradePending && (
+              <SubBoxButtonStyled onClick={() => window.location.reload()}>
+                Refresh
+              </SubBoxButtonStyled>
+            )}
             {pendingSwitchId &&
               pendingSwitchDetails?.algorithm === 'DEFERRED' && (
-                <SubBoxButtonStyled
-                  onClick={() => {
-                    eventDispatcher(MSSDK_CANCEL_SWITCH_BUTTON_CLICKED, {
-                      pendingSwitchId,
-                      fromOfferId: pendingSwitchDetails.fromOfferId,
-                      toOfferId: pendingSwitchDetails.toOfferId
-                    });
-
-                    dispatch(
-                      showPopup({
-                        type: isPauseInProgress
-                          ? POPUP_TYPES.CANCEL_PAUSE_POPUP
-                          : POPUP_TYPES.CANCEL_SWITCH_POPUP,
-                        data: {
-                          pendingSwitchId,
-                          switchDirection: pendingSwitchDetails.direction,
-                          switchOfferTitle:
-                            (pendingSwitchDetails &&
-                              offers.find(
-                                ({ longId }: OfferV2) =>
-                                  longId === pendingSwitchDetails.toOfferId
-                              )?.title) ||
-                            '',
-                          baseOfferTitle: offerTitle,
-                          baseOfferExpirationDate: expiresAt,
-                          baseOfferPrice: `${currency}${nextPaymentPrice}`
-                        }
-                      })
-                    );
-                  }}
-                >
+                <SubBoxButtonStyled onClick={handleCancelSwitch}>
                   {isPauseInProgress
                     ? t('offer-card.cancel-pause-button', 'Cancel pause')
                     : t(

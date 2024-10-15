@@ -87,15 +87,19 @@ export const BoxTextStyled = styled.p.attrs(() => ({
 }))`
   font-size: ${TinyFont};
   color: ${(props) => props.theme.fontColor || FontColor};
-  margin-inline: 10px 0;
   line-height: initial;
 `;
 
-export const SubBoxContentStyled = styled.div``;
+export const SubBoxContentStyled = styled.div`
+  margin-inline: 10px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+`;
 
 export const SubBoxButtonStyled = styled.button`
   padding: 0;
-  margin: 8px 0 0 10px;
   background-color: transparent;
   color: ${(props) => props.theme.successColor || ConfirmColor};
   border: none;
