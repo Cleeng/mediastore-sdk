@@ -1,15 +1,15 @@
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 import { render, screen } from '@testing-library/react';
-import * as Colors from 'styles/variables';
+import userEvent from '@testing-library/user-event';
+import { orderInitialState } from 'appRedux/orderSlice';
+import { OrderInitialState } from 'appRedux/types';
 import CouponInput from 'components/CouponInput';
 import {
   MESSAGE_TYPE_SUCCESS,
   MESSAGE_TYPE_FAIL
 } from 'components/InputLegacy/InputConstants';
-import userEvent from '@testing-library/user-event';
-import { orderInitialState } from 'appRedux/orderSlice';
-import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import * as Colors from 'styles/variables';
 
 import { CouponInputProps, MessageType } from './CouponInput.types';
 
@@ -40,14 +40,19 @@ const couponInputProps = (
   };
 };
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const mockStore = configureStore([thunk]);
+const mockStore = (preloadedState: OrderInitialState) => {
+  return configureStore({
+    reducer: (state = {}) => state,
+    preloadedState
+  });
+};
+
+const orderStore = mockStore(orderInitialState);
 
 describe('CouponInput component', () => {
   test('render input with correct value', async () => {
     render(
-      <Provider store={mockStore(orderInitialState)}>
+      <Provider store={orderStore}>
         <CouponInput {...couponInputProps('coupon')} />
       </Provider>
     );
@@ -57,7 +62,7 @@ describe('CouponInput component', () => {
 
   test('show success message', async () => {
     render(
-      <Provider store={mockStore(orderInitialState)}>
+      <Provider store={orderStore}>
         <CouponInput {...couponInputProps('', true, 'Success')} />
       </Provider>
     );
@@ -69,7 +74,7 @@ describe('CouponInput component', () => {
 
   test('show error message', async () => {
     render(
-      <Provider store={mockStore(orderInitialState)}>
+      <Provider store={orderStore}>
         <CouponInput {...couponInputProps('', true, 'Error', messageFail)} />
       </Provider>
     );
@@ -81,7 +86,7 @@ describe('CouponInput component', () => {
 
   test('check input with fullWidth props', async () => {
     render(
-      <Provider store={mockStore(orderInitialState)}>
+      <Provider store={orderStore}>
         <CouponInput
           {...couponInputProps('', false, '', messageSuccess, true)}
         />
@@ -96,7 +101,7 @@ describe('CouponInput component', () => {
 
   test('check input without fullWidth props', async () => {
     render(
-      <Provider store={mockStore(orderInitialState)}>
+      <Provider store={orderStore}>
         <CouponInput
           {...couponInputProps('', false, '', messageSuccess, false)}
         />
@@ -111,7 +116,7 @@ describe('CouponInput component', () => {
   test('calls the onSubmit function after redeeming a coupon', async () => {
     const onSubmit = vi.fn();
     render(
-      <Provider store={mockStore(orderInitialState)}>
+      <Provider store={orderStore}>
         <CouponInput
           {...couponInputProps('', false, '', messageSuccess, false)}
           onSubmit={onSubmit}

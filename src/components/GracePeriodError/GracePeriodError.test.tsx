@@ -1,12 +1,14 @@
-import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
+import { render } from '@testing-library/react';
 import { CustomerOffer as CurrentPlan } from 'api/Customer/types';
 import currentPlanMock from 'util/planDetailsMock';
 import GracePeriodError from './GracePeriodError';
 
-const store = (currentPlan: CurrentPlan[], displayGracePeriodError = true) => ({
+const getPreloadedState = (
+  currentPlan: CurrentPlan[],
+  displayGracePeriodError = true
+) => ({
   plan: {
     currentPlan: {
       data: currentPlan
@@ -20,16 +22,19 @@ const store = (currentPlan: CurrentPlan[], displayGracePeriodError = true) => ({
 const pastDate = 16762771;
 const futureDate = 99999999999999;
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const mockStore = configureStore([thunk]);
+const mockStore = (preloadedState: ReturnType<typeof getPreloadedState>) => {
+  return configureStore({
+    reducer: (state = {}) => state,
+    preloadedState
+  });
+};
 
 describe('GracePeriodError component', () => {
   test('renders warning with correct styles', async () => {
     const { getByText } = render(
       <Provider
         store={mockStore(
-          store([
+          getPreloadedState([
             {
               ...currentPlanMock,
               status: 'active',
@@ -49,7 +54,7 @@ describe('GracePeriodError component', () => {
     const { getByTestId } = render(
       <Provider
         store={mockStore(
-          store([
+          getPreloadedState([
             {
               ...currentPlanMock,
               status: 'active',
@@ -68,7 +73,7 @@ describe('GracePeriodError component', () => {
     const { getByTestId } = render(
       <Provider
         store={mockStore(
-          store([
+          getPreloadedState([
             {
               ...currentPlanMock,
               status: 'active',
@@ -87,7 +92,7 @@ describe('GracePeriodError component', () => {
     const { getByTestId } = render(
       <Provider
         store={mockStore(
-          store([
+          getPreloadedState([
             {
               ...currentPlanMock,
               status: 'active',
@@ -116,7 +121,7 @@ describe('GracePeriodError component', () => {
     const { queryByTestId } = render(
       <Provider
         store={mockStore(
-          store([
+          getPreloadedState([
             {
               ...currentPlanMock,
               status: 'active',
@@ -136,7 +141,7 @@ describe('GracePeriodError component', () => {
     const { queryByTestId } = render(
       <Provider
         store={mockStore(
-          store([
+          getPreloadedState([
             {
               ...currentPlanMock,
               status: 'cancelled',
@@ -156,7 +161,7 @@ describe('GracePeriodError component', () => {
     const { queryByTestId } = render(
       <Provider
         store={mockStore(
-          store([
+          getPreloadedState([
             {
               ...currentPlanMock,
               status: 'cancelled',
@@ -176,7 +181,7 @@ describe('GracePeriodError component', () => {
     const { getByTestId } = render(
       <Provider
         store={mockStore(
-          store(
+          getPreloadedState(
             [
               {
                 ...currentPlanMock,
@@ -198,7 +203,7 @@ describe('GracePeriodError component', () => {
     const { queryByTestId } = render(
       <Provider
         store={mockStore(
-          store(
+          getPreloadedState(
             [
               {
                 ...currentPlanMock,
