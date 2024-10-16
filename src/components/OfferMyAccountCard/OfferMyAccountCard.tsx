@@ -195,7 +195,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
 
   const getPendingUpgradeCopy = () => {
     return t(
-      `offer-card.switch-details.upgrade.pending`,
+      `offer-card.switch-details.upgrade-pending`,
       `Your upgrade is pending.`
     );
   };
@@ -323,7 +323,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
             <BoxTextStyled>{getDescription()}</BoxTextStyled>
             {isUpgradePending && (
               <SubBoxButtonStyled onClick={() => window.location.reload()}>
-                Refresh
+                {t('offer-card.upgrade-pending.refresh', 'Refresh')}
               </SubBoxButtonStyled>
             )}
             {pendingSwitchId &&
