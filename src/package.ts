@@ -23,9 +23,9 @@ import RedeemGift from 'components/RedeemGift';
 import eventDispatcher, {
   MSSDK_PURCHASE_SUCCESSFUL
 } from 'util/eventDispatcher';
+import { isHostedMSSDK } from 'util/hostedComponentsHelper';
 
-const SHOULD_USE_SENTRY = false;
-// const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
+const SENTRY_SUPPORTED_ENVIRONMENTS = ['production', 'sandbox'];
 const cleengEnvironment = getData('CLEENG_ENVIRONMENT');
 
 if (typeof window !== 'undefined') {
@@ -43,8 +43,10 @@ if (typeof window !== 'undefined') {
   };
 }
 
-// if (SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)) {
-if (SHOULD_USE_SENTRY) {
+if (
+  isHostedMSSDK &&
+  SENTRY_SUPPORTED_ENVIRONMENTS.includes(cleengEnvironment)
+) {
   Sentry.init({
     dsn: import.meta.env.VITE_SENTRY_DSN,
     environment: cleengEnvironment,
