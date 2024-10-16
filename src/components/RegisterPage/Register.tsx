@@ -24,6 +24,22 @@ const Register = ({ onSuccess, onHaveAccountClick }: RegisterProps) => {
         >
           {t('register.button.have-an-account', 'Have an account?')}
         </Button>
+        <Button
+          onClickFn={() => {
+            lowcodetestingmssdk();
+          }}
+        >
+          mssdk crash js
+        </Button>
+        <Button
+          onClickFn={() => {
+            Promise.reject(
+              new Error('mssdk lowcodetesting Unhandled promise rejection')
+            );
+          }}
+        >
+          Trigger Unhandled Rejection
+        </Button>
       </ContentWrapperStyled>
       <Footer />
     </RegisterWrapperStyled>
