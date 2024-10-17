@@ -50,12 +50,20 @@ const Offer = ({
   }, [couponCode]);
 
   useEffect(() => {
-    // reload Payment component if it was loaded from bfcache
-    window.addEventListener('pageshow', (event) => {
+    // PayPal is unclickable after loading page from bfcache
+    // Reload Payment component if it was loaded from bfcache so new Adyen Drop-in and PayPal component are created so there are no empty states or old session data
+
+    const handlePageShow = (event: PageTransitionEvent) => {
       if (event.persisted) {
         setPaymentKey(Date.now());
       }
-    });
+    };
+
+    window.addEventListener('pageshow', handlePageShow);
+
+    return () => {
+      window.removeEventListener('pageshow', handlePageShow);
+    };
   }, []);
 
   if (isFree) {
