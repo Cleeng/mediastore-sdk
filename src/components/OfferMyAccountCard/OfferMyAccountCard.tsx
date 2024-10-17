@@ -72,12 +72,12 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   } = useAppSelector(selectOffer);
   const priceRules = price?.rules;
 
-  const getCustomerSwitches = async () => {
-    const customerSwitches = await getSwitches();
-    setSwitches(customerSwitches);
-  };
-
   useEffect(() => {
+    const getCustomerSwitches = async () => {
+      const customerSwitches = await getSwitches();
+      setSwitches(customerSwitches);
+    };
+
     getCustomerSwitches();
   }, []);
 
@@ -104,7 +104,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     ? pauseOffersIDs?.includes(pendingSwitchDetails?.toOfferId)
     : false;
 
-  const generateDescription = () => {
+  const getExpirationDescription = () => {
     const renewalDate =
       expiresAt === INFINITE_DATE
         ? t('currentplan.next-season-start', 'the next season start')
@@ -193,16 +193,12 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     }
   };
 
-  const getPendingUpgradeCopy = () => {
-    return t(
-      `offer-card.switch-details.upgrade-pending`,
-      `Your upgrade is pending.`
-    );
-  };
-
-  const getDescription = () => {
+  const getSwitchDescription = () => {
     if (isUpgradePending) {
-      return getPendingUpgradeCopy();
+      return t(
+        `offer-card.switch-details.upgrade-pending`,
+        `Your upgrade is pending.`
+      );
     }
 
     if (pendingSwitchId) return getPendingSwitchCopy();
@@ -267,7 +263,8 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   };
 
   const IconComponent = getIcon();
-  const description = generateDescription();
+  const expirationDescription = getExpirationDescription();
+  const switchDescription = getSwitchDescription();
 
   return (
     <>
@@ -290,8 +287,8 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
             width={300}
             margin='0 10px 10px 10px'
           >
-            {description && (
-              <DescriptionStyled>{description}</DescriptionStyled>
+            {expirationDescription && (
+              <DescriptionStyled>{expirationDescription}</DescriptionStyled>
             )}
           </SkeletonWrapper>
         </InnerWrapper>
@@ -316,11 +313,11 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
         )}
       </WrapperStyled>
 
-      {getDescription() && (
+      {switchDescription && (
         <SubBoxStyled>
           <IconComponent />
           <SubBoxContentStyled>
-            <BoxTextStyled>{getDescription()}</BoxTextStyled>
+            <BoxTextStyled>{switchDescription}</BoxTextStyled>
             {isUpgradePending && (
               <SubBoxButtonStyled onClick={() => window.location.reload()}>
                 {t('offer-card.upgrade-pending.refresh', 'Refresh')}
