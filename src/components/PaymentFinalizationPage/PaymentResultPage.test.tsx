@@ -1,28 +1,48 @@
-import React from 'react';
-import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import { configureStore } from '@reduxjs/toolkit';
+import { render } from '@testing-library/react';
+import { Payment } from 'appRedux/finalizePaymentSlice';
 import PaymentFinalizationPage from './PaymentFinalizationPage';
 
-const store = {
+type FinalizeInitialPayment = {
+  payment?: Payment;
+  error?: string | null;
+};
+
+type RootState = {
+  finalizeInitialPayment: FinalizeInitialPayment;
+};
+
+const emptyStore: RootState = {
   finalizeInitialPayment: {
     payment: {
+      currency: null,
       id: null,
-      paymentMethod: null,
-      currency: null
+      paymentMethod: null
     },
     error: null
   }
 };
 
-const middleware = [thunk];
-const mockStore = configureStore(middleware);
+const filledStore: RootState = {
+  finalizeInitialPayment: {
+    payment: {
+      currency: 'EUR',
+      id: 123,
+      paymentMethod: 'card'
+    }
+  }
+};
+
+const mockStore = (preloadedState: RootState) =>
+  configureStore({
+    reducer: () => preloadedState
+  });
 
 describe('PaymentFinalizationPage component', () => {
   test('renders Loader on mount', async () => {
     const { getByTestId } = render(
-      <Provider store={mockStore(store)}>
+      <Provider store={mockStore(emptyStore)}>
         <PaymentFinalizationPage />
       </Provider>
     );
@@ -32,16 +52,7 @@ describe('PaymentFinalizationPage component', () => {
   describe('successful payment finalization', () => {
     test('render ThankYou page when onSuccess was NOT passed', async () => {
       const { getByTestId } = render(
-        <Provider
-          store={mockStore({
-            ...store,
-            finalizeInitialPayment: {
-              payment: {
-                id: 123
-              }
-            }
-          })}
-        >
+        <Provider store={mockStore(filledStore)}>
           <PaymentFinalizationPage />
         </Provider>
       );
@@ -51,16 +62,7 @@ describe('PaymentFinalizationPage component', () => {
     test('execute onSuccess when passed and NOT render ThankYouPage', async () => {
       const mockFn = vi.fn();
       const { queryByTestId } = render(
-        <Provider
-          store={mockStore({
-            ...store,
-            finalizeInitialPayment: {
-              payment: {
-                id: 123
-              }
-            }
-          })}
-        >
+        <Provider store={mockStore(filledStore)}>
           <PaymentFinalizationPage onSuccess={mockFn} />
         </Provider>
       );
@@ -73,7 +75,7 @@ describe('PaymentFinalizationPage component', () => {
     const { getByTestId } = render(
       <Provider
         store={mockStore({
-          ...store,
+          ...filledStore,
           finalizeInitialPayment: {
             error: 'Refused'
           }
