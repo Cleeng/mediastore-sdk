@@ -30,6 +30,8 @@ const Offer = ({
 }: OfferProps) => {
   const { t } = useTranslation();
   const [coupon, setCoupon] = useState('');
+  const [paymentKey, setPaymentKey] = useState(0);
+
   const { isCouponLoading, couponDetails } = useAppSelector(selectOrder);
   const {
     offerV2: { giftable = false }
@@ -46,6 +48,23 @@ const Offer = ({
   useEffect(() => {
     setCoupon(couponCode);
   }, [couponCode]);
+
+  useEffect(() => {
+    // PayPal is unclickable after loading page from bfcache
+    // Reload Payment component if it was loaded from bfcache so new Adyen Drop-in and PayPal component are created so there are no empty states or old session data
+
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) {
+        setPaymentKey(Date.now());
+      }
+    };
+
+    window.addEventListener('pageshow', handlePageShow);
+
+    return () => {
+      window.removeEventListener('pageshow', handlePageShow);
+    };
+  }, []);
 
   if (isFree) {
     return (
@@ -89,7 +108,7 @@ const Offer = ({
           />
         </StyledOfferBody>
         {giftable && <DeliveryDetails giftable={giftable} />}
-        <Payment onPaymentComplete={onPaymentComplete} />
+        <Payment key={paymentKey} onPaymentComplete={onPaymentComplete} />
       </main>
       <Footer />
     </StyledOfferWrapper>
