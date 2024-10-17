@@ -30,6 +30,8 @@ const Offer = ({
 }: OfferProps) => {
   const { t } = useTranslation();
   const [coupon, setCoupon] = useState('');
+  const [paymentKey, setPaymentKey] = useState(0);
+
   const { isCouponLoading, couponDetails } = useAppSelector(selectOrder);
   const {
     offerV2: { giftable = false }
@@ -46,6 +48,15 @@ const Offer = ({
   useEffect(() => {
     setCoupon(couponCode);
   }, [couponCode]);
+
+  useEffect(() => {
+    // reload Payment component if it was loaded from bfcache
+    window.addEventListener('pageshow', (event) => {
+      if (event.persisted) {
+        setPaymentKey(Date.now());
+      }
+    });
+  }, []);
 
   if (isFree) {
     return (
@@ -89,7 +100,7 @@ const Offer = ({
           />
         </StyledOfferBody>
         {giftable && <DeliveryDetails giftable={giftable} />}
-        <Payment onPaymentComplete={onPaymentComplete} />
+        <Payment key={paymentKey} onPaymentComplete={onPaymentComplete} />
       </main>
       <Footer />
     </StyledOfferWrapper>
