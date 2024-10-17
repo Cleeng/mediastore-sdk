@@ -3,7 +3,6 @@ import { configureStore } from '@reduxjs/toolkit';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { orderInitialState } from 'appRedux/orderSlice';
-import { OrderInitialState } from 'appRedux/types';
 import CouponInput from 'components/CouponInput';
 import {
   MESSAGE_TYPE_SUCCESS,
@@ -40,10 +39,7 @@ const couponInputProps = (
   };
 };
 
-const mockStore = (preloadedState: OrderInitialState) =>
-  configureStore({ reducer: () => preloadedState });
-
-const orderStore = mockStore(orderInitialState);
+const orderStore = configureStore({ reducer: () => orderInitialState });
 
 describe('CouponInput component', () => {
   test('render input with correct value', async () => {
