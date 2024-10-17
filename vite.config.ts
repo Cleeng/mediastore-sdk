@@ -1,22 +1,11 @@
 /// <reference types="vitest" />
-import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { defineConfig } from 'vite';
 import path from 'node:path';
 import react from '@vitejs/plugin-react-swc';
 import svgr from 'vite-plugin-svgr';
 
-export default defineConfig(({ mode }) => ({
-  plugins: [
-    react(),
-    svgr({ include: '**/*.svg' }),
-    sentryVitePlugin({
-      org: 'cleeng',
-      project: 'mediastore-sdk',
-      authToken: process.env.SENTRY_AUTH_TOKEN,
-      disable: mode !== 'production',
-      reactComponentAnnotation: { enabled: true }
-    })
-  ],
+export default defineConfig({
+  plugins: [react(), svgr({ include: '**/*.svg' })],
   build: {
     target: 'es2015',
     cssCodeSplit: true,
@@ -38,8 +27,7 @@ export default defineConfig(({ mode }) => ({
           'styled-components': 'styled-components'
         }
       }
-    },
-    sourcemap: mode === 'production'
+    }
   },
   resolve: {
     alias: {
@@ -64,4 +52,4 @@ export default defineConfig(({ mode }) => ({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts']
   }
-}));
+});

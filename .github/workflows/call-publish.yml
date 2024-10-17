@@ -24,10 +24,6 @@ on:
     secrets:
       TOKEN:
         required: true
-      SENTRY_DSN:
-        required: true
-      SENTRY_AUTH_TOKEN:
-        required: true
 
 jobs:
   publish:
@@ -73,21 +69,11 @@ jobs:
           VERSION=$(node -p "require('./package.json').version")
           echo "VITE_MEDIASTORE_SDK_VERSION=${VERSION}" >> $GITHUB_ENV
 
-      - name: Set SENTRY_RELEASE
-        run: |
-          VERSION=$(node -p "require('./package.json').version")
-          echo "SENTRY_RELEASE=${VERSION}" >> $GITHUB_ENV
-
-      - name: Set VITE_SENTRY_DSN environment variable for correct Sentry release initialization
-        run: echo "VITE_SENTRY_DSN=${{ secrets.SENTRY_DSN }}" >> $GITHUB_ENV
-
       - name: install deps
         run: pnpm install
 
       - name: build the bundle
         run: pnpm build
-        env:
-          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
 
       - name: push the bundle to ${{ inputs.access }} registry
         run: npm publish --access ${{ inputs.access }}
