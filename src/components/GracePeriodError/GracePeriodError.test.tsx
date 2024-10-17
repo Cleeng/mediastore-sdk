@@ -22,12 +22,8 @@ const getPreloadedState = (
 const pastDate = 16762771;
 const futureDate = 99999999999999;
 
-const mockStore = (preloadedState: ReturnType<typeof getPreloadedState>) => {
-  return configureStore({
-    reducer: (state = {}) => state,
-    preloadedState
-  });
-};
+const mockStore = (preloadedState: ReturnType<typeof getPreloadedState>) =>
+  configureStore({ reducer: () => preloadedState });
 
 describe('GracePeriodError component', () => {
   test('renders warning with correct styles', async () => {

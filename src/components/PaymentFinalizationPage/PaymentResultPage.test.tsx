@@ -1,26 +1,33 @@
-import React from 'react';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { render } from '@testing-library/react';
+import { Payment } from 'appRedux/finalizePaymentSlice';
 import PaymentFinalizationPage from './PaymentFinalizationPage';
 
-const store = {
+type FinalizeInitialPayment = {
+  payment?: Payment;
+  error?: string | null;
+};
+
+type RootState = {
+  finalizeInitialPayment: FinalizeInitialPayment;
+};
+
+const store: RootState = {
   finalizeInitialPayment: {
     payment: {
+      currency: null,
       id: null,
-      paymentMethod: null,
-      currency: null
+      paymentMethod: null
     },
     error: null
   }
 };
 
-const mockStore = (preloadedState) => {
-  return configureStore({
-    reducer: (state = {}) => state,
-    preloadedState
+const mockStore = (preloadedState: RootState) =>
+  configureStore({
+    reducer: () => preloadedState
   });
-};
 
 describe('PaymentFinalizationPage component', () => {
   test('renders Loader on mount', async () => {
@@ -40,6 +47,8 @@ describe('PaymentFinalizationPage component', () => {
             ...store,
             finalizeInitialPayment: {
               payment: {
+                paymentMethod: 'card',
+                currency: 'EUR',
                 id: 123
               }
             }
@@ -59,7 +68,9 @@ describe('PaymentFinalizationPage component', () => {
             ...store,
             finalizeInitialPayment: {
               payment: {
-                id: 123
+                paymentMethod: 'card',
+                id: 123,
+                currency: 'EUR'
               }
             }
           })}

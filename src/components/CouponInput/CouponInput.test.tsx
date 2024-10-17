@@ -40,12 +40,8 @@ const couponInputProps = (
   };
 };
 
-const mockStore = (preloadedState: OrderInitialState) => {
-  return configureStore({
-    reducer: (state = {}) => state,
-    preloadedState
-  });
-};
+const mockStore = (preloadedState: OrderInitialState) =>
+  configureStore({ reducer: () => preloadedState });
 
 const orderStore = mockStore(orderInitialState);
 

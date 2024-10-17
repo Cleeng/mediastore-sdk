@@ -31,12 +31,8 @@ const defaultProps = {
   onRedeemClick: () => null
 };
 
-const mockStore = (preloadedState) => {
-  return configureStore({
-    reducer: (state = {}) => state,
-    preloadedState
-  });
-};
+const mockStore = (preloadedState: ReturnType<typeof getPreloadedState>) =>
+  configureStore({ reducer: () => preloadedState });
 
 describe('<CheckoutPriceBox />', () => {
   it('should not display coupon note for unlimited coupon with yearly period', () => {
