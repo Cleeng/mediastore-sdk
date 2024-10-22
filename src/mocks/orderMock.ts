@@ -17,7 +17,7 @@ const orderMock: OrderInitialState = {
       periods: 12
     },
     expirationDate: 1704067200,
-    id: 789,
+    id: 12345,
     offer: {
       title: 'Premium Subscription',
       description: 'Access to all premium features',

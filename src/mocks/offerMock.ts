@@ -32,7 +32,7 @@ const offerMock: OfferInitialState = {
     offerCurrency: 'USD',
     offerCurrencySymbol: '$',
     offerDescription: 'Exclusive premium offer with additional benefits.',
-    offerId: 'OFFER12345',
+    offerId: 'S111111111_PL',
     offerPrice: 100,
     offerTitle: 'Premium Membership',
     offerUrl: 'https://example.com/premium-offer',
@@ -45,8 +45,8 @@ const offerMock: OfferInitialState = {
     videoId: 'VIDEO12345'
   },
   offerV2: {
-    id: 'V2_OFFER12345',
-    longId: 'LONG_V2_OFFER12345',
+    id: 'S111111111',
+    longId: 'S111111111_US',
     title: 'Premium Membership V2',
     description: 'Updated exclusive premium offer with enhanced benefits.',
     price: {

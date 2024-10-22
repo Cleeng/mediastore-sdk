@@ -46,12 +46,14 @@ export type SwitchDetails = {
   [key: string]: SwitchDetail;
 };
 
+export type CurrentPlan = {
+  data: CustomerOffer[];
+  loading: boolean;
+  error: string | null | undefined;
+};
+
 export type PlanDetailsInitialState = {
-  currentPlan: {
-    data: CustomerOffer[];
-    loading: boolean;
-    error: string | null | undefined;
-  };
+  currentPlan: CurrentPlan;
   offerToSwitch: CustomerOffer | Record<string, never>;
   updateList: boolean;
   switchSettings: {
