@@ -33,7 +33,7 @@ const FreeExtensionError = () => {
         </TextStyled>
       </ContentStyled>
       <ButtonWrapperStyled>
-        <Button theme='confirm' onClickFn={() => dispatch(hidePopup())}>
+        <Button variant='confirm' onClickFn={() => dispatch(hidePopup())}>
           {t('free-extension.error.back-button', 'Back to My Account')}
         </Button>
       </ButtonWrapperStyled>

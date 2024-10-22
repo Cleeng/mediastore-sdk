@@ -109,10 +109,10 @@ const DeletePaymentMethod = ({ paymentDetailsToDelete }) => {
         )}
       </ContentStyled>
       <ButtonWrapperStyled $removeMargin>
-        <Button theme='simple' onClickFn={() => cancelDeleteAction()}>
+        <Button variant='simple' onClickFn={() => cancelDeleteAction()}>
           {t('delete-payment-method.resign-button', 'No, thanks')}
         </Button>
-        <Button theme='danger' onClickFn={deletePaymentMethod}>
+        <Button variant='danger' onClickFn={deletePaymentMethod}>
           {isButtonLoading ? (
             <Loader buttonLoader color='#ffffff' />
           ) : (

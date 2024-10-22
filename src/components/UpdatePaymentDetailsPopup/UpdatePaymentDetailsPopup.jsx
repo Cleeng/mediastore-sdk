@@ -153,7 +153,7 @@ const UpdatePaymentDetailsPopup = () => {
         </ContentStyled>
         <ButtonWrapperStyled $removeMargin>
           <Button
-            theme='simple'
+            variant='simple'
             onClickFn={() =>
               dispatch(updatePaymentDetailsPopup({ isOpen: false }))
             }
@@ -426,7 +426,7 @@ const UpdatePaymentDetailsPopup = () => {
       </ContentStyled>
       <ButtonWrapperStyled $removeMargin>
         <Button
-          theme='simple'
+          variant='simple'
           onClickFn={() =>
             dispatch(
               updatePaymentDetailsPopup({

@@ -24,7 +24,9 @@ export const FooterStyled = styled.footer.attrs((props: FooterStyledProps) => ({
 
   border-top: 1px solid ${colors.LineColor};
   background-color: ${(props) =>
-    props.$isTransparent ? 'transparent' : colors.BackgroundColor};
+    props.$isTransparent
+      ? 'transparent'
+      : props.theme.backgroundColor || colors.BackgroundColor};
 
   ${(props) =>
     props.$isTransparent &&
@@ -46,7 +48,7 @@ export const ProductByStyled = styled.span.attrs(() => ({
   display: flex;
   align-items: center;
 
-  color: ${colors.FontColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
 
   font-size: 12px;
   font-weight: 300;
@@ -58,7 +60,7 @@ export const ProductByStyled = styled.span.attrs(() => ({
 export const SecurityStyled = styled.div.attrs(() => ({
   className: 'msd__footer__label--right'
 }))`
-  color: ${colors.ConfirmColor};
+  color: ${(props) => props.theme.successColor || colors.ConfirmColor};
 
   font-size: 14px;
   min-width: 135px;
@@ -69,7 +71,8 @@ export const SecurityStyled = styled.div.attrs(() => ({
     max-height: 13px;
 
     path {
-      fill: ${colors.ConfirmColor} !important;
+      fill: ${(props) =>
+        props.theme.successColor || colors.ConfirmColor} !important;
     }
   }
 `;

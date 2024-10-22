@@ -114,7 +114,7 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
         )}
         <ButtonWrapperStyled>
           <Button
-            theme='confirm'
+            variant='confirm'
             width='200px'
             onClickFn={getAccessToFreeOffer}
             disabled={isLoading}

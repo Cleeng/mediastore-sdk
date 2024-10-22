@@ -221,11 +221,9 @@ class ProfileDetails extends Component {
 
   isBirthDateValid = () => {
     const { updated } = this.state;
-    const {
-      t,
-      birthDate: { enabled, required }
-    } = this.props;
+    const { t, birthDate } = this.props;
 
+    const { enabled, required } = birthDate || {};
     const isBirthDateRequired = enabled && required;
 
     if (isBirthDateRequired && !updated.birthDate) {
@@ -252,7 +250,7 @@ class ProfileDetails extends Component {
       (setting) => setting.key === 'firstNameLastName'
     );
 
-    const { enabled, required } = namesSettings;
+    const { enabled, required } = namesSettings || {};
 
     const areNamesRequired = enabled && required;
 
@@ -344,11 +342,9 @@ class ProfileDetails extends Component {
 
   isPhoneNumberValid = () => {
     const { updated } = this.state;
-    const {
-      t,
-      phoneNumber: { enabled, required }
-    } = this.props;
+    const { t, phoneNumber } = this.props;
 
+    const { enabled, required } = phoneNumber || {};
     const isPhoneNumberRequired = enabled && required;
 
     if (isPhoneNumberRequired && !updated.phoneNumber) {
@@ -385,11 +381,9 @@ class ProfileDetails extends Component {
 
   isCompanyNameValid = () => {
     const { updated } = this.state;
-    const {
-      t,
-      companyName: { enabled, required }
-    } = this.props;
+    const { t, companyName } = this.props;
 
+    const { enabled, required } = companyName || {};
     const isCompanyNameRequired = enabled && required;
 
     if (isCompanyNameRequired && !updated.companyName) {
@@ -525,13 +519,14 @@ class ProfileDetails extends Component {
                       this.setState({ isSectionDisabled: false })
                     }
                     width='100%'
+                    variant='confirm'
                   >
                     {t('profiledetails.button.edit-profile', 'Edit Profile')}
                   </ButtonStyled>
                 ) : (
                   <>
                     <ButtonStyled
-                      theme='simple'
+                      variant='simple'
                       onClickFn={() =>
                         this.setState({
                           isSectionDisabled: true,
@@ -556,7 +551,7 @@ class ProfileDetails extends Component {
                       onClickFn={this.updateProfile}
                       disabled={isSubmittingPending}
                       type='submit'
-                      theme='confirm'
+                      variant='confirm'
                     >
                       {(isSubmittingPending && (
                         <Loader buttonLoader color='#ffffff' />

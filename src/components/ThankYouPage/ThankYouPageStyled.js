@@ -16,8 +16,9 @@ export const ThankYouPageStyled = styled.main`
   text-align: center;
   line-height: 1.3em;
   font-size: 15px;
-  background-color: ${colors.BackgroundColor};
-  color: ${colors.FontColor};
+  background-color: ${(props) =>
+    props.theme.backgroundColor || colors.BackgroundColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
   font-weight: bold;
 `;
 
@@ -36,7 +37,7 @@ export const MessageStyled = styled.p`
 `;
 
 export const LinkStyled = styled.a`
-  color: ${colors.FontColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
   padding-left: 4px;
   font-weight: bold;
   outline: none;

@@ -52,6 +52,7 @@ export type Localization = {
 
 export type OfferV2 = {
   id: string;
+  longId: string;
   title: string;
   description: string;
   price: Price | undefined;

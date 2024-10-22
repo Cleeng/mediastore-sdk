@@ -129,7 +129,7 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
             />
             <Button
               disabled={!giftCode}
-              theme='confirm'
+              variant='confirm'
               onClickFn={handleVerifyGift}
             >
               {isVerifyLoading ? (
@@ -146,7 +146,7 @@ const RedeemGift = ({ onBackClick, onSuccess }: RedeemGiftProps) => {
           )}
           <Button
             disabled={isConfirmButtonDisabled}
-            theme='confirm'
+            variant='confirm'
             onClickFn={handleRedeemGift}
           >
             {isRedeemLoading ? (

@@ -22,7 +22,7 @@ export const CardTypeStyled = styled.div.attrs(() => ({
 export const CardExpirationStyled = styled.div.attrs(() => ({
   className: 'msd__payment-data__wrapper'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 12px;
 
   display: flex;
@@ -51,7 +51,7 @@ export const CardDetailsStyled = styled.div.attrs(() => ({
 export const CardDetailsNameStyled = styled.div.attrs(() => ({
   className: 'msd__payment-method__name'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 13px;
   font-weight: 600;
   line-height: 20px;

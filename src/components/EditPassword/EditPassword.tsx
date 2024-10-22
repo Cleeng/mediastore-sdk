@@ -91,10 +91,10 @@ const EditPassword = ({
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme='simple' onClickFn={() => hideInnerPopup()}>
+            <Button variant='simple' onClickFn={() => hideInnerPopup()}>
               {t('edit-password.button.no-thanks', 'No, thanks')}
             </Button>
-            <Button theme='confirm' onClickFn={handleResetPassword}>
+            <Button variant='confirm' onClickFn={handleResetPassword}>
               {(isLoading && <Loader buttonLoader color='#ffffff' />) ||
                 t('edit-password.button.yes-reset', 'Yes, reset')}
             </Button>
@@ -121,7 +121,7 @@ const EditPassword = ({
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button theme='confirm' onClickFn={() => logout()}>
+            <Button variant='confirm' onClickFn={() => logout()}>
               {(isLoading && <Loader buttonLoader color='#ffffff' />) ||
                 t('edit-password.button.confirm', 'Confirm')}
             </Button>

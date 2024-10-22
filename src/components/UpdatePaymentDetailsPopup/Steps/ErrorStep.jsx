@@ -45,7 +45,7 @@ const ErrorStep = () => {
       </ContentStyled>
       <ButtonWrapperStyled $removeMargin>
         <Button
-          theme='simple'
+          variant='simple'
           onClickFn={() =>
             dispatch(
               updatePaymentDetailsPopup({

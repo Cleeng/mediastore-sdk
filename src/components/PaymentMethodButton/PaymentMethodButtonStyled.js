@@ -10,7 +10,7 @@ export const StyledButton = styled(Button)`
 
   svg {
     path {
-      fill: ${variables.FontColor};
+      fill: ${(props) => props.theme.fontColor || variables.FontColor};
     }
   }
 

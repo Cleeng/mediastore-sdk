@@ -18,7 +18,7 @@ export const FreeExtensionWrapperStyled = styled.div`
 
       &:last-child {
         font-weight: 300;
-        color: ${FontColor};
+        color: ${(props) => props.theme.fontColor || FontColor};
         opacity: 0.8;
         text-decoration: underline;
       }
@@ -53,7 +53,8 @@ export const FreeExtensionCardStyled = styled.div`
 
   border: 1px solid #d8ddea;
   border-radius: 6px;
-  background-color: ${BackgroundColor};
+  background-color: ${(props) =>
+    props.theme.backgroundColor || BackgroundColor};
 
   > div {
     display: flex;

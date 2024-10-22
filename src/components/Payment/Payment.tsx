@@ -96,7 +96,9 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         .unwrap()
         .catch((errors) => {
           if (errors.includes('JWT')) {
-            eventDispatcher(MSSDK_AUTH_FAILED);
+            eventDispatcher(MSSDK_AUTH_FAILED, {
+              source: 'Payment'
+            });
             Auth.logout(); // TODO: support properly the logout function
           }
         });
@@ -395,7 +397,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         )}
         <Button
           onClickFn={paymentWithoutDetails}
-          theme='confirm'
+          variant='confirm'
           width='250px'
           size='big'
           margin='20px auto 0 auto'

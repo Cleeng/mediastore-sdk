@@ -1,6 +1,17 @@
 import subscriptionCardPlaceholderIcon from 'assets/images/subscriptionCardPlaceholder.svg';
 
-const mapErrorToText = {
+type TextWithKeyType = {
+  text: string;
+  translationKey: string;
+};
+
+type SwitchErrorType = {
+  title: TextWithKeyType;
+  subtitle: TextWithKeyType;
+  icon: string;
+};
+
+const mapErrorToText: { [key: string]: SwitchErrorType } = {
   RECURRING_PROCESS_ALREADY_STARTED: {
     title: {
       text: 'You are at the end of the billing cycle for your current offer.',
@@ -33,7 +44,10 @@ const mapErrorToText = {
       translationKey:
         'subscription-switches-list.error.subscription-with-coupon-not-allowed.title'
     },
-    subtitle: '',
+    subtitle: {
+      text: '',
+      translationKey: ''
+    },
     icon: subscriptionCardPlaceholderIcon
   },
   DEFAULT: {

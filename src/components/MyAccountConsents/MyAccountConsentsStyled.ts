@@ -1,13 +1,14 @@
 import styled, { css } from 'styled-components';
-import Button from 'components/Button';
-import CheckboxLegacy from 'components/CheckboxLegacy';
-import Card from 'components/Card';
 import { mediaFrom } from 'styles/BreakPoints';
 import { ConfirmColor } from 'styles/variables';
+import Button from 'components/Button';
+import Checkbox from 'components/Checkbox';
+import Card from 'components/Card';
+import { ButtonStyledProps } from 'components/Button/Button.types';
 
 export const CardStyled = styled(Card).attrs(() => ({
   className: 'msd__profile-consents__card'
-}))`
+}))<{ showConsentsOnly: boolean }>`
   margin-bottom: 0;
 
   ${(props) =>
@@ -23,7 +24,7 @@ export const CardStyled = styled(Card).attrs(() => ({
 `;
 export const ButtonStyled = styled(Button).attrs(() => ({
   className: 'msd__profile-consents__button'
-}))`
+}))<ButtonStyledProps>`
   margin: 20px 0 10px 0;
   width: 48%;
   min-width: 100px;
@@ -34,17 +35,16 @@ export const ButtonStyled = styled(Button).attrs(() => ({
       width: ${props.$width};
     `}
 
-  ${mediaFrom.small &&
-  css`
+  ${mediaFrom.small`
     margin: 20px 0 0 5px;
     width: unset;
     max-width: unset;
   `}
 `;
 
-export const CheckboxStyled = styled(CheckboxLegacy).attrs(() => ({
+export const CheckboxStyled = styled(Checkbox).attrs(() => ({
   className: 'msd__profile-consents__checkbox'
-}))`
+}))<{ $hide: boolean }>`
   align-items: flex-start;
   line-height: 1.3rem;
 
@@ -78,7 +78,7 @@ export const InfoStyled = styled.div.attrs(() => ({
 export const SuccessMessageStyled = styled.h6.attrs(() => ({
   className: 'msd__message--success'
 }))`
-  color: ${ConfirmColor};
+  color: ${(props) => props.theme.successColor || ConfirmColor};
   text-align: center;
   margin: 5px 0 15px 0;
   font-size: 12px;

@@ -23,7 +23,7 @@ export const InnerWrapper = styled.div.attrs(() => ({
   className: 'msd__checkout-card-text__wrapper'
 }))`
   max-width: 50%;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   margin-right: 15px;
 
   ${mediaFrom.small`
@@ -72,7 +72,7 @@ export const TrialBadgeStyled = styled.div.attrs(() => ({
   padding: 4px 8px;
   margin-bottom: 12px;
   background-color: ${White};
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   border: 1px solid ${LineColor};
   border-radius: 10px;
   font-size: 9px;

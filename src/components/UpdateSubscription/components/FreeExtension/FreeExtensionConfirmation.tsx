@@ -36,7 +36,7 @@ const FreeExtensionConfirmation = () => {
         </TextStyled>
       </ContentStyled>
       <ButtonWrapperStyled>
-        <Button theme='confirm' onClickFn={() => dispatch(hidePopup())}>
+        <Button variant='confirm' onClickFn={() => dispatch(hidePopup())}>
           {t('free-extension.success.back-button', 'Back to My Account')}
         </Button>
       </ButtonWrapperStyled>

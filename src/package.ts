@@ -1,5 +1,4 @@
 import './i18NextInit';
-
 import Card from 'components/Card';
 import OfferContainer from 'containers/OfferContainer';
 import Login from 'components/LoginPage';

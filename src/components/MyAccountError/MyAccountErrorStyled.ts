@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { FontColor, IconsColor } from 'styles/variables';
+import { ConfirmColor, FontColor, IconsColor } from 'styles/variables';
 import { media } from 'styles/BreakPoints';
 import { WrapStyledProps } from './MyAccountError.types';
 
@@ -9,7 +9,7 @@ export const TitleStyled = styled.div.attrs(() => ({
   max-width: 380px;
   margin: 10px auto 0 auto;
 
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
   font-size: 16px;
 `;
@@ -17,7 +17,7 @@ export const TitleStyled = styled.div.attrs(() => ({
 export const SubTitleStyled = styled.div.attrs(() => ({
   className: 'msd__info-box__subtitle'
 }))`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
   font-size: 13px;
 
@@ -35,8 +35,14 @@ export const IconStyled = styled.div.attrs(() => ({
   display: flex;
   justify-content: center;
   margin: auto auto 10px auto;
+
   svg {
     max-width: 490px;
+
+    ellipse {
+      fill: ${ConfirmColor};
+      stroke: ${ConfirmColor};
+    }
   }
 `;
 
@@ -44,7 +50,7 @@ export const DetailsStyled = styled.div.attrs(() => ({
   className: 'msd__info-details'
 }))``;
 
-export const WrapStyled = styled.div.attrs<WrapStyledProps>(() => ({
+export const WrapStyled = styled.div.attrs(() => ({
   className: 'msd__info-box'
 }))<WrapStyledProps>`
   * {

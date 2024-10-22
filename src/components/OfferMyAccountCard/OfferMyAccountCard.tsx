@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import {
   selectCurrentPlan,
@@ -19,14 +19,15 @@ import {
   currencyFormat,
   CurrencyFormat
 } from 'util/planHelper';
+import getSwitches from 'api/Customer/getSwitches';
 import { CustomerOffer } from 'api/Customer/types';
 import { showPopup, POPUP_TYPES } from 'appRedux/popupSlice';
-import { Offer } from 'appRedux/types/offersSlice.types';
 import eventDispatcher, {
   MSSDK_CANCEL_SWITCH_BUTTON_CLICKED
 } from 'util/eventDispatcher';
 import { SwitchDetail } from 'appRedux/types';
 import { selectOffer } from 'appRedux/offerSlice';
+import OfferV2 from 'types/OfferV2.types';
 import {
   WrapperStyled,
   InnerWrapper,
@@ -43,6 +44,9 @@ import { OfferMyAccountCardProps } from './OfferMyAccountCard.types';
 const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
+
+  const [switches, setSwitches] = useState<SwitchDetail[]>([]);
+
   const { data: currentPlan, loading } = useAppSelector(selectCurrentPlan);
   const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
   const { data: switchDetailsStore } = useAppSelector(selectSwitchDetails);
@@ -68,6 +72,15 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   } = useAppSelector(selectOffer);
   const priceRules = price?.rules;
 
+  useEffect(() => {
+    const getCustomerSwitches = async () => {
+      const customerSwitches = await getSwitches();
+      setSwitches(customerSwitches);
+    };
+
+    getCustomerSwitches();
+  }, []);
+
   const currency =
     currencyFormat[
       (nextPaymentCurrency || customerCurrency) as keyof Record<
@@ -80,13 +93,18 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     ? switchDetailsStore[pendingSwitchId]
     : ({} as SwitchDetail);
 
+  const isUpgradePending = switches.find(
+    ({ status: switchStatus, direction }) =>
+      switchStatus === 'inprogress' && direction === 'upgrade'
+  );
+
   // PAUSE FEATURE
   const isPaused = pauseOffersIDs.includes(offerId);
   const isPauseInProgress = pendingSwitchDetails
     ? pauseOffersIDs?.includes(pendingSwitchDetails?.toOfferId)
     : false;
 
-  const generateDescription = () => {
+  const getExpirationDescription = () => {
     const renewalDate =
       expiresAt === INFINITE_DATE
         ? t('currentplan.next-season-start', 'the next season start')
@@ -127,9 +145,8 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
         : dateFormat(expiresAt);
 
     const { fromOfferId, toOfferId } = pendingSwitchDetails;
-    const toOfferIdTitle = offers.find(
-      ({ longId }: Offer) => longId === toOfferId
-    )?.title;
+    const toOfferIdTitle =
+      offers.find(({ longId }: OfferV2) => longId === toOfferId)?.title || '';
     const translatedTitle = t(`offer-title-${fromOfferId}`, offerTitle);
     const translatedSwitchTitle = t(`offer-title-${toOfferId}`, toOfferIdTitle);
 
@@ -176,7 +193,14 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     }
   };
 
-  const getDescription = () => {
+  const getSwitchDescription = () => {
+    if (isUpgradePending) {
+      return t(
+        `offer-card.switch-details.upgrade-pending`,
+        `Your upgrade is pending.`
+      );
+    }
+
     if (pendingSwitchId) return getPendingSwitchCopy();
     if (isExternallyManaged) {
       if (!paymentMethod) {
@@ -196,15 +220,51 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     return '';
   };
 
+  const handleCancelSwitch = () => {
+    if (!pendingSwitchId) {
+      return;
+    }
+
+    eventDispatcher(MSSDK_CANCEL_SWITCH_BUTTON_CLICKED, {
+      pendingSwitchId,
+      fromOfferId: pendingSwitchDetails.fromOfferId,
+      toOfferId: pendingSwitchDetails.toOfferId
+    });
+
+    dispatch(
+      showPopup({
+        type: isPauseInProgress
+          ? POPUP_TYPES.CANCEL_PAUSE_POPUP
+          : POPUP_TYPES.CANCEL_SWITCH_POPUP,
+        data: {
+          pendingSwitchId,
+          switchDirection: pendingSwitchDetails.direction,
+          switchOfferTitle:
+            (pendingSwitchDetails &&
+              offers.find(
+                ({ longId }: OfferV2) =>
+                  longId === pendingSwitchDetails.toOfferId
+              )?.title) ||
+            '',
+          baseOfferTitle: offerTitle,
+          baseOfferExpirationDate: expiresAt,
+          baseOfferPrice: `${currency}${nextPaymentPrice}`
+        }
+      })
+    );
+  };
+
   const getIcon = () => {
     if (isPauseInProgress) return PauseIcon;
     if (pendingSwitchDetails?.direction === 'downgrade') return DowngradeIcon;
-    if (pendingSwitchDetails?.direction === 'upgrade') return UpgradeIcon;
+    if (pendingSwitchDetails?.direction === 'upgrade' || isUpgradePending)
+      return UpgradeIcon;
     return EditBlockedIcon;
   };
 
   const IconComponent = getIcon();
-  const description = generateDescription();
+  const expirationDescription = getExpirationDescription();
+  const switchDescription = getSwitchDescription();
 
   return (
     <>
@@ -227,10 +287,8 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
             width={300}
             margin='0 10px 10px 10px'
           >
-            {description && (
-              <DescriptionStyled
-                dangerouslySetInnerHTML={{ __html: description }}
-              />
+            {expirationDescription && (
+              <DescriptionStyled>{expirationDescription}</DescriptionStyled>
             )}
           </SkeletonWrapper>
         </InnerWrapper>
@@ -255,47 +313,19 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
         )}
       </WrapperStyled>
 
-      {getDescription() && (
+      {switchDescription && (
         <SubBoxStyled>
           <IconComponent />
           <SubBoxContentStyled>
-            <BoxTextStyled
-              dangerouslySetInnerHTML={{
-                __html: getDescription() || ''
-              }}
-            />
+            <BoxTextStyled>{switchDescription}</BoxTextStyled>
+            {isUpgradePending && (
+              <SubBoxButtonStyled onClick={() => window.location.reload()}>
+                {t('offer-card.upgrade-pending.refresh', 'Refresh')}
+              </SubBoxButtonStyled>
+            )}
             {pendingSwitchId &&
               pendingSwitchDetails?.algorithm === 'DEFERRED' && (
-                <SubBoxButtonStyled
-                  onClick={() => {
-                    eventDispatcher(MSSDK_CANCEL_SWITCH_BUTTON_CLICKED, {
-                      pendingSwitchId,
-                      fromOfferId: pendingSwitchDetails.fromOfferId,
-                      toOfferId: pendingSwitchDetails.toOfferId
-                    });
-
-                    dispatch(
-                      showPopup({
-                        type: isPauseInProgress
-                          ? POPUP_TYPES.CANCEL_PAUSE_POPUP
-                          : POPUP_TYPES.CANCEL_SWITCH_POPUP,
-                        data: {
-                          pendingSwitchId,
-                          switchDirection: pendingSwitchDetails.direction,
-                          switchOfferTitle:
-                            pendingSwitchDetails &&
-                            offers.find(
-                              ({ longId }: Offer) =>
-                                longId === pendingSwitchDetails.toOfferId
-                            )?.title,
-                          baseOfferTitle: offerTitle,
-                          baseOfferExpirationDate: expiresAt,
-                          baseOfferPrice: `${currency}${nextPaymentPrice}`
-                        }
-                      })
-                    );
-                  }}
-                >
+                <SubBoxButtonStyled onClick={handleCancelSwitch}>
                   {isPauseInProgress
                     ? t('offer-card.cancel-pause-button', 'Cancel pause')
                     : t(

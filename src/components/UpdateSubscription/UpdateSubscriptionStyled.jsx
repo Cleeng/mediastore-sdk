@@ -32,7 +32,7 @@ export const ReasonsWrapper = styled.ul`
 
 export const StyledItem = styled.li`
   margin: 0 0 20px 0;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
   font-size: 13px;
 `;

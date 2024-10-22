@@ -26,7 +26,7 @@ export const WrapStyled = styled.div.attrs(() => ({
     `};
 
   .msd__error {
-    color: ${ErrorColor};
+    color: ${(props) => props.theme.errorColor || ErrorColor};
   }
 
   input[type='date'] {
@@ -44,7 +44,7 @@ export const InputElementLabelStyled = styled.label.attrs(() => ({
 }))`
   display: block;
   margin-bottom: 12px;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 13px;
 `;
 
@@ -70,13 +70,14 @@ export const InputElementStyled = styled.input.attrs(() => ({
   }
 
   &:disabled {
-    background-color: ${BackgroundColor};
-    color: ${FontColor};
+    background-color: ${(props) =>
+      props.theme.backgroundColor || BackgroundColor};
+    color: ${(props) => props.theme.fontColor || FontColor};
   }
 
   ${(props) =>
     props.$error &&
     css`
-      border: 1px solid ${ErrorColor};
+      border: 1px solid ${props.theme.errorColor || ErrorColor};
     `}
 `;

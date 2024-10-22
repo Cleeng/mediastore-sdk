@@ -34,6 +34,9 @@ export const PayPalIconContentStyled = styled.div.attrs(() => ({
 `;
 
 export const CheckboxWrapperStyled = styled.div`
+  display: flex;
+  flex-direction: column;
+
   .msd__consents__text {
     font-size: 11px;
     line-height: 17px;
@@ -43,13 +46,18 @@ export const CheckboxWrapperStyled = styled.div`
     align-self: start;
   }
 
+  .adyen-checkout__bank-checkbox {
+    color: #515364;
+    margin-bottom: 20px;
+  }
+
   .adyen-checkout__bank-checkbox--error {
     .msd__consents__frame {
-      border-color: ${ErrorColor};
+      border-color: ${(props) => props.theme.errorColor || ErrorColor};
     }
 
     .msd__consents__text {
-      color: ${ErrorColor};
+      color: ${(props) => props.theme.errorColor || ErrorColor};
     }
   }
 `;

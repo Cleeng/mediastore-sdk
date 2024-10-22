@@ -22,6 +22,10 @@ export type SwitchSettings = {
   [key: string]: {
     available: SwitchSetting[];
     unavailable: SwitchSetting[];
+    unavailableReason?: {
+      code: string;
+      message: string;
+    };
   };
 };
 

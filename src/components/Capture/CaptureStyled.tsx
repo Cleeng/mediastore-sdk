@@ -19,7 +19,8 @@ export const CaptureContentStyled = styled.div`
   margin: 0 auto;
   padding: 80px 120px 120px;
 
-  background-color: ${colors.BackgroundColor};
+  background-color: ${(props) =>
+    props.theme.backgroundColor || colors.BackgroundColor};
 
   text-align: center;
 
@@ -40,5 +41,5 @@ export const CaptureTitle = styled.div`
   text-transform: uppercase;
   font-weight: 700;
 
-  color: ${colors.FontColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
 `;

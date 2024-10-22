@@ -51,7 +51,7 @@ export const CheckboxStyled = styled.label.attrs(
 
   align-items: center;
   font-size: 13px;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
   &:focus {
     outline: none;
@@ -79,8 +79,10 @@ export const ConsentDefinitionStyled = styled.div.attrs(
 
   font-weight: 400;
   text-align: left;
+
+  user-select: none;
   a {
-    color: ${FontColor};
+    color: ${(props) => props.theme.fontColor || FontColor};
 
     text-decoration: underline;
     &:focus {
@@ -100,9 +102,7 @@ export const CheckFrameStyled = styled.div.attrs(
     className: `msd__consents__frame ${
       props.$error ? 'msd__consents__frame--error' : ''
     } ${props.$checked ? 'msd__consents__frame--checked' : ''}
-  ${props.$isRadioButton ? 'msd__consents__frame--radio' : ''} ${
-      props.$isMyAccount ? 'msd__consents__frame--account' : ''
-    }`
+  ${props.$isRadioButton ? 'msd__consents__frame--radio' : ''}`
   })
 )<CheckFrameStyledProps>`
   position: relative;
@@ -120,7 +120,7 @@ export const CheckFrameStyled = styled.div.attrs(
   ${(props) =>
     props.$error &&
     css`
-      border-color: ${ErrorColor};
+      border-color: ${props.theme.errorColor || ErrorColor};
     `}
   ${(props) =>
     props.$isRadioButton &&
@@ -132,13 +132,6 @@ export const CheckFrameStyled = styled.div.attrs(
     props.$checked &&
     css`
       border: 1px solid ${ConfirmColor};
-    `}
-
-  ${(props) =>
-    props.$isMyAccount &&
-    props.$checked &&
-    css`
-      border-color: ${ConfirmColor};
     `}
 `;
 
@@ -153,10 +146,13 @@ export const CheckMarkStyled = styled.div.attrs(
 
   width: 13px;
   height: 10px;
-  top: 4px;
-  left: 3px;
-  background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMi44MjgiIGhlaWdodD0iOS44MjgiIHZpZXdCb3g9IjAgMCAxMi44MjggOS44MjgiPjxkZWZzPjxzdHlsZT4uYXtmaWxsOm5vbmU7c3Ryb2tlOiM3YzhjYTU7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLXdpZHRoOjJweDt9PC9zdHlsZT48L2RlZnM+PGcgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTE4My4wODYgLTM5OS4wODYpIj48bGluZSBjbGFzcz0iYSIgeDI9IjMiIHkyPSIzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxODQuNSA0MDQuNSkiLz48bGluZSBjbGFzcz0iYSIgeDE9IjciIHkyPSI3IiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgxODcuNSA0MDAuNSkiLz48L2c+PC9zdmc+');
-  background-repeat: no-repeat;
+  top: -1px;
+  left: -1px;
+
+  svg {
+    fill: ${ConfirmColor};
+  }
+
   ${(props) =>
     props.$isRadioButton &&
     css`
@@ -167,7 +163,7 @@ export const CheckMarkStyled = styled.div.attrs(
       width: 12px;
       height: 12px;
 
-      background: ${ConfirmColor};
+      background: ${props.theme.successColor || ConfirmColor};
       border-radius: 50%;
     `}
   ${(props) =>
@@ -177,9 +173,6 @@ export const CheckMarkStyled = styled.div.attrs(
       height: 20px;
       top: -1px;
       left: -1px;
-      background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMyIgaGVpZ2h0PSIyMyIgdmlld0JveD0iMCAwIDIzIDIzIj4KICA8ZGVmcz4KICAgIDxzdHlsZT4KICAgICAgLmNscy0xIHsKICAgICAgICBmaWxsOiAjNEVCN0ExOwogICAgICB9CgogICAgICAuY2xzLTIgewogICAgICAgIGZpbGw6IG5vbmU7CiAgICAgICAgc3Ryb2tlOiAjZmZmOwogICAgICAgIHN0cm9rZS1saW5lY2FwOiByb3VuZDsKICAgICAgICBzdHJva2UtbGluZWpvaW46IHJvdW5kOwogICAgICAgIHN0cm9rZS13aWR0aDogMi4zcHg7CiAgICAgIH0KICAgIDwvc3R5bGU+CiAgPC9kZWZzPgogIDxnIGlkPSJHcm91cF8yNDQ0IiBkYXRhLW5hbWU9Ikdyb3VwIDI0NDQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yNjMwIC0zMjUpIj4KICAgIDxnIGlkPSJHcm91cF8yNDM5IiBkYXRhLW5hbWU9Ikdyb3VwIDI0MzkiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0yMjYwIC01MzYpIj4KICAgICAgPHJlY3QgaWQ9IlJlY3RhbmdsZV8yOTA3IiBkYXRhLW5hbWU9IlJlY3RhbmdsZSAyOTA3IiBjbGFzcz0iY2xzLTEiIHdpZHRoPSIyMyIgaGVpZ2h0PSIyMyIgcng9IjQiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDQ4OTAgODYxKSIvPgogICAgICA8cGF0aCBpZD0iUGF0aF8xOTQyIiBkYXRhLW5hbWU9IlBhdGggMTk0MiIgY2xhc3M9ImNscy0yIiBkPSJNOTYzNS40MzItNzE0NS40MjdsMy43NjQsMy43OTEsNC4yMTUtNC4yNDQsMy45ODktNC4wMTgiIHRyYW5zZm9ybT0idHJhbnNsYXRlKC00NzM5LjkzMSA4MDE4LjM5NykiLz4KICAgIDwvZz4KICA8L2c+Cjwvc3ZnPgo=');
-      background-position: center;
-      background-size: cover;
     `}
 `;
 
@@ -189,7 +182,7 @@ export const ErrorFieldStyled = styled.div`
   width: 100%;
   margin-top: 10px;
 
-  color: ${ErrorColor};
+  color: ${(props) => props.theme.errorColor || ErrorColor};
 
   font-size: 12px;
   font-weight: 300;
@@ -204,7 +197,7 @@ export const TermsLinkStyled = styled.a<TermsLinkStyledProps>`
   font-size: 11px;
   line-height: 17px;
   text-align: left;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   text-decoration: underline;
   opacity: 0.8;
 

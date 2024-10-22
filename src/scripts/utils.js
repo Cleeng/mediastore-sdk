@@ -1,4 +1,5 @@
-import { HOSTED_COMPONENTS_DOMAIN } from './constants';
+const hostedComponentsDomain = import.meta.env.VITE_HOSTED_COMPONENTS_DOMAIN;
+const buildMode = import.meta.env.MODE;
 
 export const kebabCase = (textToTransform) =>
   textToTransform
@@ -9,5 +10,5 @@ export const kebabCase = (textToTransform) =>
 export const generateEmbeddableUrl = ({ slug, ...params }) => {
   const urlParams = new URLSearchParams(params).toString();
 
-  return `${HOSTED_COMPONENTS_DOMAIN}/${slug}?${urlParams}`;
+  return `${hostedComponentsDomain}/app/${slug}?${urlParams}`;
 };

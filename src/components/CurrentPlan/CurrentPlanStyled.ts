@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { CardColor, LineColor, ConfirmColor } from 'styles/variables';
+import { SubscriptionStyledProps } from './CurrentPlan.types';
 
 export const WrapStyled = styled.div`
   position: relative;
@@ -9,8 +10,8 @@ export const WrapStyled = styled.div`
 
 export const SubscriptionStyled = styled.div.attrs(() => ({
   className: 'msd__account__subscription'
-}))`
-  background: ${CardColor};
+}))<SubscriptionStyledProps>`
+  background: ${(props) => props.theme.cardColor || CardColor};
   border: 1px solid ${LineColor};
   border-radius: 12px;
 
@@ -41,7 +42,7 @@ export const SubscriptionStyled = styled.div.attrs(() => ({
     z-index: -1;
 
     border-radius: 12px;
-    border: 1px solid ${ConfirmColor};
+    border: 1px solid ${(props) => props.theme.successColor || ConfirmColor};
     box-shadow: 0px 3px 20px #6767672c;
 
     opacity: 0;
@@ -67,7 +68,7 @@ export const SubscriptionManageWrapStyled = styled.div`
   justify-content: flex-end;
 `;
 
-export const ButtonTextStyled = styled.span`
+export const ButtonTextStyled = styled.span<{ $isExpanded: boolean }>`
   position: relative;
   margin-right: 17px;
   font-family: inherit;

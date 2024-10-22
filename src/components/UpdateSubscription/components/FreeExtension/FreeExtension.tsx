@@ -122,7 +122,7 @@ const FreeExtension = ({
           </div>
           <AcceptButtonWrapperStyled>
             <Button
-              theme='confirm'
+              variant='confirm'
               size='normal'
               onClickFn={handleApplyRetentionAction}
             >
@@ -135,7 +135,7 @@ const FreeExtension = ({
           </AcceptButtonWrapperStyled>
         </FreeExtensionCardStyled>
         <ButtonWrapperStyled $removeMargin>
-          <Button theme='simple' onClickFn={() => dispatch(hidePopup())}>
+          <Button variant='simple' onClickFn={() => dispatch(hidePopup())}>
             {t('free-extension.back-button', 'Back to My Account')}
           </Button>
           <LinkStyled as='button' onClick={handleUnsubscribe}>

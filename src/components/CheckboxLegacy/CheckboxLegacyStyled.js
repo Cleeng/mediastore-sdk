@@ -18,7 +18,7 @@ export const CheckboxStyled = styled.div.attrs((props) => ({
 
   align-items: center;
   font-size: 13px;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
   &:focus {
     outline: none;
@@ -38,6 +38,7 @@ export const HiddenCheckboxInput = styled.input`
   width: 1em;
   height: 1em;
   opacity: 0;
+  pointer-events: none;
 `;
 
 export const ConsentDefinitionStyled = styled.div.attrs((props) => ({
@@ -51,8 +52,11 @@ export const ConsentDefinitionStyled = styled.div.attrs((props) => ({
 
   font-weight: 400;
   text-align: left;
+  pointer-events: none;
+  user-select: none;
+
   a {
-    color: ${FontColor};
+    color: ${(props) => props.theme.fontColor || FontColor};
 
     text-decoration: underline;
     &:focus {
@@ -83,6 +87,7 @@ export const CheckFrameStyled = styled.div.attrs((props) => ({
   width: 20px;
   min-width: 20px;
   height: 20px;
+  pointer-events: none;
 
   &:focus {
     outline: 2px solid ${FocusColor};
@@ -90,7 +95,7 @@ export const CheckFrameStyled = styled.div.attrs((props) => ({
   ${(props) =>
     props.$error &&
     css`
-      border-color: ${ErrorColor};
+      border-color: ${props.theme.errorColor || ErrorColor};
     `}
   ${(props) =>
     props.$isRadioButton &&
@@ -101,14 +106,14 @@ export const CheckFrameStyled = styled.div.attrs((props) => ({
     props.$isRadioButton &&
     props.$checked &&
     css`
-      border: 1px solid ${ConfirmColor};
+      border: 1px solid ${props.theme.successColor || ConfirmColor};
     `}
 
   ${(props) =>
     props.$isMyAccount &&
     props.$checked &&
     css`
-      border-color: ${ConfirmColor};
+      border-color: ${props.theme.successColor || ConfirmColor};
     `}
 `;
 
@@ -118,6 +123,7 @@ export const CheckMarkStyled = styled.div.attrs((props) => ({
   } ${props.$isMyAccount ? 'msd__consents__check-mark--account' : ''}`
 }))`
   position: absolute;
+  pointer-events: none;
 
   width: 13px;
   height: 10px;
@@ -135,7 +141,7 @@ export const CheckMarkStyled = styled.div.attrs((props) => ({
       width: 12px;
       height: 12px;
 
-      background: ${ConfirmColor};
+      background: ${props.theme.successColor || ConfirmColor};
       border-radius: 50%;
     `}
   ${(props) =>
@@ -157,7 +163,7 @@ export const ErrorFieldStyled = styled.div`
   width: 100%;
   margin-top: 10px;
 
-  color: ${ErrorColor};
+  color: ${(props) => props.theme.errorColor || ErrorColor};
 
   font-size: 12px;
   font-weight: 300;
@@ -172,9 +178,10 @@ export const TermsLinkStyled = styled.a`
   font-size: 11px;
   line-height: 17px;
   text-align: left;
-  color: ${FontColor};
+  color: #515364;
   text-decoration: underline;
   opacity: 0.8;
+  user-select: none;
 
   ${(props) =>
     props.$checked &&

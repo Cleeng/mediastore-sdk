@@ -1,9 +1,12 @@
 import styled, { css } from 'styled-components';
 import * as colors from 'styles/variables';
 import { media } from 'styles/BreakPoints';
+import { ButtonStyledProps } from './Button.types';
 
-const ButtonStyled = styled.button.attrs((props) => ({
-  className: `msd__button msd__button--${props.$theme}`
+const ButtonStyled = styled.button.attrs((props: ButtonStyledProps) => ({
+  className: `msd__button ${
+    props.$variant ? `msd__button--${props.$variant}` : ''
+  }`
 }))`
   position: relative;
   display: flex;
@@ -42,7 +45,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
     }
   }
 
-  ${(props) =>
+  ${(props: ButtonStyledProps) =>
     props.$size === 'big' &&
     css`
       padding: 20px;
@@ -59,10 +62,10 @@ const ButtonStyled = styled.button.attrs((props) => ({
     `}
 
   ${(props) =>
-    (props.$theme === 'confirm' &&
+    (props.$variant === 'confirm' &&
       css`
         color: ${colors.White};
-        background-color: ${colors.ConfirmColor};
+        background-color: ${props.theme.successColor || colors.ConfirmColor};
         opacity: 0.9;
         &:hover,
         &:focus {
@@ -70,10 +73,10 @@ const ButtonStyled = styled.button.attrs((props) => ({
           opacity: 1;
         }
       `) ||
-    (props.$theme === 'primary' &&
+    (props.$variant === 'primary' &&
       css`
         color: ${colors.White};
-        background-color: ${colors.PrimaryColor};
+        background-color: ${props.theme.primaryColor || colors.PrimaryColor};
         opacity: 0.9;
         &:hover,
         &:focus {
@@ -81,7 +84,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
           opacity: 1;
         }
       `) ||
-    (props.$theme === 'paypal' &&
+    (props.$variant === 'paypal' &&
       css`
         color: ${colors.White};
         background-color: ${colors.PayPal};
@@ -92,10 +95,10 @@ const ButtonStyled = styled.button.attrs((props) => ({
           opacity: 1;
         }
       `) ||
-    (props.$theme === 'danger' &&
+    (props.$variant === 'danger' &&
       css`
         color: ${colors.White};
-        background-color: ${colors.ErrorColor};
+        background-color: ${props.theme.errorColor || colors.ErrorColor};
         opacity: 0.9;
         &:hover,
         &:focus {
@@ -103,7 +106,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
           opacity: 1;
         }
       `) ||
-    (props.$theme === 'payment' &&
+    (props.$variant === 'payment' &&
       css`
         height: 48px;
         width: 30%;
@@ -127,11 +130,13 @@ const ButtonStyled = styled.button.attrs((props) => ({
           opacity: 0.9;
         }
       `) ||
-    (props.$theme === 'secondary' &&
+    (props.$variant === 'secondary' &&
       css`
-        background-color: ${colors.SecondaryColor};
-        border: 1px solid ${colors.BackgroundColor};
-        color: ${colors.FontColor};
+        background-color: ${props.theme.secondaryColor ||
+        colors.SecondaryColor};
+        border: 1px solid
+          ${props.theme.backgroundColor || colors.BackgroundColor};
+        color: ${props.theme.fontColor || colors.FontColor};
         &:hover,
         &:focus,
         &:active {
@@ -140,11 +145,11 @@ const ButtonStyled = styled.button.attrs((props) => ({
           border: 1px solid ${colors.LineColor};
         }
       `) ||
-    (props.$theme === 'simple' &&
+    (props.$variant === 'simple' &&
       css`
         background-color: transparent;
         border: 1px solid ${colors.LineColor};
-        color: ${colors.FontColor};
+        color: ${props.theme.fontColor || colors.FontColor};
         &:not(:disabled):hover,
         &:focus {
           cursor: pointer;
@@ -154,7 +159,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
           border: 1px solid ${colors.LineColor};
         }
       `) ||
-    (props.$theme === 'navLink' &&
+    (props.$variant === 'navLink' &&
       css`
         position: absolute;
         top: 50%;
@@ -167,7 +172,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
 
         transform: translateY(-45%);
         background-color: transparent;
-        color: ${colors.FontColor};
+        color: ${props.theme.fontColor || colors.FontColor};
         font-size: 16px;
         letter-spacing: 0.025em;
         font-weight: 500;
@@ -186,7 +191,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
           left: 10px;
         `}
       `) ||
-    (props.$theme === 'link' &&
+    (props.$variant === 'link' &&
       css`
         display: inline-block;
 
@@ -196,7 +201,7 @@ const ButtonStyled = styled.button.attrs((props) => ({
 
         border-radius: none;
         background-color: transparent;
-        color: ${colors.FontColor};
+        color: ${props.theme.fontColor || colors.FontColor};
 
         text-decoration: underline;
         letter-spacing: 0.025em;
