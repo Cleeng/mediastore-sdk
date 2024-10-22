@@ -1,28 +1,31 @@
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import { render, screen } from '@testing-library/react';
+import orderMock from 'mocks/orderMock';
+import offerMock from 'mocks/offerMock';
 import CheckoutPriceBox from './CheckoutPriceBox';
+// why changing import order breaks the test?
+// eslint-disable-next-line
+import renderWithProviders from 'util/testHelpers';
+
+const discountType = {
+  coupon: 'coupon',
+  trial: 'trial'
+} as const;
 
 const getPreloadedState = (unlimited = true, trial = false) => ({
   order: {
+    ...orderMock,
     order: {
-      priceBreakdown: {
-        offerPrice: 999,
-        discountAmount: 70,
-        taxValue: '',
-        customerServiceFee: '',
-        paymentMethodFee: ''
-      },
+      ...orderMock.order,
       discount: {
         applied: true,
-        type: trial ? 'trial' : 'coupon',
+        type: trial ? discountType.trial : discountType.coupon,
         periods: unlimited ? 999 : 123
       }
     }
   },
-  offer: {
-    offer: { customerPriceInclTax: 123, period: 'test', trialAvailable: true }
-  }
+  offer: offerMock
 });
 
 const defaultProps = {
@@ -36,11 +39,9 @@ const mockStore = (preloadedState: ReturnType<typeof getPreloadedState>) =>
 
 describe('<CheckoutPriceBox />', () => {
   it('should not display coupon note for unlimited coupon with yearly period', () => {
-    render(
-      <Provider store={mockStore(getPreloadedState())}>
-        <CheckoutPriceBox {...defaultProps} />
-      </Provider>
-    );
+    renderWithProviders(<CheckoutPriceBox {...defaultProps} />, {
+      preloadedState: getPreloadedState()
+    });
 
     expect(screen.getByTestId('coupon-notes')).toHaveTextContent('');
   });

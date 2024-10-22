@@ -1,70 +1,63 @@
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-import { render } from '@testing-library/react';
-import { Payment } from 'appRedux/finalizePaymentSlice';
 import PaymentFinalizationPage from './PaymentFinalizationPage';
+// why changing import order breaks the test?
+// eslint-disable-next-line
+import renderWithProviders from 'util/testHelpers';
 
-type FinalizeInitialPayment = {
-  payment?: Payment;
-  error?: string | null;
-};
-
-type RootState = {
-  finalizeInitialPayment: FinalizeInitialPayment;
-};
-
-const emptyStore: RootState = {
+const emptyStore = {
   finalizeInitialPayment: {
+    loading: false,
     payment: {
       currency: null,
-      id: null,
-      paymentMethod: null
+      paymentMethod: null,
+      id: null
     },
-    error: null
+    error: null,
+    shouldShowFinalizePaymentComponent: false
   }
 };
 
-const filledStore: RootState = {
+const filledStore = {
   finalizeInitialPayment: {
+    loading: false,
     payment: {
       currency: 'EUR',
       id: 123,
       paymentMethod: 'card'
-    }
+    },
+    error: null,
+    shouldShowFinalizePaymentComponent: false
   }
 };
 
-const mockStore = (preloadedState: RootState) =>
-  configureStore({
-    reducer: () => preloadedState
-  });
+const errorStore = {
+  finalizeInitialPayment: {
+    ...filledStore.finalizeInitialPayment,
+    error: 'Refused'
+  }
+};
 
 describe('PaymentFinalizationPage component', () => {
   test('renders Loader on mount', async () => {
-    const { getByTestId } = render(
-      <Provider store={mockStore(emptyStore)}>
-        <PaymentFinalizationPage />
-      </Provider>
-    );
+    const { getByTestId } = renderWithProviders(<PaymentFinalizationPage />, {
+      preloadedState: emptyStore
+    });
 
-    getByTestId('PaymentFinalizationPage-loader');
+    expect(getByTestId('PaymentFinalizationPage-loader')).toBeInTheDocument();
   });
+
   describe('successful payment finalization', () => {
     test('render ThankYou page when onSuccess was NOT passed', async () => {
-      const { getByTestId } = render(
-        <Provider store={mockStore(filledStore)}>
-          <PaymentFinalizationPage />
-        </Provider>
-      );
-
-      getByTestId('ThankYouPage-component');
+      const { getByTestId } = renderWithProviders(<PaymentFinalizationPage />, {
+        preloadedState: filledStore
+      });
+      expect(getByTestId('ThankYouPage-component')).toBeInTheDocument();
     });
+
     test('execute onSuccess when passed and NOT render ThankYouPage', async () => {
       const mockFn = vi.fn();
-      const { queryByTestId } = render(
-        <Provider store={mockStore(filledStore)}>
-          <PaymentFinalizationPage onSuccess={mockFn} />
-        </Provider>
+      const { queryByTestId } = renderWithProviders(
+        <PaymentFinalizationPage onSuccess={mockFn} />,
+        { preloadedState: filledStore }
       );
       expect(queryByTestId('ThankYouPage-component')).toBeNull();
       expect(mockFn).toHaveBeenCalled();
@@ -72,19 +65,12 @@ describe('PaymentFinalizationPage component', () => {
   });
 
   test('render FailedPaymentPage page when there was a error', async () => {
-    const { getByTestId } = render(
-      <Provider
-        store={mockStore({
-          ...filledStore,
-          finalizeInitialPayment: {
-            error: 'Refused'
-          }
-        })}
-      >
-        <PaymentFinalizationPage />
-      </Provider>
-    );
+    const { getByTestId } = renderWithProviders(<PaymentFinalizationPage />, {
+      preloadedState: {
+        ...errorStore
+      }
+    });
 
-    getByTestId('FailedPaymentPage-component');
+    expect(getByTestId('FailedPaymentPage-component')).toBeInTheDocument();
   });
 });

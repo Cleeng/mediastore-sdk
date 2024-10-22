@@ -43,7 +43,8 @@ export default defineConfig({
       hooks: path.resolve(__dirname, './src/hooks'),
       i18NextInit: path.resolve(__dirname, './src/i18NextInit.js'),
       scripts: path.resolve(__dirname, './src/scripts'),
-      types: path.resolve(__dirname, './src/types')
+      types: path.resolve(__dirname, './src/types'),
+      mocks: path.resolve(__dirname, './src/mocks')
     }
   },
   test: {

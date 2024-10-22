@@ -12,7 +12,7 @@ export type Payment = {
   paymentMethod: unknown;
 };
 
-type InitialState = {
+export type InitialState = {
   loading: boolean;
   payment: Payment;
   error: string | null | undefined;

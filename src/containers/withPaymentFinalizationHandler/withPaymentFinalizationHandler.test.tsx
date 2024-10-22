@@ -17,14 +17,12 @@ const initialState = {
   }
 };
 
-const wrappedComponentProps = {
-  onSuccess: () => null
-};
-
 describe('withPaymentFinalizationHandler component', () => {
   test('by default should return wrapped component', async () => {
+    const mockFn = vi.fn();
+
     const { getByTestId } = renderWithProviders(
-      <WrappedComponent {...wrappedComponentProps} />,
+      <WrappedComponent onSuccess={mockFn} />,
       {
         preloadedState: initialState
       }
@@ -34,8 +32,10 @@ describe('withPaymentFinalizationHandler component', () => {
   });
 
   test('return PaymentFinalizationPage if shouldShowFinalizePaymentComponent is set to true', async () => {
+    const mockFn = vi.fn();
+
     const { getByTestId, queryByTestId } = renderWithProviders(
-      <WrappedComponent {...wrappedComponentProps} />,
+      <WrappedComponent onSuccess={mockFn} />,
       {
         preloadedState: {
           finalizeInitialPayment: {
