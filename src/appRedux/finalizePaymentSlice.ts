@@ -6,12 +6,13 @@ import eventDispatcher, {
 } from 'util/eventDispatcher';
 import { RootState } from './rootReducer';
 
-type Payment = {
-  paymentMethod: unknown;
+export type Payment = {
   currency: unknown;
+  id: number | null;
+  paymentMethod: unknown;
 };
 
-type InitialState = {
+export type InitialState = {
   loading: boolean;
   payment: Payment;
   error: string | null | undefined;
@@ -21,6 +22,7 @@ type InitialState = {
 const initialState: InitialState = {
   loading: false,
   payment: {
+    id: null,
     paymentMethod: null,
     currency: null
   },

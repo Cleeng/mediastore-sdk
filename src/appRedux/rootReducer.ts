@@ -41,7 +41,6 @@ const rootReducer = combineReducers({
   paymentDetails: paymentDetailsReducer,
   paymentMethods: paymentMethodsReducer,
   plan: planDetailsReducer,
-  // removed planDetails - to be checked if was needed
   popup: popupReducer,
   popupManager: popupManagerReducer,
   publisherConfig: publisherConfigReducer,

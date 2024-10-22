@@ -21,8 +21,11 @@ describe('PaymentInfo component', () => {
 
   test('should render UpdatePaymentDetailsPopup component if paymentDetails is open', async () => {
     const store = setupStore();
+
     store.dispatch(updatePaymentDetailsPopup({ isOpen: true }));
-    const { getByTestId } = renderWithProviders(<PaymentInfo />, { store });
+    const { getByTestId } = renderWithProviders(<PaymentInfo />, {
+      preloadedState: store.getState()
+    });
 
     expect(
       getByTestId('payment-info__update-payment-details-popup')
