@@ -112,6 +112,7 @@
   "currentplan.no-offers-title": "No offers yet!",
   "currentplan.pass.expires-on": "Expires on.",
   "currentplan.subscription.expire-info": "This plan will expire on {{renewalDate}}",
+  "currentplan.subscription.pause-info": "Your subscription is currently paused. It will resume on <2>{pauseRenewalDate}</2>. You can resume or cancel your subscription at any time prior to that date.",
   "currentplan.subscription.renews-info": "Renews automatically on {{renewalDate}}",
   "Customer is not associated with your account or doesn't exist.": "Customer is not associated with your account or doesn't exist.",
   "delete-payment-method.confirm-button": "Remove",
