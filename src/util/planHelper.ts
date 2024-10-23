@@ -313,4 +313,14 @@ export const dateFormat = (timestamp: number, showTime = false) => {
   return resultString;
 };
 
+export const textMonthDateFormat = (timestamp: number): string => {
+  const date = new Date(timestamp * 1000);
+
+  const month = date.toLocaleString(undefined, { month: 'long' });
+  const day = date.toLocaleString(undefined, { day: 'numeric' });
+  const year = date.toLocaleString(undefined, { year: 'numeric' });
+
+  return `${month} ${day}, ${year}`;
+};
+
 export const INFINITE_DATE = 2145913200;
