@@ -754,13 +754,7 @@ import { Provider } from 'react-redux';
 
 #### Font
 
-If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSSDK components by adding the following import to your application:
-
-```javascript
-import '@cleeng/mediastore-sdk/styles/msdFont.css';
-```
-
-For backwards compatibility, you can still import the font by adding the import below, but we encourage you to use the above syntax as the one below is deprecated and will be removed in future releases.
+If your application doesn't have a font specified, you can apply the default font (OpenSans) for all MSSDK components by:
 
 ```javascript
 import '@cleeng/mediastore-sdk/dist/styles/msdFont.css';

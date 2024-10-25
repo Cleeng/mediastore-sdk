@@ -10,9 +10,6 @@
       "import": "./dist/cleeng-mediastore-sdk.js",
       "require": "./dist/cleeng-mediastore-sdk.umd.cjs"
     },
-    "./styles/msdFont.css": {
-      "import": "./dist/styles/msdFont.css"
-    },
     "./dist/styles/msdFont.css": {
       "import": "./dist/styles/msdFont.css"
     }
