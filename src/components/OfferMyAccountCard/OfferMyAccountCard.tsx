@@ -120,7 +120,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
           values={{ pauseRenewalDate }}
         >
           {
-            'Your subscription is currently paused. It will resume on <strong>{{pauseRenewalDate}}</strong> You can resume or cancel your subscription at any time prior to that date.'
+            'Your subscription is currently paused. It will resume on <strong>{{pauseRenewalDate}}</strong>. You can resume or cancel your subscription at any time prior to that date.'
           }
         </Trans>
       );
