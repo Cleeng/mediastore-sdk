@@ -5,7 +5,7 @@ import {
   MyAccountTextLightGray,
   LineColor,
   SmallFont,
-  MediumFontWeight
+  SemiBoldFont
 } from 'styles/variables';
 
 import portrait from './img/avatarBase64';
@@ -107,7 +107,7 @@ export const TextStyled = styled.div.attrs(() => ({
   font-size: 9px;
   line-height: 12px;
   text-align: center;
-  font-weight: ${MediumFontWeight};
+  font-weight: ${SemiBoldFont};
   min-height: 19px;
   max-width: max-content;
 `;

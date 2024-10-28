@@ -3,7 +3,7 @@ import { mediaFrom } from 'styles/BreakPoints';
 import {
   BoldFont,
   MediumFont,
-  MediumFontWeight,
+  SemiBoldFont,
   TinyFont,
   SmallFont,
   FontColor,
@@ -51,7 +51,7 @@ export const DescriptionStyled = styled.p.attrs(() => ({
   className: 'msd__subscription-text__description'
 }))`
   font-size: ${TinyFont};
-  font-weight: ${MediumFontWeight};
+  font-weight: ${SemiBoldFont};
   line-height: 17px;
   margin: 9px 0;
 `;
