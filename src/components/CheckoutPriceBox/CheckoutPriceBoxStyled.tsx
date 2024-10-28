@@ -46,7 +46,7 @@ export const StyledTotalOfferPrice: typeof StyledOfferPrice = styled(
   className: 'msd__price-summary__total--ammount'
 }))`
   font-size: 25px;
-  font-weight: ${variables.MediumFontWeight};
+  font-weight: ${variables.SemiBoldFont};
 `;
 
 export const StyledPriceBox = styled.ul.attrs(() => ({
@@ -131,7 +131,7 @@ export const RemoveCouponButton = styled.button.attrs(() => ({
   cursor: pointer;
   font-family: inherit;
   font-size: ${variables.BigFont};
-  font-weight: ${variables.MediumFontWeight};
+  font-weight: ${variables.SemiBoldFont};
   color: ${(props) => props.theme.fontColor || variables.FontColor};
 
   &:hover {

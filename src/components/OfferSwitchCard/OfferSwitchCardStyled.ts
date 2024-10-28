@@ -3,7 +3,7 @@ import { mediaFrom } from 'styles/BreakPoints';
 import {
   BoldFont,
   MediumFont,
-  MediumFontWeight,
+  SemiBoldFont,
   TinyFont,
   SmallFont,
   MicroFont,
@@ -70,7 +70,7 @@ export const TrialBadgeStyled = styled.div.attrs(() => ({
   border-radius: 10px;
   font-size: 9px;
   font-size: ${MicroFont};
-  font-weight: ${MediumFontWeight};
+  font-weight: ${SemiBoldFont};
   text-transform: uppercase;
 `;
 export const SubBoxStyled = styled.div.attrs(() => ({
