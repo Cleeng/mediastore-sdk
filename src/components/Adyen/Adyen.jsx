@@ -8,6 +8,7 @@ import { fetchUpdateOrder, selectOnlyOrder } from 'appRedux/orderSlice';
 import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
 import createPaymentSession from 'api/Payment/createPaymentSession';
+import getAdyenPaymentMethods from 'api/Payment/getAdyenPaymentMethods';
 import { selectOnlyOffer } from 'appRedux/offerSlice';
 import useScript from 'util/useScriptHook';
 import {
@@ -339,6 +340,7 @@ const Adyen = ({
       paymentMethods.find((item) => item.type === 'googlepay')?.configuration;
 
     const configuration = {
+      // paymentMethodsResponse: { paymentMethods },
       locale: adyenConfiguration?.locale || i18n?.language || 'en-US',
       translations: {
         ...defaultAdyenTranslations,
@@ -474,6 +476,14 @@ const Adyen = ({
         visiblePaymentMethods,
         isMyAccount
       );
+
+      const response2 = await getAdyenPaymentMethods(
+        paymentMethodsType,
+        visiblePaymentMethods,
+        isMyAccount
+      );
+
+      console.log(response2);
 
       if (response?.id) {
         createDropInInstance(response, paymentMethodsType);
