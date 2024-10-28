@@ -7,7 +7,7 @@ import { selectDeliveryDetails } from 'appRedux/deliveryDetailsSlice';
 import { fetchUpdateOrder, selectOnlyOrder } from 'appRedux/orderSlice';
 import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
-import createPaymentSession from 'api/Payment/createPaymentSession';
+// import createPaymentSession from 'api/Payment/createPaymentSession';
 import getAdyenPaymentMethods from 'api/Payment/getAdyenPaymentMethods';
 import { selectOnlyOffer } from 'appRedux/offerSlice';
 import useScript from 'util/useScriptHook';
@@ -16,9 +16,8 @@ import {
   bankPaymentMethods,
   standardPaymentMethods,
   bankPaymentMethodsMapper,
-  STANDARD_PAYMENT_METHODS,
-  BANK_PAYMENT_METHODS,
   getStandardCopy
+  // adyenPaymentMethods
 } from 'util/paymentMethodHelper';
 import CheckboxLegacy from 'components/CheckboxLegacy';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
@@ -81,25 +80,15 @@ const Adyen = ({
     selectedPaymentMethodRef.current = selectedPaymentMethod;
   }, [selectedPaymentMethod]);
 
-  const standardPaymentMethodsRef = useRef(null);
-  const bankPaymentMethodsRef = useRef(null);
-  const [standardDropInInstance, setStandardDropInInstance] = useState(null);
-  const [bankDropInInstance, setBankDropInInstance] = useState(null);
+  // const standardPaymentMethodsRef = useRef(null);
+  // const bankPaymentMethodsRef = useRef(null);
+  const paymentMethodsRef = useRef(null);
 
-  const [standardPaymentSession, setStandardPaymentSession] = useState(false);
-
-  const [standardSessionError, setStandardSessionError] = useState(null);
-  const [bankSessionError, setBankSessionError] = useState(null);
-
+  const [dropInInstance, setDropInInstance] = useState(null);
+  const [sessionError, setSessionError] = useState(null);
   const [noPaymentMethods, setNoPaymentMethods] = useState(false);
-
-  const [shouldFadeOutStandardDropIn, setShouldFadeOutStandardDropIn] =
-    useState(false);
-  const [shouldFadeOutBankDropIn, setShouldFadeOutBankDropIn] = useState(false);
-
-  const [shouldHideStandardDropIn, setShouldHideStandardDropIn] =
-    useState(false);
-  const [shouldHideBankDropIn, setShouldHideBankDropIn] = useState(false);
+  const [shouldFadeOutDropIn, setShouldFadeOutDropIn] = useState(false);
+  const [shouldHideDropIn, setShouldHideDropIn] = useState(false);
 
   useScript('https://pay.google.com/gp/p/js/pay.js');
 
@@ -180,12 +169,17 @@ const Adyen = ({
   };
 
   const showAdditionalText = () => {
-    if (bankPaymentMethodsRef?.current) {
+    // TODO: render correct copies for payment methods (as before)
+
+    if (paymentMethodsRef?.current) {
+      // adyenPaymentMethods.forEach((method) =>
+      //   addLegalCheckboxForPaymentMethod(method)
+      // );
+
       bankPaymentMethods.forEach((method) =>
         addLegalCheckboxForPaymentMethod(method, 'bank')
       );
-    }
-    if (standardPaymentMethodsRef?.current) {
+
       standardPaymentMethods.forEach((method) =>
         addLegalCheckboxForPaymentMethod(method)
       );
@@ -195,8 +189,8 @@ const Adyen = ({
   const onSelect = async ({ type }) =>
     selectPaymentMethod(bankPaymentMethodsMapper[type] || type);
 
-  const mountStandardDropIn = (adyenCheckout) => {
-    if (standardPaymentMethodsRef?.current) {
+  const mountDropIn = (adyenCheckout) => {
+    if (paymentMethodsRef?.current) {
       const dropin = adyenCheckout.create('dropin', {
         onSelect,
         openFirstPaymentMethod:
@@ -205,22 +199,9 @@ const Adyen = ({
             : adyenConfiguration?.openFirstPaymentMethod,
         onReady: showAdditionalText
       });
-      dropin.mount(standardPaymentMethodsRef.current);
-      setStandardDropInInstance(dropin);
-      getDropIn(dropin, STANDARD_PAYMENT_METHODS);
-    }
-  };
-
-  const mountBankDropIn = (adyenCheckout) => {
-    if (bankPaymentMethodsRef?.current) {
-      const dropin = adyenCheckout.create('dropin', {
-        onSelect,
-        onReady: showAdditionalText,
-        openFirstPaymentMethod: false
-      });
-      dropin.mount(bankPaymentMethodsRef.current);
-      setBankDropInInstance(dropin);
-      getDropIn(dropin, BANK_PAYMENT_METHODS);
+      dropin.mount(paymentMethodsRef.current);
+      setDropInInstance(dropin);
+      getDropIn(dropin);
     }
   };
 
@@ -317,17 +298,12 @@ const Adyen = ({
     return true;
   };
 
-  const createDropInInstance = async (
-    {
-      id,
-      sessionData,
-      shopperStatement: merchantName,
-      amount,
-      countryCode,
-      paymentMethods
-    },
-    type
-  ) => {
+  const createDropInInstance = async ({
+    shopperStatement: merchantName,
+    amount,
+    countryCode,
+    paymentMethods
+  }) => {
     const amountObj = {
       amount,
       countryCode
@@ -340,7 +316,7 @@ const Adyen = ({
       paymentMethods.find((item) => item.type === 'googlepay')?.configuration;
 
     const configuration = {
-      // paymentMethodsResponse: { paymentMethods },
+      paymentMethodsResponse: { paymentMethods },
       locale: adyenConfiguration?.locale || i18n?.language || 'en-US',
       translations: {
         ...defaultAdyenTranslations,
@@ -351,10 +327,7 @@ const Adyen = ({
         enabled: true //  analytics data for Adyen
       },
       setStatusAutomatically: false,
-      session: {
-        id,
-        sessionData
-      },
+
       clientKey: getAdyenClientKey(),
       onSubmit: async (state, component) => {
         const {
@@ -376,20 +349,12 @@ const Adyen = ({
           return false;
         }
 
-        if (type === BANK_PAYMENT_METHODS) {
-          setShouldFadeOutStandardDropIn(true);
-        } else {
-          setShouldFadeOutBankDropIn(true);
-        }
+        setShouldFadeOutDropIn(true);
 
         return onSubmit(state, component);
       },
       onActionHandled: () => {
-        if (type === BANK_PAYMENT_METHODS) {
-          setShouldHideStandardDropIn(true);
-        } else {
-          setShouldHideBankDropIn(true);
-        }
+        setShouldHideDropIn(true);
       },
       onAdditionalDetails,
       onError,
@@ -460,45 +425,29 @@ const Adyen = ({
     };
 
     const adyenCheckout = await AdyenCheckout(configuration);
-    if (type === BANK_PAYMENT_METHODS) {
-      mountBankDropIn(adyenCheckout);
-      setIsLoading(false);
-      return;
-    }
-    mountStandardDropIn(adyenCheckout);
+
+    mountDropIn(adyenCheckout);
     setIsLoading(false);
   };
 
   const createSession = async (paymentMethodsType) => {
     try {
-      const response = await createPaymentSession(
+      const response = await getAdyenPaymentMethods(
         paymentMethodsType,
         visiblePaymentMethods,
         isMyAccount
       );
 
-      const response2 = await getAdyenPaymentMethods(
-        paymentMethodsType,
-        visiblePaymentMethods,
-        isMyAccount
-      );
-
-      console.log(response2);
-
-      if (response?.id) {
+      if (response.paymentMethods.length) {
         createDropInInstance(response, paymentMethodsType);
       }
     } catch (err) {
-      if (paymentMethodsType === BANK_PAYMENT_METHODS) {
-        setBankSessionError(err.message);
-      } else {
-        setStandardSessionError(err.message);
-      }
+      setSessionError(err.message);
       setIsLoading(false);
     }
   };
 
-  const generateDropIns = () => {
+  const generateDropIn = () => {
     const availablePaymentMethods = getAvailablePaymentMethods(
       publisherPaymentMethods,
       visiblePaymentMethods
@@ -510,95 +459,44 @@ const Adyen = ({
       return;
     }
 
-    if (isMyAccount || totalPrice === 0) {
-      const shouldCreateStandardPaymentSession = availablePaymentMethods.some(
-        ({ methodName }) => !bankPaymentMethods.includes(methodName)
-      );
-
-      if (shouldCreateStandardPaymentSession) {
-        setStandardPaymentSession(true);
-
-        createSession(STANDARD_PAYMENT_METHODS);
-      }
-
-      const shouldCreateBankPaymentSession = availablePaymentMethods.some(
-        ({ methodName }) => bankPaymentMethods.includes(methodName)
-      );
-      if (shouldCreateBankPaymentSession) {
-        createSession(BANK_PAYMENT_METHODS);
-      }
-    } else {
-      createSession();
-    }
+    createSession();
   };
 
   useEffect(() => {
-    generateDropIns();
+    generateDropIn();
     return () => {
-      setStandardDropInInstance(null);
-      setBankDropInInstance(null);
+      setDropInInstance(null);
     };
   }, []);
 
-  const closeBank = useCallback(() => {
-    if (bankDropInInstance) {
-      bankDropInInstance.closeActivePaymentMethod();
-    }
-  }, [bankDropInInstance]);
-
-  const closeStandard = useCallback(() => {
-    if (standardDropInInstance) {
-      standardDropInInstance.closeActivePaymentMethod();
-    }
-  }, [standardDropInInstance]);
-
   const recreateDropIn = () => {
     // recreate Adyen Instance if coupon was applied
-    bankPaymentMethodsRef.current.removeEventListener('click', closeStandard);
-    standardPaymentMethodsRef.current.removeEventListener('click', closeBank);
 
-    if (standardDropInInstance) {
-      standardDropInInstance.unmount();
-      setStandardDropInInstance(null);
-      getDropIn(null, STANDARD_PAYMENT_METHODS);
+    if (dropInInstance) {
+      dropInInstance.unmount();
+      setDropInInstance(null);
+      getDropIn(null);
     }
 
-    if (bankDropInInstance) {
-      bankDropInInstance.unmount();
-      setBankDropInInstance(null);
-      getDropIn(null, BANK_PAYMENT_METHODS);
-    }
     setIsLoading(true);
-
-    generateDropIns();
+    generateDropIn();
   };
 
-  const isDropInPresent = standardDropInInstance || bankDropInInstance;
-
   useEffect(() => {
-    if (bankDropInInstance && standardDropInInstance) {
-      standardPaymentMethodsRef.current.addEventListener('click', closeBank);
-      bankPaymentMethodsRef.current.addEventListener('click', closeStandard);
-    }
-  }, [standardDropInInstance, bankDropInInstance]);
-
-  useEffect(() => {
-    if (isDropInPresent && discount?.applied) {
+    if (dropInInstance && discount?.applied) {
       recreateDropIn();
     }
   }, [discount.applied, discount.type, discountAmount]);
 
   useEffect(() => {
-    if (isDropInPresent) {
+    if (dropInInstance) {
       recreateDropIn();
     }
   }, [i18n.language, deliveryDetails?.isGift]);
 
   useEffect(() => {
     if (selectedPaymentMethod?.methodName === 'paypal') {
-      if (standardDropInInstance)
-        standardDropInInstance.closeActivePaymentMethod();
-      if (bankDropInInstance) bankDropInInstance.closeActivePaymentMethod();
+      if (dropInInstance) dropInInstance.closeActivePaymentMethod();
     }
   }, [selectedPaymentMethod]);
 
@@ -613,32 +511,18 @@ const Adyen = ({
     );
   }
 
-  const shouldShowSessionError =
-    (standardSessionError && bankSessionError) ||
-    (bankSessionError && !standardPaymentSession);
-
-  if (shouldShowSessionError && !isPayPalAvailable) {
-    return <PaymentErrorStyled>{bankSessionError}</PaymentErrorStyled>;
+  if (sessionError && !isPayPalAvailable) {
+    return <PaymentErrorStyled>{sessionError}</PaymentErrorStyled>;
   }
 
   return (
     <AdyenStyled $isMyAccount $isAdditionalPayment={isPayPalAvailable}>
       {isLoading && <Loader />}
       <div
-        ref={standardPaymentMethodsRef}
+        ref={paymentMethodsRef}
         style={{
-          ...(shouldHideStandardDropIn && { display: 'none' }),
-          ...(shouldFadeOutStandardDropIn && {
-            opacity: '0.2',
-            pointerEvents: 'none'
-          })
-        }}
-      />
-      <div
-        ref={bankPaymentMethodsRef}
-        style={{
-          ...(shouldHideBankDropIn && { display: 'none' }),
-          ...(shouldFadeOutBankDropIn && {
+          ...(shouldHideDropIn && { display: 'none' }),
+          ...(shouldFadeOutDropIn && {
             opacity: '0.2',
             pointerEvents: 'none'
           })

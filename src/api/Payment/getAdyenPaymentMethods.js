@@ -2,7 +2,11 @@ import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-const getAdyenPaymentMethods = async (type, visiblePaymentMethods) => {
+const getAdyenPaymentMethods = async (
+  type,
+  visiblePaymentMethods,
+  isMyAccount = false
+) => {
   const API_URL = getApiURL();
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
@@ -11,11 +15,16 @@ const getAdyenPaymentMethods = async (type, visiblePaymentMethods) => {
 
   const res = await fetchWithJWT(url, {
     method: 'POST',
-    body: JSON.stringify({
-      orderId,
-      filterPaymentMethodsByType: type,
-      filterPaymentMethods: visiblePaymentMethods
-    })
+    body: isMyAccount
+      ? JSON.stringify({
+          filterPaymentMethodsByType: type,
+          filterPaymentMethods: visiblePaymentMethods
+        })
+      : JSON.stringify({
+          orderId,
+          filterPaymentMethodsByType: type,
+          filterPaymentMethods: visiblePaymentMethods
+        })
   });
 
   const { responseData, errors } = await res.json();
