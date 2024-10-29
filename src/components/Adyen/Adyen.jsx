@@ -424,7 +424,7 @@ const Adyen = ({
       );
 
       if (response.paymentMethods.length) {
-        createDropInInstance(response, paymentMethodsType);
+        createDropInInstance(response);
       }
     } catch (err) {
       setSessionError(err.message);
