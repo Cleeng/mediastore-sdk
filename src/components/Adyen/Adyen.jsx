@@ -422,7 +422,7 @@ const Adyen = ({
     setIsLoading(false);
   };
 
-  const createSession = async (paymentMethodsType) => {
+  const setAdyenAdvancedFlow = async (paymentMethodsType) => {
     try {
       const response = await getAdyenPaymentMethods(
         paymentMethodsType,
@@ -451,7 +451,7 @@ const Adyen = ({
       return;
     }
 
-    createSession();
+    setAdyenAdvancedFlow();
   };
 
   useEffect(() => {
