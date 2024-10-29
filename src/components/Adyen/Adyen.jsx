@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 // eslint-disable-next-line react/no-deprecated
 import { render } from 'react-dom';
 import { useTranslation } from 'react-i18next';
@@ -7,7 +7,6 @@ import { selectDeliveryDetails } from 'appRedux/deliveryDetailsSlice';
 import { fetchUpdateOrder, selectOnlyOrder } from 'appRedux/orderSlice';
 import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
-// import createPaymentSession from 'api/Payment/createPaymentSession';
 import getAdyenPaymentMethods from 'api/Payment/getAdyenPaymentMethods';
 import { selectOnlyOffer } from 'appRedux/offerSlice';
 import useScript from 'util/useScriptHook';
@@ -17,7 +16,6 @@ import {
   standardPaymentMethods,
   bankPaymentMethodsMapper,
   getStandardCopy
-  // adyenPaymentMethods
 } from 'util/paymentMethodHelper';
 import CheckboxLegacy from 'components/CheckboxLegacy';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
@@ -80,8 +78,6 @@ const Adyen = ({
     selectedPaymentMethodRef.current = selectedPaymentMethod;
   }, [selectedPaymentMethod]);
 
-  // const standardPaymentMethodsRef = useRef(null);
-  // const bankPaymentMethodsRef = useRef(null);
   const paymentMethodsRef = useRef(null);
 
   const [dropInInstance, setDropInInstance] = useState(null);
@@ -172,10 +168,6 @@ const Adyen = ({
     // TODO: render correct copies for payment methods (as before)
 
     if (paymentMethodsRef?.current) {
-      // adyenPaymentMethods.forEach((method) =>
-      //   addLegalCheckboxForPaymentMethod(method)
-      // );
-
       bankPaymentMethods.forEach((method) =>
         addLegalCheckboxForPaymentMethod(method, 'bank')
       );

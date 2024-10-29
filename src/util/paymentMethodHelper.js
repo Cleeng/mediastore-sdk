@@ -39,19 +39,6 @@ export const standardPaymentMethods = [
   'bcmc'
 ];
 
-// TODO checkbox copies?
-export const adyenPaymentMethods = [
-  'ideal',
-  'bancontact_mobile', // Bancontact Mobile name in cleeng-admin
-  'bcmc_mobile', // Bancontact Mobile name in Adyen
-  'card',
-  'scheme',
-  'applepay',
-  'googlepay',
-  'bancontact_card',
-  'bcmc'
-];
-
 export const bankPaymentMethodsMapper = {
   bcmc_mobile: 'bancontact_mobile',
   bcmc: 'bancontact_card'
