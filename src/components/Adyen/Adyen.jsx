@@ -161,8 +161,6 @@ const Adyen = ({
   };
 
   const showAdditionalText = () => {
-    // TODO: render correct copies for payment methods (as before)
-
     if (paymentMethodsRef?.current) {
       bankPaymentMethods.forEach((method) =>
         addLegalCheckboxForPaymentMethod(method, 'bank')
