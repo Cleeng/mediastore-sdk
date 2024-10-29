@@ -15,8 +15,7 @@ import { selectDeliveryDetails } from 'appRedux/deliveryDetailsSlice';
 import Auth from 'services/auth';
 import {
   validatePaymentMethods,
-  shouldShowGatewayComponent,
-  getAvailablePaymentMethods
+  shouldShowGatewayComponent
 } from 'util/paymentMethodHelper';
 import {
   updatePaymentMethods,
@@ -42,11 +41,8 @@ import DropInSection from './DropInSection/DropInSection';
 import { PaymentProps } from './Payment.types';
 
 const Payment = ({ onPaymentComplete }: PaymentProps) => {
-  const {
-    paymentMethods: publisherPaymentMethods,
-    isPayPalHidden,
-    visiblePaymentMethods
-  } = useAppSelector(selectPublisherConfig);
+  const { paymentMethods: publisherPaymentMethods, isPayPalHidden } =
+    useAppSelector(selectPublisherConfig);
 
   const order = useAppSelector(selectOnlyOrder);
   const deliveryDetails = useAppSelector(selectDeliveryDetails);
@@ -338,19 +334,12 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     ? false
     : shouldShowGatewayComponent('paypal', publisherPaymentMethods);
 
-  const availablePaymentMethods = getAvailablePaymentMethods(
-    publisherPaymentMethods,
-    visiblePaymentMethods
-  );
-
   const shouldShowAdyen = shouldShowGatewayComponent(
     'adyen',
-    availablePaymentMethods
+    publisherPaymentMethods
   );
 
-  const noPaymentMethods =
-    !publisherPaymentMethods.length ||
-    (!availablePaymentMethods.length && !shouldShowPayPal);
+  const noPaymentMethods = !publisherPaymentMethods.length;
 
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!dropInInstance : true;

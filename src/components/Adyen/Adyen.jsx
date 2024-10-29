@@ -11,7 +11,6 @@ import getAdyenPaymentMethods from 'api/Payment/getAdyenPaymentMethods';
 import { selectOnlyOffer } from 'appRedux/offerSlice';
 import useScript from 'util/useScriptHook';
 import {
-  getAvailablePaymentMethods,
   bankPaymentMethods,
   standardPaymentMethods,
   bankPaymentMethodsMapper,
@@ -52,11 +51,8 @@ const Adyen = ({
     priceBreakdown: { discountAmount }
   } = order;
 
-  const {
-    adyenConfiguration,
-    paymentMethods: publisherPaymentMethods,
-    visiblePaymentMethods
-  } = useAppSelector((state) => state.publisherConfig);
+  const { adyenConfiguration, paymentMethods: publisherPaymentMethods } =
+    useAppSelector((state) => state.publisherConfig);
 
   const [isLoading, setIsLoading] = useState(true);
   const { selectedPaymentMethod } = useAppSelector(
@@ -426,7 +422,6 @@ const Adyen = ({
     try {
       const response = await getAdyenPaymentMethods(
         paymentMethodsType,
-        visiblePaymentMethods,
         isMyAccount
       );
 
@@ -440,12 +435,7 @@ const Adyen = ({
   };
 
   const generateDropIn = () => {
-    const availablePaymentMethods = getAvailablePaymentMethods(
-      publisherPaymentMethods,
-      visiblePaymentMethods
-    );
-
-    if (!availablePaymentMethods.length) {
+    if (!publisherPaymentMethods.length) {
       setNoPaymentMethods(true);
       setIsLoading(false);
       return;
