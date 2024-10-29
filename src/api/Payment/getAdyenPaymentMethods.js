@@ -11,14 +11,9 @@ const getAdyenPaymentMethods = async (type, isMyAccount = false) => {
 
   const res = await fetchWithJWT(url, {
     method: 'POST',
-    body: isMyAccount
-      ? JSON.stringify({
-          filterPaymentMethodsByType: type
-        })
-      : JSON.stringify({
-          orderId,
-          filterPaymentMethodsByType: type
-        })
+    body: JSON.stringify({
+      ...(!isMyAccount && { orderId })
+    })
   });
 
   const { responseData, errors } = await res.json();
