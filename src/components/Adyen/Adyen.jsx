@@ -416,12 +416,9 @@ const Adyen = ({
     setIsLoading(false);
   };
 
-  const setAdyenAdvancedFlow = async (paymentMethodsType) => {
+  const setAdyenAdvancedFlow = async () => {
     try {
-      const response = await getAdyenPaymentMethods(
-        paymentMethodsType,
-        isMyAccount
-      );
+      const response = await getAdyenPaymentMethods(isMyAccount);
 
       if (response.paymentMethods.length) {
         createDropInInstance(response);

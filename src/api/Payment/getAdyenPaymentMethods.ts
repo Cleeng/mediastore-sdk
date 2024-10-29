@@ -2,7 +2,7 @@ import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-const getAdyenPaymentMethods = async (type, isMyAccount = false) => {
+const getAdyenPaymentMethods = async (isMyAccount = false) => {
   const API_URL = getApiURL();
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
