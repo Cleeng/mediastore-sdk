@@ -284,16 +284,7 @@ const Adyen = ({
     return true;
   };
 
-  const createDropInInstance = async ({
-    shopperStatement: merchantName,
-    amount,
-    countryCode,
-    paymentMethods
-  }) => {
-    const amountObj = {
-      amount,
-      countryCode
-    };
+  const createDropInInstance = async ({ paymentMethods, region }) => {
     const applePayConfigurationObj =
       paymentMethods &&
       paymentMethods.find((item) => item.type === 'applepay')?.configuration;
@@ -308,7 +299,7 @@ const Adyen = ({
         ...defaultAdyenTranslations,
         ...adyenConfiguration?.translations
       },
-      environment: getAdyenEnv(),
+      environment: getAdyenEnv(region),
       analytics: adyenConfiguration?.analytics || {
         enabled: true //  analytics data for Adyen
       },
@@ -364,10 +355,8 @@ const Adyen = ({
 
             resolve();
           },
-          ...amountObj,
           ...(applePayConfigurationObj && {
             configuration: {
-              merchantName,
               merchantId: applePayConfigurationObj.merchantId
             }
           }),
@@ -390,13 +379,11 @@ const Adyen = ({
           environment: getGooglePayEnv(),
           ...(googlePayConfigurationObj && {
             configuration: {
-              merchantName,
               gatewayMerchantId: googlePayConfigurationObj.gatewayMerchantId,
               merchantId: googlePayConfigurationObj.merchantId
             }
           }),
-          ...adyenConfiguration?.paymentMethodsConfiguration?.googlePay,
-          ...amountObj
+          ...adyenConfiguration?.paymentMethodsConfiguration?.googlePay
         },
         ideal: {
           ...adyenConfiguration?.paymentMethodsConfiguration?.ideal
