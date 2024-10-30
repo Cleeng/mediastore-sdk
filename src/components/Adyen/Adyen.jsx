@@ -304,6 +304,7 @@ const Adyen = ({
       paymentMethods.find((item) => item.type === 'googlepay')?.configuration;
 
     const configuration = {
+      amount,
       paymentMethodsResponse: { paymentMethods },
       locale: adyenConfiguration?.locale || i18n?.language || 'en-US',
       translations: {
@@ -315,7 +316,6 @@ const Adyen = ({
         enabled: true //  analytics data for Adyen
       },
       setStatusAutomatically: false,
-
       clientKey: getAdyenClientKey(),
       onSubmit: async (state, component) => {
         const {
