@@ -23,11 +23,7 @@ import { selectTermsUrl } from 'appRedux/publisherConfigSlice';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from 'util/eventDispatcher';
 import AdyenStyled from './AdyenStyled';
 import Loader from '../Loader';
-import {
-  getAdyenEnv,
-  getAdyenClientKey,
-  getGooglePayEnv
-} from './util/getAdyenConfig';
+import { getAdyenEnv, getGooglePayEnv } from './util/getAdyenConfig';
 import defaultAdyenTranslations from './util/defaultAdyenTranslations';
 
 const Adyen = ({
@@ -287,6 +283,7 @@ const Adyen = ({
   const createDropInInstance = async ({
     amount,
     countryCode,
+    clientKey,
     paymentMethods,
     region,
     shopperStatement: merchantName
@@ -316,7 +313,7 @@ const Adyen = ({
         enabled: true //  analytics data for Adyen
       },
       setStatusAutomatically: false,
-      clientKey: getAdyenClientKey(),
+      clientKey,
       onSubmit: async (state, component) => {
         const {
           data: { paymentMethod }
