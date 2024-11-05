@@ -15,7 +15,6 @@ import UpgradeIcon from 'assets/images/upgrade_pending.svg';
 import PauseIcon from 'assets/images/pause_noti.svg';
 import {
   dateFormat,
-  textMonthDateFormat,
   INFINITE_DATE,
   currencyFormat,
   CurrencyFormat
@@ -111,13 +110,11 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
         ? t('currentplan.next-season-start', 'the next season start')
         : dateFormat(expiresAt);
 
-    const pauseRenewalDate = textMonthDateFormat(expiresAt);
-
     if (isPaused) {
       return (
         <Trans
           i18nKey='currentplan.subscription.pause-info'
-          values={{ pauseRenewalDate }}
+          values={{ pauseRenewalDate: 'January 10, 2025' }}
         >
           {
             'Your subscription is currently paused. It will resume on <strong>{{pauseRenewalDate}}</strong>. You can resume or cancel your subscription at any time prior to that date.'
