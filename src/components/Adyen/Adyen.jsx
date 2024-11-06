@@ -19,7 +19,10 @@ import {
 import CheckboxLegacy from 'components/CheckboxLegacy';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
-import { selectTermsUrl } from 'appRedux/publisherConfigSlice';
+import {
+  selectPublisherConfig,
+  selectTermsUrl
+} from 'appRedux/publisherConfigSlice';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from 'util/eventDispatcher';
 import AdyenStyled from './AdyenStyled';
 import Loader from '../Loader';
@@ -47,8 +50,11 @@ const Adyen = ({
     priceBreakdown: { discountAmount }
   } = order;
 
-  const { adyenConfiguration, paymentMethods: publisherPaymentMethods } =
-    useAppSelector((state) => state.publisherConfig);
+  const {
+    adyenConfiguration,
+    paymentMethods: publisherPaymentMethods,
+    isPaymentCheckboxDisabled
+  } = useAppSelector(selectPublisherConfig);
 
   const [isLoading, setIsLoading] = useState(true);
   const { selectedPaymentMethod } = useAppSelector(
@@ -179,7 +185,7 @@ const Adyen = ({
           adyenConfiguration?.openFirstPaymentMethod == null
             ? !window.matchMedia('(max-width:991px)').matches
             : adyenConfiguration?.openFirstPaymentMethod,
-        onReady: showAdditionalText
+        onReady: !isPaymentCheckboxDisabled && showAdditionalText
       });
       dropin.mount(paymentMethodsRef.current);
       setDropInInstance(dropin);
@@ -252,6 +258,10 @@ const Adyen = ({
   };
 
   const isCheckboxChecked = (methodName) => {
+    if (isPaymentCheckboxDisabled) {
+      return true;
+    }
+
     const isBancontactCard =
       selectedPaymentMethodRef?.current?.methodName === 'bancontact_card';
 

@@ -12,7 +12,8 @@ export const initialState: PublisherConfigInitialState = {
   displayGracePeriodError: false,
   termsUrl: '',
   resetUrl: '',
-  enable3DSRedirectFlow: false
+  enable3DSRedirectFlow: false,
+  isPaymentCheckboxDisabled: false
 };
 
 export const publisherConfigSlice = createSlice({
