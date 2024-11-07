@@ -95,7 +95,7 @@ Config functions save data to local storage (as `CLEENG_*` items). These data ar
 | `setTheme`                  | `styles:object`                                              | More information in the [Styling](#styling) section.                                                                                                                    |
 | `setHidePayPal`             | -                                                            | Option to hide PayPal, by default PayPal will be visible when configured                                                                                                |
 | `setEnable3DSRedirectFlow`  | -                                                            | Set to true to force 3DS redirect flow.                                                                                                                                 |
-| `setDisablePaymentCheckbox` | -                                                            | Set to true to hide consent checkbox shown next to the payment method.                                                                                                  |
+| `setDisablePaymentCheckbox` | -                                                            | Option to hide consent checkbox shown next to the payment method.                                                                                                       |
 | `setLanguage`               | `language :string`                                           | Option to change language without reloading page                                                                                                                        |
 | `setTermsUrl`               | `termsUrl :string`                                           | Option to Provide a URL for Terms & Conditions: This feature will display a link to them adjacent to the payment method.                                                |
 | `setResetUrl`               | `resetUrl :string`                                           | Option to Provide a URL for custom password reset page. This URL will be sent in an email with additional parameters: `email`, `resetPasswordToken`, `publisherId`      |
@@ -110,6 +110,7 @@ Config.setPublisher('123456789');
 Config.setOffer('S123456789_US');
 Config.setHidePayPal();
 Config.setEnable3DSRedirectFlow();
+Config.setDisablePaymentCheckbox();
 Config.setLanguage('es');
 Config.setTermsUrl('https://your_terms_and_conditions-url.com');
 ```
