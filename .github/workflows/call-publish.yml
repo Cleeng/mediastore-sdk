@@ -56,7 +56,7 @@ jobs:
           restricted: ${{ env.tag }}-${{ github.event.number || github.run_id }}-${{ github.sha }}
         run: >
           sed -i
-          "s/0.0.0.development/${{ inputs.access == 'public' && env.public || env.restricted }}/"
+          "s/0.0.0-development/${{ inputs.access == 'public' && env.public || env.restricted }}/"
           package.json
 
       - name: Set package name for react-16-temporary-support
