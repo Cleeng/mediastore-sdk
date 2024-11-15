@@ -44,9 +44,6 @@ export const bankPaymentMethodsMapper = {
   bcmc: 'bancontact_card'
 };
 
-export const STANDARD_PAYMENT_METHODS = 'zeroPaymentSupported';
-export const BANK_PAYMENT_METHODS = 'zeroPaymentNotSupported';
-
 export const readablePaymentMethodNames = {
   card: 'Card',
   paypal: 'PayPal',
@@ -106,21 +103,6 @@ export const validatePaymentMethods = (
 export const shouldShowGatewayComponent = (gateway, paymentMethods) =>
   !!paymentMethods.find(({ paymentGateway }) => paymentGateway === gateway);
 
-// returns common part between methods set in admin and those set
-// by Config.setVisibleAdyenPaymentMethods()
-export const getAvailablePaymentMethods = (
-  publisherPaymentMethods,
-  visiblePaymentMethods
-) => {
-  const availablePaymentMethods = visiblePaymentMethods.length
-    ? publisherPaymentMethods.filter(({ methodName }) =>
-        visiblePaymentMethods.includes(methodName)
-      )
-    : publisherPaymentMethods;
-
-  return availablePaymentMethods;
-};
-
 export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
   const { period: offerPeriod, customerPriceExclTax: offerBasePrice } = offer;
 
@@ -155,7 +137,7 @@ export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
     if (discount?.applied && discount.type === 'trial') {
       return i18n.t(
         `offer-standard-consent-copy.trial.period-${offerPeriod}`,
-        "After any free trial and/or promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Cancel'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
+        "After any free trial and/or promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Unsubscribe'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
         { readablePrice, readablePeriod }
       );
     }
@@ -163,14 +145,14 @@ export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
     if (discount?.applied && discount.type !== 'trial') {
       return i18n.t(
         `offer-standard-consent-copy.discount.period-${offerPeriod}`,
-        "After any promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Cancel'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
+        "After any promotional period, you will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click 'Unsubscribe'. By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
         { readablePrice, readablePeriod }
       );
     }
 
     return i18n.t(
       `offer-standard-consent-copy.checkout-subscription.period-${offerPeriod}`,
-      "You will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click ‘Cancel.’ By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
+      "You will be charged {{readablePrice}}{{readablePeriod}} or the then-current price, plus applicable taxes, on a recurring basis. Your subscription will automatically continue until you cancel. To cancel, log into your account, click 'Manage' next to your subscription and then click ‘Unsubscribe.’ By checking the box, you expressly acknowledge and agree to these terms as well as the full Terms of Service.",
       { readablePrice, readablePeriod }
     );
   }

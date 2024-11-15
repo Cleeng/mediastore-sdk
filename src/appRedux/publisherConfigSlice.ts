@@ -6,14 +6,14 @@ export const initialState: PublisherConfigInitialState = {
   publisherId: '',
   offerId: '',
   paymentMethods: [],
-  visiblePaymentMethods: [],
   hiddenPaymentMethods: [],
   isPayPalHidden: false,
   adyenConfiguration: null,
   displayGracePeriodError: false,
   termsUrl: '',
   resetUrl: '',
-  enable3DSRedirectFlow: false
+  enable3DSRedirectFlow: false,
+  isPaymentCheckboxDisabled: false
 };
 
 export const publisherConfigSlice = createSlice({

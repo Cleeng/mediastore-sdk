@@ -9,6 +9,9 @@
     ".": {
       "import": "./dist/cleeng-mediastore-sdk.js",
       "require": "./dist/cleeng-mediastore-sdk.umd.cjs"
+    },
+    "./dist/styles/msdFont.css": {
+      "import": "./dist/styles/msdFont.css"
     }
   },
   "files": [

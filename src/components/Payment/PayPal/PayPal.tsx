@@ -8,7 +8,10 @@ import PaypalLogo from 'assets/images/paymentMethods/PayPalColor.svg';
 import { getStandardCopy } from 'util/paymentMethodHelper';
 import Button from 'components/Button';
 import CheckboxLegacy from 'components/CheckboxLegacy';
-import { selectTermsUrl } from 'appRedux/publisherConfigSlice';
+import {
+  selectPublisherConfig,
+  selectTermsUrl
+} from 'appRedux/publisherConfigSlice';
 import {
   PayPalContentStyled,
   CopyStyled,
@@ -30,10 +33,16 @@ const PayPal = ({
   const termsUrl = useAppSelector(selectTermsUrl);
 
   const { isGift } = useAppSelector(selectDeliveryDetails);
+  const { isPaymentCheckboxDisabled } = useAppSelector(selectPublisherConfig);
 
   const [isChecked, setIsChecked] = useState(false);
 
   const handleSubmit = () => {
+    if (isPaymentCheckboxDisabled) {
+      onSubmit();
+      return;
+    }
+
     const checkbox: HTMLInputElement | null =
       document.querySelector(`#paypal-input`);
 
@@ -80,37 +89,39 @@ const PayPal = ({
             "We'll redirect you to PayPal to complete your purchase. Note, PayPal is subject to an additional 8% fee that will be added to your next payments."
           )}
       </CopyStyled>
-      <CheckboxWrapperStyled>
-        <CheckboxLegacy
-          className='adyen-checkout__bank-checkbox paypal-inputLabel'
-          checked={isChecked}
-          id='paypal-input'
-          onClickFn={(event: ChangeEvent<HTMLInputElement> | undefined) => {
-            if (!event) {
-              return;
-            }
+      {!isPaymentCheckboxDisabled && (
+        <CheckboxWrapperStyled>
+          <CheckboxLegacy
+            className='adyen-checkout__bank-checkbox paypal-inputLabel'
+            checked={isChecked}
+            id='paypal-input'
+            onClickFn={(event: ChangeEvent<HTMLInputElement> | undefined) => {
+              if (!event) {
+                return;
+              }
 
-            if (
-              event.nativeEvent instanceof KeyboardEvent &&
-              event.nativeEvent.key === ' '
-            ) {
-              event.target.parentElement?.classList.remove(
+              if (
+                event.nativeEvent instanceof KeyboardEvent &&
+                event.nativeEvent.key === ' '
+              ) {
+                event.target.parentElement?.classList.remove(
+                  'adyen-checkout__bank-checkbox--error'
+                );
+              }
+
+              event.target.classList.remove(
                 'adyen-checkout__bank-checkbox--error'
               );
-            }
 
-            event.target.classList.remove(
-              'adyen-checkout__bank-checkbox--error'
-            );
-
-            setIsChecked(!event.target.checked);
-          }}
-          termsUrl={termsUrl}
-          isPayPal
-        >
-          {getStandardCopy(isMyAccount, offer, order, isGift)}
-        </CheckboxLegacy>
-      </CheckboxWrapperStyled>
+              setIsChecked(!event.target.checked);
+            }}
+            termsUrl={termsUrl}
+            isPayPal
+          >
+            {getStandardCopy(isMyAccount, offer, order, isGift)}
+          </CheckboxLegacy>
+        </CheckboxWrapperStyled>
+      )}
       <Button
         variant='paypal'
         onClickFn={handleSubmit}

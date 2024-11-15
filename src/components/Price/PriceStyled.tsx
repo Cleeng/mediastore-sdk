@@ -5,7 +5,7 @@ import {
   FontColor,
   BigFont,
   LargeFont,
-  MediumFontWeight,
+  SemiBoldFont,
   TinyFont
 } from 'styles/variables';
 
@@ -31,7 +31,7 @@ export const CurrencyStyled = styled.span.attrs(() => ({
   margin-right: 2px;
 
   font-size: ${TinyFont};
-  font-weight: ${MediumFontWeight};
+  font-weight: ${SemiBoldFont};
 
   ${mediaFrom.small`
     font-size: ${BigFont};
@@ -42,7 +42,7 @@ export const PriceStyled = styled.span.attrs(() => ({
 }))`
   font-size: ${BigFont};
 
-  font-weight: ${MediumFontWeight};
+  font-weight: ${SemiBoldFont};
 
   ${mediaFrom.small`
     font-size: ${LargeFont};

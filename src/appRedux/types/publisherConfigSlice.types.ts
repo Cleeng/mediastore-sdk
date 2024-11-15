@@ -50,13 +50,13 @@ export type PublisherConfigInitialState = {
     paymentGateway: PaymentGateway;
   }[];
   isPayPalHidden: boolean;
-  visiblePaymentMethods: PaymentMethodName[];
   hiddenPaymentMethods: number[];
   adyenConfiguration: null | AdyenConfiguration;
   displayGracePeriodError: boolean;
   termsUrl: string;
   resetUrl: string;
   enable3DSRedirectFlow: boolean;
+  isPaymentCheckboxDisabled: boolean;
 };
 
 type OfferIdPayload = {
