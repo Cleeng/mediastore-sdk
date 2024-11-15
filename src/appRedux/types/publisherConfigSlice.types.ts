@@ -56,6 +56,7 @@ export type PublisherConfigInitialState = {
   termsUrl: string;
   resetUrl: string;
   enable3DSRedirectFlow: boolean;
+  isPaymentCheckboxDisabled: boolean;
 };
 
 type OfferIdPayload = {

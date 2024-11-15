@@ -203,6 +203,15 @@ export const setLanguage = async (language) => {
   return true;
 };
 
+export const setDisablePaymentCheckbox = () => {
+  store.dispatch(
+    initPublisherConfig({
+      isPaymentCheckboxDisabled: true
+    })
+  );
+  return true;
+};
+
 export default {
   setPublisher,
   setOffer,
@@ -219,5 +228,6 @@ export default {
   setHidePayPal,
   setHiddenPaymentMethods,
   setLanguage,
-  setEnable3DSRedirectFlow
+  setEnable3DSRedirectFlow,
+  setDisablePaymentCheckbox
 };
