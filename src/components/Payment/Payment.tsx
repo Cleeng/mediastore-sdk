@@ -15,10 +15,7 @@ import { selectDeliveryDetails } from 'appRedux/deliveryDetailsSlice';
 import Auth from 'services/auth';
 import {
   validatePaymentMethods,
-  shouldShowGatewayComponent,
-  getAvailablePaymentMethods,
-  BANK_PAYMENT_METHODS,
-  STANDARD_PAYMENT_METHODS
+  shouldShowGatewayComponent
 } from 'util/paymentMethodHelper';
 import {
   updatePaymentMethods,
@@ -43,16 +40,9 @@ import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { PaymentProps } from './Payment.types';
 
-type paymentMethodType =
-  | typeof STANDARD_PAYMENT_METHODS
-  | typeof BANK_PAYMENT_METHODS;
-
 const Payment = ({ onPaymentComplete }: PaymentProps) => {
-  const {
-    paymentMethods: publisherPaymentMethods,
-    isPayPalHidden,
-    visiblePaymentMethods
-  } = useAppSelector(selectPublisherConfig);
+  const { paymentMethods: publisherPaymentMethods, isPayPalHidden } =
+    useAppSelector(selectPublisherConfig);
 
   const order = useAppSelector(selectOnlyOrder);
   const deliveryDetails = useAppSelector(selectDeliveryDetails);
@@ -69,10 +59,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   const [generalError, setGeneralError] = useState<string>('');
   const [adyenKey, setAdyenKey] = useState<number | null>(null);
 
-  const [standardDropInInstance, setStandardDropInInstance] = useState<
-    typeof RedirectElement | null
-  >(null);
-  const [bankDropInInstance, setBankDropInInstance] = useState<
+  const [dropInInstance, setDropInInstance] = useState<
     typeof RedirectElement | null
   >(null);
 
@@ -289,8 +276,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
       setIsLoading(false);
       // force Adyen remount
-      setStandardDropInInstance(null);
-      setBankDropInInstance(null);
+      setDropInInstance(null);
       setAdyenKey((key) => (key ? null : 1));
       return;
     }
@@ -313,13 +299,9 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     }
   };
 
-  const getDropIn = (drop: typeof RedirectElement, type: paymentMethodType) => {
+  const getDropIn = (drop: typeof RedirectElement) => {
     // TODO check if paymentMethodType is correct
-    if (type === BANK_PAYMENT_METHODS) {
-      setBankDropInInstance(drop);
-    } else {
-      setStandardDropInInstance(drop);
-    }
+    setDropInInstance(drop);
   };
 
   // Payment without payment details
@@ -352,22 +334,15 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     ? false
     : shouldShowGatewayComponent('paypal', publisherPaymentMethods);
 
-  const availablePaymentMethods = getAvailablePaymentMethods(
-    publisherPaymentMethods,
-    visiblePaymentMethods
-  );
-
   const shouldShowAdyen = shouldShowGatewayComponent(
     'adyen',
-    availablePaymentMethods
+    publisherPaymentMethods
   );
 
-  const noPaymentMethods =
-    !publisherPaymentMethods.length ||
-    (!availablePaymentMethods.length && !shouldShowPayPal);
+  const noPaymentMethods = !publisherPaymentMethods.length;
 
   const showPayPalWhenAdyenIsReady = () =>
-    shouldShowAdyen ? !!standardDropInInstance || !!bankDropInInstance : true;
+    shouldShowAdyen ? !!dropInInstance : true;
 
   if (noPaymentMethods && !isLoading) {
     return (

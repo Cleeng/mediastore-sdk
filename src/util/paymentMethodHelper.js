@@ -44,9 +44,6 @@ export const bankPaymentMethodsMapper = {
   bcmc: 'bancontact_card'
 };
 
-export const STANDARD_PAYMENT_METHODS = 'zeroPaymentSupported';
-export const BANK_PAYMENT_METHODS = 'zeroPaymentNotSupported';
-
 export const readablePaymentMethodNames = {
   card: 'Card',
   paypal: 'PayPal',
@@ -105,21 +102,6 @@ export const validatePaymentMethods = (
 
 export const shouldShowGatewayComponent = (gateway, paymentMethods) =>
   !!paymentMethods.find(({ paymentGateway }) => paymentGateway === gateway);
-
-// returns common part between methods set in admin and those set
-// by Config.setVisibleAdyenPaymentMethods()
-export const getAvailablePaymentMethods = (
-  publisherPaymentMethods,
-  visiblePaymentMethods
-) => {
-  const availablePaymentMethods = visiblePaymentMethods.length
-    ? publisherPaymentMethods.filter(({ methodName }) =>
-        visiblePaymentMethods.includes(methodName)
-      )
-    : publisherPaymentMethods;
-
-  return availablePaymentMethods;
-};
 
 export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
   const { period: offerPeriod, customerPriceExclTax: offerBasePrice } = offer;

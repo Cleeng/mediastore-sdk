@@ -81,24 +81,23 @@ Config functions save data to local storage (as `CLEENG_*` items). These data ar
 
 #### Config methods
 
-| Method                          | Param                                                        | Description                                                                                                                                                             |
-| ------------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `setEnvironment`                | `'sandbox'` &#124; `'production'`                            | Required for all components. Default: `sandbox`                                                                                                                         |
-| `setJWT`                        | `JWT :string`                                                | Customer authorization token received from login / registration / SSO endpoint                                                                                          |
-| `setRefreshToken`               | `refeshToken :string`                                        | Customer refresh token received from login / registration / SSO endpoint                                                                                                |
-| `setPublisher`                  | `publisherId :string`                                        | Your broadcaster ID in the Cleeng system                                                                                                                                |
-| `setOffer`                      | `offerId :string`                                            | `offerId` is the ID of the offer created for your broadcaster in the Cleeng system                                                                                      |
-| `setCheckoutPayPalUrls`         | `{successURL: string, cancelUrl: string,errorUrl: string }`  | PayPal redirection URLs, required for Paypal payment                                                                                                                    |
-| `setMyAccountPayPalUrls`        | `{successURL: string, cancelUrl: string, errorUrl: string }` | PayPal redirection URLs, required for update PayPal payment details. Query param 'message' with a readable error message will be added to errorUrl when an error occurs |
-| `setMyAccountUrl`               | `url: string`                                                | My account URL. Needed for checkout legal notes                                                                                                                         |
-| `setOfferSelectionUrl`          | `url: string`                                                | Url to offer selection page. Recommended for CTA when the customer has no active plan                                                                                   |
-| `setTheme`                      | `styles:object`                                              | More information in the [Styling](#styling) section.                                                                                                                    |
-| `setVisibleAdyenPaymentMethods` | `paymentMethods: string[]`                                   | Array of payment methods names that should be presented in Checkout and MyAccount. Available options: `applepay`, `card`, `googlepay`, `ideal`                          |
-| `setHidePayPal`                 | -                                                            | Option to hide PayPal, by default PayPal will be visible when configured                                                                                                |
-| `setEnable3DSRedirectFlow`      | -                                                            | Set to true to force 3DS redirect flow.                                                                                                                                 |
-| `setLanguage`                   | `language :string`                                           | Option to change language without reloading page                                                                                                                        |
-| `setTermsUrl`                   | `termsUrl :string`                                           | Option to Provide a URL for Terms & Conditions: This feature will display a link to them adjacent to the payment method.                                                |
-| `setResetUrl`                   | `resetUrl :string`                                           | Option to Provide a URL for custom password reset page. This URL will be sent in an email with additional parameters: `email`, `resetPasswordToken`, `publisherId`      |
+| Method                     | Param                                                        | Description                                                                                                                                                             |
+| -------------------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `setEnvironment`           | `'sandbox'` &#124; `'production'`                            | Required for all components. Default: `sandbox`                                                                                                                         |
+| `setJWT`                   | `JWT :string`                                                | Customer authorization token received from login / registration / SSO endpoint                                                                                          |
+| `setRefreshToken`          | `refeshToken :string`                                        | Customer refresh token received from login / registration / SSO endpoint                                                                                                |
+| `setPublisher`             | `publisherId :string`                                        | Your broadcaster ID in the Cleeng system                                                                                                                                |
+| `setOffer`                 | `offerId :string`                                            | `offerId` is the ID of the offer created for your broadcaster in the Cleeng system                                                                                      |
+| `setCheckoutPayPalUrls`    | `{successURL: string, cancelUrl: string,errorUrl: string }`  | PayPal redirection URLs, required for Paypal payment                                                                                                                    |
+| `setMyAccountPayPalUrls`   | `{successURL: string, cancelUrl: string, errorUrl: string }` | PayPal redirection URLs, required for update PayPal payment details. Query param 'message' with a readable error message will be added to errorUrl when an error occurs |
+| `setMyAccountUrl`          | `url: string`                                                | My account URL. Needed for checkout legal notes                                                                                                                         |
+| `setOfferSelectionUrl`     | `url: string`                                                | Url to offer selection page. Recommended for CTA when the customer has no active plan                                                                                   |
+| `setTheme`                 | `styles:object`                                              | More information in the [Styling](#styling) section.                                                                                                                    |
+| `setHidePayPal`            | -                                                            | Option to hide PayPal, by default PayPal will be visible when configured                                                                                                |
+| `setEnable3DSRedirectFlow` | -                                                            | Set to true to force 3DS redirect flow.                                                                                                                                 |
+| `setLanguage`              | `language :string`                                           | Option to change language without reloading page                                                                                                                        |
+| `setTermsUrl`              | `termsUrl :string`                                           | Option to Provide a URL for Terms & Conditions: This feature will display a link to them adjacent to the payment method.                                                |
+| `setResetUrl`              | `resetUrl :string`                                           | Option to Provide a URL for custom password reset page. This URL will be sent in an email with additional parameters: `email`, `resetPasswordToken`, `publisherId`      |
 
 **Usage sample**
 
@@ -108,7 +107,6 @@ import { Config } from '@cleeng/mediastore-sdk';
 Config.setEnvironment('sandbox');
 Config.setPublisher('123456789');
 Config.setOffer('S123456789_US');
-Config.setVisibleAdyenPaymentMethods(['card', 'applepay']);
 Config.setHidePayPal();
 Config.setEnable3DSRedirectFlow();
 Config.setLanguage('es');
@@ -219,7 +217,6 @@ Config.setCheckoutPayPalUrls({
   cancelUrl: 'https://client-website.com/checkout',
   errorUrl: 'https://client-website.com/checkout/error'
 });
-Config.setVisibleAdyenPaymentMethods(['card', 'googlepay']); // array of presented payment methods
 ```
 
 **Props**
@@ -274,7 +271,6 @@ Config.setMyAccountPayPalUrls({
   cancelUrl: 'https://client-website.com/my-account/payment-info',
   errorUrl: 'https://client-website.com/my-account/paypal-error'
 });
-Config.setVisibleAdyenPaymentMethods(['card', 'googlepay']); // array of presented payment methods
 ```
 
 **Props**
@@ -430,7 +426,6 @@ Config.setCheckoutPayPalUrls({
   cancelUrl: 'https://client-website.com/my-account',
   errorUrl: 'https://client-website.com/my-account/paypal-error'
 });
-Config.setVisibleAdyenPaymentMethods(['card', 'googlepay']); // array of presented payment methods
 ```
 
 **Usage sample**
@@ -589,7 +584,6 @@ Config.setMyAccountPayPalUrls({
   cancelUrl: 'https://client-website.com/my-account/payment-info',
   errorUrl: 'https://client-website.com/my-account/paypal-error'
 });
-Config.setVisibleAdyenPaymentMethods(['card', 'googlepay']); // array of presented payment methods
 ```
 
 **Props**

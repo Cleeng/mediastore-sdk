@@ -158,15 +158,6 @@ export const getTheme = () => {
   return false;
 };
 
-export const setVisibleAdyenPaymentMethods = (visiblePaymentMethods) => {
-  store.dispatch(
-    initPublisherConfig({
-      visiblePaymentMethods
-    })
-  );
-  return true;
-};
-
 export const setHidePayPal = () => {
   store.dispatch(
     initPublisherConfig({
@@ -226,7 +217,6 @@ export default {
   setTermsUrl,
   setResetUrl,
   setHidePayPal,
-  setVisibleAdyenPaymentMethods,
   setHiddenPaymentMethods,
   setLanguage,
   setEnable3DSRedirectFlow
