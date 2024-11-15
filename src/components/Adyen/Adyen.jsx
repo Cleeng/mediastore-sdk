@@ -81,8 +81,6 @@ const Adyen = ({
   const [dropInInstance, setDropInInstance] = useState(null);
   const [sessionError, setSessionError] = useState(null);
   const [noPaymentMethods, setNoPaymentMethods] = useState(false);
-  const [shouldFadeOutDropIn, setShouldFadeOutDropIn] = useState(false);
-  const [shouldHideDropIn, setShouldHideDropIn] = useState(false);
 
   useScript('https://pay.google.com/gp/p/js/pay.js');
 
@@ -344,12 +342,7 @@ const Adyen = ({
           return false;
         }
 
-        setShouldFadeOutDropIn(true);
-
         return onSubmit(state, component);
-      },
-      onActionHandled: () => {
-        setShouldHideDropIn(true);
       },
       onAdditionalDetails,
       onError,
@@ -504,16 +497,7 @@ const Adyen = ({
   return (
     <AdyenStyled $isMyAccount $isAdditionalPayment={isPayPalAvailable}>
       {isLoading && <Loader />}
-      <div
-        ref={paymentMethodsRef}
-        style={{
-          ...(shouldHideDropIn && { display: 'none' }),
-          ...(shouldFadeOutDropIn && {
-            opacity: '0.2',
-            pointerEvents: 'none'
-          })
-        }}
-      />
+      <div ref={paymentMethodsRef} />
     </AdyenStyled>
   );
 };
