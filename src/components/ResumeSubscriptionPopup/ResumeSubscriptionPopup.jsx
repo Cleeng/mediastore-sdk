@@ -22,6 +22,7 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import SkeletonWrapper from 'components/SkeletonWrapper';
+import formatNumber from 'util/formatNumber';
 import {
   ImageWrapper,
   ArrowStyled,
@@ -143,6 +144,9 @@ const ResumeSubscriptionPopup = () => {
   }
 
   const planName = toOffer?.title;
+  const readablePrice = `${
+    toOffer.nextPaymentPriceCurrencySymbol
+  }${formatNumber(toOffer.nextPaymentPrice)}`;
 
   return (
     <InnerPopupWrapper
@@ -175,13 +179,19 @@ const ResumeSubscriptionPopup = () => {
             <TextStyled step={step}>
               {t(
                 'resumesubscription-popup.apply-change-question',
-                'Do you want to apply the change now?'
+                'Do you want to apply the change now? You will be charged {{readablePrice}} plus applicable taxes. Your subscription will auto-renew each month at the then-current price until cancelled.',
+                {
+                  readablePrice
+                }
               )}
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
             <Button variant='simple' onClickFn={closePopupAndRefresh}>
-              {t('resumesubscription-popup.back-button-text', 'Continue Pause')}
+              {t(
+                'resumesubscription-popup.back-button-text',
+                'Continue with Pause'
+              )}
             </Button>
             <Button variant='confirm' onClickFn={resumeSubscription}>
               {isLoading ? (
@@ -212,8 +222,11 @@ const ResumeSubscriptionPopup = () => {
             <TextStyled $step={step}>
               {t(
                 'resumesubscription-popup.success-text',
-                'You can now access your {{ planName }} subscription.',
-                { planName }
+                'Your {{planName}} subscription has resumed. You will be charged {{readablePrice}} plus applicable taxes. Your subscription will auto-renew each month at the then-current price until cancelled.',
+                {
+                  planName,
+                  readablePrice
+                }
               )}
             </TextStyled>
           </ContentStyled>

@@ -35,6 +35,7 @@ import verifyGift from './Gifts/verifyGift';
 import redeemGift from './Gifts/redeemGift';
 import getRetentionActions from './Customer/getRetentionActions';
 import applyRetentionAction from './Customer/applyRetentionAction';
+import getAdyenPaymentMethods from './Payment/getAdyenPaymentMethods';
 
 export {
   getPaymentDetails,
@@ -73,5 +74,6 @@ export {
   verifyGift,
   redeemGift,
   getRetentionActions,
-  applyRetentionAction
+  applyRetentionAction,
+  getAdyenPaymentMethods
 };

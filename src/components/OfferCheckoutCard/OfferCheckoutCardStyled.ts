@@ -3,7 +3,7 @@ import { mediaFrom } from 'styles/BreakPoints';
 import {
   BoldFont,
   MediumFont,
-  MediumFontWeight,
+  SemiBoldFont,
   TinyFont,
   SmallFont,
   MicroFont,
@@ -50,7 +50,7 @@ export const PublisherDescriptionStyled = styled.p.attrs(() => ({
   className: 'msd__checkout-card-text__description'
 }))`
   font-size: ${TinyFont};
-  font-weight: ${MediumFontWeight};
+  font-weight: ${SemiBoldFont};
   line-height: 17px;
   white-space: pre-line;
   margin: 9px 0;
@@ -77,7 +77,7 @@ export const TrialBadgeStyled = styled.div.attrs(() => ({
   border-radius: 10px;
   font-size: 9px;
   font-size: ${MicroFont};
-  font-weight: ${MediumFontWeight};
+  font-weight: ${SemiBoldFont};
   text-transform: uppercase;
   text-align: center;
 `;
