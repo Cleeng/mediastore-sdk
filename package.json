@@ -1,6 +1,6 @@
 {
   "name": "@cleeng/mediastore-sdk-react-16",
-  "version": "0.0.0.development",
+  "version": "0.0.0-development",
   "private": false,
   "type": "module",
   "main": "./dist/cleeng-mediastore-sdk.umd.cjs",
@@ -9,6 +9,9 @@
     ".": {
       "import": "./dist/cleeng-mediastore-sdk.js",
       "require": "./dist/cleeng-mediastore-sdk.umd.cjs"
+    },
+    "./dist/styles/msdFont.css": {
+      "import": "./dist/styles/msdFont.css"
     }
   },
   "files": [
@@ -20,7 +23,7 @@
     "url": "https://github.com/Cleeng/mediastore-sdk"
   },
   "peerDependencies": {
-    "react": ">= 16.8.0",
+    "react": "^16.8.0",
     "react-dom": "^16.8.0",
     "react-redux": "^7.2.6",
     "styled-components": ">= 5"

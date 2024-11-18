@@ -5,7 +5,7 @@ import {
   selectSwitchDetails
 } from 'appRedux/planDetailsSlice';
 import { selectOffers } from 'appRedux/offersSlice';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price, { isPromoPriceActive } from 'components/Price';
 import SkeletonWrapper from 'components/SkeletonWrapper';
@@ -109,6 +109,19 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
       expiresAt === INFINITE_DATE
         ? t('currentplan.next-season-start', 'the next season start')
         : dateFormat(expiresAt);
+
+    if (isPaused) {
+      return (
+        <Trans
+          i18nKey='currentplan.subscription.pause-info'
+          values={{ pauseRenewalDate: 'January 10, 2025' }}
+        >
+          {
+            'Your subscription is currently paused. It will resume on <strong>{{pauseRenewalDate}}</strong>. You can resume or cancel your subscription at any time prior to that date.'
+          }
+        </Trans>
+      );
+    }
 
     if (offerType === 'S' && status === 'active' && !pendingSwitchId) {
       return `${t(

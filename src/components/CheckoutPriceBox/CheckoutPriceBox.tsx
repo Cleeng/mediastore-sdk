@@ -91,11 +91,6 @@ const CheckoutPriceBox = ({
           </StyledLabel>
           <StyledOfferPrice id='offerPriceValue'>
             {`${currencySymbol}${formatNumber(offerPrice)} `}
-            <span>
-              {country === 'US'
-                ? t('checkout-price-box.excl-tax', 'excl. Tax')
-                : t('checkout-price-box.excl-vat', 'excl. VAT')}
-            </span>
           </StyledOfferPrice>
         </StyledPriceWrapper>
         {isCouponApplied && (

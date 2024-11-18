@@ -71,7 +71,7 @@ export const TinyFont = '11px';
 export const MicroFont = '9px';
 
 export const BoldFont = '700';
-export const MediumFontWeight = '600';
+export const SemiBoldFont = '600';
 export const LightFont = '300';
 
 export const inputTheme = {

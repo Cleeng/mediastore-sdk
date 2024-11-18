@@ -19,8 +19,7 @@ import {
 } from 'appRedux/popupSlice';
 import {
   shouldShowGatewayComponent,
-  validatePaymentMethods,
-  BANK_PAYMENT_METHODS
+  validatePaymentMethods
 } from 'util/paymentMethodHelper';
 import AmazonIcon from 'assets/images/paymentMethods/amazon_color.svg';
 import AppleIcon from 'assets/images/paymentMethods/apple_color.svg';
@@ -76,8 +75,9 @@ const UpdatePaymentDetailsPopup = () => {
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
-  const [standardDropInInstance, setStandardDropInInstance] = useState(null);
-  const [bankDropInInstance, setBankDropInInstance] = useState(null);
+
+  const [dropInInstance, setDropInInstance] = useState(null);
+
   const { paymentMethods, isPayPalHidden } = useSelector(
     (state) => state.publisherConfig
   );
@@ -233,12 +233,8 @@ const UpdatePaymentDetailsPopup = () => {
     dispatch(fetchPaymentDetails());
   };
 
-  const getDropIn = (drop, type) => {
-    if (type === BANK_PAYMENT_METHODS) {
-      setBankDropInInstance(drop);
-    } else {
-      setStandardDropInInstance(drop);
-    }
+  const getDropIn = (drop) => {
+    setDropInInstance(drop);
   };
 
   const submitPayPal = () => {
@@ -269,7 +265,7 @@ const UpdatePaymentDetailsPopup = () => {
   const shouldShowAdyen = shouldShowGatewayComponent('adyen', paymentMethods);
 
   const showPayPalWhenAdyenIsReady = () =>
-    shouldShowAdyen ? !!standardDropInInstance || !!bankDropInInstance : true;
+    shouldShowAdyen ? !!dropInInstance : true;
 
   if (step === PAYMENT_DETAILS_STEPS.DELETE_PAYMENT_DETAILS) {
     return (
