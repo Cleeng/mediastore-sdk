@@ -109,9 +109,7 @@ export const SeparatorStyled = styled.div`
 export const FormErrorStyled = styled.div.attrs(() => ({
   className: 'msd__form__message--error'
 }))`
-  position: absolute;
-  top: 20px;
-  width: 100%;
+  max-width: 440px;
 
   color: ${(props) => props.theme.errorColor || colors.ErrorColor};
 

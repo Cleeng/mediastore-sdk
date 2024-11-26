@@ -177,6 +177,17 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         setGeneralError('');
       }, 10 * 1000);
       setTimeoutId(timeoutIdValue);
+    } else if (
+      response.errors[0] === 'Email verification failed.' &&
+      response.code === 'REQ0001'
+    ) {
+      setProcessing(false);
+      setGeneralError(
+        t(
+          'register-form.error.email-verification-failed',
+          "We couldn't verify the email address you entered. Please check it for accuracy and try again. If you're sure the address is correct and still see this message, you may need to use a different email or contact support for help."
+        )
+      );
     } else {
       setProcessing(false);
       setGeneralError(t('register-form.error.general', 'An error occurred.'));
@@ -193,7 +204,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
 
   return (
     <FromStyled onSubmit={handleSubmit} noValidate>
-      <FormErrorStyled dangerouslySetInnerHTML={{ __html: generalError }} />
+      <FormErrorStyled>{generalError}</FormErrorStyled>
       <EmailInput
         label={t('register-form.label.email', 'Email')}
         value={email}
