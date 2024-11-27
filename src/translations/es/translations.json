@@ -451,6 +451,7 @@
   "register-form.error.customer-exists": "Customer already exists.",
   "register-form.error.general": "An error occured.",
   "register-form.error.server-overloaded": "Server overloaded. Please try again later.",
+  "register-form.error.email-verification-failed": "We couldn't verify the email address you entered. Please check it for accuracy and try again. If you're sure the address is correct and still see this message, you may need to use a different email or contact support for help.",
   "register-form.label.email": "E-mail",
   "register-form.label.password": "Password",
   "register.button.have-an-account": "Have an account?",
