@@ -25,11 +25,8 @@ import { fetchUpdateOrder, selectOnlyOrder } from 'appRedux/orderSlice';
 import { setSelectedPaymentMethod } from 'appRedux/paymentMethodsSlice';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import RedirectElement from '@adyen/adyen-web';
-import {
-  PaymentErrorStyled,
-  PaymentStyled,
-  PaymentWrapperStyled
-} from './PaymentStyled';
+import { getData } from 'util/appConfigHelper';
+import trackMixpanelEvent from 'util/trackMixpanelEvent';
 import eventDispatcher, {
   MSSDK_PURCHASE_FAILED,
   MSSDK_PURCHASE_SUCCESSFUL,
@@ -38,6 +35,11 @@ import eventDispatcher, {
 } from '../../util/eventDispatcher';
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
+import {
+  PaymentErrorStyled,
+  PaymentStyled,
+  PaymentWrapperStyled
+} from './PaymentStyled';
 import { PaymentProps } from './Payment.types';
 
 const Payment = ({ onPaymentComplete }: PaymentProps) => {
@@ -212,6 +214,19 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
     setIsLoading(true);
     const { responseData } = await submitPayPalPayment();
+
+    const payPalMixpanelEventData = {
+      distinct_id: getData('CLEENG_CUSTOMER_ID'),
+      publisherId: getData('CLEENG_PUBLISHER_ID'),
+      paymentGateway: 'PayPal',
+      paymentMethod: 'PayPal',
+      currency: order.currency,
+      offerId: order.offerId,
+      price: order.totalPrice
+    };
+
+    trackMixpanelEvent('Payment Action', payPalMixpanelEventData);
+
     if (responseData?.redirectUrl) {
       window.location.href = responseData.redirectUrl;
     } else {
@@ -222,6 +237,8 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
           'The payment failed. Please try again.'
         )
       );
+
+      trackMixpanelEvent('Payment Failed', payPalMixpanelEventData);
     }
   };
 

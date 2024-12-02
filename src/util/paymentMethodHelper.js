@@ -162,3 +162,6 @@ export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
     'By ticking this, you agree to the Terms and Conditions of our service.'
   );
 };
+
+export const isPayPalExternalId = (externalPaymentId) =>
+  /^\w{17}$/.test(externalPaymentId);

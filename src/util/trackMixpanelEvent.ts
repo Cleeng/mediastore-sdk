@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import mixpanel from 'mixpanel-browser';
+import { UAParser } from 'ua-parser-js';
 
 import { getData } from './appConfigHelper';
 import { version } from '../../package.json';
@@ -16,17 +17,41 @@ mixpanel.init(MIXPANEL_TOKEN);
 type EventData = {
   distinct_id: string;
   publisherId: string;
-  offerId: string;
-  offerTitle: string;
-  offerPrice: number;
-  offerCurrency: string;
-  version: string;
+} & {
+  [key: string]: unknown; // Other optional and unknown fields
+};
+
+const getUserAgentData = () => {
+  const { getBrowser, getDevice, getOS } = new UAParser(
+    window.navigator.userAgent
+  );
+
+  const browser = getBrowser();
+  const os = getOS();
+  const device = getDevice();
+
+  return {
+    browser: browser.name,
+    browserVersion: browser.version,
+    system: os.name,
+    systemVersion: os.version,
+    deviceModel: device.model,
+    deviceType: device.type,
+    deviceVendor: device.vendor
+  };
 };
 
 const trackMixpanelEvent = (eventName: string, eventData: EventData) => {
   if (environment === 'production' || environment === 'staging') {
+    console.log(eventName, {
+      ...eventData,
+      ...getUserAgentData(),
+      version
+    });
+
     mixpanel.track(eventName, {
       ...eventData,
+      ...getUserAgentData(),
       version
     });
   }

@@ -6,7 +6,12 @@ import Register from 'components/RegisterPage';
 import MyAccount from 'containers/MyAccount';
 import Auth from 'services/auth';
 import store from 'appRedux/store';
-import Config from 'util/appConfigHelper';
+import Config, { getData } from 'util/appConfigHelper';
+import eventDispatcher, {
+  MSSDK_PURCHASE_SUCCESSFUL
+} from 'util/eventDispatcher';
+import { isPayPalExternalId } from 'util/paymentMethodHelper';
+import trackMixpanelEvent from 'util/trackMixpanelEvent';
 import PlanDetails from 'containers/PlanDetails';
 import PaymentInfo from 'containers/PaymentInfo';
 import TransactionList from 'containers/TransactionList';
@@ -19,16 +24,22 @@ import PasswordReset from 'components/PasswordReset';
 import ThankYouPage from 'components/ThankYouPage';
 import Checkout from 'components/Checkout';
 import RedeemGift from 'components/RedeemGift';
-import eventDispatcher, {
-  MSSDK_PURCHASE_SUCCESSFUL
-} from 'util/eventDispatcher';
 
 if (typeof window !== 'undefined') {
   window.onload = () => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const externalPaymentId = urlParams.get('externalPaymentId');
-    if (externalPaymentId) {
+
+    if (isPayPalExternalId(externalPaymentId)) {
+      trackMixpanelEvent('Payment Succeeded', {
+        distinct_id: getData('CLEENG_CUSTOMER_ID'),
+        publisherId: getData('CLEENG_PUBLISHER_ID'),
+        offerId: getData('CLEENG_OFFER_ID'),
+        paymentMethod: 'PayPal',
+        paymentGateway: 'PayPal'
+      });
+
       eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
         payment: {
           externalPaymentId
