@@ -43,12 +43,6 @@ const getUserAgentData = () => {
 
 const trackMixpanelEvent = (eventName: string, eventData: EventData) => {
   if (environment === 'production' || environment === 'staging') {
-    console.log(eventName, {
-      ...eventData,
-      ...getUserAgentData(),
-      version
-    });
-
     mixpanel.track(eventName, {
       ...eventData,
       ...getUserAgentData(),
