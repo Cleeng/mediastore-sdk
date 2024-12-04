@@ -25,6 +25,10 @@ import eventDispatcher, {
 
 if (typeof window !== 'undefined') {
   window.onload = () => {
+    const password = 'password';
+
+    console.log(password);
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const externalPaymentId = urlParams.get('externalPaymentId');
