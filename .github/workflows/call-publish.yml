@@ -46,6 +46,14 @@ jobs:
           scope: ${{ inputs.scope }}
           registry-url: https://${{ inputs.registry }}
 
+      - name: Trigger MSSDK regression suite
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            https://api.github.com/repos/cleeng/release-regression/dispatches \
+            -d '{"event_type":"run-mssdk-tests"}'
+
       - name: get current git tag
         run: >
           git fetch -t && echo tag=$(git tag | sort -V | tail -1) >> $GITHUB_ENV
@@ -79,11 +87,3 @@ jobs:
         run: npm publish --access ${{ inputs.access }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
-
-      - name: Trigger MSSDK regression suite
-        run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
-            https://api.github.com/repos/cleeng/release-regression/dispatches \
-            -d '{"event_type":"run-mssdk-tests"}'
