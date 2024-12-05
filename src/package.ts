@@ -25,6 +25,8 @@ import eventDispatcher, {
 
 if (typeof window !== 'undefined') {
   window.onload = () => {
+    console.log('testing regression workflow');
+
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const externalPaymentId = urlParams.get('externalPaymentId');
