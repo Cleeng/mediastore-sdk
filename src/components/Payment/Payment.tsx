@@ -237,8 +237,6 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
           'The payment failed. Please try again.'
         )
       );
-
-      trackMixpanelEvent('Payment Failed', payPalMixpanelEventData);
     }
   };
 
