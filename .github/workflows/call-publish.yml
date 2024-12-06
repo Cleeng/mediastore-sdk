@@ -52,7 +52,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             -H "Authorization: Bearer ${{ secrets.TOKEN }}" \
             https://api.github.com/repos/Cleeng/release-regression/dispatches \
-            -d '{"event_type":"run-mssdk-tests"}'
+            -d '{"event_type":"run_mssdk_tests"}'
 
       - name: get current git tag
         run: >
