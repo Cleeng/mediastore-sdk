@@ -8,7 +8,7 @@ jobs:
   publish:
     uses: ./.github/workflows/call-publish.yml
     permissions:
-      contents: read
+      contents: write
       packages: write
     with:
       access: restricted
