@@ -15,25 +15,22 @@ import {
 
 const noop = () => null;
 
-const Capture = ({ settings = [], onSuccess = noop }: CaptureProps) => {
+const Capture = ({ onSuccess = noop }: CaptureProps) => {
   const { t } = useTranslation();
   const [captureSettings, setCaptureSettings] = useState<CaptureSetting[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (settings.length) {
-      setCaptureSettings(settings);
-      setIsLoading(false);
-    } else {
-      getCaptureStatus().then((resp) => {
-        if (resp.responseData.shouldCaptureBeDisplayed === true) {
-          setCaptureSettings(resp.responseData.settings);
-          setIsLoading(false);
-        } else {
-          onSuccess();
-        }
-      });
-    }
+    getCaptureStatus().then(({ responseData }) => {
+      const { shouldCaptureBeDisplayed, settings } = responseData;
+
+      if (shouldCaptureBeDisplayed) {
+        setCaptureSettings(settings);
+        setIsLoading(false);
+      } else {
+        onSuccess();
+      }
+    });
   }, []);
 
   return (
@@ -47,10 +44,7 @@ const Capture = ({ settings = [], onSuccess = noop }: CaptureProps) => {
             <CaptureTitle>
               {t('capture.confirm-registration', 'Confirm Registration')}
             </CaptureTitle>
-            <CaptureForm
-              settings={captureSettings || []}
-              onSuccess={onSuccess}
-            />
+            <CaptureForm settings={captureSettings} onSuccess={onSuccess} />
           </>
         )}
       </CaptureContentStyled>

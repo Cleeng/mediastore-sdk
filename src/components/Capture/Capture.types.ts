@@ -45,5 +45,9 @@ export type CaptureSetting =
 
 export type CaptureProps = {
   onSuccess: () => void;
+};
+
+export type CaptureFormProps = {
+  onSuccess: () => void;
   settings: CaptureSetting[];
 };
