@@ -48,7 +48,6 @@ const OfferCheckoutCard = ({
   const {
     priceBreakdown: { offerPrice },
     taxRate,
-    country,
     currency,
     totalPrice,
     discount: {
@@ -69,7 +68,7 @@ const OfferCheckoutCard = ({
 
   const { t } = useTranslation();
 
-  const taxCopy = country === 'US' ? 'Tax' : 'VAT';
+  const taxCopy = 'Tax';
 
   const periodValue =
     offerType === 'S' && period !== 'season'
