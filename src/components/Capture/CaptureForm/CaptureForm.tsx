@@ -12,7 +12,7 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import useInput from './useInput';
 import {
-  CaptureProps,
+  CaptureFormProps,
   CaptureSetting,
   CustomCaptureSetting
 } from '../Capture.types';
@@ -32,7 +32,7 @@ type CustomSetting = CustomCaptureSetting & {
   error?: string | null;
 };
 
-const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
+const CaptureForm = ({ settings, onSuccess }: CaptureFormProps) => {
   const { t } = useTranslation();
   const [processing, setProcessing] = useState(false);
   const [customSettings, setCustomSettings] = useState<CustomSetting[]>([]);
@@ -54,36 +54,54 @@ const CaptureForm = ({ settings, onSuccess }: CaptureProps) => {
   };
 
   useEffect(() => {
-    for (let i = 0; i < settings.length; i += 1) {
-      const item = settings[i];
-      if (item.key === 'firstNameLastName' && item.answer) {
-        firstName.setValue(item.answer.firstName);
-        lastName.setValue(item.answer.lastName);
+    settings.forEach((setting) => {
+      const { answer, key } = setting;
+
+      if (!answer) {
+        return;
       }
-      if (item.key === 'birthDate' && item.answer)
-        birthDate.setValue(item.answer);
-      if (item.key === 'companyName' && item.answer)
-        companyName.setValue(item.answer);
-      if (item.key === 'phoneNumber' && item.answer)
-        phoneNumber.setValue(item.answer);
-      if (item.key === 'address' && item.answer) {
-        address.setValue(item.answer.address);
-        address2.setValue(item.answer.address2);
-        city.setValue(item.answer.city);
-        state.setValue(item.answer.state);
-        postCode.setValue(item.answer.postCode);
+
+      switch (key) {
+        case 'firstNameLastName':
+          firstName.setValue(answer.firstName);
+          lastName.setValue(answer.lastName);
+          break;
+
+        case 'birthDate':
+          birthDate.setValue(answer);
+          break;
+
+        case 'companyName':
+          companyName.setValue(answer);
+          break;
+
+        case 'phoneNumber':
+          phoneNumber.setValue(answer);
+          break;
+
+        case 'address':
+          address.setValue(answer.address);
+          address2.setValue(answer.address2);
+          city.setValue(answer.city);
+          state.setValue(answer.state);
+          postCode.setValue(answer.postCode);
+          break;
+
+        default:
+          break;
       }
-    }
+    });
 
     const enabledCustomSettings: CustomSetting[] = settings.filter(
-      (item) => isCustomSetting(item) && item.enabled
+      (setting) => isCustomSetting(setting) && setting.enabled
     ) as CustomSetting[];
+
     const transformedSettings: CustomSetting[] = enabledCustomSettings.map(
-      (item) => ({
-        ...item,
-        value: item.answer ? item.answer : '',
-        values: isCustomSetting(item)
-          ? item.value.split(';').map((i) => {
+      (setting) => ({
+        ...setting,
+        value: setting.answer ? setting.answer : '',
+        values: isCustomSetting(setting)
+          ? setting.value.split(';').map((i) => {
               const value = i.trim();
               const label = value;
               return {
