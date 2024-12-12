@@ -33,14 +33,14 @@ const UpdateProfile = ({
   const { t } = useTranslation();
 
   const [detailsError, setDetailsError] = useState<string[]>([]);
-  const [isUserDetailsLoading, setUserDetailsLoading] = useState(false);
-  const [isCaptureLoading, setCaptureLoading] = useState(false);
+  const [isUserDetailsLoading, setIsUserDetailsLoading] = useState(false);
+  const [isCaptureLoading, setIsCaptureLoading] = useState(false);
 
   const [isConsentLoading, setConsentLoading] = useState(false);
 
   useEffect(() => {
     if (!userProfile.user) {
-      setUserDetailsLoading(true);
+      setIsUserDetailsLoading(true);
       getCustomer()
         .then((response) => {
           if (response.errors.length) {
@@ -48,16 +48,16 @@ const UpdateProfile = ({
           } else {
             setCurrentUser(response.responseData);
           }
-          setUserDetailsLoading(false);
+          setIsUserDetailsLoading(false);
         })
         .catch(() => {
           setDetailsError([t('updateprofile.error', 'Something went wrong..')]);
-          setUserDetailsLoading(false);
+          setIsUserDetailsLoading(false);
         });
     }
 
     if (!userProfile.capture) {
-      setCaptureLoading(true);
+      setIsCaptureLoading(true);
       getCaptureStatus()
         .then((response) => {
           if (response.errors.length) {
@@ -65,11 +65,11 @@ const UpdateProfile = ({
           } else {
             setUserCapture(response.responseData);
           }
-          setCaptureLoading(false);
+          setIsCaptureLoading(false);
         })
         .catch(() => {
           setDetailsError([t('updateprofile.error', 'Something went wrong..')]);
-          setCaptureLoading(false);
+          setIsCaptureLoading(false);
         });
     }
 
@@ -137,7 +137,7 @@ const UpdateProfile = ({
       {innerPopup.isOpen && innerPopup.type === 'editPassword' ? (
         <EditPassword
           hideInnerPopup={hideInnerPopup}
-          customerEmail={user?.email || ''}
+          customerEmail={user?.email ?? ''}
           handleLogout={handleLogout}
         />
       ) : (
@@ -150,10 +150,10 @@ const UpdateProfile = ({
           ) : (
             <>
               <ProfileDetails
-                firstName={user?.firstName || ''}
-                lastName={user?.lastName || ''}
+                firstName={user?.firstName ?? ''}
+                lastName={user?.lastName ?? ''}
                 capture={capture || {}}
-                email={user?.email || ''}
+                email={user?.email ?? ''}
                 isLoading={isUserDetailsLoading || isCaptureLoading}
                 setCurrentUser={setCurrentUser}
                 updateCaptureOption={updateCaptureOption}
