@@ -36,7 +36,7 @@ const UpdateProfile = ({
   const [isUserDetailsLoading, setIsUserDetailsLoading] = useState(false);
   const [isCaptureLoading, setIsCaptureLoading] = useState(false);
 
-  const [isConsentLoading, setConsentLoading] = useState(false);
+  const [isConsentLoading, setIsConsentLoading] = useState(false);
 
   useEffect(() => {
     if (!userProfile.user) {
@@ -93,10 +93,10 @@ const UpdateProfile = ({
         setConsents(response.responseData.consents);
       }
 
-      setConsentLoading(false);
+      setIsConsentLoading(false);
     } catch (error) {
       setDetailsError([t('updateprofile.error', 'Something went wrong..')]);
-      setConsentLoading(false);
+      setIsConsentLoading(false);
     }
   };
 
