@@ -1,3 +1,5 @@
+import { Address } from 'components/AddressDetails/AddressDetails.types';
+
 export type CustomCaptureSettingKey = `custom_${number}`;
 
 type CaptureSettingBase = {
@@ -18,16 +20,9 @@ type NameCaptureSetting = CaptureSettingBase & {
   } | null;
 };
 
-type AddressCaptureSetting = CaptureSettingBase & {
+export type AddressCaptureSetting = CaptureSettingBase & {
   key: 'address';
-  answer: {
-    address: string;
-    address2: string;
-    city: string;
-    country: 'string';
-    postCode: 'string';
-    state: 'string';
-  } | null;
+  answer: Address | null;
 };
 
 export type CustomCaptureSetting = CaptureSettingBase & {
@@ -35,6 +30,7 @@ export type CustomCaptureSetting = CaptureSettingBase & {
   answer: string | null;
   question: string;
   value: string;
+  values: string[] | Array<Record<string, unknown>>;
 };
 
 export type CaptureSetting =

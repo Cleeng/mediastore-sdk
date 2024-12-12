@@ -1,18 +1,16 @@
+import { AddressCaptureSetting } from 'components/Capture/Capture.types';
+
 export type Address = {
-  address: string | null;
-  address2: string | null;
-  city: string | null;
-  state: string | null;
-  postCode: string | null;
+  address: string;
+  address2: string;
+  city: string;
+  country: string;
+  state: string;
+  postCode: string;
 };
 
 export type AddressDetailsProps = {
-  data: {
-    answer: Address;
-    enabled: boolean;
-    key: string;
-    required: boolean;
-  };
+  data: AddressCaptureSetting;
   isLoading?: boolean;
   updateCaptureOption: (params: { key: string; value: Address }) => void;
 };
