@@ -14,7 +14,7 @@ const getPasswordStrength = (password: string) => {
     { regex: /\d/, score: 5 }, // one digit
     { regex: /\d.*?\d/, score: 5 }, // two digits
     { regex: /[!,@#$%^&*?_~]/, score: 5 }, // one special character
-    { regex: /(?:.*[!,@#$%^&*?_~]){2}/, score: 5 }, // two special characters
+    { regex: /[!,@#$%^&*?_~].*[!,@#$%^&*?_~]/, score: 5 }, // two special characters
     { regex: /^(?=.*[a-z])(?=.*[A-Z]).+$/, score: 2 }, // one lowercase and one uppercase letter
     { regex: /^(?=.*\d)(?=.*\D).+$/, score: 2 }, // digit and one non-digit character
     {
