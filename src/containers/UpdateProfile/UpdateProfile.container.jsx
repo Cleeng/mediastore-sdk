@@ -8,7 +8,7 @@ import {
 import { showInnerPopup, hideInnerPopup } from 'appRedux/innerPopupReducer';
 
 import { init as initPublisherConfig } from 'appRedux/publisherConfigSlice';
-import UpdateProfile from './UpdateProfile.component';
+import UpdateProfile from 'components/UpdateProfile';
 
 export const mapStateToProps = (state) => {
   return {

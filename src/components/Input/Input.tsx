@@ -27,6 +27,7 @@ type InputProps = {
   showPassword?: boolean;
   passwordStrength?: PasswordStrength;
   required?: boolean;
+  ariaRequired?: boolean;
   invalid?: boolean;
   icon?: ReactNode;
   floatingLabels?: boolean;
@@ -48,6 +49,7 @@ const Input = ({
   invalid,
   icon,
   required,
+  ariaRequired,
   floatingLabels,
   reference,
   format
@@ -67,6 +69,7 @@ const Input = ({
             onBlur={onBlur}
             ref={reference}
             required={required}
+            aria-required={ariaRequired}
             aria-invalid={invalid}
             $withIcon={!!icon}
             $floatingLabels={!!floatingLabels}

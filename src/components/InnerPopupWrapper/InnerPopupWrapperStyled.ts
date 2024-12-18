@@ -108,7 +108,6 @@ type TitleStyledProps = {
     | 'inherit'
     | 'initial'
     | 'revert'
-    | 'revert'
     | 'revert-layer'
     | 'unset';
 
