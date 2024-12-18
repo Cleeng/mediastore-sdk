@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import submitConsents from 'api/Customer/submitConsents';
 import Loader from 'components/Loader';
@@ -10,7 +10,8 @@ import PasswordInput from 'components/PasswordInput';
 import {
   validateRegisterPassword,
   validateEmailField,
-  validateConsentsField
+  validateConsentsField,
+  validateCaptcha
 } from 'util/validators';
 import { selectPublisherConfig } from 'appRedux/publisherConfigSlice';
 import { selectPublisherConsents } from 'appRedux/publisherConsentsSlice';
@@ -19,18 +20,27 @@ import getCustomerLocales from 'api/Customer/getCustomerLocales';
 import Auth from 'services/auth';
 import { useAppSelector } from 'appRedux/store';
 import { Consent as ConsentType } from 'types/Consents.types';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { RegisterFormProps } from './RegisterForm.types';
 
 type Errors = {
   email: string;
   password: string;
   consents: string;
+  captcha: string;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare const window: any;
+window.recaptchaOptions = {
+  enterprise: true
 };
 
 const errorsInitialState = {
   email: '',
   password: '',
-  consents: ''
+  consents: '',
+  captcha: ''
 };
 
 export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
@@ -43,9 +53,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const [consentDefinitions, setConsentDefinitions] = useState<ConsentType[]>(
     []
   );
-  const [timeoutId, setTimeoutId] = useState<ReturnType<typeof setTimeout>>();
   const [processing, setProcessing] = useState(false);
-  const [disableActionButton, setDisableActionButton] = useState(false);
 
   const { t } = useTranslation();
   const { publisherId } = useAppSelector(selectPublisherConfig);
@@ -53,11 +61,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
     selectPublisherConsents
   );
 
-  useEffect(() => {
-    return () => {
-      if (timeoutId) clearTimeout(timeoutId);
-    };
-  }, []);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const handleClickShowPassword = () =>
     setShowPassword((prevValue) => !prevValue);
@@ -83,10 +87,12 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   };
 
   const validateFields = () => {
+    const captchaValue = recaptchaRef.current?.getValue();
     const errorFields = {
       email: validateEmailField(email),
       password: validateRegisterPassword(password),
-      consents: validateConsentsField(consents, consentDefinitions)
+      consents: validateConsentsField(consents, consentDefinitions),
+      captcha: validateCaptcha(captchaValue)
     };
     setErrors(errorFields);
     return !Object.values(errorFields).some((error) => error !== '');
@@ -116,8 +122,22 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
     });
   };
 
-  const renderError = (message = 'An error occurred.') => {
+  const handleRecaptchaChange = () => {
+    setErrors((prevValue) => {
+      return {
+        ...prevValue,
+        captcha: ''
+      };
+    });
+  };
+
+  const resetCaptcha = () => {
+    recaptchaRef.current?.reset();
+  };
+
+  const renderError = (message: string) => {
     setProcessing(false);
+    resetCaptcha();
     setGeneralError(
       message || t('register-form.error.general', 'An error occurred.')
     );
@@ -125,78 +145,59 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
 
   const register = async () => {
     setProcessing(true);
+    const captchaValue = recaptchaRef.current?.getValue();
     const localesResponse = await getCustomerLocales();
     if (!localesResponse.responseData) {
       setProcessing(false);
-      setGeneralError(t('register-form.error.general', 'An error occurred.'));
+      renderError(t('register-form.error.general', 'An error occurred.'));
       return false;
     }
     const { locale, country, currency } = localesResponse.responseData;
-    const response = await registerCustomer(
+    const response = await registerCustomer({
       email,
       password,
       publisherId,
       locale,
       country,
-      currency
-    );
-    if (response.status === 200) {
-      Auth.login(
-        false,
-        true,
-        email,
-        response.responseData.jwt,
-        response.responseData.refreshToken,
-        submitConsents,
-        [consents, consentDefinitions],
-        onSuccess
-      );
-    } else if (response.status === 422) {
-      if (response.errors[0].includes('Enterprise account is required')) {
-        renderError(
-          t(
-            'register-form.error.account',
-            'You would need our product <a href="https://cleeng.com/core-ott-subscriber-management" target="_blank">Core</a> to call this API'
-          )
-        );
-      } else {
-        renderError(
-          t('register-form.error.customer-exists', 'Customer already exists.')
-        );
-      }
-    } else if (response.status === 429) {
-      setDisableActionButton(true);
+      currency,
+      captchaValue
+    });
+
+    if (response.code === 'USER0002') {
       renderError(
-        t(
-          'register-form.error.server-overloaded',
-          'Server overloaded. Please try again later.'
-        )
+        t('register-form.error.customer-exists', 'Customer already exists.')
       );
-      const timeoutIdValue = setTimeout(() => {
-        setDisableActionButton(false);
-        setGeneralError('');
-      }, 10 * 1000);
-      setTimeoutId(timeoutIdValue);
     } else if (
       response.errors[0] === 'Email verification failed.' &&
       response.code === 'REQ0001'
     ) {
-      setProcessing(false);
-      setGeneralError(
+      renderError(
         t(
           'register-form.error.email-verification-failed',
           "We couldn't verify the email address you entered. Please check it for accuracy and try again. If you're sure the address is correct and still see this message, you may need to use a different email or contact support for help."
         )
       );
-    } else {
-      setProcessing(false);
-      setGeneralError(t('register-form.error.general', 'An error occurred.'));
+    } else if (response.code) {
+      renderError(t('register-form.error.general', 'An error occurred.'));
     }
+
+    Auth.login(
+      false,
+      true,
+      email,
+      response?.responseData?.jwt,
+      response?.responseData?.refreshToken,
+      submitConsents,
+      [consents, consentDefinitions],
+      onSuccess
+    );
+
     return true;
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
+  const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    await recaptchaRef.current?.executeAsync();
     if (validateFields()) {
       register();
     }
@@ -227,12 +228,20 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         t={t}
       />
       <Consent error={errors.consents} onChangeFn={handleConsentsChange} />
+      <ReCAPTCHA
+        ref={recaptchaRef}
+        size='invisible'
+        badge='bottomright'
+        sitekey='6Ld0A54qAAAAANJ8mLCpJAxEp0XKtJyueFmEFVaG'
+        onChange={handleRecaptchaChange}
+      />
+      <>{errors.captcha}</>
       <Button
         type='submit'
         size='big'
         variant='confirm'
         margin='10px 0'
-        disabled={processing || disableActionButton || !!publisherConsentsError}
+        disabled={processing || !!publisherConsentsError}
       >
         {processing ? (
           <Loader buttonLoader color='#ffffff' />
