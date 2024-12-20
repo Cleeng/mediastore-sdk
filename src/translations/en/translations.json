@@ -652,6 +652,7 @@
   "updateprofile.header.profile-details": "Profile details",
   "updateprofile.header.terms-details": "Terms details",
   "upgrade": "upgrade",
+  "validators.captcha-invalid": "Google reCAPTCHA verification required.",
   "validators.consents": "Please agree on all required consents to use this service",
   "validators.email": "Please fill out this field.",
   "validators.email-invalid": "The email address is not properly formatted.",
