@@ -57,7 +57,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
   const { showCaptchaOnRegister } = googleRecaptcha;
 
-  const recaptchaRef = showCaptchaOnRegister ? useRef<ReCAPTCHA>(null) : null;
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const handleClickShowPassword = () =>
     setShowPassword((prevValue) => !prevValue);
