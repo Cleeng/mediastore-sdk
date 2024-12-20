@@ -60,3 +60,12 @@ export function validateEmailField(value: string): string {
 
   return '';
 }
+
+export function validateCaptcha(value: string | null | undefined): string {
+  return value
+    ? ''
+    : i18n.t(
+        'validators.captcha-invalid',
+        'Google reCAPTCHA verification required.'
+      );
+}
