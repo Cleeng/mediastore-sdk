@@ -48,12 +48,16 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
   const [processing, setProcessing] = useState(false);
 
   const { t } = useTranslation();
-  const { publisherId } = useAppSelector(selectPublisherConfig);
+  const { publisherId, googleRecaptcha } = useAppSelector(
+    selectPublisherConfig
+  );
   const { error: publisherConsentsError } = useAppSelector(
     selectPublisherConsents
   );
 
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  const { showCaptchaOnRegister } = googleRecaptcha;
+
+  const recaptchaRef = showCaptchaOnRegister ? useRef<ReCAPTCHA>(null) : null;
 
   const handleClickShowPassword = () =>
     setShowPassword((prevValue) => !prevValue);
@@ -79,12 +83,12 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
   };
 
   const validateFields = () => {
-    const captchaValue = recaptchaRef.current?.getValue();
+    const captchaValue = recaptchaRef?.current?.getValue();
     const errorFields = {
       email: validateEmailField(email),
       password: validateRegisterPassword(password),
       consents: validateConsentsField(consents, consentDefinitions),
-      captcha: validateCaptcha(captchaValue)
+      captcha: showCaptchaOnRegister ? validateCaptcha(captchaValue) : ''
     };
     setErrors(errorFields);
     return !Object.values(errorFields).some((error) => error !== '');
@@ -125,7 +129,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
   const renderError = (message: string) => {
     setProcessing(false);
-    recaptchaRef.current?.reset();
+    if (showCaptchaOnRegister) recaptchaRef?.current?.reset();
     setGeneralError(
       message || t('register-form.error.general', 'An error occurred.')
     );
@@ -148,7 +152,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
       locale,
       country,
       currency,
-      captchaValue: recaptchaRef.current?.getValue() || ''
+      captchaValue: recaptchaRef?.current?.getValue() || ''
     });
 
     if (response.code === ERROR_CODES.USER.ALREADY_EXISTS) {
@@ -185,7 +189,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    await recaptchaRef.current?.executeAsync();
+    if (showCaptchaOnRegister) await recaptchaRef?.current?.executeAsync();
     if (validateFields()) {
       register();
     }
@@ -207,7 +211,8 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
     publisherConsentsError,
     email,
     password,
-    recaptchaRef
+    recaptchaRef,
+    googleRecaptcha
   };
 }
 

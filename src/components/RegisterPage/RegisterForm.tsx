@@ -30,10 +30,12 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
     publisherConsentsError,
     email,
     password,
-    recaptchaRef
+    recaptchaRef,
+    googleRecaptcha
   } = useRegisterForm({ onSuccess });
 
   const { t } = useTranslation();
+  const { showCaptchaOnRegister, sitekey } = googleRecaptcha;
 
   return (
     <FromStyled onSubmit={handleSubmit} noValidate>
@@ -60,14 +62,18 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         t={t}
       />
       <Consent error={errors.consents} onChangeFn={handleConsentsChange} />
-      <ReCAPTCHA
-        ref={recaptchaRef}
-        size='invisible'
-        badge='bottomright'
-        sitekey={import.meta.env.VITE_RECAPTCHA_SITE_KEY}
-        onChange={handleRecaptchaChange}
-      />
-      <>{errors.captcha}</>
+      {showCaptchaOnRegister && (
+        <>
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            size='invisible'
+            badge='bottomright'
+            sitekey={sitekey}
+            onChange={handleRecaptchaChange}
+          />
+          <>{errors.captcha}</>
+        </>
+      )}
       <Button
         type='submit'
         size='big'

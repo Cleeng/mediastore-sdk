@@ -40,6 +40,12 @@ export type PaymentMethodName =
 
 export type PaymentGateway = 'adyen' | 'paypal' | 'free-offer';
 
+export type GoogleRecaptchaType = {
+  sitekey: string;
+  showCaptchaOnRegister: boolean;
+  showCaptchaOnPurchase: boolean;
+};
+
 export type PublisherConfigInitialState = {
   publisherId: string;
   offerId: string;
@@ -57,6 +63,7 @@ export type PublisherConfigInitialState = {
   resetUrl: string;
   enable3DSRedirectFlow: boolean;
   isPaymentCheckboxDisabled: boolean;
+  googleRecaptcha: GoogleRecaptchaType;
 };
 
 type OfferIdPayload = {
