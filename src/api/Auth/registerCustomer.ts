@@ -8,7 +8,7 @@ type RegisterCustomerPayload = {
   locale: string;
   country: string;
   currency: string;
-  captchaValue: string | unknown | null;
+  captchaValue: string;
 };
 
 type RegisterCustomerResponse = {

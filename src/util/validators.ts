@@ -62,9 +62,10 @@ export function validateEmailField(value: string): string {
 }
 
 export function validateCaptcha(value: string | null | undefined): string {
-  const message = i18n.t(
-    'validators.captcha-invalid',
-    'Google reCAPTCHA verification required.'
-  );
-  return value ? '' : message;
+  return value
+    ? ''
+    : i18n.t(
+        'validators.captcha-invalid',
+        'Google reCAPTCHA verification required.'
+      );
 }
