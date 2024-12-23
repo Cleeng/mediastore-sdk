@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { updateCaptureAnswers } from 'api';
 import { validateEmailField } from 'util/validators';
 import { PHONE_NUMBER_REGEX } from 'util/regexConstants';
+import { isCustomSetting } from 'util/capture';
 import Input from 'components/Input';
 import EmailInput from 'components/EmailInput';
 import DateInput from 'components/DateInput';
@@ -13,19 +14,14 @@ import Loader from 'components/Loader';
 import useInput from './useInput';
 import {
   CaptureFormProps,
-  CaptureSetting,
   CustomCaptureSetting
-} from '../Capture.types';
+} from '../../../types/Capture.types';
 import {
   CaptureRowStyled,
   CaptureBoxStyled,
   CaptureQuestionStyled,
   CaptureError
 } from './CaptureFormStyled';
-
-const isCustomSetting = (
-  setting: CaptureSetting
-): setting is CustomCaptureSetting => setting.key.startsWith('custom_');
 
 type CustomSetting = CustomCaptureSetting & {
   values: Array<{ value: string; label: string }>;

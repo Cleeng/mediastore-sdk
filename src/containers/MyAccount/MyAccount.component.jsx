@@ -9,7 +9,7 @@ import MyAccountUserInfo from 'components/MyAccountUserInfo';
 import MyAccountContent from 'components/MyAccountContent';
 import PlanDetails from 'containers/PlanDetails';
 import PaymentInfo from 'containers/PaymentInfo';
-import UpdateProfile from 'containers/UpdateProfile';
+import UpdateProfile from 'components/UpdateProfile';
 import Popup from 'components/Popup/Popup';
 import Login from 'components/LoginPage/Login';
 

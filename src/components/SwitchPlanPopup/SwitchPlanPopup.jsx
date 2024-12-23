@@ -98,12 +98,10 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
     dispatch(updateList());
   };
 
-  const getOfferPrice = ({ toOfferId, price, nextPaymentPrice }) => {
-    if (isPriceTemporaryModified(toOfferId)) {
-      return formatNumber(price);
-    }
-    return formatNumber(nextPaymentPrice);
-  };
+  const getOfferPrice = ({ toOfferId, price, nextPaymentPrice }) =>
+    formatNumber(
+      isPriceTemporaryModified(toOfferId) ? price : nextPaymentPrice
+    );
 
   if (isPopupLoading) {
     return (

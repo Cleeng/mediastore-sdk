@@ -39,6 +39,14 @@ export type CaptureSetting =
   | AddressCaptureSetting
   | CustomCaptureSetting;
 
+export type CaptureSettings = {
+  address: AddressCaptureSetting;
+  birthDate: BasicCaptureSetting;
+  email: BasicCaptureSetting;
+  phoneNumber: BasicCaptureSetting;
+  companyName: BasicCaptureSetting;
+};
+
 export type CaptureProps = {
   onSuccess: () => void;
 };
