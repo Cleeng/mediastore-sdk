@@ -11,7 +11,7 @@ import PlanDetails from 'containers/PlanDetails';
 import PaymentInfo from 'containers/PaymentInfo';
 import TransactionList from 'containers/TransactionList';
 import Subscriptions from 'containers/Subscriptions';
-import UpdateProfile from 'containers/UpdateProfile';
+import UpdateProfile from 'components/UpdateProfile';
 import SubscriptionSwitches from 'containers/SubscriptionSwitches';
 import Capture from 'components/Capture/Capture';
 import CheckoutConsents from 'components/CheckoutConsents';
