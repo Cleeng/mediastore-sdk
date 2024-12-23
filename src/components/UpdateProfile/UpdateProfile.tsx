@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getCustomer, getCaptureStatus, getCustomerConsents } from 'api';
 import { POPUP_TYPES } from 'appRedux/innerPopupReducer';
-import { isCustomSetting, isCustomSetting2 } from 'util/capture';
+import { isCustomSetting } from 'util/capture';
 import SectionHeader from 'components/SectionHeader';
 import ProfileDetails from 'components/ProfileDetails';
 import AddressDetails from 'components/AddressDetails';
@@ -12,11 +12,11 @@ import MyAccountConsents from 'components/MyAccountConsents';
 import EditPassword from 'components/EditPassword';
 import AdditionalProfileInfo from 'components/AdditionalProfileInfo';
 import GracePeriodError from 'components/GracePeriodError';
+import { CustomCaptureSetting } from 'types/Capture.types';
 import { getCaptureSettings } from './utils';
 
 import { WrapperStyled } from './UpdateProfileStyled';
 import { UpdateProfileProps } from './UpdateProfile.types';
-import { CustomCaptureSetting } from 'types/Capture.types';
 
 const UpdateProfile = ({
   userProfile,
@@ -125,17 +125,11 @@ const UpdateProfile = ({
   const { user, capture, consents, consentsError } = userProfile;
 
   const customSettings = capture?.isCaptureEnabled
-    ? capture.settings.reduce(
+    ? capture.settings.reduce<CustomCaptureSetting[]>(
         (acc, setting) => (isCustomSetting(setting) ? [...acc, setting] : acc),
         []
       )
     : [];
-
-  // const customSettings = capture?.isCaptureEnabled
-  //   ? capture.settings.filter(
-  //       (setting) => setting.key.startsWith('custom') && setting.enabled
-  //     )
-  //   : [];
 
   const { address, birthDate, companyName, phoneNumber } =
     getCaptureSettings(capture);
@@ -179,7 +173,6 @@ const UpdateProfile = ({
                     )}
                   </SectionHeader>
                   <AddressDetails
-                    // data={address as AddressCaptureSetting}
                     data={address}
                     isLoading={isCaptureLoading}
                     updateCaptureOption={updateCaptureOption}

@@ -41,6 +41,7 @@ const AdditionalProfileInfo = ({
       const newData: CustomSetting[] = data.map((setting) => {
         return {
           ...setting,
+          answer: setting.answer ?? '',
           value: setting.answer ? setting.answer : '',
           values: setting.value
             ? setting.value.split(';').map((v) => v.trim())
