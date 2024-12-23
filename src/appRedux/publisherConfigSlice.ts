@@ -38,11 +38,6 @@ export const publisherConfigSlice = createSlice({
     }),
     updateGoogleRecaptcha: create.reducer(
       (state, action: PayloadAction<Partial<GoogleRecaptchaType>>) => {
-        console.log(action.payload);
-        console.log({
-          ...state.googleRecaptcha,
-          ...action.payload
-        });
         state.googleRecaptcha = {
           ...state.googleRecaptcha,
           ...action.payload
