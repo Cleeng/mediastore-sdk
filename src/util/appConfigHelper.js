@@ -6,6 +6,7 @@ import {
 } from 'appRedux/appConfig';
 import {
   init as initPublisherConfig,
+  updateGoogleRecaptcha,
   updateHiddenPaymentMethods
 } from 'appRedux/publisherConfigSlice';
 
@@ -181,6 +182,11 @@ export const setEnable3DSRedirectFlow = () => {
   return true;
 };
 
+export const setGoogleRecaptcha = (googleRecaptchaObject) => {
+  store.dispatch(updateGoogleRecaptcha(googleRecaptchaObject));
+  return true;
+};
+
 export const setLanguage = async (language) => {
   const BASE_URL = window.location.origin;
 
@@ -229,5 +235,6 @@ export default {
   setHiddenPaymentMethods,
   setLanguage,
   setEnable3DSRedirectFlow,
-  setDisablePaymentCheckbox
+  setDisablePaymentCheckbox,
+  setGoogleRecaptcha
 };
