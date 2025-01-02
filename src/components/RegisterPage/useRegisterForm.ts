@@ -84,6 +84,13 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
   const validateFields = () => {
     const captchaValue = recaptchaRef?.current?.getValue();
+
+    console.log('##### useRegisterForm > validateFields', {
+      captchaValue,
+      showCaptchaOnRegister,
+      validationREsult: validateCaptcha(captchaValue)
+    });
+
     const errorFields = {
       email: validateEmailField(email),
       password: validateRegisterPassword(password),
@@ -119,6 +126,8 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
   };
 
   const handleRecaptchaChange = () => {
+    console.log('##### useRegisterForm > handleRecaptchaChange');
+
     setErrors((prevValue) => {
       return {
         ...prevValue,
@@ -189,7 +198,14 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (showCaptchaOnRegister) await recaptchaRef?.current?.executeAsync();
+    console.log('############ useRegisterForm > handleSubmit');
+
+    if (showCaptchaOnRegister) {
+      console.log(
+        '############ useRegisterForm > handleSubmit > should show captcha case'
+      );
+      await recaptchaRef?.current?.executeAsync();
+    }
     if (validateFields()) {
       register();
     }
