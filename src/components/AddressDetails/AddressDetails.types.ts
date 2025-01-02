@@ -1,4 +1,4 @@
-import { AddressCaptureSetting } from 'components/Capture/Capture.types';
+import { AddressCaptureSetting } from 'types/Capture.types';
 
 export type Address = {
   address: string;

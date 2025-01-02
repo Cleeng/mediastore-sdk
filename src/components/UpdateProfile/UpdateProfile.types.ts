@@ -1,8 +1,4 @@
-import {
-  CaptureSetting,
-  CaptureSettings,
-  CustomCaptureSetting
-} from 'types/Capture.types';
+import { CaptureSetting, CaptureSettings } from 'types/Capture.types';
 import { Consent } from 'types/Consents.types';
 
 export type UserProfile = {
@@ -21,7 +17,7 @@ export type UserProfile = {
   capture?: {
     isCaptureEnabled: boolean;
     shouldCaptureBeDisplayed?: boolean;
-    settings: CaptureSetting[] | CustomCaptureSetting[];
+    settings: CaptureSetting[];
   };
   consents: Array<Consent>;
   consentsError: string;

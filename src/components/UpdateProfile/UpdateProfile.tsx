@@ -12,7 +12,7 @@ import MyAccountConsents from 'components/MyAccountConsents';
 import EditPassword from 'components/EditPassword';
 import AdditionalProfileInfo from 'components/AdditionalProfileInfo';
 import GracePeriodError from 'components/GracePeriodError';
-import { CustomCaptureSetting } from 'types/Capture.types';
+import { CaptureSetting, CustomCaptureSetting } from 'types/Capture.types';
 import { getCaptureSettings } from './utils';
 
 import { WrapperStyled } from './UpdateProfileStyled';
@@ -36,11 +36,12 @@ const UpdateProfile = ({
   const [detailsError, setDetailsError] = useState<string[]>([]);
   const [isUserDetailsLoading, setIsUserDetailsLoading] = useState(false);
   const [isCaptureLoading, setIsCaptureLoading] = useState(false);
-
   const [isConsentLoading, setIsConsentLoading] = useState(false);
 
   const fetchConsents = async () => {
     try {
+      setIsConsentLoading(true);
+
       const response = await getCustomerConsents();
 
       if (!response.errors.length) {
@@ -91,7 +92,7 @@ const UpdateProfile = ({
       }
 
       setUserCapture(responseData);
-      setIsUserDetailsLoading(false);
+      setIsCaptureLoading(false);
     } catch (error) {
       setDetailsError([t('updateprofile.error', 'Something went wrong..')]);
       setIsCaptureLoading(false);
@@ -125,8 +126,9 @@ const UpdateProfile = ({
   const { user, capture, consents, consentsError } = userProfile;
 
   const customSettings = capture?.isCaptureEnabled
-    ? capture.settings.reduce<CustomCaptureSetting[]>(
-        (acc, setting) => (isCustomSetting(setting) ? [...acc, setting] : acc),
+    ? capture.settings.reduce(
+        (acc: CustomCaptureSetting[], setting: CaptureSetting) =>
+          isCustomSetting(setting) ? [...acc, setting] : acc,
         []
       )
     : [];
