@@ -37,13 +37,6 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const { t } = useTranslation();
   const { showCaptchaOnRegister, sitekey } = googleRecaptcha;
 
-  console.log('##### RegisterForm', {
-    showCaptchaOnRegister,
-    sitekey,
-    errorsCaptcha: errors.captcha,
-    recaptchaRef: recaptchaRef.current?.getValue()
-  });
-
   return (
     <FromStyled onSubmit={handleSubmit} noValidate>
       <FormErrorStyled>{generalError}</FormErrorStyled>

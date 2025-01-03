@@ -84,13 +84,6 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
   const validateFields = () => {
     const captchaValue = recaptchaRef?.current?.getValue();
-
-    console.log('##### useRegisterForm > validateFields', {
-      captchaValue,
-      showCaptchaOnRegister,
-      validationREsult: validateCaptcha(captchaValue)
-    });
-
     const errorFields = {
       email: validateEmailField(email),
       password: validateRegisterPassword(password),
@@ -125,9 +118,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
     });
   };
 
-  const handleRecaptchaChange = (value: string) => {
-    console.log('##### useRegisterForm > handleRecaptchaChange', { value });
-
+  const handleRecaptchaChange = () => {
     setErrors((prevValue) => {
       return {
         ...prevValue,
@@ -198,42 +189,13 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    console.log('############ useRegisterForm > handleSubmit');
-
     if (showCaptchaOnRegister) {
-      console.log(
-        '############ useRegisterForm > handleSubmit > should show captcha case > before',
-        {
-          recaptchaRef: recaptchaRef.current,
-          executeAsync: recaptchaRef?.current?.executeAsync
-        }
-      );
       await recaptchaRef?.current?.execute();
-      // await recaptchaRef?.current?.executeAsync();
-      console.log(
-        '############ useRegisterForm > handleSubmit > should show captcha case > after',
-        {
-          recaptchaRef: recaptchaRef.current,
-          executeAsync: recaptchaRef?.current?.executeAsync
-        }
-      );
     }
-
-    console.log(
-      '########## useRegisterForm > handleSubmit > before validateFields',
-      {
-        validateFields: validateFields()
-      }
-    );
 
     if (validateFields()) {
-      console.log(
-        '########## useRegisterForm > handleSubmit > after validateFields'
-      );
       register();
     }
-
-    console.log('########## useRegisterForm > handleSubmit > end');
   };
 
   return {
