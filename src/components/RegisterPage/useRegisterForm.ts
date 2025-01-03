@@ -125,8 +125,8 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
     });
   };
 
-  const handleRecaptchaChange = () => {
-    console.log('##### useRegisterForm > handleRecaptchaChange');
+  const handleRecaptchaChange = (value: string) => {
+    console.log('##### useRegisterForm > handleRecaptchaChange', { value });
 
     setErrors((prevValue) => {
       return {

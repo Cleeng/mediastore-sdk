@@ -72,9 +72,8 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
       {showCaptchaOnRegister && (
         <>
           <ReCAPTCHA
-            isolated
             ref={recaptchaRef}
-            size='normal'
+            size='invisible'
             badge='bottomright'
             sitekey={sitekey}
             onChange={handleRecaptchaChange}
