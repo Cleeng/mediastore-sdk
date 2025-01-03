@@ -189,7 +189,10 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (showCaptchaOnRegister) await recaptchaRef?.current?.executeAsync();
+    if (showCaptchaOnRegister) {
+      await recaptchaRef?.current?.execute();
+    }
+
     if (validateFields()) {
       register();
     }
