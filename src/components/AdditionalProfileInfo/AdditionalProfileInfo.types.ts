@@ -1,3 +1,5 @@
+import { CustomCaptureSetting } from 'types/Capture.types';
+
 export type CustomSetting = {
   answer?: string;
   key: string;
@@ -7,7 +9,7 @@ export type CustomSetting = {
 };
 
 export type AdditionalProfileInfoProps = {
-  data: CustomSetting[] | null;
+  data: CustomCaptureSetting[] | null;
   isLoading: boolean;
   updateCaptureOption: (option: { key: string; value: string }) => void;
 };

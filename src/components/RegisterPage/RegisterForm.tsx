@@ -224,7 +224,6 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         showPassword={showPassword}
         handleClickShowPassword={handleClickShowPassword}
         showPasswordStrength
-        t={t}
       />
       <Consent error={errors.consents} onChangeFn={handleConsentsChange} />
       <Button
