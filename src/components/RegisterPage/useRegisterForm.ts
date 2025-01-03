@@ -202,10 +202,20 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
     if (showCaptchaOnRegister) {
       console.log(
-        '############ useRegisterForm > handleSubmit > should show captcha case',
-        { recaptchaRef: recaptchaRef.current }
+        '############ useRegisterForm > handleSubmit > should show captcha case > before',
+        {
+          recaptchaRef: recaptchaRef.current,
+          executeAsync: recaptchaRef?.current?.executeAsync
+        }
       );
       await recaptchaRef?.current?.executeAsync();
+      console.log(
+        '############ useRegisterForm > handleSubmit > should show captcha case > after',
+        {
+          recaptchaRef: recaptchaRef.current,
+          executeAsync: recaptchaRef?.current?.executeAsync
+        }
+      );
     }
 
     console.log(
