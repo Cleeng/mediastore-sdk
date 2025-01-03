@@ -73,7 +73,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         <>
           <ReCAPTCHA
             ref={recaptchaRef}
-            size='invisible'
+            size='normal'
             badge='bottomright'
             sitekey={sitekey}
             onChange={handleRecaptchaChange}
