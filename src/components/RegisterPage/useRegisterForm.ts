@@ -208,6 +208,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
           executeAsync: recaptchaRef?.current?.executeAsync
         }
       );
+      recaptchaRef?.current?.executeAsync();
       await recaptchaRef?.current?.executeAsync();
       console.log(
         '############ useRegisterForm > handleSubmit > should show captcha case > after',
