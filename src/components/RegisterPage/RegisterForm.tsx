@@ -41,7 +41,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
     showCaptchaOnRegister,
     sitekey,
     errorsCaptcha: errors.captcha,
-    recaptchaRef: recaptchaRef.current
+    recaptchaRef: recaptchaRef.current?.getValue()
   });
 
   return (
@@ -72,6 +72,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
       {showCaptchaOnRegister && (
         <>
           <ReCAPTCHA
+            isolated
             ref={recaptchaRef}
             size='normal'
             badge='bottomright'
