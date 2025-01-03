@@ -207,9 +207,22 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
       );
       await recaptchaRef?.current?.executeAsync();
     }
+
+    console.log(
+      '########## useRegisterForm > handleSubmit > before validateFields',
+      {
+        validateFields: validateFields()
+      }
+    );
+
     if (validateFields()) {
+      console.log(
+        '########## useRegisterForm > handleSubmit > after validateFields'
+      );
       register();
     }
+
+    console.log('########## useRegisterForm > handleSubmit > end');
   };
 
   return {
