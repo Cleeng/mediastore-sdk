@@ -82,8 +82,8 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
     });
   };
 
-  const validateFields = () => {
-    const captchaValue = recaptchaRef?.current?.getValue();
+  const validateFields = (captchaValue: string) => {
+    // const captchaValue = recaptchaRef?.current?.getValue();
 
     console.log('##### validateFields', {
       captchaValue,
@@ -143,7 +143,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
     );
   };
 
-  const register = async () => {
+  const register = async (captchaValue = '') => {
     setProcessing(true);
     const localesResponse = await getCustomerLocales();
 
@@ -168,7 +168,8 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
       locale,
       country,
       currency,
-      captchaValue: recaptchaRef?.current?.getValue() || ''
+      // captchaValue: recaptchaRef?.current?.getValue() || ''
+      captchaValue
     });
     console.log('######### register > after registerCustomer call', {
       captchaValue: recaptchaRef?.current?.getValue()
@@ -208,6 +209,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    let captchaToken = '';
 
     console.log('#### handleSubmit > before showCaptchaOnRegister check', {
       showCaptchaOnRegister
@@ -218,7 +220,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
         '#### handleSubmit > inside showCaptchaOnRegister check > before',
         { value: recaptchaRef.current?.getValue() }
       );
-      const captchaToken = await recaptchaRef?.current?.execute();
+      captchaToken = await recaptchaRef?.current?.execute();
       console.log(
         '#### handleSubmit > inside showCaptchaOnRegister check > after',
         { captchaToken, value: recaptchaRef.current?.getValue() }
@@ -226,11 +228,11 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
     }
 
     console.log('#### handleSubmit > before register call check', {
-      validateFields: validateFields()
+      validateFields: validateFields(captchaToken)
     });
 
-    if (validateFields()) {
-      register();
+    if (validateFields(captchaToken)) {
+      register(captchaToken);
     }
   };
 
