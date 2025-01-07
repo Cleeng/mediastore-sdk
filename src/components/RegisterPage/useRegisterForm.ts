@@ -138,6 +138,11 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
   const register = async () => {
     setProcessing(true);
     const localesResponse = await getCustomerLocales();
+
+    console.log('######### register > before first check', {
+      ifStatement: !localesResponse.responseData
+    });
+
     if (!localesResponse.responseData) {
       setProcessing(false);
       renderError(t('register-form.error.general', 'An error occurred.'));
@@ -145,6 +150,9 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
     }
     const { locale, country, currency } = localesResponse.responseData;
 
+    console.log('######### register > before registerCustomer call', {
+      captchaValue: recaptchaRef?.current?.getValue()
+    });
     const response = await registerCustomer({
       email,
       password,
@@ -153,6 +161,9 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
       country,
       currency,
       captchaValue: recaptchaRef?.current?.getValue() || ''
+    });
+    console.log('######### register > after registerCustomer call', {
+      captchaValue: recaptchaRef?.current?.getValue()
     });
 
     if (response.code === ERROR_CODES.USER.ALREADY_EXISTS) {
@@ -189,9 +200,26 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+
+    console.log('#### handleSubmit > before showCaptchaOnRegister check', {
+      showCaptchaOnRegister
+    });
+
     if (showCaptchaOnRegister) {
-      await recaptchaRef?.current?.execute();
+      console.log(
+        '#### handleSubmit > inside showCaptchaOnRegister check > before',
+        { value: recaptchaRef.current?.getValue() }
+      );
+      recaptchaRef?.current?.execute();
+      console.log(
+        '#### handleSubmit > inside showCaptchaOnRegister check > after',
+        { value: recaptchaRef.current?.getValue() }
+      );
     }
+
+    console.log('#### handleSubmit > before register call check', {
+      validateFields: validateFields()
+    });
 
     if (validateFields()) {
       register();

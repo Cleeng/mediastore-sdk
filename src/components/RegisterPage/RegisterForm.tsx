@@ -65,6 +65,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
       {showCaptchaOnRegister && (
         <>
           <ReCAPTCHA
+            isolated
             ref={recaptchaRef}
             size='invisible'
             badge='bottomright'
@@ -74,6 +75,21 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
           <>{errors.captcha}</>
         </>
       )}
+      <Button
+        onClickFn={() => {
+          console.log('########## trigger captcha button clicked > before', {
+            value: recaptchaRef.current?.getValue()
+          });
+
+          recaptchaRef.current?.execute();
+          console.log('########## trigger captcha button clicked > after', {
+            value: recaptchaRef.current?.getValue()
+          });
+        }}
+        type='button'
+      >
+        trigger captcha
+      </Button>
       <Button
         type='submit'
         size='big'
