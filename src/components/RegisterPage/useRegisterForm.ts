@@ -218,7 +218,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
         '#### handleSubmit > inside showCaptchaOnRegister check > before',
         { value: recaptchaRef.current?.getValue() }
       );
-      const captchaToken = await recaptchaRef?.current?.executeAsync();
+      const captchaToken = await recaptchaRef?.current?.execute();
       console.log(
         '#### handleSubmit > inside showCaptchaOnRegister check > after',
         { captchaToken, value: recaptchaRef.current?.getValue() }

@@ -82,7 +82,7 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
             value: recaptchaRef.current?.getValue()
           });
 
-          const captchaToken = await recaptchaRef.current?.executeAsync();
+          const captchaToken = await recaptchaRef.current?.execute();
           console.log('########## trigger captcha button clicked > after', {
             captchaToken,
             value: recaptchaRef.current?.getValue()
