@@ -84,6 +84,14 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
   const validateFields = () => {
     const captchaValue = recaptchaRef?.current?.getValue();
+
+    console.log('##### validateFields', {
+      captchaValue,
+      captchaValidated: showCaptchaOnRegister
+        ? validateCaptcha(captchaValue)
+        : ''
+    });
+
     const errorFields = {
       email: validateEmailField(email),
       password: validateRegisterPassword(password),
@@ -210,7 +218,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
         '#### handleSubmit > inside showCaptchaOnRegister check > before',
         { value: recaptchaRef.current?.getValue() }
       );
-      recaptchaRef?.current?.execute();
+      await recaptchaRef?.current?.execute();
       console.log(
         '#### handleSubmit > inside showCaptchaOnRegister check > after',
         { value: recaptchaRef.current?.getValue() }

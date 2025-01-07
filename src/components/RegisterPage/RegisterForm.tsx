@@ -76,12 +76,12 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         </>
       )}
       <Button
-        onClickFn={() => {
+        onClickFn={async () => {
           console.log('########## trigger captcha button clicked > before', {
             value: recaptchaRef.current?.getValue()
           });
 
-          recaptchaRef.current?.execute();
+          await recaptchaRef.current?.execute();
           console.log('########## trigger captcha button clicked > after', {
             value: recaptchaRef.current?.getValue()
           });
