@@ -16,6 +16,7 @@ import { useAppSelector } from 'appRedux/store';
 import { Consent as ConsentType } from 'types/Consents.types';
 import ReCAPTCHA from 'react-google-recaptcha';
 import ERROR_CODES from 'util/errorCodes';
+import normalizeCaptchaToken from './utils';
 
 type Errors = {
   email: string;
@@ -218,12 +219,22 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
     if (showCaptchaOnRegister) {
       console.log(
         '#### handleSubmit > inside showCaptchaOnRegister check > before',
-        { value: recaptchaRef.current?.getValue() }
+        { value: recaptchaRef.current?.getValue(), captchaToken }
       );
-      captchaToken = await recaptchaRef?.current?.execute();
+      const fetchedCaptchaToken = await recaptchaRef?.current?.execute();
+      captchaToken = normalizeCaptchaToken(fetchedCaptchaToken);
+      // captchaToken = isCaptchaTokenString(fetchedCaptchaToken)
+      //   ? fetchedCaptchaToken
+      //   : '';
+
       console.log(
         '#### handleSubmit > inside showCaptchaOnRegister check > after',
-        { captchaToken, value: recaptchaRef.current?.getValue() }
+        {
+          captchaToken,
+          value: recaptchaRef.current?.getValue(),
+          // isCaptchaTokenString: isCaptchaTokenString(fetchedCaptchaToken),
+          fetchedCaptchaToken
+        }
       );
     }
 
