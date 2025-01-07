@@ -76,23 +76,6 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
         </>
       )}
       <Button
-        onClickFn={async () => {
-          console.log('########## trigger captcha button clicked > before', {
-            showCaptchaOnRegister,
-            value: recaptchaRef.current?.getValue()
-          });
-
-          const captchaToken = await recaptchaRef.current?.execute();
-          console.log('########## trigger captcha button clicked > after', {
-            captchaToken,
-            value: recaptchaRef.current?.getValue()
-          });
-        }}
-        type='button'
-      >
-        trigger captcha
-      </Button>
-      <Button
         type='submit'
         size='big'
         variant='confirm'

@@ -16,7 +16,7 @@ import { useAppSelector } from 'appRedux/store';
 import { Consent as ConsentType } from 'types/Consents.types';
 import ReCAPTCHA from 'react-google-recaptcha';
 import ERROR_CODES from 'util/errorCodes';
-import normalizeCaptchaToken from './utils';
+import { normalizeCaptchaToken } from './utils';
 
 type Errors = {
   email: string;
@@ -84,15 +84,6 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
   };
 
   const validateFields = (captchaValue: string) => {
-    // const captchaValue = recaptchaRef?.current?.getValue();
-
-    console.log('##### validateFields', {
-      captchaValue,
-      captchaValidated: showCaptchaOnRegister
-        ? validateCaptcha(captchaValue)
-        : ''
-    });
-
     const errorFields = {
       email: validateEmailField(email),
       password: validateRegisterPassword(password),
@@ -147,11 +138,6 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
   const register = async (captchaValue = '') => {
     setProcessing(true);
     const localesResponse = await getCustomerLocales();
-
-    console.log('######### register > before first check', {
-      ifStatement: !localesResponse.responseData
-    });
-
     if (!localesResponse.responseData) {
       setProcessing(false);
       renderError(t('register-form.error.general', 'An error occurred.'));
@@ -159,9 +145,6 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
     }
     const { locale, country, currency } = localesResponse.responseData;
 
-    console.log('######### register > before registerCustomer call', {
-      captchaValue: recaptchaRef?.current?.getValue()
-    });
     const response = await registerCustomer({
       email,
       password,
@@ -169,11 +152,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
       locale,
       country,
       currency,
-      // captchaValue: recaptchaRef?.current?.getValue() || ''
       captchaValue
-    });
-    console.log('######### register > after registerCustomer call', {
-      captchaValue: recaptchaRef?.current?.getValue()
     });
 
     if (response.code === ERROR_CODES.USER.ALREADY_EXISTS) {
@@ -212,35 +191,10 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
     event.preventDefault();
     let captchaToken = '';
 
-    console.log('#### handleSubmit > before showCaptchaOnRegister check', {
-      showCaptchaOnRegister
-    });
-
     if (showCaptchaOnRegister) {
-      console.log(
-        '#### handleSubmit > inside showCaptchaOnRegister check > before',
-        { value: recaptchaRef.current?.getValue(), captchaToken }
-      );
       const fetchedCaptchaToken = await recaptchaRef?.current?.execute();
       captchaToken = normalizeCaptchaToken(fetchedCaptchaToken);
-      // captchaToken = isCaptchaTokenString(fetchedCaptchaToken)
-      //   ? fetchedCaptchaToken
-      //   : '';
-
-      console.log(
-        '#### handleSubmit > inside showCaptchaOnRegister check > after',
-        {
-          captchaToken,
-          value: recaptchaRef.current?.getValue(),
-          // isCaptchaTokenString: isCaptchaTokenString(fetchedCaptchaToken),
-          fetchedCaptchaToken
-        }
-      );
     }
-
-    console.log('#### handleSubmit > before register call check', {
-      validateFields: validateFields(captchaToken)
-    });
 
     if (validateFields(captchaToken)) {
       register(captchaToken);
