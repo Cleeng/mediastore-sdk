@@ -218,10 +218,10 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
         '#### handleSubmit > inside showCaptchaOnRegister check > before',
         { value: recaptchaRef.current?.getValue() }
       );
-      await recaptchaRef?.current?.executeAsync();
+      const captchaToken = await recaptchaRef?.current?.executeAsync();
       console.log(
         '#### handleSubmit > inside showCaptchaOnRegister check > after',
-        { value: recaptchaRef.current?.getValue() }
+        { captchaToken, value: recaptchaRef.current?.getValue() }
       );
     }
 
