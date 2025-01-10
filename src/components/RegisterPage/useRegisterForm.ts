@@ -1,11 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import submitConsents from 'api/Customer/submitConsents';
 import {
   validateRegisterPassword,
   validateEmailField,
-  validateConsentsField,
-  validateCaptcha
+  validateConsentsField
 } from 'util/validators';
 import { selectPublisherConfig } from 'appRedux/publisherConfigSlice';
 import { selectPublisherConsents } from 'appRedux/publisherConsentsSlice';
@@ -14,9 +13,8 @@ import getCustomerLocales from 'api/Customer/getCustomerLocales';
 import Auth from 'services/auth';
 import { useAppSelector } from 'appRedux/store';
 import { Consent as ConsentType } from 'types/Consents.types';
-import ReCAPTCHA from 'react-google-recaptcha';
 import ERROR_CODES from 'util/errorCodes';
-import { normalizeCaptchaToken } from './utils';
+import useCaptchaVerification from 'hooks/useCaptchaVerification';
 
 type Errors = {
   email: string;
@@ -47,6 +45,12 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
     []
   );
   const [processing, setProcessing] = useState(false);
+  const {
+    recaptchaRef,
+    showCaptchaOnRegister,
+    getCaptchaToken,
+    validateCaptchaToken
+  } = useCaptchaVerification();
 
   const { t } = useTranslation();
   const { publisherId, googleRecaptcha } = useAppSelector(
@@ -55,10 +59,6 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
   const { error: publisherConsentsError } = useAppSelector(
     selectPublisherConsents
   );
-
-  const { showCaptchaOnRegister } = googleRecaptcha;
-
-  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const handleClickShowPassword = () =>
     setShowPassword((prevValue) => !prevValue);
@@ -88,7 +88,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
       email: validateEmailField(email),
       password: validateRegisterPassword(password),
       consents: validateConsentsField(consents, consentDefinitions),
-      captcha: showCaptchaOnRegister ? validateCaptcha(captchaValue) : ''
+      captcha: showCaptchaOnRegister ? validateCaptchaToken(captchaValue) : ''
     };
     setErrors(errorFields);
     return !Object.values(errorFields).some((error) => error !== '');
@@ -192,8 +192,8 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
     let captchaToken = '';
 
     if (showCaptchaOnRegister) {
-      const fetchedCaptchaToken = await recaptchaRef?.current?.execute();
-      captchaToken = normalizeCaptchaToken(fetchedCaptchaToken);
+      const { captchaToken: fetchedCaptchaToken } = await getCaptchaToken();
+      captchaToken = fetchedCaptchaToken;
     }
 
     if (validateFields(captchaToken)) {

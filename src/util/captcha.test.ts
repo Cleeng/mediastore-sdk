@@ -1,4 +1,4 @@
-import { isCaptchaTokenString, normalizeCaptchaToken } from './utils';
+import { isCaptchaTokenString, normalizeCaptchaToken } from './captcha';
 
 describe('isCaptchaTokenString', () => {
   it('should return true for non-empty string', () => {
