@@ -98,6 +98,11 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
     dispatch(updateList());
   };
 
+  const getOfferPrice = ({ toOfferId, price, nextPaymentPrice }) =>
+    formatNumber(
+      isPriceTemporaryModified(toOfferId) ? price : nextPaymentPrice
+    );
+
   if (isPopupLoading) {
     return (
       <InnerPopupWrapper
@@ -179,9 +184,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
-                        ? formatNumber(toOffer.price)
-                        : formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: getOfferPrice(toOffer)
                     }}
                   </strong>{' '}
                   on your next billing date{' '}
@@ -207,9 +210,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
-                        ? formatNumber(toOffer.price)
-                        : formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: getOfferPrice(toOffer)
                     }}
                   </strong>{' '}
                   and immediately granted access to your selected plan. The
@@ -237,9 +238,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
-                        ? formatNumber(toOffer.price)
-                        : formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: getOfferPrice(toOffer)
                     }}
                   </strong>
                   . You will also be fully refunded for your previous
@@ -301,9 +300,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
-                        ? formatNumber(toOffer.price)
-                        : formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: getOfferPrice(toOffer)
                     }}
                   </strong>{' '}
                   and immediately granted access to the selected plan. You will
@@ -330,9 +327,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
-                        ? formatNumber(toOffer.price)
-                        : formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: getOfferPrice(toOffer)
                     }}
                   </strong>{' '}
                   and immediately granted access to the selected plan.
@@ -366,9 +361,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      currentPrice: isPriceTemporaryModified(toOffer.toOfferId)
-                        ? formatNumber(toOffer.price)
-                        : formatNumber(toOffer.nextPaymentPrice)
+                      currentPrice: getOfferPrice(toOffer)
                     }}
                   </strong>{' '}
                   and granted access to the selected plan. Your next billing
@@ -521,11 +514,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      nextPaymentPrice: isPriceTemporaryModified(
-                        toOffer.toOfferId
-                      )
-                        ? formatNumber(toOffer.price)
-                        : formatNumber(toOffer.nextPaymentPrice)
+                      nextPaymentPrice: getOfferPrice(toOffer)
                     }}
                   </strong>{' '}
                   starting from now.
@@ -588,11 +577,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      nextPaymentPrice: isPriceTemporaryModified(
-                        toOffer.toOfferId
-                      )
-                        ? formatNumber(toOffer.price)
-                        : formatNumber(toOffer.nextPaymentPrice)
+                      nextPaymentPrice: getOfferPrice(toOffer)
                     }}
                   </strong>{' '}
                   starting from now.
@@ -619,11 +604,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      nextPaymentPrice: isPriceTemporaryModified(
-                        toOffer.toOfferId
-                      )
-                        ? formatNumber(toOffer.price)
-                        : formatNumber(toOffer.nextPaymentPrice)
+                      nextPaymentPrice: getOfferPrice(toOffer)
                     }}
                   </strong>{' '}
                   starting from now.
@@ -650,11 +631,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      nextPaymentPrice: isPriceTemporaryModified(
-                        toOffer.toOfferId
-                      )
-                        ? formatNumber(toOffer.price)
-                        : formatNumber(toOffer.nextPaymentPrice)
+                      nextPaymentPrice: getOfferPrice(toOffer)
                     }}
                   </strong>{' '}
                   starting from now.

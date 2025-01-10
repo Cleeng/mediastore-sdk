@@ -50,7 +50,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
 
   const { t } = useTranslation();
 
-  const onBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const {
       target: { name, value }
     } = e;
@@ -77,7 +77,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
     }
   };
 
-  const onChange = (
+  const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     if (shouldHideValue) {
@@ -134,6 +134,9 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
 
   const shouldHideValue = !isMyAccount && isEditDeliveryDetailsPopupOpened;
 
+  const getInputValue = (value: string | number) =>
+    shouldHideValue ? '' : value;
+
   return (
     <StyledRecipientForm noValidate>
       {loading ? (
@@ -158,14 +161,14 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
             error={t(recipientEmail.translationKey, recipientEmail.error)}
             label={t('recipientForm.label.recipient-email', 'Recipient email')}
             name='recipientEmail'
-            onBlur={onBlur}
-            onChange={onChange}
+            onBlur={handleBlur}
+            onChange={handleChange}
             placeholder={t(
               'recipientForm.label.recipient-email',
               'jdoe@cleeng.com'
             )}
             type='email'
-            value={shouldHideValue ? '' : recipientEmail.value}
+            value={getInputValue(recipientEmail.value)}
           />
           {!isFieldDisabled && (
             <MyAccountInput
@@ -178,14 +181,14 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
                 'Confirm recipient email'
               )}
               name='confirmRecipientEmail'
-              onBlur={onBlur}
-              onChange={onChange}
+              onBlur={handleBlur}
+              onChange={handleChange}
               placeholder={t(
                 'recipientForm.label.confirm-recipient-email',
                 'jdoe@cleeng.com'
               )}
               type='email'
-              value={shouldHideValue ? '' : confirmRecipientEmail.value}
+              value={getInputValue(confirmRecipientEmail.value)}
             />
           )}
           <DateContainer>
@@ -195,10 +198,10 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
               label={t('recipientForm.label.delivery-date', 'Delivery date')}
               min={new Date().toISOString().split('T')[0]}
               name='deliveryDate'
-              onBlur={onBlur}
-              onChange={onChange}
+              onBlur={handleBlur}
+              onChange={handleChange}
               type='date'
-              value={shouldHideValue ? '' : deliveryDate.value}
+              value={getInputValue(deliveryDate.value)}
               width='50%'
             />
             <MyAccountInput
@@ -206,10 +209,10 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
               error={t(deliveryTime.translationKey, deliveryTime.error)}
               label={t('recipientForm.label.delivery-time', 'Delivery time')}
               name='deliveryTime'
-              onBlur={onBlur}
-              onChange={onChange}
+              onBlur={handleBlur}
+              onChange={handleChange}
               type='time'
-              value={shouldHideValue ? '' : deliveryTime.value}
+              value={getInputValue(deliveryTime.value)}
               width='50%'
             />
           </DateContainer>
@@ -225,7 +228,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
               disabled={isFieldDisabled}
               maxLength={150}
               name='message'
-              onChange={onChange}
+              onChange={handleChange}
               placeholder={
                 isFieldDisabled
                   ? ''
@@ -235,7 +238,7 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
                     )
               }
               rows={3}
-              value={shouldHideValue ? '' : message.value}
+              value={getInputValue(message.value)}
             />
           </MessageWrapper>
           {!isMyAccount && (
