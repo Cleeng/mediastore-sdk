@@ -29,7 +29,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
     steps:
       - uses: actions/checkout@v3
@@ -45,6 +45,14 @@ jobs:
           always-auth: true
           scope: ${{ inputs.scope }}
           registry-url: https://${{ inputs.registry }}
+
+      - name: Trigger MSSDK regression suite
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${{ secrets.TOKEN }}" \
+            https://api.github.com/repos/Cleeng/release-regression/dispatches \
+            -d '{"event_type":"run_mssdk_tests"}'
 
       - name: get current git tag
         run: >
