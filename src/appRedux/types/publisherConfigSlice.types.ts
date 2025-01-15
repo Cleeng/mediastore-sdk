@@ -36,7 +36,8 @@ export type PaymentMethodName =
   | 'ideal'
   | 'bancontact_card'
   | 'bancontact_mobile'
-  | 'free-offer';
+  | 'free-offer'
+  | 'gcash';
 
 export type PaymentGateway = 'adyen' | 'paypal' | 'free-offer';
 
