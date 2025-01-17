@@ -37,6 +37,12 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
   const { t } = useTranslation();
   const { showCaptchaOnRegister, sitekey } = googleRecaptcha;
 
+  console.log('[RegisterForm] Rendering with captcha config:', {
+    showCaptchaOnRegister,
+    sitekey,
+    hasRecaptchaRef: !!recaptchaRef
+  });
+
   return (
     <FromStyled onSubmit={handleSubmit} noValidate>
       <FormErrorStyled>{generalError}</FormErrorStyled>
@@ -68,7 +74,19 @@ export const RegisterForm = ({ onSuccess }: RegisterFormProps) => {
             size='invisible'
             badge='bottomright'
             sitekey={sitekey}
-            onChange={handleRecaptchaChange}
+            onChange={(value) => {
+              console.log(
+                '[RegisterForm] ReCAPTCHA onChange called with value:',
+                !!value
+              );
+              handleRecaptchaChange();
+            }}
+            onErrored={() => {
+              console.error('[RegisterForm] ReCAPTCHA encountered an error');
+            }}
+            onExpired={() => {
+              console.log('[RegisterForm] ReCAPTCHA token expired');
+            }}
           />
           <>{errors.captcha}</>
         </>
