@@ -84,12 +84,17 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
   };
 
   const validateFields = (captchaValue: string) => {
+    console.log(
+      '[Register] Validating fields with captcha value:',
+      captchaValue
+    );
     const errorFields = {
       email: validateEmailField(email),
       password: validateRegisterPassword(password),
       consents: validateConsentsField(consents, consentDefinitions),
       captcha: showCaptchaOnRegister ? validateCaptchaToken(captchaValue) : ''
     };
+    console.log('[Register] Validation results:', errorFields);
     setErrors(errorFields);
     return !Object.values(errorFields).some((error) => error !== '');
   };
@@ -119,6 +124,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
   };
 
   const handleRecaptchaChange = () => {
+    console.log('[Register] Captcha value changed');
     setErrors((prevValue) => {
       return {
         ...prevValue,
@@ -136,6 +142,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
   };
 
   const register = async (captchaValue = '') => {
+    console.log('[Register] Starting registration with captcha:', captchaValue);
     setProcessing(true);
     const localesResponse = await getCustomerLocales();
     if (!localesResponse.responseData) {
@@ -189,15 +196,24 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
+    console.log(
+      '[Register] Form submitted, showCaptchaOnRegister:',
+      showCaptchaOnRegister
+    );
     let captchaToken = '';
 
     if (showCaptchaOnRegister) {
+      console.log('[Register] Attempting to get captcha token');
       const { captchaToken: fetchedCaptchaToken } = await getCaptchaToken();
       captchaToken = fetchedCaptchaToken;
+      console.log('[Register] Received captcha token:', !!captchaToken);
     }
 
     if (validateFields(captchaToken)) {
+      console.log('[Register] Fields validated, proceeding with registration');
       register(captchaToken);
+    } else {
+      console.log('[Register] Field validation failed');
     }
   };
 
