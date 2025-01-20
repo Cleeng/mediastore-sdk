@@ -64,7 +64,7 @@ pnpm i @cleeng/mediastore-sdk styled-components
 pnpm i --shamefully-hoist=true
 ```
 
-Since we will be importing CSS files directly from `node_modules` in the next step `--shamefully-hoist=true` is required
+Since we will be importing CSS files directly from `node_modules` in the next step `--shamefully-hoist=true` is required.
 
 **yarn**
 
