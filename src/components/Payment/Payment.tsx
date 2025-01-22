@@ -27,6 +27,7 @@ import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import RedirectElement from '@adyen/adyen-web';
 import ReCAPTCHA from 'react-google-recaptcha';
 import useCaptchaVerification from 'hooks/useCaptchaVerification';
+import ERROR_CODES from 'util/errorCodes';
 import {
   PaymentErrorStyled,
   PaymentStyled,
@@ -292,7 +293,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       return;
     }
 
-    const { errors, responseData } = await submitPayment({
+    const { errors, responseData, code } = await submitPayment({
       paymentMethod,
       browserInfo,
       billingAddress,
@@ -305,17 +306,26 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       const notSupportedMethod = errors[0].includes(
         'Payment details are not supported'
       );
-      setGeneralError(
-        notSupportedMethod
-          ? t(
-              'payment.error.payment-method-not-supported',
-              'Payment method not supported. Try different payment method'
-            )
-          : t(
-              'payment.error.payment-not-processed',
-              'The payment has not been processed. Please, try again with a different payment method.'
-            )
-      );
+      if (code === ERROR_CODES.CAPTCHA.VERIFICATION_FAILED) {
+        setGeneralError(
+          t(
+            'payment.error.captcha-verification-failed',
+            'An error occurred during payment. Please try again later. If the issue persists, please reach out to our support team for assistance.'
+          )
+        );
+      } else {
+        setGeneralError(
+          notSupportedMethod
+            ? t(
+                'payment.error.payment-method-not-supported',
+                'Payment method not supported. Try different payment method'
+              )
+            : t(
+                'payment.error.payment-not-processed',
+                'The payment has not been processed. Please, try again with a different payment method.'
+              )
+        );
+      }
 
       setIsLoading(false);
       // force Adyen remount

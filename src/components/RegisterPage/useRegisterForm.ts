@@ -169,6 +169,13 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
           "We couldn't verify the email address you entered. Please check it for accuracy and try again. If you're sure the address is correct and still see this message, you may need to use a different email or contact support for help."
         )
       );
+    } else if (response.code === ERROR_CODES.CAPTCHA.VERIFICATION_FAILED) {
+      renderError(
+        t(
+          'register-form.error.captcha-verification-failed',
+          'An error occurred during registration. Please try again later. If the issue persists, please reach out to our support team for assistance.'
+        )
+      );
     } else if (response.code) {
       renderError(t('register-form.error.general', 'An error occurred.'));
     }
