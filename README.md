@@ -50,12 +50,26 @@ To find out more about MediaStore SDK, see:
 
 #### Installation
 
-```
-// npm
-npm i @cleeng/mediastore-sdk styled-components
-// or yarn
-yarn add @cleeng/mediastore-sdk styled-components
+**npm**
 
+```
+npm i @cleeng/mediastore-sdk styled-components
+```
+
+**pnpm**
+
+```
+pnpm i @cleeng/mediastore-sdk styled-components
+// and then
+pnpm i --shamefully-hoist=true
+```
+
+Since we will be importing CSS files directly from `node_modules` in the next step `--shamefully-hoist=true` is required.
+
+**yarn**
+
+```
+yarn add @cleeng/mediastore-sdk styled-components
 ```
 
 <div align="right">[ <a href="#table-of-contents">↑ Back to top ↑</a> ]</div>
