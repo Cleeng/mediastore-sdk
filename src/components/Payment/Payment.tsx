@@ -42,6 +42,25 @@ import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { PaymentProps } from './Payment.types';
 
+type ErrorMapType = {
+  [key: string]: [string, string];
+};
+
+const GERNERAL_ERRORS_MAP: ErrorMapType = {
+  CPT0002: [
+    'payment.error.captcha-verification-failed',
+    'An error occurred during payment. Please try again later. If the issue persists, please reach out to our support team for assistance.'
+  ],
+  ADYEN_DEFAULT: [
+    'payment.error.payment-not-processed',
+    'The payment has not been processed. Please, try again with a different payment method.'
+  ],
+  PAYPAL_DEFAULT: [
+    'payment.error.paypal-failed',
+    'The payment failed. Please try again.'
+  ]
+};
+
 const Payment = ({ onPaymentComplete }: PaymentProps) => {
   const { paymentMethods: publisherPaymentMethods, isPayPalHidden } =
     useAppSelector(selectPublisherConfig);
@@ -245,16 +264,13 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     }
 
     setIsLoading(true);
-    const { responseData } = await submitPayPalPayment(captchaToken);
+    const { responseData, code } = await submitPayPalPayment(captchaToken);
     if (responseData?.redirectUrl) {
       window.location.href = responseData.redirectUrl;
     } else {
       setIsLoading(false);
       setGeneralError(
-        t(
-          'payment.error.paypal-failed',
-          'The payment failed. Please try again.'
-        )
+        t(...(GERNERAL_ERRORS_MAP[code] || GERNERAL_ERRORS_MAP.PAYPAL_DEFAULT))
       );
     }
   };
@@ -292,7 +308,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       return;
     }
 
-    const { errors, responseData } = await submitPayment({
+    const { errors, responseData, code } = await submitPayment({
       paymentMethod,
       browserInfo,
       billingAddress,
@@ -302,19 +318,8 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       eventDispatcher(MSSDK_PURCHASE_FAILED, {
         reason: errors[0]
       });
-      const notSupportedMethod = errors[0].includes(
-        'Payment details are not supported'
-      );
       setGeneralError(
-        notSupportedMethod
-          ? t(
-              'payment.error.payment-method-not-supported',
-              'Payment method not supported. Try different payment method'
-            )
-          : t(
-              'payment.error.payment-not-processed',
-              'The payment has not been processed. Please, try again with a different payment method.'
-            )
+        t(...(GERNERAL_ERRORS_MAP[code] || GERNERAL_ERRORS_MAP.ADYEN_DEFAULT))
       );
 
       setIsLoading(false);
