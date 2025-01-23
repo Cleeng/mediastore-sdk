@@ -5,7 +5,28 @@ on:
     types: [opened, synchronize]
 
 jobs:
+  validate-version:
+    if: startsWith(github.head_ref, 'release/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate release version format
+        run: |
+          if [[ ! "${{ github.head_ref }}" =~ ^release/[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Invalid release branch format. Must be 'release/x.y.z' where x,y,z are numbers. Please follow the semantic versioning rules."
+            exit 1
+          fi
+      - name: Validate PR title matches branch name
+        run: |
+          if [ "${{ github.head_ref }}" != "${{ github.event.pull_request.title }}" ]; then
+            echo "PR title must match branch name exactly"
+            echo "Branch name: ${{ github.head_ref }}"
+            echo "PR title: ${{ github.event.pull_request.title }}"
+            exit 1
+          fi
+
   publish:
+    needs: validate-version
+    if: ${{ !startsWith(github.head_ref, 'release/') || success() }}
     uses: ./.github/workflows/call-publish.yml
     permissions:
       contents: read
