@@ -24,7 +24,9 @@ const useCaptchaVerification = () => {
   };
 
   const getCaptchaToken = async (): Promise<VerifyCaptchaResult> => {
-    const fetchedCaptchaToken = await recaptchaRef.current?.execute();
+    const currentToken = recaptchaRef.current?.getValue();
+    const fetchedCaptchaToken =
+      currentToken || (await recaptchaRef.current?.execute());
     const normalizedCaptchaToken = normalizeCaptchaToken(fetchedCaptchaToken);
 
     const recaptchaValidationError = validateCaptchaToken(
