@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, lazy } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getPaymentMethods, submitPayment, submitPayPalPayment } from 'api';
 import { submitPaymentWithoutDetails } from 'appRedux/paymentSlice';
 import Button from 'components/Button';
-import Adyen from 'components/Adyen';
 import Loader from 'components/Loader';
 import SectionHeader from 'components/SectionHeader';
 import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
@@ -39,6 +38,9 @@ import eventDispatcher, {
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { PaymentProps } from './Payment.types';
+
+const Adyen = lazy(() => import('components/Adyen'));
+const Primer = lazy(() => import('components/Primer'));
 
 const Payment = ({ onPaymentComplete }: PaymentProps) => {
   const { paymentMethods: publisherPaymentMethods, isPayPalHidden } =
@@ -394,6 +396,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       </SectionHeader>
       <PaymentWrapperStyled>
         {isPaymentFinalizationInProgress && <Loader />}
+        <Primer />
         {shouldShowAdyen && (
           <Adyen
             key={adyenKey}
