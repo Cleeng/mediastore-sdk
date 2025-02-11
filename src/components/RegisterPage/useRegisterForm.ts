@@ -135,7 +135,7 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
     );
   };
 
-  const register = async (captchaValue = '') => {
+  const register = async (captchaValue = ''): Promise<boolean> => {
     setProcessing(true);
     const localesResponse = await getCustomerLocales();
     if (!localesResponse.responseData) {
@@ -155,43 +155,50 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
       captchaValue
     });
 
-    if (response.code === ERROR_CODES.USER.ALREADY_EXISTS) {
-      renderError(
-        t('register-form.error.customer-exists', 'Customer already exists.')
+    if (!response.code) {
+      Auth.login(
+        false,
+        true,
+        email,
+        response?.responseData?.jwt,
+        response?.responseData?.refreshToken,
+        submitConsents,
+        [consents, consentDefinitions],
+        onSuccess
       );
-    } else if (
-      response.errors[0] === 'Email verification failed.' &&
-      response.code === ERROR_CODES.REQUEST.INVALID_REQUEST_BODY
-    ) {
-      renderError(
-        t(
-          'register-form.error.email-verification-failed',
-          "We couldn't verify the email address you entered. Please check it for accuracy and try again. If you're sure the address is correct and still see this message, you may need to use a different email or contact support for help."
-        )
-      );
-    } else if (response.code === ERROR_CODES.CAPTCHA.VERIFICATION_FAILED) {
-      renderError(
-        t(
-          'register-form.error.captcha-verification-failed',
-          'An error occurred during registration. Please try again later. If the issue persists, please reach out to our support team for assistance.'
-        )
-      );
-    } else if (response.code) {
-      renderError(t('register-form.error.general', 'An error occurred.'));
+      return true;
     }
 
-    Auth.login(
-      false,
-      true,
-      email,
-      response?.responseData?.jwt,
-      response?.responseData?.refreshToken,
-      submitConsents,
-      [consents, consentDefinitions],
-      onSuccess
-    );
+    switch (response.code) {
+      case ERROR_CODES.USER.ALREADY_EXISTS:
+        renderError(
+          t('register-form.error.customer-exists', 'Customer already exists.')
+        );
+        break;
+      case ERROR_CODES.REQUEST.INVALID_REQUEST_BODY:
+        if (response.errors[0] === 'Email verification failed.') {
+          renderError(
+            t(
+              'register-form.error.email-verification-failed',
+              "We couldn't verify the email address you entered. Please check it for accuracy and try again. If you're sure the address is correct and still see this message, you may need to use a different email or contact support for help."
+            )
+          );
+        }
+        break;
+      case ERROR_CODES.CAPTCHA.VERIFICATION_FAILED:
+        renderError(
+          t(
+            'register-form.error.captcha-verification-failed',
+            'An error occurred during registration. Please try again later. If the issue persists, please reach out to our support team for assistance.'
+          )
+        );
+        break;
+      default:
+        renderError(t('register-form.error.general', 'An error occurred.'));
+        break;
+    }
 
-    return true;
+    return false;
   };
 
   const handleSubmit = async (event: React.FormEvent) => {
