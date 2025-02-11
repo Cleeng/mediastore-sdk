@@ -1,0 +1,48 @@
+name-template: '$RESOLVED_VERSION'
+tag-template: '$RESOLVED_VERSION'
+categories:
+  - title: 'Breaking changes'
+    labels:
+      - 'breaking'
+      - 'breaking-change'
+  - title: 'New features'
+    labels:
+      - 'feat'
+  - title: 'Fixes'
+    labels:
+      - 'fix'
+  - title: 'Improvements & Maintenance'
+    labels:
+      - 'chore'
+      - 'docs'
+      - 'refactor'
+      - 'style'
+      - 'test'
+version-resolver:
+  major:
+    labels:
+      - 'breaking'
+      - 'breaking-change'
+  minor:
+    labels:
+      - 'feat'
+  patch:
+    labels:
+      - 'chore'
+      - 'docs'
+      - 'refactor'
+      - 'style'
+      - 'test'
+  default: patch
+
+change-template: '- $TITLE ([#$NUMBER]($URL)) by @$AUTHOR'
+sort-by: 'title'
+template: |
+  ## What's Changed
+
+  $CHANGES
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...v$RESOLVED_VERSION
+
+exclude-labels:
+  - 'skip-changelog'
