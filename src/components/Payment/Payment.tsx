@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy } from 'react';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getPaymentMethods, submitPayment, submitPayPalPayment } from 'api';
 import { submitPaymentWithoutDetails } from 'appRedux/paymentSlice';
@@ -341,6 +341,32 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     publisherPaymentMethods
   );
 
+  const shouldShowPrimer = shouldShowGatewayComponent(
+    'primer',
+    publisherPaymentMethods
+  );
+
+  const getPaymentDropIn = () => {
+    if (shouldShowPrimer) {
+      return <Primer />;
+    }
+
+    if (shouldShowAdyen) {
+      return (
+        <Adyen
+          key={adyenKey}
+          onSubmit={onAdyenSubmit}
+          selectPaymentMethod={selectPaymentMethodHandler}
+          isPayPalAvailable={shouldShowPayPal}
+          getDropIn={getDropIn}
+          onAdditionalDetails={onAdditionalDetails}
+        />
+      );
+    }
+
+    return null;
+  };
+
   const noPaymentMethods = !publisherPaymentMethods.length;
 
   const showPayPalWhenAdyenIsReady = () =>
@@ -396,17 +422,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       </SectionHeader>
       <PaymentWrapperStyled>
         {isPaymentFinalizationInProgress && <Loader />}
-        <Primer />
-        {shouldShowAdyen && (
-          <Adyen
-            key={adyenKey}
-            onSubmit={onAdyenSubmit}
-            selectPaymentMethod={selectPaymentMethodHandler}
-            isPayPalAvailable={shouldShowPayPal}
-            getDropIn={getDropIn}
-            onAdditionalDetails={onAdditionalDetails}
-          />
-        )}
+        <Suspense fallback={<Loader />}>{getPaymentDropIn()}</Suspense>
         {shouldShowPayPal &&
           showPayPalWhenAdyenIsReady() &&
           !isActionHandlingProcessing && (
