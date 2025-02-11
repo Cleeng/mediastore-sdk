@@ -42,8 +42,9 @@ describe('useCaptchaVerification', () => {
     expect(error).toBe('');
   });
 
-  it('should handle getCaptchaToken successfully', async () => {
+  it('should handle getCaptchaToken if token doesnt exist successfully', async () => {
     const mockExecute = vi.fn().mockResolvedValue('raw-token');
+    const mockGetValue = vi.fn().mockReturnValue('');
     const mockNormalizeCaptchaToken = vi.spyOn(
       captchaUtils,
       'normalizeCaptchaToken'
@@ -55,12 +56,13 @@ describe('useCaptchaVerification', () => {
 
     const { result } = renderHook(() => useCaptchaVerification());
     Object.defineProperty(result.current.recaptchaRef, 'current', {
-      value: { execute: mockExecute },
+      value: { execute: mockExecute, getValue: mockGetValue },
       configurable: true
     });
 
     const captchaResult = await result.current.getCaptchaToken();
 
+    expect(mockGetValue).toHaveBeenCalled();
     expect(mockExecute).toHaveBeenCalled();
     expect(mockNormalizeCaptchaToken).toHaveBeenCalledWith('raw-token');
     expect(mockValidateCaptcha).toHaveBeenCalledWith('normalized-token');
@@ -71,8 +73,40 @@ describe('useCaptchaVerification', () => {
     });
   });
 
+  it('should handle getCaptchaToken if token exist successfully', async () => {
+    const mockExecute = vi.fn().mockResolvedValue('raw-token');
+    const mockGetValue = vi.fn().mockReturnValue('raw-token-current');
+    const mockNormalizeCaptchaToken = vi.spyOn(
+      captchaUtils,
+      'normalizeCaptchaToken'
+    );
+    mockNormalizeCaptchaToken.mockReturnValue('normalized-token');
+
+    const mockValidateCaptcha = vi.spyOn(validators, 'validateCaptcha');
+    mockValidateCaptcha.mockReturnValue('');
+
+    const { result } = renderHook(() => useCaptchaVerification());
+    Object.defineProperty(result.current.recaptchaRef, 'current', {
+      value: { execute: mockExecute, getValue: mockGetValue },
+      configurable: true
+    });
+
+    const captchaResult = await result.current.getCaptchaToken();
+
+    expect(mockGetValue).toHaveBeenCalled();
+    expect(mockExecute).toHaveBeenCalledTimes(0);
+    expect(mockNormalizeCaptchaToken).toHaveBeenCalledWith('raw-token-current');
+    expect(mockValidateCaptcha).toHaveBeenCalledWith('normalized-token');
+    expect(captchaResult).toEqual({
+      recaptchaError: '',
+      hasCaptchaSucceeded: true,
+      captchaToken: 'normalized-token'
+    });
+  });
+
   it('should handle getCaptchaToken with validation error', async () => {
     const mockExecute = vi.fn().mockResolvedValue('raw-token');
+    const mockGetValue = vi.fn().mockResolvedValue('');
     const mockNormalizeCaptchaToken = vi.spyOn(
       captchaUtils,
       'normalizeCaptchaToken'
@@ -84,7 +118,7 @@ describe('useCaptchaVerification', () => {
 
     const { result } = renderHook(() => useCaptchaVerification());
     Object.defineProperty(result.current.recaptchaRef, 'current', {
-      value: { execute: mockExecute },
+      value: { execute: mockExecute, getValue: mockGetValue },
       configurable: true
     });
     const captchaResult = await result.current.getCaptchaToken();
