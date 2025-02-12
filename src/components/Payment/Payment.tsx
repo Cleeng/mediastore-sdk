@@ -39,8 +39,12 @@ import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { PaymentProps } from './Payment.types';
 
-const Adyen = lazy(() => import('components/Adyen'));
-const Primer = lazy(() => import('components/Primer'));
+const Adyen = lazy(
+  () => import(/* webpackChunkName: "adyen-component" */ 'components/Adyen')
+);
+const Primer = lazy(
+  () => import(/* webpackChunkName: "primer-component" */ 'components/Primer')
+);
 
 const Payment = ({ onPaymentComplete }: PaymentProps) => {
   const { paymentMethods: publisherPaymentMethods, isPayPalHidden } =
