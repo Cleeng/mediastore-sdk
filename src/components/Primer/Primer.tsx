@@ -8,11 +8,10 @@ const options = {
 };
 
 const Primer = () => {
-  const createDropIn = async () => {
-    await PrimerSDK.showUniversalCheckout(clientToken, options);
-  };
-
   useEffect(() => {
+    const createDropIn = async () => {
+      await PrimerSDK.showUniversalCheckout(clientToken, options);
+    };
     createDropIn();
   }, []);
 
