@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getPaymentMethods, submitPayment, submitPayPalPayment } from 'api';
 import { submitPaymentWithoutDetails } from 'appRedux/paymentSlice';
@@ -6,6 +6,7 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import SectionHeader from 'components/SectionHeader';
 import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
+import PaymentDropIn from 'components/PaymentDropIn';
 import {
   fetchFinalizeInitialPayment,
   selectFinalizePayment
@@ -23,7 +24,6 @@ import {
 import { fetchUpdateOrder, selectOnlyOrder } from 'appRedux/orderSlice';
 import { setSelectedPaymentMethod } from 'appRedux/paymentMethodsSlice';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
-import RedirectElement from '@adyen/adyen-web';
 import {
   PaymentErrorStyled,
   PaymentStyled,
@@ -38,13 +38,6 @@ import eventDispatcher, {
 import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { PaymentProps } from './Payment.types';
-
-const Adyen = lazy(
-  () => import(/* webpackChunkName: "adyen-component" */ 'components/Adyen')
-);
-const Primer = lazy(
-  () => import(/* webpackChunkName: "primer-component" */ 'components/Primer')
-);
 
 const Payment = ({ onPaymentComplete }: PaymentProps) => {
   const { paymentMethods: publisherPaymentMethods, isPayPalHidden } =
@@ -63,11 +56,8 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [generalError, setGeneralError] = useState<string>('');
-  const [adyenKey, setAdyenKey] = useState<number | null>(null);
 
-  const [dropInInstance, setDropInInstance] = useState<
-    typeof RedirectElement | null
-  >(null);
+  const [dropInInstance, setDropInInstance] = useState<unknown | null>(null);
 
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] =
     useState(false);
@@ -240,7 +230,6 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     } = state;
     dispatch(fetchFinalizeInitialPayment({ orderId: order.id, details }));
   };
-
   const onAdyenSubmit = async (
     state: {
       data: {
@@ -283,7 +272,6 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       setIsLoading(false);
       // force Adyen remount
       setDropInInstance(null);
-      setAdyenKey((key) => (key ? null : 1));
       return;
     }
 
@@ -305,7 +293,8 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     }
   };
 
-  const getDropIn = (drop: typeof RedirectElement) => {
+  // add correct type during adyen-web v6 migration
+  const getDropIn = (drop: unknown) => {
     // TODO check if paymentMethodType is correct
     setDropInInstance(drop);
   };
@@ -340,41 +329,20 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     ? false
     : shouldShowGatewayComponent('paypal', publisherPaymentMethods);
 
-  const shouldShowAdyen = shouldShowGatewayComponent(
-    'adyen',
-    publisherPaymentMethods
-  );
-
-  const shouldShowPrimer = shouldShowGatewayComponent(
-    'primer',
-    publisherPaymentMethods
-  );
-
-  const getPaymentDropIn = () => {
-    if (shouldShowPrimer) {
-      return <Primer />;
-    }
-
-    if (shouldShowAdyen) {
-      return (
-        <Adyen
-          key={adyenKey}
-          onSubmit={onAdyenSubmit}
-          selectPaymentMethod={selectPaymentMethodHandler}
-          isPayPalAvailable={shouldShowPayPal}
-          getDropIn={getDropIn}
-          onAdditionalDetails={onAdditionalDetails}
-        />
-      );
-    }
-
-    return null;
+  const adyenProps = {
+    onSubmit: onAdyenSubmit,
+    selectPaymentMethod: selectPaymentMethodHandler,
+    isPayPalAvailable: shouldShowPayPal,
+    getDropIn,
+    onAdditionalDetails
   };
 
   const noPaymentMethods = !publisherPaymentMethods.length;
 
   const showPayPalWhenAdyenIsReady = () =>
-    shouldShowAdyen ? !!dropInInstance : true;
+    shouldShowGatewayComponent('adyen', publisherPaymentMethods)
+      ? !!dropInInstance
+      : true;
 
   if (noPaymentMethods && !isLoading) {
     return (
@@ -426,7 +394,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       </SectionHeader>
       <PaymentWrapperStyled>
         {isPaymentFinalizationInProgress && <Loader />}
-        <Suspense fallback={<Loader />}>{getPaymentDropIn()}</Suspense>
+        <PaymentDropIn adyenProps={adyenProps} />
         {shouldShowPayPal &&
           showPayPalWhenAdyenIsReady() &&
           !isActionHandlingProcessing && (

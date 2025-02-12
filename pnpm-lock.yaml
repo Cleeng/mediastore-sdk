@@ -396,8 +396,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/runtime-corejs3@7.25.6':
-    resolution: {integrity: sha512-Gz0Nrobx8szge6kQQ5Z5MX9L3ObqNwCQY1PSwSNzreFL7aHGxv8Fp2j3ETV6/wWdbiV+mW6OSm8oQhg3Tcsniw==}
+  '@babel/runtime-corejs3@7.26.7':
+    resolution: {integrity: sha512-55gRV8vGrCIYZnaQHQrD92Lo/hYE3Sj5tmbuf0hhHR7sj2CWhEhHU89hbq+UVDXvFG1zUVXJhUkEq1eAfqXtFw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/runtime@7.25.6':
@@ -1665,8 +1665,8 @@ packages:
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
-  core-js-pure@3.38.1:
-    resolution: {integrity: sha512-BY8Etc1FZqdw1glX0XNOq2FDwfrg/VGqoZOZCdaL+UmdaqDwQwYXkMJT4t6In+zfEfOJDcM9T0KdbBeJg8KKCQ==}
+  core-js-pure@3.40.0:
+    resolution: {integrity: sha512-AtDzVIgRrmRKQai62yuSIN5vNiQjcJakJb4fbhVw3ehxx7Lohphvw9SGNWKhLFqSxC4ilD0g/L1huAYFQU3Q6A==}
 
   core-js@3.40.0:
     resolution: {integrity: sha512-7vsMc/Lty6AGnn7uFpYT56QesI5D2Y/UkgKounk87OP9Z2H9Z8kj6jzcSGAxFmUtDOS0ntK6lbQz+Nsa0Jj6mQ==}
@@ -4283,11 +4283,11 @@ snapshots:
   '@adyen/adyen-web@5.66.1':
     dependencies:
       '@babel/runtime': 7.25.6
-      '@babel/runtime-corejs3': 7.25.6
+      '@babel/runtime-corejs3': 7.26.7
       '@types/applepayjs': 14.0.6
       '@types/googlepay': 0.7.6
       classnames: 2.5.1
-      core-js-pure: 3.38.1
+      core-js-pure: 3.40.0
       preact: 10.13.2
 
   '@ampproject/remapping@2.3.0':
@@ -4478,9 +4478,9 @@ snapshots:
       '@babel/core': 7.25.2
       '@babel/helper-plugin-utils': 7.24.8
 
-  '@babel/runtime-corejs3@7.25.6':
+  '@babel/runtime-corejs3@7.26.7':
     dependencies:
-      core-js-pure: 3.38.1
+      core-js-pure: 3.40.0
       regenerator-runtime: 0.14.1
 
   '@babel/runtime@7.25.6':
@@ -5869,7 +5869,7 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
-  core-js-pure@3.38.1: {}
+  core-js-pure@3.40.0: {}
 
   core-js@3.40.0: {}
 

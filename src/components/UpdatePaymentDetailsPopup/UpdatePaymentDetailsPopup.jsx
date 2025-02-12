@@ -1,4 +1,4 @@
-import { useState, useEffect, lazy, Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
@@ -11,6 +11,7 @@ import {
   ButtonWrapperStyled,
   WarningMessageStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
+import PaymentDropIn from 'components/PaymentDropIn';
 import { fetchFinalizeAddPaymentDetails } from 'appRedux/finalizeAddPaymentDetailsSlice';
 import {
   updatePaymentDetailsPopup,
@@ -50,13 +51,6 @@ import {
 } from './Steps';
 import PayPal from '../Payment/PayPal/PayPal';
 import Loader from '../Loader';
-
-const Adyen = lazy(() =>
-  import(/* webpackChunkName: "adyen-component" */ 'components/Adyen')
-);
-const Primer = lazy(() =>
-  import(/* webpackChunkName: "primer-component" */ 'components/Primer')
-);
 
 const PaymentMethodIcons = {
   amazon: AmazonIcon,
@@ -269,30 +263,17 @@ const UpdatePaymentDetailsPopup = () => {
     : shouldShowGatewayComponent('paypal', paymentMethods);
 
   const shouldShowAdyen = shouldShowGatewayComponent('adyen', paymentMethods);
-  const shouldShowPrimer = shouldShowGatewayComponent('primer', paymentMethods);
 
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!dropInInstance : true;
 
-  const getPaymentDropIn = () => {
-    if (shouldShowPrimer) {
-      return <Primer />;
-    }
-
-    if (shouldShowAdyen) {
-      return (
-        <Adyen
-          isMyAccount
-          onSubmit={addAdyenPaymentDetails}
-          selectPaymentMethod={selectPaymentMethodHandler}
-          isPayPalAvailable={shouldShowPayPal}
-          getDropIn={getDropIn}
-          onAdditionalDetails={onAdditionalDetails}
-        />
-      );
-    }
-
-    return null;
+  const adyenProps = {
+    isMyAccount: true,
+    onSubmit: addAdyenPaymentDetails,
+    selectPaymentMethod: selectPaymentMethodHandler,
+    isPayPalAvailable: shouldShowPayPal,
+    getDropIn,
+    onAdditionalDetails
   };
 
   if (step === PAYMENT_DETAILS_STEPS.DELETE_PAYMENT_DETAILS) {
@@ -402,7 +383,7 @@ const UpdatePaymentDetailsPopup = () => {
           )}
         </TextStyled>
         <PaymentMethodsWrapperStyled>
-          <Suspense fallback={<Loader />}>{getPaymentDropIn()}</Suspense>
+          <PaymentDropIn adyenProps={adyenProps} />
           {shouldShowPayPal &&
             showPayPalWhenAdyenIsReady() &&
             !isActionHandlingProcessing && (

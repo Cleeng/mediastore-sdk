@@ -1,16 +1,18 @@
 import { useEffect } from 'react';
 import { Primer as PrimerSDK } from '@primer-io/checkout-web';
 
-const clientToken = 'abc';
+// Client token will be fetched from the server
+const CLIENT_TOKEN = 'abc';
+const CONTAINER = '#msd__primerWrapper';
 
 const options = {
-  container: '#msd__primerWrapper'
+  container: CONTAINER
 };
 
 const Primer = () => {
   useEffect(() => {
     const createDropIn = async () => {
-      await PrimerSDK.showUniversalCheckout(clientToken, options);
+      await PrimerSDK.showUniversalCheckout(CLIENT_TOKEN, options);
     };
     createDropIn();
   }, []);
