@@ -57,7 +57,7 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
   const [generalError, setGeneralError] = useState<string>('');
 
-  const [dropInInstance, setDropInInstance] = useState<unknown | null>(null);
+  const [dropInInstance, setDropInInstance] = useState<unknown>(null);
 
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] =
     useState(false);
