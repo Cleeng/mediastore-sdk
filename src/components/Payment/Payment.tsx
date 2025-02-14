@@ -57,6 +57,8 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
   const [generalError, setGeneralError] = useState<string>('');
 
+  // add correct type during adyen-web v6 migration
+  // https://cleeng.atlassian.net/browse/MSSDK-2139
   const [dropInInstance, setDropInInstance] = useState<unknown>(null);
 
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] =
@@ -294,8 +296,8 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   };
 
   // add correct type during adyen-web v6 migration
+  // https://cleeng.atlassian.net/browse/MSSDK-2139
   const getDropIn = (drop: unknown) => {
-    // TODO check if paymentMethodType is correct
     setDropInInstance(drop);
   };
 
@@ -329,20 +331,14 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     ? false
     : shouldShowGatewayComponent('paypal', publisherPaymentMethods);
 
-  const adyenProps = {
-    onSubmit: onAdyenSubmit,
-    selectPaymentMethod: selectPaymentMethodHandler,
-    isPayPalAvailable: shouldShowPayPal,
-    getDropIn,
-    onAdditionalDetails
-  };
-
   const noPaymentMethods = !publisherPaymentMethods.length;
 
-  const showPayPalWhenAdyenIsReady = () =>
-    shouldShowGatewayComponent('adyen', publisherPaymentMethods)
-      ? !!dropInInstance
-      : true;
+  const showPayPalWhenAdyenIsReady = shouldShowGatewayComponent(
+    'adyen',
+    publisherPaymentMethods
+  )
+    ? !!dropInInstance
+    : true;
 
   if (noPaymentMethods && !isLoading) {
     return (
@@ -394,9 +390,17 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
       </SectionHeader>
       <PaymentWrapperStyled>
         {isPaymentFinalizationInProgress && <Loader />}
-        <PaymentDropIn adyenProps={adyenProps} />
+        <PaymentDropIn
+          adyenProps={{
+            onSubmit: onAdyenSubmit,
+            selectPaymentMethod: selectPaymentMethodHandler,
+            isPayPalAvailable: shouldShowPayPal,
+            getDropIn,
+            onAdditionalDetails
+          }}
+        />
         {shouldShowPayPal &&
-          showPayPalWhenAdyenIsReady() &&
+          showPayPalWhenAdyenIsReady &&
           !isActionHandlingProcessing && (
             <DropInSection
               selectPaymentMethod={selectPaymentMethodHandler}

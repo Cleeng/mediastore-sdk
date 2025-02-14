@@ -3,10 +3,10 @@ import { Primer as PrimerSDK } from '@primer-io/checkout-web';
 
 // Client token will be fetched from the server
 const CLIENT_TOKEN = 'abc';
-const CONTAINER = '#msd__primerWrapper';
+const CONTAINER = 'msd__primerWrapper';
 
 const options = {
-  container: CONTAINER
+  container: `#${CONTAINER}`
 };
 
 const Primer = () => {
@@ -17,7 +17,7 @@ const Primer = () => {
     createDropIn();
   }, []);
 
-  return <div id='msd__primerWrapper' />;
+  return <div id={CONTAINER} />;
 };
 
 export default Primer;
