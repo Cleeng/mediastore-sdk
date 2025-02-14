@@ -27,6 +27,7 @@ import STEPS from './Unsubscribe.enum';
 const Unsubscribe = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
+  skipCancellationSurveyStep,
   skipAvailableFreeExtensionStep
 }: Props) => {
   const INITIAL_STEPS_ARRAY = [STEPS.SURVEY, STEPS.CONFIRMATION];
@@ -122,6 +123,10 @@ const Unsubscribe = ({
 
   useEffect(() => {
     const tempArray = INITIAL_STEPS_ARRAY.slice();
+
+    if (skipCancellationSurveyStep) {
+      tempArray.shift();
+    }
 
     if (shouldShowDowngrades && !tempArray.includes(STEPS.DOWNGRADES)) {
       tempArray.unshift(STEPS.DOWNGRADES);
