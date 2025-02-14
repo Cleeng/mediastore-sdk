@@ -12,20 +12,22 @@ const UpdateSubscription = ({
 }: UpdateSubscriptionProps) => {
   const { updateSubscription } = useAppSelector((state) => state.popupManager);
 
-  if (updateSubscription?.action === 'unsubscribe') {
-    return (
-      <Unsubscribe
-        customCancellationReasons={customCancellationReasons}
-        skipAvailableDowngradesStep={skipAvailableDowngradesStep}
-        skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
-        skipCancellationSurveyStep={skipCancellationSurveyStep}
-      />
-    );
+  switch (updateSubscription?.action) {
+    case 'unsubscribe':
+      return (
+        <Unsubscribe
+          customCancellationReasons={customCancellationReasons}
+          skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+          skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
+          skipCancellationSurveyStep={skipCancellationSurveyStep}
+        />
+      );
+    case 'resubscribe':
+      return <Resubscribe />;
+
+    default:
+      return null;
   }
-  if (updateSubscription?.action === 'resubscribe') {
-    return <Resubscribe />;
-  }
-  return <></>;
 };
 
 export { UpdateSubscription as PureUpdateSubscription };
