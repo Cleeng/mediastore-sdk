@@ -12,17 +12,24 @@ const Primer = lazy(
   () => import(/* webpackChunkName: "primer-component" */ 'components/Primer')
 );
 
-const usePaymentDropIn = (adyenProps: AdyenProps) => {
+type UsePaymentDropInReturnType = {
+  Component: typeof Adyen | typeof Primer;
+  props: AdyenProps | Record<string, unknown>;
+} | null;
+
+const usePaymentDropIn = (
+  adyenProps: AdyenProps
+): UsePaymentDropInReturnType => {
   const { paymentMethods: publisherPaymentMethods } = useAppSelector(
     selectPublisherConfig
   );
 
   if (shouldShowGatewayComponent('primer', publisherPaymentMethods)) {
-    return <Primer />;
+    return { Component: Primer, props: {} };
   }
 
   if (shouldShowGatewayComponent('adyen', publisherPaymentMethods)) {
-    return <Adyen {...adyenProps} />;
+    return { Component: Adyen, props: adyenProps };
   }
 
   return null;
