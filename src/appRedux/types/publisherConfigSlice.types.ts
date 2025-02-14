@@ -39,7 +39,7 @@ export type PaymentMethodName =
   | 'free-offer'
   | 'gcash';
 
-export type PaymentGateway = 'adyen' | 'paypal' | 'free-offer';
+export type PaymentGateway = 'adyen' | 'primer' | 'paypal' | 'free-offer';
 
 export type PublisherConfigInitialState = {
   publisherId: string;

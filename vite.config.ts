@@ -3,9 +3,10 @@ import { defineConfig } from 'vite';
 import path from 'node:path';
 import react from '@vitejs/plugin-react-swc';
 import svgr from 'vite-plugin-svgr';
+import { manualChunksPlugin } from 'vite-plugin-webpackchunkname';
 
 export default defineConfig({
-  plugins: [react(), svgr({ include: '**/*.svg' })],
+  plugins: [react(), svgr({ include: '**/*.svg' }), manualChunksPlugin()],
   build: {
     target: 'es2015',
     cssCodeSplit: true,
@@ -25,6 +26,17 @@ export default defineConfig({
           react: 'React',
           'react-redux': 'reactRedux',
           'styled-components': 'styled-components'
+        },
+        manualChunks(id: string) {
+          if (id.includes('@adyen/adyen-web')) {
+            return 'adyen-library';
+          }
+
+          if (id.includes('@primer-io/checkout-web')) {
+            return 'primer-library';
+          }
+
+          return null;
         }
       }
     }

@@ -495,7 +495,10 @@ const Adyen = ({
   }
 
   return (
-    <AdyenStyled $isMyAccount $isAdditionalPayment={isPayPalAvailable}>
+    <AdyenStyled
+      $isMyAccount={isMyAccount}
+      $isAdditionalPayment={isPayPalAvailable}
+    >
       {isLoading && <Loader />}
       <div ref={paymentMethodsRef} />
     </AdyenStyled>

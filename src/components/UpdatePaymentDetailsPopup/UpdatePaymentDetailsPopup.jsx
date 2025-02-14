@@ -11,6 +11,7 @@ import {
   ButtonWrapperStyled,
   WarningMessageStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
+import PaymentDropIn from 'components/PaymentDropIn';
 import { fetchFinalizeAddPaymentDetails } from 'appRedux/finalizeAddPaymentDetailsSlice';
 import {
   updatePaymentDetailsPopup,
@@ -48,7 +49,6 @@ import {
   ErrorStep,
   FinalizeAddPaymentDetails
 } from './Steps';
-import Adyen from '../Adyen';
 import PayPal from '../Payment/PayPal/PayPal';
 import Loader from '../Loader';
 
@@ -267,6 +267,15 @@ const UpdatePaymentDetailsPopup = () => {
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!dropInInstance : true;
 
+  const adyenProps = {
+    isMyAccount: true,
+    onSubmit: addAdyenPaymentDetails,
+    selectPaymentMethod: selectPaymentMethodHandler,
+    isPayPalAvailable: shouldShowPayPal,
+    getDropIn,
+    onAdditionalDetails
+  };
+
   if (step === PAYMENT_DETAILS_STEPS.DELETE_PAYMENT_DETAILS) {
     return (
       <InnerPopupWrapper
@@ -374,16 +383,7 @@ const UpdatePaymentDetailsPopup = () => {
           )}
         </TextStyled>
         <PaymentMethodsWrapperStyled>
-          {shouldShowAdyen && (
-            <Adyen
-              isMyAccount
-              onSubmit={addAdyenPaymentDetails}
-              selectPaymentMethod={selectPaymentMethodHandler}
-              isPayPalAvailable={shouldShowPayPal}
-              getDropIn={getDropIn}
-              onAdditionalDetails={onAdditionalDetails}
-            />
-          )}
+          <PaymentDropIn adyenProps={adyenProps} />
           {shouldShowPayPal &&
             showPayPalWhenAdyenIsReady() &&
             !isActionHandlingProcessing && (

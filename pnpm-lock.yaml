@@ -11,6 +11,9 @@ importers:
       '@adyen/adyen-web':
         specifier: ~5.66.1
         version: 5.66.1
+      '@primer-io/checkout-web':
+        specifier: ^2.49.2
+        version: 2.49.2
       '@reduxjs/toolkit':
         specifier: ^2.2.5
         version: 2.2.7(react-redux@8.1.3(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(redux@5.0.1))(react@18.3.1)
@@ -213,6 +216,9 @@ importers:
       vite-plugin-svgr:
         specifier: ^4.2.0
         version: 4.2.0(rollup@4.23.0)(typescript@4.9.5)(vite@5.4.8(@types/node@20.16.10))
+      vite-plugin-webpackchunkname:
+        specifier: ^1.0.3
+        version: 1.0.3(rollup@4.23.0)
       vitest:
         specifier: ^3.0.2
         version: 3.0.2(@types/node@20.16.10)(jsdom@24.1.3)
@@ -390,8 +396,8 @@ packages:
     peerDependencies:
       '@babel/core': ^7.0.0-0
 
-  '@babel/runtime-corejs3@7.25.6':
-    resolution: {integrity: sha512-Gz0Nrobx8szge6kQQ5Z5MX9L3ObqNwCQY1PSwSNzreFL7aHGxv8Fp2j3ETV6/wWdbiV+mW6OSm8oQhg3Tcsniw==}
+  '@babel/runtime-corejs3@7.26.7':
+    resolution: {integrity: sha512-55gRV8vGrCIYZnaQHQrD92Lo/hYE3Sj5tmbuf0hhHR7sj2CWhEhHU89hbq+UVDXvFG1zUVXJhUkEq1eAfqXtFw==}
     engines: {node: '>=6.9.0'}
 
   '@babel/runtime@7.25.6':
@@ -767,6 +773,9 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
+  '@primer-io/checkout-web@2.49.2':
+    resolution: {integrity: sha512-wIRp6yKvZVk+wfEuXLKvfbaCpXbh6rCDP02p7kjoJ8E7Plxl97WQ6Y1b9A59SzdARczfpUzXYMZu6OvolG5cXg==}
+
   '@reduxjs/toolkit@2.2.7':
     resolution: {integrity: sha512-faI3cZbSdFb8yv9dhDTmGwclW0vk0z5o1cia+kf7gCbaCwHI5e+7tP57mJUv22pNcNbeA62GSrPpfrUfdXcQ6g==}
     peerDependencies:
@@ -776,6 +785,15 @@ packages:
       react:
         optional: true
       react-redux:
+        optional: true
+
+  '@rollup/plugin-alias@5.1.1':
+    resolution: {integrity: sha512-PR9zDb+rOzkRb2VD+EuKB7UC41vU5DIwZ5qqCpk0KJudcWAyi8rvYOhS7+L5aZCspw1stTViLgN5v6FF1p5cgQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
         optional: true
 
   '@rollup/pluginutils@5.1.2':
@@ -1647,11 +1665,11 @@ packages:
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
 
-  core-js-pure@3.38.1:
-    resolution: {integrity: sha512-BY8Etc1FZqdw1glX0XNOq2FDwfrg/VGqoZOZCdaL+UmdaqDwQwYXkMJT4t6In+zfEfOJDcM9T0KdbBeJg8KKCQ==}
+  core-js-pure@3.40.0:
+    resolution: {integrity: sha512-AtDzVIgRrmRKQai62yuSIN5vNiQjcJakJb4fbhVw3ehxx7Lohphvw9SGNWKhLFqSxC4ilD0g/L1huAYFQU3Q6A==}
 
-  core-js@3.38.1:
-    resolution: {integrity: sha512-OP35aUorbU3Zvlx7pjsFdu1rGNnD4pgw/CWoYzRY3t2EzoVT7shKHY1dlAy3f41cGIO7ZDPQimhGFTlEYkG/Hw==}
+  core-js@3.40.0:
+    resolution: {integrity: sha512-7vsMc/Lty6AGnn7uFpYT56QesI5D2Y/UkgKounk87OP9Z2H9Z8kj6jzcSGAxFmUtDOS0ntK6lbQz+Nsa0Jj6mQ==}
 
   cosmiconfig@7.1.0:
     resolution: {integrity: sha512-AdmX6xUzdNASswsFtmwSt7Vj8po9IuqXm0UXz7QKPuEUmPB4XyjGfaAr2PSuELMwkRMVH1EpIkX5bTZGRB3eCA==}
@@ -4034,6 +4052,9 @@ packages:
     peerDependencies:
       vite: ^2.6.0 || 3 || 4 || 5
 
+  vite-plugin-webpackchunkname@1.0.3:
+    resolution: {integrity: sha512-88lt6IrgCumnf4Up8eyaSJbmo4V0ZIaR4M94fbZvGGmK2aWMmPGVsiFBszYE7Kq04I9tGjLFnyremn+KEgEGyw==}
+
   vite@5.4.8:
     resolution: {integrity: sha512-FqrItQ4DT1NC4zCUqMB4c4AZORMKIa0m8/URVCZ77OZ/QSNeJ54bU1vrFADbDsuwfIPcgknRkmqakQcgnL4GiQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -4262,11 +4283,11 @@ snapshots:
   '@adyen/adyen-web@5.66.1':
     dependencies:
       '@babel/runtime': 7.25.6
-      '@babel/runtime-corejs3': 7.25.6
+      '@babel/runtime-corejs3': 7.26.7
       '@types/applepayjs': 14.0.6
       '@types/googlepay': 0.7.6
       classnames: 2.5.1
-      core-js-pure: 3.38.1
+      core-js-pure: 3.40.0
       preact: 10.13.2
 
   '@ampproject/remapping@2.3.0':
@@ -4457,9 +4478,9 @@ snapshots:
       '@babel/core': 7.25.2
       '@babel/helper-plugin-utils': 7.24.8
 
-  '@babel/runtime-corejs3@7.25.6':
+  '@babel/runtime-corejs3@7.26.7':
     dependencies:
-      core-js-pure: 3.38.1
+      core-js-pure: 3.40.0
       regenerator-runtime: 0.14.1
 
   '@babel/runtime@7.25.6':
@@ -4906,6 +4927,8 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
+  '@primer-io/checkout-web@2.49.2': {}
+
   '@reduxjs/toolkit@2.2.7(react-redux@8.1.3(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(redux@5.0.1))(react@18.3.1)':
     dependencies:
       immer: 10.1.1
@@ -4915,6 +4938,10 @@ snapshots:
     optionalDependencies:
       react: 18.3.1
       react-redux: 8.1.3(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(redux@5.0.1)
+
+  '@rollup/plugin-alias@5.1.1(rollup@4.23.0)':
+    optionalDependencies:
+      rollup: 4.23.0
 
   '@rollup/pluginutils@5.1.2(rollup@4.23.0)':
     dependencies:
@@ -5842,9 +5869,9 @@ snapshots:
 
   convert-source-map@2.0.0: {}
 
-  core-js-pure@3.38.1: {}
+  core-js-pure@3.40.0: {}
 
-  core-js@3.38.1: {}
+  core-js@3.40.0: {}
 
   cosmiconfig@7.1.0:
     dependencies:
@@ -7883,7 +7910,7 @@ snapshots:
 
   react-app-polyfill@1.0.6:
     dependencies:
-      core-js: 3.38.1
+      core-js: 3.40.0
       object-assign: 4.1.1
       promise: 8.3.0
       raf: 3.4.1
@@ -8726,6 +8753,15 @@ snapshots:
       - rollup
       - supports-color
       - typescript
+
+  vite-plugin-webpackchunkname@1.0.3(rollup@4.23.0):
+    dependencies:
+      '@rollup/plugin-alias': 5.1.1(rollup@4.23.0)
+      '@rollup/pluginutils': 5.1.2(rollup@4.23.0)
+      es-module-lexer: 1.6.0
+      magic-string: 0.30.17
+    transitivePeerDependencies:
+      - rollup
 
   vite@5.4.8(@types/node@20.16.10):
     dependencies:

@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@adyen/adyen-web": "~5.66.1",
+    "@primer-io/checkout-web": "^2.49.2",
     "@reduxjs/toolkit": "^2.2.5",
     "camelcase": "^5.3.1",
     "classnames": "^2.3.2",
@@ -149,7 +150,8 @@
     "typescript": "^4.9.5",
     "typescript-coverage-report": "^0.7.0",
     "vite": "^5.4.8",
+    "vitest": "^3.0.2",
     "vite-plugin-svgr": "^4.2.0",
-    "vitest": "^3.0.2"
+    "vite-plugin-webpackchunkname": "^1.0.3"
   }
 }
