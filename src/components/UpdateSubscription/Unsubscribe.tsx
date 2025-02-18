@@ -39,13 +39,16 @@ const Unsubscribe = ({
   const [checkedReason, setCheckedReason] = useState('');
   const [isFreeExtensionSecondStep, setIsFreeExtensionSecondStep] =
     useState(false);
+
   const [steps, setSteps] = useState<STEPS[]>([]);
   const { pauseOffersIDs } = useAppSelector(selectOffers);
   const { data: switchSettings } = useAppSelector(selectSwitchSettings);
   const { data: switchDetails } = useAppSelector(selectSwitchDetails);
   const offerDetails = useAppSelector(selectOfferData);
   const { error: isError } = useAppSelector(selectUnsubscribe);
+
   const { retentionActions } = useAppSelector(selectRetentionActions);
+
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
