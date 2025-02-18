@@ -1,4 +1,4 @@
-name: Finalize release
+name: Publish library to NPM registry and synchronize branches
 
 on:
   release:

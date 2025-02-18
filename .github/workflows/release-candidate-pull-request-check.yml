@@ -1,4 +1,4 @@
-name: Pre-release pull request checks
+name: Release candidate Pull Request check
 
 on:
   pull_request:
