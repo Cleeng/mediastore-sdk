@@ -23,6 +23,9 @@ import {
 } from 'components/UpdateSubscription/components';
 import { Props } from './Unsubscribe.types';
 import STEPS from './Unsubscribe.enum';
+import { EXIT_SURVEY_HIDDEN_CANCELLATION_REASON } from './utils';
+
+const INITIAL_STEPS_ARRAY = [STEPS.SURVEY, STEPS.CONFIRMATION];
 
 const Unsubscribe = ({
   customCancellationReasons,
@@ -30,24 +33,19 @@ const Unsubscribe = ({
   skipCancellationSurveyStep,
   skipAvailableFreeExtensionStep
 }: Props) => {
-  const INITIAL_STEPS_ARRAY = [STEPS.SURVEY, STEPS.CONFIRMATION];
-
   const [downgradesList, setDowngradesList] = useState<Array<SwitchSetting>>(
     []
   );
   const [checkedReason, setCheckedReason] = useState('');
   const [isFreeExtensionSecondStep, setIsFreeExtensionSecondStep] =
     useState(false);
-
   const [steps, setSteps] = useState<STEPS[]>([]);
   const { pauseOffersIDs } = useAppSelector(selectOffers);
   const { data: switchSettings } = useAppSelector(selectSwitchSettings);
   const { data: switchDetails } = useAppSelector(selectSwitchDetails);
   const offerDetails = useAppSelector(selectOfferData);
   const { error: isError } = useAppSelector(selectUnsubscribe);
-
   const { retentionActions } = useAppSelector(selectRetentionActions);
-
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -121,28 +119,62 @@ const Unsubscribe = ({
     pauseOffersIDs.includes(toOfferId)
   );
 
+  const handleUnsubscribe = async () => {
+    const cancellationReason = skipCancellationSurveyStep
+      ? t(
+          EXIT_SURVEY_HIDDEN_CANCELLATION_REASON.key,
+          EXIT_SURVEY_HIDDEN_CANCELLATION_REASON.value
+        )
+      : checkedReason;
+
+    eventDispatcher(UNSUBSCRIBE_ACTION_CONFIRMED, {
+      detail: {
+        offerId: offerDetails?.offerId,
+        cancellationReason
+      }
+    });
+
+    await dispatch(
+      fetchUnsubscribe({
+        offerId: offerDetails?.offerId,
+        checkedReason: cancellationReason,
+        isPauseActive
+      })
+    );
+
+    setCurrentStep(STEPS.CONFIRMATION);
+  };
+
   useEffect(() => {
-    const tempArray = INITIAL_STEPS_ARRAY.slice();
+    const initializeSteps = async () => {
+      const tempArray = INITIAL_STEPS_ARRAY.slice();
 
-    if (skipCancellationSurveyStep) {
-      tempArray.shift();
-    }
+      if (skipCancellationSurveyStep) {
+        tempArray.shift();
+        await handleUnsubscribe();
+      }
 
-    if (shouldShowDowngrades && !tempArray.includes(STEPS.DOWNGRADES)) {
-      tempArray.unshift(STEPS.DOWNGRADES);
-    }
-    if (shouldShowPause && !tempArray.includes(STEPS.PAUSE)) {
-      tempArray.unshift(STEPS.PAUSE);
-    }
+      if (shouldShowDowngrades && !tempArray.includes(STEPS.DOWNGRADES)) {
+        tempArray.unshift(STEPS.DOWNGRADES);
+      }
+      if (shouldShowPause && !tempArray.includes(STEPS.PAUSE)) {
+        tempArray.unshift(STEPS.PAUSE);
+      }
 
-    if (shouldShowFreeExtension && !tempArray.includes(STEPS.FREE_EXTENSION)) {
-      tempArray.unshift(STEPS.FREE_EXTENSION);
-    }
+      if (
+        shouldShowFreeExtension &&
+        !tempArray.includes(STEPS.FREE_EXTENSION)
+      ) {
+        tempArray.unshift(STEPS.FREE_EXTENSION);
+      }
 
-    if (tempArray.length !== steps.length) {
-      setSteps(tempArray);
-    }
-    if (!downgradesList.length) setDowngradesList(() => getDowngrades());
+      if (tempArray.length !== steps.length) {
+        setSteps(tempArray);
+      }
+      if (!downgradesList.length) setDowngradesList(() => getDowngrades());
+    };
+
+    initializeSteps();
   }, []);
 
   useEffect(() => {
@@ -162,24 +194,6 @@ const Unsubscribe = ({
 
   const goToNextStep = () =>
     setCurrentStep(steps[steps.indexOf(currentStep) + 1]);
-
-  const handleUnsubscribe = async () => {
-    eventDispatcher(UNSUBSCRIBE_ACTION_CONFIRMED, {
-      detail: {
-        offerId: offerDetails?.offerId,
-        cancellationReason: checkedReason
-      }
-    });
-    await dispatch(
-      fetchUnsubscribe({
-        offerId: offerDetails?.offerId,
-        checkedReason,
-        isPauseActive
-      })
-    );
-
-    setCurrentStep(STEPS.CONFIRMATION);
-  };
 
   return (
     <InnerPopupWrapper
