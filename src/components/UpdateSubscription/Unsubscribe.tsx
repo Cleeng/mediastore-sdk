@@ -23,7 +23,6 @@ import {
 } from 'components/UpdateSubscription/components';
 import { Props } from './Unsubscribe.types';
 import STEPS from './Unsubscribe.enum';
-import { EXIT_SURVEY_HIDDEN_CANCELLATION_REASON } from './utils';
 
 const INITIAL_STEPS_ARRAY = [STEPS.SURVEY, STEPS.CONFIRMATION];
 
@@ -123,25 +122,18 @@ const Unsubscribe = ({
   );
 
   const handleUnsubscribe = async () => {
-    const cancellationReason = skipCancellationSurveyStep
-      ? t(
-          EXIT_SURVEY_HIDDEN_CANCELLATION_REASON.key,
-          EXIT_SURVEY_HIDDEN_CANCELLATION_REASON.value
-        )
-      : checkedReason;
-
     eventDispatcher(UNSUBSCRIBE_ACTION_CONFIRMED, {
       detail: {
         offerId: offerDetails?.offerId,
-        cancellationReason
+        cancellationReason: checkedReason
       }
     });
 
     await dispatch(
       fetchUnsubscribe({
+        isPauseActive,
         offerId: offerDetails?.offerId,
-        checkedReason: cancellationReason,
-        isPauseActive
+        ...(!skipCancellationSurveyStep && { checkedReason })
       })
     );
 

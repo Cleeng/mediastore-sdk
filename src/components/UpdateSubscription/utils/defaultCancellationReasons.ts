@@ -1,4 +1,4 @@
-export const defaultCancellationReasons = [
+const defaultCancellationReasons = [
   {
     value: 'Poor customer support',
     key: 'unsubscribe-popup.cancellation.poor-customer-support'
@@ -29,7 +29,5 @@ export const defaultCancellationReasons = [
   }
 ];
 
-export const EXIT_SURVEY_HIDDEN_CANCELLATION_REASON = {
-  key: 'unsubscribe-popup.cancellation.exit-survey-hidden',
-  value: 'Exit survey hidden cancellation reason'
-};
+// eslint-disable-next-line import/prefer-default-export
+export { defaultCancellationReasons };
