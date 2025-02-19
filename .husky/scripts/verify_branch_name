@@ -1,6 +1,6 @@
 #!/bin/bash
 
-branch_name_regex='^(chore|docs|feat|fix|refactor|style|test)\/MSSDK-([[:digit:]]|external)+((-[[:alnum:]]+)+)'
+branch_name_regex='^(breaking|breaking-change|chore|docs|feat|fix|refactor|style|test)\/MSSDK-([[:digit:]]|external)+((-[[:alnum:]]+)+)'
 current_branch_name="$(git rev-parse --abbrev-ref HEAD)"
 branch_template="<type>/<jira-ticket-id>-<brief-description>"
 external_branch_template="<MSSDK-external>-<brief-description>"
@@ -11,7 +11,7 @@ invalid_branch_message="\nI'm sorry, Dave. I'm afraid I can't do that.
 The branch name \033[1;31m$current_branch_name\033[0m does not adhere to the semantic naming convention. It should match this regular expression:
 \t\033[1;34m$branch_name_regex\033[0m
 In human terms that's:
-\t\033[1;34m$branch_template\033[0m 
+\t\033[1;34m$branch_template\033[0m
 eg. \033[1;32m$branch_example\033[0m
 
 Oh, and if you're an external contributor, use the following template: \033[1;35m$external_branch_template\033[0m e.g. \033[1;32m$external_branch_example\033[0m
