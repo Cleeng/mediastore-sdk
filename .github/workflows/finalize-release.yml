@@ -1,0 +1,44 @@
+name: Publish library to NPM registry and synchronize branches
+
+on:
+  release:
+    types: [published]
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+
+env:
+  GIT_AUTHOR_NAME: github-actions[bot]
+  GIT_AUTHOR_EMAIL: github-actions[bot]@users.noreply.github.com
+  GIT_COMMITTER_NAME: github-actions[bot]
+  GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
+
+jobs:
+  publish:
+    uses: ./.github/workflows/call-publish.yml
+    permissions:
+      contents: read
+      packages: write
+    with:
+      access: public
+      registry: registry.npmjs.org
+    secrets:
+      TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+
+  merge_main_to_develop:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - name: Merge main into develop
+        run: |
+          git fetch origin develop
+          git fetch origin main
+          git checkout develop
+          git merge origin/main
+          git push origin develop

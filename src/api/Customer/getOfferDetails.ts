@@ -1,9 +1,9 @@
 import { getData } from 'util/appConfigHelper';
-import { fetchWithHeaders } from 'util/fetchHelper';
+import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import getCustomer from './getCustomer';
 
-const getOfferDetails = async (offerId) => {
+const getOfferDetails = async (offerId: string) => {
   const API_URL = getApiURL();
   let customerEmail = getData('CLEENG_CUSTOMER_EMAIL') || null;
 
@@ -15,7 +15,9 @@ const getOfferDetails = async (offerId) => {
   }
   const url = `${API_URL}/offers/${offerId}/customers/${customerEmail}`;
 
-  return fetchWithHeaders(url, {})
+  return fetchWithJWT(url, {
+    method: 'GET'
+  })
     .then(async (res) => {
       const { responseData, errors } = await res.json();
       if (!res.ok) {
