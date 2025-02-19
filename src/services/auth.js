@@ -24,9 +24,9 @@ class Auth {
     email,
     jwt,
     refreshToken,
-    cb = () => {},
+    cb = (t) => t,
     args = [],
-    callback = () => {}
+    callback = (t) => t
   ) {
     this.isAuthenticated = true;
     const { customerId } = jwtDecode(jwt);
@@ -43,18 +43,18 @@ class Auth {
     let shouldCaptureBeDisplayed = false;
     let data = {};
 
-    const consentsResponse = getCustomerConsents().then(resp => {
+    const consentsResponse = getCustomerConsents().then((resp) => {
       const { consents } = resp.responseData;
       shouldConsentsBeDisplayed = isRegister
         ? false
         : consents.some(
-            consent =>
+            (consent) =>
               consent.newestVersion > consent.version ||
               consent.needsUpdate === true
           );
     });
 
-    const captureResponse = getCaptureStatus().then(resp => {
+    const captureResponse = getCaptureStatus().then((resp) => {
       if (resp.responseData.shouldCaptureBeDisplayed === true) {
         shouldCaptureBeDisplayed = true;
         data = {
@@ -78,7 +78,7 @@ class Auth {
     callback();
   }
 
-  logout(callback = () => {}) {
+  logout(callback = (t) => t) {
     this.isAuthenticated = false;
     removeData('CLEENG_AUTH_TOKEN');
     removeData('CLEENG_REFRESH_TOKEN');

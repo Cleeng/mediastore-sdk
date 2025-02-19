@@ -1,0 +1,35 @@
+#!/bin/bash
+
+current_branch_name=$(git rev-parse --abbrev-ref HEAD)
+jira_id_regex="MSSDK-([[:digit:]]|external)+"
+jira_id=$(printf "$current_branch_name" | grep -Eo $jira_id_regex)
+
+current_commit_name=$1
+commit_name_regex="^(chore|docs|feat|fix|refactor|style|test)\/$jira_id:[[:space:]][[:alnum:]]+"
+merge_name_regex="^Merge[[:space:]]branch[[:space:]].*"
+commit_template="<type>/<jira-ticket-id>: <brief description>"
+external_commit_template="<type>/<MSSDK-external>: <brief-description>"
+merge_template="Merge branch <rest of the description>"
+commit_example="fix/MSSDK-301: commit committed"
+external_commit_example="feat/MSSDK-external: commit committed"
+winking_emoji="\xF0\x9F\x98\x89	"
+
+invalid_commit_message="\nThe commit name \033[1;31m$current_commit_name\033[0m does not adhere to the semantic naming convention. It should match this regular expression:
+\n\t\033[1;34m$commit_name_regex\033[0m
+\nProbs the below template will be more helpful $winking_emoji
+\n\t\033[1;34m$commit_template\033[0m
+eg. \033[1;32m$commit_example\033[0m
+\nThe <jira-ticket-id> should be consistent with the branch id.
+In the case of a merge, the name of commit should match the following template: \n\t\033[1;34m$merge_template\033[0m
+
+\n\nOh, and if you're an external contributor, use the following template: \n\t\033[1;35m$external_commit_template\033[0m e.g. \033[1;32m$external_commit_example\033[0m
+
+\n\nPlease rename your commit accordingly and try again.\n"
+
+if ! (echo "$current_commit_name" | grep -Eq "$commit_name_regex|$merge_name_regex")
+then
+  echo "$invalid_commit_message"
+  exit 1
+fi
+
+exit 0

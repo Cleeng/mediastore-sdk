@@ -1,4 +1,5 @@
 import styled, { css } from 'styled-components';
+import { isRTL } from 'styles/RTLHelper';
 import {
   FontColor,
   BackgroundColor,
@@ -12,11 +13,30 @@ export const WrapStyled = styled.div.attrs(() => ({
   position: relative;
   margin-bottom: 12px;
 
-  ${props =>
-    props.hideInput &&
+  ${(props) =>
+    props.$hideInput &&
     css`
       display: none;
     `};
+
+  ${(props) =>
+    props.$width &&
+    css`
+      width: ${props.$width};
+    `};
+
+  .msd__error {
+    color: ${(props) => props.theme.errorColor || ErrorColor};
+  }
+
+  input[type='date'] {
+    text-transform: uppercase;
+
+    &::-webkit-calendar-picker-indicator {
+      font-size: 20px;
+      opacity: 0.7;
+    }
+  }
 `;
 
 export const InputElementLabelStyled = styled.label.attrs(() => ({
@@ -24,7 +44,7 @@ export const InputElementLabelStyled = styled.label.attrs(() => ({
 }))`
   display: block;
   margin-bottom: 12px;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 13px;
 `;
 
@@ -39,19 +59,25 @@ export const InputElementStyled = styled.input.attrs(() => ({
   font-size: 13px;
   line-height: 13px;
 
+  ${isRTL() &&
+  css`
+    text-align: right;
+  `}
+
   &:focus,
   &:active {
     border: 1px solid ${LineColor};
   }
 
   &:disabled {
-    background-color: ${BackgroundColor};
-    color: ${FontColor};
+    background-color: ${(props) =>
+      props.theme.backgroundColor || BackgroundColor};
+    color: ${(props) => props.theme.fontColor || FontColor};
   }
 
-  ${props =>
-    props.error &&
+  ${(props) =>
+    props.$error &&
     css`
-      border: 1px solid ${ErrorColor};
+      border: 1px solid ${props.theme.errorColor || ErrorColor};
     `}
 `;

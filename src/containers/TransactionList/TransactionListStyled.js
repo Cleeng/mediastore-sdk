@@ -10,11 +10,11 @@ export const WrapStyled = styled.div.attrs(() => ({
   box-sizing: border-box;
   width: 100%;
   padding: 20px;
-  background: ${BackgroundColor};
+  background: ${(props) => props.theme.backgroundColor || BackgroundColor};
 `;
 
 export const HeaderStyled = styled.div`
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
   font-size: 14px;
   font-weight: 700;

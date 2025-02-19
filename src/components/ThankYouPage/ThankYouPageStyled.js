@@ -16,26 +16,28 @@ export const ThankYouPageStyled = styled.main`
   text-align: center;
   line-height: 1.3em;
   font-size: 15px;
-  background-color: ${colors.BackgroundColor};
-  color: ${colors.FontColor};
+  background-color: ${(props) =>
+    props.theme.backgroundColor || colors.BackgroundColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
   font-weight: bold;
 `;
 
-export const TitleStyled = styled.div`
+export const TitleStyled = styled.h1`
   font-size: 25px;
   margin: 30px 0;
   font-weight: 600;
 `;
 
-export const MessageStyled = styled.div`
+export const MessageStyled = styled.p`
   font-weight: 300;
+  margin: 0;
   & strong {
     font-weight: bold;
   }
 `;
 
 export const LinkStyled = styled.a`
-  color: ${colors.FontColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
   padding-left: 4px;
   font-weight: bold;
   outline: none;

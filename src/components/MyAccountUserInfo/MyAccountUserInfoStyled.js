@@ -5,7 +5,7 @@ import {
   MyAccountTextLightGray,
   LineColor,
   SmallFont,
-  MediumFontWeight
+  SemiBoldFont
 } from 'styles/variables';
 
 import portrait from './img/avatarBase64';
@@ -56,7 +56,7 @@ export const NameStyled = styled.div.attrs(() => ({
   font-size: 20px;
   line-height: 24px;
   font-weight: 700;
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   text-overflow: ellipsis;
   overflow: hidden;
 
@@ -75,7 +75,7 @@ export const MailStyled = styled.div.attrs(() => ({
 
   margin-bottom: 6px;
 
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
   font-size: ${SmallFont};
   font-weight: 500;
@@ -84,8 +84,8 @@ export const MailStyled = styled.div.attrs(() => ({
   text-overflow: ellipsis;
   line-height: 1.2;
 
-  ${props =>
-    props.bigger &&
+  ${(props) =>
+    props.$bigger &&
     css`
       font-size: 14px;
       font-weight: 700;
@@ -107,7 +107,7 @@ export const TextStyled = styled.div.attrs(() => ({
   font-size: 9px;
   line-height: 12px;
   text-align: center;
-  font-weight: ${MediumFontWeight};
+  font-weight: ${SemiBoldFont};
   min-height: 19px;
   max-width: max-content;
 `;
@@ -123,10 +123,10 @@ export const DetailsStyled = styled.div.attrs(() => ({
   max-width: calc(100% - 78px);
   margin-left: 14px;
 
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
 
-  ${props =>
-    props.isEmpty &&
+  ${(props) =>
+    props.$isEmpty &&
     css`
       ${NameStyled} {
         background-color: ${MyAccountTextLightGray};
@@ -149,7 +149,7 @@ export const DetailsStyled = styled.div.attrs(() => ({
     width: 100%;
     max-width: unset;
     align-items: center;
-  
+
     margin-left: 0;
   `}
 `;

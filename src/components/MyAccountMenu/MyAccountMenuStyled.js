@@ -1,5 +1,6 @@
 import styled, { css } from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
+import { isRTL } from 'styles/RTLHelper';
 import { MyAccountTextGray, FontColor, ConfirmColor } from 'styles/variables';
 
 export const WrapStyled = styled.nav`
@@ -29,8 +30,8 @@ export const ItemsStyled = styled.div.attrs(() => ({
 export const ItemWrapStyled = styled.div.attrs(() => ({
   className: 'msd__account-sidebar__item'
 }))`
-  ${props =>
-    !props.visibleOnDesktop &&
+  ${(props) =>
+    !props.$visibleOnDesktop &&
     css`
       ${mediaFrom.small`
         display: none;
@@ -66,6 +67,7 @@ export const ItemIconWrapStyled = styled.div.attrs(() => ({
     display: flex;
     border: 0;
     height: 50px;
+    width: 30px;
   `}
 `;
 
@@ -76,7 +78,7 @@ export const ItemLabelStyled = styled.div.attrs(() => ({
   width: auto;
   margin: auto;
 
-  color: ${FontColor};
+  color: ${(props) => props.theme.fontColor || FontColor};
   font-size: 13px;
 
   font-weight: 700;
@@ -87,15 +89,21 @@ export const ItemLabelStyled = styled.div.attrs(() => ({
   &:after {
     display: block;
     content: '';
-    border-bottom: 2px solid ${ConfirmColor};
+    border-bottom: 2px solid
+      ${(props) => props.theme.successColor || ConfirmColor};
     transform: scaleX(0);
     transition: transform 250ms ease-in-out;
     transform-origin: 0% 50%;
+
+    ${isRTL() &&
+    css`
+      transform-origin: 100% 50%;
+    `}
   }
 
   ${mediaFrom.small`
-    margin: auto auto auto 20px;
-   font-size: 15px;
+    margin: auto 20px auto 20px;
+    font-size: 15px;
   `}
 `;
 
@@ -120,13 +128,13 @@ export const ItemStyled = styled.div.attrs(() => ({
     }
   }
 
-  ${props =>
-    props.isActive &&
+  ${(props) =>
+    props.$isActive &&
     css`
       ${ItemIconWrapStyled} {
         path {
           opacity: 1;
-          fill: ${ConfirmColor};
+          fill: ${props.theme.successColor || ConfirmColor};
         }
       }
 

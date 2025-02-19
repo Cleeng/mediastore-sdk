@@ -6,6 +6,7 @@
 /.pnp
 .pnp.js
 /dist
+/coverage-ts
 
 # testing
 /coverage
@@ -13,6 +14,7 @@
 # production
 /build
 /storybook-static
+*.map
 
 # misc
 .DS_Store
@@ -31,3 +33,11 @@ yarn-error.log*
 
 # VSCode
 .vscode
+
+# WebStorm
+.idea
+
+tsconfig.tsbuildinfo
+
+# Sentry Config File
+.env.sentry-build-plugin

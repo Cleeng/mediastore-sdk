@@ -10,7 +10,7 @@ const getCustomerConsents = async () => {
   const url = `${API_URL}/customers/${customerId}/consents`;
   return fetchWithJWT(url, {
     method: 'GET'
-  }).then(res => {
+  }).then((res) => {
     return res.json();
   });
 };

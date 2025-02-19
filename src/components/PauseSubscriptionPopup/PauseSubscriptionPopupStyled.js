@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import { LineColor, ConfirmColor } from 'styles/variables';
+import { isRTL } from 'styles/RTLHelper';
 
 export const SubscriptionIconStyled = styled(SubscriptionIcon)`
   display: flex;
@@ -17,7 +18,7 @@ export const SubscriptionIconStyled = styled(SubscriptionIcon)`
   font-size: 30px;
 
   span {
-    background: ${ConfirmColor};
+    background: ${(props) => props.theme.successColor || ConfirmColor};
   }
 
   svg {
@@ -25,11 +26,11 @@ export const SubscriptionIconStyled = styled(SubscriptionIcon)`
     width: 50px;
     path:first-of-type,
     path:last-of-type {
-      fill: ${ConfirmColor};
+      fill: ${(props) => props.theme.successColor || ConfirmColor};
     }
   }
 
-  ${props =>
+  ${(props) =>
     props.gray &&
     css`
       filter: grayscale(80%);
@@ -54,6 +55,11 @@ export const ArrowStyled = styled.span`
   border-right: 2px solid ${LineColor};
 
   transform: translateX(-25%) rotate(45deg);
+
+  ${isRTL() &&
+  css`
+    transform: translateX(-25%) rotate(225deg);
+  `}
 `;
 
 export const ImageStyled = styled.img``;

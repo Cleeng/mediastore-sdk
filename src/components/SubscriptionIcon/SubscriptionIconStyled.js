@@ -2,14 +2,14 @@ import styled from 'styled-components';
 import { mediaFrom } from 'styles/BreakPoints';
 import { BoldFont, FontColor, White, ConfirmColor } from 'styles/variables';
 
-export const WrapperStyled = styled.div.attrs(() => ({
+export const WrapperStyled = styled.figure.attrs(() => ({
   className: 'msd__subscription-card__icon'
 }))`
   display: flex;
   justify-content: center;
   position: relative;
   padding: 10px;
-  margin-right: 10px;
+  margin-inline-end: 10px;
   border-radius: 8px;
   flex: 0 0 40px;
 
@@ -19,22 +19,22 @@ export const WrapperStyled = styled.div.attrs(() => ({
   font-weight: ${BoldFont};
   text-align: center;
 
-  background-color: ${props => props.bg};
-  color: ${props => props.color};
-  border: 1px solid ${props => props.border};
+  background-color: ${(props) => props.$bg};
+  color: ${(props) => props.$color};
+  border: 1px solid ${(props) => props.$border};
 
   svg {
     path:first-of-type,
     path:last-of-type {
-      fill: ${ConfirmColor};
+      fill: ${(props) => props.theme.successColor || ConfirmColor};
     }
   }
 
   ${mediaFrom.small`
     flex: 0 0 50px;
-    margin-right: 15px;
+    margin-inline-end: 15px;
     padding: 14px 10px;
-    
+
     font-size: 20px;
   `}
 `;
@@ -50,7 +50,10 @@ export const LabelStyled = styled.span`
   height: 18px;
   width: 48px;
 
-  background: ${props => (props.label === 'New' ? ConfirmColor : FontColor)};
+  background: ${(props) =>
+    props.$label === 'New'
+      ? props.theme.successColor || ConfirmColor
+      : props.theme.fontColor || FontColor};
   border-radius: 10px;
 
   color: ${White};

@@ -1,3 +1,5 @@
-src/serviceWorker.js
 config
 scripts
+node_modules
+dist
+coverage-ts

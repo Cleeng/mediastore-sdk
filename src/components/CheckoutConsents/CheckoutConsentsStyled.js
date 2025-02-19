@@ -10,7 +10,8 @@ export const CheckoutConsentsStyled = styled.div.attrs(() => ({
   }
   box-sizing: border-box;
   position: relative;
-  background: ${colors.BackgroundColor};
+  background: ${(props) =>
+    props.theme.backgroundColor || colors.BackgroundColor};
 `;
 
 export const CheckoutConsentsContentStyled = styled.div.attrs(() => ({
@@ -30,7 +31,7 @@ export const CheckoutConsentsContentStyled = styled.div.attrs(() => ({
 `}
 `;
 
-export const CheckoutConsentsTitleStyled = styled.h3.attrs(() => ({
+export const CheckoutConsentsTitleStyled = styled.h2.attrs(() => ({
   className: 'msd__consents__title'
 }))`
   margin-bottom: 16px;
@@ -39,10 +40,10 @@ export const CheckoutConsentsTitleStyled = styled.h3.attrs(() => ({
   text-align: center;
   font-weight: 700;
 
-  color: ${colors.FontColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
 `;
 
-export const CheckoutConsentsSubTitleStyled = styled.h4.attrs(() => ({
+export const CheckoutConsentsSubTitleStyled = styled.p.attrs(() => ({
   className: 'msd__consents__subtitle'
 }))`
   margin-bottom: 16px;
@@ -51,17 +52,18 @@ export const CheckoutConsentsSubTitleStyled = styled.h4.attrs(() => ({
   text-align: center;
   font-weight: 700;
 
-  color: ${colors.FontColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
   filter: brightness(1.7);
 `;
 
-export const CheckoutConsentsListStyled = styled.div.attrs(() => ({
+export const CheckoutConsentsListStyled = styled.ul.attrs(() => ({
   className: 'msd__consents__list'
 }))`
   margin-bottom: 36px;
+  list-style: none;
 `;
 
-export const CheckoutConsentsCheckbox = styled.div``;
+export const CheckoutConsentsListItem = styled.li``;
 
 export const CheckoutConsentsError = styled.div.attrs(() => ({
   className: 'msd__consents__error'
@@ -70,12 +72,12 @@ export const CheckoutConsentsError = styled.div.attrs(() => ({
   height: 13px;
   margin-top: 8px;
   content: '';
-  color: ${colors.ErrorColor};
+  color: ${(props) => props.theme.errorColor || colors.ErrorColor};
   transition: 0.2s ease-in-out;
   font-size: 13px;
   text-align: left;
 
-  ${props =>
+  ${(props) =>
     props.center &&
     css`
       text-align: center;

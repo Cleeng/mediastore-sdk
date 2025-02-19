@@ -23,10 +23,19 @@ import getPaymentMethods from './Publisher/getPaymentMethods';
 import getConsents from './Publisher/getConsents';
 import getOrder from './Order/getOrder';
 import updateSwitch from './Customer/updateSwitch';
+import getSwitch from './Customer/getSwitch';
 import updatePayPalPaymentDetails from './PaymentDetails/updatePayPalPaymentDetails';
 import finalizeInitialPayment from './Payment/finalizeInitialPayment';
 import finalizeAddPaymentDetails from './Payment/finalizeAddPaymentDetails';
 import getOffers from './Offers/getOffers';
+import getOffer from './Offers/getOffer';
+import getGift from './Gifts/getGift';
+import updateGift from './Gifts/updateGift';
+import verifyGift from './Gifts/verifyGift';
+import redeemGift from './Gifts/redeemGift';
+import getRetentionActions from './Customer/getRetentionActions';
+import applyRetentionAction from './Customer/applyRetentionAction';
+import getAdyenPaymentMethods from './Payment/getAdyenPaymentMethods';
 
 export {
   getPaymentDetails,
@@ -57,5 +66,14 @@ export {
   updatePayPalPaymentDetails,
   finalizeInitialPayment,
   finalizeAddPaymentDetails,
-  getOffers
+  getOffers,
+  getOffer,
+  getSwitch,
+  getGift,
+  updateGift,
+  verifyGift,
+  redeemGift,
+  getRetentionActions,
+  applyRetentionAction,
+  getAdyenPaymentMethods
 };

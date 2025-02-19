@@ -1,4 +1,4 @@
-import store from 'redux/store';
+import store from 'appRedux/store';
 
 const generateReturnUrl = ({ queryParams, isMyAccount }) => {
   const {
@@ -7,7 +7,7 @@ const generateReturnUrl = ({ queryParams, isMyAccount }) => {
 
   const { myaccountReturnUrl, checkoutReturnUrl } = adyenConfiguration ?? {};
 
-  const formatUrl = url => {
+  const formatUrl = (url) => {
     const paramsString = new URLSearchParams(queryParams).toString();
     return `${url}${new URL(url).search ? '&' : '?'}${paramsString}`;
   };

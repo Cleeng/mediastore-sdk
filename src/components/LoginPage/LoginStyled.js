@@ -6,7 +6,8 @@ export const LoginWrapperStyled = styled.div.attrs(() => ({
   className: 'msd__auth-wrapper'
 }))`
   position: relative;
-  background: ${colors.BackgroundColor};
+  background: ${(props) =>
+    props.theme.backgroundColor || colors.BackgroundColor};
   * {
     box-sizing: border-box;
   }
@@ -58,9 +59,9 @@ export const SocialStyled = styled.div`
 
   ${media.smallest`
     flex-direction: column;
-    
+
     margin-bottom: 20px;
-    
+
     button{
       width: 100%;
 
@@ -75,7 +76,7 @@ export const SeparatorStyled = styled.div`
 
   padding: 20px 0;
 
-  color: ${colors.FontColor};
+  color: ${(props) => props.theme.fontColor || colors.FontColor};
 
   text-align: center;
   font-size: 13px;
@@ -108,17 +109,13 @@ export const SeparatorStyled = styled.div`
 export const FormErrorStyled = styled.div.attrs(() => ({
   className: 'msd__form__message--error'
 }))`
-  position: absolute;
-  top: 20px;
-  width: 100%;
-
-  color: ${colors.ErrorColor};
+  color: ${(props) => props.theme.errorColor || colors.ErrorColor};
 
   font-size: 13px;
   font-weight: 600;
 
   a {
-    color: ${colors.ErrorColor};
+    color: ${(props) => props.theme.errorColor || colors.ErrorColor};
     font-weight: 600;
     text-decoration: underline;
   }
@@ -127,7 +124,7 @@ export const FormErrorStyled = styled.div.attrs(() => ({
 export const FormSuccessStyled = styled.h1.attrs(() => ({
   className: 'msd__form__message--success'
 }))`
-  color: ${colors.ConfirmColor};
+  color: ${(props) => props.theme.successColor || colors.ConfirmColor};
   position: absolute;
   top: 20px;
   width: 100%;

@@ -10,7 +10,7 @@ const getCustomer = () => {
   const url = `${API_URL}/customers/${customerId}`;
   return fetchWithJWT(url, {
     method: 'GET'
-  }).then(res => res.json());
+  }).then((res) => res.json());
 };
 
 export default getCustomer;

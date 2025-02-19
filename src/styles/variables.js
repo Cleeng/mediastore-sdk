@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import { getTheme } from 'util/appConfigHelper';
 
 const {
@@ -9,7 +8,8 @@ const {
   fontColor,
   cardColor,
   primaryColor,
-  secondaryColor
+  secondaryColor,
+  logoUrl
 } = (typeof getTheme === 'function' && getTheme()) || {};
 
 // My Account
@@ -52,6 +52,7 @@ export const TextFieldBorderFilter =
   'invert(87%) sepia(14%) saturate(243%) hue-rotate(213deg) brightness(96%) contrast(80%)';
 export const FocusColor = '#80b4ea';
 export const PaymentButtonBgn = '#00112c';
+export const LogoUrl = logoUrl || '';
 
 export const PasswordStrengthColors = {
   Weak: '#ea753c',
@@ -70,7 +71,7 @@ export const TinyFont = '11px';
 export const MicroFont = '9px';
 
 export const BoldFont = '700';
-export const MediumFontWeight = '600';
+export const SemiBoldFont = '600';
 export const LightFont = '300';
 
 export const inputTheme = {

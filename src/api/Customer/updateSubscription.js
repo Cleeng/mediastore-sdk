@@ -3,7 +3,7 @@ import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import jwtDecode from 'jwt-decode';
 
-const updateSubscription = params => {
+const updateSubscription = (params) => {
   const API_URL = getApiURL();
   const { customerId } = jwtDecode(getData('CLEENG_AUTH_TOKEN'));
 
@@ -12,7 +12,7 @@ const updateSubscription = params => {
   return fetchWithJWT(url, {
     method: 'PATCH',
     body: JSON.stringify({ ...params })
-  }).then(res => res.json());
+  }).then((res) => res.json());
 };
 
 export default updateSubscription;
