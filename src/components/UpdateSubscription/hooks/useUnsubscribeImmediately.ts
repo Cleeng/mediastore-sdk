@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 type UseUnsubscribeImmediatelyArguments = {
   skipCancellationSurveyStep?: boolean;
-  performUnsubscribe: () => void;
+  performUnsubscribe: () => Promise<void>;
 };
 
 const useUnsubscribeImmediately = ({
@@ -12,7 +12,7 @@ const useUnsubscribeImmediately = ({
   useEffect(() => {
     const unsubscribeImmediatelyIfNeeded = async () => {
       if (skipCancellationSurveyStep) {
-        performUnsubscribe();
+        await performUnsubscribe();
       }
     };
 
