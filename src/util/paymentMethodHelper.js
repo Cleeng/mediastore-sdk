@@ -9,6 +9,7 @@ import GiftLogo from 'assets/images/gift.svg';
 import RokuLogo from 'assets/images/paymentMethods/roku_color.svg';
 import AmazonLogo from 'assets/images/paymentMethods/amazon_color.svg';
 import AndroidLogo from 'assets/images/paymentMethods/android_color.svg';
+import GCashLogo from 'assets/images/paymentMethods/gcash.svg';
 
 import store from 'appRedux/store';
 import { currencyFormat, isPeriod, periodMapper } from './planHelper';
@@ -21,13 +22,15 @@ export const supportedPaymentMethods = [
   'googlepay',
   'ideal',
   'bancontact_card',
-  'bancontact_mobile'
+  'bancontact_mobile',
+  'gcash'
 ];
 
 export const bankPaymentMethods = [
   'ideal',
   'bancontact_mobile', // Bancontact Mobile name in cleeng-admin
-  'bcmc_mobile' // Bancontact Mobile name in Adyen
+  'bcmc_mobile', // Bancontact Mobile name in Adyen
+  'gcash'
 ];
 
 export const standardPaymentMethods = [
@@ -51,7 +54,8 @@ export const readablePaymentMethodNames = {
   googlepay: 'GooglePay',
   ideal: 'iDEAL',
   bancontact_card: 'Bancontact Card',
-  bancontact_mobile: 'Bancontact Mobile'
+  bancontact_mobile: 'Bancontact Mobile',
+  gcash: 'GCash'
 };
 
 export const supportedPaymentGateways = ['adyen', 'paypal'];
@@ -68,7 +72,8 @@ export const logos = {
   gift: GiftLogo,
   roku: RokuLogo,
   amazon: AmazonLogo,
-  android: AndroidLogo
+  android: AndroidLogo,
+  gcash: GCashLogo
 };
 
 export default logos;

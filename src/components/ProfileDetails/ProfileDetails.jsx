@@ -168,7 +168,7 @@ class ProfileDetails extends Component {
     updateCustomer({
       firstName: updated.firstName,
       lastName: updated.lastName,
-      email: updated.email !== email ? updated.email : '',
+      ...(updated.email !== email && { email: updated.email }),
       confirmationPassword:
         updated.email !== email ? updated.confirmationPassword : ''
     }).then((response) => {

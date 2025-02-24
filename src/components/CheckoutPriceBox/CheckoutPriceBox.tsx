@@ -51,7 +51,6 @@ const CheckoutPriceBox = ({
       periods: discountedPeriods
     },
     taxRate,
-    country,
     totalPrice: finalPrice,
     currency,
     id: orderId
@@ -130,9 +129,7 @@ const CheckoutPriceBox = ({
         )}
         <StyledPriceWrapper>
           <StyledLabel id='taxValueLabel'>
-            {country === 'US'
-              ? t('checkout-price-box.applicable-tax', 'Applicable Tax')
-              : t('checkout-price-box.applicable-vat', 'Applicable VAT')}
+            {t('checkout-price-box.applicable-tax', 'Applicable Tax')}
           </StyledLabel>
           <StyledOfferPrice id='taxValue'>
             {!taxValue && isCouponApplied ? (

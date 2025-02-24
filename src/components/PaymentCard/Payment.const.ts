@@ -12,6 +12,7 @@ import Discover from 'assets/images/paymentMethods/discover.svg';
 import Diners from 'assets/images/paymentMethods/diners.svg';
 import Ideal from 'assets/images/paymentMethods/ideal.svg';
 import Bancontact from 'assets/images/paymentMethods/bancontact.svg';
+import GCash from 'assets/images/paymentMethods/gcash.svg';
 
 // eslint-disable-next-line import/prefer-default-export
 export const CardTypes = {
@@ -94,6 +95,11 @@ export const CardTypes = {
     icon: Bancontact,
     caption: 'Bancontact Mobile',
     title: 'Bancontact Mobile'
+  },
+  gcash: {
+    icon: GCash,
+    caption: 'GCash',
+    title: 'GCash'
   }
 };
 
