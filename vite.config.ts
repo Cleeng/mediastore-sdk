@@ -3,9 +3,24 @@ import { defineConfig } from 'vite';
 import path from 'node:path';
 import react from '@vitejs/plugin-react-swc';
 import svgr from 'vite-plugin-svgr';
+import dts from 'vite-plugin-dts';
 
 export default defineConfig({
-  plugins: [react(), svgr({ include: '**/*.svg' })],
+  plugins: [
+    react(),
+    svgr({ include: '**/*.svg' }),
+    dts({
+      rollupTypes: true,
+      insertTypesEntry: true,
+      include: [
+        'src/**/*.ts',
+        'src/**/*.tsx',
+        'additional.d.ts',
+        'vite-env.d.ts'
+      ],
+      exclude: ['src/**/*.test.{ts, tsx}', 'src/**/*.spec.{ts, tsx}']
+    })
+  ],
   build: {
     target: 'es2015',
     cssCodeSplit: true,

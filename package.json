@@ -5,6 +5,7 @@
   "type": "module",
   "main": "./dist/cleeng-mediastore-sdk.umd.cjs",
   "module": "./dist/cleeng-mediastore-sdk.js",
+  "types": "./dist/cleeng-mediastore-sdk.d.ts",
   "exports": {
     ".": {
       "import": "./dist/cleeng-mediastore-sdk.js",
@@ -137,6 +138,7 @@
     "typescript": "^4.9.5",
     "typescript-coverage-report": "^0.7.0",
     "vite": "^6.1.0",
+    "vite-plugin-dts": "^4.5.0",
     "vite-plugin-svgr": "^4.2.0",
     "vitest": "^3.0.6"
   },
