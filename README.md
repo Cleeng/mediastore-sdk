@@ -99,7 +99,7 @@ Config functions save data to local storage (as `CLEENG_*` items). These data ar
 | `setLanguage`               | `language :string`                                                                    | Option to change language without reloading page                                                                                                                        |
 | `setTermsUrl`               | `termsUrl :string`                                                                    | Option to Provide a URL for Terms & Conditions: This feature will display a link to them adjacent to the payment method.                                                |
 | `setResetUrl`               | `resetUrl :string`                                                                    | Option to Provide a URL for custom password reset page. This URL will be sent in an email with additional parameters: `email`, `resetPasswordToken`, `publisherId`      |
-| `setGoogleRecaptcha`        | `{ showCaptchaOnPurchase: boolean, showCaptchaOnRegister: boolean, sitekey: string }` | Option to configure an integration with the Google reCAPTCHA. You can read more about the integration [here](https://developers.cleeng.com/docs/purchase-flow#register) |
+| `setGoogleRecaptcha`        | `{ showCaptchaOnPurchase: boolean, showCaptchaOnRegister: boolean, sitekey: string }` | Option to configure an integration with the Google reCAPTCHA. You can read more about the integration [here](https://developers.cleeng.com/docs/fraud-prevention-solution-with-google-recaptcha) |
 
 **Usage sample**
 
