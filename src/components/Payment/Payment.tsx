@@ -25,6 +25,8 @@ import { fetchUpdateOrder, selectOnlyOrder } from 'appRedux/orderSlice';
 import { setSelectedPaymentMethod } from 'appRedux/paymentMethodsSlice';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import RedirectElement from '@adyen/adyen-web';
+import ReCAPTCHA from 'react-google-recaptcha';
+import useCaptchaVerification from 'hooks/useCaptchaVerification';
 import {
   PaymentErrorStyled,
   PaymentStyled,
@@ -40,33 +42,48 @@ import PayPal from './PayPal/PayPal';
 import DropInSection from './DropInSection/DropInSection';
 import { PaymentProps } from './Payment.types';
 
+type ErrorMapType = {
+  [key: string]: [string, string];
+};
+
+const GERNERAL_ERRORS_MAP: ErrorMapType = {
+  CPT0002: [
+    'payment.error.captcha-verification-failed',
+    'An error occurred during payment. Please try again later. If the issue persists, please reach out to our support team for assistance.'
+  ],
+  ADYEN_DEFAULT: [
+    'payment.error.payment-not-processed',
+    'The payment has not been processed. Please, try again with a different payment method.'
+  ],
+  PAYPAL_DEFAULT: [
+    'payment.error.paypal-failed',
+    'The payment failed. Please try again.'
+  ]
+};
+
 const Payment = ({ onPaymentComplete }: PaymentProps) => {
   const { paymentMethods: publisherPaymentMethods, isPayPalHidden } =
     useAppSelector(selectPublisherConfig);
-
   const order = useAppSelector(selectOnlyOrder);
   const deliveryDetails = useAppSelector(selectDeliveryDetails);
-
-  const { t } = useTranslation();
-
-  const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
   const { loading: isPaymentFinalizationInProgress } = useAppSelector(
     selectFinalizePayment
   );
+  const { getCaptchaToken, recaptchaRef, showCaptchaOnPurchase, sitekey } =
+    useCaptchaVerification();
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   const [isLoading, setIsLoading] = useState(false);
-
   const [generalError, setGeneralError] = useState<string>('');
   const [adyenKey, setAdyenKey] = useState<number | null>(null);
-
   const [dropInInstance, setDropInInstance] = useState<
     typeof RedirectElement | null
   >(null);
-
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] =
     useState(false);
 
-  const dispatch = useAppDispatch();
+  const { requiredPaymentDetails: isPaymentDetailsRequired } = order;
 
   // order updates
   const updateOrderWithPaymentMethodId = (methodId: number) => {
@@ -158,10 +175,46 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     eventDispatcher(MSSDK_PAYMENT);
   }, []);
 
+  const handleCaptchaVerification = async () => {
+    if (!showCaptchaOnPurchase) {
+      return {
+        shouldProceed: true,
+        captchaToken: ''
+      };
+    }
+
+    const {
+      recaptchaError: captchaError,
+      hasCaptchaSucceeded,
+      captchaToken
+    } = await getCaptchaToken();
+
+    if (!hasCaptchaSucceeded) {
+      setIsLoading(false);
+      setGeneralError(captchaError);
+
+      return {
+        shouldProceed: false,
+        captchaToken: ''
+      };
+    }
+
+    return {
+      captchaToken,
+      shouldProceed: true
+    };
+  };
+
   // PayPal
   const submitPayPal = async () => {
     const { isGift } = deliveryDetails;
     const { id, buyAsAGift } = order;
+
+    const { captchaToken, shouldProceed } = await handleCaptchaVerification();
+
+    if (!shouldProceed) {
+      return;
+    }
 
     if (isGift) {
       const areDeliveryDetailsValid = validateDeliveryDetailsForm();
@@ -211,16 +264,13 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     }
 
     setIsLoading(true);
-    const { responseData } = await submitPayPalPayment();
+    const { responseData, code } = await submitPayPalPayment(captchaToken);
     if (responseData?.redirectUrl) {
       window.location.href = responseData.redirectUrl;
     } else {
       setIsLoading(false);
       setGeneralError(
-        t(
-          'payment.error.paypal-failed',
-          'The payment failed. Please try again.'
-        )
+        t(...(GERNERAL_ERRORS_MAP[code] || GERNERAL_ERRORS_MAP.PAYPAL_DEFAULT))
       );
     }
   };
@@ -250,28 +300,26 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     } = state;
     setGeneralError('');
     setIsLoading(true);
-    const { errors, responseData } = await submitPayment(
+
+    const { captchaToken, shouldProceed } = await handleCaptchaVerification();
+
+    if (!shouldProceed) {
+      setIsLoading(false);
+      return;
+    }
+
+    const { errors, responseData, code } = await submitPayment({
       paymentMethod,
       browserInfo,
-      billingAddress
-    );
+      billingAddress,
+      captchaValue: captchaToken
+    });
     if (errors?.length) {
       eventDispatcher(MSSDK_PURCHASE_FAILED, {
         reason: errors[0]
       });
-      const notSupportedMethod = errors[0].includes(
-        'Payment details are not supported'
-      );
       setGeneralError(
-        notSupportedMethod
-          ? t(
-              'payment.error.payment-method-not-supported',
-              'Payment method not supported. Try different payment method'
-            )
-          : t(
-              'payment.error.payment-not-processed',
-              'The payment has not been processed. Please, try again with a different payment method.'
-            )
+        t(...(GERNERAL_ERRORS_MAP[code] || GERNERAL_ERRORS_MAP.ADYEN_DEFAULT))
       );
 
       setIsLoading(false);
@@ -387,6 +435,15 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     );
   }
 
+  const handleCaptchaChange = () => {
+    if (
+      generalError ===
+      t('validators.captcha-invalid', 'Google reCAPTCHA verification required.')
+    ) {
+      setGeneralError('');
+    }
+  };
+
   return (
     <PaymentStyled>
       <SectionHeader marginTop='25px' paddingBottom='33px' center>
@@ -421,6 +478,15 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
               />
             </DropInSection>
           )}
+        {showCaptchaOnPurchase && (
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            size='invisible'
+            badge='bottomright'
+            sitekey={sitekey}
+            onChange={handleCaptchaChange}
+          />
+        )}
         {generalError && (
           <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
         )}
