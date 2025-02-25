@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PropTypes } from 'prop-types';
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 
 import SectionHeader from 'components/SectionHeader';
 import CurrentPlan from 'components/CurrentPlan';
@@ -17,23 +16,30 @@ import {
 } from 'appRedux/planDetailsSlice';
 import { hidePopup } from 'appRedux/popupSlice';
 
+import { CustomerOffer } from 'api/Customer/types';
 import { WrapStyled } from './SubscriptionsStyled';
+import { SubscriptionsProps } from './Subscriptions.types';
 
 const Subscriptions = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
-  skipAvailableFreeExtensionStep
-}) => {
-  const { data: currentPlan } = useSelector((state) => state.plan.currentPlan);
-  const { updateList: updateListValue } = useSelector((state) => state.plan);
-  const { offers } = useSelector((state) => state.offers);
-  const { isOpen: isPopupOpen } = useSelector((state) => state.popupManager);
+  skipAvailableFreeExtensionStep,
+  skipCancellationSurveyStep
+}: SubscriptionsProps) => {
+  const { data: currentPlan } = useAppSelector(
+    (state) => state.plan.currentPlan
+  );
+  const { updateList: updateListValue } = useAppSelector((state) => state.plan);
+  const { offers } = useAppSelector((state) => state.offers);
+  const { isOpen: isPopupOpen } = useAppSelector((state) => state.popupManager);
 
   const { t } = useTranslation();
   const didMount = useRef(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const getAndSaveSwitchSettings = async (customerSubscriptions) => {
+  const getAndSaveSwitchSettings = async (
+    customerSubscriptions: CustomerOffer[]
+  ) => {
     if (customerSubscriptions.length > 1) {
       dispatch(resetOfferToSwitch());
     }
@@ -87,6 +93,7 @@ const Subscriptions = ({
         customCancellationReasons={customCancellationReasons}
         skipAvailableDowngradesStep={skipAvailableDowngradesStep}
         skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
+        skipCancellationSurveyStep={skipCancellationSurveyStep}
       />
     );
 
@@ -98,23 +105,6 @@ const Subscriptions = ({
       <CurrentPlan />
     </WrapStyled>
   );
-};
-
-Subscriptions.propTypes = {
-  customCancellationReasons: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired
-    })
-  ),
-  skipAvailableDowngradesStep: PropTypes.bool,
-  skipAvailableFreeExtensionStep: PropTypes.bool
-};
-
-Subscriptions.defaultProps = {
-  customCancellationReasons: null,
-  skipAvailableDowngradesStep: false,
-  skipAvailableFreeExtensionStep: false
 };
 
 export default Subscriptions;

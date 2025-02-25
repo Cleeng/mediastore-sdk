@@ -14,10 +14,10 @@ import { SwitchSetting } from 'appRedux/types';
 import OfferSwitchCard from 'components/OfferSwitchCard';
 
 const Downgrades = ({
-  downgradesListFiltered,
+  downgrades,
   handleClick
 }: {
-  downgradesListFiltered: SwitchSetting[];
+  downgrades: SwitchSetting[];
   handleClick: () => void;
 }) => {
   const { t } = useTranslation();
@@ -44,7 +44,7 @@ const Downgrades = ({
         </TextStyled>
       </>
       <DowngradesWrapperStyled>
-        {downgradesListFiltered.map((downgradeOffer) => {
+        {downgrades.map((downgradeOffer) => {
           return (
             <OfferCardWrapperStyled
               onClick={() =>

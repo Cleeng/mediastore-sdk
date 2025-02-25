@@ -198,9 +198,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                         type: POPUP_TYPES.updateSubscription,
                         data: {
                           action: 'unsubscribe',
-                          offerData: {
-                            ...subscription
-                          }
+                          offerData: subscription
                         }
                       })
                     );

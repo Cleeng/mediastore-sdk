@@ -1,4 +1,4 @@
-const defaultCancellationReasons = [
+export const DEFAULT_CANCELLATION_REASONS = [
   {
     value: 'Poor customer support',
     key: 'unsubscribe-popup.cancellation.poor-customer-support'
@@ -29,5 +29,14 @@ const defaultCancellationReasons = [
   }
 ];
 
-// eslint-disable-next-line import/prefer-default-export
-export { defaultCancellationReasons };
+// This is a bug in ESLint, it should not be throwing an error here
+// eslint-disable-next-line no-shadow
+export enum STEPS {
+  FREE_EXTENSION = 'FREE_EXTENSION',
+  PAUSE = 'PAUSE',
+  DOWNGRADES = 'DOWNGRADES',
+  SURVEY = 'SURVEY',
+  CONFIRMATION = 'CONFIRMATION'
+}
+
+export const INITIAL_STEPS_ARRAY = [STEPS.SURVEY, STEPS.CONFIRMATION];
