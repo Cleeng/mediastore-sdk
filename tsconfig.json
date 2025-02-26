@@ -22,7 +22,11 @@
     "sourceMap": true,
     "strict": true,
     "target": "ES6",
-    "types": ["@testing-library/jest-dom", "vitest/globals"]
+    "types": ["@testing-library/jest-dom", "vitest/globals"],
+    "paths": {
+      "@reduxjs/toolkit": ["../node_modules/@reduxjs/toolkit/dist"]
+    },
+    "noImplicitAny": false
   },
   "include": ["src", "additional.d.ts", "vite-env.d.ts"],
   "exclude": ["node_modules", "dist"]

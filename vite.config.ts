@@ -17,8 +17,7 @@ export default defineConfig({
         'src/**/*.tsx',
         'additional.d.ts',
         'vite-env.d.ts'
-      ],
-      exclude: ['src/**/*.test.{ts, tsx}', 'src/**/*.spec.{ts, tsx}']
+      ]
     })
   ],
   build: {
