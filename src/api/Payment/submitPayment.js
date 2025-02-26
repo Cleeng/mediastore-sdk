@@ -4,7 +4,12 @@ import getApiURL from 'util/environmentHelper';
 import generateReturnUrl from 'util/returnUrlHelper';
 import store from 'appRedux/store';
 
-const submitPayment = async (paymentMethod, browserInfo, billingAddress) => {
+const submitPayment = async ({
+  paymentMethod,
+  browserInfo,
+  billingAddress,
+  captchaValue
+}) => {
   const API_URL = getApiURL();
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
@@ -24,7 +29,8 @@ const submitPayment = async (paymentMethod, browserInfo, billingAddress) => {
         billingAddress,
         origin: window.location.origin,
         returnUrl: generateReturnUrl({ queryParams: { orderId } }),
-        enable3DSRedirectFlow
+        enable3DSRedirectFlow,
+        captchaValue
       })
     });
     return res.json();
