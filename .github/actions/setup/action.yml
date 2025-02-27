@@ -1,0 +1,25 @@
+name: setup
+description: setup runner environment
+
+inputs:
+  composer-args:
+    required: false
+    default: '--no-progress --ignore-platform-reqs'
+    description: additional arguments for composer
+
+runs:
+  using: composite
+  steps:
+    - uses: actions/cache@v4
+      with:
+        path: |
+          .sonar/
+          vendor/
+          data/
+        key: composer-lockfile-${{ hashFiles('composer.lock') }}
+        restore-keys: composer-lockfile-
+
+    - name: install dependencies
+      shell: bash
+      run: >
+        composer install -o ${{ inputs.composer-args }}

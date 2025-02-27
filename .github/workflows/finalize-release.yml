@@ -30,6 +30,10 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: ./.github/actions/setup
+        with:
+          composer-args: '--no-dev'
+
       - uses: Cleeng/actions/setup-git@main
         with:
           APP_ID: ${{ secrets.PUSHBOT_APP_ID }}
