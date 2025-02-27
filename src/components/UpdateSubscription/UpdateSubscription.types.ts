@@ -1,9 +1,6 @@
-type CancellationReason = {
-  value: string;
-  key: string;
-};
+import { CancellationReason } from 'containers/PlanDetails/PlanDetails.types';
 
-export type Props = {
+export type UpdateSubscriptionProps = {
   customCancellationReasons?: CancellationReason[];
   skipAvailableDowngradesStep?: boolean;
   skipAvailableFreeExtensionStep?: boolean;
