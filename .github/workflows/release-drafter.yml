@@ -1,9 +1,7 @@
-name: Generate a release draft
+name: Production release start - generate a release draft
 
 on:
   workflow_dispatch:
-    branches:
-      - main
 
 permissions:
   contents: read
@@ -15,6 +13,12 @@ jobs:
       pull-requests: write
     runs-on: ubuntu-latest
     steps:
+      - name: Fail if branch is not main
+        if: github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main'
+        run: |
+          echo "This workflow can only be triggered on the main branch."
+          exit 1
+
       - uses: release-drafter/release-drafter@v5
         env:
           GITHUB_TOKEN: ${{ github.token }}
