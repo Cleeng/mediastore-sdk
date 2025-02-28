@@ -49,3 +49,4 @@ template: |
 
 exclude-labels:
   - 'skip-changelog'
+  - 'release'
