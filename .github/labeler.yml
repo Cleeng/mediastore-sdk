@@ -21,6 +21,3 @@ style:
 
 test:
   - head-branch: ['test/*']
-
-release:
-  - head-branch: ['release/*']

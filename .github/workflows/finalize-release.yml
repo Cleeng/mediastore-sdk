@@ -20,25 +20,3 @@ jobs:
       registry: registry.npmjs.org
     secrets:
       TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
-
-  merge_main_to_develop:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - uses: Cleeng/actions/setup-git@main
-        with:
-          APP_ID: ${{ secrets.PUSHBOT_APP_ID }}
-          PRIVATE_KEY: ${{ secrets.PUSHBOT_PRIVATE_KEY }}
-
-      - name: Merge main into develop
-        run: |
-          git fetch origin develop
-          git fetch origin main
-          git checkout develop
-          git merge --no-ff origin/main
-          git push origin develop
