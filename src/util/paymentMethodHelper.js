@@ -23,7 +23,10 @@ export const supportedPaymentMethods = [
   'ideal',
   'bancontact_card',
   'bancontact_mobile',
-  'gcash'
+  'gcash',
+  'primer-card',
+  'primer-applepay',
+  'primer-googlepay'
 ];
 
 export const bankPaymentMethods = [
@@ -58,7 +61,7 @@ export const readablePaymentMethodNames = {
   gcash: 'GCash'
 };
 
-export const supportedPaymentGateways = ['adyen', 'paypal'];
+export const supportedPaymentGateways = ['adyen', 'paypal', 'primer'];
 
 export const logos = {
   card: CardLogo,
