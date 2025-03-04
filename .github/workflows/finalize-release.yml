@@ -1,8 +1,13 @@
-name: Publish library on npm registry
+name: Publish library to public NPM registry
 
 on:
   release:
-    types: [created]
+    types: [published]
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
 
 jobs:
   publish:

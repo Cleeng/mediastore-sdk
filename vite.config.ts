@@ -13,8 +13,7 @@ export default defineConfig({
     lib: {
       entry: {
         'cleeng-mediastore-sdk': path.resolve(__dirname, 'src/package.ts'),
-        'styles/msdFont': path.resolve(__dirname, 'src/styles/msdFont.css'),
-        'cleeng-script': path.resolve(__dirname, 'src/scripts/index.js')
+        'styles/msdFont': path.resolve(__dirname, 'src/styles/msdFont.css')
       },
       name: '@cleeng/mediastore-sdk',
       formats: ['es']
@@ -54,7 +53,6 @@ export default defineConfig({
       api: path.resolve(__dirname, './src/api'),
       hooks: path.resolve(__dirname, './src/hooks'),
       i18NextInit: path.resolve(__dirname, './src/i18NextInit.js'),
-      scripts: path.resolve(__dirname, './src/scripts'),
       types: path.resolve(__dirname, './src/types')
     }
   },

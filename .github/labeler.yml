@@ -1,0 +1,26 @@
+breaking:
+  - head-branch: ['^breaking/', '^breaking-change/']
+
+fix:
+  - head-branch: ['^fix/']
+
+feat:
+  - head-branch: ['^feat/']
+
+chore:
+  - head-branch: ['^chore/']
+
+docs:
+  - head-branch: ['^docs/']
+
+refactor:
+  - head-branch: ['^refactor/']
+
+style:
+  - head-branch: ['^style/']
+
+test:
+  - head-branch: ['^test/']
+
+release:
+  - head-branch: ['^release/']

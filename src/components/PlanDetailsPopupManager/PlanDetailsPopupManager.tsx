@@ -12,6 +12,7 @@ const PlanDetailsPopupManager = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
   skipAvailableFreeExtensionStep,
+  skipCancellationSurveyStep,
   onCancel,
   onSwitchSuccess,
   onSwitchError
@@ -27,6 +28,7 @@ const PlanDetailsPopupManager = ({
           customCancellationReasons={customCancellationReasons}
           skipAvailableDowngradesStep={skipAvailableDowngradesStep}
           skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
+          skipCancellationSurveyStep={skipCancellationSurveyStep}
         />
       );
     case POPUP_TYPES.SWITCH_PLAN_POPUP:
