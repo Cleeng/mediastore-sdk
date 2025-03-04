@@ -29,6 +29,7 @@ const PlanDetails = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
   skipAvailableFreeExtensionStep,
+  skipCancellationSurveyStep,
   displayGracePeriodError
 }: PlanDetailsProps) => {
   const { data: currentPlan } = useAppSelector(selectCurrentPlan);
@@ -114,6 +115,7 @@ const PlanDetails = ({
         customCancellationReasons={customCancellationReasons}
         skipAvailableDowngradesStep={skipAvailableDowngradesStep}
         skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
+        skipCancellationSurveyStep={skipCancellationSurveyStep}
       />
     );
 

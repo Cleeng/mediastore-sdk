@@ -1,0 +1,52 @@
+name-template: '$RESOLVED_VERSION'
+tag-template: '$RESOLVED_VERSION'
+categories:
+  - title: 'Breaking changes'
+    labels:
+      - 'breaking'
+      - 'breaking-change'
+  - title: 'New features'
+    labels:
+      - 'feat'
+  - title: 'Fixes'
+    labels:
+      - 'fix'
+  - title: 'Improvements & Maintenance'
+    labels:
+      - 'chore'
+      - 'docs'
+      - 'refactor'
+      - 'style'
+      - 'test'
+version-resolver:
+  major:
+    labels:
+      - 'breaking'
+      - 'breaking-change'
+  minor:
+    labels:
+      - 'feat'
+      - 'fix'
+  patch:
+    labels:
+      - 'chore'
+      - 'docs'
+      - 'refactor'
+      - 'style'
+      - 'test'
+  default: patch
+replacers:
+  - search: '/(breaking|breaking-change|feat|fix|chore|docs|refactor|style|test)\/MSSDK-\d+:\s*/'
+    replace: ''
+change-template: '- $TITLE ([#$NUMBER]($URL)) by @$AUTHOR'
+sort-by: 'title'
+template: |
+  # What's Changed
+
+  $CHANGES
+
+  **Full Changelog**: https://github.com/$OWNER/$REPOSITORY/compare/$PREVIOUS_TAG...main
+
+exclude-labels:
+  - 'skip-changelog'
+  - 'release'

@@ -18,10 +18,9 @@ import Loader from 'components/Loader';
 import { selectOffers } from 'appRedux/offersSlice';
 import { CancellationReason } from 'containers/PlanDetails/PlanDetails.types';
 import { SwitchDetail } from 'appRedux/types';
-import { defaultCancellationReasons } from 'components/UpdateSubscription/utils';
 import { selectUnsubscribe } from 'appRedux/unsubscribeSlice';
 
-import STEPS from '../Unsubscribe.enum';
+import { DEFAULT_CANCELLATION_REASONS, STEPS } from '../constants';
 
 const Survey = ({
   scheduledSwitch,
@@ -39,7 +38,7 @@ const Survey = ({
   shouldShowFreeExtension: boolean;
   handleCheckboxClick: (value: string) => void;
   setCurrentStep: (step: STEPS) => void;
-  scheduledSwitch: () => false | SwitchDetail;
+  scheduledSwitch: SwitchDetail | null;
   handleUnsubscribe: () => void;
 }) => {
   const offerDetails = useAppSelector(selectOfferData);
@@ -50,14 +49,12 @@ const Survey = ({
   const { t } = useTranslation();
 
   const formattedExpiresAt = dateFormat(Number(offerDetails?.expiresAt));
-  const scheduledResult = scheduledSwitch();
   const cancelUnsubscribeAction = () => {
     window.dispatchEvent(new CustomEvent('MSSDK:unsubscribe-action-cancelled'));
     dispatch(hidePopup());
   };
 
-  const toOfferId =
-    scheduledResult !== false ? scheduledResult.toOfferId : null;
+  const toOfferId = scheduledSwitch !== null ? scheduledSwitch.toOfferId : null;
 
   const toOfferIdTitle =
     offers.find(({ longId }: { longId: string }) => longId === toOfferId)
@@ -70,7 +67,7 @@ const Survey = ({
 
   const cancellationReasonsToShow = customCancellationReasons?.length
     ? customCancellationReasons
-    : defaultCancellationReasons;
+    : DEFAULT_CANCELLATION_REASONS;
 
   const handleGoBackButton = () => {
     if (shouldShowFreeExtension) {
@@ -110,7 +107,7 @@ const Survey = ({
           </TextStyled>
         ) : (
           <TextStyled>
-            {scheduledSwitch() ? (
+            {scheduledSwitch ? (
               t(
                 'unsubscribe-popup.survey.switch-pending',
                 `Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.`,

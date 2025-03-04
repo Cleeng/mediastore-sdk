@@ -1,5 +1,4 @@
 import PayPalIcon from 'assets/images/paymentMethods/PPicon.svg';
-import classNames from 'classnames';
 import { selectPaymentMethods } from 'appRedux/paymentMethodsSlice';
 import { useAppSelector } from 'appRedux/store';
 import {
@@ -40,9 +39,12 @@ const DropInSection = ({
     >
       <TextStyled>
         <span
-          className={classNames('adyen-checkout__payment-method__radio', {
-            'adyen-checkout__payment-method__radio--selected': isSelected
-          })}
+          className={[
+            'adyen-checkout__payment-method__radio',
+            isSelected && 'adyen-checkout__payment-method__radio--selected'
+          ]
+            .filter(Boolean)
+            .join(' ')}
           aria-hidden={!isSelected}
         />
         <IconWrapperStyled>

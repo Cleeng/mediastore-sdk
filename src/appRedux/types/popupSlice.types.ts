@@ -29,7 +29,7 @@ type Step = {
 
 type InitPaymentMethod = { initPaymentMethod: PaymentDetail | null };
 
-type Offer = {
+export type SubscriptionOffer = {
   subscriptionId: number;
   offerId: string;
   status: string;
@@ -65,7 +65,7 @@ type SwitchSettings = {
 
 export type UpdateSubscription = {
   action: string;
-  offerData: Offer;
+  offerData: SubscriptionOffer;
   retentionActions: RetentionActions;
 };
 
