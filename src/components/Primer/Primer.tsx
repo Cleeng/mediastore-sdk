@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Primer as PrimerSDK } from '@primer-io/checkout-web';
-import { createPrimerSession } from 'api';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import Loader from 'components/Loader';
+import { usePrimer } from './usePrimer';
 
 // Client token will be fetched from the server
 const CONTAINER = 'msd__primerWrapper';
@@ -12,7 +12,7 @@ const onCheckoutComplete = (...args: any[]) => {
   return null;
 };
 
-const onCheckoutFail = (error: any, data: { payment?: any }, handler: any) => {
+const onCheckoutFail = (error: any, data: { payment?: any }) => {
   console.log('Checkout Fail!', error, data.payment);
 };
 
@@ -23,20 +23,7 @@ const options = {
 };
 
 const Primer = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const [sessionError, setSessionError] = useState<string | null>(null);
-
-  const getPrimerToken = async () => {
-    try {
-      const response = await createPrimerSession();
-      setIsLoading(false);
-      return response;
-    } catch (error) {
-      setSessionError('An error occurred!');
-      setIsLoading(false);
-      return null;
-    }
-  };
+  const { getPrimerToken, isLoading, sessionError } = usePrimer();
 
   useEffect(() => {
     const createDropIn = async () => {
