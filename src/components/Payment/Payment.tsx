@@ -111,6 +111,10 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
   // payment methods
   const selectPaymentMethodHandler = (paymentMethodName: string) => {
+    console.log(
+      'Payment.tsx -> selectPaymentMethodHandler -> paymentMethodName: ',
+      paymentMethodName
+    );
     const paymentMethodObj = publisherPaymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
@@ -151,6 +155,10 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   };
 
   useEffect(() => {
+    console.log(
+      'Payment.tsx -> useEffect -> publisherPaymentMethods: ',
+      publisherPaymentMethods
+    );
     if (publisherPaymentMethods.length === 1) {
       const [paymentMethod] = publisherPaymentMethods;
       selectPaymentMethodHandler(paymentMethod.methodName);
@@ -345,6 +353,12 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     }
   };
 
+  const onPrimerSubmit = () => {
+    if (onPaymentComplete) {
+      onPaymentComplete();
+    }
+  };
+
   // add correct type during adyen-web v6 migration
   // https://cleeng.atlassian.net/browse/MSSDK-2139
   const getDropIn = (drop: unknown) => {
@@ -456,6 +470,10 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
             isPayPalAvailable: shouldShowPayPal,
             getDropIn,
             onAdditionalDetails
+          }}
+          primerProps={{
+            onSubmit: onPrimerSubmit,
+            selectPaymentMethod: selectPaymentMethodHandler
           }}
         />
         {shouldShowPayPal &&

@@ -18,14 +18,15 @@ type UsePaymentDropInReturnType = {
 } | null;
 
 const usePaymentDropIn = (
-  adyenProps: AdyenProps
+  adyenProps: AdyenProps,
+  primerProps: any
 ): UsePaymentDropInReturnType => {
   const { paymentMethods: publisherPaymentMethods } = useAppSelector(
     selectPublisherConfig
   );
 
   if (shouldShowGatewayComponent('primer', publisherPaymentMethods)) {
-    return { Component: Primer, props: {} };
+    return { Component: Primer, props: primerProps };
   }
 
   if (shouldShowGatewayComponent('adyen', publisherPaymentMethods)) {

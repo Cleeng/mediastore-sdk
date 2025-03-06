@@ -6,29 +6,27 @@ import { usePrimer } from './usePrimer';
 
 // Client token will be fetched from the server
 const CONTAINER = 'msd__primerWrapper';
-
-const onCheckoutComplete = (...args: any[]) => {
-  console.log('Checkout Complete!', args);
-  return null;
-};
-
-const onCheckoutFail = (error: any, data: { payment?: any }) => {
-  console.log('Checkout Fail!', error, data.payment);
-};
+const DEFAULT_PRIMER_PAYMENT_METHOD = 'primer-card';
 
 const options = {
-  container: `#${CONTAINER}`,
-  onCheckoutComplete,
-  onCheckoutFail
+  container: `#${CONTAINER}`
 };
 
-const Primer = () => {
-  const { getPrimerToken, isLoading, sessionError } = usePrimer();
+const Primer = ({ selectPaymentMethod, onSubmit }) => {
+  const {
+    getPrimerToken,
+    isLoading,
+    sessionError,
+    onCheckoutComplete,
+    onCheckoutFail
+  } = usePrimer(onSubmit);
 
   useEffect(() => {
     const createDropIn = async () => {
       const { clientToken } = await getPrimerToken();
-      await PrimerSDK.showUniversalCheckout(clientToken, options);
+      const primerOptions = { ...options, onCheckoutComplete, onCheckoutFail };
+      await PrimerSDK.showUniversalCheckout(clientToken, primerOptions);
+      await selectPaymentMethod(DEFAULT_PRIMER_PAYMENT_METHOD);
     };
     createDropIn();
   }, []);
