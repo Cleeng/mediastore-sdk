@@ -1,9 +1,5 @@
 import { AdyenProps } from 'types/Adyen.types';
-
-type PrimerProps = {
-  onSubmit: unknown;
-  onAdditionalDetails: unknown;
-};
+import { PrimerProps } from 'types/Primer.types';
 
 export type PaymentDropInProps = {
   adyenProps: AdyenProps;

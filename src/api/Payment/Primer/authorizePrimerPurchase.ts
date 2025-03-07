@@ -1,11 +1,11 @@
-import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-const authorizePrimerPurchase = async (externalPaymentId) => {
+const authorizePrimerPurchase = async (
+  externalPaymentId: string,
+  orderId: number
+) => {
   const API_URL = getApiURL();
-
-  const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
 
   const url = `${API_URL}/connectors/primer/initial-purchase`;
 
