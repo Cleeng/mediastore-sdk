@@ -4,8 +4,8 @@ import usePaymentDropIn from 'hooks/usePaymentDropIn';
 
 import { PaymentDropInProps } from './PaymentDropIn.types';
 
-const PaymentDropIn = ({ adyenProps }: PaymentDropInProps) => {
-  const dropInComponent = usePaymentDropIn(adyenProps);
+const PaymentDropIn = ({ adyenProps, primerProps }: PaymentDropInProps) => {
+  const dropInComponent = usePaymentDropIn(adyenProps, primerProps);
 
   if (!dropInComponent) {
     return null;

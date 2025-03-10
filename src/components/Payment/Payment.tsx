@@ -345,6 +345,12 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     }
   };
 
+  const onPrimerSubmit = () => {
+    if (onPaymentComplete) {
+      onPaymentComplete();
+    }
+  };
+
   // add correct type during adyen-web v6 migration
   // https://cleeng.atlassian.net/browse/MSSDK-2139
   const getDropIn = (drop: unknown) => {
@@ -456,6 +462,10 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
             isPayPalAvailable: shouldShowPayPal,
             getDropIn,
             onAdditionalDetails
+          }}
+          primerProps={{
+            onSubmit: onPrimerSubmit,
+            selectPaymentMethod: selectPaymentMethodHandler
           }}
         />
         {shouldShowPayPal &&

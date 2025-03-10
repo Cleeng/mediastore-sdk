@@ -4,6 +4,7 @@ import { useAppSelector } from 'appRedux/store';
 import { shouldShowGatewayComponent } from 'util/paymentMethodHelper';
 
 import { AdyenProps } from 'types/Adyen.types';
+import { PrimerProps } from 'types/Primer.types';
 
 const Adyen = lazy(
   () => import(/* webpackChunkName: "adyen-component" */ 'components/Adyen')
@@ -18,14 +19,15 @@ type UsePaymentDropInReturnType = {
 } | null;
 
 const usePaymentDropIn = (
-  adyenProps: AdyenProps
+  adyenProps: AdyenProps,
+  primerProps: PrimerProps
 ): UsePaymentDropInReturnType => {
   const { paymentMethods: publisherPaymentMethods } = useAppSelector(
     selectPublisherConfig
   );
 
   if (shouldShowGatewayComponent('primer', publisherPaymentMethods)) {
-    return { Component: Primer, props: {} };
+    return { Component: Primer, props: primerProps };
   }
 
   if (shouldShowGatewayComponent('adyen', publisherPaymentMethods)) {
