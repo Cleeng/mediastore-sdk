@@ -111,10 +111,6 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
   // payment methods
   const selectPaymentMethodHandler = (paymentMethodName: string) => {
-    console.log(
-      'Payment.tsx -> selectPaymentMethodHandler -> paymentMethodName: ',
-      paymentMethodName
-    );
     const paymentMethodObj = publisherPaymentMethods.find(
       ({ methodName }) => methodName === paymentMethodName
     );
@@ -155,10 +151,6 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   };
 
   useEffect(() => {
-    console.log(
-      'Payment.tsx -> useEffect -> publisherPaymentMethods: ',
-      publisherPaymentMethods
-    );
     if (publisherPaymentMethods.length === 1) {
       const [paymentMethod] = publisherPaymentMethods;
       selectPaymentMethodHandler(paymentMethod.methodName);
