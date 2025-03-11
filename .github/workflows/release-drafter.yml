@@ -1,7 +1,9 @@
-name: Production release start - generate a release draft
+name: Generate a release draft
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
