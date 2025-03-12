@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './rootReducer';
-import { PaymentMethodsInitialState } from './types';
+import { PaymentMethodsInitialState, SelectedPaymentMethod } from './types';
 
 const initialState: PaymentMethodsInitialState = {
-  selectedPaymentMethod: {}
+  selectedPaymentMethod: null
 };
 
 export const paymentMethodsSlice = createSlice({
@@ -11,7 +11,7 @@ export const paymentMethodsSlice = createSlice({
   initialState,
   reducers: (create) => ({
     setSelectedPaymentMethod: create.reducer(
-      (state, action: PayloadAction<Record<string, unknown>>) => {
+      (state, action: PayloadAction<SelectedPaymentMethod>) => {
         state.selectedPaymentMethod = action.payload;
       }
     )

@@ -27,10 +27,13 @@ import { PaymentCardProps } from './PaymentCard.types';
 const PaymentCard = ({ details }: PaymentCardProps) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+
   const { paymentMethodSpecificParams, paymentMethod } = details;
+
   const getSpecificPaymentMethod = (): CardTypesKey => {
-    if (paymentMethod === 'card') return paymentMethodSpecificParams.variant;
-    return paymentMethod;
+    return paymentMethod === 'card' || paymentMethod === 'primer-card'
+      ? paymentMethodSpecificParams.variant
+      : paymentMethod;
   };
 
   const card = CardTypes[getSpecificPaymentMethod()];

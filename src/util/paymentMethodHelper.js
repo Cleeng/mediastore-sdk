@@ -58,7 +58,8 @@ export const readablePaymentMethodNames = {
   ideal: 'iDEAL',
   bancontact_card: 'Bancontact Card',
   bancontact_mobile: 'Bancontact Mobile',
-  gcash: 'GCash'
+  gcash: 'GCash',
+  'primer-card': 'Card'
 };
 
 export const supportedPaymentGateways = ['adyen', 'paypal', 'primer'];
@@ -76,7 +77,8 @@ export const logos = {
   roku: RokuLogo,
   amazon: AmazonLogo,
   android: AndroidLogo,
-  gcash: GCashLogo
+  gcash: GCashLogo,
+  'primer-card': CardLogo
 };
 
 export default logos;
