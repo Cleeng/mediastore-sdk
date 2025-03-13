@@ -4,7 +4,11 @@ import usePaymentDropIn from 'hooks/usePaymentDropIn';
 
 import { PaymentDropInProps } from './PaymentDropIn.types';
 
-const PaymentDropIn = ({ adyenProps, primerProps }: PaymentDropInProps) => {
+const PaymentDropIn = ({
+  adyenProps,
+  primerProps,
+  isMyAccount
+}: PaymentDropInProps) => {
   const dropInComponent = usePaymentDropIn(adyenProps, primerProps);
 
   if (!dropInComponent) {
@@ -15,7 +19,7 @@ const PaymentDropIn = ({ adyenProps, primerProps }: PaymentDropInProps) => {
 
   return (
     <Suspense fallback={<Loader />}>
-      <Component {...props} />
+      <Component {...props} isMyAccount={isMyAccount} />
     </Suspense>
   );
 };

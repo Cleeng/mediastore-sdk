@@ -8,6 +8,8 @@ import Loader from 'components/Loader';
 import { PrimerProps } from 'types/Primer.types';
 import { usePrimer } from './usePrimer';
 
+import { PrimerContainer } from './PrimerStyled';
+
 const CONTAINER = 'msd__primerWrapper';
 const DEFAULT_PRIMER_PAYMENT_METHOD = 'primer-card';
 
@@ -24,7 +26,11 @@ const options: UniversalCheckoutOptions = {
   successScreen: false
 };
 
-const Primer = ({ selectPaymentMethod, onSubmit }: PrimerProps) => {
+const Primer = ({
+  selectPaymentMethod,
+  onSubmit,
+  isMyAccount
+}: PrimerProps) => {
   const {
     getPrimerToken,
     isLoading,
@@ -32,7 +38,7 @@ const Primer = ({ selectPaymentMethod, onSubmit }: PrimerProps) => {
     onCheckoutComplete,
     onCheckoutFail,
     onPaymentMethodAction
-  } = usePrimer({ onSubmit, selectPaymentMethod });
+  } = usePrimer({ onSubmit, selectPaymentMethod, isMyAccount });
 
   useEffect(() => {
     const createDropIn = async () => {
@@ -44,7 +50,7 @@ const Primer = ({ selectPaymentMethod, onSubmit }: PrimerProps) => {
         onPaymentMethodAction
       };
       await PrimerSDK.showUniversalCheckout(clientToken, primerOptions);
-      await selectPaymentMethod(DEFAULT_PRIMER_PAYMENT_METHOD);
+      selectPaymentMethod(DEFAULT_PRIMER_PAYMENT_METHOD);
     };
     createDropIn();
   }, []);
@@ -55,7 +61,7 @@ const Primer = ({ selectPaymentMethod, onSubmit }: PrimerProps) => {
 
   if (isLoading) return <Loader />;
 
-  return <div id={CONTAINER} />;
+  return <PrimerContainer id={CONTAINER} />;
 };
 
 export default Primer;
