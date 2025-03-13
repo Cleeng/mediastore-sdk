@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 
 export const PrimerContainer = styled.div`
-  text-align: start;
+  .PrimerCheckout__formField {
+    text-align: start;
+  }
 `;

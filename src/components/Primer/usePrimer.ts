@@ -1,13 +1,9 @@
 import { useState } from 'react';
-import { OnCheckoutFailHandler, Payment } from '@primer-io/checkout-web';
+import { UniversalCheckoutOptions } from '@primer-io/checkout-web';
 import { createPrimerSession, authorizePrimerPurchase } from 'api';
 import { UsePrimerHookProps } from 'types/Primer.types';
 
-type PrimerClientError = {
-  code: string;
-  message: string;
-  [key: string]: any;
-};
+const CONTAINER = 'msd__primerWrapper';
 
 export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -26,58 +22,59 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
     }
   };
 
-  const onCheckoutComplete = async ({
-    payment
-  }: {
-    payment: Payment | null;
-  }) => {
-    if (!payment) {
-      setSessionError('An error occurred!');
-      return;
-    }
+  const options: UniversalCheckoutOptions = {
+    container: `#${CONTAINER}`,
+    apiVersion: '2.4',
+    form: {
+      inputLabelsVisible: true
+    },
+    submitButton: {
+      useBuiltInButton: true,
+      amountVisible: true
+    },
+    successScreen: false,
+    onCheckoutFail: (error, data, handler) => {
+      console.log('onCheckoutFail', error, data.payment);
 
-    const { id, orderId } = payment;
+      if (!handler) {
+        return;
+      }
+      handler.showErrorMessage();
+    },
+    onCheckoutComplete: async (data) => {
+      const { payment } = data;
 
-    try {
-      setIsLoading(true);
-
-      if (!isMyAccount) {
-        await authorizePrimerPurchase(id, parseInt(orderId, 10));
+      if (!payment) {
+        setSessionError('An error occurred!');
+        return;
       }
 
-      onSubmit();
-    } catch (error) {
-      setSessionError('An error occurred!');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      const { id, orderId } = payment;
 
-  const onCheckoutFail = (
-    error: PrimerClientError,
-    data: { payment?: Payment | undefined },
-    handler: OnCheckoutFailHandler | undefined
-  ): void => {
-    console.log('onCheckoutFail', error, data.payment);
-    if (!handler) {
-      return;
-    }
-    handler.showErrorMessage();
-  };
+      try {
+        setIsLoading(true);
 
-  const onPaymentMethodAction = (action: string, data: object) => {
-    console.log('onPaymentMethodAction', action, data);
-    // for the PAYMENT_METHOD_SELECTED action we should call the
+        if (!isMyAccount) {
+          await authorizePrimerPurchase(id, parseInt(orderId, 10));
+        }
+
+        onSubmit();
+      } catch (error) {
+        setSessionError('An error occurred!');
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    onPaymentMethodAction: (paymentMethodAction) => {
+      console.log('onPaymentMethodAction', paymentMethodAction);
+      // selectPaymentMethod handler
+    }
   };
 
   return {
     getPrimerToken,
     isLoading,
-    setIsLoading,
     sessionError,
-    setSessionError,
-    onCheckoutComplete,
-    onCheckoutFail,
-    onPaymentMethodAction
+    options
   };
 };
