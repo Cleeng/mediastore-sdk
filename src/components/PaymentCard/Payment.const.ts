@@ -14,7 +14,6 @@ import Ideal from 'assets/images/paymentMethods/ideal.svg';
 import Bancontact from 'assets/images/paymentMethods/bancontact.svg';
 import GCash from 'assets/images/paymentMethods/gcash.svg';
 
-// eslint-disable-next-line import/prefer-default-export
 export const CardTypes = {
   visa: {
     icon: Visa,

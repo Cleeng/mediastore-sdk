@@ -3,7 +3,6 @@ import { settingNames } from './constants';
 
 import { Capture, GetCaptureSettingsReturnValue } from './UpdateProfile.types';
 
-// eslint-disable-next-line import/prefer-default-export
 export const getCaptureSettings = (
   capture: Capture
 ): GetCaptureSettingsReturnValue => {

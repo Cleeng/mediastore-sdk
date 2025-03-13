@@ -75,5 +75,4 @@ const Pause = ({
   );
 };
 
-// eslint-disable-next-line import/prefer-default-export
 export { Pause };

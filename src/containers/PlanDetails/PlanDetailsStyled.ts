@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { BackgroundColor } from 'styles/variables';
 
-// eslint-disable-next-line import/prefer-default-export
 export const WrapStyled = styled.div`
   * {
     box-sizing: border-box;

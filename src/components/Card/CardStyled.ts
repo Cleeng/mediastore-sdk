@@ -1,7 +1,6 @@
 import styled, { css } from 'styled-components';
 import { CardColor } from 'styles/variables';
 
-// eslint-disable-next-line import/prefer-default-export
 export const WrapStyled = styled.div.attrs(() => ({
   className: 'msd__account__card'
 }))<{ $withShadow?: boolean; $withBorder?: boolean }>`
