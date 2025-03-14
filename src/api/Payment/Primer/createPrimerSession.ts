@@ -12,7 +12,7 @@ const createPrimerSession = async (isMyAccount = false) => {
   const res = await fetchWithJWT(url, {
     method: 'POST',
     body: JSON.stringify({
-      ...(!isMyAccount && { orderId })
+      orderId: isMyAccount ? undefined : orderId
     })
   });
 
