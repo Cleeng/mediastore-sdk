@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { UniversalCheckoutOptions } from '@primer-io/checkout-web';
 import { createPrimerSession, authorizePrimerPurchase } from 'api';
+import { useDeliveryDetails } from 'hooks/useDeliveryDetails';
 import { UsePrimerHookProps } from 'types/Primer.types';
 
 const CONTAINER = 'msd__primerWrapper';
@@ -8,6 +9,8 @@ const CONTAINER = 'msd__primerWrapper';
 export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [sessionError, setSessionError] = useState<string | null>(null);
+
+  const { handleDeliveryDetails } = useDeliveryDetails();
 
   const getPrimerToken = async () => {
     try {
@@ -33,8 +36,14 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
       amountVisible: true
     },
     successScreen: false,
-    onBeforePaymentCreate: (_, handler) => {
+    onBeforePaymentCreate: async (_, handler) => {
       // validate gift delivery details here
+      const areDeliveryDetailsValid = await handleDeliveryDetails();
+
+      if (!areDeliveryDetailsValid) {
+        return handler.abortPaymentCreation();
+      }
+
       return handler.continuePaymentCreation();
     },
     onCheckoutFail: (error, data, handler) => {

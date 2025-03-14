@@ -16,6 +16,7 @@ import {
   bankPaymentMethodsMapper,
   getStandardCopy
 } from 'util/paymentMethodHelper';
+import { useDeliveryDetails } from 'hooks/useDeliveryDetails';
 import CheckboxLegacy from 'components/CheckboxLegacy';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
@@ -43,7 +44,6 @@ const Adyen = ({
 
   const {
     id: orderId,
-    buyAsAGift,
     discount,
     totalPrice,
     offerId,
@@ -64,13 +64,8 @@ const Adyen = ({
   const selectedPaymentMethodRef = useRef(selectedPaymentMethod);
 
   const deliveryDetails = useAppSelector(selectDeliveryDetails);
-  const deliveryDetailsRef = useRef(null);
-  const buyAsAGiftRef = useRef(buyAsAGift || null);
 
-  useEffect(() => {
-    deliveryDetailsRef.current = deliveryDetails;
-    buyAsAGiftRef.current = buyAsAGift;
-  }, [deliveryDetails, buyAsAGift]);
+  const { handleDeliveryDetails } = useDeliveryDetails();
 
   useEffect(() => {
     selectedPaymentMethodRef.current = selectedPaymentMethod;
@@ -196,63 +191,6 @@ const Adyen = ({
       error,
       fieldType
     });
-  };
-
-  const handleDeliveryDetails = async () => {
-    const { isGift } = deliveryDetailsRef.current;
-
-    if (isGift) {
-      const areDeliveryDetailsValid = validateDeliveryDetailsForm();
-
-      if (!areDeliveryDetailsValid) {
-        return false;
-      }
-
-      const { recipientEmail, deliveryDate, deliveryTime, message } =
-        deliveryDetailsRef.current;
-
-      await dispatch(
-        fetchUpdateOrder({
-          id: orderId,
-          payload: {
-            buyAsAGift: true,
-            deliveryDetails: {
-              recipientEmail: recipientEmail.value,
-              deliveryDate:
-                new Date(
-                  `${deliveryDate.value}T${deliveryTime.value}`
-                ).valueOf() / 1000,
-              personalNote: message.value
-            }
-          }
-        })
-      )
-        .unwrap()
-        .catch((err) => {
-          throw new Error(err);
-        });
-
-      return true;
-    }
-
-    if (buyAsAGiftRef.current && !isGift) {
-      await dispatch(
-        fetchUpdateOrder({
-          id: orderId,
-          payload: {
-            buyAsAGift: false
-          }
-        })
-      )
-        .unwrap()
-        .catch((err) => {
-          throw new Error(err);
-        });
-
-      return true;
-    }
-
-    return true;
   };
 
   const isCheckboxChecked = (methodName) => {
