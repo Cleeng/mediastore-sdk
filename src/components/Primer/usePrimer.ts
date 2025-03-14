@@ -12,7 +12,7 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
   const getPrimerToken = async () => {
     try {
       setIsLoading(true);
-      const response = await createPrimerSession();
+      const response = await createPrimerSession(isMyAccount);
       return response;
     } catch (error) {
       setSessionError('An error occurred!');
@@ -33,6 +33,10 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
       amountVisible: true
     },
     successScreen: false,
+    onBeforePaymentCreate: (_, handler) => {
+      // validate gift delivery details here
+      return handler.continuePaymentCreation();
+    },
     onCheckoutFail: (error, data, handler) => {
       console.log('onCheckoutFail', error, data.payment);
 
@@ -54,10 +58,7 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
       try {
         setIsLoading(true);
 
-        if (!isMyAccount) {
-          await authorizePrimerPurchase(id, parseInt(orderId, 10));
-        }
-
+        await authorizePrimerPurchase(id, parseInt(orderId, 10));
         onSubmit();
       } catch (error) {
         setSessionError('An error occurred!');

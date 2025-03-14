@@ -1,11 +1,11 @@
 export type PrimerProps = {
-  onSubmit: () => void;
+  onSubmit: (id?: string) => void;
   selectPaymentMethod: (paymentMethod: string) => void;
   isMyAccount?: boolean;
 };
 
 export type UsePrimerHookProps = {
   selectPaymentMethod: (paymentMethod: string) => void;
-  onSubmit: () => void;
+  onSubmit: (id?: string) => void;
   isMyAccount?: boolean;
 };
