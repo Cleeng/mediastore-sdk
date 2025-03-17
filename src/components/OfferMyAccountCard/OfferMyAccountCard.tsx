@@ -96,8 +96,10 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     : ({} as SwitchDetail);
 
   const isUpgradePending = switches.find(
-    ({ status: switchStatus, direction }) =>
-      switchStatus === 'inprogress' && direction === 'upgrade'
+    ({ status: switchStatus, direction, fromOfferId }) =>
+      switchStatus === 'inprogress' &&
+      direction === 'upgrade' &&
+      fromOfferId === offerId
   );
 
   // PAUSE FEATURE

@@ -30,12 +30,14 @@ const initializeUnsubscribeSteps = ({
 };
 
 const useUnsubscribeSteps = ({
+  availableDowngrades,
   skipAvailableDowngradesStep,
   skipCancellationSurveyStep
 }: UseUnsubscribeStepsArguments) => {
   const steps = useMemo(
     () =>
       initializeUnsubscribeSteps({
+        availableDowngrades,
         skipAvailableDowngradesStep,
         skipCancellationSurveyStep
       }),
