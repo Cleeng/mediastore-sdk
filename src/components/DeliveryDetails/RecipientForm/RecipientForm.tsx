@@ -10,8 +10,8 @@ import { POPUP_TYPES, selectPopupDetails } from 'appRedux/popupSlice';
 import MyAccountInput from 'components/MyAccountInput';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import {
-  getDate,
-  getTime
+  getLocalDate,
+  getLocalTime
 } from 'components/DeliveryDetails/RecipientForm/helpers';
 import {
   InfoText,
@@ -104,13 +104,13 @@ const RecipientForm = ({ isMyAccount = false }: RecipientFormProps) => {
       dispatch(
         setFieldValue({
           name: 'deliveryDate',
-          value: getDate(giftDeliveryDetails?.deliveryDate)
+          value: getLocalDate(giftDeliveryDetails?.deliveryDate)
         })
       );
       dispatch(
         setFieldValue({
           name: 'deliveryTime',
-          value: getTime(giftDeliveryDetails?.deliveryDate)
+          value: getLocalTime(giftDeliveryDetails?.deliveryDate)
         })
       );
       dispatch(
