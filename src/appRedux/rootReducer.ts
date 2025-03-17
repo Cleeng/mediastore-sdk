@@ -21,7 +21,6 @@ import popupReducer from './popup';
 import popupManagerReducer from './popupSlice';
 import publisherConfigReducer from './publisherConfigSlice';
 import publisherConsentsReducer from './publisherConsentsSlice';
-import retentionActionsReducer from './retentionActionsSlice';
 import transactionsReducer from './transactionsSlice';
 import unsubscribeReducer from './unsubscribeSlice';
 import userProfileReducer from './userProfile';
@@ -45,7 +44,6 @@ const rootReducer = combineReducers({
   popupManager: popupManagerReducer,
   publisherConfig: publisherConfigReducer,
   publisherConsents: publisherConsentsReducer,
-  retentionActions: retentionActionsReducer,
   transactions: transactionsReducer,
   unsubscribe: unsubscribeReducer,
   userProfile: userProfileReducer

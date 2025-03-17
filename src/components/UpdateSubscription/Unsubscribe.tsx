@@ -3,15 +3,14 @@ import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import { useAppSelector } from 'appRedux/store';
 import { selectUnsubscribe } from 'appRedux/unsubscribeSlice';
 import {
-  Pause,
   Downgrades,
   Survey,
-  Confirmation,
-  FreeExtension
+  Confirmation
 } from 'components/UpdateSubscription/components';
+import { selectPopupManager } from 'appRedux/popupSlice';
+import { selectSwitchSettings } from 'appRedux/planDetailsSlice';
 import { Props } from './Unsubscribe.types';
 import { STEPS } from './constants';
-import useRetentionActions from './hooks/useRetentionActions';
 import useUnsubscribe from './hooks/useUnsubscribe';
 import useUnsubscribeSteps from './hooks/useUnsubscribeSteps';
 import useUnsubscribeImmediately from './hooks/useUnsubscribeImmediately';
@@ -19,8 +18,7 @@ import useUnsubscribeImmediately from './hooks/useUnsubscribeImmediately';
 const Unsubscribe = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
-  skipCancellationSurveyStep,
-  skipAvailableFreeExtensionStep
+  skipCancellationSurveyStep
 }: Props) => {
   const { error: isError } = useAppSelector(selectUnsubscribe);
   const { t } = useTranslation();
@@ -31,33 +29,28 @@ const Unsubscribe = ({
     scheduledSwitch,
     setCheckedReason
   } = useUnsubscribe(skipCancellationSurveyStep);
+
+  const { updateSubscription } = useAppSelector(selectPopupManager);
+  const offerId = updateSubscription?.offerData?.offerId || '';
+  const { data: allSwitchSettings } = useAppSelector(selectSwitchSettings);
+  const availableDowngrades =
+    allSwitchSettings[offerId]?.available?.filter(
+      ({ switchDirection }) => switchDirection === 'downgrade'
+    ) || [];
+
   const performUnsubscribe = async () => {
-    await handleUnsubscribe(isPauseActive, showConfirmationStep);
+    await handleUnsubscribe(showConfirmationStep);
   };
-  const {
-    downgradesWithoutPause,
-    isPauseActive,
-    pauseOffer,
-    shouldShowDowngrades,
-    shouldShowFreeExtension,
-    shouldShowPauseScreen
-  } = useRetentionActions({
-    scheduledSwitch,
-    skipAvailableDowngradesStep,
-    skipAvailableFreeExtensionStep
-  });
+
   const {
     currentStep,
     setCurrentStep,
     steps,
-    isFreeExtensionSecondStep,
-    setIsFreeExtensionSecondStep,
     goToNextStep,
     showConfirmationStep
   } = useUnsubscribeSteps({
-    shouldShowDowngrades,
-    shouldShowFreeExtension,
-    shouldShowPauseScreen,
+    availableDowngrades,
+    skipAvailableDowngradesStep,
     skipCancellationSurveyStep
   });
 
@@ -70,25 +63,14 @@ const Unsubscribe = ({
 
   return (
     <InnerPopupWrapper
-      steps={isFreeExtensionSecondStep ? 2 : steps.length}
+      steps={steps.length}
       popupTitle={t('unsubscribe-popup.title', 'Manage your plan')}
       isError={Boolean(isError)}
-      currentStep={
-        isFreeExtensionSecondStep ? 2 : steps.indexOf(currentStep) + 1
-      }
+      currentStep={steps.indexOf(currentStep) + 1}
     >
-      {currentStep === STEPS.FREE_EXTENSION && (
-        <FreeExtension
-          handleUnsubscribe={goToNextStep}
-          setIsFreeExtensionSecondStep={setIsFreeExtensionSecondStep}
-        />
-      )}
-      {currentStep === STEPS.PAUSE && !!pauseOffer && (
-        <Pause pauseOffer={pauseOffer} handleClick={goToNextStep} />
-      )}
       {currentStep === STEPS.DOWNGRADES && (
         <Downgrades
-          downgrades={downgradesWithoutPause}
+          downgrades={availableDowngrades}
           handleClick={goToNextStep}
         />
       )}
@@ -96,8 +78,7 @@ const Unsubscribe = ({
         <Survey
           customCancellationReasons={customCancellationReasons}
           checkedReason={checkedReason}
-          shouldShowDowngrades={shouldShowDowngrades}
-          shouldShowFreeExtension={shouldShowFreeExtension}
+          shouldShowDowngrades={steps.length === 3}
           handleCheckboxClick={setCheckedReason}
           setCurrentStep={setCurrentStep}
           scheduledSwitch={scheduledSwitch}

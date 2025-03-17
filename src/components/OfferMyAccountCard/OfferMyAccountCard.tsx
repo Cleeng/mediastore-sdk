@@ -50,6 +50,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   const { data: currentPlan, loading } = useAppSelector(selectCurrentPlan);
   const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
   const { data: switchDetailsStore } = useAppSelector(selectSwitchDetails);
+
   const {
     offerType,
     offerTitle,
@@ -74,6 +75,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
 
   useEffect(() => {
     const getCustomerSwitches = async () => {
+      // 'switches' should be moved to store
       const customerSwitches = await getSwitches();
       setSwitches(customerSwitches);
     };

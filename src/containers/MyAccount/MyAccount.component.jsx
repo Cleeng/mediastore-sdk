@@ -200,7 +200,6 @@ class MyAccount extends Component {
     const {
       customCancellationReasons,
       skipAvailableDowngradesStep,
-      skipAvailableFreeExtensionStep,
       skipCancellationSurveyStep,
       myaccountState: { activeTab }
     } = this.props;
@@ -211,7 +210,6 @@ class MyAccount extends Component {
           <PlanDetails
             customCancellationReasons={customCancellationReasons}
             skipAvailableDowngradesStep={skipAvailableDowngradesStep}
-            skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
             skipCancellationSurveyStep={skipCancellationSurveyStep}
           />
         );
@@ -272,7 +270,6 @@ MyAccount.propTypes = {
     })
   ),
   skipAvailableDowngradesStep: PropTypes.bool,
-  skipAvailableFreeExtensionStep: PropTypes.bool,
   skipCancellationSurveyStep: PropTypes.bool,
   initPublisherConfig: PropTypes.func.isRequired,
   adyenConfiguration: PropTypes.objectOf(PropTypes.any),
@@ -288,7 +285,6 @@ MyAccount.defaultProps = {
   popup: { isPopupShown: false },
   customCancellationReasons: null,
   skipAvailableDowngradesStep: false,
-  skipAvailableFreeExtensionStep: false,
   skipCancellationSurveyStep: false,
   displayGracePeriodError: null
 };

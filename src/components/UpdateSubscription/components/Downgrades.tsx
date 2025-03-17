@@ -24,7 +24,6 @@ const Downgrades = ({
   const dispatch = useAppDispatch();
 
   const { updateSubscription } = useAppSelector(selectPopupManager);
-
   const offerId = updateSubscription?.offerData?.offerId || '';
 
   return (

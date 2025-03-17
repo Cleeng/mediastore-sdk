@@ -11,7 +11,6 @@ import { PlanDetailsPopupManagerProps } from './PlanDetailsPopupManager.types';
 const PlanDetailsPopupManager = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
-  skipAvailableFreeExtensionStep,
   skipCancellationSurveyStep,
   onCancel,
   onSwitchSuccess,
@@ -27,7 +26,6 @@ const PlanDetailsPopupManager = ({
         <UpdateSubscription
           customCancellationReasons={customCancellationReasons}
           skipAvailableDowngradesStep={skipAvailableDowngradesStep}
-          skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
           skipCancellationSurveyStep={skipCancellationSurveyStep}
         />
       );

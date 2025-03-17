@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
-import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
 
 import { subscriptionSwitch } from 'api';
 import Button from 'components/Button';
@@ -98,11 +97,6 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
     dispatch(updateList());
   };
 
-  const getOfferPrice = ({ toOfferId, price, nextPaymentPrice }) =>
-    formatNumber(
-      isPriceTemporaryModified(toOfferId) ? price : nextPaymentPrice
-    );
-
   if (isPopupLoading) {
     return (
       <InnerPopupWrapper
@@ -184,7 +178,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      currentPrice: getOfferPrice(toOffer)
+                      currentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   on your next billing date{' '}
@@ -210,7 +204,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      currentPrice: getOfferPrice(toOffer)
+                      currentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   and immediately granted access to your selected plan. The
@@ -238,7 +232,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      currentPrice: getOfferPrice(toOffer)
+                      currentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>
                   . You will also be fully refunded for your previous
@@ -300,7 +294,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      currentPrice: getOfferPrice(toOffer)
+                      currentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   and immediately granted access to the selected plan. You will
@@ -327,7 +321,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      currentPrice: getOfferPrice(toOffer)
+                      currentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   and immediately granted access to the selected plan.
@@ -361,7 +355,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      currentPrice: getOfferPrice(toOffer)
+                      currentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   and granted access to the selected plan. Your next billing
@@ -376,17 +370,6 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   {t(
                     'switchplan-popup.coupon-will-not-apply',
                     'Your current coupon will not apply to the new plan. If you have a coupon for your new plan, you can apply it after confirming your switch.'
-                  )}
-                  <br />
-                </>
-              )}
-              <br />
-              {isPriceTemporaryModified(toOffer.toOfferId) && (
-                <>
-                  <br />
-                  {t(
-                    'switchplan-popup.price-without-taxes',
-                    'Note, the presented price does not include taxes.'
                   )}
                   <br />
                 </>
@@ -514,7 +497,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      nextPaymentPrice: getOfferPrice(toOffer)
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   starting from now.
@@ -577,7 +560,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      nextPaymentPrice: getOfferPrice(toOffer)
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   starting from now.
@@ -604,7 +587,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      nextPaymentPrice: getOfferPrice(toOffer)
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   starting from now.
@@ -631,7 +614,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                         currencyFormat[toOffer.nextPaymentPriceCurrency]
                     }}
                     {{
-                      nextPaymentPrice: getOfferPrice(toOffer)
+                      nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>{' '}
                   starting from now.

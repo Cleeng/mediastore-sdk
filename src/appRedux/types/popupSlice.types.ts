@@ -1,5 +1,4 @@
 import { PaymentDetail } from 'api/Customer/types';
-import { RetentionActions } from './retentionActionsSlice.types';
 import { PAYMENT_DETAILS_STEPS, POPUP_TYPES } from '../popupSlice';
 
 type Keys = keyof typeof PAYMENT_DETAILS_STEPS;
@@ -66,7 +65,6 @@ type SwitchSettings = {
 export type UpdateSubscription = {
   action: string;
   offerData: SubscriptionOffer;
-  retentionActions: RetentionActions;
 };
 
 type SwitchPlan = {

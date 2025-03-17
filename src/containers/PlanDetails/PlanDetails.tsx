@@ -28,18 +28,13 @@ import { PlanDetailsProps } from './PlanDetails.types';
 const PlanDetails = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
-  skipAvailableFreeExtensionStep,
   skipCancellationSurveyStep,
   displayGracePeriodError
 }: PlanDetailsProps) => {
   const { data: currentPlan } = useAppSelector(selectCurrentPlan);
-  const {
-    offerToSwitch: { offerId: offerToSwitchId }
-  } = useAppSelector(selectPlanDetails);
   const { updateList: updateListValue } = useAppSelector(selectPlanDetails);
   const { isOpen: isPopupOpen } = useAppSelector(selectPopupDetails);
   const { offers } = useAppSelector((state) => state.offers);
-  const { pauseOffersIDs } = useAppSelector((store) => store.offers);
   const { t } = useTranslation();
   const didMount = useRef(false);
   const dispatch = useAppDispatch();
@@ -107,14 +102,11 @@ const PlanDetails = ({
     (offer) => offer.status === 'active' && offer.offerType === 'S'
   );
 
-  const isPauseActive = (pauseOffersIDs as string[]).includes(offerToSwitchId);
-
   if (isPopupOpen)
     return (
       <PlanDetailsPopupManager
         customCancellationReasons={customCancellationReasons}
         skipAvailableDowngradesStep={skipAvailableDowngradesStep}
-        skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
         skipCancellationSurveyStep={skipCancellationSurveyStep}
       />
     );
@@ -126,7 +118,7 @@ const PlanDetails = ({
         <>{t('plandetails.current-plan', 'Current Plan')}</>
       </SectionHeader>
       <CurrentPlan />
-      {activeSubscriptions.length !== 0 && !isPauseActive && (
+      {activeSubscriptions.length !== 0 && (
         <>
           <SectionHeader>
             <>{t('plandetails.change-plan', 'Change Plan')}</>

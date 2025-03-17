@@ -5,18 +5,12 @@ import PropTypes from 'prop-types';
 import { applyCoupon } from 'api';
 import { POPUP_TYPES } from 'appRedux/innerPopupReducer';
 import { setOfferToSwitch, updateList } from 'appRedux/planDetailsSlice';
-import {
-  fetchRetentionActions,
-  selectRetentionActionsIsLoading
-} from 'appRedux/retentionActionsSlice';
 import { showPopup } from 'appRedux/popupSlice';
 import { currencyFormat } from 'util/planHelper';
 import Button from 'components/Button';
 import CouponInput from 'components/CouponInput';
-import Loader from 'components/Loader';
 import { getData } from 'util/appConfigHelper';
 import trackMixpanelEvent from 'util/trackMixpanelEvent';
-import { FontColor } from 'styles/variables';
 
 import {
   SubscriptionManagementStyled,
@@ -33,10 +27,6 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
   const { pauseOffersIDs } = useSelector((store) => store.offers);
   const { data: switchSettings } = useSelector(
     (store) => store.plan.switchSettings
-  );
-
-  const isRetentionActionsLoading = useSelector(
-    selectRetentionActionsIsLoading
   );
 
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
@@ -190,19 +180,15 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
               onClickFn={(event) => {
                 event.stopPropagation();
 
-                dispatch(fetchRetentionActions(subscription.offerId)).then(
-                  () => {
-                    dispatch(setOfferToSwitch(subscription));
-                    dispatch(
-                      showPopup({
-                        type: POPUP_TYPES.updateSubscription,
-                        data: {
-                          action: 'unsubscribe',
-                          offerData: subscription
-                        }
-                      })
-                    );
-                  }
+                dispatch(setOfferToSwitch(subscription));
+                dispatch(
+                  showPopup({
+                    type: POPUP_TYPES.updateSubscription,
+                    data: {
+                      action: 'unsubscribe',
+                      offerData: subscription
+                    }
+                  })
                 );
 
                 window.dispatchEvent(
@@ -222,11 +208,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 });
               }}
             >
-              {isRetentionActionsLoading ? (
-                <Loader buttonLoader color={FontColor} />
-              ) : (
-                t('subscription-management.unsubscribe-button', 'Unsubscribe')
-              )}
+              {t('subscription-management.unsubscribe-button', 'Unsubscribe')}
             </SimpleButtonStyled>
           )}
           {status === 'cancelled' && !isCouponInputOpened && (

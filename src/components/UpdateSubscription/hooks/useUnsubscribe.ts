@@ -15,10 +15,7 @@ const useUnsubscribe = (skipCancellationSurveyStep?: boolean) => {
 
   const dispatch = useAppDispatch();
 
-  const handleUnsubscribe = async (
-    isPauseActive: boolean,
-    handleSuccess: () => void
-  ) => {
+  const handleUnsubscribe = async (handleSuccess: () => void) => {
     eventDispatcher(UNSUBSCRIBE_ACTION_CONFIRMED, {
       detail: {
         offerId: offerDetails?.offerId,
@@ -28,7 +25,6 @@ const useUnsubscribe = (skipCancellationSurveyStep?: boolean) => {
 
     await dispatch(
       fetchUnsubscribe({
-        isPauseActive,
         offerId: offerDetails?.offerId,
         ...(!skipCancellationSurveyStep && { checkedReason })
       })
