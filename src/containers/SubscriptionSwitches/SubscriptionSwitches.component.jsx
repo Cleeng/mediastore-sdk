@@ -87,8 +87,6 @@ const SubscriptionSwitches = ({
 
   useEffect(() => {
     if (offerId) {
-      console.log('mount');
-
       fetchOffersData();
     }
     if (isPopupOpen) {
@@ -100,7 +98,6 @@ const SubscriptionSwitches = ({
 
   useEffect(() => {
     if (offerId && !switchSettings[offerId]) {
-      console.log('offferid changed');
       fetchOffersData();
     }
   }, [offerId]);

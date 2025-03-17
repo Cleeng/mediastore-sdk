@@ -34,7 +34,6 @@ import updateGift from './Gifts/updateGift';
 import verifyGift from './Gifts/verifyGift';
 import redeemGift from './Gifts/redeemGift';
 import getAdyenPaymentMethods from './Payment/getAdyenPaymentMethods';
-import getSwitches from './Customer/getSwitches';
 
 export {
   getPaymentDetails,
@@ -72,6 +71,5 @@ export {
   updateGift,
   verifyGift,
   redeemGift,
-  getAdyenPaymentMethods,
-  getSwitches
+  getAdyenPaymentMethods
 };
