@@ -75,7 +75,7 @@ const Unsubscribe = ({
         <Survey
           customCancellationReasons={customCancellationReasons}
           checkedReason={checkedReason}
-          shouldShowDowngrades={steps.length === 3}
+          shouldShowDowngrades={!!availableDowngrades.length}
           handleCheckboxClick={setCheckedReason}
           setCurrentStep={setCurrentStep}
           scheduledSwitch={scheduledSwitch}
