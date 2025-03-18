@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import {
   selectCurrentPlan,
-  selectPendingSwitchDetails
+  selectPendingSwitchDetails,
+  selectCustomerSwitchesHistory
 } from 'appRedux/planDetailsSlice';
 import { selectOffers } from 'appRedux/offersSlice';
 import { Trans, useTranslation } from 'react-i18next';
@@ -19,7 +19,6 @@ import {
   currencyFormat,
   CurrencyFormat
 } from 'util/planHelper';
-import getSwitches from 'api/Customer/getSwitches';
 import { CustomerOffer } from 'api/Customer/types';
 import { showPopup, POPUP_TYPES } from 'appRedux/popupSlice';
 import eventDispatcher, {
@@ -45,12 +44,13 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const [switches, setSwitches] = useState<SwitchDetail[]>([]);
-
   const { data: currentPlan, loading } = useAppSelector(selectCurrentPlan);
   const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
   const { data: switchDetailsStore } = useAppSelector(
     selectPendingSwitchDetails
+  );
+  const { data: customerSwitchesHistory } = useAppSelector(
+    selectCustomerSwitchesHistory
   );
 
   const {
@@ -75,16 +75,6 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   } = useAppSelector(selectOffer);
   const priceRules = price?.rules;
 
-  useEffect(() => {
-    const getCustomerSwitches = async () => {
-      // 'switches' should be moved to store
-      const customerSwitches = await getSwitches();
-      setSwitches(customerSwitches);
-    };
-
-    getCustomerSwitches();
-  }, []);
-
   const currency =
     currencyFormat[
       (nextPaymentCurrency || customerCurrency) as keyof Record<
@@ -97,7 +87,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     ? switchDetailsStore[pendingSwitchId]
     : ({} as SwitchDetail);
 
-  const isUpgradePending = switches.find(
+  const isUpgradePending = customerSwitchesHistory.find(
     ({ status: switchStatus, direction, fromOfferId }) =>
       switchStatus === 'inprogress' &&
       direction === 'upgrade' &&

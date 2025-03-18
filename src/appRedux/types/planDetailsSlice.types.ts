@@ -64,4 +64,9 @@ export type PlanDetailsInitialState = {
     loading: boolean;
     error: string | null | undefined;
   };
+  customerSwitchesHistory: {
+    data: SwitchDetail[];
+    loading: boolean;
+    error: string | null | undefined;
+  };
 };

@@ -2,7 +2,7 @@ import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 import { SwitchDetail } from 'appRedux/types';
 
-const getSwitches = async (): Promise<SwitchDetail[]> => {
+const getCustomerSwitchesHistory = async (): Promise<SwitchDetail[]> => {
   const API_URL = getApiURL();
 
   const url = `${API_URL}/subscription_switches`;
@@ -21,4 +21,4 @@ const getSwitches = async (): Promise<SwitchDetail[]> => {
     });
 };
 
-export default getSwitches;
+export default getCustomerSwitchesHistory;

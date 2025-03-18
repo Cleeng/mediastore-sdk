@@ -1,8 +1,13 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { SwitchDetail, PlanDetailsInitialState, SwitchDetails } from './types';
 import { RootState } from './rootReducer';
 import { CustomerOffer } from '../api/Customer/types';
-import { PlanDetailsInitialState, SwitchDetails } from './types';
-import { getCustomerOffers, getSwitch, getAvailableSwitches } from '../api';
+import {
+  getCustomerOffers,
+  getSwitch,
+  getAvailableSwitches,
+  getCustomerSwitchesHistory
+} from '../api';
 
 type SwitchDetailChangeAction = {
   type: string;
@@ -26,6 +31,11 @@ const initialState: PlanDetailsInitialState = {
   },
   pendingSwitchDetails: {
     data: {},
+    loading: false,
+    error: null
+  },
+  customerSwitchesHistory: {
+    data: [],
     loading: false,
     error: null
   }
@@ -74,6 +84,21 @@ export const fetchPendingSwitches = createAsyncThunk<
     }
   }
 );
+
+export const fetchCustomerSwitchesHistory = createAsyncThunk<
+  SwitchDetail[],
+  void,
+  {
+    rejectValue: string;
+  }
+>('plan/fetchCustomerSwitchesHistory', async (_, { rejectWithValue }) => {
+  try {
+    return await getCustomerSwitchesHistory();
+  } catch (err) {
+    const typedError = err as Error;
+    return rejectWithValue(typedError.message);
+  }
+});
 
 export const fetchAvailableSwitches = createAsyncThunk<
   any, // should be SwitchSettings but for some reason its invalid
@@ -167,6 +192,17 @@ export const planDetailsSlice = createSlice({
       state.switchSettings.loading = false;
       state.switchSettings.error = action.payload;
     });
+    builder.addCase(fetchCustomerSwitchesHistory.pending, (state) => {
+      state.customerSwitchesHistory.loading = true;
+    });
+    builder.addCase(fetchCustomerSwitchesHistory.fulfilled, (state, action) => {
+      state.customerSwitchesHistory.loading = false;
+      state.customerSwitchesHistory.data = action.payload;
+    });
+    builder.addCase(fetchCustomerSwitchesHistory.rejected, (state, action) => {
+      state.customerSwitchesHistory.loading = false;
+      state.customerSwitchesHistory.error = action.payload;
+    });
   }
 });
 
@@ -182,6 +218,9 @@ export const selectPendingSwitchDetails = (state: RootState) =>
 
 export const selectCurrentPlanDetails = (state: RootState) =>
   state.plan.currentPlan;
+
+export const selectCustomerSwitchesHistory = (state: RootState) =>
+  state.plan.customerSwitchesHistory;
 
 export const {
   setOfferToSwitch,
