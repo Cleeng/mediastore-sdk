@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { BackgroundColor } from 'styles/variables';
 
-//
 export const WrapStyled = styled.div.attrs(() => ({
   className: 'msd__subscription-switches__wrapper'
 }))`
