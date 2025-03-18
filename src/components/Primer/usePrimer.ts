@@ -37,7 +37,6 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
     },
     successScreen: false,
     onBeforePaymentCreate: async (_, handler) => {
-      // validate gift delivery details here
       const areDeliveryDetailsValid = await handleDeliveryDetails();
 
       if (!areDeliveryDetailsValid) {
