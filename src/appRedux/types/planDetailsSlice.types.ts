@@ -59,7 +59,7 @@ export type PlanDetailsInitialState = {
     loading: boolean;
     error: string | null | undefined;
   };
-  switchDetails: {
+  pendingSwitchDetails: {
     data: SwitchDetails;
     loading: boolean;
     error: string | null | undefined;

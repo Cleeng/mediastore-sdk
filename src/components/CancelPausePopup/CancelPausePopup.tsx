@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
-import { setSwitchDetails, updateList } from 'appRedux/planDetailsSlice';
+import { setPendingSwitchDetails, updateList } from 'appRedux/planDetailsSlice';
 import { hidePopup } from 'appRedux/popupSlice';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
@@ -33,7 +33,7 @@ const CancelPausePopup = () => {
   const [step, setStep] = useState(1);
 
   const { data: allSwitchDetails } = useAppSelector(
-    (state) => state.plan.switchDetails
+    (state) => state.plan.pendingSwitchDetails
   );
   const { cancelPause } = useAppSelector((state) => state.popupManager);
 
@@ -64,7 +64,10 @@ const CancelPausePopup = () => {
       if (!errors.length) {
         setIsLoading(false);
         dispatch(
-          setSwitchDetails({ details: { pendingSwitchId }, type: 'delete' })
+          setPendingSwitchDetails({
+            details: { pendingSwitchId },
+            type: 'delete'
+          })
         );
         setStep(2);
         eventDispatcher(MSSDK_CANCEL_SWITCH_ACTION_SUCCESSFUL, eventsPayload);

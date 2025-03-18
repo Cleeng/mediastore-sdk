@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import {
   selectCurrentPlan,
-  selectSwitchDetails
+  selectPendingSwitchDetails
 } from 'appRedux/planDetailsSlice';
 import { selectOffers } from 'appRedux/offersSlice';
 import { Trans, useTranslation } from 'react-i18next';
@@ -49,7 +49,9 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
 
   const { data: currentPlan, loading } = useAppSelector(selectCurrentPlan);
   const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
-  const { data: switchDetailsStore } = useAppSelector(selectSwitchDetails);
+  const { data: switchDetailsStore } = useAppSelector(
+    selectPendingSwitchDetails
+  );
 
   const {
     offerType,
