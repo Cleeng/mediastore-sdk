@@ -24,11 +24,6 @@ import {
 } from './SubscriptionManagementStyled';
 
 const SubscriptionManagement = ({ subscription, showMessageBox }) => {
-  const { pauseOffersIDs } = useSelector((store) => store.offers);
-  const { data: switchSettings } = useSelector(
-    (store) => store.plan.switchSettings
-  );
-
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isCouponInputOpened, setIsCouponInputOpened] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -46,7 +41,6 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
     status,
     subscriptionId
   } = subscription;
-  const isPaused = pauseOffersIDs.includes(offerId);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -240,7 +234,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
               {t('subscription-management.resume-button', 'Resume')}
             </FullWidthButtonStyled>
           )}
-          {status !== 'cancelled' && !isPaused && (
+          {status !== 'cancelled' && (
             <CouponWrapStyled>
               <CouponInput
                 couponDetails={{
@@ -257,29 +251,6 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 source='myaccount'
               />
             </CouponWrapStyled>
-          )}
-          {isPaused && (
-            <SimpleButtonStyled
-              variant='primary'
-              onClickFn={(event) => {
-                event.stopPropagation();
-                dispatch(
-                  showPopup({
-                    type: POPUP_TYPES.resumeSubscription,
-                    data: {
-                      offerData: {
-                        ...switchSettings[subscription?.offerId].available[0]
-                      }
-                    }
-                  })
-                );
-              }}
-            >
-              {t(
-                'subscription-management.resume-subscription-button',
-                'Resume subscription'
-              )}
-            </SimpleButtonStyled>
           )}
         </WrapperStyled>
       </SubscriptionActionsStyled>

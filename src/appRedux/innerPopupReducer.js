@@ -7,7 +7,6 @@ export const POPUP_TYPES = {
   updateSubscription: 'updateSubscription',
   switchPlan: 'switchPlan',
   cancelSwitch: 'cancelSwitch',
-  cancelPause: 'cancelPause',
   resumeSubscription: 'resumeSubscription'
 };
 
