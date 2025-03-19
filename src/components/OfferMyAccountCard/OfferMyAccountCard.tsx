@@ -46,7 +46,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
 
   const { data: currentPlan, loading } = useAppSelector(selectCurrentPlan);
   const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
-  const { data: pendingSwitchesDetailsStore } = useAppSelector(
+  const { data: pendingSwitchesDetails } = useAppSelector(
     selectPendingSwitchesDetails
   );
   const { data: customerSwitchesHistory } = useAppSelector(
@@ -84,7 +84,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     ]; // use customerCurrency for passes
 
   const pendingSwitchDetails = pendingSwitchId
-    ? pendingSwitchesDetailsStore[pendingSwitchId]
+    ? pendingSwitchesDetails[pendingSwitchId]
     : ({} as SwitchDetail);
 
   const isUpgradePending = customerSwitchesHistory.find(
