@@ -37,6 +37,7 @@ module.exports = {
     'react/forbid-prop-types': 'off', // TODO: remove after moving to redux
     'react/jsx-props-no-spreading': 'off',
     'react/react-in-jsx-scope': 'off',
+    'import/prefer-default-export': 'off',
     'import/extensions': [
       'error',
       'ignorePackages',
