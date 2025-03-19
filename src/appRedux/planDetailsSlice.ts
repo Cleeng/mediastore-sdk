@@ -29,7 +29,7 @@ const initialState: PlanDetailsInitialState = {
     loading: false,
     error: null
   },
-  pendingSwitchDetails: {
+  pendingSwitchesDetails: {
     data: {},
     loading: false,
     error: null
@@ -143,15 +143,15 @@ export const planDetailsSlice = createSlice({
     updateList: create.reducer((state) => {
       state.updateList = !state.updateList;
     }),
-    setPendingSwitchDetails: create.reducer(
+    setPendingSwitchesDetails: create.reducer(
       (state, { payload }: PayloadAction<SwitchDetailChangeAction>) => {
         const { details, type } = payload;
 
         if (type === 'delete') {
-          delete state.pendingSwitchDetails.data[details.pendingSwitchId];
+          delete state.pendingSwitchesDetails.data[details.pendingSwitchId];
         } else {
-          state.pendingSwitchDetails.data = Object.assign(
-            state.pendingSwitchDetails.data,
+          state.pendingSwitchesDetails.data = Object.assign(
+            state.pendingSwitchesDetails.data,
             details
           );
         }
@@ -171,15 +171,15 @@ export const planDetailsSlice = createSlice({
       state.currentPlan.error = action.payload;
     });
     builder.addCase(fetchPendingSwitches.pending, (state) => {
-      state.pendingSwitchDetails.loading = true;
+      state.pendingSwitchesDetails.loading = true;
     });
     builder.addCase(fetchPendingSwitches.fulfilled, (state, action) => {
-      state.pendingSwitchDetails.loading = false;
-      state.pendingSwitchDetails.data = action.payload;
+      state.pendingSwitchesDetails.loading = false;
+      state.pendingSwitchesDetails.data = action.payload;
     });
     builder.addCase(fetchPendingSwitches.rejected, (state, action) => {
-      state.pendingSwitchDetails.loading = false;
-      state.pendingSwitchDetails.error = action.payload;
+      state.pendingSwitchesDetails.loading = false;
+      state.pendingSwitchesDetails.error = action.payload;
     });
     builder.addCase(fetchAvailableSwitches.pending, (state) => {
       state.switchSettings.loading = true;
@@ -213,8 +213,8 @@ export const selectCurrentPlan = (state: RootState) => state.plan.currentPlan;
 export const selectSwitchSettings = (state: RootState) =>
   state.plan.switchSettings;
 
-export const selectPendingSwitchDetails = (state: RootState) =>
-  state.plan.pendingSwitchDetails;
+export const selectPendingSwitchesDetails = (state: RootState) =>
+  state.plan.pendingSwitchesDetails;
 
 export const selectCurrentPlanDetails = (state: RootState) =>
   state.plan.currentPlan;
@@ -226,7 +226,7 @@ export const {
   setOfferToSwitch,
   resetOfferToSwitch,
   updateList,
-  setPendingSwitchDetails
+  setPendingSwitchesDetails
 } = planDetailsSlice.actions;
 
 export default planDetailsSlice.reducer;

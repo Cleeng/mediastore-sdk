@@ -1,4 +1,4 @@
-import { selectPendingSwitchDetails } from 'appRedux/planDetailsSlice';
+import { selectPendingSwitchesDetails } from 'appRedux/planDetailsSlice';
 import { selectOfferData } from 'appRedux/popupSlice';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { fetchUnsubscribe } from 'appRedux/unsubscribeSlice';
@@ -11,8 +11,8 @@ const useUnsubscribe = (skipCancellationSurveyStep?: boolean) => {
   const [checkedReason, setCheckedReason] = useState('');
 
   const offerDetails = useAppSelector(selectOfferData);
-  const { data: pendingSwitchDetails } = useAppSelector(
-    selectPendingSwitchDetails
+  const { data: pendingSwitchesDetails } = useAppSelector(
+    selectPendingSwitchesDetails
   );
 
   const dispatch = useAppDispatch();
@@ -36,7 +36,7 @@ const useUnsubscribe = (skipCancellationSurveyStep?: boolean) => {
   };
 
   const scheduledSwitch = offerDetails?.pendingSwitchId
-    ? pendingSwitchDetails[offerDetails.pendingSwitchId]
+    ? pendingSwitchesDetails[offerDetails.pendingSwitchId]
     : null;
 
   return {

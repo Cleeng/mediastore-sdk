@@ -6,7 +6,10 @@ import Loader from 'components/Loader';
 import MyAccountError from 'components/MyAccountError';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
-import { updateList, setPendingSwitchDetails } from 'appRedux/planDetailsSlice';
+import {
+  updateList,
+  setPendingSwitchesDetails
+} from 'appRedux/planDetailsSlice';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { hidePopup } from 'appRedux/popupSlice';
 import { dateFormat, INFINITE_DATE } from 'util/planHelper';
@@ -23,7 +26,7 @@ const CancelSwitchPopup = () => {
   const dispatch = useAppDispatch();
 
   const { data: allSwitchDetails } = useAppSelector(
-    (state) => state.plan.pendingSwitchDetails
+    (state) => state.plan.pendingSwitchesDetails
   );
   const { cancelSwitch } = useAppSelector((state) => state.popupManager);
 
@@ -91,7 +94,7 @@ const CancelSwitchPopup = () => {
       if (!resp.errors.length) {
         setIsLoading(false);
         dispatch(
-          setPendingSwitchDetails({
+          setPendingSwitchesDetails({
             details: { pendingSwitchId },
             type: 'delete'
           })

@@ -1,7 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
-import { setPendingSwitchDetails, updateList } from 'appRedux/planDetailsSlice';
+import {
+  setPendingSwitchesDetails,
+  updateList
+} from 'appRedux/planDetailsSlice';
 import { hidePopup } from 'appRedux/popupSlice';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
@@ -33,7 +36,7 @@ const CancelPausePopup = () => {
   const [step, setStep] = useState(1);
 
   const { data: allSwitchDetails } = useAppSelector(
-    (state) => state.plan.pendingSwitchDetails
+    (state) => state.plan.pendingSwitchesDetails
   );
   const { cancelPause } = useAppSelector((state) => state.popupManager);
 
@@ -64,7 +67,7 @@ const CancelPausePopup = () => {
       if (!errors.length) {
         setIsLoading(false);
         dispatch(
-          setPendingSwitchDetails({
+          setPendingSwitchesDetails({
             details: { pendingSwitchId },
             type: 'delete'
           })

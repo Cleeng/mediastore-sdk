@@ -1,14 +1,26 @@
 import { useAppSelector } from 'appRedux/store';
-import { selectSwitchSettings } from 'appRedux/planDetailsSlice';
+import {
+  selectSwitchSettings,
+  selectPendingSwitchesDetails
+} from 'appRedux/planDetailsSlice';
+import { SwitchSetting } from 'appRedux/types';
 
-const useAvailableDowngrades = (offerId: string) => {
-  const allSwitchSettings = useAppSelector(selectSwitchSettings)?.data;
+const useAvailableDowngrades = (offerId: string): SwitchSetting[] => {
+  const allSwitchSettings = useAppSelector(selectSwitchSettings)?.data || {};
+  const pendingSwitches =
+    useAppSelector(selectPendingSwitchesDetails)?.data || {};
 
-  return offerId
-    ? allSwitchSettings[offerId]?.available?.filter(
-        ({ switchDirection }) => switchDirection === 'downgrade'
-      ) || []
-    : [];
+  const toOfferIdsWithPendingSwitch: string[] = Object.values(pendingSwitches)
+    .filter(({ fromOfferId }) => fromOfferId === offerId)
+    .map(({ toOfferId }) => toOfferId);
+
+  return (
+    allSwitchSettings[offerId]?.available?.filter(
+      ({ switchDirection, toOfferId }) =>
+        switchDirection === 'downgrade' &&
+        !toOfferIdsWithPendingSwitch.includes(toOfferId)
+    ) || []
+  );
 };
 
 export default useAvailableDowngrades;

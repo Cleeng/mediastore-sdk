@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import {
   selectCurrentPlan,
-  selectPendingSwitchDetails,
+  selectPendingSwitchesDetails,
   selectCustomerSwitchesHistory
 } from 'appRedux/planDetailsSlice';
 import { selectOffers } from 'appRedux/offersSlice';
@@ -46,8 +46,8 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
 
   const { data: currentPlan, loading } = useAppSelector(selectCurrentPlan);
   const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
-  const { data: switchDetailsStore } = useAppSelector(
-    selectPendingSwitchDetails
+  const { data: pendingSwitchesDetailsStore } = useAppSelector(
+    selectPendingSwitchesDetails
   );
   const { data: customerSwitchesHistory } = useAppSelector(
     selectCustomerSwitchesHistory
@@ -84,7 +84,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     ]; // use customerCurrency for passes
 
   const pendingSwitchDetails = pendingSwitchId
-    ? switchDetailsStore[pendingSwitchId]
+    ? pendingSwitchesDetailsStore[pendingSwitchId]
     : ({} as SwitchDetail);
 
   const isUpgradePending = customerSwitchesHistory.find(

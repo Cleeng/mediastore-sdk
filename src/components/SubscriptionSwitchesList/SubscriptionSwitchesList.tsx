@@ -21,8 +21,8 @@ import mapErrorToText from './helper';
 const SubscriptionSwitchesList = () => {
   const { t } = useTranslation();
 
-  const { data: pendingSwitchDetails } = useAppSelector(
-    (state) => state.plan.pendingSwitchDetails
+  const { data: pendingSwitchesDetails } = useAppSelector(
+    (state) => state.plan.pendingSwitchesDetails
   );
   const { pauseOffersIDs } = useAppSelector((state) => state.offers);
   const { offerToSwitch } = useAppSelector((state) => state.plan);
@@ -37,11 +37,11 @@ const SubscriptionSwitchesList = () => {
 
   const switchSettings = allSwitchSettings[offerToSwitch?.offerId] || {};
   const fromOfferId = offerToSwitch?.offerId;
-  const pendingSwitchesToOfferIdsArray = Object.keys(pendingSwitchDetails).map(
-    (item) => {
-      return pendingSwitchDetails[item].toOfferId;
-    }
-  );
+  const pendingSwitchesToOfferIdsArray = Object.keys(
+    pendingSwitchesDetails
+  ).map((item) => {
+    return pendingSwitchesDetails[item].toOfferId;
+  });
   const EXTERNALLY_MANAGED_ERROR = 'Subscription is externally managed';
 
   const dispatch = useAppDispatch();
