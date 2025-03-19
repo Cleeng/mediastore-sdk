@@ -6,11 +6,7 @@ const getLocalDate = (timestamp: number) => {
   return `${year}-${month}-${day}`;
 };
 
-const getLocalTime = (timestamp: number) => {
-  const d = new Date(timestamp * 1000);
-  const hours = String(d.getHours()).padStart(2, '0');
-  const minutes = String(d.getMinutes()).padStart(2, '0');
-  return `${hours}:${minutes}`;
-};
+const getLocalTime = (timestamp: number) =>
+  new Date(timestamp * 1000).toLocaleTimeString();
 
 export { getLocalDate, getLocalTime };
