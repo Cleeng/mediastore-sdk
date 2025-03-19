@@ -187,8 +187,8 @@ export const setGoogleRecaptcha = (googleRecaptchaObject) => {
   return true;
 };
 
-export const setLanguage = async (language) => {
-  const BASE_URL = window.location.origin;
+export const setLanguage = async (language, baseUrl) => {
+  const BASE_URL = baseUrl ?? window.location.origin;
 
   if (!i18n.hasResourceBundle(language, 'translations')) {
     const data = await fetch(
