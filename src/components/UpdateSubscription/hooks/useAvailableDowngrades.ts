@@ -10,9 +10,13 @@ const useAvailableDowngrades = (offerId: string): SwitchSetting[] => {
   const pendingSwitches =
     useAppSelector(selectPendingSwitchesDetails)?.data || {};
 
-  const toOfferIdsWithPendingSwitch: string[] = Object.values(pendingSwitches)
-    .filter(({ fromOfferId }) => fromOfferId === offerId)
-    .map(({ toOfferId }) => toOfferId);
+  const toOfferIdsWithPendingSwitch: string[] = Object.values(
+    pendingSwitches
+  ).reduce(
+    (acc: string[], { fromOfferId, toOfferId }) =>
+      fromOfferId === offerId ? [...acc, toOfferId] : acc,
+    []
+  );
 
   return (
     allSwitchSettings[offerId]?.available?.filter(
