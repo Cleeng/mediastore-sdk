@@ -18,12 +18,10 @@ const useAvailableDowngrades = (offerId: string): SwitchSetting[] => {
     []
   );
 
-  return (
-    allSwitchSettings[offerId]?.available?.filter(
-      ({ switchDirection, toOfferId }) =>
-        switchDirection === 'downgrade' &&
-        !toOfferIdsWithPendingSwitch.includes(toOfferId)
-    ) || []
+  return allSwitchSettings[offerId]?.available?.filter(
+    ({ switchDirection, toOfferId }) =>
+      switchDirection === 'downgrade' &&
+      !toOfferIdsWithPendingSwitch.includes(toOfferId)
   );
 };
 
