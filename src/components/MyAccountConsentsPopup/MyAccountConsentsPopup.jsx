@@ -104,7 +104,6 @@ const MyAccountConsentsPopup = () => {
           {t(stepData.translationKeys.text, stepData.text)}
         </TextStyled>
         {step === 2 && consents && (
-          // TODO: Remove setConsents and consents props and use redux in MyAccountConsents
           <MyAccountConsents
             consents={consents}
             showConsentsOnly
