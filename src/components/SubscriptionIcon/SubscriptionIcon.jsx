@@ -5,7 +5,8 @@ import { periodMapper } from 'util/planHelper';
 import { WrapperStyled, LabelStyled } from './SubscriptionIconStyled';
 
 const SubscriptionIcon = ({ period, showLabel, className }) => {
-  const { color, bg, border } = periodMapper[period] || periodMapper.default;
+  const { color, bg, label, border } =
+    periodMapper[period] || periodMapper.default;
   return (
     <>
       <WrapperStyled
@@ -15,6 +16,7 @@ const SubscriptionIcon = ({ period, showLabel, className }) => {
         className={className}
       >
         {showLabel && <LabelStyled $label={showLabel}>{showLabel}</LabelStyled>}
+        {label}
       </WrapperStyled>
     </>
   );

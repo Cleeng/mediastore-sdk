@@ -7,6 +7,7 @@ import {
 import { selectOffers } from 'appRedux/offersSlice';
 import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
+import Price, { isPromoPriceActive } from 'components/Price';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import EditBlockedIcon from 'assets/images/noEdit.svg';
 import DowngradeIcon from 'assets/images/downgrade_pending.svg';
@@ -24,6 +25,7 @@ import eventDispatcher, {
 } from 'util/eventDispatcher';
 import { SwitchDetail } from 'appRedux/types';
 import OfferV2 from 'types/OfferV2.types';
+import { selectOffer } from 'appRedux/offerSlice';
 import {
   WrapperStyled,
   InnerWrapper,
@@ -32,7 +34,8 @@ import {
   SubBoxStyled,
   BoxTextStyled,
   SubBoxButtonStyled,
-  SubBoxContentStyled
+  SubBoxContentStyled,
+  PriceWrapperStyled
 } from './OfferMyAccountCardStyled';
 import { OfferMyAccountCardProps } from './OfferMyAccountCard.types';
 
@@ -53,6 +56,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     offerType,
     offerTitle,
     nextPaymentPrice,
+    totalPrice,
     nextPaymentCurrency,
     customerCurrency,
     paymentMethod,
@@ -64,6 +68,11 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   } =
     currentPlan.find((sub: CustomerOffer) => sub.offerId === offerId) ||
     ({} as CustomerOffer);
+
+  const {
+    offerV2: { price }
+  } = useAppSelector(selectOffer);
+  const priceRules = price?.rules;
 
   const currency =
     currencyFormat[
@@ -257,6 +266,24 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
             )}
           </SkeletonWrapper>
         </InnerWrapper>
+
+        <PriceWrapperStyled>
+          <SkeletonWrapper showChildren={!loading} width={80} height={30}>
+            {period && (
+              <Price
+                currency={currency}
+                nextPaymentPrice={nextPaymentPrice}
+                totalPrice={totalPrice}
+                period={
+                  period !== 'season'
+                    ? t(`offer-price.period-${period}`, period)
+                    : null
+                }
+                isPromoPriceActive={isPromoPriceActive(priceRules)}
+              />
+            )}
+          </SkeletonWrapper>
+        </PriceWrapperStyled>
       </WrapperStyled>
 
       {switchDescription && (
