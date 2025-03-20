@@ -12,7 +12,8 @@ export const POPUP_TYPES = {
   SWITCH_PLAN_POPUP: 'switchPlan',
   RESUME_SUBSCRIPTION_POPUP: 'resumeSubscription',
   CANCEL_SWITCH_POPUP: 'cancelSwitch',
-  EDIT_DELIVERY_DETAILS_POPUP: 'editDeliveryDetails'
+  EDIT_DELIVERY_DETAILS_POPUP: 'editDeliveryDetails',
+  EDIT_PASSWORD: 'editPassword'
 } as const;
 
 export const PAYMENT_DETAILS_STEPS = {

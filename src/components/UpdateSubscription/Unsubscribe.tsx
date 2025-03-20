@@ -8,12 +8,12 @@ import {
   Confirmation
 } from 'components/UpdateSubscription/components';
 import { selectPopupManager } from 'appRedux/popupSlice';
+import { selectSwitchSettings } from 'appRedux/planDetailsSlice';
 import { Props } from './Unsubscribe.types';
 import { STEPS } from './constants';
 import useUnsubscribe from './hooks/useUnsubscribe';
 import useUnsubscribeSteps from './hooks/useUnsubscribeSteps';
 import useUnsubscribeImmediately from './hooks/useUnsubscribeImmediately';
-import useAvailableDowngrades from './hooks/useAvailableDowngrades';
 
 const Unsubscribe = ({
   customCancellationReasons,
@@ -31,9 +31,12 @@ const Unsubscribe = ({
   } = useUnsubscribe(skipCancellationSurveyStep);
 
   const { updateSubscription } = useAppSelector(selectPopupManager);
-  const availableDowngrades = useAvailableDowngrades(
-    updateSubscription?.offerData?.offerId || ''
-  );
+  const offerId = updateSubscription?.offerData?.offerId || '';
+  const { data: allSwitchSettings } = useAppSelector(selectSwitchSettings);
+  const availableDowngrades =
+    allSwitchSettings[offerId]?.available?.filter(
+      ({ switchDirection }) => switchDirection === 'downgrade'
+    ) || [];
 
   const performUnsubscribe = async () => {
     await handleUnsubscribe(showConfirmationStep);
@@ -75,7 +78,7 @@ const Unsubscribe = ({
         <Survey
           customCancellationReasons={customCancellationReasons}
           checkedReason={checkedReason}
-          shouldShowDowngrades={!!availableDowngrades.length}
+          shouldShowDowngrades={steps.length === 3}
           handleCheckboxClick={setCheckedReason}
           setCurrentStep={setCurrentStep}
           scheduledSwitch={scheduledSwitch}

@@ -10,7 +10,7 @@ import MyAccountContent from 'components/MyAccountContent';
 import PlanDetails from 'containers/PlanDetails';
 import PaymentInfo from 'containers/PaymentInfo';
 import UpdateProfile from 'containers/UpdateProfile';
-import Popup from 'components/Popup/Popup';
+import MyAccountConsentsPopup from 'components/MyAccountConsentsPopup/MyAccountConsentsPopup';
 import Login from 'components/LoginPage/Login';
 
 import { getCustomer, getCustomerConsents } from 'api';
@@ -190,10 +190,11 @@ class MyAccount extends Component {
   }
 
   renderPopup(isOpen, type = '', consents = []) {
-    const { showPopup, hidePopup } = this.props;
+    const { showMyAccountConsentsPopup, hideMyAccountConsentsPopup } =
+      this.props;
     if (isOpen) {
-      showPopup({ type, consents });
-    } else hidePopup();
+      showMyAccountConsentsPopup({ type, consents });
+    } else hideMyAccountConsentsPopup();
   }
 
   renderMyAccountContent = () => {
@@ -225,7 +226,7 @@ class MyAccount extends Component {
   render() {
     const {
       userProfile: { consentsError },
-      popup: { isPopupShown },
+      myAccountConsentsPopup: { isPopupShown },
       myaccountState: { activeTab }
     } = this.props;
 
@@ -233,7 +234,7 @@ class MyAccount extends Component {
       return <MyAccountError generalError fullHeight />;
     }
     if (isPopupShown) {
-      return <Popup />;
+      return <MyAccountConsentsPopup />;
     }
     if (Auth.isLogged()) {
       return (
@@ -260,9 +261,9 @@ MyAccount.propTypes = {
   setConsents: PropTypes.func.isRequired,
   setConsentsError: PropTypes.func.isRequired,
   userProfile: PropTypes.objectOf(PropTypes.any),
-  popup: PropTypes.objectOf(PropTypes.any),
-  showPopup: PropTypes.func.isRequired,
-  hidePopup: PropTypes.func.isRequired,
+  myAccountConsentsPopup: PropTypes.objectOf(PropTypes.any),
+  showMyAccountConsentsPopup: PropTypes.func.isRequired,
+  hideMyAccountConsentsPopup: PropTypes.func.isRequired,
   customCancellationReasons: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
@@ -282,7 +283,7 @@ MyAccount.propTypes = {
 MyAccount.defaultProps = {
   userProfile: { user: null },
   adyenConfiguration: null,
-  popup: { isPopupShown: false },
+  myAccountConsentsPopup: { isPopupShown: false },
   customCancellationReasons: null,
   skipAvailableDowngradesStep: false,
   skipCancellationSurveyStep: false,

@@ -20,16 +20,18 @@ import {
   DotsWrapperStyled,
   InnerWrapperStyled
 } from './PopupStyled';
-import popupData from './Popup.const';
+import popupData from './MyAccountConsentsPopup.const';
 import WelcomeIcon from './images/welcome.svg';
 import ConsentsIcon from './images/icon_terms.svg';
 
-const Popup = () => {
+const MyAccountConsentsPopup = () => {
   const [step, setStep] = useState(1);
   const [updatedConsents, setUpdatedConsents] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [allowSubmitConsents, setAllowSubmitConsents] = useState(false);
-  const { popupType, consents } = useSelector((state) => state.popup);
+  const { popupType, consents } = useSelector(
+    (state) => state.myAccountConsentsPopup
+  );
   const dispatch = useDispatch();
 
   const { t } = useTranslation();
@@ -131,4 +133,4 @@ const Popup = () => {
   );
 };
 
-export default Popup;
+export default MyAccountConsentsPopup;

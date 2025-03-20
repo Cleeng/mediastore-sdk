@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { applyCoupon } from 'api';
-import { POPUP_TYPES } from 'appRedux/innerPopupReducer';
 import { setOfferToSwitch, updateList } from 'appRedux/planDetailsSlice';
-import { showPopup } from 'appRedux/popupSlice';
+import { showPopup, POPUP_TYPES } from 'appRedux/popupSlice';
 import { currencyFormat } from 'util/planHelper';
 import Button from 'components/Button';
 import CouponInput from 'components/CouponInput';
@@ -177,7 +176,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 dispatch(setOfferToSwitch(subscription));
                 dispatch(
                   showPopup({
-                    type: POPUP_TYPES.updateSubscription,
+                    type: POPUP_TYPES.UPDATE_SUBSCRIPTION_POPUP,
                     data: {
                       action: 'unsubscribe',
                       offerData: subscription
@@ -212,7 +211,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 event.stopPropagation();
                 dispatch(
                   showPopup({
-                    type: POPUP_TYPES.updateSubscription,
+                    type: POPUP_TYPES.UPDATE_SUBSCRIPTION_POPUP,
                     data: {
                       action: 'resubscribe',
                       offerData: {

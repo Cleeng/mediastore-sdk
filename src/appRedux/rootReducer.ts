@@ -8,7 +8,6 @@ import deliveryDetailsReducer from './deliveryDetailsSlice';
 import finalizeAddPaymentDetailsReducer from './finalizeAddPaymentDetailsSlice';
 import finalizeInitialPaymentReducer from './finalizePaymentSlice';
 import giftReducer from './giftSlice';
-import innerPopupReducer from './innerPopupReducer';
 import myaccountReducer from './myaccountSlice';
 import offerReducer from './offerSlice';
 import offersReducer from './offersSlice';
@@ -17,7 +16,7 @@ import paymentReducer from './paymentSlice';
 import paymentDetailsReducer from './paymentDetailsSlice';
 import paymentMethodsReducer from './paymentMethodsSlice';
 import planDetailsReducer from './planDetailsSlice';
-import popupReducer from './popup';
+import myAccountConsentsPopupReducer from './myAccountConsentsPopup';
 import popupManagerReducer from './popupSlice';
 import publisherConfigReducer from './publisherConfigSlice';
 import publisherConsentsReducer from './publisherConsentsSlice';
@@ -31,7 +30,6 @@ const rootReducer = combineReducers({
   finalizeAddPaymentDetails: finalizeAddPaymentDetailsReducer,
   finalizeInitialPayment: finalizeInitialPaymentReducer,
   gift: giftReducer,
-  innerPopup: innerPopupReducer,
   myaccount: myaccountReducer,
   offer: offerReducer,
   offers: offersReducer,
@@ -40,7 +38,7 @@ const rootReducer = combineReducers({
   paymentDetails: paymentDetailsReducer,
   paymentMethods: paymentMethodsReducer,
   plan: planDetailsReducer,
-  popup: popupReducer,
+  myAccountConsentsPopup: myAccountConsentsPopupReducer,
   popupManager: popupManagerReducer,
   publisherConfig: publisherConfigReducer,
   publisherConsents: publisherConsentsReducer,

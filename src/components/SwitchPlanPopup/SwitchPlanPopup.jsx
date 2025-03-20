@@ -12,7 +12,7 @@ import { dateFormat, INFINITE_DATE, currencyFormat } from 'util/planHelper';
 import checkmarkIcon from 'assets/images/checkmarkBase';
 import Close from 'assets/images/errors/close.svg';
 import { updateList } from 'appRedux/planDetailsSlice';
-import { hidePopup, showPopup } from 'appRedux/popupSlice';
+import { hidePopup, showPopup, POPUP_TYPES } from 'appRedux/popupSlice';
 
 import {
   ContentStyled,
@@ -21,7 +21,6 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import SkeletonWrapper from 'components/SkeletonWrapper';
-import { POPUP_TYPES } from 'appRedux/innerPopupReducer';
 import eventDispatcher, {
   MSSDK_SWITCH_POPUP_ACTION_SUCCESSFUL
 } from 'util/eventDispatcher';
@@ -388,7 +387,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 if (isPartOfCancellationFlow) {
                   dispatch(
                     showPopup({
-                      type: POPUP_TYPES.updateSubscription,
+                      type: POPUP_TYPES.UPDATE_SUBSCRIPTION_POPUP,
                       data: {
                         action: 'unsubscribe',
                         offerData: {
