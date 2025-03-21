@@ -7,6 +7,7 @@ import getCustomerConsents from 'api/Customer/getCustomerConsents';
 import MyAccountConsents from 'components/MyAccountConsents';
 import { useDispatch, useSelector } from 'react-redux';
 import { setConsents } from 'appRedux/userProfile';
+import { CONSENTS_POPUP_VARIANTS } from 'appRedux/types/myAccountConsentsPopup.types';
 import {
   WrapperStyled,
   ContentStyled,
@@ -62,22 +63,18 @@ const MyAccountConsentsPopup = () => {
     });
   };
 
-  const handleActionButton = () => {
-    if (popupData[popupType] === 'consentsUpdateRequired' || step === 2) {
-      handleSubmitConsents();
-      return;
-    }
-
-    setStep((prevStep) => prevStep + 1);
-  };
-
   const stepData = popupData[popupType].steps[step - 1];
   const { steps } = popupData[popupType];
+
+  const handleActionButton = () =>
+    step === steps.length
+      ? handleSubmitConsents()
+      : setStep((prevStep) => prevStep + 1);
 
   const renderIcon = () => {
     if (!stepData.icon) return null;
 
-    if (popupData[popupType] === 'notCheckedTerms') {
+    if (popupData[popupType] === CONSENTS_POPUP_VARIANTS.NOT_CHECKED_TERMS) {
       return <WelcomeIcon />;
     }
 
@@ -92,16 +89,16 @@ const MyAccountConsentsPopup = () => {
             steps.map(({ title }) => <DotStyled key={title} />)}
         </DotsWrapperStyled>
         <HeaderTitleStyled>
-          {t(stepData.translationKeys.header, stepData.headerTitle)}
+          {t(stepData?.translationKeys.header, stepData.headerTitle)}
         </HeaderTitleStyled>
       </HeaderStyled>
       <ContentStyled step={consents.length ? step : 1}>
         {renderIcon()}
         <TitleStyled step={step}>
-          {t(stepData.translationKeys.title, stepData.title)}
+          {t(stepData?.translationKeys.title, stepData.title)}
         </TitleStyled>
         <TextStyled step={step}>
-          {t(stepData.translationKeys.text, stepData.text)}
+          {t(stepData?.translationKeys.text, stepData.text)}
         </TextStyled>
         {step === 2 && consents && (
           <MyAccountConsents
@@ -123,7 +120,7 @@ const MyAccountConsentsPopup = () => {
             width='auto'
           >
             {(isLoading && <Loader buttonLoader color='#ffffff' />) ||
-              t(stepData.translationKeys.button, stepData.buttonText)}
+              t(stepData?.translationKeys.button, stepData.buttonText)}
           </ButtonStyled>
         </InnerWrapperStyled>
       </ButtonWrapperStyled>
