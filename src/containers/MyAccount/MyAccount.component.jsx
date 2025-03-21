@@ -234,7 +234,11 @@ class MyAccount extends Component {
       return <MyAccountError generalError fullHeight />;
     }
     if (isPopupShown) {
-      return <MyAccountConsentsPopup />;
+      return (
+        <WrapperStyled>
+          <MyAccountConsentsPopup />
+        </WrapperStyled>
+      );
     }
     if (Auth.isLogged()) {
       return (

@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import {
   ConsentsPopupInitialState,
@@ -26,6 +25,8 @@ const myAccountConsentsPopupSlice = createSlice({
     },
     hideMyAccountConsentsPopup: (state) => {
       state.isPopupShown = false;
+      state.popupType = '';
+      state.consents = [];
     }
   }
 });
