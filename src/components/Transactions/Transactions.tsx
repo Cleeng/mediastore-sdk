@@ -8,12 +8,10 @@ import {
   selectPopupDetails,
   showPopup
 } from 'appRedux/popupSlice';
-import { selectOffers } from 'appRedux/offersSlice';
 import {
   DEFAULT_TRANSACTIONS_NUMBER,
   fetchListCustomerTransactions,
-  toggleTransactionList,
-  removePausedTransactions
+  toggleTransactionList
 } from 'appRedux/transactionsSlice';
 import { dateFormat } from 'util/planHelper';
 import { logos, readablePaymentMethodNames } from 'util/paymentMethodHelper';
@@ -73,7 +71,6 @@ const TransactionsSkeleton = () => (
 const Transactions = () => {
   const { transactions, showToggleButton, error, loading, isListExpanded } =
     useAppSelector((state) => state.transactions);
-  const { pauseOffersIDs } = useAppSelector(selectOffers);
   const { isOpen, currentType } = useAppSelector(selectPopupDetails);
 
   const { t } = useTranslation();
@@ -86,11 +83,7 @@ const Transactions = () => {
 
   useEffect(() => {
     if (transactions?.length === 0) {
-      dispatch(fetchListCustomerTransactions()).then(() => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        dispatch(removePausedTransactions(pauseOffersIDs));
-      });
+      dispatch(fetchListCustomerTransactions());
     }
 
     return () => {

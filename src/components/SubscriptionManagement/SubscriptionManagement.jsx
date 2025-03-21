@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { applyCoupon } from 'api';
-import { POPUP_TYPES } from 'appRedux/innerPopupReducer';
 import { setOfferToSwitch, updateList } from 'appRedux/planDetailsSlice';
-import { showPopup } from 'appRedux/popupSlice';
+import { showPopup, POPUP_TYPES } from 'appRedux/popupSlice';
 import { currencyFormat } from 'util/planHelper';
 import Button from 'components/Button';
 import CouponInput from 'components/CouponInput';
@@ -24,11 +23,6 @@ import {
 } from './SubscriptionManagementStyled';
 
 const SubscriptionManagement = ({ subscription, showMessageBox }) => {
-  const { pauseOffersIDs } = useSelector((store) => store.offers);
-  const { data: switchSettings } = useSelector(
-    (store) => store.plan.switchSettings
-  );
-
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [isCouponInputOpened, setIsCouponInputOpened] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -46,7 +40,6 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
     status,
     subscriptionId
   } = subscription;
-  const isPaused = pauseOffersIDs.includes(offerId);
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
@@ -183,7 +176,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 dispatch(setOfferToSwitch(subscription));
                 dispatch(
                   showPopup({
-                    type: POPUP_TYPES.updateSubscription,
+                    type: POPUP_TYPES.UPDATE_SUBSCRIPTION_POPUP,
                     data: {
                       action: 'unsubscribe',
                       offerData: subscription
@@ -218,7 +211,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 event.stopPropagation();
                 dispatch(
                   showPopup({
-                    type: POPUP_TYPES.updateSubscription,
+                    type: POPUP_TYPES.UPDATE_SUBSCRIPTION_POPUP,
                     data: {
                       action: 'resubscribe',
                       offerData: {
@@ -240,7 +233,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
               {t('subscription-management.resume-button', 'Resume')}
             </FullWidthButtonStyled>
           )}
-          {status !== 'cancelled' && !isPaused && (
+          {status !== 'cancelled' && (
             <CouponWrapStyled>
               <CouponInput
                 couponDetails={{
@@ -257,29 +250,6 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 source='myaccount'
               />
             </CouponWrapStyled>
-          )}
-          {isPaused && (
-            <SimpleButtonStyled
-              variant='primary'
-              onClickFn={(event) => {
-                event.stopPropagation();
-                dispatch(
-                  showPopup({
-                    type: POPUP_TYPES.resumeSubscription,
-                    data: {
-                      offerData: {
-                        ...switchSettings[subscription?.offerId].available[0]
-                      }
-                    }
-                  })
-                );
-              }}
-            >
-              {t(
-                'subscription-management.resume-subscription-button',
-                'Resume subscription'
-              )}
-            </SimpleButtonStyled>
           )}
         </WrapperStyled>
       </SubscriptionActionsStyled>

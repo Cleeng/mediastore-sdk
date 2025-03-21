@@ -72,21 +72,7 @@ type SwitchPlan = {
   isPartOfCancellationFlow?: boolean;
 };
 
-type PauseSubscription = {
-  offerData: SwitchSettings;
-  isPartOfCancellationFlow?: boolean;
-};
-
 type CancelSwitch = {
-  pendingSwitchId: string;
-  switchDirection: string;
-  switchOfferTitle: string;
-  baseOfferTitle: string;
-  baseOfferExpirationDate: number;
-  baseOfferPrice: string;
-};
-
-type CancelPause = {
   pendingSwitchId: string;
   switchDirection: string;
   switchOfferTitle: string;
@@ -111,9 +97,7 @@ export type PopupManagerInitialState = {
   currentType: PopupTypes | null;
   updateSubscription: UpdateSubscription | null;
   switchPlan: SwitchPlan | null;
-  pauseSubscription: PauseSubscription | null;
   cancelSwitch: CancelSwitch | null;
-  cancelPause: CancelPause | null;
   resumeSubscription: ResumeSubscription | null;
   paymentDetails: PaymentDetails;
   editDeliveryDetails: EditDeliveryDetails;
@@ -127,9 +111,7 @@ export type PopupData = {
   data:
     | UpdateSubscription
     | SwitchPlan
-    | PauseSubscription
     | CancelSwitch
-    | CancelPause
     | ResumeSubscription
     | EditDeliveryDetails;
 };

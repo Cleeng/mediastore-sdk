@@ -24,7 +24,6 @@ const SubscriptionSwitchesList = () => {
   const { data: pendingSwitchesDetails } = useAppSelector(
     (state) => state.plan.pendingSwitchesDetails
   );
-  const { pauseOffersIDs } = useAppSelector((state) => state.offers);
   const { offerToSwitch } = useAppSelector((state) => state.plan);
 
   const {
@@ -91,15 +90,7 @@ const SubscriptionSwitchesList = () => {
       )
     : [];
 
-  // Filter out the pause subscription
-  const availableFiltered = availableSorted?.filter(
-    (offer) => !pauseOffersIDs.includes(offer.toOfferId)
-  );
-  const unavailableFiltered = Array.isArray(switchSettings.unavailable)
-    ? switchSettings.unavailable.filter(
-        (offer) => !pauseOffersIDs.includes(offer.toOfferId)
-      )
-    : [];
+  const unavailableSwitches = switchSettings.unavailable;
 
   const allSwitchesBlocked = switchSettings.unavailableReason;
   if (allSwitchesBlocked) {
@@ -118,7 +109,7 @@ const SubscriptionSwitchesList = () => {
     );
   }
 
-  if (!availableFiltered?.length && !unavailableFiltered?.length) {
+  if (!availableSorted?.length && !unavailableSwitches?.length) {
     return (
       <MyAccountError
         icon={selectPlanIcon}
@@ -133,8 +124,8 @@ const SubscriptionSwitchesList = () => {
 
   return (
     <>
-      {!!availableFiltered.length &&
-        availableFiltered.map((subItem) => {
+      {!!availableSorted.length &&
+        availableSorted.map((subItem) => {
           return (
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
@@ -182,8 +173,8 @@ const SubscriptionSwitchesList = () => {
             </SubscriptionStyled>
           );
         })}
-      {!!unavailableFiltered.length &&
-        unavailableFiltered.map((subItem) => {
+      {!!unavailableSwitches.length &&
+        unavailableSwitches.map((subItem) => {
           return (
             <SubscriptionStyled key={subItem.toOfferId}>
               <OfferSwitchCard
