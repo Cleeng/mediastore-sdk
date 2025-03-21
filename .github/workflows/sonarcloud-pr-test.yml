@@ -1,0 +1,19 @@
+name: Run SonarCloud test for PR
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ./.github/actions/setup
+  sonarcloud:
+    needs: [test]
+    name: sonarcloud scan
+    uses: ./.github/workflows/call-sonarcloud.yml
+    secrets:
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

@@ -1,0 +1,22 @@
+name: _ (call) run SonarCloud scan
+
+on:
+  workflow_call:
+    secrets:
+      SONAR_TOKEN:
+        required: true
+jobs:
+  sonarcloud:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+      - uses: actions/download-artifact@v4
+      - name: sonarcloud scan
+        uses: sonarsource/sonarqube-scan-action@v2.0.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ github.token }}
+          SONAR_HOST_URL: https://sonarcloud.iog
