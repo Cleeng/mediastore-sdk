@@ -1,0 +1,30 @@
+name: Local SonarQube Analysis
+
+on:
+  push:
+    branches:
+      - github.head_ref
+  pull_request:
+    branches:
+      - github.head_ref
+
+jobs:
+  sonar:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0 # Mandatory for SonarQube analysis
+    - name: Set up JDK
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17' # Or your project's Java version
+        distribution: 'adopt'
+    - name: SonarQube Scan
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to pull code from repository
+        SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      with:
+        args: >-
+          -Dsonar.branch.name=${{ github.head_ref || github.ref_name }} # Handles both PRs and direct pushes
