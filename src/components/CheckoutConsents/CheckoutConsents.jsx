@@ -115,7 +115,7 @@ const CheckoutConsents = ({ onSuccess }) => {
                   'Please accept Terms & Conditions'
                 )}
               </CheckoutConsentsSubTitleStyled>
-              <CheckoutConsentsListStyled role='list'>
+              <CheckoutConsentsListStyled>
                 {consents.map((consent) => (
                   <CheckoutConsentsListItem key={consent.name}>
                     <Checkbox

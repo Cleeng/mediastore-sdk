@@ -32,7 +32,7 @@ const Confirmation = () => {
             ? t('unsubscribe-popup.next-season-start', 'the next season start')
             : dateFormat(Number(offerDetails?.expiresAt))}
         </b>
-        .
+        {/**/}.
       </TextStyled>
       <Button
         width='auto'
