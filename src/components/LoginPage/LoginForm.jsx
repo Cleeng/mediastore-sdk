@@ -28,8 +28,7 @@ class LoginForm extends Component {
   }
 
   componentDidMount() {
-    if (this.emailInput && this.emailInput.current)
-      this.emailInput.current.focus();
+    if (this.emailInput?.current) this.emailInput.current.focus();
   }
 
   validateEmail = () => {

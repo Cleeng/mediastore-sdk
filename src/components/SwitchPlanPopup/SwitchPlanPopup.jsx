@@ -165,7 +165,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                     )
                   }}
                 </strong>
-                .
+                {/**/}.
               </Trans>{' '}
               {toOffer.algorithm === 'IMMEDIATE_WITHOUT_PRORATION' && (
                 <Trans i18nKey='switchplan-popup-info-immediatewithoutproration'>
@@ -234,7 +234,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                       currentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
                   </strong>
-                  . You will also be fully refunded for your previous
+                  {/**/}. You will also be fully refunded for your previous
                   subscription. You will continue to be charged{' '}
                   <strong>
                     {{
@@ -271,7 +271,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                           : dateFormat(fromOffer.expiresAt)
                     }}
                   </strong>
-                  . From that time you will be charged{' '}
+                  {/**/}. From that time you will be charged{' '}
                   <strong>
                     {{
                       currencySymbol:
@@ -451,7 +451,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                       )
                     }}
                   </strong>
-                  . Your new fee will be{' '}
+                  {/**/}. Your new fee will be{' '}
                   <strong>
                     {{
                       currencySymbol:

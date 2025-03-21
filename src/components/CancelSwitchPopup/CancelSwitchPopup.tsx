@@ -47,8 +47,8 @@ const CancelSwitchPopup = () => {
 
     if (switchDetails) {
       setOfferIdsFallback({
-        fromOfferId: switchDetails && switchDetails.fromOfferId,
-        toOfferId: switchDetails && switchDetails.toOfferId
+        fromOfferId: switchDetails.fromOfferId,
+        toOfferId: switchDetails.toOfferId
       });
     }
   }, [cancelSwitch]);
@@ -69,8 +69,8 @@ const CancelSwitchPopup = () => {
   const switchDetails = allSwitchDetails[pendingSwitchId];
   const eventsPayload = {
     pendingSwitchId,
-    fromOfferId: switchDetails && switchDetails.fromOfferId,
-    toOfferId: switchDetails && switchDetails.toOfferId
+    fromOfferId: switchDetails?.fromOfferId,
+    toOfferId: switchDetails?.toOfferId
   };
 
   const baseOfferTitle = t(
