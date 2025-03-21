@@ -3,10 +3,10 @@ name: Local SonarQube Analysis
 on:
   push:
     branches:
-      - github.head_ref
+      - '*'
   pull_request:
     branches:
-      - github.head_ref
+      - '*'
 
 jobs:
   sonar:
