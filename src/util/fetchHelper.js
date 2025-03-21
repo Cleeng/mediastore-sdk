@@ -97,13 +97,15 @@ const fetchWithJWT = async (url, options = {}) => {
           IS_FETCHING_REFRESH_TOKEN = false;
           REFRESH_TOKEN_ERROR = true;
           Auth.logout();
-          return new Promise((resolve, reject) => reject());
+          return new Promise((resolve, reject) =>
+            reject(new Error('Failed to refresh token'))
+          );
         });
     } else {
       return new Promise((resolve, reject) => {
         const isRefreshTokenFetched = () => {
           if (REFRESH_TOKEN_ERROR) {
-            reject();
+            reject(new Error('Failed to refresh token'));
             return;
           }
           if (!IS_FETCHING_REFRESH_TOKEN) {

@@ -271,7 +271,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                           : dateFormat(fromOffer.expiresAt)
                     }}
                   </strong>
-                  {/**/}. From that time you will be charged{' '}
+                  . From that time you will be charged{' '}
                   <strong>
                     {{
                       currencySymbol:
@@ -451,7 +451,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                       )
                     }}
                   </strong>
-                  {/**/}. Your new fee will be{' '}
+                  . Your new fee will be{' '}
                   <strong>
                     {{
                       currencySymbol:
@@ -473,7 +473,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                           : dateFormat(fromOffer.expiresAt)
                     }}
                   </strong>
-                  .
+                  {/**/}.
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_WITH_REFUND' && (
@@ -536,7 +536,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                     }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>
-                  .
+                  {/**/}.
                 </Trans>
               )}
               {toOffer.algorithm === 'IMMEDIATE_AND_CHARGE_FULL_PRICE' && (

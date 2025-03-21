@@ -91,11 +91,11 @@ class LoginForm extends Component {
     );
     if (response.status === 200) {
       Auth.login(
-        !!isMyAccount,
-        false,
         email,
         response.responseData.jwt,
         response.responseData.refreshToken,
+        !!isMyAccount,
+        false,
         null,
         null,
         onSuccess
