@@ -19,11 +19,11 @@ class Auth {
   }
 
   login(
-    isMyAccount = false,
-    isRegister = false,
     email,
     jwt,
     refreshToken,
+    isMyAccount = false,
+    isRegister = false,
     cb = (t) => t,
     args = [],
     callback = (t) => t

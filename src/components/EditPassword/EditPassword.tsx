@@ -51,8 +51,8 @@ const EditPassword = ({
 
       const response = await resetPassword(
         customerEmail,
-        String(publisherId),
-        resetUrl
+        resetUrl,
+        String(publisherId)
       );
       if (!response.errors.length) {
         renderNextStep();

@@ -45,7 +45,7 @@ export const consentsSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(fetchPublisherConsents.rejected, (state, { payload }) => {
-      if (payload && payload.includes('Invalid param publisherId')) {
+      if (payload?.includes('Invalid param publisherId')) {
         state.error = 'noPublisherId';
       } else state.error = payload;
       state.loading = false;

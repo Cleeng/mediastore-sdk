@@ -98,9 +98,9 @@ class MyAccountConsents extends Component {
       showButtonToUpdate
     } = this.state;
 
-    const sortedConsents = updatedConsents.slice().sort((a, b) => {
-      return a.required === b.required ? 0 : a.required ? -1 : 1;
-    });
+    const sortedConsents = [...updatedConsents].sort(
+      (a, b) => Number(b.required) - Number(a.required)
+    );
 
     return isLoading ? (
       <Loader isMyAccount />

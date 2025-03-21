@@ -184,7 +184,6 @@ const Transactions = () => {
                             })
                           );
                         }}
-                        role='button'
                       >
                         {t(
                           'transactions.edit-gift-delivery-details',
