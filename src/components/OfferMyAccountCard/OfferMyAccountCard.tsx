@@ -41,7 +41,10 @@ import {
 } from './OfferMyAccountCardStyled';
 import { OfferMyAccountCardProps } from './OfferMyAccountCard.types';
 
-const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
+const OfferMyAccountCard = ({
+  offerId,
+  subscriptionId
+}: OfferMyAccountCardProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -64,8 +67,10 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     status,
     isExternallyManaged
   } =
-    currentPlan.find((sub: CustomerOffer) => sub.offerId === offerId) ||
-    ({} as CustomerOffer);
+    currentPlan.find(
+      (sub: CustomerOffer) =>
+        sub.offerId === offerId && sub.subscriptionId === subscriptionId
+    ) || ({} as CustomerOffer);
 
   const {
     offerV2: { price }
