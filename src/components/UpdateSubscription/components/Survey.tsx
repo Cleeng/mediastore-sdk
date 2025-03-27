@@ -27,7 +27,6 @@ const Survey = ({
   customCancellationReasons,
   checkedReason,
   shouldShowDowngrades,
-  shouldShowFreeExtension,
   setCurrentStep,
   handleCheckboxClick,
   handleUnsubscribe
@@ -35,7 +34,6 @@ const Survey = ({
   customCancellationReasons: CancellationReason[] | undefined;
   checkedReason: string;
   shouldShowDowngrades: boolean;
-  shouldShowFreeExtension: boolean;
   handleCheckboxClick: (value: string) => void;
   setCurrentStep: (step: STEPS) => void;
   scheduledSwitch: SwitchDetail | null;
@@ -70,11 +68,6 @@ const Survey = ({
     : DEFAULT_CANCELLATION_REASONS;
 
   const handleGoBackButton = () => {
-    if (shouldShowFreeExtension) {
-      setCurrentStep(STEPS.FREE_EXTENSION);
-      return;
-    }
-
     if (shouldShowDowngrades) {
       setCurrentStep(STEPS.DOWNGRADES);
       return;
