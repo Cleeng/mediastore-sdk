@@ -22,7 +22,8 @@ type PaymentDetailCardGooglePay = GeneralPaymentDetail & {
     | 'ideal'
     | 'bancontact_card'
     | 'bancontact_mobile'
-    | 'gcash';
+    | 'gcash'
+    | 'primer-card';
 
   paymentMethodSpecificParams: {
     holderName: string;
@@ -30,7 +31,15 @@ type PaymentDetailCardGooglePay = GeneralPaymentDetail & {
     lastCardFourDigits: string;
     merchantAccount: string;
     socialSecurityNumber: string;
-    variant: 'visa' | 'visacredit' | 'amex' | 'mc' | 'discover' | 'diners';
+    variant:
+      | 'visa'
+      | 'visacredit'
+      | 'amex'
+      | 'mc'
+      | 'discover'
+      | 'diners'
+      | 'VISA'
+      | 'MASTERCARD';
   };
 };
 
