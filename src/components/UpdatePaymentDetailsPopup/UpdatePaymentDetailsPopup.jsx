@@ -234,26 +234,6 @@ const UpdatePaymentDetailsPopup = () => {
     dispatch(fetchPaymentDetails());
   };
 
-  const addPrimerPaymentDetails = async (id) => {
-    try {
-      dispatch(updatePaymentDetailsPopup({ isLoading: true }));
-      await updatePrimerPaymentDetails(id);
-      eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL);
-    } catch (error) {
-      eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED);
-      dispatch(
-        updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.ERROR })
-      );
-      dispatch(
-        updatePaymentDetailsPopup({
-          isLoading: false,
-          step: PAYMENT_DETAILS_STEPS.SUCCESS
-        })
-      );
-      dispatch(fetchPaymentDetails());
-    }
-  };
-
   const getDropIn = (drop) => {
     setDropInInstance(drop);
   };
@@ -405,7 +385,6 @@ const UpdatePaymentDetailsPopup = () => {
               onAdditionalDetails
             }}
             primerProps={{
-              onSubmit: addPrimerPaymentDetails,
               selectPaymentMethod: selectPaymentMethodHandler
             }}
             isMyAccount

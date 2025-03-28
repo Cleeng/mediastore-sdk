@@ -1,13 +1,33 @@
 import { useState } from 'react';
 import { UniversalCheckoutOptions } from '@primer-io/checkout-web';
-import { createPrimerSession, authorizePrimerPurchase } from 'api';
+import {
+  createPrimerSession
+  // authorizePrimerPurchase
+} from 'api';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
+import {
+  PAYMENT_DETAILS_STEPS,
+  updatePaymentDetailsPopup
+} from 'appRedux/popupSlice';
+import eventDispatcher, {
+  MSSDK_UPDATE_PAYMENT_DETAILS_FAILED,
+  MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL
+} from 'util/eventDispatcher';
 import { UsePrimerHookProps } from 'types/Primer.types';
+import { selectPaymentMethods } from 'appRedux/paymentMethodsSlice';
+import updatePrimerPaymentDetails from 'api/PaymentDetails/Primer/updatePrimerPaymentDetails';
 
 const CONTAINER = 'msd__primerWrapper';
 
 export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [sessionError, setSessionError] = useState<string | null>(null);
+
+  const dispatch = useAppDispatch();
+
+  const selectedPaymentMethod = useAppSelector(selectPaymentMethods);
+
+  console.log(selectedPaymentMethod);
 
   const getPrimerToken = async () => {
     try {
@@ -37,12 +57,45 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
       // validate gift delivery details here
       return handler.continuePaymentCreation();
     },
-    onCheckoutFail: (error, data, handler) => {
+    onPaymentCreationStart: () => {
+      if (isMyAccount) {
+        dispatch(updatePaymentDetailsPopup({ isLoading: true }));
+      }
+    },
+    onCheckoutFail: async (error, data, handler) => {
       console.log('onCheckoutFail', error, data.payment);
 
       if (!handler) {
         return;
       }
+
+      if (isMyAccount) {
+        const { payment } = data;
+
+        if (!payment?.id) {
+          return;
+        }
+
+        await updatePrimerPaymentDetails(payment.id);
+
+        eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL);
+        dispatch(
+          updatePaymentDetailsPopup({
+            isLoading: false,
+            step: PAYMENT_DETAILS_STEPS.SUCCESS
+          })
+        );
+
+        // eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED);
+        // dispatch(
+        //   updatePaymentDetailsPopup({
+        //     isLoading: false,
+        //     step: PAYMENT_DETAILS_STEPS.ERROR
+        //   })
+        // );
+        // return;
+      }
+
       handler.showErrorMessage();
     },
     onCheckoutComplete: async (data) => {
@@ -53,15 +106,24 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
         return;
       }
 
-      const { id, orderId } = payment;
+      // const { id } = payment;
 
       try {
         setIsLoading(true);
+        // await authorizePrimerPurchase(id, parseInt(orderId, 10));
 
-        await authorizePrimerPurchase(id, parseInt(orderId, 10));
-        onSubmit();
+        if (onSubmit) {
+          onSubmit();
+        }
       } catch (error) {
         setSessionError('An error occurred!');
+
+        if (isMyAccount) {
+          eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED);
+          dispatch(
+            updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.ERROR })
+          );
+        }
       } finally {
         setIsLoading(false);
       }
