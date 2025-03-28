@@ -288,6 +288,8 @@ const Adyen = ({
         card: {
           hasHolderName: true,
           holderNameRequired: true,
+          billingAddressRequired: true,
+          billingAddressMode: 'partial',
           ...adyenConfiguration?.paymentMethodsConfiguration?.card
         },
         applepay: {
