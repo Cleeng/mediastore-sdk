@@ -28,6 +28,7 @@ import AndroidIcon from 'assets/images/paymentMethods/android_color.svg';
 import PaypalIcon from 'assets/images/paymentMethods/paypal_color.svg';
 import RokuIcon from 'assets/images/paymentMethods/roku_color.svg';
 import updateAdyenPaymentDetails from 'api/PaymentDetails/updateAdyenPaymentDetails';
+import updatePrimerPaymentDetails from 'api/PaymentDetails/Primer/updatePrimerPaymentDetails';
 import eventDispatcher, {
   MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL,
   MSSDK_UPDATE_PAYMENT_DETAILS_FAILED,
@@ -267,15 +268,6 @@ const UpdatePaymentDetailsPopup = () => {
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!dropInInstance : true;
 
-  const adyenProps = {
-    isMyAccount: true,
-    onSubmit: addAdyenPaymentDetails,
-    selectPaymentMethod: selectPaymentMethodHandler,
-    isPayPalAvailable: shouldShowPayPal,
-    getDropIn,
-    onAdditionalDetails
-  };
-
   if (step === PAYMENT_DETAILS_STEPS.DELETE_PAYMENT_DETAILS) {
     return (
       <InnerPopupWrapper
@@ -383,7 +375,20 @@ const UpdatePaymentDetailsPopup = () => {
           )}
         </TextStyled>
         <PaymentMethodsWrapperStyled>
-          <PaymentDropIn adyenProps={adyenProps} />
+          <PaymentDropIn
+            adyenProps={{
+              isMyAccount: true,
+              onSubmit: addAdyenPaymentDetails,
+              selectPaymentMethod: selectPaymentMethodHandler,
+              isPayPalAvailable: shouldShowPayPal,
+              getDropIn,
+              onAdditionalDetails
+            }}
+            primerProps={{
+              selectPaymentMethod: selectPaymentMethodHandler
+            }}
+            isMyAccount
+          />
           {shouldShowPayPal &&
             showPayPalWhenAdyenIsReady() &&
             !isActionHandlingProcessing && (

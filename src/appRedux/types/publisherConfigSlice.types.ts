@@ -37,7 +37,8 @@ export type PaymentMethodName =
   | 'bancontact_card'
   | 'bancontact_mobile'
   | 'free-offer'
-  | 'gcash';
+  | 'gcash'
+  | 'primer-card';
 
 export type PaymentGateway = 'adyen' | 'primer' | 'paypal' | 'free-offer';
 
