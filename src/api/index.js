@@ -33,9 +33,8 @@ import getGift from './Gifts/getGift';
 import updateGift from './Gifts/updateGift';
 import verifyGift from './Gifts/verifyGift';
 import redeemGift from './Gifts/redeemGift';
-import getRetentionActions from './Customer/getRetentionActions';
-import applyRetentionAction from './Customer/applyRetentionAction';
 import getAdyenPaymentMethods from './Payment/getAdyenPaymentMethods';
+import getCustomerSwitchesHistory from './Customer/getCustomerSwitchesHistory';
 
 export {
   getPaymentDetails,
@@ -73,7 +72,6 @@ export {
   updateGift,
   verifyGift,
   redeemGift,
-  getRetentionActions,
-  applyRetentionAction,
-  getAdyenPaymentMethods
+  getAdyenPaymentMethods,
+  getCustomerSwitchesHistory
 };

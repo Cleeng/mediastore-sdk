@@ -4,7 +4,10 @@ import {
   setConsents,
   setConsentsError
 } from 'appRedux/userProfile';
-import { showPopup, hidePopup } from 'appRedux/popup';
+import {
+  showMyAccountConsentsPopup,
+  hideMyAccountConsentsPopup
+} from 'appRedux/myAccountConsentsPopup';
 import { init as initPublisherConfig } from 'appRedux/publisherConfigSlice';
 import { setActiveTab } from 'appRedux/myaccountSlice';
 import MyAccount from './MyAccount.component';
@@ -13,7 +16,7 @@ export const mapStateToProps = (state) => {
   return {
     userProfile: state.userProfile,
     consents: state.consents,
-    popup: state.popup,
+    myAccountConsentsPopup: state.myAccountConsentsPopup,
     myaccountState: state.myaccount
   };
 };
@@ -29,11 +32,11 @@ export const mapDispatchToProps = (dispatch) => {
     setConsentsError: (msg) => {
       dispatch(setConsentsError(msg));
     },
-    showPopup: (type, consents) => {
-      dispatch(showPopup(type, consents));
+    showMyAccountConsentsPopup: (type, consents) => {
+      dispatch(showMyAccountConsentsPopup(type, consents));
     },
-    hidePopup: () => {
-      dispatch(hidePopup());
+    hideMyAccountConsentsPopup: () => {
+      dispatch(hideMyAccountConsentsPopup());
     },
     initPublisherConfig: (payload) => {
       dispatch(initPublisherConfig(payload));

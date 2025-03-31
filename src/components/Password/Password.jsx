@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import Card from 'components/Card';
 import Button from 'components/Button';
-import { POPUP_TYPES } from 'appRedux/innerPopupReducer';
+import { POPUP_TYPES } from 'appRedux/popupSlice';
 import {
   WrapStyled,
   InnerWrapperStyled,
   OldPasswordStyled
 } from './PasswordStyled';
 
-const Password = ({ showInnerPopup }) => {
+const Password = ({ showPopup }) => {
   const { t } = useTranslation();
   return (
     <WrapStyled>
@@ -19,7 +19,7 @@ const Password = ({ showInnerPopup }) => {
           <OldPasswordStyled>••••••••</OldPasswordStyled>
           <Button
             width='auto'
-            onClickFn={() => showInnerPopup({ type: POPUP_TYPES.editPassword })}
+            onClickFn={() => showPopup({ type: POPUP_TYPES.EDIT_PASSWORD })}
             variant='confirm'
           >
             {t('Edit Password')}
@@ -31,7 +31,7 @@ const Password = ({ showInnerPopup }) => {
 };
 
 Password.propTypes = {
-  showInnerPopup: PropTypes.func.isRequired
+  showPopup: PropTypes.func.isRequired
 };
 
 export { Password as PurePassword };

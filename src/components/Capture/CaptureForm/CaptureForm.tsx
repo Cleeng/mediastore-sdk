@@ -412,7 +412,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureFormProps) => {
             </CaptureRowStyled>
           </div>
         )}
-        {customSettings.map((setting) => {
+        {customSettings.map((setting: CustomSetting) => {
           if (setting.values.length === 1 && isEnabled(setting.key))
             return (
               <CaptureBoxStyled key={setting.key}>
@@ -505,7 +505,7 @@ const CaptureForm = ({ settings, onSuccess }: CaptureFormProps) => {
                 required={setting.required}
               />
             );
-          return <div />;
+          return <div key={setting?.key} />;
         })}
         <Button type='submit' size='big' variant='confirm' margin='10px 0'>
           {processing ? (
