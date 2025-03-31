@@ -1,3 +1,17 @@
+import { Trans, useTranslation } from 'react-i18next';
+import { hidePopup, selectOfferData } from 'appRedux/popupSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
+import { SwitchDetail } from 'appRedux/types';
+import { selectUnsubscribe } from 'appRedux/unsubscribeSlice';
+import { selectOffers } from 'appRedux/offersSlice';
+import { dateFormat, INFINITE_DATE } from 'util/planHelper';
+import eventDispatcher, {
+  UNSUBSCRIBE_ACTION_CANCELLED
+} from 'util/eventDispatcher';
+import {
+  ReasonsWrapper,
+  StyledItem
+} from 'components/UpdateSubscription/UpdateSubscriptionStyled';
 import {
   ButtonWrapperStyled,
   ContentStyled,
@@ -5,20 +19,9 @@ import {
   TitleStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
-import { hidePopup, selectOfferData } from 'appRedux/popupSlice';
-import { Trans, useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from 'appRedux/store';
-import { dateFormat, INFINITE_DATE } from 'util/planHelper';
-import {
-  ReasonsWrapper,
-  StyledItem
-} from 'components/UpdateSubscription/UpdateSubscriptionStyled';
 import Checkbox from 'components/Checkbox';
 import Loader from 'components/Loader';
-import { selectOffers } from 'appRedux/offersSlice';
 import { CancellationReason } from 'containers/PlanDetails/PlanDetails.types';
-import { SwitchDetail } from 'appRedux/types';
-import { selectUnsubscribe } from 'appRedux/unsubscribeSlice';
 
 import { DEFAULT_CANCELLATION_REASONS, STEPS } from '../constants';
 
@@ -48,7 +51,7 @@ const Survey = ({
 
   const formattedExpiresAt = dateFormat(Number(offerDetails?.expiresAt));
   const cancelUnsubscribeAction = () => {
-    window.dispatchEvent(new CustomEvent('MSSDK:unsubscribe-action-cancelled'));
+    eventDispatcher(UNSUBSCRIBE_ACTION_CANCELLED);
     dispatch(hidePopup());
   };
 
