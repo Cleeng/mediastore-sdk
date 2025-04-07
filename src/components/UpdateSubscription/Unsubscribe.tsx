@@ -53,6 +53,8 @@ const Unsubscribe = ({
 
   useUnsubscribeImmediately({
     skipCancellationSurveyStep,
+    availableDowngrades,
+    skipAvailableDowngradesStep,
     performUnsubscribe
   });
 
@@ -75,7 +77,9 @@ const Unsubscribe = ({
         <Survey
           customCancellationReasons={customCancellationReasons}
           checkedReason={checkedReason}
-          shouldShowDowngrades={!!availableDowngrades.length}
+          shouldShowDowngrades={
+            !!availableDowngrades.length && !skipAvailableDowngradesStep
+          }
           handleCheckboxClick={setCheckedReason}
           setCurrentStep={setCurrentStep}
           scheduledSwitch={scheduledSwitch}
