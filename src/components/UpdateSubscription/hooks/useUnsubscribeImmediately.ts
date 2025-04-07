@@ -16,8 +16,8 @@ const useUnsubscribeImmediately = ({
   useEffect(() => {
     const unsubscribeImmediatelyIfNeeded = async () => {
       if (
-        (skipCancellationSurveyStep && skipAvailableDowngradesStep) ||
-        (skipCancellationSurveyStep && !availableDowngrades?.length)
+        skipCancellationSurveyStep &&
+        (skipAvailableDowngradesStep || !availableDowngrades?.length)
       ) {
         await performUnsubscribe();
       }
