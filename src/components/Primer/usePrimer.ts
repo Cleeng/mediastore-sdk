@@ -53,6 +53,9 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
       amountVisible: true
     },
     successScreen: false,
+    vault: {
+      visible: !isMyAccount
+    },
     onBeforePaymentCreate: (_, handler) => {
       // validate gift delivery details here
       return handler.continuePaymentCreation();
