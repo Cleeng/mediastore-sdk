@@ -92,7 +92,10 @@ const CurrentPlan = () => {
               $cursorPointer={isClickable}
               $isSelected={isSelected}
             >
-              <OfferMyAccountCard offerId={subItem.offerId} />
+              <OfferMyAccountCard
+                offerId={subItem.offerId}
+                subscriptionId={subItem.subscriptionId}
+              />
               {isMessageBoxOpened &&
                 messageSubscriptionId === subItem.subscriptionId && (
                   <StatusMessageWrapStyled>
