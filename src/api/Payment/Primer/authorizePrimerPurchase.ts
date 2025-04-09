@@ -7,7 +7,7 @@ const authorizePrimerPurchase = async (
 ) => {
   const API_URL = getApiURL();
 
-  const url = `${API_URL}/connectors/primer/initial-purchase`;
+  const url = `${API_URL}/connectors/primer/initial-purchases/authorizations`;
 
   const res = await fetchWithJWT(url, {
     method: 'POST',
