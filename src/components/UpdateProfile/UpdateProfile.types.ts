@@ -1,5 +1,6 @@
 import { CaptureSetting, CaptureSettings } from 'types/Capture.types';
 import { Consent } from 'types/Consents.types';
+import { PopupManagerInitialState } from 'appRedux/types';
 
 export type UserProfile = {
   user: {
@@ -23,12 +24,6 @@ export type UserProfile = {
   consentsError: string;
 };
 
-export type InnerPopup = {
-  isOpen: boolean;
-  type: string;
-  data?: Record<string, unknown>;
-};
-
 export type Capture =
   | {
       isCaptureEnabled: boolean;
@@ -46,11 +41,11 @@ export type UpdateProfileProps = {
   setConsents: (consents: Consent) => void;
   setUserCapture: (capture: unknown) => void;
   updateCaptureOption: (option: unknown) => void;
-  showInnerPopup: (popup: { type: string }) => void;
-  hideInnerPopup: () => void;
+  showPopup: (popup: { type: string }) => void;
+  hidePopup: () => void;
   initPublisherConfig: (config: { displayGracePeriodError: boolean }) => void;
   handleLogout: () => void;
   userProfile: UserProfile;
-  innerPopup: InnerPopup;
+  popupManager: PopupManagerInitialState;
   displayGracePeriodError: boolean | null;
 };

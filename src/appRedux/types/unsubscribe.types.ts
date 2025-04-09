@@ -7,6 +7,5 @@ export type UnsubscribeInitialState = {
 
 export type FetchUnsubscribeParams = {
   offerId: string | undefined;
-  isPauseActive: boolean;
   checkedReason?: string;
 };
