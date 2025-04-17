@@ -901,7 +901,7 @@ The example Adyen configuration object with described properties is shown below:
   paymentMethodsConfiguration: {
     card: {
       name: 'Credit Card', //	String that is used to display the payment method name to the shopper.
-      billingAddressRequired: true, // Set to true to collect the shopper's billing address and mark the fields as required. Default: false
+      billingAddressRequired: true, // Set to true to collect the shopper's billing address and mark the fields as required. Set to false to not collect the shopper's billing address in any way. Default: true
       billingAddressMode: 'partial', // If billingAddressRequired is set to true, you can set this to partial to require the shopper's postal code instead of the full address. Default: 'full'
       brands: ['visa'], // Array of card brands that will be recognized. For a list of possible values, refer to https://docs.adyen.com/payment-methods/cards/custom-card-integration#supported-card-types. Default: ['mc','visa','amex']
       brandsConfiguration: { // Object where you can customize the icons for different brands.
