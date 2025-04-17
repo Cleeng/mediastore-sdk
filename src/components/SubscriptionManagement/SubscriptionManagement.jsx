@@ -3,13 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import { applyCoupon } from 'api';
-import { POPUP_TYPES } from 'appRedux/innerPopupReducer';
 import { setOfferToSwitch, updateList } from 'appRedux/planDetailsSlice';
 import {
   fetchRetentionActions,
   selectRetentionActionsIsLoading
 } from 'appRedux/retentionActionsSlice';
-import { showPopup } from 'appRedux/popupSlice';
+import { POPUP_TYPES, showPopup } from 'appRedux/popupSlice';
 import { currencyFormat } from 'util/planHelper';
 import Button from 'components/Button';
 import CouponInput from 'components/CouponInput';
@@ -185,49 +184,94 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
       <SubscriptionActionsStyled $isOpened={isOptionsVisible}>
         <WrapperStyled>
           {status === 'active' && !isCouponInputOpened && (
-            <SimpleButtonStyled
-              variant='simple'
-              onClickFn={(event) => {
-                event.stopPropagation();
+            <>
+              <SimpleButtonStyled
+                variant='simple'
+                onClickFn={(event) => {
+                  event.stopPropagation();
 
-                dispatch(fetchRetentionActions(subscription.offerId)).then(
-                  () => {
-                    dispatch(setOfferToSwitch(subscription));
-                    dispatch(
-                      showPopup({
-                        type: POPUP_TYPES.updateSubscription,
-                        data: {
-                          action: 'unsubscribe',
-                          offerData: subscription
-                        }
-                      })
-                    );
-                  }
-                );
-
-                window.dispatchEvent(
-                  new CustomEvent('MSSDK:unsubscribe-button-clicked', {
-                    detail: {
-                      offerId
+                  dispatch(fetchRetentionActions(subscription.offerId)).then(
+                    () => {
+                      dispatch(setOfferToSwitch(subscription));
+                      dispatch(
+                        showPopup({
+                          type: POPUP_TYPES.UPDATE_SUBSCRIPTION_POPUP,
+                          data: {
+                            action: 'unsubscribe',
+                            offerData: subscription
+                          }
+                        })
+                      );
                     }
-                  })
-                );
-                trackMixpanelEvent('Unsubscribe Attempt', {
-                  distinct_id: userId,
-                  publisherId,
-                  offerId,
-                  offerTitle,
-                  offerPrice,
-                  offerCurrency
-                });
-              }}
-            >
-              {isRetentionActionsLoading ? (
-                <Loader buttonLoader color={FontColor} />
-              ) : (
-                t('subscription-management.unsubscribe-button', 'Unsubscribe')
-              )}
-            </SimpleButtonStyled>
+                  );
+
+                  window.dispatchEvent(
+                    new CustomEvent('MSSDK:unsubscribe-button-clicked', {
+                      detail: {
+                        offerId
+                      }
+                    })
+                  );
+                  trackMixpanelEvent('Unsubscribe Attempt', {
+                    distinct_id: userId,
+                    publisherId,
+                    offerId,
+                    offerTitle,
+                    offerPrice,
+                    offerCurrency
+                  });
+                }}
+              >
+                {isRetentionActionsLoading ? (
+                  <Loader buttonLoader color={FontColor} />
+                ) : (
+                  t('subscription-management.unsubscribe-button', 'Unsubscribe')
+                )}
+              </SimpleButtonStyled>
+              <SimpleButtonStyled
+                variant='simple'
+                onClickFn={(event) => {
+                  event.stopPropagation();
+
+                  dispatch(fetchRetentionActions(subscription.offerId)).then(
+                    () => {
+                      dispatch(setOfferToSwitch(subscription));
+                      dispatch(
+                        showPopup({
+                          type: POPUP_TYPES.PAUSE_SUBSCRIPTION_POPUP,
+                          data: {
+                            action: 'pause',
+                            offerData: subscription
+                          }
+                        })
+                      );
+                    }
+                  );
+
+                  window.dispatchEvent(
+                    new CustomEvent('MSSDK:pause-button-clicked', {
+                      detail: {
+                        offerId
+                      }
+                    })
+                  );
+                  // trackMixpanelEvent('Pause Attempt', {
+                  //   distinct_id: userId,
+                  //   publisherId,
+                  //   offerId,
+                  //   offerTitle,
+                  //   offerPrice,
+                  //   offerCurrency
+                  // });
+                }}
+              >
+                {isRetentionActionsLoading ? (
+                  <Loader buttonLoader color={FontColor} />
+                ) : (
+                  t('subscription-management.pause-button', 'Pause')
+                )}
+              </SimpleButtonStyled>
+            </>
           )}
           {status === 'cancelled' && !isCouponInputOpened && (
             <FullWidthButtonStyled
@@ -236,7 +280,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 event.stopPropagation();
                 dispatch(
                   showPopup({
-                    type: POPUP_TYPES.updateSubscription,
+                    type: POPUP_TYPES.UPDATE_SUBSCRIPTION_POPUP,
                     data: {
                       action: 'resubscribe',
                       offerData: {
@@ -283,7 +327,7 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
                 event.stopPropagation();
                 dispatch(
                   showPopup({
-                    type: POPUP_TYPES.resumeSubscription,
+                    type: POPUP_TYPES.RESUME_SUBSCRIPTION_POPUP,
                     data: {
                       offerData: {
                         ...switchSettings[subscription?.offerId].available[0]
