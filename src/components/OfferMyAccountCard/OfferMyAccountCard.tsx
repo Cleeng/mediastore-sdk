@@ -70,7 +70,7 @@ const OfferMyAccountCard = ({
     currentPlan.find(
       (sub: CustomerOffer) =>
         sub.offerId === offerId && sub.subscriptionId === subscriptionId
-    ) || ({} as CustomerOffer);
+    ) ?? ({} as CustomerOffer);
 
   const {
     offerV2: { price }
@@ -88,7 +88,7 @@ const OfferMyAccountCard = ({
 
   const currency =
     currencyFormat[
-      (nextPaymentCurrency || customerCurrency) as keyof Record<
+      (nextPaymentCurrency ?? customerCurrency) as keyof Record<
         CurrencyFormat,
         string
       >
@@ -164,7 +164,7 @@ const OfferMyAccountCard = ({
 
     const { fromOfferId, toOfferId } = pendingSwitchDetails;
     const toOfferIdTitle =
-      offers.find(({ longId }: OfferV2) => longId === toOfferId)?.title || '';
+      offers.find(({ longId }: OfferV2) => longId === toOfferId)?.title ?? '';
     const translatedTitle = t(`offer-title-${fromOfferId}`, offerTitle);
     const translatedSwitchTitle = t(`offer-title-${toOfferId}`, toOfferIdTitle);
 
@@ -288,7 +288,7 @@ const OfferMyAccountCard = ({
     <>
       <WrapperStyled>
         <SkeletonWrapper showChildren={!loading} width={50} height={50}>
-          <SubscriptionIcon period={period || offerType} isPaused={isPaused} />
+          <SubscriptionIcon period={period ?? offerType} isPaused={isPaused} />
         </SkeletonWrapper>
         <InnerWrapper>
           <SkeletonWrapper
