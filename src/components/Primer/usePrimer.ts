@@ -13,7 +13,6 @@ import eventDispatcher, {
   MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL
 } from 'util/eventDispatcher';
 import { UsePrimerHookProps } from 'types/Primer.types';
-// import { selectPaymentMethods } from 'appRedux/paymentMethodsSlice';
 import updatePrimerPaymentDetails from 'api/PaymentDetails/Primer/updatePrimerPaymentDetails';
 
 const CONTAINER = 'msd__primerWrapper';
@@ -23,8 +22,6 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
   const [sessionError, setSessionError] = useState<string | null>(null);
 
   const dispatch = useAppDispatch();
-
-  // const selectedPaymentMethod = useAppSelector(selectPaymentMethods);
 
   const { id: orderId } = useAppSelector(selectOnlyOrder);
 
@@ -73,8 +70,7 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
     },
     successScreen: false,
     vault: {
-      // visible: !isMyAccount
-      visible: false
+      visible: !isMyAccount
     },
     onBeforePaymentCreate: (_, handler) => {
       // validate gift delivery details here
@@ -108,7 +104,7 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
       }
 
       try {
-        // setIsLoading(true);
+        setIsLoading(true);
         await authorizePrimerPurchase(payment.id, orderId);
 
         if (onSubmit) {
@@ -116,10 +112,9 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
         }
       } catch (error) {
         setSessionError('An error occurred!');
+      } finally {
+        setIsLoading(false);
       }
-      // finally {
-      // setIsLoading(false);
-      // }
     },
     onPaymentMethodAction: (paymentMethodAction) => {
       console.log('onPaymentMethodAction', paymentMethodAction);
