@@ -31,6 +31,10 @@ export const UpdateButtonStyled = styled.button`
 
   &:hover {
     cursor: pointer;
+  }
+
+  &:hover,
+  &:focus {
     opacity: 0.75;
   }
 

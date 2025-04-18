@@ -63,7 +63,7 @@ const Primer = ({
           disabled={isButtonDisabled}
           hidden={isButtonVisible}
           onClick={() => primerCheckout?.submit()}
-          type='button'
+          type='submit'
         >
           Update
         </UpdateButtonStyled>
