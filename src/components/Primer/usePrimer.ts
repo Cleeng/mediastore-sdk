@@ -21,6 +21,9 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [sessionError, setSessionError] = useState<string | null>(null);
 
+  const [isButtonVisible, setIsButtonVisible] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+
   const dispatch = useAppDispatch();
 
   const { id: orderId } = useAppSelector(selectOnlyOrder);
@@ -65,8 +68,14 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
       inputLabelsVisible: true
     },
     submitButton: {
-      useBuiltInButton: true,
-      amountVisible: true
+      useBuiltInButton: !isMyAccount,
+      onDisable(isDisabled) {
+        setIsButtonDisabled(isDisabled);
+      },
+      onVisible: (isVisible: boolean) => {
+        setIsButtonVisible(isVisible);
+      },
+      amountVisible: !isMyAccount
     },
     successScreen: false,
     vault: {
@@ -98,13 +107,14 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
         return;
       }
 
-      if (isMyAccount) {
-        await handleUpdatePaymentDetails(payment.id);
-        return;
-      }
-
       try {
         setIsLoading(true);
+
+        if (isMyAccount) {
+          await handleUpdatePaymentDetails(payment.id);
+          return;
+        }
+
         await authorizePrimerPurchase(payment.id, orderId);
 
         if (onSubmit) {
@@ -126,6 +136,8 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
     getPrimerToken,
     isLoading,
     sessionError,
-    options
+    options,
+    isButtonVisible,
+    isButtonDisabled
   };
 };

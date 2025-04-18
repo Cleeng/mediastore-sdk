@@ -1,11 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Primer as PrimerSDK } from '@primer-io/checkout-web';
+import type { PrimerCheckout } from '@primer-io/checkout-web';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import Loader from 'components/Loader';
 import { PrimerProps } from 'types/Primer.types';
 import { usePrimer } from './usePrimer';
 
-import { PrimerContainer } from './PrimerStyled';
+import { PrimerContainer, UpdateButtonStyled } from './PrimerStyled';
 
 const CONTAINER = 'msd__primerWrapper';
 const DEFAULT_PRIMER_PAYMENT_METHOD = 'primer-card';
@@ -15,7 +16,18 @@ const Primer = ({
   onSubmit,
   isMyAccount
 }: PrimerProps) => {
-  const { getPrimerToken, isLoading, sessionError, options } = usePrimer({
+  const [primerCheckout, setPrimerCheckout] = useState<PrimerCheckout | null>(
+    null
+  );
+
+  const {
+    getPrimerToken,
+    isLoading,
+    sessionError,
+    options,
+    isButtonVisible,
+    isButtonDisabled
+  } = usePrimer({
     onSubmit,
     selectPaymentMethod,
     isMyAccount
@@ -25,7 +37,13 @@ const Primer = ({
     const createDropIn = async () => {
       const { clientToken } = await getPrimerToken();
 
-      await PrimerSDK.showUniversalCheckout(clientToken, options);
+      const checkout = await PrimerSDK.showUniversalCheckout(
+        clientToken,
+        options
+      );
+
+      setPrimerCheckout(checkout);
+
       selectPaymentMethod(DEFAULT_PRIMER_PAYMENT_METHOD);
     };
     createDropIn();
@@ -37,7 +55,21 @@ const Primer = ({
 
   if (isLoading) return <Loader />;
 
-  return <PrimerContainer id={CONTAINER} />;
+  return (
+    <>
+      <PrimerContainer id={CONTAINER} />
+      {primerCheckout && (
+        <UpdateButtonStyled
+          disabled={isButtonDisabled}
+          hidden={isButtonVisible}
+          onClick={() => primerCheckout?.submit()}
+          type='button'
+        >
+          Update
+        </UpdateButtonStyled>
+      )}
+    </>
+  );
 };
 
 export default Primer;
