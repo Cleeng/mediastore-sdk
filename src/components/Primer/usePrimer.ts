@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { UniversalCheckoutOptions } from '@primer-io/checkout-web';
 import { createPrimerSession, authorizePrimerPurchase } from 'api';
+import updatePrimerPaymentDetails from 'api/PaymentDetails/Primer/updatePrimerPaymentDetails';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { selectOnlyOrder } from 'appRedux/orderSlice';
 import { fetchPaymentDetails } from 'appRedux/paymentDetailsSlice';
@@ -13,9 +14,7 @@ import eventDispatcher, {
   MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL
 } from 'util/eventDispatcher';
 import { UsePrimerHookProps } from 'types/Primer.types';
-import updatePrimerPaymentDetails from 'api/PaymentDetails/Primer/updatePrimerPaymentDetails';
-
-const CONTAINER = 'msd__primerWrapper';
+import { CONTAINER } from './contants';
 
 export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
   const [isLoading, setIsLoading] = useState(true);

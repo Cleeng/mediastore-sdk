@@ -7,9 +7,7 @@ import { PrimerProps } from 'types/Primer.types';
 import { usePrimer } from './usePrimer';
 
 import { PrimerContainer, UpdateButtonStyled } from './PrimerStyled';
-
-const CONTAINER = 'msd__primerWrapper';
-const DEFAULT_PRIMER_PAYMENT_METHOD = 'primer-card';
+import { CONTAINER, DEFAULT_PRIMER_PAYMENT_METHOD } from './contants';
 
 const Primer = ({
   selectPaymentMethod,
