@@ -21,7 +21,6 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [sessionError, setSessionError] = useState<string | null>(null);
 
-  const [isButtonVisible, setIsButtonVisible] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -71,9 +70,6 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
       useBuiltInButton: !isMyAccount,
       onDisable(isDisabled) {
         setIsButtonDisabled(isDisabled);
-      },
-      onVisible: (isVisible: boolean) => {
-        setIsButtonVisible(isVisible);
       },
       amountVisible: !isMyAccount
     },
@@ -137,7 +133,6 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
     isLoading,
     sessionError,
     options,
-    isButtonVisible,
     isButtonDisabled
   };
 };

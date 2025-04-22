@@ -20,18 +20,12 @@ const Primer = ({
     null
   );
 
-  const {
-    getPrimerToken,
-    isLoading,
-    sessionError,
-    options,
-    isButtonVisible,
-    isButtonDisabled
-  } = usePrimer({
-    onSubmit,
-    selectPaymentMethod,
-    isMyAccount
-  });
+  const { getPrimerToken, isLoading, sessionError, options, isButtonDisabled } =
+    usePrimer({
+      onSubmit,
+      selectPaymentMethod,
+      isMyAccount
+    });
 
   useEffect(() => {
     const createDropIn = async () => {
@@ -58,10 +52,9 @@ const Primer = ({
   return (
     <>
       <PrimerContainer id={CONTAINER} />
-      {primerCheckout && (
+      {isMyAccount && primerCheckout?.submit && (
         <UpdateButtonStyled
           disabled={isButtonDisabled}
-          hidden={isButtonVisible}
           onClick={() => primerCheckout?.submit()}
           type='submit'
         >
