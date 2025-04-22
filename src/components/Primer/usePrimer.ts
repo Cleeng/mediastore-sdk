@@ -40,6 +40,7 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
       );
       dispatch(fetchPaymentDetails());
     } catch (error) {
+      console.error(error);
       eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED);
       dispatch(
         updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.ERROR })
@@ -53,6 +54,7 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
       const response = await createPrimerSession(isMyAccount);
       return response;
     } catch (error) {
+      console.error(error);
       setSessionError('An error occurred!');
       return null;
     } finally {
@@ -117,6 +119,7 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
           onSubmit();
         }
       } catch (error) {
+        console.error(error);
         setSessionError('An error occurred!');
       } finally {
         setIsLoading(false);

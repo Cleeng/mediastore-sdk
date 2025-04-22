@@ -28,7 +28,6 @@ import AndroidIcon from 'assets/images/paymentMethods/android_color.svg';
 import PaypalIcon from 'assets/images/paymentMethods/paypal_color.svg';
 import RokuIcon from 'assets/images/paymentMethods/roku_color.svg';
 import updateAdyenPaymentDetails from 'api/PaymentDetails/updateAdyenPaymentDetails';
-import updatePrimerPaymentDetails from 'api/PaymentDetails/Primer/updatePrimerPaymentDetails';
 import eventDispatcher, {
   MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL,
   MSSDK_UPDATE_PAYMENT_DETAILS_FAILED,
