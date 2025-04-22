@@ -20,7 +20,6 @@ const CONTAINER = 'msd__primerWrapper';
 export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
   const [isLoading, setIsLoading] = useState(true);
   const [sessionError, setSessionError] = useState<string | null>(null);
-
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const dispatch = useAppDispatch();
