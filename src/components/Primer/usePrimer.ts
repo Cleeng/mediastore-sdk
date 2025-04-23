@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import { useStore } from 'react-redux';
 import { UniversalCheckoutOptions } from '@primer-io/checkout-web';
 import { createPrimerSession, authorizePrimerPurchase } from 'api';
 import updatePrimerPaymentDetails from 'api/PaymentDetails/Primer/updatePrimerPaymentDetails';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { selectOnlyOrder } from 'appRedux/orderSlice';
 import { fetchPaymentDetails } from 'appRedux/paymentDetailsSlice';
+// import { selectPaymentMethods } from 'appRedux/paymentMethodsSlice';
 import {
   PAYMENT_DETAILS_STEPS,
   updatePaymentDetailsPopup
@@ -13,10 +15,13 @@ import eventDispatcher, {
   MSSDK_UPDATE_PAYMENT_DETAILS_FAILED,
   MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL
 } from 'util/eventDispatcher';
+import { RootState } from 'appRedux/rootReducer';
 import { UsePrimerHookProps } from 'types/Primer.types';
-import { CONTAINER } from './contants';
+import { CONTAINER_CLASS_NAME } from './constants';
 
 export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
+  const store = useStore<RootState>();
+
   const [isLoading, setIsLoading] = useState(true);
   const [sessionError, setSessionError] = useState<string | null>(null);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
@@ -27,7 +32,18 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
 
   const handleUpdatePaymentDetails = async (externalPaymentId: string) => {
     try {
-      await updatePrimerPaymentDetails(externalPaymentId);
+      const {
+        paymentMethods: { selectedPaymentMethod }
+      } = store.getState();
+
+      if (!selectedPaymentMethod) {
+        throw new Error('No payment method selected');
+      }
+
+      await updatePrimerPaymentDetails(
+        selectedPaymentMethod.id,
+        externalPaymentId
+      );
 
       eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_SUCCESSFUL);
       dispatch(
@@ -61,7 +77,7 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
   };
 
   const options: UniversalCheckoutOptions = {
-    container: `#${CONTAINER}`,
+    container: `#${CONTAINER_CLASS_NAME}`,
     apiVersion: '2.4',
     form: {
       inputLabelsVisible: true

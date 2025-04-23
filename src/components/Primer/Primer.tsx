@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Primer as PrimerSDK } from '@primer-io/checkout-web';
 import type { PrimerCheckout } from '@primer-io/checkout-web';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
@@ -7,13 +8,18 @@ import { PrimerProps } from 'types/Primer.types';
 import { usePrimer } from './usePrimer';
 
 import { PrimerContainer, UpdateButtonStyled } from './PrimerStyled';
-import { CONTAINER, DEFAULT_PRIMER_PAYMENT_METHOD } from './contants';
+import {
+  CONTAINER_CLASS_NAME,
+  DEFAULT_PRIMER_PAYMENT_METHOD
+} from './constants';
 
 const Primer = ({
   selectPaymentMethod,
   onSubmit,
   isMyAccount
 }: PrimerProps) => {
+  const { t } = useTranslation();
+
   const [primerCheckout, setPrimerCheckout] = useState<PrimerCheckout | null>(
     null
   );
@@ -49,14 +55,14 @@ const Primer = ({
 
   return (
     <>
-      <PrimerContainer id={CONTAINER} />
+      <PrimerContainer id={CONTAINER_CLASS_NAME} />
       {isMyAccount && primerCheckout?.submit && (
         <UpdateButtonStyled
           disabled={isButtonDisabled}
-          onClick={() => primerCheckout?.submit()}
+          onClick={primerCheckout.submit}
           type='submit'
         >
-          Update
+          {t('primer.button.update', 'Update')}
         </UpdateButtonStyled>
       )}
     </>
