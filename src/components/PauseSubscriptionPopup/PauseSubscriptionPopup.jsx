@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTranslation, Trans } from 'react-i18next';
 
-import { subscriptionSwitch } from 'api';
+import { pauseSubscription } from 'api';
 import Button from 'components/Button';
 import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import Loader from 'components/Loader';
@@ -55,14 +55,11 @@ const PauseSubscriptionPopup = () => {
 
   const { t } = useTranslation();
 
-  const pauseSubscription = async () => {
+  const handlePauseSubscription = async () => {
     setIsLoading(true);
     try {
-      const resp = await subscriptionSwitch(
-        fromOffer.offerId,
-        toOffer.toOfferId,
-        toOffer.switchDirection
-      );
+      const resp = await pauseSubscription(fromOffer.subscriptionId, 2);
+
       if (!resp.errors.length) {
         eventDispatcher(MSSDK_SWITCH_POPUP_ACTION_SUCCESSFUL, {
           fromOfferId: fromOffer.offerId,
@@ -208,7 +205,7 @@ const PauseSubscriptionPopup = () => {
             >
               {t('pausesubscription-popup.details.back', 'Back')}
             </Button>
-            <Button variant='confirm' onClickFn={pauseSubscription}>
+            <Button variant='confirm' onClickFn={handlePauseSubscription}>
               {isLoading ? (
                 <Loader buttonLoader color='#ffffff' />
               ) : (

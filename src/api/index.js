@@ -36,6 +36,7 @@ import redeemGift from './Gifts/redeemGift';
 import getRetentionActions from './Customer/getRetentionActions';
 import applyRetentionAction from './Customer/applyRetentionAction';
 import getAdyenPaymentMethods from './Payment/getAdyenPaymentMethods';
+import pauseSubscription from './Customer/pauseSubscription';
 
 export {
   getPaymentDetails,
@@ -75,5 +76,6 @@ export {
   redeemGift,
   getRetentionActions,
   applyRetentionAction,
-  getAdyenPaymentMethods
+  getAdyenPaymentMethods,
+  pauseSubscription
 };

@@ -48,7 +48,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   const [switches, setSwitches] = useState<SwitchDetail[]>([]);
 
   const { data: currentPlan, loading } = useAppSelector(selectCurrentPlan);
-  const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
+  const { offers } = useAppSelector(selectOffers);
   const { data: switchDetailsStore } = useAppSelector(selectSwitchDetails);
   const {
     offerType,
@@ -62,7 +62,8 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     expiresAt,
     period,
     status,
-    isExternallyManaged
+    isExternallyManaged,
+    pause
   } =
     currentPlan.find((sub: CustomerOffer) => sub.offerId === offerId) ||
     ({} as CustomerOffer);
@@ -98,11 +99,9 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
       switchStatus === 'inprogress' && direction === 'upgrade'
   );
 
-  // PAUSE FEATURE
-  const isPaused = pauseOffersIDs.includes(offerId);
-  const isPauseInProgress = pendingSwitchDetails
-    ? pauseOffersIDs?.includes(pendingSwitchDetails?.toOfferId)
-    : false;
+  const currentDateInSeconds = Date.now() / 1000;
+  const { pauseDate, resumeDate } = pause || {};
+  const isPauseScheduled = !!pauseDate && currentDateInSeconds < pauseDate;
 
   const getExpirationDescription = () => {
     const renewalDate =
@@ -110,14 +109,27 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
         ? t('currentplan.next-season-start', 'the next season start')
         : dateFormat(expiresAt);
 
-    if (isPaused) {
+    if (isPauseScheduled) {
+      return (
+        <Trans
+          i18nKey='currentplan.subscription.pause-scheduled-info'
+          values={{ pauseDate: dateFormat(pauseDate) }}
+        >
+          {
+            'Your subscription will automatically pause on <strong>{{pauseDate}}</strong>. You can resume your subscription at any time.'
+          }
+        </Trans>
+      );
+    }
+
+    if (status === 'paused') {
       return (
         <Trans
           i18nKey='currentplan.subscription.pause-info'
-          values={{ pauseRenewalDate: 'January 10, 2025' }}
+          values={{ resumeDate: resumeDate && dateFormat(resumeDate) }}
         >
           {
-            'Your subscription is currently paused. It will resume on <strong>{{pauseRenewalDate}}</strong>. You can resume or cancel your subscription at any time prior to that date.'
+            'Your subscription is currently paused. It will resume automatically on <strong>{{resumeDate}}</strong>.You can resume your subscription at any time.'
           }
         </Trans>
       );
@@ -162,18 +174,6 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
       offers.find(({ longId }: OfferV2) => longId === toOfferId)?.title || '';
     const translatedTitle = t(`offer-title-${fromOfferId}`, offerTitle);
     const translatedSwitchTitle = t(`offer-title-${toOfferId}`, toOfferIdTitle);
-
-    // PAUSE FEATURE
-    if (isPauseInProgress) {
-      return t(
-        'offer-card.info-box.pause-information-text',
-        'Your current plan will be paused starting on {{subscriptionExpirationDate}}. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ translatedTitle }}. You can cancel this pause request at any time.',
-        {
-          subscriptionExpirationDate,
-          translatedTitle
-        }
-      );
-    }
 
     const { algorithm, direction } = pendingSwitchDetails;
 
@@ -246,9 +246,10 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
 
     dispatch(
       showPopup({
-        type: isPauseInProgress
-          ? POPUP_TYPES.CANCEL_PAUSE_POPUP
-          : POPUP_TYPES.CANCEL_SWITCH_POPUP,
+        type:
+          status === 'paused'
+            ? POPUP_TYPES.CANCEL_PAUSE_POPUP
+            : POPUP_TYPES.CANCEL_SWITCH_POPUP,
         data: {
           pendingSwitchId,
           switchDirection: pendingSwitchDetails.direction,
@@ -268,7 +269,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   };
 
   const getIcon = () => {
-    if (isPauseInProgress) return PauseIcon;
+    if (status === 'paused') return PauseIcon;
     if (pendingSwitchDetails?.direction === 'downgrade') return DowngradeIcon;
     if (pendingSwitchDetails?.direction === 'upgrade' || isUpgradePending)
       return UpgradeIcon;
@@ -283,7 +284,10 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     <>
       <WrapperStyled>
         <SkeletonWrapper showChildren={!loading} width={50} height={50}>
-          <SubscriptionIcon period={period || offerType} isPaused={isPaused} />
+          <SubscriptionIcon
+            period={period || offerType}
+            isPaused={status === 'paused'}
+          />
         </SkeletonWrapper>
         <InnerWrapper>
           <SkeletonWrapper
@@ -305,7 +309,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
             )}
           </SkeletonWrapper>
         </InnerWrapper>
-        {!isPaused && (
+        {status !== 'paused' && (
           <PriceWrapperStyled>
             <SkeletonWrapper showChildren={!loading} width={80} height={30}>
               {period && (
@@ -339,7 +343,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
             {pendingSwitchId &&
               pendingSwitchDetails?.algorithm === 'DEFERRED' && (
                 <SubBoxButtonStyled onClick={handleCancelSwitch}>
-                  {isPauseInProgress
+                  {status === 'paused'
                     ? t('offer-card.cancel-pause-button', 'Cancel pause')
                     : t(
                         `offer-card.cancel-${pendingSwitchDetails.direction}`,
