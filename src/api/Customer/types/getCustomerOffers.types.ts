@@ -21,4 +21,10 @@ export type CustomerOffer = {
   period?: string;
   subscriptionId?: number;
   isExternallyManaged?: boolean;
+  pause?: {
+    requestedAt: number;
+    pauseDate: number;
+    resumeDate: number;
+    failedResumes: unknown[];
+  };
 };
