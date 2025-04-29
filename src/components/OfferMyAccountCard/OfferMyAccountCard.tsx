@@ -39,7 +39,10 @@ import {
 } from './OfferMyAccountCardStyled';
 import { OfferMyAccountCardProps } from './OfferMyAccountCard.types';
 
-const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
+const OfferMyAccountCard = ({
+  offerId,
+  subscriptionId
+}: OfferMyAccountCardProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
@@ -66,8 +69,10 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     status,
     isExternallyManaged
   } =
-    currentPlan.find((sub: CustomerOffer) => sub.offerId === offerId) ||
-    ({} as CustomerOffer);
+    currentPlan.find(
+      (sub: CustomerOffer) =>
+        sub.offerId === offerId && sub.subscriptionId === subscriptionId
+    ) ?? ({} as CustomerOffer);
 
   const {
     offerV2: { price }
@@ -76,7 +81,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
 
   const currency =
     currencyFormat[
-      (nextPaymentCurrency || customerCurrency) as keyof Record<
+      (nextPaymentCurrency ?? customerCurrency) as keyof Record<
         CurrencyFormat,
         string
       >
@@ -135,7 +140,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
 
     const { fromOfferId, toOfferId } = pendingSwitchDetails;
     const toOfferIdTitle =
-      offers.find(({ longId }: OfferV2) => longId === toOfferId)?.title || '';
+      offers.find(({ longId }: OfferV2) => longId === toOfferId)?.title ?? '';
     const translatedTitle = t(`offer-title-${fromOfferId}`, offerTitle);
     const translatedSwitchTitle = t(`offer-title-${toOfferId}`, toOfferIdTitle);
 
@@ -244,7 +249,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     <>
       <WrapperStyled>
         <SkeletonWrapper showChildren={!loading} width={50} height={50}>
-          <SubscriptionIcon period={period || offerType} />
+          <SubscriptionIcon period={period ?? offerType} />
         </SkeletonWrapper>
         <InnerWrapper>
           <SkeletonWrapper
