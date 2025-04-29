@@ -39,17 +39,12 @@ const Unsubscribe = ({
     await handleUnsubscribe(showConfirmationStep);
   };
 
-  const {
-    currentStep,
-    setCurrentStep,
-    steps,
-    goToNextStep,
-    showConfirmationStep
-  } = useUnsubscribeSteps({
-    availableDowngrades,
-    skipAvailableDowngradesStep,
-    skipCancellationSurveyStep
-  });
+  const { currentStep, setCurrentStep, steps, showConfirmationStep } =
+    useUnsubscribeSteps({
+      availableDowngrades,
+      skipAvailableDowngradesStep,
+      skipCancellationSurveyStep
+    });
 
   useUnsubscribeImmediately({
     skipCancellationSurveyStep,
@@ -70,7 +65,7 @@ const Unsubscribe = ({
       {currentStep === STEPS.DOWNGRADES && (
         <Downgrades
           downgrades={availableDowngrades}
-          handleClick={goToNextStep}
+          handleClick={performUnsubscribe}
         />
       )}
       {currentStep === STEPS.SURVEY && (
