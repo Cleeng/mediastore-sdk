@@ -32,7 +32,7 @@ const Unsubscribe = ({
 
   const { updateSubscription } = useAppSelector(selectPopupManager);
   const availableDowngrades = useAvailableDowngrades(
-    updateSubscription?.offerData?.offerId || ''
+    updateSubscription?.offerData?.offerId ?? ''
   );
 
   const performUnsubscribe = async () => {

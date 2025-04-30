@@ -6,9 +6,9 @@ import {
 import { SwitchSetting } from 'appRedux/types';
 
 const useAvailableDowngrades = (offerId: string): SwitchSetting[] => {
-  const allSwitchSettings = useAppSelector(selectSwitchSettings)?.data || {};
+  const allSwitchSettings = useAppSelector(selectSwitchSettings)?.data ?? {};
   const pendingSwitches =
-    useAppSelector(selectPendingSwitchesDetails)?.data || {};
+    useAppSelector(selectPendingSwitchesDetails)?.data ?? {};
 
   const toOfferIdsWithPendingSwitch: string[] = Object.values(
     pendingSwitches
