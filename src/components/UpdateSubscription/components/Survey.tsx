@@ -1,7 +1,7 @@
 import { Trans, useTranslation } from 'react-i18next';
 import { hidePopup, selectOfferData } from 'appRedux/popupSlice';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
-import { SwitchDetail } from 'appRedux/types';
+import type { SwitchDetail } from 'appRedux/types';
 import { selectUnsubscribe } from 'appRedux/unsubscribeSlice';
 import { selectOffers } from 'appRedux/offersSlice';
 import { dateFormat, INFINITE_DATE } from 'util/planHelper';
@@ -21,7 +21,7 @@ import {
 import Button from 'components/Button';
 import Checkbox from 'components/Checkbox';
 import Loader from 'components/Loader';
-import { CancellationReason } from 'containers/PlanDetails/PlanDetails.types';
+import type { CancellationReason } from 'containers/PlanDetails/PlanDetails.types';
 
 import { DEFAULT_CANCELLATION_REASONS, STEPS } from '../constants';
 
@@ -106,7 +106,7 @@ const Survey = ({
             {scheduledSwitch ? (
               t(
                 'unsubscribe-popup.survey.switch-pending',
-                `Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.`,
+                'Your subscription switch is still pending. You will switch to {{scheduledSwitchTitle}} and be charged a new price.',
                 { scheduledSwitchTitle }
               )
             ) : (

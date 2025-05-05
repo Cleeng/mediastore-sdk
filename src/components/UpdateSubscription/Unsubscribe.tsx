@@ -8,7 +8,7 @@ import {
   Confirmation
 } from 'components/UpdateSubscription/components';
 import { selectPopupManager } from 'appRedux/popupSlice';
-import { Props } from './Unsubscribe.types';
+import type { Props } from './Unsubscribe.types';
 import { STEPS } from './constants';
 import useUnsubscribe from './hooks/useUnsubscribe';
 import useUnsubscribeSteps from './hooks/useUnsubscribeSteps';
@@ -39,12 +39,17 @@ const Unsubscribe = ({
     await handleUnsubscribe(showConfirmationStep);
   };
 
-  const { currentStep, setCurrentStep, steps, showConfirmationStep } =
-    useUnsubscribeSteps({
-      availableDowngrades,
-      skipAvailableDowngradesStep,
-      skipCancellationSurveyStep
-    });
+  const {
+    currentStep,
+    setCurrentStep,
+    steps,
+    showConfirmationStep,
+    goToNextStep
+  } = useUnsubscribeSteps({
+    availableDowngrades,
+    skipAvailableDowngradesStep,
+    skipCancellationSurveyStep
+  });
 
   useUnsubscribeImmediately({
     skipCancellationSurveyStep,
@@ -65,7 +70,9 @@ const Unsubscribe = ({
       {currentStep === STEPS.DOWNGRADES && (
         <Downgrades
           downgrades={availableDowngrades}
-          handleClick={performUnsubscribe}
+          handleClick={
+            skipCancellationSurveyStep ? performUnsubscribe : goToNextStep
+          }
         />
       )}
       {currentStep === STEPS.SURVEY && (
