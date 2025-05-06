@@ -776,7 +776,7 @@ import '@cleeng/mediastore-sdk/dist/styles/msdFont.css';
 
 #### Styling options
 
-There are few ways of styling MediaStore SDK components:
+There are a few ways of styling MediaStore SDK components:
 
 - [ThemeProvider (recommended)](#themeprovider)
 - [SetTheme function](#settheme-function)
