@@ -11,6 +11,7 @@ import Button from 'components/Button';
 import { Trans, useTranslation } from 'react-i18next';
 import {
   PAYMENT_DETAILS_STEPS,
+  selectPaymentDetailsPopup,
   updatePaymentDetailsPopup
 } from 'appRedux/popupSlice';
 import { ImageWrapper } from '../UpdatePaymentDetailsPopupStyled';
@@ -19,6 +20,36 @@ const ErrorStep = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const { error } = useSelector((state) => state.finalizeAddPaymentDetails);
+  const { errorMessage } = useSelector(selectPaymentDetailsPopup);
+
+  const errorMessageValue = error || errorMessage;
+
+  const getErrorMessage = () => {
+    if (errorMessageValue?.includes('Refused')) {
+      return (
+        <Trans i18nKey='update-payment-details-popup.refused'>
+          We weren’t able to update your payment method. <br /> Please try
+          again.
+        </Trans>
+      );
+    }
+
+    if (errorMessageValue?.includes('No active entitlement')) {
+      return (
+        <Trans i18nKey='update-payment-details-popup.no-active-plan'>
+          We weren’t able to update your payment method because you don’t have
+          an active plan.
+        </Trans>
+      );
+    }
+
+    return (
+      <Trans i18nKey='update-payment-details-popup.error'>
+        We weren’t able to update your payment details. <br /> Please try again
+        using different payment method.
+      </Trans>
+    );
+  };
 
   return (
     <>
@@ -29,19 +60,7 @@ const ErrorStep = () => {
         <TitleStyled>
           {t('oops-something-went-wrong', 'Oops! Something went wrong.')}
         </TitleStyled>
-        <TextStyled>
-          {error?.includes('Refused') ? (
-            <Trans i18nKey='update-payment-details-popup.refused'>
-              We weren’t able to update your payment method. <br /> Please try
-              again.
-            </Trans>
-          ) : (
-            <Trans i18nKey='update-payment-details-popup.error'>
-              We weren’t able to update your payment details. <br /> Please try
-              again using different payment method.
-            </Trans>
-          )}
-        </TextStyled>
+        <TextStyled>{getErrorMessage()}</TextStyled>
       </ContentStyled>
       <ButtonWrapperStyled $removeMargin>
         <Button
