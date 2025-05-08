@@ -19,10 +19,12 @@ import { ImageWrapper } from '../UpdatePaymentDetailsPopupStyled';
 const ErrorStep = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const { error } = useSelector((state) => state.finalizeAddPaymentDetails);
+  const { error: finalizeErrorMessage } = useSelector(
+    (state) => state.finalizeAddPaymentDetails
+  );
   const { errorMessage } = useSelector(selectPaymentDetailsPopup);
 
-  const errorMessageValue = error || errorMessage;
+  const errorMessageValue = errorMessage || finalizeErrorMessage;
 
   const getErrorMessage = () => {
     if (errorMessageValue?.includes('Refused')) {
