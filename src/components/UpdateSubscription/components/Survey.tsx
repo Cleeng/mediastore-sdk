@@ -87,7 +87,7 @@ const Survey = ({
     <>
       <ContentStyled>
         <TitleStyled>
-          {t('unsubscribe-popup.survey-title', 'We’re sorry to see you go')}
+          {t('unsubscribe-popup.survey.title', 'We’re sorry to see you go')}
         </TitleStyled>
         {offerDetails?.period === 'season' ? (
           <TextStyled>
