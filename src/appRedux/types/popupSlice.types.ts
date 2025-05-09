@@ -12,6 +12,7 @@ type PaymentDetails = {
   isLoading: boolean;
   step: Steps;
   initPaymentMethod: PaymentDetail | null;
+  errorMessage?: string;
 };
 
 type IsOpen = {
