@@ -773,10 +773,35 @@ import '@cleeng/mediastore-sdk/dist/styles/msdFont.css';
 
 #### Styling options
 
-There are two ways of styling MediaStore SDK components:
+There are a few ways of styling MediaStore SDK components:
 
+- [ThemeProvider (recommended)](#themeprovider)
 - [SetTheme function](#settheme-function)
 - [Custom styles](#custom-styles)
+
+##### ThemeProvider [recommended]
+
+To apply custom styles to the components, wrap your component with ThemeProvider and pass in a theme object.
+
+```javascript
+import { ThemeProvider } from 'styled-components';
+
+const customTheme = {
+  backgroundColor: '#f5f7fa',
+  loaderColor: '#007bff',
+  successColor: '#28a745',
+  errorColor: '#dc3545',
+  fontColor: '#212529',
+  cardColor: '#ffffff',
+  primaryColor: '#0069d9',
+  secondaryColor: '#6c757d',
+  logoUrl: 'https://yourcdn.com/assets/logo.svg',
+}
+
+<ThemeProvider theme={customTheme}>
+  <Checkout {...checkoutProps}/>
+</ThemeProvider>
+```
 
 ##### SetTheme function
 
@@ -897,7 +922,7 @@ The example Adyen configuration object with described properties is shown below:
   },
   paymentMethodsConfiguration: {
     card: {
-      name: 'Credit Card', //	String that is used to display the payment method name to the shopper.
+      name: 'Credit Card', // String that is used to display the payment method name to the shopper.
       billingAddressRequired: true, // Set to true to collect the shopper's billing address and mark the fields as required. Set to false to not collect the shopper's billing address in any way. Default: true
       billingAddressMode: 'partial', // If billingAddressRequired is set to true, you can set this to partial to require the shopper's postal code instead of the full address. Default: 'full'
       brands: ['visa'], // Array of card brands that will be recognized. For a list of possible values, refer to https://docs.adyen.com/payment-methods/cards/custom-card-integration#supported-card-types. Default: ['mc','visa','amex']
@@ -940,7 +965,7 @@ The example Adyen configuration object with described properties is shown below:
       // For all possible values and styling guidance, see https://developer.apple.com/design/human-interface-guidelines/technologies/apple-pay/buttons-and-marks
     },
     ideal: {
-      showImage: true, //	Set to false to remove the bank logos from the iDEAL form. Default: true
+      showImage: true, // Set to false to remove the bank logos from the iDEAL form. Default: true
       issuer: "0031", // Optional. Set to an iDEAL issuer ID to preselect a specific bank, refer to: https://docs.adyen.com/payment-methods/ideal/web-drop-in?tab=live_payments_2#issuer-ids
       highlightedIssuers: ['0761', '0802'] // Optional. Set to the iDEAL issuer IDs for banks you want to show on top of the dropdown menu.
       placeholder: 'Choose your bank' // Optional. The string you want to show as the dropdown menu text. Custom translation configuration overrides this value. Default: 'Select your bank'
