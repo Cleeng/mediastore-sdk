@@ -2,16 +2,23 @@ import { useEffect } from 'react';
 
 type UseUnsubscribeImmediatelyArguments = {
   skipCancellationSurveyStep?: boolean;
+  availableDowngrades?: Array<object>;
+  skipAvailableDowngradesStep?: boolean;
   performUnsubscribe: () => Promise<void>;
 };
 
 const useUnsubscribeImmediately = ({
   performUnsubscribe,
+  availableDowngrades,
+  skipAvailableDowngradesStep,
   skipCancellationSurveyStep
 }: UseUnsubscribeImmediatelyArguments) => {
   useEffect(() => {
     const unsubscribeImmediatelyIfNeeded = async () => {
-      if (skipCancellationSurveyStep) {
+      if (
+        skipCancellationSurveyStep &&
+        (skipAvailableDowngradesStep || !availableDowngrades?.length)
+      ) {
         await performUnsubscribe();
       }
     };

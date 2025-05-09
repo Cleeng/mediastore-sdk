@@ -1,4 +1,4 @@
-import { selectSwitchDetails } from 'appRedux/planDetailsSlice';
+import { selectPendingSwitchesDetails } from 'appRedux/planDetailsSlice';
 import { selectOfferData } from 'appRedux/popupSlice';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { fetchUnsubscribe } from 'appRedux/unsubscribeSlice';
@@ -11,14 +11,13 @@ const useUnsubscribe = (skipCancellationSurveyStep?: boolean) => {
   const [checkedReason, setCheckedReason] = useState('');
 
   const offerDetails = useAppSelector(selectOfferData);
-  const { data: switchDetails } = useAppSelector(selectSwitchDetails);
+  const { data: pendingSwitchesDetails } = useAppSelector(
+    selectPendingSwitchesDetails
+  );
 
   const dispatch = useAppDispatch();
 
-  const handleUnsubscribe = async (
-    isPauseActive: boolean,
-    handleSuccess: () => void
-  ) => {
+  const handleUnsubscribe = async (handleSuccess: () => void) => {
     eventDispatcher(UNSUBSCRIBE_ACTION_CONFIRMED, {
       detail: {
         offerId: offerDetails?.offerId,
@@ -28,7 +27,6 @@ const useUnsubscribe = (skipCancellationSurveyStep?: boolean) => {
 
     await dispatch(
       fetchUnsubscribe({
-        isPauseActive,
         offerId: offerDetails?.offerId,
         ...(!skipCancellationSurveyStep && { checkedReason })
       })
@@ -38,7 +36,7 @@ const useUnsubscribe = (skipCancellationSurveyStep?: boolean) => {
   };
 
   const scheduledSwitch = offerDetails?.pendingSwitchId
-    ? switchDetails[offerDetails.pendingSwitchId]
+    ? pendingSwitchesDetails[offerDetails.pendingSwitchId]
     : null;
 
   return {

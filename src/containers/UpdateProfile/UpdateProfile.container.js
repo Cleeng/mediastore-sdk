@@ -5,7 +5,7 @@ import {
   setUserCapture,
   updateCaptureOption
 } from 'appRedux/userProfile';
-import { showInnerPopup, hideInnerPopup } from 'appRedux/innerPopupReducer';
+import { showPopup, hidePopup } from 'appRedux/popupSlice';
 import { init as initPublisherConfig } from 'appRedux/publisherConfigSlice';
 import UpdateProfile from 'components/UpdateProfile';
 
@@ -14,7 +14,7 @@ export const mapStateToProps = (state) => {
     userProfile: state.userProfile,
     userConsents: [],
     consentsError: state.consentsError,
-    innerPopup: state.innerPopup
+    popupManager: state.popupManager
   };
 };
 
@@ -32,11 +32,11 @@ export const mapDispatchToProps = (dispatch) => {
     setConsents: (consents) => {
       dispatch(setConsents(consents));
     },
-    showInnerPopup: (payload) => {
-      dispatch(showInnerPopup(payload));
+    showPopup: (payload) => {
+      dispatch(showPopup(payload));
     },
-    hideInnerPopup: () => {
-      dispatch(hideInnerPopup());
+    hidePopup: () => {
+      dispatch(hidePopup());
     },
     initPublisherConfig: (payload) => {
       dispatch(initPublisherConfig(payload));
