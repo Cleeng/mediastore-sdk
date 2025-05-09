@@ -1,5 +1,4 @@
-import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { Trans, useTranslation } from 'react-i18next';
 import WarningIcon from 'assets/images/errors/warning.svg';
 import {
   ContentStyled,
@@ -8,7 +7,7 @@ import {
   ButtonWrapperStyled
 } from 'components/InnerPopupWrapper/InnerPopupWrapperStyled';
 import Button from 'components/Button';
-import { Trans, useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import {
   PAYMENT_DETAILS_STEPS,
   selectPaymentDetailsPopup,
@@ -16,18 +15,23 @@ import {
 } from 'appRedux/popupSlice';
 import { ImageWrapper } from '../UpdatePaymentDetailsPopupStyled';
 
+const errorMessages = {
+  REFUSED: 'Refused',
+  NO_ACTIVE_ENTITLEMENT: 'No active entitlement'
+};
+
 const ErrorStep = () => {
   const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const { error: finalizeErrorMessage } = useSelector(
+  const dispatch = useAppDispatch();
+  const { error: finalizeErrorMessage } = useAppSelector(
     (state) => state.finalizeAddPaymentDetails
   );
-  const { errorMessage } = useSelector(selectPaymentDetailsPopup);
+  const { errorMessage } = useAppSelector(selectPaymentDetailsPopup);
 
   const errorMessageValue = errorMessage || finalizeErrorMessage;
 
   const getErrorMessage = () => {
-    if (errorMessageValue?.includes('Refused')) {
+    if (errorMessageValue?.includes(errorMessages.REFUSED)) {
       return (
         <Trans i18nKey='update-payment-details-popup.refused'>
           We weren’t able to update your payment method. <br /> Please try
@@ -36,7 +40,7 @@ const ErrorStep = () => {
       );
     }
 
-    if (errorMessageValue?.includes('No active entitlement')) {
+    if (errorMessageValue?.includes(errorMessages.NO_ACTIVE_ENTITLEMENT)) {
       return (
         <Trans i18nKey='update-payment-details-popup.no-active-plan'>
           We weren’t able to update your payment method because you don’t have
