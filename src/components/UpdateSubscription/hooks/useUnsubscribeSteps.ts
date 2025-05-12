@@ -2,16 +2,14 @@ import { useState, useMemo } from 'react';
 import { INITIAL_STEPS_ARRAY, STEPS } from '../constants';
 
 type UseUnsubscribeStepsArguments = {
+  availableDowngrades?: Array<object>;
   skipCancellationSurveyStep?: boolean;
-  shouldShowDowngrades: boolean;
-  shouldShowPauseScreen: boolean;
-  shouldShowFreeExtension: boolean;
+  skipAvailableDowngradesStep?: boolean;
 };
 
 const initializeUnsubscribeSteps = ({
-  shouldShowDowngrades,
-  shouldShowPauseScreen,
-  shouldShowFreeExtension,
+  availableDowngrades,
+  skipAvailableDowngradesStep,
   skipCancellationSurveyStep
 }: UseUnsubscribeStepsArguments) => {
   const copiedStepsArray = INITIAL_STEPS_ARRAY.slice();
@@ -20,48 +18,33 @@ const initializeUnsubscribeSteps = ({
     copiedStepsArray.shift();
   }
 
-  if (shouldShowDowngrades && !copiedStepsArray.includes(STEPS.DOWNGRADES)) {
-    copiedStepsArray.unshift(STEPS.DOWNGRADES);
-  }
-  if (shouldShowPauseScreen && !copiedStepsArray.includes(STEPS.PAUSE)) {
-    copiedStepsArray.unshift(STEPS.PAUSE);
-  }
-
   if (
-    shouldShowFreeExtension &&
-    !copiedStepsArray.includes(STEPS.FREE_EXTENSION)
+    availableDowngrades?.length &&
+    !skipAvailableDowngradesStep &&
+    !copiedStepsArray.includes(STEPS.DOWNGRADES)
   ) {
-    copiedStepsArray.unshift(STEPS.FREE_EXTENSION);
+    copiedStepsArray.unshift(STEPS.DOWNGRADES);
   }
 
   return copiedStepsArray;
 };
 
 const useUnsubscribeSteps = ({
-  shouldShowDowngrades,
-  shouldShowFreeExtension,
-  shouldShowPauseScreen,
+  availableDowngrades,
+  skipAvailableDowngradesStep,
   skipCancellationSurveyStep
 }: UseUnsubscribeStepsArguments) => {
   const steps = useMemo(
     () =>
       initializeUnsubscribeSteps({
-        shouldShowDowngrades,
-        shouldShowPauseScreen,
-        shouldShowFreeExtension,
+        availableDowngrades,
+        skipAvailableDowngradesStep,
         skipCancellationSurveyStep
       }),
-    [
-      shouldShowDowngrades,
-      shouldShowPauseScreen,
-      shouldShowFreeExtension,
-      skipCancellationSurveyStep
-    ]
+    [skipAvailableDowngradesStep, skipCancellationSurveyStep]
   );
 
   const [currentStep, setCurrentStep] = useState<STEPS>(steps[0]);
-  const [isFreeExtensionSecondStep, setIsFreeExtensionSecondStep] =
-    useState(false);
 
   const goToNextStep = () =>
     setCurrentStep(steps[steps.indexOf(currentStep) + 1]);
@@ -70,10 +53,8 @@ const useUnsubscribeSteps = ({
 
   return {
     currentStep,
-    isFreeExtensionSecondStep,
     goToNextStep,
     setCurrentStep,
-    setIsFreeExtensionSecondStep,
     showConfirmationStep,
     steps
   };

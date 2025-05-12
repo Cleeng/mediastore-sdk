@@ -23,7 +23,7 @@ export type ButtonVariant =
 
 export type ButtonProps = {
   children?: ReactNode;
-  className?: `msd__button ${string}` | undefined;
+  className?: `msd__button ${string}`;
   disabled?: boolean;
   fontSize?: string;
   fontWeight?: string;

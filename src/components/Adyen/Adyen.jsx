@@ -301,12 +301,12 @@ const Adyen = ({
       countryCode
     };
 
-    const applePayConfigurationObj =
-      paymentMethods &&
-      paymentMethods.find((item) => item.type === 'applepay')?.configuration;
-    const googlePayConfigurationObj =
-      paymentMethods &&
-      paymentMethods.find((item) => item.type === 'googlepay')?.configuration;
+    const applePayConfigurationObj = paymentMethods?.find(
+      (item) => item.type === 'applepay'
+    )?.configuration;
+    const googlePayConfigurationObj = paymentMethods?.find(
+      (item) => item.type === 'googlepay'
+    )?.configuration;
 
     const configuration = {
       amount,

@@ -158,7 +158,6 @@ const ResumeSubscriptionPopup = () => {
         <>
           <ContentStyled>
             <ImageWrapper>
-              <SubscriptionIconStyled isPaused showLabel='Paused' gray />
               <ArrowStyled />
               <SubscriptionIconStyled period={toOffer.period} showLabel='New' />
             </ImageWrapper>
@@ -187,12 +186,6 @@ const ResumeSubscriptionPopup = () => {
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled $removeMargin>
-            <Button variant='simple' onClickFn={closePopupAndRefresh}>
-              {t(
-                'resumesubscription-popup.back-button-text',
-                'Continue with Pause'
-              )}
-            </Button>
             <Button variant='confirm' onClickFn={resumeSubscription}>
               {isLoading ? (
                 <Loader buttonLoader color='#ffffff' />

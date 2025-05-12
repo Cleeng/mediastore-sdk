@@ -9,4 +9,5 @@ export * from './publisherConfigSlice.types';
 export * from './giftSlice.types';
 export * from './deliveryDetailsSlice.types';
 export * from './unsubscribe.types';
-export * from './retentionActionsSlice.types';
+export * from './unsubscribe.types';
+export * from './myAccountConsentsPopup.types';

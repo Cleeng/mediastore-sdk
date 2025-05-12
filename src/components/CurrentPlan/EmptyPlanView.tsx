@@ -32,7 +32,7 @@ const EmptyPlanView = () => {
               >
                 choose your plan
               </a>
-              , you will be able to manage your offers here.
+              {/**/}, you will be able to manage your offers here.
             </Trans>
           ) : (
             t(
