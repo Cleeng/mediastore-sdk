@@ -35,7 +35,7 @@ export const fetchFinalizeAddPaymentDetails = createAsyncThunk<
     } = getState();
     try {
       const response = await finalizeAddPaymentDetailsApi(
-        paymentMethodId || selectedPaymentMethod?.id,
+        paymentMethodId ?? selectedPaymentMethod?.id,
         details
       );
       return response.paymentDetails as PaymentDetails;
@@ -71,7 +71,7 @@ export const finalizeAddPaymentDetailsSlice = createSlice({
       (state, action: PayloadAction<string | undefined>) => {
         state.loading = false;
         state.error =
-          action.payload || 'Failed to finalize add payment details';
+          action.payload ?? 'Failed to finalize add payment details';
       }
     );
   }
