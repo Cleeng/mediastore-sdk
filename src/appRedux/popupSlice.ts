@@ -25,7 +25,7 @@ export const PAYMENT_DETAILS_STEPS = {
   ERROR: 'ERROR'
 } as const;
 
-const initialState: PopupManagerInitialState = {
+export const initialState: PopupManagerInitialState = {
   isOpen: false,
   isLoading: false,
   currentType: null,

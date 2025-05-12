@@ -28,7 +28,7 @@ const ErrorStep = () => {
   );
   const { errorMessage } = useAppSelector(selectPaymentDetailsPopup);
 
-  const errorMessageValue = errorMessage || finalizeErrorMessage;
+  const errorMessageValue = errorMessage ?? finalizeErrorMessage;
 
   const getErrorMessage = () => {
     if (errorMessageValue?.includes(errorMessages.REFUSED)) {
@@ -61,7 +61,7 @@ const ErrorStep = () => {
     <>
       <ContentStyled>
         <ImageWrapper>
-          <WarningIcon />
+          <WarningIcon aria-label='Warning icon' />
         </ImageWrapper>
         <TitleStyled>
           {t('oops-something-went-wrong', 'Oops! Something went wrong.')}
