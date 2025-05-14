@@ -7,11 +7,12 @@ type Steps = (typeof PAYMENT_DETAILS_STEPS)[Keys];
 type PopupTypesKeys = keyof typeof POPUP_TYPES;
 type PopupTypes = (typeof POPUP_TYPES)[PopupTypesKeys];
 
-type PaymentDetails = {
+export type PaymentDetails = {
   isOpen: boolean;
   isLoading: boolean;
   step: Steps;
   initPaymentMethod: PaymentDetail | null;
+  errorMessage?: string;
 };
 
 type IsOpen = {
