@@ -90,11 +90,7 @@ class MyAccount extends Component {
 
   componentDidUpdate(prevProps) {
     const {
-      userProfile: { consents },
-      userProfile,
-      setCurrentUser,
-      setConsents,
-      setConsentsError
+      userProfile: { consents }
     } = this.props;
 
     if (prevProps.userProfile.consents !== consents) {
@@ -102,31 +98,6 @@ class MyAccount extends Component {
     }
 
     if (Auth.isLogged()) {
-      if (userProfile.consents.length === 0) {
-        getCustomerConsents()
-          .then((response) => {
-            if (!response.errors.length) {
-              setConsents(response.responseData.consents);
-              this.checkTerms();
-            } else {
-              setConsentsError(response.errors[0]);
-            }
-          })
-          .catch(() => setConsentsError('Something went wrong..'));
-      }
-
-      if (!userProfile.user) {
-        getCustomer().then((response) => {
-          if (response.errors.length) {
-            this.setState({
-              errors: response.errors
-            });
-          } else {
-            setCurrentUser(response.responseData);
-          }
-        });
-      }
-
       // delete old payment details when paypal payment details were updated successfully
       const paymentDetailsToDelete = new URLSearchParams(
         window.location.search
