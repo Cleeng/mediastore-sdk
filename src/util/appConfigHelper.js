@@ -10,11 +10,17 @@ import {
   updateHiddenPaymentMethods
 } from 'appRedux/publisherConfigSlice';
 
+const getStorageKey = (keyName) => {
+  const publisherId = localStorage.getItem('CLEENG_PUBLISHER_ID');
+
+  return publisherId ? `${publisherId}_${keyName}` : keyName;
+};
+
 const isLocalStorageAvailable = () => {
   try {
-    localStorage.setItem('CLEENG_LS', 'yes');
-    if (localStorage.getItem('CLEENG_LS') === 'yes') {
-      localStorage.removeItem('CLEENG_LS');
+    localStorage.setItem(getStorageKey('CLEENG_LS'), 'yes');
+    if (localStorage.getItem(getStorageKey('CLEENG_LS')) === 'yes') {
+      localStorage.removeItem(getStorageKey('CLEENG_LS'));
       return true;
     }
     return false;
@@ -25,9 +31,9 @@ const isLocalStorageAvailable = () => {
 
 export const getData = (name) => {
   const result = isLocalStorageAvailable()
-    ? localStorage.getItem(name)
+    ? localStorage.getItem(getStorageKey(name))
     : store.getState().appConfig[name];
-  if (!result && name === 'CLEENG_AUTH_TOKEN') {
+  if (!result && getStorageKey(name) === 'CLEENG_AUTH_TOKEN') {
     // eslint-disable-next-line no-console
     console.error(
       `Unable to get CLEENG_AUTH_TOKEN from local storage or redux store`
@@ -39,12 +45,12 @@ export const getData = (name) => {
 
 export const setData = (name, value) =>
   isLocalStorageAvailable()
-    ? localStorage.setItem(name, value)
+    ? localStorage.setItem(getStorageKey(name), value)
     : store.dispatch(setDataInRedux({ name, value }));
 
 export const removeData = (name) =>
   isLocalStorageAvailable()
-    ? localStorage.removeItem(name)
+    ? localStorage.removeItem(getStorageKey(name))
     : store.dispatch(removeDataFromRedux({ name }));
 
 export const setJWT = (jwt) => {
@@ -64,7 +70,14 @@ export const setRefreshToken = (refreshToken) => {
 
 export const setPublisher = (publisherId) => {
   if (publisherId) {
-    setData('CLEENG_PUBLISHER_ID', publisherId);
+    if (isLocalStorageAvailable()) {
+      localStorage.setItem('CLEENG_PUBLISHER_ID', publisherId);
+    } else {
+      store.dispatch(
+        setDataInRedux({ name: 'CLEENG_PUBLISHER_ID', value: publisherId })
+      );
+    }
+
     store.dispatch(initPublisherConfig({ publisherId }));
     return true;
   }
