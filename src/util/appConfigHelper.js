@@ -10,6 +10,28 @@ import {
   updateHiddenPaymentMethods
 } from 'appRedux/publisherConfigSlice';
 
+const assignKeysToPublisherId = () => {
+  const entriesToUpdate = [];
+
+  for (let keyIndex = 0; keyIndex <= localStorage.length - 1; keyIndex += 1) {
+    const key = localStorage.key(keyIndex);
+    if (
+      key !== 'CLEENG_PUBLISHER_ID' &&
+      key !== 'CLEENG_LS' &&
+      key?.startsWith('CLEENG_')
+    ) {
+      const value = localStorage.getItem(key);
+
+      entriesToUpdate.push({ key, value });
+    }
+  }
+
+  entriesToUpdate.forEach(({ key, value }) => {
+    localStorage.removeItem(key);
+    setData(key, value);
+  });
+};
+
 const getStorageKey = (keyName) => {
   const publisherId = localStorage.getItem('CLEENG_PUBLISHER_ID');
 
@@ -72,6 +94,7 @@ export const setPublisher = (publisherId) => {
   if (publisherId) {
     if (isLocalStorageAvailable()) {
       localStorage.setItem('CLEENG_PUBLISHER_ID', publisherId);
+      assignKeysToPublisherId();
     } else {
       store.dispatch(
         setDataInRedux({ name: 'CLEENG_PUBLISHER_ID', value: publisherId })
