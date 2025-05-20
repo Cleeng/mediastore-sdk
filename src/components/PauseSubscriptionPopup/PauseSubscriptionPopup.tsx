@@ -37,7 +37,7 @@ type PauseDetails = {
 const PauseSubscriptionPopup = () => {
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const [isError, setError] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [selectedBillingCycles, setSelectedBillingCycles] = useState<
     string | null
   >(null);
@@ -47,7 +47,7 @@ const PauseSubscriptionPopup = () => {
   const { isLoading: isPopupLoading, pauseSubscription } =
     useAppSelector(selectPopupManager);
 
-  const { offerData } = pauseSubscription || {};
+  const { offerData } = pauseSubscription ?? {};
 
   const billingCycleOptions = Array.from(
     { length: maxBillingCycles },
@@ -82,7 +82,7 @@ const PauseSubscriptionPopup = () => {
       setStep(2);
     } catch {
       setIsLoading(false);
-      setError(true);
+      setIsError(true);
     }
   };
 
