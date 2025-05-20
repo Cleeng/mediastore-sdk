@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { applyCoupon } from 'api';
 import { setOfferToSwitch, updateList } from 'appRedux/planDetailsSlice';
 import { showPopup, POPUP_TYPES } from 'appRedux/popupSlice';
+import { fetchOfferV2, selectOffer } from 'appRedux/offerSlice';
+import { useAppSelector } from 'appRedux/store';
 import { currencyFormat } from 'util/planHelper';
 import Button from 'components/Button';
 import CouponInput from 'components/CouponInput';
@@ -19,7 +21,8 @@ import {
   WrapperStyled,
   SimpleButtonStyled,
   FullWidthButtonStyled,
-  CouponWrapStyled
+  CouponWrapStyled,
+  ActionButtonsWrapperStyled
 } from './SubscriptionManagementStyled';
 
 const SubscriptionManagement = ({ subscription, showMessageBox }) => {
@@ -43,6 +46,18 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
 
   const dispatch = useDispatch();
   const { t } = useTranslation();
+
+  const isPauseActive = !!subscription?.pause?.requestedAt;
+
+  const { offerV2 } = useAppSelector(selectOffer);
+
+  useEffect(() => {
+    const fetchOffer = async () => {
+      await dispatch(fetchOfferV2(offerId.split('_')[0]));
+    };
+
+    fetchOffer();
+  }, [offerId]);
 
   const submitCoupon = (targetSubscriptionId) => {
     if (couponValue) {
@@ -167,72 +182,95 @@ const SubscriptionManagement = ({ subscription, showMessageBox }) => {
       </ManageButtonWrapStyled>
       <SubscriptionActionsStyled $isOpened={isOptionsVisible}>
         <WrapperStyled>
-          {status === 'active' && !isCouponInputOpened && (
-            <SimpleButtonStyled
-              variant='simple'
-              onClickFn={(event) => {
-                event.stopPropagation();
+          <ActionButtonsWrapperStyled>
+            {status === 'active' && !isCouponInputOpened && (
+              <SimpleButtonStyled
+                variant='simple'
+                onClickFn={(event) => {
+                  event.stopPropagation();
 
-                dispatch(setOfferToSwitch(subscription));
-                dispatch(
-                  showPopup({
-                    type: POPUP_TYPES.UPDATE_SUBSCRIPTION_POPUP,
-                    data: {
-                      action: 'unsubscribe',
-                      offerData: subscription
-                    }
-                  })
-                );
-
-                window.dispatchEvent(
-                  new CustomEvent('MSSDK:unsubscribe-button-clicked', {
-                    detail: {
-                      offerId
-                    }
-                  })
-                );
-                trackMixpanelEvent('Unsubscribe Attempt', {
-                  distinct_id: userId,
-                  publisherId,
-                  offerId,
-                  offerTitle,
-                  offerPrice,
-                  offerCurrency
-                });
-              }}
-            >
-              {t('subscription-management.unsubscribe-button', 'Unsubscribe')}
-            </SimpleButtonStyled>
-          )}
-          {status === 'cancelled' && !isCouponInputOpened && (
-            <FullWidthButtonStyled
-              variant='simple'
-              onClickFn={(event) => {
-                event.stopPropagation();
-                dispatch(
-                  showPopup({
-                    type: POPUP_TYPES.UPDATE_SUBSCRIPTION_POPUP,
-                    data: {
-                      action: 'resubscribe',
-                      offerData: {
-                        ...subscription,
-                        price: `${offerPrice}${currencyFormat[offerCurrency]}`
+                  dispatch(setOfferToSwitch(subscription));
+                  dispatch(
+                    showPopup({
+                      type: POPUP_TYPES.UPDATE_SUBSCRIPTION_POPUP,
+                      data: {
+                        action: 'unsubscribe',
+                        offerData: subscription
                       }
-                    }
-                  })
-                );
-                window.dispatchEvent(
-                  new CustomEvent('MSSDK:resume-button-clicked', {
-                    detail: {
-                      offerId
-                    }
-                  })
-                );
-              }}
-            >
-              {t('subscription-management.resume-button', 'Resume')}
-            </FullWidthButtonStyled>
-          )}
+                    })
+                  );
+
+                  window.dispatchEvent(
+                    new CustomEvent('MSSDK:unsubscribe-button-clicked', {
+                      detail: {
+                        offerId
+                      }
+                    })
+                  );
+                  trackMixpanelEvent('Unsubscribe Attempt', {
+                    distinct_id: userId,
+                    publisherId,
+                    offerId,
+                    offerTitle,
+                    offerPrice,
+                    offerCurrency
+                  });
+                }}
+              >
+                {t('subscription-management.unsubscribe-button', 'Unsubscribe')}
+              </SimpleButtonStyled>
+            )}
+            {status === 'cancelled' && !isCouponInputOpened && (
+              <FullWidthButtonStyled
+                variant='simple'
+                onClickFn={(event) => {
+                  event.stopPropagation();
+                  dispatch(
+                    showPopup({
+                      type: POPUP_TYPES.UPDATE_SUBSCRIPTION_POPUP,
+                      data: {
+                        action: 'resubscribe',
+                        offerData: {
+                          ...subscription,
+                          price: `${offerPrice}${currencyFormat[offerCurrency]}`
+                        }
+                      }
+                    })
+                  );
+                  window.dispatchEvent(
+                    new CustomEvent('MSSDK:resume-button-clicked', {
+                      detail: {
+                        offerId
+                      }
+                    })
+                  );
+                }}
+              >
+                {t('subscription-management.resume-button', 'Resume')}
+              </FullWidthButtonStyled>
+            )}
+            {offerV2?.pause && !isPauseActive && (
+              <FullWidthButtonStyled
+                variant='simple'
+                onClickFn={(event) => {
+                  event.stopPropagation();
+                  dispatch(
+                    showPopup({
+                      type: POPUP_TYPES.PAUSE_SUBSCRIPTION_POPUP,
+                      data: {
+                        action: 'pauseSubscription',
+                        offerData: {
+                          ...subscription
+                        }
+                      }
+                    })
+                  );
+                }}
+              >
+                {t('subscription-management.resume-button', 'Pause')}
+              </FullWidthButtonStyled>
+            )}
+          </ActionButtonsWrapperStyled>
           {status !== 'cancelled' && (
             <CouponWrapStyled>
               <CouponInput

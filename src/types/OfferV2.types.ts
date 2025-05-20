@@ -73,6 +73,9 @@ export type OfferV2 = {
   localizations: Localization[];
   sessionsLimit: number;
   giftable: boolean;
+  pause?: {
+    maxBillingCycles: number;
+  };
 };
 
 export default OfferV2;

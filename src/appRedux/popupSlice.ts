@@ -10,6 +10,7 @@ import {
 export const POPUP_TYPES = {
   UPDATE_SUBSCRIPTION_POPUP: 'updateSubscription',
   SWITCH_PLAN_POPUP: 'switchPlan',
+  PAUSE_SUBSCRIPTION_POPUP: 'pauseSubscription',
   RESUME_SUBSCRIPTION_POPUP: 'resumeSubscription',
   CANCEL_SWITCH_POPUP: 'cancelSwitch',
   EDIT_DELIVERY_DETAILS_POPUP: 'editDeliveryDetails',
@@ -32,6 +33,7 @@ export const initialState: PopupManagerInitialState = {
   switchPlan: null,
   cancelSwitch: null,
   resumeSubscription: null,
+  pauseSubscription: null,
   editDeliveryDetails: {
     giftId: null,
     offerId: '',

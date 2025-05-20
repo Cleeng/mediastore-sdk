@@ -5,7 +5,7 @@ import {
   selectCustomerSwitchesHistory
 } from 'appRedux/planDetailsSlice';
 import { selectOffers } from 'appRedux/offersSlice';
-import { useTranslation } from 'react-i18next';
+import { Trans, useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price, { isPromoPriceActive } from 'components/Price';
 import SkeletonWrapper from 'components/SkeletonWrapper';
@@ -67,7 +67,8 @@ const OfferMyAccountCard = ({
     expiresAt,
     period,
     status,
-    isExternallyManaged
+    isExternallyManaged,
+    pause
   } =
     currentPlan.find(
       (sub: CustomerOffer) =>
@@ -98,7 +99,32 @@ const OfferMyAccountCard = ({
       fromOfferId === offerId
   );
 
+  const now = Math.floor(Date.now() / 1000);
+  const isSubscriptionPauseScheduled = pause && now < pause?.pauseDate;
+  const isSubscriptionPaused =
+    pause && now >= pause?.pauseDate && now < pause?.resumeDate;
+
   const getExpirationDescription = () => {
+    if (offerType === 'S' && isSubscriptionPaused) {
+      return (
+        <Trans i18nKey='currentplan.subscription.pause-info'>
+          Subscription is currently paused. It will resume automatically on{' '}
+          {{ resumeDate: dateFormat(pause.resumeDate) }}. You can{' '}
+          <strong>resume your subscription</strong> at any time.
+        </Trans>
+      );
+    }
+
+    if (offerType === 'S' && isSubscriptionPauseScheduled) {
+      return (
+        <Trans i18nKey='currentplan.subscription.pause-scheduled-info'>
+          Your subscription will automatically pause on{' '}
+          {{ pauseDate: dateFormat(pause.pauseDate) }}. You can{' '}
+          <strong>resume your subscription</strong> at any time.
+        </Trans>
+      );
+    }
+
     const renewalDate =
       expiresAt === INFINITE_DATE
         ? t('currentplan.next-season-start', 'the next season start')

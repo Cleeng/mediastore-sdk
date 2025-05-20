@@ -1,4 +1,5 @@
 import { PaymentDetail } from 'api/Customer/types';
+import { CurrencyFormat } from 'util/planHelper';
 import { PAYMENT_DETAILS_STEPS, POPUP_TYPES } from '../popupSlice';
 
 type Keys = keyof typeof PAYMENT_DETAILS_STEPS;
@@ -36,7 +37,7 @@ export type SubscriptionOffer = {
   startedAt: number;
   expiresAt: number;
   nextPaymentPrice: number;
-  nextPaymentCurrency: string;
+  nextPaymentCurrency: CurrencyFormat;
   nextPaymentAt: number;
   paymentGateway: string;
   paymentMethod: string;
@@ -86,6 +87,10 @@ type ResumeSubscription = {
   offerData: SwitchSettings;
 };
 
+type PauseSubscription = {
+  offerData: SubscriptionOffer;
+};
+
 type EditDeliveryDetails = {
   giftId: number | null;
   offerId: string;
@@ -100,6 +105,7 @@ export type PopupManagerInitialState = {
   switchPlan: SwitchPlan | null;
   cancelSwitch: CancelSwitch | null;
   resumeSubscription: ResumeSubscription | null;
+  pauseSubscription: PauseSubscription | null;
   paymentDetails: PaymentDetails;
   editDeliveryDetails: EditDeliveryDetails;
 };
