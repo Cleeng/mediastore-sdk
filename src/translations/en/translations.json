@@ -619,5 +619,10 @@
   "Yes, I want to receive Cleeng updates by email.": "Yes, I want to receive Cleeng updates by email.",
   "You will be charged {{price}}exTax after {{period}}.": "You will be charged {{price}}exTax after {{period}}.",
   "Your <1>{{offerTitle}}</1>": "Your <1>{{offerTitle}}</1>",
-  "Your coupon has been applied! Enjoy your {{discount}}% discount.": ""
+  "Your coupon has been applied! Enjoy your {{discount}}% discount.": "",
+  "currentplan.subscription.pause-scheduled-info": "Your subscription will automatically pause on {{pauseDate}}. You can <strong>resume your subscription</strong> at any time.",
+  "currentplan.subscription.pause-info": "Subscription is currently paused. It will resume automatically on {{resumeDate}}. You can <strong>resume your subscription</strong> at any time.",
+  "pausesubscription-popup.details.info": "You will continue to have access to <strong>{{ offerTitle }}</strong> until <strong>{{ expireDate }}</strong>. From that time your subscription will be paused, and you won't be charged for a specific number of billing cycles. After that, your subscription will automatically resume, and you will be charged <strong>{{ price }}</strong> on a recurring basis, until you cancel. You can manually resume the subscription at any moment.",
+  "pausesubscription-popup.details.question": "Your subscription will be automatically resumed after <strong>{{ selectedBillingCycles }}</strong> billing cycles",
+  "pausesubscription-popup.confirmation.info": "You will continue to have access to your subscription through your current billing cycle. The pause will go into effect on <strong>{{ pauseStartingDate }}</strong>"
 }

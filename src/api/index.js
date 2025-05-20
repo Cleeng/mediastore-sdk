@@ -35,6 +35,7 @@ import verifyGift from './Gifts/verifyGift';
 import redeemGift from './Gifts/redeemGift';
 import getAdyenPaymentMethods from './Payment/getAdyenPaymentMethods';
 import getCustomerSwitchesHistory from './Customer/getCustomerSwitchesHistory';
+import pauseSubscription from './Customer/pauseSubscription';
 
 export {
   getPaymentDetails,
@@ -73,5 +74,6 @@ export {
   verifyGift,
   redeemGift,
   getAdyenPaymentMethods,
-  getCustomerSwitchesHistory
+  getCustomerSwitchesHistory,
+  pauseSubscription
 };

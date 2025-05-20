@@ -4,6 +4,7 @@ import UpdateSubscription from 'components/UpdateSubscription/UpdateSubscription
 import SwitchPlanPopup from 'components/SwitchPlanPopup';
 import ResumeSubscriptionPopup from 'components/ResumeSubscriptionPopup';
 import CancelSwitchPopup from 'components/CancelSwitchPopup';
+import PauseSubscriptionPopup from 'components/PauseSubscriptionPopup';
 import { PlanDetailsPopupManagerProps } from './PlanDetailsPopupManager.types';
 
 const PlanDetailsPopupManager = ({
@@ -37,6 +38,8 @@ const PlanDetailsPopupManager = ({
       );
     case POPUP_TYPES.RESUME_SUBSCRIPTION_POPUP:
       return <ResumeSubscriptionPopup />;
+    case POPUP_TYPES.PAUSE_SUBSCRIPTION_POPUP:
+      return <PauseSubscriptionPopup />;
     case POPUP_TYPES.CANCEL_SWITCH_POPUP:
       return <CancelSwitchPopup />;
     default:

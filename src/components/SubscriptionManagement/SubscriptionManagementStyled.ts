@@ -107,3 +107,8 @@ export const CouponWrapStyled = styled.div`
   justify-content: flex-end;
   width: 100%;
 `;
+
+export const ActionButtonsWrapperStyled = styled.div`
+  display: flex;
+  gap: 8px;
+`;
