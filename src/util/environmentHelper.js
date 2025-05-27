@@ -9,6 +9,14 @@ const ENVIRONMENTS = {
 
 const getApiURL = () => {
   const environment = getData('CLEENG_ENVIRONMENT');
+
+  console.log('###### mssdk getApiUrl', {
+    pureLocalStorageEnv: localStorage.getItem('CLEENG_ENVIRONMENT'),
+    getDataEnv: environment,
+    publisherIdPure: localStorage.getItem('CLEENG_PUBLISHER_ID'),
+    publisherIdProper: getData('CLEENG_PUBLISHER_ID')
+  });
+
   switch (environment) {
     case 'development':
       return ENVIRONMENTS.DEVELOPMENT;

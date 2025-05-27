@@ -35,11 +35,23 @@ const assignKeysToPublisherId = () => {
 };
 
 const getStorageKey = (keyName) => {
+  console.log('########## mssdk getStorageKey 11111', {
+    keyName,
+    hasPublisherIdBeenSet
+  });
+
   if (!hasPublisherIdBeenSet) {
     return keyName;
   }
 
   const publisherId = localStorage.getItem('CLEENG_PUBLISHER_ID');
+
+  console.log('########## mssdk getStorageKey 222222', {
+    keyName,
+    hasPublisherIdBeenSet,
+    publisherId,
+    result: publisherId ? `${publisherId}_${keyName}` : keyName
+  });
 
   return publisherId ? `${publisherId}_${keyName}` : keyName;
 };
@@ -58,6 +70,12 @@ const isLocalStorageAvailable = () => {
 };
 
 export const getData = (name) => {
+  console.log('######### mssdk getData called', {
+    name,
+    result: localStorage.getItem(getStorageKey(name)),
+    environment: localStorage.getItem(getStorageKey('CLEENG_ENVIRONMENT'))
+  });
+
   const result = isLocalStorageAvailable()
     ? localStorage.getItem(getStorageKey(name))
     : store.getState().appConfig[name];
@@ -101,8 +119,11 @@ export const setPublisher = (publisherId) => {
     hasPublisherIdBeenSet = true;
 
     if (isLocalStorageAvailable()) {
+      console.log('########### mssdk setpublisher called', { publisherId });
+
       localStorage.setItem('CLEENG_PUBLISHER_ID', publisherId);
       assignKeysToPublisherId();
+      console.log('########### mssdk assigning finished', { publisherId });
     } else {
       store.dispatch(
         setDataInRedux({ name: 'CLEENG_PUBLISHER_ID', value: publisherId })
