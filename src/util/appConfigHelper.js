@@ -35,7 +35,7 @@ const assignKeysToPublisherId = () => {
 };
 
 const getStorageKey = (keyName) => {
-  if (!hasPublisherIdBeenSet) {
+  if (!hasPublisherIdBeenSet || keyName === 'CLEENG_PUBLISHER_ID') {
     return keyName;
   }
 
