@@ -11,17 +11,14 @@ import {
 } from 'appRedux/publisherConfigSlice';
 
 let hasPublisherIdBeenSet = false;
+const NON_PREFIXED_KEYS = ['CLEENG_PUBLISHER_ID', 'CLEENG_LS'];
 
 const assignKeysToPublisherId = () => {
   const entriesToUpdate = [];
 
   for (let keyIndex = 0; keyIndex <= localStorage.length - 1; keyIndex += 1) {
     const key = localStorage.key(keyIndex);
-    if (
-      key !== 'CLEENG_PUBLISHER_ID' &&
-      key !== 'CLEENG_LS' &&
-      key?.startsWith('CLEENG_')
-    ) {
+    if (!NON_PREFIXED_KEYS.includes(key) && key?.startsWith('CLEENG_')) {
       const value = localStorage.getItem(key);
 
       entriesToUpdate.push({ key, value });
@@ -35,7 +32,7 @@ const assignKeysToPublisherId = () => {
 };
 
 const getStorageKey = (keyName) => {
-  if (!hasPublisherIdBeenSet || keyName === 'CLEENG_PUBLISHER_ID') {
+  if (!hasPublisherIdBeenSet || NON_PREFIXED_KEYS.includes(keyName)) {
     return keyName;
   }
 
