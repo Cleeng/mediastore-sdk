@@ -1,55 +1,60 @@
-import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import {
   selectCurrentPlan,
-  selectSwitchDetails
+  selectPendingSwitchesDetails,
+  selectCustomerSwitchesHistory
 } from 'appRedux/planDetailsSlice';
 import { selectOffers } from 'appRedux/offersSlice';
-import { Trans, useTranslation } from 'react-i18next';
+import { useTranslation } from 'react-i18next';
 import SubscriptionIcon from 'components/SubscriptionIcon';
 import Price, { isPromoPriceActive } from 'components/Price';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import EditBlockedIcon from 'assets/images/noEdit.svg';
 import DowngradeIcon from 'assets/images/downgrade_pending.svg';
 import UpgradeIcon from 'assets/images/upgrade_pending.svg';
-import PauseIcon from 'assets/images/pause_noti.svg';
 import {
   dateFormat,
   INFINITE_DATE,
   currencyFormat,
   CurrencyFormat
 } from 'util/planHelper';
-import getSwitches from 'api/Customer/getSwitches';
 import { CustomerOffer } from 'api/Customer/types';
 import { showPopup, POPUP_TYPES } from 'appRedux/popupSlice';
 import eventDispatcher, {
   MSSDK_CANCEL_SWITCH_BUTTON_CLICKED
 } from 'util/eventDispatcher';
 import { SwitchDetail } from 'appRedux/types';
-import { selectOffer } from 'appRedux/offerSlice';
 import OfferV2 from 'types/OfferV2.types';
+import { selectOffer } from 'appRedux/offerSlice';
 import {
   WrapperStyled,
   InnerWrapper,
   TitleStyled,
   DescriptionStyled,
-  PriceWrapperStyled,
   SubBoxStyled,
   BoxTextStyled,
   SubBoxButtonStyled,
-  SubBoxContentStyled
+  SubBoxContentStyled,
+  PriceWrapperStyled
 } from './OfferMyAccountCardStyled';
 import { OfferMyAccountCardProps } from './OfferMyAccountCard.types';
 
-const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
+const OfferMyAccountCard = ({
+  offerId,
+  subscriptionId
+}: OfferMyAccountCardProps) => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const [switches, setSwitches] = useState<SwitchDetail[]>([]);
-
   const { data: currentPlan, loading } = useAppSelector(selectCurrentPlan);
-  const { pauseOffersIDs, offers } = useAppSelector(selectOffers);
-  const { data: switchDetailsStore } = useAppSelector(selectSwitchDetails);
+  const { offers } = useAppSelector(selectOffers);
+  const { data: pendingSwitchesDetails } = useAppSelector(
+    selectPendingSwitchesDetails
+  );
+  const { data: customerSwitchesHistory } = useAppSelector(
+    selectCustomerSwitchesHistory
+  );
+
   const {
     offerType,
     offerTitle,
@@ -64,64 +69,40 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     status,
     isExternallyManaged
   } =
-    currentPlan.find((sub: CustomerOffer) => sub.offerId === offerId) ||
-    ({} as CustomerOffer);
+    currentPlan.find(
+      (sub: CustomerOffer) =>
+        sub.offerId === offerId && sub.subscriptionId === subscriptionId
+    ) ?? ({} as CustomerOffer);
 
   const {
     offerV2: { price }
   } = useAppSelector(selectOffer);
   const priceRules = price?.rules;
 
-  useEffect(() => {
-    const getCustomerSwitches = async () => {
-      const customerSwitches = await getSwitches();
-      setSwitches(customerSwitches);
-    };
-
-    getCustomerSwitches();
-  }, []);
-
   const currency =
     currencyFormat[
-      (nextPaymentCurrency || customerCurrency) as keyof Record<
+      (nextPaymentCurrency ?? customerCurrency) as keyof Record<
         CurrencyFormat,
         string
       >
     ]; // use customerCurrency for passes
 
   const pendingSwitchDetails = pendingSwitchId
-    ? switchDetailsStore[pendingSwitchId]
+    ? pendingSwitchesDetails[pendingSwitchId]
     : ({} as SwitchDetail);
 
-  const isUpgradePending = switches.find(
-    ({ status: switchStatus, direction }) =>
-      switchStatus === 'inprogress' && direction === 'upgrade'
+  const isUpgradePending = customerSwitchesHistory.find(
+    ({ status: switchStatus, direction, fromOfferId }) =>
+      switchStatus === 'inprogress' &&
+      direction === 'upgrade' &&
+      fromOfferId === offerId
   );
-
-  // PAUSE FEATURE
-  const isPaused = pauseOffersIDs.includes(offerId);
-  const isPauseInProgress = pendingSwitchDetails
-    ? pauseOffersIDs?.includes(pendingSwitchDetails?.toOfferId)
-    : false;
 
   const getExpirationDescription = () => {
     const renewalDate =
       expiresAt === INFINITE_DATE
         ? t('currentplan.next-season-start', 'the next season start')
         : dateFormat(expiresAt);
-
-    if (isPaused) {
-      return (
-        <Trans
-          i18nKey='currentplan.subscription.pause-info'
-          values={{ pauseRenewalDate: 'January 10, 2025' }}
-        >
-          {
-            'Your subscription is currently paused. It will resume on <strong>{{pauseRenewalDate}}</strong>. You can resume or cancel your subscription at any time prior to that date.'
-          }
-        </Trans>
-      );
-    }
 
     if (offerType === 'S' && status === 'active' && !pendingSwitchId) {
       return `${t(
@@ -159,21 +140,9 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
 
     const { fromOfferId, toOfferId } = pendingSwitchDetails;
     const toOfferIdTitle =
-      offers.find(({ longId }: OfferV2) => longId === toOfferId)?.title || '';
+      offers.find(({ longId }: OfferV2) => longId === toOfferId)?.title ?? '';
     const translatedTitle = t(`offer-title-${fromOfferId}`, offerTitle);
     const translatedSwitchTitle = t(`offer-title-${toOfferId}`, toOfferIdTitle);
-
-    // PAUSE FEATURE
-    if (isPauseInProgress) {
-      return t(
-        'offer-card.info-box.pause-information-text',
-        'Your current plan will be paused starting on {{subscriptionExpirationDate}}. While your subscription is paused, you won’t be charged for, and you won’t have access to, {{ translatedTitle }}. You can cancel this pause request at any time.',
-        {
-          subscriptionExpirationDate,
-          translatedTitle
-        }
-      );
-    }
 
     const { algorithm, direction } = pendingSwitchDetails;
 
@@ -246,9 +215,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
 
     dispatch(
       showPopup({
-        type: isPauseInProgress
-          ? POPUP_TYPES.CANCEL_PAUSE_POPUP
-          : POPUP_TYPES.CANCEL_SWITCH_POPUP,
+        type: POPUP_TYPES.CANCEL_SWITCH_POPUP,
         data: {
           pendingSwitchId,
           switchDirection: pendingSwitchDetails.direction,
@@ -268,7 +235,6 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
   };
 
   const getIcon = () => {
-    if (isPauseInProgress) return PauseIcon;
     if (pendingSwitchDetails?.direction === 'downgrade') return DowngradeIcon;
     if (pendingSwitchDetails?.direction === 'upgrade' || isUpgradePending)
       return UpgradeIcon;
@@ -283,7 +249,7 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
     <>
       <WrapperStyled>
         <SkeletonWrapper showChildren={!loading} width={50} height={50}>
-          <SubscriptionIcon period={period || offerType} isPaused={isPaused} />
+          <SubscriptionIcon period={period ?? offerType} />
         </SkeletonWrapper>
         <InnerWrapper>
           <SkeletonWrapper
@@ -305,25 +271,24 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
             )}
           </SkeletonWrapper>
         </InnerWrapper>
-        {!isPaused && (
-          <PriceWrapperStyled>
-            <SkeletonWrapper showChildren={!loading} width={80} height={30}>
-              {period && (
-                <Price
-                  currency={currency}
-                  nextPaymentPrice={nextPaymentPrice}
-                  totalPrice={totalPrice}
-                  period={
-                    period !== 'season'
-                      ? t(`offer-price.period-${period}`, period)
-                      : null
-                  }
-                  isPromoPriceActive={isPromoPriceActive(priceRules)}
-                />
-              )}
-            </SkeletonWrapper>
-          </PriceWrapperStyled>
-        )}
+
+        <PriceWrapperStyled>
+          <SkeletonWrapper showChildren={!loading} width={80} height={30}>
+            {period && (
+              <Price
+                currency={currency}
+                nextPaymentPrice={nextPaymentPrice}
+                totalPrice={totalPrice}
+                period={
+                  period !== 'season'
+                    ? t(`offer-price.period-${period}`, period)
+                    : null
+                }
+                isPromoPriceActive={isPromoPriceActive(priceRules)}
+              />
+            )}
+          </SkeletonWrapper>
+        </PriceWrapperStyled>
       </WrapperStyled>
 
       {switchDescription && (
@@ -339,12 +304,10 @@ const OfferMyAccountCard = ({ offerId }: OfferMyAccountCardProps) => {
             {pendingSwitchId &&
               pendingSwitchDetails?.algorithm === 'DEFERRED' && (
                 <SubBoxButtonStyled onClick={handleCancelSwitch}>
-                  {isPauseInProgress
-                    ? t('offer-card.cancel-pause-button', 'Cancel pause')
-                    : t(
-                        `offer-card.cancel-${pendingSwitchDetails.direction}`,
-                        `Cancel ${pendingSwitchDetails.direction}`
-                      )}
+                  {t(
+                    `offer-card.cancel-${pendingSwitchDetails.direction}`,
+                    `Cancel ${pendingSwitchDetails.direction}`
+                  )}
                 </SubBoxButtonStyled>
               )}
           </SubBoxContentStyled>

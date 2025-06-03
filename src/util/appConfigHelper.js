@@ -10,11 +10,42 @@ import {
   updateHiddenPaymentMethods
 } from 'appRedux/publisherConfigSlice';
 
+let hasPublisherIdBeenSet = false;
+const NON_PREFIXED_KEYS = ['CLEENG_PUBLISHER_ID', 'CLEENG_LS'];
+
+const assignKeysToPublisherId = () => {
+  const entriesToUpdate = [];
+
+  for (let keyIndex = 0; keyIndex <= localStorage.length - 1; keyIndex += 1) {
+    const key = localStorage.key(keyIndex);
+    if (!NON_PREFIXED_KEYS.includes(key) && key?.startsWith('CLEENG_')) {
+      const value = localStorage.getItem(key);
+
+      entriesToUpdate.push({ key, value });
+    }
+  }
+
+  entriesToUpdate.forEach(({ key, value }) => {
+    localStorage.removeItem(key);
+    setData(key, value);
+  });
+};
+
+const getStorageKey = (keyName) => {
+  if (!hasPublisherIdBeenSet || NON_PREFIXED_KEYS.includes(keyName)) {
+    return keyName;
+  }
+
+  const publisherId = localStorage.getItem('CLEENG_PUBLISHER_ID');
+
+  return publisherId ? `${publisherId}_${keyName}` : keyName;
+};
+
 const isLocalStorageAvailable = () => {
   try {
-    localStorage.setItem('CLEENG_LS', 'yes');
-    if (localStorage.getItem('CLEENG_LS') === 'yes') {
-      localStorage.removeItem('CLEENG_LS');
+    localStorage.setItem(getStorageKey('CLEENG_LS'), 'yes');
+    if (localStorage.getItem(getStorageKey('CLEENG_LS')) === 'yes') {
+      localStorage.removeItem(getStorageKey('CLEENG_LS'));
       return true;
     }
     return false;
@@ -25,9 +56,9 @@ const isLocalStorageAvailable = () => {
 
 export const getData = (name) => {
   const result = isLocalStorageAvailable()
-    ? localStorage.getItem(name)
+    ? localStorage.getItem(getStorageKey(name))
     : store.getState().appConfig[name];
-  if (!result && name === 'CLEENG_AUTH_TOKEN') {
+  if (!result && getStorageKey(name) === 'CLEENG_AUTH_TOKEN') {
     // eslint-disable-next-line no-console
     console.error(
       `Unable to get CLEENG_AUTH_TOKEN from local storage or redux store`
@@ -39,12 +70,12 @@ export const getData = (name) => {
 
 export const setData = (name, value) =>
   isLocalStorageAvailable()
-    ? localStorage.setItem(name, value)
+    ? localStorage.setItem(getStorageKey(name), value)
     : store.dispatch(setDataInRedux({ name, value }));
 
 export const removeData = (name) =>
   isLocalStorageAvailable()
-    ? localStorage.removeItem(name)
+    ? localStorage.removeItem(getStorageKey(name))
     : store.dispatch(removeDataFromRedux({ name }));
 
 export const setJWT = (jwt) => {
@@ -64,7 +95,17 @@ export const setRefreshToken = (refreshToken) => {
 
 export const setPublisher = (publisherId) => {
   if (publisherId) {
-    setData('CLEENG_PUBLISHER_ID', publisherId);
+    hasPublisherIdBeenSet = true;
+
+    if (isLocalStorageAvailable()) {
+      localStorage.setItem('CLEENG_PUBLISHER_ID', publisherId);
+      assignKeysToPublisherId();
+    } else {
+      store.dispatch(
+        setDataInRedux({ name: 'CLEENG_PUBLISHER_ID', value: publisherId })
+      );
+    }
+
     store.dispatch(initPublisherConfig({ publisherId }));
     return true;
   }

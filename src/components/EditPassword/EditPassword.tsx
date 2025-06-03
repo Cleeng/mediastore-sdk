@@ -20,7 +20,7 @@ import {
 import { EditPasswordProps } from './EditPassword.types';
 
 const EditPassword = ({
-  hideInnerPopup,
+  hidePopup,
   customerEmail,
   handleLogout
 }: EditPasswordProps) => {
@@ -51,8 +51,8 @@ const EditPassword = ({
 
       const response = await resetPassword(
         customerEmail,
-        String(publisherId),
-        resetUrl
+        resetUrl,
+        String(publisherId)
       );
       if (!response.errors.length) {
         renderNextStep();
@@ -89,7 +89,7 @@ const EditPassword = ({
             </TextStyled>
           </ContentStyled>
           <ButtonWrapperStyled>
-            <Button variant='simple' onClickFn={() => hideInnerPopup()}>
+            <Button variant='simple' onClickFn={() => hidePopup()}>
               {t('edit-password.button.no-thanks', 'No, thanks')}
             </Button>
             <Button variant='confirm' onClickFn={handleResetPassword}>

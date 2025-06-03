@@ -7,7 +7,6 @@ import { UpdateSubscriptionProps } from './UpdateSubscription.types';
 const UpdateSubscription = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
-  skipAvailableFreeExtensionStep,
   skipCancellationSurveyStep
 }: UpdateSubscriptionProps) => {
   const { updateSubscription } = useAppSelector((state) => state.popupManager);
@@ -18,7 +17,6 @@ const UpdateSubscription = ({
         <Unsubscribe
           customCancellationReasons={customCancellationReasons}
           skipAvailableDowngradesStep={skipAvailableDowngradesStep}
-          skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
           skipCancellationSurveyStep={skipCancellationSurveyStep}
         />
       );

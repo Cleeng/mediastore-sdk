@@ -1,5 +1,4 @@
 import { PaymentDetail } from 'api/Customer/types';
-import { RetentionActions } from './retentionActionsSlice.types';
 import { PAYMENT_DETAILS_STEPS, POPUP_TYPES } from '../popupSlice';
 
 type Keys = keyof typeof PAYMENT_DETAILS_STEPS;
@@ -8,11 +7,12 @@ type Steps = (typeof PAYMENT_DETAILS_STEPS)[Keys];
 type PopupTypesKeys = keyof typeof POPUP_TYPES;
 type PopupTypes = (typeof POPUP_TYPES)[PopupTypesKeys];
 
-type PaymentDetails = {
+export type PaymentDetails = {
   isOpen: boolean;
   isLoading: boolean;
   step: Steps;
   initPaymentMethod: PaymentDetail | null;
+  errorMessage?: string;
 };
 
 type IsOpen = {
@@ -66,7 +66,6 @@ type SwitchSettings = {
 export type UpdateSubscription = {
   action: string;
   offerData: SubscriptionOffer;
-  retentionActions: RetentionActions;
 };
 
 type SwitchPlan = {
@@ -74,21 +73,7 @@ type SwitchPlan = {
   isPartOfCancellationFlow?: boolean;
 };
 
-type PauseSubscription = {
-  offerData: SwitchSettings;
-  isPartOfCancellationFlow?: boolean;
-};
-
 type CancelSwitch = {
-  pendingSwitchId: string;
-  switchDirection: string;
-  switchOfferTitle: string;
-  baseOfferTitle: string;
-  baseOfferExpirationDate: number;
-  baseOfferPrice: string;
-};
-
-type CancelPause = {
   pendingSwitchId: string;
   switchDirection: string;
   switchOfferTitle: string;
@@ -113,9 +98,7 @@ export type PopupManagerInitialState = {
   currentType: PopupTypes | null;
   updateSubscription: UpdateSubscription | null;
   switchPlan: SwitchPlan | null;
-  pauseSubscription: PauseSubscription | null;
   cancelSwitch: CancelSwitch | null;
-  cancelPause: CancelPause | null;
   resumeSubscription: ResumeSubscription | null;
   paymentDetails: PaymentDetails;
   editDeliveryDetails: EditDeliveryDetails;
@@ -129,9 +112,7 @@ export type PopupData = {
   data:
     | UpdateSubscription
     | SwitchPlan
-    | PauseSubscription
     | CancelSwitch
-    | CancelPause
     | ResumeSubscription
     | EditDeliveryDetails;
 };

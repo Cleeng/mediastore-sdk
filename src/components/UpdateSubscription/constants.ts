@@ -32,8 +32,6 @@ export const DEFAULT_CANCELLATION_REASONS = [
 // This is a bug in ESLint, it should not be throwing an error here
 // eslint-disable-next-line no-shadow
 export enum STEPS {
-  FREE_EXTENSION = 'FREE_EXTENSION',
-  PAUSE = 'PAUSE',
   DOWNGRADES = 'DOWNGRADES',
   SURVEY = 'SURVEY',
   CONFIRMATION = 'CONFIRMATION'

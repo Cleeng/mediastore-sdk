@@ -212,7 +212,10 @@ const UpdatePaymentDetailsPopup = () => {
     if (errors.length) {
       eventDispatcher(MSSDK_UPDATE_PAYMENT_DETAILS_FAILED);
       dispatch(
-        updatePaymentDetailsPopup({ step: PAYMENT_DETAILS_STEPS.ERROR })
+        updatePaymentDetailsPopup({
+          step: PAYMENT_DETAILS_STEPS.ERROR,
+          errorMessage: errors[0]
+        })
       );
       return;
     }
