@@ -6,6 +6,8 @@ import { OffersInitialState } from './types';
 
 const initialState: OffersInitialState = {
   offers: [],
+  pauseOffers: [],
+  pauseOffersIDs: [],
   loading: false,
   error: null
 };
@@ -37,6 +39,14 @@ export const offersSlice = createSlice({
     builder.addCase(fetchOffers.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.offers = payload;
+      state.pauseOffers = payload.filter(
+        ({ externalProperties }) => externalProperties.PAUSE_OFFER === 'true'
+      );
+      state.pauseOffersIDs = payload
+        .filter(
+          ({ externalProperties }) => externalProperties.PAUSE_OFFER === 'true'
+        )
+        .map((item) => item.longId);
     });
     builder.addCase(fetchOffers.rejected, (state, { payload }) => {
       state.loading = false;

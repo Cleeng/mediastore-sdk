@@ -7,7 +7,8 @@ import SectionHeader from 'components/SectionHeader';
 import SubscriptionSwitchesList from 'components/SubscriptionSwitchesList';
 import MyAccountError from 'components/MyAccountError';
 import PlanDetailsPopupManager from 'components/PlanDetailsPopupManager';
-import { showPopup, hidePopup, POPUP_TYPES } from 'appRedux/popupSlice';
+import { showPopup, hidePopup } from 'appRedux/popupSlice';
+import { POPUP_TYPES } from 'appRedux/innerPopupReducer';
 import { fetchOffers } from 'appRedux/offersSlice';
 
 import {
@@ -73,7 +74,7 @@ const SubscriptionSwitches = ({
       if (!toOfferData) return;
       dispatch(
         showPopup({
-          type: POPUP_TYPES.SWITCH_PLAN_POPUP,
+          type: POPUP_TYPES.switchPlan,
           data: {
             offerData: {
               ...toOfferData

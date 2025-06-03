@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getCustomer, getCaptureStatus, getCustomerConsents } from 'api';
-import { POPUP_TYPES } from 'appRedux/popupSlice';
+import { POPUP_TYPES } from 'appRedux/innerPopupReducer';
 import { isCustomSetting } from 'util/capture';
 import SectionHeader from 'components/SectionHeader';
 import ProfileDetails from 'components/ProfileDetails';
@@ -24,9 +24,9 @@ const UpdateProfile = ({
   setConsents,
   setUserCapture,
   updateCaptureOption,
-  showPopup,
-  hidePopup,
-  popupManager,
+  showInnerPopup,
+  hideInnerPopup,
+  innerPopup,
   initPublisherConfig,
   handleLogout,
   displayGracePeriodError
@@ -139,9 +139,9 @@ const UpdateProfile = ({
   return (
     <WrapperStyled>
       <GracePeriodError />
-      {popupManager.isOpen && popupManager.currentType === 'editPassword' ? (
+      {innerPopup.isOpen && innerPopup.type === 'editPassword' ? (
         <EditPassword
-          hidePopup={hidePopup}
+          hideInnerPopup={hideInnerPopup}
           customerEmail={user?.email ?? ''}
           handleLogout={handleLogout}
         />
@@ -186,8 +186,8 @@ const UpdateProfile = ({
                   {t('updateprofile.header.password', 'Password')}
                 </SectionHeader>
                 <Password
-                  showPopup={() =>
-                    showPopup({ type: POPUP_TYPES.EDIT_PASSWORD })
+                  showInnerPopup={() =>
+                    showInnerPopup({ type: POPUP_TYPES.editPassword })
                   }
                 />
               </section>

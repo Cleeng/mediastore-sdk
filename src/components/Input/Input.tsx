@@ -21,7 +21,7 @@ type InputProps = {
   value: string;
   onChange: (value: string) => void;
   onBlur?: () => void;
-  error?: string | null;
+  error?: string | null | undefined;
   showVisibilityIcon?: boolean;
   handleClickShowPassword?: () => void;
   showPassword?: boolean;

@@ -155,12 +155,10 @@ export const DotStyled = styled.span`
   color: #727583cc;
 `;
 
-export const EditGiftStyled = styled.button`
+export const EditGiftStyled = styled.p`
   font-weight: 600;
   font-size: 12px;
   text-decoration: underline;
-  background: transparent;
-  border: none;
   color: ${(props) => props.theme.successColor || ConfirmColor};
 
   &:hover {

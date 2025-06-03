@@ -1,7 +1,7 @@
 import { fetchWithHeaders } from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-const resetPassword = async (customerEmail, resetUrl, publisherId = '') => {
+const resetPassword = async (customerEmail, publisherId = '', resetUrl) => {
   const API_URL = getApiURL();
   const url = `${API_URL}/customers/passwords`;
   try {

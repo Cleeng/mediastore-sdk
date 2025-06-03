@@ -3,22 +3,24 @@ import InnerPopupWrapper from 'components/InnerPopupWrapper';
 import { useAppSelector } from 'appRedux/store';
 import { selectUnsubscribe } from 'appRedux/unsubscribeSlice';
 import {
+  Pause,
   Downgrades,
   Survey,
-  Confirmation
+  Confirmation,
+  FreeExtension
 } from 'components/UpdateSubscription/components';
-import { selectPopupManager } from 'appRedux/popupSlice';
-import type { Props } from './Unsubscribe.types';
+import { Props } from './Unsubscribe.types';
 import { STEPS } from './constants';
+import useRetentionActions from './hooks/useRetentionActions';
 import useUnsubscribe from './hooks/useUnsubscribe';
 import useUnsubscribeSteps from './hooks/useUnsubscribeSteps';
 import useUnsubscribeImmediately from './hooks/useUnsubscribeImmediately';
-import useAvailableDowngrades from './hooks/useAvailableDowngrades';
 
 const Unsubscribe = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
-  skipCancellationSurveyStep
+  skipCancellationSurveyStep,
+  skipAvailableFreeExtensionStep
 }: Props) => {
   const { error: isError } = useAppSelector(selectUnsubscribe);
   const { t } = useTranslation();
@@ -29,32 +31,38 @@ const Unsubscribe = ({
     scheduledSwitch,
     setCheckedReason
   } = useUnsubscribe(skipCancellationSurveyStep);
-
-  const { updateSubscription } = useAppSelector(selectPopupManager);
-  const availableDowngrades = useAvailableDowngrades(
-    updateSubscription?.offerData?.offerId ?? ''
-  );
-
   const performUnsubscribe = async () => {
-    await handleUnsubscribe(showConfirmationStep);
+    await handleUnsubscribe(isPauseActive, showConfirmationStep);
   };
-
+  const {
+    downgradesWithoutPause,
+    isPauseActive,
+    pauseOffer,
+    shouldShowDowngrades,
+    shouldShowFreeExtension,
+    shouldShowPauseScreen
+  } = useRetentionActions({
+    scheduledSwitch,
+    skipAvailableDowngradesStep,
+    skipAvailableFreeExtensionStep
+  });
   const {
     currentStep,
     setCurrentStep,
     steps,
-    showConfirmationStep,
-    goToNextStep
+    isFreeExtensionSecondStep,
+    setIsFreeExtensionSecondStep,
+    goToNextStep,
+    showConfirmationStep
   } = useUnsubscribeSteps({
-    availableDowngrades,
-    skipAvailableDowngradesStep,
+    shouldShowDowngrades,
+    shouldShowFreeExtension,
+    shouldShowPauseScreen,
     skipCancellationSurveyStep
   });
 
   useUnsubscribeImmediately({
     skipCancellationSurveyStep,
-    availableDowngrades,
-    skipAvailableDowngradesStep,
     performUnsubscribe
   });
 
@@ -62,26 +70,34 @@ const Unsubscribe = ({
 
   return (
     <InnerPopupWrapper
-      steps={steps.length}
+      steps={isFreeExtensionSecondStep ? 2 : steps.length}
       popupTitle={t('unsubscribe-popup.title', 'Manage your plan')}
       isError={Boolean(isError)}
-      currentStep={steps.indexOf(currentStep) + 1}
+      currentStep={
+        isFreeExtensionSecondStep ? 2 : steps.indexOf(currentStep) + 1
+      }
     >
+      {currentStep === STEPS.FREE_EXTENSION && (
+        <FreeExtension
+          handleUnsubscribe={goToNextStep}
+          setIsFreeExtensionSecondStep={setIsFreeExtensionSecondStep}
+        />
+      )}
+      {currentStep === STEPS.PAUSE && !!pauseOffer && (
+        <Pause pauseOffer={pauseOffer} handleClick={goToNextStep} />
+      )}
       {currentStep === STEPS.DOWNGRADES && (
         <Downgrades
-          downgrades={availableDowngrades}
-          handleClick={
-            skipCancellationSurveyStep ? performUnsubscribe : goToNextStep
-          }
+          downgrades={downgradesWithoutPause}
+          handleClick={goToNextStep}
         />
       )}
       {currentStep === STEPS.SURVEY && (
         <Survey
           customCancellationReasons={customCancellationReasons}
           checkedReason={checkedReason}
-          shouldShowDowngrades={
-            !!availableDowngrades.length && !skipAvailableDowngradesStep
-          }
+          shouldShowDowngrades={shouldShowDowngrades}
+          shouldShowFreeExtension={shouldShowFreeExtension}
           handleCheckboxClick={setCheckedReason}
           setCurrentStep={setCurrentStep}
           scheduledSwitch={scheduledSwitch}

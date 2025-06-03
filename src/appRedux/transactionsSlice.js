@@ -29,6 +29,13 @@ export const transactionsSlice = createSlice({
   reducers: (create) => ({
     toggleTransactionList: create.reducer((state) => {
       state.isListExpanded = !state.isListExpanded;
+    }),
+    removePausedTransactions: create.reducer((state, { payload }) => {
+      state.transactions = state.transactions.filter(
+        ({ offerId }) => !payload.includes(offerId)
+      );
+      state.showToggleButton =
+        state.transactions.length > DEFAULT_TRANSACTIONS_NUMBER;
     })
   }),
   extraReducers: (builder) => {
@@ -53,5 +60,6 @@ export const transactionsSlice = createSlice({
   }
 });
 
-export const { toggleTransactionList } = transactionsSlice.actions;
+export const { toggleTransactionList, removePausedTransactions } =
+  transactionsSlice.actions;
 export default transactionsSlice.reducer;

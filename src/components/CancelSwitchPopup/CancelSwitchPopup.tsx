@@ -6,10 +6,7 @@ import Loader from 'components/Loader';
 import MyAccountError from 'components/MyAccountError';
 import { updateSwitch } from 'api';
 import checkmarkIconBase from 'assets/images/checkmarkBase';
-import {
-  updateList,
-  setPendingSwitchesDetails
-} from 'appRedux/planDetailsSlice';
+import { updateList, setSwitchDetails } from 'appRedux/planDetailsSlice';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { hidePopup } from 'appRedux/popupSlice';
 import { dateFormat, INFINITE_DATE } from 'util/planHelper';
@@ -26,7 +23,7 @@ const CancelSwitchPopup = () => {
   const dispatch = useAppDispatch();
 
   const { data: allSwitchDetails } = useAppSelector(
-    (state) => state.plan.pendingSwitchesDetails
+    (state) => state.plan.switchDetails
   );
   const { cancelSwitch } = useAppSelector((state) => state.popupManager);
 
@@ -47,8 +44,8 @@ const CancelSwitchPopup = () => {
 
     if (switchDetails) {
       setOfferIdsFallback({
-        fromOfferId: switchDetails.fromOfferId,
-        toOfferId: switchDetails.toOfferId
+        fromOfferId: switchDetails && switchDetails.fromOfferId,
+        toOfferId: switchDetails && switchDetails.toOfferId
       });
     }
   }, [cancelSwitch]);
@@ -69,8 +66,8 @@ const CancelSwitchPopup = () => {
   const switchDetails = allSwitchDetails[pendingSwitchId];
   const eventsPayload = {
     pendingSwitchId,
-    fromOfferId: switchDetails?.fromOfferId,
-    toOfferId: switchDetails?.toOfferId
+    fromOfferId: switchDetails && switchDetails.fromOfferId,
+    toOfferId: switchDetails && switchDetails.toOfferId
   };
 
   const baseOfferTitle = t(
@@ -94,10 +91,7 @@ const CancelSwitchPopup = () => {
       if (!resp.errors.length) {
         setIsLoading(false);
         dispatch(
-          setPendingSwitchesDetails({
-            details: { pendingSwitchId },
-            type: 'delete'
-          })
+          setSwitchDetails({ details: { pendingSwitchId }, type: 'delete' })
         );
         setStep(2);
         window.dispatchEvent(

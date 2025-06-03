@@ -157,11 +157,11 @@ function useRegisterForm({ onSuccess }: UseRegisterFormProps) {
 
     if (!response.code) {
       Auth.login(
+        false,
+        true,
         email,
         response?.responseData?.jwt,
         response?.responseData?.refreshToken,
-        false,
-        true,
         submitConsents,
         [consents, consentDefinitions],
         onSuccess

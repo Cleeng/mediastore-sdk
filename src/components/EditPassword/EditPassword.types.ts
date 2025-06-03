@@ -1,5 +1,5 @@
 export type EditPasswordProps = {
-  hidePopup: () => void;
+  hideInnerPopup: () => void;
   customerEmail: string;
   handleLogout: () => void;
 };

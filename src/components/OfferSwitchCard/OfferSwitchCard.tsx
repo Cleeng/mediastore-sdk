@@ -11,6 +11,7 @@ import {
   PeriodProperties,
   Period
 } from 'util/planHelper';
+import isPriceTemporaryModified from 'util/isPriceTemporaryModified';
 import { selectSwitchSettings } from 'appRedux/planDetailsSlice';
 import { SwitchSetting } from 'appRedux/types/planDetailsSlice.types';
 import { OfferSwitchCardProps } from './OfferSwitchCard.types';
@@ -126,7 +127,12 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
           >
             <Price
               currency={currency}
-              nextPaymentPrice={switchDetails.nextPaymentPrice}
+              nextPaymentPrice={
+                isPriceTemporaryModified(toOfferId) &&
+                switchDetails.algorithm !== 'DEFERRED'
+                  ? switchDetails.price
+                  : switchDetails.nextPaymentPrice
+              }
               totalPrice={switchDetails.price}
               period={
                 switchDetails.period !== 'season'

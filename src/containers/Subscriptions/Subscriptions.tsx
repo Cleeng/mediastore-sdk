@@ -23,6 +23,7 @@ import { SubscriptionsProps } from './Subscriptions.types';
 const Subscriptions = ({
   customCancellationReasons,
   skipAvailableDowngradesStep,
+  skipAvailableFreeExtensionStep,
   skipCancellationSurveyStep
 }: SubscriptionsProps) => {
   const { data: currentPlan } = useAppSelector(
@@ -91,6 +92,7 @@ const Subscriptions = ({
       <PlanDetailsPopupManager
         customCancellationReasons={customCancellationReasons}
         skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+        skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
         skipCancellationSurveyStep={skipCancellationSurveyStep}
       />
     );

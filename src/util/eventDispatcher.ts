@@ -48,7 +48,5 @@ export const MSSDK_GOOD_NEWS = 'MSSDK:good-news-page';
 export const MSSDK_PAYMENT = 'MSSDK:payment-page';
 export const UNSUBSCRIBE_ACTION_CONFIRMED =
   'MSSDK:unsubscribe-action-confirmed';
-export const UNSUBSCRIBE_ACTION_CANCELLED =
-  'MSSDK:unsubscribe-action-cancelled';
 
 export default eventDispatcher;

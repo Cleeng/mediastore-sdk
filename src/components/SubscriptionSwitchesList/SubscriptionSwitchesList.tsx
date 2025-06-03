@@ -21,9 +21,10 @@ import mapErrorToText from './helper';
 const SubscriptionSwitchesList = () => {
   const { t } = useTranslation();
 
-  const { data: pendingSwitchesDetails } = useAppSelector(
-    (state) => state.plan.pendingSwitchesDetails
+  const { data: switchDetails } = useAppSelector(
+    (state) => state.plan.switchDetails
   );
+  const { pauseOffersIDs } = useAppSelector((state) => state.offers);
   const { offerToSwitch } = useAppSelector((state) => state.plan);
 
   const {
@@ -36,11 +37,11 @@ const SubscriptionSwitchesList = () => {
 
   const switchSettings = allSwitchSettings[offerToSwitch?.offerId] || {};
   const fromOfferId = offerToSwitch?.offerId;
-  const pendingSwitchesToOfferIdsArray = Object.keys(
-    pendingSwitchesDetails
-  ).map((item) => {
-    return pendingSwitchesDetails[item].toOfferId;
-  });
+  const pendingSwitchesToOfferIdsArray = Object.keys(switchDetails).map(
+    (item) => {
+      return switchDetails[item].toOfferId;
+    }
+  );
   const EXTERNALLY_MANAGED_ERROR = 'Subscription is externally managed';
 
   const dispatch = useAppDispatch();
@@ -90,7 +91,15 @@ const SubscriptionSwitchesList = () => {
       )
     : [];
 
-  const unavailableSwitches = switchSettings.unavailable;
+  // Filter out the pause subscription
+  const availableFiltered = availableSorted?.filter(
+    (offer) => !pauseOffersIDs.includes(offer.toOfferId)
+  );
+  const unavailableFiltered = Array.isArray(switchSettings.unavailable)
+    ? switchSettings.unavailable.filter(
+        (offer) => !pauseOffersIDs.includes(offer.toOfferId)
+      )
+    : [];
 
   const allSwitchesBlocked = switchSettings.unavailableReason;
   if (allSwitchesBlocked) {
@@ -109,7 +118,7 @@ const SubscriptionSwitchesList = () => {
     );
   }
 
-  if (!availableSorted?.length && !unavailableSwitches?.length) {
+  if (!availableFiltered?.length && !unavailableFiltered?.length) {
     return (
       <MyAccountError
         icon={selectPlanIcon}
@@ -124,8 +133,8 @@ const SubscriptionSwitchesList = () => {
 
   return (
     <>
-      {!!availableSorted.length &&
-        availableSorted.map((subItem) => {
+      {!!availableFiltered.length &&
+        availableFiltered.map((subItem) => {
           return (
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
@@ -173,8 +182,8 @@ const SubscriptionSwitchesList = () => {
             </SubscriptionStyled>
           );
         })}
-      {!!unavailableSwitches.length &&
-        unavailableSwitches.map((subItem) => {
+      {!!unavailableFiltered.length &&
+        unavailableFiltered.map((subItem) => {
           return (
             <SubscriptionStyled key={subItem.toOfferId}>
               <OfferSwitchCard

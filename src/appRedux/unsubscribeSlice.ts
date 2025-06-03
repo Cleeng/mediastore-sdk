@@ -19,11 +19,11 @@ export const fetchUnsubscribe = createAsyncThunk<
   }
 >(
   'unsubscribe/fetchUnsubscribe',
-  async ({ offerId, checkedReason }, { rejectWithValue }) => {
+  async ({ offerId, isPauseActive, checkedReason }, { rejectWithValue }) => {
     try {
       const result = await updateSubscription({
         offerId,
-        status: 'cancelled',
+        status: isPauseActive ? 'terminated' : 'cancelled',
         cancellationReason: checkedReason
       });
 

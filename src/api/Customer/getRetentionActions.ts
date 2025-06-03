@@ -1,11 +1,10 @@
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
-import { SwitchDetail } from 'appRedux/types';
 
-const getCustomerSwitchesHistory = async (): Promise<SwitchDetail[]> => {
+const getRetentionActions = async (offerId: string) => {
   const API_URL = getApiURL();
 
-  const url = `${API_URL}/subscription_switches`;
+  const url = `${API_URL}/customers/retention_actions/${offerId}`;
   return fetchWithJWT(url, {
     method: 'GET'
   })
@@ -21,4 +20,4 @@ const getCustomerSwitchesHistory = async (): Promise<SwitchDetail[]> => {
     });
 };
 
-export default getCustomerSwitchesHistory;
+export default getRetentionActions;

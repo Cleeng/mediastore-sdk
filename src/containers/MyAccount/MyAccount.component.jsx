@@ -10,7 +10,7 @@ import MyAccountContent from 'components/MyAccountContent';
 import PlanDetails from 'containers/PlanDetails';
 import PaymentInfo from 'containers/PaymentInfo';
 import UpdateProfile from 'containers/UpdateProfile';
-import MyAccountConsentsPopup from 'components/MyAccountConsentsPopup/MyAccountConsentsPopup';
+import Popup from 'components/Popup/Popup';
 import Login from 'components/LoginPage/Login';
 
 import { getCustomer, getCustomerConsents } from 'api';
@@ -190,17 +190,17 @@ class MyAccount extends Component {
   }
 
   renderPopup(isOpen, type = '', consents = []) {
-    const { showMyAccountConsentsPopup, hideMyAccountConsentsPopup } =
-      this.props;
+    const { showPopup, hidePopup } = this.props;
     if (isOpen) {
-      showMyAccountConsentsPopup({ type, consents });
-    } else hideMyAccountConsentsPopup();
+      showPopup({ type, consents });
+    } else hidePopup();
   }
 
   renderMyAccountContent = () => {
     const {
       customCancellationReasons,
       skipAvailableDowngradesStep,
+      skipAvailableFreeExtensionStep,
       skipCancellationSurveyStep,
       myaccountState: { activeTab }
     } = this.props;
@@ -211,6 +211,7 @@ class MyAccount extends Component {
           <PlanDetails
             customCancellationReasons={customCancellationReasons}
             skipAvailableDowngradesStep={skipAvailableDowngradesStep}
+            skipAvailableFreeExtensionStep={skipAvailableFreeExtensionStep}
             skipCancellationSurveyStep={skipCancellationSurveyStep}
           />
         );
@@ -226,7 +227,7 @@ class MyAccount extends Component {
   render() {
     const {
       userProfile: { consentsError },
-      myAccountConsentsPopup: { isPopupShown },
+      popup: { isPopupShown },
       myaccountState: { activeTab }
     } = this.props;
 
@@ -234,11 +235,7 @@ class MyAccount extends Component {
       return <MyAccountError generalError fullHeight />;
     }
     if (isPopupShown) {
-      return (
-        <WrapperStyled>
-          <MyAccountConsentsPopup />
-        </WrapperStyled>
-      );
+      return <Popup />;
     }
     if (Auth.isLogged()) {
       return (
@@ -265,9 +262,9 @@ MyAccount.propTypes = {
   setConsents: PropTypes.func.isRequired,
   setConsentsError: PropTypes.func.isRequired,
   userProfile: PropTypes.objectOf(PropTypes.any),
-  myAccountConsentsPopup: PropTypes.objectOf(PropTypes.any),
-  showMyAccountConsentsPopup: PropTypes.func.isRequired,
-  hideMyAccountConsentsPopup: PropTypes.func.isRequired,
+  popup: PropTypes.objectOf(PropTypes.any),
+  showPopup: PropTypes.func.isRequired,
+  hidePopup: PropTypes.func.isRequired,
   customCancellationReasons: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
@@ -275,6 +272,7 @@ MyAccount.propTypes = {
     })
   ),
   skipAvailableDowngradesStep: PropTypes.bool,
+  skipAvailableFreeExtensionStep: PropTypes.bool,
   skipCancellationSurveyStep: PropTypes.bool,
   initPublisherConfig: PropTypes.func.isRequired,
   adyenConfiguration: PropTypes.objectOf(PropTypes.any),
@@ -287,9 +285,10 @@ MyAccount.propTypes = {
 MyAccount.defaultProps = {
   userProfile: { user: null },
   adyenConfiguration: null,
-  myAccountConsentsPopup: { isPopupShown: false },
+  popup: { isPopupShown: false },
   customCancellationReasons: null,
   skipAvailableDowngradesStep: false,
+  skipAvailableFreeExtensionStep: false,
   skipCancellationSurveyStep: false,
   displayGracePeriodError: null
 };

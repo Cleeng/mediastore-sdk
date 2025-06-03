@@ -12,9 +12,6 @@ import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { SwitchSetting } from 'appRedux/types';
 import OfferSwitchCard from 'components/OfferSwitchCard';
-import eventDispatcher, {
-  UNSUBSCRIBE_ACTION_CANCELLED
-} from 'util/eventDispatcher';
 
 const Downgrades = ({
   downgrades,
@@ -27,12 +24,8 @@ const Downgrades = ({
   const dispatch = useAppDispatch();
 
   const { updateSubscription } = useAppSelector(selectPopupManager);
-  const offerId = updateSubscription?.offerData?.offerId || '';
 
-  const handleBackToMyAccount = () => {
-    eventDispatcher(UNSUBSCRIBE_ACTION_CANCELLED);
-    dispatch(hidePopup());
-  };
+  const offerId = updateSubscription?.offerData?.offerId || '';
 
   return (
     <ContentStyled>
@@ -81,7 +74,7 @@ const Downgrades = ({
         {t('unsubscribe-popup.still-cancel', 'Still want to cancel?')}
       </TextStyled>
       <ButtonWrapperStyled $removeMargin>
-        <Button variant='simple' onClickFn={handleBackToMyAccount}>
+        <Button variant='simple' onClickFn={() => dispatch(hidePopup())}>
           {t('unsubscribe-popup.back-button', 'Back to My Account')}
         </Button>
         <Button variant='confirm' onClickFn={handleClick}>

@@ -44,7 +44,7 @@ class PasswordReset extends Component {
       this.setState({
         processing: true
       });
-      const response = await resetPassword(value, resetUrl, publisherId);
+      const response = await resetPassword(value, publisherId, resetUrl);
       if (response.errors.length) {
         if (response.status === 429) {
           this.setState({

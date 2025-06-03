@@ -10,10 +10,11 @@ import {
 export const POPUP_TYPES = {
   UPDATE_SUBSCRIPTION_POPUP: 'updateSubscription',
   SWITCH_PLAN_POPUP: 'switchPlan',
+  PAUSE_SUBSCRIPTION_POPUP: 'pauseSubscription',
   RESUME_SUBSCRIPTION_POPUP: 'resumeSubscription',
   CANCEL_SWITCH_POPUP: 'cancelSwitch',
-  EDIT_DELIVERY_DETAILS_POPUP: 'editDeliveryDetails',
-  EDIT_PASSWORD: 'editPassword'
+  CANCEL_PAUSE_POPUP: 'cancelPause',
+  EDIT_DELIVERY_DETAILS_POPUP: 'editDeliveryDetails'
 } as const;
 
 export const PAYMENT_DETAILS_STEPS = {
@@ -24,13 +25,15 @@ export const PAYMENT_DETAILS_STEPS = {
   ERROR: 'ERROR'
 } as const;
 
-export const initialState: PopupManagerInitialState = {
+const initialState: PopupManagerInitialState = {
   isOpen: false,
   isLoading: false,
   currentType: null,
   updateSubscription: null,
   switchPlan: null,
+  pauseSubscription: null,
   cancelSwitch: null,
+  cancelPause: null,
   resumeSubscription: null,
   editDeliveryDetails: {
     giftId: null,
