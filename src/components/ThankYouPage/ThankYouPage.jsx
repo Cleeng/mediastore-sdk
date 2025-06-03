@@ -37,7 +37,7 @@ const ThankYouPage = ({ onSuccess }) => {
   };
 
   const paymentMethodName = readablePaymentMethod[paymentMethod];
-  const currencySymbol = currencyFormat[currency];
+  const currencySymbol = currencyFormat[currency] || currency;
   const totalAmount = formatNumber(totalAmountFromStore);
 
   useEffect(() => {

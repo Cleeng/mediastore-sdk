@@ -33,7 +33,8 @@ const Resubscribe = () => {
   const { t } = useTranslation();
 
   const { expiresAt, nextPaymentPrice, nextPaymentCurrency } = offerDetails;
-  const currencySymbol = currencyFormat[nextPaymentCurrency];
+  const currencySymbol =
+    currencyFormat[nextPaymentCurrency] || nextPaymentCurrency;
   const formattedNextPaymentPrice = formatNumber(nextPaymentPrice);
 
   const resubscribe = async () => {

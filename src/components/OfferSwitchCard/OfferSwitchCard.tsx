@@ -48,7 +48,7 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
         CurrencyFormat,
         string
       >
-    ];
+    ] || switchDetails?.nextPaymentPriceCurrency;
 
   const getDescription = () => {
     switch (switchDetails?.reason?.code) {
