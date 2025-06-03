@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { useStore } from 'react-redux';
 import { UniversalCheckoutOptions } from '@primer-io/checkout-web';
-import { createPrimerSession, authorizePrimerPurchase } from 'api';
+import { createPrimerSession } from 'api';
 import updatePrimerPaymentDetails from 'api/PaymentDetails/Primer/updatePrimerPaymentDetails';
-import { useAppDispatch, useAppSelector } from 'appRedux/store';
-import { selectOnlyOrder } from 'appRedux/orderSlice';
+import { useAppDispatch } from 'appRedux/store';
 import { fetchPaymentDetails } from 'appRedux/paymentDetailsSlice';
 // import { selectPaymentMethods } from 'appRedux/paymentMethodsSlice';
 import {
@@ -27,8 +26,6 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const dispatch = useAppDispatch();
-
-  const { id: orderId } = useAppSelector(selectOnlyOrder);
 
   const handleUpdatePaymentDetails = async (externalPaymentId: string) => {
     try {
@@ -126,8 +123,6 @@ export const usePrimer = ({ onSubmit, isMyAccount }: UsePrimerHookProps) => {
           await handleUpdatePaymentDetails(payment.id);
           return;
         }
-
-        await authorizePrimerPurchase(payment.id, orderId);
 
         if (onSubmit) {
           onSubmit();
