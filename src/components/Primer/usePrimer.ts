@@ -5,7 +5,6 @@ import { createPrimerSession } from 'api';
 import updatePrimerPaymentDetails from 'api/PaymentDetails/Primer/updatePrimerPaymentDetails';
 import { useAppDispatch } from 'appRedux/store';
 import { fetchPaymentDetails } from 'appRedux/paymentDetailsSlice';
-// import { selectPaymentMethods } from 'appRedux/paymentMethodsSlice';
 import {
   PAYMENT_DETAILS_STEPS,
   updatePaymentDetailsPopup
