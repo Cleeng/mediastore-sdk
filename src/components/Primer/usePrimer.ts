@@ -1,7 +1,7 @@
 /* eslint-disable import/prefer-default-export */
 import { useState } from 'react';
 import { OnCheckoutFailHandler, Payment } from '@primer-io/checkout-web';
-import { createPrimerSession, authorizePrimerPurchase } from 'api';
+import { createPrimerSession } from 'api';
 import { UsePrimerHookProps } from 'types/Primer.types';
 
 // Create your own type definition to replace the non-exported one
@@ -34,11 +34,7 @@ export const usePrimer = ({ onSubmit }: UsePrimerHookProps) => {
       setSessionError('An error occurred!');
       return;
     }
-    const { id, orderId } = payment;
     try {
-      setIsLoading(true);
-      await authorizePrimerPurchase(id, parseInt(orderId, 10));
-      setIsLoading(false);
       onSubmit();
     } catch (error) {
       setSessionError('An error occurred!');

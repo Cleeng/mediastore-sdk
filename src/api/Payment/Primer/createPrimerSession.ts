@@ -7,7 +7,7 @@ const createPrimerSession = async (isMyAccount = false) => {
 
   const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
 
-  const url = `${API_URL}/connectors/primer/payment-session`;
+  const url = `${API_URL}/connectors/primer/payment-sessions`;
 
   const res = await fetchWithJWT(url, {
     method: 'POST',
