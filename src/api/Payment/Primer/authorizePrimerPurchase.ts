@@ -1,18 +1,19 @@
-import { getData } from 'util/appConfigHelper';
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-const createPrimerSession = async (isMyAccount = false) => {
+const authorizePrimerPurchase = async (
+  externalPaymentId: string,
+  orderId: number
+) => {
   const API_URL = getApiURL();
 
-  const orderId = parseInt(getData('CLEENG_ORDER_ID') || '0', 10);
-
-  const url = `${API_URL}/connectors/primer/payment-session`;
+  const url = `${API_URL}/connectors/primer/initial-purchase`;
 
   const res = await fetchWithJWT(url, {
     method: 'POST',
     body: JSON.stringify({
-      ...(!isMyAccount && { orderId })
+      orderId,
+      externalPaymentId
     })
   });
 
@@ -25,4 +26,4 @@ const createPrimerSession = async (isMyAccount = false) => {
   return responseData;
 };
 
-export default createPrimerSession;
+export default authorizePrimerPurchase;

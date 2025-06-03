@@ -37,6 +37,7 @@ import getRetentionActions from './Customer/getRetentionActions';
 import applyRetentionAction from './Customer/applyRetentionAction';
 import getAdyenPaymentMethods from './Payment/getAdyenPaymentMethods';
 import createPrimerSession from './Payment/Primer/createPrimerSession';
+import authorizePrimerPurchase from './Payment/Primer/authorizePrimerPurchase';
 
 export {
   getPaymentDetails,
@@ -77,5 +78,6 @@ export {
   getRetentionActions,
   applyRetentionAction,
   getAdyenPaymentMethods,
-  createPrimerSession
+  createPrimerSession,
+  authorizePrimerPurchase
 };
