@@ -175,7 +175,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   You will be immediately granted access to your selected plan
                   and charged a new price{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       currentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -198,7 +198,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 <Trans i18nKey='switchplan-popup-info-immediateandchargewithrefund'>
                   You will be charged{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       currentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -207,7 +207,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   remaining value from the previous subscription will be
                   refunded. You will continue to be charged{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -220,7 +220,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 <Trans i18nKey='switchplan-popup-info-immediateandchargewithfullrefund'>
                   You will be charged{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       currentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -228,7 +228,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   {/**/}. You will also be fully refunded for your previous
                   subscription. You will continue to be charged{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -261,7 +261,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   </strong>
                   . From that time you will be charged{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -273,7 +273,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 <Trans i18nKey='switchplan-popup-info-immediateandchargefullprice'>
                   You will be charged{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       currentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -281,7 +281,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   and immediately granted access to the selected plan. You will
                   continue to be charged{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -294,7 +294,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 <Trans i18nKey='switchplan-popup-info-immediateandchargewithoutproration'>
                   You will be charged{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       currentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -309,7 +309,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   based on the time left on your previous subscription. From
                   that time, you will be charged{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -322,7 +322,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                 <Trans i18nKey='switchplan-popup-info-immediateandchargewithtimeproration'>
                   You will be immediately charged{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       currentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -423,7 +423,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   </strong>
                   . Your new fee will be{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -458,7 +458,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   </strong>
                   . Your new fee is{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -494,7 +494,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   </strong>{' '}
                   and be charged{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>
                   {/**/}.
@@ -515,7 +515,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   </strong>
                   . Your new fee will be{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -539,7 +539,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   </strong>
                   . Your new fee will be{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -563,7 +563,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   </strong>
                   . Your new fee will be{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{
                       nextPaymentPrice: formatNumber(toOffer.nextPaymentPrice)
                     }}
@@ -586,7 +586,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   </strong>
                   . Your new fee will be{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>{' '}
                   and you will be charged on a recurring basis until you cancel.
@@ -608,7 +608,7 @@ const SwitchPlanPopup = ({ onCancel, onSwitchSuccess, onSwitchError }) => {
                   </strong>
                   . Your new fee will be{' '}
                   <strong>
-                    {currencySymbol}
+                    {{ currencySymbol }}
                     {{ nextPaymentPrice: toOffer.nextPaymentPrice }}
                   </strong>{' '}
                   and you will be charged on a recurring basis until you cancel.
