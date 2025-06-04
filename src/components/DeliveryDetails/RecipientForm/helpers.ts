@@ -5,10 +5,13 @@ const getDate = (date: number) => {
   const day = localDate.getDate().toString().padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
-const getTime = (date: number) =>
-  new Date(date * 1000).toLocaleTimeString([], {
-    hour: '2-digit',
-    minute: '2-digit'
-  });
+
+const getTime = (date: number) => {
+  const localDate = new Date(date * 1000);
+  const hours = localDate.getHours().toString();
+  const minutes = localDate.getMinutes().toString();
+
+  return `${hours.padStart(2, '0')}:${minutes.padStart(2, '0')}`;
+};
 
 export { getDate, getTime };
