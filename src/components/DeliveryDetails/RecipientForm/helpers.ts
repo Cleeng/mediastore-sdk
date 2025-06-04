@@ -1,4 +1,4 @@
-const getDate = (date: number): string => {
+const getDate = (date: number) => {
   const localDate = new Date(date * 1000);
   const year = localDate.getFullYear();
   const month = (localDate.getMonth() + 1).toString().padStart(2, '0');
