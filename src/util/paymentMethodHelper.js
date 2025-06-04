@@ -119,7 +119,7 @@ export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
       ? periodMapper[offerPeriod].chargedForEveryText
       : null;
 
-  const readablePrice = `${currencyFormat[currency]}${formatNumber(
+  const readablePrice = `${currencyFormat[currency] || currency}${formatNumber(
     offerBasePrice
   )}`;
   const readablePeriod = chargedForEveryText ? `/${chargedForEveryText}` : '';

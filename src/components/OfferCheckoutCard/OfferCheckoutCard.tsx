@@ -58,7 +58,7 @@ const OfferCheckoutCard = ({
   } = useAppSelector(selectOnlyOrder);
 
   const offerType = offerId?.charAt(0);
-  const currencySymbol = currencyFormat[currency];
+  const currencySymbol = currencyFormat[currency] || currency;
   const isOfferFree =
     isTrialAvailable || (isDiscountApplied && totalPrice === 0);
   const grossPrice = isOfferFree
@@ -150,7 +150,7 @@ const OfferCheckoutCard = ({
               </TrialBadgeStyled>
             )}
             <Price
-              currency={currencyFormat[currency]}
+              currency={currencyFormat[currency] || currency}
               nextPaymentPrice={totalPrice}
               totalPrice={baseOfferPrice}
               period={periodValue}

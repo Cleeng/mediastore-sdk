@@ -85,7 +85,9 @@ const OfferMyAccountCard = ({
         CurrencyFormat,
         string
       >
-    ]; // use customerCurrency for passes
+    ] ||
+    nextPaymentCurrency ||
+    customerCurrency; // use customerCurrency for passes
 
   const pendingSwitchDetails = pendingSwitchId
     ? pendingSwitchesDetails[pendingSwitchId]

@@ -56,7 +56,7 @@ const CheckoutPriceBox = ({
     id: orderId
   } = useAppSelector(selectOnlyOrder);
 
-  const currencySymbol = currencyFormat[currency];
+  const currencySymbol = currencyFormat[currency] || currency;
 
   const { t } = useTranslation();
 

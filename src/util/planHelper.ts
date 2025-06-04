@@ -262,7 +262,8 @@ export type CurrencyFormat =
   | 'QAR'
   | 'KWD'
   | 'AED'
-  | 'THB';
+  | 'THB'
+  | 'MYR';
 
 export const currencyFormat: Record<CurrencyFormat, string> = {
   EUR: '€',
@@ -297,7 +298,8 @@ export const currencyFormat: Record<CurrencyFormat, string> = {
   THB: '฿',
   '€': '€',
   $: '$',
-  '£': '£'
+  '£': '£',
+  MYR: 'RM'
 };
 
 export const dateFormat = (timestamp: number, showTime = false) => {
