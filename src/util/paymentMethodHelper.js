@@ -60,7 +60,7 @@ export const readablePaymentMethodNames = {
   gcash: 'GCash'
 };
 
-export const supportedPaymentGateways = ['adyen', 'paypal', 'primer'];
+export const supportedPaymentGateways = ['adyen', 'paypal', 'primer-adyen'];
 
 export const logos = {
   card: CardLogo,
