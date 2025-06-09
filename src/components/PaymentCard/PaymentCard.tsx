@@ -31,7 +31,7 @@ const PaymentCard = ({ details }: PaymentCardProps) => {
   const { paymentMethodSpecificParams, paymentMethod } = details;
 
   const getSpecificPaymentMethod = (): CardTypesKey => {
-    return paymentMethod === 'card' || paymentMethod === 'primer-card'
+    return paymentMethod === 'card'
       ? paymentMethodSpecificParams.variant
       : paymentMethod;
   };

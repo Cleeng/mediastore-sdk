@@ -22,8 +22,7 @@ type PaymentDetailCardGooglePay = GeneralPaymentDetail & {
     | 'ideal'
     | 'bancontact_card'
     | 'bancontact_mobile'
-    | 'gcash'
-    | 'primer-card';
+    | 'gcash';
 
   paymentMethodSpecificParams: {
     holderName: string;

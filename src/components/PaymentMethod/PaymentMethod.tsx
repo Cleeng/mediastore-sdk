@@ -38,7 +38,6 @@ const PaymentMethod = () => {
       case 'bancontact_card':
       case 'bancontact_mobile':
       case 'gcash':
-      case 'primer-card':
         return <PaymentCard key={id} details={paymentDetail} />;
       default:
         return (
