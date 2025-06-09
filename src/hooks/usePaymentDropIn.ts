@@ -26,7 +26,7 @@ const usePaymentDropIn = (
     selectPublisherConfig
   );
 
-  if (shouldShowGatewayComponent('primer', publisherPaymentMethods)) {
+  if (shouldShowGatewayComponent('primer-adyen', publisherPaymentMethods)) {
     return { Component: Primer, props: primerProps };
   }
 

@@ -30,7 +30,15 @@ type PaymentDetailCardGooglePay = GeneralPaymentDetail & {
     lastCardFourDigits: string;
     merchantAccount: string;
     socialSecurityNumber: string;
-    variant: 'visa' | 'visacredit' | 'amex' | 'mc' | 'discover' | 'diners';
+    variant:
+      | 'visa'
+      | 'visacredit'
+      | 'amex'
+      | 'mc'
+      | 'discover'
+      | 'diners'
+      | 'VISA'
+      | 'MASTERCARD';
   };
 };
 

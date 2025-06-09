@@ -1,18 +1,18 @@
 import fetchWithJWT from 'util/fetchHelper';
 import getApiURL from 'util/environmentHelper';
 
-const authorizePrimerPurchase = async (
-  externalPaymentId: string,
-  orderId: number
+const updatePrimerPaymentDetails = async (
+  paymentMethodId: number,
+  externalPaymentId: string
 ) => {
   const API_URL = getApiURL();
 
-  const url = `${API_URL}/connectors/primer/initial-purchase`;
+  const url = `${API_URL}/connectors/primer/payment-details`;
 
   const res = await fetchWithJWT(url, {
-    method: 'POST',
+    method: 'PUT',
     body: JSON.stringify({
-      orderId,
+      paymentMethodId,
       externalPaymentId
     })
   });
@@ -26,4 +26,4 @@ const authorizePrimerPurchase = async (
   return responseData;
 };
 
-export default authorizePrimerPurchase;
+export default updatePrimerPaymentDetails;
