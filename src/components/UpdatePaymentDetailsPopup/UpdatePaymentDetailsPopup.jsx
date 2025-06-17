@@ -87,9 +87,10 @@ const UpdatePaymentDetailsPopup = () => {
   );
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] =
     useState(false);
-  const selectPaymentMethodHandler = (paymentMethodName) => {
+  const selectPaymentMethodHandler = (paymentMethodName, gateway) => {
     const paymentMethodObj = paymentMethods.find(
-      ({ methodName }) => methodName === paymentMethodName
+      ({ methodName, paymentGateway }) =>
+        methodName === paymentMethodName && paymentGateway === gateway
     );
     dispatch(setSelectedPaymentMethod(paymentMethodObj));
   };
@@ -267,15 +268,6 @@ const UpdatePaymentDetailsPopup = () => {
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!dropInInstance : true;
 
-  const adyenProps = {
-    isMyAccount: true,
-    onSubmit: addAdyenPaymentDetails,
-    selectPaymentMethod: selectPaymentMethodHandler,
-    isPayPalAvailable: shouldShowPayPal,
-    getDropIn,
-    onAdditionalDetails
-  };
-
   if (step === PAYMENT_DETAILS_STEPS.DELETE_PAYMENT_DETAILS) {
     return (
       <InnerPopupWrapper
@@ -383,7 +375,20 @@ const UpdatePaymentDetailsPopup = () => {
           )}
         </TextStyled>
         <PaymentMethodsWrapperStyled>
-          <PaymentDropIn adyenProps={adyenProps} />
+          <PaymentDropIn
+            adyenProps={{
+              isMyAccount: true,
+              onSubmit: addAdyenPaymentDetails,
+              selectPaymentMethod: selectPaymentMethodHandler,
+              isPayPalAvailable: shouldShowPayPal,
+              getDropIn,
+              onAdditionalDetails
+            }}
+            primerProps={{
+              selectPaymentMethod: selectPaymentMethodHandler
+            }}
+            isMyAccount
+          />
           {shouldShowPayPal &&
             showPayPalWhenAdyenIsReady() &&
             !isActionHandlingProcessing && (

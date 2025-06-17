@@ -110,9 +110,13 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   };
 
   // payment methods
-  const selectPaymentMethodHandler = (paymentMethodName: string) => {
+  const selectPaymentMethodHandler = (
+    paymentMethodName: string,
+    gateway: string
+  ) => {
     const paymentMethodObj = publisherPaymentMethods.find(
-      ({ methodName }) => methodName === paymentMethodName
+      ({ methodName, paymentGateway }) =>
+        methodName === paymentMethodName && paymentGateway === gateway
     );
     if (paymentMethodObj) {
       dispatch(setSelectedPaymentMethod(paymentMethodObj));
@@ -153,7 +157,10 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
   useEffect(() => {
     if (publisherPaymentMethods.length === 1) {
       const [paymentMethod] = publisherPaymentMethods;
-      selectPaymentMethodHandler(paymentMethod.methodName);
+      selectPaymentMethodHandler(
+        paymentMethod.methodName,
+        paymentMethod.paymentGateway
+      );
     }
   }, [publisherPaymentMethods]);
 

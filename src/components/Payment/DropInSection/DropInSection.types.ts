@@ -5,7 +5,7 @@ export type DropInSectionWrapperStyled = {
 
 export type DropInSectionProps = {
   children: React.ReactNode;
-  selectPaymentMethod: (paymentMethodName: string) => void;
+  selectPaymentMethod: (paymentMethodName: string, gateway: string) => void;
   title: string;
   logo: string;
   isLoading: boolean;

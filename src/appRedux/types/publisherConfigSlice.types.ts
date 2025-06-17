@@ -39,7 +39,7 @@ export type PaymentMethodName =
   | 'free-offer'
   | 'gcash';
 
-export type PaymentGateway = 'adyen' | 'primer' | 'paypal' | 'free-offer';
+export type PaymentGateway = 'adyen' | 'primer-adyen' | 'paypal' | 'free-offer';
 
 export type GoogleRecaptchaType = {
   sitekey: string;

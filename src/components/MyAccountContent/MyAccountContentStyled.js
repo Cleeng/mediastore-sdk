@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { BackgroundColor, LineColor } from 'styles/variables';
 import { mediaFrom } from 'styles/BreakPoints';
 
-// eslint-disable-next-line import/prefer-default-export
 export const WrapStyled = styled.main.attrs(() => ({
   className: 'msd__account-content'
 }))`

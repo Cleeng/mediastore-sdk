@@ -173,7 +173,7 @@ const Adyen = ({
   };
 
   const onSelect = async ({ type }) =>
-    selectPaymentMethod(bankPaymentMethodsMapper[type] || type);
+    selectPaymentMethod(bankPaymentMethodsMapper[type] || type, 'adyen');
 
   const mountDropIn = (adyenCheckout) => {
     if (paymentMethodsRef?.current) {

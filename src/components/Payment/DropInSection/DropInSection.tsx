@@ -27,7 +27,7 @@ const DropInSection = ({
 
   const handleOnClick = () => {
     if (!fadeOutSection && selectedPaymentMethod?.methodName !== 'paypal') {
-      selectPaymentMethod('paypal');
+      selectPaymentMethod('paypal', 'paypal');
     }
   };
 

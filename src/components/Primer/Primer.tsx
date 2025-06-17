@@ -1,50 +1,48 @@
-import { useEffect } from 'react';
-import {
-  Primer as PrimerSDK,
-  UniversalCheckoutOptions
-} from '@primer-io/checkout-web';
+import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Primer as PrimerSDK } from '@primer-io/checkout-web';
+import type { PrimerCheckout } from '@primer-io/checkout-web';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import Loader from 'components/Loader';
 import { PrimerProps } from 'types/Primer.types';
 import { usePrimer } from './usePrimer';
 
-const CONTAINER = 'msd__primerWrapper';
-const DEFAULT_PRIMER_PAYMENT_METHOD = 'primer-card';
+import { PrimerContainer, UpdateButtonStyled } from './PrimerStyled';
+import {
+  CONTAINER_CLASS_NAME,
+  DEFAULT_PRIMER_PAYMENT_METHOD
+} from './constants';
 
-const options: UniversalCheckoutOptions = {
-  container: `#${CONTAINER}`,
-  apiVersion: '2.4',
-  form: {
-    inputLabelsVisible: true
-  },
-  submitButton: {
-    useBuiltInButton: true,
-    amountVisible: true
-  },
-  successScreen: false
-};
+const Primer = ({
+  selectPaymentMethod,
+  onSubmit,
+  isMyAccount
+}: PrimerProps) => {
+  const { t } = useTranslation();
 
-const Primer = ({ selectPaymentMethod, onSubmit }: PrimerProps) => {
-  const {
-    getPrimerToken,
-    isLoading,
-    sessionError,
-    onCheckoutComplete,
-    onCheckoutFail,
-    onPaymentMethodAction
-  } = usePrimer({ onSubmit, selectPaymentMethod });
+  const [primerCheckout, setPrimerCheckout] = useState<PrimerCheckout | null>(
+    null
+  );
+
+  const { getPrimerToken, isLoading, sessionError, options, isButtonDisabled } =
+    usePrimer({
+      onSubmit,
+      selectPaymentMethod,
+      isMyAccount
+    });
 
   useEffect(() => {
     const createDropIn = async () => {
       const { clientToken } = await getPrimerToken();
-      const primerOptions = {
-        ...options,
-        onCheckoutComplete,
-        onCheckoutFail,
-        onPaymentMethodAction
-      };
-      await PrimerSDK.showUniversalCheckout(clientToken, primerOptions);
-      await selectPaymentMethod(DEFAULT_PRIMER_PAYMENT_METHOD);
+
+      const checkout = await PrimerSDK.showUniversalCheckout(
+        clientToken,
+        options
+      );
+
+      setPrimerCheckout(checkout);
+
+      selectPaymentMethod(DEFAULT_PRIMER_PAYMENT_METHOD, 'primer-adyen');
     };
     createDropIn();
   }, []);
@@ -55,7 +53,20 @@ const Primer = ({ selectPaymentMethod, onSubmit }: PrimerProps) => {
 
   if (isLoading) return <Loader />;
 
-  return <div id={CONTAINER} />;
+  return (
+    <>
+      <PrimerContainer id={CONTAINER_CLASS_NAME} />
+      {isMyAccount && primerCheckout?.submit && (
+        <UpdateButtonStyled
+          disabled={isButtonDisabled}
+          onClick={primerCheckout.submit}
+          type='submit'
+        >
+          {t('primer.button.update', 'Update')}
+        </UpdateButtonStyled>
+      )}
+    </>
+  );
 };
 
 export default Primer;
