@@ -42,7 +42,7 @@ const Primer = ({
 
       setPrimerCheckout(checkout);
 
-      selectPaymentMethod(DEFAULT_PRIMER_PAYMENT_METHOD);
+      selectPaymentMethod(DEFAULT_PRIMER_PAYMENT_METHOD, 'primer-adyen');
     };
     createDropIn();
   }, []);

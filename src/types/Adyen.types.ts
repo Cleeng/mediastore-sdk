@@ -5,6 +5,6 @@ export type AdyenProps = {
   isMyAccount?: boolean;
   onSubmit: unknown; // get type from adyen-web v6
   onAdditionalDetails: unknown; // get type from adyen-web v6
-  selectPaymentMethod: (paymentMethod: string) => void;
+  selectPaymentMethod: (paymentMethod: string, gateway: string) => void;
   getDropIn: (drop: unknown) => void; // get type from adyen-web v6
 };

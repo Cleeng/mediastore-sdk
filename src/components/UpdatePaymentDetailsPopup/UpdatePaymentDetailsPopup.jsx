@@ -87,9 +87,10 @@ const UpdatePaymentDetailsPopup = () => {
   );
   const [isActionHandlingProcessing, setIsActionHandlingProcessing] =
     useState(false);
-  const selectPaymentMethodHandler = (paymentMethodName) => {
+  const selectPaymentMethodHandler = (paymentMethodName, gateway) => {
     const paymentMethodObj = paymentMethods.find(
-      ({ methodName }) => methodName === paymentMethodName
+      ({ methodName, paymentGateway }) =>
+        methodName === paymentMethodName && paymentGateway === gateway
     );
     dispatch(setSelectedPaymentMethod(paymentMethodObj));
   };
