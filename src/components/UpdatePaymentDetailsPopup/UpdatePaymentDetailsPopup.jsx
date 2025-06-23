@@ -267,15 +267,6 @@ const UpdatePaymentDetailsPopup = () => {
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!dropInInstance : true;
 
-  const adyenProps = {
-    isMyAccount: true,
-    onSubmit: addAdyenPaymentDetails,
-    selectPaymentMethod: selectPaymentMethodHandler,
-    isPayPalAvailable: shouldShowPayPal,
-    getDropIn,
-    onAdditionalDetails
-  };
-
   if (step === PAYMENT_DETAILS_STEPS.DELETE_PAYMENT_DETAILS) {
     return (
       <InnerPopupWrapper
@@ -383,7 +374,23 @@ const UpdatePaymentDetailsPopup = () => {
           )}
         </TextStyled>
         <PaymentMethodsWrapperStyled>
-          <PaymentDropIn adyenProps={adyenProps} />
+          <PaymentDropIn
+            adyenProps={{
+              isMyAccount: true,
+              onSubmit: addAdyenPaymentDetails,
+              selectPaymentMethod: selectPaymentMethodHandler,
+              isPayPalAvailable: shouldShowPayPal,
+              getDropIn,
+              onAdditionalDetails
+            }}
+            primerProps={{
+              // add function to update Primer payment details
+              // eslint-disable-next-line @typescript-eslint/no-empty-function
+              onSubmit: () => {},
+              selectPaymentMethod: selectPaymentMethodHandler
+            }}
+            isMyAccount
+          />
           {shouldShowPayPal &&
             showPayPalWhenAdyenIsReady() &&
             !isActionHandlingProcessing && (
