@@ -100,6 +100,13 @@ export const CardTypes = {
     icon: GCash,
     caption: 'GCash',
     title: 'GCash'
+  },
+  // Primer card types:
+  VISA: { icon: Visa, caption: 'Visa', title: 'Credit Card' },
+  MASTERCARD: {
+    icon: MasterCard,
+    caption: 'MasterCard',
+    title: 'Credit Card'
   }
 };
 
