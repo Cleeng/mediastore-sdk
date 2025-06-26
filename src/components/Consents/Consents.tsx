@@ -87,7 +87,7 @@ const Consents = ({ error, onChangeFn }: ConsentsProps) => {
               key={name}
               required={required && !checked[index]}
             >
-              {translateConsents(label, t) + (required ? '*' : '')}
+              {translateConsents(label, name, t) + (required ? '*' : '')}
             </Checkbox>
           );
         })}

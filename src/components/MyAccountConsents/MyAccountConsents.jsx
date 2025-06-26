@@ -118,7 +118,7 @@ class MyAccountConsents extends Component {
             required={item.required}
             $hide={showConsentsOnly && !item.required}
           >
-            {translateConsents(item.label, t)}
+            {translateConsents(item.label, item.name, t)}
           </CheckboxStyled>
         ))}
         {!showConsentsOnly && (

@@ -127,7 +127,7 @@ const CheckoutConsents = ({ onSuccess }) => {
                       isChecked={consent.state === 'accepted'}
                       required={consent.required}
                     >
-                      {translateConsents(consent.label, t)}
+                      {translateConsents(consent.label, consent.name, t)}
                     </Checkbox>
                     <CheckoutConsentsError>
                       {consent.error}
