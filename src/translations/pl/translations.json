@@ -161,6 +161,7 @@
   "here": "here",
   "I accept the {{htmltag}}Terms and Conditions{{endhtmltag}} of Cleeng.": "Akceptuję {{htmltag}}regulamin korzystania z serwisu{{endhtmltag}} firmy Cleeng.",
   "I accept {{htmltag}}Terms and Conditions{{endhtmltag}} of Cleeng.": "Akceptuję {{htmltag}}regulamin korzystania z serwisu{{endhtmltag}} firmy Cleeng.",
+  "I accept {{htmltag}}Terms and Conditions{{endhtmltag}} of {{broadcasterName}}.": "I accept {{htmltag}}Terms and Conditions{{endhtmltag}} of {{broadcasterName}}.",
   "is not supported": "nie jest wspierana",
   "Last Name": "Nazwisko",
   "login-form.button.sign-in": "Sign in",
