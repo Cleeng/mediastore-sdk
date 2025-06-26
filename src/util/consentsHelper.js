@@ -20,6 +20,7 @@ const translateConsents = (consentContent, name, t) => {
           /of\s+(.+)/,
           'of {{broadcasterName}}'
         );
+        console.log('modifiedConsentContent', modifiedConsentContent);
         return `${t(modifiedConsentContent, {
           htmltag: openTagContent[0],
           endhtmltag: closeTagContent[0],
