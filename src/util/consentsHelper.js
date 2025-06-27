@@ -12,7 +12,7 @@ const translateConsents = (consentContent, name, t) => {
       REGEX_HREF_CLOSING_TAG,
       '{{endhtmltag}}'
     );
-    if (name === 'broadcaster_terms') {
+    if (name !== 'broadcaster_marketing') {
       const broadcasterName =
         consentContent.match(/of\s+(.+)/)?.[1].trim() || null;
       if (broadcasterName) {
