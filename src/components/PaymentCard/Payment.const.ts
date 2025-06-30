@@ -107,6 +107,21 @@ export const CardTypes = {
     icon: MasterCard,
     caption: 'MasterCard',
     title: 'Credit Card'
+  },
+  AMEX: {
+    icon: AmericanExpress,
+    caption: 'American Express',
+    title: 'Credit Card'
+  },
+  DINERS: {
+    icon: Diners,
+    caption: 'Diners',
+    title: 'Credit Card'
+  },
+  DISCOVER: {
+    icon: Discover,
+    caption: 'Discover',
+    title: 'Credit Card'
   }
 };
 
