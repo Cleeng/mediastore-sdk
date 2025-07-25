@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { ErrorColor } from 'styles/variables';
 
 export const PayPalContentStyled = styled.div.attrs(() => ({
   className: 'msd__paypal--wrapper'
@@ -31,33 +30,4 @@ export const PayPalIconContentStyled = styled.div.attrs(() => ({
   className: 'msd__paypal--icon'
 }))`
   padding-bottom: 20px;
-`;
-
-export const CheckboxWrapperStyled = styled.div`
-  display: flex;
-  flex-direction: column;
-
-  .msd__consents__text {
-    font-size: 11px;
-    line-height: 17px;
-  }
-
-  .msd__consents__frame {
-    align-self: start;
-  }
-
-  .adyen-checkout__bank-checkbox {
-    color: #515364;
-    margin-bottom: 20px;
-  }
-
-  .adyen-checkout__bank-checkbox--error {
-    .msd__consents__frame {
-      border-color: ${(props) => props.theme.errorColor || ErrorColor};
-    }
-
-    .msd__consents__text {
-      color: ${(props) => props.theme.errorColor || ErrorColor};
-    }
-  }
 `;
