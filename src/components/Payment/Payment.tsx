@@ -7,6 +7,7 @@ import Adyen from 'components/Adyen';
 import Loader from 'components/Loader';
 import SectionHeader from 'components/SectionHeader';
 import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
+import { Disclaimer } from 'components/Disclaimer/Disclaimer';
 import {
   fetchFinalizeInitialPayment,
   selectFinalizePayment
@@ -490,6 +491,9 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
         {generalError && (
           <PaymentErrorStyled>{generalError}</PaymentErrorStyled>
         )}
+        {shouldShowAdyen && showPayPalWhenAdyenIsReady() ? (
+          <Disclaimer />
+        ) : null}
       </PaymentWrapperStyled>
     </PaymentStyled>
   );

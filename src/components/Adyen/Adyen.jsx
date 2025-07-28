@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-// eslint-disable-next-line react/no-deprecated
-import { render } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { selectDeliveryDetails } from 'appRedux/deliveryDetailsSlice';
@@ -8,15 +6,11 @@ import { fetchUpdateOrder, selectOnlyOrder } from 'appRedux/orderSlice';
 import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
 import getAdyenPaymentMethods from 'api/Payment/getAdyenPaymentMethods';
-import { selectOnlyOffer } from 'appRedux/offerSlice';
 import useScript from 'util/useScriptHook';
 import { bankPaymentMethodsMapper } from 'util/paymentMethodHelper';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
-import {
-  selectPublisherConfig,
-  selectTermsUrl
-} from 'appRedux/publisherConfigSlice';
+import { selectPublisherConfig } from 'appRedux/publisherConfigSlice';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from 'util/eventDispatcher';
 import AdyenStyled from './AdyenStyled';
 import Loader from '../Loader';
@@ -32,15 +26,11 @@ const Adyen = ({
   onAdditionalDetails
 }) => {
   const order = useAppSelector(selectOnlyOrder);
-  const offer = useAppSelector(selectOnlyOffer);
-  const termsUrl = useAppSelector(selectTermsUrl);
 
   const {
     id: orderId,
     buyAsAGift,
     discount,
-    totalPrice,
-    offerId,
     priceBreakdown: { discountAmount }
   } = order;
 
@@ -87,9 +77,7 @@ const Adyen = ({
       const dropin = adyenCheckout.create('dropin', {
         onSelect,
         openFirstPaymentMethod:
-          adyenConfiguration?.openFirstPaymentMethod == null
-            ? !window.matchMedia('(max-width:991px)').matches
-            : adyenConfiguration?.openFirstPaymentMethod
+          adyenConfiguration?.openFirstPaymentMethod ?? true
       });
       dropin.mount(paymentMethodsRef.current);
       setDropInInstance(dropin);
@@ -196,12 +184,6 @@ const Adyen = ({
       setStatusAutomatically: false,
       clientKey,
       onSubmit: async (state, component) => {
-        const {
-          data: { paymentMethod }
-        } = state;
-
-        const methodName = paymentMethod?.type;
-
         component.setStatus('loading');
 
         const areDeliveryDetailsValid = await handleDeliveryDetails();
