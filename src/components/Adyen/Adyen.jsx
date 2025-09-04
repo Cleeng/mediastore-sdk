@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-// eslint-disable-next-line react/no-deprecated
-import { render } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { selectDeliveryDetails } from 'appRedux/deliveryDetailsSlice';
@@ -8,21 +6,11 @@ import { fetchUpdateOrder, selectOnlyOrder } from 'appRedux/orderSlice';
 import PropTypes from 'prop-types';
 import AdyenCheckout from '@adyen/adyen-web';
 import getAdyenPaymentMethods from 'api/Payment/getAdyenPaymentMethods';
-import { selectOnlyOffer } from 'appRedux/offerSlice';
 import useScript from 'util/useScriptHook';
-import {
-  bankPaymentMethods,
-  standardPaymentMethods,
-  bankPaymentMethodsMapper,
-  getStandardCopy
-} from 'util/paymentMethodHelper';
-import CheckboxLegacy from 'components/CheckboxLegacy';
+import { bankPaymentMethodsMapper } from 'util/paymentMethodHelper';
 import { PaymentErrorStyled } from 'components/Payment/PaymentStyled';
 import { validateDeliveryDetailsForm } from 'components/DeliveryDetails/RecipientForm/validators';
-import {
-  selectPublisherConfig,
-  selectTermsUrl
-} from 'appRedux/publisherConfigSlice';
+import { selectPublisherConfig } from 'appRedux/publisherConfigSlice';
 import eventDispatcher, { MSSDK_ADYEN_ERROR } from 'util/eventDispatcher';
 import AdyenStyled from './AdyenStyled';
 import Loader from '../Loader';
@@ -38,23 +26,16 @@ const Adyen = ({
   onAdditionalDetails
 }) => {
   const order = useAppSelector(selectOnlyOrder);
-  const offer = useAppSelector(selectOnlyOffer);
-  const termsUrl = useAppSelector(selectTermsUrl);
 
   const {
     id: orderId,
     buyAsAGift,
     discount,
-    totalPrice,
-    offerId,
     priceBreakdown: { discountAmount }
   } = order;
 
-  const {
-    adyenConfiguration,
-    paymentMethods: publisherPaymentMethods,
-    isPaymentCheckboxDisabled
-  } = useAppSelector(selectPublisherConfig);
+  const { adyenConfiguration, paymentMethods: publisherPaymentMethods } =
+    useAppSelector(selectPublisherConfig);
 
   const [isLoading, setIsLoading] = useState(true);
   const { selectedPaymentMethod } = useAppSelector(
@@ -88,90 +69,6 @@ const Adyen = ({
 
   const dispatch = useAppDispatch();
 
-  const getBankCopy = () => {
-    const isFree = totalPrice === 0;
-    const isSubscription = offerId?.charAt(0) === 'S';
-    if (isMyAccount || (isFree && isSubscription)) {
-      // TODO: add link to T&C
-      return t(
-        'offer-bank-consent-copy.free-subscription',
-        'By ticking this, you agree to the Terms and Conditions of our service. Your account will be charged €0.10 for authentication purposes. This amount will be refunded once the transaction is completed. Your account will be charged on a recurring basis for the full subscription amount. Your subscription will continue until you cancel.'
-      );
-    }
-
-    if (isSubscription) {
-      // TODO: add link to T&C
-      return t(
-        'offer-bank-consent-copy.paid-subscription',
-        'By ticking this, you agree to the Terms and Conditions of our service. Your account will be charged on a recurring basis for the full subscription amount. Your subscription will continue until you cancel.'
-      );
-    }
-
-    return t(
-      // TODO: add link to T&C
-      'offer-bank-consent-copy.paid-not-subscription',
-      'By ticking this, you agree to the Terms and Conditions of our service.'
-    );
-  };
-
-  const addLegalCheckboxForPaymentMethod = (methodName, type = 'standard') => {
-    const parentEl = document.querySelector(
-      `.adyen-checkout__payment-method--${methodName}`
-    );
-
-    const checkbox = (
-      <CheckboxLegacy
-        className={`adyen-checkout__bank-checkbox ${methodName}-inputWrapper`}
-        checked={false}
-        id={`${methodName}-input`}
-        onClickFn={(e, _, setIsChecked) => {
-          e.target.classList.remove('adyen-checkout__bank-checkbox--error');
-
-          if (e.key === ' ') {
-            e.target.parentElement.classList.remove(
-              'adyen-checkout__bank-checkbox--error'
-            );
-          }
-
-          setIsChecked(!e.target.checked);
-        }}
-        termsUrl={termsUrl}
-      >
-        {type === 'bank'
-          ? getBankCopy()
-          : getStandardCopy(isMyAccount, offer, order, deliveryDetails?.isGift)}
-      </CheckboxLegacy>
-    );
-
-    if (parentEl) {
-      const paymentDetailsWrapper = parentEl.querySelector(
-        `.adyen-checkout__payment-method__details`
-      );
-
-      const doesCheckboxExist = document.querySelector(`#${methodName}-input`);
-
-      if (!doesCheckboxExist) {
-        const checkboxWrapper = document.createElement('div');
-        checkboxWrapper.classList.add('checkbox-wrapper');
-
-        render(checkbox, checkboxWrapper);
-        parentEl.insertBefore(checkboxWrapper, paymentDetailsWrapper);
-      }
-    }
-  };
-
-  const showAdditionalText = () => {
-    if (paymentMethodsRef?.current) {
-      bankPaymentMethods.forEach((method) =>
-        addLegalCheckboxForPaymentMethod(method, 'bank')
-      );
-
-      standardPaymentMethods.forEach((method) =>
-        addLegalCheckboxForPaymentMethod(method)
-      );
-    }
-  };
-
   const onSelect = async ({ type }) =>
     selectPaymentMethod(bankPaymentMethodsMapper[type] || type);
 
@@ -180,10 +77,7 @@ const Adyen = ({
       const dropin = adyenCheckout.create('dropin', {
         onSelect,
         openFirstPaymentMethod:
-          adyenConfiguration?.openFirstPaymentMethod == null
-            ? !window.matchMedia('(max-width:991px)').matches
-            : adyenConfiguration?.openFirstPaymentMethod,
-        onReady: !isPaymentCheckboxDisabled && showAdditionalText
+          adyenConfiguration?.openFirstPaymentMethod ?? true
       });
       dropin.mount(paymentMethodsRef.current);
       setDropInInstance(dropin);
@@ -255,39 +149,6 @@ const Adyen = ({
     return true;
   };
 
-  const isCheckboxChecked = (methodName) => {
-    if (isPaymentCheckboxDisabled) {
-      return true;
-    }
-
-    const isBancontactCard =
-      selectedPaymentMethodRef?.current?.methodName === 'bancontact_card';
-
-    let checkbox = document.querySelector(`#${methodName}-input`);
-    let checkboxWrapper = document.querySelector(`.${methodName}-inputWrapper`);
-
-    // condition below needs to be verified when new 'scheme' is added
-    if (methodName === 'scheme') {
-      const schemeCheckbox = document.querySelector(
-        `#${isBancontactCard ? 'bcmc' : 'card'}-input`
-      );
-
-      const schemeCheckboxWrapper = document.querySelector(
-        `.${isBancontactCard ? 'bcmc' : 'card'}-inputWrapper`
-      );
-
-      checkbox = schemeCheckbox;
-      checkboxWrapper = schemeCheckboxWrapper;
-    }
-
-    if (!checkbox?.checked) {
-      checkboxWrapper.classList.add('adyen-checkout__bank-checkbox--error');
-      return false;
-    }
-
-    return true;
-  };
-
   const createDropInInstance = async ({
     amount,
     countryCode,
@@ -323,16 +184,6 @@ const Adyen = ({
       setStatusAutomatically: false,
       clientKey,
       onSubmit: async (state, component) => {
-        const {
-          data: { paymentMethod }
-        } = state;
-
-        const methodName = paymentMethod?.type;
-
-        if (!isCheckboxChecked(methodName)) {
-          return false;
-        }
-
         component.setStatus('loading');
 
         const areDeliveryDetailsValid = await handleDeliveryDetails();
@@ -356,10 +207,6 @@ const Adyen = ({
         },
         applepay: {
           onClick: async (resolve) => {
-            if (!isCheckboxChecked('applepay')) {
-              return;
-            }
-
             const areDeliveryDetailsValid = await handleDeliveryDetails();
 
             if (!areDeliveryDetailsValid) {
@@ -379,10 +226,6 @@ const Adyen = ({
         },
         googlepay: {
           onClick: async (resolve) => {
-            if (!isCheckboxChecked('googlepay')) {
-              return;
-            }
-
             const areDeliveryDetailsValid = await handleDeliveryDetails();
 
             if (!areDeliveryDetailsValid) {

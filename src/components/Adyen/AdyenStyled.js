@@ -98,7 +98,7 @@ const AdyenStyled = styled.div.attrs(() => ({
     background-color: ${(props) => props.theme.successColor || ConfirmColor};
   }
 
-  .checkbox-wrapper {
+  .consent-wrapper {
     display: flex;
     flex-direction: column;
     margin: 10px 20px 20px 20px;
