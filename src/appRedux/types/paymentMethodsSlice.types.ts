@@ -1,3 +1,15 @@
+import {
+  PaymentGateway,
+  PaymentMethodName
+} from './publisherConfigSlice.types';
+
+export type PaymentMethod = {
+  id: number;
+  logoUrl: string;
+  methodName: PaymentMethodName;
+  paymentGateway: PaymentGateway;
+};
+
 export type PaymentMethodsInitialState = {
-  selectedPaymentMethod: Record<string, unknown>;
+  selectedPaymentMethod: PaymentMethod | null;
 };
