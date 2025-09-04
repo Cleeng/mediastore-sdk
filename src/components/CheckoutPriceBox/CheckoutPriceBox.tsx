@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import formatNumber from 'util/formatNumber';
-import { currencyFormat } from 'util/planHelper';
+import { getCurrencySymbol } from 'util/planHelper';
 import calculateTaxValueForFreeOffer from 'util/calculateTaxValueForFreeOffer';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { selectOnlyOffer } from 'appRedux/offerSlice';
@@ -56,7 +56,7 @@ const CheckoutPriceBox = ({
     id: orderId
   } = useAppSelector(selectOnlyOrder);
 
-  const currencySymbol = currencyFormat[currency] || currency;
+  const currencySymbol = getCurrencySymbol(currency);
 
   const { t } = useTranslation();
 

@@ -12,7 +12,12 @@ import AndroidLogo from 'assets/images/paymentMethods/android_color.svg';
 import GCashLogo from 'assets/images/paymentMethods/gcash.svg';
 
 import store from 'appRedux/store';
-import { currencyFormat, isPeriod, periodMapper } from './planHelper';
+import {
+  currencyFormat,
+  getCurrencySymbol,
+  isPeriod,
+  periodMapper
+} from './planHelper';
 import formatNumber from './formatNumber';
 
 export const supportedPaymentMethods = [
@@ -119,7 +124,7 @@ export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
       ? periodMapper[offerPeriod].chargedForEveryText
       : null;
 
-  const readablePrice = `${currencyFormat[currency] || currency}${formatNumber(
+  const readablePrice = `${getCurrencySymbol(currency)}${formatNumber(
     offerBasePrice
   )}`;
   const readablePeriod = chargedForEveryText ? `/${chargedForEveryText}` : '';
