@@ -1,0 +1,88 @@
+// Folder-specific settings
+//
+// For a full list of overridable settings, and general information on folder-specific settings,
+// see the documentation: https://zed.dev/docs/configuring-zed#settings-files
+{
+  "languages": {
+    "CSS": {
+      "prettier": {
+        "use": false
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true,
+        "source.organizeImports.eslint": true
+      },
+      "format_on_save": "on"
+    },
+    "GraphQL": {
+      "prettier": {
+        "use": false
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true,
+        "source.organizeImports.eslint": true
+      },
+      "format_on_save": "on"
+    },
+    "JavaScript": {
+      "prettier": {
+        "use": false
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true,
+        "source.organizeImports.eslint": true
+      },
+      "format_on_save": "on"
+    },
+    "JSON": {
+      "prettier": {
+        "use": false
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true,
+        "source.organizeImports.eslint": true
+      },
+      "format_on_save": "on"
+    },
+    "JSONC": {
+      "prettier": {
+        "use": false
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true,
+        "source.organizeImports.eslint": true
+      },
+      "format_on_save": "on"
+    },
+    "JSX": {
+      "prettier": {
+        "use": false
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true,
+        "source.organizeImports.eslint": true
+      },
+      "format_on_save": "on"
+    },
+    "TSX": {
+      "prettier": {
+        "use": false
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true,
+        "source.organizeImports.eslint": true
+      },
+      "format_on_save": "on"
+    },
+    "TypeScript": {
+      "prettier": {
+        "use": false
+      },
+      "code_actions_on_format": {
+        "source.fixAll.eslint": true,
+        "source.organizeImports.eslint": true
+      },
+      "format_on_save": "on"
+    }
+  }
+}
