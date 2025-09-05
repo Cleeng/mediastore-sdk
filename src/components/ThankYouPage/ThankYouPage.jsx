@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { currencyFormat, getCurrencySymbol } from 'util/planHelper';
-
+import { getCurrencySymbol } from 'util/planHelper';
 import PropTypes from 'prop-types';
 import { Trans, useTranslation } from 'react-i18next';
 import Header from 'components/Header';

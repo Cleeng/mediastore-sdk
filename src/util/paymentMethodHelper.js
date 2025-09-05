@@ -12,12 +12,7 @@ import AndroidLogo from 'assets/images/paymentMethods/android_color.svg';
 import GCashLogo from 'assets/images/paymentMethods/gcash.svg';
 
 import store from 'appRedux/store';
-import {
-  currencyFormat,
-  getCurrencySymbol,
-  isPeriod,
-  periodMapper
-} from './planHelper';
+import { getCurrencySymbol, isPeriod, periodMapper } from './planHelper';
 import formatNumber from './formatNumber';
 
 export const supportedPaymentMethods = [
