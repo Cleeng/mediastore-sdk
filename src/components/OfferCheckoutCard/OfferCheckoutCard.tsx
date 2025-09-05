@@ -3,7 +3,7 @@ import SubscriptionIcon from 'components/SubscriptionIcon';
 import SkeletonWrapper from 'components/SkeletonWrapper';
 import { useAppSelector } from 'appRedux/store';
 import formatNumber from 'util/formatNumber';
-import { currencyFormat } from 'util/planHelper';
+import { getCurrencySymbol } from 'util/planHelper';
 import { selectOffer, selectOnlyOffer } from 'appRedux/offerSlice';
 import { selectOnlyOrder } from 'appRedux/orderSlice';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
@@ -58,7 +58,8 @@ const OfferCheckoutCard = ({
   } = useAppSelector(selectOnlyOrder);
 
   const offerType = offerId?.charAt(0);
-  const currencySymbol = currencyFormat[currency] || currency;
+  const currencySymbol = getCurrencySymbol(currency);
+
   const isOfferFree =
     isTrialAvailable || (isDiscountApplied && totalPrice === 0);
   const grossPrice = isOfferFree
@@ -150,7 +151,7 @@ const OfferCheckoutCard = ({
               </TrialBadgeStyled>
             )}
             <Price
-              currency={currencyFormat[currency] || currency}
+              currency={currencySymbol}
               nextPaymentPrice={totalPrice}
               totalPrice={baseOfferPrice}
               period={periodValue}
