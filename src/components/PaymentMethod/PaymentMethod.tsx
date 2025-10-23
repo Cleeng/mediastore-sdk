@@ -13,6 +13,7 @@ import {
 } from 'appRedux/popupSlice';
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { PaymentDetail } from 'api/Customer/types';
+import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import { WrapStyled, CardsWrapper, Message } from './PaymentMethodStyled';
 import PaymentCardSkeleton from '../PaymentCardSkeleton/PaymentCardSkeleton';
 
@@ -20,7 +21,7 @@ const PaymentMethod = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
 
-  const { paymentDetails, error, loading, activeOrBoundPaymentDetails } =
+  const { error, loading, activeOrBoundPaymentDetails } =
     useAppSelector(selectPaymentDetails);
 
   const renderPaymentMethodItem = (paymentDetail: PaymentDetail) => {
@@ -53,9 +54,25 @@ const PaymentMethod = () => {
   const activeItems = activeOrBoundPaymentDetails.find((item) => item.active);
 
   useEffect(() => {
-    if (paymentDetails?.length === 0) {
-      dispatch(fetchPaymentDetails());
-    }
+    const handlePaymentDetailsCleanup = async () => {
+      const { paymentDetails: updatedPaymentDetails } = await dispatch(
+        fetchPaymentDetails()
+      ).unwrap();
+
+      await Promise.all(
+        updatedPaymentDetails.reduce<Promise<unknown>[]>(
+          (promises, { id, active, bound }) => {
+            if (!(active || bound)) {
+              promises.push(deletePaymentDetails(id));
+            }
+            return promises;
+          },
+          []
+        )
+      );
+    };
+
+    handlePaymentDetailsCleanup();
   }, []);
 
   if (loading) {
