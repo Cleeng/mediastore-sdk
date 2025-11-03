@@ -37,18 +37,17 @@ const Price = ({
   const { t } = useTranslation();
   const {
     discount: { applied: isDiscountApplied },
-    priceBreakdown: { discountAmount, offerPrice }
+    priceBreakdown: { discountAmount, offerPrice: baseOfferPrice },
+    offer: { price: currentOfferPrice }
   } = useAppSelector(selectOnlyOrder);
 
   const { customerPriceInclTax } = useAppSelector(selectOnlyOffer);
 
   const shouldUseDiscountedValue =
-    isDiscountApplied &&
-    typeof nextPaymentPrice === 'number' &&
-    nextPaymentPrice < totalPrice;
+    isDiscountApplied && currentOfferPrice < totalPrice;
 
   const discountPercentageValue =
-    Math.round((discountAmount / offerPrice) * 100) || 100;
+    Math.round((discountAmount / baseOfferPrice) * 100) || 100;
   const discountValue = isPromoPriceActive
     ? t('checkout-price-box.promo', 'Promo')
     : `-${discountPercentageValue}%`;
