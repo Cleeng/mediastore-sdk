@@ -42,7 +42,6 @@ const OfferCheckoutCard = ({
     loading,
     offerV2: { title: offerV2Title, price }
   } = useAppSelector(selectOffer);
-  const baseOfferPrice = price?.amount || 0;
   const priceRules = price?.rules;
 
   const {
@@ -152,7 +151,6 @@ const OfferCheckoutCard = ({
             <Price
               currency={currencyFormat[currency] || currency}
               nextPaymentPrice={totalPrice}
-              totalPrice={baseOfferPrice}
               period={periodValue}
               isTrialBadgeVisible={isTrialBadgeVisible}
               isPromoPriceActive={isPromoPriceActive(priceRules)}

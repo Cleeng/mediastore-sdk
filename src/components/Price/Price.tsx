@@ -20,7 +20,6 @@ import { addSpaceAfterNumber } from './utils';
 type PriceProps = {
   currency: string;
   nextPaymentPrice: number | undefined;
-  totalPrice: number;
   period: string | null;
   isTrialBadgeVisible?: boolean;
   isPromoPriceActive?: boolean;
@@ -29,7 +28,6 @@ type PriceProps = {
 const Price = ({
   currency,
   nextPaymentPrice,
-  totalPrice,
   period,
   isTrialBadgeVisible,
   isPromoPriceActive
@@ -37,14 +35,12 @@ const Price = ({
   const { t } = useTranslation();
   const {
     discount: { applied: isDiscountApplied },
-    priceBreakdown: { discountAmount, offerPrice: baseOfferPrice },
-    offer: { price: currentOfferPrice }
+    priceBreakdown: { discountAmount, offerPrice: baseOfferPrice }
   } = useAppSelector(selectOnlyOrder);
 
   const { customerPriceInclTax } = useAppSelector(selectOnlyOffer);
 
-  const shouldUseDiscountedValue =
-    isDiscountApplied && currentOfferPrice < totalPrice;
+  const shouldUseDiscountedValue = isDiscountApplied && discountAmount > 0;
 
   const discountPercentageValue =
     Math.round((discountAmount / baseOfferPrice) * 100) || 100;
