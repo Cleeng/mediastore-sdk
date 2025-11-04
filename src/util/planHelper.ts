@@ -263,7 +263,8 @@ export type CurrencyFormat =
   | 'KWD'
   | 'AED'
   | 'THB'
-  | 'MYR';
+  | 'MYR'
+  | 'PLN';
 
 export const currencyFormat: Record<CurrencyFormat, string> = {
   EUR: '€',
@@ -299,8 +300,12 @@ export const currencyFormat: Record<CurrencyFormat, string> = {
   '€': '€',
   $: '$',
   '£': '£',
-  MYR: 'RM'
+  MYR: 'RM',
+  PLN: 'zł'
 };
+
+export const getCurrencySymbol = (currency: CurrencyFormat) =>
+  currencyFormat[currency] ?? currency;
 
 export const dateFormat = (timestamp: number, showTime = false) => {
   const date = new Date(timestamp * 1000);
