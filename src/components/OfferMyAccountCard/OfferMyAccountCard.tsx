@@ -59,7 +59,6 @@ const OfferMyAccountCard = ({
     offerType,
     offerTitle,
     nextPaymentPrice,
-    totalPrice,
     nextPaymentCurrency,
     customerCurrency,
     paymentMethod,
@@ -280,7 +279,6 @@ const OfferMyAccountCard = ({
               <Price
                 currency={currency}
                 nextPaymentPrice={nextPaymentPrice}
-                totalPrice={totalPrice}
                 period={
                   period !== 'season'
                     ? t(`offer-price.period-${period}`, period)
