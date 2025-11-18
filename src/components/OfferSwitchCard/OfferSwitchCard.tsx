@@ -127,7 +127,6 @@ const OfferSwitchCard = ({ baseOfferId, toOfferId }: OfferSwitchCardProps) => {
             <Price
               currency={currency}
               nextPaymentPrice={switchDetails.nextPaymentPrice}
-              totalPrice={switchDetails.price}
               period={
                 switchDetails.period !== 'season'
                   ? t(
