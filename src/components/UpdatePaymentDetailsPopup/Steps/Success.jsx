@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import CheckmarkIcon from 'assets/images/greenCheckmark.svg';
 import {
@@ -10,11 +10,20 @@ import {
 import Button from 'components/Button';
 import { useTranslation } from 'react-i18next';
 import { resetPaymentDetailsPopupState } from 'appRedux/popupSlice';
+import { useAppSelector } from 'appRedux/store';
+import deletePaymentDetails from 'api/PaymentDetails/deletePaymentDetails';
 import { ImageWrapper } from '../UpdatePaymentDetailsPopupStyled';
 
 const Success = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
+  const paymentDetails = useAppSelector((state) => state.paymentDetails);
+
+  useEffect(() => {
+    paymentDetails.paymentDetails.forEach((detail) => {
+      if (!detail.active) deletePaymentDetails(detail.id);
+    });
+  }, [paymentDetails.paymentDetails]);
 
   return (
     <>
