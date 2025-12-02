@@ -5,13 +5,38 @@ import renderWithProviders from 'util/testHelpers';
 import { setupStore } from 'appRedux/rootReducer';
 import { type Mock } from 'vitest';
 
+vi.mock('api', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('api')>();
+  return {
+    ...actual,
+    getPaymentDetails: vi.fn(() =>
+      Promise.resolve({
+        paymentDetails: []
+      })
+    )
+  };
+});
+
+vi.mock('api/PaymentDetails/deletePaymentDetails', () => ({
+  default: vi.fn(() => Promise.resolve({ success: true }))
+}));
+
 global.fetch = vi.fn(() =>
   Promise.resolve({
-    json: () => Promise.resolve({ test: null })
+    json: () =>
+      Promise.resolve({
+        responseData: {
+          paymentDetails: []
+        }
+      })
   })
 ) as Mock;
 
 describe('PaymentInfo component', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
   test('should render PaymentMethod and Transactions component if paymentDetails is not open', async () => {
     const { getByText } = renderWithProviders(<PaymentInfo />);
 
