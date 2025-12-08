@@ -128,7 +128,7 @@ const UpdateProfile = ({
   const customSettings = capture?.isCaptureEnabled
     ? capture.settings.reduce(
         (acc: CustomCaptureSetting[], setting: CaptureSetting) =>
-          isCustomSetting(setting) ? [...acc, setting] : acc,
+          isCustomSetting(setting) && setting.enabled ? [...acc, setting] : acc,
         []
       )
     : [];
