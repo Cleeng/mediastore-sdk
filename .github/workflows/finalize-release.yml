@@ -18,5 +18,3 @@ jobs:
     with:
       access: public
       registry: registry.npmjs.org
-    secrets:
-      TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
