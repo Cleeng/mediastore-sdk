@@ -3,8 +3,11 @@ name: Publish library to public NPM registry
 on:
   release:
     types: [published]
+
 permissions:
   contents: read
+  id-token: write
+
 defaults:
   run:
     shell: bash
@@ -14,7 +17,7 @@ jobs:
     uses: ./.github/workflows/call-publish.yml
     permissions:
       contents: read
-      packages: write
+      id-token: write
     with:
       access: public
       registry: registry.npmjs.org
