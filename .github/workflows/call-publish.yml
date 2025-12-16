@@ -17,9 +17,6 @@ on:
         type: string
         required: false
         default: main
-    secrets:
-      TOKEN:
-        required: true
 
 jobs:
   publish:
@@ -41,6 +38,11 @@ jobs:
           always-auth: true
           scope: ${{ inputs.scope }}
           registry-url: https://${{ inputs.registry }}
+
+      - name: generate NPM access token
+        run: |
+          TOKEN=$(npm token create --read-only=false | tail -1)
+          echo "NPM_AUTH_TOKEN=${TOKEN}" >> $GITHUB_ENV
 
       - name: get current git tag
         run: >
@@ -69,4 +71,4 @@ jobs:
       - name: push the bundle to ${{ inputs.access }} registry
         run: npm publish --access ${{ inputs.access }}
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
+          NPM_TOKEN: ${{ env.NPM_AUTH_TOKEN }}
