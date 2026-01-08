@@ -18,7 +18,7 @@ on:
         required: false
         default: main
     secrets:
-      token:
+      TOKEN:
         required: false
 
 permissions:
@@ -72,6 +72,4 @@ jobs:
         run: pnpm build
 
       - name: push the bundle to ${{ inputs.access }} registry
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.token }}
-        run: npm publish --access ${{ inputs.access }} ${{ inputs.access == 'restricted' && '--tag next' || '' }}
+        run: npm publish --access ${{ inputs.access }}

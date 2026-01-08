@@ -17,4 +17,4 @@ jobs:
       scope: '@cleeng'
       branch: ${{ github.head_ref }}
     secrets:
-      token: ${{ secrets.GITHUB_TOKEN }}
+      TOKEN: ${{ secrets.GITHUB_TOKEN }}

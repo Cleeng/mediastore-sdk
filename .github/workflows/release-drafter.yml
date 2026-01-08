@@ -22,3 +22,5 @@ jobs:
           exit 1
 
       - uses: release-drafter/release-drafter@v5
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
