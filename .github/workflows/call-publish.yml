@@ -69,4 +69,4 @@ jobs:
         run: pnpm build
 
       - name: push the bundle to ${{ inputs.access }} registry
-        run: npm publish --access ${{ inputs.access }}
+        run: npm publish --access ${{ inputs.access }} ${{ inputs.access == 'restricted' && '--tag next' || '' }}
