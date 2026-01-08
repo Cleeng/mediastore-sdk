@@ -16,3 +16,5 @@ jobs:
       registry: npm.pkg.github.com
       scope: '@cleeng'
       branch: ${{ github.head_ref }}
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
