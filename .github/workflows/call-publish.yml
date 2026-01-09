@@ -74,10 +74,4 @@ jobs:
       - name: push the bundle to ${{ inputs.access }} registry
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
-          ACCESS: ${{ inputs.access }}
-        run: |
-          if [ "$ACCESS" = "restricted" ]; then
-            npm publish --access "$ACCESS" --tag next
-          else
-            npm publish --access "$ACCESS"
-          fi
+        run: npm publish --access ${{ inputs.access }}
