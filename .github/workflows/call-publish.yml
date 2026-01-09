@@ -73,6 +73,13 @@ jobs:
         run: pnpm build
 
       - name: push the bundle to ${{ inputs.access }} registry
-        run: npm publish --access ${{ inputs.access }}
         env:
           NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
+          ACCESS: ${{ inputs.access }}
+        run: |
+          if [ "$ACCESS" = "restricted" ]; then
+            VERSION=$(node -p "require('./package.json').version")
+            npm publish --access "$ACCESS" --tag "$VERSION"
+          else
+            npm publish --access "$ACCESS"
+          fi
