@@ -10,7 +10,6 @@ jobs:
     permissions:
       contents: read
       packages: write
-      id-token: write
     with:
       access: restricted
       registry: npm.pkg.github.com
