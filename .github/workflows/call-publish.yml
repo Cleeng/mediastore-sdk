@@ -17,6 +17,9 @@ on:
         type: string
         required: false
         default: main
+    secrets:
+      TOKEN:
+        required: false
 
 permissions:
   contents: read
@@ -27,6 +30,7 @@ jobs:
     permissions:
       contents: read
       id-token: write
+      packages: write
     steps:
       - uses: actions/checkout@v4
         with:
@@ -69,4 +73,12 @@ jobs:
         run: pnpm build
 
       - name: push the bundle to ${{ inputs.access }} registry
-        run: npm publish --access ${{ inputs.access }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.TOKEN }}
+          ACCESS: ${{ inputs.access }}
+        run: |
+          if [ "$ACCESS" = "restricted" ]; then
+            npm publish --access "$ACCESS" --tag next
+          else
+            npm publish --access "$ACCESS"
+          fi

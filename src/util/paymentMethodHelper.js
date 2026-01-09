@@ -127,7 +127,8 @@ export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
   if (isGift) {
     return i18n.t(
       'offer-standard-consent-copy.gift',
-      'You will be charged a one-time payment of {{readablePrice}}, plus applicable taxes. This purchase does not automatically renew. By proceeding with the payment, you agree to these terms and the full Terms of Service.'
+      'You will be charged a one-time payment of {{readablePrice}}, plus applicable taxes. This purchase does not automatically renew. By proceeding with the payment, you agree to these terms and the full Terms of Service.',
+      { readablePrice }
     );
   }
 
@@ -164,6 +165,7 @@ export const getStandardCopy = (isMyAccount, offer, order, isGift) => {
 
   return i18n.t(
     'offer-standard-consent-copy.checkout-not-subscription',
-    'You will be charged a one-time payment of {{readablePrice}}, plus applicable taxes. This purchase does not automatically renew. By proceeding with the payment, you agree to these terms and the full Terms of Service.'
+    'You will be charged a one-time payment of {{readablePrice}}, plus applicable taxes. This purchase does not automatically renew. By proceeding with the payment, you agree to these terms and the full Terms of Service.',
+    { readablePrice }
   );
 };
