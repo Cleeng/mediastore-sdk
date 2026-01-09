@@ -78,8 +78,7 @@ jobs:
           ACCESS: ${{ inputs.access }}
         run: |
           if [ "$ACCESS" = "restricted" ]; then
-            VERSION=$(node -p "require('./package.json').version")
-            npm publish --access "$ACCESS" --tag "$VERSION"
+            npm publish --access "$ACCESS" --tag next
           else
             npm publish --access "$ACCESS"
           fi
