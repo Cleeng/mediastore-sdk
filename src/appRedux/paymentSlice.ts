@@ -42,19 +42,22 @@ const initialState: InitialState = {
 
 export const submitPaymentWithoutDetails = createAsyncThunk<
   Payment,
-  undefined,
+  string | undefined,
   {
     rejectValue: string;
   }
->('payment/submitPaymentWithoutDetails', async (_, { rejectWithValue }) => {
-  try {
-    const payment = await submitPaymentWithoutDetailsRequest();
-    return payment;
-  } catch (err) {
-    const typedError = err as Error;
-    return rejectWithValue(typedError.message);
+>(
+  'payment/submitPaymentWithoutDetails',
+  async (captchaValue, { rejectWithValue }) => {
+    try {
+      const payment = await submitPaymentWithoutDetailsRequest(captchaValue);
+      return payment;
+    } catch (err) {
+      const typedError = err as Error;
+      return rejectWithValue(typedError.message);
+    }
   }
-});
+);
 
 export const paymentSlice = createSlice({
   name: 'paymentSlice',

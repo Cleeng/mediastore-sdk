@@ -6,7 +6,9 @@ import {
 import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import Button from 'components/Button';
 import Loader from 'components/Loader';
-import { useCallback } from 'react';
+import useCaptchaVerification from 'hooks/useCaptchaVerification';
+import { useCallback, useState } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 import { useTranslation } from 'react-i18next';
 import { dateFormat, type Period, periodMapper } from 'util/planHelper';
 import type { FreeOfferProps } from './FreeOffer.types';
@@ -92,6 +94,9 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
   } = useAppSelector(selectOnlyOffer);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
+  const { getCaptchaToken, recaptchaRef, showCaptchaOnPurchase, sitekey } =
+    useCaptchaVerification();
+  const [captchaError, setCaptchaError] = useState('');
 
   const offerType = offerId?.charAt(0);
   const icon = period || offerType;
@@ -103,9 +108,21 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
     t
   });
 
-  const getAccessToFreeOffer = useCallback(() => {
+  const getAccessToFreeOffer = useCallback(async () => {
+    if (showCaptchaOnPurchase) {
+      const { hasCaptchaSucceeded, captchaToken, recaptchaError } =
+        await getCaptchaToken();
+      if (!hasCaptchaSucceeded) {
+        setCaptchaError(recaptchaError);
+        return;
+      }
+      dispatch(submitPaymentWithoutDetails(captchaToken))
+        .unwrap()
+        .then(onPaymentComplete);
+      return;
+    }
     dispatch(submitPaymentWithoutDetails()).unwrap().then(onPaymentComplete);
-  }, []);
+  }, [showCaptchaOnPurchase, getCaptchaToken]);
 
   return (
     <WrapStyled>
@@ -138,7 +155,18 @@ const FreeOffer = ({ onPaymentComplete }: FreeOfferProps) => {
               {t(error.translationKey, error.message as string)}
             </ErrorMessageStyled>
           )}
+          {captchaError && (
+            <ErrorMessageStyled>{captchaError}</ErrorMessageStyled>
+          )}
         </ButtonWrapperStyled>
+        {showCaptchaOnPurchase && (
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            size='invisible'
+            badge='bottomright'
+            sitekey={sitekey}
+          />
+        )}
         <SubTextStyled>
           {t('free-offer.no-cost', 'Free, no additional cost')}
         </SubTextStyled>
