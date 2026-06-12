@@ -1,8 +1,8 @@
 # <div align="center"> MediaStore SDK</div>
 
-> **Warning**
+> **Note**
 >
-> Breaking changes in version 4.0. See the [imports](#1-import-the-required-css) section of this file for more information.
+> ⚠️ This is not the recommended integration method. Please use [**Hosted Customer Flows**](https://developers.cleeng.com/docs/implementing-hosted-customer-flows) instead.
 
 This is the Cleeng official component library to be used with React.js.
 
