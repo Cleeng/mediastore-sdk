@@ -10,9 +10,12 @@ const STG_TOKEN = '58fd0d2785acbde61a6c117a642c0360';
 
 const MIXPANEL_TOKEN = environment === 'production' ? PROD_TOKEN : STG_TOKEN;
 
-mixpanel.init(MIXPANEL_TOKEN, {
-  api_host: 'https://api-eu.mixpanel.com'
-});
+mixpanel.init(
+  MIXPANEL_TOKEN,
+  environment === 'production'
+    ? { api_host: 'https://api-eu.mixpanel.com' }
+    : {}
+);
 
 type EventData = {
   distinct_id: string;
