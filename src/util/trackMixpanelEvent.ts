@@ -1,8 +1,7 @@
 /* eslint-disable camelcase */
 import mixpanel from 'mixpanel-browser';
-
-import { getData } from './appConfigHelper';
 import { version } from '../../package.json';
+import { getData } from './appConfigHelper';
 
 const environment = getData('CLEENG_ENVIRONMENT');
 
@@ -11,7 +10,9 @@ const STG_TOKEN = '58fd0d2785acbde61a6c117a642c0360';
 
 const MIXPANEL_TOKEN = environment === 'production' ? PROD_TOKEN : STG_TOKEN;
 
-mixpanel.init(MIXPANEL_TOKEN);
+mixpanel.init(MIXPANEL_TOKEN, {
+  api_host: 'https://api-eu.mixpanel.com'
+});
 
 type EventData = {
   distinct_id: string;
