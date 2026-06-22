@@ -83,11 +83,11 @@ describe('OfferDescription – Pass offer (offerType P)', () => {
       </Provider>
     );
 
-    expect(screen.getByText(/2 days access/i)).toBeInTheDocument();
+    expect(screen.getByText(/2-Day pass/i)).toBeInTheDocument();
     expect(screen.queryByText(/1970/)).not.toBeInTheDocument();
   });
 
-  it('shows singular "day" for 1-day pass', () => {
+  it('shows "1-Day pass" for 1-day pass', () => {
     render(
       <Provider store={storeWithGift}>
         <OfferDescription
@@ -99,10 +99,10 @@ describe('OfferDescription – Pass offer (offerType P)', () => {
       </Provider>
     );
 
-    expect(screen.getByText(/1 day access/i)).toBeInTheDocument();
+    expect(screen.getByText(/1-Day pass/i)).toBeInTheDocument();
   });
 
-  it('shows "4 days access" for a 4-day pass', () => {
+  it('shows "4-Day pass" for a 4-day pass', () => {
     render(
       <Provider store={storeWithGift}>
         <OfferDescription
@@ -114,7 +114,7 @@ describe('OfferDescription – Pass offer (offerType P)', () => {
       </Provider>
     );
 
-    expect(screen.getByText(/4 days access/i)).toBeInTheDocument();
+    expect(screen.getByText(/4-Day pass/i)).toBeInTheDocument();
   });
 
   it('falls back to "Access until <date>" for real timestamps (expiresAt >= 1000)', () => {

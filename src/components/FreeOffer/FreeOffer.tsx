@@ -8,6 +8,7 @@ import Button from 'components/Button';
 import Loader from 'components/Loader';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import getExpiresAtDurationDetails from 'util/getExpiresAtDurationDetails';
 import { dateFormat, type Period, periodMapper } from 'util/planHelper';
 import type { FreeOfferProps } from './FreeOffer.types';
 import {
@@ -46,14 +47,12 @@ const generateDescriptionForFreeOffer = ({
       return t('free-offer.subscription', 'Free subscription');
     }
     case 'P': {
-      if (!period && expiresAt < 1000) {
-        const days = expiresAt;
-        const unitLabel = days === 1 ? 'day' : 'days';
-        return t(
-          `free-offer.duration-pass`,
-          `{{days}} {{unitLabel}} free pass`,
-          { days: String(days), unitLabel }
-        );
+      const durationDetails = !period && getExpiresAtDurationDetails(expiresAt);
+      if (durationDetails) {
+        const { days } = durationDetails;
+        return t(`free-offer.duration-pass`, `{{days}}-Day free pass`, {
+          days: String(days)
+        });
       }
       if (!period) {
         return t('free-offer.pass', 'Access until {{date}}', {
