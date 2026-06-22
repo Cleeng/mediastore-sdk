@@ -1,22 +1,22 @@
-import { useTranslation } from 'react-i18next';
-import SubscriptionIcon from 'components/SubscriptionIcon';
-import SkeletonWrapper from 'components/SkeletonWrapper';
-import { useAppSelector } from 'appRedux/store';
-import formatNumber from 'util/formatNumber';
-import { getCurrencySymbol } from 'util/planHelper';
 import { selectOffer, selectOnlyOffer } from 'appRedux/offerSlice';
 import { selectOnlyOrder } from 'appRedux/orderSlice';
-import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
+import { useAppSelector } from 'appRedux/store';
 import OfferDescription from 'components/OfferCheckoutCard/OfferDescription';
-import {
-  WrapperStyled,
-  InnerWrapper,
-  TitleStyled,
-  PublisherDescriptionStyled,
-  PriceWrapperStyled,
-  TrialBadgeStyled
-} from './OfferCheckoutCardStyled';
+import SkeletonWrapper from 'components/SkeletonWrapper';
+import SubscriptionIcon from 'components/SubscriptionIcon';
+import { useTranslation } from 'react-i18next';
+import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
+import formatNumber from 'util/formatNumber';
+import { getCurrencySymbol } from 'util/planHelper';
 import Price, { isPromoPriceActive } from '../Price';
+import {
+  InnerWrapper,
+  PriceWrapperStyled,
+  PublisherDescriptionStyled,
+  TitleStyled,
+  TrialBadgeStyled,
+  WrapperStyled
+} from './OfferCheckoutCardStyled';
 
 type OfferCheckoutCardProps = {
   isRedeemGift: boolean;
