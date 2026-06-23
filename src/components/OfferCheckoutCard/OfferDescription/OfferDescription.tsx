@@ -8,7 +8,6 @@ import TagIcon from 'assets/images/offerDescription/tag-bold.svg';
 import { useTranslation } from 'react-i18next';
 import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
 import formatNumber from 'util/formatNumber';
-import getExpiresAtDurationDetails from 'util/getExpiresAtDurationDetails';
 import { dateFormat, Period, periodMapper } from 'util/planHelper';
 import getReadablePeriod from '../OfferCheckoutCard.utils';
 import { OfferDetailsProps } from './OfferDescription.types';
@@ -277,11 +276,10 @@ const OfferDescription = ({
   const renderDescriptionForPass = () => {
     const generateDescriptionForPass = () => {
       const icon = <CalendarIcon />;
-      const durationDetails = !period && getExpiresAtDurationDetails(expiresAt);
-      if (durationDetails) {
-        const { days } = durationDetails;
-        const description = t(`pass-desc.duration.day`, `{{days}}-Day pass`, {
-          days: String(days)
+      const isPassForDays = !period && Number(expiresAt) < 1000;
+      if (isPassForDays) {
+        const description = t(`pass-desc.duration.day`, `{{days}}-day pass`, {
+          days: expiresAt
         });
         return { icon, description };
       }
