@@ -254,6 +254,7 @@
   "oops-something-went-wrong": "¡Vaya! Algo salió mal.",
   "oops-something-went-wrong-try-again": "¡Vaya! Algo salió mal. Inténtelo de nuevo...",
   "pass-desc.date": "Acceso hasta el {{date}}",
+  "pass-desc.duration.day": "{{days}}-day pass",
   "Password": "Contraseña",
   "password-input.error.fair": "Podría ser más segura",
   "password-input.error.good": "Buena contraseña",
