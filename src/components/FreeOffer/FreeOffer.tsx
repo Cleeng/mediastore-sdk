@@ -1,26 +1,26 @@
-import { useCallback } from 'react';
-import { useTranslation } from 'react-i18next';
-import { periodMapper, dateFormat, Period } from 'util/planHelper';
-import Button from 'components/Button';
-import Loader from 'components/Loader';
-import {
-  submitPaymentWithoutDetails,
-  selectPayment
-} from 'appRedux/paymentSlice';
-import { useAppDispatch, useAppSelector } from 'appRedux/store';
 import { selectOnlyOffer } from 'appRedux/offerSlice';
 import {
-  WrapStyled,
-  TitleStyled,
-  DescriptionStyled,
-  SubTextStyled,
-  CardStyled,
-  SubscriptionIconStyled,
+  selectPayment,
+  submitPaymentWithoutDetails
+} from 'appRedux/paymentSlice';
+import { useAppDispatch, useAppSelector } from 'appRedux/store';
+import Button from 'components/Button';
+import Loader from 'components/Loader';
+import { useCallback } from 'react';
+import { useTranslation } from 'react-i18next';
+import { dateFormat, type Period, periodMapper } from 'util/planHelper';
+import type { FreeOfferProps } from './FreeOffer.types';
+import {
   ButtonWrapperStyled,
+  CardStyled,
+  DescriptionStyled,
   ErrorMessageStyled,
-  PublisherDescriptionStyled
+  PublisherDescriptionStyled,
+  SubscriptionIconStyled,
+  SubTextStyled,
+  TitleStyled,
+  WrapStyled
 } from './FreeOfferStyled';
-import { FreeOfferProps } from './FreeOffer.types';
 
 type GenerateDescriptionForFreeOfferArguments = {
   offerType: string;
@@ -46,6 +46,12 @@ const generateDescriptionForFreeOffer = ({
       return t('free-offer.subscription', 'Free subscription');
     }
     case 'P': {
+      const isPassForDays = !period && Number(expiresAt) < 1000;
+      if (isPassForDays) {
+        return t(`free-offer.duration-pass`, `{{days}}-Day free pass`, {
+          days: String(expiresAt)
+        });
+      }
       if (!period) {
         return t('free-offer.pass', 'Access until {{date}}', {
           date: dateFormat(expiresAt, true)

@@ -1,24 +1,24 @@
-import { useTranslation } from 'react-i18next';
+import { selectGift } from 'appRedux/giftSlice';
 
 import { useAppSelector } from 'appRedux/store';
-import { selectGift } from 'appRedux/giftSlice';
-import formatNumber from 'util/formatNumber';
-import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
-import { dateFormat, periodMapper, Period } from 'util/planHelper';
-import CreditCardIcon from 'assets/images/offerDescription/credit-card-bold.svg';
-import ClockIcon from 'assets/images/offerDescription/clock-bold.svg';
 import CalendarIcon from 'assets/images/offerDescription/calendar-blank-bold.svg';
+import ClockIcon from 'assets/images/offerDescription/clock-bold.svg';
+import CreditCardIcon from 'assets/images/offerDescription/credit-card-bold.svg';
 import TagIcon from 'assets/images/offerDescription/tag-bold.svg';
+import { useTranslation } from 'react-i18next';
+import calculateGrossPriceForFreeOffer from 'util/calculateGrossPriceForFreeOffer';
+import formatNumber from 'util/formatNumber';
+import { dateFormat, Period, periodMapper } from 'util/planHelper';
 import getReadablePeriod from '../OfferCheckoutCard.utils';
+import { OfferDetailsProps } from './OfferDescription.types';
 import {
-  DescriptionWrapperStyled,
   DescriptionStyled,
+  DescriptionWrapperStyled,
   DetailsStyled,
   DetailsWrapper,
   IconStyled,
   LineWrapperStyled
 } from './OfferDescriptionStyled';
-import { OfferDetailsProps } from './OfferDescription.types';
 
 const OfferDescription = ({
   period,
@@ -276,6 +276,13 @@ const OfferDescription = ({
   const renderDescriptionForPass = () => {
     const generateDescriptionForPass = () => {
       const icon = <CalendarIcon />;
+      const isPassForDays = !period && Number(expiresAt) < 1000;
+      if (isPassForDays) {
+        const description = t(`pass-desc.duration.day`, `{{days}}-day pass`, {
+          days: expiresAt
+        });
+        return { icon, description };
+      }
       if (!period) {
         const date = dateFormat(expiresAt, true);
         const description = t('pass-desc.date', `Access until {{date}}`, {
