@@ -358,7 +358,14 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
     setIsLoading(true);
     setGeneralError('');
 
-    dispatch(submitPaymentWithoutDetails())
+    const { captchaToken, shouldProceed } = await handleCaptchaVerification();
+
+    if (!shouldProceed) {
+      setIsLoading(false);
+      return;
+    }
+
+    dispatch(submitPaymentWithoutDetails(captchaToken))
       .unwrap()
       .then((payment) => {
         eventDispatcher(MSSDK_PURCHASE_SUCCESSFUL, {
@@ -392,6 +399,15 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
 
   const showPayPalWhenAdyenIsReady = () =>
     shouldShowAdyen ? !!dropInInstance : true;
+
+  const handleCaptchaChange = () => {
+    if (
+      generalError ===
+      t('validators.captcha-invalid', 'Google reCAPTCHA verification required.')
+    ) {
+      setGeneralError('');
+    }
+  };
 
   if (noPaymentMethods && !isLoading) {
     return (
@@ -432,18 +448,18 @@ const Payment = ({ onPaymentComplete }: PaymentProps) => {
             <>{t('payment.complete-purchase', 'Complete purchase')}</>
           )}
         </Button>
+        {showCaptchaOnPurchase && (
+          <ReCAPTCHA
+            ref={recaptchaRef}
+            size='invisible'
+            badge='bottomright'
+            sitekey={sitekey}
+            onChange={handleCaptchaChange}
+          />
+        )}
       </PaymentStyled>
     );
   }
-
-  const handleCaptchaChange = () => {
-    if (
-      generalError ===
-      t('validators.captcha-invalid', 'Google reCAPTCHA verification required.')
-    ) {
-      setGeneralError('');
-    }
-  };
 
   return (
     <PaymentStyled>
