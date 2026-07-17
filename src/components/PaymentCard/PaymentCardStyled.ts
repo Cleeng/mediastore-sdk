@@ -21,6 +21,7 @@ export const CardTypeStyled = styled.figure.attrs(() => ({
 
   svg {
     height: auto;
+    min-width: 36px;
   }
 `;
 
