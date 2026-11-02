@@ -61,7 +61,8 @@ const deferred = () => {
   return { promise, resolve };
 };
 
-const SESSION_CHANGED = 'The session changed before the request could be sent';
+const CUSTOMER_CHANGED =
+  'The signed-in customer changed before the request could be sent';
 
 describe('fetchWithJWT token refresh', () => {
   const fetchMock = vi.fn();
@@ -151,7 +152,7 @@ describe('fetchWithJWT token refresh', () => {
 
       await expect(
         fetchWithJWT(ORDERS_URL, { method: 'POST' })
-      ).rejects.toThrow(SESSION_CHANGED);
+      ).rejects.toThrow(CUSTOMER_CHANGED);
 
       expect(storedSession()).toEqual(NEW_CUSTOMER);
       expect(tokenSentWith(ORDERS_URL)).toBeUndefined();
@@ -168,7 +169,7 @@ describe('fetchWithJWT token refresh', () => {
 
       await expect(
         fetchWithJWT(ORDERS_URL, { method: 'POST' })
-      ).rejects.toThrow(SESSION_CHANGED);
+      ).rejects.toThrow(CUSTOMER_CHANGED);
 
       expect(storedSession()).toEqual(NEW_CUSTOMER);
       expect(tokenSentWith(ORDERS_URL)).toBeUndefined();
@@ -182,10 +183,49 @@ describe('fetchWithJWT token refresh', () => {
 
       await expect(
         fetchWithJWT(ORDERS_URL, { method: 'POST' })
-      ).rejects.toThrow(SESSION_CHANGED);
+      ).rejects.toThrow(CUSTOMER_CHANGED);
 
       expect(storedSession()).toEqual(NEW_CUSTOMER);
       expect(Auth.logout).not.toHaveBeenCalled();
+    });
+
+    // Tabs share the storage. Both refresh when the JWT expires; the one that
+    // loses gets a rejected refresh, since the other rotated the refresh token
+    // first.
+    it('sends the request when another tab refreshed the same customer first', async () => {
+      const otherTab = {
+        jwt: jwtFor(111, 900),
+        refreshToken: 'previous-customer-refresh-rotated'
+      };
+      fetchMock.mockImplementation(async (url) => {
+        if (url === REFRESH_URL) {
+          signIn(otherTab);
+          return jsonResponse({ errors: ['Refresh token is invalid'] }, 401);
+        }
+        return jsonResponse({ responseData: {}, errors: [] });
+      });
+
+      await fetchWithJWT(ORDERS_URL);
+
+      expect(tokenSentWith(ORDERS_URL)).toBe(`Bearer ${otherTab.jwt}`);
+      expect(storedSession()).toEqual(otherTab);
+      expect(Auth.logout).not.toHaveBeenCalled();
+    });
+
+    it('sends the request with tokens the publisher re-issued for the same customer', async () => {
+      const reissued = { jwt: jwtFor(111, 900), refreshToken: 'reissued' };
+      fetchMock.mockImplementation(async (url) => {
+        if (url === REFRESH_URL) {
+          signIn(reissued);
+          return refreshedFor(111, 'previous-customer-refresh-rotated');
+        }
+        return jsonResponse({ responseData: {}, errors: [] });
+      });
+
+      await fetchWithJWT(ORDERS_URL);
+
+      expect(tokenSentWith(ORDERS_URL)).toBe(`Bearer ${reissued.jwt}`);
+      expect(storedSession()).toEqual(reissued);
     });
 
     // Config.setRefreshToken is optional, so a publisher can switch customers
@@ -199,7 +239,7 @@ describe('fetchWithJWT token refresh', () => {
         return jsonResponse({ responseData: {}, errors: [] });
       });
 
-      await expect(fetchWithJWT(ORDERS_URL)).rejects.toThrow(SESSION_CHANGED);
+      await expect(fetchWithJWT(ORDERS_URL)).rejects.toThrow(CUSTOMER_CHANGED);
 
       expect(storedSession()).toEqual({
         jwt: NEW_CUSTOMER.jwt,
@@ -217,7 +257,7 @@ describe('fetchWithJWT token refresh', () => {
         return jsonResponse({ responseData: {}, errors: [] });
       });
 
-      await expect(fetchWithJWT(ORDERS_URL)).rejects.toThrow(SESSION_CHANGED);
+      await expect(fetchWithJWT(ORDERS_URL)).rejects.toThrow(CUSTOMER_CHANGED);
 
       expect(storedSession()).toEqual({ jwt: null, refreshToken: null });
       expect(tokenSentWith(ORDERS_URL)).toBeUndefined();
@@ -276,8 +316,8 @@ describe('fetchWithJWT token refresh', () => {
       refresh.resolve(refreshedFor(111, 'previous-customer-refresh-rotated'));
       await vi.advanceTimersByTimeAsync(500);
 
-      expect((await first).message).toBe(SESSION_CHANGED);
-      expect((await waiting).message).toBe(SESSION_CHANGED);
+      expect((await first).message).toBe(CUSTOMER_CHANGED);
+      expect((await waiting).message).toBe(CUSTOMER_CHANGED);
       expect(ordersSentWith()).toEqual([]);
       expect(storedSession()).toEqual(NEW_CUSTOMER);
     });
@@ -304,7 +344,7 @@ describe('fetchWithJWT token refresh', () => {
       await vi.advanceTimersByTimeAsync(500);
       await made;
 
-      expect((await previous).message).toBe(SESSION_CHANGED);
+      expect((await previous).message).toBe(CUSTOMER_CHANGED);
       expect(ordersSentWith()).toEqual([`Bearer ${newRefreshed.jwt}`]);
       expect(storedSession()).toEqual(newRefreshed);
     });

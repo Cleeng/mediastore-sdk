@@ -17,10 +17,8 @@ const retrieveEnvironment = () => getData(ENVIRONMENT);
 let IS_FETCHING_REFRESH_TOKEN = false;
 let REFRESH_TOKEN_ERROR = false;
 
-// A session is the pair of tokens a request is made with. A request goes out
-// only in the session it was made in: the publisher can replace the tokens at
-// any time (another customer, a logout), and a request built for one customer
-// must not be sent with another customer's tokens.
+// The tokens a request is made with. A refresh result is dropped when they
+// change while it is in flight, so it never overwrites newer tokens.
 const retrieveSession = () => ({
   jwt: retrieveJWT(),
   refreshToken: retrieveRefreshToken()
@@ -29,22 +27,43 @@ const retrieveSession = () => ({
 const isSameTokens = (a, b) =>
   a.jwt === b.jwt && a.refreshToken === b.refreshToken;
 
-// The tokens the last refresh replaced and the ones it stored. A request made
-// before that rotation still belongs to the session that now holds the new ones.
+// The tokens the last refresh replaced and the ones it stored.
 let LAST_ROTATION = null;
 
-const isCurrentSession = (session) => {
-  const current = retrieveSession();
-  return (
-    isSameTokens(session, current) ||
-    (LAST_ROTATION !== null &&
-      isSameTokens(session, LAST_ROTATION.from) &&
-      isSameTokens(current, LAST_ROTATION.to))
-  );
+const customerOf = (jwt) => {
+  if (!jwt) {
+    return null;
+  }
+  try {
+    return jwtDecode(jwt).customerId ?? null;
+  } catch {
+    return null;
+  }
 };
 
-const sessionChangedError = () =>
-  new Error('The session changed before the request could be sent');
+// A request goes out only for the customer it was made for: the publisher can
+// switch customers, or log out, at any time, and a request built for one
+// customer must not be sent with another customer's tokens. The tokens alone
+// can change for the same customer (another tab refreshing the shared session,
+// the publisher re-issuing them), so compare the customer.
+const isSameCustomer = (session) => {
+  const current = retrieveSession();
+  const customerId = customerOf(session.jwt);
+  if (customerId === null) {
+    // Made with a refresh token alone: only its own tokens, or this refresh's
+    // rotation of them, are known to be the same customer.
+    return (
+      isSameTokens(session, current) ||
+      (LAST_ROTATION !== null &&
+        isSameTokens(session, LAST_ROTATION.from) &&
+        isSameTokens(current, LAST_ROTATION.to))
+    );
+  }
+  return customerOf(current.jwt) === customerId;
+};
+
+const customerChangedError = () =>
+  new Error('The signed-in customer changed before the request could be sent');
 
 const isJWTExpired = () => {
   const jwt = retrieveJWT();
@@ -154,8 +173,8 @@ const fetchWithJWT = async (url, options = {}) => {
           Auth.logout();
           return Promise.reject(new Error('Failed to refresh token'));
         });
-      if (!isCurrentSession(session)) {
-        throw sessionChangedError();
+      if (!isSameCustomer(session)) {
+        throw customerChangedError();
       }
     } else {
       return new Promise((resolve, reject) => {
@@ -169,10 +188,10 @@ const fetchWithJWT = async (url, options = {}) => {
               // The refresh was for a session this one replaced, so this
               // one still has to be refreshed itself.
               resolve(fetchWithJWT(url, options));
-            } else if (isCurrentSession(session)) {
+            } else if (isSameCustomer(session)) {
               resolve(generatePromiseWithHeaders(url, options));
             } else {
-              reject(sessionChangedError());
+              reject(customerChangedError());
             }
             return;
           }
