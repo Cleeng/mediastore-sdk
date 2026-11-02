@@ -46,6 +46,23 @@ const jsonResponse = (body, status = 200) =>
     headers: { 'Content-Type': 'application/json' }
   });
 
+const refreshedFor = (customerId, refreshToken) =>
+  jsonResponse({
+    responseData: { jwt: jwtFor(customerId, 900), refreshToken },
+    errors: []
+  });
+
+// A refresh response the test releases when it chooses.
+const deferred = () => {
+  let resolve;
+  const promise = new Promise((done) => {
+    resolve = done;
+  });
+  return { promise, resolve };
+};
+
+const SESSION_CHANGED = 'The session changed before the request could be sent';
+
 describe('fetchWithJWT token refresh', () => {
   const fetchMock = vi.fn();
   let fetchWithJWT;
@@ -115,23 +132,29 @@ describe('fetchWithJWT token refresh', () => {
     expect(Auth.logout).toHaveBeenCalled();
   });
 
+  it('logs out when the refresh of an unchanged session answers with no body', async () => {
+    fetchMock.mockImplementation(async () => jsonResponse(null));
+
+    await expect(fetchWithJWT(ORDERS_URL)).rejects.toThrow(
+      'Failed to refresh token'
+    );
+
+    expect(Auth.logout).toHaveBeenCalled();
+  });
+
   // SXP-1355
   describe('when the customer changes while the refresh is in flight', () => {
-    it('keeps the new customer and sends the request as them', async () => {
+    it('keeps the new customer and does not send the request made for the previous one', async () => {
       switchCustomerDuringRefresh(() =>
-        jsonResponse({
-          responseData: {
-            jwt: jwtFor(111, 900),
-            refreshToken: 'previous-customer-refresh-rotated'
-          },
-          errors: []
-        })
+        refreshedFor(111, 'previous-customer-refresh-rotated')
       );
 
-      await fetchWithJWT(ORDERS_URL, { method: 'POST' });
+      await expect(
+        fetchWithJWT(ORDERS_URL, { method: 'POST' })
+      ).rejects.toThrow(SESSION_CHANGED);
 
       expect(storedSession()).toEqual(NEW_CUSTOMER);
-      expect(tokenSentWith(ORDERS_URL)).toBe(`Bearer ${NEW_CUSTOMER.jwt}`);
+      expect(tokenSentWith(ORDERS_URL)).toBeUndefined();
       expect(Auth.logout).not.toHaveBeenCalled();
     });
 
@@ -143,26 +166,174 @@ describe('fetchWithJWT token refresh', () => {
         )
       );
 
-      await fetchWithJWT(ORDERS_URL, { method: 'POST' });
+      await expect(
+        fetchWithJWT(ORDERS_URL, { method: 'POST' })
+      ).rejects.toThrow(SESSION_CHANGED);
 
       expect(storedSession()).toEqual(NEW_CUSTOMER);
-      expect(tokenSentWith(ORDERS_URL)).toBe(`Bearer ${NEW_CUSTOMER.jwt}`);
+      expect(tokenSentWith(ORDERS_URL)).toBeUndefined();
       expect(Auth.logout).not.toHaveBeenCalled();
     });
 
     it('does not log the new customer out when the refresh gets no response', async () => {
+      switchCustomerDuringRefresh(() => {
+        throw new TypeError('Failed to fetch');
+      });
+
+      await expect(
+        fetchWithJWT(ORDERS_URL, { method: 'POST' })
+      ).rejects.toThrow(SESSION_CHANGED);
+
+      expect(storedSession()).toEqual(NEW_CUSTOMER);
+      expect(Auth.logout).not.toHaveBeenCalled();
+    });
+
+    // Config.setRefreshToken is optional, so a publisher can switch customers
+    // with Config.setJWT alone.
+    it('does not write the previous customer over a JWT set on its own', async () => {
       fetchMock.mockImplementation(async (url) => {
         if (url === REFRESH_URL) {
-          signIn(NEW_CUSTOMER);
-          throw new TypeError('Failed to fetch');
+          localStorage.setItem('CLEENG_AUTH_TOKEN', NEW_CUSTOMER.jwt);
+          return refreshedFor(111, 'previous-customer-refresh-rotated');
         }
         return jsonResponse({ responseData: {}, errors: [] });
       });
 
-      await fetchWithJWT(ORDERS_URL, { method: 'POST' });
+      await expect(fetchWithJWT(ORDERS_URL)).rejects.toThrow(SESSION_CHANGED);
 
+      expect(storedSession()).toEqual({
+        jwt: NEW_CUSTOMER.jwt,
+        refreshToken: PREVIOUS_CUSTOMER.refreshToken
+      });
+      expect(tokenSentWith(ORDERS_URL)).toBeUndefined();
+    });
+
+    it('does not sign the previous customer back in after a logout', async () => {
+      fetchMock.mockImplementation(async (url) => {
+        if (url === REFRESH_URL) {
+          localStorage.clear();
+          return refreshedFor(111, 'previous-customer-refresh-rotated');
+        }
+        return jsonResponse({ responseData: {}, errors: [] });
+      });
+
+      await expect(fetchWithJWT(ORDERS_URL)).rejects.toThrow(SESSION_CHANGED);
+
+      expect(storedSession()).toEqual({ jwt: null, refreshToken: null });
+      expect(tokenSentWith(ORDERS_URL)).toBeUndefined();
+    });
+  });
+
+  // Requests made while a refresh is in flight wait for it.
+  describe('requests waiting for a refresh', () => {
+    const NEW_CUSTOMER_EXPIRED = {
+      jwt: jwtFor(222, -60),
+      refreshToken: 'new-customer-refresh'
+    };
+
+    const ordersSentWith = () =>
+      fetchMock.mock.calls
+        .filter(([calledUrl]) => calledUrl === ORDERS_URL)
+        .map(([, options]) => options.headers.Authorization);
+
+    beforeEach(() => {
+      vi.useFakeTimers({ toFake: ['setTimeout'] });
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('sends them with the refreshed tokens of the same customer', async () => {
+      const refresh = deferred();
+      fetchMock.mockImplementation(async (url) =>
+        url === REFRESH_URL
+          ? refresh.promise
+          : jsonResponse({ responseData: {}, errors: [] })
+      );
+
+      const first = fetchWithJWT(ORDERS_URL);
+      const waiting = fetchWithJWT(ORDERS_URL);
+      refresh.resolve(refreshedFor(111, 'previous-customer-refresh-rotated'));
+      await vi.advanceTimersByTimeAsync(500);
+      await Promise.all([first, waiting]);
+
+      const { jwt } = storedSession();
+      expect(ordersSentWith()).toEqual([`Bearer ${jwt}`, `Bearer ${jwt}`]);
+    });
+
+    it('does not send one made for the previous customer', async () => {
+      const refresh = deferred();
+      fetchMock.mockImplementation(async (url) =>
+        url === REFRESH_URL
+          ? refresh.promise
+          : jsonResponse({ responseData: {}, errors: [] })
+      );
+
+      const first = fetchWithJWT(ORDERS_URL).catch((error) => error);
+      const waiting = fetchWithJWT(ORDERS_URL).catch((error) => error);
+      signIn(NEW_CUSTOMER);
+      refresh.resolve(refreshedFor(111, 'previous-customer-refresh-rotated'));
+      await vi.advanceTimersByTimeAsync(500);
+
+      expect((await first).message).toBe(SESSION_CHANGED);
+      expect((await waiting).message).toBe(SESSION_CHANGED);
+      expect(ordersSentWith()).toEqual([]);
       expect(storedSession()).toEqual(NEW_CUSTOMER);
-      expect(Auth.logout).not.toHaveBeenCalled();
+    });
+
+    it("refreshes the new customer's own session for one the new customer made", async () => {
+      const previousRefresh = deferred();
+      const newRefreshed = { jwt: jwtFor(222, 900), refreshToken: 'rotated' };
+      fetchMock.mockImplementation(async (url, options) => {
+        if (url !== REFRESH_URL) {
+          return jsonResponse({ responseData: {}, errors: [] });
+        }
+        const { refreshToken } = JSON.parse(options.body);
+        return refreshToken === PREVIOUS_CUSTOMER.refreshToken
+          ? previousRefresh.promise
+          : jsonResponse({ responseData: newRefreshed, errors: [] });
+      });
+
+      const previous = fetchWithJWT(ORDERS_URL).catch((error) => error);
+      signIn(NEW_CUSTOMER_EXPIRED);
+      const made = fetchWithJWT(ORDERS_URL);
+      previousRefresh.resolve(
+        refreshedFor(111, 'previous-customer-refresh-rotated')
+      );
+      await vi.advanceTimersByTimeAsync(500);
+      await made;
+
+      expect((await previous).message).toBe(SESSION_CHANGED);
+      expect(ordersSentWith()).toEqual([`Bearer ${newRefreshed.jwt}`]);
+      expect(storedSession()).toEqual(newRefreshed);
+    });
+
+    it('lets them through after an earlier refresh failed', async () => {
+      fetchMock.mockImplementation(async (url) =>
+        url === REFRESH_URL
+          ? jsonResponse({ errors: ['Refresh token is expired'] }, 401)
+          : jsonResponse({ responseData: {}, errors: [] })
+      );
+      await expect(fetchWithJWT(ORDERS_URL)).rejects.toThrow(
+        'Failed to refresh token'
+      );
+
+      signIn(NEW_CUSTOMER_EXPIRED);
+      const refresh = deferred();
+      fetchMock.mockImplementation(async (url) =>
+        url === REFRESH_URL
+          ? refresh.promise
+          : jsonResponse({ responseData: {}, errors: [] })
+      );
+      const first = fetchWithJWT(ORDERS_URL);
+      const waiting = fetchWithJWT(ORDERS_URL);
+      refresh.resolve(refreshedFor(222, 'rotated'));
+      await vi.advanceTimersByTimeAsync(500);
+      await Promise.all([first, waiting]);
+
+      const { jwt } = storedSession();
+      expect(ordersSentWith()).toEqual([`Bearer ${jwt}`, `Bearer ${jwt}`]);
     });
   });
 });

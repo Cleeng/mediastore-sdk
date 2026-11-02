@@ -17,6 +17,35 @@ const retrieveEnvironment = () => getData(ENVIRONMENT);
 let IS_FETCHING_REFRESH_TOKEN = false;
 let REFRESH_TOKEN_ERROR = false;
 
+// A session is the pair of tokens a request is made with. A request goes out
+// only in the session it was made in: the publisher can replace the tokens at
+// any time (another customer, a logout), and a request built for one customer
+// must not be sent with another customer's tokens.
+const retrieveSession = () => ({
+  jwt: retrieveJWT(),
+  refreshToken: retrieveRefreshToken()
+});
+
+const isSameTokens = (a, b) =>
+  a.jwt === b.jwt && a.refreshToken === b.refreshToken;
+
+// The tokens the last refresh replaced and the ones it stored. A request made
+// before that rotation still belongs to the session that now holds the new ones.
+let LAST_ROTATION = null;
+
+const isCurrentSession = (session) => {
+  const current = retrieveSession();
+  return (
+    isSameTokens(session, current) ||
+    (LAST_ROTATION !== null &&
+      isSameTokens(session, LAST_ROTATION.from) &&
+      isSameTokens(current, LAST_ROTATION.to))
+  );
+};
+
+const sessionChangedError = () =>
+  new Error('The session changed before the request could be sent');
+
 const isJWTExpired = () => {
   const jwt = retrieveJWT();
   if (jwt) {
@@ -44,35 +73,36 @@ const requestNewTokens = async (refreshToken) => {
 };
 
 const fetchNewTokens = async () => {
-  const refreshToken = retrieveRefreshToken();
+  const session = retrieveSession();
   IS_FETCHING_REFRESH_TOKEN = true;
 
-  // SXP-1355: the publisher can set another customer's tokens while this
-  // request is in flight. The result belongs to the session it was sent for:
-  // writing it would sign the previous customer back in, and a failed one
-  // would log the new customer out. Leave the session that replaced it alone.
-  const isSessionReplaced = () => retrieveRefreshToken() !== refreshToken;
+  // SXP-1355: the publisher can set another customer's tokens, or log out,
+  // while this request is in flight. The result belongs to the session it was
+  // sent for: writing it would sign the previous customer back in, and a failed
+  // one would log the new customer out. Leave the session that replaced it alone.
+  const result = await requestNewTokens(session.refreshToken).then(
+    (responseJSON) => ({ responseJSON }),
+    (error) => ({ error })
+  );
 
-  const responseJSON = await requestNewTokens(refreshToken).catch((error) => {
-    if (isSessionReplaced()) {
-      return null;
-    }
-    throw error;
-  });
-
-  if (responseJSON === null || isSessionReplaced()) {
+  if (!isSameTokens(retrieveSession(), session)) {
     return;
   }
+  if ('error' in result) {
+    throw result.error;
+  }
 
+  const { responseJSON } = result;
   if (responseJSON.errors.length) {
     eventDispatcher(MSSDK_AUTH_FAILED, {
       source: 'fetchHelper',
       message: responseJSON.errors[0],
-      refreshToken: getData('CLEENG_REFRESH_TOKEN')
+      refreshToken: session.refreshToken
     });
   }
   setData(JWT, responseJSON.responseData.jwt);
   setData(REFRESH_TOKEN, responseJSON.responseData.refreshToken);
+  LAST_ROTATION = { from: session, to: retrieveSession() };
 };
 
 const generatePromiseWithHeaders = (url, options) => {
@@ -99,6 +129,7 @@ const generatePromiseWithHeaders = (url, options) => {
 const fetchWithJWT = async (url, options = {}) => {
   const isExpired = isJWTExpired();
   const refreshToken = retrieveRefreshToken();
+  const session = retrieveSession();
 
   if (isExpired && !refreshToken) {
     eventDispatcher(MSSDK_AUTH_FAILED, {
@@ -111,6 +142,8 @@ const fetchWithJWT = async (url, options = {}) => {
 
   if (isExpired && refreshToken) {
     if (!IS_FETCHING_REFRESH_TOKEN) {
+      // An earlier failed refresh belonged to its own session.
+      REFRESH_TOKEN_ERROR = false;
       await fetchNewTokens()
         .then(() => {
           IS_FETCHING_REFRESH_TOKEN = false;
@@ -121,6 +154,9 @@ const fetchWithJWT = async (url, options = {}) => {
           Auth.logout();
           return Promise.reject(new Error('Failed to refresh token'));
         });
+      if (!isCurrentSession(session)) {
+        throw sessionChangedError();
+      }
     } else {
       return new Promise((resolve, reject) => {
         const isRefreshTokenFetched = () => {
@@ -129,7 +165,15 @@ const fetchWithJWT = async (url, options = {}) => {
             return;
           }
           if (!IS_FETCHING_REFRESH_TOKEN) {
-            resolve(generatePromiseWithHeaders(url, options));
+            if (isSameTokens(retrieveSession(), session)) {
+              // The refresh was for a session this one replaced, so this
+              // one still has to be refreshed itself.
+              resolve(fetchWithJWT(url, options));
+            } else if (isCurrentSession(session)) {
+              resolve(generatePromiseWithHeaders(url, options));
+            } else {
+              reject(sessionChangedError());
+            }
             return;
           }
           setTimeout(() => {
