@@ -26,13 +26,12 @@ const isJWTExpired = () => {
   return true;
 };
 
-const fetchNewTokens = async () => {
+const requestNewTokens = async (refreshToken) => {
   const API_URL = getApiURL();
   const environment = retrieveEnvironment();
-  IS_FETCHING_REFRESH_TOKEN = true;
   const response = await fetch(`${API_URL}/auths/refresh_token`, {
     method: 'POST',
-    body: JSON.stringify({ refreshToken: getData('CLEENG_REFRESH_TOKEN') }),
+    body: JSON.stringify({ refreshToken }),
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -41,7 +40,30 @@ const fetchNewTokens = async () => {
       })
     }
   });
-  const responseJSON = await response.json();
+  return response.json();
+};
+
+const fetchNewTokens = async () => {
+  const refreshToken = retrieveRefreshToken();
+  IS_FETCHING_REFRESH_TOKEN = true;
+
+  // SXP-1355: the publisher can set another customer's tokens while this
+  // request is in flight. The result belongs to the session it was sent for:
+  // writing it would sign the previous customer back in, and a failed one
+  // would log the new customer out. Leave the session that replaced it alone.
+  const isSessionReplaced = () => retrieveRefreshToken() !== refreshToken;
+
+  const responseJSON = await requestNewTokens(refreshToken).catch((error) => {
+    if (isSessionReplaced()) {
+      return null;
+    }
+    throw error;
+  });
+
+  if (responseJSON === null || isSessionReplaced()) {
+    return;
+  }
+
   if (responseJSON.errors.length) {
     eventDispatcher(MSSDK_AUTH_FAILED, {
       source: 'fetchHelper',
